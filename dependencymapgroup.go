@@ -8,134 +8,134 @@ import "time"
 import "github.com/aporeto-inc/gaia/enum"
 
 const (
-	CertificateAttributeNameID             elemental.AttributeSpecificationNameKey = "certificate/ID"
-	CertificateAttributeNameAnnotation     elemental.AttributeSpecificationNameKey = "certificate/annotation"
-	CertificateAttributeNameAssociatedTags elemental.AttributeSpecificationNameKey = "certificate/associatedTags"
-	CertificateAttributeNameCertificate    elemental.AttributeSpecificationNameKey = "certificate/certificate"
-	CertificateAttributeNameCreatedAt      elemental.AttributeSpecificationNameKey = "certificate/createdAt"
-	CertificateAttributeNameDeleted        elemental.AttributeSpecificationNameKey = "certificate/deleted"
-	CertificateAttributeNameDescription    elemental.AttributeSpecificationNameKey = "certificate/description"
-	CertificateAttributeNameExpirationDate elemental.AttributeSpecificationNameKey = "certificate/expirationDate"
-	CertificateAttributeNameKey            elemental.AttributeSpecificationNameKey = "certificate/key"
-	CertificateAttributeNameName           elemental.AttributeSpecificationNameKey = "certificate/name"
-	CertificateAttributeNameNamespace      elemental.AttributeSpecificationNameKey = "certificate/namespace"
-	CertificateAttributeNameOwner          elemental.AttributeSpecificationNameKey = "certificate/owner"
-	CertificateAttributeNameParentID       elemental.AttributeSpecificationNameKey = "certificate/parentID"
-	CertificateAttributeNameStatus         elemental.AttributeSpecificationNameKey = "certificate/status"
-	CertificateAttributeNameUpdatedAt      elemental.AttributeSpecificationNameKey = "certificate/updatedAt"
+	DependencyMapGroupAttributeNameID             elemental.AttributeSpecificationNameKey = "dependencymapgroup/ID"
+	DependencyMapGroupAttributeNameAnnotation     elemental.AttributeSpecificationNameKey = "dependencymapgroup/annotation"
+	DependencyMapGroupAttributeNameAssociatedTags elemental.AttributeSpecificationNameKey = "dependencymapgroup/associatedTags"
+	DependencyMapGroupAttributeNameColor          elemental.AttributeSpecificationNameKey = "dependencymapgroup/color"
+	DependencyMapGroupAttributeNameCreatedAt      elemental.AttributeSpecificationNameKey = "dependencymapgroup/createdAt"
+	DependencyMapGroupAttributeNameDeleted        elemental.AttributeSpecificationNameKey = "dependencymapgroup/deleted"
+	DependencyMapGroupAttributeNameDescription    elemental.AttributeSpecificationNameKey = "dependencymapgroup/description"
+	DependencyMapGroupAttributeNameName           elemental.AttributeSpecificationNameKey = "dependencymapgroup/name"
+	DependencyMapGroupAttributeNameNamespace      elemental.AttributeSpecificationNameKey = "dependencymapgroup/namespace"
+	DependencyMapGroupAttributeNameOwner          elemental.AttributeSpecificationNameKey = "dependencymapgroup/owner"
+	DependencyMapGroupAttributeNameStatus         elemental.AttributeSpecificationNameKey = "dependencymapgroup/status"
+	DependencyMapGroupAttributeNameUpdatedAt      elemental.AttributeSpecificationNameKey = "dependencymapgroup/updatedAt"
+	DependencyMapGroupAttributeNameValues         elemental.AttributeSpecificationNameKey = "dependencymapgroup/values"
 )
 
-// CertificateIdentity represents the Identity of the object
-var CertificateIdentity = elemental.Identity{
-	Name:     "certificate",
-	Category: "certificates",
+// DependencyMapGroupIdentity represents the Identity of the object
+var DependencyMapGroupIdentity = elemental.Identity{
+	Name:     "dependencymapgroup",
+	Category: "dependencymapgroups",
 }
 
-// CertificatesList represents a list of Certificates
-type CertificatesList []*Certificate
+// DependencyMapGroupsList represents a list of DependencyMapGroups
+type DependencyMapGroupsList []*DependencyMapGroup
 
-// Certificate represents the model of a certificate
-type Certificate struct {
+// DependencyMapGroup represents the model of a dependencymapgroup
+type DependencyMapGroup struct {
 	ID             string            `json:"ID,omitempty" cql:"id,primarykey,omitempty"`
 	Annotation     map[string]string `json:"annotation,omitempty" cql:"annotation,omitempty"`
 	AssociatedTags []string          `json:"associatedTags,omitempty" cql:"associatedtags,omitempty"`
-	Certificate    string            `json:"certificate,omitempty" cql:"certificate,omitempty"`
+	Color          string            `json:"color,omitempty" cql:"color,omitempty"`
 	CreatedAt      time.Time         `json:"createdAt,omitempty" cql:"createdat,omitempty"`
 	Deleted        bool              `json:"-" cql:"deleted,omitempty"`
 	Description    string            `json:"description,omitempty" cql:"description,omitempty"`
-	ExpirationDate time.Time         `json:"expirationDate,omitempty" cql:"expirationdate,omitempty"`
-	Key            string            `json:"key,omitempty" cql:"-"`
 	Name           string            `json:"name,omitempty" cql:"name,omitempty"`
 	Namespace      string            `json:"namespace,omitempty" cql:"namespace,primarykey,omitempty"`
 	Owner          []string          `json:"owner,omitempty" cql:"owner,omitempty"`
-	ParentID       string            `json:"parentID,omitempty" cql:"parentid,omitempty"`
 	Status         enum.EntityStatus `json:"status,omitempty" cql:"status,omitempty"`
 	UpdatedAt      time.Time         `json:"updatedAt,omitempty" cql:"updatedat,omitempty"`
+	Values         []string          `json:"values,omitempty" cql:"values,omitempty"`
 }
 
-// NewCertificate returns a new *Certificate
-func NewCertificate() *Certificate {
+// NewDependencyMapGroup returns a new *DependencyMapGroup
+func NewDependencyMapGroup() *DependencyMapGroup {
 
-	return &Certificate{}
+	return &DependencyMapGroup{}
 }
 
 // Identity returns the Identity of the object.
-func (o *Certificate) Identity() elemental.Identity {
+func (o *DependencyMapGroup) Identity() elemental.Identity {
 
-	return CertificateIdentity
+	return DependencyMapGroupIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *Certificate) Identifier() string {
+func (o *DependencyMapGroup) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *Certificate) SetIdentifier(ID string) {
+func (o *DependencyMapGroup) SetIdentifier(ID string) {
 
 	o.ID = ID
 }
 
 // GetAssociatedTags returns the associatedTags of the receiver
-func (o *Certificate) GetAssociatedTags() []string {
+func (o *DependencyMapGroup) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags set the given associatedTags of the receiver
-func (o *Certificate) SetAssociatedTags(associatedTags []string) {
+func (o *DependencyMapGroup) SetAssociatedTags(associatedTags []string) {
 	o.AssociatedTags = associatedTags
 }
 
 // SetCreatedAt set the given createdAt of the receiver
-func (o *Certificate) SetCreatedAt(createdAt time.Time) {
+func (o *DependencyMapGroup) SetCreatedAt(createdAt time.Time) {
 	o.CreatedAt = createdAt
 }
 
 // GetDeleted returns the deleted of the receiver
-func (o *Certificate) GetDeleted() bool {
+func (o *DependencyMapGroup) GetDeleted() bool {
 	return o.Deleted
 }
 
 // SetDeleted set the given deleted of the receiver
-func (o *Certificate) SetDeleted(deleted bool) {
+func (o *DependencyMapGroup) SetDeleted(deleted bool) {
 	o.Deleted = deleted
 }
 
 // GetName returns the name of the receiver
-func (o *Certificate) GetName() string {
+func (o *DependencyMapGroup) GetName() string {
 	return o.Name
 }
 
 // GetNamespace returns the namespace of the receiver
-func (o *Certificate) GetNamespace() string {
+func (o *DependencyMapGroup) GetNamespace() string {
 	return o.Namespace
 }
 
 // SetNamespace set the given namespace of the receiver
-func (o *Certificate) SetNamespace(namespace string) {
+func (o *DependencyMapGroup) SetNamespace(namespace string) {
 	o.Namespace = namespace
 }
 
 // GetStatus returns the status of the receiver
-func (o *Certificate) GetStatus() enum.EntityStatus {
+func (o *DependencyMapGroup) GetStatus() enum.EntityStatus {
 	return o.Status
 }
 
 // SetStatus set the given status of the receiver
-func (o *Certificate) SetStatus(status enum.EntityStatus) {
+func (o *DependencyMapGroup) SetStatus(status enum.EntityStatus) {
 	o.Status = status
 }
 
 // SetUpdatedAt set the given updatedAt of the receiver
-func (o *Certificate) SetUpdatedAt(updatedAt time.Time) {
+func (o *DependencyMapGroup) SetUpdatedAt(updatedAt time.Time) {
 	o.UpdatedAt = updatedAt
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Certificate) Validate() elemental.Errors {
+func (o *DependencyMapGroup) Validate() elemental.Errors {
 
 	errors := elemental.Errors{}
+
+	if err := elemental.ValidateRequiredString("color", o.Color); err != nil {
+		errors = append(errors, err)
+	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		errors = append(errors, err)
@@ -149,13 +149,13 @@ func (o *Certificate) Validate() elemental.Errors {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (o Certificate) SpecificationForAttribute(name elemental.AttributeSpecificationNameKey) elemental.AttributeSpecification {
+func (o DependencyMapGroup) SpecificationForAttribute(name elemental.AttributeSpecificationNameKey) elemental.AttributeSpecification {
 
-	return CertificateAttributesMap[name]
+	return DependencyMapGroupAttributesMap[name]
 }
 
-var CertificateAttributesMap = map[elemental.AttributeSpecificationNameKey]elemental.AttributeSpecification{
-	CertificateAttributeNameID: elemental.AttributeSpecification{
+var DependencyMapGroupAttributesMap = map[elemental.AttributeSpecificationNameKey]elemental.AttributeSpecification{
+	DependencyMapGroupAttributeNameID: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		CreationOnly:   true,
@@ -170,7 +170,7 @@ var CertificateAttributesMap = map[elemental.AttributeSpecificationNameKey]eleme
 		Type:           "string",
 		Unique:         true,
 	},
-	CertificateAttributeNameAnnotation: elemental.AttributeSpecification{
+	DependencyMapGroupAttributeNameAnnotation: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Exposed:        true,
 		Name:           "annotation",
@@ -178,7 +178,7 @@ var CertificateAttributesMap = map[elemental.AttributeSpecificationNameKey]eleme
 		SubType:        "annotation",
 		Type:           "external",
 	},
-	CertificateAttributeNameAssociatedTags: elemental.AttributeSpecification{
+	DependencyMapGroupAttributeNameAssociatedTags: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Exposed:        true,
 		Name:           "associatedTags",
@@ -186,17 +186,17 @@ var CertificateAttributesMap = map[elemental.AttributeSpecificationNameKey]eleme
 		SubType:        "tag_list",
 		Type:           "external",
 	},
-	CertificateAttributeNameCertificate: elemental.AttributeSpecification{
+	DependencyMapGroupAttributeNameColor: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		Autogenerated:  true,
-		CreationOnly:   true,
 		Exposed:        true,
 		Format:         "free",
-		Name:           "certificate",
+		Name:           "color",
+		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
-	CertificateAttributeNameCreatedAt: elemental.AttributeSpecification{
+	DependencyMapGroupAttributeNameCreatedAt: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		CreationOnly:   true,
@@ -207,7 +207,7 @@ var CertificateAttributesMap = map[elemental.AttributeSpecificationNameKey]eleme
 		Stored:         true,
 		Type:           "time",
 	},
-	CertificateAttributeNameDeleted: elemental.AttributeSpecification{
+	DependencyMapGroupAttributeNameDeleted: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Filterable:     true,
 		ForeignKey:     true,
@@ -216,7 +216,7 @@ var CertificateAttributesMap = map[elemental.AttributeSpecificationNameKey]eleme
 		Stored:         true,
 		Type:           "boolean",
 	},
-	CertificateAttributeNameDescription: elemental.AttributeSpecification{
+	DependencyMapGroupAttributeNameDescription: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Exposed:        true,
 		Format:         "free",
@@ -224,27 +224,7 @@ var CertificateAttributesMap = map[elemental.AttributeSpecificationNameKey]eleme
 		Stored:         true,
 		Type:           "string",
 	},
-	CertificateAttributeNameExpirationDate: elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		CreationOnly:   true,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "expirationDate",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "time",
-	},
-	CertificateAttributeNameKey: elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		CreationOnly:   true,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "key",
-		Type:           "string",
-	},
-	CertificateAttributeNameName: elemental.AttributeSpecification{
+	DependencyMapGroupAttributeNameName: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Exposed:        true,
 		Filterable:     true,
@@ -255,7 +235,7 @@ var CertificateAttributesMap = map[elemental.AttributeSpecificationNameKey]eleme
 		Stored:         true,
 		Type:           "string",
 	},
-	CertificateAttributeNameNamespace: elemental.AttributeSpecification{
+	DependencyMapGroupAttributeNameNamespace: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		CreationOnly:   true,
@@ -269,7 +249,7 @@ var CertificateAttributesMap = map[elemental.AttributeSpecificationNameKey]eleme
 		Type:           "string",
 		Unique:         true,
 	},
-	CertificateAttributeNameOwner: elemental.AttributeSpecification{
+	DependencyMapGroupAttributeNameOwner: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Exposed:        true,
 		Name:           "owner",
@@ -277,18 +257,7 @@ var CertificateAttributesMap = map[elemental.AttributeSpecificationNameKey]eleme
 		SubType:        "tag_list",
 		Type:           "external",
 	},
-	CertificateAttributeNameParentID: elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		CreationOnly:   true,
-		Exposed:        true,
-		ForeignKey:     true,
-		Format:         "free",
-		Name:           "parentID",
-		Stored:         true,
-		Type:           "string",
-	},
-	CertificateAttributeNameStatus: elemental.AttributeSpecification{
+	DependencyMapGroupAttributeNameStatus: elemental.AttributeSpecification{
 		AllowedChoices: []string{"Active", "Candidate", "Disabled"},
 		Autogenerated:  true,
 		Exposed:        true,
@@ -299,7 +268,7 @@ var CertificateAttributesMap = map[elemental.AttributeSpecificationNameKey]eleme
 		SubType:        "status_enum",
 		Type:           "external",
 	},
-	CertificateAttributeNameUpdatedAt: elemental.AttributeSpecification{
+	DependencyMapGroupAttributeNameUpdatedAt: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		Exposed:        true,
@@ -308,5 +277,16 @@ var CertificateAttributesMap = map[elemental.AttributeSpecificationNameKey]eleme
 		Orderable:      true,
 		Stored:         true,
 		Type:           "time",
+	},
+	DependencyMapGroupAttributeNameValues: elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "values",
+		Orderable:      true,
+		Required:       true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 }

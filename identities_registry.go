@@ -25,4 +25,5 @@ func init() {
 	elemental.RegisterIdentity(FlowStatisticIdentity)
 	elemental.RegisterIdentity(RootIdentity)
 	elemental.RegisterIdentity(ProcessingUnitIdentity)
+	elemental.RegisterIdentity(DependencyMapGroupIdentity)
 }
