@@ -8,7 +8,7 @@
         "entity_name": "Dependencymapgroups",
         "extends": [],
         "get": true,
-        "package": null,
+        "package": "Visualization",
         "resource_name": "dependencymapgroups",
         "rest_name": "dependencymapgroups",
         "root": null,
