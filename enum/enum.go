@@ -77,3 +77,9 @@ func PolicyTypeToString(policyType PolicyType) string {
 		return ""
 	}
 }
+
+// DependencyMapViewSelector is the type used for the selectors of a DependencyMapSubView.
+type DependencyMapViewSelector []string
+
+// DependencyMapViewSubSelector is the type used for the subselector of a DependencyMapSubView.
+type DependencyMapViewSubSelector map[string]DependencyMapViewSelector
