@@ -15,7 +15,7 @@
             "foreign_key": null,
             "format": "free",
             "getter": null,
-            "identifier": null,
+            "identifier": true,
             "index": null,
             "max_length": null,
             "max_value": null,
