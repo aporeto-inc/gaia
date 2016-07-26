@@ -28,7 +28,7 @@
             "required": true,
             "setter": null,
             "stored": true,
-            "subtype": "DependencyMapSubViewsList",
+            "subtype": "dependency_map_view_subviews",
             "transient": false,
             "type": "external",
             "unique": null,
