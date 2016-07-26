@@ -1,5 +1,3 @@
-// Copyright 2016 Aporeto Inc.
-
 package gaia
 
 import "github.com/aporeto-inc/elemental"
