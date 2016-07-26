@@ -62,7 +62,7 @@
             "required": null,
             "setter": null,
             "stored": true,
-            "subtype": "DependencyMapViewSelector",
+            "subtype": "dependency_map_view_selector",
             "transient": false,
             "type": "external",
             "unique": null,
