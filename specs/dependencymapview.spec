@@ -73,7 +73,7 @@
     "model": {
         "create": null,
         "delete": true,
-        "description": "A DependencyMapGroup is used to store the group configuration of the dependency map. ",
+        "description": "A DependencyMapView is used to store the various for the dependency map using a bunch of selectors.",
         "entity_name": "DependencyMapView",
         "extends": [
             "@base"
