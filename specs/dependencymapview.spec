@@ -28,9 +28,9 @@
             "required": true,
             "setter": null,
             "stored": true,
-            "subtype": "string",
+            "subtype": "DependencyMapSubViewsList",
             "transient": false,
-            "type": "list",
+            "type": "external",
             "unique": null,
             "uniqueScope": null
         }
