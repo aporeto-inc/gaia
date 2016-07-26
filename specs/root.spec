@@ -81,7 +81,7 @@
             "deprecated": null,
             "get": true,
             "relationship": "root",
-            "rest_name": "dependencymapgroup",
+            "rest_name": "dependencymapview",
             "update": false
         },
         {
