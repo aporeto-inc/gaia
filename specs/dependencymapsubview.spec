@@ -4,7 +4,7 @@
     "model": {
         "create": null,
         "delete": true,
-        "description": null,
+        "description": "A DependencyMapSubview is subview of a DependencyMapView",
         "entity_name": "DependencyMapSubview",
         "extends": [],
         "get": true,
