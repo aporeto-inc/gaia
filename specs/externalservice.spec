@@ -123,7 +123,8 @@
         "description": "ExternalService are services that are external to the system.",
         "entity_name": "ExternalService",
         "extends": [
-            "@base"
+            "@base",
+            "@named"
         ],
         "get": true,
         "package": "Policies",
