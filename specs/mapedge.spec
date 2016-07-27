@@ -143,7 +143,9 @@
         "delete": false,
         "description": "MapEdge describes a dependency between two resources.",
         "entity_name": "MapEdge",
-        "extends": [],
+        "extends": [
+            "@named"
+        ],
         "get": false,
         "package": "Visualization",
         "resource_name": "mapedges",
