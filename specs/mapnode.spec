@@ -112,7 +112,9 @@
         "delete": false,
         "description": "MapNode describes a resource for the map.",
         "entity_name": "MapNode",
-        "extends": [],
+        "extends": [
+            "@named"
+        ],
         "get": false,
         "package": "Visualization",
         "resource_name": "mapnodes",
