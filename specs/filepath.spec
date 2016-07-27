@@ -89,7 +89,8 @@
         "description": "FilePath is the path to the file system.",
         "entity_name": "FilePath",
         "extends": [
-            "@base"
+            "@base",
+            "@named"
         ],
         "get": true,
         "package": "Policies",
