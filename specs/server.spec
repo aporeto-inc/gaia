@@ -177,7 +177,8 @@
         "description": "Server runs all the containers.",
         "entity_name": "Server",
         "extends": [
-            "@base"
+            "@base",
+            "@named"
         ],
         "get": true,
         "package": "Infrastructure",
