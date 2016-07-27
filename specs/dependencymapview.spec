@@ -42,7 +42,8 @@
         "description": "A DependencyMapView is used to store the various for the dependency map using a bunch of selectors.",
         "entity_name": "DependencyMapView",
         "extends": [
-            "@base"
+            "@base",
+            "@named"
         ],
         "get": true,
         "package": "Visualization",
