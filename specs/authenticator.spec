@@ -208,7 +208,8 @@
         "description": "Authenticator defines all the configuration needed to authenticate an user.",
         "entity_name": "Authenticator",
         "extends": [
-            "@base"
+            "@base",
+            "@named"
         ],
         "get": true,
         "package": "Infrastructure",
