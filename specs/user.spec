@@ -188,15 +188,15 @@
     "model": {
         "create": null,
         "delete": true,
-        "description": null,
+        "description": "A User represents the owner of some certificates.",
         "entity_name": "User",
         "extends": [
             "@base",
-            "@identifiable",
+            "@identifiable-pk-stored",
             "@named"
         ],
         "get": true,
-        "package": "User",
+        "package": "Security",
         "resource_name": "users",
         "rest_name": "user",
         "root": null,
