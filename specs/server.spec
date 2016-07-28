@@ -178,7 +178,8 @@
         "entity_name": "Server",
         "extends": [
             "@base",
-            "@identifiable",
+            "@described",
+            "@identifiable-pk-stored",
             "@named"
         ],
         "get": true,
