@@ -109,7 +109,9 @@
         "delete": false,
         "description": "A DependencyMapSubview is subview of a DependencyMapView",
         "entity_name": "DependencyMapSubview",
-        "extends": [],
+        "extends": [
+            "@identifiable-nopk-nostored"
+        ],
         "get": false,
         "package": null,
         "resource_name": "dependencymapsubviews",
