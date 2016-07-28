@@ -178,6 +178,7 @@
         "entity_name": "Server",
         "extends": [
             "@base",
+            "@identifiable",
             "@named"
         ],
         "get": true,
