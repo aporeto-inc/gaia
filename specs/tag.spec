@@ -56,6 +56,7 @@
         "entity_name": "Tag",
         "extends": [
             "@base",
+            "@described",
             "@identifiable-nopk-stored"
         ],
         "get": true,
