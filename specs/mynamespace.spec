@@ -41,7 +41,9 @@
         "delete": null,
         "description": "mynamespaces returns the user's authorized namespaces. ",
         "entity_name": "MyNamespace",
-        "extends": [],
+        "extends": [
+            "@identifiable"
+        ],
         "get": null,
         "package": "Infrastructure",
         "resource_name": "mynamespaces",
