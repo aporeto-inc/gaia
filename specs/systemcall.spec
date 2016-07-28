@@ -21,6 +21,7 @@
         "entity_name": "SystemCall",
         "extends": [
             "@base",
+            "@identifiable",
             "@named"
         ],
         "get": true,
