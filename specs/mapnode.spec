@@ -28,7 +28,7 @@
             "required": true,
             "setter": false,
             "stored": false,
-            "subtype": "tag_list",
+            "subtype": "tags_list",
             "transient": false,
             "type": "external",
             "unique": false,

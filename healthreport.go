@@ -109,6 +109,7 @@ var HealthReportAttributesMap = map[elemental.AttributeSpecificationNameKey]elem
 		Name:           "ID",
 		Orderable:      true,
 		Type:           "string",
+		Unique:         true,
 	},
 	HealthReportAttributeNameBahamutVersion: elemental.AttributeSpecification{
 		AllowedChoices: []string{},

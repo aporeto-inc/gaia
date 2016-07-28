@@ -28,7 +28,7 @@
             "required": null,
             "setter": null,
             "stored": false,
-            "subtype": "datapoint_list",
+            "subtype": "datapoints_list",
             "transient": false,
             "type": "external",
             "unique": null,

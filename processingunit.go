@@ -7,19 +7,18 @@ import "time"
 import "github.com/aporeto-inc/gaia/enum"
 
 const (
+	ProcessingUnitAttributeNameDescription       elemental.AttributeSpecificationNameKey = "processingunit/Description"
 	ProcessingUnitAttributeNameID                elemental.AttributeSpecificationNameKey = "processingunit/ID"
 	ProcessingUnitAttributeNameAnnotation        elemental.AttributeSpecificationNameKey = "processingunit/annotation"
 	ProcessingUnitAttributeNameAssociatedTags    elemental.AttributeSpecificationNameKey = "processingunit/associatedTags"
 	ProcessingUnitAttributeNameCreatedAt         elemental.AttributeSpecificationNameKey = "processingunit/createdAt"
 	ProcessingUnitAttributeNameDeleted           elemental.AttributeSpecificationNameKey = "processingunit/deleted"
-	ProcessingUnitAttributeNameDescription       elemental.AttributeSpecificationNameKey = "processingunit/description"
 	ProcessingUnitAttributeNameLastSyncTime      elemental.AttributeSpecificationNameKey = "processingunit/lastSyncTime"
 	ProcessingUnitAttributeNameMetadata          elemental.AttributeSpecificationNameKey = "processingunit/metadata"
 	ProcessingUnitAttributeNameName              elemental.AttributeSpecificationNameKey = "processingunit/name"
 	ProcessingUnitAttributeNameNamespace         elemental.AttributeSpecificationNameKey = "processingunit/namespace"
 	ProcessingUnitAttributeNameNativeContextID   elemental.AttributeSpecificationNameKey = "processingunit/nativeContextID"
 	ProcessingUnitAttributeNameOperationalStatus elemental.AttributeSpecificationNameKey = "processingunit/operationalStatus"
-	ProcessingUnitAttributeNameOwner             elemental.AttributeSpecificationNameKey = "processingunit/owner"
 	ProcessingUnitAttributeNamePolicyState       elemental.AttributeSpecificationNameKey = "processingunit/policyState"
 	ProcessingUnitAttributeNameServerID          elemental.AttributeSpecificationNameKey = "processingunit/serverID"
 	ProcessingUnitAttributeNameStatus            elemental.AttributeSpecificationNameKey = "processingunit/status"
@@ -63,19 +62,18 @@ type ProcessingUnitsList []*ProcessingUnit
 
 // ProcessingUnit represents the model of a processingunit
 type ProcessingUnit struct {
+	Description       string                               `json:"Description,omitempty" cql:"description,omitempty"`
 	ID                string                               `json:"ID,omitempty" cql:"id,primarykey,omitempty"`
 	Annotation        map[string]string                    `json:"annotation,omitempty" cql:"annotation,omitempty"`
 	AssociatedTags    []string                             `json:"associatedTags,omitempty" cql:"associatedtags,omitempty"`
 	CreatedAt         time.Time                            `json:"createdAt,omitempty" cql:"createdat,omitempty"`
 	Deleted           bool                                 `json:"-" cql:"deleted,omitempty"`
-	Description       string                               `json:"description,omitempty" cql:"description,omitempty"`
 	LastSyncTime      time.Time                            `json:"lastSyncTime,omitempty" cql:"lastsynctime,omitempty"`
 	Metadata          []string                             `json:"metadata,omitempty" cql:"metadata,omitempty"`
 	Name              string                               `json:"name,omitempty" cql:"name,omitempty"`
 	Namespace         string                               `json:"namespace,omitempty" cql:"namespace,primarykey,omitempty"`
 	NativeContextID   string                               `json:"nativeContextID,omitempty" cql:"nativecontextid,primarykey,omitempty"`
 	OperationalStatus ProcessingUnitOperationalStatusValue `json:"operationalStatus,omitempty" cql:"operationalstatus,omitempty"`
-	Owner             []string                             `json:"owner,omitempty" cql:"owner,omitempty"`
 	PolicyState       ProcessingUnitPolicyStateValue       `json:"policyState,omitempty" cql:"policystate,omitempty"`
 	ServerID          string                               `json:"serverID,omitempty" cql:"serverid,primarykey,omitempty"`
 	Status            enum.EntityStatus                    `json:"status,omitempty" cql:"status,omitempty"`
@@ -140,6 +138,11 @@ func (o *ProcessingUnit) SetDeleted(deleted bool) {
 // GetName returns the name of the receiver
 func (o *ProcessingUnit) GetName() string {
 	return o.Name
+}
+
+// SetName set the given name of the receiver
+func (o *ProcessingUnit) SetName(name string) {
+	o.Name = name
 }
 
 // GetNamespace returns the namespace of the receiver
@@ -210,10 +213,19 @@ func (o ProcessingUnit) SpecificationForAttribute(name elemental.AttributeSpecif
 }
 
 var ProcessingUnitAttributesMap = map[elemental.AttributeSpecificationNameKey]elemental.AttributeSpecification{
+	ProcessingUnitAttributeNameDescription: elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "Description",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	ProcessingUnitAttributeNameID: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		CreationOnly:   true,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -238,13 +250,12 @@ var ProcessingUnitAttributesMap = map[elemental.AttributeSpecificationNameKey]el
 		Exposed:        true,
 		Name:           "associatedTags",
 		Stored:         true,
-		SubType:        "tag_list",
+		SubType:        "tags_list",
 		Type:           "external",
 	},
 	ProcessingUnitAttributeNameCreatedAt: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		CreationOnly:   true,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "createdAt",
@@ -260,14 +271,6 @@ var ProcessingUnitAttributesMap = map[elemental.AttributeSpecificationNameKey]el
 		Orderable:      true,
 		Stored:         true,
 		Type:           "boolean",
-	},
-	ProcessingUnitAttributeNameDescription: elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Exposed:        true,
-		Format:         "free",
-		Name:           "description",
-		Stored:         true,
-		Type:           "string",
 	},
 	ProcessingUnitAttributeNameLastSyncTime: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -299,6 +302,7 @@ var ProcessingUnitAttributesMap = map[elemental.AttributeSpecificationNameKey]el
 		Required:       true,
 		Stored:         true,
 		Type:           "string",
+		Unique:         true,
 	},
 	ProcessingUnitAttributeNameNamespace: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -332,14 +336,6 @@ var ProcessingUnitAttributesMap = map[elemental.AttributeSpecificationNameKey]el
 		Required:       true,
 		Stored:         true,
 		Type:           "enum",
-	},
-	ProcessingUnitAttributeNameOwner: elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Exposed:        true,
-		Name:           "owner",
-		Stored:         true,
-		SubType:        "tag_list",
-		Type:           "external",
 	},
 	ProcessingUnitAttributeNamePolicyState: elemental.AttributeSpecification{
 		AllowedChoices: []string{"Dirty", "Synchronized"},

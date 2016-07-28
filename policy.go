@@ -7,19 +7,18 @@ import "time"
 import "github.com/aporeto-inc/gaia/enum"
 
 const (
-	PolicyAttributeNameAllObjectTags  elemental.AttributeSpecificationNameKey = "policy/AllObjectTags"
-	PolicyAttributeNameAllSubjectTags elemental.AttributeSpecificationNameKey = "policy/AllSubjectTags"
+	PolicyAttributeNameDescription    elemental.AttributeSpecificationNameKey = "policy/Description"
 	PolicyAttributeNameID             elemental.AttributeSpecificationNameKey = "policy/ID"
 	PolicyAttributeNameAction         elemental.AttributeSpecificationNameKey = "policy/action"
+	PolicyAttributeNameAllObjectTags  elemental.AttributeSpecificationNameKey = "policy/allObjectTags"
+	PolicyAttributeNameAllSubjectTags elemental.AttributeSpecificationNameKey = "policy/allSubjectTags"
 	PolicyAttributeNameAnnotation     elemental.AttributeSpecificationNameKey = "policy/annotation"
 	PolicyAttributeNameAssociatedTags elemental.AttributeSpecificationNameKey = "policy/associatedTags"
 	PolicyAttributeNameCreatedAt      elemental.AttributeSpecificationNameKey = "policy/createdAt"
 	PolicyAttributeNameDeleted        elemental.AttributeSpecificationNameKey = "policy/deleted"
-	PolicyAttributeNameDescription    elemental.AttributeSpecificationNameKey = "policy/description"
 	PolicyAttributeNameName           elemental.AttributeSpecificationNameKey = "policy/name"
 	PolicyAttributeNameNamespace      elemental.AttributeSpecificationNameKey = "policy/namespace"
 	PolicyAttributeNameObject         elemental.AttributeSpecificationNameKey = "policy/object"
-	PolicyAttributeNameOwner          elemental.AttributeSpecificationNameKey = "policy/owner"
 	PolicyAttributeNameRelation       elemental.AttributeSpecificationNameKey = "policy/relation"
 	PolicyAttributeNameStatus         elemental.AttributeSpecificationNameKey = "policy/status"
 	PolicyAttributeNameSubject        elemental.AttributeSpecificationNameKey = "policy/subject"
@@ -38,19 +37,18 @@ type PoliciesList []*Policy
 
 // Policy represents the model of a policy
 type Policy struct {
-	AllObjectTags  []string                     `json:"-" cql:"allobjecttags,omitempty"`
-	AllSubjectTags []string                     `json:"-" cql:"allsubjecttags,omitempty"`
+	Description    string                       `json:"Description,omitempty" cql:"description,omitempty"`
 	ID             string                       `json:"ID,omitempty" cql:"id,primarykey,omitempty"`
 	Action         map[string]map[string]string `json:"action,omitempty" cql:"action,omitempty"`
+	AllObjectTags  []string                     `json:"-" cql:"allobjecttags,omitempty"`
+	AllSubjectTags []string                     `json:"-" cql:"allsubjecttags,omitempty"`
 	Annotation     map[string]string            `json:"annotation,omitempty" cql:"annotation,omitempty"`
 	AssociatedTags []string                     `json:"associatedTags,omitempty" cql:"associatedtags,omitempty"`
 	CreatedAt      time.Time                    `json:"createdAt,omitempty" cql:"createdat,omitempty"`
 	Deleted        bool                         `json:"-" cql:"deleted,omitempty"`
-	Description    string                       `json:"description,omitempty" cql:"description,omitempty"`
 	Name           string                       `json:"name,omitempty" cql:"name,omitempty"`
 	Namespace      string                       `json:"namespace,omitempty" cql:"namespace,primarykey,omitempty"`
 	Object         [][]string                   `json:"object,omitempty" cql:"object,omitempty"`
-	Owner          []string                     `json:"owner,omitempty" cql:"owner,omitempty"`
 	Relation       []string                     `json:"relation,omitempty" cql:"relation,omitempty"`
 	Status         enum.EntityStatus            `json:"status,omitempty" cql:"status,omitempty"`
 	Subject        [][]string                   `json:"subject,omitempty" cql:"subject,omitempty"`
@@ -117,6 +115,11 @@ func (o *Policy) GetName() string {
 	return o.Name
 }
 
+// SetName set the given name of the receiver
+func (o *Policy) SetName(name string) {
+	o.Name = name
+}
+
 // GetNamespace returns the namespace of the receiver
 func (o *Policy) GetNamespace() string {
 	return o.Namespace
@@ -169,26 +172,19 @@ func (o Policy) SpecificationForAttribute(name elemental.AttributeSpecificationN
 }
 
 var PolicyAttributesMap = map[elemental.AttributeSpecificationNameKey]elemental.AttributeSpecification{
-	PolicyAttributeNameAllObjectTags: elemental.AttributeSpecification{
+	PolicyAttributeNameDescription: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		Name:           "AllObjectTags",
-		Required:       true,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "Description",
+		Orderable:      true,
 		Stored:         true,
-		SubType:        "tagset",
-		Type:           "external",
-	},
-	PolicyAttributeNameAllSubjectTags: elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Name:           "AllSubjectTags",
-		Required:       true,
-		Stored:         true,
-		SubType:        "tagset",
-		Type:           "external",
+		Type:           "string",
 	},
 	PolicyAttributeNameID: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		CreationOnly:   true,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -206,7 +202,23 @@ var PolicyAttributesMap = map[elemental.AttributeSpecificationNameKey]elemental.
 		Name:           "action",
 		Required:       true,
 		Stored:         true,
-		SubType:        "action_list",
+		SubType:        "actions_list",
+		Type:           "external",
+	},
+	PolicyAttributeNameAllObjectTags: elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Name:           "allObjectTags",
+		Required:       true,
+		Stored:         true,
+		SubType:        "tags_list",
+		Type:           "external",
+	},
+	PolicyAttributeNameAllSubjectTags: elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Name:           "allSubjectTags",
+		Required:       true,
+		Stored:         true,
+		SubType:        "tags_list",
 		Type:           "external",
 	},
 	PolicyAttributeNameAnnotation: elemental.AttributeSpecification{
@@ -222,13 +234,12 @@ var PolicyAttributesMap = map[elemental.AttributeSpecificationNameKey]elemental.
 		Exposed:        true,
 		Name:           "associatedTags",
 		Stored:         true,
-		SubType:        "tag_list",
+		SubType:        "tags_list",
 		Type:           "external",
 	},
 	PolicyAttributeNameCreatedAt: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		CreationOnly:   true,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "createdAt",
@@ -245,14 +256,6 @@ var PolicyAttributesMap = map[elemental.AttributeSpecificationNameKey]elemental.
 		Stored:         true,
 		Type:           "boolean",
 	},
-	PolicyAttributeNameDescription: elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Exposed:        true,
-		Format:         "free",
-		Name:           "description",
-		Stored:         true,
-		Type:           "string",
-	},
 	PolicyAttributeNameName: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Exposed:        true,
@@ -263,6 +266,7 @@ var PolicyAttributesMap = map[elemental.AttributeSpecificationNameKey]elemental.
 		Required:       true,
 		Stored:         true,
 		Type:           "string",
+		Unique:         true,
 	},
 	PolicyAttributeNameNamespace: elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -283,15 +287,7 @@ var PolicyAttributesMap = map[elemental.AttributeSpecificationNameKey]elemental.
 		Exposed:        true,
 		Name:           "object",
 		Stored:         true,
-		SubType:        "policy_list",
-		Type:           "external",
-	},
-	PolicyAttributeNameOwner: elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Exposed:        true,
-		Name:           "owner",
-		Stored:         true,
-		SubType:        "tag_list",
+		SubType:        "policies_list",
 		Type:           "external",
 	},
 	PolicyAttributeNameRelation: elemental.AttributeSpecification{
@@ -300,7 +296,7 @@ var PolicyAttributesMap = map[elemental.AttributeSpecificationNameKey]elemental.
 		Name:           "relation",
 		Required:       true,
 		Stored:         true,
-		SubType:        "relation_list",
+		SubType:        "relations_list",
 		Type:           "external",
 	},
 	PolicyAttributeNameStatus: elemental.AttributeSpecification{
@@ -320,7 +316,7 @@ var PolicyAttributesMap = map[elemental.AttributeSpecificationNameKey]elemental.
 		Name:           "subject",
 		Required:       true,
 		Stored:         true,
-		SubType:        "policy_list",
+		SubType:        "policies_list",
 		Type:           "external",
 	},
 	PolicyAttributeNameType: elemental.AttributeSpecification{

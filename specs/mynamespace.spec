@@ -28,7 +28,7 @@
             "required": false,
             "setter": false,
             "stored": false,
-            "subtype": "namespace_list",
+            "subtype": "namespaces_list",
             "transient": false,
             "type": "external",
             "unique": false,
