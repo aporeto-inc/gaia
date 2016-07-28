@@ -31,7 +31,7 @@
             "subtype": null,
             "transient": false,
             "type": "string",
-            "unique": null,
+            "unique": true,
             "uniqueScope": null
         }
     ],
