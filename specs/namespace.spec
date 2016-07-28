@@ -90,6 +90,7 @@
         "entity_name": "Namespace",
         "extends": [
             "@base",
+            "@described",
             "@identifiable-nopk-stored"
         ],
         "get": true,
