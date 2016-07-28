@@ -41,7 +41,9 @@
         "delete": false,
         "description": "FlowStatistic retrieves the flows between two nodes in a specified interval of time.",
         "entity_name": "FlowStatistic",
-        "extends": [],
+        "extends": [
+            "@identifiable-nopk-nostored"
+        ],
         "get": false,
         "package": "Topolocy",
         "resource_name": "flowstatistics",
