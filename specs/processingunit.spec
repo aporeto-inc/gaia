@@ -270,6 +270,7 @@
         "entity_name": "ProcessingUnit",
         "extends": [
             "@base",
+            "@identifiable",
             "@named"
         ],
         "get": true,
