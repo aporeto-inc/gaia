@@ -191,7 +191,8 @@
         "description": null,
         "entity_name": "User",
         "extends": [
-            "@base"
+            "@base",
+            "@named"
         ],
         "get": true,
         "package": "User",
