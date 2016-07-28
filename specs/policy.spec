@@ -268,6 +268,7 @@
         "entity_name": "Policy",
         "extends": [
             "@base",
+            "@identifiable",
             "@named"
         ],
         "get": true,
