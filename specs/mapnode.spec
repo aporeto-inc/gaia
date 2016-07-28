@@ -79,6 +79,7 @@
         "description": "MapNode describes a resource for the map.",
         "entity_name": "MapNode",
         "extends": [
+            "@identifiable-nopk-nostored",
             "@named"
         ],
         "get": false,
