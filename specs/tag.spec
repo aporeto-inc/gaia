@@ -123,7 +123,8 @@
         "description": "Tag to be attached to an entity.",
         "entity_name": "Tag",
         "extends": [
-            "@base"
+            "@base",
+            "@identifiable-nopk-stored"
         ],
         "get": true,
         "package": "Policies",
