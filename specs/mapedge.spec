@@ -110,6 +110,7 @@
         "description": "MapEdge describes a dependency between two resources.",
         "entity_name": "MapEdge",
         "extends": [
+            "@identifiable",
             "@named"
         ],
         "get": false,
