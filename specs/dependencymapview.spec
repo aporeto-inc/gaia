@@ -43,6 +43,7 @@
         "entity_name": "DependencyMapView",
         "extends": [
             "@base",
+            "@identifiable",
             "@named"
         ],
         "get": true,
