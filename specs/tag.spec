@@ -23,7 +23,7 @@
             "min_value": null,
             "name": "keyValuePair",
             "orderable": false,
-            "primary_key": false,
+            "primary_key": true,
             "read_only": false,
             "required": true,
             "setter": false,
