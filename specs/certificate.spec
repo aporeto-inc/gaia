@@ -145,6 +145,7 @@
         "entity_name": "Certificate",
         "extends": [
             "@base",
+            "@identifiable",
             "@named"
         ],
         "get": true,
