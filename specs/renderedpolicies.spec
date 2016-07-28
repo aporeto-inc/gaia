@@ -112,7 +112,7 @@
         "extends": [
             "@identifiable-nopk-nostored"
         ],
-        "get": true,
+        "get": false,
         "package": "Policies",
         "resource_name": "renderedpolicies",
         "rest_name": "renderedpolicies",
