@@ -245,7 +245,9 @@
         "delete": false,
         "description": "PolicyRules describes the set of rules applied on a Subject.",
         "entity_name": "PolicyRule",
-        "extends": [],
+        "extends": [
+            "@identifiable-nopk-nostored"
+        ],
         "get": false,
         "package": "Policies",
         "resource_name": "policyrules",
