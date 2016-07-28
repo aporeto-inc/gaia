@@ -268,7 +268,8 @@
         "entity_name": "Policy",
         "extends": [
             "@base",
-            "@identifiable",
+            "@described",
+            "@identifiable-pk-stored",
             "@named"
         ],
         "get": true,
