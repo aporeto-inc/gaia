@@ -199,7 +199,9 @@
         "delete": false,
         "description": null,
         "entity_name": "Root",
-        "extends": [],
+        "extends": [
+            "@identifiable-nopk-nostored"
+        ],
         "get": true,
         "package": "Security",
         "resource_name": "root",
