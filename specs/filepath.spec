@@ -90,6 +90,7 @@
         "entity_name": "FilePath",
         "extends": [
             "@base",
+            "@identifiable",
             "@named"
         ],
         "get": true,
