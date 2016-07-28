@@ -75,9 +75,7 @@
         "delete": false,
         "description": "dependencymap creates a map of dependencies.",
         "entity_name": "DependencyMap",
-        "extends": [
-            "@identifiable"
-        ],
+        "extends": [],
         "get": false,
         "package": "Visualization",
         "resource_name": "dependencymaps",
