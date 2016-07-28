@@ -192,6 +192,7 @@
         "entity_name": "User",
         "extends": [
             "@base",
+            "@identifiable",
             "@named"
         ],
         "get": true,
