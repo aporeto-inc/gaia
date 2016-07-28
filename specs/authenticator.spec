@@ -175,6 +175,7 @@
         "entity_name": "Authenticator",
         "extends": [
             "@base",
+            "@described",
             "@identifiable-nopk-stored",
             "@named"
         ],
