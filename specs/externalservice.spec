@@ -124,6 +124,7 @@
         "entity_name": "ExternalService",
         "extends": [
             "@base",
+            "@identifiable",
             "@named"
         ],
         "get": true,
