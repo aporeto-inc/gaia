@@ -109,9 +109,7 @@
         "delete": null,
         "description": "RenderedPolicies attached to the given set of Subjects.",
         "entity_name": "RenderedPolicies",
-        "extends": [
-            "@identifiable"
-        ],
+        "extends": [],
         "get": true,
         "package": "Policies",
         "resource_name": "renderedpolicies",
