@@ -89,7 +89,8 @@
         "description": "Namespace attached to an user.",
         "entity_name": "Namespace",
         "extends": [
-            "@base"
+            "@base",
+            "@identifiable-nopk-stored"
         ],
         "get": true,
         "package": "Infrastructure",
