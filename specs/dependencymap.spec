@@ -75,7 +75,9 @@
         "delete": false,
         "description": "dependencymap creates a map of dependencies.",
         "entity_name": "DependencyMap",
-        "extends": [],
+        "extends": [
+            "@identifiable-nopk-nostored"
+        ],
         "get": false,
         "package": "Visualization",
         "resource_name": "dependencymaps",
