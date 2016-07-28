@@ -215,7 +215,9 @@
         "delete": false,
         "description": "A HealthReport contains the health status and various information about the Server.",
         "entity_name": "HealthReport",
-        "extends": [],
+        "extends": [
+            "@identifiable"
+        ],
         "get": false,
         "package": "Health",
         "resource_name": "healthreports",
