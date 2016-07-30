@@ -92,7 +92,7 @@
             "name": "createdAt",
             "orderable": true,
             "primary_key": false,
-            "read_only": false,
+            "read_only": true,
             "required": false,
             "setter": true,
             "stored": true,
