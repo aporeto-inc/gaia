@@ -198,7 +198,7 @@
             "name": "status",
             "orderable": true,
             "primary_key": null,
-            "read_only": false,
+            "read_only": true,
             "required": null,
             "setter": null,
             "stored": false,
