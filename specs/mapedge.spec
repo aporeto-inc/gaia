@@ -25,7 +25,7 @@
             "orderable": false,
             "primary_key": false,
             "read_only": true,
-            "required": true,
+            "required": false,
             "setter": false,
             "stored": false,
             "subtype": null,
