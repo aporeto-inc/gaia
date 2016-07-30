@@ -92,7 +92,7 @@
             "name": "key",
             "orderable": false,
             "primary_key": false,
-            "read_only": false,
+            "read_only": true,
             "required": false,
             "setter": false,
             "stored": false,
