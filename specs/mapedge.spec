@@ -24,7 +24,7 @@
             "name": "destinationID",
             "orderable": false,
             "primary_key": false,
-            "read_only": false,
+            "read_only": true,
             "required": true,
             "setter": false,
             "stored": false,
