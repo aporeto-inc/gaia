@@ -24,7 +24,7 @@
             "name": "ID",
             "orderable": true,
             "primary_key": true,
-            "read_only": false,
+            "read_only": true,
             "required": false,
             "setter": null,
             "stored": true,
