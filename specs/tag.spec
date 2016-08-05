@@ -51,7 +51,7 @@
     ],
     "model": {
         "create": null,
-        "delete": true,
+        "delete": false,
         "description": "Tag to be attached to an entity.",
         "entity_name": "Tag",
         "extends": [
