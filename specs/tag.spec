@@ -64,6 +64,6 @@
         "resource_name": "tags",
         "rest_name": "tag",
         "root": null,
-        "update": true
+        "update": false
     }
 }
