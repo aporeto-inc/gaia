@@ -109,7 +109,9 @@
         "delete": false,
         "description": "A TagCounter represents a counter for tags.",
         "entity_name": "TagCounter",
-        "extends": [],
+        "extends": [
+            "@identifiable-nopk-nostored"
+        ],
         "get": false,
         "package": "Policies",
         "resource_name": "tagcounters",
