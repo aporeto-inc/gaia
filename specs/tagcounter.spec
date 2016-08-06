@@ -8,7 +8,7 @@
         "entity_name": "TagCounter",
         "extends": [],
         "get": false,
-        "package": "tagging",
+        "package": "Policies",
         "resource_name": "tagcounters",
         "rest_name": "tagcounter",
         "root": null,
