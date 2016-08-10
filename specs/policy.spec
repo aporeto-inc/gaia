@@ -247,20 +247,7 @@
             "uniqueScope": null
         }
     ],
-    "children": [
-        {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": false,
-            "get": false,
-            "relationship": "member",
-            "rest_name": "tag",
-            "update": true
-        }
-    ],
+    "children": [],
     "model": {
         "create": false,
         "delete": true,
