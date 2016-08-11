@@ -109,9 +109,7 @@
         "delete": false,
         "description": "A Tag represents a tags associated to an object.",
         "entity_name": "Tag",
-        "extends": [
-            "@identifiable-nopk-stored"
-        ],
+        "extends": [],
         "get": false,
         "package": "Policies",
         "resource_name": "tags",
