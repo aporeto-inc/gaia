@@ -45,7 +45,7 @@
             "@identifiable-nopk-nostored"
         ],
         "get": false,
-        "package": "Topolocy",
+        "package": "Topology",
         "resource_name": "flowstatistics",
         "rest_name": "flowstatistic",
         "root": null,
