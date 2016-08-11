@@ -25,6 +25,5 @@ func init() {
 	elemental.RegisterIdentity(DependencyMapViewIdentity)
 	elemental.RegisterIdentity(DependencyMapIdentity)
 	elemental.RegisterIdentity(ServerIdentity)
-	elemental.RegisterIdentity(TagCounterIdentity)
 	elemental.RegisterIdentity(RootIdentity)
 }
