@@ -21,6 +21,9 @@ type FlowStatistic struct {
 
 	// Datapoints is a list of time/value pairs that represent the flow events over time.
 	Datapoints []builder.DataPoint `json:"datapoints" cql:"-"`
+
+	// Name of the statistic flow
+	Name string `json:"name" cql:"-"`
 }
 
 // NewFlowStatistic returns a new *FlowStatistic
@@ -93,5 +96,12 @@ var FlowStatisticAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		SubType:        "datapoints_list",
 		Type:           "external",
+	},
+	"Name": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Exposed:        true,
+		Format:         "free",
+		Name:           "name",
+		Type:           "string",
 	},
 }
