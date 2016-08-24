@@ -176,6 +176,10 @@ func (o *NamespaceMappingPolicy) Validate() elemental.Errors {
 
 	errors := elemental.Errors{}
 
+	if err := elemental.ValidateRequiredString("mappedNamespace", o.MappedNamespace); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		errors = append(errors, err)
 	}
@@ -266,6 +270,7 @@ var NamespaceMappingPolicyAttributesMap = map[string]elemental.AttributeSpecific
 		Format:         "free",
 		Name:           "mappedNamespace",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
