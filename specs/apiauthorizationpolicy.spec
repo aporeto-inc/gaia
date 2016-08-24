@@ -213,11 +213,11 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "updateAllowed if update can be done.",
+            "description": "update defines if update can be done.",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
-            "format": "free",
+            "format": null,
             "getter": null,
             "identifier": null,
             "index": null,
@@ -234,7 +234,7 @@
             "stored": true,
             "subtype": null,
             "transient": false,
-            "type": "string",
+            "type": "boolean",
             "unique": null,
             "uniqueScope": null
         }
