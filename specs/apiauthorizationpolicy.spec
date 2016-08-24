@@ -225,7 +225,7 @@
             "max_value": null,
             "min_length": null,
             "min_value": null,
-            "name": "updateAllowed",
+            "name": "update",
             "orderable": true,
             "primary_key": null,
             "read_only": null,
