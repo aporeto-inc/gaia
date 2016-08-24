@@ -9,7 +9,8 @@
         "extends": [
             "@base",
             "@described",
-            "@identifiable-nopk-nostored"
+            "@identifiable-nopk-nostored",
+            "@named"
         ],
         "get": true,
         "package": null,
