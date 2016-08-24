@@ -280,6 +280,7 @@
         "description": null,
         "entity_name": "APIAuthorizationPolicy",
         "extends": [
+            "@base",
             "@described"
         ],
         "get": true,
