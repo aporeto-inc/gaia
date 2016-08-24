@@ -231,7 +231,7 @@
             "read_only": null,
             "required": null,
             "setter": null,
-            "stored": true,
+            "stored": false,
             "subtype": null,
             "transient": false,
             "type": "string",
