@@ -279,7 +279,9 @@
         "delete": true,
         "description": null,
         "entity_name": "APIAuthorizationPolicy",
-        "extends": [],
+        "extends": [
+            "@described"
+        ],
         "get": true,
         "package": null,
         "resource_name": "apiauthorizationpolicies",
