@@ -281,7 +281,8 @@
         "entity_name": "APIAuthorizationPolicy",
         "extends": [
             "@base",
-            "@described"
+            "@described",
+            "@identifiable-nopk-nostored"
         ],
         "get": true,
         "package": null,
