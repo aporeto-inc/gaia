@@ -9,7 +9,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "createAllowed defines if creatin can be done.",
+            "description": "createAllowed defines if creation can be done.",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
