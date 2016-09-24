@@ -9,7 +9,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "Server is either the name or IP of the server that  of the Service",
+            "description": "Server is either the name or IP of the server that provides the service",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
