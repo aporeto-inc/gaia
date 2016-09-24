@@ -146,7 +146,9 @@
         "delete": true,
         "description": null,
         "entity_name": "Service",
-        "extends": [],
+        "extends": [
+            "@base"
+        ],
         "get": true,
         "package": null,
         "resource_name": "services",
