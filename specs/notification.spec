@@ -111,7 +111,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "Norified is the time at which the notification was sent",
+            "description": "Norified is the time when the notification was sent",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
