@@ -226,6 +226,18 @@
             "deprecated": null,
             "get": true,
             "relationship": "root",
+            "rest_name": "service",
+            "update": false
+        },
+        {
+            "bulk_create": false,
+            "bulk_delete": false,
+            "bulk_update": false,
+            "create": true,
+            "delete": false,
+            "deprecated": null,
+            "get": true,
+            "relationship": "root",
             "rest_name": "systemcall",
             "update": false
         },
