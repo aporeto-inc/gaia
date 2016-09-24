@@ -147,7 +147,8 @@
         "description": null,
         "entity_name": "Service",
         "extends": [
-            "@base"
+            "@base",
+            "@identifiable-nopk-stored"
         ],
         "get": true,
         "package": null,
