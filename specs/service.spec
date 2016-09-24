@@ -77,7 +77,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "Server is either the name or IP of the server that provides the service",
+            "description": "Server is either the DNS name or IP of the server that provides the service",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
