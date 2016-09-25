@@ -316,8 +316,8 @@
         "extends": [
             "@identifiable-pk-stored"
         ],
-        "get": false,
-        "package": null,
+        "get": true,
+        "package": "Infrastructure",
         "resource_name": "notifications",
         "rest_name": "notification",
         "root": null,
