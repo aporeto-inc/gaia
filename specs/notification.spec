@@ -313,7 +313,9 @@
         "delete": false,
         "description": null,
         "entity_name": "Notification",
-        "extends": [],
+        "extends": [
+            "@identifiable-nopk-nostored"
+        ],
         "get": false,
         "package": null,
         "resource_name": "notifications",
