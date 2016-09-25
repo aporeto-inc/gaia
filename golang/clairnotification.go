@@ -36,7 +36,7 @@ type Clairnotification struct {
 	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty"`
 
 	// Notification is the name of the notification sent by Clair using the webhook
-	Notification interface{} `json:"notification" cql:"notification,omitempty"`
+	Notification *Notification `json:"notification" cql:"notification,omitempty"`
 
 	// ParentID is the ID of the parent, if any,
 	ParentID string `json:"parentID" cql:"parentid,omitempty"`
@@ -252,8 +252,8 @@ var ClairnotificationAttributesMap = map[string]elemental.AttributeSpecification
 		Name:           "notification",
 		Orderable:      true,
 		Stored:         true,
-		SubType:        "Notification",
-		Type:           "object",
+		SubType:        "notification",
+		Type:           "external",
 	},
 	"ParentID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
