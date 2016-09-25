@@ -266,9 +266,9 @@
             "required": null,
             "setter": null,
             "stored": true,
-            "subtype": "VulnerabilityWithLayers",
+            "subtype": "vulnerabilitylayers",
             "transient": false,
-            "type": "object",
+            "type": "external",
             "unique": null,
             "uniqueScope": null
         },
