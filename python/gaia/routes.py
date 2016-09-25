@@ -15,7 +15,10 @@ routes.append(("GET", "/layers/:id/vulnerabilities"))
 
 # routes for dependencymapsubviews
 
-# routes for mapnodes
+# routes for apiauthorizationpolicies
+routes.append(("GET", "/apiauthorizationpolicies/:id"))
+routes.append(("PUT", "/apiauthorizationpolicies/:id"))
+routes.append(("DELETE", "/apiauthorizationpolicies/:id"))
 
 # routes for images
 routes.append(("GET", "/images/:id"))
@@ -43,10 +46,7 @@ routes.append(("GET", "/filepaths/:id"))
 routes.append(("PUT", "/filepaths/:id"))
 routes.append(("DELETE", "/filepaths/:id"))
 
-# routes for apiauthorizationpolicies
-routes.append(("GET", "/apiauthorizationpolicies/:id"))
-routes.append(("PUT", "/apiauthorizationpolicies/:id"))
-routes.append(("DELETE", "/apiauthorizationpolicies/:id"))
+# routes for notifications
 
 # routes for namespaces
 routes.append(("GET", "/namespaces/:id"))
@@ -59,6 +59,8 @@ routes.append(("DELETE", "/namespaces/:id"))
 routes.append(("GET", "/externalservices/:id"))
 routes.append(("PUT", "/externalservices/:id"))
 routes.append(("DELETE", "/externalservices/:id"))
+
+# routes for vulnerabilitywithlayers
 
 # routes for policies
 routes.append(("GET", "/policies/:id"))
@@ -94,12 +96,22 @@ routes.append(("PUT", "/processingunits/:id"))
 routes.append(("DELETE", "/processingunits/:id"))
 routes.append(("GET", "/processingunits/:id/renderedpolicies"))
 
+# routes for clairnotifications
+routes.append(("GET", "/clairnotifications/:id"))
+
 # routes for dependencymapviews
 routes.append(("GET", "/dependencymapviews/:id"))
 routes.append(("PUT", "/dependencymapviews/:id"))
 routes.append(("DELETE", "/dependencymapviews/:id"))
 
 # routes for dependencymaps
+
+# routes for services
+routes.append(("GET", "/services/:id"))
+routes.append(("PUT", "/services/:id"))
+routes.append(("DELETE", "/services/:id"))
+routes.append(("POST", "/services/:id/clairnotifications"))
+routes.append(("GET", "/services/:id/clairnotifications"))
 
 # routes for vulnerabilities
 routes.append(("GET", "/vulnerabilities/:id"))
@@ -110,6 +122,8 @@ routes.append(("PUT", "/servers/:id"))
 routes.append(("DELETE", "/servers/:id"))
 routes.append(("POST", "/servers/:id/certificates"))
 routes.append(("GET", "/servers/:id/certificates"))
+
+# routes for mapnodes
 
 # routes for root
 routes.append(("GET", "/root"))
@@ -143,6 +157,8 @@ routes.append(("POST", "/processingunits"))
 routes.append(("GET", "/processingunits"))
 routes.append(("POST", "/servers"))
 routes.append(("GET", "/servers"))
+routes.append(("POST", "/services"))
+routes.append(("GET", "/services"))
 routes.append(("POST", "/systemcalls"))
 routes.append(("GET", "/systemcalls"))
 routes.append(("GET", "/tags"))
