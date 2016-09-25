@@ -47,6 +47,7 @@ routes.append(("PUT", "/filepaths/:id"))
 routes.append(("DELETE", "/filepaths/:id"))
 
 # routes for notifications
+routes.append(("GET", "/notifications/:id"))
 
 # routes for namespaces
 routes.append(("GET", "/namespaces/:id"))
@@ -104,7 +105,6 @@ routes.append(("DELETE", "/processingunits/:id"))
 routes.append(("GET", "/processingunits/:id/renderedpolicies"))
 
 # routes for clairnotifications
-routes.append(("GET", "/clairnotifications/:id"))
 
 # routes for dependencymapviews
 routes.append(("GET", "/dependencymapviews/:id"))
