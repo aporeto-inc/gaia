@@ -46,7 +46,7 @@
             "@identifiable-pk-stored"
         ],
         "get": true,
-        "package": null,
+        "package": "Infrastructure",
         "resource_name": "clairnotifications",
         "rest_name": "clairnotification",
         "root": null,
