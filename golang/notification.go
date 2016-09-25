@@ -18,7 +18,7 @@ type Notification struct {
 	Created string `json:"Created" cql:"created,omitempty"`
 
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"-"`
+	ID string `json:"ID" cql:"id,primarykey,omitempty"`
 
 	// Deleted is the time when the notification was deleted
 	Deleted string `json:"deleted" cql:"deleted,omitempty"`
@@ -113,7 +113,9 @@ var NotificationAttributesMap = map[string]elemental.AttributeSpecification{
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
+		PrimaryKey:     true,
 		ReadOnly:       true,
+		Stored:         true,
 		Type:           "string",
 		Unique:         true,
 	},
