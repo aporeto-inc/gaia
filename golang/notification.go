@@ -30,7 +30,7 @@ type Notification struct {
 	Name string `json:"name" cql:"name,omitempty"`
 
 	// New is the new layers that introduced vulnerability
-	New interface{} `json:"new" cql:"new,omitempty"`
+	New *VulnerabilityWithLayers `json:"new" cql:"new,omitempty"`
 
 	// NextPage is the next page number
 	NextPage string `json:"nextPage" cql:"nextpage,omitempty"`
@@ -39,7 +39,7 @@ type Notification struct {
 	Notified string `json:"notified" cql:"notified,omitempty"`
 
 	// Old is the old layers that introduced vulnerability
-	Old interface{} `json:"old" cql:"old,omitempty"`
+	Old *VulnerabilityWithLayers `json:"old" cql:"old,omitempty"`
 
 	// Page is the page number
 	Page string `json:"page" cql:"page,omitempty"`
@@ -154,8 +154,8 @@ var NotificationAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "new",
 		Orderable:      true,
 		Stored:         true,
-		SubType:        "VulnerabilityWithLayers",
-		Type:           "object",
+		SubType:        "vulnerabilitylayers",
+		Type:           "external",
 	},
 	"NextPage": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -184,8 +184,8 @@ var NotificationAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "old",
 		Orderable:      true,
 		Stored:         true,
-		SubType:        "VulnerabilityWithLayers",
-		Type:           "object",
+		SubType:        "vulnerabilitylayers",
+		Type:           "external",
 	},
 	"Page": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
