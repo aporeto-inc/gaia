@@ -38,15 +38,15 @@
     "children": [],
     "model": {
         "create": null,
-        "delete": true,
+        "delete": false,
         "description": null,
         "entity_name": "Clairwebhook",
         "extends": [],
-        "get": true,
+        "get": false,
         "package": null,
         "resource_name": "clairwebhooks",
         "rest_name": "clairwebhook",
         "root": null,
-        "update": true
+        "update": false
     }
 }
