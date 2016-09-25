@@ -29,6 +29,7 @@ class Notification(RESTObject):
         # Read/Write Attributes
         
         self._created = None
+        self._id = None
         self._deleted = None
         self._limit = None
         self._name = None
@@ -39,6 +40,7 @@ class Notification(RESTObject):
         self._page = None
         
         self.expose_attribute(local_name="Created", remote_name="Created")
+        self.expose_attribute(local_name="ID", remote_name="ID")
         self.expose_attribute(local_name="deleted", remote_name="deleted")
         self.expose_attribute(local_name="limit", remote_name="limit")
         self.expose_attribute(local_name="name", remote_name="name")
@@ -56,12 +58,12 @@ class Notification(RESTObject):
     def identifier(self):
         """ Identifier returns the value of the object's unique identifier.
         """
-        return self.
+        return self.ID
 
     def setIdentifier(self, ID):
         """ SetIdentifier sets the value of the object's unique identifier.
         """
-        self. = ID
+        self.ID = ID
 
     def identity(self):
         """ Identity returns the Identity of the object.
@@ -90,6 +92,28 @@ class Notification(RESTObject):
               
         """
         self._created = value
+    
+    @property
+    def ID(self):
+        """ Get ID value.
+
+          Notes:
+              ID is the identifier of the object.
+
+              
+        """
+        return self._id
+
+    @ID.setter
+    def ID(self, value):
+        """ Set ID value.
+
+          Notes:
+              ID is the identifier of the object.
+
+              
+        """
+        self._id = value
     
     @property
     def deleted(self):
