@@ -41,7 +41,9 @@
         "delete": false,
         "description": null,
         "entity_name": "Clairnotification",
-        "extends": [],
+        "extends": [
+            "@base"
+        ],
         "get": false,
         "package": null,
         "resource_name": "clairnotifications",
