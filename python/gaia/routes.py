@@ -4,7 +4,10 @@ routes = []
 
 # routes for mynamespaces
 
-# routes for mapnodes
+# routes for namespacemappingpolicies
+routes.append(("GET", "/namespacemappingpolicies/:id"))
+routes.append(("PUT", "/namespacemappingpolicies/:id"))
+routes.append(("DELETE", "/namespacemappingpolicies/:id"))
 
 # routes for layers
 routes.append(("GET", "/layers/:id"))
@@ -21,8 +24,12 @@ routes.append(("DELETE", "/apiauthorizationpolicies/:id"))
 routes.append(("GET", "/images/:id"))
 routes.append(("GET", "/images/:id/layers"))
 
-# routes for computedpolicies
-routes.append(("GET", "/computedpolicies/:id"))
+# routes for healthreports
+
+# routes for systemcalls
+routes.append(("GET", "/systemcalls/:id"))
+routes.append(("PUT", "/systemcalls/:id"))
+routes.append(("DELETE", "/systemcalls/:id"))
 
 # routes for tags
 
@@ -39,6 +46,8 @@ routes.append(("GET", "/filepaths/:id"))
 routes.append(("PUT", "/filepaths/:id"))
 routes.append(("DELETE", "/filepaths/:id"))
 
+# routes for notifications
+
 # routes for namespaces
 routes.append(("GET", "/namespaces/:id"))
 routes.append(("PUT", "/namespaces/:id"))
@@ -51,6 +60,8 @@ routes.append(("GET", "/externalservices/:id"))
 routes.append(("PUT", "/externalservices/:id"))
 routes.append(("DELETE", "/externalservices/:id"))
 
+# routes for vulnerabilitywithlayers
+
 # routes for policies
 routes.append(("GET", "/policies/:id"))
 routes.append(("PUT", "/policies/:id"))
@@ -58,34 +69,13 @@ routes.append(("DELETE", "/policies/:id"))
 
 # routes for flowstatistics
 
-# routes for computeddependencymapviews
-routes.append(("GET", "/computeddependencymapviews/:id"))
-routes.append(("DELETE", "/computeddependencymapviews/:id"))
-
-# routes for systemcalls
-routes.append(("GET", "/systemcalls/:id"))
-routes.append(("PUT", "/systemcalls/:id"))
-routes.append(("DELETE", "/systemcalls/:id"))
-
-# routes for healthreports
-
 # routes for fileaccesspolicies
 routes.append(("GET", "/fileaccesspolicies/:id"))
 routes.append(("PUT", "/fileaccesspolicies/:id"))
 routes.append(("DELETE", "/fileaccesspolicies/:id"))
 
-# routes for renderedpolicies
-
-# routes for namespacemappingpolicies
-routes.append(("GET", "/namespacemappingpolicies/:id"))
-routes.append(("PUT", "/namespacemappingpolicies/:id"))
-routes.append(("DELETE", "/namespacemappingpolicies/:id"))
-
-# routes for processingunits
-routes.append(("GET", "/processingunits/:id"))
-routes.append(("PUT", "/processingunits/:id"))
-routes.append(("DELETE", "/processingunits/:id"))
-routes.append(("GET", "/processingunits/:id/renderedpolicies"))
+# routes for computedpolicies
+routes.append(("GET", "/computedpolicies/:id"))
 
 # routes for authenticators
 routes.append(("GET", "/authenticators/:id"))
@@ -94,12 +84,41 @@ routes.append(("DELETE", "/authenticators/:id"))
 routes.append(("POST", "/authenticators/:id/users"))
 routes.append(("GET", "/authenticators/:id/users"))
 
+# routes for computeddependencymapviews
+routes.append(("GET", "/computeddependencymapviews/:id"))
+routes.append(("DELETE", "/computeddependencymapviews/:id"))
+
+# routes for users
+routes.append(("GET", "/users/:id"))
+routes.append(("PUT", "/users/:id"))
+routes.append(("DELETE", "/users/:id"))
+routes.append(("POST", "/users/:id/certificates"))
+routes.append(("GET", "/users/:id/certificates"))
+
+# routes for renderedpolicies
+
+# routes for processingunits
+routes.append(("GET", "/processingunits/:id"))
+routes.append(("PUT", "/processingunits/:id"))
+routes.append(("DELETE", "/processingunits/:id"))
+routes.append(("GET", "/processingunits/:id/renderedpolicies"))
+
+# routes for clairnotifications
+routes.append(("GET", "/clairnotifications/:id"))
+
 # routes for dependencymapviews
 routes.append(("GET", "/dependencymapviews/:id"))
 routes.append(("PUT", "/dependencymapviews/:id"))
 routes.append(("DELETE", "/dependencymapviews/:id"))
 
 # routes for dependencymaps
+
+# routes for services
+routes.append(("GET", "/services/:id"))
+routes.append(("PUT", "/services/:id"))
+routes.append(("DELETE", "/services/:id"))
+routes.append(("POST", "/services/:id/clairnotifications"))
+routes.append(("GET", "/services/:id/clairnotifications"))
 
 # routes for vulnerabilities
 routes.append(("GET", "/vulnerabilities/:id"))
@@ -110,6 +129,8 @@ routes.append(("PUT", "/servers/:id"))
 routes.append(("DELETE", "/servers/:id"))
 routes.append(("POST", "/servers/:id/certificates"))
 routes.append(("GET", "/servers/:id/certificates"))
+
+# routes for mapnodes
 
 # routes for root
 routes.append(("GET", "/root"))
@@ -145,6 +166,8 @@ routes.append(("POST", "/processingunits"))
 routes.append(("GET", "/processingunits"))
 routes.append(("POST", "/servers"))
 routes.append(("GET", "/servers"))
+routes.append(("POST", "/services"))
+routes.append(("GET", "/services"))
 routes.append(("POST", "/systemcalls"))
 routes.append(("GET", "/systemcalls"))
 routes.append(("GET", "/tags"))
@@ -156,11 +179,4 @@ routes.append(("GET", "/vulnerabilities"))
 routes.append(("GET", "/networkaccesspolicies/:id"))
 routes.append(("PUT", "/networkaccesspolicies/:id"))
 routes.append(("DELETE", "/networkaccesspolicies/:id"))
-
-# routes for users
-routes.append(("GET", "/users/:id"))
-routes.append(("PUT", "/users/:id"))
-routes.append(("DELETE", "/users/:id"))
-routes.append(("POST", "/users/:id/certificates"))
-routes.append(("GET", "/users/:id/certificates"))
 
