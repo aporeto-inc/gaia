@@ -20,7 +20,7 @@ func init() {
 	elemental.RegisterIdentity(NamespaceIdentity)
 	elemental.RegisterIdentity(PolicyRuleIdentity)
 	elemental.RegisterIdentity(ExternalServiceIdentity)
-	elemental.RegisterIdentity(VulnerabilityWithlayersIdentity)
+	elemental.RegisterIdentity(VulnerabilityWithLayersIdentity)
 	elemental.RegisterIdentity(PolicyIdentity)
 	elemental.RegisterIdentity(FlowStatisticIdentity)
 	elemental.RegisterIdentity(FileAccessPolicyIdentity)
