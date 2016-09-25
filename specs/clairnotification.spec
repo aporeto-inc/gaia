@@ -28,9 +28,9 @@
             "required": null,
             "setter": null,
             "stored": true,
-            "subtype": "Notification",
+            "subtype": "notification",
             "transient": false,
-            "type": "object",
+            "type": "external",
             "unique": null,
             "uniqueScope": null
         }
