@@ -310,15 +310,15 @@
     "children": [],
     "model": {
         "create": null,
-        "delete": true,
+        "delete": false,
         "description": null,
         "entity_name": "Notification",
         "extends": [],
-        "get": true,
+        "get": false,
         "package": null,
         "resource_name": "notifications",
         "rest_name": "notification",
         "root": null,
-        "update": true
+        "update": false
     }
 }
