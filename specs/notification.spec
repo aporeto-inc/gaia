@@ -279,9 +279,7 @@
         "delete": false,
         "description": null,
         "entity_name": "Notification",
-        "extends": [
-            "@identifiable-pk-stored"
-        ],
+        "extends": [],
         "get": true,
         "package": "Infrastructure",
         "resource_name": "notifications",
