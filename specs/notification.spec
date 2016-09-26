@@ -282,7 +282,7 @@
         "extends": [
             "@identifiable-nopk-nostored"
         ],
-        "get": true,
+        "get": false,
         "package": "Infrastructure",
         "resource_name": "notifications",
         "rest_name": "notification",
