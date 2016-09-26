@@ -43,7 +43,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "Deleted is the time when the notification was deleted",
+            "description": "DeletedAt is the time when the notification was deleted",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
