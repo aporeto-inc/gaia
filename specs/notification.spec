@@ -279,7 +279,9 @@
         "delete": false,
         "description": null,
         "entity_name": "Notification",
-        "extends": [],
+        "extends": [
+            "@identifiable-nopk-nostored"
+        ],
         "get": true,
         "package": "Infrastructure",
         "resource_name": "notifications",
