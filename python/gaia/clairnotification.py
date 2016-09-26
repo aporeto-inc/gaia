@@ -4,15 +4,15 @@ from pyelemental import RESTObject
 from pyelemental import validate_string_in_list, validate_float_in_list, validate_int_in_list, validate_required_int, validate_required_float, validate_required_string, validate_required_time, validate_maximum_float, validate_minimum_float, validate_maximum_int, validate_minimum_int, validate_maximum_length, validate_minimum_length, validate_pattern
 
 
-class Clairnotification(RESTObject):
-    """ Represents a Clairnotification in the 
+class ClairNotification(RESTObject):
+    """ Represents a ClairNotification in the 
 
         Notes:
             None
     """
 
     def __init__(self, **kwargs):
-        """ Initializes a Clairnotification instance
+        """ Initializes a ClairNotification instance
 
           Notes:
               You can specify all parameters while calling this methods.
@@ -20,11 +20,11 @@ class Clairnotification(RESTObject):
               object from a Python dictionary
 
           Examples:
-              >>> clairnotification = Clairnotification(id=u'xxxx-xxx-xxx-xxx', name=u'Clairnotification')
-              >>> clairnotification = Clairnotification(data=my_dict)
+              >>> clairnotification = ClairNotification(id=u'xxxx-xxx-xxx-xxx', name=u'ClairNotification')
+              >>> clairnotification = ClairNotification(data=my_dict)
         """
 
-        super(Clairnotification, self).__init__()
+        super(ClairNotification, self).__init__()
 
         # Read/Write Attributes
         
@@ -326,4 +326,4 @@ class Clairnotification(RESTObject):
         return None
 
     # clairnotificationIdentity represents the Identity of the object
-clairnotificationIdentity = {"name": "clairnotification", "category": "clairnotifications", "constructor": Clairnotification}
+clairnotificationIdentity = {"name": "clairnotification", "category": "clairnotifications", "constructor": ClairNotification}

@@ -2,12 +2,12 @@
 
 
 
-__all__ = ['APIAuthorizationPolicy', 'Authenticator', 'Certificate', 'Clairnotification', 'DependencyMap', 'DependencyMapSubview', 'DependencyMapView', 'ExternalService', 'FileAccessPolicy', 'FilePath', 'FlowStatistic', 'HealthReport', 'Image', 'Layer', 'MapEdge', 'MapNode', 'MyNamespace', 'Namespace', 'NamespaceMappingPolicy', 'NetworkAccessPolicy', 'Notification', 'Policy', 'PolicyRule', 'ProcessingUnit', 'RenderedPolicy', 'Root', 'Server', 'Service', 'SystemCall', 'Tag', 'User', 'Vulnerability', 'VulnerabilityWithLayers', 'routes']
+__all__ = ['APIAuthorizationPolicy', 'Authenticator', 'Certificate', 'ClairNotification', 'DependencyMap', 'DependencyMapSubview', 'DependencyMapView', 'ExternalService', 'FileAccessPolicy', 'FilePath', 'FlowStatistic', 'HealthReport', 'Image', 'Layer', 'MapEdge', 'MapNode', 'MyNamespace', 'Namespace', 'NamespaceMappingPolicy', 'NetworkAccessPolicy', 'Notification', 'Policy', 'PolicyRule', 'ProcessingUnit', 'RenderedPolicy', 'Root', 'Server', 'Service', 'SystemCall', 'Tag', 'User', 'Vulnerability', 'VulnerabilityWithLayers', 'routes']
 
 from .apiauthorizationpolicy import APIAuthorizationPolicy
 from .authenticator import Authenticator
 from .certificate import Certificate
-from .clairnotification import Clairnotification
+from .clairnotification import ClairNotification
 from .dependencymap import DependencyMap
 from .dependencymapsubview import DependencyMapSubview
 from .dependencymapview import DependencyMapView
