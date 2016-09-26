@@ -35,8 +35,8 @@ type Notification struct {
 	// Deleted is the time when the notification was deleted
 	DeletedAt time.Time `json:"deletedAt" cql:"deletedat,omitempty"`
 
-	// Limits the amount of results in the "LayersIntroducingVulnerability" property on New and Old vulnerabilities
-	Limit string `json:"limit" cql:"limit,omitempty"`
+	// Limit is the number of layers returned in notification
+	Limit int `json:"limit" cql:"limit,omitempty"`
 
 	// Name is the name of the notification
 	Name string `json:"name" cql:"name,omitempty"`
@@ -50,8 +50,8 @@ type Notification struct {
 	// NextPage is the next page number
 	NextPage string `json:"nextPage" cql:"nextpage,omitempty"`
 
-	// Norified is the time when the notification was sent
-	Notified string `json:"notified" cql:"notified,omitempty"`
+	// NorifiedAt is the time when the notification was sent
+	NotifiedAt time.Time `json:"notifiedAt" cql:"notifiedat,omitempty"`
 
 	// Old is the old layers that introduced vulnerability
 	Old *VulnerabilityWithLayers `json:"old" cql:"old,omitempty"`
@@ -262,11 +262,10 @@ var NotificationAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "limit",
 		Orderable:      true,
 		Stored:         true,
-		Type:           "string",
+		Type:           "integer",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -315,15 +314,14 @@ var NotificationAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Notified": elemental.AttributeSpecification{
+	"NotifiedAt": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
-		Name:           "notified",
+		Name:           "notifiedAt",
 		Orderable:      true,
 		Stored:         true,
-		Type:           "string",
+		Type:           "time",
 	},
 	"Old": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
