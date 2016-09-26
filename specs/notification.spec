@@ -280,7 +280,6 @@
         "description": null,
         "entity_name": "Notification",
         "extends": [
-            "@base",
             "@identifiable-pk-stored"
         ],
         "get": true,
