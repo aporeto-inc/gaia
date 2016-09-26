@@ -39,7 +39,7 @@ class Notification(RESTObject):
         self._namespace = None
         self._new = None
         self._nextpage = None
-        self._notified = None
+        self._notifiedat = None
         self._old = None
         self._page = None
         self._parentid = None
@@ -58,7 +58,7 @@ class Notification(RESTObject):
         self.expose_attribute(local_name="namespace", remote_name="namespace")
         self.expose_attribute(local_name="new", remote_name="new")
         self.expose_attribute(local_name="nextPage", remote_name="nextPage")
-        self.expose_attribute(local_name="notified", remote_name="notified")
+        self.expose_attribute(local_name="notifiedAt", remote_name="notifiedAt")
         self.expose_attribute(local_name="old", remote_name="old")
         self.expose_attribute(local_name="page", remote_name="page")
         self.expose_attribute(local_name="parentID", remote_name="parentID")
@@ -224,7 +224,7 @@ class Notification(RESTObject):
         """ Get limit value.
 
           Notes:
-              Limits the amount of results in the "LayersIntroducingVulnerability" property on New and Old vulnerabilities
+              Limit is the number of layers returned in notification
 
               
         """
@@ -235,7 +235,7 @@ class Notification(RESTObject):
         """ Set limit value.
 
           Notes:
-              Limits the amount of results in the "LayersIntroducingVulnerability" property on New and Old vulnerabilities
+              Limit is the number of layers returned in notification
 
               
         """
@@ -330,26 +330,26 @@ class Notification(RESTObject):
         self._nextpage = value
     
     @property
-    def notified(self):
-        """ Get notified value.
+    def notifiedAt(self):
+        """ Get notifiedAt value.
 
           Notes:
-              Norified is the time when the notification was sent
+              NorifiedAt is the time when the notification was sent
 
               
         """
-        return self._notified
+        return self._notifiedat
 
-    @notified.setter
-    def notified(self, value):
-        """ Set notified value.
+    @notifiedAt.setter
+    def notifiedAt(self, value):
+        """ Set notifiedAt value.
 
           Notes:
-              Norified is the time when the notification was sent
+              NorifiedAt is the time when the notification was sent
 
               
         """
-        self._notified = value
+        self._notifiedat = value
     
     @property
     def old(self):
