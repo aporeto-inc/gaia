@@ -6,17 +6,17 @@ import "github.com/aporeto-inc/elemental"
 import "time"
 import "github.com/aporeto-inc/gaia/golang/constants"
 
-// ClairnotificationIdentity represents the Identity of the object
-var ClairnotificationIdentity = elemental.Identity{
+// ClairNotificationIdentity represents the Identity of the object
+var ClairNotificationIdentity = elemental.Identity{
 	Name:     "clairnotification",
 	Category: "clairnotifications",
 }
 
-// ClairnotificationsList represents a list of Clairnotifications
-type ClairnotificationsList []*Clairnotification
+// ClairNotificationsList represents a list of ClairNotifications
+type ClairNotificationsList []*ClairNotification
 
-// Clairnotification represents the model of a clairnotification
-type Clairnotification struct {
+// ClairNotification represents the model of a clairnotification
+type ClairNotification struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" cql:"id,primarykey,omitempty"`
 
@@ -51,109 +51,109 @@ type Clairnotification struct {
 	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty"`
 }
 
-// NewClairnotification returns a new *Clairnotification
-func NewClairnotification() *Clairnotification {
+// NewClairNotification returns a new *ClairNotification
+func NewClairNotification() *ClairNotification {
 
-	return &Clairnotification{
+	return &ClairNotification{
 		Status: constants.Active,
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *Clairnotification) Identity() elemental.Identity {
+func (o *ClairNotification) Identity() elemental.Identity {
 
-	return ClairnotificationIdentity
+	return ClairNotificationIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *Clairnotification) Identifier() string {
+func (o *ClairNotification) Identifier() string {
 
 	return o.ID
 }
 
-func (o *Clairnotification) String() string {
+func (o *ClairNotification) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *Clairnotification) SetIdentifier(ID string) {
+func (o *ClairNotification) SetIdentifier(ID string) {
 
 	o.ID = ID
 }
 
 // GetAssociatedTags returns the associatedTags of the receiver
-func (o *Clairnotification) GetAssociatedTags() []string {
+func (o *ClairNotification) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags set the given associatedTags of the receiver
-func (o *Clairnotification) SetAssociatedTags(associatedTags []string) {
+func (o *ClairNotification) SetAssociatedTags(associatedTags []string) {
 	o.AssociatedTags = associatedTags
 }
 
 // SetCreatedAt set the given createdAt of the receiver
-func (o *Clairnotification) SetCreatedAt(createdAt time.Time) {
+func (o *ClairNotification) SetCreatedAt(createdAt time.Time) {
 	o.CreatedAt = createdAt
 }
 
 // GetDeleted returns the deleted of the receiver
-func (o *Clairnotification) GetDeleted() bool {
+func (o *ClairNotification) GetDeleted() bool {
 	return o.Deleted
 }
 
 // SetDeleted set the given deleted of the receiver
-func (o *Clairnotification) SetDeleted(deleted bool) {
+func (o *ClairNotification) SetDeleted(deleted bool) {
 	o.Deleted = deleted
 }
 
 // GetNamespace returns the namespace of the receiver
-func (o *Clairnotification) GetNamespace() string {
+func (o *ClairNotification) GetNamespace() string {
 	return o.Namespace
 }
 
 // SetNamespace set the given namespace of the receiver
-func (o *Clairnotification) SetNamespace(namespace string) {
+func (o *ClairNotification) SetNamespace(namespace string) {
 	o.Namespace = namespace
 }
 
 // GetParentID returns the parentID of the receiver
-func (o *Clairnotification) GetParentID() string {
+func (o *ClairNotification) GetParentID() string {
 	return o.ParentID
 }
 
 // SetParentID set the given parentID of the receiver
-func (o *Clairnotification) SetParentID(parentID string) {
+func (o *ClairNotification) SetParentID(parentID string) {
 	o.ParentID = parentID
 }
 
 // GetParentType returns the parentType of the receiver
-func (o *Clairnotification) GetParentType() string {
+func (o *ClairNotification) GetParentType() string {
 	return o.ParentType
 }
 
 // SetParentType set the given parentType of the receiver
-func (o *Clairnotification) SetParentType(parentType string) {
+func (o *ClairNotification) SetParentType(parentType string) {
 	o.ParentType = parentType
 }
 
 // GetStatus returns the status of the receiver
-func (o *Clairnotification) GetStatus() constants.EntityStatus {
+func (o *ClairNotification) GetStatus() constants.EntityStatus {
 	return o.Status
 }
 
 // SetStatus set the given status of the receiver
-func (o *Clairnotification) SetStatus(status constants.EntityStatus) {
+func (o *ClairNotification) SetStatus(status constants.EntityStatus) {
 	o.Status = status
 }
 
 // SetUpdatedAt set the given updatedAt of the receiver
-func (o *Clairnotification) SetUpdatedAt(updatedAt time.Time) {
+func (o *ClairNotification) SetUpdatedAt(updatedAt time.Time) {
 	o.UpdatedAt = updatedAt
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Clairnotification) Validate() elemental.Errors {
+func (o *ClairNotification) Validate() elemental.Errors {
 
 	errors := elemental.Errors{}
 
@@ -165,13 +165,13 @@ func (o *Clairnotification) Validate() elemental.Errors {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (o Clairnotification) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (o ClairNotification) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	return ClairnotificationAttributesMap[name]
+	return ClairNotificationAttributesMap[name]
 }
 
-// ClairnotificationAttributesMap represents the map of attribute for Clairnotification.
-var ClairnotificationAttributesMap = map[string]elemental.AttributeSpecification{
+// ClairNotificationAttributesMap represents the map of attribute for ClairNotification.
+var ClairNotificationAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,

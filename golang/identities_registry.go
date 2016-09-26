@@ -30,7 +30,7 @@ func init() {
 	elemental.RegisterIdentity(UserIdentity)
 	elemental.RegisterIdentity(RenderedPolicyIdentity)
 	elemental.RegisterIdentity(ProcessingUnitIdentity)
-	elemental.RegisterIdentity(ClairnotificationIdentity)
+	elemental.RegisterIdentity(ClairNotificationIdentity)
 	elemental.RegisterIdentity(DependencyMapViewIdentity)
 	elemental.RegisterIdentity(DependencyMapIdentity)
 	elemental.RegisterIdentity(ServiceIdentity)
