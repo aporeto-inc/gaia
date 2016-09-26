@@ -43,7 +43,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "Limits the amount of results in the \"LayersIntroducingVulnerability\" property on New and Old vulnerabilities",
+            "description": "Limit is the number of layers returned in notification",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
