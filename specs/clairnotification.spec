@@ -40,7 +40,7 @@
         "create": null,
         "delete": false,
         "description": null,
-        "entity_name": "Clairnotification",
+        "entity_name": "ClairNotification",
         "extends": [
             "@base",
             "@identifiable-pk-stored"
