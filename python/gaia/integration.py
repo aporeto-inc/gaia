@@ -41,6 +41,7 @@ class Integration(RESTObject):
         self._server = None
         self._ssl = None
         self._status = None
+        self._type = None
         self._updatedat = None
         
         self.expose_attribute(local_name="ID", remote_name="ID")
@@ -56,6 +57,7 @@ class Integration(RESTObject):
         self.expose_attribute(local_name="server", remote_name="server")
         self.expose_attribute(local_name="ssl", remote_name="ssl")
         self.expose_attribute(local_name="status", remote_name="status")
+        self.expose_attribute(local_name="type", remote_name="type")
         self.expose_attribute(local_name="updatedAt", remote_name="updatedAt")
 
         self._compute_args(**kwargs)
@@ -366,6 +368,28 @@ class Integration(RESTObject):
         self._status = value
     
     @property
+    def type(self):
+        """ Get type value.
+
+          Notes:
+              Type refers to type of the server
+
+              
+        """
+        return self._type
+
+    @type.setter
+    def type(self, value):
+        """ Set type value.
+
+          Notes:
+              Type refers to type of the server
+
+              
+        """
+        self._type = value
+    
+    @property
     def updatedAt(self):
         """ Get updatedAt value.
 
@@ -393,6 +417,11 @@ class Integration(RESTObject):
         errors = []
 
         err = validate_string_in_list("ssl", self.ssl, ["Disabled", "Enabled"], false)
+
+        if err:
+            errors.append(err)
+
+        err = validate_string_in_list("type", self.type, ["Registry", "VulnerabilityScanner"], false)
 
         if err:
             errors.append(err)
