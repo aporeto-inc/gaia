@@ -17,6 +17,17 @@ const (
 	IntegrationSslEnabled IntegrationSslValue = "Enabled"
 )
 
+// IntegrationTypeValue represents the possible values for attribute "type".
+type IntegrationTypeValue string
+
+const (
+	// IntegrationTypeRegistry represents the value Registry.
+	IntegrationTypeRegistry IntegrationTypeValue = "Registry"
+
+	// IntegrationTypeVulnerabilityscanner represents the value VulnerabilityScanner.
+	IntegrationTypeVulnerabilityscanner IntegrationTypeValue = "VulnerabilityScanner"
+)
+
 // IntegrationIdentity represents the Identity of the object
 var IntegrationIdentity = elemental.Identity{
 	Name:     "integration",
@@ -66,6 +77,9 @@ type Integration struct {
 
 	// Status of an entity
 	Status constants.EntityStatus `json:"status" cql:"status,omitempty"`
+
+	// Type refers to type of the server
+	Type IntegrationTypeValue `json:"type" cql:"type,omitempty"`
 
 	// UpdatedAt is the time at which an entity was updated.
 	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty"`
@@ -178,6 +192,10 @@ func (o *Integration) Validate() elemental.Errors {
 	errors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("ssl", string(o.Ssl), []string{"Disabled", "Enabled"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Registry", "VulnerabilityScanner"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -348,6 +366,15 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "status_enum",
 		Type:           "external",
+	},
+	"Type": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Registry", "VulnerabilityScanner"},
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "type",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
 	},
 	"UpdatedAt": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
