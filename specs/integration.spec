@@ -148,7 +148,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": null,
+            "description": "Type refers to type of the server",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
