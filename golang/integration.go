@@ -6,28 +6,28 @@ import "github.com/aporeto-inc/elemental"
 import "time"
 import "github.com/aporeto-inc/gaia/golang/constants"
 
-// ServiceSslValue represents the possible values for attribute "ssl".
-type ServiceSslValue string
+// IntegrationSslValue represents the possible values for attribute "ssl".
+type IntegrationSslValue string
 
 const (
-	// ServiceSslDisabled represents the value Disabled.
-	ServiceSslDisabled ServiceSslValue = "Disabled"
+	// IntegrationSslDisabled represents the value Disabled.
+	IntegrationSslDisabled IntegrationSslValue = "Disabled"
 
-	// ServiceSslEnabled represents the value Enabled.
-	ServiceSslEnabled ServiceSslValue = "Enabled"
+	// IntegrationSslEnabled represents the value Enabled.
+	IntegrationSslEnabled IntegrationSslValue = "Enabled"
 )
 
-// ServiceIdentity represents the Identity of the object
-var ServiceIdentity = elemental.Identity{
-	Name:     "service",
-	Category: "services",
+// IntegrationIdentity represents the Identity of the object
+var IntegrationIdentity = elemental.Identity{
+	Name:     "integration",
+	Category: "integrations",
 }
 
-// ServicesList represents a list of Services
-type ServicesList []*Service
+// IntegrationsList represents a list of Integrations
+type IntegrationsList []*Integration
 
-// Service represents the model of a service
-type Service struct {
+// Integration represents the model of a integration
+type Integration struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" cql:"id,omitempty"`
 
@@ -62,7 +62,7 @@ type Service struct {
 	Server string `json:"server" cql:"server,primarykey,omitempty"`
 
 	// SSL defines if the service is either secured or unsecured
-	Ssl ServiceSslValue `json:"ssl" cql:"ssl,omitempty"`
+	Ssl IntegrationSslValue `json:"ssl" cql:"ssl,omitempty"`
 
 	// Status of an entity
 	Status constants.EntityStatus `json:"status" cql:"status,omitempty"`
@@ -71,109 +71,109 @@ type Service struct {
 	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty"`
 }
 
-// NewService returns a new *Service
-func NewService() *Service {
+// NewIntegration returns a new *Integration
+func NewIntegration() *Integration {
 
-	return &Service{
+	return &Integration{
 		Status: constants.Active,
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *Service) Identity() elemental.Identity {
+func (o *Integration) Identity() elemental.Identity {
 
-	return ServiceIdentity
+	return IntegrationIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *Service) Identifier() string {
+func (o *Integration) Identifier() string {
 
 	return o.ID
 }
 
-func (o *Service) String() string {
+func (o *Integration) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *Service) SetIdentifier(ID string) {
+func (o *Integration) SetIdentifier(ID string) {
 
 	o.ID = ID
 }
 
 // GetAssociatedTags returns the associatedTags of the receiver
-func (o *Service) GetAssociatedTags() []string {
+func (o *Integration) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags set the given associatedTags of the receiver
-func (o *Service) SetAssociatedTags(associatedTags []string) {
+func (o *Integration) SetAssociatedTags(associatedTags []string) {
 	o.AssociatedTags = associatedTags
 }
 
 // SetCreatedAt set the given createdAt of the receiver
-func (o *Service) SetCreatedAt(createdAt time.Time) {
+func (o *Integration) SetCreatedAt(createdAt time.Time) {
 	o.CreatedAt = createdAt
 }
 
 // GetDeleted returns the deleted of the receiver
-func (o *Service) GetDeleted() bool {
+func (o *Integration) GetDeleted() bool {
 	return o.Deleted
 }
 
 // SetDeleted set the given deleted of the receiver
-func (o *Service) SetDeleted(deleted bool) {
+func (o *Integration) SetDeleted(deleted bool) {
 	o.Deleted = deleted
 }
 
 // GetNamespace returns the namespace of the receiver
-func (o *Service) GetNamespace() string {
+func (o *Integration) GetNamespace() string {
 	return o.Namespace
 }
 
 // SetNamespace set the given namespace of the receiver
-func (o *Service) SetNamespace(namespace string) {
+func (o *Integration) SetNamespace(namespace string) {
 	o.Namespace = namespace
 }
 
 // GetParentID returns the parentID of the receiver
-func (o *Service) GetParentID() string {
+func (o *Integration) GetParentID() string {
 	return o.ParentID
 }
 
 // SetParentID set the given parentID of the receiver
-func (o *Service) SetParentID(parentID string) {
+func (o *Integration) SetParentID(parentID string) {
 	o.ParentID = parentID
 }
 
 // GetParentType returns the parentType of the receiver
-func (o *Service) GetParentType() string {
+func (o *Integration) GetParentType() string {
 	return o.ParentType
 }
 
 // SetParentType set the given parentType of the receiver
-func (o *Service) SetParentType(parentType string) {
+func (o *Integration) SetParentType(parentType string) {
 	o.ParentType = parentType
 }
 
 // GetStatus returns the status of the receiver
-func (o *Service) GetStatus() constants.EntityStatus {
+func (o *Integration) GetStatus() constants.EntityStatus {
 	return o.Status
 }
 
 // SetStatus set the given status of the receiver
-func (o *Service) SetStatus(status constants.EntityStatus) {
+func (o *Integration) SetStatus(status constants.EntityStatus) {
 	o.Status = status
 }
 
 // SetUpdatedAt set the given updatedAt of the receiver
-func (o *Service) SetUpdatedAt(updatedAt time.Time) {
+func (o *Integration) SetUpdatedAt(updatedAt time.Time) {
 	o.UpdatedAt = updatedAt
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Service) Validate() elemental.Errors {
+func (o *Integration) Validate() elemental.Errors {
 
 	errors := elemental.Errors{}
 
@@ -189,13 +189,13 @@ func (o *Service) Validate() elemental.Errors {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (o Service) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (o Integration) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	return ServiceAttributesMap[name]
+	return IntegrationAttributesMap[name]
 }
 
-// ServiceAttributesMap represents the map of attribute for Service.
-var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
+// IntegrationAttributesMap represents the map of attribute for Integration.
+var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
