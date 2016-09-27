@@ -160,8 +160,7 @@
         "description": "Integration defines the all the configuration needed to integrate Squall with any 3rd party servers",
         "entity_name": "Integration",
         "extends": [
-            "@base",
-            "@identifiable-nopk-stored"
+            "@base"
         ],
         "get": true,
         "package": "Infrastructure",
