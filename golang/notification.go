@@ -26,7 +26,7 @@ type Notification struct {
 	DeletedAt time.Time `json:"deletedAt" cql:"deletedat,omitempty"`
 
 	// Limit is the number of layers returned in notification
-	Limit int `json:"limit" cql:"limit,omitempty"`
+	LayerLimit int `json:"layerLimit" cql:"layerlimit,omitempty"`
 
 	// Name is the name of the notification
 	Name string `json:"name" cql:"name,omitempty"`
@@ -128,11 +128,11 @@ var NotificationAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "time",
 	},
-	"Limit": elemental.AttributeSpecification{
+	"LayerLimit": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Exposed:        true,
 		Filterable:     true,
-		Name:           "limit",
+		Name:           "layerLimit",
 		Orderable:      true,
 		Stored:         true,
 		Type:           "integer",
