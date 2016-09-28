@@ -416,6 +416,11 @@ class Integration(RESTObject):
         """
         errors = []
 
+        err = validate_required_string("server", self.server)
+
+        if err:
+            errors.append(err)
+
         err = validate_string_in_list("ssl", self.ssl, ["Disabled", "Enabled"], false)
 
         if err:
