@@ -137,8 +137,8 @@ const (
 	// Registry represents the value Registry
 	Registry IntegrationType = "Registry"
 
-	// Vulnerabilityscanner represents the value VulnerabilityScanner
-	Vulnerabilityscanner IntegrationType = "VulnerabilityScanner"
+	// VulnerabilityScanner represents the value VulnerabilityScanner
+	VulnerabilityScanner IntegrationType = "VulnerabilityScanner"
 )
 
 const (
