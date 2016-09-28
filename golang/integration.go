@@ -89,6 +89,7 @@ type Integration struct {
 func NewIntegration() *Integration {
 
 	return &Integration{
+		Ssl:    "Disabled",
 		Status: constants.Active,
 	}
 }
@@ -171,6 +172,11 @@ func (o *Integration) SetParentType(parentType string) {
 	o.ParentType = parentType
 }
 
+// GetServer returns the server of the receiver
+func (o *Integration) GetServer() string {
+	return o.Server
+}
+
 // GetStatus returns the status of the receiver
 func (o *Integration) GetStatus() constants.EntityStatus {
 	return o.Status
@@ -190,6 +196,10 @@ func (o *Integration) SetUpdatedAt(updatedAt time.Time) {
 func (o *Integration) Validate() elemental.Errors {
 
 	errors := elemental.Errors{}
+
+	if err := elemental.ValidateRequiredString("server", o.Server); err != nil {
+		errors = append(errors, err)
+	}
 
 	if err := elemental.ValidateStringInList("ssl", string(o.Ssl), []string{"Disabled", "Enabled"}, false); err != nil {
 		errors = append(errors, err)
@@ -331,6 +341,7 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		Filterable:     true,
 		Name:           "port",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "integer",
 	},
@@ -339,9 +350,11 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
+		Getter:         true,
 		Name:           "server",
 		Orderable:      true,
 		PrimaryKey:     true,
+		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -351,6 +364,7 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		Filterable:     true,
 		Name:           "ssl",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "enum",
 	},
@@ -373,6 +387,7 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		Filterable:     true,
 		Name:           "type",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "enum",
 	},
