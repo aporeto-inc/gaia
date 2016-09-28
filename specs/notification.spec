@@ -89,7 +89,7 @@
             "max_value": null,
             "min_length": null,
             "min_value": null,
-            "name": "limit",
+            "name": "layerLimit",
             "orderable": true,
             "primary_key": null,
             "read_only": null,
