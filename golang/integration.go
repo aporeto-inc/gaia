@@ -6,28 +6,6 @@ import "github.com/aporeto-inc/elemental"
 import "time"
 import "github.com/aporeto-inc/gaia/golang/constants"
 
-// IntegrationSslValue represents the possible values for attribute "ssl".
-type IntegrationSslValue string
-
-const (
-	// IntegrationSslDisabled represents the value Disabled.
-	IntegrationSslDisabled IntegrationSslValue = "Disabled"
-
-	// IntegrationSslEnabled represents the value Enabled.
-	IntegrationSslEnabled IntegrationSslValue = "Enabled"
-)
-
-// IntegrationTypeValue represents the possible values for attribute "type".
-type IntegrationTypeValue string
-
-const (
-	// IntegrationTypeRegistry represents the value Registry.
-	IntegrationTypeRegistry IntegrationTypeValue = "Registry"
-
-	// IntegrationTypeVulnerabilityscanner represents the value VulnerabilityScanner.
-	IntegrationTypeVulnerabilityscanner IntegrationTypeValue = "VulnerabilityScanner"
-)
-
 // IntegrationIdentity represents the Identity of the object
 var IntegrationIdentity = elemental.Identity{
 	Name:     "integration",
@@ -72,14 +50,14 @@ type Integration struct {
 	// Server is either the DNS name or IP of the server that provides the service
 	Server string `json:"server" cql:"server,primarykey,omitempty"`
 
-	// SSL defines if the service is either secured or unsecured
-	Ssl IntegrationSslValue `json:"ssl" cql:"ssl,omitempty"`
+	// SSLEnabled defines if the service is either secured or unsecured
+	SslEnabled bool `json:"sslEnabled" cql:"sslenabled,omitempty"`
 
 	// Status of an entity
 	Status constants.EntityStatus `json:"status" cql:"status,omitempty"`
 
 	// Type refers to type of the server
-	Type IntegrationTypeValue `json:"type" cql:"type,omitempty"`
+	Type constants.IntegrationType `json:"type" cql:"type,omitempty"`
 
 	// UpdatedAt is the time at which an entity was updated.
 	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty"`
@@ -89,7 +67,6 @@ type Integration struct {
 func NewIntegration() *Integration {
 
 	return &Integration{
-		Ssl:    "Disabled",
 		Status: constants.Active,
 	}
 }
@@ -198,14 +175,6 @@ func (o *Integration) Validate() elemental.Errors {
 	errors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("server", o.Server); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateStringInList("ssl", string(o.Ssl), []string{"Disabled", "Enabled"}, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Registry", "VulnerabilityScanner"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -358,15 +327,15 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Ssl": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Disabled", "Enabled"},
+	"SslEnabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
 		Exposed:        true,
 		Filterable:     true,
-		Name:           "ssl",
+		Name:           "sslEnabled",
 		Orderable:      true,
 		Required:       true,
 		Stored:         true,
-		Type:           "enum",
+		Type:           "boolean",
 	},
 	"Status": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -382,14 +351,15 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Registry", "VulnerabilityScanner"},
+		AllowedChoices: []string{},
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "type",
 		Orderable:      true,
 		Required:       true,
 		Stored:         true,
-		Type:           "enum",
+		SubType:        "integration_type",
+		Type:           "external",
 	},
 	"UpdatedAt": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

@@ -39,7 +39,7 @@ class Integration(RESTObject):
         self._parenttype = None
         self._port = None
         self._server = None
-        self._ssl = None
+        self._sslenabled = None
         self._status = None
         self._type = None
         self._updatedat = None
@@ -55,7 +55,7 @@ class Integration(RESTObject):
         self.expose_attribute(local_name="parentType", remote_name="parentType")
         self.expose_attribute(local_name="port", remote_name="port")
         self.expose_attribute(local_name="server", remote_name="server")
-        self.expose_attribute(local_name="ssl", remote_name="ssl")
+        self.expose_attribute(local_name="sslEnabled", remote_name="sslEnabled")
         self.expose_attribute(local_name="status", remote_name="status")
         self.expose_attribute(local_name="type", remote_name="type")
         self.expose_attribute(local_name="updatedAt", remote_name="updatedAt")
@@ -324,26 +324,26 @@ class Integration(RESTObject):
         self._server = value
     
     @property
-    def ssl(self):
-        """ Get ssl value.
+    def sslEnabled(self):
+        """ Get sslEnabled value.
 
           Notes:
-              SSL defines if the service is either secured or unsecured
+              SSLEnabled defines if the service is either secured or unsecured
 
               
         """
-        return self._ssl
+        return self._sslenabled
 
-    @ssl.setter
-    def ssl(self, value):
-        """ Set ssl value.
+    @sslEnabled.setter
+    def sslEnabled(self, value):
+        """ Set sslEnabled value.
 
           Notes:
-              SSL defines if the service is either secured or unsecured
+              SSLEnabled defines if the service is either secured or unsecured
 
               
         """
-        self._ssl = value
+        self._sslenabled = value
     
     @property
     def status(self):
@@ -417,16 +417,6 @@ class Integration(RESTObject):
         errors = []
 
         err = validate_required_string("server", self.server)
-
-        if err:
-            errors.append(err)
-
-        err = validate_string_in_list("ssl", self.ssl, ["Disabled", "Enabled"], false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_string_in_list("type", self.type, ["Registry", "VulnerabilityScanner"], false)
 
         if err:
             errors.append(err)
