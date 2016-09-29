@@ -159,7 +159,7 @@
             "min_value": null,
             "name": "type",
             "orderable": true,
-            "primary_key": null,
+            "primary_key": true,
             "read_only": null,
             "required": true,
             "setter": null,
