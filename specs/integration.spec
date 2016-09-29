@@ -91,7 +91,7 @@
             "min_value": null,
             "name": "server",
             "orderable": true,
-            "primary_key": true,
+            "primary_key": false,
             "read_only": null,
             "required": true,
             "setter": null,
