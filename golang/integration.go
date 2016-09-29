@@ -48,7 +48,7 @@ type Integration struct {
 	Port int `json:"port" cql:"port,omitempty"`
 
 	// Server is either the DNS name or IP of the server that provides the service
-	Server string `json:"server" cql:"server,primarykey,omitempty"`
+	Server string `json:"server" cql:"server,omitempty"`
 
 	// SSLEnabled defines if the service is either secured or unsecured
 	SslEnabled bool `json:"sslEnabled" cql:"sslenabled,omitempty"`
@@ -57,7 +57,7 @@ type Integration struct {
 	Status constants.EntityStatus `json:"status" cql:"status,omitempty"`
 
 	// Type refers to type of the server
-	Type constants.IntegrationType `json:"type" cql:"type,omitempty"`
+	Type constants.IntegrationType `json:"type" cql:"type,primarykey,omitempty"`
 
 	// UpdatedAt is the time at which an entity was updated.
 	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty"`
@@ -322,7 +322,6 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		Getter:         true,
 		Name:           "server",
 		Orderable:      true,
-		PrimaryKey:     true,
 		Required:       true,
 		Stored:         true,
 		Type:           "string",
@@ -356,6 +355,7 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		Filterable:     true,
 		Name:           "type",
 		Orderable:      true,
+		PrimaryKey:     true,
 		Required:       true,
 		Stored:         true,
 		SubType:        "integration_type",
