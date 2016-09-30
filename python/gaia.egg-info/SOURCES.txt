@@ -5,6 +5,8 @@ gaia/__init__.py
 gaia/apiauthorizationpolicy.py
 gaia/authenticator.py
 gaia/certificate.py
+gaia/computeddependencymapview.py
+gaia/computedpolicy.py
 gaia/dependencymap.py
 gaia/dependencymapsubview.py
 gaia/dependencymapview.py
@@ -26,6 +28,7 @@ gaia/policyrule.py
 gaia/processingunit.py
 gaia/renderedpolicy.py
 gaia/root.py
+gaia/routes.py
 gaia/server.py
 gaia/systemcall.py
 gaia/tag.py
@@ -34,5 +37,4 @@ gaia/vulnerability.py
 gaia.egg-info/PKG-INFO
 gaia.egg-info/SOURCES.txt
 gaia.egg-info/dependency_links.txt
-gaia.egg-info/requires.txt
 gaia.egg-info/top_level.txt
