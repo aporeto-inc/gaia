@@ -18,64 +18,64 @@ type APIAuthorizationPoliciesList []*APIAuthorizationPolicy
 // APIAuthorizationPolicy represents the model of a apiauthorizationpolicy
 type APIAuthorizationPolicy struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"-" bson:"-"`
+	ID string `json:"ID" cql:"-"`
 
 	// AllowsDelete defines if DELETE request is authorized.
-	AllowsDelete bool `json:"allowsDelete" cql:"-" bson:"-"`
+	AllowsDelete bool `json:"allowsDelete" cql:"-"`
 
 	// AllowsGet defines if GET request is authorized.
-	AllowsGet bool `json:"allowsGet" cql:"-" bson:"-"`
+	AllowsGet bool `json:"allowsGet" cql:"-"`
 
 	// AllowsHead defines if HEAD request is authorized.
-	AllowsHead bool `json:"allowsHead" cql:"-" bson:"-"`
+	AllowsHead bool `json:"allowsHead" cql:"-"`
 
 	// AllowsPatch defines if PATCH request is authorized.
-	AllowsPatch bool `json:"allowsPatch" cql:"-" bson:"-"`
+	AllowsPatch bool `json:"allowsPatch" cql:"-"`
 
 	// AllowsPost defines if POST request is authorized.
-	AllowsPost bool `json:"allowsPost" cql:"-" bson:"-"`
+	AllowsPost bool `json:"allowsPost" cql:"-"`
 
 	// AllowsPut defines if PUT request is authorized.
-	AllowsPut bool `json:"allowsPut" cql:"-" bson:"-"`
+	AllowsPut bool `json:"allowsPut" cql:"-"`
 
 	// Annotation stores additional information about an entity
-	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty" bson:"annotation"`
+	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity
-	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty" bson:"associatedtags"`
+	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty"`
 
 	// CreatedAt is the time at which an entity was created
-	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty" bson:"createdat"`
+	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty"`
 
 	// Deleted marks if the entity has been deleted.
-	Deleted bool `json:"-" cql:"deleted,omitempty" bson:"deleted"`
+	Deleted bool `json:"-" cql:"deleted,omitempty"`
 
 	// Description is the description of the object.
-	Description string `json:"description" cql:"description,omitempty" bson:"description"`
+	Description string `json:"description" cql:"description,omitempty"`
 
 	// Name is the name of the entity
-	Name string `json:"name" cql:"name,omitempty" bson:"name"`
+	Name string `json:"name" cql:"name,omitempty"`
 
 	// Namespace tag attached to an entity
-	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"_namespace"`
+	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty"`
 
 	// Object is the object.
-	Object [][]string `json:"object" cql:"-" bson:"-"`
+	Object [][]string `json:"object" cql:"-"`
 
 	// ParentID is the ID of the parent, if any,
-	ParentID string `json:"parentID" cql:"parentid,omitempty" bson:"parentid"`
+	ParentID string `json:"parentID" cql:"parentid,omitempty"`
 
 	// ParentType is the type of the parent, if any. It will be set to the parent's Identity.Name.
-	ParentType string `json:"parentType" cql:"parenttype,omitempty" bson:"parenttype"`
+	ParentType string `json:"parentType" cql:"parenttype,omitempty"`
 
 	// Status of an entity
-	Status constants.EntityStatus `json:"status" cql:"status,omitempty" bson:"status"`
+	Status constants.EntityStatus `json:"status" cql:"status,omitempty"`
 
 	// Subject is the subject.
-	Subject [][]string `json:"subject" cql:"-" bson:"-"`
+	Subject [][]string `json:"subject" cql:"-"`
 
 	// UpdatedAt is the time at which an entity was updated.
-	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty" bson:"updatedat"`
+	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty"`
 }
 
 // NewAPIAuthorizationPolicy returns a new *APIAuthorizationPolicy

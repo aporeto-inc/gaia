@@ -48,34 +48,34 @@ type FlowStatisticsList []*FlowStatistic
 // FlowStatistic represents the model of a flowstatistic
 type FlowStatistic struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"-" bson:"-"`
+	ID string `json:"ID" cql:"-"`
 
 	// DataPoints is a list of time/value pairs that represent the flow events over time.
-	DataPoints []map[string]interface{} `json:"dataPoints" cql:"-" bson:"-"`
+	DataPoints []map[string]interface{} `json:"dataPoints" cql:"-"`
 
 	// DestinationID is the ID of the destination.
-	DestinationID string `json:"destinationID" cql:"-" bson:"-"`
+	DestinationID string `json:"destinationID" cql:"-"`
 
 	// DestinationTags contains the tags used to identify destination
-	DestinationTags map[string]string `json:"destinationTags" cql:"-" bson:"-"`
+	DestinationTags map[string]string `json:"destinationTags" cql:"-"`
 
 	// Metric is the kind of metric the statistic represents.
-	Metric FlowStatisticMetricValue `json:"metric" cql:"-" bson:"-"`
+	Metric FlowStatisticMetricValue `json:"metric" cql:"-"`
 
 	// Mode defines if the metric is for accepted or rejected flows.
-	Mode FlowStatisticModeValue `json:"mode" cql:"-" bson:"-"`
+	Mode FlowStatisticModeValue `json:"mode" cql:"-"`
 
 	// SourceID is the source of the stats.
-	SourceID string `json:"sourceID" cql:"-" bson:"-"`
+	SourceID string `json:"sourceID" cql:"-"`
 
 	// SourceTags contains the tags used to identify the source.
-	SourceTags map[string]string `json:"sourceTags" cql:"-" bson:"-"`
+	SourceTags map[string]string `json:"sourceTags" cql:"-"`
 
 	// Type is the type of represenation
-	Type FlowStatisticTypeValue `json:"type" cql:"-" bson:"-"`
+	Type FlowStatisticTypeValue `json:"type" cql:"-"`
 
 	// UserIdentifier can be set by the user as a query parameter. It will be returned in the FlowStatistic object.
-	UserIdentifier string `json:"userIdentifier" cql:"-" bson:"-"`
+	UserIdentifier string `json:"userIdentifier" cql:"-"`
 }
 
 // NewFlowStatistic returns a new *FlowStatistic

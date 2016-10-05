@@ -18,46 +18,46 @@ type LayersList []*Layer
 // Layer represents the model of a layer
 type Layer struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"id,omitempty" bson:"id"`
+	ID string `json:"ID" cql:"id,omitempty"`
 
 	// Vulnerability defines the overall vulnerability level of a layer
-	Vulnerability constants.Vulnerability `json:"Vulnerability" cql:"vulnerability,omitempty" bson:"vulnerability"`
+	Vulnerability constants.Vulnerability `json:"Vulnerability" cql:"vulnerability,omitempty"`
 
 	// Annotation stores additional information about an entity
-	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty" bson:"annotation"`
+	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity
-	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty" bson:"associatedtags"`
+	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty"`
 
 	// CreatedAt is the time at which an entity was created
-	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty" bson:"createdat"`
+	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty"`
 
 	// Deleted marks if the entity has been deleted.
-	Deleted bool `json:"-" cql:"deleted,omitempty" bson:"deleted"`
+	Deleted bool `json:"-" cql:"deleted,omitempty"`
 
 	// Name is the name of the entity
-	Name string `json:"name" cql:"name,primarykey,omitempty" bson:"_name"`
+	Name string `json:"name" cql:"name,primarykey,omitempty"`
 
 	// Namespace tag attached to an entity
-	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"_namespace"`
+	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty"`
 
 	// NamespaceName is the name of the namespace
-	NamespaceName string `json:"namespaceName" cql:"namespacename,omitempty" bson:"namespacename"`
+	NamespaceName string `json:"namespaceName" cql:"namespacename,omitempty"`
 
 	// ParentID is the ID of the parent, if any,
-	ParentID string `json:"parentID" cql:"parentid,omitempty" bson:"parentid"`
+	ParentID string `json:"parentID" cql:"parentid,omitempty"`
 
 	// ParentName is the name of parent layer
-	ParentName string `json:"parentName" cql:"parentname,omitempty" bson:"parentname"`
+	ParentName string `json:"parentName" cql:"parentname,omitempty"`
 
 	// ParentType is the type of the parent, if any. It will be set to the parent's Identity.Name.
-	ParentType string `json:"parentType" cql:"parenttype,omitempty" bson:"parenttype"`
+	ParentType string `json:"parentType" cql:"parenttype,omitempty"`
 
 	// Status of an entity
-	Status constants.EntityStatus `json:"status" cql:"status,omitempty" bson:"status"`
+	Status constants.EntityStatus `json:"status" cql:"status,omitempty"`
 
 	// UpdatedAt is the time at which an entity was updated.
-	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty" bson:"updatedat"`
+	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty"`
 }
 
 // NewLayer returns a new *Layer

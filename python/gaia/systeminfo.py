@@ -54,14 +54,12 @@ class SystemInfo(RESTObject):
     def identifier(self):
         """ Identifier returns the value of the object's unique identifier.
         """
-        return ""
-        
+        return self.
 
     def setIdentifier(self, ID):
         """ SetIdentifier sets the value of the object's unique identifier.
         """
-        pass
-        
+        self. = ID
 
     def identity(self):
         """ Identity returns the Identity of the object.

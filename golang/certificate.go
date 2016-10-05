@@ -18,49 +18,49 @@ type CertificatesList []*Certificate
 // Certificate represents the model of a certificate
 type Certificate struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"id,primarykey,omitempty" bson:"_id"`
+	ID string `json:"ID" cql:"id,primarykey,omitempty"`
 
 	// Annotation stores additional information about an entity
-	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty" bson:"annotation"`
+	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity
-	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty" bson:"associatedtags"`
+	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty"`
 
 	// Certificate for the user
-	Certificate string `json:"certificate" cql:"certificate,omitempty" bson:"certificate"`
+	Certificate string `json:"certificate" cql:"certificate,omitempty"`
 
 	// CreatedAt is the time at which an entity was created
-	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty" bson:"createdat"`
+	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty"`
 
 	// Deleted marks if the entity has been deleted.
-	Deleted bool `json:"-" cql:"deleted,omitempty" bson:"deleted"`
+	Deleted bool `json:"-" cql:"deleted,omitempty"`
 
 	// Description is the description of the object.
-	Description string `json:"description" cql:"description,omitempty" bson:"description"`
+	Description string `json:"description" cql:"description,omitempty"`
 
 	// ExpirationDate is the date that the certificate must expire.
-	ExpirationDate time.Time `json:"expirationDate" cql:"expirationdate,omitempty" bson:"expirationdate"`
+	ExpirationDate time.Time `json:"expirationDate" cql:"expirationdate,omitempty"`
 
 	// Key generated for the user
-	Key string `json:"key" cql:"-" bson:"-"`
+	Key string `json:"key" cql:"-"`
 
 	// Name is the name of the entity
-	Name string `json:"name" cql:"name,omitempty" bson:"name"`
+	Name string `json:"name" cql:"name,omitempty"`
 
 	// Namespace tag attached to an entity
-	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"_namespace"`
+	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty"`
 
 	// ParentID is the ID of the parent, if any,
-	ParentID string `json:"parentID" cql:"parentid,omitempty" bson:"parentid"`
+	ParentID string `json:"parentID" cql:"parentid,omitempty"`
 
 	// ParentType is the type of the parent, if any. It will be set to the parent's Identity.Name.
-	ParentType string `json:"parentType" cql:"parenttype,omitempty" bson:"parenttype"`
+	ParentType string `json:"parentType" cql:"parenttype,omitempty"`
 
 	// Status of an entity
-	Status constants.EntityStatus `json:"status" cql:"status,omitempty" bson:"status"`
+	Status constants.EntityStatus `json:"status" cql:"status,omitempty"`
 
 	// UpdatedAt is the time at which an entity was updated.
-	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty" bson:"updatedat"`
+	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty"`
 }
 
 // NewCertificate returns a new *Certificate

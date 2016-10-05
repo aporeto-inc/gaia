@@ -15,16 +15,16 @@ type RenderedPoliciesList []*RenderedPolicy
 // RenderedPolicy represents the model of a renderedpolicy
 type RenderedPolicy struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"-" bson:"-"`
+	ID string `json:"ID" cql:"-"`
 
 	// EgressPolicies lists all the egress policies attached to ProcessingUnit
-	EgressPolicies map[string]PolicyRulesList `json:"egressPolicies" cql:"-" bson:"-"`
+	EgressPolicies map[string]PolicyRulesList `json:"egressPolicies" cql:"-"`
 
 	// IngressPolicies lists all the ingress policies attached to ProcessingUnit
-	IngressPolicies map[string]PolicyRulesList `json:"ingressPolicies" cql:"-" bson:"-"`
+	IngressPolicies map[string]PolicyRulesList `json:"ingressPolicies" cql:"-"`
 
 	// Identifier of the ProcessingUnit
-	ProcessingUnitID string `json:"processingUnitID" cql:"-" bson:"-"`
+	ProcessingUnitID string `json:"processingUnitID" cql:"-"`
 }
 
 // NewRenderedPolicy returns a new *RenderedPolicy

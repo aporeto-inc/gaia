@@ -2,12 +2,13 @@
 
 
 
-__all__ = ['APIAuthorizationPolicy', 'Authenticator', 'Certificate', 'ClairNotification', 'ComputedDependencyMapView', 'ComputedPolicy', 'DependencyMap', 'DependencyMapSubview', 'DependencyMapView', 'ExternalService', 'FileAccessPolicy', 'FilePath', 'FlowStatistic', 'Image', 'Integration', 'Layer', 'MapEdge', 'MapNode', 'MyNamespace', 'Namespace', 'NamespaceMappingPolicy', 'NetworkAccessPolicy', 'Notification', 'Policy', 'PolicyRule', 'ProcessingUnit', 'RenderedPolicy', 'Root', 'Server', 'SystemCall', 'SystemInfo', 'Tag', 'User', 'Vulnerability', 'VulnerabilityWithLayers', 'routes']
+__all__ = ['APIAuthorizationPolicy', 'Authenticator', 'Certificate', 'ClairNotification', 'ClairVulnerability', 'ComputedDependencyMapView', 'ComputedPolicy', 'DependencyMap', 'DependencyMapSubview', 'DependencyMapView', 'ExternalService', 'FileAccessPolicy', 'FilePath', 'FlowStatistic', 'Image', 'Integration', 'Layer', 'MapEdge', 'MapNode', 'MyNamespace', 'Namespace', 'NamespaceMappingPolicy', 'NetworkAccessPolicy', 'Notification', 'Policy', 'PolicyRule', 'ProcessingUnit', 'RenderedPolicy', 'Root', 'Server', 'SystemCall', 'SystemInfo', 'Tag', 'User', 'Vulnerability', 'VulnerabilityFixedIn', 'VulnerabilityWithLayers', 'routes']
 
 from .apiauthorizationpolicy import APIAuthorizationPolicy
 from .authenticator import Authenticator
 from .certificate import Certificate
 from .clairnotification import ClairNotification
+from .clairvulnerability import ClairVulnerability
 from .computeddependencymapview import ComputedDependencyMapView
 from .computedpolicy import ComputedPolicy
 from .dependencymap import DependencyMap
@@ -38,5 +39,6 @@ from .systeminfo import SystemInfo
 from .tag import Tag
 from .user import User
 from .vulnerability import Vulnerability
+from .vulnerabilityfixedin import VulnerabilityFixedIn
 from .vulnerabilitywithlayers import VulnerabilityWithLayers
 from .routes import routes

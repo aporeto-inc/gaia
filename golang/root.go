@@ -12,7 +12,7 @@ var RootIdentity = elemental.Identity{
 // Root represents the model of a root
 type Root struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"-" bson:"-"`
+	ID string `json:"ID" cql:"-"`
 
 	Token        string `json:"APIKey,omitempty"`
 	Organization string `json:"enterprise,omitempty"`

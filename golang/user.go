@@ -18,49 +18,49 @@ type UsersList []*User
 // User represents the model of a user
 type User struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"id,primarykey,omitempty" bson:"_id"`
+	ID string `json:"ID" cql:"id,primarykey,omitempty"`
 
 	// Annotation stores additional information about an entity
-	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty" bson:"annotation"`
+	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity
-	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty" bson:"associatedtags"`
+	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty"`
 
 	// CreatedAt is the time at which an entity was created
-	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty" bson:"createdat"`
+	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty"`
 
 	// Deleted marks if the entity has been deleted.
-	Deleted bool `json:"-" cql:"deleted,omitempty" bson:"deleted"`
+	Deleted bool `json:"-" cql:"deleted,omitempty"`
 
 	// e-mail address of the user
-	Email string `json:"email" cql:"email,omitempty" bson:"email"`
+	Email string `json:"email" cql:"email,omitempty"`
 
 	// Name is the name of the entity
-	Name string `json:"name" cql:"name,omitempty" bson:"name"`
+	Name string `json:"name" cql:"name,omitempty"`
 
 	// Namespace tag attached to an entity
-	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"_namespace"`
+	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty"`
 
 	// ParentAuthenticator is an Internal attribute that points to the parent authenticator.
-	ParentAuthenticator string `json:"-" cql:"parentauthenticator,primarykey,omitempty" bson:"_parentauthenticator"`
+	ParentAuthenticator string `json:"-" cql:"parentauthenticator,primarykey,omitempty"`
 
 	// ParentID is the ID of the parent, if any,
-	ParentID string `json:"parentID" cql:"parentid,omitempty" bson:"parentid"`
+	ParentID string `json:"parentID" cql:"parentid,omitempty"`
 
 	// ParentType is the type of the parent, if any. It will be set to the parent's Identity.Name.
-	ParentType string `json:"parentType" cql:"parenttype,omitempty" bson:"parenttype"`
+	ParentType string `json:"parentType" cql:"parenttype,omitempty"`
 
 	// Status of an entity
-	Status constants.EntityStatus `json:"status" cql:"status,omitempty" bson:"status"`
+	Status constants.EntityStatus `json:"status" cql:"status,omitempty"`
 
 	// OU attribute for the generated certificates
-	SubOrganizations []string `json:"subOrganizations" cql:"suborganizations,omitempty" bson:"suborganizations"`
+	SubOrganizations []string `json:"subOrganizations" cql:"suborganizations,omitempty"`
 
 	// UpdatedAt is the time at which an entity was updated.
-	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty" bson:"updatedat"`
+	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty"`
 
 	// CommonName (CN) for the user certificate
-	UserName string `json:"userName" cql:"username,omitempty" bson:"username"`
+	UserName string `json:"userName" cql:"username,omitempty"`
 }
 
 // NewUser returns a new *User

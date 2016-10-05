@@ -15,28 +15,28 @@ type PolicyRulesList []*PolicyRule
 // PolicyRule represents the model of a policyrule
 type PolicyRule struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"-" bson:"-"`
+	ID string `json:"ID" cql:"-"`
 
 	// Action defines set of actions that must be enforced when a dependency is met.
-	Action map[string]map[string]string `json:"action" cql:"action,omitempty" bson:"action"`
+	Action map[string]map[string]string `json:"action" cql:"action,omitempty"`
 
 	// Policy target networks
-	Files FilePathsList `json:"files" cql:"files,omitempty" bson:"files"`
+	Files FilePathsList `json:"files" cql:"files,omitempty"`
 
 	// Policy target networks
-	Namespaces NamespacesList `json:"namespaces" cql:"namespaces,omitempty" bson:"namespaces"`
+	Namespaces NamespacesList `json:"namespaces" cql:"namespaces,omitempty"`
 
 	// Policy target networks
-	Networks ExternalServicesList `json:"networks" cql:"networks,omitempty" bson:"networks"`
+	Networks ExternalServicesList `json:"networks" cql:"networks,omitempty"`
 
 	// Relation describes the required operation to be performed between subjects and objects
-	Relation []string `json:"relation" cql:"relation,omitempty" bson:"relation"`
+	Relation []string `json:"relation" cql:"relation,omitempty"`
 
 	// Policy target networks
-	Syscalls SystemCallsList `json:"syscalls" cql:"syscalls,omitempty" bson:"syscalls"`
+	Syscalls SystemCallsList `json:"syscalls" cql:"syscalls,omitempty"`
 
 	// Policy target tags
-	Tagclauses [][]string `json:"tagclauses" cql:"tagclauses,omitempty" bson:"tagclauses"`
+	Tagclauses [][]string `json:"tagclauses" cql:"tagclauses,omitempty"`
 }
 
 // NewPolicyRule returns a new *PolicyRule
