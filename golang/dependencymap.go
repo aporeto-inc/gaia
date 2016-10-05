@@ -15,16 +15,16 @@ type DependencyMapsList []*DependencyMap
 // DependencyMap represents the model of a dependencymap
 type DependencyMap struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"-"`
+	ID string `json:"ID" cql:"-" bson:"-"`
 
 	// edges are the edges of the map
-	Edges map[string]*MapEdge `json:"edges" cql:"-"`
+	Edges map[string]*MapEdge `json:"edges" cql:"-" bson:"-"`
 
 	// Groups provide information about the group values
-	Groups map[string]map[string]string `json:"groups" cql:"-"`
+	Groups map[string]map[string]string `json:"groups" cql:"-" bson:"-"`
 
 	// nodes refers to the nodes of the map
-	Nodes map[string]*MapNode `json:"nodes" cql:"-"`
+	Nodes map[string]*MapNode `json:"nodes" cql:"-" bson:"-"`
 }
 
 // NewDependencyMap returns a new *DependencyMap

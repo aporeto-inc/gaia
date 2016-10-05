@@ -15,10 +15,10 @@ type ComputedPoliciesList []*ComputedPolicy
 // ComputedPolicy represents the model of a computedpolicy
 type ComputedPolicy struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"-"`
+	ID string `json:"ID" cql:"-" bson:"-"`
 
 	// Array of netowrk access policies computed
-	NetworkAccessPolicies []*NetworkAccessPolicy `json:"networkAccessPolicies" cql:"networkaccesspolicies,omitempty"`
+	NetworkAccessPolicies []*NetworkAccessPolicy `json:"networkAccessPolicies" cql:"networkaccesspolicies,omitempty" bson:"networkaccesspolicies"`
 }
 
 // NewComputedPolicy returns a new *ComputedPolicy

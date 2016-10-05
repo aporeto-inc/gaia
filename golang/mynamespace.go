@@ -15,10 +15,10 @@ type MyNamespacesList []*MyNamespace
 // MyNamespace represents the model of a mynamespace
 type MyNamespace struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"-"`
+	ID string `json:"ID" cql:"-" bson:"-"`
 
 	// List of namespaces that an user is authorized to use
-	Namespaces []interface{} `json:"namespaces" cql:"-"`
+	Namespaces []interface{} `json:"namespaces" cql:"-" bson:"-"`
 }
 
 // NewMyNamespace returns a new *MyNamespace

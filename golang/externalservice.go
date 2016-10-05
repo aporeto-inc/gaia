@@ -18,49 +18,49 @@ type ExternalServicesList []*ExternalService
 // ExternalService represents the model of a externalservice
 type ExternalService struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"id,primarykey,omitempty"`
+	ID string `json:"ID" cql:"id,primarykey,omitempty" bson:"_id"`
 
 	// Annotation stores additional information about an entity
-	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty"`
+	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty" bson:"annotation"`
 
 	// AssociatedTags are the list of tags attached to an entity
-	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty"`
+	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty" bson:"associatedtags"`
 
 	// CreatedAt is the time at which an entity was created
-	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty"`
+	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty" bson:"createdat"`
 
 	// Deleted marks if the entity has been deleted.
-	Deleted bool `json:"-" cql:"deleted,omitempty"`
+	Deleted bool `json:"-" cql:"deleted,omitempty" bson:"deleted"`
 
 	// Description is the description of the object.
-	Description string `json:"description" cql:"description,omitempty"`
+	Description string `json:"description" cql:"description,omitempty" bson:"description"`
 
 	// Name is the name of the entity
-	Name string `json:"name" cql:"name,omitempty"`
+	Name string `json:"name" cql:"name,omitempty" bson:"name"`
 
 	// Namespace tag attached to an entity
-	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty"`
+	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"_namespace"`
 
 	// Network refers to either CIDR or domain name
-	Network string `json:"network" cql:"network,omitempty"`
+	Network string `json:"network" cql:"network,omitempty" bson:"network"`
 
 	// ParentID is the ID of the parent, if any,
-	ParentID string `json:"parentID" cql:"parentid,omitempty"`
+	ParentID string `json:"parentID" cql:"parentid,omitempty" bson:"parentid"`
 
 	// ParentType is the type of the parent, if any. It will be set to the parent's Identity.Name.
-	ParentType string `json:"parentType" cql:"parenttype,omitempty"`
+	ParentType string `json:"parentType" cql:"parenttype,omitempty" bson:"parenttype"`
 
 	// Port refers to network port which could be 100-2000 or * to represent all ports
-	Port string `json:"port" cql:"port,omitempty"`
+	Port string `json:"port" cql:"port,omitempty" bson:"port"`
 
 	// Protocol refers to network protocol like TCP/UDP etc or * to represent all protocols
-	Protocol string `json:"protocol" cql:"protocol,omitempty"`
+	Protocol string `json:"protocol" cql:"protocol,omitempty" bson:"protocol"`
 
 	// Status of an entity
-	Status constants.EntityStatus `json:"status" cql:"status,omitempty"`
+	Status constants.EntityStatus `json:"status" cql:"status,omitempty" bson:"status"`
 
 	// UpdatedAt is the time at which an entity was updated.
-	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty"`
+	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty" bson:"updatedat"`
 }
 
 // NewExternalService returns a new *ExternalService

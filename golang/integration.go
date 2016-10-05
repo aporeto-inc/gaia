@@ -29,49 +29,49 @@ type IntegrationsList []*Integration
 // Integration represents the model of a integration
 type Integration struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"id,primarykey,omitempty"`
+	ID string `json:"ID" cql:"id,primarykey,omitempty" bson:"_id"`
 
 	// Annotation stores additional information about an entity
-	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty"`
+	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty" bson:"annotation"`
 
 	// AssociatedTags are the list of tags attached to an entity
-	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty"`
+	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty" bson:"associatedtags"`
 
 	// CreatedAt is the time at which an entity was created
-	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty"`
+	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty" bson:"createdat"`
 
 	// Deleted marks if the entity has been deleted.
-	Deleted bool `json:"-" cql:"deleted,omitempty"`
+	Deleted bool `json:"-" cql:"deleted,omitempty" bson:"deleted"`
 
 	// Endpoint is the API end point of the service
-	Endpoint string `json:"endpoint" cql:"endpoint,omitempty"`
+	Endpoint string `json:"endpoint" cql:"endpoint,omitempty" bson:"endpoint"`
 
 	// Namespace tag attached to an entity
-	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty"`
+	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"_namespace"`
 
 	// ParentID is the ID of the parent, if any,
-	ParentID string `json:"parentID" cql:"parentid,omitempty"`
+	ParentID string `json:"parentID" cql:"parentid,omitempty" bson:"parentid"`
 
 	// ParentType is the type of the parent, if any. It will be set to the parent's Identity.Name.
-	ParentType string `json:"parentType" cql:"parenttype,omitempty"`
+	ParentType string `json:"parentType" cql:"parenttype,omitempty" bson:"parenttype"`
 
 	// Port is the port number of the service
-	Port int `json:"port" cql:"port,omitempty"`
+	Port int `json:"port" cql:"port,omitempty" bson:"port"`
 
 	// Server is either the DNS name or IP of the server that provides the service
-	Server string `json:"server" cql:"server,omitempty"`
+	Server string `json:"server" cql:"server,omitempty" bson:"server"`
 
 	// SSLEnabled defines if the service is either secured or unsecured
-	SslEnabled bool `json:"sslEnabled" cql:"sslenabled,omitempty"`
+	SslEnabled bool `json:"sslEnabled" cql:"sslenabled,omitempty" bson:"sslenabled"`
 
 	// Status of an entity
-	Status constants.EntityStatus `json:"status" cql:"status,omitempty"`
+	Status constants.EntityStatus `json:"status" cql:"status,omitempty" bson:"status"`
 
 	// Type refers to type of the server
-	Type IntegrationTypeValue `json:"type" cql:"type,omitempty"`
+	Type IntegrationTypeValue `json:"type" cql:"type,omitempty" bson:"type"`
 
 	// UpdatedAt is the time at which an entity was updated.
-	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty"`
+	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty" bson:"updatedat"`
 }
 
 // NewIntegration returns a new *Integration

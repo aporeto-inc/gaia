@@ -40,12 +40,16 @@ class Root(RESTObject):
     def identifier(self):
         """ Identifier returns the value of the object's unique identifier.
         """
+        
         return self.ID
+        
 
     def setIdentifier(self, ID):
         """ SetIdentifier sets the value of the object's unique identifier.
         """
+        
         self.ID = ID
+        
 
     def identity(self):
         """ Identity returns the Identity of the object.

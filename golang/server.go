@@ -46,52 +46,52 @@ type ServersList []*Server
 // Server represents the model of a server
 type Server struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"id,primarykey,omitempty"`
+	ID string `json:"ID" cql:"id,primarykey,omitempty" bson:"_id"`
 
 	// Address provides the current IP address of the server after its initialized.
-	Address string `json:"address" cql:"address,omitempty"`
+	Address string `json:"address" cql:"address,omitempty" bson:"address"`
 
 	// Annotation stores additional information about an entity
-	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty"`
+	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty" bson:"annotation"`
 
 	// AssociatedTags are the list of tags attached to an entity
-	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty"`
+	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty" bson:"associatedtags"`
 
 	// CreatedAt is the time at which an entity was created
-	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty"`
+	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty" bson:"createdat"`
 
 	// Deleted marks if the entity has been deleted.
-	Deleted bool `json:"-" cql:"deleted,omitempty"`
+	Deleted bool `json:"-" cql:"deleted,omitempty" bson:"deleted"`
 
 	// Description is the description of the object.
-	Description string `json:"description" cql:"description,omitempty"`
+	Description string `json:"description" cql:"description,omitempty" bson:"description"`
 
 	// Domain refers to the discovered domain name of the server
-	Domain string `json:"domain" cql:"domain,omitempty"`
+	Domain string `json:"domain" cql:"domain,omitempty" bson:"domain"`
 
 	// Environment describes where the server will be running.
-	Environment ServerEnvironmentValue `json:"environment" cql:"environment,omitempty"`
+	Environment ServerEnvironmentValue `json:"environment" cql:"environment,omitempty" bson:"environment"`
 
 	// Name is the name of the entity
-	Name string `json:"name" cql:"name,omitempty"`
+	Name string `json:"name" cql:"name,omitempty" bson:"name"`
 
 	// Namespace tag attached to an entity
-	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty"`
+	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"_namespace"`
 
 	// Operational status of the server
-	OperationalStatus ServerOperationalStatusValue `json:"operationalStatus" cql:"operationalstatus,omitempty"`
+	OperationalStatus ServerOperationalStatusValue `json:"operationalStatus" cql:"operationalstatus,omitempty" bson:"operationalstatus"`
 
 	// ParentID is the ID of the parent, if any,
-	ParentID string `json:"parentID" cql:"parentid,omitempty"`
+	ParentID string `json:"parentID" cql:"parentid,omitempty" bson:"parentid"`
 
 	// ParentType is the type of the parent, if any. It will be set to the parent's Identity.Name.
-	ParentType string `json:"parentType" cql:"parenttype,omitempty"`
+	ParentType string `json:"parentType" cql:"parenttype,omitempty" bson:"parenttype"`
 
 	// Status of an entity
-	Status constants.EntityStatus `json:"status" cql:"status,omitempty"`
+	Status constants.EntityStatus `json:"status" cql:"status,omitempty" bson:"status"`
 
 	// UpdatedAt is the time at which an entity was updated.
-	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty"`
+	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty" bson:"updatedat"`
 }
 
 // NewServer returns a new *Server

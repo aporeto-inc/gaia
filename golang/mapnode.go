@@ -26,16 +26,16 @@ type MapNodesList []*MapNode
 // MapNode represents the model of a mapnode
 type MapNode struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"-"`
+	ID string `json:"ID" cql:"-" bson:"-"`
 
 	// Groups for organizing resources
-	Groups []string `json:"groups" cql:"-"`
+	Groups []string `json:"groups" cql:"-" bson:"-"`
 
 	// Name is the name of the entity
-	Name string `json:"name" cql:"name,omitempty"`
+	Name string `json:"name" cql:"name,omitempty" bson:"name"`
 
 	// Type of the resource represented in the map
-	Type MapNodeTypeValue `json:"type" cql:"-"`
+	Type MapNodeTypeValue `json:"type" cql:"-" bson:"-"`
 }
 
 // NewMapNode returns a new *MapNode

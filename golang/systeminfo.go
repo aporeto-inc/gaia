@@ -29,28 +29,28 @@ type SystemInfosList []*SystemInfo
 // SystemInfo represents the model of a systeminfo
 type SystemInfo struct {
 	// APIVersion is the API version served by the server.
-	APIVersion string `json:"APIVersion" cql:"-"`
+	APIVersion string `json:"APIVersion" cql:"-" bson:"-"`
 
 	// BahamutVersion is the version of Bahamut used by the server.
-	BahamutVersion string `json:"bahamutVersion" cql:"-"`
+	BahamutVersion string `json:"bahamutVersion" cql:"-" bson:"-"`
 
 	// ElementalVersion is the version of Elemental used by the server.
-	ElementalVersion string `json:"elementalVersion" cql:"-"`
+	ElementalVersion string `json:"elementalVersion" cql:"-" bson:"-"`
 
 	// GaiaVersion is the version of Gaia used by the server.
-	GaiaVersion string `json:"gaiaVersion" cql:"-"`
+	GaiaVersion string `json:"gaiaVersion" cql:"-" bson:"-"`
 
 	// ManipulateVersion is the version of Manipulate used by the server.
-	ManipulateVersion string `json:"manipulateVersion" cql:"manipulateversion,omitempty"`
+	ManipulateVersion string `json:"manipulateVersion" cql:"manipulateversion,omitempty" bson:"manipulateversion"`
 
 	// MidgardURL contains the url to use to obtain a token.
-	MidgardURL string `json:"midgardURL" cql:"midgardurl,omitempty"`
+	MidgardURL string `json:"midgardURL" cql:"midgardurl,omitempty" bson:"midgardurl"`
 
 	// SquallVersion is the version of server.
-	SquallVersion string `json:"squallVersion" cql:"-"`
+	SquallVersion string `json:"squallVersion" cql:"-" bson:"-"`
 
 	// Status is the overall health status of the server.
-	Status SystemInfoStatusValue `json:"status" cql:"-"`
+	Status SystemInfoStatusValue `json:"status" cql:"-" bson:"-"`
 }
 
 // NewSystemInfo returns a new *SystemInfo

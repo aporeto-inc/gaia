@@ -15,34 +15,34 @@ type NotificationsList []*Notification
 // Notification represents the model of a notification
 type Notification struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"-"`
+	ID string `json:"ID" cql:"-" bson:"-"`
 
 	// Created is the time when then notification was created
-	Created string `json:"created" cql:"created,omitempty"`
+	Created string `json:"created" cql:"created,omitempty" bson:"created"`
 
 	// Deleted is the time when the notification was deleted
-	Deleted string `json:"deleted" cql:"deleted,omitempty"`
+	Deleted string `json:"deleted" cql:"deleted,omitempty" bson:"deleted"`
 
 	// Limit is the number of layers returned in notification
-	Limit int `json:"limit" cql:"limit,omitempty"`
+	Limit int `json:"limit" cql:"limit,omitempty" bson:"limit"`
 
 	// Name is the name of the notification
-	Name string `json:"name" cql:"name,omitempty"`
+	Name string `json:"name" cql:"name,omitempty" bson:"name"`
 
 	// New is the new layers that introduced vulnerability
-	New *VulnerabilityWithLayers `json:"new" cql:"new,omitempty"`
+	New *VulnerabilityWithLayers `json:"new" cql:"new,omitempty" bson:"new"`
 
 	// NextPage is the next page number
-	NextPage string `json:"nextPage" cql:"nextpage,omitempty"`
+	NextPage string `json:"nextPage" cql:"nextpage,omitempty" bson:"nextpage"`
 
 	// Notified is the time when the notification was sent
-	Notified string `json:"notified" cql:"notified,omitempty"`
+	Notified string `json:"notified" cql:"notified,omitempty" bson:"notified"`
 
 	// Old is the old layers that introduced vulnerability
-	Old *VulnerabilityWithLayers `json:"old" cql:"old,omitempty"`
+	Old *VulnerabilityWithLayers `json:"old" cql:"old,omitempty" bson:"old"`
 
 	// Page is the page number
-	Page string `json:"page" cql:"page,omitempty"`
+	Page string `json:"page" cql:"page,omitempty" bson:"page"`
 }
 
 // NewNotification returns a new *Notification

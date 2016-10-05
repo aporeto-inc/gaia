@@ -15,16 +15,16 @@ type TagsList []*Tag
 // Tag represents the model of a tag
 type Tag struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"-"`
+	ID string `json:"ID" cql:"-" bson:"-"`
 
 	// Count represents the number of time the tag is used.
-	Count int `json:"count" cql:"count,omitempty"`
+	Count int `json:"count" cql:"count,omitempty" bson:"count"`
 
 	// Namespace represents the namespace of the counted tag.
-	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty"`
+	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"_namespace"`
 
 	// Value represents the value of the tag.
-	Value string `json:"value" cql:"value,primarykey,omitempty"`
+	Value string `json:"value" cql:"value,primarykey,omitempty" bson:"_value"`
 }
 
 // NewTag returns a new *Tag

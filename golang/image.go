@@ -18,46 +18,46 @@ type ImagesList []*Image
 // Image represents the model of a image
 type Image struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"id,omitempty"`
+	ID string `json:"ID" cql:"id,omitempty" bson:"id"`
 
 	// Annotation stores additional information about an entity
-	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty"`
+	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty" bson:"annotation"`
 
 	// AssociatedTags are the list of tags attached to an entity
-	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty"`
+	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty" bson:"associatedtags"`
 
 	// CreatedAt is the time at which an entity was created
-	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty"`
+	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty" bson:"createdat"`
 
 	// Deleted marks if the entity has been deleted.
-	Deleted bool `json:"-" cql:"deleted,omitempty"`
+	Deleted bool `json:"-" cql:"deleted,omitempty" bson:"deleted"`
 
 	// Name is the name of the entity
-	Name string `json:"name" cql:"name,primarykey,omitempty"`
+	Name string `json:"name" cql:"name,primarykey,omitempty" bson:"_name"`
 
 	// Namespace tag attached to an entity
-	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty"`
+	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"_namespace"`
 
 	// ParentID is the ID of the parent, if any,
-	ParentID string `json:"parentID" cql:"parentid,omitempty"`
+	ParentID string `json:"parentID" cql:"parentid,omitempty" bson:"parentid"`
 
 	// ParentType is the type of the parent, if any. It will be set to the parent's Identity.Name.
-	ParentType string `json:"parentType" cql:"parenttype,omitempty"`
+	ParentType string `json:"parentType" cql:"parenttype,omitempty" bson:"parenttype"`
 
 	// Registry refers to the service that stores images
-	Registry string `json:"registry" cql:"registry,primarykey,omitempty"`
+	Registry string `json:"registry" cql:"registry,primarykey,omitempty" bson:"_registry"`
 
 	// Status of an entity
-	Status constants.EntityStatus `json:"status" cql:"status,omitempty"`
+	Status constants.EntityStatus `json:"status" cql:"status,omitempty" bson:"status"`
 
 	// Tag is the tag of the image
-	Tag string `json:"tag" cql:"tag,primarykey,omitempty"`
+	Tag string `json:"tag" cql:"tag,primarykey,omitempty" bson:"_tag"`
 
 	// UpdatedAt is the time at which an entity was updated.
-	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty"`
+	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty" bson:"updatedat"`
 
 	// Vulnerability defines the security vulnerabiility level of the image
-	Vulnerability constants.Vulnerability `json:"vulnerability" cql:"vulnerability,omitempty"`
+	Vulnerability constants.Vulnerability `json:"vulnerability" cql:"vulnerability,omitempty" bson:"vulnerability"`
 }
 
 // NewImage returns a new *Image

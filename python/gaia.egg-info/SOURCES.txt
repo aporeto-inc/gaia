@@ -6,6 +6,7 @@ gaia/apiauthorizationpolicy.py
 gaia/authenticator.py
 gaia/certificate.py
 gaia/clairnotification.py
+gaia/clairvulnerability.py
 gaia/computeddependencymapview.py
 gaia/computedpolicy.py
 gaia/dependencymap.py
@@ -40,6 +41,7 @@ gaia/systeminfo.py
 gaia/tag.py
 gaia/user.py
 gaia/vulnerability.py
+gaia/vulnerabilityfixedin.py
 gaia/vulnerabilitywithlayers.py
 gaia.egg-info/PKG-INFO
 gaia.egg-info/SOURCES.txt

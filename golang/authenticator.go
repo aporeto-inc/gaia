@@ -35,49 +35,49 @@ type AuthenticatorsList []*Authenticator
 // Authenticator represents the model of a authenticator
 type Authenticator struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"id,omitempty"`
+	ID string `json:"ID" cql:"id,omitempty" bson:"id"`
 
 	// Annotation stores additional information about an entity
-	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty"`
+	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty" bson:"annotation"`
 
 	// AssociatedTags are the list of tags attached to an entity
-	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty"`
+	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty" bson:"associatedtags"`
 
 	// Configuration stores information needed to authenticate an user using any servers like LDAP/Google/Certificate
-	Configuration map[string]string `json:"configuration" cql:"configuration,omitempty"`
+	Configuration map[string]string `json:"configuration" cql:"configuration,omitempty" bson:"configuration"`
 
 	// CreatedAt is the time at which an entity was created
-	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty"`
+	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty" bson:"createdat"`
 
 	// Namespace is the default namespace of the Authenticator
-	DefaultNamespace string `json:"defaultNamespace" cql:"defaultnamespace,primarykey,omitempty"`
+	DefaultNamespace string `json:"defaultNamespace" cql:"defaultnamespace,primarykey,omitempty" bson:"_defaultnamespace"`
 
 	// Deleted marks if the entity has been deleted.
-	Deleted bool `json:"-" cql:"deleted,omitempty"`
+	Deleted bool `json:"-" cql:"deleted,omitempty" bson:"deleted"`
 
 	// Description is the description of the object.
-	Description string `json:"description" cql:"description,omitempty"`
+	Description string `json:"description" cql:"description,omitempty" bson:"description"`
 
 	// Method for authenticator (Certificate, Key, LDAP, Google, etc)
-	Method AuthenticatorMethodValue `json:"method" cql:"method,omitempty"`
+	Method AuthenticatorMethodValue `json:"method" cql:"method,omitempty" bson:"method"`
 
 	// Name of the authenticator
-	Name string `json:"name" cql:"name,primarykey,omitempty"`
+	Name string `json:"name" cql:"name,primarykey,omitempty" bson:"_name"`
 
 	// Namespace tag attached to an entity
-	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty"`
+	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"_namespace"`
 
 	// ParentID is the ID of the parent, if any,
-	ParentID string `json:"parentID" cql:"parentid,omitempty"`
+	ParentID string `json:"parentID" cql:"parentid,omitempty" bson:"parentid"`
 
 	// ParentType is the type of the parent, if any. It will be set to the parent's Identity.Name.
-	ParentType string `json:"parentType" cql:"parenttype,omitempty"`
+	ParentType string `json:"parentType" cql:"parenttype,omitempty" bson:"parenttype"`
 
 	// Status of an entity
-	Status constants.EntityStatus `json:"status" cql:"status,omitempty"`
+	Status constants.EntityStatus `json:"status" cql:"status,omitempty" bson:"status"`
 
 	// UpdatedAt is the time at which an entity was updated.
-	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty"`
+	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty" bson:"updatedat"`
 }
 
 // NewAuthenticator returns a new *Authenticator
