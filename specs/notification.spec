@@ -234,7 +234,7 @@
             "stored": true,
             "subtype": null,
             "transient": false,
-            "type": "time",
+            "type": "string",
             "unique": null,
             "uniqueScope": null
         },
