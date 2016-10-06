@@ -77,7 +77,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": null,
+            "description": "NewVulnerabilityLink is the link that point to the new vulnerability",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
