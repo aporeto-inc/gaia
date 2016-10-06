@@ -24,7 +24,7 @@ type ClairNotification struct {
 	Deleted string `json:"deleted" cql:"deleted,omitempty" bson:"deleted"`
 
 	// LayerLimit is the number of layers returned in notification
-	Layerlimit string `json:"layerlimit" cql:"layerlimit,omitempty" bson:"layerlimit"`
+	Layerlimit int `json:"layerlimit" cql:"layerlimit,omitempty" bson:"layerlimit"`
 
 	// LayersIntroducingNewVulnerability defines layers that are effected by new vulnerability
 	LayersIntroducingNewVulnerability []string `json:"layersIntroducingNewVulnerability" cql:"layersintroducingnewvulnerability,omitempty" bson:"layersintroducingnewvulnerability"`
@@ -151,11 +151,10 @@ var ClairNotificationAttributesMap = map[string]elemental.AttributeSpecification
 		AllowedChoices: []string{},
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "layerlimit",
 		Orderable:      true,
 		Stored:         true,
-		Type:           "string",
+		Type:           "integer",
 	},
 	"LayersIntroducingNewVulnerability": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
