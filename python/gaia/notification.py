@@ -31,7 +31,7 @@ class Notification(RESTObject):
         self._id = None
         self._created = None
         self._deleted = None
-        self._limit = None
+        self._layerlimit = None
         self._name = None
         self._new = None
         self._nextpage = None
@@ -42,7 +42,7 @@ class Notification(RESTObject):
         self.expose_attribute(local_name="ID", remote_name="ID")
         self.expose_attribute(local_name="created", remote_name="created")
         self.expose_attribute(local_name="deleted", remote_name="deleted")
-        self.expose_attribute(local_name="limit", remote_name="limit")
+        self.expose_attribute(local_name="layerLimit", remote_name="layerLimit")
         self.expose_attribute(local_name="name", remote_name="name")
         self.expose_attribute(local_name="new", remote_name="new")
         self.expose_attribute(local_name="nextPage", remote_name="nextPage")
@@ -142,26 +142,26 @@ class Notification(RESTObject):
         self._deleted = value
     
     @property
-    def limit(self):
-        """ Get limit value.
+    def layerLimit(self):
+        """ Get layerLimit value.
 
           Notes:
-              Limit is the number of layers returned in notification
+              LayerLimit is the number of layers returned in notification
 
               
         """
-        return self._limit
+        return self._layerlimit
 
-    @limit.setter
-    def limit(self, value):
-        """ Set limit value.
+    @layerLimit.setter
+    def layerLimit(self, value):
+        """ Set layerLimit value.
 
           Notes:
-              Limit is the number of layers returned in notification
+              LayerLimit is the number of layers returned in notification
 
               
         """
-        self._limit = value
+        self._layerlimit = value
     
     @property
     def name(self):
