@@ -26,10 +26,8 @@ routes.append(("DELETE", "/apiauthorizationpolicies/:id"))
 routes.append(("GET", "/images/:id"))
 routes.append(("GET", "/images/:id/layers"))
 
-# routes for systemcalls
-routes.append(("GET", "/systemcalls/:id"))
-routes.append(("PUT", "/systemcalls/:id"))
-routes.append(("DELETE", "/systemcalls/:id"))
+# routes for computedpolicies
+routes.append(("GET", "/computedpolicies/:id"))
 
 # routes for tags
 
@@ -49,6 +47,8 @@ routes.append(("PUT", "/filepaths/:id"))
 routes.append(("DELETE", "/filepaths/:id"))
 
 # routes for notifications
+
+# routes for fileaccesses
 
 # routes for namespaces
 routes.append(("GET", "/namespaces/:id"))
@@ -85,8 +85,10 @@ routes.append(("GET", "/fileaccesspolicies/:id"))
 routes.append(("PUT", "/fileaccesspolicies/:id"))
 routes.append(("DELETE", "/fileaccesspolicies/:id"))
 
-# routes for computedpolicies
-routes.append(("GET", "/computedpolicies/:id"))
+# routes for systemcalls
+routes.append(("GET", "/systemcalls/:id"))
+routes.append(("PUT", "/systemcalls/:id"))
+routes.append(("DELETE", "/systemcalls/:id"))
 
 # routes for authenticators
 routes.append(("GET", "/authenticators/:id"))
@@ -112,6 +114,7 @@ routes.append(("GET", "/users/:id/certificates"))
 routes.append(("GET", "/processingunits/:id"))
 routes.append(("PUT", "/processingunits/:id"))
 routes.append(("DELETE", "/processingunits/:id"))
+routes.append(("GET", "/processingunits/:id/fileaccesses"))
 routes.append(("GET", "/processingunits/:id/renderedpolicies"))
 
 # routes for clairnotifications

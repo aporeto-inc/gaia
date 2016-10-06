@@ -61,7 +61,7 @@ func (o *Tag) Validate() elemental.Errors {
 
 	errors := elemental.Errors{}
 
-	if err := elemental.ValidatePattern("value", o.Value, `^[^\s=]+=[^\s=]+$`); err != nil {
+	if err := elemental.ValidatePattern("value", o.Value, `^[^\s=~,]+=[^\s=~,]+$`); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -118,7 +118,7 @@ var TagAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"Value": elemental.AttributeSpecification{
-		AllowedChars:   `^[^\s=]+=[^\s=]+$`,
+		AllowedChars:   `^[^\s=~,]+=[^\s=~,]+$`,
 		AllowedChoices: []string{},
 		CreationOnly:   true,
 		Exposed:        true,
