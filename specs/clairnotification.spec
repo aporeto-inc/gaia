@@ -518,6 +518,7 @@
         "description": null,
         "entity_name": "ClairNotification",
         "extends": [
+            "@base",
             "@identifiable-pk-stored"
         ],
         "get": true,
