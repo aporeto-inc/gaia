@@ -35,6 +35,9 @@ type ClairNotification struct {
 	// Name is the name of the notification
 	Name string `json:"name" cql:"name,omitempty" bson:"name"`
 
+	// Namespace of the entity
+	Namespace string `json:"namespace" cql:"namespace,omitempty" bson:"namespace"`
+
 	// NewVulnerabilityLink is the link that point to the new vulnerability
 	NewVulnerabilityLink string `json:"newVulnerabilityLink" cql:"newvulnerabilitylink,omitempty" bson:"newvulnerabilitylink"`
 
@@ -180,6 +183,16 @@ var ClairNotificationAttributesMap = map[string]elemental.AttributeSpecification
 		Filterable:     true,
 		Format:         "free",
 		Name:           "name",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"Namespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "namespace",
 		Orderable:      true,
 		Stored:         true,
 		Type:           "string",

@@ -35,6 +35,7 @@ class ClairNotification(RESTObject):
         self._layersintroducingnewvulnerability = None
         self._layersintroducingoldvulnerability = None
         self._name = None
+        self._namespace = None
         self._newvulnerabilitylink = None
         self._newvulnerabilityname = None
         self._nextpage = None
@@ -51,6 +52,7 @@ class ClairNotification(RESTObject):
         self.expose_attribute(local_name="layersIntroducingNewVulnerability", remote_name="layersIntroducingNewVulnerability")
         self.expose_attribute(local_name="layersIntroducingOldVulnerability", remote_name="layersIntroducingOldVulnerability")
         self.expose_attribute(local_name="name", remote_name="name")
+        self.expose_attribute(local_name="namespace", remote_name="namespace")
         self.expose_attribute(local_name="newVulnerabilityLink", remote_name="newVulnerabilityLink")
         self.expose_attribute(local_name="newVulnerabilityName", remote_name="newVulnerabilityName")
         self.expose_attribute(local_name="nextPage", remote_name="nextPage")
@@ -238,6 +240,28 @@ class ClairNotification(RESTObject):
               
         """
         self._name = value
+    
+    @property
+    def namespace(self):
+        """ Get namespace value.
+
+          Notes:
+              Namespace of the entity
+
+              
+        """
+        return self._namespace
+
+    @namespace.setter
+    def namespace(self, value):
+        """ Set namespace value.
+
+          Notes:
+              Namespace of the entity
+
+              
+        """
+        self._namespace = value
     
     @property
     def newVulnerabilityLink(self):
