@@ -28,7 +28,7 @@
             "required": null,
             "setter": null,
             "stored": true,
-            "subtype": null,
+            "subtype": "String",
             "transient": false,
             "type": "list",
             "unique": null,
