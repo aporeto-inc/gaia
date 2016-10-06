@@ -164,7 +164,7 @@
             "required": null,
             "setter": null,
             "stored": true,
-            "subtype": "String",
+            "subtype": "string",
             "transient": false,
             "type": "list",
             "unique": null,
