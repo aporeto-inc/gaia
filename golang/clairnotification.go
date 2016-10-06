@@ -27,10 +27,10 @@ type ClairNotification struct {
 	Layerlimit string `json:"layerlimit" cql:"layerlimit,omitempty" bson:"layerlimit"`
 
 	// LayersIntroducingNewVulnerability defines layers that are effected by new vulnerability
-	LayersIntroducingNewVulnerability []String `json:"layersIntroducingNewVulnerability" cql:"layersintroducingnewvulnerability,omitempty" bson:"layersintroducingnewvulnerability"`
+	LayersIntroducingNewVulnerability []string `json:"layersIntroducingNewVulnerability" cql:"layersintroducingnewvulnerability,omitempty" bson:"layersintroducingnewvulnerability"`
 
 	// LayersIntroducingOldVulnerability defines layers that are effected by old vulnerability
-	LayersIntroducingOldVulnerability []String `json:"layersIntroducingOldVulnerability" cql:"layersintroducingoldvulnerability,omitempty" bson:"layersintroducingoldvulnerability"`
+	LayersIntroducingOldVulnerability []string `json:"layersIntroducingOldVulnerability" cql:"layersintroducingoldvulnerability,omitempty" bson:"layersintroducingoldvulnerability"`
 
 	// Name is the name of the notification
 	Name string `json:"name" cql:"name,omitempty" bson:"name"`
@@ -164,7 +164,7 @@ var ClairNotificationAttributesMap = map[string]elemental.AttributeSpecification
 		Name:           "layersIntroducingNewVulnerability",
 		Orderable:      true,
 		Stored:         true,
-		SubType:        "String",
+		SubType:        "string",
 		Type:           "list",
 	},
 	"LayersIntroducingOldVulnerability": elemental.AttributeSpecification{
@@ -174,7 +174,7 @@ var ClairNotificationAttributesMap = map[string]elemental.AttributeSpecification
 		Name:           "layersIntroducingOldVulnerability",
 		Orderable:      true,
 		Stored:         true,
-		SubType:        "String",
+		SubType:        "string",
 		Type:           "list",
 	},
 	"Name": elemental.AttributeSpecification{
