@@ -111,7 +111,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": null,
+            "description": "NewVulnerabilityName is the name of the new vulnerability",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
