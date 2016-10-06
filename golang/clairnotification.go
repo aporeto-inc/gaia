@@ -48,7 +48,7 @@ type ClairNotification struct {
 	NextPage string `json:"nextPage" cql:"nextpage,omitempty" bson:"nextpage"`
 
 	// Notification is the name of the notification sent by Clair using the webhook
-	Notification []*Notification `json:"notification" cql:"-" bson:"-"`
+	Notification *Notification `json:"notification" cql:"-" bson:"-"`
 
 	// Notified is the time when the notification was sent
 	Notified string `json:"notified" cql:"notified,omitempty" bson:"notified"`
