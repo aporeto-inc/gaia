@@ -31,7 +31,6 @@ class ClairNotification(RESTObject):
         self._id = None
         self._annotation = None
         self._associatedtags = None
-        self._created = None
         self._createdat = None
         self._deleted = None
         self._layerlimit = None
@@ -43,7 +42,9 @@ class ClairNotification(RESTObject):
         self._newvulnerabilityname = None
         self._nextpage = None
         self._notification = None
-        self._notified = None
+        self._notificationcreatedat = None
+        self._notificationdeletedat = None
+        self._notificationnotifiedat = None
         self._oldvulnerabilitylink = None
         self._oldvulnerabilityname = None
         self._page = None
@@ -55,7 +56,6 @@ class ClairNotification(RESTObject):
         self.expose_attribute(local_name="ID", remote_name="ID")
         self.expose_attribute(local_name="annotation", remote_name="annotation")
         self.expose_attribute(local_name="associatedTags", remote_name="associatedTags")
-        self.expose_attribute(local_name="created", remote_name="created")
         self.expose_attribute(local_name="createdAt", remote_name="createdAt")
         self.expose_attribute(local_name="deleted", remote_name="deleted")
         self.expose_attribute(local_name="layerlimit", remote_name="layerlimit")
@@ -67,7 +67,9 @@ class ClairNotification(RESTObject):
         self.expose_attribute(local_name="newVulnerabilityName", remote_name="newVulnerabilityName")
         self.expose_attribute(local_name="nextPage", remote_name="nextPage")
         self.expose_attribute(local_name="notification", remote_name="notification")
-        self.expose_attribute(local_name="notified", remote_name="notified")
+        self.expose_attribute(local_name="notificationCreatedAt", remote_name="notificationCreatedAt")
+        self.expose_attribute(local_name="notificationDeletedAt", remote_name="notificationDeletedAt")
+        self.expose_attribute(local_name="notificationNotifiedAt", remote_name="notificationNotifiedAt")
         self.expose_attribute(local_name="oldVulnerabilityLink", remote_name="oldVulnerabilityLink")
         self.expose_attribute(local_name="oldVulnerabilityName", remote_name="oldVulnerabilityName")
         self.expose_attribute(local_name="page", remote_name="page")
@@ -168,28 +170,6 @@ class ClairNotification(RESTObject):
         self._associatedtags = value
     
     @property
-    def created(self):
-        """ Get created value.
-
-          Notes:
-              Created is the time when then notification was created
-
-              
-        """
-        return self._created
-
-    @created.setter
-    def created(self, value):
-        """ Set created value.
-
-          Notes:
-              Created is the time when then notification was created
-
-              
-        """
-        self._created = value
-    
-    @property
     def createdAt(self):
         """ Get createdAt value.
 
@@ -216,7 +196,7 @@ class ClairNotification(RESTObject):
         """ Get deleted value.
 
           Notes:
-              Deleted is the time when the notification was deleted
+              Deleted marks if the entity has been deleted.
 
               
         """
@@ -227,7 +207,7 @@ class ClairNotification(RESTObject):
         """ Set deleted value.
 
           Notes:
-              Deleted is the time when the notification was deleted
+              Deleted marks if the entity has been deleted.
 
               
         """
@@ -432,26 +412,70 @@ class ClairNotification(RESTObject):
         self._notification = value
     
     @property
-    def notified(self):
-        """ Get notified value.
+    def notificationCreatedAt(self):
+        """ Get notificationCreatedAt value.
 
           Notes:
-              Notified is the time when the notification was sent
+              notificationCreatedAt is the time when then notification was created
 
               
         """
-        return self._notified
+        return self._notificationcreatedat
 
-    @notified.setter
-    def notified(self, value):
-        """ Set notified value.
+    @notificationCreatedAt.setter
+    def notificationCreatedAt(self, value):
+        """ Set notificationCreatedAt value.
 
           Notes:
-              Notified is the time when the notification was sent
+              notificationCreatedAt is the time when then notification was created
 
               
         """
-        self._notified = value
+        self._notificationcreatedat = value
+    
+    @property
+    def notificationDeletedAt(self):
+        """ Get notificationDeletedAt value.
+
+          Notes:
+              NotificationDeletedAt is the time when the notification was deleted
+
+              
+        """
+        return self._notificationdeletedat
+
+    @notificationDeletedAt.setter
+    def notificationDeletedAt(self, value):
+        """ Set notificationDeletedAt value.
+
+          Notes:
+              NotificationDeletedAt is the time when the notification was deleted
+
+              
+        """
+        self._notificationdeletedat = value
+    
+    @property
+    def notificationNotifiedAt(self):
+        """ Get notificationNotifiedAt value.
+
+          Notes:
+              NotificationNotifiedAt is the time when the notification was sent
+
+              
+        """
+        return self._notificationnotifiedat
+
+    @notificationNotifiedAt.setter
+    def notificationNotifiedAt(self, value):
+        """ Set notificationNotifiedAt value.
+
+          Notes:
+              NotificationNotifiedAt is the time when the notification was sent
+
+              
+        """
+        self._notificationnotifiedat = value
     
     @property
     def oldVulnerabilityLink(self):
