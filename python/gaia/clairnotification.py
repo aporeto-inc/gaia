@@ -306,7 +306,7 @@ class ClairNotification(RESTObject):
         """ Get namespace value.
 
           Notes:
-              Namespace of the entity
+              Namespace tag attached to an entity
 
               
         """
@@ -317,7 +317,7 @@ class ClairNotification(RESTObject):
         """ Set namespace value.
 
           Notes:
-              Namespace of the entity
+              Namespace tag attached to an entity
 
               
         """
