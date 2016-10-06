@@ -9,7 +9,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "LayersIntroducingOldVulnerability defines layers that are effected by new vulnerability",
+            "description": "LayersIntroducingNewVulnerability defines layers that are effected by new vulnerability",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
