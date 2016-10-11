@@ -37,12 +37,14 @@ class Integration(RESTObject):
         self._namespace = None
         self._parentid = None
         self._parenttype = None
+        self._password = None
         self._port = None
         self._server = None
         self._sslenabled = None
         self._status = None
         self._type = None
         self._updatedat = None
+        self._username = None
         
         self.expose_attribute(local_name="ID", remote_name="ID")
         self.expose_attribute(local_name="annotation", remote_name="annotation")
@@ -53,12 +55,14 @@ class Integration(RESTObject):
         self.expose_attribute(local_name="namespace", remote_name="namespace")
         self.expose_attribute(local_name="parentID", remote_name="parentID")
         self.expose_attribute(local_name="parentType", remote_name="parentType")
+        self.expose_attribute(local_name="password", remote_name="password")
         self.expose_attribute(local_name="port", remote_name="port")
         self.expose_attribute(local_name="server", remote_name="server")
         self.expose_attribute(local_name="sslEnabled", remote_name="sslEnabled")
         self.expose_attribute(local_name="status", remote_name="status")
         self.expose_attribute(local_name="type", remote_name="type")
         self.expose_attribute(local_name="updatedAt", remote_name="updatedAt")
+        self.expose_attribute(local_name="userName", remote_name="userName")
 
         self._compute_args(**kwargs)
 
@@ -284,6 +288,28 @@ class Integration(RESTObject):
         self._parenttype = value
     
     @property
+    def password(self):
+        """ Get password value.
+
+          Notes:
+              Password is the password of the user to be used in the HTTP Authorization header
+
+              
+        """
+        return self._password
+
+    @password.setter
+    def password(self, value):
+        """ Set password value.
+
+          Notes:
+              Password is the password of the user to be used in the HTTP Authorization header
+
+              
+        """
+        self._password = value
+    
+    @property
     def port(self):
         """ Get port value.
 
@@ -414,6 +440,28 @@ class Integration(RESTObject):
               
         """
         self._updatedat = value
+    
+    @property
+    def userName(self):
+        """ Get userName value.
+
+          Notes:
+              Username refers to the username to be used in the HTTP Authorization header
+
+              
+        """
+        return self._username
+
+    @userName.setter
+    def userName(self, value):
+        """ Set userName value.
+
+          Notes:
+              Username refers to the username to be used in the HTTP Authorization header
+
+              
+        """
+        self._username = value
     
     def validate(self):
         """ Validate valides the current information stored into the structure.

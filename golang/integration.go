@@ -55,6 +55,9 @@ type Integration struct {
 	// ParentType is the type of the parent, if any. It will be set to the parent's Identity.Name.
 	ParentType string `json:"parentType" cql:"parenttype,omitempty" bson:"parenttype"`
 
+	// Password is the password of the user to be used in the HTTP Authorization header
+	Password string `json:"password" cql:"password,omitempty" bson:"password"`
+
 	// Port is the port number of the service
 	Port int `json:"port" cql:"port,omitempty" bson:"port"`
 
@@ -72,6 +75,9 @@ type Integration struct {
 
 	// UpdatedAt is the time at which an entity was updated.
 	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty" bson:"updatedat"`
+
+	// Username refers to the username to be used in the HTTP Authorization header
+	UserName string `json:"userName" cql:"username,omitempty" bson:"username"`
 }
 
 // NewIntegration returns a new *Integration
@@ -330,6 +336,16 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"Password": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "password",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"Port": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Exposed:        true,
@@ -396,5 +412,15 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"UserName": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "userName",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
 	},
 }
