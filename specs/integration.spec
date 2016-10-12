@@ -12,7 +12,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "Authorization refers to type of the Authorization header",
+            "description": "Authorization refers to type of the HTTP authorization header",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
