@@ -98,9 +98,10 @@ type Integration struct {
 func NewIntegration() *Integration {
 
 	return &Integration{
-		SslEnabled: false,
-		Status:     constants.Active,
-		Type:       "Registry",
+		Authorization: "Basic",
+		SslEnabled:    false,
+		Status:        constants.Active,
+		Type:          "Registry",
 	}
 }
 
@@ -281,6 +282,7 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		Filterable:     true,
 		Name:           "authorization",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "enum",
 	},
