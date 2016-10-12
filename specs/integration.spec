@@ -12,7 +12,7 @@
             "default_order": null,
             "default_value": "Basic",
             "deprecated": null,
-            "description": "AuthType refers to type of the HTTP authnritcation used to query the endpoint",
+            "description": "AuthType refers to the type of HTTP authentication used to query endpoints",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
