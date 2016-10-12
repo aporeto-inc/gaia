@@ -190,7 +190,7 @@ func (o *APIAuthorizationPolicy) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *APIAuthorizationPolicy) Validate() elemental.Errors {
+func (o *APIAuthorizationPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 

@@ -192,7 +192,7 @@ func (o *ClairNotification) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *ClairNotification) Validate() elemental.Errors {
+func (o *ClairNotification) Validate() error {
 
 	errors := elemental.Errors{}
 

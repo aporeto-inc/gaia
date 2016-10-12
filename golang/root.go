@@ -48,7 +48,7 @@ func (o *Root) SetIdentifier(ID string) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Root) Validate() elemental.Errors {
+func (o *Root) Validate() error {
 
 	errors := elemental.Errors{}
 

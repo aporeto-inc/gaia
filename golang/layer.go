@@ -162,7 +162,7 @@ func (o *Layer) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Layer) Validate() elemental.Errors {
+func (o *Layer) Validate() error {
 
 	errors := elemental.Errors{}
 

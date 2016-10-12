@@ -51,7 +51,7 @@ func (o *ComputedPolicy) SetIdentifier(ID string) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *ComputedPolicy) Validate() elemental.Errors {
+func (o *ComputedPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 

@@ -210,7 +210,7 @@ func (o *ProcessingUnit) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *ProcessingUnit) Validate() elemental.Errors {
+func (o *ProcessingUnit) Validate() error {
 
 	errors := elemental.Errors{}
 

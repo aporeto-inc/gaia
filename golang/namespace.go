@@ -164,7 +164,7 @@ func (o *Namespace) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Namespace) Validate() elemental.Errors {
+func (o *Namespace) Validate() error {
 
 	errors := elemental.Errors{}
 

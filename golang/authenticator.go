@@ -187,7 +187,7 @@ func (o *Authenticator) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Authenticator) Validate() elemental.Errors {
+func (o *Authenticator) Validate() error {
 
 	errors := elemental.Errors{}
 

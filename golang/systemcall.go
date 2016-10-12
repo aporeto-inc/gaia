@@ -166,7 +166,7 @@ func (o *SystemCall) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *SystemCall) Validate() elemental.Errors {
+func (o *SystemCall) Validate() error {
 
 	errors := elemental.Errors{}
 

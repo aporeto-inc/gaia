@@ -175,7 +175,7 @@ func (o *ExternalService) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *ExternalService) Validate() elemental.Errors {
+func (o *ExternalService) Validate() error {
 
 	errors := elemental.Errors{}
 

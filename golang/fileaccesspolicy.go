@@ -187,7 +187,7 @@ func (o *FileAccessPolicy) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *FileAccessPolicy) Validate() elemental.Errors {
+func (o *FileAccessPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 

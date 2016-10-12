@@ -82,7 +82,7 @@ func (o *SystemInfo) SetIdentifier(ID string) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *SystemInfo) Validate() elemental.Errors {
+func (o *SystemInfo) Validate() error {
 
 	errors := elemental.Errors{}
 

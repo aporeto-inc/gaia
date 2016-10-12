@@ -187,7 +187,7 @@ func (o *Policy) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Policy) Validate() elemental.Errors {
+func (o *Policy) Validate() error {
 
 	errors := elemental.Errors{}
 

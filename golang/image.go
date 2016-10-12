@@ -162,7 +162,7 @@ func (o *Image) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Image) Validate() elemental.Errors {
+func (o *Image) Validate() error {
 
 	errors := elemental.Errors{}
 

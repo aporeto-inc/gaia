@@ -172,7 +172,7 @@ func (o *ComputedDependencyMapView) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *ComputedDependencyMapView) Validate() elemental.Errors {
+func (o *ComputedDependencyMapView) Validate() error {
 
 	errors := elemental.Errors{}
 

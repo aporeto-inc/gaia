@@ -76,7 +76,7 @@ func (o *FileAccess) SetIdentifier(ID string) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *FileAccess) Validate() elemental.Errors {
+func (o *FileAccess) Validate() error {
 
 	errors := elemental.Errors{}
 

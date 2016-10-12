@@ -70,7 +70,7 @@ func (o *MapEdge) SetName(name string) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *MapEdge) Validate() elemental.Errors {
+func (o *MapEdge) Validate() error {
 
 	errors := elemental.Errors{}
 

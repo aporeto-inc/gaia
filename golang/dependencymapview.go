@@ -191,7 +191,7 @@ func (o *DependencyMapView) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *DependencyMapView) Validate() elemental.Errors {
+func (o *DependencyMapView) Validate() error {
 
 	errors := elemental.Errors{}
 

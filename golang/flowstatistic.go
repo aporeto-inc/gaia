@@ -113,7 +113,7 @@ func (o *FlowStatistic) SetIdentifier(ID string) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *FlowStatistic) Validate() elemental.Errors {
+func (o *FlowStatistic) Validate() error {
 
 	errors := elemental.Errors{}
 

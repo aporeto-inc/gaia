@@ -60,7 +60,7 @@ func (o *DependencyMap) SetIdentifier(ID string) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *DependencyMap) Validate() elemental.Errors {
+func (o *DependencyMap) Validate() error {
 
 	errors := elemental.Errors{}
 

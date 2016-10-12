@@ -78,7 +78,7 @@ func (o *MapNode) SetName(name string) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *MapNode) Validate() elemental.Errors {
+func (o *MapNode) Validate() error {
 
 	errors := elemental.Errors{}
 

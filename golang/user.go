@@ -175,7 +175,7 @@ func (o *User) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *User) Validate() elemental.Errors {
+func (o *User) Validate() error {
 
 	errors := elemental.Errors{}
 

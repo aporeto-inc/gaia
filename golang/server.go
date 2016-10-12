@@ -207,7 +207,7 @@ func (o *Server) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Server) Validate() elemental.Errors {
+func (o *Server) Validate() error {
 
 	errors := elemental.Errors{}
 

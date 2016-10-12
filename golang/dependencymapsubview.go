@@ -60,7 +60,7 @@ func (o *DependencyMapSubview) SetIdentifier(ID string) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *DependencyMapSubview) Validate() elemental.Errors {
+func (o *DependencyMapSubview) Validate() error {
 
 	errors := elemental.Errors{}
 

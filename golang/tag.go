@@ -57,7 +57,7 @@ func (o *Tag) SetIdentifier(ID string) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Tag) Validate() elemental.Errors {
+func (o *Tag) Validate() error {
 
 	errors := elemental.Errors{}
 

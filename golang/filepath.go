@@ -172,7 +172,7 @@ func (o *FilePath) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *FilePath) Validate() elemental.Errors {
+func (o *FilePath) Validate() error {
 
 	errors := elemental.Errors{}
 

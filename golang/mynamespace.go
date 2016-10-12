@@ -51,7 +51,7 @@ func (o *MyNamespace) SetIdentifier(ID string) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *MyNamespace) Validate() elemental.Errors {
+func (o *MyNamespace) Validate() error {
 
 	errors := elemental.Errors{}
 

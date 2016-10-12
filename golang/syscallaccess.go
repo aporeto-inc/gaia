@@ -59,7 +59,7 @@ func (o *SyscallAccess) SetIdentifier(ID string) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *SyscallAccess) Validate() elemental.Errors {
+func (o *SyscallAccess) Validate() error {
 
 	errors := elemental.Errors{}
 

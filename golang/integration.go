@@ -183,7 +183,7 @@ func (o *Integration) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Integration) Validate() elemental.Errors {
+func (o *Integration) Validate() error {
 
 	errors := elemental.Errors{}
 

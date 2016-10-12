@@ -185,7 +185,7 @@ func (o *NetworkAccessPolicy) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *NetworkAccessPolicy) Validate() elemental.Errors {
+func (o *NetworkAccessPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 

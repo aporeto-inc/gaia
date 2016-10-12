@@ -69,7 +69,7 @@ func (o *PolicyRule) SetIdentifier(ID string) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *PolicyRule) Validate() elemental.Errors {
+func (o *PolicyRule) Validate() error {
 
 	errors := elemental.Errors{}
 

@@ -75,7 +75,7 @@ func (o *Notification) SetIdentifier(ID string) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Notification) Validate() elemental.Errors {
+func (o *Notification) Validate() error {
 
 	errors := elemental.Errors{}
 

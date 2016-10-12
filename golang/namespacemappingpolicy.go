@@ -172,7 +172,7 @@ func (o *NamespaceMappingPolicy) SetUpdatedAt(updatedAt time.Time) {
 }
 
 // Validate valides the current information stored into the structure.
-func (o *NamespaceMappingPolicy) Validate() elemental.Errors {
+func (o *NamespaceMappingPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 
