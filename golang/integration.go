@@ -6,6 +6,20 @@ import "github.com/aporeto-inc/elemental"
 import "time"
 import "github.com/aporeto-inc/gaia/golang/constants"
 
+// IntegrationAuthTypeValue represents the possible values for attribute "authType".
+type IntegrationAuthTypeValue string
+
+const (
+	// IntegrationAuthTypeBasic represents the value Basic.
+	IntegrationAuthTypeBasic IntegrationAuthTypeValue = "Basic"
+
+	// IntegrationAuthTypeNone represents the value None.
+	IntegrationAuthTypeNone IntegrationAuthTypeValue = "None"
+
+	// IntegrationAuthTypeOauth represents the value OAuth.
+	IntegrationAuthTypeOauth IntegrationAuthTypeValue = "OAuth"
+)
+
 // IntegrationTypeValue represents the possible values for attribute "type".
 type IntegrationTypeValue string
 
@@ -37,6 +51,9 @@ type Integration struct {
 	// AssociatedTags are the list of tags attached to an entity
 	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty" bson:"associatedtags"`
 
+	// AuthType refers to the type of HTTP authentication used to query endpoints
+	AuthType IntegrationAuthTypeValue `json:"authType" cql:"authtype,omitempty" bson:"authtype"`
+
 	// CreatedAt is the time at which an entity was created
 	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty" bson:"createdat"`
 
@@ -55,6 +72,9 @@ type Integration struct {
 	// ParentType is the type of the parent, if any. It will be set to the parent's Identity.Name.
 	ParentType string `json:"parentType" cql:"parenttype,omitempty" bson:"parenttype"`
 
+	// Password is the password of the user to be used in the HTTP Authorization header
+	Password string `json:"password" cql:"password,omitempty" bson:"password"`
+
 	// Port is the port number of the service
 	Port int `json:"port" cql:"port,omitempty" bson:"port"`
 
@@ -72,12 +92,16 @@ type Integration struct {
 
 	// UpdatedAt is the time at which an entity was updated.
 	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty" bson:"updatedat"`
+
+	// Username refers to the username to be used in the HTTP Authorization header
+	UserName string `json:"userName" cql:"username,omitempty" bson:"username"`
 }
 
 // NewIntegration returns a new *Integration
 func NewIntegration() *Integration {
 
 	return &Integration{
+		AuthType:   "None",
 		SslEnabled: false,
 		Status:     constants.Active,
 		Type:       "Registry",
@@ -187,6 +211,10 @@ func (o *Integration) Validate() error {
 
 	errors := elemental.Errors{}
 
+	if err := elemental.ValidateStringInList("authType", string(o.AuthType), []string{"Basic", "None", "OAuth"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateMaximumInt("port", o.Port, 65535, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -250,6 +278,16 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
+	},
+	"AuthType": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Basic", "None", "OAuth"},
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "authType",
+		Orderable:      true,
+		Required:       true,
+		Stored:         true,
+		Type:           "enum",
 	},
 	"CreatedAt": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -330,6 +368,16 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"Password": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "password",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"Port": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Exposed:        true,
@@ -396,5 +444,15 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"UserName": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "userName",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
 	},
 }

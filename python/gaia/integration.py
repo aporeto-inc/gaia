@@ -31,34 +31,40 @@ class Integration(RESTObject):
         self._id = None
         self._annotation = None
         self._associatedtags = None
+        self._authtype = None
         self._createdat = None
         self._deleted = None
         self._endpoint = None
         self._namespace = None
         self._parentid = None
         self._parenttype = None
+        self._password = None
         self._port = None
         self._server = None
         self._sslenabled = None
         self._status = None
         self._type = None
         self._updatedat = None
+        self._username = None
         
         self.expose_attribute(local_name="ID", remote_name="ID")
         self.expose_attribute(local_name="annotation", remote_name="annotation")
         self.expose_attribute(local_name="associatedTags", remote_name="associatedTags")
+        self.expose_attribute(local_name="authType", remote_name="authType")
         self.expose_attribute(local_name="createdAt", remote_name="createdAt")
         self.expose_attribute(local_name="deleted", remote_name="deleted")
         self.expose_attribute(local_name="endpoint", remote_name="endpoint")
         self.expose_attribute(local_name="namespace", remote_name="namespace")
         self.expose_attribute(local_name="parentID", remote_name="parentID")
         self.expose_attribute(local_name="parentType", remote_name="parentType")
+        self.expose_attribute(local_name="password", remote_name="password")
         self.expose_attribute(local_name="port", remote_name="port")
         self.expose_attribute(local_name="server", remote_name="server")
         self.expose_attribute(local_name="sslEnabled", remote_name="sslEnabled")
         self.expose_attribute(local_name="status", remote_name="status")
         self.expose_attribute(local_name="type", remote_name="type")
         self.expose_attribute(local_name="updatedAt", remote_name="updatedAt")
+        self.expose_attribute(local_name="userName", remote_name="userName")
 
         self._compute_args(**kwargs)
 
@@ -150,6 +156,28 @@ class Integration(RESTObject):
               
         """
         self._associatedtags = value
+    
+    @property
+    def authType(self):
+        """ Get authType value.
+
+          Notes:
+              AuthType refers to the type of HTTP authentication used to query endpoints
+
+              
+        """
+        return self._authtype
+
+    @authType.setter
+    def authType(self, value):
+        """ Set authType value.
+
+          Notes:
+              AuthType refers to the type of HTTP authentication used to query endpoints
+
+              
+        """
+        self._authtype = value
     
     @property
     def createdAt(self):
@@ -284,6 +312,28 @@ class Integration(RESTObject):
         self._parenttype = value
     
     @property
+    def password(self):
+        """ Get password value.
+
+          Notes:
+              Password is the password of the user to be used in the HTTP Authorization header
+
+              
+        """
+        return self._password
+
+    @password.setter
+    def password(self, value):
+        """ Set password value.
+
+          Notes:
+              Password is the password of the user to be used in the HTTP Authorization header
+
+              
+        """
+        self._password = value
+    
+    @property
     def port(self):
         """ Get port value.
 
@@ -415,10 +465,37 @@ class Integration(RESTObject):
         """
         self._updatedat = value
     
+    @property
+    def userName(self):
+        """ Get userName value.
+
+          Notes:
+              Username refers to the username to be used in the HTTP Authorization header
+
+              
+        """
+        return self._username
+
+    @userName.setter
+    def userName(self, value):
+        """ Set userName value.
+
+          Notes:
+              Username refers to the username to be used in the HTTP Authorization header
+
+              
+        """
+        self._username = value
+    
     def validate(self):
         """ Validate valides the current information stored into the structure.
         """
         errors = []
+
+        err = validate_string_in_list("authType", self.authType, ["Basic", "None", "OAuth"], false)
+
+        if err:
+            errors.append(err)
 
         err = validate_maximum_int("port", self.port, 65535, false)
 
