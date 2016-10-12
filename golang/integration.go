@@ -17,6 +17,17 @@ const (
 	IntegrationTypeVulnerabilityscanner IntegrationTypeValue = "VulnerabilityScanner"
 )
 
+// IntegrationAuthorizationValue represents the possible values for attribute "authorization".
+type IntegrationAuthorizationValue string
+
+const (
+	// IntegrationAuthorizationBasic represents the value Basic.
+	IntegrationAuthorizationBasic IntegrationAuthorizationValue = "Basic"
+
+	// IntegrationAuthorizationOauth represents the value OAuth.
+	IntegrationAuthorizationOauth IntegrationAuthorizationValue = "OAuth"
+)
+
 // IntegrationIdentity represents the Identity of the object
 var IntegrationIdentity = elemental.Identity{
 	Name:     "integration",
@@ -36,6 +47,9 @@ type Integration struct {
 
 	// AssociatedTags are the list of tags attached to an entity
 	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty" bson:"associatedtags"`
+
+	// Authorization refers to type of the HTTP authorization header
+	Authorization IntegrationAuthorizationValue `json:"authorization" cql:"authorization,omitempty" bson:"authorization"`
 
 	// CreatedAt is the time at which an entity was created
 	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty" bson:"createdat"`
@@ -193,6 +207,10 @@ func (o *Integration) Validate() elemental.Errors {
 
 	errors := elemental.Errors{}
 
+	if err := elemental.ValidateStringInList("authorization", string(o.Authorization), []string{"Basic", "OAuth"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateMaximumInt("port", o.Port, 65535, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -256,6 +274,15 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
+	},
+	"Authorization": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Basic", "OAuth"},
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "authorization",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
 	},
 	"CreatedAt": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

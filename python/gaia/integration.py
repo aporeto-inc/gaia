@@ -31,6 +31,7 @@ class Integration(RESTObject):
         self._id = None
         self._annotation = None
         self._associatedtags = None
+        self._authorization = None
         self._createdat = None
         self._deleted = None
         self._endpoint = None
@@ -49,6 +50,7 @@ class Integration(RESTObject):
         self.expose_attribute(local_name="ID", remote_name="ID")
         self.expose_attribute(local_name="annotation", remote_name="annotation")
         self.expose_attribute(local_name="associatedTags", remote_name="associatedTags")
+        self.expose_attribute(local_name="authorization", remote_name="authorization")
         self.expose_attribute(local_name="createdAt", remote_name="createdAt")
         self.expose_attribute(local_name="deleted", remote_name="deleted")
         self.expose_attribute(local_name="endpoint", remote_name="endpoint")
@@ -154,6 +156,28 @@ class Integration(RESTObject):
               
         """
         self._associatedtags = value
+    
+    @property
+    def authorization(self):
+        """ Get authorization value.
+
+          Notes:
+              Authorization refers to type of the HTTP authorization header
+
+              
+        """
+        return self._authorization
+
+    @authorization.setter
+    def authorization(self, value):
+        """ Set authorization value.
+
+          Notes:
+              Authorization refers to type of the HTTP authorization header
+
+              
+        """
+        self._authorization = value
     
     @property
     def createdAt(self):
@@ -467,6 +491,11 @@ class Integration(RESTObject):
         """ Validate valides the current information stored into the structure.
         """
         errors = []
+
+        err = validate_string_in_list("authorization", self.authorization, ["Basic", "OAuth"], false)
+
+        if err:
+            errors.append(err)
 
         err = validate_maximum_int("port", self.port, 65535, false)
 
