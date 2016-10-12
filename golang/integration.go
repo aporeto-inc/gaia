@@ -6,6 +6,17 @@ import "github.com/aporeto-inc/elemental"
 import "time"
 import "github.com/aporeto-inc/gaia/golang/constants"
 
+// IntegrationAuthTypeValue represents the possible values for attribute "authType".
+type IntegrationAuthTypeValue string
+
+const (
+	// IntegrationAuthTypeBasic represents the value Basic.
+	IntegrationAuthTypeBasic IntegrationAuthTypeValue = "Basic"
+
+	// IntegrationAuthTypeOauth represents the value OAuth.
+	IntegrationAuthTypeOauth IntegrationAuthTypeValue = "OAuth"
+)
+
 // IntegrationTypeValue represents the possible values for attribute "type".
 type IntegrationTypeValue string
 
@@ -15,17 +26,6 @@ const (
 
 	// IntegrationTypeVulnerabilityscanner represents the value VulnerabilityScanner.
 	IntegrationTypeVulnerabilityscanner IntegrationTypeValue = "VulnerabilityScanner"
-)
-
-// IntegrationAuthorizationValue represents the possible values for attribute "authorization".
-type IntegrationAuthorizationValue string
-
-const (
-	// IntegrationAuthorizationBasic represents the value Basic.
-	IntegrationAuthorizationBasic IntegrationAuthorizationValue = "Basic"
-
-	// IntegrationAuthorizationOauth represents the value OAuth.
-	IntegrationAuthorizationOauth IntegrationAuthorizationValue = "OAuth"
 )
 
 // IntegrationIdentity represents the Identity of the object
@@ -48,8 +48,8 @@ type Integration struct {
 	// AssociatedTags are the list of tags attached to an entity
 	AssociatedTags []string `json:"associatedTags" cql:"associatedtags,omitempty" bson:"associatedtags"`
 
-	// Authorization refers to type of the HTTP authorization header
-	Authorization IntegrationAuthorizationValue `json:"authorization" cql:"authorization,omitempty" bson:"authorization"`
+	// AuthType refers to the type of HTTP authentication used to query endpoints
+	AuthType IntegrationAuthTypeValue `json:"authType" cql:"authtype,omitempty" bson:"authtype"`
 
 	// CreatedAt is the time at which an entity was created
 	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty" bson:"createdat"`
@@ -98,10 +98,10 @@ type Integration struct {
 func NewIntegration() *Integration {
 
 	return &Integration{
-		Authorization: "Basic",
-		SslEnabled:    false,
-		Status:        constants.Active,
-		Type:          "Registry",
+		AuthType:   "Basic",
+		SslEnabled: false,
+		Status:     constants.Active,
+		Type:       "Registry",
 	}
 }
 
@@ -208,7 +208,7 @@ func (o *Integration) Validate() elemental.Errors {
 
 	errors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("authorization", string(o.Authorization), []string{"Basic", "OAuth"}, false); err != nil {
+	if err := elemental.ValidateStringInList("authType", string(o.AuthType), []string{"Basic", "OAuth"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -276,11 +276,11 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "tags_list",
 		Type:           "external",
 	},
-	"Authorization": elemental.AttributeSpecification{
+	"AuthType": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Basic", "OAuth"},
 		Exposed:        true,
 		Filterable:     true,
-		Name:           "authorization",
+		Name:           "authType",
 		Orderable:      true,
 		Required:       true,
 		Stored:         true,

@@ -31,7 +31,7 @@ class Integration(RESTObject):
         self._id = None
         self._annotation = None
         self._associatedtags = None
-        self._authorization = None
+        self._authtype = None
         self._createdat = None
         self._deleted = None
         self._endpoint = None
@@ -50,7 +50,7 @@ class Integration(RESTObject):
         self.expose_attribute(local_name="ID", remote_name="ID")
         self.expose_attribute(local_name="annotation", remote_name="annotation")
         self.expose_attribute(local_name="associatedTags", remote_name="associatedTags")
-        self.expose_attribute(local_name="authorization", remote_name="authorization")
+        self.expose_attribute(local_name="authType", remote_name="authType")
         self.expose_attribute(local_name="createdAt", remote_name="createdAt")
         self.expose_attribute(local_name="deleted", remote_name="deleted")
         self.expose_attribute(local_name="endpoint", remote_name="endpoint")
@@ -158,26 +158,26 @@ class Integration(RESTObject):
         self._associatedtags = value
     
     @property
-    def authorization(self):
-        """ Get authorization value.
+    def authType(self):
+        """ Get authType value.
 
           Notes:
-              Authorization refers to type of the HTTP authorization header
+              AuthType refers to the type of HTTP authentication used to query endpoints
 
               
         """
-        return self._authorization
+        return self._authtype
 
-    @authorization.setter
-    def authorization(self, value):
-        """ Set authorization value.
+    @authType.setter
+    def authType(self, value):
+        """ Set authType value.
 
           Notes:
-              Authorization refers to type of the HTTP authorization header
+              AuthType refers to the type of HTTP authentication used to query endpoints
 
               
         """
-        self._authorization = value
+        self._authtype = value
     
     @property
     def createdAt(self):
@@ -492,7 +492,7 @@ class Integration(RESTObject):
         """
         errors = []
 
-        err = validate_string_in_list("authorization", self.authorization, ["Basic", "OAuth"], false)
+        err = validate_string_in_list("authType", self.authType, ["Basic", "OAuth"], false)
 
         if err:
             errors.append(err)
