@@ -184,7 +184,7 @@
             "deprecated": false,
             "description": "serverID is the ID of the server associated with the processing unit",
             "exposed": true,
-            "filterable": false,
+            "filterable": true,
             "foreign_key": false,
             "format": "free",
             "getter": false,
