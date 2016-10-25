@@ -11,7 +11,7 @@
             "deprecated": null,
             "description": "Selector is the main selector for the DependencyMapSubview.",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": null,
             "format": null,
             "getter": null,
