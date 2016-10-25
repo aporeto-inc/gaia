@@ -45,7 +45,7 @@
             "deprecated": null,
             "description": "A map of the transient tags for the processing units",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": null,
             "format": null,
             "getter": null,
