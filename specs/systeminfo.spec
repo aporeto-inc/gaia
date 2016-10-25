@@ -56,7 +56,7 @@
             "min_length": null,
             "min_value": null,
             "name": "bahamutVersion",
-            "orderable": true,
+            "orderable": false,
             "primary_key": null,
             "read_only": true,
             "required": null,
