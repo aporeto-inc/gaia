@@ -11,7 +11,7 @@
             "deprecated": false,
             "description": "Network refers to either CIDR or domain name",
             "exposed": true,
-            "filterable": false,
+            "filterable": true,
             "foreign_key": false,
             "format": null,
             "getter": false,
