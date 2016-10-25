@@ -11,7 +11,7 @@
             "deprecated": false,
             "description": "Address provides the current IP address of the server after its initialized.",
             "exposed": true,
-            "filterable": false,
+            "filterable": true,
             "foreign_key": false,
             "format": null,
             "getter": false,
