@@ -147,7 +147,7 @@
             "deprecated": null,
             "description": "ManipulateVersion is the version of Manipulate used by the server.",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": null,
             "format": "free",
             "getter": null,
