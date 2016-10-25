@@ -45,7 +45,7 @@
             "deprecated": null,
             "description": "A map of the tags to apply to processing units",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": null,
             "format": null,
             "getter": null,
