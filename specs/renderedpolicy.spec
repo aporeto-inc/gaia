@@ -45,7 +45,7 @@
             "deprecated": false,
             "description": "IngressPolicies lists all the ingress policies attached to ProcessingUnit",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": false,
             "format": null,
             "getter": false,
