@@ -11,7 +11,7 @@
             "deprecated": false,
             "description": "EgressPolicies lists all the egress policies attached to ProcessingUnit",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": false,
             "format": null,
             "getter": false,
