@@ -83,7 +83,7 @@
             "deprecated": null,
             "description": "Password is the password of the user to be used in the HTTP Authorization header",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": null,
             "format": "free",
             "getter": null,
