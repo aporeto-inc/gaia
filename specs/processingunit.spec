@@ -113,7 +113,7 @@
             "deprecated": false,
             "description": "NativeContextID is the Docker UUID or service PID",
             "exposed": true,
-            "filterable": false,
+            "filterable": true,
             "foreign_key": false,
             "format": "free",
             "getter": false,
