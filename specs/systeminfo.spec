@@ -253,7 +253,7 @@
             "deprecated": null,
             "description": "Status is the overall health status of the server.",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": null,
             "format": null,
             "getter": null,
