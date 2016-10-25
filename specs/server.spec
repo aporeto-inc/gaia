@@ -83,7 +83,7 @@
             "deprecated": false,
             "description": "Environment describes where the server will be running.",
             "exposed": true,
-            "filterable": false,
+            "filterable": true,
             "foreign_key": false,
             "format": null,
             "getter": false,
