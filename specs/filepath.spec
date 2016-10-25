@@ -11,7 +11,7 @@
             "deprecated": false,
             "description": "FilePath refer to the file mount path",
             "exposed": true,
-            "filterable": false,
+            "filterable": true,
             "foreign_key": false,
             "format": "free",
             "getter": false,
