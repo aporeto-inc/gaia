@@ -45,7 +45,7 @@
             "deprecated": null,
             "description": "SubSelectors are the selector to apply inside the main selector.",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": null,
             "format": null,
             "getter": null,
