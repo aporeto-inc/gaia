@@ -45,7 +45,7 @@
             "deprecated": null,
             "description": "ExpirationDate is the date that the certificate must expire. ",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": null,
             "format": null,
             "getter": null,
