@@ -45,7 +45,7 @@
             "deprecated": false,
             "description": "LastSyncTime is the time when the policy was last resolved",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": false,
             "format": null,
             "getter": false,
