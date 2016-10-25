@@ -84,7 +84,7 @@
             "deprecated": false,
             "description": "Method for authenticator (Certificate, Key, LDAP, Google, etc)",
             "exposed": true,
-            "filterable": false,
+            "filterable": true,
             "foreign_key": false,
             "format": null,
             "getter": false,
