@@ -215,7 +215,7 @@
             "deprecated": null,
             "description": "SquallVersion is the version of server.",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": null,
             "format": "free",
             "getter": null,
