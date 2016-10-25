@@ -45,7 +45,7 @@
             "deprecated": false,
             "description": "Port refers to network port which could be 100-2000 or * to represent all ports",
             "exposed": true,
-            "filterable": false,
+            "filterable": true,
             "foreign_key": false,
             "format": null,
             "getter": false,
