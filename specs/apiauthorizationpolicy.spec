@@ -215,7 +215,7 @@
             "deprecated": null,
             "description": "Object is the object.",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": null,
             "format": null,
             "getter": null,
