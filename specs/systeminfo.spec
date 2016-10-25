@@ -79,7 +79,7 @@
             "deprecated": null,
             "description": "ElementalVersion is the version of Elemental used by the server.",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": null,
             "format": "free",
             "getter": null,
