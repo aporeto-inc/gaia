@@ -45,7 +45,7 @@
             "deprecated": false,
             "description": "ParentAuthenticator is an Internal attribute that points to the parent authenticator.",
             "exposed": false,
-            "filterable": false,
+            "filterable": true,
             "foreign_key": false,
             "format": "free",
             "getter": null,
