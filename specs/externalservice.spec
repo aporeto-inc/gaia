@@ -79,7 +79,7 @@
             "deprecated": false,
             "description": "Protocol refers to network protocol like TCP/UDP etc or * to represent all protocols",
             "exposed": true,
-            "filterable": false,
+            "filterable": true,
             "foreign_key": false,
             "format": null,
             "getter": false,
