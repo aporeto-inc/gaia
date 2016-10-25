@@ -45,7 +45,7 @@
             "deprecated": false,
             "description": "server is the server name/ID/IP associated with the file path",
             "exposed": true,
-            "filterable": false,
+            "filterable": true,
             "foreign_key": false,
             "format": "free",
             "getter": false,
