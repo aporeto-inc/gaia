@@ -90,7 +90,7 @@
             "min_length": null,
             "min_value": null,
             "name": "elementalVersion",
-            "orderable": true,
+            "orderable": false,
             "primary_key": null,
             "read_only": true,
             "required": null,
