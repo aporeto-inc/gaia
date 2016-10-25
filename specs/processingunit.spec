@@ -222,7 +222,7 @@
             "deprecated": false,
             "description": "Type of the container ecosystem",
             "exposed": true,
-            "filterable": false,
+            "filterable": true,
             "foreign_key": false,
             "format": null,
             "getter": false,
