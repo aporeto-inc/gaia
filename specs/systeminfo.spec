@@ -181,7 +181,7 @@
             "deprecated": null,
             "description": "MidgardURL contains the url to use to obtain a token.",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": null,
             "format": "free",
             "getter": null,
