@@ -11,7 +11,7 @@
             "deprecated": false,
             "description": "Action defines set of actions that must be enforced when a dependency is met.",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": false,
             "format": null,
             "getter": false,
