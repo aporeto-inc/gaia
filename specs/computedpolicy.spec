@@ -11,7 +11,7 @@
             "deprecated": null,
             "description": "Array of netowrk access policies computed",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": null,
             "format": null,
             "getter": null,
