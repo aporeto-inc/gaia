@@ -11,7 +11,7 @@
             "deprecated": false,
             "description": "List of namespaces that an user is authorized to use",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": false,
             "format": null,
             "getter": false,
