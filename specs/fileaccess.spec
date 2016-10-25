@@ -11,7 +11,7 @@
             "deprecated": null,
             "description": "Action tells if the access has been allowed or not.",
             "exposed": true,
-            "filterable": false,
+            "filterable": true,
             "foreign_key": null,
             "format": "free",
             "getter": null,
