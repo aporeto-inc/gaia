@@ -249,7 +249,7 @@
             "deprecated": null,
             "description": "Subject is the subject.",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": null,
             "format": null,
             "getter": null,
