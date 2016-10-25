@@ -121,7 +121,7 @@
             "deprecated": false,
             "description": "Operational status of the server",
             "exposed": true,
-            "filterable": false,
+            "filterable": true,
             "foreign_key": false,
             "format": null,
             "getter": false,
