@@ -22,7 +22,7 @@
             "min_length": null,
             "min_value": null,
             "name": "APIVersion",
-            "orderable": true,
+            "orderable": false,
             "primary_key": null,
             "read_only": true,
             "required": false,
