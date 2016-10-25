@@ -79,7 +79,7 @@
             "deprecated": null,
             "description": "Values used by the dependency map group",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": null,
             "format": null,
             "getter": null,
