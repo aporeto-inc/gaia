@@ -181,7 +181,7 @@
             "deprecated": null,
             "description": "Subject of the policy.",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": null,
             "format": null,
             "getter": null,
