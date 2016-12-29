@@ -41,7 +41,7 @@
             "channel": null,
             "creation_only": null,
             "default_order": null,
-            "default_value": "False",
+            "default_value": "false",
             "deprecated": null,
             "description": "Propagate indicates that the policy must be propagated to the children namespaces.",
             "exposed": true,
