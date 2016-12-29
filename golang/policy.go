@@ -62,6 +62,9 @@ type Policy struct {
 	// ParentType is the type of the parent, if any. It will be set to the parent's Identity.Name.
 	ParentType string `json:"parentType" cql:"parenttype,omitempty" bson:"parenttype"`
 
+	// Propagate will propagate the policy to all of its children.
+	Propagate bool `json:"propagate" cql:"propagate,omitempty" bson:"propagate"`
+
 	// Relation describes the required operation to be performed between subjects and objects
 	Relation []string `json:"relation" cql:"relation,omitempty" bson:"relation"`
 
@@ -86,6 +89,7 @@ func NewPolicy() *Policy {
 		AllSubjectTags: []string{},
 		AssociatedTags: []string{},
 		NormalizedTags: []string{},
+		Propagate:      false,
 		Status:         constants.Active,
 	}
 }
@@ -400,6 +404,15 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"Propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "propagate",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"Relation": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

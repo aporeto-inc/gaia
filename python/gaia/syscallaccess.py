@@ -29,12 +29,14 @@ class SyscallAccess(RESTObject):
         # Read/Write Attributes
         
         self._pid = None
+        self._propagate = None
         self._action = None
         self._count = None
         self._name = None
         self._processname = None
         
         self.expose_attribute(local_name="PID", remote_name="PID")
+        self.expose_attribute(local_name="Propagate", remote_name="Propagate")
         self.expose_attribute(local_name="action", remote_name="action")
         self.expose_attribute(local_name="count", remote_name="count")
         self.expose_attribute(local_name="name", remote_name="name")
@@ -84,6 +86,28 @@ class SyscallAccess(RESTObject):
               
         """
         self._pid = value
+    
+    @property
+    def Propagate(self):
+        """ Get Propagate value.
+
+          Notes:
+              Propagate indicates that the policy must be propagated to the children namespaces.
+
+              
+        """
+        return self._propagate
+
+    @Propagate.setter
+    def Propagate(self, value):
+        """ Set Propagate value.
+
+          Notes:
+              Propagate indicates that the policy must be propagated to the children namespaces.
+
+              
+        """
+        self._propagate = value
     
     @property
     def action(self):
