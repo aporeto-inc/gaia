@@ -36,6 +36,7 @@ class SystemInfo(RESTObject):
         self._manipulateversion = None
         self._midgardurl = None
         self._squallversion = None
+        self._statisticsservice = None
         self._status = None
         
         self.expose_attribute(local_name="APIVersion", remote_name="APIVersion")
@@ -46,6 +47,7 @@ class SystemInfo(RESTObject):
         self.expose_attribute(local_name="manipulateVersion", remote_name="manipulateVersion")
         self.expose_attribute(local_name="midgardURL", remote_name="midgardURL")
         self.expose_attribute(local_name="squallVersion", remote_name="squallVersion")
+        self.expose_attribute(local_name="statisticsService", remote_name="statisticsService")
         self.expose_attribute(local_name="status", remote_name="status")
 
         self._compute_args(**kwargs)
@@ -246,6 +248,28 @@ class SystemInfo(RESTObject):
               
         """
         self._squallversion = value
+    
+    @property
+    def statisticsService(self):
+        """ Get statisticsService value.
+
+          Notes:
+              StatisticsService provides the end-point for pushing statistics events.
+
+              
+        """
+        return self._statisticsservice
+
+    @statisticsService.setter
+    def statisticsService(self, value):
+        """ Set statisticsService value.
+
+          Notes:
+              StatisticsService provides the end-point for pushing statistics events.
+
+              
+        """
+        self._statisticsservice = value
     
     @property
     def status(self):

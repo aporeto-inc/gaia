@@ -43,6 +43,7 @@ class Policy(RESTObject):
         self._object = None
         self._parentid = None
         self._parenttype = None
+        self._propagate = None
         self._relation = None
         self._status = None
         self._subject = None
@@ -64,6 +65,7 @@ class Policy(RESTObject):
         self.expose_attribute(local_name="object", remote_name="object")
         self.expose_attribute(local_name="parentID", remote_name="parentID")
         self.expose_attribute(local_name="parentType", remote_name="parentType")
+        self.expose_attribute(local_name="propagate", remote_name="propagate")
         self.expose_attribute(local_name="relation", remote_name="relation")
         self.expose_attribute(local_name="status", remote_name="status")
         self.expose_attribute(local_name="subject", remote_name="subject")
@@ -424,6 +426,28 @@ class Policy(RESTObject):
               
         """
         self._parenttype = value
+    
+    @property
+    def propagate(self):
+        """ Get propagate value.
+
+          Notes:
+              Propagate will propagate the policy to all of its children.
+
+              
+        """
+        return self._propagate
+
+    @propagate.setter
+    def propagate(self, value):
+        """ Set propagate value.
+
+          Notes:
+              Propagate will propagate the policy to all of its children.
+
+              
+        """
+        self._propagate = value
     
     @property
     def relation(self):
