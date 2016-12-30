@@ -29,6 +29,7 @@ class FileAccessPolicy(RESTObject):
         # Read/Write Attributes
         
         self._id = None
+        self._propagate = None
         self._allowsexecute = None
         self._allowsread = None
         self._allowswrite = None
@@ -50,6 +51,7 @@ class FileAccessPolicy(RESTObject):
         self._updatedat = None
         
         self.expose_attribute(local_name="ID", remote_name="ID")
+        self.expose_attribute(local_name="Propagate", remote_name="Propagate")
         self.expose_attribute(local_name="allowsExecute", remote_name="allowsExecute")
         self.expose_attribute(local_name="allowsRead", remote_name="allowsRead")
         self.expose_attribute(local_name="allowsWrite", remote_name="allowsWrite")
@@ -116,6 +118,28 @@ class FileAccessPolicy(RESTObject):
               
         """
         self._id = value
+    
+    @property
+    def Propagate(self):
+        """ Get Propagate value.
+
+          Notes:
+              Propagate indicates that the policy must be propagated to the children namespaces.
+
+              
+        """
+        return self._propagate
+
+    @Propagate.setter
+    def Propagate(self, value):
+        """ Set Propagate value.
+
+          Notes:
+              Propagate indicates that the policy must be propagated to the children namespaces.
+
+              
+        """
+        self._propagate = value
     
     @property
     def allowsExecute(self):
