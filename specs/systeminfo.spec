@@ -293,7 +293,7 @@
             "max_value": null,
             "min_length": null,
             "min_value": null,
-            "name": "statistisService",
+            "name": "statisticsService",
             "orderable": false,
             "primary_key": null,
             "read_only": true,
