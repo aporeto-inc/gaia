@@ -61,8 +61,7 @@ func (o *Tag) Validate() error {
 
 	errors := elemental.Errors{}
 
-	// * is not allowed in the value - reserved for wildchars at the end only
-	if err := elemental.ValidatePattern("value", o.Value, `^[\w\d\*\$\+\.:,|@<>/-]+=[\w\d\$\+\.:,|@<>/-]+[\*]?$`); err != nil {
+	if err := elemental.ValidatePattern("value", o.Value, `^[\w\d\*\$\+\.:,|@<>/-]+=[\w\d\*\$\+\.:,|@<>/-]+$`); err != nil {
 		errors = append(errors, err)
 	}
 
