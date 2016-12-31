@@ -44,6 +44,7 @@ class Server(RESTObject):
         self._parentid = None
         self._parenttype = None
         self._status = None
+        self._targetnetworks = None
         self._updatedat = None
         
         self.expose_attribute(local_name="ID", remote_name="ID")
@@ -62,6 +63,7 @@ class Server(RESTObject):
         self.expose_attribute(local_name="parentID", remote_name="parentID")
         self.expose_attribute(local_name="parentType", remote_name="parentType")
         self.expose_attribute(local_name="status", remote_name="status")
+        self.expose_attribute(local_name="targetNetworks", remote_name="targetNetworks")
         self.expose_attribute(local_name="updatedAt", remote_name="updatedAt")
 
         self._compute_args(**kwargs)
@@ -440,6 +442,28 @@ class Server(RESTObject):
               
         """
         self._status = value
+    
+    @property
+    def targetNetworks(self):
+        """ Get targetNetworks value.
+
+          Notes:
+              TargetNetworks is the list of networks that the authorization functions must be performed for this server.
+
+              
+        """
+        return self._targetnetworks
+
+    @targetNetworks.setter
+    def targetNetworks(self, value):
+        """ Set targetNetworks value.
+
+          Notes:
+              TargetNetworks is the list of networks that the authorization functions must be performed for this server.
+
+              
+        """
+        self._targetnetworks = value
     
     @property
     def updatedAt(self):

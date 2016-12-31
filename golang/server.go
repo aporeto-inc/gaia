@@ -93,6 +93,9 @@ type Server struct {
 	// Status of an entity
 	Status constants.EntityStatus `json:"status" cql:"status,omitempty" bson:"status"`
 
+	// TargetNetworks is the list of networks that the authorization functions must be performed for this server.
+	TargetNetworks []string `json:"targetNetworks" cql:"targetnetworks,omitempty" bson:"targetnetworks"`
+
 	// UpdatedAt is the time at which an entity was updated.
 	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty" bson:"updatedat"`
 }
@@ -440,6 +443,15 @@ var ServerAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		SubType:        "status_enum",
+		Type:           "external",
+	},
+	"TargetNetworks": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "targetNetworks",
+		Stored:         true,
+		SubType:        "target_networks_list",
 		Type:           "external",
 	},
 	"UpdatedAt": elemental.AttributeSpecification{
