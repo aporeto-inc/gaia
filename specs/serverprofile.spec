@@ -114,7 +114,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "iptablesMarkValue is the mark value to be used in an iptables implementation.",
+            "description": "IptablesMarkValue is the mark value to be used in an iptables implementation.",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
