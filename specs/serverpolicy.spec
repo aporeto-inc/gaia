@@ -78,6 +78,7 @@
         "extends": [
             "@base",
             "@described",
+            "@identifiable-nopk-nostored",
             "@named"
         ],
         "get": true,
