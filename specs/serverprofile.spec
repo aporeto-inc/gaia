@@ -183,7 +183,7 @@
             "channel": null,
             "creation_only": null,
             "default_order": null,
-            "default_value": null,
+            "default_value": "Aporeto Agent",
             "deprecated": null,
             "description": "LogID is the ID to use to identity the logs of this server.",
             "exposed": true,
