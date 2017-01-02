@@ -250,7 +250,7 @@
             "default_order": null,
             "default_value": "4",
             "deprecated": null,
-            "description": "TransmitterQueue is the queue number for traffic from the applications.",
+            "description": "TransmitterQueue is the queue number for traffic from the applications starting at the transmitterQueue",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
