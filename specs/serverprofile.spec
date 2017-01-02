@@ -148,7 +148,7 @@
             "default_order": null,
             "default_value": "0",
             "deprecated": null,
-            "description": "ReceiverQueue is the base queue number for the receiver.",
+            "description": "ReceiverQueue is the base queue number for traffic from the network.",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
