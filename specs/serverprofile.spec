@@ -8,7 +8,9 @@
         "entity_name": "ServerProfile",
         "extends": [
             "@base",
-            "@described"
+            "@described",
+            "@identifiable-pk-stored",
+            "@named"
         ],
         "get": true,
         "package": null,
