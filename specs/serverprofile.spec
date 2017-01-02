@@ -43,7 +43,7 @@
             "default_order": null,
             "default_value": "/var/run/docker.sock",
             "deprecated": null,
-            "description": null,
+            "description": "DockerSocketAddress is the address of the docker daemon.",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
