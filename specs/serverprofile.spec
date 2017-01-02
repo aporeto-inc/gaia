@@ -144,6 +144,7 @@
             "allowed_choices": [
                 "debug",
                 "error",
+                "fatal",
                 "info",
                 "warn"
             ],
