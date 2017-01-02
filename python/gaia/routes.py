@@ -64,6 +64,16 @@ routes.append(("DELETE", "/policies/:id"))
 
 # routes for flowstatistics
 
+# routes for serverprofiles
+routes.append(("GET", "/serverprofiles/:id"))
+routes.append(("PUT", "/serverprofiles/:id"))
+routes.append(("DELETE", "/serverprofiles/:id"))
+
+# routes for serverpolicies
+routes.append(("GET", "/serverpolicies/:id"))
+routes.append(("PUT", "/serverpolicies/:id"))
+routes.append(("DELETE", "/serverpolicies/:id"))
+
 # routes for computeddependencymapviews
 routes.append(("GET", "/computeddependencymapviews/:id"))
 routes.append(("DELETE", "/computeddependencymapviews/:id"))
@@ -79,6 +89,11 @@ routes.append(("PUT", "/authenticators/:id"))
 routes.append(("DELETE", "/authenticators/:id"))
 routes.append(("POST", "/authenticators/:id/users"))
 routes.append(("GET", "/authenticators/:id/users"))
+
+# routes for serverconfigurations
+routes.append(("GET", "/serverconfigurations/:id"))
+routes.append(("PUT", "/serverconfigurations/:id"))
+routes.append(("DELETE", "/serverconfigurations/:id"))
 
 # routes for fileaccesspolicies
 routes.append(("GET", "/fileaccesspolicies/:id"))
@@ -113,6 +128,7 @@ routes.append(("PUT", "/servers/:id"))
 routes.append(("DELETE", "/servers/:id"))
 routes.append(("POST", "/servers/:id/certificates"))
 routes.append(("GET", "/servers/:id/certificates"))
+routes.append(("GET", "/servers/:id/serverprofiles"))
 
 # routes for mapnodes
 
@@ -149,6 +165,10 @@ routes.append(("POST", "/processingunits"))
 routes.append(("GET", "/processingunits"))
 routes.append(("POST", "/servers"))
 routes.append(("GET", "/servers"))
+routes.append(("POST", "/serverpolicies"))
+routes.append(("GET", "/serverpolicies"))
+routes.append(("POST", "/serverprofiles"))
+routes.append(("GET", "/serverprofiles"))
 routes.append(("POST", "/systemcalls"))
 routes.append(("GET", "/systemcalls"))
 routes.append(("GET", "/systeminfos"))

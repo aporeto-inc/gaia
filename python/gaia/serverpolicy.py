@@ -4,15 +4,15 @@ from pyelemental import RESTObject
 from pyelemental import validate_string_in_list, validate_float_in_list, validate_int_in_list, validate_required_int, validate_required_float, validate_required_string, validate_required_time, validate_maximum_float, validate_minimum_float, validate_maximum_int, validate_minimum_int, validate_maximum_length, validate_minimum_length, validate_pattern
 
 
-class Server(RESTObject):
-    """ Represents a Server in the 
+class ServerPolicy(RESTObject):
+    """ Represents a ServerPolicy in the 
 
         Notes:
-            Server runs all the containers.
+            None
     """
 
     def __init__(self, **kwargs):
-        """ Initializes a Server instance
+        """ Initializes a ServerPolicy instance
 
           Notes:
               You can specify all parameters while calling this methods.
@@ -20,48 +20,44 @@ class Server(RESTObject):
               object from a Python dictionary
 
           Examples:
-              >>> server = Server(id=u'xxxx-xxx-xxx-xxx', name=u'Server')
-              >>> server = Server(data=my_dict)
+              >>> serverpolicy = ServerPolicy(id=u'xxxx-xxx-xxx-xxx', name=u'ServerPolicy')
+              >>> serverpolicy = ServerPolicy(data=my_dict)
         """
 
-        super(Server, self).__init__()
+        super(ServerPolicy, self).__init__()
 
         # Read/Write Attributes
         
         self._id = None
-        self._address = None
         self._annotation = None
         self._associatedtags = None
         self._createdat = None
         self._deleted = None
         self._description = None
-        self._domain = None
-        self._environment = None
         self._name = None
         self._namespace = None
         self._normalizedtags = None
-        self._operationalstatus = None
         self._parentid = None
         self._parenttype = None
         self._status = None
+        self._subject = None
+        self._targetserverprofile = None
         self._updatedat = None
         
         self.expose_attribute(local_name="ID", remote_name="ID")
-        self.expose_attribute(local_name="address", remote_name="address")
         self.expose_attribute(local_name="annotation", remote_name="annotation")
         self.expose_attribute(local_name="associatedTags", remote_name="associatedTags")
         self.expose_attribute(local_name="createdAt", remote_name="createdAt")
         self.expose_attribute(local_name="deleted", remote_name="deleted")
         self.expose_attribute(local_name="description", remote_name="description")
-        self.expose_attribute(local_name="domain", remote_name="domain")
-        self.expose_attribute(local_name="environment", remote_name="environment")
         self.expose_attribute(local_name="name", remote_name="name")
         self.expose_attribute(local_name="namespace", remote_name="namespace")
         self.expose_attribute(local_name="normalizedTags", remote_name="normalizedTags")
-        self.expose_attribute(local_name="operationalStatus", remote_name="operationalStatus")
         self.expose_attribute(local_name="parentID", remote_name="parentID")
         self.expose_attribute(local_name="parentType", remote_name="parentType")
         self.expose_attribute(local_name="status", remote_name="status")
+        self.expose_attribute(local_name="subject", remote_name="subject")
+        self.expose_attribute(local_name="targetServerProfile", remote_name="targetServerProfile")
         self.expose_attribute(local_name="updatedAt", remote_name="updatedAt")
 
         self._compute_args(**kwargs)
@@ -86,7 +82,7 @@ class Server(RESTObject):
     def identity(self):
         """ Identity returns the Identity of the object.
         """
-        return serverIdentity
+        return serverpolicyIdentity
 
     # Properties
     @property
@@ -110,28 +106,6 @@ class Server(RESTObject):
               
         """
         self._id = value
-    
-    @property
-    def address(self):
-        """ Get address value.
-
-          Notes:
-              Address provides the current IP address of the server after its initialized.
-
-              
-        """
-        return self._address
-
-    @address.setter
-    def address(self, value):
-        """ Set address value.
-
-          Notes:
-              Address provides the current IP address of the server after its initialized.
-
-              
-        """
-        self._address = value
     
     @property
     def annotation(self):
@@ -244,50 +218,6 @@ class Server(RESTObject):
         self._description = value
     
     @property
-    def domain(self):
-        """ Get domain value.
-
-          Notes:
-              Domain refers to the discovered domain name of the server
-
-              
-        """
-        return self._domain
-
-    @domain.setter
-    def domain(self, value):
-        """ Set domain value.
-
-          Notes:
-              Domain refers to the discovered domain name of the server
-
-              
-        """
-        self._domain = value
-    
-    @property
-    def environment(self):
-        """ Get environment value.
-
-          Notes:
-              Environment describes where the server will be running.
-
-              
-        """
-        return self._environment
-
-    @environment.setter
-    def environment(self, value):
-        """ Set environment value.
-
-          Notes:
-              Environment describes where the server will be running.
-
-              
-        """
-        self._environment = value
-    
-    @property
     def name(self):
         """ Get name value.
 
@@ -352,28 +282,6 @@ class Server(RESTObject):
               
         """
         self._normalizedtags = value
-    
-    @property
-    def operationalStatus(self):
-        """ Get operationalStatus value.
-
-          Notes:
-              Operational status of the server
-
-              
-        """
-        return self._operationalstatus
-
-    @operationalStatus.setter
-    def operationalStatus(self, value):
-        """ Set operationalStatus value.
-
-          Notes:
-              Operational status of the server
-
-              
-        """
-        self._operationalstatus = value
     
     @property
     def parentID(self):
@@ -442,6 +350,50 @@ class Server(RESTObject):
         self._status = value
     
     @property
+    def subject(self):
+        """ Get subject value.
+
+          Notes:
+              Subject is the subject of the policy.
+
+              
+        """
+        return self._subject
+
+    @subject.setter
+    def subject(self, value):
+        """ Set subject value.
+
+          Notes:
+              Subject is the subject of the policy.
+
+              
+        """
+        self._subject = value
+    
+    @property
+    def targetServerProfile(self):
+        """ Get targetServerProfile value.
+
+          Notes:
+              TargetServerProfile is the profile to be attached to the server.
+
+              
+        """
+        return self._targetserverprofile
+
+    @targetServerProfile.setter
+    def targetServerProfile(self, value):
+        """ Set targetServerProfile value.
+
+          Notes:
+              TargetServerProfile is the profile to be attached to the server.
+
+              
+        """
+        self._targetserverprofile = value
+    
+    @property
     def updatedAt(self):
         """ Get updatedAt value.
 
@@ -468,17 +420,12 @@ class Server(RESTObject):
         """
         errors = []
 
-        err = validate_string_in_list("environment", self.environment, ["AWS", "GCP", "Private"], false)
-
-        if err:
-            errors.append(err)
-
         err = validate_required_string("name", self.name)
 
         if err:
             errors.append(err)
 
-        err = validate_string_in_list("operationalStatus", self.operationalStatus, ["CONNECTED", "INITIALIZED", "UNKNOWN"], true)
+        err = validate_required_string("targetServerProfile", self.targetServerProfile)
 
         if err:
             errors.append(err)
@@ -488,5 +435,5 @@ class Server(RESTObject):
 
         return None
 
-    # serverIdentity represents the Identity of the object
-serverIdentity = {"name": "server", "category": "servers", "constructor": Server}
+    # serverpolicyIdentity represents the Identity of the object
+serverpolicyIdentity = {"name": "serverpolicy", "category": "serverpolicies", "constructor": ServerPolicy}

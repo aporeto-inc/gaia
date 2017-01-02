@@ -32,6 +32,9 @@ type PolicyRule struct {
 	// Relation describes the required operation to be performed between subjects and objects
 	Relation []string `json:"relation" cql:"relation,omitempty" bson:"relation"`
 
+	// ServerProfiles provides the information about the server profile.
+	Serverprofiles ServerProfilesList `json:"serverprofiles" cql:"serverprofiles,omitempty" bson:"serverprofiles"`
+
 	// Policy target networks
 	Syscalls SystemCallsList `json:"syscalls" cql:"syscalls,omitempty" bson:"syscalls"`
 
@@ -145,6 +148,14 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "relation",
 		Stored:         true,
 		SubType:        "relations_list",
+		Type:           "external",
+	},
+	"Serverprofiles": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Exposed:        true,
+		Name:           "serverprofiles",
+		Stored:         true,
+		SubType:        "serverprofile_entities",
 		Type:           "external",
 	},
 	"Syscalls": elemental.AttributeSpecification{

@@ -34,6 +34,7 @@ class PolicyRule(RESTObject):
         self._namespaces = None
         self._networks = None
         self._relation = None
+        self._serverprofiles = None
         self._syscalls = None
         self._tagclauses = None
         
@@ -43,6 +44,7 @@ class PolicyRule(RESTObject):
         self.expose_attribute(local_name="namespaces", remote_name="namespaces")
         self.expose_attribute(local_name="networks", remote_name="networks")
         self.expose_attribute(local_name="relation", remote_name="relation")
+        self.expose_attribute(local_name="serverprofiles", remote_name="serverprofiles")
         self.expose_attribute(local_name="syscalls", remote_name="syscalls")
         self.expose_attribute(local_name="tagclauses", remote_name="tagclauses")
 
@@ -202,6 +204,28 @@ class PolicyRule(RESTObject):
               
         """
         self._relation = value
+    
+    @property
+    def serverprofiles(self):
+        """ Get serverprofiles value.
+
+          Notes:
+              ServerProfiles provides the information about the server profile.
+
+              
+        """
+        return self._serverprofiles
+
+    @serverprofiles.setter
+    def serverprofiles(self, value):
+        """ Set serverprofiles value.
+
+          Notes:
+              ServerProfiles provides the information about the server profile.
+
+              
+        """
+        self._serverprofiles = value
     
     @property
     def syscalls(self):
