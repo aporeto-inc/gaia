@@ -143,6 +143,7 @@
             "allowed_chars": null,
             "allowed_choices": [
                 "debug",
+                "error",
                 "info",
                 "warn"
             ],
