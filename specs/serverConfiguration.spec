@@ -6,7 +6,9 @@
         "delete": true,
         "description": null,
         "entity_name": "ServerConfiguration",
-        "extends": [],
+        "extends": [
+            "@identifiable-nopk-nostored"
+        ],
         "get": true,
         "package": null,
         "resource_name": "serverConfigurations",
