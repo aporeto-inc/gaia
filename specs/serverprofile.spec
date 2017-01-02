@@ -9,7 +9,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "dockerSocketType is the type of socket to use to talk to the docker daemon.",
+            "description": "DockerSocketType is the type of socket to use to talk to the docker daemon.",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
