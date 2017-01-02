@@ -6,7 +6,10 @@
         "delete": true,
         "description": null,
         "entity_name": "ServerProfile",
-        "extends": [],
+        "extends": [
+            "@base",
+            "@described"
+        ],
         "get": true,
         "package": null,
         "resource_name": "serverprofiles",
