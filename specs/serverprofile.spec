@@ -7,7 +7,7 @@
             "channel": null,
             "creation_only": null,
             "default_order": null,
-            "default_value": null,
+            "default_value": "/var/run/docker.sock",
             "deprecated": null,
             "description": null,
             "exposed": true,
