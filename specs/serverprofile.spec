@@ -44,7 +44,7 @@
             "channel": null,
             "creation_only": null,
             "default_order": null,
-            "default_value": null,
+            "default_value": "unix",
             "deprecated": null,
             "description": "DockerSocketType is the type of socket to use to talk to the docker daemon.",
             "exposed": true,
