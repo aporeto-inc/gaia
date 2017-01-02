@@ -114,7 +114,7 @@
             "default_order": null,
             "default_value": "4",
             "deprecated": null,
-            "description": "ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the receiver starting at the ReceiverQueue",
+            "description": "ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network receiver starting at the ReceiverQueue",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
