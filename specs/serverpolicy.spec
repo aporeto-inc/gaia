@@ -75,7 +75,11 @@
         "delete": true,
         "description": null,
         "entity_name": "ServerPolicy",
-        "extends": [],
+        "extends": [
+            "@base",
+            "@described",
+            "@named"
+        ],
         "get": true,
         "package": null,
         "resource_name": "serverpolicies",
