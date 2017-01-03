@@ -663,6 +663,7 @@ var ServerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Filterable:     true,
 		Name:           "targetNetworks",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		SubType:        "target_networks_list",
 		Type:           "external",

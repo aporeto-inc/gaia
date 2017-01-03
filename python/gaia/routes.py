@@ -90,11 +90,6 @@ routes.append(("DELETE", "/authenticators/:id"))
 routes.append(("POST", "/authenticators/:id/users"))
 routes.append(("GET", "/authenticators/:id/users"))
 
-# routes for serverconfigurations
-routes.append(("GET", "/serverconfigurations/:id"))
-routes.append(("PUT", "/serverconfigurations/:id"))
-routes.append(("DELETE", "/serverconfigurations/:id"))
-
 # routes for fileaccesspolicies
 routes.append(("GET", "/fileaccesspolicies/:id"))
 routes.append(("PUT", "/fileaccesspolicies/:id"))

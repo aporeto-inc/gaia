@@ -27,7 +27,6 @@ func init() {
 	elemental.RegisterIdentity(ComputedDependencyMapViewIdentity)
 	elemental.RegisterIdentity(SystemCallIdentity)
 	elemental.RegisterIdentity(AuthenticatorIdentity)
-	elemental.RegisterIdentity(ServerConfigurationIdentity)
 	elemental.RegisterIdentity(FileAccessPolicyIdentity)
 	elemental.RegisterIdentity(RenderedPolicyIdentity)
 	elemental.RegisterIdentity(ProcessingUnitIdentity)
@@ -90,8 +89,6 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewSystemCall()
 	case AuthenticatorIdentity.Name:
 		return NewAuthenticator()
-	case ServerConfigurationIdentity.Name:
-		return NewServerConfiguration()
 	case FileAccessPolicyIdentity.Name:
 		return NewFileAccessPolicy()
 	case RenderedPolicyIdentity.Name:
