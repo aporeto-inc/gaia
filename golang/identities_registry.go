@@ -41,6 +41,7 @@ func init() {
 	elemental.RegisterIdentity(UserIdentity)
 }
 
+// IdentifiableForIdentity returns a new instance of the Identifiable for the given identity name.
 func IdentifiableForIdentity(identity string) elemental.Identifiable {
 
 	switch identity {
@@ -117,6 +118,4 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 	default:
 		return nil
 	}
-
-	return nil
 }

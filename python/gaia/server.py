@@ -34,6 +34,8 @@ class Server(RESTObject):
         self._associatedtags = None
         self._certificate = None
         self._certificateexpirationdate = None
+        self._certificatestatus = None
+        self._certificateupdate = None
         self._createdat = None
         self._deleted = None
         self._description = None
@@ -55,6 +57,8 @@ class Server(RESTObject):
         self.expose_attribute(local_name="associatedTags", remote_name="associatedTags")
         self.expose_attribute(local_name="certificate", remote_name="certificate")
         self.expose_attribute(local_name="certificateExpirationDate", remote_name="certificateExpirationDate")
+        self.expose_attribute(local_name="certificateStatus", remote_name="certificateStatus")
+        self.expose_attribute(local_name="certificateUpdate", remote_name="certificateUpdate")
         self.expose_attribute(local_name="createdAt", remote_name="createdAt")
         self.expose_attribute(local_name="deleted", remote_name="deleted")
         self.expose_attribute(local_name="description", remote_name="description")
@@ -226,6 +230,50 @@ class Server(RESTObject):
               
         """
         self._certificateexpirationdate = value
+    
+    @property
+    def certificateStatus(self):
+        """ Get certificateStatus value.
+
+          Notes:
+              CertificateStatus indicates if the certificate is valid.
+
+              
+        """
+        return self._certificatestatus
+
+    @certificateStatus.setter
+    def certificateStatus(self, value):
+        """ Set certificateStatus value.
+
+          Notes:
+              CertificateStatus indicates if the certificate is valid.
+
+              
+        """
+        self._certificatestatus = value
+    
+    @property
+    def certificateUpdate(self):
+        """ Get certificateUpdate value.
+
+          Notes:
+              CertificateUpdate updates the certificate of the object.
+
+              
+        """
+        return self._certificateupdate
+
+    @certificateUpdate.setter
+    def certificateUpdate(self, value):
+        """ Set certificateUpdate value.
+
+          Notes:
+              CertificateUpdate updates the certificate of the object.
+
+              
+        """
+        self._certificateupdate = value
     
     @property
     def createdAt(self):
@@ -539,6 +587,11 @@ class Server(RESTObject):
         """ Validate valides the current information stored into the structure.
         """
         errors = []
+
+        err = validate_string_in_list("certificateStatus", self.certificateStatus, ["REVOKED", "VALID"], false)
+
+        if err:
+            errors.append(err)
 
         err = validate_string_in_list("environment", self.environment, ["AWS", "GCP", "Private"], false)
 
