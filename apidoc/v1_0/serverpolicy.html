@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Server API Reference 1.0</title>
+    <title>ServerPolicy API Reference 1.0</title>
     <link rel="stylesheet" href="../css/bootstrap.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -30,8 +30,6 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Attributes <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             
-                            <li><a data-id="attr_address" href="#attr_address" class="fixed-text">address</a></li>
-                            
                             <li><a data-id="attr_annotation" href="#attr_annotation" class="fixed-text">annotation</a></li>
                             
                             <li><a data-id="attr_associatedTags" href="#attr_associatedTags" class="fixed-text">associatedTags</a></li>
@@ -42,10 +40,6 @@
                             
                             <li><a data-id="attr_description" href="#attr_description" class="fixed-text">description</a></li>
                             
-                            <li><a data-id="attr_domain" href="#attr_domain" class="fixed-text">domain</a></li>
-                            
-                            <li><a data-id="attr_environment" href="#attr_environment" class="fixed-text">environment</a></li>
-                            
                             <li><a data-id="attr_ID" href="#attr_ID" class="fixed-text">ID</a></li>
                             
                             <li><a data-id="attr_name" href="#attr_name" class="fixed-text">name</a></li>
@@ -54,13 +48,15 @@
                             
                             <li><a data-id="attr_normalizedTags" href="#attr_normalizedTags" class="fixed-text">normalizedTags</a></li>
                             
-                            <li><a data-id="attr_operationalStatus" href="#attr_operationalStatus" class="fixed-text">operationalStatus</a></li>
+                            <li><a data-id="attr_object" href="#attr_object" class="fixed-text">object</a></li>
                             
                             <li><a data-id="attr_parentID" href="#attr_parentID" class="fixed-text">parentID</a></li>
                             
                             <li><a data-id="attr_parentType" href="#attr_parentType" class="fixed-text">parentType</a></li>
                             
                             <li><a data-id="attr_status" href="#attr_status" class="fixed-text">status</a></li>
+                            
+                            <li><a data-id="attr_subject" href="#attr_subject" class="fixed-text">subject</a></li>
                             
                             <li><a data-id="attr_updatedAt" href="#attr_updatedAt" class="fixed-text">updatedAt</a></li>
                             
@@ -93,41 +89,13 @@
     <div class="container">
 
         <section id="intro">
-            <h2>Server</h2>
-            <p>Server runs all the containers.</p>
+            <h2>ServerPolicy</h2>
+            <p>None</p>
         </section>
 
         <section id="overview">
             <h3>Overview</h3>
                 <table class="width: 100%">
-                    
-                    <tr>
-                        <td class="fixed-text">
-                            <a href="#attr_address" title="Address provides the current IP address of the server after its initialized.">address</a>
-                        </td>
-                        <td style="padding-left: 10px;" class="fixed-text hide-xs">
-                            <span class="type_string">string
-    
-    
-    
-    
-    </span>
-                        </td>
-                        <td style="padding-left: 30px;" class="fixed-text hide-xs">
-                            
-    
-    
-    
-    
-    
-    
-     <span class="label label-info">filterable</span>&nbsp;
-    
-    
-    
-    
-                        </td>
-                    </tr>
                     
                     <tr>
                         <td class="fixed-text">
@@ -267,77 +235,6 @@
     
     
      <span class="label label-info">orderable</span>&nbsp;
-    
-    
-    
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td class="fixed-text">
-                            <a href="#attr_domain" title="Domain refers to the discovered domain name of the server">domain</a>
-                        </td>
-                        <td style="padding-left: 10px;" class="fixed-text hide-xs">
-                            <span class="type_string">string
-    
-    
-    
-    
-    </span>
-                        </td>
-                        <td style="padding-left: 30px;" class="fixed-text hide-xs">
-                            
-    
-    
-    
-    
-    
-    
-     <span class="label label-info">filterable</span>&nbsp;
-    
-    
-    
-    
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td class="fixed-text">
-                            <a href="#attr_environment" title="Environment describes where the server will be running.">environment</a>
-                        </td>
-                        <td style="padding-left: 10px;" class="fixed-text hide-xs">
-                            <span class="type_enum">enum
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-     (AWS | GCP | Private)
-    </span>
-                        </td>
-                        <td style="padding-left: 30px;" class="fixed-text hide-xs">
-                            
-    
-     <span class="label label-danger">required</span>&nbsp;
-    
-    
-    
-    
-     <span class="label label-info">creation only</span>&nbsp;
-    
-    
-    
-     <span class="label label-info">filterable</span>&nbsp;
-    
     
     
     
@@ -490,38 +387,25 @@
                     
                     <tr>
                         <td class="fixed-text">
-                            <a href="#attr_operationalStatus" title="Operational status of the server">operationalStatus</a>
+                            <a href="#attr_object" title="Object is the list of tags to use to find a server profile.">object</a>
                         </td>
                         <td style="padding-left: 10px;" class="fixed-text hide-xs">
-                            <span class="type_enum">enum
+                            <span class="type_external">external
     
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-     (CONNECTED | INITIALIZED | UNKNOWN)
     </span>
                         </td>
                         <td style="padding-left: 30px;" class="fixed-text hide-xs">
                             
     
+     <span class="label label-danger">required</span>&nbsp;
     
     
     
     
-     <span class="label label-info">autogenerated</span>&nbsp;
     
-    
-     <span class="label label-info">filterable</span>&nbsp;
     
     
     
@@ -631,6 +515,34 @@
                     
                     <tr>
                         <td class="fixed-text">
+                            <a href="#attr_subject" title="Subject is the subject of the policy.">subject</a>
+                        </td>
+                        <td style="padding-left: 10px;" class="fixed-text hide-xs">
+                            <span class="type_external">external
+    
+    
+    
+    
+    </span>
+                        </td>
+                        <td style="padding-left: 30px;" class="fixed-text hide-xs">
+                            
+    
+     <span class="label label-danger">required</span>&nbsp;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="fixed-text">
                             <a href="#attr_updatedAt" title="UpdatedAt is the time at which an entity was updated.">updatedAt</a>
                         </td>
                         <td style="padding-left: 10px;" class="fixed-text hide-xs">
@@ -677,7 +589,7 @@
         <div class="col-xs-7">
 
             
-            <span class="fixed-text">/servers/<span class="text-muted">id</span></a>
+            <span class="fixed-text">/serverpolicies/<span class="text-muted">id</span></a>
             
         </div>
         <div class="col-xs-5 text-right">
@@ -724,7 +636,7 @@
 
             
             
-            <span class="fixed-text">/servers</a>
+            <span class="fixed-text">/serverpolicies</a>
             
 
             
@@ -760,115 +672,13 @@
     
 
     
-    
-    <div class="row bordered-row">
-        <div class="col-xs-7">
-
-            
-
-            
-            <span class="fixed-text">/servers/<span class="text-muted">id</span>/<a href="certificate.html">certificates</a></span>
-            
-
-            
-        </div>
-        <div class="col-xs-5 text-right">
-            
-            
-    
-    
-    
-    <span class="label label-default">get</span>
-    
-            
-            
-    
-    
-    
-    <span class="label label-primary">post</span>
-    
-            
-        </div>
-    </div>
-    
-    <div class="row bordered-row">
-        <div class="col-xs-7">
-
-            
-
-            
-            <span class="fixed-text">/servers/<span class="text-muted">id</span>/<a href="serverprofile.html">serverprofiles</a></span>
-            
-
-            
-        </div>
-        <div class="col-xs-5 text-right">
-            
-            
-    
-    
-    
-    <span class="label label-default">get</span>
-    
-            
-        </div>
-    </div>
-    
+    <p>This object has no child.</p>
     
     
         </section>
 
         <section id="attributes">
             <h3>Attributes documentation</h3>
-            
-            <section id="attr_address" class="filterable" data-filter-keyword="address" style="padding-top: 60px; margin-top: -60px;">
-                <div class="panel panel-default">
-                    <div class="panel-heading fixed-text">
-                        <b>address</b>
-                        <span class="type_string fixed-text">string</span>
-                        
-    
-    
-    
-    
-    
-    
-     <span class="label label-info">filterable</span>&nbsp;
-    
-    
-    
-    
-                    </div>
-
-                    <div class="panel-body">
-                        <h5><b>Discussion</b></h5>
-                        <p>Address provides the current IP address of the server after its initialized.</p>
-
-                        <hr/>
-
-                        <h5><b>Charateristics</b></h5>
-                        <p>
-                            
-
-                            
-
-                            
-
-                            
-
-                            
-
-                            
-
-                            
-
-                            
-
-                            <span class="small"><b>SDK attribute: </b></span><span class="fixed-text">address</span>
-                        </p>
-                    </div>
-                </div>
-            </section>
             
             <section id="attr_annotation" class="filterable" data-filter-keyword="annotation" style="padding-top: 60px; margin-top: -60px;">
                 <div class="panel panel-default">
@@ -1121,110 +931,6 @@
                 </div>
             </section>
             
-            <section id="attr_domain" class="filterable" data-filter-keyword="domain" style="padding-top: 60px; margin-top: -60px;">
-                <div class="panel panel-default">
-                    <div class="panel-heading fixed-text">
-                        <b>domain</b>
-                        <span class="type_string fixed-text">string</span>
-                        
-    
-    
-    
-    
-    
-    
-     <span class="label label-info">filterable</span>&nbsp;
-    
-    
-    
-    
-                    </div>
-
-                    <div class="panel-body">
-                        <h5><b>Discussion</b></h5>
-                        <p>Domain refers to the discovered domain name of the server</p>
-
-                        <hr/>
-
-                        <h5><b>Charateristics</b></h5>
-                        <p>
-                            
-
-                            
-
-                            
-
-                            
-
-                            
-
-                            
-
-                            
-
-                            
-
-                            <span class="small"><b>SDK attribute: </b></span><span class="fixed-text">domain</span>
-                        </p>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="attr_environment" class="filterable" data-filter-keyword="environment" style="padding-top: 60px; margin-top: -60px;">
-                <div class="panel panel-default">
-                    <div class="panel-heading fixed-text">
-                        <b>environment</b>
-                        <span class="type_enum fixed-text">enum</span>
-                        
-    
-     <span class="label label-danger">required</span>&nbsp;
-    
-    
-    
-    
-     <span class="label label-info">creation only</span>&nbsp;
-    
-    
-    
-     <span class="label label-info">filterable</span>&nbsp;
-    
-    
-    
-    
-                    </div>
-
-                    <div class="panel-body">
-                        <h5><b>Discussion</b></h5>
-                        <p>Environment describes where the server will be running.</p>
-
-                        <hr/>
-
-                        <h5><b>Charateristics</b></h5>
-                        <p>
-                            
-                            <span class="small"><b>Allowed values: </b></span><span class="fixed-text">AWS, GCP, Private</span><br/>
-                            
-
-                            
-
-                            
-
-                            
-
-                            
-
-                            
-
-                            
-
-                            
-
-                            <span class="small"><b>SDK attribute: </b></span><span class="fixed-text">environment</span>
-                        </p>
-                    </div>
-                </div>
-            </section>
-            
             <section id="attr_ID" class="filterable" data-filter-keyword="ID" style="padding-top: 60px; margin-top: -60px;">
                 <div class="panel panel-default">
                     <div class="panel-heading fixed-text">
@@ -1459,21 +1165,19 @@
                 </div>
             </section>
             
-            <section id="attr_operationalStatus" class="filterable" data-filter-keyword="operationalStatus" style="padding-top: 60px; margin-top: -60px;">
+            <section id="attr_object" class="filterable" data-filter-keyword="object" style="padding-top: 60px; margin-top: -60px;">
                 <div class="panel panel-default">
                     <div class="panel-heading fixed-text">
-                        <b>operationalStatus</b>
-                        <span class="type_enum fixed-text">enum</span>
+                        <b>object</b>
+                        <span class="type_external fixed-text">external</span>
                         
     
+     <span class="label label-danger">required</span>&nbsp;
     
     
     
     
-     <span class="label label-info">autogenerated</span>&nbsp;
     
-    
-     <span class="label label-info">filterable</span>&nbsp;
     
     
     
@@ -1482,20 +1186,16 @@
 
                     <div class="panel-body">
                         <h5><b>Discussion</b></h5>
-                        <p>Operational status of the server</p>
+                        <p>Object is the list of tags to use to find a server profile.</p>
 
                         <hr/>
 
                         <h5><b>Charateristics</b></h5>
                         <p>
                             
-                            <span class="small"><b>Allowed values: </b></span><span class="fixed-text">CONNECTED, INITIALIZED, UNKNOWN</span><br/>
-                            
 
                             
 
-                            
-                            <span class="small"><b>Default value: </b></span><span class="fixed-text">UNKNOWN</span><br/>
                             
 
                             
@@ -1508,7 +1208,7 @@
 
                             
 
-                            <span class="small"><b>SDK attribute: </b></span><span class="fixed-text">operationalStatus</span>
+                            <span class="small"><b>SDK attribute: </b></span><span class="fixed-text">object</span>
                         </p>
                     </div>
                 </div>
@@ -1678,6 +1378,55 @@
                             
 
                             <span class="small"><b>SDK attribute: </b></span><span class="fixed-text">status</span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="attr_subject" class="filterable" data-filter-keyword="subject" style="padding-top: 60px; margin-top: -60px;">
+                <div class="panel panel-default">
+                    <div class="panel-heading fixed-text">
+                        <b>subject</b>
+                        <span class="type_external fixed-text">external</span>
+                        
+    
+     <span class="label label-danger">required</span>&nbsp;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+                    </div>
+
+                    <div class="panel-body">
+                        <h5><b>Discussion</b></h5>
+                        <p>Subject is the subject of the policy.</p>
+
+                        <hr/>
+
+                        <h5><b>Charateristics</b></h5>
+                        <p>
+                            
+
+                            
+
+                            
+
+                            
+
+                            
+
+                            
+
+                            
+
+                            
+
+                            <span class="small"><b>SDK attribute: </b></span><span class="fixed-text">subject</span>
                         </p>
                     </div>
                 </div>

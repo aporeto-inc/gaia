@@ -4,6 +4,7 @@ import "github.com/aporeto-inc/elemental"
 
 func init() {
 
+	elemental.RegisterIdentity(APICheckIdentity)
 	elemental.RegisterIdentity(NamespaceMappingPolicyIdentity)
 	elemental.RegisterIdentity(DependencyMapSubviewIdentity)
 	elemental.RegisterIdentity(APIAuthorizationPolicyIdentity)
@@ -22,6 +23,8 @@ func init() {
 	elemental.RegisterIdentity(ExternalServiceIdentity)
 	elemental.RegisterIdentity(PolicyIdentity)
 	elemental.RegisterIdentity(FlowStatisticIdentity)
+	elemental.RegisterIdentity(ServerProfileIdentity)
+	elemental.RegisterIdentity(ServerPolicyIdentity)
 	elemental.RegisterIdentity(ComputedDependencyMapViewIdentity)
 	elemental.RegisterIdentity(SystemCallIdentity)
 	elemental.RegisterIdentity(AuthenticatorIdentity)
@@ -38,9 +41,12 @@ func init() {
 	elemental.RegisterIdentity(UserIdentity)
 }
 
+// IdentifiableForIdentity returns a new instance of the Identifiable for the given identity name.
 func IdentifiableForIdentity(identity string) elemental.Identifiable {
 
 	switch identity {
+	case APICheckIdentity.Name:
+		return NewAPICheck()
 	case NamespaceMappingPolicyIdentity.Name:
 		return NewNamespaceMappingPolicy()
 	case DependencyMapSubviewIdentity.Name:
@@ -77,6 +83,10 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewPolicy()
 	case FlowStatisticIdentity.Name:
 		return NewFlowStatistic()
+	case ServerProfileIdentity.Name:
+		return NewServerProfile()
+	case ServerPolicyIdentity.Name:
+		return NewServerPolicy()
 	case ComputedDependencyMapViewIdentity.Name:
 		return NewComputedDependencyMapView()
 	case SystemCallIdentity.Name:
@@ -108,6 +118,4 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 	default:
 		return nil
 	}
-
-	return nil
 }

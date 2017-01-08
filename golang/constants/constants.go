@@ -38,6 +38,9 @@ const (
 
 	// NamespaceMapping defines that a policy is a NamespaceMapping policy
 	NamespaceMapping PolicyType = "NamespaceMapping"
+
+	// Server defines that a policy is a Server policy
+	Server PolicyType = "Server"
 )
 
 // Vulnerability defines the security vulnerability of an image or a layer
@@ -102,6 +105,8 @@ func PolicyTypeToString(policyType PolicyType) string {
 		return "ExtendTags"
 	case NamespaceMapping:
 		return "NamespaceMapping"
+	case Server:
+		return "Server"
 	default:
 		return ""
 	}

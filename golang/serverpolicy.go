@@ -6,53 +6,19 @@ import "github.com/aporeto-inc/elemental"
 import "time"
 import "github.com/aporeto-inc/gaia/golang/constants"
 
-// ProcessingUnitOperationalStatusValue represents the possible values for attribute "operationalStatus".
-type ProcessingUnitOperationalStatusValue string
-
-const (
-	// ProcessingUnitOperationalStatusInitialized represents the value Initialized.
-	ProcessingUnitOperationalStatusInitialized ProcessingUnitOperationalStatusValue = "Initialized"
-
-	// ProcessingUnitOperationalStatusPaused represents the value Paused.
-	ProcessingUnitOperationalStatusPaused ProcessingUnitOperationalStatusValue = "Paused"
-
-	// ProcessingUnitOperationalStatusRunning represents the value Running.
-	ProcessingUnitOperationalStatusRunning ProcessingUnitOperationalStatusValue = "Running"
-
-	// ProcessingUnitOperationalStatusStopped represents the value Stopped.
-	ProcessingUnitOperationalStatusStopped ProcessingUnitOperationalStatusValue = "Stopped"
-
-	// ProcessingUnitOperationalStatusTerminated represents the value Terminated.
-	ProcessingUnitOperationalStatusTerminated ProcessingUnitOperationalStatusValue = "Terminated"
-)
-
-// ProcessingUnitTypeValue represents the possible values for attribute "type".
-type ProcessingUnitTypeValue string
-
-const (
-	// ProcessingUnitTypeDocker represents the value Docker.
-	ProcessingUnitTypeDocker ProcessingUnitTypeValue = "Docker"
-
-	// ProcessingUnitTypeLinuxservice represents the value LinuxService.
-	ProcessingUnitTypeLinuxservice ProcessingUnitTypeValue = "LinuxService"
-
-	// ProcessingUnitTypeRkt represents the value RKT.
-	ProcessingUnitTypeRkt ProcessingUnitTypeValue = "RKT"
-)
-
-// ProcessingUnitIdentity represents the Identity of the object
-var ProcessingUnitIdentity = elemental.Identity{
-	Name:     "processingunit",
-	Category: "processingunits",
+// ServerPolicyIdentity represents the Identity of the object
+var ServerPolicyIdentity = elemental.Identity{
+	Name:     "serverpolicy",
+	Category: "serverpolicies",
 }
 
-// ProcessingUnitsList represents a list of ProcessingUnits
-type ProcessingUnitsList []*ProcessingUnit
+// ServerPoliciesList represents a list of ServerPolicies
+type ServerPoliciesList []*ServerPolicy
 
-// ProcessingUnit represents the model of a processingunit
-type ProcessingUnit struct {
+// ServerPolicy represents the model of a serverpolicy
+type ServerPolicy struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" cql:"id,primarykey,omitempty" bson:"_id"`
+	ID string `json:"ID" cql:"-" bson:"-"`
 
 	// Annotation stores additional information about an entity
 	Annotation map[string]string `json:"annotation" cql:"annotation,omitempty" bson:"annotation"`
@@ -69,26 +35,17 @@ type ProcessingUnit struct {
 	// Description is the description of the object.
 	Description string `json:"description" cql:"description,omitempty" bson:"description"`
 
-	// LastSyncTime is the time when the policy was last resolved
-	LastSyncTime time.Time `json:"lastSyncTime" cql:"lastsynctime,omitempty" bson:"lastsynctime"`
-
-	// Metadata are list of tags associated to the processing unit
-	Metadata []string `json:"metadata" cql:"metadata,omitempty" bson:"metadata"`
-
 	// Name is the name of the entity
 	Name string `json:"name" cql:"name,omitempty" bson:"name"`
 
 	// Namespace tag attached to an entity
 	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"_namespace"`
 
-	// NativeContextID is the Docker UUID or service PID
-	NativeContextID string `json:"nativeContextID" cql:"nativecontextid,omitempty" bson:"nativecontextid"`
-
 	// NormalizedTags contains the list of normalized tags of the entities
 	NormalizedTags []string `json:"normalizedTags" cql:"-" bson:"-"`
 
-	// OperationalStatus of the processing unit
-	OperationalStatus ProcessingUnitOperationalStatusValue `json:"operationalStatus" cql:"operationalstatus,omitempty" bson:"operationalstatus"`
+	// Object is the list of tags to use to find a server profile.
+	Object [][]string `json:"object" cql:"object,omitempty" bson:"object"`
 
 	// ParentID is the ID of the parent, if any,
 	ParentID string `json:"parentID" cql:"parentid,omitempty" bson:"parentid"`
@@ -96,164 +53,145 @@ type ProcessingUnit struct {
 	// ParentType is the type of the parent, if any. It will be set to the parent's Identity.Name.
 	ParentType string `json:"parentType" cql:"parenttype,omitempty" bson:"parenttype"`
 
-	// serverID is the ID of the server associated with the processing unit
-	ServerID string `json:"serverID" cql:"serverid,omitempty" bson:"serverid"`
-
 	// Status of an entity
 	Status constants.EntityStatus `json:"status" cql:"status,omitempty" bson:"status"`
 
-	// Type of the container ecosystem
-	Type ProcessingUnitTypeValue `json:"type" cql:"type,omitempty" bson:"type"`
+	// Subject is the subject of the policy.
+	Subject [][]string `json:"subject" cql:"subject,omitempty" bson:"subject"`
 
 	// UpdatedAt is the time at which an entity was updated.
 	UpdatedAt time.Time `json:"updatedAt" cql:"updatedat,omitempty" bson:"updatedat"`
-
-	// Vulnerabilities contains the list of vulnerabilities of the processing unit.
-	Vulnerabilities []string `json:"-" cql:"vulnerabilities,omitempty" bson:"vulnerabilities"`
 }
 
-// NewProcessingUnit returns a new *ProcessingUnit
-func NewProcessingUnit() *ProcessingUnit {
+// NewServerPolicy returns a new *ServerPolicy
+func NewServerPolicy() *ServerPolicy {
 
-	return &ProcessingUnit{
-		AssociatedTags:    []string{},
-		NormalizedTags:    []string{},
-		OperationalStatus: "Initialized",
-		Status:            constants.Active,
+	return &ServerPolicy{
+		AssociatedTags: []string{},
+		NormalizedTags: []string{},
+		Status:         constants.Active,
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *ProcessingUnit) Identity() elemental.Identity {
+func (o *ServerPolicy) Identity() elemental.Identity {
 
-	return ProcessingUnitIdentity
+	return ServerPolicyIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *ProcessingUnit) Identifier() string {
+func (o *ServerPolicy) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *ProcessingUnit) SetIdentifier(ID string) {
+func (o *ServerPolicy) SetIdentifier(ID string) {
 
 	o.ID = ID
 }
 
-func (o *ProcessingUnit) String() string {
+func (o *ServerPolicy) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAssociatedTags returns the associatedTags of the receiver
-func (o *ProcessingUnit) GetAssociatedTags() []string {
+func (o *ServerPolicy) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags set the given associatedTags of the receiver
-func (o *ProcessingUnit) SetAssociatedTags(associatedTags []string) {
+func (o *ServerPolicy) SetAssociatedTags(associatedTags []string) {
 	o.AssociatedTags = associatedTags
 }
 
 // SetCreatedAt set the given createdAt of the receiver
-func (o *ProcessingUnit) SetCreatedAt(createdAt time.Time) {
+func (o *ServerPolicy) SetCreatedAt(createdAt time.Time) {
 	o.CreatedAt = createdAt
 }
 
 // GetDeleted returns the deleted of the receiver
-func (o *ProcessingUnit) GetDeleted() bool {
+func (o *ServerPolicy) GetDeleted() bool {
 	return o.Deleted
 }
 
 // SetDeleted set the given deleted of the receiver
-func (o *ProcessingUnit) SetDeleted(deleted bool) {
+func (o *ServerPolicy) SetDeleted(deleted bool) {
 	o.Deleted = deleted
 }
 
 // GetName returns the name of the receiver
-func (o *ProcessingUnit) GetName() string {
+func (o *ServerPolicy) GetName() string {
 	return o.Name
 }
 
 // SetName set the given name of the receiver
-func (o *ProcessingUnit) SetName(name string) {
+func (o *ServerPolicy) SetName(name string) {
 	o.Name = name
 }
 
 // GetNamespace returns the namespace of the receiver
-func (o *ProcessingUnit) GetNamespace() string {
+func (o *ServerPolicy) GetNamespace() string {
 	return o.Namespace
 }
 
 // SetNamespace set the given namespace of the receiver
-func (o *ProcessingUnit) SetNamespace(namespace string) {
+func (o *ServerPolicy) SetNamespace(namespace string) {
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the normalizedTags of the receiver
-func (o *ProcessingUnit) GetNormalizedTags() []string {
+func (o *ServerPolicy) GetNormalizedTags() []string {
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags set the given normalizedTags of the receiver
-func (o *ProcessingUnit) SetNormalizedTags(normalizedTags []string) {
+func (o *ServerPolicy) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = normalizedTags
 }
 
 // GetParentID returns the parentID of the receiver
-func (o *ProcessingUnit) GetParentID() string {
+func (o *ServerPolicy) GetParentID() string {
 	return o.ParentID
 }
 
 // SetParentID set the given parentID of the receiver
-func (o *ProcessingUnit) SetParentID(parentID string) {
+func (o *ServerPolicy) SetParentID(parentID string) {
 	o.ParentID = parentID
 }
 
 // GetParentType returns the parentType of the receiver
-func (o *ProcessingUnit) GetParentType() string {
+func (o *ServerPolicy) GetParentType() string {
 	return o.ParentType
 }
 
 // SetParentType set the given parentType of the receiver
-func (o *ProcessingUnit) SetParentType(parentType string) {
+func (o *ServerPolicy) SetParentType(parentType string) {
 	o.ParentType = parentType
 }
 
 // GetStatus returns the status of the receiver
-func (o *ProcessingUnit) GetStatus() constants.EntityStatus {
+func (o *ServerPolicy) GetStatus() constants.EntityStatus {
 	return o.Status
 }
 
 // SetStatus set the given status of the receiver
-func (o *ProcessingUnit) SetStatus(status constants.EntityStatus) {
+func (o *ServerPolicy) SetStatus(status constants.EntityStatus) {
 	o.Status = status
 }
 
 // SetUpdatedAt set the given updatedAt of the receiver
-func (o *ProcessingUnit) SetUpdatedAt(updatedAt time.Time) {
+func (o *ServerPolicy) SetUpdatedAt(updatedAt time.Time) {
 	o.UpdatedAt = updatedAt
 }
 
 // Validate valides the current information stored into the structure.
-func (o *ProcessingUnit) Validate() error {
+func (o *ServerPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateStringInList("operationalStatus", string(o.OperationalStatus), []string{"Initialized", "Paused", "Running", "Stopped", "Terminated"}, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("serverID", o.ServerID); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Docker", "LinuxService", "RKT"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -265,19 +203,19 @@ func (o *ProcessingUnit) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (ProcessingUnit) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (ServerPolicy) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	return ProcessingUnitAttributesMap[name]
+	return ServerPolicyAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (ProcessingUnit) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (ServerPolicy) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return ProcessingUnitAttributesMap
+	return ServerPolicyAttributesMap
 }
 
-// ProcessingUnitAttributesMap represents the map of attribute for ProcessingUnit.
-var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
+// ServerPolicyAttributesMap represents the map of attribute for ServerPolicy.
+var ServerPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -288,9 +226,7 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
-		Stored:         true,
 		Type:           "string",
 		Unique:         true,
 	},
@@ -348,27 +284,6 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"LastSyncTime": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		Description:    `LastSyncTime is the time when the policy was last resolved`,
-		Exposed:        true,
-		Name:           "lastSyncTime",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "time",
-	},
-	"Metadata": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Description:    `Metadata are list of tags associated to the processing unit`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "metadata",
-		Required:       true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
-	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `Name is the name of the entity`,
@@ -402,16 +317,6 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 		Unique:         true,
 	},
-	"NativeContextID": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Description:    `NativeContextID is the Docker UUID or service PID`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "nativeContextID",
-		Stored:         true,
-		Type:           "string",
-	},
 	"NormalizedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -424,14 +329,15 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "tags_list",
 		Type:           "external",
 	},
-	"OperationalStatus": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Initialized", "Paused", "Running", "Stopped", "Terminated"},
-		Description:    `OperationalStatus of the processing unit`,
+	"Object": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Object is the list of tags to use to find a server profile.`,
 		Exposed:        true,
-		Filterable:     true,
-		Name:           "operationalStatus",
+		Name:           "object",
+		Required:       true,
 		Stored:         true,
-		Type:           "enum",
+		SubType:        "policies_list",
+		Type:           "external",
 	},
 	"ParentID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -464,18 +370,6 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"ServerID": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		CreationOnly:   true,
-		Description:    `serverID is the ID of the server associated with the processing unit`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "serverID",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"Status": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -490,16 +384,15 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "status_enum",
 		Type:           "external",
 	},
-	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Docker", "LinuxService", "RKT"},
-		CreationOnly:   true,
-		Description:    `Type of the container ecosystem`,
+	"Subject": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Subject is the subject of the policy.`,
 		Exposed:        true,
-		Filterable:     true,
-		Name:           "type",
+		Name:           "subject",
 		Required:       true,
 		Stored:         true,
-		Type:           "enum",
+		SubType:        "policies_list",
+		Type:           "external",
 	},
 	"UpdatedAt": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -512,16 +405,5 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
-	},
-	"Vulnerabilities": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		Description:    `Vulnerabilities contains the list of vulnerabilities of the processing unit.`,
-		Name:           "vulnerabilities",
-		Orderable:      true,
-		ReadOnly:       true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
 	},
 }

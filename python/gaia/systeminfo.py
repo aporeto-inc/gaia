@@ -30,25 +30,31 @@ class SystemInfo(RESTObject):
         
         self._apiversion = None
         self._bahamutversion = None
+        self._certificateauthority = None
         self._elementalversion = None
         self._gaiaversion = None
         self._googleclientid = None
+        self._kairosdburl = None
         self._manipulateversion = None
         self._midgardurl = None
+        self._pubsubservice = None
         self._squallversion = None
-        self._statisticsservice = None
         self._status = None
+        self._zackurl = None
         
         self.expose_attribute(local_name="APIVersion", remote_name="APIVersion")
         self.expose_attribute(local_name="bahamutVersion", remote_name="bahamutVersion")
+        self.expose_attribute(local_name="certificateAuthority", remote_name="certificateAuthority")
         self.expose_attribute(local_name="elementalVersion", remote_name="elementalVersion")
         self.expose_attribute(local_name="gaiaVersion", remote_name="gaiaVersion")
         self.expose_attribute(local_name="googleClientID", remote_name="googleClientID")
+        self.expose_attribute(local_name="kairosDBURL", remote_name="kairosDBURL")
         self.expose_attribute(local_name="manipulateVersion", remote_name="manipulateVersion")
         self.expose_attribute(local_name="midgardURL", remote_name="midgardURL")
+        self.expose_attribute(local_name="pubSubService", remote_name="pubSubService")
         self.expose_attribute(local_name="squallVersion", remote_name="squallVersion")
-        self.expose_attribute(local_name="statisticsService", remote_name="statisticsService")
         self.expose_attribute(local_name="status", remote_name="status")
+        self.expose_attribute(local_name="zackURL", remote_name="zackURL")
 
         self._compute_args(**kwargs)
 
@@ -118,6 +124,28 @@ class SystemInfo(RESTObject):
         self._bahamutversion = value
     
     @property
+    def certificateAuthority(self):
+        """ Get certificateAuthority value.
+
+          Notes:
+              CertificateAuthority contains the main certificate authority,
+
+              
+        """
+        return self._certificateauthority
+
+    @certificateAuthority.setter
+    def certificateAuthority(self, value):
+        """ Set certificateAuthority value.
+
+          Notes:
+              CertificateAuthority contains the main certificate authority,
+
+              
+        """
+        self._certificateauthority = value
+    
+    @property
     def elementalVersion(self):
         """ Get elementalVersion value.
 
@@ -184,6 +212,28 @@ class SystemInfo(RESTObject):
         self._googleclientid = value
     
     @property
+    def kairosDBURL(self):
+        """ Get kairosDBURL value.
+
+          Notes:
+              KairosDBURL contains the URL of the kairos db server.
+
+              
+        """
+        return self._kairosdburl
+
+    @kairosDBURL.setter
+    def kairosDBURL(self, value):
+        """ Set kairosDBURL value.
+
+          Notes:
+              KairosDBURL contains the URL of the kairos db server.
+
+              
+        """
+        self._kairosdburl = value
+    
+    @property
     def manipulateVersion(self):
         """ Get manipulateVersion value.
 
@@ -228,6 +278,28 @@ class SystemInfo(RESTObject):
         self._midgardurl = value
     
     @property
+    def pubSubService(self):
+        """ Get pubSubService value.
+
+          Notes:
+              PubsubService provides the end-point for the pubsub server.
+
+              
+        """
+        return self._pubsubservice
+
+    @pubSubService.setter
+    def pubSubService(self, value):
+        """ Set pubSubService value.
+
+          Notes:
+              PubsubService provides the end-point for the pubsub server.
+
+              
+        """
+        self._pubsubservice = value
+    
+    @property
     def squallVersion(self):
         """ Get squallVersion value.
 
@@ -248,28 +320,6 @@ class SystemInfo(RESTObject):
               
         """
         self._squallversion = value
-    
-    @property
-    def statisticsService(self):
-        """ Get statisticsService value.
-
-          Notes:
-              StatisticsService provides the end-point for pushing statistics events.
-
-              
-        """
-        return self._statisticsservice
-
-    @statisticsService.setter
-    def statisticsService(self, value):
-        """ Set statisticsService value.
-
-          Notes:
-              StatisticsService provides the end-point for pushing statistics events.
-
-              
-        """
-        self._statisticsservice = value
     
     @property
     def status(self):
@@ -293,12 +343,39 @@ class SystemInfo(RESTObject):
         """
         self._status = value
     
+    @property
+    def zackURL(self):
+        """ Get zackURL value.
+
+          Notes:
+              zackURL contains the URL of the Zack server.
+
+              
+        """
+        return self._zackurl
+
+    @zackURL.setter
+    def zackURL(self, value):
+        """ Set zackURL value.
+
+          Notes:
+              zackURL contains the URL of the Zack server.
+
+              
+        """
+        self._zackurl = value
+    
     def validate(self):
         """ Validate valides the current information stored into the structure.
         """
         errors = []
 
         err = validate_string_in_list("status", self.status, ["Degraded", "Failure", "Ok"], true)
+
+        if err:
+            errors.append(err)
+
+        err = validate_required_string("zackURL", self.zackURL)
 
         if err:
             errors.append(err)

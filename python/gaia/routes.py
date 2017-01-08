@@ -2,6 +2,8 @@
 
 routes = []
 
+# routes for apichecks
+
 # routes for namespacemappingpolicies
 routes.append(("GET", "/namespacemappingpolicies/:id"))
 routes.append(("PUT", "/namespacemappingpolicies/:id"))
@@ -64,6 +66,16 @@ routes.append(("DELETE", "/policies/:id"))
 
 # routes for flowstatistics
 
+# routes for serverprofiles
+routes.append(("GET", "/serverprofiles/:id"))
+routes.append(("PUT", "/serverprofiles/:id"))
+routes.append(("DELETE", "/serverprofiles/:id"))
+
+# routes for serverpolicies
+routes.append(("GET", "/serverpolicies/:id"))
+routes.append(("PUT", "/serverpolicies/:id"))
+routes.append(("DELETE", "/serverpolicies/:id"))
+
 # routes for computeddependencymapviews
 routes.append(("GET", "/computeddependencymapviews/:id"))
 routes.append(("DELETE", "/computeddependencymapviews/:id"))
@@ -113,6 +125,7 @@ routes.append(("PUT", "/servers/:id"))
 routes.append(("DELETE", "/servers/:id"))
 routes.append(("POST", "/servers/:id/certificates"))
 routes.append(("GET", "/servers/:id/certificates"))
+routes.append(("GET", "/servers/:id/serverprofiles"))
 
 # routes for mapnodes
 
@@ -120,6 +133,8 @@ routes.append(("GET", "/servers/:id/certificates"))
 routes.append(("GET", "/root"))
 routes.append(("POST", "/apiauthorizationpolicies"))
 routes.append(("GET", "/apiauthorizationpolicies"))
+routes.append(("POST", "/apichecks"))
+routes.append(("GET", "/apichecks"))
 routes.append(("POST", "/authenticators"))
 routes.append(("GET", "/authenticators"))
 routes.append(("GET", "/certificates"))
@@ -149,6 +164,10 @@ routes.append(("POST", "/processingunits"))
 routes.append(("GET", "/processingunits"))
 routes.append(("POST", "/servers"))
 routes.append(("GET", "/servers"))
+routes.append(("POST", "/serverpolicies"))
+routes.append(("GET", "/serverpolicies"))
+routes.append(("POST", "/serverprofiles"))
+routes.append(("GET", "/serverprofiles"))
 routes.append(("POST", "/systemcalls"))
 routes.append(("GET", "/systemcalls"))
 routes.append(("GET", "/systeminfos"))
