@@ -550,11 +550,6 @@ class ProcessingUnit(RESTObject):
         if err:
             errors.append(err)
 
-        err = validate_required_string("serverID", self.serverID)
-
-        if err:
-            errors.append(err)
-
         err = validate_string_in_list("type", self.type, ["Docker", "LinuxService", "RKT"], false)
 
         if err:

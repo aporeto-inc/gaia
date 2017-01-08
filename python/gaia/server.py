@@ -32,11 +32,14 @@ class Server(RESTObject):
         self._address = None
         self._annotation = None
         self._associatedtags = None
+        self._certificate = None
+        self._certificateexpirationdate = None
         self._createdat = None
         self._deleted = None
         self._description = None
         self._domain = None
         self._environment = None
+        self._key = None
         self._name = None
         self._namespace = None
         self._normalizedtags = None
@@ -50,11 +53,14 @@ class Server(RESTObject):
         self.expose_attribute(local_name="address", remote_name="address")
         self.expose_attribute(local_name="annotation", remote_name="annotation")
         self.expose_attribute(local_name="associatedTags", remote_name="associatedTags")
+        self.expose_attribute(local_name="certificate", remote_name="certificate")
+        self.expose_attribute(local_name="certificateExpirationDate", remote_name="certificateExpirationDate")
         self.expose_attribute(local_name="createdAt", remote_name="createdAt")
         self.expose_attribute(local_name="deleted", remote_name="deleted")
         self.expose_attribute(local_name="description", remote_name="description")
         self.expose_attribute(local_name="domain", remote_name="domain")
         self.expose_attribute(local_name="environment", remote_name="environment")
+        self.expose_attribute(local_name="key", remote_name="key")
         self.expose_attribute(local_name="name", remote_name="name")
         self.expose_attribute(local_name="namespace", remote_name="namespace")
         self.expose_attribute(local_name="normalizedTags", remote_name="normalizedTags")
@@ -178,6 +184,50 @@ class Server(RESTObject):
         self._associatedtags = value
     
     @property
+    def certificate(self):
+        """ Get certificate value.
+
+          Notes:
+              Certificate is the certificate of the server 
+
+              
+        """
+        return self._certificate
+
+    @certificate.setter
+    def certificate(self, value):
+        """ Set certificate value.
+
+          Notes:
+              Certificate is the certificate of the server 
+
+              
+        """
+        self._certificate = value
+    
+    @property
+    def certificateExpirationDate(self):
+        """ Get certificateExpirationDate value.
+
+          Notes:
+              CertificateExpirationDate is the expiration date of the certificate.
+
+              
+        """
+        return self._certificateexpirationdate
+
+    @certificateExpirationDate.setter
+    def certificateExpirationDate(self, value):
+        """ Set certificateExpirationDate value.
+
+          Notes:
+              CertificateExpirationDate is the expiration date of the certificate.
+
+              
+        """
+        self._certificateexpirationdate = value
+    
+    @property
     def createdAt(self):
         """ Get createdAt value.
 
@@ -286,6 +336,28 @@ class Server(RESTObject):
               
         """
         self._environment = value
+    
+    @property
+    def key(self):
+        """ Get key value.
+
+          Notes:
+              Key is the secret key of the server. Returned only when a server is created or the certificate is updated.
+
+              
+        """
+        return self._key
+
+    @key.setter
+    def key(self, value):
+        """ Set key value.
+
+          Notes:
+              Key is the secret key of the server. Returned only when a server is created or the certificate is updated.
+
+              
+        """
+        self._key = value
     
     @property
     def name(self):
