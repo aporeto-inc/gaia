@@ -146,7 +146,7 @@
             "channel": null,
             "creation_only": null,
             "default_order": null,
-            "default_value": "False",
+            "default_value": "false",
             "deprecated": null,
             "description": "CertificateUpdate updates the certificate of the object.",
             "exposed": true,
