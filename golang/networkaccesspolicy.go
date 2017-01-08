@@ -425,6 +425,7 @@ var NetworkAccessPolicyAttributesMap = map[string]elemental.AttributeSpecificati
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
+		Description:    `Propagate will propagate the policy to all of its children. `,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "propagate",

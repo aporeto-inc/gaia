@@ -100,6 +100,7 @@ var SyscallAccessAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
+		Description:    `Propagate indicates that the policy must be propagated to the children namespaces.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "Propagate",
