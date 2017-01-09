@@ -79,7 +79,7 @@
             "channel": null,
             "creation_only": null,
             "default_order": null,
-            "default_value": null,
+            "default_value": "VALID",
             "deprecated": null,
             "description": "CertificateStatus provides the status of the certificate. Update with RENEW to get a new certificate.",
             "exposed": true,
