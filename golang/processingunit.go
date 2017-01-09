@@ -119,6 +119,7 @@ func NewProcessingUnit() *ProcessingUnit {
 		AssociatedTags:    []string{},
 		NormalizedTags:    []string{},
 		OperationalStatus: "Initialized",
+		ServerID:          "UNREGISTERED",
 		Status:            constants.Active,
 	}
 }
@@ -246,10 +247,6 @@ func (o *ProcessingUnit) Validate() error {
 	}
 
 	if err := elemental.ValidateStringInList("operationalStatus", string(o.OperationalStatus), []string{"Initialized", "Paused", "Running", "Stopped", "Terminated"}, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("serverID", o.ServerID); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -466,13 +463,11 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"ServerID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		CreationOnly:   true,
 		Description:    `serverID is the ID of the server associated with the processing unit`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
 		Name:           "serverID",
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
