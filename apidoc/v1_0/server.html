@@ -42,8 +42,6 @@
                             
                             <li><a data-id="attr_certificateStatus" href="#attr_certificateStatus" class="fixed-text">certificateStatus</a></li>
                             
-                            <li><a data-id="attr_certificateUpdate" href="#attr_certificateUpdate" class="fixed-text">certificateUpdate</a></li>
-                            
                             <li><a data-id="attr_createdAt" href="#attr_createdAt" class="fixed-text">createdAt</a></li>
                             
                             <li><a data-id="attr_deleted" href="#attr_deleted" class="fixed-text">deleted</a></li>
@@ -271,7 +269,9 @@
     
     
     
-     (REVOKED | VALID)
+    
+    
+     (RENEW | REVOKED | VALID)
     </span>
                         </td>
                         <td style="padding-left: 30px;" class="fixed-text hide-xs">
@@ -286,32 +286,6 @@
     
     
      <span class="label label-info">orderable</span>&nbsp;
-    
-    
-    
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td class="fixed-text">
-                            <a href="#attr_certificateUpdate" title="CertificateUpdate updates the certificate of the object.">certificateUpdate</a>
-                        </td>
-                        <td style="padding-left: 10px;" class="fixed-text hide-xs">
-                            <span class="type_boolean">boolean
-    
-    
-    
-    
-    </span>
-                        </td>
-                        <td style="padding-left: 30px;" class="fixed-text hide-xs">
-                            
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1269,7 +1243,7 @@
                         <h5><b>Charateristics</b></h5>
                         <p>
                             
-                            <span class="small"><b>Allowed values: </b></span><span class="fixed-text">REVOKED, VALID</span><br/>
+                            <span class="small"><b>Allowed values: </b></span><span class="fixed-text">RENEW, REVOKED, VALID</span><br/>
                             
 
                             
@@ -1289,55 +1263,6 @@
                             
 
                             <span class="small"><b>SDK attribute: </b></span><span class="fixed-text">certificateStatus</span>
-                        </p>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="attr_certificateUpdate" class="filterable" data-filter-keyword="certificateUpdate" style="padding-top: 60px; margin-top: -60px;">
-                <div class="panel panel-default">
-                    <div class="panel-heading fixed-text">
-                        <b>certificateUpdate</b>
-                        <span class="type_boolean fixed-text">boolean</span>
-                        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-                    </div>
-
-                    <div class="panel-body">
-                        <h5><b>Discussion</b></h5>
-                        <p>CertificateUpdate updates the certificate of the object.</p>
-
-                        <hr/>
-
-                        <h5><b>Charateristics</b></h5>
-                        <p>
-                            
-
-                            
-
-                            
-                            <span class="small"><b>Default value: </b></span><span class="fixed-text">false</span><br/>
-                            
-
-                            
-
-                            
-
-                            
-
-                            
-
-                            
-
-                            <span class="small"><b>SDK attribute: </b></span><span class="fixed-text">certificateUpdate</span>
                         </p>
                     </div>
                 </div>

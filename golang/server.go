@@ -24,6 +24,9 @@ const (
 type ServerCertificateStatusValue string
 
 const (
+	// ServerCertificateStatusRenew represents the value RENEW.
+	ServerCertificateStatusRenew ServerCertificateStatusValue = "RENEW"
+
 	// ServerCertificateStatusRevoked represents the value REVOKED.
 	ServerCertificateStatusRevoked ServerCertificateStatusValue = "REVOKED"
 
@@ -77,9 +80,6 @@ type Server struct {
 	// CertificateStatus indicates if the certificate is valid.
 	CertificateStatus ServerCertificateStatusValue `json:"certificateStatus" cql:"certificatestatus,omitempty" bson:"certificatestatus"`
 
-	// CertificateUpdate updates the certificate of the object.
-	CertificateUpdate bool `json:"certificateUpdate" cql:"-" bson:"-"`
-
 	// CreatedAt is the time at which an entity was created
 	CreatedAt time.Time `json:"createdAt" cql:"createdat,omitempty" bson:"createdat"`
 
@@ -129,7 +129,6 @@ func NewServer() *Server {
 	return &Server{
 		AssociatedTags:    []string{},
 		CertificateStatus: "VALID",
-		CertificateUpdate: false,
 		NormalizedTags:    []string{},
 		OperationalStatus: "UNKNOWN",
 		Status:            constants.Active,
@@ -254,7 +253,7 @@ func (o *Server) Validate() error {
 
 	errors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("certificateStatus", string(o.CertificateStatus), []string{"REVOKED", "VALID"}, false); err != nil {
+	if err := elemental.ValidateStringInList("certificateStatus", string(o.CertificateStatus), []string{"RENEW", "REVOKED", "VALID"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -359,7 +358,7 @@ var ServerAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "time",
 	},
 	"CertificateStatus": elemental.AttributeSpecification{
-		AllowedChoices: []string{"REVOKED", "VALID"},
+		AllowedChoices: []string{"RENEW", "REVOKED", "VALID"},
 		Description:    `CertificateStatus indicates if the certificate is valid.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -367,13 +366,6 @@ var ServerAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		Stored:         true,
 		Type:           "enum",
-	},
-	"CertificateUpdate": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Description:    `CertificateUpdate updates the certificate of the object.`,
-		Exposed:        true,
-		Name:           "certificateUpdate",
-		Type:           "boolean",
 	},
 	"CreatedAt": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

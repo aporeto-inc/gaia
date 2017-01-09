@@ -35,7 +35,6 @@ class Server(RESTObject):
         self._certificate = None
         self._certificateexpirationdate = None
         self._certificatestatus = None
-        self._certificateupdate = None
         self._createdat = None
         self._deleted = None
         self._description = None
@@ -58,7 +57,6 @@ class Server(RESTObject):
         self.expose_attribute(local_name="certificate", remote_name="certificate")
         self.expose_attribute(local_name="certificateExpirationDate", remote_name="certificateExpirationDate")
         self.expose_attribute(local_name="certificateStatus", remote_name="certificateStatus")
-        self.expose_attribute(local_name="certificateUpdate", remote_name="certificateUpdate")
         self.expose_attribute(local_name="createdAt", remote_name="createdAt")
         self.expose_attribute(local_name="deleted", remote_name="deleted")
         self.expose_attribute(local_name="description", remote_name="description")
@@ -252,28 +250,6 @@ class Server(RESTObject):
               
         """
         self._certificatestatus = value
-    
-    @property
-    def certificateUpdate(self):
-        """ Get certificateUpdate value.
-
-          Notes:
-              CertificateUpdate updates the certificate of the object.
-
-              
-        """
-        return self._certificateupdate
-
-    @certificateUpdate.setter
-    def certificateUpdate(self, value):
-        """ Set certificateUpdate value.
-
-          Notes:
-              CertificateUpdate updates the certificate of the object.
-
-              
-        """
-        self._certificateupdate = value
     
     @property
     def createdAt(self):
@@ -588,7 +564,7 @@ class Server(RESTObject):
         """
         errors = []
 
-        err = validate_string_in_list("certificateStatus", self.certificateStatus, ["REVOKED", "VALID"], false)
+        err = validate_string_in_list("certificateStatus", self.certificateStatus, ["RENEW", "REVOKED", "VALID"], false)
 
         if err:
             errors.append(err)
