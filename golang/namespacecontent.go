@@ -42,14 +42,14 @@ func (o *NamespaceContent) Identifier() string {
 	return ""
 }
 
-func (o *NamespaceContent) String() string {
-
-	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
-}
-
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *NamespaceContent) SetIdentifier(ID string) {
 
+}
+
+func (o *NamespaceContent) String() string {
+
+	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // Validate valides the current information stored into the structure.
@@ -93,6 +93,7 @@ var NamespaceContentAttributesMap = map[string]elemental.AttributeSpecification{
 	"ContentID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		CreationOnly:   true,
+		Description:    `ID of the content`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -106,6 +107,7 @@ var NamespaceContentAttributesMap = map[string]elemental.AttributeSpecification{
 	"ContentType": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		CreationOnly:   true,
+		Description:    `Type of the content`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -119,6 +121,7 @@ var NamespaceContentAttributesMap = map[string]elemental.AttributeSpecification{
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		CreationOnly:   true,
+		Description:    `name of the namespace`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
