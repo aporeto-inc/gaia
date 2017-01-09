@@ -150,7 +150,7 @@
             "default_value": null,
             "deprecated": null,
             "description": "Key provides the key for the user. Only available at create or update time.",
-            "exposed": false,
+            "exposed": true,
             "filterable": false,
             "foreign_key": null,
             "format": "free",
