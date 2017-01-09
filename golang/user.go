@@ -62,7 +62,7 @@ type User struct {
 	Email string `json:"email" cql:"email,omitempty" bson:"email"`
 
 	// Key provides the key for the user. Only available at create or update time.
-	Key string `json:"-" cql:"key,omitempty" bson:"key"`
+	Key string `json:"-" cql:"-" bson:"-"`
 
 	// Name is the name of the entity
 	Name string `json:"name" cql:"name,omitempty" bson:"name"`
@@ -99,9 +99,10 @@ type User struct {
 func NewUser() *User {
 
 	return &User{
-		AssociatedTags: []string{},
-		NormalizedTags: []string{},
-		Status:         constants.Active,
+		AssociatedTags:    []string{},
+		CertificateStatus: "VALID",
+		NormalizedTags:    []string{},
+		Status:            constants.Active,
 	}
 }
 
@@ -373,7 +374,6 @@ var UserAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Key provides the key for the user. Only available at create or update time.`,
 		Format:         "free",
 		Name:           "key",
-		Stored:         true,
 		Type:           "string",
 	},
 	"Name": elemental.AttributeSpecification{
