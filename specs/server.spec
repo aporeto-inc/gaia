@@ -105,6 +105,7 @@
         {
             "allowed_chars": null,
             "allowed_choices": [
+                "RENEW",
                 "REVOKED",
                 "VALID"
             ],
