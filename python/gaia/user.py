@@ -31,10 +31,14 @@ class User(RESTObject):
         self._id = None
         self._annotation = None
         self._associatedtags = None
+        self._certificate = None
+        self._certificateexpirationdate = None
+        self._certificatestatus = None
         self._createdat = None
         self._deleted = None
         self._description = None
         self._email = None
+        self._key = None
         self._name = None
         self._namespace = None
         self._normalizedtags = None
@@ -49,10 +53,14 @@ class User(RESTObject):
         self.expose_attribute(local_name="ID", remote_name="ID")
         self.expose_attribute(local_name="annotation", remote_name="annotation")
         self.expose_attribute(local_name="associatedTags", remote_name="associatedTags")
+        self.expose_attribute(local_name="certificate", remote_name="certificate")
+        self.expose_attribute(local_name="certificateExpirationDate", remote_name="certificateExpirationDate")
+        self.expose_attribute(local_name="certificateStatus", remote_name="certificateStatus")
         self.expose_attribute(local_name="createdAt", remote_name="createdAt")
         self.expose_attribute(local_name="deleted", remote_name="deleted")
         self.expose_attribute(local_name="description", remote_name="description")
         self.expose_attribute(local_name="email", remote_name="email")
+        self.expose_attribute(local_name="key", remote_name="key")
         self.expose_attribute(local_name="name", remote_name="name")
         self.expose_attribute(local_name="namespace", remote_name="namespace")
         self.expose_attribute(local_name="normalizedTags", remote_name="normalizedTags")
@@ -156,6 +164,72 @@ class User(RESTObject):
         self._associatedtags = value
     
     @property
+    def certificate(self):
+        """ Get certificate value.
+
+          Notes:
+              Certificate provides a certificate for the user
+
+              
+        """
+        return self._certificate
+
+    @certificate.setter
+    def certificate(self, value):
+        """ Set certificate value.
+
+          Notes:
+              Certificate provides a certificate for the user
+
+              
+        """
+        self._certificate = value
+    
+    @property
+    def certificateExpirationDate(self):
+        """ Get certificateExpirationDate value.
+
+          Notes:
+              CertificateExpirationDate indicates the expiration day for the certificate.
+
+              
+        """
+        return self._certificateexpirationdate
+
+    @certificateExpirationDate.setter
+    def certificateExpirationDate(self, value):
+        """ Set certificateExpirationDate value.
+
+          Notes:
+              CertificateExpirationDate indicates the expiration day for the certificate.
+
+              
+        """
+        self._certificateexpirationdate = value
+    
+    @property
+    def certificateStatus(self):
+        """ Get certificateStatus value.
+
+          Notes:
+              CertificateStatus provides the status of the certificate. Update with RENEW to get a new certificate.
+
+              
+        """
+        return self._certificatestatus
+
+    @certificateStatus.setter
+    def certificateStatus(self, value):
+        """ Set certificateStatus value.
+
+          Notes:
+              CertificateStatus provides the status of the certificate. Update with RENEW to get a new certificate.
+
+              
+        """
+        self._certificatestatus = value
+    
+    @property
     def createdAt(self):
         """ Get createdAt value.
 
@@ -242,6 +316,28 @@ class User(RESTObject):
               
         """
         self._email = value
+    
+    @property
+    def key(self):
+        """ Get key value.
+
+          Notes:
+              Key provides the key for the user. Only available at create or update time.
+
+              
+        """
+        return self._key
+
+    @key.setter
+    def key(self, value):
+        """ Set key value.
+
+          Notes:
+              Key provides the key for the user. Only available at create or update time.
+
+              
+        """
+        self._key = value
     
     @property
     def name(self):
@@ -467,6 +563,11 @@ class User(RESTObject):
         """ Validate valides the current information stored into the structure.
         """
         errors = []
+
+        err = validate_string_in_list("certificateStatus", self.certificateStatus, ["RENEW", "REVOKED", "VALID"], false)
+
+        if err:
+            errors.append(err)
 
         err = validate_required_string("name", self.name)
 
