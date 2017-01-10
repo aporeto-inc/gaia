@@ -351,15 +351,6 @@ func init() {
 		AllowsDelete:   true,
 	}
 
-	// Children relationship for certificates in server
-	ServerMainRelationship.AddChild(
-		elemental.IdentityFromName("certificate"),
-		&elemental.Relationship{
-			AllowsCreate:       true,
-			AllowsRetrieveMany: true,
-			AllowsInfo:         true,
-		},
-	)
 	// Children relationship for serverprofiles in server
 	ServerMainRelationship.AddChild(
 		elemental.IdentityFromName("serverprofile"),

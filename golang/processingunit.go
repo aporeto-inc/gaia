@@ -119,7 +119,6 @@ func NewProcessingUnit() *ProcessingUnit {
 		AssociatedTags:    []string{},
 		NormalizedTags:    []string{},
 		OperationalStatus: "Initialized",
-		ServerID:          "UNREGISTERED",
 		Status:            constants.Active,
 	}
 }
