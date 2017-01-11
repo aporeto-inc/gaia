@@ -20,6 +20,9 @@ type FileAccessPolicy struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" cql:"-" bson:"-"`
 
+	// Propagate indicates that the policy must be propagated to the children namespaces.
+	Propagate bool `json:"Propagate" cql:"-" bson:"-"`
+
 	// AllowsExecute allows to execute the files.
 	AllowsExecute bool `json:"allowsExecute" cql:"-" bson:"-"`
 
@@ -82,6 +85,7 @@ type FileAccessPolicy struct {
 func NewFileAccessPolicy() *FileAccessPolicy {
 
 	return &FileAccessPolicy{
+		Propagate:      false,
 		AssociatedTags: []string{},
 		NormalizedTags: []string{},
 		Status:         constants.Active,
@@ -244,6 +248,15 @@ var FileAccessPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 		Unique:         true,
+	},
+	"Propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Propagate indicates that the policy must be propagated to the children namespaces.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "Propagate",
+		Orderable:      true,
+		Type:           "boolean",
 	},
 	"AllowsExecute": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

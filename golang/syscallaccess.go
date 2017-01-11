@@ -17,6 +17,9 @@ type SyscallAccess struct {
 	// PID is the PID of the process that used the system call.
 	PID int `json:"PID" cql:"-" bson:"-"`
 
+	// Propagate indicates that the policy must be propagated to the children namespaces.
+	Propagate bool `json:"Propagate" cql:"-" bson:"-"`
+
 	// Actions tells if the system call has been allowed.
 	Action string `json:"action" cql:"-" bson:"-"`
 
@@ -33,7 +36,9 @@ type SyscallAccess struct {
 // NewSyscallAccess returns a new *SyscallAccess
 func NewSyscallAccess() *SyscallAccess {
 
-	return &SyscallAccess{}
+	return &SyscallAccess{
+		Propagate: false,
+	}
 }
 
 // Identity returns the Identity of the object.
@@ -92,6 +97,15 @@ var SyscallAccessAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "PID",
 		ReadOnly:       true,
 		Type:           "integer",
+	},
+	"Propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Propagate indicates that the policy must be propagated to the children namespaces.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "Propagate",
+		Orderable:      true,
+		Type:           "boolean",
 	},
 	"Action": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
