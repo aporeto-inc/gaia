@@ -34,6 +34,9 @@ type ServerProfile struct {
 	// IptablesMarkValue is the mark value to be used in an iptables implementation.
 	IPTablesMarkValue int `json:"IPTablesMarkValue" cql:"iptablesmarkvalue,omitempty" bson:"iptablesmarkvalue"`
 
+	// PUBookkeepingInterval configures how often the PU will be synchronized.
+	PUBookkeepingInterval string `json:"PUBookkeepingInterval" cql:"pubookkeepinginterval,omitempty" bson:"pubookkeepinginterval"`
+
 	// PUHeartbeatInterval configures the heart beat interval.
 	PUHeartbeatInterval string `json:"PUHeartbeatInterval" cql:"puheartbeatinterval,omitempty" bson:"puheartbeatinterval"`
 
@@ -73,6 +76,9 @@ type ServerProfile struct {
 	// ParentType is the type of the parent, if any. It will be set to the parent's Identity.Name.
 	ParentType string `json:"parentType" cql:"parenttype,omitempty" bson:"parenttype"`
 
+	// PolicySynchronizationInterval configures how often the policy will be resynchronized.
+	PolicySynchronizationInterval string `json:"policySynchronizationInterval" cql:"policysynchronizationinterval,omitempty" bson:"policysynchronizationinterval"`
+
 	// AgentPort is the port the agent should use to listen for API calls
 	ProxyListenAddress string `json:"proxyListenAddress" cql:"proxylistenaddress,omitempty" bson:"proxylistenaddress"`
 
@@ -111,18 +117,20 @@ type ServerProfile struct {
 func NewServerProfile() *ServerProfile {
 
 	return &ServerProfile{
-		IPTablesMarkValue:      1000,
-		PUHeartbeatInterval:    "5s",
-		AssociatedTags:         []string{},
-		DockerSocketAddress:    "/var/run/docker.sock",
-		DockerSocketType:       "unix",
-		NormalizedTags:         []string{},
-		ProxyListenAddress:     ":9443",
-		ReceiverNumberOfQueues: 4,
-		ReceiverQueue:          0,
-		ReceiverQueueSize:      500,
-		RemoteEnforcer:         false,
-		Status:                 constants.Active,
+		IPTablesMarkValue:             1000,
+		PUBookkeepingInterval:         "5m",
+		PUHeartbeatInterval:           "5s",
+		AssociatedTags:                []string{},
+		DockerSocketAddress:           "/var/run/docker.sock",
+		DockerSocketType:              "unix",
+		NormalizedTags:                []string{},
+		PolicySynchronizationInterval: "10m",
+		ProxyListenAddress:            ":9443",
+		ReceiverNumberOfQueues:        4,
+		ReceiverQueue:                 0,
+		ReceiverQueueSize:             500,
+		RemoteEnforcer:                false,
+		Status:                        constants.Active,
 		TransmitterNumberOfQueues: 4,
 		TransmitterQueue:          4,
 		TransmitterQueueSize:      500,
@@ -255,6 +263,10 @@ func (o *ServerProfile) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidatePattern("PUBookkeepingInterval", o.PUBookkeepingInterval, `[0-9]+[smh]`); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidatePattern("PUHeartbeatInterval", o.PUHeartbeatInterval, `[0-9]+[smh]`); err != nil {
 		errors = append(errors, err)
 	}
@@ -264,6 +276,10 @@ func (o *ServerProfile) Validate() error {
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidatePattern("policySynchronizationInterval", o.PolicySynchronizationInterval, `[0-9]+[smh]`); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -362,6 +378,18 @@ var ServerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		Stored:         true,
 		Type:           "integer",
+	},
+	"PUBookkeepingInterval": elemental.AttributeSpecification{
+		AllowedChars:   `[0-9]+[smh]`,
+		AllowedChoices: []string{},
+		Description:    `PUBookkeepingInterval configures how often the PU will be synchronized.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "PUBookkeepingInterval",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"PUHeartbeatInterval": elemental.AttributeSpecification{
 		AllowedChars:   `[0-9]+[smh]`,
@@ -523,6 +551,18 @@ var ServerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		ReadOnly:       true,
 		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"PolicySynchronizationInterval": elemental.AttributeSpecification{
+		AllowedChars:   `[0-9]+[smh]`,
+		AllowedChoices: []string{},
+		Description:    `PolicySynchronizationInterval configures how often the policy will be resynchronized.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "policySynchronizationInterval",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
 	},
