@@ -149,7 +149,7 @@
             "channel": null,
             "creation_only": false,
             "default_order": false,
-            "default_value": "UNREGISTERED",
+            "default_value": "",
             "deprecated": false,
             "description": "serverID is the ID of the server associated with the processing unit",
             "exposed": true,
