@@ -197,7 +197,7 @@
             "read_only": true,
             "required": false,
             "setter": true,
-            "stored": false,
+            "stored": true,
             "subtype": "tags_list",
             "transient": false,
             "type": "external",
