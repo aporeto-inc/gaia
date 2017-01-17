@@ -51,7 +51,7 @@ type Policy struct {
 	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"_namespace"`
 
 	// NormalizedTags contains the list of normalized tags of the entities
-	NormalizedTags []string `json:"normalizedTags" cql:"-" bson:"-"`
+	NormalizedTags []string `json:"normalizedTags" cql:"normalizedtags,omitempty" bson:"normalizedtags"`
 
 	// Object represents set of entities that another entity depends on. As subjects, objects are identified as logical operations on tags when a policy is defined.
 	Object [][]string `json:"object" cql:"object,omitempty" bson:"object"`
@@ -377,6 +377,7 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "normalizedTags",
 		ReadOnly:       true,
 		Setter:         true,
+		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
 	},

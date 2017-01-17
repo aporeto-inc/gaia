@@ -85,7 +85,7 @@ type ProcessingUnit struct {
 	NativeContextID string `json:"nativeContextID" cql:"nativecontextid,omitempty" bson:"nativecontextid"`
 
 	// NormalizedTags contains the list of normalized tags of the entities
-	NormalizedTags []string `json:"normalizedTags" cql:"-" bson:"-"`
+	NormalizedTags []string `json:"normalizedTags" cql:"normalizedtags,omitempty" bson:"normalizedtags"`
 
 	// OperationalStatus of the processing unit
 	OperationalStatus ProcessingUnitOperationalStatusValue `json:"operationalStatus" cql:"operationalstatus,omitempty" bson:"operationalstatus"`
@@ -417,6 +417,7 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "normalizedTags",
 		ReadOnly:       true,
 		Setter:         true,
+		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
 	},

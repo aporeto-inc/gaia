@@ -54,7 +54,7 @@ type NetworkAccessPolicy struct {
 	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"_namespace"`
 
 	// NormalizedTags contains the list of normalized tags of the entities
-	NormalizedTags []string `json:"normalizedTags" cql:"-" bson:"-"`
+	NormalizedTags []string `json:"normalizedTags" cql:"normalizedtags,omitempty" bson:"normalizedtags"`
 
 	// Object of the policy.
 	Object [][]string `json:"object" cql:"-" bson:"-"`
@@ -380,6 +380,7 @@ var NetworkAccessPolicyAttributesMap = map[string]elemental.AttributeSpecificati
 		Name:           "normalizedTags",
 		ReadOnly:       true,
 		Setter:         true,
+		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
 	},

@@ -67,7 +67,7 @@ type Integration struct {
 	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"_namespace"`
 
 	// NormalizedTags contains the list of normalized tags of the entities
-	NormalizedTags []string `json:"normalizedTags" cql:"-" bson:"-"`
+	NormalizedTags []string `json:"normalizedTags" cql:"normalizedtags,omitempty" bson:"normalizedtags"`
 
 	// ParentID is the ID of the parent, if any,
 	ParentID string `json:"parentID" cql:"parentid,omitempty" bson:"parentid"`
@@ -348,6 +348,7 @@ var IntegrationAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "normalizedTags",
 		ReadOnly:       true,
 		Setter:         true,
+		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
 	},

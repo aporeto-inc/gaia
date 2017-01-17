@@ -42,7 +42,7 @@ type ServerPolicy struct {
 	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"_namespace"`
 
 	// NormalizedTags contains the list of normalized tags of the entities
-	NormalizedTags []string `json:"normalizedTags" cql:"-" bson:"-"`
+	NormalizedTags []string `json:"normalizedTags" cql:"normalizedtags,omitempty" bson:"normalizedtags"`
 
 	// Object is the list of tags to use to find a server profile.
 	Object [][]string `json:"object" cql:"object,omitempty" bson:"object"`
@@ -326,6 +326,7 @@ var ServerPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "normalizedTags",
 		ReadOnly:       true,
 		Setter:         true,
+		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
 	},
