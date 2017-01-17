@@ -345,6 +345,7 @@ var ComputedDependencyMapViewAttributesMap = map[string]elemental.AttributeSpeci
 		Setter:         true,
 		Stored:         true,
 		SubType:        "tags_list",
+		Transient:      true,
 		Type:           "external",
 	},
 	"ParentID": elemental.AttributeSpecification{

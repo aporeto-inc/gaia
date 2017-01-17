@@ -344,6 +344,7 @@ var NamespaceMappingPolicyAttributesMap = map[string]elemental.AttributeSpecific
 		Setter:         true,
 		Stored:         true,
 		SubType:        "tags_list",
+		Transient:      true,
 		Type:           "external",
 	},
 	"ParentID": elemental.AttributeSpecification{
