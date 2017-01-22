@@ -64,6 +64,18 @@ func (o *DependencyMap) Validate() error {
 
 	errors := elemental.Errors{}
 
+	if err := elemental.ValidateRequiredExternal("edges", o.Edges); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("groups", o.Groups); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("nodes", o.Nodes); err != nil {
+		errors = append(errors, err)
+	}
+
 	if len(errors) > 0 {
 		return errors
 	}

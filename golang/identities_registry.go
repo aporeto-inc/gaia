@@ -116,3 +116,44 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return nil
 	}
 }
+
+// AllIdentities returns all existing identities.
+func AllIdentities() []elemental.Identity {
+
+	return []elemental.Identity{
+		APICheckIdentity,
+		NamespaceMappingPolicyIdentity,
+		DependencyMapSubviewIdentity,
+		APIAuthorizationPolicyIdentity,
+		NamespaceContentIdentity,
+		SystemInfoIdentity,
+		SyscallAccessIdentity,
+		ComputedPolicyIdentity,
+		TagIdentity,
+		MapEdgeIdentity,
+		FilePathIdentity,
+		FileAccessIdentity,
+		NamespaceIdentity,
+		IntegrationIdentity,
+		PolicyRuleIdentity,
+		ExternalServiceIdentity,
+		PolicyIdentity,
+		FlowStatisticIdentity,
+		ServerProfileIdentity,
+		ServerPolicyIdentity,
+		ComputedDependencyMapViewIdentity,
+		SystemCallIdentity,
+		AuthenticatorIdentity,
+		FileAccessPolicyIdentity,
+		RenderedPolicyIdentity,
+		ProcessingUnitIdentity,
+		DependencyMapViewIdentity,
+		DependencyMapIdentity,
+		VulnerabilityIdentity,
+		ServerIdentity,
+		MapNodeIdentity,
+		RootIdentity,
+		NetworkAccessPolicyIdentity,
+		UserIdentity,
+	}
+}

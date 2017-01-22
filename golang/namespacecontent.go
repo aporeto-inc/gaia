@@ -15,13 +15,13 @@ type NamespaceContentsList []*NamespaceContent
 // NamespaceContent represents the model of a namespacecontent
 type NamespaceContent struct {
 	// ID of the content
-	ContentID string `json:"contentID" cql:"contentid,primarykey,omitempty" bson:"_contentid"`
+	ContentID string `json:"contentID" cql:"contentid,primarykey,omitempty" bson:"contentid"`
 
 	// Type of the content
-	ContentType string `json:"contentType" cql:"contenttype,primarykey,omitempty" bson:"_contenttype"`
+	ContentType string `json:"contentType" cql:"contenttype,primarykey,omitempty" bson:"contenttype"`
 
 	// name of the namespace
-	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"_namespace"`
+	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"namespace"`
 }
 
 // NewNamespaceContent returns a new *NamespaceContent

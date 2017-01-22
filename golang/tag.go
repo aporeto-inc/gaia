@@ -21,10 +21,10 @@ type Tag struct {
 	Count int `json:"count" cql:"count,omitempty" bson:"count"`
 
 	// Namespace represents the namespace of the counted tag.
-	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"_namespace"`
+	Namespace string `json:"namespace" cql:"namespace,primarykey,omitempty" bson:"namespace"`
 
 	// Value represents the value of the tag.
-	Value string `json:"value" cql:"value,primarykey,omitempty" bson:"_value"`
+	Value string `json:"value" cql:"value,primarykey,omitempty" bson:"value"`
 }
 
 // NewTag returns a new *Tag

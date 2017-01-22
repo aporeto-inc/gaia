@@ -118,7 +118,7 @@
             "format": null,
             "getter": true,
             "identifier": null,
-            "index": null,
+            "index": true,
             "max_length": null,
             "max_value": null,
             "min_length": null,
@@ -152,7 +152,7 @@
             "format": "free",
             "getter": true,
             "identifier": false,
-            "index": false,
+            "index": true,
             "max_length": null,
             "max_value": null,
             "min_length": null,
@@ -167,7 +167,7 @@
             "subtype": null,
             "transient": false,
             "type": "string",
-            "unique": true,
+            "unique": false,
             "uniqueScope": null
         },
         {
@@ -197,9 +197,9 @@
             "read_only": true,
             "required": false,
             "setter": true,
-            "stored": false,
+            "stored": true,
             "subtype": "tags_list",
-            "transient": false,
+            "transient": true,
             "type": "external",
             "unique": false,
             "uniqueScope": null

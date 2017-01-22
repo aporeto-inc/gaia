@@ -50,7 +50,7 @@
             "format": "free",
             "getter": true,
             "identifier": null,
-            "index": null,
+            "index": true,
             "max_length": null,
             "max_value": null,
             "min_length": null,
