@@ -18,28 +18,31 @@ type PolicyRule struct {
 	ID string `json:"ID" cql:"-" bson:"-"`
 
 	// Action defines set of actions that must be enforced when a dependency is met.
-	Action map[string]map[string]string `json:"action" cql:"action,omitempty" bson:"action"`
+	Action map[string]map[string]string `json:"action" cql:"-" bson:"-"`
 
 	// Policy target networks
-	Files FilePathsList `json:"files" cql:"files,omitempty" bson:"files"`
+	Files FilePathsList `json:"files" cql:"-" bson:"-"`
+
+	// Name is the name of the entity
+	Name string `json:"name" cql:"name,omitempty" bson:"name"`
 
 	// Policy target networks
-	Namespaces NamespacesList `json:"namespaces" cql:"namespaces,omitempty" bson:"namespaces"`
+	Namespaces NamespacesList `json:"namespaces" cql:"-" bson:"-"`
 
 	// Policy target networks
-	Networks ExternalServicesList `json:"networks" cql:"networks,omitempty" bson:"networks"`
+	Networks ExternalServicesList `json:"networks" cql:"-" bson:"-"`
 
 	// Relation describes the required operation to be performed between subjects and objects
-	Relation []string `json:"relation" cql:"relation,omitempty" bson:"relation"`
+	Relation []string `json:"relation" cql:"-" bson:"-"`
 
 	// ServerProfiles provides the information about the server profile.
-	Serverprofiles ServerProfilesList `json:"serverprofiles" cql:"serverprofiles,omitempty" bson:"serverprofiles"`
+	Serverprofiles ServerProfilesList `json:"serverprofiles" cql:"-" bson:"-"`
 
 	// Policy target networks
-	Syscalls SystemCallsList `json:"syscalls" cql:"syscalls,omitempty" bson:"syscalls"`
+	Syscalls SystemCallsList `json:"syscalls" cql:"-" bson:"-"`
 
 	// Policy target tags
-	Tagclauses [][]string `json:"tagclauses" cql:"tagclauses,omitempty" bson:"tagclauses"`
+	Tagclauses [][]string `json:"tagclauses" cql:"-" bson:"-"`
 }
 
 // NewPolicyRule returns a new *PolicyRule
@@ -71,10 +74,24 @@ func (o *PolicyRule) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetName returns the name of the receiver
+func (o *PolicyRule) GetName() string {
+	return o.Name
+}
+
+// SetName set the given name of the receiver
+func (o *PolicyRule) SetName(name string) {
+	o.Name = name
+}
+
 // Validate valides the current information stored into the structure.
 func (o *PolicyRule) Validate() error {
 
 	errors := elemental.Errors{}
+
+	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		errors = append(errors, err)
+	}
 
 	if len(errors) > 0 {
 		return errors
@@ -116,7 +133,6 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Action defines set of actions that must be enforced when a dependency is met.`,
 		Exposed:        true,
 		Name:           "action",
-		Stored:         true,
 		SubType:        "actions_list",
 		Type:           "external",
 	},
@@ -125,16 +141,29 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Policy target networks `,
 		Exposed:        true,
 		Name:           "files",
-		Stored:         true,
 		SubType:        "file_entities",
 		Type:           "external",
+	},
+	"Name": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Name is the name of the entity`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Getter:         true,
+		Name:           "name",
+		Orderable:      true,
+		Required:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+		Unique:         true,
 	},
 	"Namespaces": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `Policy target networks `,
 		Exposed:        true,
 		Name:           "namespaces",
-		Stored:         true,
 		SubType:        "namespace_entities",
 		Type:           "external",
 	},
@@ -143,7 +172,6 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Policy target networks `,
 		Exposed:        true,
 		Name:           "networks",
-		Stored:         true,
 		SubType:        "network_entities",
 		Type:           "external",
 	},
@@ -152,7 +180,6 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Relation describes the required operation to be performed between subjects and objects`,
 		Exposed:        true,
 		Name:           "relation",
-		Stored:         true,
 		SubType:        "relations_list",
 		Type:           "external",
 	},
@@ -161,7 +188,6 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ServerProfiles provides the information about the server profile.`,
 		Exposed:        true,
 		Name:           "serverprofiles",
-		Stored:         true,
 		SubType:        "serverprofile_entities",
 		Type:           "external",
 	},
@@ -170,7 +196,6 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Policy target networks `,
 		Exposed:        true,
 		Name:           "syscalls",
-		Stored:         true,
 		SubType:        "syscall_entities",
 		Type:           "external",
 	},
@@ -179,7 +204,6 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Policy target tags`,
 		Exposed:        true,
 		Name:           "tagclauses",
-		Stored:         true,
 		SubType:        "target_tags",
 		Type:           "external",
 	},
