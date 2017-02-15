@@ -56,9 +56,18 @@ func (o *NamespaceContent) String() string {
 func (o *NamespaceContent) Validate() error {
 
 	errors := elemental.Errors{}
+	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateRequiredString("contentID", o.ContentID); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
 
 	if err := elemental.ValidateRequiredString("contentID", o.ContentID); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("contentType", o.ContentType); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("contentType", o.ContentType); err != nil {
@@ -66,7 +75,15 @@ func (o *NamespaceContent) Validate() error {
 	}
 
 	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
 		errors = append(errors, err)
+	}
+
+	if len(requiredErrors) > 0 {
+		return requiredErrors
 	}
 
 	if len(errors) > 0 {

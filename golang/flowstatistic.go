@@ -116,6 +116,7 @@ func (o *FlowStatistic) String() string {
 func (o *FlowStatistic) Validate() error {
 
 	errors := elemental.Errors{}
+	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("metric", string(o.Metric), []string{"Flows", "Ports"}, true); err != nil {
 		errors = append(errors, err)
@@ -127,6 +128,10 @@ func (o *FlowStatistic) Validate() error {
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Repartition", "Serie"}, true); err != nil {
 		errors = append(errors, err)
+	}
+
+	if len(requiredErrors) > 0 {
+		return requiredErrors
 	}
 
 	if len(errors) > 0 {

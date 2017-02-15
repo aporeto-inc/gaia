@@ -64,6 +64,9 @@ type DependencyMapView struct {
 	// A map of the tags to apply to processing units
 	ProcessingUnitTags map[string][]string `json:"processingUnitTags" cql:"processingunittags,omitempty" bson:"processingunittags"`
 
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" cql:"protected,omitempty" bson:"protected"`
+
 	// Status of an entity
 	Status constants.EntityStatus `json:"status" cql:"status,omitempty" bson:"status"`
 
@@ -177,6 +180,11 @@ func (o *DependencyMapView) SetParentType(parentType string) {
 	o.ParentType = parentType
 }
 
+// GetProtected returns the protected of the receiver
+func (o *DependencyMapView) GetProtected() bool {
+	return o.Protected
+}
+
 // GetStatus returns the status of the receiver
 func (o *DependencyMapView) GetStatus() constants.EntityStatus {
 	return o.Status
@@ -196,9 +204,18 @@ func (o *DependencyMapView) SetUpdatedAt(updatedAt time.Time) {
 func (o *DependencyMapView) Validate() error {
 
 	errors := elemental.Errors{}
+	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("subviews", o.Subviews); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateRequiredExternal("subviews", o.Subviews); err != nil {
@@ -207,6 +224,10 @@ func (o *DependencyMapView) Validate() error {
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Automatic", "Manual"}, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	if len(requiredErrors) > 0 {
+		return requiredErrors
 	}
 
 	if len(errors) > 0 {
@@ -388,6 +409,17 @@ var DependencyMapViewAttributesMap = map[string]elemental.AttributeSpecification
 		Stored:         true,
 		SubType:        "processingunit_transient_tags_map",
 		Type:           "external",
+	},
+	"Protected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Protected defines if the object is protected.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "protected",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"Status": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

@@ -53,6 +53,9 @@ type ExternalService struct {
 	// Port refers to network port which could be a single number or 100:2000 to represent a range of ports
 	Port string `json:"port" cql:"port,omitempty" bson:"port"`
 
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" cql:"protected,omitempty" bson:"protected"`
+
 	// Protocol refers to network protocol like TCP/UDP or the number of the protocol.
 	Protocol string `json:"protocol" cql:"protocol,omitempty" bson:"protocol"`
 
@@ -162,6 +165,11 @@ func (o *ExternalService) SetParentType(parentType string) {
 	o.ParentType = parentType
 }
 
+// GetProtected returns the protected of the receiver
+func (o *ExternalService) GetProtected() bool {
+	return o.Protected
+}
+
 // GetStatus returns the status of the receiver
 func (o *ExternalService) GetStatus() constants.EntityStatus {
 	return o.Status
@@ -181,9 +189,18 @@ func (o *ExternalService) SetUpdatedAt(updatedAt time.Time) {
 func (o *ExternalService) Validate() error {
 
 	errors := elemental.Errors{}
+	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("network", o.Network); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidatePattern("network", o.Network, `^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$`); err != nil {
@@ -194,16 +211,24 @@ func (o *ExternalService) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("port", o.Port, `^[\d]*[[:]?[\d]+]?$`); err != nil {
+	if err := elemental.ValidatePattern("port", o.Port, `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("protocol", o.Protocol, `^(TCP|UDP|[0-9]{1,3})$`); err != nil {
+	if err := elemental.ValidateRequiredString("protocol", o.Protocol); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidatePattern("protocol", o.Protocol, `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`); err != nil {
 		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("protocol", o.Protocol); err != nil {
 		errors = append(errors, err)
+	}
+
+	if len(requiredErrors) > 0 {
+		return requiredErrors
 	}
 
 	if len(errors) > 0 {
@@ -377,7 +402,7 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"Port": elemental.AttributeSpecification{
-		AllowedChars:   `^[\d]*[[:]?[\d]+]?$`,
+		AllowedChars:   `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`,
 		AllowedChoices: []string{},
 		Description:    `Port refers to network port which could be a single number or 100:2000 to represent a range of ports`,
 		Exposed:        true,
@@ -386,8 +411,19 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"Protected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Protected defines if the object is protected.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "protected",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"Protocol": elemental.AttributeSpecification{
-		AllowedChars:   `^(TCP|UDP|[0-9]{1,3})$`,
+		AllowedChars:   `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`,
 		AllowedChoices: []string{},
 		Description:    `Protocol refers to network protocol like TCP/UDP or the number of the protocol.`,
 		Exposed:        true,

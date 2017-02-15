@@ -57,13 +57,6 @@ func init() {
 	relationshipsRegistry[elemental.IdentityFromName("namespacecontent")] = NamespaceContentMainRelationship
 
 	//
-	// Main Relationship for systeminfo
-	//
-	SystemInfoMainRelationship := &elemental.Relationship{}
-
-	relationshipsRegistry[elemental.IdentityFromName("systeminfo")] = SystemInfoMainRelationship
-
-	//
 	// Main Relationship for syscallaccess
 	//
 	SyscallAccessMainRelationship := &elemental.Relationship{}
@@ -559,14 +552,6 @@ func init() {
 		elemental.IdentityFromName("systemcall"),
 		&elemental.Relationship{
 			AllowsCreate:       true,
-			AllowsRetrieveMany: true,
-			AllowsInfo:         true,
-		},
-	)
-	// Children relationship for systeminfos in root
-	RootMainRelationship.AddChild(
-		elemental.IdentityFromName("systeminfo"),
-		&elemental.Relationship{
 			AllowsRetrieveMany: true,
 			AllowsInfo:         true,
 		},

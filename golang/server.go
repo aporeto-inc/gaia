@@ -24,14 +24,17 @@ const (
 type ServerOperationalStatusValue string
 
 const (
-	// ServerOperationalStatusConnected represents the value CONNECTED.
-	ServerOperationalStatusConnected ServerOperationalStatusValue = "CONNECTED"
+	// ServerOperationalStatusConnected represents the value Connected.
+	ServerOperationalStatusConnected ServerOperationalStatusValue = "Connected"
 
-	// ServerOperationalStatusInitialized represents the value INITIALIZED.
-	ServerOperationalStatusInitialized ServerOperationalStatusValue = "INITIALIZED"
+	// ServerOperationalStatusDisconnected represents the value Disconnected.
+	ServerOperationalStatusDisconnected ServerOperationalStatusValue = "Disconnected"
 
-	// ServerOperationalStatusUnknown represents the value UNKNOWN.
-	ServerOperationalStatusUnknown ServerOperationalStatusValue = "UNKNOWN"
+	// ServerOperationalStatusInitialized represents the value Initialized.
+	ServerOperationalStatusInitialized ServerOperationalStatusValue = "Initialized"
+
+	// ServerOperationalStatusUnknown represents the value Unknown.
+	ServerOperationalStatusUnknown ServerOperationalStatusValue = "Unknown"
 )
 
 // ServerIdentity represents the Identity of the object
@@ -75,6 +78,9 @@ type Server struct {
 	// Description is the description of the object.
 	Description string `json:"description" cql:"description,omitempty" bson:"description"`
 
+	// LastSyncTime holds the last heart beat time.
+	LastSyncTime time.Time `json:"lastSyncTime" cql:"lastsynctime,omitempty" bson:"lastsynctime"`
+
 	// Name is the name of the entity
 	Name string `json:"name" cql:"name,omitempty" bson:"name"`
 
@@ -85,13 +91,16 @@ type Server struct {
 	NormalizedTags []string `json:"normalizedTags" cql:"normalizedtags,omitempty" bson:"normalizedtags"`
 
 	// OperationalStatus tells the status of the server
-	OperationalStatus ServerOperationalStatusValue `json:"operationalStatus" cql:"operationalstatus,omitempty" bson:"operationalstatus"`
+	OperationalStatus ServerOperationalStatusValue `json:"operationalStatus" cql:"-" bson:"-"`
 
 	// ParentID is the ID of the parent, if any,
 	ParentID string `json:"parentID" cql:"parentid,omitempty" bson:"parentid"`
 
 	// ParentType is the type of the parent, if any. It will be set to the parent's Identity.Name.
 	ParentType string `json:"parentType" cql:"parenttype,omitempty" bson:"parenttype"`
+
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" cql:"protected,omitempty" bson:"protected"`
 
 	// Status of an entity
 	Status constants.EntityStatus `json:"status" cql:"status,omitempty" bson:"status"`
@@ -107,7 +116,7 @@ func NewServer() *Server {
 		AssociatedTags:    []string{},
 		CertificateStatus: "VALID",
 		NormalizedTags:    []string{},
-		OperationalStatus: "UNKNOWN",
+		OperationalStatus: "Initialized",
 		Status:            constants.Active,
 	}
 }
@@ -200,6 +209,11 @@ func (o *Server) SetParentType(parentType string) {
 	o.ParentType = parentType
 }
 
+// GetProtected returns the protected of the receiver
+func (o *Server) GetProtected() bool {
+	return o.Protected
+}
+
 // GetStatus returns the status of the receiver
 func (o *Server) GetStatus() constants.EntityStatus {
 	return o.Status
@@ -219,6 +233,11 @@ func (o *Server) SetUpdatedAt(updatedAt time.Time) {
 func (o *Server) Validate() error {
 
 	errors := elemental.Errors{}
+	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateRequiredString("FQDN", o.FQDN); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
 
 	if err := elemental.ValidateRequiredString("FQDN", o.FQDN); err != nil {
 		errors = append(errors, err)
@@ -228,12 +247,24 @@ func (o *Server) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateRequiredTime("lastSyncTime", o.LastSyncTime); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredTime("lastSyncTime", o.LastSyncTime); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("operationalStatus", string(o.OperationalStatus), []string{"CONNECTED", "INITIALIZED", "UNKNOWN"}, true); err != nil {
-		errors = append(errors, err)
+	if len(requiredErrors) > 0 {
+		return requiredErrors
 	}
 
 	if len(errors) > 0 {
@@ -372,6 +403,17 @@ var ServerAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"LastSyncTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `LastSyncTime holds the last heart beat time.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "lastSyncTime",
+		Orderable:      true,
+		Required:       true,
+		Stored:         true,
+		Type:           "time",
+	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `Name is the name of the entity`,
@@ -420,13 +462,14 @@ var ServerAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"OperationalStatus": elemental.AttributeSpecification{
-		AllowedChoices: []string{"CONNECTED", "INITIALIZED", "UNKNOWN"},
+		AllowedChoices: []string{"Connected", "Disconnected", "Initialized", "Unknown"},
 		Autogenerated:  true,
 		Description:    `OperationalStatus tells the status of the server`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "operationalStatus",
-		Stored:         true,
+		ReadOnly:       true,
+		Transient:      true,
 		Type:           "enum",
 	},
 	"ParentID": elemental.AttributeSpecification{
@@ -459,6 +502,17 @@ var ServerAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"Protected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Protected defines if the object is protected.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "protected",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"Status": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

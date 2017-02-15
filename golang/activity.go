@@ -77,6 +77,11 @@ func (o *Activity) String() string {
 func (o *Activity) Validate() error {
 
 	errors := elemental.Errors{}
+	requiredErrors := elemental.Errors{}
+
+	if len(requiredErrors) > 0 {
+		return requiredErrors
+	}
 
 	if len(errors) > 0 {
 		return errors

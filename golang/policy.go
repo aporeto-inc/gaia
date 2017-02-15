@@ -85,6 +85,9 @@ type Policy struct {
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" cql:"propagate,omitempty" bson:"propagate"`
 
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" cql:"protected,omitempty" bson:"protected"`
+
 	// Relation describes the required operation to be performed between subjects and objects
 	Relation []string `json:"relation" cql:"relation,omitempty" bson:"relation"`
 
@@ -202,6 +205,11 @@ func (o *Policy) SetParentType(parentType string) {
 	o.ParentType = parentType
 }
 
+// GetProtected returns the protected of the receiver
+func (o *Policy) GetProtected() bool {
+	return o.Protected
+}
+
 // GetStatus returns the status of the receiver
 func (o *Policy) GetStatus() constants.EntityStatus {
 	return o.Status
@@ -221,13 +229,26 @@ func (o *Policy) SetUpdatedAt(updatedAt time.Time) {
 func (o *Policy) Validate() error {
 
 	errors := elemental.Errors{}
+	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateRequiredExternal("action", o.Action); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
 
 	if err := elemental.ValidateRequiredExternal("action", o.Action); err != nil {
 		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("subject", o.Subject); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateRequiredExternal("subject", o.Subject); err != nil {
@@ -236,6 +257,10 @@ func (o *Policy) Validate() error {
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "File", "NamespaceMapping", "Network", "Server", "Syscall"}, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	if len(requiredErrors) > 0 {
+		return requiredErrors
 	}
 
 	if len(errors) > 0 {
@@ -439,6 +464,17 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "propagate",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
+	},
+	"Protected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Protected defines if the object is protected.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "protected",
 		Orderable:      true,
 		Stored:         true,
 		Type:           "boolean",

@@ -82,6 +82,9 @@ type ServerProfile struct {
 	// PolicySynchronizationInterval configures how often the policy will be resynchronized.
 	PolicySynchronizationInterval string `json:"policySynchronizationInterval" cql:"policysynchronizationinterval,omitempty" bson:"policysynchronizationinterval"`
 
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" cql:"protected,omitempty" bson:"protected"`
+
 	// AgentPort is the port the agent should use to listen for API calls
 	ProxyListenAddress string `json:"proxyListenAddress" cql:"proxylistenaddress,omitempty" bson:"proxylistenaddress"`
 
@@ -233,6 +236,11 @@ func (o *ServerProfile) SetParentType(parentType string) {
 	o.ParentType = parentType
 }
 
+// GetProtected returns the protected of the receiver
+func (o *ServerProfile) GetProtected() bool {
+	return o.Protected
+}
+
 // GetStatus returns the status of the receiver
 func (o *ServerProfile) GetStatus() constants.EntityStatus {
 	return o.Status
@@ -252,6 +260,7 @@ func (o *ServerProfile) SetUpdatedAt(updatedAt time.Time) {
 func (o *ServerProfile) Validate() error {
 
 	errors := elemental.Errors{}
+	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateMaximumInt("IPTablesMarkValue", o.IPTablesMarkValue, 65000, false); err != nil {
 		errors = append(errors, err)
@@ -271,6 +280,10 @@ func (o *ServerProfile) Validate() error {
 
 	if err := elemental.ValidateStringInList("dockerSocketType", string(o.DockerSocketType), []string{"tcp", "unix"}, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
@@ -306,6 +319,10 @@ func (o *ServerProfile) Validate() error {
 	}
 
 	if err := elemental.ValidateRequiredExternal("targetNetworks", o.TargetNetworks); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("targetNetworks", o.TargetNetworks); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -331,6 +348,10 @@ func (o *ServerProfile) Validate() error {
 
 	if err := elemental.ValidateMinimumInt("transmitterQueueSize", o.TransmitterQueueSize, 1, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	if len(requiredErrors) > 0 {
+		return requiredErrors
 	}
 
 	if len(errors) > 0 {
@@ -577,6 +598,17 @@ var ServerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"Protected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Protected defines if the object is protected.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "protected",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"ProxyListenAddress": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

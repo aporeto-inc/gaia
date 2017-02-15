@@ -92,6 +92,11 @@ func (o *MapNode) SetName(name string) {
 func (o *MapNode) Validate() error {
 
 	errors := elemental.Errors{}
+	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		errors = append(errors, err)
@@ -99,6 +104,10 @@ func (o *MapNode) Validate() error {
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Container", "Volume"}, true); err != nil {
 		errors = append(errors, err)
+	}
+
+	if len(requiredErrors) > 0 {
+		return requiredErrors
 	}
 
 	if len(errors) > 0 {

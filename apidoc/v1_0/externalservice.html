@@ -54,6 +54,8 @@
                             
                             <li><a data-id="attr_port" href="#attr_port" class="fixed-text">port</a></li>
                             
+                            <li><a data-id="attr_protected" href="#attr_protected" class="fixed-text">protected</a></li>
+                            
                             <li><a data-id="attr_protocol" href="#attr_protocol" class="fixed-text">protocol</a></li>
                             
                             <li><a data-id="attr_status" href="#attr_status" class="fixed-text">status</a></li>
@@ -471,6 +473,36 @@
     
      <span class="label label-info">filterable</span>&nbsp;
     
+    
+    
+    
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="fixed-text">
+                            <a href="#attr_protected" title="Protected defines if the object is protected.">protected</a>
+                        </td>
+                        <td style="padding-left: 10px;" class="fixed-text hide-xs">
+                            <span class="type_boolean">boolean
+    
+    
+    
+    
+    </span>
+                        </td>
+                        <td style="padding-left: 30px;" class="fixed-text hide-xs">
+                            
+    
+    
+    
+    
+    
+    
+     <span class="label label-info">filterable</span>&nbsp;
+    
+    
+     <span class="label label-info">orderable</span>&nbsp;
     
     
     
@@ -1307,7 +1339,7 @@
                             
 
                             
-                            <span class="small"><b>Allowed characters: </b></span><span class="fixed-text">^[\d]*[[:]?[\d]+]?$</span><br/>
+                            <span class="small"><b>Allowed characters: </b></span><span class="fixed-text">^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$</span><br/>
                             
 
                             
@@ -1325,6 +1357,57 @@
                             
 
                             <span class="small"><b>SDK attribute: </b></span><span class="fixed-text">port</span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="attr_protected" class="filterable" data-filter-keyword="protected" style="padding-top: 60px; margin-top: -60px;">
+                <div class="panel panel-default">
+                    <div class="panel-heading fixed-text">
+                        <b>protected</b>
+                        <span class="type_boolean fixed-text">boolean</span>
+                        
+    
+    
+    
+    
+    
+    
+     <span class="label label-info">filterable</span>&nbsp;
+    
+    
+     <span class="label label-info">orderable</span>&nbsp;
+    
+    
+    
+                    </div>
+
+                    <div class="panel-body">
+                        <h5><b>Discussion</b></h5>
+                        <p>Protected defines if the object is protected.</p>
+
+                        <hr/>
+
+                        <h5><b>Charateristics</b></h5>
+                        <p>
+                            
+
+                            
+
+                            
+
+                            
+
+                            
+
+                            
+
+                            
+
+                            
+
+                            <span class="small"><b>SDK attribute: </b></span><span class="fixed-text">protected</span>
                         </p>
                     </div>
                 </div>
@@ -1362,7 +1445,7 @@
                             
 
                             
-                            <span class="small"><b>Allowed characters: </b></span><span class="fixed-text">^(TCP|UDP|[0-9]{1,3})$</span><br/>
+                            <span class="small"><b>Allowed characters: </b></span><span class="fixed-text">^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$</span><br/>
                             
 
                             
