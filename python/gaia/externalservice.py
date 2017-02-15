@@ -38,6 +38,7 @@ class ExternalService(RESTObject):
         self._parentid = None
         self._parenttype = None
         self._port = None
+        self._protected = None
         self._protocol = None
         self._status = None
         self._updatedat = None
@@ -54,6 +55,7 @@ class ExternalService(RESTObject):
         self.expose_attribute(local_name="parentID", remote_name="parentID")
         self.expose_attribute(local_name="parentType", remote_name="parentType")
         self.expose_attribute(local_name="port", remote_name="port")
+        self.expose_attribute(local_name="protected", remote_name="protected")
         self.expose_attribute(local_name="protocol", remote_name="protocol")
         self.expose_attribute(local_name="status", remote_name="status")
         self.expose_attribute(local_name="updatedAt", remote_name="updatedAt")
@@ -346,6 +348,28 @@ class ExternalService(RESTObject):
               
         """
         self._port = value
+    
+    @property
+    def protected(self):
+        """ Get protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        return self._protected
+
+    @protected.setter
+    def protected(self, value):
+        """ Set protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        self._protected = value
     
     @property
     def protocol(self):

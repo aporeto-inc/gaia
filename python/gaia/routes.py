@@ -18,8 +18,6 @@ routes.append(("DELETE", "/apiauthorizationpolicies/:id"))
 
 # routes for namespacecontents
 
-# routes for systeminfos
-
 # routes for syscallaccesses
 
 # routes for computedpolicies
@@ -163,7 +161,6 @@ routes.append(("POST", "/serverprofiles"))
 routes.append(("GET", "/serverprofiles"))
 routes.append(("POST", "/systemcalls"))
 routes.append(("GET", "/systemcalls"))
-routes.append(("GET", "/systeminfos"))
 routes.append(("GET", "/tags"))
 routes.append(("POST", "/users"))
 routes.append(("GET", "/users"))

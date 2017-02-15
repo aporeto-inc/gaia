@@ -41,6 +41,7 @@ class Policy(RESTObject):
         self._parentid = None
         self._parenttype = None
         self._propagate = None
+        self._protected = None
         self._relation = None
         self._status = None
         self._subject = None
@@ -62,6 +63,7 @@ class Policy(RESTObject):
         self.expose_attribute(local_name="parentID", remote_name="parentID")
         self.expose_attribute(local_name="parentType", remote_name="parentType")
         self.expose_attribute(local_name="propagate", remote_name="propagate")
+        self.expose_attribute(local_name="protected", remote_name="protected")
         self.expose_attribute(local_name="relation", remote_name="relation")
         self.expose_attribute(local_name="status", remote_name="status")
         self.expose_attribute(local_name="subject", remote_name="subject")
@@ -422,6 +424,28 @@ class Policy(RESTObject):
               
         """
         self._propagate = value
+    
+    @property
+    def protected(self):
+        """ Get protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        return self._protected
+
+    @protected.setter
+    def protected(self, value):
+        """ Set protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        self._protected = value
     
     @property
     def relation(self):

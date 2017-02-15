@@ -204,18 +204,9 @@ func (o *FileAccessPolicy) SetUpdatedAt(updatedAt time.Time) {
 func (o *FileAccessPolicy) Validate() error {
 
 	errors := elemental.Errors{}
-	requiredErrors := elemental.Errors{}
-
-	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		errors = append(errors, err)
-	}
-
-	if len(requiredErrors) > 0 {
-		return requiredErrors
 	}
 
 	if len(errors) > 0 {

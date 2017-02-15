@@ -44,6 +44,7 @@ class ServerProfile(RESTObject):
         self._parentid = None
         self._parenttype = None
         self._policysynchronizationinterval = None
+        self._protected = None
         self._proxylistenaddress = None
         self._receivernumberofqueues = None
         self._receiverqueue = None
@@ -75,6 +76,7 @@ class ServerProfile(RESTObject):
         self.expose_attribute(local_name="parentID", remote_name="parentID")
         self.expose_attribute(local_name="parentType", remote_name="parentType")
         self.expose_attribute(local_name="policySynchronizationInterval", remote_name="policySynchronizationInterval")
+        self.expose_attribute(local_name="protected", remote_name="protected")
         self.expose_attribute(local_name="proxyListenAddress", remote_name="proxyListenAddress")
         self.expose_attribute(local_name="receiverNumberOfQueues", remote_name="receiverNumberOfQueues")
         self.expose_attribute(local_name="receiverQueue", remote_name="receiverQueue")
@@ -508,6 +510,28 @@ class ServerProfile(RESTObject):
               
         """
         self._policysynchronizationinterval = value
+    
+    @property
+    def protected(self):
+        """ Get protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        return self._protected
+
+    @protected.setter
+    def protected(self, value):
+        """ Set protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        self._protected = value
     
     @property
     def proxyListenAddress(self):

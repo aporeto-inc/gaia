@@ -189,18 +189,9 @@ func (o *ExternalService) SetUpdatedAt(updatedAt time.Time) {
 func (o *ExternalService) Validate() error {
 
 	errors := elemental.Errors{}
-	requiredErrors := elemental.Errors{}
-
-	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("network", o.Network); err != nil {
-		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidatePattern("network", o.Network, `^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$`); err != nil {
@@ -215,20 +206,12 @@ func (o *ExternalService) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("protocol", o.Protocol); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if err := elemental.ValidatePattern("protocol", o.Protocol, `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`); err != nil {
 		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("protocol", o.Protocol); err != nil {
 		errors = append(errors, err)
-	}
-
-	if len(requiredErrors) > 0 {
-		return requiredErrors
 	}
 
 	if len(errors) > 0 {

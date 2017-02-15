@@ -60,11 +60,6 @@ func (o *Tag) String() string {
 func (o *Tag) Validate() error {
 
 	errors := elemental.Errors{}
-	requiredErrors := elemental.Errors{}
-
-	if err := elemental.ValidateRequiredString("value", o.Value); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
 
 	if err := elemental.ValidatePattern("value", o.Value, `^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@<>/-]+$`); err != nil {
 		errors = append(errors, err)
@@ -72,10 +67,6 @@ func (o *Tag) Validate() error {
 
 	if err := elemental.ValidateRequiredString("value", o.Value); err != nil {
 		errors = append(errors, err)
-	}
-
-	if len(requiredErrors) > 0 {
-		return requiredErrors
 	}
 
 	if len(errors) > 0 {

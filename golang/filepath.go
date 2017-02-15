@@ -185,18 +185,9 @@ func (o *FilePath) SetUpdatedAt(updatedAt time.Time) {
 func (o *FilePath) Validate() error {
 
 	errors := elemental.Errors{}
-	requiredErrors := elemental.Errors{}
-
-	if err := elemental.ValidateRequiredString("filepath", o.Filepath); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
 
 	if err := elemental.ValidateRequiredString("filepath", o.Filepath); err != nil {
 		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
@@ -204,15 +195,7 @@ func (o *FilePath) Validate() error {
 	}
 
 	if err := elemental.ValidateRequiredString("server", o.Server); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("server", o.Server); err != nil {
 		errors = append(errors, err)
-	}
-
-	if len(requiredErrors) > 0 {
-		return requiredErrors
 	}
 
 	if len(errors) > 0 {

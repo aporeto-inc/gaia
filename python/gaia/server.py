@@ -36,12 +36,14 @@ class Server(RESTObject):
         self._certificatestatus = None
         self._createdat = None
         self._description = None
+        self._lastsynctime = None
         self._name = None
         self._namespace = None
         self._normalizedtags = None
         self._operationalstatus = None
         self._parentid = None
         self._parenttype = None
+        self._protected = None
         self._status = None
         self._updatedat = None
         
@@ -55,12 +57,14 @@ class Server(RESTObject):
         self.expose_attribute(local_name="certificateStatus", remote_name="certificateStatus")
         self.expose_attribute(local_name="createdAt", remote_name="createdAt")
         self.expose_attribute(local_name="description", remote_name="description")
+        self.expose_attribute(local_name="lastSyncTime", remote_name="lastSyncTime")
         self.expose_attribute(local_name="name", remote_name="name")
         self.expose_attribute(local_name="namespace", remote_name="namespace")
         self.expose_attribute(local_name="normalizedTags", remote_name="normalizedTags")
         self.expose_attribute(local_name="operationalStatus", remote_name="operationalStatus")
         self.expose_attribute(local_name="parentID", remote_name="parentID")
         self.expose_attribute(local_name="parentType", remote_name="parentType")
+        self.expose_attribute(local_name="protected", remote_name="protected")
         self.expose_attribute(local_name="status", remote_name="status")
         self.expose_attribute(local_name="updatedAt", remote_name="updatedAt")
 
@@ -310,6 +314,28 @@ class Server(RESTObject):
         self._description = value
     
     @property
+    def lastSyncTime(self):
+        """ Get lastSyncTime value.
+
+          Notes:
+              LastSyncTime holds the last heart beat time.
+
+              
+        """
+        return self._lastsynctime
+
+    @lastSyncTime.setter
+    def lastSyncTime(self, value):
+        """ Set lastSyncTime value.
+
+          Notes:
+              LastSyncTime holds the last heart beat time.
+
+              
+        """
+        self._lastsynctime = value
+    
+    @property
     def name(self):
         """ Get name value.
 
@@ -440,6 +466,28 @@ class Server(RESTObject):
               
         """
         self._parenttype = value
+    
+    @property
+    def protected(self):
+        """ Get protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        return self._protected
+
+    @protected.setter
+    def protected(self, value):
+        """ Set protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        self._protected = value
     
     @property
     def status(self):

@@ -37,6 +37,7 @@ class Namespace(RESTObject):
         self._normalizedtags = None
         self._parentid = None
         self._parenttype = None
+        self._protected = None
         self._status = None
         self._updatedat = None
         
@@ -51,6 +52,7 @@ class Namespace(RESTObject):
         self.expose_attribute(local_name="normalizedTags", remote_name="normalizedTags")
         self.expose_attribute(local_name="parentID", remote_name="parentID")
         self.expose_attribute(local_name="parentType", remote_name="parentType")
+        self.expose_attribute(local_name="protected", remote_name="protected")
         self.expose_attribute(local_name="status", remote_name="status")
         self.expose_attribute(local_name="updatedAt", remote_name="updatedAt")
 
@@ -320,6 +322,28 @@ class Namespace(RESTObject):
               
         """
         self._parenttype = value
+    
+    @property
+    def protected(self):
+        """ Get protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        return self._protected
+
+    @protected.setter
+    def protected(self, value):
+        """ Set protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        self._protected = value
     
     @property
     def status(self):

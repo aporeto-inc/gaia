@@ -260,7 +260,6 @@ func (o *ServerProfile) SetUpdatedAt(updatedAt time.Time) {
 func (o *ServerProfile) Validate() error {
 
 	errors := elemental.Errors{}
-	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateMaximumInt("IPTablesMarkValue", o.IPTablesMarkValue, 65000, false); err != nil {
 		errors = append(errors, err)
@@ -280,10 +279,6 @@ func (o *ServerProfile) Validate() error {
 
 	if err := elemental.ValidateStringInList("dockerSocketType", string(o.DockerSocketType), []string{"tcp", "unix"}, false); err != nil {
 		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
@@ -319,10 +314,6 @@ func (o *ServerProfile) Validate() error {
 	}
 
 	if err := elemental.ValidateRequiredExternal("targetNetworks", o.TargetNetworks); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("targetNetworks", o.TargetNetworks); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -348,10 +339,6 @@ func (o *ServerProfile) Validate() error {
 
 	if err := elemental.ValidateMinimumInt("transmitterQueueSize", o.TransmitterQueueSize, 1, false); err != nil {
 		errors = append(errors, err)
-	}
-
-	if len(requiredErrors) > 0 {
-		return requiredErrors
 	}
 
 	if len(errors) > 0 {

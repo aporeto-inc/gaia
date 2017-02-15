@@ -38,6 +38,7 @@ class DependencyMapView(RESTObject):
         self._parentid = None
         self._parenttype = None
         self._processingunittags = None
+        self._protected = None
         self._status = None
         self._subviews = None
         self._type = None
@@ -55,6 +56,7 @@ class DependencyMapView(RESTObject):
         self.expose_attribute(local_name="parentID", remote_name="parentID")
         self.expose_attribute(local_name="parentType", remote_name="parentType")
         self.expose_attribute(local_name="processingUnitTags", remote_name="processingUnitTags")
+        self.expose_attribute(local_name="protected", remote_name="protected")
         self.expose_attribute(local_name="status", remote_name="status")
         self.expose_attribute(local_name="subviews", remote_name="subviews")
         self.expose_attribute(local_name="type", remote_name="type")
@@ -348,6 +350,28 @@ class DependencyMapView(RESTObject):
               
         """
         self._processingunittags = value
+    
+    @property
+    def protected(self):
+        """ Get protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        return self._protected
+
+    @protected.setter
+    def protected(self, value):
+        """ Set protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        self._protected = value
     
     @property
     def status(self):

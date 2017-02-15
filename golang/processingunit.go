@@ -235,11 +235,6 @@ func (o *ProcessingUnit) SetUpdatedAt(updatedAt time.Time) {
 func (o *ProcessingUnit) Validate() error {
 
 	errors := elemental.Errors{}
-	requiredErrors := elemental.Errors{}
-
-	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		errors = append(errors, err)
@@ -251,10 +246,6 @@ func (o *ProcessingUnit) Validate() error {
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Docker", "LinuxService", "RKT"}, false); err != nil {
 		errors = append(errors, err)
-	}
-
-	if len(requiredErrors) > 0 {
-		return requiredErrors
 	}
 
 	if len(errors) > 0 {

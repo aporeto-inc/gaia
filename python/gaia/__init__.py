@@ -2,7 +2,7 @@
 
 
 
-__all__ = ['Activity', 'APIAuthorizationPolicy', 'APICheck', 'Authenticator', 'ComputedDependencyMapView', 'ComputedPolicy', 'DependencyMap', 'DependencyMapSubview', 'DependencyMapView', 'ExternalService', 'FileAccess', 'FileAccessPolicy', 'FilePath', 'FlowStatistic', 'Integration', 'MapEdge', 'MapNode', 'Namespace', 'NamespaceContent', 'NamespaceMappingPolicy', 'NetworkAccessPolicy', 'Policy', 'PolicyRule', 'ProcessingUnit', 'RenderedPolicy', 'Root', 'Server', 'ServerPolicy', 'ServerProfile', 'SyscallAccess', 'SystemCall', 'SystemInfo', 'Tag', 'User', 'Vulnerability', 'routes']
+__all__ = ['Activity', 'APIAuthorizationPolicy', 'APICheck', 'Authenticator', 'ComputedDependencyMapView', 'ComputedPolicy', 'DependencyMap', 'DependencyMapSubview', 'DependencyMapView', 'ExternalService', 'FileAccess', 'FileAccessPolicy', 'FilePath', 'FlowStatistic', 'Integration', 'MapEdge', 'MapNode', 'Namespace', 'NamespaceContent', 'NamespaceMappingPolicy', 'NetworkAccessPolicy', 'Policy', 'PolicyRule', 'ProcessingUnit', 'RenderedPolicy', 'Root', 'Server', 'ServerPolicy', 'ServerProfile', 'SyscallAccess', 'SystemCall', 'Tag', 'User', 'Vulnerability', 'routes']
 
 from .activity import Activity
 from .apiauthorizationpolicy import APIAuthorizationPolicy
@@ -35,7 +35,6 @@ from .serverpolicy import ServerPolicy
 from .serverprofile import ServerProfile
 from .syscallaccess import SyscallAccess
 from .systemcall import SystemCall
-from .systeminfo import SystemInfo
 from .tag import Tag
 from .user import User
 from .vulnerability import Vulnerability
