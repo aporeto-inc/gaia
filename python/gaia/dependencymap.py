@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from pyelemental import RESTObject
-from pyelemental import validate_string_in_list, validate_float_in_list, validate_int_in_list, validate_required_int, validate_required_float, validate_required_string, validate_required_time, validate_maximum_float, validate_minimum_float, validate_maximum_int, validate_minimum_int, validate_maximum_length, validate_minimum_length, validate_pattern
-
 
 class DependencyMap(RESTObject):
     """ Represents a DependencyMap in the 
@@ -151,15 +149,6 @@ class DependencyMap(RESTObject):
         """
         self._nodes = value
     
-    def validate(self):
-        """ Validate valides the current information stored into the structure.
-        """
-        errors = []
-
-        if len(errors) > 0:
-            return errors
-
-        return None
 
     # dependencymapIdentity represents the Identity of the object
 dependencymapIdentity = {"name": "dependencymap", "category": "dependencymaps", "constructor": DependencyMap}

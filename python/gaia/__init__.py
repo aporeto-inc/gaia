@@ -2,12 +2,12 @@
 
 
 
-__all__ = ['APIAuthorizationPolicy', 'APICheck', 'Authenticator', 'Certificate', 'ComputedDependencyMapView', 'ComputedPolicy', 'DependencyMap', 'DependencyMapSubview', 'DependencyMapView', 'ExternalService', 'FileAccess', 'FileAccessPolicy', 'FilePath', 'FlowStatistic', 'Integration', 'MapEdge', 'MapNode', 'Namespace', 'NamespaceContent', 'NamespaceMappingPolicy', 'NetworkAccessPolicy', 'Policy', 'PolicyRule', 'ProcessingUnit', 'RenderedPolicy', 'Root', 'Server', 'ServerPolicy', 'ServerProfile', 'SyscallAccess', 'SystemCall', 'SystemInfo', 'Tag', 'User', 'Vulnerability', 'routes']
+__all__ = ['Activity', 'APIAuthorizationPolicy', 'APICheck', 'Authenticator', 'ComputedDependencyMapView', 'ComputedPolicy', 'DependencyMap', 'DependencyMapSubview', 'DependencyMapView', 'ExternalService', 'FileAccess', 'FileAccessPolicy', 'FilePath', 'FlowStatistic', 'Integration', 'MapEdge', 'MapNode', 'Namespace', 'NamespaceContent', 'NamespaceMappingPolicy', 'NetworkAccessPolicy', 'Policy', 'PolicyRule', 'ProcessingUnit', 'RenderedPolicy', 'Root', 'Server', 'ServerPolicy', 'ServerProfile', 'SyscallAccess', 'SystemCall', 'SystemInfo', 'Tag', 'User', 'Vulnerability', 'routes']
 
+from .activity import Activity
 from .apiauthorizationpolicy import APIAuthorizationPolicy
 from .apicheck import APICheck
 from .authenticator import Authenticator
-from .certificate import Certificate
 from .computeddependencymapview import ComputedDependencyMapView
 from .computedpolicy import ComputedPolicy
 from .dependencymap import DependencyMap

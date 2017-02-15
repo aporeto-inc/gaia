@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from pyelemental import RESTObject
-from pyelemental import validate_string_in_list, validate_float_in_list, validate_int_in_list, validate_required_int, validate_required_float, validate_required_string, validate_required_time, validate_maximum_float, validate_minimum_float, validate_maximum_int, validate_minimum_int, validate_maximum_length, validate_minimum_length, validate_pattern
-
 
 class ServerProfile(RESTObject):
     """ Represents a ServerProfile in the 
@@ -30,25 +28,29 @@ class ServerProfile(RESTObject):
         
         self._id = None
         self._iptablesmarkvalue = None
+        self._ignoreexpression = None
+        self._pubookkeepinginterval = None
         self._puheartbeatinterval = None
         self._annotation = None
         self._associatedtags = None
         self._createdat = None
-        self._deleted = None
         self._description = None
         self._dockersocketaddress = None
         self._dockersockettype = None
+        self._kubernetesenable = None
         self._name = None
         self._namespace = None
         self._normalizedtags = None
         self._parentid = None
         self._parenttype = None
+        self._policysynchronizationinterval = None
         self._proxylistenaddress = None
         self._receivernumberofqueues = None
         self._receiverqueue = None
         self._receiverqueuesize = None
         self._remoteenforcer = None
         self._status = None
+        self._supportlinuxprocesses = None
         self._targetnetworks = None
         self._transmitternumberofqueues = None
         self._transmitterqueue = None
@@ -57,25 +59,29 @@ class ServerProfile(RESTObject):
         
         self.expose_attribute(local_name="ID", remote_name="ID")
         self.expose_attribute(local_name="IPTablesMarkValue", remote_name="IPTablesMarkValue")
+        self.expose_attribute(local_name="IgnoreExpression", remote_name="IgnoreExpression")
+        self.expose_attribute(local_name="PUBookkeepingInterval", remote_name="PUBookkeepingInterval")
         self.expose_attribute(local_name="PUHeartbeatInterval", remote_name="PUHeartbeatInterval")
         self.expose_attribute(local_name="annotation", remote_name="annotation")
         self.expose_attribute(local_name="associatedTags", remote_name="associatedTags")
         self.expose_attribute(local_name="createdAt", remote_name="createdAt")
-        self.expose_attribute(local_name="deleted", remote_name="deleted")
         self.expose_attribute(local_name="description", remote_name="description")
         self.expose_attribute(local_name="dockerSocketAddress", remote_name="dockerSocketAddress")
         self.expose_attribute(local_name="dockerSocketType", remote_name="dockerSocketType")
+        self.expose_attribute(local_name="kubernetesEnable", remote_name="kubernetesEnable")
         self.expose_attribute(local_name="name", remote_name="name")
         self.expose_attribute(local_name="namespace", remote_name="namespace")
         self.expose_attribute(local_name="normalizedTags", remote_name="normalizedTags")
         self.expose_attribute(local_name="parentID", remote_name="parentID")
         self.expose_attribute(local_name="parentType", remote_name="parentType")
+        self.expose_attribute(local_name="policySynchronizationInterval", remote_name="policySynchronizationInterval")
         self.expose_attribute(local_name="proxyListenAddress", remote_name="proxyListenAddress")
         self.expose_attribute(local_name="receiverNumberOfQueues", remote_name="receiverNumberOfQueues")
         self.expose_attribute(local_name="receiverQueue", remote_name="receiverQueue")
         self.expose_attribute(local_name="receiverQueueSize", remote_name="receiverQueueSize")
         self.expose_attribute(local_name="remoteEnforcer", remote_name="remoteEnforcer")
         self.expose_attribute(local_name="status", remote_name="status")
+        self.expose_attribute(local_name="supportLinuxProcesses", remote_name="supportLinuxProcesses")
         self.expose_attribute(local_name="targetNetworks", remote_name="targetNetworks")
         self.expose_attribute(local_name="transmitterNumberOfQueues", remote_name="transmitterNumberOfQueues")
         self.expose_attribute(local_name="transmitterQueue", remote_name="transmitterQueue")
@@ -150,6 +156,50 @@ class ServerProfile(RESTObject):
               
         """
         self._iptablesmarkvalue = value
+    
+    @property
+    def IgnoreExpression(self):
+        """ Get IgnoreExpression value.
+
+          Notes:
+              IgnoreExpression allows to set a tag expression that will make Aporeto to ignore docker container started with labels matching the rule.
+
+              
+        """
+        return self._ignoreexpression
+
+    @IgnoreExpression.setter
+    def IgnoreExpression(self, value):
+        """ Set IgnoreExpression value.
+
+          Notes:
+              IgnoreExpression allows to set a tag expression that will make Aporeto to ignore docker container started with labels matching the rule.
+
+              
+        """
+        self._ignoreexpression = value
+    
+    @property
+    def PUBookkeepingInterval(self):
+        """ Get PUBookkeepingInterval value.
+
+          Notes:
+              PUBookkeepingInterval configures how often the PU will be synchronized.
+
+              
+        """
+        return self._pubookkeepinginterval
+
+    @PUBookkeepingInterval.setter
+    def PUBookkeepingInterval(self, value):
+        """ Set PUBookkeepingInterval value.
+
+          Notes:
+              PUBookkeepingInterval configures how often the PU will be synchronized.
+
+              
+        """
+        self._pubookkeepinginterval = value
     
     @property
     def PUHeartbeatInterval(self):
@@ -240,28 +290,6 @@ class ServerProfile(RESTObject):
         self._createdat = value
     
     @property
-    def deleted(self):
-        """ Get deleted value.
-
-          Notes:
-              Deleted marks if the entity has been deleted.
-
-              
-        """
-        return self._deleted
-
-    @deleted.setter
-    def deleted(self, value):
-        """ Set deleted value.
-
-          Notes:
-              Deleted marks if the entity has been deleted.
-
-              
-        """
-        self._deleted = value
-    
-    @property
     def description(self):
         """ Get description value.
 
@@ -326,6 +354,28 @@ class ServerProfile(RESTObject):
               
         """
         self._dockersockettype = value
+    
+    @property
+    def kubernetesEnable(self):
+        """ Get kubernetesEnable value.
+
+          Notes:
+              kubernetesEnable enables  kubernetes mode for the agent.
+
+              
+        """
+        return self._kubernetesenable
+
+    @kubernetesEnable.setter
+    def kubernetesEnable(self, value):
+        """ Set kubernetesEnable value.
+
+          Notes:
+              kubernetesEnable enables  kubernetes mode for the agent.
+
+              
+        """
+        self._kubernetesenable = value
     
     @property
     def name(self):
@@ -436,6 +486,28 @@ class ServerProfile(RESTObject):
               
         """
         self._parenttype = value
+    
+    @property
+    def policySynchronizationInterval(self):
+        """ Get policySynchronizationInterval value.
+
+          Notes:
+              PolicySynchronizationInterval configures how often the policy will be resynchronized.
+
+              
+        """
+        return self._policysynchronizationinterval
+
+    @policySynchronizationInterval.setter
+    def policySynchronizationInterval(self, value):
+        """ Set policySynchronizationInterval value.
+
+          Notes:
+              PolicySynchronizationInterval configures how often the policy will be resynchronized.
+
+              
+        """
+        self._policysynchronizationinterval = value
     
     @property
     def proxyListenAddress(self):
@@ -570,6 +642,28 @@ class ServerProfile(RESTObject):
         self._status = value
     
     @property
+    def supportLinuxProcesses(self):
+        """ Get supportLinuxProcesses value.
+
+          Notes:
+              SupportLinuxProcesses configures support for Linux processes.
+
+              
+        """
+        return self._supportlinuxprocesses
+
+    @supportLinuxProcesses.setter
+    def supportLinuxProcesses(self, value):
+        """ Set supportLinuxProcesses value.
+
+          Notes:
+              SupportLinuxProcesses configures support for Linux processes.
+
+              
+        """
+        self._supportlinuxprocesses = value
+    
+    @property
     def targetNetworks(self):
         """ Get targetNetworks value.
 
@@ -679,100 +773,6 @@ class ServerProfile(RESTObject):
         """
         self._updatedat = value
     
-    def validate(self):
-        """ Validate valides the current information stored into the structure.
-        """
-        errors = []
-
-        err = validate_maximum_int("IPTablesMarkValue", self.IPTablesMarkValue, 65000, false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_minimum_int("IPTablesMarkValue", self.IPTablesMarkValue, 0, false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_pattern("PUHeartbeatInterval", self.PUHeartbeatInterval, "[0-9]+[smh]")
-
-        if err:
-            errors.append(err)
-
-        err = validate_string_in_list("dockerSocketType", self.dockerSocketType, ["tcp", "unix"], false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_required_string("name", self.name)
-
-        if err:
-            errors.append(err)
-
-        err = validate_maximum_int("receiverNumberOfQueues", self.receiverNumberOfQueues, 16, false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_minimum_int("receiverNumberOfQueues", self.receiverNumberOfQueues, 1, false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_maximum_int("receiverQueue", self.receiverQueue, 1000, false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_minimum_int("receiverQueue", self.receiverQueue, 0, false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_maximum_int("receiverQueueSize", self.receiverQueueSize, 5000, false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_minimum_int("receiverQueueSize", self.receiverQueueSize, 1, false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_maximum_int("transmitterNumberOfQueues", self.transmitterNumberOfQueues, 16, false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_minimum_int("transmitterNumberOfQueues", self.transmitterNumberOfQueues, 1, false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_maximum_int("transmitterQueue", self.transmitterQueue, 1000, false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_minimum_int("transmitterQueue", self.transmitterQueue, 1, false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_maximum_int("transmitterQueueSize", self.transmitterQueueSize, 1000, false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_minimum_int("transmitterQueueSize", self.transmitterQueueSize, 1, false)
-
-        if err:
-            errors.append(err)
-
-        if len(errors) > 0:
-            return errors
-
-        return None
 
     # serverprofileIdentity represents the Identity of the object
 serverprofileIdentity = {"name": "serverprofile", "category": "serverprofiles", "constructor": ServerProfile}

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from pyelemental import RESTObject
-from pyelemental import validate_string_in_list, validate_float_in_list, validate_int_in_list, validate_required_int, validate_required_float, validate_required_string, validate_required_time, validate_maximum_float, validate_minimum_float, validate_maximum_int, validate_minimum_int, validate_maximum_length, validate_minimum_length, validate_pattern
-
 
 class MapNode(RESTObject):
     """ Represents a MapNode in the 
@@ -223,25 +221,6 @@ class MapNode(RESTObject):
         """
         self._vulnerabilitylevel = value
     
-    def validate(self):
-        """ Validate valides the current information stored into the structure.
-        """
-        errors = []
-
-        err = validate_required_string("name", self.name)
-
-        if err:
-            errors.append(err)
-
-        err = validate_string_in_list("type", self.type, ["Container", "Volume"], true)
-
-        if err:
-            errors.append(err)
-
-        if len(errors) > 0:
-            return errors
-
-        return None
 
     # mapnodeIdentity represents the Identity of the object
 mapnodeIdentity = {"name": "mapnode", "category": "mapnodes", "constructor": MapNode}

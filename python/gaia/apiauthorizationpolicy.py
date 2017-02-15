@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from pyelemental import RESTObject
-from pyelemental import validate_string_in_list, validate_float_in_list, validate_int_in_list, validate_required_int, validate_required_float, validate_required_string, validate_required_time, validate_maximum_float, validate_minimum_float, validate_maximum_int, validate_minimum_int, validate_maximum_length, validate_minimum_length, validate_pattern
-
 
 class APIAuthorizationPolicy(RESTObject):
     """ Represents a APIAuthorizationPolicy in the 
@@ -37,15 +35,16 @@ class APIAuthorizationPolicy(RESTObject):
         self._allowsput = None
         self._annotation = None
         self._associatedtags = None
+        self._authorizedidentities = None
+        self._authorizednamespace = None
         self._createdat = None
-        self._deleted = None
         self._description = None
         self._name = None
         self._namespace = None
         self._normalizedtags = None
-        self._object = None
         self._parentid = None
         self._parenttype = None
+        self._propagate = None
         self._status = None
         self._subject = None
         self._updatedat = None
@@ -59,15 +58,16 @@ class APIAuthorizationPolicy(RESTObject):
         self.expose_attribute(local_name="allowsPut", remote_name="allowsPut")
         self.expose_attribute(local_name="annotation", remote_name="annotation")
         self.expose_attribute(local_name="associatedTags", remote_name="associatedTags")
+        self.expose_attribute(local_name="authorizedIdentities", remote_name="authorizedIdentities")
+        self.expose_attribute(local_name="authorizedNamespace", remote_name="authorizedNamespace")
         self.expose_attribute(local_name="createdAt", remote_name="createdAt")
-        self.expose_attribute(local_name="deleted", remote_name="deleted")
         self.expose_attribute(local_name="description", remote_name="description")
         self.expose_attribute(local_name="name", remote_name="name")
         self.expose_attribute(local_name="namespace", remote_name="namespace")
         self.expose_attribute(local_name="normalizedTags", remote_name="normalizedTags")
-        self.expose_attribute(local_name="object", remote_name="object")
         self.expose_attribute(local_name="parentID", remote_name="parentID")
         self.expose_attribute(local_name="parentType", remote_name="parentType")
+        self.expose_attribute(local_name="propagate", remote_name="propagate")
         self.expose_attribute(local_name="status", remote_name="status")
         self.expose_attribute(local_name="subject", remote_name="subject")
         self.expose_attribute(local_name="updatedAt", remote_name="updatedAt")
@@ -296,6 +296,50 @@ class APIAuthorizationPolicy(RESTObject):
         self._associatedtags = value
     
     @property
+    def authorizedIdentities(self):
+        """ Get authorizedIdentities value.
+
+          Notes:
+              AuthorizedIdentities defines the list of api identities the policy applies to. 
+
+              
+        """
+        return self._authorizedidentities
+
+    @authorizedIdentities.setter
+    def authorizedIdentities(self, value):
+        """ Set authorizedIdentities value.
+
+          Notes:
+              AuthorizedIdentities defines the list of api identities the policy applies to. 
+
+              
+        """
+        self._authorizedidentities = value
+    
+    @property
+    def authorizedNamespace(self):
+        """ Get authorizedNamespace value.
+
+          Notes:
+              AuthorizedNamespace defines on what namespace the policy applies.
+
+              
+        """
+        return self._authorizednamespace
+
+    @authorizedNamespace.setter
+    def authorizedNamespace(self, value):
+        """ Set authorizedNamespace value.
+
+          Notes:
+              AuthorizedNamespace defines on what namespace the policy applies.
+
+              
+        """
+        self._authorizednamespace = value
+    
+    @property
     def createdAt(self):
         """ Get createdAt value.
 
@@ -316,28 +360,6 @@ class APIAuthorizationPolicy(RESTObject):
               
         """
         self._createdat = value
-    
-    @property
-    def deleted(self):
-        """ Get deleted value.
-
-          Notes:
-              Deleted marks if the entity has been deleted.
-
-              
-        """
-        return self._deleted
-
-    @deleted.setter
-    def deleted(self, value):
-        """ Set deleted value.
-
-          Notes:
-              Deleted marks if the entity has been deleted.
-
-              
-        """
-        self._deleted = value
     
     @property
     def description(self):
@@ -428,28 +450,6 @@ class APIAuthorizationPolicy(RESTObject):
         self._normalizedtags = value
     
     @property
-    def object(self):
-        """ Get object value.
-
-          Notes:
-              Object is the object.
-
-              
-        """
-        return self._object
-
-    @object.setter
-    def object(self, value):
-        """ Set object value.
-
-          Notes:
-              Object is the object.
-
-              
-        """
-        self._object = value
-    
-    @property
     def parentID(self):
         """ Get parentID value.
 
@@ -492,6 +492,28 @@ class APIAuthorizationPolicy(RESTObject):
               
         """
         self._parenttype = value
+    
+    @property
+    def propagate(self):
+        """ Get propagate value.
+
+          Notes:
+              Propagate defines if the policy should propagate.
+
+              
+        """
+        return self._propagate
+
+    @propagate.setter
+    def propagate(self, value):
+        """ Set propagate value.
+
+          Notes:
+              Propagate defines if the policy should propagate.
+
+              
+        """
+        self._propagate = value
     
     @property
     def status(self):
@@ -559,20 +581,6 @@ class APIAuthorizationPolicy(RESTObject):
         """
         self._updatedat = value
     
-    def validate(self):
-        """ Validate valides the current information stored into the structure.
-        """
-        errors = []
-
-        err = validate_required_string("name", self.name)
-
-        if err:
-            errors.append(err)
-
-        if len(errors) > 0:
-            return errors
-
-        return None
 
     # apiauthorizationpolicyIdentity represents the Identity of the object
 apiauthorizationpolicyIdentity = {"name": "apiauthorizationpolicy", "category": "apiauthorizationpolicies", "constructor": APIAuthorizationPolicy}

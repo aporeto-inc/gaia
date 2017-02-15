@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from pyelemental import RESTObject
-from pyelemental import validate_string_in_list, validate_float_in_list, validate_int_in_list, validate_required_int, validate_required_float, validate_required_string, validate_required_time, validate_maximum_float, validate_minimum_float, validate_maximum_int, validate_minimum_int, validate_maximum_length, validate_minimum_length, validate_pattern
-
 
 class User(RESTObject):
     """ Represents a User in the 
@@ -33,12 +31,11 @@ class User(RESTObject):
         self._associatedtags = None
         self._certificate = None
         self._certificateexpirationdate = None
+        self._certificatekey = None
         self._certificatestatus = None
         self._createdat = None
-        self._deleted = None
         self._description = None
         self._email = None
-        self._key = None
         self._name = None
         self._namespace = None
         self._normalizedtags = None
@@ -55,12 +52,11 @@ class User(RESTObject):
         self.expose_attribute(local_name="associatedTags", remote_name="associatedTags")
         self.expose_attribute(local_name="certificate", remote_name="certificate")
         self.expose_attribute(local_name="certificateExpirationDate", remote_name="certificateExpirationDate")
+        self.expose_attribute(local_name="certificateKey", remote_name="certificateKey")
         self.expose_attribute(local_name="certificateStatus", remote_name="certificateStatus")
         self.expose_attribute(local_name="createdAt", remote_name="createdAt")
-        self.expose_attribute(local_name="deleted", remote_name="deleted")
         self.expose_attribute(local_name="description", remote_name="description")
         self.expose_attribute(local_name="email", remote_name="email")
-        self.expose_attribute(local_name="key", remote_name="key")
         self.expose_attribute(local_name="name", remote_name="name")
         self.expose_attribute(local_name="namespace", remote_name="namespace")
         self.expose_attribute(local_name="normalizedTags", remote_name="normalizedTags")
@@ -208,6 +204,28 @@ class User(RESTObject):
         self._certificateexpirationdate = value
     
     @property
+    def certificateKey(self):
+        """ Get certificateKey value.
+
+          Notes:
+              CertificateKey provides the key for the user. Only available at create or update time.
+
+              
+        """
+        return self._certificatekey
+
+    @certificateKey.setter
+    def certificateKey(self, value):
+        """ Set certificateKey value.
+
+          Notes:
+              CertificateKey provides the key for the user. Only available at create or update time.
+
+              
+        """
+        self._certificatekey = value
+    
+    @property
     def certificateStatus(self):
         """ Get certificateStatus value.
 
@@ -252,28 +270,6 @@ class User(RESTObject):
         self._createdat = value
     
     @property
-    def deleted(self):
-        """ Get deleted value.
-
-          Notes:
-              Deleted marks if the entity has been deleted.
-
-              
-        """
-        return self._deleted
-
-    @deleted.setter
-    def deleted(self, value):
-        """ Set deleted value.
-
-          Notes:
-              Deleted marks if the entity has been deleted.
-
-              
-        """
-        self._deleted = value
-    
-    @property
     def description(self):
         """ Get description value.
 
@@ -316,28 +312,6 @@ class User(RESTObject):
               
         """
         self._email = value
-    
-    @property
-    def key(self):
-        """ Get key value.
-
-          Notes:
-              Key provides the key for the user. Only available at create or update time.
-
-              
-        """
-        return self._key
-
-    @key.setter
-    def key(self, value):
-        """ Set key value.
-
-          Notes:
-              Key provides the key for the user. Only available at create or update time.
-
-              
-        """
-        self._key = value
     
     @property
     def name(self):
@@ -559,30 +533,6 @@ class User(RESTObject):
         """
         self._username = value
     
-    def validate(self):
-        """ Validate valides the current information stored into the structure.
-        """
-        errors = []
-
-        err = validate_string_in_list("certificateStatus", self.certificateStatus, ["RENEW", "REVOKED", "VALID"], false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_required_string("name", self.name)
-
-        if err:
-            errors.append(err)
-
-        err = validate_maximum_length("userName", self.userName, 64, false)
-
-        if err:
-            errors.append(err)
-
-        if len(errors) > 0:
-            return errors
-
-        return None
 
     # userIdentity represents the Identity of the object
 userIdentity = {"name": "user", "category": "users", "constructor": User}

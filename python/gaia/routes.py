@@ -29,12 +29,6 @@ routes.append(("GET", "/computedpolicies/:id"))
 
 # routes for mapedges
 
-# routes for certificates
-routes.append(("POST", "/certificates/:id"))
-routes.append(("GET", "/certificates/:id"))
-routes.append(("PUT", "/certificates/:id"))
-routes.append(("DELETE", "/certificates/:id"))
-
 # routes for filepaths
 routes.append(("GET", "/filepaths/:id"))
 routes.append(("PUT", "/filepaths/:id"))
@@ -61,7 +55,6 @@ routes.append(("DELETE", "/externalservices/:id"))
 
 # routes for policies
 routes.append(("GET", "/policies/:id"))
-routes.append(("PUT", "/policies/:id"))
 routes.append(("DELETE", "/policies/:id"))
 
 # routes for flowstatistics
@@ -123,21 +116,22 @@ routes.append(("GET", "/vulnerabilities/:id/processingunits"))
 routes.append(("GET", "/servers/:id"))
 routes.append(("PUT", "/servers/:id"))
 routes.append(("DELETE", "/servers/:id"))
-routes.append(("POST", "/servers/:id/certificates"))
-routes.append(("GET", "/servers/:id/certificates"))
 routes.append(("GET", "/servers/:id/serverprofiles"))
 
 # routes for mapnodes
 
+# routes for activities
+routes.append(("GET", "/activities/:id"))
+
 # routes for root
 routes.append(("GET", "/root"))
+routes.append(("GET", "/activities"))
 routes.append(("POST", "/apiauthorizationpolicies"))
 routes.append(("GET", "/apiauthorizationpolicies"))
 routes.append(("POST", "/apichecks"))
 routes.append(("GET", "/apichecks"))
 routes.append(("POST", "/authenticators"))
 routes.append(("GET", "/authenticators"))
-routes.append(("GET", "/certificates"))
 routes.append(("GET", "/computeddependencymapviews"))
 routes.append(("GET", "/computedpolicies"))
 routes.append(("GET", "/dependencymaps"))
@@ -158,7 +152,6 @@ routes.append(("POST", "/namespacemappingpolicies"))
 routes.append(("GET", "/namespacemappingpolicies"))
 routes.append(("POST", "/networkaccesspolicies"))
 routes.append(("GET", "/networkaccesspolicies"))
-routes.append(("POST", "/policies"))
 routes.append(("GET", "/policies"))
 routes.append(("POST", "/processingunits"))
 routes.append(("GET", "/processingunits"))
@@ -185,6 +178,4 @@ routes.append(("DELETE", "/networkaccesspolicies/:id"))
 routes.append(("GET", "/users/:id"))
 routes.append(("PUT", "/users/:id"))
 routes.append(("DELETE", "/users/:id"))
-routes.append(("POST", "/users/:id/certificates"))
-routes.append(("GET", "/users/:id/certificates"))
 
