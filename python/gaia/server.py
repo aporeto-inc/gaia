@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from pyelemental import RESTObject
-from pyelemental import validate_string_in_list, validate_float_in_list, validate_int_in_list, validate_required_int, validate_required_float, validate_required_string, validate_required_time, validate_maximum_float, validate_minimum_float, validate_maximum_int, validate_minimum_int, validate_maximum_length, validate_minimum_length, validate_pattern
-
 
 class Server(RESTObject):
     """ Represents a Server in the 
@@ -28,47 +26,45 @@ class Server(RESTObject):
 
         # Read/Write Attributes
         
+        self._fqdn = None
         self._id = None
-        self._address = None
         self._annotation = None
         self._associatedtags = None
         self._certificate = None
         self._certificateexpirationdate = None
+        self._certificatekey = None
         self._certificatestatus = None
         self._createdat = None
-        self._deleted = None
         self._description = None
-        self._domain = None
-        self._environment = None
-        self._key = None
+        self._lastsynctime = None
         self._name = None
         self._namespace = None
         self._normalizedtags = None
         self._operationalstatus = None
         self._parentid = None
         self._parenttype = None
+        self._protected = None
         self._status = None
         self._updatedat = None
         
+        self.expose_attribute(local_name="FQDN", remote_name="FQDN")
         self.expose_attribute(local_name="ID", remote_name="ID")
-        self.expose_attribute(local_name="address", remote_name="address")
         self.expose_attribute(local_name="annotation", remote_name="annotation")
         self.expose_attribute(local_name="associatedTags", remote_name="associatedTags")
         self.expose_attribute(local_name="certificate", remote_name="certificate")
         self.expose_attribute(local_name="certificateExpirationDate", remote_name="certificateExpirationDate")
+        self.expose_attribute(local_name="certificateKey", remote_name="certificateKey")
         self.expose_attribute(local_name="certificateStatus", remote_name="certificateStatus")
         self.expose_attribute(local_name="createdAt", remote_name="createdAt")
-        self.expose_attribute(local_name="deleted", remote_name="deleted")
         self.expose_attribute(local_name="description", remote_name="description")
-        self.expose_attribute(local_name="domain", remote_name="domain")
-        self.expose_attribute(local_name="environment", remote_name="environment")
-        self.expose_attribute(local_name="key", remote_name="key")
+        self.expose_attribute(local_name="lastSyncTime", remote_name="lastSyncTime")
         self.expose_attribute(local_name="name", remote_name="name")
         self.expose_attribute(local_name="namespace", remote_name="namespace")
         self.expose_attribute(local_name="normalizedTags", remote_name="normalizedTags")
         self.expose_attribute(local_name="operationalStatus", remote_name="operationalStatus")
         self.expose_attribute(local_name="parentID", remote_name="parentID")
         self.expose_attribute(local_name="parentType", remote_name="parentType")
+        self.expose_attribute(local_name="protected", remote_name="protected")
         self.expose_attribute(local_name="status", remote_name="status")
         self.expose_attribute(local_name="updatedAt", remote_name="updatedAt")
 
@@ -98,6 +94,28 @@ class Server(RESTObject):
 
     # Properties
     @property
+    def FQDN(self):
+        """ Get FQDN value.
+
+          Notes:
+              FQDN contains the fqdn of the server.
+
+              
+        """
+        return self._fqdn
+
+    @FQDN.setter
+    def FQDN(self, value):
+        """ Set FQDN value.
+
+          Notes:
+              FQDN contains the fqdn of the server.
+
+              
+        """
+        self._fqdn = value
+    
+    @property
     def ID(self):
         """ Get ID value.
 
@@ -118,28 +136,6 @@ class Server(RESTObject):
               
         """
         self._id = value
-    
-    @property
-    def address(self):
-        """ Get address value.
-
-          Notes:
-              Address provides the current IP address of the server after its initialized.
-
-              
-        """
-        return self._address
-
-    @address.setter
-    def address(self, value):
-        """ Set address value.
-
-          Notes:
-              Address provides the current IP address of the server after its initialized.
-
-              
-        """
-        self._address = value
     
     @property
     def annotation(self):
@@ -230,6 +226,28 @@ class Server(RESTObject):
         self._certificateexpirationdate = value
     
     @property
+    def certificateKey(self):
+        """ Get certificateKey value.
+
+          Notes:
+              CertificateKey is the secret key of the server. Returned only when a server is created or the certificate is updated.
+
+              
+        """
+        return self._certificatekey
+
+    @certificateKey.setter
+    def certificateKey(self, value):
+        """ Set certificateKey value.
+
+          Notes:
+              CertificateKey is the secret key of the server. Returned only when a server is created or the certificate is updated.
+
+              
+        """
+        self._certificatekey = value
+    
+    @property
     def certificateStatus(self):
         """ Get certificateStatus value.
 
@@ -274,28 +292,6 @@ class Server(RESTObject):
         self._createdat = value
     
     @property
-    def deleted(self):
-        """ Get deleted value.
-
-          Notes:
-              Deleted marks if the entity has been deleted.
-
-              
-        """
-        return self._deleted
-
-    @deleted.setter
-    def deleted(self, value):
-        """ Set deleted value.
-
-          Notes:
-              Deleted marks if the entity has been deleted.
-
-              
-        """
-        self._deleted = value
-    
-    @property
     def description(self):
         """ Get description value.
 
@@ -318,70 +314,26 @@ class Server(RESTObject):
         self._description = value
     
     @property
-    def domain(self):
-        """ Get domain value.
+    def lastSyncTime(self):
+        """ Get lastSyncTime value.
 
           Notes:
-              Domain refers to the discovered domain name of the server
+              LastSyncTime holds the last heart beat time.
 
               
         """
-        return self._domain
+        return self._lastsynctime
 
-    @domain.setter
-    def domain(self, value):
-        """ Set domain value.
+    @lastSyncTime.setter
+    def lastSyncTime(self, value):
+        """ Set lastSyncTime value.
 
           Notes:
-              Domain refers to the discovered domain name of the server
+              LastSyncTime holds the last heart beat time.
 
               
         """
-        self._domain = value
-    
-    @property
-    def environment(self):
-        """ Get environment value.
-
-          Notes:
-              Environment describes where the server will be running.
-
-              
-        """
-        return self._environment
-
-    @environment.setter
-    def environment(self, value):
-        """ Set environment value.
-
-          Notes:
-              Environment describes where the server will be running.
-
-              
-        """
-        self._environment = value
-    
-    @property
-    def key(self):
-        """ Get key value.
-
-          Notes:
-              Key is the secret key of the server. Returned only when a server is created or the certificate is updated.
-
-              
-        """
-        return self._key
-
-    @key.setter
-    def key(self, value):
-        """ Set key value.
-
-          Notes:
-              Key is the secret key of the server. Returned only when a server is created or the certificate is updated.
-
-              
-        """
-        self._key = value
+        self._lastsynctime = value
     
     @property
     def name(self):
@@ -454,7 +406,7 @@ class Server(RESTObject):
         """ Get operationalStatus value.
 
           Notes:
-              Operational status of the server
+              OperationalStatus tells the status of the server
 
               
         """
@@ -465,7 +417,7 @@ class Server(RESTObject):
         """ Set operationalStatus value.
 
           Notes:
-              Operational status of the server
+              OperationalStatus tells the status of the server
 
               
         """
@@ -516,6 +468,28 @@ class Server(RESTObject):
         self._parenttype = value
     
     @property
+    def protected(self):
+        """ Get protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        return self._protected
+
+    @protected.setter
+    def protected(self, value):
+        """ Set protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        self._protected = value
+    
+    @property
     def status(self):
         """ Get status value.
 
@@ -559,35 +533,6 @@ class Server(RESTObject):
         """
         self._updatedat = value
     
-    def validate(self):
-        """ Validate valides the current information stored into the structure.
-        """
-        errors = []
-
-        err = validate_string_in_list("certificateStatus", self.certificateStatus, ["RENEW", "REVOKED", "VALID"], false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_string_in_list("environment", self.environment, ["AWS", "GCP", "Private"], false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_required_string("name", self.name)
-
-        if err:
-            errors.append(err)
-
-        err = validate_string_in_list("operationalStatus", self.operationalStatus, ["CONNECTED", "INITIALIZED", "UNKNOWN"], true)
-
-        if err:
-            errors.append(err)
-
-        if len(errors) > 0:
-            return errors
-
-        return None
 
     # serverIdentity represents the Identity of the object
 serverIdentity = {"name": "server", "category": "servers", "constructor": Server}

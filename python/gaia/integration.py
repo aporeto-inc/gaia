@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from pyelemental import RESTObject
-from pyelemental import validate_string_in_list, validate_float_in_list, validate_int_in_list, validate_required_int, validate_required_float, validate_required_string, validate_required_time, validate_maximum_float, validate_minimum_float, validate_maximum_int, validate_minimum_int, validate_maximum_length, validate_minimum_length, validate_pattern
-
 
 class Integration(RESTObject):
     """ Represents a Integration in the 
@@ -33,13 +31,13 @@ class Integration(RESTObject):
         self._associatedtags = None
         self._authtype = None
         self._createdat = None
-        self._deleted = None
         self._endpoint = None
         self._namespace = None
         self._normalizedtags = None
         self._parentid = None
         self._parenttype = None
         self._password = None
+        self._protected = None
         self._status = None
         self._type = None
         self._updatedat = None
@@ -50,13 +48,13 @@ class Integration(RESTObject):
         self.expose_attribute(local_name="associatedTags", remote_name="associatedTags")
         self.expose_attribute(local_name="authType", remote_name="authType")
         self.expose_attribute(local_name="createdAt", remote_name="createdAt")
-        self.expose_attribute(local_name="deleted", remote_name="deleted")
         self.expose_attribute(local_name="endpoint", remote_name="endpoint")
         self.expose_attribute(local_name="namespace", remote_name="namespace")
         self.expose_attribute(local_name="normalizedTags", remote_name="normalizedTags")
         self.expose_attribute(local_name="parentID", remote_name="parentID")
         self.expose_attribute(local_name="parentType", remote_name="parentType")
         self.expose_attribute(local_name="password", remote_name="password")
+        self.expose_attribute(local_name="protected", remote_name="protected")
         self.expose_attribute(local_name="status", remote_name="status")
         self.expose_attribute(local_name="type", remote_name="type")
         self.expose_attribute(local_name="updatedAt", remote_name="updatedAt")
@@ -198,28 +196,6 @@ class Integration(RESTObject):
         self._createdat = value
     
     @property
-    def deleted(self):
-        """ Get deleted value.
-
-          Notes:
-              Deleted marks if the entity has been deleted.
-
-              
-        """
-        return self._deleted
-
-    @deleted.setter
-    def deleted(self, value):
-        """ Set deleted value.
-
-          Notes:
-              Deleted marks if the entity has been deleted.
-
-              
-        """
-        self._deleted = value
-    
-    @property
     def endpoint(self):
         """ Get endpoint value.
 
@@ -352,6 +328,28 @@ class Integration(RESTObject):
         self._password = value
     
     @property
+    def protected(self):
+        """ Get protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        return self._protected
+
+    @protected.setter
+    def protected(self, value):
+        """ Set protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        self._protected = value
+    
+    @property
     def status(self):
         """ Get status value.
 
@@ -439,25 +437,6 @@ class Integration(RESTObject):
         """
         self._username = value
     
-    def validate(self):
-        """ Validate valides the current information stored into the structure.
-        """
-        errors = []
-
-        err = validate_string_in_list("authType", self.authType, ["Basic", "None", "OAuth"], false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_string_in_list("type", self.type, ["Registry", "VulnerabilityScanner"], false)
-
-        if err:
-            errors.append(err)
-
-        if len(errors) > 0:
-            return errors
-
-        return None
 
     # integrationIdentity represents the Identity of the object
 integrationIdentity = {"name": "integration", "category": "integrations", "constructor": Integration}

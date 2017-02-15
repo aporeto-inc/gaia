@@ -91,11 +91,6 @@ func (o *APICheck) String() string {
 func (o *APICheck) Validate() error {
 
 	errors := elemental.Errors{}
-	requiredErrors := elemental.Errors{}
-
-	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
 
 	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
 		errors = append(errors, err)
@@ -106,23 +101,11 @@ func (o *APICheck) Validate() error {
 	}
 
 	if err := elemental.ValidateRequiredExternal("targetIdentities", o.TargetIdentities); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("targetIdentities", o.TargetIdentities); err != nil {
 		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("token", o.Token); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("token", o.Token); err != nil {
 		errors = append(errors, err)
-	}
-
-	if len(requiredErrors) > 0 {
-		return requiredErrors
 	}
 
 	if len(errors) > 0 {

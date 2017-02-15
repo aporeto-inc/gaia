@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from pyelemental import RESTObject
-from pyelemental import validate_string_in_list, validate_float_in_list, validate_int_in_list, validate_required_int, validate_required_float, validate_required_string, validate_required_time, validate_maximum_float, validate_minimum_float, validate_maximum_int, validate_minimum_int, validate_maximum_length, validate_minimum_length, validate_pattern
-
 
 class ProcessingUnit(RESTObject):
     """ Represents a ProcessingUnit in the 
@@ -32,7 +30,6 @@ class ProcessingUnit(RESTObject):
         self._annotation = None
         self._associatedtags = None
         self._createdat = None
-        self._deleted = None
         self._description = None
         self._lastsynctime = None
         self._metadata = None
@@ -43,6 +40,7 @@ class ProcessingUnit(RESTObject):
         self._operationalstatus = None
         self._parentid = None
         self._parenttype = None
+        self._protected = None
         self._serverid = None
         self._status = None
         self._type = None
@@ -53,7 +51,6 @@ class ProcessingUnit(RESTObject):
         self.expose_attribute(local_name="annotation", remote_name="annotation")
         self.expose_attribute(local_name="associatedTags", remote_name="associatedTags")
         self.expose_attribute(local_name="createdAt", remote_name="createdAt")
-        self.expose_attribute(local_name="deleted", remote_name="deleted")
         self.expose_attribute(local_name="description", remote_name="description")
         self.expose_attribute(local_name="lastSyncTime", remote_name="lastSyncTime")
         self.expose_attribute(local_name="metadata", remote_name="metadata")
@@ -64,6 +61,7 @@ class ProcessingUnit(RESTObject):
         self.expose_attribute(local_name="operationalStatus", remote_name="operationalStatus")
         self.expose_attribute(local_name="parentID", remote_name="parentID")
         self.expose_attribute(local_name="parentType", remote_name="parentType")
+        self.expose_attribute(local_name="protected", remote_name="protected")
         self.expose_attribute(local_name="serverID", remote_name="serverID")
         self.expose_attribute(local_name="status", remote_name="status")
         self.expose_attribute(local_name="type", remote_name="type")
@@ -182,28 +180,6 @@ class ProcessingUnit(RESTObject):
               
         """
         self._createdat = value
-    
-    @property
-    def deleted(self):
-        """ Get deleted value.
-
-          Notes:
-              Deleted marks if the entity has been deleted.
-
-              
-        """
-        return self._deleted
-
-    @deleted.setter
-    def deleted(self, value):
-        """ Set deleted value.
-
-          Notes:
-              Deleted marks if the entity has been deleted.
-
-              
-        """
-        self._deleted = value
     
     @property
     def description(self):
@@ -426,6 +402,28 @@ class ProcessingUnit(RESTObject):
         self._parenttype = value
     
     @property
+    def protected(self):
+        """ Get protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        return self._protected
+
+    @protected.setter
+    def protected(self, value):
+        """ Set protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        self._protected = value
+    
+    @property
     def serverID(self):
         """ Get serverID value.
 
@@ -535,30 +533,6 @@ class ProcessingUnit(RESTObject):
         """
         self._vulnerabilities = value
     
-    def validate(self):
-        """ Validate valides the current information stored into the structure.
-        """
-        errors = []
-
-        err = validate_required_string("name", self.name)
-
-        if err:
-            errors.append(err)
-
-        err = validate_string_in_list("operationalStatus", self.operationalStatus, ["Initialized", "Paused", "Running", "Stopped", "Terminated"], false)
-
-        if err:
-            errors.append(err)
-
-        err = validate_string_in_list("type", self.type, ["Docker", "LinuxService", "RKT"], false)
-
-        if err:
-            errors.append(err)
-
-        if len(errors) > 0:
-            return errors
-
-        return None
 
     # processingunitIdentity represents the Identity of the object
 processingunitIdentity = {"name": "processingunit", "category": "processingunits", "constructor": ProcessingUnit}

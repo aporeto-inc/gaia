@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from pyelemental import RESTObject
-from pyelemental import validate_string_in_list, validate_float_in_list, validate_int_in_list, validate_required_int, validate_required_float, validate_required_string, validate_required_time, validate_maximum_float, validate_minimum_float, validate_maximum_int, validate_minimum_int, validate_maximum_length, validate_minimum_length, validate_pattern
-
 
 class SystemInfo(RESTObject):
     """ Represents a SystemInfo in the 
@@ -40,6 +38,7 @@ class SystemInfo(RESTObject):
         self._pubsubservice = None
         self._squallversion = None
         self._status = None
+        self._vinceurl = None
         self._zackurl = None
         
         self.expose_attribute(local_name="APIVersion", remote_name="APIVersion")
@@ -54,6 +53,7 @@ class SystemInfo(RESTObject):
         self.expose_attribute(local_name="pubSubService", remote_name="pubSubService")
         self.expose_attribute(local_name="squallVersion", remote_name="squallVersion")
         self.expose_attribute(local_name="status", remote_name="status")
+        self.expose_attribute(local_name="vinceURL", remote_name="vinceURL")
         self.expose_attribute(local_name="zackURL", remote_name="zackURL")
 
         self._compute_args(**kwargs)
@@ -344,6 +344,28 @@ class SystemInfo(RESTObject):
         self._status = value
     
     @property
+    def vinceURL(self):
+        """ Get vinceURL value.
+
+          Notes:
+              VinceURL contains the URL for the Vince server.
+
+              
+        """
+        return self._vinceurl
+
+    @vinceURL.setter
+    def vinceURL(self, value):
+        """ Set vinceURL value.
+
+          Notes:
+              VinceURL contains the URL for the Vince server.
+
+              
+        """
+        self._vinceurl = value
+    
+    @property
     def zackURL(self):
         """ Get zackURL value.
 
@@ -365,25 +387,6 @@ class SystemInfo(RESTObject):
         """
         self._zackurl = value
     
-    def validate(self):
-        """ Validate valides the current information stored into the structure.
-        """
-        errors = []
-
-        err = validate_string_in_list("status", self.status, ["Degraded", "Failure", "Ok"], true)
-
-        if err:
-            errors.append(err)
-
-        err = validate_required_string("zackURL", self.zackURL)
-
-        if err:
-            errors.append(err)
-
-        if len(errors) > 0:
-            return errors
-
-        return None
 
     # systeminfoIdentity represents the Identity of the object
 systeminfoIdentity = {"name": "systeminfo", "category": "systeminfos", "constructor": SystemInfo}

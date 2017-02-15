@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from pyelemental import RESTObject
-from pyelemental import validate_string_in_list, validate_float_in_list, validate_int_in_list, validate_required_int, validate_required_float, validate_required_string, validate_required_time, validate_maximum_float, validate_minimum_float, validate_maximum_int, validate_minimum_int, validate_maximum_length, validate_minimum_length, validate_pattern
-
 
 class FileAccessPolicy(RESTObject):
     """ Represents a FileAccessPolicy in the 
@@ -36,7 +34,6 @@ class FileAccessPolicy(RESTObject):
         self._annotation = None
         self._associatedtags = None
         self._createdat = None
-        self._deleted = None
         self._description = None
         self._encryptionenabled = None
         self._logsenabled = None
@@ -46,6 +43,7 @@ class FileAccessPolicy(RESTObject):
         self._object = None
         self._parentid = None
         self._parenttype = None
+        self._protected = None
         self._status = None
         self._subject = None
         self._updatedat = None
@@ -58,7 +56,6 @@ class FileAccessPolicy(RESTObject):
         self.expose_attribute(local_name="annotation", remote_name="annotation")
         self.expose_attribute(local_name="associatedTags", remote_name="associatedTags")
         self.expose_attribute(local_name="createdAt", remote_name="createdAt")
-        self.expose_attribute(local_name="deleted", remote_name="deleted")
         self.expose_attribute(local_name="description", remote_name="description")
         self.expose_attribute(local_name="encryptionEnabled", remote_name="encryptionEnabled")
         self.expose_attribute(local_name="logsEnabled", remote_name="logsEnabled")
@@ -68,6 +65,7 @@ class FileAccessPolicy(RESTObject):
         self.expose_attribute(local_name="object", remote_name="object")
         self.expose_attribute(local_name="parentID", remote_name="parentID")
         self.expose_attribute(local_name="parentType", remote_name="parentType")
+        self.expose_attribute(local_name="protected", remote_name="protected")
         self.expose_attribute(local_name="status", remote_name="status")
         self.expose_attribute(local_name="subject", remote_name="subject")
         self.expose_attribute(local_name="updatedAt", remote_name="updatedAt")
@@ -274,28 +272,6 @@ class FileAccessPolicy(RESTObject):
         self._createdat = value
     
     @property
-    def deleted(self):
-        """ Get deleted value.
-
-          Notes:
-              Deleted marks if the entity has been deleted.
-
-              
-        """
-        return self._deleted
-
-    @deleted.setter
-    def deleted(self, value):
-        """ Set deleted value.
-
-          Notes:
-              Deleted marks if the entity has been deleted.
-
-              
-        """
-        self._deleted = value
-    
-    @property
     def description(self):
         """ Get description value.
 
@@ -494,6 +470,28 @@ class FileAccessPolicy(RESTObject):
         self._parenttype = value
     
     @property
+    def protected(self):
+        """ Get protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        return self._protected
+
+    @protected.setter
+    def protected(self, value):
+        """ Set protected value.
+
+          Notes:
+              Protected defines if the object is protected.
+
+              
+        """
+        self._protected = value
+    
+    @property
     def status(self):
         """ Get status value.
 
@@ -559,20 +557,6 @@ class FileAccessPolicy(RESTObject):
         """
         self._updatedat = value
     
-    def validate(self):
-        """ Validate valides the current information stored into the structure.
-        """
-        errors = []
-
-        err = validate_required_string("name", self.name)
-
-        if err:
-            errors.append(err)
-
-        if len(errors) > 0:
-            return errors
-
-        return None
 
     # fileaccesspolicyIdentity represents the Identity of the object
 fileaccesspolicyIdentity = {"name": "fileaccesspolicy", "category": "fileaccesspolicies", "constructor": FileAccessPolicy}

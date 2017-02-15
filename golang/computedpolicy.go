@@ -54,11 +54,6 @@ func (o *ComputedPolicy) String() string {
 func (o *ComputedPolicy) Validate() error {
 
 	errors := elemental.Errors{}
-	requiredErrors := elemental.Errors{}
-
-	if len(requiredErrors) > 0 {
-		return requiredErrors
-	}
 
 	if len(errors) > 0 {
 		return errors

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from pyelemental import RESTObject
-from pyelemental import validate_string_in_list, validate_float_in_list, validate_int_in_list, validate_required_int, validate_required_float, validate_required_string, validate_required_time, validate_maximum_float, validate_minimum_float, validate_maximum_int, validate_minimum_int, validate_maximum_length, validate_minimum_length, validate_pattern
-
 
 class FlowStatistic(RESTObject):
     """ Represents a FlowStatistic in the 
@@ -295,30 +293,6 @@ class FlowStatistic(RESTObject):
         """
         self._useridentifier = value
     
-    def validate(self):
-        """ Validate valides the current information stored into the structure.
-        """
-        errors = []
-
-        err = validate_string_in_list("metric", self.metric, ["Flows", "Ports"], true)
-
-        if err:
-            errors.append(err)
-
-        err = validate_string_in_list("mode", self.mode, ["Accepted", "Rejected"], true)
-
-        if err:
-            errors.append(err)
-
-        err = validate_string_in_list("type", self.type, ["Repartition", "Serie"], true)
-
-        if err:
-            errors.append(err)
-
-        if len(errors) > 0:
-            return errors
-
-        return None
 
     # flowstatisticIdentity represents the Identity of the object
 flowstatisticIdentity = {"name": "flowstatistic", "category": "flowstatistics", "constructor": FlowStatistic}

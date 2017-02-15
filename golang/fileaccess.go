@@ -79,14 +79,9 @@ func (o *FileAccess) String() string {
 func (o *FileAccess) Validate() error {
 
 	errors := elemental.Errors{}
-	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("mode", string(o.Mode), []string{"Read", "ReadWrite", "Write"}, true); err != nil {
 		errors = append(errors, err)
-	}
-
-	if len(requiredErrors) > 0 {
-		return requiredErrors
 	}
 
 	if len(errors) > 0 {

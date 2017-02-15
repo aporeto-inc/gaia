@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from pyelemental import RESTObject
-from pyelemental import validate_string_in_list, validate_float_in_list, validate_int_in_list, validate_required_int, validate_required_float, validate_required_string, validate_required_time, validate_maximum_float, validate_minimum_float, validate_maximum_int, validate_minimum_int, validate_maximum_length, validate_minimum_length, validate_pattern
-
 
 class DependencyMapSubview(RESTObject):
     """ Represents a DependencyMapSubview in the 
@@ -28,12 +26,10 @@ class DependencyMapSubview(RESTObject):
 
         # Read/Write Attributes
         
-        self._id = None
         self._selector = None
         self._subselectors = None
         self._tonality = None
         
-        self.expose_attribute(local_name="ID", remote_name="ID")
         self.expose_attribute(local_name="selector", remote_name="selector")
         self.expose_attribute(local_name="subSelectors", remote_name="subSelectors")
         self.expose_attribute(local_name="tonality", remote_name="tonality")
@@ -46,15 +42,13 @@ class DependencyMapSubview(RESTObject):
     def identifier(self):
         """ Identifier returns the value of the object's unique identifier.
         """
-        
-        return self.ID
+        return ""
         
 
     def setIdentifier(self, ID):
         """ SetIdentifier sets the value of the object's unique identifier.
         """
-        
-        self.ID = ID
+        pass
         
 
     def identity(self):
@@ -63,28 +57,6 @@ class DependencyMapSubview(RESTObject):
         return dependencymapsubviewIdentity
 
     # Properties
-    @property
-    def ID(self):
-        """ Get ID value.
-
-          Notes:
-              ID is the identifier of the object.
-
-              
-        """
-        return self._id
-
-    @ID.setter
-    def ID(self, value):
-        """ Set ID value.
-
-          Notes:
-              ID is the identifier of the object.
-
-              
-        """
-        self._id = value
-    
     @property
     def selector(self):
         """ Get selector value.
@@ -151,15 +123,6 @@ class DependencyMapSubview(RESTObject):
         """
         self._tonality = value
     
-    def validate(self):
-        """ Validate valides the current information stored into the structure.
-        """
-        errors = []
-
-        if len(errors) > 0:
-            return errors
-
-        return None
 
     # dependencymapsubviewIdentity represents the Identity of the object
 dependencymapsubviewIdentity = {"name": "dependencymapsubview", "category": "dependencymapsubviews", "constructor": DependencyMapSubview}

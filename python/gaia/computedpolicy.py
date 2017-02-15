@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from pyelemental import RESTObject
-from pyelemental import validate_string_in_list, validate_float_in_list, validate_int_in_list, validate_required_int, validate_required_float, validate_required_string, validate_required_time, validate_maximum_float, validate_minimum_float, validate_maximum_int, validate_minimum_int, validate_maximum_length, validate_minimum_length, validate_pattern
-
 
 class ComputedPolicy(RESTObject):
     """ Represents a ComputedPolicy in the 
@@ -103,15 +101,6 @@ class ComputedPolicy(RESTObject):
         """
         self._networkaccesspolicies = value
     
-    def validate(self):
-        """ Validate valides the current information stored into the structure.
-        """
-        errors = []
-
-        if len(errors) > 0:
-            return errors
-
-        return None
 
     # computedpolicyIdentity represents the Identity of the object
 computedpolicyIdentity = {"name": "computedpolicy", "category": "computedpolicies", "constructor": ComputedPolicy}

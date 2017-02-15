@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from pyelemental import RESTObject
-from pyelemental import validate_string_in_list, validate_float_in_list, validate_int_in_list, validate_required_int, validate_required_float, validate_required_string, validate_required_time, validate_maximum_float, validate_minimum_float, validate_maximum_int, validate_minimum_int, validate_maximum_length, validate_minimum_length, validate_pattern
-
 
 class PolicyRule(RESTObject):
     """ Represents a PolicyRule in the 
@@ -31,8 +29,10 @@ class PolicyRule(RESTObject):
         self._id = None
         self._action = None
         self._files = None
+        self._name = None
         self._namespaces = None
         self._networks = None
+        self._propagated = None
         self._relation = None
         self._serverprofiles = None
         self._syscalls = None
@@ -41,8 +41,10 @@ class PolicyRule(RESTObject):
         self.expose_attribute(local_name="ID", remote_name="ID")
         self.expose_attribute(local_name="action", remote_name="action")
         self.expose_attribute(local_name="files", remote_name="files")
+        self.expose_attribute(local_name="name", remote_name="name")
         self.expose_attribute(local_name="namespaces", remote_name="namespaces")
         self.expose_attribute(local_name="networks", remote_name="networks")
+        self.expose_attribute(local_name="propagated", remote_name="propagated")
         self.expose_attribute(local_name="relation", remote_name="relation")
         self.expose_attribute(local_name="serverprofiles", remote_name="serverprofiles")
         self.expose_attribute(local_name="syscalls", remote_name="syscalls")
@@ -140,6 +142,28 @@ class PolicyRule(RESTObject):
         self._files = value
     
     @property
+    def name(self):
+        """ Get name value.
+
+          Notes:
+              Name is the name of the entity
+
+              
+        """
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        """ Set name value.
+
+          Notes:
+              Name is the name of the entity
+
+              
+        """
+        self._name = value
+    
+    @property
     def namespaces(self):
         """ Get namespaces value.
 
@@ -182,6 +206,28 @@ class PolicyRule(RESTObject):
               
         """
         self._networks = value
+    
+    @property
+    def propagated(self):
+        """ Get propagated value.
+
+          Notes:
+              Propagated indicates if the policy is propagated.
+
+              
+        """
+        return self._propagated
+
+    @propagated.setter
+    def propagated(self, value):
+        """ Set propagated value.
+
+          Notes:
+              Propagated indicates if the policy is propagated.
+
+              
+        """
+        self._propagated = value
     
     @property
     def relation(self):
@@ -271,15 +317,6 @@ class PolicyRule(RESTObject):
         """
         self._tagclauses = value
     
-    def validate(self):
-        """ Validate valides the current information stored into the structure.
-        """
-        errors = []
-
-        if len(errors) > 0:
-            return errors
-
-        return None
 
     # policyruleIdentity represents the Identity of the object
 policyruleIdentity = {"name": "policyrule", "category": "policyrules", "constructor": PolicyRule}
