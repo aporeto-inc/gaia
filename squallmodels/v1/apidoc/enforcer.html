@@ -428,6 +428,22 @@
                   </div>
                 </div>
               </div>
+              <div class="ui card">
+                <div class="content">
+                  <div class="pull-right">
+                    <span class="ui label mini purple">filterable</span>
+<span class="ui label mini teal">orderable</span>
+
+                  </div>
+                  <strong>version</strong>  <span class="ui blue">string</span>
+                </div>
+                <div class="content">
+                  <div class="meta">
+                    Version is the version of the enforcer. (format: free)
+
+                  </div>
+                </div>
+              </div>
           </section>
 
           <section id="relations">
@@ -539,7 +555,7 @@ curl -X GET \
 <pre class="bash">
 apoctl api create enforcers -n /namespace \
   -k fqdn "fqdn" \
-  -k lastsynctime "2017-04-03T16:26:43Z" \
+  -k lastsynctime "2017-04-10T16:17:58Z" \
   -k name "name"</pre>
 </div>
 <div class="ui bottom attached tab segment" data-tab="golang">
@@ -562,7 +578,7 @@ func main () {
 
     obj := squallmodels.NewEnforcer()
     obj.FQDN = "fqdn"
-    obj.LastSyncTime = "2017-04-03T16:26:43Z"
+    obj.LastSyncTime = "2017-04-10T16:17:58Z"
     obj.SetName("name")
 
     if err = m.Create(nil, obj); err != nil {
@@ -589,7 +605,7 @@ def main():
 
     obj = Enforcer()
     obj.FQDN = "fqdn"
-    obj.lastSyncTime = "2017-04-03T16:26:43Z"
+    obj.lastSyncTime = "2017-04-10T16:17:58Z"
     obj.name = "name"
 
     try:
@@ -613,7 +629,7 @@ curl -X POST \
   -H "X-Namespace: namespace" \
   -H "Authorization: token" \
   -d fqdn="fqdn" \
-  -d lastsynctime="2017-04-03T16:26:43Z" \
+  -d lastsynctime="2017-04-10T16:17:58Z" \
   -d name="name" \
   http://&lt;host&gt;:&lt;port&gt;/enforcers
   </pre>

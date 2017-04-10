@@ -78,6 +78,12 @@ type EnforcerProfile struct {
 	// DockerSocketType is the type of socket to use to talk to the docker daemon.
 	DockerSocketType EnforcerProfileDockerSocketTypeValue `json:"dockerSocketType" bson:"dockersockettype"`
 
+	// ExcludedInterfaces is a list of interfaces that must be excluded.
+	ExcludedInterfaces []interface{} `json:"excludedInterfaces" bson:"excludedinterfaces"`
+
+	// ExcludedNetworks is the list of networks that must be excluded for this enforcer.
+	ExcludedNetworks []string `json:"excludedNetworks" bson:"excludednetworks"`
+
 	// KubernetesSupportEnabled enables kubernetes mode for the enforcer.
 	KubernetesSupportEnabled bool `json:"kubernetesSupportEnabled" bson:"kubernetessupportenabled"`
 
@@ -496,6 +502,27 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		Stored:         true,
 		Type:           "enum",
+	},
+	"ExcludedInterfaces": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `ExcludedInterfaces is a list of interfaces that must be excluded.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "excludedInterfaces",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "list",
+	},
+	"ExcludedNetworks": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `ExcludedNetworks is the list of networks that must be excluded for this enforcer.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "excludedNetworks",
+		Orderable:      true,
+		Stored:         true,
+		SubType:        "excluded_networks_list",
+		Type:           "external",
 	},
 	"KubernetesSupportEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
