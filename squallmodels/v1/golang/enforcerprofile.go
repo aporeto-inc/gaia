@@ -79,7 +79,7 @@ type EnforcerProfile struct {
 	DockerSocketType EnforcerProfileDockerSocketTypeValue `json:"dockerSocketType" bson:"dockersockettype"`
 
 	// ExcludedInterfaces is a list of interfaces that must be excluded.
-	ExcludedInterfaces []interface{} `json:"excludedInterfaces" bson:"excludedinterfaces"`
+	ExcludedInterfaces []string `json:"excludedInterfaces" bson:"excludedinterfaces"`
 
 	// ExcludedNetworks is the list of networks that must be excluded for this enforcer.
 	ExcludedNetworks []string `json:"excludedNetworks" bson:"excludednetworks"`
@@ -511,7 +511,8 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "excludedInterfaces",
 		Orderable:      true,
 		Stored:         true,
-		Type:           "list",
+		SubType:        "excluded_interfaces_list",
+		Type:           "external",
 	},
 	"ExcludedNetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
