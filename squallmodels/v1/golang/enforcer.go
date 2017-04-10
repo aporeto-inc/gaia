@@ -116,9 +116,6 @@ type Enforcer struct {
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime"`
 
-	// Version is the version of the enforcer.
-	Version string `json:"version" bson:"version"`
-
 	ModelVersion float64 `json:"-" bson:"_modelversion"`
 
 	sync.Mutex
@@ -492,16 +489,5 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
-	},
-	"Version": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Description:    `Version is the version of the enforcer.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "version",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
 	},
 }
