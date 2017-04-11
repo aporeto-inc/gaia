@@ -92,6 +92,9 @@ type Enforcer struct {
 	// CreatedTime is the time at which the object was created
 	CreateTime time.Time `json:"createTime" bson:"createtime"`
 
+	// CurrentVersion holds the enforcerd binary version that is currently associated to this object.
+	CurrentVersion string `json:"currentVersion" bson:"currentversion"`
+
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description"`
 
@@ -385,6 +388,17 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"CurrentVersion": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `CurrentVersion holds the enforcerd binary version that is currently associated to this object.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "currentVersion",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
