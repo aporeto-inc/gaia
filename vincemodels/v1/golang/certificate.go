@@ -33,7 +33,7 @@ func (o CertificatesList) ContentIdentity() elemental.Identity {
 	return CertificateIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o CertificatesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

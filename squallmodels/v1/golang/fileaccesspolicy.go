@@ -22,7 +22,7 @@ func (o FileAccessPoliciesList) ContentIdentity() elemental.Identity {
 	return FileAccessPolicyIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o FileAccessPoliciesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

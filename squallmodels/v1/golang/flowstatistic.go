@@ -53,7 +53,7 @@ func (o FlowStatisticsList) ContentIdentity() elemental.Identity {
 	return FlowStatisticIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o FlowStatisticsList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

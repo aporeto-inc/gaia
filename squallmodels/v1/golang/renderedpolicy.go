@@ -22,7 +22,7 @@ func (o RenderedPoliciesList) ContentIdentity() elemental.Identity {
 	return RenderedPolicyIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o RenderedPoliciesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

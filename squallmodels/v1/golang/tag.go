@@ -20,7 +20,7 @@ func (o TagsList) ContentIdentity() elemental.Identity {
 	return TagIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o TagsList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

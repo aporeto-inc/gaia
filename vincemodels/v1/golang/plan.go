@@ -20,7 +20,7 @@ func (o PlansList) ContentIdentity() elemental.Identity {
 	return PlanIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o PlansList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

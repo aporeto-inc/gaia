@@ -33,7 +33,7 @@ func (o RemoteProcessorsList) ContentIdentity() elemental.Identity {
 	return RemoteProcessorIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o RemoteProcessorsList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

@@ -22,7 +22,7 @@ func (o EnforcerProfileMappingPoliciesList) ContentIdentity() elemental.Identity
 	return EnforcerProfileMappingPolicyIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o EnforcerProfileMappingPoliciesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

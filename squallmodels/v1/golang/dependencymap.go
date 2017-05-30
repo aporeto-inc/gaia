@@ -22,7 +22,7 @@ func (o DependencyMapsList) ContentIdentity() elemental.Identity {
 	return DependencyMapIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o DependencyMapsList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

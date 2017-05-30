@@ -20,7 +20,7 @@ func (o SyscallAccessList) ContentIdentity() elemental.Identity {
 	return SyscallAccessIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o SyscallAccessList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

@@ -20,7 +20,7 @@ func (o RolesList) ContentIdentity() elemental.Identity {
 	return RoleIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o RolesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

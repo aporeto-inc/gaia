@@ -2,7 +2,7 @@ package zackmodels
 
 import "github.com/aporeto-inc/elemental"
 
-const nodocString = "[nodoc]"
+const nodocString = "[nodoc]" // nolint: varcheck
 
 var relationshipsRegistry elemental.RelationshipsRegistry
 
@@ -15,29 +15,10 @@ func Relationships() elemental.RelationshipsRegistry {
 func init() {
 	relationshipsRegistry = elemental.RelationshipsRegistry{}
 
-	//
-	// Main Relationship for report
-	//
-	ReportMainRelationship := &elemental.Relationship{}
-
-	relationshipsRegistry[elemental.IdentityFromName("report")] = ReportMainRelationship
-
-	//
-	// Main Relationship for root
-	//
-	RootMainRelationship := &elemental.Relationship{
-		AllowsRetrieve: true,
-		AllowsUpdate:   true,
-		AllowsDelete:   true,
-	}
-
-	// Children relationship for reports in root
-	RootMainRelationship.AddChild(
-		elemental.IdentityFromName("report"),
-		&elemental.Relationship{
-			AllowsCreate: true,
+	relationshipsRegistry[elemental.IdentityFromName("report")] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
 		},
-	)
-	relationshipsRegistry[elemental.IdentityFromName("root")] = RootMainRelationship
-
+	}
+	relationshipsRegistry[elemental.IdentityFromName("root")] = &elemental.Relationship{}
 }

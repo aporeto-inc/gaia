@@ -51,7 +51,7 @@ func (o PoliciesList) ContentIdentity() elemental.Identity {
 	return PolicyIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o PoliciesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

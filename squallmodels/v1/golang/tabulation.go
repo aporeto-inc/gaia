@@ -20,7 +20,7 @@ func (o TabulationsList) ContentIdentity() elemental.Identity {
 	return TabulationIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o TabulationsList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

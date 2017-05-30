@@ -22,7 +22,7 @@ func (o SystemCallsList) ContentIdentity() elemental.Identity {
 	return SystemCallIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o SystemCallsList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

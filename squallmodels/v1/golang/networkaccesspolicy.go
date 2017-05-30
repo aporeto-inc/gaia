@@ -22,7 +22,7 @@ func (o NetworkAccessPoliciesList) ContentIdentity() elemental.Identity {
 	return NetworkAccessPolicyIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o NetworkAccessPoliciesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

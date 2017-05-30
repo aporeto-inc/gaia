@@ -22,7 +22,7 @@ func (o ExternalServicesList) ContentIdentity() elemental.Identity {
 	return ExternalServiceIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o ExternalServicesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

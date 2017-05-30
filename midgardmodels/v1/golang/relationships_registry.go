@@ -2,7 +2,7 @@ package midgardmodels
 
 import "github.com/aporeto-inc/elemental"
 
-const nodocString = "[nodoc]"
+const nodocString = "[nodoc]" // nolint: varcheck
 
 var relationshipsRegistry elemental.RelationshipsRegistry
 
@@ -15,43 +15,21 @@ func Relationships() elemental.RelationshipsRegistry {
 func init() {
 	relationshipsRegistry = elemental.RelationshipsRegistry{}
 
-	//
-	// Main Relationship for root
-	//
-	RootMainRelationship := &elemental.Relationship{
-		AllowsRetrieve: true,
+	relationshipsRegistry[elemental.IdentityFromName("issue")] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
 	}
-
-	// Children relationship for auth in root
-	RootMainRelationship.AddChild(
-		elemental.IdentityFromName("auth"),
-		&elemental.Relationship{
-			AllowsRetrieveMany: true,
-			AllowsInfo:         true,
+	relationshipsRegistry[elemental.IdentityFromName("root")] = &elemental.Relationship{}
+	relationshipsRegistry[elemental.IdentityFromName("auth")] = &elemental.Relationship{
+		AllowsRetrieve: map[string]bool{
+			"root": true,
 		},
-	)
-
-	// Children relationship for issue in root
-	RootMainRelationship.AddChild(
-		elemental.IdentityFromName("issue"),
-		&elemental.Relationship{
-			AllowsCreate: true,
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
 		},
-	)
-	relationshipsRegistry[elemental.IdentityFromName("root")] = RootMainRelationship
-
-	//
-	// Main Relationship for issue
-	//
-	IssueMainRelationship := &elemental.Relationship{}
-
-	relationshipsRegistry[elemental.IdentityFromName("issue")] = IssueMainRelationship
-
-	//
-	// Main Relationship for auth
-	//
-	AuthMainRelationship := &elemental.Relationship{}
-
-	relationshipsRegistry[elemental.IdentityFromName("auth")] = AuthMainRelationship
-
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
+	}
 }

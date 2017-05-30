@@ -33,7 +33,7 @@ func (o EnforcerProfilesList) ContentIdentity() elemental.Identity {
 	return EnforcerProfileIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o EnforcerProfilesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

@@ -22,7 +22,7 @@ func (o AuthsList) ContentIdentity() elemental.Identity {
 	return AuthIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o AuthsList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

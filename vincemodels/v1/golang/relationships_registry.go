@@ -2,7 +2,7 @@ package vincemodels
 
 import "github.com/aporeto-inc/elemental"
 
-const nodocString = "[nodoc]"
+const nodocString = "[nodoc]" // nolint: varcheck
 
 var relationshipsRegistry elemental.RelationshipsRegistry
 
@@ -15,150 +15,106 @@ func Relationships() elemental.RelationshipsRegistry {
 func init() {
 	relationshipsRegistry = elemental.RelationshipsRegistry{}
 
-	//
-	// Main Relationship for account
-	//
-	AccountMainRelationship := &elemental.Relationship{
-		AllowsRetrieve: true,
-		AllowsUpdate:   true,
+	relationshipsRegistry[elemental.IdentityFromName("account")] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+		AllowsUpdate: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieve: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
 	}
-
-	relationshipsRegistry[elemental.IdentityFromName("account")] = AccountMainRelationship
-
-	//
-	// Main Relationship for activate
-	//
-	ActivateMainRelationship := &elemental.Relationship{}
-
-	relationshipsRegistry[elemental.IdentityFromName("activate")] = ActivateMainRelationship
-
-	//
-	// Main Relationship for certificate
-	//
-	CertificateMainRelationship := &elemental.Relationship{
-		AllowsRetrieve: true,
-		AllowsUpdate:   true,
-		AllowsDelete:   true,
+	relationshipsRegistry[elemental.IdentityFromName("activate")] = &elemental.Relationship{
+		AllowsRetrieve: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
 	}
-
-	relationshipsRegistry[elemental.IdentityFromName("certificate")] = CertificateMainRelationship
-
-	//
-	// Main Relationship for passwordreset
-	//
-	PasswordResetMainRelationship := &elemental.Relationship{}
-
-	relationshipsRegistry[elemental.IdentityFromName("passwordreset")] = PasswordResetMainRelationship
-
-	//
-	// Main Relationship for plan
-	//
-	PlanMainRelationship := &elemental.Relationship{
-		AllowsRetrieve: true,
+	relationshipsRegistry[elemental.IdentityFromName("certificate")] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+		AllowsUpdate: map[string]bool{
+			"root": true,
+		},
+		AllowsDelete: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieve: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
 	}
-
-	// Children relationship for plans in plan
-	PlanMainRelationship.AddChild(
-		elemental.IdentityFromName("plan"),
-		&elemental.Relationship{
-			AllowsRetrieveMany: true,
-			AllowsInfo:         true,
+	relationshipsRegistry[elemental.IdentityFromName("passwordreset")] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
 		},
-	)
-	relationshipsRegistry[elemental.IdentityFromName("plan")] = PlanMainRelationship
-
-	//
-	// Main Relationship for awsaccount
-	//
-	AWSAccountMainRelationship := &elemental.Relationship{
-		AllowsRetrieve: true,
-		AllowsDelete:   true,
+		AllowsRetrieve: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
 	}
-
-	relationshipsRegistry[elemental.IdentityFromName("awsaccount")] = AWSAccountMainRelationship
-
-	//
-	// Main Relationship for root
-	//
-	RootMainRelationship := &elemental.Relationship{
-		AllowsRetrieve: true,
-		AllowsUpdate:   true,
-		AllowsDelete:   true,
+	relationshipsRegistry[elemental.IdentityFromName("plan")] = &elemental.Relationship{
+		AllowsRetrieve: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
 	}
-
-	// Children relationship for accounts in root
-	RootMainRelationship.AddChild(
-		elemental.IdentityFromName("account"),
-		&elemental.Relationship{
-			AllowsCreate:       true,
-			AllowsRetrieveMany: true,
-			AllowsInfo:         true,
+	relationshipsRegistry[elemental.IdentityFromName("awsaccount")] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
 		},
-	)
-
-	// Children relationship for activate in root
-	RootMainRelationship.AddChild(
-		elemental.IdentityFromName("activate"),
-		&elemental.Relationship{
-			AllowsRetrieveMany: true,
-			AllowsInfo:         true,
+		AllowsDelete: map[string]bool{
+			"root": true,
 		},
-	)
-
-	// Children relationship for awsaccounts in root
-	RootMainRelationship.AddChild(
-		elemental.IdentityFromName("awsaccount"),
-		&elemental.Relationship{
-			AllowsCreate:       true,
-			AllowsRetrieveMany: true,
-			AllowsInfo:         true,
+		AllowsRetrieve: map[string]bool{
+			"root": true,
 		},
-	)
-
-	// Children relationship for certificates in root
-	RootMainRelationship.AddChild(
-		elemental.IdentityFromName("certificate"),
-		&elemental.Relationship{
-			AllowsCreate:       true,
-			AllowsRetrieveMany: true,
-			AllowsInfo:         true,
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
 		},
-	)
-
-	// Children relationship for check in root
-	RootMainRelationship.AddChild(
-		elemental.IdentityFromName("check"),
-		&elemental.Relationship{
-			AllowsRetrieveMany: true,
-			AllowsInfo:         true,
+		AllowsInfo: map[string]bool{
+			"root": true,
 		},
-	)
-
-	// Children relationship for passwordreset in root
-	RootMainRelationship.AddChild(
-		elemental.IdentityFromName("passwordreset"),
-		&elemental.Relationship{
-			AllowsCreate:       true,
-			AllowsRetrieveMany: true,
-			AllowsInfo:         true,
+	}
+	relationshipsRegistry[elemental.IdentityFromName("root")] = &elemental.Relationship{}
+	relationshipsRegistry[elemental.IdentityFromName("check")] = &elemental.Relationship{
+		AllowsRetrieve: map[string]bool{
+			"root": true,
 		},
-	)
-
-	// Children relationship for plans in root
-	RootMainRelationship.AddChild(
-		elemental.IdentityFromName("plan"),
-		&elemental.Relationship{
-			AllowsRetrieveMany: true,
-			AllowsInfo:         true,
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
 		},
-	)
-	relationshipsRegistry[elemental.IdentityFromName("root")] = RootMainRelationship
-
-	//
-	// Main Relationship for check
-	//
-	CheckMainRelationship := &elemental.Relationship{}
-
-	relationshipsRegistry[elemental.IdentityFromName("check")] = CheckMainRelationship
-
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
+	}
 }

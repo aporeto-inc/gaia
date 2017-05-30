@@ -22,7 +22,7 @@ func (o NamespacesList) ContentIdentity() elemental.Identity {
 	return NamespaceIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o NamespacesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

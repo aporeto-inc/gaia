@@ -2,7 +2,7 @@ package rufusmodels
 
 import "github.com/aporeto-inc/elemental"
 
-const nodocString = "[nodoc]"
+const nodocString = "[nodoc]" // nolint: varcheck
 
 var relationshipsRegistry elemental.RelationshipsRegistry
 
@@ -15,27 +15,10 @@ func Relationships() elemental.RelationshipsRegistry {
 func init() {
 	relationshipsRegistry = elemental.RelationshipsRegistry{}
 
-	//
-	// Main Relationship for remoteprocessor
-	//
-	RemoteProcessorMainRelationship := &elemental.Relationship{}
-
-	relationshipsRegistry[elemental.IdentityFromName("remoteprocessor")] = RemoteProcessorMainRelationship
-
-	//
-	// Main Relationship for root
-	//
-	RootMainRelationship := &elemental.Relationship{
-		AllowsRetrieve: true,
-	}
-
-	// Children relationship for remoteprocessors in root
-	RootMainRelationship.AddChild(
-		elemental.IdentityFromName("remoteprocessor"),
-		&elemental.Relationship{
-			AllowsCreate: true,
+	relationshipsRegistry[elemental.IdentityFromName("remoteprocessor")] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
 		},
-	)
-	relationshipsRegistry[elemental.IdentityFromName("root")] = RootMainRelationship
-
+	}
+	relationshipsRegistry[elemental.IdentityFromName("root")] = &elemental.Relationship{}
 }

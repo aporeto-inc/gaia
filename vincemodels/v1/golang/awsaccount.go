@@ -22,7 +22,7 @@ func (o AWSAccountsList) ContentIdentity() elemental.Identity {
 	return AWSAccountIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o AWSAccountsList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

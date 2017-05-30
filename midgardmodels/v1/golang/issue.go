@@ -49,7 +49,7 @@ func (o IssuesList) ContentIdentity() elemental.Identity {
 	return IssueIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o IssuesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

@@ -39,7 +39,7 @@ func (o AccountsList) ContentIdentity() elemental.Identity {
 	return AccountIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o AccountsList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}

@@ -22,7 +22,7 @@ func (o ActivitiesList) ContentIdentity() elemental.Identity {
 	return ActivityIdentity
 }
 
-// List converts the object to and elemental.IdentifiablesList.
+// List converts the object to an elemental.IdentifiablesList.
 func (o ActivitiesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}
