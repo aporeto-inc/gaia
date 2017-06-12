@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Kubernetescluster API Reference 1.0</title>
+    <title>KubernetesCluster API Reference 1.0</title>
     <link rel="shortcut icon" href="https://avatars1.githubusercontent.com/u/15617796?v=3&s=200" />
 
     <link rel="stylesheet" href="css/semantic.min.css">
@@ -63,7 +63,7 @@
 
         <div id="main_content" class="sixteen wide tablet thirteen wide computer column">
           <section id="intro">
-              <h2>Kubernetescluster</h2>
+              <h2>KubernetesCluster</h2>
               <p>None</p>
           </section>
 
@@ -233,7 +233,7 @@
             <h3>Code example</h3>
               <div>
   <div id="retrieve_all_kubernetesclusters">
-<h4>Retrieve all Kubernetesclusters </h4>
+<h4>Retrieve all KubernetesClusters </h4>
 
 <div class="ui top attached tabular menu">
   <a class="item active" data-tab="apoctl">apoctl</a>
@@ -265,7 +265,7 @@ func main() {
       panic(err)
   }
 
-  var objects vincemodels.KubernetesclustersList
+  var objects vincemodels.KubernetesClustersList
 
   if err = m.RetrieveMany(nil, &amp;objects); err != nil {
     panic(err)
@@ -279,7 +279,7 @@ func main() {
   <pre class="python">
 import os
 
-from vincemodels import Kubernetescluster
+from vincemodels import KubernetesCluster
 from pymanipulate.maniphttp import HTTPManipulator, PyManipulateError
 
 
@@ -289,7 +289,7 @@ def main():
     certificate = ("cert.pem", "key.pem")
     manipulator = HTTPManipulator("url", "/namespace", "username", "password", None, certificate)
 
-    obj = Kubernetescluster()
+    obj = KubernetesCluster()
     objects = []
 
     try:
@@ -320,7 +320,7 @@ curl -X GET \
 <script>$('#retrieve_all_kubernetesclusters .menu .item').tab({context: "parent"});</script>
 
   <div id="create_kubernetescluster_from_root">
-<h4>Create a new Kubernetescluster </h4>
+<h4>Create a new KubernetesCluster </h4>
 
 <div class="ui top attached tabular menu">
   <a class="item active" data-tab="apoctl">apoctl</a>
@@ -351,7 +351,7 @@ func main () {
         panic(err)
     }
 
-    obj := vincemodels.NewKubernetescluster()
+    obj := vincemodels.NewKubernetesCluster()
 
     if err = m.Create(nil, obj); err != nil {
         panic(err)
@@ -365,7 +365,7 @@ func main () {
   <pre class="python">
 import os
 
-from vincemodels import Kubernetescluster
+from vincemodels import KubernetesCluster
 from pymanipulate.maniphttp import HTTPManipulator, PyManipulateError
 
 
@@ -375,7 +375,7 @@ def main():
     certificate = ("cert.pem", "key.pem")
     manipulator = HTTPManipulator("url", "/namespace", "username", "password", None, certificate)
 
-    obj = Kubernetescluster()
+    obj = KubernetesCluster()
 
     try:
         manipulator.create(None, obj)
@@ -407,7 +407,7 @@ curl -X POST \
 
   <div>
   <div id="delete_kubernetescluster">
-<h4>Delete a given Kubernetescluster</h4>
+<h4>Delete a given KubernetesCluster</h4>
 
 <div class="ui top attached tabular menu">
   <a class="item active" data-tab="apoctl">apoctl</a>
@@ -437,7 +437,7 @@ func main() {
         panic(err)
     }
 
-    obj := vincemodels.NewKubernetescluster()
+    obj := vincemodels.NewKubernetesCluster()
     obj.SetIdentifier("identifier")
 
     if err = m.Delete(nil, obj); err != nil {
@@ -452,7 +452,7 @@ func main() {
   <pre class="python">
 import os
 
-from vincemodels import Kubernetescluster
+from vincemodels import KubernetesCluster
 from pymanipulate.maniphttp import HTTPManipulator, PyManipulateError
 
 
@@ -462,7 +462,7 @@ def main():
     certificate = ("cert.pem", "key.pem")
     manipulator = HTTPManipulator("url", "/namespace", "username", "password", None, certificate)
 
-    obj = Kubernetescluster()
+    obj = KubernetesCluster()
     obj.ID = "identifier"
 
     try:
@@ -492,7 +492,7 @@ curl -X DELETE \
 <script>$('#delete_kubernetescluster .menu .item').tab({context: "parent"});</script>
 
   <div id="get_kubernetescluster">
-<h4>Retrieve a given Kubernetescluster</h4>
+<h4>Retrieve a given KubernetesCluster</h4>
 
 <div class="ui top attached tabular menu">
   <a class="item active" data-tab="apoctl">apoctl</a>
@@ -524,7 +524,7 @@ func main() {
         panic(err)
     }
 
-    obj := vincemodels.NewKubernetescluster()
+    obj := vincemodels.NewKubernetesCluster()
     obj.SetIdentifier("identifier")
 
     if err = m.Retrieve(nil, obj); err != nil {
@@ -539,7 +539,7 @@ func main() {
   <pre class="python">
 import os
 
-from vincemodels import Kubernetescluster
+from vincemodels import KubernetesCluster
 from pymanipulate.maniphttp import HTTPManipulator, PyManipulateError
 
 
@@ -549,7 +549,7 @@ def main():
     certificate = ("cert.pem", "key.pem")
     manipulator = HTTPManipulator("url", "/namespace", "username", "password", None, certificate)
 
-    obj = Kubernetescluster()
+    obj = KubernetesCluster()
     obj.ID = "identifier"
 
     try:
@@ -595,7 +595,7 @@ http://&lt;host&gt;:&lt;port&gt;/kubernetesclusters/identifier
 
         // Write relations graph
         var data = [
-{"restName": "kubernetescluster", "instanceName": "Kubernetescluster", "resourceName": "kubernetesclusters", "type": "self", "exposed": true, "actions": ['POST', 'GET', 'DELETE']}, 
+{"restName": "kubernetescluster", "instanceName": "KubernetesCluster", "resourceName": "kubernetesclusters", "type": "self", "exposed": true, "actions": ['POST', 'GET', 'DELETE']}, 
 ]
         drawRelations(data, 1, 0);
 

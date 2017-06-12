@@ -7,23 +7,23 @@ import "sync"
 
 import "time"
 
-// KubernetesclusterIdentity represents the Identity of the object
-var KubernetesclusterIdentity = elemental.Identity{
+// KubernetesClusterIdentity represents the Identity of the object
+var KubernetesClusterIdentity = elemental.Identity{
 	Name:     "kubernetescluster",
 	Category: "kubernetesclusters",
 }
 
-// KubernetesclustersList represents a list of Kubernetesclusters
-type KubernetesclustersList []*Kubernetescluster
+// KubernetesClustersList represents a list of KubernetesClusters
+type KubernetesClustersList []*KubernetesCluster
 
 // ContentIdentity returns the identity of the objects in the list.
-func (o KubernetesclustersList) ContentIdentity() elemental.Identity {
+func (o KubernetesClustersList) ContentIdentity() elemental.Identity {
 
-	return KubernetesclusterIdentity
+	return KubernetesClusterIdentity
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o KubernetesclustersList) List() elemental.IdentifiablesList {
+func (o KubernetesClustersList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}
 	for _, item := range o {
@@ -34,13 +34,13 @@ func (o KubernetesclustersList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o KubernetesclustersList) DefaultOrder() []string {
+func (o KubernetesClustersList) DefaultOrder() []string {
 
 	return []string{}
 }
 
-// Kubernetescluster represents the model of a kubernetescluster
-type Kubernetescluster struct {
+// KubernetesCluster represents the model of a kubernetescluster
+type KubernetesCluster struct {
 	// ID of the object.
 	ID string `json:"ID" bson:"_id"`
 
@@ -73,51 +73,51 @@ type Kubernetescluster struct {
 	sync.Mutex
 }
 
-// NewKubernetescluster returns a new *Kubernetescluster
-func NewKubernetescluster() *Kubernetescluster {
+// NewKubernetesCluster returns a new *KubernetesCluster
+func NewKubernetesCluster() *KubernetesCluster {
 
-	return &Kubernetescluster{
+	return &KubernetesCluster{
 		ModelVersion: 1.0,
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *Kubernetescluster) Identity() elemental.Identity {
+func (o *KubernetesCluster) Identity() elemental.Identity {
 
-	return KubernetesclusterIdentity
+	return KubernetesClusterIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *Kubernetescluster) Identifier() string {
+func (o *KubernetesCluster) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *Kubernetescluster) SetIdentifier(ID string) {
+func (o *KubernetesCluster) SetIdentifier(ID string) {
 
 	o.ID = ID
 }
 
 // Version returns the hardcoded version of the model
-func (o *Kubernetescluster) Version() float64 {
+func (o *KubernetesCluster) Version() float64 {
 
 	return 1.0
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *Kubernetescluster) DefaultOrder() []string {
+func (o *KubernetesCluster) DefaultOrder() []string {
 
 	return []string{}
 }
 
-func (o *Kubernetescluster) String() string {
+func (o *KubernetesCluster) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Kubernetescluster) Validate() error {
+func (o *KubernetesCluster) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -134,24 +134,24 @@ func (o *Kubernetescluster) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*Kubernetescluster) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*KubernetesCluster) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := KubernetesclusterAttributesMap[name]; ok {
+	if v, ok := KubernetesClusterAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return KubernetesclusterLowerCaseAttributesMap[name]
+	return KubernetesClusterLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*Kubernetescluster) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*KubernetesCluster) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return KubernetesclusterAttributesMap
+	return KubernetesClusterAttributesMap
 }
 
-// KubernetesclusterAttributesMap represents the map of attribute for Kubernetescluster.
-var KubernetesclusterAttributesMap = map[string]elemental.AttributeSpecification{
+// KubernetesClusterAttributesMap represents the map of attribute for KubernetesCluster.
+var KubernetesClusterAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -259,8 +259,8 @@ var KubernetesclusterAttributesMap = map[string]elemental.AttributeSpecification
 	},
 }
 
-// KubernetesclusterLowerCaseAttributesMap represents the map of attribute for Kubernetescluster.
-var KubernetesclusterLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// KubernetesClusterLowerCaseAttributesMap represents the map of attribute for KubernetesCluster.
+var KubernetesClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
