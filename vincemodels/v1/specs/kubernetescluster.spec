@@ -217,7 +217,7 @@
         "create": null,
         "delete": true,
         "description": null,
-        "entity_name": "Kubernetescluster",
+        "entity_name": "KubernetesCluster",
         "extends": [
             "@base"
         ],
