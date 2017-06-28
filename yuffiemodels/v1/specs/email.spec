@@ -29,7 +29,7 @@
             "secret": null,
             "setter": null,
             "stored": false,
-            "subtype": "List_Attachment",
+            "subtype": "list_attachments",
             "transient": null,
             "type": "external",
             "unique": null,
