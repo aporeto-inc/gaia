@@ -39,6 +39,9 @@ func (o EmailsList) DefaultOrder() []string {
 
 // Email represents the model of a email
 type Email struct {
+	// Attachments is a list of attachments to send
+	Attachments map[string]string `json:"attachments" bson:"-"`
+
 	// Bcc represents email that should be in copy but hidden
 	Bcc []string `json:"bcc" bson:"-"`
 
@@ -153,6 +156,14 @@ func (*Email) AttributeSpecifications() map[string]elemental.AttributeSpecificat
 
 // EmailAttributesMap represents the map of attribute for Email.
 var EmailAttributesMap = map[string]elemental.AttributeSpecification{
+	"Attachments": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Attachments is a list of attachments to send`,
+		Exposed:        true,
+		Name:           "attachments",
+		SubType:        "list_attachments",
+		Type:           "external",
+	},
 	"Bcc": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `Bcc represents email that should be in copy but hidden `,
@@ -206,6 +217,14 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 
 // EmailLowerCaseAttributesMap represents the map of attribute for Email.
 var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"attachments": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Attachments is a list of attachments to send`,
+		Exposed:        true,
+		Name:           "attachments",
+		SubType:        "list_attachments",
+		Type:           "external",
+	},
 	"bcc": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `Bcc represents email that should be in copy but hidden `,
