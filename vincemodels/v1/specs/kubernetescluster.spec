@@ -261,6 +261,6 @@
         "resource_name": "kubernetesclusters",
         "rest_name": "kubernetescluster",
         "root": null,
-        "update": false
+        "update": true
     }
 }
