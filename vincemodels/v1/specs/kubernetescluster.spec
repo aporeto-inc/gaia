@@ -199,7 +199,7 @@
             "name": "targetNamespace",
             "orderable": true,
             "primary_key": null,
-            "read_only": null,
+            "read_only": false,
             "required": null,
             "secret": null,
             "setter": null,
