@@ -153,11 +153,7 @@ func (o *Issue) Validate() error {
 		errors = append(errors, err)
 	}
 
-<<<<<<< HEAD
-	if err := elemental.ValidatePattern("validity", o.Validity, `^([0-9]+h[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+h[0-9]+s|[0-9]+h[0-9]+m|[0-9]+s|[0-9]+h|[0-9]+m)$`, None); err != nil {
-=======
 	if err := elemental.ValidatePattern("validity", o.Validity, `^([0-9]+h[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+h[0-9]+s|[0-9]+h[0-9]+m|[0-9]+s|[0-9]+h|[0-9]+m)$`, false); err != nil {
->>>>>>> origin
 		errors = append(errors, err)
 	}
 
