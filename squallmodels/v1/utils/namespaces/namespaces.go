@@ -10,6 +10,16 @@ import (
 	"github.com/aporeto-inc/manipulate"
 )
 
+// NamespaceSetter is an interface that allows to set a namespace
+type NamespaceSetter interface {
+	SetNamespace(string)
+}
+
+// NamespaceGetter is an interface that allows to get a namespace
+type NamespaceGetter interface {
+	GetNamespace() string
+}
+
 const nsSeparator = "/"
 
 // ParentNamespaceFromString returns the parent namespace of a namespace

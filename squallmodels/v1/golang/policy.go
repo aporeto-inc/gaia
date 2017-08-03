@@ -347,6 +347,10 @@ func (o *Policy) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -424,6 +428,7 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"ActiveDuration": elemental.AttributeSpecification{
+		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		Description:    `ActiveDuration defines for how long the policy will be active according to the activeSchedule.`,
 		Exposed:        true,
@@ -438,12 +443,12 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.`,
 		Exposed:        true,
-		Format:         "free",
 		Getter:         true,
 		Name:           "activeSchedule",
 		Setter:         true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "cron_expression",
+		Type:           "external",
 	},
 	"AllObjectTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -699,6 +704,7 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"activeduration": elemental.AttributeSpecification{
+		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		Description:    `ActiveDuration defines for how long the policy will be active according to the activeSchedule.`,
 		Exposed:        true,
@@ -713,12 +719,12 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.`,
 		Exposed:        true,
-		Format:         "free",
 		Getter:         true,
 		Name:           "activeSchedule",
 		Setter:         true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "cron_expression",
+		Type:           "external",
 	},
 	"allobjecttags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
