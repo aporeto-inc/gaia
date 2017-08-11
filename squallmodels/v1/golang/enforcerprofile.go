@@ -351,14 +351,6 @@ func (o *EnforcerProfile) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("targetNetworks", o.TargetNetworks); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("targetNetworks", o.TargetNetworks); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateMaximumInt("transmitterNumberOfQueues", o.TransmitterNumberOfQueues, 16, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -725,7 +717,6 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Filterable:     true,
 		Name:           "targetNetworks",
 		Orderable:      true,
-		Required:       true,
 		Stored:         true,
 		SubType:        "target_networks_list",
 		Type:           "external",
@@ -1098,7 +1089,6 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Filterable:     true,
 		Name:           "targetNetworks",
 		Orderable:      true,
-		Required:       true,
 		Stored:         true,
 		SubType:        "target_networks_list",
 		Type:           "external",

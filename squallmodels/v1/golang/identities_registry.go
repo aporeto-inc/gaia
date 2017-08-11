@@ -7,6 +7,7 @@ func init() {
 	elemental.RegisterIdentity(APICheckIdentity)
 	elemental.RegisterIdentity(HookPolicyIdentity)
 	elemental.RegisterIdentity(APIAuthorizationPolicyIdentity)
+	elemental.RegisterIdentity(ExternalAccessIdentity)
 	elemental.RegisterIdentity(SystemCallIdentity)
 	elemental.RegisterIdentity(TagIdentity)
 	elemental.RegisterIdentity(EnforcerIdentity)
@@ -49,6 +50,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewHookPolicy()
 	case APIAuthorizationPolicyIdentity.Name:
 		return NewAPIAuthorizationPolicy()
+	case ExternalAccessIdentity.Name:
+		return NewExternalAccess()
 	case SystemCallIdentity.Name:
 		return NewSystemCall()
 	case TagIdentity.Name:
@@ -118,6 +121,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewHookPolicy()
 	case APIAuthorizationPolicyIdentity.Category:
 		return NewAPIAuthorizationPolicy()
+	case ExternalAccessIdentity.Category:
+		return NewExternalAccess()
 	case SystemCallIdentity.Category:
 		return NewSystemCall()
 	case TagIdentity.Category:
@@ -187,6 +192,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &HookPoliciesList{}
 	case APIAuthorizationPolicyIdentity.Name:
 		return &APIAuthorizationPoliciesList{}
+	case ExternalAccessIdentity.Name:
+		return &ExternalAccessList{}
 	case SystemCallIdentity.Name:
 		return &SystemCallsList{}
 	case TagIdentity.Name:
@@ -254,6 +261,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &HookPoliciesList{}
 	case APIAuthorizationPolicyIdentity.Category:
 		return &APIAuthorizationPoliciesList{}
+	case ExternalAccessIdentity.Category:
+		return &ExternalAccessList{}
 	case SystemCallIdentity.Category:
 		return &SystemCallsList{}
 	case TagIdentity.Category:
@@ -318,6 +327,7 @@ func AllIdentities() []elemental.Identity {
 		APICheckIdentity,
 		HookPolicyIdentity,
 		APIAuthorizationPolicyIdentity,
+		ExternalAccessIdentity,
 		SystemCallIdentity,
 		TagIdentity,
 		EnforcerIdentity,
@@ -355,12 +365,14 @@ var aliasesMap = map[string]elemental.Identity{
 	"hookpols":   HookPolicyIdentity,
 	"apiauths":   APIAuthorizationPolicyIdentity,
 	"apiauth":    APIAuthorizationPolicyIdentity,
+	"extac":      ExternalAccessIdentity,
+	"extacs":     ExternalAccessIdentity,
 	"mess":       MessageIdentity,
 	"fp":         FilePathIdentity,
 	"fps":        FilePathIdentity,
 	"ns":         NamespaceIdentity,
-	"extsrvs":    ExternalServiceIdentity,
 	"extsrv":     ExternalServiceIdentity,
+	"extsrvs":    ExternalServiceIdentity,
 	"sugpol":     SuggestedPolicyIdentity,
 	"sugpols":    SuggestedPolicyIdentity,
 	"sugg":       SuggestedPolicyIdentity,
@@ -419,6 +431,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"apiauths",
 			"apiauth",
 		}
+	case ExternalAccessIdentity:
+		return []string{
+			"extac",
+			"extacs",
+		}
 	case SystemCallIdentity:
 		return []string{}
 	case TagIdentity:
@@ -446,8 +463,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case ExternalServiceIdentity:
 		return []string{
-			"extsrvs",
 			"extsrv",
+			"extsrvs",
 		}
 	case RoleIdentity:
 		return []string{}

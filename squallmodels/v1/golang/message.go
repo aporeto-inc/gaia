@@ -84,6 +84,9 @@ type Message struct {
 	// Level defines how the message is important.
 	Level MessageLevelValue `json:"level" bson:"level"`
 
+	// If local is set, the message will only be visible in the current namespace.
+	Local bool `json:"local" bson:"local"`
+
 	// Name is the name of the entity
 	Name string `json:"name" bson:"name"`
 
@@ -359,6 +362,16 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "enum",
 	},
+	"Local": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `If local is set, the message will only be visible in the current namespace.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "local",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		DefaultOrder:   true,
@@ -525,6 +538,16 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		Stored:         true,
 		Type:           "enum",
+	},
+	"local": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `If local is set, the message will only be visible in the current namespace.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "local",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

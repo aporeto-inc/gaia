@@ -588,7 +588,7 @@
             "orderable": true,
             "primary_key": null,
             "read_only": null,
-            "required": true,
+            "required": false,
             "secret": false,
             "setter": null,
             "stored": true,

@@ -113,6 +113,9 @@ type Enforcer struct {
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description"`
 
+	// Contains the ID of the profile used by the instance of enforcerd.
+	EnforcerProfileID string `json:"enforcerProfileID" bson:"enforcerprofileid"`
+
 	// LastSyncTime holds the last heart beat time.
 	LastSyncTime time.Time `json:"lastSyncTime" bson:"lastsynctime"`
 
@@ -136,6 +139,9 @@ type Enforcer struct {
 
 	// PublicToken is the public token of the server that will be included in the datapath and its signed by the private CA.
 	PublicToken string `json:"publicToken" bson:"publictoken"`
+
+	// Tells if the the version of enforcerd is outdated and should be updated.
+	UpdateAvailable bool `json:"updateAvailable" bson:"updateavailable"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime"`
@@ -468,6 +474,17 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"EnforcerProfileID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Contains the ID of the profile used by the instance of enforcerd.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "enforcerProfileID",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"LastSyncTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `LastSyncTime holds the last heart beat time.`,
@@ -574,6 +591,16 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"UpdateAvailable": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Tells if the the version of enforcerd is outdated and should be updated.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "updateAvailable",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -720,6 +747,17 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Stored:         true,
 		Type:           "string",
 	},
+	"enforcerprofileid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Contains the ID of the profile used by the instance of enforcerd.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "enforcerProfileID",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"lastsynctime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `LastSyncTime holds the last heart beat time.`,
@@ -826,6 +864,16 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"updateavailable": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Tells if the the version of enforcerd is outdated and should be updated.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "updateAvailable",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

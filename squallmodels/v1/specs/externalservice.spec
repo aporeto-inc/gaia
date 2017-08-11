@@ -109,12 +109,12 @@
     "children": [],
     "model": {
         "aliases": [
-            "extsrvs",
-            "extsrv"
+            "extsrv",
+            "extsrvs"
         ],
         "create": false,
         "delete": true,
-        "description": "An External Service represents a random network or ip that is not managed by the system. They can be used in Network Access Policies in order to allow traffic from or to the declared network or IP, using the provided protocol and port or ports range. If you want to describe the Internet (ie. anywhere), use 0.0.0.0/0 as address, and 1-65000 for the ports. You will need to use the External Services tags to set some policies. A good example would benet=any or net=intranet.",
+        "description": "An External Service represents a random network or ip that is not managed by the system. They can be used in Network Access Policies in order to allow traffic from or to the declared network or IP, using the provided protocol and port or ports range. If you want to describe the Internet (ie. anywhere), use 0.0.0.0/0 as address, and 1-65000 for the ports. You will need to use the External Services tags to set some policies.",
         "entity_name": "ExternalService",
         "extends": [
             "@archivable",

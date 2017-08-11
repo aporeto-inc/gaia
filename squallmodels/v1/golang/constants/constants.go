@@ -57,11 +57,29 @@ const (
 	// StatsTagKeyDestinationID represents the destination ID tag.
 	StatsTagKeyDestinationID = "@destid"
 
+	// StatsTagKeyDestinationIP represents the destination IP tag.
+	StatsTagKeyDestinationIP = "@destip"
+
+	// StatsTagKeyDestinationType represents the destination type tag.
+	StatsTagKeyDestinationType = "@desttype"
+
 	// StatsTagKeySourceID represents the source ID tag.
 	StatsTagKeySourceID = "@srcid"
 
+	// StatsTagKeySourceIP represents the source IP tag.
+	StatsTagKeySourceIP = "@srcip"
+
+	// StatsTagKeySourceType represents the source type tag.
+	StatsTagKeySourceType = "@srctype"
+
 	// StatsTagKeyDestinationPort represents the destination port tag.
 	StatsTagKeyDestinationPort = "@destport"
+
+	// StatsTagKeyEncrypted represents the encrypted tag.
+	StatsTagKeyEncrypted = "@encrypted"
+
+	// StatsTagKeyPolicyID represents the policy ID tag.
+	StatsTagKeyPolicyID = "@policyid"
 
 	// StatsTagKeyProcessingUnitID represents the processing unit ID tag.
 	StatsTagKeyProcessingUnitID = "$id"
@@ -90,9 +108,6 @@ const (
 	// StatsTagKeyAporetoContextID represents the aporeto context ID.
 	StatsTagKeyAporetoContextID = "@squallid"
 
-	// StatsTagKeyExternal represents the if the flow is coming from an uncontrolled network.
-	StatsTagKeyExternal = "@external"
-
 	// StatsTagKeyFileAccessPath represents the file path.
 	StatsTagKeyFileAccessPath = "@path"
 
@@ -113,4 +128,10 @@ const (
 
 	// StatsTagKeySyscallAccessProcessName represents the name of the related process.
 	StatsTagKeySyscallAccessProcessName = "@processname"
+
+	// StatsTagKeyFlowTypeProcessingUnit represents the pu type value.
+	StatsTagKeyFlowTypeProcessingUnit = "pu"
+
+	// StatsTagKeyFlowTypeExternalService represents the ext value.
+	StatsTagKeyFlowTypeExternalService = "ext"
 )
