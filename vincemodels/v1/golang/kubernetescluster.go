@@ -183,7 +183,6 @@ var KubernetesClusterAttributesMap = map[string]elemental.AttributeSpecification
 	},
 	"CertificateID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		CreationOnly:   true,
 		Description:    `Link to the certificate created in Vince for this cluster `,
 		Exposed:        true,
 		Filterable:     true,
@@ -209,7 +208,6 @@ var KubernetesClusterAttributesMap = map[string]elemental.AttributeSpecification
 	},
 	"KubernetesDefinitions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		CreationOnly:   true,
 		Description:    `base64 of the .tar.gz file that contains all the .YAMLs files needed to create the aporeto side on your kubernetes Cluster`,
 		Exposed:        true,
 		Filterable:     true,
@@ -221,7 +219,6 @@ var KubernetesClusterAttributesMap = map[string]elemental.AttributeSpecification
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		CreationOnly:   true,
 		Description:    `The name of your cluster`,
 		Exposed:        true,
 		Filterable:     true,
@@ -233,7 +230,6 @@ var KubernetesClusterAttributesMap = map[string]elemental.AttributeSpecification
 	},
 	"NamespaceID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		CreationOnly:   true,
 		Description:    `Link to your namespace `,
 		Exposed:        true,
 		Filterable:     true,
@@ -246,7 +242,6 @@ var KubernetesClusterAttributesMap = map[string]elemental.AttributeSpecification
 	},
 	"ParentID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		CreationOnly:   true,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -258,7 +253,6 @@ var KubernetesClusterAttributesMap = map[string]elemental.AttributeSpecification
 	},
 	"TargetNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		CreationOnly:   true,
 		Description:    `The namespace in which the Kubernetes specific namespace will be created. By default your account namespace.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -311,7 +305,6 @@ var KubernetesClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 	},
 	"certificateid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		CreationOnly:   true,
 		Description:    `Link to the certificate created in Vince for this cluster `,
 		Exposed:        true,
 		Filterable:     true,
@@ -337,7 +330,6 @@ var KubernetesClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 	},
 	"kubernetesdefinitions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		CreationOnly:   true,
 		Description:    `base64 of the .tar.gz file that contains all the .YAMLs files needed to create the aporeto side on your kubernetes Cluster`,
 		Exposed:        true,
 		Filterable:     true,
@@ -349,7 +341,6 @@ var KubernetesClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		CreationOnly:   true,
 		Description:    `The name of your cluster`,
 		Exposed:        true,
 		Filterable:     true,
@@ -361,7 +352,6 @@ var KubernetesClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 	},
 	"namespaceid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		CreationOnly:   true,
 		Description:    `Link to your namespace `,
 		Exposed:        true,
 		Filterable:     true,
@@ -374,7 +364,6 @@ var KubernetesClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 	},
 	"parentid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		CreationOnly:   true,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -386,7 +375,6 @@ var KubernetesClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 	},
 	"targetnamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		CreationOnly:   true,
 		Description:    `The namespace in which the Kubernetes specific namespace will be created. By default your account namespace.`,
 		Exposed:        true,
 		Filterable:     true,
