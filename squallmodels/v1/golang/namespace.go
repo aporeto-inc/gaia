@@ -217,7 +217,7 @@ func (o *Namespace) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidatePattern("name", o.Name, `^[^\*\=]*$`, True); err != nil {
+	if err := elemental.ValidatePattern("name", o.Name, `^[^\*\=]*$`, true); err != nil {
 		errors = append(errors, err)
 	}
 
