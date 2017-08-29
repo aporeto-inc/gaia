@@ -108,8 +108,8 @@
         {
             "allowed_chars": null,
             "allowed_choices": [
-                "EC2",
                 "ELB",
+                "LoadBalancer",
                 "Network",
                 "RDSCluster"
             ],
