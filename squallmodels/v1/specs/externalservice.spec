@@ -109,6 +109,7 @@
             "allowed_chars": null,
             "allowed_choices": [
                 "aporeto",
+                "aws-ec2",
                 "aws-elb",
                 "aws-rds"
             ],
