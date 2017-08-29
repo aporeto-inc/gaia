@@ -11,17 +11,11 @@ import "time"
 type ExternalServiceTypeValue string
 
 const (
-	// ExternalServiceTypeAporeto represents the value Aporeto.
-	ExternalServiceTypeAporeto ExternalServiceTypeValue = "Aporeto"
+	// ExternalServiceTypeLoadbalancer represents the value LoadBalancer.
+	ExternalServiceTypeLoadbalancer ExternalServiceTypeValue = "LoadBalancer"
 
-	// ExternalServiceTypeEc2 represents the value EC2.
-	ExternalServiceTypeEc2 ExternalServiceTypeValue = "EC2"
-
-	// ExternalServiceTypeElb represents the value ELB.
-	ExternalServiceTypeElb ExternalServiceTypeValue = "ELB"
-
-	// ExternalServiceTypeRdscluster represents the value RDSCluster.
-	ExternalServiceTypeRdscluster ExternalServiceTypeValue = "RDSCluster"
+	// ExternalServiceTypeNetwork represents the value Network.
+	ExternalServiceTypeNetwork ExternalServiceTypeValue = "Network"
 )
 
 // ExternalServiceIdentity represents the Identity of the object
@@ -129,7 +123,7 @@ func NewExternalService() *ExternalService {
 		Metadata:       []string{},
 		NormalizedTags: []string{},
 		Port:           "1:65535",
-		Type:           "Aporeto",
+		Type:           "Network",
 	}
 }
 
@@ -302,7 +296,7 @@ func (o *ExternalService) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Aporeto", "EC2", "ELB", "RDSCluster"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"LoadBalancer", "Network"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -512,9 +506,9 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Aporeto", "EC2", "ELB", "RDSCluster"},
+		AllowedChoices: []string{"LoadBalancer", "Network"},
 		CreationOnly:   true,
-		DefaultValue:   ExternalServiceTypeValue("Aporeto"),
+		DefaultValue:   ExternalServiceTypeValue("Network"),
 		Description:    `Type represents the type of external service.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -717,9 +711,9 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Type:           "string",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Aporeto", "EC2", "ELB", "RDSCluster"},
+		AllowedChoices: []string{"LoadBalancer", "Network"},
 		CreationOnly:   true,
-		DefaultValue:   ExternalServiceTypeValue("Aporeto"),
+		DefaultValue:   ExternalServiceTypeValue("Network"),
 		Description:    `Type represents the type of external service.`,
 		Exposed:        true,
 		Filterable:     true,
