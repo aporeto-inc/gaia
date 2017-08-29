@@ -132,7 +132,7 @@
             "name": "type",
             "orderable": true,
             "primary_key": null,
-            "read_only": true,
+            "read_only": false,
             "required": null,
             "secret": null,
             "setter": null,
