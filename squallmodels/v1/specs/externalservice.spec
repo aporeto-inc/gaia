@@ -117,7 +117,7 @@
             "channel": null,
             "creation_only": true,
             "default_order": null,
-            "default_value": null,
+            "default_value": "aporeto",
             "deprecated": null,
             "description": "Type represents the type of external service.",
             "exposed": true,
