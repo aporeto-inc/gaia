@@ -11,8 +11,8 @@ import "time"
 type ExternalServiceTypeValue string
 
 const (
-	// ExternalServiceTypeLoadbalancer represents the value LoadBalancer.
-	ExternalServiceTypeLoadbalancer ExternalServiceTypeValue = "LoadBalancer"
+	// ExternalServiceTypeLoadbalancertcp represents the value LoadBalancerTCP.
+	ExternalServiceTypeLoadbalancertcp ExternalServiceTypeValue = "LoadBalancerTCP"
 
 	// ExternalServiceTypeNetwork represents the value Network.
 	ExternalServiceTypeNetwork ExternalServiceTypeValue = "Network"
@@ -296,7 +296,7 @@ func (o *ExternalService) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"LoadBalancer", "Network"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"LoadBalancerTCP", "Network"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -506,7 +506,7 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"LoadBalancer", "Network"},
+		AllowedChoices: []string{"LoadBalancerTCP", "Network"},
 		CreationOnly:   true,
 		DefaultValue:   ExternalServiceTypeValue("Network"),
 		Description:    `Type represents the type of external service.`,
@@ -711,7 +711,7 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Type:           "string",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"LoadBalancer", "Network"},
+		AllowedChoices: []string{"LoadBalancerTCP", "Network"},
 		CreationOnly:   true,
 		DefaultValue:   ExternalServiceTypeValue("Network"),
 		Description:    `Type represents the type of external service.`,
