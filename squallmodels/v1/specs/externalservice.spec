@@ -108,8 +108,8 @@
         {
             "allowed_chars": null,
             "allowed_choices": [
+                "AmazonEC2",
                 "aporeto",
-                "aws-ec2",
                 "aws-elb",
                 "aws-rds"
             ],
