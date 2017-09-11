@@ -194,6 +194,16 @@ func (o *ProcessingUnit) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetAnnotations returns the annotations of the receiver
+func (o *ProcessingUnit) GetAnnotations() map[string][]string {
+	return o.Annotations
+}
+
+// SetAnnotations set the given annotations of the receiver
+func (o *ProcessingUnit) SetAnnotations(annotations map[string][]string) {
+	o.Annotations = annotations
+}
+
 // GetArchived returns the archived of the receiver
 func (o *ProcessingUnit) GetArchived() bool {
 	return o.Archived
@@ -351,7 +361,9 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `Annotation stores additional information about an entity`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "annotations",
+		Setter:         true,
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
@@ -560,7 +572,9 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		AllowedChoices: []string{},
 		Description:    `Annotation stores additional information about an entity`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "annotations",
+		Setter:         true,
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",

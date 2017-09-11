@@ -156,6 +156,16 @@ func (o *EnforcerProfileMappingPolicy) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetAnnotations returns the annotations of the receiver
+func (o *EnforcerProfileMappingPolicy) GetAnnotations() map[string][]string {
+	return o.Annotations
+}
+
+// SetAnnotations set the given annotations of the receiver
+func (o *EnforcerProfileMappingPolicy) SetAnnotations(annotations map[string][]string) {
+	o.Annotations = annotations
+}
+
 // GetAssociatedTags returns the associatedTags of the receiver
 func (o *EnforcerProfileMappingPolicy) GetAssociatedTags() []string {
 	return o.AssociatedTags
@@ -339,7 +349,9 @@ var EnforcerProfileMappingPolicyAttributesMap = map[string]elemental.AttributeSp
 		AllowedChoices: []string{},
 		Description:    `Annotation stores additional information about an entity`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "annotations",
+		Setter:         true,
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
@@ -542,7 +554,9 @@ var EnforcerProfileMappingPolicyLowerCaseAttributesMap = map[string]elemental.At
 		AllowedChoices: []string{},
 		Description:    `Annotation stores additional information about an entity`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "annotations",
+		Setter:         true,
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",

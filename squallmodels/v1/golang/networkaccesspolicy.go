@@ -195,6 +195,16 @@ func (o *NetworkAccessPolicy) SetActiveSchedule(activeSchedule string) {
 	o.ActiveSchedule = activeSchedule
 }
 
+// GetAnnotations returns the annotations of the receiver
+func (o *NetworkAccessPolicy) GetAnnotations() map[string][]string {
+	return o.Annotations
+}
+
+// SetAnnotations set the given annotations of the receiver
+func (o *NetworkAccessPolicy) SetAnnotations(annotations map[string][]string) {
+	o.Annotations = annotations
+}
+
 // GetAssociatedTags returns the associatedTags of the receiver
 func (o *NetworkAccessPolicy) GetAssociatedTags() []string {
 	return o.AssociatedTags
@@ -398,7 +408,9 @@ var NetworkAccessPolicyAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		Description:    `Annotation stores additional information about an entity`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "annotations",
+		Setter:         true,
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
@@ -659,7 +671,9 @@ var NetworkAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		AllowedChoices: []string{},
 		Description:    `Annotation stores additional information about an entity`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "annotations",
+		Setter:         true,
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",

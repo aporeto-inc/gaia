@@ -197,6 +197,16 @@ func (o *FileAccessPolicy) SetActiveSchedule(activeSchedule string) {
 	o.ActiveSchedule = activeSchedule
 }
 
+// GetAnnotations returns the annotations of the receiver
+func (o *FileAccessPolicy) GetAnnotations() map[string][]string {
+	return o.Annotations
+}
+
+// SetAnnotations set the given annotations of the receiver
+func (o *FileAccessPolicy) SetAnnotations(annotations map[string][]string) {
+	o.Annotations = annotations
+}
+
 // GetAssociatedTags returns the associatedTags of the receiver
 func (o *FileAccessPolicy) GetAssociatedTags() []string {
 	return o.AssociatedTags
@@ -418,7 +428,9 @@ var FileAccessPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `Annotation stores additional information about an entity`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "annotations",
+		Setter:         true,
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
@@ -687,7 +699,9 @@ var FileAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		AllowedChoices: []string{},
 		Description:    `Annotation stores additional information about an entity`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "annotations",
+		Setter:         true,
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",

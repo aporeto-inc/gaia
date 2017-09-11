@@ -183,6 +183,16 @@ func (o *HookPolicy) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetAnnotations returns the annotations of the receiver
+func (o *HookPolicy) GetAnnotations() map[string][]string {
+	return o.Annotations
+}
+
+// SetAnnotations set the given annotations of the receiver
+func (o *HookPolicy) SetAnnotations(annotations map[string][]string) {
+	o.Annotations = annotations
+}
+
 // GetAssociatedTags returns the associatedTags of the receiver
 func (o *HookPolicy) GetAssociatedTags() []string {
 	return o.AssociatedTags
@@ -394,7 +404,9 @@ var HookPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `Annotation stores additional information about an entity`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "annotations",
+		Setter:         true,
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
@@ -643,7 +655,9 @@ var HookPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		Description:    `Annotation stores additional information about an entity`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "annotations",
+		Setter:         true,
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
