@@ -1,8 +1,6 @@
 package types
 
-import (
-	"sync"
-)
+import "sync"
 
 // GraphEdgeMap is a map of id to GraphEdge
 type GraphEdgeMap map[string]*GraphEdge
@@ -117,4 +115,51 @@ func NewIPRecord() *IPRecord {
 		Hostnames:        []string{},
 		DestinationPorts: []string{},
 	}
+}
+
+// TagGraphStats represents Tag statistics in a Graph
+type TagGraphStats struct {
+	Tag            string `json:"tag"`
+	PossibleValues int    `json:"possibleValues"`
+	Occurences     int    `json:"occurences"`
+}
+
+// NewTagGraphStats creates a new NewTagGraphStats
+func NewTagGraphStats() *TagGraphStats {
+	return &TagGraphStats{}
+}
+
+// IsEqual returns true if both TagGraphStats are equal
+func (a *TagGraphStats) IsEqual(b *TagGraphStats) bool {
+	return a.Tag == b.Tag && a.PossibleValues == b.PossibleValues && a.Occurences == b.Occurences
+}
+
+// TagGraphStatsList represents a list of TagGraphStats
+type TagGraphStatsList []*TagGraphStats
+
+// Len is the implentation for sort.Interface
+func (a TagGraphStatsList) Len() int {
+	return len(a)
+}
+
+// Swap is the implentation for sort.Interface
+func (a TagGraphStatsList) Swap(i, j int) {
+	a[i], a[j] = a[j], a[i]
+}
+
+// Less is the implentation for sort.Interface
+func (a TagGraphStatsList) Less(i, j int) bool {
+	if a[i].PossibleValues > a[j].PossibleValues {
+		return true
+	}
+
+	if a[i].PossibleValues == a[j].PossibleValues && a[i].Occurences > a[j].Occurences {
+		return true
+	}
+
+	if a[i].Occurences == a[j].Occurences {
+		return a[i].Tag < a[j].Tag
+	}
+
+	return false
 }
