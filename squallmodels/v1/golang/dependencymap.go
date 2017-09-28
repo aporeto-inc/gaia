@@ -66,6 +66,9 @@ type DependencyMap struct {
 	// nodes refers to the nodes of the map
 	Nodes types.GraphNodeMap `json:"nodes" bson:"-"`
 
+	// TagsStatistics provides statistics for relevant tags
+	TagsStatistics types.TagGraphStatsList `json:"tagsStatistics" bson:"-"`
+
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
 	sync.Mutex
@@ -75,10 +78,11 @@ type DependencyMap struct {
 func NewDependencyMap() *DependencyMap {
 
 	return &DependencyMap{
-		ModelVersion: 1,
-		Edges:        types.GraphEdgeMap{},
-		Groups:       types.GraphGroupMap{},
-		Nodes:        types.GraphNodeMap{},
+		ModelVersion:   1,
+		Edges:          types.GraphEdgeMap{},
+		Groups:         types.GraphGroupMap{},
+		Nodes:          types.GraphNodeMap{},
+		TagsStatistics: types.TagGraphStatsList{},
 	}
 }
 
@@ -149,6 +153,14 @@ func (o *DependencyMap) Validate() error {
 	}
 
 	if err := elemental.ValidateRequiredExternal("nodes", o.Nodes); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("tagsStatistics", o.TagsStatistics); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("tagsStatistics", o.TagsStatistics); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -226,6 +238,16 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "graphnodes_map",
 		Type:           "external",
 	},
+	"TagsStatistics": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `TagsStatistics provides statistics for relevant tags`,
+		Exposed:        true,
+		Name:           "tagsStatistics",
+		ReadOnly:       true,
+		Required:       true,
+		SubType:        "tags_statistics",
+		Type:           "external",
+	},
 }
 
 // DependencyMapLowerCaseAttributesMap represents the map of attribute for DependencyMap.
@@ -272,6 +294,16 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		ReadOnly:       true,
 		Required:       true,
 		SubType:        "graphnodes_map",
+		Type:           "external",
+	},
+	"tagsstatistics": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `TagsStatistics provides statistics for relevant tags`,
+		Exposed:        true,
+		Name:           "tagsStatistics",
+		ReadOnly:       true,
+		Required:       true,
+		SubType:        "tags_statistics",
 		Type:           "external",
 	},
 }

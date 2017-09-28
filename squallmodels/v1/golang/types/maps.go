@@ -119,9 +119,9 @@ func NewIPRecord() *IPRecord {
 
 // TagGraphStats represents Tag statistics in a Graph
 type TagGraphStats struct {
-	Tag            string `json:"tag"`
-	PossibleValues int    `json:"possibleValues"`
-	Occurences     int    `json:"occurences"`
+	Key         string `json:"key"`
+	ValuesCount int    `json:"valuesCount"`
+	Occurences  int    `json:"occurences"`
 }
 
 // NewTagGraphStats creates a new NewTagGraphStats
@@ -131,7 +131,7 @@ func NewTagGraphStats() *TagGraphStats {
 
 // IsEqual returns true if both TagGraphStats are equal
 func (a *TagGraphStats) IsEqual(b *TagGraphStats) bool {
-	return a.Tag == b.Tag && a.PossibleValues == b.PossibleValues && a.Occurences == b.Occurences
+	return a.Key == b.Key && a.ValuesCount == b.ValuesCount && a.Occurences == b.Occurences
 }
 
 // TagGraphStatsList represents a list of TagGraphStats
@@ -149,16 +149,16 @@ func (a TagGraphStatsList) Swap(i, j int) {
 
 // Less is the implentation for sort.Interface
 func (a TagGraphStatsList) Less(i, j int) bool {
-	if a[i].PossibleValues > a[j].PossibleValues {
+	if a[i].ValuesCount > a[j].ValuesCount {
 		return true
 	}
 
-	if a[i].PossibleValues == a[j].PossibleValues && a[i].Occurences > a[j].Occurences {
+	if a[i].ValuesCount == a[j].ValuesCount && a[i].Occurences > a[j].Occurences {
 		return true
 	}
 
 	if a[i].Occurences == a[j].Occurences {
-		return a[i].Tag < a[j].Tag
+		return a[i].Key < a[j].Key
 	}
 
 	return false
