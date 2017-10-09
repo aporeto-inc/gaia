@@ -168,7 +168,7 @@
             "required": null,
             "secret": null,
             "setter": null,
-            "stored": false,
+            "stored": true,
             "subtype": "service_parameters",
             "transient": null,
             "type": "external",
