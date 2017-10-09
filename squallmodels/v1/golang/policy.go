@@ -58,6 +58,17 @@ func (o PoliciesList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the PoliciesList.
+func (o PoliciesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(PoliciesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*Policy))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o PoliciesList) List() elemental.IdentifiablesList {
 

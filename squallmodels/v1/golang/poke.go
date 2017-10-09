@@ -27,6 +27,17 @@ func (o PokesList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the PokesList.
+func (o PokesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(PokesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*Poke))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o PokesList) List() elemental.IdentifiablesList {
 

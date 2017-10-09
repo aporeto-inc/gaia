@@ -60,6 +60,17 @@ func (o EnforcersList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the EnforcersList.
+func (o EnforcersList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(EnforcersList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*Enforcer))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o EnforcersList) List() elemental.IdentifiablesList {
 

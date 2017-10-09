@@ -41,6 +41,17 @@ func (o FileAccessList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the FileAccessList.
+func (o FileAccessList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(FileAccessList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*FileAccess))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o FileAccessList) List() elemental.IdentifiablesList {
 

@@ -53,6 +53,17 @@ func (o APIChecksList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the APIChecksList.
+func (o APIChecksList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(APIChecksList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*APICheck))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o APIChecksList) List() elemental.IdentifiablesList {
 

@@ -38,6 +38,17 @@ func (o EmailsList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the EmailsList.
+func (o EmailsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(EmailsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*Email))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o EmailsList) List() elemental.IdentifiablesList {
 

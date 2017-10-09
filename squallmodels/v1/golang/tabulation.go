@@ -27,6 +27,17 @@ func (o TabulationsList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the TabulationsList.
+func (o TabulationsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(TabulationsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*Tabulation))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o TabulationsList) List() elemental.IdentifiablesList {
 

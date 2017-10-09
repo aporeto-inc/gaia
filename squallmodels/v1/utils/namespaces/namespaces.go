@@ -44,11 +44,15 @@ func ParentNamespaceFromString(namespace string) (string, error) {
 
 // IsNamespaceRelatedToNamespace returns true if the given namespace is related to the given parent
 func IsNamespaceRelatedToNamespace(ns string, parent string) bool {
-	return IsNamespaceParentOfNamespace(ns, parent) || IsNamespaceChildrenOfNamespace(ns, parent) || ns == parent
+	return IsNamespaceParentOfNamespace(ns, parent) || IsNamespaceChildrenOfNamespace(ns, parent) || (ns == parent && ns != "" && parent != "")
 }
 
 // IsNamespaceParentOfNamespace returns true if the given namespace is a parent of the given parent
 func IsNamespaceParentOfNamespace(ns string, child string) bool {
+
+	if len(ns) == 0 {
+		return false
+	}
 
 	if ns == child {
 		return false
@@ -63,6 +67,10 @@ func IsNamespaceParentOfNamespace(ns string, child string) bool {
 
 // IsNamespaceChildrenOfNamespace returns true of the given ns is a children of the given parent.
 func IsNamespaceChildrenOfNamespace(ns string, parent string) bool {
+
+	if len(parent) == 0 {
+		return false
+	}
 
 	if ns == parent {
 		return false

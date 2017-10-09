@@ -27,6 +27,17 @@ func (o RevocationsList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the RevocationsList.
+func (o RevocationsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(RevocationsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*Revocation))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o RevocationsList) List() elemental.IdentifiablesList {
 

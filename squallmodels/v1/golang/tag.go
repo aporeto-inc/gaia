@@ -27,6 +27,17 @@ func (o TagsList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the TagsList.
+func (o TagsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(TagsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*Tag))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o TagsList) List() elemental.IdentifiablesList {
 

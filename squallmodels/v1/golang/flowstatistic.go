@@ -63,6 +63,17 @@ func (o FlowStatisticsList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the FlowStatisticsList.
+func (o FlowStatisticsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(FlowStatisticsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*FlowStatistic))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o FlowStatisticsList) List() elemental.IdentifiablesList {
 

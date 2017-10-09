@@ -29,6 +29,17 @@ func (o KubernetesClustersList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the KubernetesClustersList.
+func (o KubernetesClustersList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(KubernetesClustersList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*KubernetesCluster))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o KubernetesClustersList) List() elemental.IdentifiablesList {
 

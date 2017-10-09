@@ -29,6 +29,17 @@ func (o DependencyMapsList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the DependencyMapsList.
+func (o DependencyMapsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(DependencyMapsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*DependencyMap))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o DependencyMapsList) List() elemental.IdentifiablesList {
 

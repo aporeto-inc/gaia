@@ -29,6 +29,17 @@ func (o NamespacesList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the NamespacesList.
+func (o NamespacesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(NamespacesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*Namespace))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o NamespacesList) List() elemental.IdentifiablesList {
 

@@ -46,6 +46,17 @@ func (o AccountsList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the AccountsList.
+func (o AccountsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(AccountsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*Account))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o AccountsList) List() elemental.IdentifiablesList {
 

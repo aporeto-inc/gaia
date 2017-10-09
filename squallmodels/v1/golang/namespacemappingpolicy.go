@@ -29,6 +29,17 @@ func (o NamespaceMappingPoliciesList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the NamespaceMappingPoliciesList.
+func (o NamespaceMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(NamespaceMappingPoliciesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*NamespaceMappingPolicy))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o NamespaceMappingPoliciesList) List() elemental.IdentifiablesList {
 

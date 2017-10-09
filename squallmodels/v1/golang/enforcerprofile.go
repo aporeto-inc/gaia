@@ -40,6 +40,17 @@ func (o EnforcerProfilesList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the EnforcerProfilesList.
+func (o EnforcerProfilesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(EnforcerProfilesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*EnforcerProfile))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o EnforcerProfilesList) List() elemental.IdentifiablesList {
 

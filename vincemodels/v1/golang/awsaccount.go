@@ -29,6 +29,17 @@ func (o AWSAccountsList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the AWSAccountsList.
+func (o AWSAccountsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(AWSAccountsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*AWSAccount))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o AWSAccountsList) List() elemental.IdentifiablesList {
 

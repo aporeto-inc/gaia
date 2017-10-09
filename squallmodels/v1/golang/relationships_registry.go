@@ -394,6 +394,9 @@ func init() {
 		},
 	}
 	relationshipsRegistry[RenderedPolicyIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
 		AllowsRetrieve: map[string]bool{
 			"processingunit": true,
 		},

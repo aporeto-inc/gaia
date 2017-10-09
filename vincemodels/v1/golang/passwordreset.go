@@ -27,6 +27,17 @@ func (o PasswordResetsList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the PasswordResetsList.
+func (o PasswordResetsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(PasswordResetsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*PasswordReset))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o PasswordResetsList) List() elemental.IdentifiablesList {
 

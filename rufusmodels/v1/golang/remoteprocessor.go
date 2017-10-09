@@ -40,6 +40,17 @@ func (o RemoteProcessorsList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the RemoteProcessorsList.
+func (o RemoteProcessorsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(RemoteProcessorsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*RemoteProcessor))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o RemoteProcessorsList) List() elemental.IdentifiablesList {
 

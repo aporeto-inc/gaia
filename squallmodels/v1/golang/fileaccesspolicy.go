@@ -29,6 +29,17 @@ func (o FileAccessPoliciesList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the FileAccessPoliciesList.
+func (o FileAccessPoliciesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(FileAccessPoliciesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*FileAccessPolicy))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o FileAccessPoliciesList) List() elemental.IdentifiablesList {
 

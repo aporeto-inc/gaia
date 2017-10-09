@@ -6,9 +6,9 @@ func init() {
 
 	elemental.RegisterIdentity(TokenIdentity)
 	elemental.RegisterIdentity(RootIdentity)
-	elemental.RegisterIdentity(CheckIdentity)
 	elemental.RegisterIdentity(CertificateIdentity)
 	elemental.RegisterIdentity(RevocationIdentity)
+	elemental.RegisterIdentity(CheckIdentity)
 }
 
 // ModelVersion returns the current version of the model
@@ -22,12 +22,12 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewToken()
 	case RootIdentity.Name:
 		return NewRoot()
-	case CheckIdentity.Name:
-		return NewCheck()
 	case CertificateIdentity.Name:
 		return NewCertificate()
 	case RevocationIdentity.Name:
 		return NewRevocation()
+	case CheckIdentity.Name:
+		return NewCheck()
 	default:
 		return nil
 	}
@@ -41,12 +41,12 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewToken()
 	case RootIdentity.Category:
 		return NewRoot()
-	case CheckIdentity.Category:
-		return NewCheck()
 	case CertificateIdentity.Category:
 		return NewCertificate()
 	case RevocationIdentity.Category:
 		return NewRevocation()
+	case CheckIdentity.Category:
+		return NewCheck()
 	default:
 		return nil
 	}
@@ -58,12 +58,12 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 	switch identity {
 	case TokenIdentity.Name:
 		return &TokensList{}
-	case CheckIdentity.Name:
-		return &ChecksList{}
 	case CertificateIdentity.Name:
 		return &CertificatesList{}
 	case RevocationIdentity.Name:
 		return &RevocationsList{}
+	case CheckIdentity.Name:
+		return &ChecksList{}
 	default:
 		return nil
 	}
@@ -75,12 +75,12 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 	switch category {
 	case TokenIdentity.Category:
 		return &TokensList{}
-	case CheckIdentity.Category:
-		return &ChecksList{}
 	case CertificateIdentity.Category:
 		return &CertificatesList{}
 	case RevocationIdentity.Category:
 		return &RevocationsList{}
+	case CheckIdentity.Category:
+		return &ChecksList{}
 	default:
 		return nil
 	}
@@ -92,9 +92,9 @@ func AllIdentities() []elemental.Identity {
 	return []elemental.Identity{
 		TokenIdentity,
 		RootIdentity,
-		CheckIdentity,
 		CertificateIdentity,
 		RevocationIdentity,
+		CheckIdentity,
 	}
 }
 
@@ -119,8 +119,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case RootIdentity:
 		return []string{}
-	case CheckIdentity:
-		return []string{}
 	case CertificateIdentity:
 		return []string{
 			"api",
@@ -129,6 +127,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"apicerts",
 		}
 	case RevocationIdentity:
+		return []string{}
+	case CheckIdentity:
 		return []string{}
 	}
 

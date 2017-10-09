@@ -43,6 +43,17 @@ func (o MessagesList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the MessagesList.
+func (o MessagesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(MessagesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*Message))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o MessagesList) List() elemental.IdentifiablesList {
 

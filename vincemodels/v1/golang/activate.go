@@ -27,6 +27,17 @@ func (o ActivatesList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the ActivatesList.
+func (o ActivatesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(ActivatesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*Activate))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o ActivatesList) List() elemental.IdentifiablesList {
 

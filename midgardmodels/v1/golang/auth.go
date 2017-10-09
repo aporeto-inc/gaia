@@ -29,6 +29,17 @@ func (o AuthsList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the AuthsList.
+func (o AuthsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(AuthsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*Auth))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o AuthsList) List() elemental.IdentifiablesList {
 

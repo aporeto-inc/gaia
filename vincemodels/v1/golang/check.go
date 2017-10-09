@@ -27,6 +27,17 @@ func (o ChecksList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the ChecksList.
+func (o ChecksList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(ChecksList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*Check))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o ChecksList) List() elemental.IdentifiablesList {
 

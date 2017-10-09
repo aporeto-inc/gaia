@@ -43,6 +43,17 @@ func (o ExternalServicesList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the ExternalServicesList.
+func (o ExternalServicesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(ExternalServicesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*ExternalService))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o ExternalServicesList) List() elemental.IdentifiablesList {
 

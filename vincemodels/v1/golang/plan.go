@@ -27,6 +27,17 @@ func (o PlansList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the PlansList.
+func (o PlansList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(PlansList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*Plan))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o PlansList) List() elemental.IdentifiablesList {
 

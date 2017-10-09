@@ -29,6 +29,17 @@ func (o SystemCallsList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the SystemCallsList.
+func (o SystemCallsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(SystemCallsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SystemCall))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o SystemCallsList) List() elemental.IdentifiablesList {
 

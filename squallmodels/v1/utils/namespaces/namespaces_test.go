@@ -352,6 +352,18 @@ func TestNamespace_IsNamespaceChildrenOfNamespace(t *testing.T) {
 			})
 		})
 	})
+
+	Convey("Given I have an empty namespace", t, func() {
+
+		Convey("When I call IsNamespaceChildrenOfNamespace on empty string", func() {
+
+			ok := IsNamespaceChildrenOfNamespace("", "")
+
+			Convey("Then ok should be false", func() {
+				So(ok, ShouldBeFalse)
+			})
+		})
+	})
 }
 
 func TestNamespace_IsNamespaceParentOfNamespace(t *testing.T) {
@@ -431,6 +443,19 @@ func TestNamespace_IsNamespaceParentOfNamespace(t *testing.T) {
 			So(ok, ShouldBeFalse)
 		})
 	})
+
+	Convey("Given I have an empty namespace", t, func() {
+		ns := ""
+
+		Convey("When I call IsNamespaceChildrenOfNamespace on empty string", func() {
+
+			ok := IsNamespaceParentOfNamespace(ns, "/a/b")
+
+			Convey("Then ok should be false", func() {
+				So(ok, ShouldBeFalse)
+			})
+		})
+	})
 }
 
 func TestNamespace_IsNamespaceRelatedToNamesapce(t *testing.T) {
@@ -489,6 +514,18 @@ func TestNamespace_IsNamespaceRelatedToNamesapce(t *testing.T) {
 
 			Convey("Then ok should be false", func() {
 				So(ok, ShouldBeTrue)
+			})
+		})
+	})
+
+	Convey("Given I have an empty namespace", t, func() {
+
+		Convey("When I call IsNamespaceChildrenOfNamespace on empty string", func() {
+
+			ok := IsNamespaceRelatedToNamespace("", "")
+
+			Convey("Then ok should be false", func() {
+				So(ok, ShouldBeFalse)
 			})
 		})
 	})

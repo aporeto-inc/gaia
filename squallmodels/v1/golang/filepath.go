@@ -29,6 +29,17 @@ func (o FilePathsList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the FilePathsList.
+func (o FilePathsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(FilePathsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*FilePath))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o FilePathsList) List() elemental.IdentifiablesList {
 

@@ -27,6 +27,17 @@ func (o TokensList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the TokensList.
+func (o TokensList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(TokensList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*Token))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o TokensList) List() elemental.IdentifiablesList {
 

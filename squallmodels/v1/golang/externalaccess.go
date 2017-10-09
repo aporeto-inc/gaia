@@ -29,6 +29,17 @@ func (o ExternalAccessList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the ExternalAccessList.
+func (o ExternalAccessList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(ExternalAccessList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*ExternalAccess))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o ExternalAccessList) List() elemental.IdentifiablesList {
 

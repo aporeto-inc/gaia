@@ -29,6 +29,17 @@ func (o QuotaPoliciesList) Copy() elemental.ContentIdentifiable {
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the QuotaPoliciesList.
+func (o QuotaPoliciesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(QuotaPoliciesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*QuotaPolicy))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o QuotaPoliciesList) List() elemental.IdentifiablesList {
 

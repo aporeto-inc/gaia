@@ -4,8 +4,8 @@ import "github.com/aporeto-inc/elemental"
 
 func init() {
 
-	elemental.RegisterIdentity(RootIdentity)
 	elemental.RegisterIdentity(IssueIdentity)
+	elemental.RegisterIdentity(RootIdentity)
 	elemental.RegisterIdentity(AuthIdentity)
 }
 
@@ -16,10 +16,10 @@ func ModelVersion() float64 { return 1 }
 func IdentifiableForIdentity(identity string) elemental.Identifiable {
 
 	switch identity {
-	case RootIdentity.Name:
-		return NewRoot()
 	case IssueIdentity.Name:
 		return NewIssue()
+	case RootIdentity.Name:
+		return NewRoot()
 	case AuthIdentity.Name:
 		return NewAuth()
 	default:
@@ -31,10 +31,10 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 func IdentifiableForCategory(category string) elemental.Identifiable {
 
 	switch category {
-	case RootIdentity.Category:
-		return NewRoot()
 	case IssueIdentity.Category:
 		return NewIssue()
+	case RootIdentity.Category:
+		return NewRoot()
 	case AuthIdentity.Category:
 		return NewAuth()
 	default:
@@ -72,8 +72,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 func AllIdentities() []elemental.Identity {
 
 	return []elemental.Identity{
-		RootIdentity,
 		IssueIdentity,
+		RootIdentity,
 		AuthIdentity,
 	}
 }
@@ -90,9 +90,9 @@ func IdentityFromAlias(alias string) elemental.Identity {
 func AliasesForIdentity(identity elemental.Identity) []string {
 
 	switch identity {
-	case RootIdentity:
-		return []string{}
 	case IssueIdentity:
+		return []string{}
+	case RootIdentity:
 		return []string{}
 	case AuthIdentity:
 		return []string{}

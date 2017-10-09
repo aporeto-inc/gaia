@@ -29,6 +29,17 @@ func (o EnforcerProfileMappingPoliciesList) Copy() elemental.ContentIdentifiable
 	return &copy
 }
 
+// Append appends the objects to the a new copy of the EnforcerProfileMappingPoliciesList.
+func (o EnforcerProfileMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(EnforcerProfileMappingPoliciesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*EnforcerProfileMappingPolicy))
+	}
+
+	return out
+}
+
 // List converts the object to an elemental.IdentifiablesList.
 func (o EnforcerProfileMappingPoliciesList) List() elemental.IdentifiablesList {
 
