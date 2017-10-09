@@ -5,6 +5,8 @@ import "github.com/aporeto-inc/elemental"
 
 import "sync"
 
+import "github.com/aporeto-inc/gaia/highwindmodels/v1/golang/types"
+
 // ServiceIdentity represents the Identity of the object
 var ServiceIdentity = elemental.Identity{
 	Name:     "service",
@@ -65,7 +67,7 @@ type Service struct {
 	Namespace string `json:"namespace" bson:"namespace"`
 
 	// Parameters is a list of parameters to start the service
-	Parameters map[string]string `json:"parameters" bson:"-"`
+	Parameters types.ServiceParameters `json:"parameters" bson:"parameters"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -77,6 +79,7 @@ func NewService() *Service {
 
 	return &Service{
 		ModelVersion: 1,
+		Parameters:   types.ServiceParameters{},
 	}
 }
 
@@ -210,6 +213,7 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Parameters is a list of parameters to start the service`,
 		Exposed:        true,
 		Name:           "parameters",
+		Stored:         true,
 		SubType:        "service_parameters",
 		Type:           "external",
 	},
@@ -271,6 +275,7 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Parameters is a list of parameters to start the service`,
 		Exposed:        true,
 		Name:           "parameters",
+		Stored:         true,
 		SubType:        "service_parameters",
 		Type:           "external",
 	},
