@@ -86,6 +86,46 @@ func Test_IntParameterValidation(t *testing.T) {
 	})
 }
 
+func Test_FloatParameterValidation(t *testing.T) {
+	Convey("Given a parameter that is valid", t, func() {
+		parameter := &ServiceParameter{
+			Name:  "DemoParam",
+			Value: 12.23,
+			Type:  ServiceParameterTypeFloat,
+		}
+		So(parameter.Validate(), ShouldBeNil)
+	})
+
+	Convey("Given a required parameter with no value, It should be invalid", t, func() {
+		parameter := &ServiceParameter{
+			Name:  "DemoParam",
+			Value: nil,
+			Type:  ServiceParameterTypeFloat,
+		}
+		So(parameter.Validate(), ShouldNotBeNil)
+	})
+
+	Convey("Given an optional parameter with no value, It should be valid", t, func() {
+		parameter := &ServiceParameter{
+			Name:     "DemoParam",
+			Value:    nil,
+			Type:     ServiceParameterTypeFloat,
+			Optional: true,
+		}
+		So(parameter.Validate(), ShouldBeNil)
+	})
+
+	Convey("Given a required parameter with a non string value, It should be invalid", t, func() {
+		parameter := &ServiceParameter{
+			Name:     "DemoParam",
+			Value:    "10",
+			Type:     ServiceParameterTypeFloat,
+			Optional: true,
+		}
+		So(parameter.Validate(), ShouldNotBeNil)
+	})
+}
+
 func Test_BoolParameterValidation(t *testing.T) {
 	Convey("Given a parameter that is valid", t, func() {
 		parameter := &ServiceParameter{

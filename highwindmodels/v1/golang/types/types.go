@@ -98,10 +98,7 @@ func (p *ServiceParameter) Validate() error {
 		return p.validateIntValue()
 
 	case ServiceParameterTypeFloat:
-		if _, ok := p.Value.(float32); !ok {
-			return fmt.Errorf("%s is not a valid float", p.Name)
-		}
-		return nil
+		return p.validateFloatValue()
 
 	case ServiceParameterTypeIntSlice:
 		values, ok := p.Value.([]int)

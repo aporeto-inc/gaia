@@ -34,7 +34,7 @@ func (p *ServiceParameter) validateIntValue() error {
 	}
 
 	if _, ok := p.Value.(int); !ok {
-		return fmt.Errorf("%s is not a valid string", p.Name)
+		return fmt.Errorf("%s is not a valid integer", p.Name)
 	}
 	return nil
 }
@@ -50,7 +50,7 @@ func (p *ServiceParameter) validateFloatValue() error {
 		return nil
 	}
 
-	if _, ok := p.Value.(float32); !ok {
+	if _, ok := p.Value.(float64); !ok {
 		return fmt.Errorf("%s is not a valid float", p.Name)
 	}
 	return nil
