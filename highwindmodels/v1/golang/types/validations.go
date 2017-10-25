@@ -25,7 +25,7 @@ func (p *ServiceParameter) validateStringValue() error {
 // validateIntValue validates a int parameter.
 func (p *ServiceParameter) validateIntValue() error {
 
-	if !p.Optional && (p.Value == nil) {
+	if !p.Optional && p.Value == nil {
 		return fmt.Errorf("%s is required", p.Name)
 	}
 
@@ -42,7 +42,7 @@ func (p *ServiceParameter) validateIntValue() error {
 // validateFloatValue validates a float parameter.
 func (p *ServiceParameter) validateFloatValue() error {
 
-	if !p.Optional && (p.Value == nil) {
+	if !p.Optional && p.Value == nil {
 		return fmt.Errorf("%s is required", p.Name)
 	}
 
@@ -59,7 +59,7 @@ func (p *ServiceParameter) validateFloatValue() error {
 // validateBoolValue validates a bool parameter.
 func (p *ServiceParameter) validateBoolValue() error {
 
-	if !p.Optional && (p.Value == nil) {
+	if !p.Optional && p.Value == nil {
 		return fmt.Errorf("%s is required", p.Name)
 	}
 
@@ -76,7 +76,7 @@ func (p *ServiceParameter) validateBoolValue() error {
 // validateDurationValue validates a duration parameter.
 func (p *ServiceParameter) validateDurationValue() error {
 
-	if !p.Optional && (p.Value == nil) {
+	if !p.Optional && p.Value == nil {
 		return fmt.Errorf("%s is required", p.Name)
 	}
 
@@ -95,6 +95,39 @@ func (p *ServiceParameter) validateDurationValue() error {
 	return nil
 }
 
+// validateStringSliceValue validates a string slice parameter.
+func (p *ServiceParameter) validateStringSliceValue() error {
+
+	if !p.Optional && p.Value == nil {
+		return fmt.Errorf("%s is required", p.Name)
+	}
+
+	if p.Value == nil {
+		return nil
+	}
+
+	values, ok := p.Value.([]interface{})
+	if !ok {
+		return fmt.Errorf("%s is not of type array", p.Name)
+	}
+
+	if !p.Optional && len(values) == 0 {
+		return fmt.Errorf("%s is required", p.Name)
+	}
+
+	if len(values) == 0 {
+		return nil
+	}
+
+	for _, value := range values {
+		if err := isAllowedValue(p.AllowedValues, value); err != nil {
+			return fmt.Errorf("%s has not allowed values: %s", p.Name, err.Error())
+		}
+	}
+
+	return nil
+}
+
 // isStringAllowedValue returns true if the value is allowed
 func isAllowedValue(allowedValues []interface{}, value interface{}) error {
 
@@ -106,29 +139,26 @@ func isAllowedValue(allowedValues []interface{}, value interface{}) error {
 	case string:
 		_, ok := value.(string)
 		if !ok {
-			return fmt.Errorf("%s is not a string", value)
+			return fmt.Errorf("%d is not a string", value)
 		}
-		return nil
 
 	case int:
 		_, ok := value.(int)
 		if !ok {
-			return fmt.Errorf("%s is not an int", value)
+			return fmt.Errorf("%d is not an int", value)
 		}
-		return nil
 
-	case float32:
-		_, ok := value.(float32)
+	case float64:
+		_, ok := value.(float64)
 		if !ok {
-			return fmt.Errorf("%s is not a float", value)
+			return fmt.Errorf("%d is not a float", value)
 		}
-		return nil
 	}
 
 	for _, allowed := range allowedValues {
 		if value == allowed {
-			return fmt.Errorf("%s is not allowed", value)
+			return nil
 		}
 	}
-	return nil
+	return fmt.Errorf("%s is not allowed", value)
 }

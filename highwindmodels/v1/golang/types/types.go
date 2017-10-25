@@ -88,17 +88,20 @@ func (p *ServiceParameter) Validate() error {
 	case ServiceParameterTypeString:
 		return p.validateStringValue()
 
+	case ServiceParameterTypeInt:
+		return p.validateIntValue()
+
+	case ServiceParameterTypeFloat:
+		return p.validateFloatValue()
+
 	case ServiceParameterTypeBool:
 		return p.validateBoolValue()
 
 	case ServiceParameterTypeDuration:
 		return p.validateDurationValue()
 
-	case ServiceParameterTypeInt:
-		return p.validateIntValue()
-
-	case ServiceParameterTypeFloat:
-		return p.validateFloatValue()
+	case ServiceParameterTypeStringSlice:
+		return p.validateStringSliceValue()
 
 	case ServiceParameterTypeIntSlice:
 		values, ok := p.Value.([]int)
@@ -117,19 +120,6 @@ func (p *ServiceParameter) Validate() error {
 		values, ok := p.Value.([]float32)
 		if !ok {
 			return fmt.Errorf("%s is not a valid array of float", p.Name)
-		}
-
-		for _, v := range values {
-			if err := isAllowedValue(p.AllowedValues, v); err != nil {
-				return fmt.Errorf("%s has incorrect value: %s", p.Name, err.Error())
-			}
-		}
-		return nil
-
-	case ServiceParameterTypeStringSlice:
-		values, ok := p.Value.([]string)
-		if !ok {
-			return fmt.Errorf("%s is not a valid array of string", p.Name)
 		}
 
 		for _, v := range values {
