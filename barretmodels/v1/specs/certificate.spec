@@ -217,7 +217,6 @@
         {
             "allowed_chars": null,
             "allowed_choices": [
-                "CA",
                 "Client",
                 "Server",
                 "ServerClient"
