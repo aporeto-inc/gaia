@@ -213,17 +213,19 @@
     ],
     "children": [],
     "model": {
-        "aliases": [],
+        "aliases": [
+            "ca"
+        ],
         "create": null,
         "delete": true,
         "description": null,
         "entity_name": "Authority",
         "extends": [],
-        "get": true,
-        "package": null,
+        "get": false,
+        "package": "barret",
         "resource_name": "authorities",
         "rest_name": "authority",
         "root": false,
-        "update": true
+        "update": false
     }
 }
