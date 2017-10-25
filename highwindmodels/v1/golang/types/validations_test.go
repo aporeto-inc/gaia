@@ -268,7 +268,7 @@ func Test_StringSliceParameterValidation(t *testing.T) {
 	Convey("Given a required parameter with invalid array, It should be invalid", t, func() {
 		parameter := &ServiceParameter{
 			Name:  "DemoParam",
-			Value: "string",
+			Value: "not-an-array",
 			Type:  ServiceParameterTypeStringSlice,
 		}
 		So(parameter.Validate(), ShouldNotBeNil)
@@ -292,16 +292,16 @@ func Test_StringSliceParameterValidation(t *testing.T) {
 		So(parameter.Validate(), ShouldBeNil)
 	})
 
-	Convey("Given a required parameter with no allowed values, It should be valid", t, func() {
+	Convey("Given a required parameter with no allowed values, It should be invalid", t, func() {
 		parameter := &ServiceParameter{
 			Name: "DemoParam",
 			Value: []interface{}{
-				10,
+				"10",
 			},
 			AllowedValues: []interface{}{},
 			Type:          ServiceParameterTypeStringSlice,
 		}
-		So(parameter.Validate(), ShouldBeNil)
+		So(parameter.Validate(), ShouldNotBeNil)
 	})
 
 	Convey("Given a required parameter with invalid type value, It should be invalid", t, func() {
@@ -315,6 +315,216 @@ func Test_StringSliceParameterValidation(t *testing.T) {
 				"B",
 			},
 			Type: ServiceParameterTypeStringSlice,
+		}
+		So(parameter.Validate(), ShouldNotBeNil)
+	})
+}
+
+func Test_IntSliceParameterValidation(t *testing.T) {
+	Convey("Given a parameter that is valid", t, func() {
+		parameter := &ServiceParameter{
+			Name: "DemoParam",
+			Value: []interface{}{
+				10,
+			},
+			AllowedValues: []interface{}{
+				10,
+				20,
+			},
+			Type: ServiceParameterTypeIntSlice,
+		}
+		So(parameter.Validate(), ShouldBeNil)
+	})
+
+	Convey("Given a parameter that is invalid", t, func() {
+		parameter := &ServiceParameter{
+			Name: "DemoParam",
+			Value: []interface{}{
+				30,
+			},
+			AllowedValues: []interface{}{
+				10,
+				20,
+			},
+			Type: ServiceParameterTypeIntSlice,
+		}
+		So(parameter.Validate(), ShouldNotBeNil)
+	})
+
+	Convey("Given a required parameter with no value, It should be invalid", t, func() {
+		parameter := &ServiceParameter{
+			Name:  "DemoParam",
+			Value: nil,
+			Type:  ServiceParameterTypeIntSlice,
+		}
+		So(parameter.Validate(), ShouldNotBeNil)
+	})
+
+	Convey("Given an optional parameter with no value, It should be valid", t, func() {
+		parameter := &ServiceParameter{
+			Name:     "DemoParam",
+			Value:    nil,
+			Type:     ServiceParameterTypeIntSlice,
+			Optional: true,
+		}
+		So(parameter.Validate(), ShouldBeNil)
+	})
+
+	Convey("Given a required parameter with invalid array, It should be invalid", t, func() {
+		parameter := &ServiceParameter{
+			Name:  "DemoParam",
+			Value: "not-an-array",
+			Type:  ServiceParameterTypeIntSlice,
+		}
+		So(parameter.Validate(), ShouldNotBeNil)
+	})
+
+	Convey("Given a required parameter with no value, It should be invalid", t, func() {
+		parameter := &ServiceParameter{
+			Name:  "DemoParam",
+			Value: []interface{}{},
+			Type:  ServiceParameterTypeIntSlice,
+		}
+		So(parameter.Validate(), ShouldNotBeNil)
+	})
+	Convey("Given an optional parameter with no value, It should be valid", t, func() {
+		parameter := &ServiceParameter{
+			Name:     "DemoParam",
+			Value:    []interface{}{},
+			Type:     ServiceParameterTypeIntSlice,
+			Optional: true,
+		}
+		So(parameter.Validate(), ShouldBeNil)
+	})
+
+	Convey("Given a required parameter with no allowed values, It should be invalid", t, func() {
+		parameter := &ServiceParameter{
+			Name: "DemoParam",
+			Value: []interface{}{
+				10,
+			},
+			AllowedValues: []interface{}{},
+			Type:          ServiceParameterTypeIntSlice,
+		}
+		So(parameter.Validate(), ShouldNotBeNil)
+	})
+
+	Convey("Given a required parameter with invalid type value, It should be invalid", t, func() {
+		parameter := &ServiceParameter{
+			Name: "DemoParam",
+			Value: []interface{}{
+				"A",
+			},
+			AllowedValues: []interface{}{
+				10,
+				20,
+			},
+			Type: ServiceParameterTypeIntSlice,
+		}
+		So(parameter.Validate(), ShouldNotBeNil)
+	})
+}
+
+func Test_FloatSliceParameterValidation(t *testing.T) {
+	Convey("Given a parameter that is valid", t, func() {
+		parameter := &ServiceParameter{
+			Name: "DemoParam",
+			Value: []interface{}{
+				1.0,
+			},
+			AllowedValues: []interface{}{
+				1.0,
+				2.0,
+			},
+			Type: ServiceParameterTypeFloatSlice,
+		}
+		So(parameter.Validate(), ShouldBeNil)
+	})
+
+	Convey("Given a parameter that is invalid", t, func() {
+		parameter := &ServiceParameter{
+			Name: "DemoParam",
+			Value: []interface{}{
+				3.0,
+			},
+			AllowedValues: []interface{}{
+				1.0,
+				2.0,
+			},
+			Type: ServiceParameterTypeFloatSlice,
+		}
+		So(parameter.Validate(), ShouldNotBeNil)
+	})
+
+	Convey("Given a required parameter with no value, It should be invalid", t, func() {
+		parameter := &ServiceParameter{
+			Name:  "DemoParam",
+			Value: nil,
+			Type:  ServiceParameterTypeFloatSlice,
+		}
+		So(parameter.Validate(), ShouldNotBeNil)
+	})
+
+	Convey("Given an optional parameter with no value, It should be valid", t, func() {
+		parameter := &ServiceParameter{
+			Name:     "DemoParam",
+			Value:    nil,
+			Type:     ServiceParameterTypeFloatSlice,
+			Optional: true,
+		}
+		So(parameter.Validate(), ShouldBeNil)
+	})
+
+	Convey("Given a required parameter with invalid array, It should be invalid", t, func() {
+		parameter := &ServiceParameter{
+			Name:  "DemoParam",
+			Value: "not-an-array",
+			Type:  ServiceParameterTypeFloatSlice,
+		}
+		So(parameter.Validate(), ShouldNotBeNil)
+	})
+
+	Convey("Given a required parameter with no value, It should be invalid", t, func() {
+		parameter := &ServiceParameter{
+			Name:  "DemoParam",
+			Value: []interface{}{},
+			Type:  ServiceParameterTypeFloatSlice,
+		}
+		So(parameter.Validate(), ShouldNotBeNil)
+	})
+	Convey("Given an optional parameter with no value, It should be valid", t, func() {
+		parameter := &ServiceParameter{
+			Name:     "DemoParam",
+			Value:    []interface{}{},
+			Type:     ServiceParameterTypeFloatSlice,
+			Optional: true,
+		}
+		So(parameter.Validate(), ShouldBeNil)
+	})
+
+	Convey("Given a required parameter with no allowed values, It should be invalid", t, func() {
+		parameter := &ServiceParameter{
+			Name: "DemoParam",
+			Value: []interface{}{
+				1.0,
+			},
+			AllowedValues: []interface{}{},
+			Type:          ServiceParameterTypeFloatSlice,
+		}
+		So(parameter.Validate(), ShouldNotBeNil)
+	})
+
+	Convey("Given a required parameter with invalid type value, It should be invalid", t, func() {
+		parameter := &ServiceParameter{
+			Name: "DemoParam",
+			Value: []interface{}{
+				"A",
+			},
+			AllowedValues: []interface{}{
+				1.0,
+				2.0,
+			},
+			Type: ServiceParameterTypeFloatSlice,
 		}
 		So(parameter.Validate(), ShouldNotBeNil)
 	})

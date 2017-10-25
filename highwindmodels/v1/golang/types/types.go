@@ -1,8 +1,6 @@
 package types
 
 import (
-	"fmt"
-	"reflect"
 	"strconv"
 	"strings"
 )
@@ -69,14 +67,16 @@ func (p *ServiceParameter) Copy() *ServiceParameter {
 	copy := NewServiceParameter()
 	copy.Name = p.Name
 	copy.Description = p.Description
+	copy.LongDescription = p.LongDescription
 	copy.Key = p.Key
 	copy.Value = p.Value
 	copy.Env = p.Env
-	copy.MountPath = p.MountPath
 	copy.Type = p.Type
-	copy.Optional = p.Optional
+	copy.AllowedValues = append(copy.AllowedValues, p.AllowedValues...)
+	copy.DefaultValue = p.DefaultValue
+	copy.MountPath = p.MountPath
 	copy.Backend = p.Backend
-	copy.AllowedValues = append(copy.AllowedValues, copy.AllowedValues...)
+	copy.Optional = p.Optional
 
 	return copy
 }
@@ -100,34 +100,10 @@ func (p *ServiceParameter) Validate() error {
 	case ServiceParameterTypeDuration:
 		return p.validateDurationValue()
 
-	case ServiceParameterTypeStringSlice:
-		return p.validateStringSliceValue()
-
-	case ServiceParameterTypeIntSlice:
-		values, ok := p.Value.([]int)
-		if !ok {
-			return fmt.Errorf("%s is not a valid array of integers", p.Name)
-		}
-
-		for _, v := range values {
-			if err := isAllowedValue(p.AllowedValues, v); err != nil {
-				return fmt.Errorf("%s has incorrect value: %s", p.Name, err.Error())
-			}
-		}
-		return nil
-
-	case ServiceParameterTypeFloatSlice:
-		values, ok := p.Value.([]float32)
-		if !ok {
-			return fmt.Errorf("%s is not a valid array of float", p.Name)
-		}
-
-		for _, v := range values {
-			if err := isAllowedValue(p.AllowedValues, v); err != nil {
-				return fmt.Errorf("%s has incorrect value: %s", p.Name, err.Error())
-			}
-		}
-		return nil
+	case ServiceParameterTypeStringSlice,
+		ServiceParameterTypeIntSlice,
+		ServiceParameterTypeFloatSlice:
+		return p.validateSliceValue()
 
 	}
 
@@ -138,22 +114,15 @@ func (p *ServiceParameter) Validate() error {
 func (p *ServiceParameter) ValueToString() string {
 
 	switch p.Type {
+	case ServiceParameterTypePassword, ServiceParameterTypeString:
+		if value, ok := p.Value.(string); ok {
+			return value
+		}
+
 	case ServiceParameterTypeBool:
 		if value, ok := p.Value.(bool); ok {
 			return strconv.FormatBool(value)
 		}
-
-	case ServiceParameterTypeDuration:
-		return p.Value.(string)
-
-	case ServiceParameterTypeIntSlice:
-		values := []string{}
-		if ints, ok := p.Value.([]int); ok {
-			for _, i := range ints {
-				values = append(values, strconv.Itoa(i))
-			}
-		}
-		return strings.Join(values, " ")
 
 	case ServiceParameterTypeInt:
 		if value, ok := p.Value.(int); ok {
@@ -165,40 +134,37 @@ func (p *ServiceParameter) ValueToString() string {
 			return strconv.FormatFloat(value, 'f', -1, 32)
 		}
 
-	case ServiceParameterTypeFloatSlice:
+	case ServiceParameterTypeDuration:
+		if value, ok := p.Value.(string); ok {
+			return value
+		}
+
+	case ServiceParameterTypeStringSlice, ServiceParameterTypeEmum:
 		values := []string{}
-		if floats, ok := p.Value.([]float64); ok {
-			for _, f := range floats {
-				values = append(values, strconv.FormatFloat(f, 'f', -1, 32))
+		if vs, ok := p.Value.([]interface{}); ok {
+			for _, v := range vs {
+				values = append(values, v.(string))
 			}
 		}
 		return strings.Join(values, " ")
 
-	case ServiceParameterTypePassword:
-		return p.Value.(string)
-
-	case ServiceParameterTypeString:
-		return p.Value.(string)
-
-	case ServiceParameterTypeStringSlice:
-		fmt.Println(p.Value)
-		values, ok := p.Value.([]string)
-		if !ok {
-			fmt.Println("NON")
+	case ServiceParameterTypeIntSlice:
+		values := []string{}
+		if vs, ok := p.Value.([]interface{}); ok {
+			for _, v := range vs {
+				values = append(values, strconv.Itoa(v.(int)))
+			}
 		}
-
-		fmt.Println(values)
 		return strings.Join(values, " ")
 
-	case ServiceParameterTypeEmum:
-		v := reflect.ValueOf(p.Value)
-		s := make([]string, v.Len())
-
-		for i := 0; i < v.Len(); i++ {
-			s[i] = v.Index(i).String()
+	case ServiceParameterTypeFloatSlice:
+		values := []string{}
+		if vs, ok := p.Value.([]interface{}); ok {
+			for _, v := range vs {
+				values = append(values, strconv.FormatFloat(v.(float64), 'f', -1, 64))
+			}
 		}
-
-		return strings.Join(s, " ")
+		return strings.Join(values, " ")
 	}
 
 	return ""

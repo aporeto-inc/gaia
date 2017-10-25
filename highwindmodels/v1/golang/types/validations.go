@@ -96,7 +96,7 @@ func (p *ServiceParameter) validateDurationValue() error {
 }
 
 // validateStringSliceValue validates a string slice parameter.
-func (p *ServiceParameter) validateStringSliceValue() error {
+func (p *ServiceParameter) validateSliceValue() error {
 
 	if !p.Optional && p.Value == nil {
 		return fmt.Errorf("%s is required", p.Name)
@@ -120,7 +120,7 @@ func (p *ServiceParameter) validateStringSliceValue() error {
 	}
 
 	for _, value := range values {
-		if err := isAllowedValue(p.AllowedValues, value); err != nil {
+		if err := isAllowedValue(p.AllowedValues, value, p.Type); err != nil {
 			return fmt.Errorf("%s has not allowed values: %s", p.Name, err.Error())
 		}
 	}
@@ -129,26 +129,22 @@ func (p *ServiceParameter) validateStringSliceValue() error {
 }
 
 // isStringAllowedValue returns true if the value is allowed
-func isAllowedValue(allowedValues []interface{}, value interface{}) error {
+func isAllowedValue(allowedValues []interface{}, value interface{}, parameterType ServiceParameterType) error {
 
-	if len(allowedValues) == 0 {
-		return nil
-	}
-
-	switch allowedValues[0].(type) {
-	case string:
+	switch parameterType {
+	case ServiceParameterTypeStringSlice:
 		_, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("%d is not a string", value)
 		}
 
-	case int:
+	case ServiceParameterTypeIntSlice:
 		_, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("%d is not an int", value)
 		}
 
-	case float64:
+	case ServiceParameterTypeFloatSlice:
 		_, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("%d is not a float", value)
