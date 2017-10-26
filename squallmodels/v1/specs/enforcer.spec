@@ -473,7 +473,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "RootCAChain contains the initial chain of trust for the enforcer.",
+            "description": "RootCAChain contains the initial chain of trust for the enforcer. This valud is only given when you retrieve a single enforcer.",
             "exposed": true,
             "filterable": false,
             "foreign_key": null,
