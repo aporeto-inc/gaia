@@ -85,7 +85,7 @@ func (p *ServiceParameter) Copy() *ServiceParameter {
 func (p *ServiceParameter) Validate() error {
 
 	switch p.Type {
-	case ServiceParameterTypeString:
+	case ServiceParameterTypeString, ServiceParameterTypePassword:
 		return p.validateStringValue()
 
 	case ServiceParameterTypeInt:

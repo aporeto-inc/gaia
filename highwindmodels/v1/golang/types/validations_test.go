@@ -46,6 +46,45 @@ func Test_StringParameterValidation(t *testing.T) {
 	})
 }
 
+func Test_PasswordParameterValidation(t *testing.T) {
+	Convey("Given a parameter that is valid", t, func() {
+		parameter := &ServiceParameter{
+			Name:  "DemoParam",
+			Value: "demo-value",
+			Type:  ServiceParameterTypePassword,
+		}
+		So(parameter.Validate(), ShouldBeNil)
+	})
+
+	Convey("Given a required parameter with no value, It should be invalid", t, func() {
+		parameter := &ServiceParameter{
+			Name:  "DemoParam",
+			Value: nil,
+			Type:  ServiceParameterTypePassword,
+		}
+		So(parameter.Validate(), ShouldNotBeNil)
+	})
+
+	Convey("Given a required parameter with no value, It should be invalid", t, func() {
+		parameter := &ServiceParameter{
+			Name:  "DemoParam",
+			Value: "",
+			Type:  ServiceParameterTypePassword,
+		}
+		So(parameter.Validate(), ShouldNotBeNil)
+	})
+
+	Convey("Given an optional parameter with no value, It should be valid", t, func() {
+		parameter := &ServiceParameter{
+			Name:     "DemoParam",
+			Value:    nil,
+			Type:     ServiceParameterTypePassword,
+			Optional: true,
+		}
+		So(parameter.Validate(), ShouldBeNil)
+	})
+}
+
 func Test_IntParameterValidation(t *testing.T) {
 	Convey("Given a parameter that is valid", t, func() {
 		parameter := &ServiceParameter{
@@ -263,6 +302,16 @@ func Test_StringSliceParameterValidation(t *testing.T) {
 			Optional: true,
 		}
 		So(parameter.Validate(), ShouldBeNil)
+	})
+
+	Convey("Given an optional parameter with no value as empty string, It should be invalid", t, func() {
+		parameter := &ServiceParameter{
+			Name:     "DemoParam",
+			Value:    "",
+			Type:     ServiceParameterTypeStringSlice,
+			Optional: true,
+		}
+		So(parameter.Validate(), ShouldNotBeNil)
 	})
 
 	Convey("Given a required parameter with invalid array, It should be invalid", t, func() {
