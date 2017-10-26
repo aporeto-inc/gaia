@@ -4,10 +4,12 @@ import "github.com/aporeto-inc/elemental"
 
 func init() {
 
+	elemental.RegisterIdentity(RevocationIdentity)
+	elemental.RegisterIdentity(CertificateIdentity)
+	elemental.RegisterIdentity(PrivateKeyIdentity)
+	elemental.RegisterIdentity(AuthorityIdentity)
 	elemental.RegisterIdentity(TokenIdentity)
 	elemental.RegisterIdentity(RootIdentity)
-	elemental.RegisterIdentity(CertificateIdentity)
-	elemental.RegisterIdentity(RevocationIdentity)
 	elemental.RegisterIdentity(CheckIdentity)
 }
 
@@ -18,14 +20,18 @@ func ModelVersion() float64 { return 1 }
 func IdentifiableForIdentity(identity string) elemental.Identifiable {
 
 	switch identity {
+	case RevocationIdentity.Name:
+		return NewRevocation()
+	case CertificateIdentity.Name:
+		return NewCertificate()
+	case PrivateKeyIdentity.Name:
+		return NewPrivateKey()
+	case AuthorityIdentity.Name:
+		return NewAuthority()
 	case TokenIdentity.Name:
 		return NewToken()
 	case RootIdentity.Name:
 		return NewRoot()
-	case CertificateIdentity.Name:
-		return NewCertificate()
-	case RevocationIdentity.Name:
-		return NewRevocation()
 	case CheckIdentity.Name:
 		return NewCheck()
 	default:
@@ -37,14 +43,18 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 func IdentifiableForCategory(category string) elemental.Identifiable {
 
 	switch category {
+	case RevocationIdentity.Category:
+		return NewRevocation()
+	case CertificateIdentity.Category:
+		return NewCertificate()
+	case PrivateKeyIdentity.Category:
+		return NewPrivateKey()
+	case AuthorityIdentity.Category:
+		return NewAuthority()
 	case TokenIdentity.Category:
 		return NewToken()
 	case RootIdentity.Category:
 		return NewRoot()
-	case CertificateIdentity.Category:
-		return NewCertificate()
-	case RevocationIdentity.Category:
-		return NewRevocation()
 	case CheckIdentity.Category:
 		return NewCheck()
 	default:
@@ -56,12 +66,16 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiable {
 
 	switch identity {
-	case TokenIdentity.Name:
-		return &TokensList{}
-	case CertificateIdentity.Name:
-		return &CertificatesList{}
 	case RevocationIdentity.Name:
 		return &RevocationsList{}
+	case CertificateIdentity.Name:
+		return &CertificatesList{}
+	case PrivateKeyIdentity.Name:
+		return &PrivateKeysList{}
+	case AuthorityIdentity.Name:
+		return &AuthoritiesList{}
+	case TokenIdentity.Name:
+		return &TokensList{}
 	case CheckIdentity.Name:
 		return &ChecksList{}
 	default:
@@ -73,12 +87,16 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiable {
 
 	switch category {
-	case TokenIdentity.Category:
-		return &TokensList{}
-	case CertificateIdentity.Category:
-		return &CertificatesList{}
 	case RevocationIdentity.Category:
 		return &RevocationsList{}
+	case CertificateIdentity.Category:
+		return &CertificatesList{}
+	case PrivateKeyIdentity.Category:
+		return &PrivateKeysList{}
+	case AuthorityIdentity.Category:
+		return &AuthoritiesList{}
+	case TokenIdentity.Category:
+		return &TokensList{}
 	case CheckIdentity.Category:
 		return &ChecksList{}
 	default:
@@ -90,10 +108,12 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 func AllIdentities() []elemental.Identity {
 
 	return []elemental.Identity{
+		RevocationIdentity,
+		CertificateIdentity,
+		PrivateKeyIdentity,
+		AuthorityIdentity,
 		TokenIdentity,
 		RootIdentity,
-		CertificateIdentity,
-		RevocationIdentity,
 		CheckIdentity,
 	}
 }
@@ -103,6 +123,7 @@ var aliasesMap = map[string]elemental.Identity{
 	"apicert":  CertificateIdentity,
 	"apis":     CertificateIdentity,
 	"apicerts": CertificateIdentity,
+	"ca":       AuthorityIdentity,
 }
 
 // IdentityFromAlias returns the Identity associated to the given alias.
@@ -115,9 +136,7 @@ func IdentityFromAlias(alias string) elemental.Identity {
 func AliasesForIdentity(identity elemental.Identity) []string {
 
 	switch identity {
-	case TokenIdentity:
-		return []string{}
-	case RootIdentity:
+	case RevocationIdentity:
 		return []string{}
 	case CertificateIdentity:
 		return []string{
@@ -126,7 +145,15 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"apis",
 			"apicerts",
 		}
-	case RevocationIdentity:
+	case PrivateKeyIdentity:
+		return []string{}
+	case AuthorityIdentity:
+		return []string{
+			"ca",
+		}
+	case TokenIdentity:
+		return []string{}
+	case RootIdentity:
 		return []string{}
 	case CheckIdentity:
 		return []string{}
