@@ -117,6 +117,41 @@ func NewIPRecord() *IPRecord {
 	}
 }
 
+// FilterSuggestion returns a filter suggestion
+type FilterSuggestion struct {
+	Filter string `json:"filter"`
+}
+
+// NewFilterSuggestion creates a new FilterSuggestion
+func NewFilterSuggestion() *FilterSuggestion {
+	return &FilterSuggestion{}
+}
+
+// IsEqual returns true if both TagGraphStats are equal
+func (a *FilterSuggestion) IsEqual(b *FilterSuggestion) bool {
+	return a.Filter == b.Filter
+}
+
+// FilterSuggestionsList represents a list of TagGraphStats
+type FilterSuggestionsList []*FilterSuggestion
+
+// Len is the implentation for sort.Interface
+func (a FilterSuggestionsList) Len() int {
+	return len(a)
+}
+
+// Swap is the implentation for sort.Interface
+func (a FilterSuggestionsList) Swap(i, j int) {
+	a[i], a[j] = a[j], a[i]
+}
+
+// Less is the implentation for sort.Interface
+func (a FilterSuggestionsList) Less(i, j int) bool {
+	return a[i].Filter < a[j].Filter
+}
+
+// >>> TODO DELETE WHEN MERGED
+
 // TagGraphStats represents Tag statistics in a Graph
 type TagGraphStats struct {
 	Key         string `json:"key"`
@@ -163,3 +198,5 @@ func (a TagGraphStatsList) Less(i, j int) bool {
 
 	return false
 }
+
+// <<< TODO DELETE WHEN MERGED
