@@ -71,14 +71,14 @@ type DependencyMap struct {
 	// edges are the edges of the map
 	Edges types.GraphEdgeMap `json:"edges" bson:"-"`
 
+	// filterSuggestions provides suggestion of to filter relevant tags.
+	FilterSuggestions types.FilterSuggestionsList `json:"filterSuggestions" bson:"-"`
+
 	// Groups provide information about the group values
 	Groups types.GraphGroupMap `json:"groups" bson:"-"`
 
 	// nodes refers to the nodes of the map
 	Nodes types.GraphNodeMap `json:"nodes" bson:"-"`
-
-	// TagsStatistics provides statistics for relevant tags
-	TagsStatistics types.TagGraphStatsList `json:"tagsStatistics" bson:"-"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -89,11 +89,11 @@ type DependencyMap struct {
 func NewDependencyMap() *DependencyMap {
 
 	return &DependencyMap{
-		ModelVersion:   1,
-		Edges:          types.GraphEdgeMap{},
-		Groups:         types.GraphGroupMap{},
-		Nodes:          types.GraphNodeMap{},
-		TagsStatistics: types.TagGraphStatsList{},
+		ModelVersion:      1,
+		Edges:             types.GraphEdgeMap{},
+		FilterSuggestions: types.FilterSuggestionsList{},
+		Groups:            types.GraphGroupMap{},
+		Nodes:             types.GraphNodeMap{},
 	}
 }
 
@@ -151,6 +151,14 @@ func (o *DependencyMap) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateRequiredExternal("filterSuggestions", o.FilterSuggestions); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("filterSuggestions", o.FilterSuggestions); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredExternal("groups", o.Groups); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -164,14 +172,6 @@ func (o *DependencyMap) Validate() error {
 	}
 
 	if err := elemental.ValidateRequiredExternal("nodes", o.Nodes); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("tagsStatistics", o.TagsStatistics); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("tagsStatistics", o.TagsStatistics); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -229,6 +229,16 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "graphedges_map",
 		Type:           "external",
 	},
+	"FilterSuggestions": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `filterSuggestions provides suggestion of to filter relevant tags.`,
+		Exposed:        true,
+		Name:           "filterSuggestions",
+		ReadOnly:       true,
+		Required:       true,
+		SubType:        "filter_suggestions",
+		Type:           "external",
+	},
 	"Groups": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `Groups provide information about the group values`,
@@ -247,16 +257,6 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Required:       true,
 		SubType:        "graphnodes_map",
-		Type:           "external",
-	},
-	"TagsStatistics": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Description:    `TagsStatistics provides statistics for relevant tags`,
-		Exposed:        true,
-		Name:           "tagsStatistics",
-		ReadOnly:       true,
-		Required:       true,
-		SubType:        "tags_statistics",
 		Type:           "external",
 	},
 }
@@ -287,6 +287,16 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		SubType:        "graphedges_map",
 		Type:           "external",
 	},
+	"filtersuggestions": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `filterSuggestions provides suggestion of to filter relevant tags.`,
+		Exposed:        true,
+		Name:           "filterSuggestions",
+		ReadOnly:       true,
+		Required:       true,
+		SubType:        "filter_suggestions",
+		Type:           "external",
+	},
 	"groups": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `Groups provide information about the group values`,
@@ -305,16 +315,6 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		ReadOnly:       true,
 		Required:       true,
 		SubType:        "graphnodes_map",
-		Type:           "external",
-	},
-	"tagsstatistics": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Description:    `TagsStatistics provides statistics for relevant tags`,
-		Exposed:        true,
-		Name:           "tagsStatistics",
-		ReadOnly:       true,
-		Required:       true,
-		SubType:        "tags_statistics",
 		Type:           "external",
 	},
 }
