@@ -1,5 +1,25 @@
-init: install_monolithe install_monolithe_plugins
-default: codegen
+include domingo.mk
+
+init: domingo_init
+test: lint domingo_unit_tests
+
+# custom linting until we fix the generation.
+lint:
+	@echo "Running linters..."
+	@gometalinter --vendor --disable-all \
+		--enable=vet \
+		--enable=vetshadow \
+		--enable=ineffassign \
+		--enable=goconst \
+		--enable=errcheck \
+		--enable=varcheck \
+		--enable=structcheck \
+		--enable=gosimple \
+		--enable=misspell \
+		--enable=deadcode \
+		--enable=staticcheck \
+		--deadline 5m \
+		--tests ./...
 
 install_monolithe:
 	pip install -U git+https://github.com/aporeto-inc/monolithe.git

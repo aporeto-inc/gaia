@@ -139,17 +139,17 @@ func (a *TagGraphStats) IsEqual(b *TagGraphStats) bool {
 // TagGraphStatsList represents a list of TagGraphStats
 type TagGraphStatsList []*TagGraphStats
 
-// Len is the implentation for sort.Interface
+// Len is the implenimplementationtation for sort.Interface
 func (a TagGraphStatsList) Len() int {
 	return len(a)
 }
 
-// Swap is the implentation for sort.Interface
+// Swap is the implementation for sort.Interface
 func (a TagGraphStatsList) Swap(i, j int) {
 	a[i], a[j] = a[j], a[i]
 }
 
-// Less is the implentation for sort.Interface
+// Less is the implementation for sort.Interface
 func (a TagGraphStatsList) Less(i, j int) bool {
 	if a[i].ValuesCount > a[j].ValuesCount {
 		return true

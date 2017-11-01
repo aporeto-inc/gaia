@@ -1,7 +1,9 @@
 init: codegen
 default: codegen
 
-codegen: codegen_v1 codegen_v2
+codegen:
+	make codegen_v1
+	make codegen_v2
 
 codegen_v1:
 	@echo '* Generating Zack models v1'

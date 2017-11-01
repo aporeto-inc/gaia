@@ -61,7 +61,7 @@ func NewServiceParameter() *ServiceParameter {
 	return &ServiceParameter{}
 }
 
-// Copy returns a copy of the current paramter.
+// Copy returns a copy of the current parameter.
 func (p *ServiceParameter) Copy() *ServiceParameter {
 
 	copy := NewServiceParameter()

@@ -264,7 +264,7 @@
             "default_order": null,
             "default_value": "Serie",
             "deprecated": null,
-            "description": "Type is the type of represenation",
+            "description": "Type is the type of representation",
             "exposed": true,
             "filterable": false,
             "foreign_key": null,

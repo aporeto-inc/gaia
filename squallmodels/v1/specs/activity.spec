@@ -289,7 +289,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "Source contains meta information abbout the source.",
+            "description": "Source contains meta information about the source.",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
@@ -356,7 +356,7 @@
         "aliases": [],
         "create": null,
         "delete": false,
-        "description": "Contains all the activity log that happened in a namespace. All sucessful or failed actions will be available, and eventual errors as well as the claims of the user who triggered the actiions. This log is capped and only keeps the last 50k entries by default. ",
+        "description": "Contains all the activity log that happened in a namespace. All successful or failed actions will be available, and eventual errors as well as the claims of the user who triggered the actiions. This log is capped and only keeps the last 50k entries by default. ",
         "entity_name": "Activity",
         "extends": [
             "@identifiable-pk-stored"

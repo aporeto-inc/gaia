@@ -2,7 +2,7 @@ package barretmodels
 
 import "github.com/aporeto-inc/elemental"
 
-const nodocString = "[nodoc]" // nolint: varcheck
+const nodocString = "[nodoc]" // nolint: varcheck,deadcode
 
 var relationshipsRegistry elemental.RelationshipsRegistry
 
