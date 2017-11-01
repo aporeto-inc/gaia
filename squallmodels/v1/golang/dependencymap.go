@@ -89,10 +89,11 @@ type DependencyMap struct {
 func NewDependencyMap() *DependencyMap {
 
 	return &DependencyMap{
-		ModelVersion: 1,
-		Edges:        types.GraphEdgeMap{},
-		Groups:       types.GraphGroupMap{},
-		Nodes:        types.GraphNodeMap{},
+		ModelVersion:    1,
+		Edges:           types.GraphEdgeMap{},
+		Groups:          types.GraphGroupMap{},
+		Nodes:           types.GraphNodeMap{},
+		ViewSuggestions: []string{},
 	}
 }
 
