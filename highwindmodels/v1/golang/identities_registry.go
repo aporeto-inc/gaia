@@ -4,6 +4,7 @@ import "github.com/aporeto-inc/elemental"
 
 func init() {
 
+	elemental.RegisterIdentity(CategoryIdentity)
 	elemental.RegisterIdentity(RootIdentity)
 	elemental.RegisterIdentity(AvailableServiceIdentity)
 	elemental.RegisterIdentity(InstallationIdentity)
@@ -17,6 +18,8 @@ func ModelVersion() float64 { return 1 }
 func IdentifiableForIdentity(identity string) elemental.Identifiable {
 
 	switch identity {
+	case CategoryIdentity.Name:
+		return NewCategory()
 	case RootIdentity.Name:
 		return NewRoot()
 	case AvailableServiceIdentity.Name:
@@ -34,6 +37,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 func IdentifiableForCategory(category string) elemental.Identifiable {
 
 	switch category {
+	case CategoryIdentity.Category:
+		return NewCategory()
 	case RootIdentity.Category:
 		return NewRoot()
 	case AvailableServiceIdentity.Category:
@@ -51,6 +56,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiable {
 
 	switch identity {
+	case CategoryIdentity.Name:
+		return &CategoriesList{}
 	case AvailableServiceIdentity.Name:
 		return &AvailableServicesList{}
 	case InstallationIdentity.Name:
@@ -66,6 +73,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiable {
 
 	switch category {
+	case CategoryIdentity.Category:
+		return &CategoriesList{}
 	case AvailableServiceIdentity.Category:
 		return &AvailableServicesList{}
 	case InstallationIdentity.Category:
@@ -81,6 +90,7 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 func AllIdentities() []elemental.Identity {
 
 	return []elemental.Identity{
+		CategoryIdentity,
 		RootIdentity,
 		AvailableServiceIdentity,
 		InstallationIdentity,
@@ -103,6 +113,8 @@ func IdentityFromAlias(alias string) elemental.Identity {
 func AliasesForIdentity(identity elemental.Identity) []string {
 
 	switch identity {
+	case CategoryIdentity:
+		return []string{}
 	case RootIdentity:
 		return []string{}
 	case AvailableServiceIdentity:

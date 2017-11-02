@@ -65,6 +65,9 @@ func (o AvailableServicesList) Version() int {
 
 // AvailableService represents the model of a availableservice
 type AvailableService struct {
+	// Category of the service.
+	Category string `json:"category" bson:"-"`
+
 	// Description of the service
 	Description string `json:"description" bson:"-"`
 
@@ -169,6 +172,16 @@ func (*AvailableService) AttributeSpecifications() map[string]elemental.Attribut
 
 // AvailableServiceAttributesMap represents the map of attribute for AvailableService.
 var AvailableServiceAttributesMap = map[string]elemental.AttributeSpecification{
+	"Category": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Category of the service.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "category",
+		ReadOnly:       true,
+		Type:           "string",
+	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `Description of the service`,
@@ -213,6 +226,16 @@ var AvailableServiceAttributesMap = map[string]elemental.AttributeSpecification{
 
 // AvailableServiceLowerCaseAttributesMap represents the map of attribute for AvailableService.
 var AvailableServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"category": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Category of the service.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "category",
+		ReadOnly:       true,
+		Type:           "string",
+	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `Description of the service`,
