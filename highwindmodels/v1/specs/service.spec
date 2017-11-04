@@ -284,7 +284,6 @@
             "allowed_chars": null,
             "allowed_choices": [
                 "Error",
-                "Initializing",
                 "Pending",
                 "Running"
             ],
