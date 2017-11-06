@@ -67,7 +67,7 @@ type Category struct {
 	ID string `json:"ID" bson:"id"`
 
 	// Description is the desription of the category.
-	Description string `json:"description" bson:"description"`
+	Description string `json:"description" bson:"-"`
 
 	// Name of the category.
 	Name string `json:"name" bson:"name"`
@@ -163,18 +163,17 @@ var CategoryAttributesMap = map[string]elemental.AttributeSpecification{
 		Format:         "free",
 		Name:           "ID",
 		Orderable:      true,
+		PrimaryKey:     true,
 		Stored:         true,
 		Type:           "string",
+		Unique:         true,
 	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `Description is the desription of the category.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
 		Name:           "description",
-		Orderable:      true,
-		Stored:         true,
 		Type:           "string",
 	},
 	"Name": elemental.AttributeSpecification{
@@ -200,18 +199,17 @@ var CategoryLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Format:         "free",
 		Name:           "ID",
 		Orderable:      true,
+		PrimaryKey:     true,
 		Stored:         true,
 		Type:           "string",
+		Unique:         true,
 	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `Description is the desription of the category.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
 		Name:           "description",
-		Orderable:      true,
-		Stored:         true,
 		Type:           "string",
 	},
 	"name": elemental.AttributeSpecification{
