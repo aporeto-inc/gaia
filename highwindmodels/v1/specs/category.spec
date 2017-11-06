@@ -23,7 +23,7 @@
             "min_value": null,
             "name": "ID",
             "orderable": true,
-            "primary_key": null,
+            "primary_key": true,
             "read_only": null,
             "required": null,
             "secret": null,
@@ -32,7 +32,7 @@
             "subtype": null,
             "transient": null,
             "type": "string",
-            "unique": null,
+            "unique": true,
             "uniqueScope": null
         },
         {
