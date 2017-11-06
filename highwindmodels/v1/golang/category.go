@@ -63,6 +63,12 @@ func (o CategoriesList) Version() int {
 
 // Category represents the model of a category
 type Category struct {
+	// ID is the identifier of the category.
+	ID string `json:"ID" bson:"id"`
+
+	// Description is the desription of the category.
+	Description string `json:"description" bson:"description"`
+
 	// Name of the category.
 	Name string `json:"name" bson:"name"`
 
@@ -149,6 +155,28 @@ func (*Category) AttributeSpecifications() map[string]elemental.AttributeSpecifi
 
 // CategoryAttributesMap represents the map of attribute for Category.
 var CategoryAttributesMap = map[string]elemental.AttributeSpecification{
+	"ID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `ID is the identifier of the category.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "ID",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"Description": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Description is the desription of the category.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "description",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `Name of the category.`,
@@ -164,6 +192,28 @@ var CategoryAttributesMap = map[string]elemental.AttributeSpecification{
 
 // CategoryLowerCaseAttributesMap represents the map of attribute for Category.
 var CategoryLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"id": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `ID is the identifier of the category.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "ID",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"description": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Description is the desription of the category.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "description",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `Name of the category.`,
