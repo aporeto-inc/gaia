@@ -110,7 +110,7 @@
     "model": {
         "aliases": [],
         "create": null,
-        "delete": true,
+        "delete": false,
         "description": null,
         "entity_name": "Category",
         "extends": [],
@@ -119,6 +119,6 @@
         "resource_name": "categories",
         "rest_name": "category",
         "root": null,
-        "update": true
+        "update": false
     }
 }
