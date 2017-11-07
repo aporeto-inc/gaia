@@ -15,7 +15,7 @@
             "foreign_key": null,
             "format": "free",
             "getter": null,
-            "identifier": null,
+            "identifier": true,
             "index": null,
             "max_length": null,
             "max_value": null,
@@ -110,7 +110,7 @@
     "model": {
         "aliases": [],
         "create": null,
-        "delete": true,
+        "delete": false,
         "description": null,
         "entity_name": "Category",
         "extends": [],
@@ -119,6 +119,6 @@
         "resource_name": "categories",
         "rest_name": "category",
         "root": null,
-        "update": true
+        "update": false
     }
 }
