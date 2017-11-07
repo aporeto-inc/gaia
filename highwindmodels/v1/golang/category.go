@@ -64,7 +64,7 @@ func (o CategoriesList) Version() int {
 // Category represents the model of a category
 type Category struct {
 	// ID is the identifier of the category.
-	ID string `json:"ID" bson:"id"`
+	ID string `json:"ID" bson:"_id"`
 
 	// Description is the desription of the category.
 	Description string `json:"description" bson:"-"`
@@ -94,12 +94,13 @@ func (o *Category) Identity() elemental.Identity {
 // Identifier returns the value of the object's unique identifier.
 func (o *Category) Identifier() string {
 
-	return ""
+	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *Category) SetIdentifier(ID string) {
 
+	o.ID = ID
 }
 
 // Version returns the hardcoded version of the model
@@ -161,6 +162,7 @@ var CategoryAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
+		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -197,6 +199,7 @@ var CategoryLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
+		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
 		PrimaryKey:     true,

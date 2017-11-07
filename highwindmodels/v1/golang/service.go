@@ -85,8 +85,8 @@ type Service struct {
 	// AccountName represents the vince account name
 	AccountName string `json:"accountName" bson:"accountname"`
 
-	// Category of the service.
-	Category string `json:"category" bson:"category"`
+	// CategoryID of the service.
+	CategoryID string `json:"categoryID" bson:"categoryid"`
 
 	// Name of the service
 	Name string `json:"name" bson:"name"`
@@ -226,13 +226,13 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Category": elemental.AttributeSpecification{
+	"CategoryID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		Description:    `Category of the service.`,
+		Description:    `CategoryID of the service.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
-		Name:           "category",
+		Name:           "categoryID",
 		Orderable:      true,
 		ReadOnly:       true,
 		Stored:         true,
@@ -326,13 +326,13 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"category": elemental.AttributeSpecification{
+	"categoryid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		Description:    `Category of the service.`,
+		Description:    `CategoryID of the service.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
-		Name:           "category",
+		Name:           "categoryID",
 		Orderable:      true,
 		ReadOnly:       true,
 		Stored:         true,
