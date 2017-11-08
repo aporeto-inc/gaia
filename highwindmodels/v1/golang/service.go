@@ -118,6 +118,7 @@ func NewService() *Service {
 		ModelVersion:   1,
 		Parameters:     []*types.ServiceParameter{},
 		RelatedObjects: []*types.ServiceRelatedObject{},
+		Status:         "Pending",
 	}
 }
 
@@ -288,6 +289,7 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"Status": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Error", "Pending", "Running"},
+		DefaultValue:   ServiceStatusValue("Pending"),
 		Description:    `Status of the service.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -388,6 +390,7 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"status": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Error", "Pending", "Running"},
+		DefaultValue:   ServiceStatusValue("Pending"),
 		Description:    `Status of the service.`,
 		Exposed:        true,
 		Filterable:     true,
