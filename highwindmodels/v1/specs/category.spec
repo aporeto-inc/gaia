@@ -111,7 +111,7 @@
         "aliases": [],
         "create": null,
         "delete": false,
-        "description": null,
+        "description": "Category allows to categorized services",
         "entity_name": "Category",
         "extends": [],
         "get": false,
