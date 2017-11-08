@@ -114,7 +114,7 @@
         "description": null,
         "entity_name": "Category",
         "extends": [],
-        "get": true,
+        "get": false,
         "package": null,
         "resource_name": "categories",
         "rest_name": "category",
