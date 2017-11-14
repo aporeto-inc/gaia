@@ -920,7 +920,7 @@
     "model": {
         "aliases": [],
         "create": null,
-        "delete": false,
+        "delete": true,
         "description": "Manage your Account.",
         "entity_name": "Account",
         "extends": [
