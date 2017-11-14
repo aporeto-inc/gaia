@@ -174,7 +174,7 @@ type Enforcer struct {
 	Protected bool `json:"protected" bson:"protected"`
 
 	// PublicToken is the public token of the server that will be included in the datapath and its signed by the private CA.
-	PublicToken string `json:"publicToken" bson:"publictoken"`
+	PublicToken string `json:"publicToken" bson:"-"`
 
 	// Tells if the the version of enforcerd is outdated and should be updated.
 	UpdateAvailable bool `json:"updateAvailable" bson:"updateavailable"`
@@ -679,9 +679,8 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Format:         "free",
 		Name:           "publicToken",
-		Orderable:      true,
 		ReadOnly:       true,
-		Stored:         true,
+		Transient:      true,
 		Type:           "string",
 	},
 	"UpdateAvailable": elemental.AttributeSpecification{
@@ -1006,9 +1005,8 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Exposed:        true,
 		Format:         "free",
 		Name:           "publicToken",
-		Orderable:      true,
 		ReadOnly:       true,
-		Stored:         true,
+		Transient:      true,
 		Type:           "string",
 	},
 	"updateavailable": elemental.AttributeSpecification{
