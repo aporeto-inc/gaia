@@ -71,8 +71,8 @@ type Revocation struct {
 	// Contains the certificate expiration date. This will be used to clean up revoked certificates that have expired.
 	ExpirationDate time.Time `json:"expirationDate" bson:"expirationdate"`
 
-	// Status of the revocation.
-	Revoked bool `json:"revoked" bson:"revoked"`
+	// Set time from when the certificate will be revoked.
+	RevokeDate time.Time `json:"revokeDate" bson:"revokedate"`
 
 	// SerialNumber of the revoked certificate.
 	SerialNumber string `json:"serialNumber" bson:"serialnumber"`
@@ -185,13 +185,13 @@ var RevocationAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "time",
 	},
-	"Revoked": elemental.AttributeSpecification{
+	"RevokeDate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		Description:    `Status of the revocation.`,
+		Description:    `Set time from when the certificate will be revoked.`,
 		Exposed:        true,
-		Name:           "revoked",
+		Name:           "revokeDate",
 		Stored:         true,
-		Type:           "boolean",
+		Type:           "time",
 	},
 	"SerialNumber": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -238,13 +238,13 @@ var RevocationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Stored:         true,
 		Type:           "time",
 	},
-	"revoked": elemental.AttributeSpecification{
+	"revokedate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		Description:    `Status of the revocation.`,
+		Description:    `Set time from when the certificate will be revoked.`,
 		Exposed:        true,
-		Name:           "revoked",
+		Name:           "revokeDate",
 		Stored:         true,
-		Type:           "boolean",
+		Type:           "time",
 	},
 	"serialnumber": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

@@ -119,6 +119,12 @@ type Enforcer struct {
 	// CertificateKey is the secret key of the enforcer. Returned only when a enforcer is created or the certificate is updated.
 	CertificateKey string `json:"certificateKey" bson:"-"`
 
+	// CertificateRequest can be used to generate a certificate from that CSR instead of letting the server generate your private key for you.
+	CertificateRequest string `json:"certificateRequest" bson:"-"`
+
+	// If set during creation,the server will not initially generate a certificate. In that case you have to provide a valid CSR through certificateRequest during an update.
+	CertificateRequestEnabled bool `json:"certificateRequestEnabled" bson:"certificaterequestenabled"`
+
 	// CertificateStatus indicates if the certificate is valid.
 	CertificateStatus EnforcerCertificateStatusValue `json:"certificateStatus" bson:"certificatestatus"`
 
@@ -340,14 +346,6 @@ func (o *Enforcer) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredTime("lastSyncTime", o.LastSyncTime); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredTime("lastSyncTime", o.LastSyncTime); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -470,6 +468,24 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 	},
+	"CertificateRequest": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `CertificateRequest can be used to generate a certificate from that CSR instead of letting the server generate your private key for you.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "certificateRequest",
+		Transient:      true,
+		Type:           "string",
+	},
+	"CertificateRequestEnabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		CreationOnly:   true,
+		Description:    `If set during creation,the server will not initially generate a certificate. In that case you have to provide a valid CSR through certificateRequest during an update.`,
+		Exposed:        true,
+		Name:           "certificateRequestEnabled",
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"CertificateStatus": elemental.AttributeSpecification{
 		AllowedChoices: []string{"RENEW", "REVOKED", "VALID"},
 		DefaultValue:   EnforcerCertificateStatusValue("VALID"),
@@ -559,7 +575,6 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 		Filterable:     true,
 		Name:           "lastSyncTime",
 		Orderable:      true,
-		Required:       true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -780,6 +795,24 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		ReadOnly:       true,
 		Type:           "string",
 	},
+	"certificaterequest": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `CertificateRequest can be used to generate a certificate from that CSR instead of letting the server generate your private key for you.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "certificateRequest",
+		Transient:      true,
+		Type:           "string",
+	},
+	"certificaterequestenabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		CreationOnly:   true,
+		Description:    `If set during creation,the server will not initially generate a certificate. In that case you have to provide a valid CSR through certificateRequest during an update.`,
+		Exposed:        true,
+		Name:           "certificateRequestEnabled",
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"certificatestatus": elemental.AttributeSpecification{
 		AllowedChoices: []string{"RENEW", "REVOKED", "VALID"},
 		DefaultValue:   EnforcerCertificateStatusValue("VALID"),
@@ -869,7 +902,6 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Filterable:     true,
 		Name:           "lastSyncTime",
 		Orderable:      true,
-		Required:       true,
 		Stored:         true,
 		Type:           "time",
 	},

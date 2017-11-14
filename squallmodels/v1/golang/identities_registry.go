@@ -6,7 +6,7 @@ func init() {
 
 	elemental.RegisterIdentity(APICheckIdentity)
 	elemental.RegisterIdentity(HookPolicyIdentity)
-	elemental.RegisterIdentity(APIAuthorizationPolicyIdentity)
+	elemental.RegisterIdentity(NamespaceMappingPolicyIdentity)
 	elemental.RegisterIdentity(ExternalAccessIdentity)
 	elemental.RegisterIdentity(SystemCallIdentity)
 	elemental.RegisterIdentity(TagIdentity)
@@ -15,6 +15,7 @@ func init() {
 	elemental.RegisterIdentity(PokeIdentity)
 	elemental.RegisterIdentity(FilePathIdentity)
 	elemental.RegisterIdentity(FileAccessIdentity)
+	elemental.RegisterIdentity(APIAuthorizationPolicyIdentity)
 	elemental.RegisterIdentity(NamespaceIdentity)
 	elemental.RegisterIdentity(PolicyRuleIdentity)
 	elemental.RegisterIdentity(ExternalServiceIdentity)
@@ -27,7 +28,6 @@ func init() {
 	elemental.RegisterIdentity(FileAccessPolicyIdentity)
 	elemental.RegisterIdentity(EnforcerProfileIdentity)
 	elemental.RegisterIdentity(RenderedPolicyIdentity)
-	elemental.RegisterIdentity(NamespaceMappingPolicyIdentity)
 	elemental.RegisterIdentity(ProcessingUnitIdentity)
 	elemental.RegisterIdentity(DependencyMapIdentity)
 	elemental.RegisterIdentity(VulnerabilityIdentity)
@@ -48,8 +48,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewAPICheck()
 	case HookPolicyIdentity.Name:
 		return NewHookPolicy()
-	case APIAuthorizationPolicyIdentity.Name:
-		return NewAPIAuthorizationPolicy()
+	case NamespaceMappingPolicyIdentity.Name:
+		return NewNamespaceMappingPolicy()
 	case ExternalAccessIdentity.Name:
 		return NewExternalAccess()
 	case SystemCallIdentity.Name:
@@ -66,6 +66,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewFilePath()
 	case FileAccessIdentity.Name:
 		return NewFileAccess()
+	case APIAuthorizationPolicyIdentity.Name:
+		return NewAPIAuthorizationPolicy()
 	case NamespaceIdentity.Name:
 		return NewNamespace()
 	case PolicyRuleIdentity.Name:
@@ -90,8 +92,6 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewEnforcerProfile()
 	case RenderedPolicyIdentity.Name:
 		return NewRenderedPolicy()
-	case NamespaceMappingPolicyIdentity.Name:
-		return NewNamespaceMappingPolicy()
 	case ProcessingUnitIdentity.Name:
 		return NewProcessingUnit()
 	case DependencyMapIdentity.Name:
@@ -119,8 +119,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewAPICheck()
 	case HookPolicyIdentity.Category:
 		return NewHookPolicy()
-	case APIAuthorizationPolicyIdentity.Category:
-		return NewAPIAuthorizationPolicy()
+	case NamespaceMappingPolicyIdentity.Category:
+		return NewNamespaceMappingPolicy()
 	case ExternalAccessIdentity.Category:
 		return NewExternalAccess()
 	case SystemCallIdentity.Category:
@@ -137,6 +137,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewFilePath()
 	case FileAccessIdentity.Category:
 		return NewFileAccess()
+	case APIAuthorizationPolicyIdentity.Category:
+		return NewAPIAuthorizationPolicy()
 	case NamespaceIdentity.Category:
 		return NewNamespace()
 	case PolicyRuleIdentity.Category:
@@ -161,8 +163,6 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewEnforcerProfile()
 	case RenderedPolicyIdentity.Category:
 		return NewRenderedPolicy()
-	case NamespaceMappingPolicyIdentity.Category:
-		return NewNamespaceMappingPolicy()
 	case ProcessingUnitIdentity.Category:
 		return NewProcessingUnit()
 	case DependencyMapIdentity.Category:
@@ -190,8 +190,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &APIChecksList{}
 	case HookPolicyIdentity.Name:
 		return &HookPoliciesList{}
-	case APIAuthorizationPolicyIdentity.Name:
-		return &APIAuthorizationPoliciesList{}
+	case NamespaceMappingPolicyIdentity.Name:
+		return &NamespaceMappingPoliciesList{}
 	case ExternalAccessIdentity.Name:
 		return &ExternalAccessList{}
 	case SystemCallIdentity.Name:
@@ -208,6 +208,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &FilePathsList{}
 	case FileAccessIdentity.Name:
 		return &FileAccessList{}
+	case APIAuthorizationPolicyIdentity.Name:
+		return &APIAuthorizationPoliciesList{}
 	case NamespaceIdentity.Name:
 		return &NamespacesList{}
 	case PolicyRuleIdentity.Name:
@@ -232,8 +234,6 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &EnforcerProfilesList{}
 	case RenderedPolicyIdentity.Name:
 		return &RenderedPoliciesList{}
-	case NamespaceMappingPolicyIdentity.Name:
-		return &NamespaceMappingPoliciesList{}
 	case ProcessingUnitIdentity.Name:
 		return &ProcessingUnitsList{}
 	case DependencyMapIdentity.Name:
@@ -259,8 +259,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &APIChecksList{}
 	case HookPolicyIdentity.Category:
 		return &HookPoliciesList{}
-	case APIAuthorizationPolicyIdentity.Category:
-		return &APIAuthorizationPoliciesList{}
+	case NamespaceMappingPolicyIdentity.Category:
+		return &NamespaceMappingPoliciesList{}
 	case ExternalAccessIdentity.Category:
 		return &ExternalAccessList{}
 	case SystemCallIdentity.Category:
@@ -277,6 +277,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &FilePathsList{}
 	case FileAccessIdentity.Category:
 		return &FileAccessList{}
+	case APIAuthorizationPolicyIdentity.Category:
+		return &APIAuthorizationPoliciesList{}
 	case NamespaceIdentity.Category:
 		return &NamespacesList{}
 	case PolicyRuleIdentity.Category:
@@ -301,8 +303,6 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &EnforcerProfilesList{}
 	case RenderedPolicyIdentity.Category:
 		return &RenderedPoliciesList{}
-	case NamespaceMappingPolicyIdentity.Category:
-		return &NamespaceMappingPoliciesList{}
 	case ProcessingUnitIdentity.Category:
 		return &ProcessingUnitsList{}
 	case DependencyMapIdentity.Category:
@@ -326,7 +326,7 @@ func AllIdentities() []elemental.Identity {
 	return []elemental.Identity{
 		APICheckIdentity,
 		HookPolicyIdentity,
-		APIAuthorizationPolicyIdentity,
+		NamespaceMappingPolicyIdentity,
 		ExternalAccessIdentity,
 		SystemCallIdentity,
 		TagIdentity,
@@ -335,6 +335,7 @@ func AllIdentities() []elemental.Identity {
 		PokeIdentity,
 		FilePathIdentity,
 		FileAccessIdentity,
+		APIAuthorizationPolicyIdentity,
 		NamespaceIdentity,
 		PolicyRuleIdentity,
 		ExternalServiceIdentity,
@@ -347,7 +348,6 @@ func AllIdentities() []elemental.Identity {
 		FileAccessPolicyIdentity,
 		EnforcerProfileIdentity,
 		RenderedPolicyIdentity,
-		NamespaceMappingPolicyIdentity,
 		ProcessingUnitIdentity,
 		DependencyMapIdentity,
 		VulnerabilityIdentity,
@@ -363,13 +363,17 @@ var aliasesMap = map[string]elemental.Identity{
 	"hooks":      HookPolicyIdentity,
 	"hookpol":    HookPolicyIdentity,
 	"hookpols":   HookPolicyIdentity,
-	"apiauths":   APIAuthorizationPolicyIdentity,
-	"apiauth":    APIAuthorizationPolicyIdentity,
+	"nspolicy":   NamespaceMappingPolicyIdentity,
+	"nspolicies": NamespaceMappingPolicyIdentity,
+	"nsmap":      NamespaceMappingPolicyIdentity,
+	"nsmaps":     NamespaceMappingPolicyIdentity,
 	"extac":      ExternalAccessIdentity,
 	"extacs":     ExternalAccessIdentity,
 	"mess":       MessageIdentity,
 	"fp":         FilePathIdentity,
 	"fps":        FilePathIdentity,
+	"apiauths":   APIAuthorizationPolicyIdentity,
+	"apiauth":    APIAuthorizationPolicyIdentity,
 	"ns":         NamespaceIdentity,
 	"extsrv":     ExternalServiceIdentity,
 	"extsrvs":    ExternalServiceIdentity,
@@ -391,10 +395,6 @@ var aliasesMap = map[string]elemental.Identity{
 	"profiles":   EnforcerProfileIdentity,
 	"rpol":       RenderedPolicyIdentity,
 	"rpols":      RenderedPolicyIdentity,
-	"nspolicy":   NamespaceMappingPolicyIdentity,
-	"nspolicies": NamespaceMappingPolicyIdentity,
-	"nsmap":      NamespaceMappingPolicyIdentity,
-	"nsmaps":     NamespaceMappingPolicyIdentity,
 	"pu":         ProcessingUnitIdentity,
 	"pus":        ProcessingUnitIdentity,
 	"depmap":     DependencyMapIdentity,
@@ -428,10 +428,12 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"hookpol",
 			"hookpols",
 		}
-	case APIAuthorizationPolicyIdentity:
+	case NamespaceMappingPolicyIdentity:
 		return []string{
-			"apiauths",
-			"apiauth",
+			"nspolicy",
+			"nspolicies",
+			"nsmap",
+			"nsmaps",
 		}
 	case ExternalAccessIdentity:
 		return []string{
@@ -457,6 +459,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case FileAccessIdentity:
 		return []string{}
+	case APIAuthorizationPolicyIdentity:
+		return []string{
+			"apiauths",
+			"apiauth",
+		}
 	case NamespaceIdentity:
 		return []string{
 			"ns",
@@ -509,13 +516,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"rpol",
 			"rpols",
-		}
-	case NamespaceMappingPolicyIdentity:
-		return []string{
-			"nspolicy",
-			"nspolicies",
-			"nsmap",
-			"nsmaps",
 		}
 	case ProcessingUnitIdentity:
 		return []string{

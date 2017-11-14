@@ -39,6 +39,9 @@ const (
 
 	// ProcessingUnitTypeRkt represents the value RKT.
 	ProcessingUnitTypeRkt ProcessingUnitTypeValue = "RKT"
+
+	// ProcessingUnitTypeUser represents the value User.
+	ProcessingUnitTypeUser ProcessingUnitTypeValue = "User"
 )
 
 // ProcessingUnitIdentity represents the Identity of the object
@@ -325,7 +328,7 @@ func (o *ProcessingUnit) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Docker", "LinuxService", "RKT"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Docker", "LinuxService", "RKT", "User"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -543,7 +546,7 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "boolean",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Docker", "LinuxService", "RKT"},
+		AllowedChoices: []string{"Docker", "LinuxService", "RKT", "User"},
 		CreationOnly:   true,
 		Description:    `Type of the container ecosystem`,
 		Exposed:        true,
@@ -754,7 +757,7 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Type:           "boolean",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Docker", "LinuxService", "RKT"},
+		AllowedChoices: []string{"Docker", "LinuxService", "RKT", "User"},
 		CreationOnly:   true,
 		Description:    `Type of the container ecosystem`,
 		Exposed:        true,
