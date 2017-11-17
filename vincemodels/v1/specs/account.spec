@@ -301,7 +301,7 @@
             "max_value": null,
             "min_length": null,
             "min_value": null,
-            "name": "TOTPSecret",
+            "name": "OTPSecret",
             "orderable": false,
             "primary_key": null,
             "read_only": false,
