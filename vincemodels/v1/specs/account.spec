@@ -255,7 +255,7 @@
             "default_value": null,
             "deprecated": null,
             "description": "Returns the base64 encoded QRCode for setting up 2 factor auth.",
-            "exposed": false,
+            "exposed": true,
             "filterable": false,
             "foreign_key": null,
             "format": "free",
@@ -275,7 +275,7 @@
             "setter": null,
             "stored": false,
             "subtype": null,
-            "transient": null,
+            "transient": true,
             "type": "string",
             "unique": null,
             "uniqueScope": null
