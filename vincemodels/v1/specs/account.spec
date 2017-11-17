@@ -289,7 +289,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "Store the 2 factor secret",
+            "description": "Stores the 2 factor secret",
             "exposed": false,
             "filterable": false,
             "foreign_key": null,
