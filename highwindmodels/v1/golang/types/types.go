@@ -53,6 +53,7 @@ type ServiceParameter struct {
 	MountPath       string                  `json:"-"`
 	Backend         ServiceParameterBackend `json:"-"`
 	Optional        bool                    `json:"optional"`
+	Advanced        bool                    `json:"advanced"`
 }
 
 // NewServiceParameter creates a new parameter.
@@ -77,6 +78,7 @@ func (p *ServiceParameter) Copy() *ServiceParameter {
 	copy.MountPath = p.MountPath
 	copy.Backend = p.Backend
 	copy.Optional = p.Optional
+	copy.Advanced = p.Advanced
 
 	return copy
 }
@@ -184,4 +186,5 @@ func NewServiceRelatedObject() *ServiceRelatedObject {
 }
 
 // ServiceRelatedObjectOption is to prepare the future :)
-type ServiceRelatedObjectOption struct{}
+type ServiceRelatedObjectOption struct {
+}
