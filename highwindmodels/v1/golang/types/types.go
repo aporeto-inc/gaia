@@ -141,7 +141,7 @@ func (p *ServiceParameter) ValueToString() string {
 			return value
 		}
 
-	case ServiceParameterTypeStringSlice, ServiceParameterTypeEmum:
+	case ServiceParameterTypeStringSlice:
 		values := []string{}
 		if vs, ok := p.Value.([]interface{}); ok {
 			for _, v := range vs {
@@ -149,6 +149,19 @@ func (p *ServiceParameter) ValueToString() string {
 			}
 		}
 		return strings.Join(values, " ")
+
+	case ServiceParameterTypeEmum:
+		switch p.Value.(type) {
+		case string:
+			return p.Value.(string)
+		case bool:
+			return strconv.FormatBool(p.Value.(bool))
+		case int:
+			return strconv.Itoa(p.Value.(int))
+		case float64:
+			return strconv.FormatFloat(p.Value.(float64), 'f', -1, 64)
+		}
+		return ""
 
 	case ServiceParameterTypeIntSlice:
 		values := []string{}
