@@ -128,12 +128,43 @@ func Test_FloatSliceParameterValueToString(t *testing.T) {
 }
 
 func Test_EnumParameterValueToString(t *testing.T) {
-	Convey("Given a parameter with a correct value, it should return a string", t, func() {
+	Convey("Given a string parameter with a correct value, it should return a string", t, func() {
 		parameter := &ServiceParameter{
-			Name:  "DemoParam",
-			Value: []interface{}{"A", "B"},
-			Type:  ServiceParameterTypeEmum,
+			Name:          "DemoParam",
+			Value:         "A",
+			Type:          ServiceParameterTypeEmum,
+			AllowedValues: []interface{}{"A", "B", "C"},
 		}
-		So(parameter.ValueToString(), ShouldEqual, "A B")
+		So(parameter.ValueToString(), ShouldEqual, "A")
+	})
+
+	Convey("Given an int parameter with a correct value, it should return a string", t, func() {
+		parameter := &ServiceParameter{
+			Name:          "DemoParam",
+			Value:         10,
+			Type:          ServiceParameterTypeEmum,
+			AllowedValues: []interface{}{10, 11, 12},
+		}
+		So(parameter.ValueToString(), ShouldEqual, "10")
+	})
+
+	Convey("Given a bool parameter with a correct value, it should return a string", t, func() {
+		parameter := &ServiceParameter{
+			Name:          "DemoParam",
+			Value:         true,
+			Type:          ServiceParameterTypeEmum,
+			AllowedValues: []interface{}{true, false},
+		}
+		So(parameter.ValueToString(), ShouldEqual, "true")
+	})
+
+	Convey("Given a float parameter with a correct value, it should return a string", t, func() {
+		parameter := &ServiceParameter{
+			Name:          "DemoParam",
+			Value:         2.1,
+			Type:          ServiceParameterTypeEmum,
+			AllowedValues: []interface{}{2.1, 2.2, 2.3},
+		}
+		So(parameter.ValueToString(), ShouldEqual, "2.1")
 	})
 }
