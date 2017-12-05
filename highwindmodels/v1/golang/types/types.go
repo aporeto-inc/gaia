@@ -106,7 +106,6 @@ func (p *ServiceParameter) Validate() error {
 		ServiceParameterTypeIntSlice,
 		ServiceParameterTypeFloatSlice:
 		return p.validateSliceValue()
-
 	}
 
 	return nil
