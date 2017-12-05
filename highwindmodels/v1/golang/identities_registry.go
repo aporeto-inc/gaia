@@ -5,9 +5,9 @@ import "github.com/aporeto-inc/elemental"
 func init() {
 
 	elemental.RegisterIdentity(CategoryIdentity)
-	elemental.RegisterIdentity(InstallationIdentity)
-	elemental.RegisterIdentity(AvailableServiceIdentity)
 	elemental.RegisterIdentity(RootIdentity)
+	elemental.RegisterIdentity(AvailableServiceIdentity)
+	elemental.RegisterIdentity(InstallationIdentity)
 	elemental.RegisterIdentity(ServiceIdentity)
 }
 
@@ -20,12 +20,12 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 	switch identity {
 	case CategoryIdentity.Name:
 		return NewCategory()
-	case InstallationIdentity.Name:
-		return NewInstallation()
-	case AvailableServiceIdentity.Name:
-		return NewAvailableService()
 	case RootIdentity.Name:
 		return NewRoot()
+	case AvailableServiceIdentity.Name:
+		return NewAvailableService()
+	case InstallationIdentity.Name:
+		return NewInstallation()
 	case ServiceIdentity.Name:
 		return NewService()
 	default:
@@ -39,12 +39,12 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 	switch category {
 	case CategoryIdentity.Category:
 		return NewCategory()
-	case InstallationIdentity.Category:
-		return NewInstallation()
-	case AvailableServiceIdentity.Category:
-		return NewAvailableService()
 	case RootIdentity.Category:
 		return NewRoot()
+	case AvailableServiceIdentity.Category:
+		return NewAvailableService()
+	case InstallationIdentity.Category:
+		return NewInstallation()
 	case ServiceIdentity.Category:
 		return NewService()
 	default:
@@ -58,10 +58,10 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 	switch identity {
 	case CategoryIdentity.Name:
 		return &CategoriesList{}
-	case InstallationIdentity.Name:
-		return &InstallationsList{}
 	case AvailableServiceIdentity.Name:
 		return &AvailableServicesList{}
+	case InstallationIdentity.Name:
+		return &InstallationsList{}
 	case ServiceIdentity.Name:
 		return &ServicesList{}
 	default:
@@ -75,10 +75,10 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 	switch category {
 	case CategoryIdentity.Category:
 		return &CategoriesList{}
-	case InstallationIdentity.Category:
-		return &InstallationsList{}
 	case AvailableServiceIdentity.Category:
 		return &AvailableServicesList{}
+	case InstallationIdentity.Category:
+		return &InstallationsList{}
 	case ServiceIdentity.Category:
 		return &ServicesList{}
 	default:
@@ -91,9 +91,9 @@ func AllIdentities() []elemental.Identity {
 
 	return []elemental.Identity{
 		CategoryIdentity,
-		InstallationIdentity,
-		AvailableServiceIdentity,
 		RootIdentity,
+		AvailableServiceIdentity,
+		InstallationIdentity,
 		ServiceIdentity,
 	}
 }
@@ -115,13 +115,13 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	switch identity {
 	case CategoryIdentity:
 		return []string{}
-	case InstallationIdentity:
+	case RootIdentity:
 		return []string{}
 	case AvailableServiceIdentity:
 		return []string{
 			"asrv",
 		}
-	case RootIdentity:
+	case InstallationIdentity:
 		return []string{}
 	case ServiceIdentity:
 		return []string{

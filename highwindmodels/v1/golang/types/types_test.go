@@ -132,7 +132,7 @@ func Test_EnumParameterValueToString(t *testing.T) {
 		parameter := &ServiceParameter{
 			Name:          "DemoParam",
 			Value:         "A",
-			Type:          ServiceParameterTypeEmum,
+			Type:          ServiceParameterTypeEnum,
 			AllowedValues: []interface{}{"A", "B", "C"},
 		}
 		So(parameter.ValueToString(), ShouldEqual, "A")
@@ -142,7 +142,7 @@ func Test_EnumParameterValueToString(t *testing.T) {
 		parameter := &ServiceParameter{
 			Name:          "DemoParam",
 			Value:         10,
-			Type:          ServiceParameterTypeEmum,
+			Type:          ServiceParameterTypeEnum,
 			AllowedValues: []interface{}{10, 11, 12},
 		}
 		So(parameter.ValueToString(), ShouldEqual, "10")
@@ -152,7 +152,7 @@ func Test_EnumParameterValueToString(t *testing.T) {
 		parameter := &ServiceParameter{
 			Name:          "DemoParam",
 			Value:         true,
-			Type:          ServiceParameterTypeEmum,
+			Type:          ServiceParameterTypeEnum,
 			AllowedValues: []interface{}{true, false},
 		}
 		So(parameter.ValueToString(), ShouldEqual, "true")
@@ -162,7 +162,7 @@ func Test_EnumParameterValueToString(t *testing.T) {
 		parameter := &ServiceParameter{
 			Name:          "DemoParam",
 			Value:         2.1,
-			Type:          ServiceParameterTypeEmum,
+			Type:          ServiceParameterTypeEnum,
 			AllowedValues: []interface{}{2.1, 2.2, 2.3},
 		}
 		So(parameter.ValueToString(), ShouldEqual, "2.1")
