@@ -6,6 +6,7 @@ func init() {
 
 	elemental.RegisterIdentity(APICheckIdentity)
 	elemental.RegisterIdentity(HookPolicyIdentity)
+	elemental.RegisterIdentity(FlowRecordIdentity)
 	elemental.RegisterIdentity(NamespaceMappingPolicyIdentity)
 	elemental.RegisterIdentity(ExternalAccessIdentity)
 	elemental.RegisterIdentity(SystemCallIdentity)
@@ -48,6 +49,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewAPICheck()
 	case HookPolicyIdentity.Name:
 		return NewHookPolicy()
+	case FlowRecordIdentity.Name:
+		return NewFlowRecord()
 	case NamespaceMappingPolicyIdentity.Name:
 		return NewNamespaceMappingPolicy()
 	case ExternalAccessIdentity.Name:
@@ -119,6 +122,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewAPICheck()
 	case HookPolicyIdentity.Category:
 		return NewHookPolicy()
+	case FlowRecordIdentity.Category:
+		return NewFlowRecord()
 	case NamespaceMappingPolicyIdentity.Category:
 		return NewNamespaceMappingPolicy()
 	case ExternalAccessIdentity.Category:
@@ -190,6 +195,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &APIChecksList{}
 	case HookPolicyIdentity.Name:
 		return &HookPoliciesList{}
+	case FlowRecordIdentity.Name:
+		return &FlowRecordsList{}
 	case NamespaceMappingPolicyIdentity.Name:
 		return &NamespaceMappingPoliciesList{}
 	case ExternalAccessIdentity.Name:
@@ -259,6 +266,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &APIChecksList{}
 	case HookPolicyIdentity.Category:
 		return &HookPoliciesList{}
+	case FlowRecordIdentity.Category:
+		return &FlowRecordsList{}
 	case NamespaceMappingPolicyIdentity.Category:
 		return &NamespaceMappingPoliciesList{}
 	case ExternalAccessIdentity.Category:
@@ -326,6 +335,7 @@ func AllIdentities() []elemental.Identity {
 	return []elemental.Identity{
 		APICheckIdentity,
 		HookPolicyIdentity,
+		FlowRecordIdentity,
 		NamespaceMappingPolicyIdentity,
 		ExternalAccessIdentity,
 		SystemCallIdentity,
@@ -363,6 +373,8 @@ var aliasesMap = map[string]elemental.Identity{
 	"hooks":      HookPolicyIdentity,
 	"hookpol":    HookPolicyIdentity,
 	"hookpols":   HookPolicyIdentity,
+	"flowrecs":   FlowRecordIdentity,
+	"flowrec":    FlowRecordIdentity,
 	"nspolicy":   NamespaceMappingPolicyIdentity,
 	"nspolicies": NamespaceMappingPolicyIdentity,
 	"nsmap":      NamespaceMappingPolicyIdentity,
@@ -427,6 +439,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"hooks",
 			"hookpol",
 			"hookpols",
+		}
+	case FlowRecordIdentity:
+		return []string{
+			"flowrecs",
+			"flowrec",
 		}
 	case NamespaceMappingPolicyIdentity:
 		return []string{

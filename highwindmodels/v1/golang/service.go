@@ -88,6 +88,9 @@ type Service struct {
 	// CategoryID of the service.
 	CategoryID string `json:"categoryID" bson:"categoryid"`
 
+	// K8SIdentifier retains the identifier for kubernetes.
+	K8sIdentifier string `json:"-" bson:"k8sidentifier"`
+
 	// Name of the service
 	Name string `json:"name" bson:"name"`
 
@@ -239,6 +242,14 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"K8sIdentifier": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `K8SIdentifier retains the identifier for kubernetes.`,
+		Format:         "free",
+		Name:           "k8sIdentifier",
+		Stored:         true,
+		Type:           "string",
+	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		CreationOnly:   true,
@@ -337,6 +348,14 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "categoryID",
 		Orderable:      true,
 		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"k8sidentifier": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `K8SIdentifier retains the identifier for kubernetes.`,
+		Format:         "free",
+		Name:           "k8sIdentifier",
 		Stored:         true,
 		Type:           "string",
 	},

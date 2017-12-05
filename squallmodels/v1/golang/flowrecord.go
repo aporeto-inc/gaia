@@ -1,0 +1,476 @@
+package squallmodels
+
+import "fmt"
+import "github.com/aporeto-inc/elemental"
+
+import "sync"
+
+import "time"
+
+// FlowRecordIdentity represents the Identity of the object
+var FlowRecordIdentity = elemental.Identity{
+	Name:     "flowrecord",
+	Category: "flowrecords",
+}
+
+// FlowRecordsList represents a list of FlowRecords
+type FlowRecordsList []*FlowRecord
+
+// ContentIdentity returns the identity of the objects in the list.
+func (o FlowRecordsList) ContentIdentity() elemental.Identity {
+
+	return FlowRecordIdentity
+}
+
+// Copy returns a pointer to a copy the FlowRecordsList.
+func (o FlowRecordsList) Copy() elemental.ContentIdentifiable {
+
+	copy := append(FlowRecordsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the FlowRecordsList.
+func (o FlowRecordsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+
+	out := append(FlowRecordsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*FlowRecord))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o FlowRecordsList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o FlowRecordsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o FlowRecordsList) Version() int {
+
+	return 1
+}
+
+// FlowRecord represents the model of a flowrecord
+type FlowRecord struct {
+	// Action applied to the flow.
+	Action string `json:"action" bson:"-"`
+
+	// Destination ID of the flow.
+	DestinationID string `json:"destinationID" bson:"-"`
+
+	// Destination IP of the flow.
+	DestinationIP string `json:"destinationIP" bson:"-"`
+
+	// Destination Port of the flow.
+	DestinationPort string `json:"destinationPort" bson:"-"`
+
+	// The type of the destination.
+	DestinationType string `json:"destinationType" bson:"-"`
+
+	// Tells if the flow has been encrypted by Aporeto.
+	Encrypted bool `json:"encrypted" bson:"-"`
+
+	// Namespace of pu that recorded the flow.
+	Namespace string `json:"namespace" bson:"-"`
+
+	// ID of the policy that took care of the flow.
+	PolicyID string `json:"policyID" bson:"-"`
+
+	// Reason why the flow has been rejected.
+	Reason string `json:"reason" bson:"-"`
+
+	// Source ID of the flow.
+	SourceID string `json:"sourceID" bson:"-"`
+
+	// Source IP of the flow.
+	SourceIP string `json:"sourceIP" bson:"-"`
+
+	// Source type of the flow.
+	SourceType string `json:"sourceType" bson:"-"`
+
+	// Time of the flow record.
+	Time time.Time `json:"time" bson:"-"`
+
+	// number of connection reported in that flow
+	Value int `json:"value" bson:"-"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex
+}
+
+// NewFlowRecord returns a new *FlowRecord
+func NewFlowRecord() *FlowRecord {
+
+	return &FlowRecord{
+		ModelVersion: 1,
+	}
+}
+
+// Identity returns the Identity of the object.
+func (o *FlowRecord) Identity() elemental.Identity {
+
+	return FlowRecordIdentity
+}
+
+// Identifier returns the value of the object's unique identifier.
+func (o *FlowRecord) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the object's unique identifier.
+func (o *FlowRecord) SetIdentifier(ID string) {
+
+}
+
+// Version returns the hardcoded version of the model
+func (o *FlowRecord) Version() int {
+
+	return 1
+}
+
+// DefaultOrder returns the list of default ordering fields.
+func (o *FlowRecord) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Doc returns the documentation for the object
+func (o *FlowRecord) Doc() string {
+	return `Returns flow records`
+}
+
+func (o *FlowRecord) String() string {
+
+	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// Validate valides the current information stored into the structure.
+func (o *FlowRecord) Validate() error {
+
+	errors := elemental.Errors{}
+	requiredErrors := elemental.Errors{}
+
+	if len(requiredErrors) > 0 {
+		return requiredErrors
+	}
+
+	if len(errors) > 0 {
+		return errors
+	}
+
+	return nil
+}
+
+// SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
+func (*FlowRecord) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+
+	if v, ok := FlowRecordAttributesMap[name]; ok {
+		return v
+	}
+
+	// We could not find it, so let's check on the lower case indexed spec map
+	return FlowRecordLowerCaseAttributesMap[name]
+}
+
+// AttributeSpecifications returns the full attribute specifications map.
+func (*FlowRecord) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+
+	return FlowRecordAttributesMap
+}
+
+// FlowRecordAttributesMap represents the map of attribute for FlowRecord.
+var FlowRecordAttributesMap = map[string]elemental.AttributeSpecification{
+	"Action": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Action applied to the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "action",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"DestinationID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Destination ID of the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "destinationID",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"DestinationIP": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Destination IP of the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "destinationIP",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"DestinationPort": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Destination Port of the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "destinationPort",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"DestinationType": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `The type of the destination.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "destinationType",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"Encrypted": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Tells if the flow has been encrypted by Aporeto.`,
+		Exposed:        true,
+		Name:           "encrypted",
+		ReadOnly:       true,
+		Type:           "boolean",
+	},
+	"Namespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Namespace of pu that recorded the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "namespace",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"PolicyID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `ID of the policy that took care of the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "policyID",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"Reason": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Reason why the flow has been rejected.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "reason",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"SourceID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Source ID of the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "sourceID",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"SourceIP": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Source IP of the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "sourceIP",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"SourceType": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Source type of the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "sourceType",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"Time": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Time of the flow record.`,
+		Exposed:        true,
+		Name:           "time",
+		ReadOnly:       true,
+		Type:           "time",
+	},
+	"Value": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `number of connection reported in that flow`,
+		Exposed:        true,
+		Name:           "value",
+		ReadOnly:       true,
+		Type:           "integer",
+	},
+}
+
+// FlowRecordLowerCaseAttributesMap represents the map of attribute for FlowRecord.
+var FlowRecordLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"action": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Action applied to the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "action",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"destinationid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Destination ID of the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "destinationID",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"destinationip": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Destination IP of the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "destinationIP",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"destinationport": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Destination Port of the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "destinationPort",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"destinationtype": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `The type of the destination.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "destinationType",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"encrypted": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Tells if the flow has been encrypted by Aporeto.`,
+		Exposed:        true,
+		Name:           "encrypted",
+		ReadOnly:       true,
+		Type:           "boolean",
+	},
+	"namespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Namespace of pu that recorded the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "namespace",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"policyid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `ID of the policy that took care of the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "policyID",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"reason": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Reason why the flow has been rejected.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "reason",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"sourceid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Source ID of the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "sourceID",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"sourceip": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Source IP of the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "sourceIP",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"sourcetype": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Source type of the flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "sourceType",
+		ReadOnly:       true,
+		Type:           "string",
+	},
+	"time": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `Time of the flow record.`,
+		Exposed:        true,
+		Name:           "time",
+		ReadOnly:       true,
+		Type:           "time",
+	},
+	"value": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		Description:    `number of connection reported in that flow`,
+		Exposed:        true,
+		Name:           "value",
+		ReadOnly:       true,
+		Type:           "integer",
+	},
+}

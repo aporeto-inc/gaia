@@ -12,7 +12,7 @@ type ServiceParameterType string
 const (
 	ServiceParameterTypeBool        ServiceParameterType = "bool"
 	ServiceParameterTypeDuration    ServiceParameterType = "duration"
-	ServiceParameterTypeEmum        ServiceParameterType = "enum"
+	ServiceParameterTypeEnum        ServiceParameterType = "enum"
 	ServiceParameterTypeIntSlice    ServiceParameterType = "intSlice"
 	ServiceParameterTypeInt         ServiceParameterType = "int"
 	ServiceParameterTypeFloat       ServiceParameterType = "float"
@@ -106,7 +106,6 @@ func (p *ServiceParameter) Validate() error {
 		ServiceParameterTypeIntSlice,
 		ServiceParameterTypeFloatSlice:
 		return p.validateSliceValue()
-
 	}
 
 	return nil
@@ -150,7 +149,7 @@ func (p *ServiceParameter) ValueToString() string {
 		}
 		return strings.Join(values, " ")
 
-	case ServiceParameterTypeEmum:
+	case ServiceParameterTypeEnum:
 		switch p.Value.(type) {
 		case string:
 			return p.Value.(string)
