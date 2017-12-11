@@ -118,6 +118,9 @@ type NetworkAccessPolicy struct {
 	// Object of the policy.
 	Object [][]string `json:"object" bson:"-"`
 
+	// If set to true, the flow will be in observation mode.
+	ObservationEnabled bool `json:"observationEnabled" bson:"-"`
+
 	// List of tags expressions to match the list of entity to pass the flow through.
 	Passthrough [][]string `json:"passthrough" bson:"-"`
 
@@ -581,6 +584,15 @@ var NetworkAccessPolicyAttributesMap = map[string]elemental.AttributeSpecificati
 		SubType:        "policies_list",
 		Type:           "external",
 	},
+	"ObservationEnabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `If set to true, the flow will be in observation mode.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "observationEnabled",
+		Orderable:      true,
+		Type:           "boolean",
+	},
 	"Passthrough": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `List of tags expressions to match the list of entity to pass the flow through.`,
@@ -851,6 +863,15 @@ var NetworkAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		Orderable:      true,
 		SubType:        "policies_list",
 		Type:           "external",
+	},
+	"observationenabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `If set to true, the flow will be in observation mode.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "observationEnabled",
+		Orderable:      true,
+		Type:           "boolean",
 	},
 	"passthrough": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
