@@ -542,7 +542,7 @@
             "default_order": null,
             "default_value": "Inherited",
             "deprecated": null,
-            "description": "Select if and how obversation should be active, unactive or inherited from namespace.",
+            "description": "Select if and how obversation should be enabled, disabled or inherited from namespace configuration.",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
