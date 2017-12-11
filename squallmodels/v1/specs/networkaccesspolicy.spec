@@ -197,7 +197,7 @@
             "min_length": null,
             "min_value": null,
             "name": "observationEnabled",
-            "orderable": false,
+            "orderable": true,
             "primary_key": null,
             "read_only": null,
             "required": null,
