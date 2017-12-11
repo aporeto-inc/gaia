@@ -366,7 +366,7 @@
             "default_order": null,
             "default_value": "Docker",
             "deprecated": null,
-            "description": "Select which metada extractor to use to process new processing units.",
+            "description": "Select which metadata extractor to use to process new processing units.",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
