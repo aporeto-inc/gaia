@@ -41,19 +41,20 @@ const (
 
 // ServiceParameter defines a parameter for the service.
 type ServiceParameter struct {
-	Name            string                  `json:"name"`
-	Description     string                  `json:"description"`
-	LongDescription string                  `json:"longDescription"`
-	Key             string                  `json:"key"`
-	Value           interface{}             `json:"value"`
-	Env             string                  `json:"-"`
-	Type            ServiceParameterType    `json:"type"`
-	AllowedValues   []interface{}           `json:"allowedValues"`
-	DefaultValue    interface{}             `json:"defaultValue"`
-	MountPath       string                  `json:"-"`
-	Backend         ServiceParameterBackend `json:"-"`
-	Optional        bool                    `json:"optional"`
-	Advanced        bool                    `json:"advanced"`
+	Name              string                  `json:"name"`
+	Description       string                  `json:"description"`
+	LongDescription   string                  `json:"longDescription"`
+	Key               string                  `json:"key"`
+	Value             interface{}             `json:"value"`
+	Env               string                  `json:"-"`
+	Type              ServiceParameterType    `json:"type"`
+	AllowedValues     []interface{}           `json:"allowedValues"`
+	DefaultValue      interface{}             `json:"defaultValue"`
+	MountPath         string                  `json:"-"`
+	Backend           ServiceParameterBackend `json:"-"`
+	Optional          bool                    `json:"optional"`
+	Advanced          bool                    `json:"advanced"`
+	VersionConstraint string                  `json:"versionConstraint"`
 }
 
 // NewServiceParameter creates a new parameter.
@@ -79,6 +80,7 @@ func (p *ServiceParameter) Copy() *ServiceParameter {
 	copy.Backend = p.Backend
 	copy.Optional = p.Optional
 	copy.Advanced = p.Advanced
+	copy.VersionConstraint = p.VersionConstraint
 
 	return copy
 }
