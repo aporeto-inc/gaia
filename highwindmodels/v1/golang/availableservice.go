@@ -65,11 +65,17 @@ func (o AvailableServicesList) Version() int {
 
 // AvailableService represents the model of a availableservice
 type AvailableService struct {
+	// Beta indicates if the service is in a beta version.
+	Beta bool `json:"beta" bson:"-"`
+
 	// CategoryID of the service.
 	CategoryID string `json:"categoryID" bson:"-"`
 
 	// Description of the service
 	Description string `json:"description" bson:"-"`
+
+	// Icon contains a base64 image for the available service.
+	Icon string `json:"icon" bson:"-"`
 
 	// LongDescription contains a more detailed description of the service.
 	LongDescription string `json:"longDescription" bson:"-"`
@@ -172,6 +178,14 @@ func (*AvailableService) AttributeSpecifications() map[string]elemental.Attribut
 
 // AvailableServiceAttributesMap represents the map of attribute for AvailableService.
 var AvailableServiceAttributesMap = map[string]elemental.AttributeSpecification{
+	"Beta": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Beta indicates if the service is in a beta version.`,
+		Exposed:        true,
+		Name:           "beta",
+		ReadOnly:       true,
+		Type:           "boolean",
+	},
 	"CategoryID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `CategoryID of the service.`,
@@ -188,6 +202,15 @@ var AvailableServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Format:         "free",
 		Name:           "description",
+		Type:           "string",
+	},
+	"Icon": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Icon contains a base64 image for the available service. `,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "icon",
+		ReadOnly:       true,
 		Type:           "string",
 	},
 	"LongDescription": elemental.AttributeSpecification{
@@ -226,6 +249,14 @@ var AvailableServiceAttributesMap = map[string]elemental.AttributeSpecification{
 
 // AvailableServiceLowerCaseAttributesMap represents the map of attribute for AvailableService.
 var AvailableServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"beta": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Beta indicates if the service is in a beta version.`,
+		Exposed:        true,
+		Name:           "beta",
+		ReadOnly:       true,
+		Type:           "boolean",
+	},
 	"categoryid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `CategoryID of the service.`,
@@ -242,6 +273,15 @@ var AvailableServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Exposed:        true,
 		Format:         "free",
 		Name:           "description",
+		Type:           "string",
+	},
+	"icon": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `Icon contains a base64 image for the available service. `,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "icon",
+		ReadOnly:       true,
 		Type:           "string",
 	},
 	"longdescription": elemental.AttributeSpecification{
