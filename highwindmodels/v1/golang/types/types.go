@@ -54,7 +54,7 @@ type ServiceParameter struct {
 	Backend           ServiceParameterBackend `json:"-"`
 	Optional          bool                    `json:"optional"`
 	Advanced          bool                    `json:"advanced"`
-	VersionConstraint string                  `json:"versionConstraint"`
+	VersionConstraint string                  `json:"-"`
 }
 
 // NewServiceParameter creates a new parameter.
