@@ -63,6 +63,9 @@ func (o InstallationsList) Version() int {
 
 // Installation represents the model of a installation
 type Installation struct {
+	// ID represents the identifier of the installation.
+	ID string `json:"ID" bson:"id"`
+
 	// AccountName that should be installed.
 	AccountName string `json:"accountName" bson:"accountname"`
 
@@ -154,6 +157,17 @@ func (*Installation) AttributeSpecifications() map[string]elemental.AttributeSpe
 
 // InstallationAttributesMap represents the map of attribute for Installation.
 var InstallationAttributesMap = map[string]elemental.AttributeSpecification{
+	"ID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `ID represents the identifier of the installation.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "ID",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"AccountName": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `AccountName that should be installed.`,
@@ -169,6 +183,17 @@ var InstallationAttributesMap = map[string]elemental.AttributeSpecification{
 
 // InstallationLowerCaseAttributesMap represents the map of attribute for Installation.
 var InstallationLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"id": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Description:    `ID represents the identifier of the installation.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "ID",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"accountname": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Description:    `AccountName that should be installed.`,
