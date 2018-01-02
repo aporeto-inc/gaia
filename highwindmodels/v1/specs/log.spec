@@ -40,15 +40,15 @@
     "model": {
         "aliases": [],
         "create": null,
-        "delete": true,
+        "delete": false,
         "description": null,
         "entity_name": "Log",
         "extends": [],
-        "get": true,
+        "get": false,
         "package": null,
         "resource_name": "logs",
         "rest_name": "log",
         "root": null,
-        "update": true
+        "update": false
     }
 }
