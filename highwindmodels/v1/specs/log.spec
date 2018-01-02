@@ -29,7 +29,7 @@
             "secret": null,
             "setter": null,
             "stored": true,
-            "subtype": null,
+            "subtype": "logs",
             "transient": null,
             "type": "external",
             "unique": null,
