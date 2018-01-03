@@ -76,6 +76,7 @@ func NewLog() *Log {
 
 	return &Log{
 		ModelVersion: 1,
+		Data:         map[string]string{},
 	}
 }
 
