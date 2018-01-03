@@ -6,9 +6,10 @@ func init() {
 
 	elemental.RegisterIdentity(CategoryIdentity)
 	elemental.RegisterIdentity(InstallationIdentity)
+	elemental.RegisterIdentity(LogIdentity)
+	elemental.RegisterIdentity(ServiceIdentity)
 	elemental.RegisterIdentity(AvailableServiceIdentity)
 	elemental.RegisterIdentity(RootIdentity)
-	elemental.RegisterIdentity(ServiceIdentity)
 }
 
 // ModelVersion returns the current version of the model
@@ -22,12 +23,14 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewCategory()
 	case InstallationIdentity.Name:
 		return NewInstallation()
+	case LogIdentity.Name:
+		return NewLog()
+	case ServiceIdentity.Name:
+		return NewService()
 	case AvailableServiceIdentity.Name:
 		return NewAvailableService()
 	case RootIdentity.Name:
 		return NewRoot()
-	case ServiceIdentity.Name:
-		return NewService()
 	default:
 		return nil
 	}
@@ -41,12 +44,14 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewCategory()
 	case InstallationIdentity.Category:
 		return NewInstallation()
+	case LogIdentity.Category:
+		return NewLog()
+	case ServiceIdentity.Category:
+		return NewService()
 	case AvailableServiceIdentity.Category:
 		return NewAvailableService()
 	case RootIdentity.Category:
 		return NewRoot()
-	case ServiceIdentity.Category:
-		return NewService()
 	default:
 		return nil
 	}
@@ -60,10 +65,12 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &CategoriesList{}
 	case InstallationIdentity.Name:
 		return &InstallationsList{}
-	case AvailableServiceIdentity.Name:
-		return &AvailableServicesList{}
+	case LogIdentity.Name:
+		return &LogsList{}
 	case ServiceIdentity.Name:
 		return &ServicesList{}
+	case AvailableServiceIdentity.Name:
+		return &AvailableServicesList{}
 	default:
 		return nil
 	}
@@ -77,10 +84,12 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &CategoriesList{}
 	case InstallationIdentity.Category:
 		return &InstallationsList{}
-	case AvailableServiceIdentity.Category:
-		return &AvailableServicesList{}
+	case LogIdentity.Category:
+		return &LogsList{}
 	case ServiceIdentity.Category:
 		return &ServicesList{}
+	case AvailableServiceIdentity.Category:
+		return &AvailableServicesList{}
 	default:
 		return nil
 	}
@@ -92,15 +101,16 @@ func AllIdentities() []elemental.Identity {
 	return []elemental.Identity{
 		CategoryIdentity,
 		InstallationIdentity,
+		LogIdentity,
+		ServiceIdentity,
 		AvailableServiceIdentity,
 		RootIdentity,
-		ServiceIdentity,
 	}
 }
 
 var aliasesMap = map[string]elemental.Identity{
-	"asrv": AvailableServiceIdentity,
 	"srv":  ServiceIdentity,
+	"asrv": AvailableServiceIdentity,
 }
 
 // IdentityFromAlias returns the Identity associated to the given alias.
@@ -117,16 +127,18 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case InstallationIdentity:
 		return []string{}
+	case LogIdentity:
+		return []string{}
+	case ServiceIdentity:
+		return []string{
+			"srv",
+		}
 	case AvailableServiceIdentity:
 		return []string{
 			"asrv",
 		}
 	case RootIdentity:
 		return []string{}
-	case ServiceIdentity:
-		return []string{
-			"srv",
-		}
 	}
 
 	return nil

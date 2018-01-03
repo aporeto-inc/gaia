@@ -57,6 +57,17 @@ func init() {
 			"root": true,
 		},
 	}
+	relationshipsRegistry[LogIdentity] = &elemental.Relationship{
+		AllowsRetrieve: map[string]bool{
+			"service": true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"service": true,
+		},
+		AllowsInfo: map[string]bool{
+			"service": true,
+		},
+	}
 	relationshipsRegistry[RootIdentity] = &elemental.Relationship{}
 	relationshipsRegistry[ServiceIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
