@@ -436,7 +436,7 @@
             "default_order": null,
             "default_value": ":9443",
             "deprecated": null,
-            "description": "ProxyListenAddress is the address the enforcer should use to listen for API calls. It can be a port (example :9443) or socket path (example: /var/run/aporeto.sock) ",
+            "description": "ProxyListenAddress is the address the enforcer should use to listen for API calls. It can be a port (example :9443) or socket path (example: unix:/var/run/aporeto.sock) ",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
