@@ -155,7 +155,7 @@ type EnforcerProfile struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected"`
 
-	// ProxyListenAddress is the address the enforcer should use to listen for API calls. It can be a port (example :9443) or socket path (example: /var/run/aporeto.sock)
+	// ProxyListenAddress is the address the enforcer should use to listen for API calls. It can be a port (example :9443) or socket path (example: unix:/var/run/aporeto.sock)
 	ProxyListenAddress string `json:"proxyListenAddress" bson:"proxylistenaddress"`
 
 	// ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network receiver starting at the ReceiverQueue
@@ -724,7 +724,7 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/ ]*)+/?)$`,
 		AllowedChoices: []string{},
 		DefaultValue:   ":9443",
-		Description:    `ProxyListenAddress is the address the enforcer should use to listen for API calls. It can be a port (example :9443) or socket path (example: /var/run/aporeto.sock) `,
+		Description:    `ProxyListenAddress is the address the enforcer should use to listen for API calls. It can be a port (example :9443) or socket path (example: unix:/var/run/aporeto.sock) `,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -1119,7 +1119,7 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/ ]*)+/?)$`,
 		AllowedChoices: []string{},
 		DefaultValue:   ":9443",
-		Description:    `ProxyListenAddress is the address the enforcer should use to listen for API calls. It can be a port (example :9443) or socket path (example: /var/run/aporeto.sock) `,
+		Description:    `ProxyListenAddress is the address the enforcer should use to listen for API calls. It can be a port (example :9443) or socket path (example: unix:/var/run/aporeto.sock) `,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
