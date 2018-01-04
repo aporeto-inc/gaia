@@ -155,7 +155,7 @@ type EnforcerProfile struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected"`
 
-	// AgentPort is the port the enforcer should use to listen for API calls
+	// ProxyListenAddress is the address the enforcer should use to listen for API calls. It can be a port (example :9443) or socket path (example: /var/run/aporeto.sock)
 	ProxyListenAddress string `json:"proxyListenAddress" bson:"proxylistenaddress"`
 
 	// ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network receiver starting at the ReceiverQueue
@@ -378,6 +378,10 @@ func (o *EnforcerProfile) Validate() error {
 	}
 
 	if err := elemental.ValidatePattern("policySynchronizationInterval", o.PolicySynchronizationInterval, `^[0-9]+[smh]$`, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidatePattern("proxyListenAddress", o.ProxyListenAddress, `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/ ]*)+/?)$`, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -717,9 +721,10 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "boolean",
 	},
 	"ProxyListenAddress": elemental.AttributeSpecification{
+		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/ ]*)+/?)$`,
 		AllowedChoices: []string{},
 		DefaultValue:   ":9443",
-		Description:    `AgentPort is the port the enforcer should use to listen for API calls `,
+		Description:    `ProxyListenAddress is the address the enforcer should use to listen for API calls. It can be a port (example :9443) or socket path (example: /var/run/aporeto.sock) `,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -1111,9 +1116,10 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Type:           "boolean",
 	},
 	"proxylistenaddress": elemental.AttributeSpecification{
+		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/ ]*)+/?)$`,
 		AllowedChoices: []string{},
 		DefaultValue:   ":9443",
-		Description:    `AgentPort is the port the enforcer should use to listen for API calls `,
+		Description:    `ProxyListenAddress is the address the enforcer should use to listen for API calls. It can be a port (example :9443) or socket path (example: /var/run/aporeto.sock) `,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
