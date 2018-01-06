@@ -381,7 +381,7 @@ func (o *EnforcerProfile) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("proxyListenAddress", o.ProxyListenAddress, `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/ ]{1,16}){1,3}/?)$`, false); err != nil {
+	if err := elemental.ValidatePattern("proxyListenAddress", o.ProxyListenAddress, `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/ ]{1,16}){1,5}/?)$`, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -721,7 +721,7 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "boolean",
 	},
 	"ProxyListenAddress": elemental.AttributeSpecification{
-		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/ ]{1,16}){1,3}/?)$`,
+		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/ ]{1,16}){1,5}/?)$`,
 		AllowedChoices: []string{},
 		DefaultValue:   ":9443",
 		Description:    `ProxyListenAddress is the address the enforcer should use to listen for API calls. It can be a port (example :9443) or socket path (example: unix:/var/run/aporeto.sock) `,
@@ -1116,7 +1116,7 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Type:           "boolean",
 	},
 	"proxylistenaddress": elemental.AttributeSpecification{
-		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/ ]{1,16}){1,3}/?)$`,
+		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/ ]{1,16}){1,5}/?)$`,
 		AllowedChoices: []string{},
 		DefaultValue:   ":9443",
 		Description:    `ProxyListenAddress is the address the enforcer should use to listen for API calls. It can be a port (example :9443) or socket path (example: unix:/var/run/aporeto.sock) `,
