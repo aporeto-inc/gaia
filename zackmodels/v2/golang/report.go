@@ -86,6 +86,9 @@ func (o ReportsList) Version() int {
 
 // Report represents the model of a report
 type Report struct {
+	// Generic interface for the data provided as a blob.
+	Data interface{} `json:"data" bson:"-"`
+
 	// Kind contains the kind of report.
 	Kind ReportKindValue `json:"kind" bson:"-"`
 
@@ -191,6 +194,14 @@ func (*Report) AttributeSpecifications() map[string]elemental.AttributeSpecifica
 
 // ReportAttributesMap represents the map of attribute for Report.
 var ReportAttributesMap = map[string]elemental.AttributeSpecification{
+	"Data": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Data",
+		Description:    `Generic interface for the data provided as a blob.`,
+		Exposed:        true,
+		Name:           "data",
+		Type:           "object",
+	},
 	"Kind": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall"},
 		ConvertedName:  "Kind",
@@ -228,6 +239,14 @@ var ReportAttributesMap = map[string]elemental.AttributeSpecification{
 
 // ReportLowerCaseAttributesMap represents the map of attribute for Report.
 var ReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"data": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Data",
+		Description:    `Generic interface for the data provided as a blob.`,
+		Exposed:        true,
+		Name:           "data",
+		Type:           "object",
+	},
 	"kind": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall"},
 		ConvertedName:  "Kind",

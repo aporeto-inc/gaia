@@ -29,9 +29,9 @@
             "secret": null,
             "setter": null,
             "stored": false,
-            "subtype": "blob",
+            "subtype": null,
             "transient": null,
-            "type": "external",
+            "type": "object",
             "unique": null,
             "uniqueScope": null
         },
