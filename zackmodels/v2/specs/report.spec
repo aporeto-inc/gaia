@@ -38,6 +38,7 @@
         {
             "allowed_chars": null,
             "allowed_choices": [
+                "Audit",
                 "Enforcer",
                 "FileAccess",
                 "Flow",
