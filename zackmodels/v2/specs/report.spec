@@ -7,7 +7,7 @@
             "channel": null,
             "creation_only": null,
             "default_order": null,
-            "default_value": "nil",
+            "default_value": null,
             "deprecated": null,
             "description": "Generic interface for the data provided as a blob.",
             "exposed": true,
