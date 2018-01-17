@@ -86,8 +86,8 @@ func (o ReportsList) Version() int {
 
 // Report represents the model of a report
 type Report struct {
-	// Generic interface for the data provided as a blob.
-	Data interface{} `json:"data" bson:"-"`
+	// TSDB Fields to set for the report.
+	Fields map[string]interface{} `json:"fields" bson:"-"`
 
 	// Kind contains the kind of report.
 	Kind ReportKindValue `json:"kind" bson:"-"`
@@ -111,6 +111,7 @@ func NewReport() *Report {
 
 	return &Report{
 		ModelVersion: 2,
+		Fields:       map[string]interface{}{},
 		Tags:         map[string]string{},
 	}
 }
@@ -194,13 +195,14 @@ func (*Report) AttributeSpecifications() map[string]elemental.AttributeSpecifica
 
 // ReportAttributesMap represents the map of attribute for Report.
 var ReportAttributesMap = map[string]elemental.AttributeSpecification{
-	"Data": elemental.AttributeSpecification{
+	"Fields": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Data",
-		Description:    `Generic interface for the data provided as a blob.`,
+		ConvertedName:  "Fields",
+		Description:    `TSDB Fields to set for the report.`,
 		Exposed:        true,
-		Name:           "data",
-		Type:           "object",
+		Name:           "fields",
+		SubType:        "tsdb_fields",
+		Type:           "external",
 	},
 	"Kind": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall"},
@@ -239,13 +241,14 @@ var ReportAttributesMap = map[string]elemental.AttributeSpecification{
 
 // ReportLowerCaseAttributesMap represents the map of attribute for Report.
 var ReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"data": elemental.AttributeSpecification{
+	"fields": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Data",
-		Description:    `Generic interface for the data provided as a blob.`,
+		ConvertedName:  "Fields",
+		Description:    `TSDB Fields to set for the report.`,
 		Exposed:        true,
-		Name:           "data",
-		Type:           "object",
+		Name:           "fields",
+		SubType:        "tsdb_fields",
+		Type:           "external",
 	},
 	"kind": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall"},
