@@ -28,7 +28,7 @@
             "required": null,
             "secret": null,
             "setter": null,
-            "stored": true,
+            "stored": false,
             "subtype": "blob",
             "transient": null,
             "type": "external",
