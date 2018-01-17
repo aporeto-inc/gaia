@@ -108,6 +108,9 @@ const (
 	// StatsTagKeyImage represents the image tag.
 	StatsTagKeyImage = "@sys:image"
 
+	// StatsTagKeyPid represents the parent Pid of the container
+	StatsTagKeyPid = "@sys:Pid"
+
 	// StatsTagKeyServerID represents the server ID tag.
 	StatsTagKeyServerID = "@serverid"
 
@@ -131,6 +134,15 @@ const (
 
 	// StatsTagKeySyscallAccessName represents the number of the syscall.
 	StatsTagKeySyscallAccessName = "@syscall"
+
+	// StatsTagKeySyscallSuccess represents the success or not  of the syscall.
+	StatsTagKeySyscallSuccess = "@success"
+
+	// StatsTagKeyExecutable represents the executable of the syscall
+	StatsTagKeyExecutable = "@exec"
+
+	// StatsTagKeyEventType represents the key of the event type
+	StatsTagKeyEventType = "@type"
 
 	// StatsTagKeySyscallAccessPID represents the pid of the related process.
 	StatsTagKeySyscallAccessPID = "@pid"
