@@ -97,13 +97,16 @@ type AuditRule struct {
 	// FilePath is the file path for a file system rule.
 	FilePath string `json:"filePath" bson:"filepath"`
 
+	// FilePermissionType describes the file system permission that the rule is interested in. Valid is r|w|x|a. Default rwxa
+	FilePermission string `json:"filePermission" bson:"filepermission"`
+
 	// FilterRules is the list of filter rules that must be applied to the auditing rule.
 	FilterRules []*types.AuditFilter `json:"filterRules" bson:"filterrules"`
 
 	// GroupName is the name of the group that this rule must be associated with.
 	GroupName string `json:"groupName" bson:"groupname"`
 
-	// RuleType is the type of the audit rule and it can be Syscall or File.
+	// RuleType is the type of the audit rule and it can be SYSCALL or FILE.
 	RuleType AuditRuleRuleTypeValue `json:"ruleType" bson:"ruletype"`
 
 	// SysCalls is the list of system calls that the rule applies to. It is only valid if ruleType is SYSCALL.
@@ -155,6 +158,7 @@ func NewAuditRule() *AuditRule {
 		Annotations:    map[string][]string{},
 		Architecture:   "64bit",
 		AssociatedTags: []string{},
+		FilePermission: "rwxa",
 		FilterRules:    []*types.AuditFilter{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
@@ -321,6 +325,14 @@ func (o *AuditRule) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateMaximumLength("filePermission", o.FilePermission, 4, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMinimumLength("filePermission", o.FilePermission, 1, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("groupName", o.GroupName); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -466,6 +478,21 @@ var AuditRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"FilePermission": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "FilePermission",
+		DefaultValue:   "rwxa",
+		Description:    `FilePermissionType describes the file system permission that the rule is interested in. Valid is r|w|x|a. Default rwxa`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		MaxLength:      4,
+		MinLength:      1,
+		Name:           "filePermission",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"FilterRules": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FilterRules",
@@ -572,7 +599,7 @@ var AuditRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{"File", "Syscall"},
 		ConvertedName:  "RuleType",
 		DefaultValue:   AuditRuleRuleTypeSyscall,
-		Description:    `RuleType is the type of the audit rule and it can be Syscall or File.`,
+		Description:    `RuleType is the type of the audit rule and it can be SYSCALL or FILE.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "ruleType",
@@ -702,6 +729,21 @@ var AuditRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "string",
 	},
+	"filepermission": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "FilePermission",
+		DefaultValue:   "rwxa",
+		Description:    `FilePermissionType describes the file system permission that the rule is interested in. Valid is r|w|x|a. Default rwxa`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		MaxLength:      4,
+		MinLength:      1,
+		Name:           "filePermission",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"filterrules": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FilterRules",
@@ -808,7 +850,7 @@ var AuditRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		AllowedChoices: []string{"File", "Syscall"},
 		ConvertedName:  "RuleType",
 		DefaultValue:   AuditRuleRuleTypeSyscall,
-		Description:    `RuleType is the type of the audit rule and it can be Syscall or File.`,
+		Description:    `RuleType is the type of the audit rule and it can be SYSCALL or FILE.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "ruleType",

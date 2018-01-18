@@ -257,7 +257,7 @@
         "aliases": [
             "ar"
         ],
-        "create": null,
+        "create": true,
         "delete": true,
         "description": "AuditRule describes an audit rule that must be applied to an enforer to detect anomalous events. ",
         "entity_name": "AuditRule",
