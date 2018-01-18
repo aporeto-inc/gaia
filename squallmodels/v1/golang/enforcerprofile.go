@@ -103,7 +103,7 @@ type EnforcerProfile struct {
 	PUHeartbeatInterval string `json:"PUHeartbeatInterval" bson:"puheartbeatinterval"`
 
 	// AuditRuleSelectors is the list of tags (key/value pairs) of that define the audit rules that must be implemented by this enforcer.
-	AuditRuleSelectors [][]string `json:"auditRuleSelectors" bson:"auditruleselectors"`
+	AuditRuleSelectors map[string]string `json:"auditRuleSelectors" bson:"auditruleselectors"`
 
 	// AuditRules return the audit rules associated with the enforcer profile. This is a read only attribute when an enforcer profile is resolved for an enforcer.
 	AuditRules AuditRulesList `json:"auditRules" bson:"-"`
@@ -568,7 +568,7 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Filterable:     true,
 		Name:           "auditRuleSelectors",
 		Stored:         true,
-		SubType:        "target_tags",
+		SubType:        "selectors_list",
 		Type:           "external",
 	},
 	"AuditRules": elemental.AttributeSpecification{
@@ -1017,7 +1017,7 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Filterable:     true,
 		Name:           "auditRuleSelectors",
 		Stored:         true,
-		SubType:        "target_tags",
+		SubType:        "selectors_list",
 		Type:           "external",
 	},
 	"auditrules": elemental.AttributeSpecification{
