@@ -1,30 +1,30 @@
 package types
 
-// AuditFilterType are the valid IDs of the audit filters
+// AuditFilterType are the valid IDs of the audit filters.
 type AuditFilterType string
 
-// Values of AuditFilterType
+// Values of AuditFilterType.
 const (
 	AuditFilterTypePath    AuditFilterType = "path"
-	AuditFilterTypeMsgtype AuditFilterType = "msgtype"
-	AuditFilterTypeSbjType AuditFilterType = "subjType"
+	AuditFilterTypeMsg     AuditFilterType = "msg"
+	AuditFilterTypeSbj     AuditFilterType = "subj"
 	AuditFilterTypeAuid    AuditFilterType = "auid"
 	AuditFilterTypeSuccess AuditFilterType = "success"
 	AuditFilterTypePerm    AuditFilterType = "perm"
 	AuditFilterTypeDir     AuditFilterType = "dir"
 )
 
-// AuditFilterOperator is the operator for filters
+// AuditFilterOperator is the operator for filters.
 type AuditFilterOperator string
 
 // Values of AuditFilterOperator
 const (
-	Equal           AuditFilterOperator = "="
-	NotEqual        AuditFilterOperator = "!="
-	Greater         AuditFilterOperator = ">"
-	LessThan        AuditFilterOperator = "<"
-	GreaterOrEqual  AuditFilterOperator = ">="
-	LessThanOrEqual AuditFilterOperator = "<="
+	AuditFilterOperatorEqual           AuditFilterOperator = "="
+	AuditFilterOperatorNotEqual        AuditFilterOperator = "!="
+	AuditFilterOperatorGreater         AuditFilterOperator = ">"
+	AuditFilterOperatorLessThan        AuditFilterOperator = "<"
+	AuditFilterOperatorGreaterOrEqual  AuditFilterOperator = ">="
+	AuditFilterOperatorLessThanOrEqual AuditFilterOperator = "<="
 )
 
 // AuditFilter is a signle audit filter rule
