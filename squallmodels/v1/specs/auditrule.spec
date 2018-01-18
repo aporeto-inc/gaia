@@ -5,7 +5,7 @@
         "aliases": [],
         "create": null,
         "delete": true,
-        "description": null,
+        "description": "AuditRule describes an audit rule that must be applied to an enforer to detect anomalous events. ",
         "entity_name": "AuditRule",
         "extends": [
             "@base",
