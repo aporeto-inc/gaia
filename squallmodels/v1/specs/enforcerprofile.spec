@@ -134,7 +134,7 @@
             "secret": null,
             "setter": null,
             "stored": true,
-            "subtype": "target_tags",
+            "subtype": "selectors_list",
             "transient": null,
             "type": "external",
             "unique": null,
