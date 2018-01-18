@@ -232,7 +232,7 @@
             "@named"
         ],
         "get": true,
-        "package": null,
+        "package": "Squall API",
         "resource_name": "auditrules",
         "rest_name": "auditrule",
         "root": null,
