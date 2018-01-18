@@ -107,7 +107,7 @@ type AuditRule struct {
 	RuleType AuditRuleRuleTypeValue `json:"ruleType" bson:"ruletype"`
 
 	// SysCalls is the list of system calls that the rule applies to. It is only valid if ruleType is SYSCALL.
-	Syscalls []types.SystemCallType `json:"syscalls" bson:"syscalls"`
+	Syscalls []*types.SystemCallType `json:"syscalls" bson:"syscalls"`
 
 	// Annotation stores additional information about an entity
 	Annotations map[string][]string `json:"annotations" bson:"annotations"`
