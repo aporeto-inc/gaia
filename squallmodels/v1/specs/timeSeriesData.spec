@@ -11,7 +11,7 @@
         "entity_name": "Timeseriesdata",
         "extends": [],
         "get": true,
-        "package": null,
+        "package": "\nSquall API",
         "resource_name": "timeSeriesDatas",
         "rest_name": "timeSeriesData",
         "root": null,
