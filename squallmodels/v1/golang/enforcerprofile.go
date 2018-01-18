@@ -207,7 +207,7 @@ func NewEnforcerProfile() *EnforcerProfile {
 		ModelVersion:                  1,
 		Annotations:                   map[string][]string{},
 		AssociatedTags:                []string{},
-		AuditRules:                    AuditRuleList{},
+		AuditRules:                    AuditRulesList{},
 		DockerSocketAddress:           "/var/run/docker.sock",
 		DockerSocketType:              "unix",
 		IPTablesMarkValue:             1000,
