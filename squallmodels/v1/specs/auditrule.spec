@@ -7,7 +7,13 @@
         "delete": true,
         "description": null,
         "entity_name": "AuditRule",
-        "extends": [],
+        "extends": [
+            "@base",
+            "@described",
+            "@identifiable-pk-stored",
+            "@metadatable",
+            "@named"
+        ],
         "get": true,
         "package": null,
         "resource_name": "auditrules",
