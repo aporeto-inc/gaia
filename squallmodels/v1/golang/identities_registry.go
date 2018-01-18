@@ -7,6 +7,7 @@ func init() {
 	elemental.RegisterIdentity(ActivityIdentity)
 	elemental.RegisterIdentity(APIAuthorizationPolicyIdentity)
 	elemental.RegisterIdentity(APICheckIdentity)
+	elemental.RegisterIdentity(AuditRuleIdentity)
 	elemental.RegisterIdentity(DependencyMapIdentity)
 	elemental.RegisterIdentity(EnforcerIdentity)
 	elemental.RegisterIdentity(EnforcerProfileIdentity)
@@ -52,6 +53,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewAPIAuthorizationPolicy()
 	case APICheckIdentity.Name:
 		return NewAPICheck()
+	case AuditRuleIdentity.Name:
+		return NewAuditRule()
 	case DependencyMapIdentity.Name:
 		return NewDependencyMap()
 	case EnforcerIdentity.Name:
@@ -126,6 +129,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewAPIAuthorizationPolicy()
 	case APICheckIdentity.Category:
 		return NewAPICheck()
+	case AuditRuleIdentity.Category:
+		return NewAuditRule()
 	case DependencyMapIdentity.Category:
 		return NewDependencyMap()
 	case EnforcerIdentity.Category:
@@ -200,6 +205,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &APIAuthorizationPoliciesList{}
 	case APICheckIdentity.Name:
 		return &APIChecksList{}
+	case AuditRuleIdentity.Name:
+		return &AuditRulesList{}
 	case DependencyMapIdentity.Name:
 		return &DependencyMapsList{}
 	case EnforcerIdentity.Name:
@@ -274,6 +281,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &APIAuthorizationPoliciesList{}
 	case APICheckIdentity.Category:
 		return &APIChecksList{}
+	case AuditRuleIdentity.Category:
+		return &AuditRulesList{}
 	case DependencyMapIdentity.Category:
 		return &DependencyMapsList{}
 	case EnforcerIdentity.Category:
@@ -344,6 +353,7 @@ func AllIdentities() []elemental.Identity {
 		ActivityIdentity,
 		APIAuthorizationPolicyIdentity,
 		APICheckIdentity,
+		AuditRuleIdentity,
 		DependencyMapIdentity,
 		EnforcerIdentity,
 		EnforcerProfileIdentity,
@@ -447,6 +457,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"apiauth",
 		}
 	case APICheckIdentity:
+		return []string{}
+	case AuditRuleIdentity:
 		return []string{}
 	case DependencyMapIdentity:
 		return []string{
