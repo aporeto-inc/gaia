@@ -134,9 +134,9 @@
             "secret": null,
             "setter": null,
             "stored": true,
-            "subtype": "selectors_list",
+            "subtype": null,
             "transient": null,
-            "type": "external",
+            "type": "list",
             "unique": null,
             "uniqueScope": null
         },
