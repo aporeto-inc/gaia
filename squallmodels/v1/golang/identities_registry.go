@@ -389,6 +389,7 @@ func AllIdentities() []elemental.Identity {
 var aliasesMap = map[string]elemental.Identity{
 	"apiauths":   APIAuthorizationPolicyIdentity,
 	"apiauth":    APIAuthorizationPolicyIdentity,
+	"ar":         AuditRuleIdentity,
 	"depmap":     DependencyMapIdentity,
 	"depmaps":    DependencyMapIdentity,
 	"profile":    EnforcerProfileIdentity,
@@ -459,7 +460,9 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case APICheckIdentity:
 		return []string{}
 	case AuditRuleIdentity:
-		return []string{}
+		return []string{
+			"ar",
+		}
 	case DependencyMapIdentity:
 		return []string{
 			"depmap",
