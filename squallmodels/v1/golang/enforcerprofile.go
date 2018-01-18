@@ -120,6 +120,9 @@ type EnforcerProfile struct {
 	// AuditRules return the audit rules associated with the enforcer profile. This is a read only attribute when an enforcer profile is resolved for an enforcer.
 	AuditRules AuditRulesList `json:"auditRules" bson:"-"`
 
+	// AuditSocketBufferSize is the size of the audit socket buffer. Default 16384.
+	AuditSocketBufferSize int `json:"auditSocketBufferSize" bson:"auditsocketbuffersize"`
+
 	// DockerSocketAddress is the address of the docker daemon.
 	DockerSocketAddress string `json:"dockerSocketAddress" bson:"dockersocketaddress"`
 
@@ -224,6 +227,7 @@ func NewEnforcerProfile() *EnforcerProfile {
 		AuditLogOutOfOrder:            false,
 		AuditMessageTracking:          true,
 		AuditRules:                    AuditRulesList{},
+		AuditSocketBufferSize:         16384,
 		DockerSocketAddress:           "/var/run/docker.sock",
 		DockerSocketType:              "unix",
 		IPTablesMarkValue:             1000,
@@ -409,6 +413,10 @@ func (o *EnforcerProfile) Validate() error {
 	}
 
 	if err := elemental.ValidateMinimumInt("auditEventsMin", o.AuditEventsMin, int(1000), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMaximumInt("auditSocketBufferSize", o.AuditSocketBufferSize, int(262144), false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -665,6 +673,19 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		SubType:        "audit_rule_list",
 		Type:           "external",
+	},
+	"AuditSocketBufferSize": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuditSocketBufferSize",
+		DefaultValue:   16384,
+		Description:    `AuditSocketBufferSize is the size of the audit socket buffer. Default 16384.`,
+		Exposed:        true,
+		Filterable:     true,
+		MaxValue:       262144,
+		Name:           "auditSocketBufferSize",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1166,6 +1187,19 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		ReadOnly:       true,
 		SubType:        "audit_rule_list",
 		Type:           "external",
+	},
+	"auditsocketbuffersize": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuditSocketBufferSize",
+		DefaultValue:   16384,
+		Description:    `AuditSocketBufferSize is the size of the audit socket buffer. Default 16384.`,
+		Exposed:        true,
+		Filterable:     true,
+		MaxValue:       262144,
+		Name:           "auditSocketBufferSize",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
