@@ -103,7 +103,7 @@ type AuditRule struct {
 	// GroupName is the name of the group that this rule must be associated with.
 	GroupName string `json:"groupName" bson:"groupname"`
 
-	// RuleType is the type of the audit rule and it can be SYSCALL or FILE.
+	// RuleType is the type of the audit rule and it can be Syscall or File.
 	RuleType AuditRuleRuleTypeValue `json:"ruleType" bson:"ruletype"`
 
 	// SysCalls is the list of system calls that the rule applies to. It is only valid if ruleType is SYSCALL.
@@ -572,7 +572,7 @@ var AuditRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{"File", "Syscall"},
 		ConvertedName:  "RuleType",
 		DefaultValue:   AuditRuleRuleTypeSyscall,
-		Description:    `RuleType is the type of the audit rule and it can be SYSCALL or FILE.`,
+		Description:    `RuleType is the type of the audit rule and it can be Syscall or File.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "ruleType",
@@ -808,7 +808,7 @@ var AuditRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		AllowedChoices: []string{"File", "Syscall"},
 		ConvertedName:  "RuleType",
 		DefaultValue:   AuditRuleRuleTypeSyscall,
-		Description:    `RuleType is the type of the audit rule and it can be SYSCALL or FILE.`,
+		Description:    `RuleType is the type of the audit rule and it can be Syscall or File.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "ruleType",

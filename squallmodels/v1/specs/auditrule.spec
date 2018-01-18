@@ -155,7 +155,7 @@
             "default_order": null,
             "default_value": "Syscall",
             "deprecated": null,
-            "description": "RuleType is the type of the audit rule and it can be SYSCALL or FILE.",
+            "description": "RuleType is the type of the audit rule and it can be Syscall or File.",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
