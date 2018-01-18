@@ -219,7 +219,9 @@
     ],
     "children": [],
     "model": {
-        "aliases": [],
+        "aliases": [
+            "ar"
+        ],
         "create": null,
         "delete": true,
         "description": "AuditRule describes an audit rule that must be applied to an enforer to detect anomalous events. ",
