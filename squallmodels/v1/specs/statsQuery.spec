@@ -9,7 +9,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "Fields is a list of fields that can be returned by the query. Similar to \"select fields ... \"",
+            "description": "Fields is a list of fields that can be returned by the query. Similar to \"select fields ... \". Default is \"value\".",
             "exposed": true,
             "filterable": false,
             "foreign_key": null,
