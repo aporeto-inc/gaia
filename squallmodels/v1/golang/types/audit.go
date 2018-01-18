@@ -27,17 +27,17 @@ const (
 	AuditFilterOperatorLessThanOrEqual AuditFilterOperator = "<="
 )
 
-// AuditFilter is a signle audit filter rule
+// AuditFilter is a signle audit filter rule.
 type AuditFilter struct {
 	Key      AuditFilterType
 	Operator AuditFilterOperator
 	Value    string
 }
 
-// AuditSystemCallType is the type for the system calls
+// AuditSystemCallType is the type for the system calls.
 type AuditSystemCallType uint16
 
-// Values of AuditSystemCallType
+// Values of AuditSystemCallType.
 const (
 	AuditSystemCallTypeREAD                   AuditSystemCallType = 0
 	AuditSystemCallTypeWRITE                  AuditSystemCallType = 1
