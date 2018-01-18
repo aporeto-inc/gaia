@@ -109,7 +109,7 @@ const (
 	StatsTagKeyImage = "@sys:image"
 
 	// StatsTagKeyPid represents the parent Pid of the container
-	StatsTagKeyPid = "@sys:Pid"
+	StatsTagKeyPid = "@sys:pid"
 
 	// StatsTagKeyServerID represents the server ID tag.
 	StatsTagKeyServerID = "@serverid"

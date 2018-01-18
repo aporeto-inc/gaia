@@ -24,11 +24,11 @@ const (
 type AuditRuleRuleTypeValue string
 
 const (
-	// AuditRuleRuleTypeFile represents the value FILE.
-	AuditRuleRuleTypeFile AuditRuleRuleTypeValue = "FILE"
+	// AuditRuleRuleTypeFile represents the value File.
+	AuditRuleRuleTypeFile AuditRuleRuleTypeValue = "File"
 
-	// AuditRuleRuleTypeSyscall represents the value SYSCALL.
-	AuditRuleRuleTypeSyscall AuditRuleRuleTypeValue = "SYSCALL"
+	// AuditRuleRuleTypeSyscall represents the value Syscall.
+	AuditRuleRuleTypeSyscall AuditRuleRuleTypeValue = "Syscall"
 )
 
 // AuditRuleIdentity represents the Identity of the object.
@@ -107,7 +107,7 @@ type AuditRule struct {
 	RuleType AuditRuleRuleTypeValue `json:"ruleType" bson:"ruletype"`
 
 	// SysCalls is the list of system calls that the rule applies to. It is only valid if ruleType is SYSCALL.
-	Syscalls []*types.SystemCallType `json:"syscalls" bson:"syscalls"`
+	Syscalls []*types.AuditSystemCallType `json:"syscalls" bson:"syscalls"`
 
 	// Annotation stores additional information about an entity
 	Annotations map[string][]string `json:"annotations" bson:"annotations"`
@@ -158,8 +158,8 @@ func NewAuditRule() *AuditRule {
 		FilterRules:    []*types.AuditFilter{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
-		RuleType:       "SYSCALL",
-		Syscalls:       []*types.SystemCallType{},
+		RuleType:       "Syscall",
+		Syscalls:       []*types.AuditSystemCallType{},
 	}
 }
 
@@ -333,7 +333,7 @@ func (o *AuditRule) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("ruleType", string(o.RuleType), []string{"FILE", "SYSCALL"}, false); err != nil {
+	if err := elemental.ValidateStringInList("ruleType", string(o.RuleType), []string{"File", "Syscall"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -569,7 +569,7 @@ var AuditRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "boolean",
 	},
 	"RuleType": elemental.AttributeSpecification{
-		AllowedChoices: []string{"FILE", "SYSCALL"},
+		AllowedChoices: []string{"File", "Syscall"},
 		ConvertedName:  "RuleType",
 		DefaultValue:   AuditRuleRuleTypeSyscall,
 		Description:    `RuleType is the type of the audit rule and it can be SYSCALL or FILE.`,
@@ -805,7 +805,7 @@ var AuditRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Type:           "boolean",
 	},
 	"ruletype": elemental.AttributeSpecification{
-		AllowedChoices: []string{"FILE", "SYSCALL"},
+		AllowedChoices: []string{"File", "Syscall"},
 		ConvertedName:  "RuleType",
 		DefaultValue:   AuditRuleRuleTypeSyscall,
 		Description:    `RuleType is the type of the audit rule and it can be SYSCALL or FILE.`,
