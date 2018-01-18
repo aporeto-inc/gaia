@@ -112,7 +112,7 @@
             "channel": null,
             "creation_only": null,
             "default_order": null,
-            "default_value": null,
+            "default_value": "audit_rule_selector_list",
             "deprecated": null,
             "description": "AuditRuleSelectors is the list of tags (key/value pairs) of that define the audit rules that must be implemented by this enforcer.",
             "exposed": true,
@@ -136,7 +136,7 @@
             "stored": true,
             "subtype": null,
             "transient": null,
-            "type": "list",
+            "type": "external",
             "unique": null,
             "uniqueScope": null
         },
