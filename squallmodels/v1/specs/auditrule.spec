@@ -25,7 +25,7 @@
             "min_length": null,
             "min_value": null,
             "name": "architecture",
-            "orderable": true,
+            "orderable": false,
             "primary_key": null,
             "read_only": null,
             "required": null,
