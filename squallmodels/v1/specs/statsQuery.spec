@@ -82,7 +82,7 @@
             "channel": null,
             "creation_only": true,
             "default_order": null,
-            "default_value": "PUs",
+            "default_value": "ProcessingUnit",
             "deprecated": null,
             "description": "Measurement is the time series measurement of interest. Options are PUs, flows, file, audit.",
             "exposed": true,
