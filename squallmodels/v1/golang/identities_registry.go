@@ -32,6 +32,7 @@ func init() {
 	elemental.RegisterIdentity(RenderedPolicyIdentity)
 	elemental.RegisterIdentity(RoleIdentity)
 	elemental.RegisterIdentity(RootIdentity)
+	elemental.RegisterIdentity(StatsQueryIdentity)
 	elemental.RegisterIdentity(SuggestedPolicyIdentity)
 	elemental.RegisterIdentity(SystemCallIdentity)
 	elemental.RegisterIdentity(TabulationIdentity)
@@ -103,6 +104,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewRole()
 	case RootIdentity.Name:
 		return NewRoot()
+	case StatsQueryIdentity.Name:
+		return NewStatsQuery()
 	case SuggestedPolicyIdentity.Name:
 		return NewSuggestedPolicy()
 	case SystemCallIdentity.Name:
@@ -179,6 +182,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewRole()
 	case RootIdentity.Category:
 		return NewRoot()
+	case StatsQueryIdentity.Category:
+		return NewStatsQuery()
 	case SuggestedPolicyIdentity.Category:
 		return NewSuggestedPolicy()
 	case SystemCallIdentity.Category:
@@ -255,6 +260,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &RolesList{}
 	case RootIdentity.Name:
 		return &RootsList{}
+	case StatsQueryIdentity.Name:
+		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity.Name:
 		return &SuggestedPoliciesList{}
 	case SystemCallIdentity.Name:
@@ -331,6 +338,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &RolesList{}
 	case RootIdentity.Category:
 		return &RootsList{}
+	case StatsQueryIdentity.Category:
+		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity.Category:
 		return &SuggestedPoliciesList{}
 	case SystemCallIdentity.Category:
@@ -378,6 +387,7 @@ func AllIdentities() []elemental.Identity {
 		RenderedPolicyIdentity,
 		RoleIdentity,
 		RootIdentity,
+		StatsQueryIdentity,
 		SuggestedPolicyIdentity,
 		SystemCallIdentity,
 		TabulationIdentity,
@@ -426,6 +436,7 @@ var aliasesMap = map[string]elemental.Identity{
 	"quotapols":  QuotaPolicyIdentity,
 	"rpol":       RenderedPolicyIdentity,
 	"rpols":      RenderedPolicyIdentity,
+	"ts":         StatsQueryIdentity,
 	"sugpol":     SuggestedPolicyIdentity,
 	"sugpols":    SuggestedPolicyIdentity,
 	"sugg":       SuggestedPolicyIdentity,
@@ -563,6 +574,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case RootIdentity:
 		return []string{}
+	case StatsQueryIdentity:
+		return []string{
+			"ts",
+		}
 	case SuggestedPolicyIdentity:
 		return []string{
 			"sugpol",
