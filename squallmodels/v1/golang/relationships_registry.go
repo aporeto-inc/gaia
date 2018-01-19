@@ -525,6 +525,9 @@ func init() {
 	relationshipsRegistry[RootIdentity] = &elemental.Relationship{}
 
 	relationshipsRegistry[StatsQueryIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
 		AllowsUpdate: map[string]bool{
 			"root": true,
 		},
