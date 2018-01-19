@@ -26,8 +26,8 @@ const (
 
 // StatsQueryIdentity represents the Identity of the object.
 var StatsQueryIdentity = elemental.Identity{
-	Name:     "statsQuery",
-	Category: "statsQueries",
+	Name:     "statsquery",
+	Category: "statsqueries",
 }
 
 // StatsQueriesList represents a list of StatsQueries
@@ -80,7 +80,7 @@ func (o StatsQueriesList) Version() int {
 	return 1
 }
 
-// StatsQuery represents the model of a statsQuery
+// StatsQuery represents the model of a statsquery
 type StatsQuery struct {
 	// Fields is a list of fields that can be returned by the query. Similar to "select fields ... ". Default is "value".
 	Fields []string `json:"fields" bson:"-"`
