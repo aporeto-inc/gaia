@@ -220,7 +220,7 @@
         "aliases": [
             "ts"
         ],
-        "create": null,
+        "create": true,
         "delete": true,
         "description": "TimeSeriesData is a generic API to retrieve time series data stored by the Aporeto system. The API allows different types of queries that are all protected within the namespace of the user.",
         "entity_name": "StatsQuery",

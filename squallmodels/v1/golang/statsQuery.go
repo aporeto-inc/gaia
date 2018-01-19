@@ -11,17 +11,14 @@ import (
 type StatsQueryMeasurementValue string
 
 const (
-	// StatsQueryMeasurementAudit represents the value Audit.
-	StatsQueryMeasurementAudit StatsQueryMeasurementValue = "Audit"
+	// StatsQueryMeasurementAudit represents the value audit.
+	StatsQueryMeasurementAudit StatsQueryMeasurementValue = "audit"
 
-	// StatsQueryMeasurementFile represents the value File.
-	StatsQueryMeasurementFile StatsQueryMeasurementValue = "File"
+	// StatsQueryMeasurementFile represents the value file.
+	StatsQueryMeasurementFile StatsQueryMeasurementValue = "file"
 
-	// StatsQueryMeasurementFlow represents the value Flow.
-	StatsQueryMeasurementFlow StatsQueryMeasurementValue = "Flow"
-
-	// StatsQueryMeasurementProcessingunit represents the value ProcessingUnit.
-	StatsQueryMeasurementProcessingunit StatsQueryMeasurementValue = "ProcessingUnit"
+	// StatsQueryMeasurementFlow represents the value flow.
+	StatsQueryMeasurementFlow StatsQueryMeasurementValue = "flow"
 )
 
 // StatsQueryIdentity represents the Identity of the object.
@@ -163,7 +160,7 @@ func (o *StatsQuery) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Audit", "File", "Flow", "ProcessingUnit"}, false); err != nil {
+	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"audit", "file", "flow"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -218,7 +215,7 @@ var StatsQueryAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"Measurement": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Audit", "File", "Flow", "ProcessingUnit"},
+		AllowedChoices: []string{"audit", "file", "flow"},
 		ConvertedName:  "Measurement",
 		CreationOnly:   true,
 		DefaultValue:   StatsQueryMeasurementFlow,
@@ -283,7 +280,7 @@ var StatsQueryLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Type:           "external",
 	},
 	"measurement": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Audit", "File", "Flow", "ProcessingUnit"},
+		AllowedChoices: []string{"audit", "file", "flow"},
 		ConvertedName:  "Measurement",
 		CreationOnly:   true,
 		DefaultValue:   StatsQueryMeasurementFlow,
