@@ -17,7 +17,6 @@ func init() {
 	elemental.RegisterIdentity(FileAccessIdentity)
 	elemental.RegisterIdentity(FileAccessPolicyIdentity)
 	elemental.RegisterIdentity(FilePathIdentity)
-	elemental.RegisterIdentity(FlowRecordIdentity)
 	elemental.RegisterIdentity(FlowStatisticIdentity)
 	elemental.RegisterIdentity(HookPolicyIdentity)
 	elemental.RegisterIdentity(MessageIdentity)
@@ -74,8 +73,6 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewFileAccessPolicy()
 	case FilePathIdentity.Name:
 		return NewFilePath()
-	case FlowRecordIdentity.Name:
-		return NewFlowRecord()
 	case FlowStatisticIdentity.Name:
 		return NewFlowStatistic()
 	case HookPolicyIdentity.Name:
@@ -152,8 +149,6 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewFileAccessPolicy()
 	case FilePathIdentity.Category:
 		return NewFilePath()
-	case FlowRecordIdentity.Category:
-		return NewFlowRecord()
 	case FlowStatisticIdentity.Category:
 		return NewFlowStatistic()
 	case HookPolicyIdentity.Category:
@@ -230,8 +225,6 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &FileAccessPoliciesList{}
 	case FilePathIdentity.Name:
 		return &FilePathsList{}
-	case FlowRecordIdentity.Name:
-		return &FlowRecordsList{}
 	case FlowStatisticIdentity.Name:
 		return &FlowStatisticsList{}
 	case HookPolicyIdentity.Name:
@@ -308,8 +301,6 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &FileAccessPoliciesList{}
 	case FilePathIdentity.Category:
 		return &FilePathsList{}
-	case FlowRecordIdentity.Category:
-		return &FlowRecordsList{}
 	case FlowStatisticIdentity.Category:
 		return &FlowStatisticsList{}
 	case HookPolicyIdentity.Category:
@@ -372,7 +363,6 @@ func AllIdentities() []elemental.Identity {
 		FileAccessIdentity,
 		FileAccessPolicyIdentity,
 		FilePathIdentity,
-		FlowRecordIdentity,
 		FlowStatisticIdentity,
 		HookPolicyIdentity,
 		MessageIdentity,
@@ -412,8 +402,6 @@ var aliasesMap = map[string]elemental.Identity{
 	"extsrvs":    ExternalServiceIdentity,
 	"fp":         FilePathIdentity,
 	"fps":        FilePathIdentity,
-	"flowrecs":   FlowRecordIdentity,
-	"flowrec":    FlowRecordIdentity,
 	"flowstats":  FlowStatisticIdentity,
 	"flowstat":   FlowStatisticIdentity,
 	"hook":       HookPolicyIdentity,
@@ -509,11 +497,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"fp",
 			"fps",
-		}
-	case FlowRecordIdentity:
-		return []string{
-			"flowrecs",
-			"flowrec",
 		}
 	case FlowStatisticIdentity:
 		return []string{
