@@ -14,11 +14,11 @@ const (
 	// StatsQueryMeasurementAudit represents the value audit.
 	StatsQueryMeasurementAudit StatsQueryMeasurementValue = "audit"
 
-	// StatsQueryMeasurementFile represents the value file.
-	StatsQueryMeasurementFile StatsQueryMeasurementValue = "file"
+	// StatsQueryMeasurementFiles represents the value files.
+	StatsQueryMeasurementFiles StatsQueryMeasurementValue = "files"
 
-	// StatsQueryMeasurementFlow represents the value flow.
-	StatsQueryMeasurementFlow StatsQueryMeasurementValue = "flow"
+	// StatsQueryMeasurementFlows represents the value flows.
+	StatsQueryMeasurementFlows StatsQueryMeasurementValue = "flows"
 )
 
 // StatsQueryIdentity represents the Identity of the object.
@@ -160,7 +160,7 @@ func (o *StatsQuery) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"audit", "file", "flow"}, false); err != nil {
+	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"audit", "files", "flows"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -215,7 +215,7 @@ var StatsQueryAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"Measurement": elemental.AttributeSpecification{
-		AllowedChoices: []string{"audit", "file", "flow"},
+		AllowedChoices: []string{"audit", "files", "flows"},
 		ConvertedName:  "Measurement",
 		CreationOnly:   true,
 		DefaultValue:   StatsQueryMeasurementFlow,
@@ -280,7 +280,7 @@ var StatsQueryLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Type:           "external",
 	},
 	"measurement": elemental.AttributeSpecification{
-		AllowedChoices: []string{"audit", "file", "flow"},
+		AllowedChoices: []string{"audit", "files", "flows"},
 		ConvertedName:  "Measurement",
 		CreationOnly:   true,
 		DefaultValue:   StatsQueryMeasurementFlow,
