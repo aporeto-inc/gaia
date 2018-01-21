@@ -27,12 +27,23 @@ const (
 	AuditFilterOperatorLessThanOrEqual AuditFilterOperator = "<="
 )
 
-// AuditFilter is a signle audit filter rule.
+// AuditFilter is a single audit filter rule.
 type AuditFilter struct {
 	Key      AuditFilterType
 	Operator AuditFilterOperator
 	Value    string
 }
+
+// AuditFilePermissions is the type of file permissions
+type AuditFilePermissions string
+
+// Values of AuditFilePermissions
+const (
+	AuditFilePermissionsWrite     AuditFilePermissions = "w"
+	AuditFilePermissionsRead      AuditFilePermissions = "r"
+	AuditFilePermissionsExecute   AuditFilePermissions = "x"
+	AuditFilePermissionsAttribute AuditFilePermissions = "a"
+)
 
 // AuditSystemCallType is the type for the system calls.
 type AuditSystemCallType string

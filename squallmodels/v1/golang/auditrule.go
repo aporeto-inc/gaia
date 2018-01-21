@@ -98,7 +98,7 @@ type AuditRule struct {
 	FilePath string `json:"filePath" bson:"filepath"`
 
 	// FilePermissionType describes the file system permission that the rule is interested in. Valid is r|w|x|a. Default rwxa
-	FilePermission string `json:"filePermission" bson:"filepermission"`
+	FilePermission []types.AuditFilePermissions `json:"filePermission" bson:"filepermission"`
 
 	// FilterRules is the list of filter rules that must be applied to the auditing rule.
 	FilterRules []*types.AuditFilter `json:"filterRules" bson:"filterrules"`
@@ -158,7 +158,7 @@ func NewAuditRule() *AuditRule {
 		Annotations:    map[string][]string{},
 		Architecture:   "64bit",
 		AssociatedTags: []string{},
-		FilePermission: "rwxa",
+		FilePermission: []types.AuditFilePermissions{},
 		FilterRules:    []*types.AuditFilter{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
@@ -325,14 +325,6 @@ func (o *AuditRule) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateMaximumLength("filePermission", o.FilePermission, 4, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateMinimumLength("filePermission", o.FilePermission, 1, false); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("groupName", o.GroupName); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -481,17 +473,14 @@ var AuditRuleAttributesMap = map[string]elemental.AttributeSpecification{
 	"FilePermission": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FilePermission",
-		DefaultValue:   "rwxa",
 		Description:    `FilePermissionType describes the file system permission that the rule is interested in. Valid is r|w|x|a. Default rwxa`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
-		MaxLength:      4,
-		MinLength:      1,
 		Name:           "filePermission",
 		Orderable:      true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "audit_file_permissions_list",
+		Type:           "external",
 	},
 	"FilterRules": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -732,17 +721,14 @@ var AuditRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"filepermission": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FilePermission",
-		DefaultValue:   "rwxa",
 		Description:    `FilePermissionType describes the file system permission that the rule is interested in. Valid is r|w|x|a. Default rwxa`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
-		MaxLength:      4,
-		MinLength:      1,
 		Name:           "filePermission",
 		Orderable:      true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "audit_file_permissions_list",
+		Type:           "external",
 	},
 	"filterrules": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
