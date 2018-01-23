@@ -289,7 +289,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "AuditRules return the audit rules associated with the enforcer profile. This is a read only attribute when an enforcer profile is resolved for an enforcer.",
+            "description": "AuditPolicies returns the audit rules associated with the enforcer profile. This is a read only attribute when an enforcer profile is resolved for an enforcer.",
             "exposed": true,
             "filterable": false,
             "foreign_key": null,
