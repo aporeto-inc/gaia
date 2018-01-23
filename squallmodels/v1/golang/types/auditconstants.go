@@ -1,5 +1,9 @@
 package types
 
+import (
+	"github.com/aporeto-inc/elemental"
+)
+
 // AuditFilterType are the valid IDs of the audit filters.
 type AuditFilterType string
 
@@ -45,6 +49,52 @@ const (
 	AuditFilterTypeUserid     AuditFilterType = "uid"
 )
 
+var auditFilterTypeReverse = map[string]interface{}{
+	"a0":            nil,
+	"a1":            nil,
+	"a2":            nil,
+	"a3":            nil,
+	"arch":          nil,
+	"devmajor":      nil,
+	"devminor":      nil,
+	"dir":           nil,
+	"egid":          nil,
+	"euid":          nil,
+	"exit":          nil,
+	"fsgid":         nil,
+	"fsuid":         nil,
+	"filetye":       nil,
+	"gid":           nil,
+	"inode":         nil,
+	"msg_type":      nil,
+	"obj_uid":       nil,
+	"obj_gid":       nil,
+	"obj_user":      nil,
+	"obj_role":      nil,
+	"obj_type":      nil,
+	"obj_lev_low":   nil,
+	"obj_lev_highj": nil,
+	"path":          nil,
+	"perm":          nil,
+	"pers":          nil,
+	"pid":           nil,
+	"ppid":          nil,
+	"subj_user":     nil,
+	"subj_role":     nil,
+	"subj_type":     nil,
+	"subj_sen":      nil,
+	"subj_clr":      nil,
+	"sgid":          nil,
+	"success":       nil,
+	"suid":          nil,
+	"uid":           nil,
+}
+
+// Validate validates the AuditFilterType
+func (a AuditFilterType) Validate(attribute string) error {
+	return elemental.ValidateStringInMap(attribute, string(a), auditFilterTypeReverse, false)
+}
+
 // AuditFilterListType are the types allowed in the list argument of audit filters
 type AuditFilterListType string
 
@@ -56,6 +106,18 @@ const (
 	AuditFilterListTypeExclude AuditFilterListType = "exclude"
 )
 
+var auditFilterListTypeReverse = map[string]interface{}{
+	"task":    nil,
+	"exit":    nil,
+	"user":    nil,
+	"exclude": nil,
+}
+
+// Validate validates the AuditFilterListType
+func (a AuditFilterListType) Validate(attribute string) error {
+	return elemental.ValidateStringInMap(attribute, string(a), auditFilterListTypeReverse, false)
+}
+
 // AuditFilterActionType are the types allowed in the audit filter action
 type AuditFilterActionType string
 
@@ -64,6 +126,11 @@ const (
 	AuditFilterActionTypeNever  AuditFilterActionType = "never"
 	AuditFilterActionTypeAlways AuditFilterActionType = "always"
 )
+
+// Validate validates the AuditFilterActionType
+func (a AuditFilterActionType) Validate(attribute string) error {
+	return elemental.ValidateStringInList(attribute, string(a), []string{string(AuditFilterActionTypeNever), string(AuditFilterActionTypeAlways)}, false)
+}
 
 // AuditFilterOperator is the operator for filters.
 type AuditFilterOperator string
@@ -80,6 +147,22 @@ const (
 	AuditFilterOperatorBitTest         AuditFilterOperator = "&="
 )
 
+var auditFilterOperatorReverse = map[string]interface{}{
+	"=":  nil,
+	"!=": nil,
+	">":  nil,
+	"<":  nil,
+	">=": nil,
+	"<=": nil,
+	"&":  nil,
+	"&=": nil,
+}
+
+// Validate validates the audit filter operator
+func (a AuditFilterOperator) Validate(attribute string) error {
+	return elemental.ValidateStringInMap(attribute, string(a), auditFilterOperatorReverse, false)
+}
+
 // AuditFilePermissions is the type of file permissions
 type AuditFilePermissions string
 
@@ -91,8 +174,25 @@ const (
 	AuditFilePermissionsAttribute AuditFilePermissions = "a"
 )
 
+// Validate validates the audit file permissions
+func (a AuditFilePermissions) Validate(attribute string) error {
+	enums := []string{
+		string(AuditFilePermissionsWrite),
+		string(AuditFilePermissionsRead),
+		string(AuditFilePermissionsExecute),
+		string(AuditFilePermissionsAttribute),
+	}
+
+	return elemental.ValidateStringInList(attribute, string(a), enums, false)
+}
+
 // AuditSystemCallType is the type for the system calls.
 type AuditSystemCallType string
+
+// Validate validates the AuditSystemCallType
+func (a AuditSystemCallType) Validate(attribute string) error {
+	return elemental.ValidateStringInMap(attribute, string(a), auditSystemCallTypeReverse, false)
+}
 
 // Values of AuditSystemCallType.
 const (
@@ -411,3 +511,320 @@ const (
 	AuditSystemCallTypeKCMP                   AuditSystemCallType = "kcmp"
 	AuditSystemCallTypeFINIT_MODULE           AuditSystemCallType = "finit_module"
 )
+
+var auditSystemCallTypeReverse = map[string]interface{}{
+	"read":                   nil,
+	"write":                  nil,
+	"open":                   nil,
+	"close":                  nil,
+	"stat":                   nil,
+	"fstat":                  nil,
+	"lstat":                  nil,
+	"poll":                   nil,
+	"lseek":                  nil,
+	"mmap":                   nil,
+	"mprotect":               nil,
+	"munmap":                 nil,
+	"brk":                    nil,
+	"rt_sigaction":           nil,
+	"rt_sigprocmask":         nil,
+	"rt_sigreturn":           nil,
+	"ioctl":                  nil,
+	"pread64":                nil,
+	"pwrite64":               nil,
+	"readv":                  nil,
+	"writev":                 nil,
+	"access":                 nil,
+	"pipe":                   nil,
+	"select":                 nil,
+	"sched_yield":            nil,
+	"mremap":                 nil,
+	"msync":                  nil,
+	"mincore":                nil,
+	"madvise":                nil,
+	"shmget":                 nil,
+	"shmat":                  nil,
+	"shmctl":                 nil,
+	"dup":                    nil,
+	"dup2":                   nil,
+	"pause":                  nil,
+	"nanosleep":              nil,
+	"getitimer":              nil,
+	"alarm":                  nil,
+	"setitimer":              nil,
+	"getpid":                 nil,
+	"sendfile":               nil,
+	"socket":                 nil,
+	"connect":                nil,
+	"accept":                 nil,
+	"sendto":                 nil,
+	"recvfrom":               nil,
+	"sendmsg":                nil,
+	"recvmsg":                nil,
+	"shutdown":               nil,
+	"bind":                   nil,
+	"listen":                 nil,
+	"getsockname":            nil,
+	"getpeername":            nil,
+	"socketpair":             nil,
+	"setsockopt":             nil,
+	"getsockopt":             nil,
+	"clone":                  nil,
+	"fork":                   nil,
+	"vfork":                  nil,
+	"execve":                 nil,
+	"exit":                   nil,
+	"wait4":                  nil,
+	"kill":                   nil,
+	"uname":                  nil,
+	"semget":                 nil,
+	"semop":                  nil,
+	"semctl":                 nil,
+	"shmdt":                  nil,
+	"msgget":                 nil,
+	"msgsnd":                 nil,
+	"msgrcv":                 nil,
+	"msgctl":                 nil,
+	"fcntl":                  nil,
+	"flock":                  nil,
+	"fsync":                  nil,
+	"fdatasync":              nil,
+	"truncate":               nil,
+	"ftruncate":              nil,
+	"getdents":               nil,
+	"getcwd":                 nil,
+	"chdir":                  nil,
+	"fchdir":                 nil,
+	"rename":                 nil,
+	"mkdir":                  nil,
+	"rmdir":                  nil,
+	"creat":                  nil,
+	"link":                   nil,
+	"unlink":                 nil,
+	"symlink":                nil,
+	"readlink":               nil,
+	"chmod":                  nil,
+	"fchmod":                 nil,
+	"chown":                  nil,
+	"fchown":                 nil,
+	"lchown":                 nil,
+	"umask":                  nil,
+	"gettimeofday":           nil,
+	"getrlimit":              nil,
+	"getrusage":              nil,
+	"sysinfo":                nil,
+	"times":                  nil,
+	"ptrace":                 nil,
+	"getuid":                 nil,
+	"syslog":                 nil,
+	"getgid":                 nil,
+	"setuid":                 nil,
+	"setgid":                 nil,
+	"geteuid":                nil,
+	"getegid":                nil,
+	"setpgid":                nil,
+	"getppid":                nil,
+	"getpgrp":                nil,
+	"setsid":                 nil,
+	"setreuid":               nil,
+	"setregid":               nil,
+	"getgroups":              nil,
+	"setgroups":              nil,
+	"setresuid":              nil,
+	"getresuid":              nil,
+	"setresgid":              nil,
+	"getresgid":              nil,
+	"getpgid":                nil,
+	"setfsuid":               nil,
+	"setfsgid":               nil,
+	"getsid":                 nil,
+	"capget":                 nil,
+	"capset":                 nil,
+	"rt_sigpending":          nil,
+	"rt_sigtimedwait":        nil,
+	"rt_sigqueueinfo":        nil,
+	"rt_sigsuspend":          nil,
+	"sigaltstack":            nil,
+	"utime":                  nil,
+	"mknod":                  nil,
+	"uselib":                 nil,
+	"personality":            nil,
+	"ustat":                  nil,
+	"statfs":                 nil,
+	"fstatfs":                nil,
+	"sysfs":                  nil,
+	"getpriority":            nil,
+	"setpriority":            nil,
+	"sched_setparam":         nil,
+	"sched_getparam":         nil,
+	"sched_setscheduler":     nil,
+	"sched_getscheduler":     nil,
+	"sched_get_priority_max": nil,
+	"sched_get_priority_min": nil,
+	"sched_rr_get_interval":  nil,
+	"mlock":                  nil,
+	"munlock":                nil,
+	"mlockall":               nil,
+	"munlockall":             nil,
+	"vhangup":                nil,
+	"modify_ldt":             nil,
+	"pivot_root":             nil,
+	"_sysctl":                nil,
+	"prctl":                  nil,
+	"arch_prctl":             nil,
+	"adjtimex":               nil,
+	"setrlimit":              nil,
+	"chroot":                 nil,
+	"sync":                   nil,
+	"acct":                   nil,
+	"settimeofday":           nil,
+	"mount":                  nil,
+	"umount2":                nil,
+	"swapon":                 nil,
+	"swapoff":                nil,
+	"reboot":                 nil,
+	"sethostname":            nil,
+	"setdomainname":          nil,
+	"iopl":                   nil,
+	"ioperm":                 nil,
+	"create_module":          nil,
+	"init_module":            nil,
+	"delete_module":          nil,
+	"get_kernel_syms":        nil,
+	"query_module":           nil,
+	"quotactl":               nil,
+	"nfsservctl":             nil,
+	"getpmsg":                nil,
+	"putpmsg":                nil,
+	"afs_syscall":            nil,
+	"tuxcall":                nil,
+	"security":               nil,
+	"gettid":                 nil,
+	"readahead":              nil,
+	"setxattr":               nil,
+	"lsetxattr":              nil,
+	"fsetxattr":              nil,
+	"getxattr":               nil,
+	"lgetxattr":              nil,
+	"fgetxattr":              nil,
+	"listxattr":              nil,
+	"llistxattr":             nil,
+	"flistxattr":             nil,
+	"removexattr":            nil,
+	"lremovexattr":           nil,
+	"fremovexattr":           nil,
+	"tkill":                  nil,
+	"time":                   nil,
+	"futex":                  nil,
+	"sched_setaffinity":      nil,
+	"sched_getaffinity":      nil,
+	"set_thread_area":        nil,
+	"io_setup":               nil,
+	"io_destroy":             nil,
+	"io_getevents":           nil,
+	"io_submit":              nil,
+	"io_cancel":              nil,
+	"get_thread_area":        nil,
+	"lookup_dcookie":         nil,
+	"epoll_create":           nil,
+	"epoll_ctl_old":          nil,
+	"epoll_wait_old":         nil,
+	"remap_file_pages":       nil,
+	"getdents64":             nil,
+	"set_tid_address":        nil,
+	"restart_syscall":        nil,
+	"semtimedop":             nil,
+	"fadvise64":              nil,
+	"timer_create":           nil,
+	"timer_settime":          nil,
+	"timer_gettime":          nil,
+	"timer_getoverrun":       nil,
+	"timer_delete":           nil,
+	"clock_settime":          nil,
+	"clock_gettime":          nil,
+	"clock_getres":           nil,
+	"clock_nanosleep":        nil,
+	"exit_group":             nil,
+	"epoll_wait":             nil,
+	"epoll_ctl":              nil,
+	"tgkill":                 nil,
+	"utimes":                 nil,
+	"vserver":                nil,
+	"mbind":                  nil,
+	"set_mempolicy":          nil,
+	"get_mempolicy":          nil,
+	"mq_open":                nil,
+	"mq_unlink":              nil,
+	"mq_timedsend":           nil,
+	"mq_timedreceive":        nil,
+	"mq_notify":              nil,
+	"mq_getsetattr":          nil,
+	"kexec_load":             nil,
+	"waitid":                 nil,
+	"add_key":                nil,
+	"request_key":            nil,
+	"keyctl":                 nil,
+	"ioprio_set":             nil,
+	"ioprio_get":             nil,
+	"inotify_init":           nil,
+	"inotify_add_watch":      nil,
+	"inotify_rm_watch":       nil,
+	"migrate_pages":          nil,
+	"openat":                 nil,
+	"mkdirat":                nil,
+	"mknodat":                nil,
+	"fchownat":               nil,
+	"futimesat":              nil,
+	"newfstatat":             nil,
+	"unlinkat":               nil,
+	"renameat":               nil,
+	"linkat":                 nil,
+	"symlinkat":              nil,
+	"readlinkat":             nil,
+	"fchmodat":               nil,
+	"faccessat":              nil,
+	"pselect6":               nil,
+	"ppoll":                  nil,
+	"unshare":                nil,
+	"set_robust_list":        nil,
+	"get_robust_list":        nil,
+	"splice":                 nil,
+	"tee":                    nil,
+	"sync_file_range":        nil,
+	"vmsplice":               nil,
+	"move_pages":             nil,
+	"utimensat":              nil,
+	"epoll_pwait":            nil,
+	"signalfd":               nil,
+	"timerfd_create":         nil,
+	"eventfd":                nil,
+	"fallocate":              nil,
+	"timerfd_settime":        nil,
+	"timerfd_gettime":        nil,
+	"accept4":                nil,
+	"signalfd4":              nil,
+	"eventfd2":               nil,
+	"epoll_create1":          nil,
+	"dup3":                   nil,
+	"pipe2":                  nil,
+	"inotify_init1":          nil,
+	"preadv":                 nil,
+	"pwritev":                nil,
+	"rt_tgsigqueueinfo":      nil,
+	"perf_event_open":        nil,
+	"recvmmsg":               nil,
+	"fanotify_init":          nil,
+	"fanotify_mark":          nil,
+	"prlimit64":              nil,
+	"name_to_handle_at":      nil,
+	"open_by_handle_at":      nil,
+	"clock_adjtime":          nil,
+	"syncfs":                 nil,
+	"sendmmsg":               nil,
+	"setns":                  nil,
+	"getcpu":                 nil,
+	"process_vm_readv":       nil,
+	"process_vm_writev":      nil,
+	"kcmp":                   nil,
+	"finit_module":           nil,
+}

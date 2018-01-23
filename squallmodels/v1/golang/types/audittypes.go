@@ -31,6 +31,10 @@ const (
 // Validate validates an audit rule
 func (a *AuditPolicyRule) Validate() error {
 
+	if a.Type < DeleteAllRuleType || a.Type > PrependSyscallRuleType {
+		return elemental.NewError("Validation Error", "Invalid rule type", "elemental", http.StatusUnprocessableEntity)
+	}
+
 	switch a.Type {
 	case AppendSyscallRuleType, PrependSyscallRuleType:
 		if a.Syscalls == nil {
@@ -91,6 +95,12 @@ func (r *FileWatchRule) Validate() error {
 		r.Permissions = []AuditFilePermissions{AuditFilePermissionsRead, AuditFilePermissionsWrite, AuditFilePermissionsExecute, AuditFilePermissionsAttribute}
 	}
 
+	for _, p := range r.Permissions {
+		if err := p.Validate("permissions"); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -104,6 +114,26 @@ type SyscallRule struct {
 
 // Validate validates the filewathc rule.
 func (r *SyscallRule) Validate() error {
+	if err := r.List.Validate("list"); err != nil {
+		return err
+	}
+
+	if err := r.Action.Validate("action"); err != nil {
+		return err
+	}
+
+	for _, f := range r.Filters {
+		if err := f.Validate(); err != nil {
+			return err
+		}
+	}
+
+	for _, s := range r.Syscalls {
+		if err := s.Validate("syscalls"); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -148,6 +178,23 @@ type AuditFilterSpec struct {
 	LHS        AuditFilterType     `json:"lhs"`
 	Comparator AuditFilterOperator `json:"comparator"`
 	RHS        string              `json:"rhs"`
+}
+
+// Validate validates and AuditFilterSpec
+func (f *AuditFilterSpec) Validate() error {
+	if err := f.LHS.Validate(""); err != nil {
+		return err
+	}
+
+	if err := f.Comparator.Validate(""); err != nil {
+		return err
+	}
+
+	if f.Kind > AuditFilteRKindValueFilter {
+		return elemental.NewError("Validation Error", "Unknown filter type", "elemental", http.StatusUnprocessableEntity)
+	}
+
+	return nil
 }
 
 func (f *AuditFilterSpec) String() string {
