@@ -1,7 +1,6 @@
 package types
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -13,8 +12,9 @@ type AuditPolicyRuleList []*AuditPolicyRule
 
 // AuditPolicyRule is a generic audit rule
 type AuditPolicyRule struct {
-	Type AuditPolicyRuleType `json:"type"`
-	Rule Rule                `json:"rule"`
+	Type     AuditPolicyRuleType `json:"type"`
+	Files    *FileWatchRule      `json:"files,omitempty"`
+	Syscalls *SyscallRule        `json:"syscalls,omitempty"`
 }
 
 // AuditPolicyRuleType specifies the audit rule type.
@@ -28,45 +28,29 @@ const (
 	PrependSyscallRuleType                                // SyscallRule
 )
 
-// handlers avoids the switch statements for returning the right structure
-var handlers = map[AuditPolicyRuleType]func() Rule{
-	DeleteAllRuleType:      func() Rule { return &DeleteAllRule{} },
-	FileWatchRuleType:      func() Rule { return &FileWatchRule{} },
-	AppendSyscallRuleType:  func() Rule { return &SyscallRule{} },
-	PrependSyscallRuleType: func() Rule { return &SyscallRule{} },
-}
-
-// UnmarshalJSON implements the unmarshal interface for AuditPolicyRules depending on type
-func (a *AuditPolicyRule) UnmarshalJSON(b []byte) error {
-
-	var obj struct {
-		Type AuditPolicyRuleType
-		Rule json.RawMessage
-	}
-
-	err := json.Unmarshal(b, &obj)
-	if err != nil {
-		return err
-	}
-
-	r := handlers[obj.Type]()
-	if err := json.Unmarshal(obj.Rule, r); err != nil {
-		return err
-	}
-
-	a.Type = obj.Type
-	a.Rule = r
-
-	return nil
-}
-
 // Validate validates an audit rule
 func (a *AuditPolicyRule) Validate() error {
-	if a.Rule == nil {
-		return elemental.NewError("Validation Error", "Nil rule not allowed", "elemental", http.StatusUnprocessableEntity)
+
+	switch a.Type {
+	case AppendSyscallRuleType, PrependSyscallRuleType:
+		if a.Syscalls == nil {
+			return elemental.NewError("Validation Error", "Nil syscall rule not allowed", "elemental", http.StatusUnprocessableEntity)
+		}
+		return a.Syscalls.Validate()
+	case FileWatchRuleType:
+		if a.Files == nil || a.Syscalls != nil {
+			return elemental.NewError("Validation Error", "Nil file watch rule not allowed", "elemental", http.StatusUnprocessableEntity)
+		}
+		return a.Files.Validate()
+	case DeleteAllRuleType:
+		if a.Files != nil || a.Syscalls != nil {
+			return elemental.NewError("Validation Error", "Delete rule must not have syscall or file", "elemental", http.StatusUnprocessableEntity)
+		}
+	default:
+		return elemental.NewError("Validation Error", "Invalid rule type", "elemental", http.StatusUnprocessableEntity)
 	}
 
-	return a.Rule.Validate()
+	return nil
 }
 
 // Rule is the generic interface that all rule types implement.
@@ -86,8 +70,8 @@ func (r *DeleteAllRule) Validate() error {
 // FileWatchRule is used to audit access to particular files or directories
 // that you may be interested in.
 type FileWatchRule struct {
-	Path        string
-	Permissions []AuditFilePermissions
+	Path        string                 `json:"path" bson:"path"`
+	Permissions []AuditFilePermissions `json:"permissions" bson:"permissions"`
 }
 
 // Validate validates the filewathc rule.
@@ -112,10 +96,10 @@ func (r *FileWatchRule) Validate() error {
 
 // SyscallRule is used to audit invocations of specific syscalls.
 type SyscallRule struct {
-	List     AuditFilterListType
-	Action   AuditFilterActionType
-	Filters  []AuditFilterSpec
-	Syscalls []AuditSystemCallType
+	List     AuditFilterListType   `json:"list"`
+	Action   AuditFilterActionType `json:"action"`
+	Filters  []AuditFilterSpec     `json:"filters"`
+	Syscalls []AuditSystemCallType `json:"syscalls"`
 }
 
 // Validate validates the filewathc rule.
@@ -160,10 +144,10 @@ const (
 
 // AuditFilterSpec defines a filter to apply to a syscall rule.
 type AuditFilterSpec struct {
-	Kind       AuditFilterKind
-	LHS        AuditFilterType
-	Comparator AuditFilterOperator
-	RHS        string
+	Kind       AuditFilterKind     `json:"kind"`
+	LHS        AuditFilterType     `json:"lhs"`
+	Comparator AuditFilterOperator `json:"comparator"`
+	RHS        string              `json:"rhs"`
 }
 
 func (f *AuditFilterSpec) String() string {
