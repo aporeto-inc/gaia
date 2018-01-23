@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/aporeto-inc/elemental"
 	"time"
+
+	"github.com/aporeto-inc/elemental"
 )
 
 // EnforcerProfileDockerSocketTypeValue represents the possible values for attribute "dockerSocketType".
@@ -103,7 +104,7 @@ type EnforcerProfile struct {
 	PUHeartbeatInterval string `json:"PUHeartbeatInterval" bson:"puheartbeatinterval"`
 
 	// AuditPolicies returns the audit rules associated with the enforcer profile. This is a read only attribute when an enforcer profile is resolved for an enforcer.
-	AuditPolicies *AuditPolicy `json:"auditPolicies" bson:"-"`
+	AuditPolicies AuditPoliciesList `json:"auditPolicies" bson:"-"`
 
 	// AuditPolicySelectors is the list of tags (key/value pairs) that define the audit policies that must be implemented by this enforcer. The enforcer will implement all policies that match any of these tags.
 	AuditPolicySelectors []string `json:"auditPolicySelectors" bson:"auditpolicyselectors"`
@@ -575,7 +576,7 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "auditPolicies",
 		ReadOnly:       true,
-		SubType:        "audit_policy",
+		SubType:        "audit_policies",
 		Type:           "external",
 	},
 	"AuditPolicySelectors": elemental.AttributeSpecification{
@@ -1037,7 +1038,7 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Exposed:        true,
 		Name:           "auditPolicies",
 		ReadOnly:       true,
-		SubType:        "audit_policy",
+		SubType:        "audit_policies",
 		Type:           "external",
 	},
 	"auditpolicyselectors": elemental.AttributeSpecification{
