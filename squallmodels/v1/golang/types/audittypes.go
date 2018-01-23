@@ -114,7 +114,7 @@ func (r *FileWatchRule) Validate() error {
 type SyscallRule struct {
 	List     AuditFilterListType
 	Action   AuditFilterActionType
-	Filters  []FilterSpec
+	Filters  []AuditFilterSpec
 	Syscalls []AuditSystemCallType
 }
 
@@ -154,18 +154,18 @@ type AuditFilterKind uint8
 
 // The type of filters that can be applied.
 const (
-	InterFieldFilterType AuditFilterKind = iota + 1 // Inter-field comparison filtering (-C).
-	ValueFilterType                                 // Filtering based on values (-F).
+	AuditFilterKindInterFieldFilter AuditFilterKind = iota + 1 // Inter-field comparison filtering (-C).
+	AuditFilteRKindValueFilter                                 // Filtering based on values (-F).
 )
 
-// FilterSpec defines a filter to apply to a syscall rule.
-type FilterSpec struct {
+// AuditFilterSpec defines a filter to apply to a syscall rule.
+type AuditFilterSpec struct {
 	Kind       AuditFilterKind
 	LHS        AuditFilterType
 	Comparator AuditFilterOperator
 	RHS        string
 }
 
-func (f *FilterSpec) String() string {
+func (f *AuditFilterSpec) String() string {
 	return fmt.Sprintf("%v %v %v", f.LHS, f.Comparator, f.RHS)
 }
