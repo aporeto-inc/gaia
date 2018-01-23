@@ -169,7 +169,7 @@
             "secret": null,
             "setter": null,
             "stored": true,
-            "subtype": "audit_rule_selector_list",
+            "subtype": "audit_policy_selector",
             "transient": null,
             "type": "external",
             "unique": null,
