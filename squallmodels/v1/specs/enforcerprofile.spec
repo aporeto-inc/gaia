@@ -134,7 +134,7 @@
             "secret": null,
             "setter": null,
             "stored": false,
-            "subtype": "audit_policy",
+            "subtype": "audit_policies",
             "transient": null,
             "type": "external",
             "unique": null,
