@@ -73,7 +73,7 @@ type AuditPolicy struct {
 	Key string `json:"key" bson:"key"`
 
 	// Rules is the list of audit policy rules associated with this policy.
-	Rules types.AuditPolicyList `json:"rules" bson:"rules"`
+	Rules types.AuditPolicyRuleList `json:"rules" bson:"rules"`
 
 	// Annotation stores additional information about an entity
 	Annotations map[string][]string `json:"annotations" bson:"annotations"`
@@ -122,7 +122,7 @@ func NewAuditPolicy() *AuditPolicy {
 		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
-		Rules:          types.AuditPolicyList{},
+		Rules:          types.AuditPolicyRuleList{},
 	}
 }
 
