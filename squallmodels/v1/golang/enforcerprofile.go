@@ -102,23 +102,11 @@ type EnforcerProfile struct {
 	// PUHeartbeatInterval configures the heart beat interval.
 	PUHeartbeatInterval string `json:"PUHeartbeatInterval" bson:"puheartbeatinterval"`
 
-	// AuditEventsMax is the maximum event type to capture, default 1399.
-	AuditEventsMax int `json:"auditEventsMax" bson:"auditeventsmax"`
+	// AuditPolicies returns the audit rules associated with the enforcer profile. This is a read only attribute when an enforcer profile is resolved for an enforcer.
+	AuditPolicies *AuditPolicy `json:"auditPolicies" bson:"-"`
 
-	// AuditEventsMin configures the minimum event type to capture, default 1300
-	AuditEventsMin int `json:"auditEventsMin" bson:"auditeventsmin"`
-
-	// AuditLogOutOfOrder indicates if we should log out-of-order events.
-	AuditLogOutOfOrder bool `json:"auditLogOutOfOrder" bson:"auditlogoutoforder"`
-
-	// AuditMessageTracking indicates that we should track messages and note if we missed any.
-	AuditMessageTracking bool `json:"auditMessageTracking" bson:"auditmessagetracking"`
-
-	// AuditRuleSelectors is the list of tags (key/value pairs) of that define the audit rules that must be implemented by this enforcer.
-	AuditRuleSelectors []string `json:"auditRuleSelectors" bson:"auditruleselectors"`
-
-	// AuditRules return the audit rules associated with the enforcer profile. This is a read only attribute when an enforcer profile is resolved for an enforcer.
-	AuditRules AuditRulesList `json:"auditRules" bson:"-"`
+	// AuditPolicySelectors is the list of tags (key/value pairs) that define the audit policies that must be implemented by this enforcer. The enforcer will implement all policies that match any of these tags.
+	AuditPolicySelectors []string `json:"auditPolicySelectors" bson:"auditpolicyselectors"`
 
 	// AuditSocketBufferSize is the size of the audit socket buffer. Default 16384.
 	AuditSocketBufferSize int `json:"auditSocketBufferSize" bson:"auditsocketbuffersize"`
@@ -222,11 +210,6 @@ func NewEnforcerProfile() *EnforcerProfile {
 		ModelVersion:                  1,
 		Annotations:                   map[string][]string{},
 		AssociatedTags:                []string{},
-		AuditEventsMax:                1399,
-		AuditEventsMin:                1300,
-		AuditLogOutOfOrder:            false,
-		AuditMessageTracking:          true,
-		AuditRules:                    AuditRulesList{},
 		AuditSocketBufferSize:         16384,
 		DockerSocketAddress:           "/var/run/docker.sock",
 		DockerSocketType:              "unix",
@@ -397,22 +380,6 @@ func (o *EnforcerProfile) Validate() error {
 	}
 
 	if err := elemental.ValidatePattern("PUHeartbeatInterval", o.PUHeartbeatInterval, `^[0-9]+[smh]$`, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateMaximumInt("auditEventsMax", o.AuditEventsMax, int(2507), false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateMinimumInt("auditEventsMax", o.AuditEventsMax, int(1000), false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateMaximumInt("auditEventsMin", o.AuditEventsMin, int(2507), false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateMinimumInt("auditEventsMin", o.AuditEventsMin, int(1000), false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -600,78 +567,26 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "tags_list",
 		Type:           "external",
 	},
-	"AuditEventsMax": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuditEventsMax",
-		DefaultValue:   1399,
-		Description:    `AuditEventsMax is the maximum event type to capture, default 1399.`,
-		Exposed:        true,
-		Filterable:     true,
-		MaxValue:       2507,
-		MinValue:       1000,
-		Name:           "auditEventsMax",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "integer",
-	},
-	"AuditEventsMin": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuditEventsMin",
-		DefaultValue:   1300,
-		Description:    `AuditEventsMin configures the minimum event type to capture, default 1300`,
-		Exposed:        true,
-		Filterable:     true,
-		MaxValue:       2507,
-		MinValue:       1000,
-		Name:           "auditEventsMin",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "integer",
-	},
-	"AuditLogOutOfOrder": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuditLogOutOfOrder",
-		DefaultValue:   false,
-		Description:    `AuditLogOutOfOrder indicates if we should log out-of-order events.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "auditLogOutOfOrder",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
-	},
-	"AuditMessageTracking": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuditMessageTracking",
-		DefaultValue:   true,
-		Description:    `AuditMessageTracking indicates that we should track messages and note if we missed any.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "auditMessageTracking",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
-	},
-	"AuditRuleSelectors": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuditRuleSelectors",
-		Description:    `AuditRuleSelectors is the list of tags (key/value pairs) of that define the audit rules that must be implemented by this enforcer.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "auditRuleSelectors",
-		Stored:         true,
-		SubType:        "audit_rule_selector_list",
-		Type:           "external",
-	},
-	"AuditRules": elemental.AttributeSpecification{
+	"AuditPolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "AuditRules",
-		Description:    `AuditRules return the audit rules associated with the enforcer profile. This is a read only attribute when an enforcer profile is resolved for an enforcer.`,
+		ConvertedName:  "AuditPolicies",
+		Description:    `AuditPolicies returns the audit rules associated with the enforcer profile. This is a read only attribute when an enforcer profile is resolved for an enforcer.`,
 		Exposed:        true,
-		Name:           "auditRules",
+		Name:           "auditPolicies",
 		ReadOnly:       true,
-		SubType:        "audit_rule_list",
+		SubType:        "audit_policy",
+		Type:           "external",
+	},
+	"AuditPolicySelectors": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuditPolicySelectors",
+		Description:    `AuditPolicySelectors is the list of tags (key/value pairs) that define the audit policies that must be implemented by this enforcer. The enforcer will implement all policies that match any of these tags.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "auditPolicySelectors",
+		Stored:         true,
+		SubType:        "audit_policy_selector",
 		Type:           "external",
 	},
 	"AuditSocketBufferSize": elemental.AttributeSpecification{
@@ -1114,78 +1029,26 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		SubType:        "tags_list",
 		Type:           "external",
 	},
-	"auditeventsmax": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuditEventsMax",
-		DefaultValue:   1399,
-		Description:    `AuditEventsMax is the maximum event type to capture, default 1399.`,
-		Exposed:        true,
-		Filterable:     true,
-		MaxValue:       2507,
-		MinValue:       1000,
-		Name:           "auditEventsMax",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "integer",
-	},
-	"auditeventsmin": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuditEventsMin",
-		DefaultValue:   1300,
-		Description:    `AuditEventsMin configures the minimum event type to capture, default 1300`,
-		Exposed:        true,
-		Filterable:     true,
-		MaxValue:       2507,
-		MinValue:       1000,
-		Name:           "auditEventsMin",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "integer",
-	},
-	"auditlogoutoforder": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuditLogOutOfOrder",
-		DefaultValue:   false,
-		Description:    `AuditLogOutOfOrder indicates if we should log out-of-order events.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "auditLogOutOfOrder",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
-	},
-	"auditmessagetracking": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuditMessageTracking",
-		DefaultValue:   true,
-		Description:    `AuditMessageTracking indicates that we should track messages and note if we missed any.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "auditMessageTracking",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
-	},
-	"auditruleselectors": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuditRuleSelectors",
-		Description:    `AuditRuleSelectors is the list of tags (key/value pairs) of that define the audit rules that must be implemented by this enforcer.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "auditRuleSelectors",
-		Stored:         true,
-		SubType:        "audit_rule_selector_list",
-		Type:           "external",
-	},
-	"auditrules": elemental.AttributeSpecification{
+	"auditpolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
-		ConvertedName:  "AuditRules",
-		Description:    `AuditRules return the audit rules associated with the enforcer profile. This is a read only attribute when an enforcer profile is resolved for an enforcer.`,
+		ConvertedName:  "AuditPolicies",
+		Description:    `AuditPolicies returns the audit rules associated with the enforcer profile. This is a read only attribute when an enforcer profile is resolved for an enforcer.`,
 		Exposed:        true,
-		Name:           "auditRules",
+		Name:           "auditPolicies",
 		ReadOnly:       true,
-		SubType:        "audit_rule_list",
+		SubType:        "audit_policy",
+		Type:           "external",
+	},
+	"auditpolicyselectors": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuditPolicySelectors",
+		Description:    `AuditPolicySelectors is the list of tags (key/value pairs) that define the audit policies that must be implemented by this enforcer. The enforcer will implement all policies that match any of these tags.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "auditPolicySelectors",
+		Stored:         true,
+		SubType:        "audit_policy_selector",
 		Type:           "external",
 	},
 	"auditsocketbuffersize": elemental.AttributeSpecification{
