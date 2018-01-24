@@ -80,7 +80,7 @@ type PolicyRule struct {
 	FilePaths FilePathsList `json:"filePaths" bson:"-"`
 
 	// IsolationProfiles are the isolation profiles of the rule.
-	IsolationProfiles string `json:"isolationProfiles" bson:"isolationprofiles"`
+	IsolationProfiles IsolationProfilesList `json:"isolationProfiles" bson:"isolationprofiles"`
 
 	// Policy target networks
 	Namespaces NamespacesList `json:"namespaces" bson:"-"`
@@ -119,6 +119,7 @@ func NewPolicyRule() *PolicyRule {
 		EnforcerProfiles:            EnforcerProfilesList{},
 		ExternalServices:            ExternalServicesList{},
 		FilePaths:                   FilePathsList{},
+		IsolationProfiles:           IsolationProfilesList{},
 		Namespaces:                  NamespacesList{},
 		PassthroughExternalServices: ExternalServicesList{},
 		SystemCalls:                 SystemCallsList{},
@@ -280,11 +281,11 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `IsolationProfiles are the isolation profiles of the rule.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "isolationProfiles",
 		Orderable:      true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "isolation_profile_entities",
+		Type:           "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -418,11 +419,11 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `IsolationProfiles are the isolation profiles of the rule.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "isolationProfiles",
 		Orderable:      true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "isolation_profile_entities",
+		Type:           "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
