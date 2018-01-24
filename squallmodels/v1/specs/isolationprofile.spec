@@ -219,7 +219,9 @@
     ],
     "children": [],
     "model": {
-        "aliases": [],
+        "aliases": [
+            "ip"
+        ],
         "create": null,
         "delete": true,
         "description": null,
