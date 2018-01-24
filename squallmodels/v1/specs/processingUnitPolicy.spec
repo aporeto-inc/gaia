@@ -7,7 +7,16 @@
         "delete": true,
         "description": null,
         "entity_name": "ProcessingUnitPolicy",
-        "extends": [],
+        "extends": [
+            "@base",
+            "@described",
+            "@disabled",
+            "@identifiable-nopk-nostored",
+            "@metadatable",
+            "@named",
+            "@propagated",
+            "@schedulable"
+        ],
         "get": true,
         "package": null,
         "resource_name": "processingUnitPolicies",
