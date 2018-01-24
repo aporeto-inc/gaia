@@ -304,6 +304,27 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[KernelSecurityProfileIdentity] = &elemental.Relationship{
+		AllowsUpdate: map[string]bool{
+			"root": true,
+		},
+		AllowsPatch: map[string]bool{
+			"root": true,
+		},
+		AllowsDelete: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieve: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
+	}
+
 	relationshipsRegistry[MessageIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
 			"root": true,

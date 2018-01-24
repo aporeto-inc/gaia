@@ -19,6 +19,7 @@ func init() {
 	elemental.RegisterIdentity(FilePathIdentity)
 	elemental.RegisterIdentity(FlowStatisticIdentity)
 	elemental.RegisterIdentity(HookPolicyIdentity)
+	elemental.RegisterIdentity(KernelSecurityProfileIdentity)
 	elemental.RegisterIdentity(MessageIdentity)
 	elemental.RegisterIdentity(NamespaceIdentity)
 	elemental.RegisterIdentity(NamespaceMappingPolicyIdentity)
@@ -77,6 +78,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewFlowStatistic()
 	case HookPolicyIdentity.Name:
 		return NewHookPolicy()
+	case KernelSecurityProfileIdentity.Name:
+		return NewKernelSecurityProfile()
 	case MessageIdentity.Name:
 		return NewMessage()
 	case NamespaceIdentity.Name:
@@ -153,6 +156,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewFlowStatistic()
 	case HookPolicyIdentity.Category:
 		return NewHookPolicy()
+	case KernelSecurityProfileIdentity.Category:
+		return NewKernelSecurityProfile()
 	case MessageIdentity.Category:
 		return NewMessage()
 	case NamespaceIdentity.Category:
@@ -229,6 +234,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &FlowStatisticsList{}
 	case HookPolicyIdentity.Name:
 		return &HookPoliciesList{}
+	case KernelSecurityProfileIdentity.Name:
+		return &KernelSecurityProfilesList{}
 	case MessageIdentity.Name:
 		return &MessagesList{}
 	case NamespaceIdentity.Name:
@@ -305,6 +312,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &FlowStatisticsList{}
 	case HookPolicyIdentity.Category:
 		return &HookPoliciesList{}
+	case KernelSecurityProfileIdentity.Category:
+		return &KernelSecurityProfilesList{}
 	case MessageIdentity.Category:
 		return &MessagesList{}
 	case NamespaceIdentity.Category:
@@ -365,6 +374,7 @@ func AllIdentities() []elemental.Identity {
 		FilePathIdentity,
 		FlowStatisticIdentity,
 		HookPolicyIdentity,
+		KernelSecurityProfileIdentity,
 		MessageIdentity,
 		NamespaceIdentity,
 		NamespaceMappingPolicyIdentity,
@@ -510,6 +520,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"hookpol",
 			"hookpols",
 		}
+	case KernelSecurityProfileIdentity:
+		return []string{}
 	case MessageIdentity:
 		return []string{
 			"mess",
