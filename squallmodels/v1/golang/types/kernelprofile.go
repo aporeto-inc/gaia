@@ -2,7 +2,7 @@ package types
 
 // SyscallEnforcementRule  is a rule to match a syscall in Seccomp
 type SyscallEnforcementRule struct {
-	Name   AuditSystemCallType       `json:"name"`
+	Name   []AuditSystemCallType     `json:"name"`
 	Action SyscallEnforcementAction  `json:"action"`
 	Args   []*SyscallEnforcermentArg `json:"args"`
 }
