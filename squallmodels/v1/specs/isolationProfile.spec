@@ -44,7 +44,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "CapabilitiesAdded identifies additional capabilities that must be provided to the container.",
+            "description": "CapabilitiesAdded identifies additional capabilities that must be provided to the processing unit.",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
