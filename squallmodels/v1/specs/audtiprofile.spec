@@ -64,7 +64,7 @@
             "secret": null,
             "setter": null,
             "stored": true,
-            "subtype": "audit_policy_rule_list",
+            "subtype": "audit_profile_rule_list",
             "transient": null,
             "type": "external",
             "unique": null,
