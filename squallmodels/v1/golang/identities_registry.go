@@ -27,8 +27,8 @@ func init() {
 	elemental.RegisterIdentity(PokeIdentity)
 	elemental.RegisterIdentity(PolicyIdentity)
 	elemental.RegisterIdentity(PolicyRuleIdentity)
-	elemental.RegisterIdentity(ProcessingUnitPolicyIdentity)
 	elemental.RegisterIdentity(ProcessingUnitIdentity)
+	elemental.RegisterIdentity(ProcessingUnitPolicyIdentity)
 	elemental.RegisterIdentity(QuotaPolicyIdentity)
 	elemental.RegisterIdentity(RenderedPolicyIdentity)
 	elemental.RegisterIdentity(RoleIdentity)
@@ -95,10 +95,10 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewPolicy()
 	case PolicyRuleIdentity.Name:
 		return NewPolicyRule()
-	case ProcessingUnitPolicyIdentity.Name:
-		return NewProcessingUnitPolicy()
 	case ProcessingUnitIdentity.Name:
 		return NewProcessingUnit()
+	case ProcessingUnitPolicyIdentity.Name:
+		return NewProcessingUnitPolicy()
 	case QuotaPolicyIdentity.Name:
 		return NewQuotaPolicy()
 	case RenderedPolicyIdentity.Name:
@@ -175,10 +175,10 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewPolicy()
 	case PolicyRuleIdentity.Category:
 		return NewPolicyRule()
-	case ProcessingUnitPolicyIdentity.Category:
-		return NewProcessingUnitPolicy()
 	case ProcessingUnitIdentity.Category:
 		return NewProcessingUnit()
+	case ProcessingUnitPolicyIdentity.Category:
+		return NewProcessingUnitPolicy()
 	case QuotaPolicyIdentity.Category:
 		return NewQuotaPolicy()
 	case RenderedPolicyIdentity.Category:
@@ -255,10 +255,10 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &PoliciesList{}
 	case PolicyRuleIdentity.Name:
 		return &PolicyRulesList{}
-	case ProcessingUnitPolicyIdentity.Name:
-		return &ProcessingUnitPoliciesList{}
 	case ProcessingUnitIdentity.Name:
 		return &ProcessingUnitsList{}
+	case ProcessingUnitPolicyIdentity.Name:
+		return &ProcessingUnitPoliciesList{}
 	case QuotaPolicyIdentity.Name:
 		return &QuotaPoliciesList{}
 	case RenderedPolicyIdentity.Name:
@@ -335,10 +335,10 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &PoliciesList{}
 	case PolicyRuleIdentity.Category:
 		return &PolicyRulesList{}
-	case ProcessingUnitPolicyIdentity.Category:
-		return &ProcessingUnitPoliciesList{}
 	case ProcessingUnitIdentity.Category:
 		return &ProcessingUnitsList{}
+	case ProcessingUnitPolicyIdentity.Category:
+		return &ProcessingUnitPoliciesList{}
 	case QuotaPolicyIdentity.Category:
 		return &QuotaPoliciesList{}
 	case RenderedPolicyIdentity.Category:
@@ -391,8 +391,8 @@ func AllIdentities() []elemental.Identity {
 		PokeIdentity,
 		PolicyIdentity,
 		PolicyRuleIdentity,
-		ProcessingUnitPolicyIdentity,
 		ProcessingUnitIdentity,
+		ProcessingUnitPolicyIdentity,
 		QuotaPolicyIdentity,
 		RenderedPolicyIdentity,
 		RoleIdentity,
@@ -428,6 +428,7 @@ var aliasesMap = map[string]elemental.Identity{
 	"hooks":      HookPolicyIdentity,
 	"hookpol":    HookPolicyIdentity,
 	"hookpols":   HookPolicyIdentity,
+	"ip":         IsolationProfileIdentity,
 	"mess":       MessageIdentity,
 	"ns":         NamespaceIdentity,
 	"nspolicy":   NamespaceMappingPolicyIdentity,
@@ -438,6 +439,7 @@ var aliasesMap = map[string]elemental.Identity{
 	"netpols":    NetworkAccessPolicyIdentity,
 	"pu":         ProcessingUnitIdentity,
 	"pus":        ProcessingUnitIdentity,
+	"pup":        ProcessingUnitPolicyIdentity,
 	"quota":      QuotaPolicyIdentity,
 	"quotas":     QuotaPolicyIdentity,
 	"quotapol":   QuotaPolicyIdentity,
@@ -531,7 +533,9 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"hookpols",
 		}
 	case IsolationProfileIdentity:
-		return []string{}
+		return []string{
+			"ip",
+		}
 	case MessageIdentity:
 		return []string{
 			"mess",
@@ -558,12 +562,14 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case PolicyRuleIdentity:
 		return []string{}
-	case ProcessingUnitPolicyIdentity:
-		return []string{}
 	case ProcessingUnitIdentity:
 		return []string{
 			"pu",
 			"pus",
+		}
+	case ProcessingUnitPolicyIdentity:
+		return []string{
+			"pup",
 		}
 	case QuotaPolicyIdentity:
 		return []string{

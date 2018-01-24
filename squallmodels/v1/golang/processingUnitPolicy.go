@@ -44,8 +44,8 @@ const (
 
 // ProcessingUnitPolicyIdentity represents the Identity of the object.
 var ProcessingUnitPolicyIdentity = elemental.Identity{
-	Name:     "processingUnitPolicy",
-	Category: "processingUnitPolicies",
+	Name:     "processingunitpolicy",
+	Category: "processingunitpolicies",
 }
 
 // ProcessingUnitPoliciesList represents a list of ProcessingUnitPolicies
@@ -100,7 +100,7 @@ func (o ProcessingUnitPoliciesList) Version() int {
 	return 1
 }
 
-// ProcessingUnitPolicy represents the model of a processingUnitPolicy
+// ProcessingUnitPolicy represents the model of a processingunitpolicy
 type ProcessingUnitPolicy struct {
 	// Action determines the action to take while enforcing the isolation profile.
 	Action ProcessingUnitPolicyActionValue `json:"action" bson:"action"`

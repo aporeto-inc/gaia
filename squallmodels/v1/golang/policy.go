@@ -30,8 +30,8 @@ const (
 	// PolicyTypeNetwork represents the value Network.
 	PolicyTypeNetwork PolicyTypeValue = "Network"
 
-	// PolicyTypeProcessingunitpolicy represents the value ProcessingUnitPolicy.
-	PolicyTypeProcessingunitpolicy PolicyTypeValue = "ProcessingUnitPolicy"
+	// PolicyTypePu represents the value PU.
+	PolicyTypePu PolicyTypeValue = "PU"
 
 	// PolicyTypeQuota represents the value Quota.
 	PolicyTypeQuota PolicyTypeValue = "Quota"
@@ -414,7 +414,7 @@ func (o *Policy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnitPolicy", "Quota", "Syscall"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "PU", "Quota", "Syscall"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -731,7 +731,7 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnitPolicy", "Quota", "Syscall"},
+		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "PU", "Quota", "Syscall"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the policy`,
@@ -1032,7 +1032,7 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnitPolicy", "Quota", "Syscall"},
+		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "PU", "Quota", "Syscall"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the policy`,

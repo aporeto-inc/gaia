@@ -31,8 +31,8 @@ const (
 
 // IsolationProfileIdentity represents the Identity of the object.
 var IsolationProfileIdentity = elemental.Identity{
-	Name:     "isolationProfile",
-	Category: "isolationProfiles",
+	Name:     "isolationprofile",
+	Category: "isolationprofiles",
 }
 
 // IsolationProfilesList represents a list of IsolationProfiles
@@ -87,7 +87,7 @@ func (o IsolationProfilesList) Version() int {
 	return 1
 }
 
-// IsolationProfile represents the model of a isolationProfile
+// IsolationProfile represents the model of a isolationprofile
 type IsolationProfile struct {
 	// Priviledged allows the processing unit to be activated as privileged. Default false.
 	AllowPrivileged bool `json:"allowPrivileged" bson:"allowprivileged"`
