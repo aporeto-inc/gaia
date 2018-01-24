@@ -79,6 +79,9 @@ type PolicyRule struct {
 	// Policy target networks
 	FilePaths FilePathsList `json:"filePaths" bson:"-"`
 
+	// IsolationProfiles are the isolation profiles of the rule.
+	IsolationProfiles string `json:"isolationProfiles" bson:"isolationprofiles"`
+
 	// Policy target networks
 	Namespaces NamespacesList `json:"namespaces" bson:"-"`
 
@@ -271,6 +274,18 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "file_entities",
 		Type:           "external",
 	},
+	"IsolationProfiles": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IsolationProfiles",
+		Description:    `IsolationProfiles are the isolation profiles of the rule.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "isolationProfiles",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -326,6 +341,7 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 	"SystemCalls": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SystemCalls",
+		Deprecated:     true,
 		Description:    `Policy target networks `,
 		Exposed:        true,
 		Name:           "systemCalls",
@@ -396,6 +412,18 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		SubType:        "file_entities",
 		Type:           "external",
 	},
+	"isolationprofiles": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IsolationProfiles",
+		Description:    `IsolationProfiles are the isolation profiles of the rule.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "isolationProfiles",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -451,6 +479,7 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"systemcalls": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SystemCalls",
+		Deprecated:     true,
 		Description:    `Policy target networks `,
 		Exposed:        true,
 		Name:           "systemCalls",
