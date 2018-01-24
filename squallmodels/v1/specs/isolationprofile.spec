@@ -83,7 +83,7 @@
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
-            "format": "free",
+            "format": null,
             "getter": null,
             "identifier": null,
             "index": null,
@@ -99,9 +99,9 @@
             "secret": null,
             "setter": null,
             "stored": true,
-            "subtype": null,
+            "subtype": "cap_list",
             "transient": null,
-            "type": "string",
+            "type": "external",
             "unique": null,
             "uniqueScope": null
         },
@@ -222,7 +222,7 @@
         "aliases": [
             "ip"
         ],
-        "create": true,
+        "create": null,
         "delete": true,
         "description": null,
         "entity_name": "IsolationProfile",
