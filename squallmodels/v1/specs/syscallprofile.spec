@@ -17,7 +17,7 @@
             "getter": null,
             "identifier": null,
             "index": null,
-            "max_length": null,
+            "max_length": 64,
             "max_value": null,
             "min_length": null,
             "min_value": null,
