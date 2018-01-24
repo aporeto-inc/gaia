@@ -79,7 +79,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "CapabilitiesDropped identifies capabilities that must be dropped from the processing unit.",
+            "description": "CapabilitiesDropped identifies capabilities that must be dropped from the processing unit. ",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
@@ -222,7 +222,7 @@
         "aliases": [
             "ip"
         ],
-        "create": true,
+        "create": null,
         "delete": true,
         "description": null,
         "entity_name": "IsolationProfile",
