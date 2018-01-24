@@ -13,7 +13,7 @@
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
-            "format": "free",
+            "format": null,
             "getter": null,
             "identifier": null,
             "index": null,
@@ -29,9 +29,9 @@
             "secret": null,
             "setter": null,
             "stored": true,
-            "subtype": null,
+            "subtype": "policies_list",
             "transient": null,
-            "type": "string",
+            "type": "external",
             "unique": null,
             "uniqueScope": null
         }
