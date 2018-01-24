@@ -418,7 +418,7 @@ var IsolationProfileAttributesMap = map[string]elemental.AttributeSpecification{
 	"CapabilitiesDropped": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CapabilitiesDropped",
-		Description:    `CapabilitiesDropped identifies capabilities that must be dropped from the processing unit.`,
+		Description:    `CapabilitiesDropped identifies capabilities that must be dropped from the processing unit. `,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "capabilitiesDropped",
@@ -652,7 +652,7 @@ var IsolationProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"capabilitiesdropped": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CapabilitiesDropped",
-		Description:    `CapabilitiesDropped identifies capabilities that must be dropped from the processing unit.`,
+		Description:    `CapabilitiesDropped identifies capabilities that must be dropped from the processing unit. `,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "capabilitiesDropped",
