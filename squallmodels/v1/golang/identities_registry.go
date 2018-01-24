@@ -7,7 +7,7 @@ func init() {
 	elemental.RegisterIdentity(ActivityIdentity)
 	elemental.RegisterIdentity(APIAuthorizationPolicyIdentity)
 	elemental.RegisterIdentity(APICheckIdentity)
-	elemental.RegisterIdentity(AuditPolicyIdentity)
+	elemental.RegisterIdentity(AuditProfileIdentity)
 	elemental.RegisterIdentity(DependencyMapIdentity)
 	elemental.RegisterIdentity(EnforcerIdentity)
 	elemental.RegisterIdentity(EnforcerProfileIdentity)
@@ -53,8 +53,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewAPIAuthorizationPolicy()
 	case APICheckIdentity.Name:
 		return NewAPICheck()
-	case AuditPolicyIdentity.Name:
-		return NewAuditPolicy()
+	case AuditProfileIdentity.Name:
+		return NewAuditProfile()
 	case DependencyMapIdentity.Name:
 		return NewDependencyMap()
 	case EnforcerIdentity.Name:
@@ -129,8 +129,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewAPIAuthorizationPolicy()
 	case APICheckIdentity.Category:
 		return NewAPICheck()
-	case AuditPolicyIdentity.Category:
-		return NewAuditPolicy()
+	case AuditProfileIdentity.Category:
+		return NewAuditProfile()
 	case DependencyMapIdentity.Category:
 		return NewDependencyMap()
 	case EnforcerIdentity.Category:
@@ -205,8 +205,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &APIAuthorizationPoliciesList{}
 	case APICheckIdentity.Name:
 		return &APIChecksList{}
-	case AuditPolicyIdentity.Name:
-		return &AuditPoliciesList{}
+	case AuditProfileIdentity.Name:
+		return &AuditProfilesList{}
 	case DependencyMapIdentity.Name:
 		return &DependencyMapsList{}
 	case EnforcerIdentity.Name:
@@ -281,8 +281,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &APIAuthorizationPoliciesList{}
 	case APICheckIdentity.Category:
 		return &APIChecksList{}
-	case AuditPolicyIdentity.Category:
-		return &AuditPoliciesList{}
+	case AuditProfileIdentity.Category:
+		return &AuditProfilesList{}
 	case DependencyMapIdentity.Category:
 		return &DependencyMapsList{}
 	case EnforcerIdentity.Category:
@@ -353,7 +353,7 @@ func AllIdentities() []elemental.Identity {
 		ActivityIdentity,
 		APIAuthorizationPolicyIdentity,
 		APICheckIdentity,
-		AuditPolicyIdentity,
+		AuditProfileIdentity,
 		DependencyMapIdentity,
 		EnforcerIdentity,
 		EnforcerProfileIdentity,
@@ -389,7 +389,7 @@ func AllIdentities() []elemental.Identity {
 var aliasesMap = map[string]elemental.Identity{
 	"apiauths":   APIAuthorizationPolicyIdentity,
 	"apiauth":    APIAuthorizationPolicyIdentity,
-	"ap":         AuditPolicyIdentity,
+	"ap":         AuditProfileIdentity,
 	"depmap":     DependencyMapIdentity,
 	"depmaps":    DependencyMapIdentity,
 	"profile":    EnforcerProfileIdentity,
@@ -458,7 +458,7 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case APICheckIdentity:
 		return []string{}
-	case AuditPolicyIdentity:
+	case AuditProfileIdentity:
 		return []string{
 			"ap",
 		}

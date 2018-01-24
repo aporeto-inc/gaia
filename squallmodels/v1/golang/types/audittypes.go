@@ -7,29 +7,29 @@ import (
 	"github.com/aporeto-inc/elemental"
 )
 
-// AuditPolicyRuleList is a list of AuditPolicyRules
-type AuditPolicyRuleList []*AuditPolicyRule
+// AuditProfileRuleList is a list of AuditProfileRules
+type AuditProfileRuleList []*AuditProfileRule
 
-// AuditPolicyRule is a generic audit rule
-type AuditPolicyRule struct {
-	Type     AuditPolicyRuleType `json:"type"`
-	Files    *FileWatchRule      `json:"files,omitempty"`
-	Syscalls *SyscallRule        `json:"syscalls,omitempty"`
+// AuditProfileRule is a generic audit rule
+type AuditProfileRule struct {
+	Type     AuditProfileRuleType `json:"type"`
+	Files    *FileWatchRule       `json:"files,omitempty"`
+	Syscalls *SyscallRule         `json:"syscalls,omitempty"`
 }
 
-// AuditPolicyRuleType specifies the audit rule type.
-type AuditPolicyRuleType int
+// AuditProfileRuleType specifies the audit rule type.
+type AuditProfileRuleType int
 
 // The rule types supported by this package.
 const (
-	DeleteAllRuleType      AuditPolicyRuleType = iota + 1 // DeleteAllRule
-	FileWatchRuleType                                     // FileWatchRule
-	AppendSyscallRuleType                                 // SyscallRule
-	PrependSyscallRuleType                                // SyscallRule
+	DeleteAllRuleType      AuditProfileRuleType = iota + 1 // DeleteAllRule
+	FileWatchRuleType                                      // FileWatchRule
+	AppendSyscallRuleType                                  // SyscallRule
+	PrependSyscallRuleType                                 // SyscallRule
 )
 
 // Validate validates an audit rule
-func (a *AuditPolicyRule) Validate() error {
+func (a *AuditProfileRule) Validate() error {
 
 	if a.Type < DeleteAllRuleType || a.Type > PrependSyscallRuleType {
 		return elemental.NewError("Validation Error", "Invalid rule type", "elemental", http.StatusUnprocessableEntity)

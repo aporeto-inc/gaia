@@ -58,7 +58,7 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[AuditPolicyIdentity] = &elemental.Relationship{
+	relationshipsRegistry[AuditProfileIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
 			"root": true,
 		},
