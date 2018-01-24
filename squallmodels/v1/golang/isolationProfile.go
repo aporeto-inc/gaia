@@ -96,7 +96,7 @@ type IsolationProfile struct {
 	CapabilitiesAdded []types.CapabilitiesType `json:"capabilitiesAdded" bson:"capabilitiesadded"`
 
 	// CapabilitiesDropped identifies capabilities that must be dropped from the processing unit.
-	CapabilitiesDropped string `json:"capabilitiesDropped" bson:"capabilitiesdropped"`
+	CapabilitiesDropped []types.CapabilitiesType `json:"capabilitiesDropped" bson:"capabilitiesdropped"`
 
 	// DefaultAction is the default action applied to all syscalls of this profile. Default is "Allow".
 	DefaultSyscallAction IsolationProfileDefaultSyscallActionValue `json:"defaultSyscallAction" bson:"defaultsyscallaction"`
@@ -154,6 +154,7 @@ func NewIsolationProfile() *IsolationProfile {
 		Annotations:          map[string][]string{},
 		AssociatedTags:       []string{},
 		CapabilitiesAdded:    []types.CapabilitiesType{},
+		CapabilitiesDropped:  []types.CapabilitiesType{},
 		DefaultSyscallAction: "Allow",
 		Metadata:             []string{},
 		NormalizedTags:       []string{},
@@ -420,11 +421,11 @@ var IsolationProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `CapabilitiesDropped identifies capabilities that must be dropped from the processing unit.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "capabilitiesDropped",
 		Orderable:      true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "cap_list",
+		Type:           "external",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -654,11 +655,11 @@ var IsolationProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Description:    `CapabilitiesDropped identifies capabilities that must be dropped from the processing unit.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "capabilitiesDropped",
 		Orderable:      true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "cap_list",
+		Type:           "external",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
