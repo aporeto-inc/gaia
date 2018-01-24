@@ -3,6 +3,7 @@
         {
             "allowed_chars": null,
             "allowed_choices": [
+                "Allow",
                 "Errno",
                 "Kill",
                 "Trap"
