@@ -219,7 +219,7 @@
                 "Hook",
                 "NamespaceMapping",
                 "Network",
-                "ProcessingUnitPolicy",
+                "PU",
                 "Quota",
                 "Syscall"
             ],
