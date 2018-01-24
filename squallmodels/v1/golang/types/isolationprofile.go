@@ -14,7 +14,7 @@ type SyscallEnforcementRule struct {
 type SyscallEnforcermentArg struct {
 	Index    uint                       `json:"index"`
 	Value    uint64                     `json:"value"`
-	ValueTwo uint64                     `json:"value_two"`
+	ValueTwo uint64                     `json:"valueTwo"`
 	Op       SyscallEnforcementOperator `json:"op"`
 }
 
@@ -23,13 +23,13 @@ type SyscallEnforcementOperator int
 
 // Values of SyscallEnforcementOperator
 const (
-	EqualTo SyscallEnforcementOperator = iota + 1
-	NotEqualTo
-	GreaterThan
-	GreaterThanOrEqualTo
-	LessThan
-	LessThanOrEqualTo
-	MaskEqualTo
+	SyscallEnforcementOperatorEqualTo SyscallEnforcementOperator = iota
+	SyscallEnforcementOperatorNotEqualTo
+	SyscallEnforcementOperatorGreaterThan
+	SyscallEnforcementOperatorGreaterThanOrEqualTo
+	SyscallEnforcementOperatorLessThan
+	SyscallEnforcementOperatorLessThanOrEqualTo
+	SyscallEnforcementOperatorMaskEqualTo
 )
 
 // SyscallEnforcementAction is the action type
@@ -37,11 +37,11 @@ type SyscallEnforcementAction int
 
 // Values of SyscallEnforcementAction
 const (
-	Kill SyscallEnforcementAction = iota + 1
-	Errno
-	Trap
-	Allow
-	Trace
+	SyscallEnforcementActionKill SyscallEnforcementAction = iota
+	SyscallEnforcementActionErrno
+	SyscallEnforcementActionTrap
+	SyscallEnforcementActionAllow
+	SyscallEnforcementActionTrace
 )
 
 // CapabilitiesType is the type of capabilities
@@ -49,7 +49,7 @@ type CapabilitiesType string
 
 // Values of CapabilitiesType
 const (
-	CAPADMIN CapabilitiesType = "CAP_ADMIN"
+	CapabilitiesTypeCapAdmin CapabilitiesType = "CAP_ADMIN"
 )
 
 // ArchitecturesType is the type for different architectures supported
@@ -57,5 +57,5 @@ type ArchitecturesType string
 
 // Values of ArchitecturesType
 const (
-	X86 ArchitecturesType = "X86"
+	ArchitecturesTypeX86 ArchitecturesType = "X86"
 )
