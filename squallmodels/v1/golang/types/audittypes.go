@@ -10,6 +10,23 @@ import (
 // AuditProfileRuleList is a list of AuditProfileRules
 type AuditProfileRuleList []*AuditProfileRule
 
+// Validate will validate all rules in the list
+func (a AuditProfileRuleList) Validate() error {
+	errs := []error{}
+
+	for _, r := range a {
+		if err := r.Validate(); err != nil {
+			errs = append(errs, err)
+		}
+	}
+
+	if len(errs) > 0 {
+		return elemental.NewErrors(errs...)
+	}
+
+	return nil
+}
+
 // AuditProfileRule is a generic audit rule
 type AuditProfileRule struct {
 	Type     AuditProfileRuleType `json:"type"`
