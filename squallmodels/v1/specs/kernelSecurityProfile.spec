@@ -64,9 +64,9 @@
             "secret": null,
             "setter": null,
             "stored": true,
-            "subtype": null,
+            "subtype": "cap_list",
             "transient": null,
-            "type": "list",
+            "type": "external",
             "unique": null,
             "uniqueScope": null
         },
