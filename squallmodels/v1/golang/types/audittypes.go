@@ -27,13 +27,6 @@ func (a AuditProfileRuleList) Validate() error {
 	return nil
 }
 
-// AuditProfileRule is a generic audit rule
-type AuditProfileRule struct {
-	Type     AuditProfileRuleType `json:"type"`
-	Files    *FileWatchRule       `json:"files,omitempty"`
-	Syscalls *SyscallRule         `json:"syscalls,omitempty"`
-}
-
 // AuditProfileRuleType specifies the audit rule type.
 type AuditProfileRuleType int
 
@@ -44,6 +37,13 @@ const (
 	AppendSyscallRuleType                                  // SyscallRule
 	PrependSyscallRuleType                                 // SyscallRule
 )
+
+// AuditProfileRule is a generic audit rule
+type AuditProfileRule struct {
+	Type     AuditProfileRuleType `json:"type"`
+	Files    *FileWatchRule       `json:"files,omitempty"`
+	Syscalls *SyscallRule         `json:"syscalls,omitempty"`
+}
 
 // Validate validates an audit rule
 func (a *AuditProfileRule) Validate() error {
@@ -71,20 +71,6 @@ func (a *AuditProfileRule) Validate() error {
 		return elemental.NewError("Validation Error", "Invalid rule type", "elemental", http.StatusUnprocessableEntity)
 	}
 
-	return nil
-}
-
-// Rule is the generic interface that all rule types implement.
-type Rule interface {
-	Validate() error // Validate validates the rule
-}
-
-// DeleteAllRule deletes all existing rules.
-type DeleteAllRule struct {
-}
-
-// Validate validates the rule
-func (r *DeleteAllRule) Validate() error {
 	return nil
 }
 
@@ -152,32 +138,6 @@ func (r *SyscallRule) Validate() error {
 	}
 
 	return nil
-}
-
-// AccessType specifies the type of file access to audit.
-type AccessType uint8
-
-// The access types that can be audited for file watches.
-const (
-	ReadAccessType AccessType = iota + 1
-	WriteAccessType
-	ExecuteAccessType
-	AttributeChangeAccessType
-)
-
-var accessTypeName = map[AccessType]string{
-	ReadAccessType:            "read",
-	WriteAccessType:           "write",
-	ExecuteAccessType:         "execute",
-	AttributeChangeAccessType: "attribute",
-}
-
-func (t AccessType) String() string {
-	name, found := accessTypeName[t]
-	if found {
-		return name
-	}
-	return "unknown"
 }
 
 // AuditFilterKind specifies a type of filter to apply to a syscall rule.
