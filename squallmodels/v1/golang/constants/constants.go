@@ -8,8 +8,8 @@ const (
 	RenderedPolicyTypeNetwork RenderedPolicyType = "networkPolicyRules"
 	// RenderedPolicyTypeFile that the RenderedPolicyType is file
 	RenderedPolicyTypeFile RenderedPolicyType = "filePolicyRules"
-	// RenderedPolicyTypeSystemCall that the RenderedPolicyType is systemCall
-	RenderedPolicyTypeSystemCall RenderedPolicyType = "systemCallPolicyRules"
+	// RenderedPolicyTypeIsolationProfile that the RenderedPolicyType is systemCall
+	RenderedPolicyTypeIsolationProfile RenderedPolicyType = "IsolationPolicyRules"
 )
 
 // Vulnerability defines the security vulnerability of an image or a layer
