@@ -1,5 +1,8 @@
 package types
 
+// SyscallEnforcementRulesList is a list of SyscallEnforcementRule
+type SyscallEnforcementRulesList []*SyscallEnforcementRule
+
 // SyscallEnforcementRule  is a rule to match a syscall in Seccomp
 type SyscallEnforcementRule struct {
 	Name   []AuditSystemCallType     `json:"name"`

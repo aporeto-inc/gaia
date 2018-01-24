@@ -102,7 +102,7 @@ type IsolationProfile struct {
 	DefaultSyscallAction IsolationProfileDefaultSyscallActionValue `json:"defaultSyscallAction" bson:"defaultsyscallaction"`
 
 	// SyscallRules is a list of syscall rules that identify actions for particular syscalls.
-	SyscallRules []*types.KernelSyscallRulesList `json:"syscallRules" bson:"syscallrules"`
+	SyscallRules []*types.SyscallEnforcementRulesList `json:"syscallRules" bson:"syscallrules"`
 
 	// TargetArchitectures is the target processor architectures where this profile can be applied. Default all.
 	TargetArchitectures []types.ArchitecturesType `json:"targetArchitectures" bson:"targetarchitectures"`
@@ -157,7 +157,7 @@ func NewIsolationProfile() *IsolationProfile {
 		DefaultSyscallAction: "Allow",
 		Metadata:             []string{},
 		NormalizedTags:       []string{},
-		SyscallRules:         []*types.KernelSyscalRulesList{},
+		SyscallRules:         []*types.SyscallEnforcementRulesList{},
 		TargetArchitectures:  []types.ArchitecturesType{},
 	}
 }
