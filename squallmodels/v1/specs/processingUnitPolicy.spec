@@ -51,7 +51,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "ProfileSelector are the profiles that must be applied when this policy matches.",
+            "description": "ProfileSelector are the profiles that must be applied when this policy matches. Only applies to Enforce and LogCompliance actions.",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
