@@ -94,9 +94,6 @@ type PolicyRule struct {
 	// Relation describes the required operation to be performed between subjects and objects
 	Relation []string `json:"relation" bson:"-"`
 
-	// Policy target networks
-	SystemCalls SystemCallsList `json:"systemCalls" bson:"-"`
-
 	// Policy target tags
 	TagClauses [][]string `json:"tagClauses" bson:"-"`
 
@@ -122,7 +119,6 @@ func NewPolicyRule() *PolicyRule {
 		IsolationProfiles:           IsolationProfilesList{},
 		Namespaces:                  NamespacesList{},
 		PassthroughExternalServices: ExternalServicesList{},
-		SystemCalls:                 SystemCallsList{},
 	}
 }
 
@@ -339,16 +335,6 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "relations_list",
 		Type:           "external",
 	},
-	"SystemCalls": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "SystemCalls",
-		Deprecated:     true,
-		Description:    `Policy target networks `,
-		Exposed:        true,
-		Name:           "systemCalls",
-		SubType:        "syscall_entities",
-		Type:           "external",
-	},
 	"TagClauses": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TagClauses",
@@ -475,16 +461,6 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Exposed:        true,
 		Name:           "relation",
 		SubType:        "relations_list",
-		Type:           "external",
-	},
-	"systemcalls": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "SystemCalls",
-		Deprecated:     true,
-		Description:    `Policy target networks `,
-		Exposed:        true,
-		Name:           "systemCalls",
-		SubType:        "syscall_entities",
 		Type:           "external",
 	},
 	"tagclauses": elemental.AttributeSpecification{
