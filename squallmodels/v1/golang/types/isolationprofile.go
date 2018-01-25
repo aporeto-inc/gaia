@@ -273,6 +273,7 @@ func (a ArchitecturesType) Validate() error {
 	return elemental.ValidateStringInMap("capabilities", string(a), reverseArchitecturesMap, false)
 }
 
+// ArchitecturesTypeList is a list of ArchitectureTypes.
 type ArchitecturesTypeList []ArchitecturesType
 
 // Validate validates an architectures type list.
