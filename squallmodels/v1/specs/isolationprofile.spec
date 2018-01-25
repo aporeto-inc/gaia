@@ -64,7 +64,7 @@
             "secret": null,
             "setter": null,
             "stored": true,
-            "subtype": "cap_list",
+            "subtype": "cap_map ",
             "transient": null,
             "type": "external",
             "unique": null,
