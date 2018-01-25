@@ -305,9 +305,6 @@ func init() {
 	}
 
 	relationshipsRegistry[IsolationProfileIdentity] = &elemental.Relationship{
-		AllowsCreate: map[string]bool{
-			"root": true,
-		},
 		AllowsUpdate: map[string]bool{
 			"root": true,
 		},

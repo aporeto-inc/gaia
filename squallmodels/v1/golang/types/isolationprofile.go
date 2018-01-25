@@ -6,15 +6,15 @@ import (
 	"github.com/aporeto-inc/elemental"
 )
 
-// SyscallEnforcementRulesList is a list of SyscallEnforcementRule.
-type SyscallEnforcementRulesList []*SyscallEnforcementRule
+// SyscallEnforcementRulesMap is a list of SyscallEnforcementRule.
+type SyscallEnforcementRulesMap map[AuditSystemCallType]*SyscallEnforcementRule
 
-// Validate validates a SyscallEnforcementRulesList
-func (s SyscallEnforcementRulesList) Validate() error {
+// Validate validates a SyscallEnforcementRulesMap
+func (s SyscallEnforcementRulesMap) Validate() error {
 	var errs []error
 
-	for _, r := range s {
-		if err := r.Validate(); r != nil {
+	for r, _ := range s {
+		if err := r.Validate("syscall"); err != nil {
 			errs = append(errs, err)
 		}
 	}
@@ -28,20 +28,13 @@ func (s SyscallEnforcementRulesList) Validate() error {
 
 // SyscallEnforcementRule  is a rule to match a syscall in Seccomp.
 type SyscallEnforcementRule struct {
-	Name   []AuditSystemCallType     `json:"name"`
-	Action SyscallEnforcementAction  `json:"action"`
-	Args   []*SyscallEnforcermentArg `json:"args"`
+	Action SyscallEnforcementAction         `json:"action"`
+	Args   map[uint]*SyscallEnforcermentArg `json:"args"`
 }
 
 // Validate validates a syscall enforcement rule.
 func (s *SyscallEnforcementRule) Validate() error {
 	var errs []error
-
-	for _, s := range s.Name {
-		if err := s.Validate("syscalls"); err != nil {
-			errs = append(errs, err)
-		}
-	}
 
 	if err := s.Action.Validate(); err != nil {
 		errs = append(errs, err)
@@ -61,7 +54,6 @@ func (s *SyscallEnforcementRule) Validate() error {
 
 // SyscallEnforcermentArg is a rule to match a specific syscall argument in Seccomp.
 type SyscallEnforcermentArg struct {
-	Index    uint                       `json:"index"`
 	Value    uint64                     `json:"value"`
 	ValueTwo uint64                     `json:"valueTwo"`
 	Op       SyscallEnforcementOperator `json:"op"`
@@ -206,16 +198,29 @@ func (c CapabilitiesType) Validate() error {
 	return elemental.ValidateStringInMap("capabilities", string(c), reverseCapabilitiesMap, false)
 }
 
-// CapabilitiesTypeList is a list of capabilities.
-type CapabilitiesTypeList []CapabilitiesType
+// CapabilitiesActionType is add or drop
+type CapabilitiesActionType int
+
+// Values for CapabilitiesActionType
+const (
+	CapabilitiesActionTypeAdd CapabilitiesActionType = iota
+	CapabilitiesActionTypeDrop
+)
+
+// CapabilitiesTypeMap is a list of capabilities.
+type CapabilitiesTypeMap map[CapabilitiesType]CapabilitiesActionType
 
 // Validate validates a capabilities type list.
-func (c CapabilitiesTypeList) Validate() error {
+func (c CapabilitiesTypeMap) Validate() error {
 	var errs []error
 
-	for _, s := range c {
-		if err := s.Validate(); err != nil {
+	for k, v := range c {
+		if err := k.Validate(); err != nil {
 			errs = append(errs, err)
+		}
+
+		if v < CapabilitiesActionTypeAdd || v > CapabilitiesActionTypeDrop {
+			errs = append(errs, elemental.NewError("Validation Error", "Unknown capabilities action type", "elemental", http.StatusUnprocessableEntity))
 		}
 	}
 

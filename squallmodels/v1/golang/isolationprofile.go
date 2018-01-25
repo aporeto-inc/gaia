@@ -92,17 +92,14 @@ type IsolationProfile struct {
 	// Priviledged allows the processing unit to be activated as privileged. Default false.
 	AllowPrivileged bool `json:"allowPrivileged" bson:"allowprivileged"`
 
-	// CapabilitiesAdded identifies additional capabilities that must be provided to the processing unit.
-	CapabilitiesAdded types.CapabilitiesTypeList `json:"capabilitiesAdded" bson:"capabilitiesadded"`
-
-	// CapabilitiesDropped identifies capabilities that must be dropped from the processing unit.
-	CapabilitiesDropped types.CapabilitiesTypeList `json:"capabilitiesDropped" bson:"capabilitiesdropped"`
+	// CapabilitiesActions identifies the capabilities that should be added or removed from the processing unit.
+	CapabilitiesActions types.CapabilitiesTypeMap `json:"capabilitiesActions" bson:"capabilitiesactions"`
 
 	// DefaultAction is the default action applied to all syscalls of this profile. Default is "Allow".
 	DefaultSyscallAction IsolationProfileDefaultSyscallActionValue `json:"defaultSyscallAction" bson:"defaultsyscallaction"`
 
 	// SyscallRules is a list of syscall rules that identify actions for particular syscalls.
-	SyscallRules types.SyscallEnforcementRulesList `json:"syscallRules" bson:"syscallrules"`
+	SyscallRules types.SyscallEnforcementRulesMap `json:"syscallRules" bson:"syscallrules"`
 
 	// TargetArchitectures is the target processor architectures where this profile can be applied. Default all.
 	TargetArchitectures types.ArchitecturesTypeList `json:"targetArchitectures" bson:"targetarchitectures"`
@@ -153,12 +150,11 @@ func NewIsolationProfile() *IsolationProfile {
 		AllowPrivileged:      false,
 		Annotations:          map[string][]string{},
 		AssociatedTags:       []string{},
-		CapabilitiesAdded:    types.CapabilitiesTypeList{},
-		CapabilitiesDropped:  types.CapabilitiesTypeList{},
+		CapabilitiesActions:  types.CapabilitiesTypeMap{},
 		DefaultSyscallAction: "Allow",
 		Metadata:             []string{},
 		NormalizedTags:       []string{},
-		SyscallRules:         types.SyscallEnforcementRulesList{},
+		SyscallRules:         types.SyscallEnforcementRulesMap{},
 		TargetArchitectures:  types.ArchitecturesTypeList{},
 	}
 }
@@ -403,28 +399,16 @@ var IsolationProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "tags_list",
 		Type:           "external",
 	},
-	"CapabilitiesAdded": elemental.AttributeSpecification{
+	"CapabilitiesActions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "CapabilitiesAdded",
-		Description:    `CapabilitiesAdded identifies additional capabilities that must be provided to the processing unit.`,
+		ConvertedName:  "CapabilitiesActions",
+		Description:    `CapabilitiesActions identifies the capabilities that should be added or removed from the processing unit.`,
 		Exposed:        true,
 		Filterable:     true,
-		Name:           "capabilitiesAdded",
+		Name:           "capabilitiesActions",
 		Orderable:      true,
 		Stored:         true,
-		SubType:        "cap_list",
-		Type:           "external",
-	},
-	"CapabilitiesDropped": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CapabilitiesDropped",
-		Description:    `CapabilitiesDropped identifies capabilities that must be dropped from the processing unit. `,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "capabilitiesDropped",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "cap_list",
+		SubType:        "cap_map",
 		Type:           "external",
 	},
 	"CreateTime": elemental.AttributeSpecification{
@@ -637,28 +621,16 @@ var IsolationProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		SubType:        "tags_list",
 		Type:           "external",
 	},
-	"capabilitiesadded": elemental.AttributeSpecification{
+	"capabilitiesactions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "CapabilitiesAdded",
-		Description:    `CapabilitiesAdded identifies additional capabilities that must be provided to the processing unit.`,
+		ConvertedName:  "CapabilitiesActions",
+		Description:    `CapabilitiesActions identifies the capabilities that should be added or removed from the processing unit.`,
 		Exposed:        true,
 		Filterable:     true,
-		Name:           "capabilitiesAdded",
+		Name:           "capabilitiesActions",
 		Orderable:      true,
 		Stored:         true,
-		SubType:        "cap_list",
-		Type:           "external",
-	},
-	"capabilitiesdropped": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CapabilitiesDropped",
-		Description:    `CapabilitiesDropped identifies capabilities that must be dropped from the processing unit. `,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "capabilitiesDropped",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "cap_list",
+		SubType:        "cap_map",
 		Type:           "external",
 	},
 	"createtime": elemental.AttributeSpecification{
