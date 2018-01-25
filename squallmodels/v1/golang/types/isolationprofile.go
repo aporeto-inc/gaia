@@ -13,7 +13,7 @@ type SyscallEnforcementRulesMap map[AuditSystemCallType]*SyscallEnforcementRule
 func (s SyscallEnforcementRulesMap) Validate() error {
 	var errs []error
 
-	for r, _ := range s {
+	for r := range s {
 		if err := r.Validate("syscall"); err != nil {
 			errs = append(errs, err)
 		}
@@ -28,15 +28,15 @@ func (s SyscallEnforcementRulesMap) Validate() error {
 
 // SyscallEnforcementRule  is a rule to match a syscall in Seccomp.
 type SyscallEnforcementRule struct {
-	Action SyscallEnforcementAction         `json:"action"`
-	Args   map[uint]*SyscallEnforcermentArg `json:"args"`
+	DefaultAction SyscallEnforcementAction         `json:"action"`
+	Args          map[uint]*SyscallEnforcermentArg `json:"args"`
 }
 
 // Validate validates a syscall enforcement rule.
 func (s *SyscallEnforcementRule) Validate() error {
 	var errs []error
 
-	if err := s.Action.Validate(); err != nil {
+	if err := s.DefaultAction.Validate(); err != nil {
 		errs = append(errs, err)
 	}
 
@@ -57,11 +57,20 @@ type SyscallEnforcermentArg struct {
 	Value    uint64                     `json:"value"`
 	ValueTwo uint64                     `json:"valueTwo"`
 	Op       SyscallEnforcementOperator `json:"op"`
+	Action   SyscallEnforcementAction
 }
 
 // Validate validates the syscall enforcement arguments.
 func (s *SyscallEnforcermentArg) Validate() error {
-	return s.Op.Validate()
+	if err := s.Op.Validate(); err != nil {
+		return elemental.NewError("Validation Error", "Unknown syscall operator", "elemental", http.StatusUnprocessableEntity)
+	}
+
+	if err := s.Action.Validate(); err != nil {
+		elemental.NewError("Validation Error", "Unknown syscall enforcement action", "elemental", http.StatusUnprocessableEntity)
+	}
+
+	return nil
 }
 
 // SyscallEnforcementOperator is a comparison operator to be used when matching syscall arguments in Seccomp./
