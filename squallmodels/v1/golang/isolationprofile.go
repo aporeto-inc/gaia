@@ -93,19 +93,19 @@ type IsolationProfile struct {
 	AllowPrivileged bool `json:"allowPrivileged" bson:"allowprivileged"`
 
 	// CapabilitiesAdded identifies additional capabilities that must be provided to the processing unit.
-	CapabilitiesAdded []types.CapabilitiesType `json:"capabilitiesAdded" bson:"capabilitiesadded"`
+	CapabilitiesAdded types.CapabilitiesTypeList `json:"capabilitiesAdded" bson:"capabilitiesadded"`
 
 	// CapabilitiesDropped identifies capabilities that must be dropped from the processing unit.
-	CapabilitiesDropped []types.CapabilitiesType `json:"capabilitiesDropped" bson:"capabilitiesdropped"`
+	CapabilitiesDropped types.CapabilitiesTypeList `json:"capabilitiesDropped" bson:"capabilitiesdropped"`
 
 	// DefaultAction is the default action applied to all syscalls of this profile. Default is "Allow".
 	DefaultSyscallAction IsolationProfileDefaultSyscallActionValue `json:"defaultSyscallAction" bson:"defaultsyscallaction"`
 
 	// SyscallRules is a list of syscall rules that identify actions for particular syscalls.
-	SyscallRules []*types.SyscallEnforcementRulesList `json:"syscallRules" bson:"syscallrules"`
+	SyscallRules types.SyscallEnforcementRulesList `json:"syscallRules" bson:"syscallrules"`
 
 	// TargetArchitectures is the target processor architectures where this profile can be applied. Default all.
-	TargetArchitectures []types.ArchitecturesType `json:"targetArchitectures" bson:"targetarchitectures"`
+	TargetArchitectures types.ArchitecturesTypeList `json:"targetArchitectures" bson:"targetarchitectures"`
 
 	// Annotation stores additional information about an entity
 	Annotations map[string][]string `json:"annotations" bson:"annotations"`
@@ -153,13 +153,13 @@ func NewIsolationProfile() *IsolationProfile {
 		AllowPrivileged:      false,
 		Annotations:          map[string][]string{},
 		AssociatedTags:       []string{},
-		CapabilitiesAdded:    []types.CapabilitiesType{},
-		CapabilitiesDropped:  []types.CapabilitiesType{},
+		CapabilitiesAdded:    types.CapabilitiesTypeList{},
+		CapabilitiesDropped:  types.CapabilitiesTypeList{},
 		DefaultSyscallAction: "Allow",
 		Metadata:             []string{},
 		NormalizedTags:       []string{},
-		SyscallRules:         []*types.SyscallEnforcementRulesList{},
-		TargetArchitectures:  []types.ArchitecturesType{},
+		SyscallRules:         types.SyscallEnforcementRulesList{},
+		TargetArchitectures:  types.ArchitecturesTypeList{},
 	}
 }
 
