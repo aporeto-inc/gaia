@@ -67,7 +67,7 @@ func (s *SyscallEnforcermentArg) Validate() error {
 	}
 
 	if err := s.Action.Validate(); err != nil {
-		elemental.NewError("Validation Error", "Unknown syscall enforcement action", "elemental", http.StatusUnprocessableEntity)
+		return elemental.NewError("Validation Error", "Unknown syscall enforcement action", "elemental", http.StatusUnprocessableEntity)
 	}
 
 	return nil
