@@ -18,6 +18,8 @@ run:
       export PATH=$PATH:$GOPATH/bin:$PWD/go/bin
       export GOPATH=$PWD/go:$GOPATH
 
+      go get -u github.com/magefile/mage github.com/aporeto-inc/domingo/golang
+
       cd go/src/github.com/aporeto-inc/gaia
-      make init || exit 1
-      make test || exit 1
+      mage init || exit 1
+      mage test || exit 1
