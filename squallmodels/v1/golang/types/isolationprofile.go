@@ -54,6 +54,7 @@ func (s *SyscallEnforcementRule) Validate() error {
 
 // SyscallEnforcermentArg is a rule to match a specific syscall argument in Seccomp.
 type SyscallEnforcermentArg struct {
+	Index    uint
 	Value    uint64                     `json:"value"`
 	ValueTwo uint64                     `json:"valueTwo"`
 	Op       SyscallEnforcementOperator `json:"op"`

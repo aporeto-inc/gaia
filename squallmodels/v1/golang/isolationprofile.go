@@ -9,26 +9,6 @@ import (
 	"time"
 )
 
-// IsolationProfileDefaultSyscallActionValue represents the possible values for attribute "defaultSyscallAction".
-type IsolationProfileDefaultSyscallActionValue string
-
-const (
-	// IsolationProfileDefaultSyscallActionAllow represents the value Allow.
-	IsolationProfileDefaultSyscallActionAllow IsolationProfileDefaultSyscallActionValue = "Allow"
-
-	// IsolationProfileDefaultSyscallActionErrno represents the value Errno.
-	IsolationProfileDefaultSyscallActionErrno IsolationProfileDefaultSyscallActionValue = "Errno"
-
-	// IsolationProfileDefaultSyscallActionKill represents the value Kill.
-	IsolationProfileDefaultSyscallActionKill IsolationProfileDefaultSyscallActionValue = "Kill"
-
-	// IsolationProfileDefaultSyscallActionTrace represents the value Trace.
-	IsolationProfileDefaultSyscallActionTrace IsolationProfileDefaultSyscallActionValue = "Trace"
-
-	// IsolationProfileDefaultSyscallActionTrap represents the value Trap.
-	IsolationProfileDefaultSyscallActionTrap IsolationProfileDefaultSyscallActionValue = "Trap"
-)
-
 // IsolationProfileIdentity represents the Identity of the object.
 var IsolationProfileIdentity = elemental.Identity{
 	Name:     "isolationprofile",
@@ -93,7 +73,7 @@ type IsolationProfile struct {
 	CapabilitiesActions types.CapabilitiesTypeMap `json:"capabilitiesActions" bson:"capabilitiesactions"`
 
 	// DefaultAction is the default action applied to all syscalls of this profile. Default is "Allow".
-	DefaultSyscallAction IsolationProfileDefaultSyscallActionValue `json:"defaultSyscallAction" bson:"defaultsyscallaction"`
+	DefaultSyscallAction SyscallEnforcementAction `json:"defaultSyscallAction" bson:"defaultsyscallaction"`
 
 	// SyscallRules is a list of syscall rules that identify actions for particular syscalls.
 	SyscallRules types.SyscallEnforcementRulesMap `json:"syscallRules" bson:"syscallrules"`
@@ -147,7 +127,7 @@ func NewIsolationProfile() *IsolationProfile {
 		Annotations:          map[string][]string{},
 		AssociatedTags:       []string{},
 		CapabilitiesActions:  types.CapabilitiesTypeMap{},
-		DefaultSyscallAction: "Allow",
+		DefaultSyscallAction: SyscallEnforcementAction,
 		Metadata:             []string{},
 		NormalizedTags:       []string{},
 		SyscallRules:         types.SyscallEnforcementRulesMap{},
@@ -300,10 +280,6 @@ func (o *IsolationProfile) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("defaultSyscallAction", string(o.DefaultSyscallAction), []string{"Allow", "Errno", "Kill", "Trace", "Trap"}, false); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -410,16 +386,16 @@ var IsolationProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "time",
 	},
 	"DefaultSyscallAction": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Allow", "Errno", "Kill", "Trace", "Trap"},
+		AllowedChoices: []string{},
 		ConvertedName:  "DefaultSyscallAction",
-		DefaultValue:   IsolationProfileDefaultSyscallActionAllow,
 		Description:    `DefaultAction is the default action applied to all syscalls of this profile. Default is "Allow".`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "defaultSyscallAction",
 		Orderable:      true,
 		Stored:         true,
-		Type:           "enum",
+		SubType:        "syscall_action",
+		Type:           "external",
 	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -620,16 +596,16 @@ var IsolationProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Type:           "time",
 	},
 	"defaultsyscallaction": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Allow", "Errno", "Kill", "Trace", "Trap"},
+		AllowedChoices: []string{},
 		ConvertedName:  "DefaultSyscallAction",
-		DefaultValue:   IsolationProfileDefaultSyscallActionAllow,
 		Description:    `DefaultAction is the default action applied to all syscalls of this profile. Default is "Allow".`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "defaultSyscallAction",
 		Orderable:      true,
 		Stored:         true,
-		Type:           "enum",
+		SubType:        "syscall_action",
+		Type:           "external",
 	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
