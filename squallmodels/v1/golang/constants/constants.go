@@ -206,6 +206,17 @@ const (
 	ActionOContinueTagString = "oaction=continue"
 )
 
+const (
+	// UserLabelPrefix is the label prefix for all user defined labels
+	UserLabelPrefix = "@usr:"
+
+	// SystemLabelPrefix is the label prefix for all system defined labels
+	SystemLabelPrefix = "@sys:"
+
+	// AttributeLabelPrefix is the prefix for all attributes
+	AttributeLabelPrefix = "$"
+)
+
 // File mode tags
 const (
 	// RelationReadTagString is the system created relation=read tag.
