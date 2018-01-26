@@ -122,85 +122,85 @@ type CapabilitiesType string
 
 // Values of CapabilitiesType.
 const (
-	CapabilitiesTypeAuditControl   CapabilitiesType = "CAP_AUDIT_CONTROL"
-	CapabilitiesTypeAuditRead      CapabilitiesType = "CAP_AUDIT_READ"
-	CapabilitiesTypeAuditWrite     CapabilitiesType = "CAP_AUDIT_WRITE"
-	CapabilitiesTypeBlockSuspend   CapabilitiesType = "CAP_BLOCK_SUSPEND"
-	CapabilitiesTypeChown          CapabilitiesType = "CAP_CHOWN"
-	CapabilitiesTypeDacOverride    CapabilitiesType = "CAP_DAC_OVERRIDE"
-	CapabilitiesTypeReadSearch     CapabilitiesType = "CAP_DAC_READ_SEARCH"
-	CapabilitiesTypeFowner         CapabilitiesType = "CAP_FOWNER"
-	CapabilitiesTypeFsetid         CapabilitiesType = "CAP_FSETID"
-	CapabilitiesTypeIPCLock        CapabilitiesType = "CAP_IPC_LOCK"
-	CapabilitiesTypeIPCOwner       CapabilitiesType = "CAP_IPC_OWNER"
-	CapabilitiesTypeKill           CapabilitiesType = "CAP_KILL"
-	CapabilitiesTypeLease          CapabilitiesType = "CAP_LEASE"
-	CapabilitiesTypeLinuxImmutable CapabilitiesType = "CAP_LINUX_IMMUTABLE"
-	CapabilitiesTypeMacAdmin       CapabilitiesType = "CAP_MAC_ADMIN"
-	CapabilitiesTypeMacOverride    CapabilitiesType = "CAP_MAC_OVERRIDE"
-	CapabilitiesTypeMknod          CapabilitiesType = "CAP_MKNOD"
-	CapabilitiesTypeNetAdmin       CapabilitiesType = "CAP_NET_ADMIN"
-	CapabilitiesTypeNetBindService CapabilitiesType = "CAP_NET_BIND_SERVICE"
-	CapabilitiesTypeNetBroadcast   CapabilitiesType = "CAP_NET_BROADCAST"
-	CapabilitiesTypeNetRaw         CapabilitiesType = "CAP_NET_RAW"
-	CapabilitiesTypeSetGid         CapabilitiesType = "CAP_SETGID"
-	CapabilitiesTypeSetFcap        CapabilitiesType = "CAP_SETFCAP"
-	CapabilitiesTypeSetPcap        CapabilitiesType = "CAP_SETPCAP"
-	CapabilitiesTypeSetUID         CapabilitiesType = "CAP_SETUID"
-	CapabilitiesTypeSysAdmin       CapabilitiesType = "CAP_SYS_ADMIN"
-	CapabilitiesTypeSysBoot        CapabilitiesType = "CAP_SYS_BOOT"
-	CapabilitiesTypeSysChroot      CapabilitiesType = "CAP_SYS_CHROOT"
-	CapabilitiesTypeSysModule      CapabilitiesType = "CAP_SYS_MODULE"
-	CapabilitiesTypeSysNice        CapabilitiesType = "CAP_SYS_NICE"
-	CapabilitiesTypeSysPacct       CapabilitiesType = "CAP_SYS_PACCT"
-	CapabilitiesTypeSysPtrace      CapabilitiesType = "CAP_SYS_PTRACE"
-	CapabilitiesTypeSysRawIO       CapabilitiesType = "CAP_SYS_RAWIO"
-	CapabilitiesTypeSysResource    CapabilitiesType = "CAP_SYS_RESOURCE"
-	CapabilitiesTypeSysTime        CapabilitiesType = "CAP_SYS_TIME"
-	CapabilitiesTypeSysTTYConfig   CapabilitiesType = "CAP_SYS_TTY_CONFIG"
-	CapabilitiesTypeCapSyslog      CapabilitiesType = "CAP_SYSLOG"
-	CapabilitiesTypeWakeAlarm      CapabilitiesType = "CAP_WAKE_ALARM"
+	CapabilitiesTypeAuditControl   CapabilitiesType = "AUDIT_CONTROL"
+	CapabilitiesTypeAuditRead      CapabilitiesType = "AUDIT_READ"
+	CapabilitiesTypeAuditWrite     CapabilitiesType = "AUDIT_WRITE"
+	CapabilitiesTypeBlockSuspend   CapabilitiesType = "BLOCK_SUSPEND"
+	CapabilitiesTypeChown          CapabilitiesType = "CHOWN"
+	CapabilitiesTypeDacOverride    CapabilitiesType = "DAC_OVERRIDE"
+	CapabilitiesTypeReadSearch     CapabilitiesType = "DAC_READ_SEARCH"
+	CapabilitiesTypeFowner         CapabilitiesType = "FOWNER"
+	CapabilitiesTypeFsetid         CapabilitiesType = "FSETID"
+	CapabilitiesTypeIPCLock        CapabilitiesType = "IPC_LOCK"
+	CapabilitiesTypeIPCOwner       CapabilitiesType = "IPC_OWNER"
+	CapabilitiesTypeKill           CapabilitiesType = "KILL"
+	CapabilitiesTypeLease          CapabilitiesType = "LEASE"
+	CapabilitiesTypeLinuxImmutable CapabilitiesType = "LINUX_IMMUTABLE"
+	CapabilitiesTypeMacAdmin       CapabilitiesType = "MAC_ADMIN"
+	CapabilitiesTypeMacOverride    CapabilitiesType = "MAC_OVERRIDE"
+	CapabilitiesTypeMknod          CapabilitiesType = "MKNOD"
+	CapabilitiesTypeNetAdmin       CapabilitiesType = "NET_ADMIN"
+	CapabilitiesTypeNetBindService CapabilitiesType = "NET_BIND_SERVICE"
+	CapabilitiesTypeNetBroadcast   CapabilitiesType = "NET_BROADCAST"
+	CapabilitiesTypeNetRaw         CapabilitiesType = "NET_RAW"
+	CapabilitiesTypeSetGid         CapabilitiesType = "SETGID"
+	CapabilitiesTypeSetFcap        CapabilitiesType = "SETFCAP"
+	CapabilitiesTypeSetPcap        CapabilitiesType = "SETPCAP"
+	CapabilitiesTypeSetUID         CapabilitiesType = "SETUID"
+	CapabilitiesTypeSysAdmin       CapabilitiesType = "SYS_ADMIN"
+	CapabilitiesTypeSysBoot        CapabilitiesType = "SYS_BOOT"
+	CapabilitiesTypeSysChroot      CapabilitiesType = "SYS_CHROOT"
+	CapabilitiesTypeSysModule      CapabilitiesType = "SYS_MODULE"
+	CapabilitiesTypeSysNice        CapabilitiesType = "SYS_NICE"
+	CapabilitiesTypeSysPacct       CapabilitiesType = "SYS_PACCT"
+	CapabilitiesTypeSysPtrace      CapabilitiesType = "SYS_PTRACE"
+	CapabilitiesTypeSysRawIO       CapabilitiesType = "SYS_RAWIO"
+	CapabilitiesTypeSysResource    CapabilitiesType = "SYS_RESOURCE"
+	CapabilitiesTypeSysTime        CapabilitiesType = "SYS_TIME"
+	CapabilitiesTypeSysTTYConfig   CapabilitiesType = "SYS_TTY_CONFIG"
+	CapabilitiesTypeCapSyslog      CapabilitiesType = "SYSLOG"
+	CapabilitiesTypeWakeAlarm      CapabilitiesType = "WAKE_ALARM"
 )
 
 var reverseCapabilitiesMap = map[string]interface{}{
-	"CAP_AUDIT_CONTROL":    nil,
-	"CAP_AUDIT_READ":       nil,
-	"CAP_AUDIT_WRITE":      nil,
-	"CAP_BLOCK_SUSPEND":    nil,
-	"CAP_CHOWN":            nil,
-	"CAP_DAC_OVERRIDE":     nil,
-	"CAP_DAC_READ_SEARCH":  nil,
-	"CAP_FOWNER":           nil,
-	"CAP_FSETID":           nil,
-	"CAP_IPC_LOCK":         nil,
-	"CAP_IPC_OWNER":        nil,
-	"CAP_KILL":             nil,
-	"CAP_LEASE":            nil,
-	"CAP_LINUX_IMMUTABLE":  nil,
-	"CAP_MAC_ADMIN":        nil,
-	"CAP_MAC_OVERRIDE":     nil,
-	"CAP_MKNOD":            nil,
-	"CAP_NET_ADMIN":        nil,
-	"CAP_NET_BIND_SERVICE": nil,
-	"CAP_NET_BROADCAST":    nil,
-	"CAP_NET_RAW":          nil,
-	"CAP_SETGID":           nil,
-	"CAP_SETFCAP":          nil,
-	"CAP_SETPCAP":          nil,
-	"CAP_SETUID":           nil,
-	"CAP_SYS_ADMIN":        nil,
-	"CAP_SYS_BOOT":         nil,
-	"CAP_SYS_CHROOT":       nil,
-	"CAP_SYS_MODULE":       nil,
-	"CAP_SYS_NICE":         nil,
-	"CAP_SYS_PACCT":        nil,
-	"CAP_SYS_PTRACE":       nil,
-	"CAP_SYS_RAWIO":        nil,
-	"CAP_SYS_RESOURCE":     nil,
-	"CAP_SYS_TIME":         nil,
-	"CAP_SYS_TTY_CONFIG":   nil,
-	"CAP_SYSLOG":           nil,
-	"CAP_WAKE_ALARM":       nil,
+	"AUDIT_CONTROL":    nil,
+	"AUDIT_READ":       nil,
+	"AUDIT_WRITE":      nil,
+	"BLOCK_SUSPEND":    nil,
+	"CHOWN":            nil,
+	"DAC_OVERRIDE":     nil,
+	"DAC_READ_SEARCH":  nil,
+	"FOWNER":           nil,
+	"FSETID":           nil,
+	"IPC_LOCK":         nil,
+	"IPC_OWNER":        nil,
+	"KILL":             nil,
+	"LEASE":            nil,
+	"LINUX_IMMUTABLE":  nil,
+	"MAC_ADMIN":        nil,
+	"MAC_OVERRIDE":     nil,
+	"MKNOD":            nil,
+	"NET_ADMIN":        nil,
+	"NET_BIND_SERVICE": nil,
+	"NET_BROADCAST":    nil,
+	"NET_RAW":          nil,
+	"SETGID":           nil,
+	"SETFCAP":          nil,
+	"SETPCAP":          nil,
+	"SETUID":           nil,
+	"SYS_ADMIN":        nil,
+	"SYS_BOOT":         nil,
+	"SYS_CHROOT":       nil,
+	"SYS_MODULE":       nil,
+	"SYS_NICE":         nil,
+	"SYS_PACCT":        nil,
+	"SYS_PTRACE":       nil,
+	"SYS_RAWIO":        nil,
+	"SYS_RESOURCE":     nil,
+	"SYS_TIME":         nil,
+	"SYS_TTY_CONFIG":   nil,
+	"SYSLOG":           nil,
+	"WAKE_ALARM":       nil,
 }
 
 // Validate validates the capabilities.
