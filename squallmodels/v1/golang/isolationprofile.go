@@ -73,7 +73,7 @@ type IsolationProfile struct {
 	CapabilitiesActions types.CapabilitiesTypeMap `json:"capabilitiesActions" bson:"capabilitiesactions"`
 
 	// DefaultAction is the default action applied to all syscalls of this profile. Default is "Allow".
-	DefaultSyscallAction SyscallEnforcementAction `json:"defaultSyscallAction" bson:"defaultsyscallaction"`
+	DefaultSyscallAction types.SyscallEnforcementAction `json:"defaultSyscallAction" bson:"defaultsyscallaction"`
 
 	// SyscallRules is a list of syscall rules that identify actions for particular syscalls.
 	SyscallRules types.SyscallEnforcementRulesMap `json:"syscallRules" bson:"syscallrules"`
@@ -123,15 +123,14 @@ type IsolationProfile struct {
 func NewIsolationProfile() *IsolationProfile {
 
 	return &IsolationProfile{
-		ModelVersion:         1,
-		Annotations:          map[string][]string{},
-		AssociatedTags:       []string{},
-		CapabilitiesActions:  types.CapabilitiesTypeMap{},
-		DefaultSyscallAction: SyscallEnforcementAction,
-		Metadata:             []string{},
-		NormalizedTags:       []string{},
-		SyscallRules:         types.SyscallEnforcementRulesMap{},
-		TargetArchitectures:  types.ArchitecturesTypeList{},
+		ModelVersion:        1,
+		Annotations:         map[string][]string{},
+		AssociatedTags:      []string{},
+		CapabilitiesActions: types.CapabilitiesTypeMap{},
+		Metadata:            []string{},
+		NormalizedTags:      []string{},
+		SyscallRules:        types.SyscallEnforcementRulesMap{},
+		TargetArchitectures: types.ArchitecturesTypeList{},
 	}
 }
 
