@@ -89,9 +89,6 @@ func (o IsolationProfilesList) Version() int {
 
 // IsolationProfile represents the model of a isolationprofile
 type IsolationProfile struct {
-	// Priviledged allows the processing unit to be activated as privileged. Default false.
-	AllowPrivileged bool `json:"allowPrivileged" bson:"allowprivileged"`
-
 	// CapabilitiesActions identifies the capabilities that should be added or removed from the processing unit.
 	CapabilitiesActions types.CapabilitiesTypeMap `json:"capabilitiesActions" bson:"capabilitiesactions"`
 
@@ -147,7 +144,6 @@ func NewIsolationProfile() *IsolationProfile {
 
 	return &IsolationProfile{
 		ModelVersion:         1,
-		AllowPrivileged:      false,
 		Annotations:          map[string][]string{},
 		AssociatedTags:       []string{},
 		CapabilitiesActions:  types.CapabilitiesTypeMap{},
@@ -363,18 +359,6 @@ var IsolationProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 		Unique:         true,
 	},
-	"AllowPrivileged": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AllowPrivileged",
-		DefaultValue:   false,
-		Description:    `Priviledged allows the processing unit to be activated as privileged. Default false.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "allowPrivileged",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
@@ -584,18 +568,6 @@ var IsolationProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Stored:         true,
 		Type:           "string",
 		Unique:         true,
-	},
-	"allowprivileged": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AllowPrivileged",
-		DefaultValue:   false,
-		Description:    `Priviledged allows the processing unit to be activated as privileged. Default false.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "allowPrivileged",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
