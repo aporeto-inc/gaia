@@ -118,7 +118,7 @@
         "aliases": [
             "pup"
         ],
-        "create": null,
+        "create": true,
         "delete": true,
         "description": null,
         "entity_name": "ProcessingUnitPolicy",

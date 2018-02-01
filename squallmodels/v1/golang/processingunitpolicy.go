@@ -31,17 +31,6 @@ const (
 	ProcessingUnitPolicyActionStop ProcessingUnitPolicyActionValue = "Stop"
 )
 
-// ProcessingUnitPolicyStateValue represents the possible values for attribute "state".
-type ProcessingUnitPolicyStateValue string
-
-const (
-	// ProcessingUnitPolicyStateCreate represents the value Create.
-	ProcessingUnitPolicyStateCreate ProcessingUnitPolicyStateValue = "Create"
-
-	// ProcessingUnitPolicyStateRuntime represents the value RunTime.
-	ProcessingUnitPolicyStateRuntime ProcessingUnitPolicyStateValue = "RunTime"
-)
-
 // ProcessingUnitPolicyIdentity represents the Identity of the object.
 var ProcessingUnitPolicyIdentity = elemental.Identity{
 	Name:     "processingunitpolicy",
@@ -105,11 +94,8 @@ type ProcessingUnitPolicy struct {
 	// Action determines the action to take while enforcing the isolation profile.
 	Action ProcessingUnitPolicyActionValue `json:"action" bson:"action"`
 
-	// ProfileSelector are the profiles that must be applied when this policy matches. Only applies to Enforce and LogCompliance actions.
-	ProfileSelector [][]string `json:"profileSelector" bson:"profileselector"`
-
-	// State is the state where this policy applies. For example during processing unit creation or during runtim.
-	State ProcessingUnitPolicyStateValue `json:"state" bson:"state"`
+	// IsolationProfileSelector are the profiles that must be applied when this policy matches. Only applies to Enforce and LogCompliance actions.
+	IsolationProfileSelector [][]string `json:"isolationProfileSelector" bson:"isolationprofileselector"`
 
 	// Subject  defines the tag selectors that identitfy the processing units to which this policy applies.
 	Subject [][]string `json:"subject" bson:"subject"`
@@ -176,7 +162,6 @@ func NewProcessingUnitPolicy() *ProcessingUnitPolicy {
 		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
-		State:          "Create",
 	}
 }
 
@@ -389,10 +374,6 @@ func (o *ProcessingUnitPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("state", string(o.State), []string{"Create", "RunTime"}, false); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -549,6 +530,18 @@ var ProcessingUnitPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"IsolationProfileSelector": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IsolationProfileSelector",
+		Description:    `IsolationProfileSelector are the profiles that must be applied when this policy matches. Only applies to Enforce and LogCompliance actions.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "isolationProfileSelector",
+		Orderable:      true,
+		Stored:         true,
+		SubType:        "policies_list",
+		Type:           "external",
+	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -614,18 +607,6 @@ var ProcessingUnitPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 		Transient:      true,
 		Type:           "external",
 	},
-	"ProfileSelector": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ProfileSelector",
-		Description:    `ProfileSelector are the profiles that must be applied when this policy matches. Only applies to Enforce and LogCompliance actions.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "profileSelector",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "policies_list",
-		Type:           "external",
-	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
@@ -663,18 +644,6 @@ var ProcessingUnitPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 		Orderable:      true,
 		Stored:         true,
 		Type:           "boolean",
-	},
-	"State": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Create", "RunTime"},
-		ConvertedName:  "State",
-		DefaultValue:   ProcessingUnitPolicyStateCreate,
-		Description:    `State is the state where this policy applies. For example during processing unit creation or during runtim.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "state",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
 	},
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -820,6 +789,18 @@ var ProcessingUnitPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"isolationprofileselector": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IsolationProfileSelector",
+		Description:    `IsolationProfileSelector are the profiles that must be applied when this policy matches. Only applies to Enforce and LogCompliance actions.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "isolationProfileSelector",
+		Orderable:      true,
+		Stored:         true,
+		SubType:        "policies_list",
+		Type:           "external",
+	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -885,18 +866,6 @@ var ProcessingUnitPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Transient:      true,
 		Type:           "external",
 	},
-	"profileselector": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ProfileSelector",
-		Description:    `ProfileSelector are the profiles that must be applied when this policy matches. Only applies to Enforce and LogCompliance actions.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "profileSelector",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "policies_list",
-		Type:           "external",
-	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
@@ -934,18 +903,6 @@ var ProcessingUnitPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Orderable:      true,
 		Stored:         true,
 		Type:           "boolean",
-	},
-	"state": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Create", "RunTime"},
-		ConvertedName:  "State",
-		DefaultValue:   ProcessingUnitPolicyStateCreate,
-		Description:    `State is the state where this policy applies. For example during processing unit creation or during runtim.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "state",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
 	},
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
