@@ -51,7 +51,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "ProfileSelector are the profiles that must be applied when this policy matches. Only applies to Enforce and LogCompliance actions.",
+            "description": "IsolationProfileSelector are the profiles that must be applied when this policy matches. Only applies to Enforce and LogCompliance actions.",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
@@ -63,7 +63,7 @@
             "max_value": null,
             "min_length": null,
             "min_value": null,
-            "name": "profileSelector",
+            "name": "isolationProfileSelector",
             "orderable": true,
             "primary_key": null,
             "read_only": null,
@@ -156,7 +156,7 @@
         "aliases": [
             "pup"
         ],
-        "create": true,
+        "create": null,
         "delete": true,
         "description": null,
         "entity_name": "ProcessingUnitPolicy",
