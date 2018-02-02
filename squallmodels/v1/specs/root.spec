@@ -94,7 +94,7 @@
             "deprecated": null,
             "get": true,
             "relationship": "root",
-            "rest_name": "exporteddata",
+            "rest_name": "export",
             "update": false
         },
         {
