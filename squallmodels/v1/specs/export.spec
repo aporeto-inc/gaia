@@ -134,7 +134,7 @@
             "secret": null,
             "setter": null,
             "stored": false,
-            "subtype": "exported_file_paths",
+            "subtype": "exported_data_content",
             "transient": null,
             "type": "external",
             "unique": null,
