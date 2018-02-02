@@ -64,7 +64,7 @@
             "secret": null,
             "setter": null,
             "stored": false,
-            "subtype": "exported_external_services",
+            "subtype": "exported_data_content",
             "transient": null,
             "type": "external",
             "unique": null,
