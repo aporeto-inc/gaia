@@ -4,15 +4,15 @@
     "model": {
         "aliases": [],
         "create": null,
-        "delete": true,
+        "delete": false,
         "description": null,
         "entity_name": "ExportedData",
         "extends": [],
-        "get": true,
+        "get": false,
         "package": null,
         "resource_name": "exporteddatas",
         "rest_name": "exporteddata",
         "root": null,
-        "update": true
+        "update": false
     }
 }
