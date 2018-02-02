@@ -91,7 +91,7 @@
             "max_value": null,
             "min_length": null,
             "min_value": null,
-            "name": "filepaths",
+            "name": "filePaths",
             "orderable": false,
             "primary_key": null,
             "read_only": null,
