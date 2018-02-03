@@ -66,7 +66,7 @@ func (o RootsList) Version() int {
 // Root represents the model of a root
 type Root struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"-"`
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

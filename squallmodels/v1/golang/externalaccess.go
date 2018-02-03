@@ -67,7 +67,7 @@ func (o ExternalAccessList) Version() int {
 // ExternalAccess represents the model of a externalaccess
 type ExternalAccess struct {
 	// IPRecords refers to a list of IPRecord that contains the IP information
-	IPRecords []*types.IPRecord `json:"IPRecords" bson:"-"`
+	IPRecords []*types.IPRecord `json:"IPRecords" bson:"-" mapstructure:"IPRecords,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

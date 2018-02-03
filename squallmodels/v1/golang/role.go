@@ -66,16 +66,16 @@ func (o RolesList) Version() int {
 // Role represents the model of a role
 type Role struct {
 	// Authorizations of the role.
-	Authorizations map[string][]string `json:"authorizations" bson:"-"`
+	Authorizations map[string][]string `json:"authorizations" bson:"-" mapstructure:"authorizations,omitempty"`
 
 	// Description is the description of the role.
-	Description string `json:"description" bson:"-"`
+	Description string `json:"description" bson:"-" mapstructure:"description,omitempty"`
 
 	// Key is the of the role.
-	Key string `json:"key" bson:"-"`
+	Key string `json:"key" bson:"-" mapstructure:"key,omitempty"`
 
 	// Name of the role.
-	Name string `json:"name" bson:"-"`
+	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

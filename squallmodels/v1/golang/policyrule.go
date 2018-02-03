@@ -68,40 +68,40 @@ func (o PolicyRulesList) Version() int {
 // PolicyRule represents the model of a policyrule
 type PolicyRule struct {
 	// Action defines set of actions that must be enforced when a dependency is met.
-	Action map[string]map[string]interface{} `json:"action" bson:"-"`
+	Action map[string]map[string]interface{} `json:"action" bson:"-" mapstructure:"action,omitempty"`
 
 	// EnforcerProfiles provides the information about the server profile.
-	EnforcerProfiles EnforcerProfilesList `json:"enforcerProfiles" bson:"-"`
+	EnforcerProfiles EnforcerProfilesList `json:"enforcerProfiles" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
 
 	// Policy target networks
-	ExternalServices ExternalServicesList `json:"externalServices" bson:"-"`
+	ExternalServices ExternalServicesList `json:"externalServices" bson:"-" mapstructure:"externalServices,omitempty"`
 
 	// Policy target networks
-	FilePaths FilePathsList `json:"filePaths" bson:"-"`
+	FilePaths FilePathsList `json:"filePaths" bson:"-" mapstructure:"filePaths,omitempty"`
 
 	// IsolationProfiles are the isolation profiles of the rule.
-	IsolationProfiles IsolationProfilesList `json:"isolationProfiles" bson:"isolationprofiles"`
+	IsolationProfiles IsolationProfilesList `json:"isolationProfiles" bson:"isolationprofiles" mapstructure:"isolationProfiles,omitempty"`
 
 	// Policy target networks
-	Namespaces NamespacesList `json:"namespaces" bson:"-"`
+	Namespaces NamespacesList `json:"namespaces" bson:"-" mapstructure:"namespaces,omitempty"`
 
 	// List of external services the policy mandate to pass through before reaching the destination.
-	PassthroughExternalServices ExternalServicesList `json:"passthroughExternalServices" bson:"-"`
+	PassthroughExternalServices ExternalServicesList `json:"passthroughExternalServices" bson:"-" mapstructure:"passthroughExternalServices,omitempty"`
 
 	// Propagated indicates if the policy is propagated.
-	Propagated bool `json:"propagated" bson:"-"`
+	Propagated bool `json:"propagated" bson:"-" mapstructure:"propagated,omitempty"`
 
 	// Relation describes the required operation to be performed between subjects and objects
-	Relation []string `json:"relation" bson:"-"`
+	Relation []string `json:"relation" bson:"-" mapstructure:"relation,omitempty"`
 
 	// Policy target tags
-	TagClauses [][]string `json:"tagClauses" bson:"-"`
+	TagClauses [][]string `json:"tagClauses" bson:"-" mapstructure:"tagClauses,omitempty"`
 
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"-"`
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Name is the name of the entity
-	Name string `json:"name" bson:"name"`
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

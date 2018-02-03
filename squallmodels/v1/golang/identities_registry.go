@@ -12,6 +12,7 @@ func init() {
 	elemental.RegisterIdentity(EnforcerIdentity)
 	elemental.RegisterIdentity(EnforcerProfileIdentity)
 	elemental.RegisterIdentity(EnforcerProfileMappingPolicyIdentity)
+	elemental.RegisterIdentity(ExportIdentity)
 	elemental.RegisterIdentity(ExternalAccessIdentity)
 	elemental.RegisterIdentity(ExternalServiceIdentity)
 	elemental.RegisterIdentity(FileAccessIdentity)
@@ -19,6 +20,7 @@ func init() {
 	elemental.RegisterIdentity(FilePathIdentity)
 	elemental.RegisterIdentity(FlowStatisticIdentity)
 	elemental.RegisterIdentity(HookPolicyIdentity)
+	elemental.RegisterIdentity(ImportIdentity)
 	elemental.RegisterIdentity(IsolationProfileIdentity)
 	elemental.RegisterIdentity(MessageIdentity)
 	elemental.RegisterIdentity(NamespaceIdentity)
@@ -65,6 +67,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewEnforcerProfile()
 	case EnforcerProfileMappingPolicyIdentity.Name:
 		return NewEnforcerProfileMappingPolicy()
+	case ExportIdentity.Name:
+		return NewExport()
 	case ExternalAccessIdentity.Name:
 		return NewExternalAccess()
 	case ExternalServiceIdentity.Name:
@@ -79,6 +83,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewFlowStatistic()
 	case HookPolicyIdentity.Name:
 		return NewHookPolicy()
+	case ImportIdentity.Name:
+		return NewImport()
 	case IsolationProfileIdentity.Name:
 		return NewIsolationProfile()
 	case MessageIdentity.Name:
@@ -145,6 +151,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewEnforcerProfile()
 	case EnforcerProfileMappingPolicyIdentity.Category:
 		return NewEnforcerProfileMappingPolicy()
+	case ExportIdentity.Category:
+		return NewExport()
 	case ExternalAccessIdentity.Category:
 		return NewExternalAccess()
 	case ExternalServiceIdentity.Category:
@@ -159,6 +167,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewFlowStatistic()
 	case HookPolicyIdentity.Category:
 		return NewHookPolicy()
+	case ImportIdentity.Category:
+		return NewImport()
 	case IsolationProfileIdentity.Category:
 		return NewIsolationProfile()
 	case MessageIdentity.Category:
@@ -225,6 +235,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &EnforcerProfilesList{}
 	case EnforcerProfileMappingPolicyIdentity.Name:
 		return &EnforcerProfileMappingPoliciesList{}
+	case ExportIdentity.Name:
+		return &ExportsList{}
 	case ExternalAccessIdentity.Name:
 		return &ExternalAccessList{}
 	case ExternalServiceIdentity.Name:
@@ -239,6 +251,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &FlowStatisticsList{}
 	case HookPolicyIdentity.Name:
 		return &HookPoliciesList{}
+	case ImportIdentity.Name:
+		return &ImportsList{}
 	case IsolationProfileIdentity.Name:
 		return &IsolationProfilesList{}
 	case MessageIdentity.Name:
@@ -305,6 +319,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &EnforcerProfilesList{}
 	case EnforcerProfileMappingPolicyIdentity.Category:
 		return &EnforcerProfileMappingPoliciesList{}
+	case ExportIdentity.Category:
+		return &ExportsList{}
 	case ExternalAccessIdentity.Category:
 		return &ExternalAccessList{}
 	case ExternalServiceIdentity.Category:
@@ -319,6 +335,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &FlowStatisticsList{}
 	case HookPolicyIdentity.Category:
 		return &HookPoliciesList{}
+	case ImportIdentity.Category:
+		return &ImportsList{}
 	case IsolationProfileIdentity.Category:
 		return &IsolationProfilesList{}
 	case MessageIdentity.Category:
@@ -376,6 +394,7 @@ func AllIdentities() []elemental.Identity {
 		EnforcerIdentity,
 		EnforcerProfileIdentity,
 		EnforcerProfileMappingPolicyIdentity,
+		ExportIdentity,
 		ExternalAccessIdentity,
 		ExternalServiceIdentity,
 		FileAccessIdentity,
@@ -383,6 +402,7 @@ func AllIdentities() []elemental.Identity {
 		FilePathIdentity,
 		FlowStatisticIdentity,
 		HookPolicyIdentity,
+		ImportIdentity,
 		IsolationProfileIdentity,
 		MessageIdentity,
 		NamespaceIdentity,
@@ -501,6 +521,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"srvpols",
 			"srvpol",
 		}
+	case ExportIdentity:
+		return []string{}
 	case ExternalAccessIdentity:
 		return []string{
 			"extac",
@@ -532,6 +554,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"hookpol",
 			"hookpols",
 		}
+	case ImportIdentity:
+		return []string{}
 	case IsolationProfileIdentity:
 		return []string{
 			"ip",

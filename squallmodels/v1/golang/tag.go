@@ -66,16 +66,16 @@ func (o TagsList) Version() int {
 // Tag represents the model of a tag
 type Tag struct {
 	// Count represents the number of time the tag is used.
-	Count int `json:"count" bson:"count"`
+	Count int `json:"count" bson:"count" mapstructure:"count,omitempty"`
 
 	// Namespace represents the namespace of the counted tag.
-	Namespace string `json:"namespace" bson:"namespace"`
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// Value represents the value of the tag.
-	Value string `json:"value" bson:"value"`
+	Value string `json:"value" bson:"value" mapstructure:"value,omitempty"`
 
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id"`
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

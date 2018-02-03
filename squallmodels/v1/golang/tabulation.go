@@ -66,13 +66,13 @@ func (o TabulationsList) Version() int {
 // Tabulation represents the model of a tabulation
 type Tabulation struct {
 	// Headers contains the requests headers that matched.
-	Headers []string `json:"headers" bson:"-"`
+	Headers []string `json:"headers" bson:"-" mapstructure:"headers,omitempty"`
 
 	// Rows contains the tabulated data.
-	Rows [][]interface{} `json:"rows" bson:"-"`
+	Rows [][]interface{} `json:"rows" bson:"-" mapstructure:"rows,omitempty"`
 
 	// TargetIdentity contains the requested target identity.
-	TargetIdentity string `json:"targetIdentity" bson:"-"`
+	TargetIdentity string `json:"targetIdentity" bson:"-" mapstructure:"targetIdentity,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

@@ -67,7 +67,7 @@ func (o StatsQueriesList) Version() int {
 // StatsQuery represents the model of a statsquery
 type StatsQuery struct {
 	// Results contains the result of the query.
-	Results []*types.TimeSeriesQueryResults `json:"results" bson:"-"`
+	Results []*types.TimeSeriesQueryResults `json:"results" bson:"-" mapstructure:"results,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

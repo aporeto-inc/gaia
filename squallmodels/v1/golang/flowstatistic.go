@@ -102,34 +102,34 @@ func (o FlowStatisticsList) Version() int {
 // FlowStatistic represents the model of a flowstatistic
 type FlowStatistic struct {
 	// DataPoints is a list of time/value pairs that represent the flow events over time.
-	DataPoints []map[string]interface{} `json:"dataPoints" bson:"-"`
+	DataPoints []map[string]interface{} `json:"dataPoints" bson:"-" mapstructure:"dataPoints,omitempty"`
 
 	// DestinationIDs is the IDs of the destination.
-	DestinationIDs []string `json:"destinationIDs" bson:"-"`
+	DestinationIDs []string `json:"destinationIDs" bson:"-" mapstructure:"destinationIDs,omitempty"`
 
 	// DestinationTags contains the tags used to identify destination
-	DestinationTags map[string]string `json:"destinationTags" bson:"-"`
+	DestinationTags map[string]string `json:"destinationTags" bson:"-" mapstructure:"destinationTags,omitempty"`
 
 	// Metric is the kind of metric the statistic represents.
-	Metric FlowStatisticMetricValue `json:"metric" bson:"-"`
+	Metric FlowStatisticMetricValue `json:"metric" bson:"-" mapstructure:"metric,omitempty"`
 
 	// Mode defines if the metric is for accepted or rejected flows.
-	Mode FlowStatisticModeValue `json:"mode" bson:"-"`
+	Mode FlowStatisticModeValue `json:"mode" bson:"-" mapstructure:"mode,omitempty"`
 
 	// SourceIDs is the sources of the stats.
-	SourceIDs []string `json:"sourceIDs" bson:"-"`
+	SourceIDs []string `json:"sourceIDs" bson:"-" mapstructure:"sourceIDs,omitempty"`
 
 	// SourceTags contains the tags used to identify the source.
-	SourceTags map[string]string `json:"sourceTags" bson:"-"`
+	SourceTags map[string]string `json:"sourceTags" bson:"-" mapstructure:"sourceTags,omitempty"`
 
 	// Type is the type of representation
-	Type FlowStatisticTypeValue `json:"type" bson:"-"`
+	Type FlowStatisticTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`
 
 	// UserIdentifier can be set by the user as a query parameter. It will be returned in the FlowStatistic object.
-	UserIdentifier string `json:"userIdentifier" bson:"-"`
+	UserIdentifier string `json:"userIdentifier" bson:"-" mapstructure:"userIdentifier,omitempty"`
 
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"-"`
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

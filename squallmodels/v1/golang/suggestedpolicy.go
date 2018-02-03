@@ -66,7 +66,7 @@ func (o SuggestedPoliciesList) Version() int {
 // SuggestedPolicy represents the model of a suggestedpolicy
 type SuggestedPolicy struct {
 	// List of suggested network access policies
-	NetworkAccessPolicies []*NetworkAccessPolicy `json:"networkAccessPolicies" bson:"networkaccesspolicies"`
+	NetworkAccessPolicies []*NetworkAccessPolicy `json:"networkAccessPolicies" bson:"networkaccesspolicies" mapstructure:"networkAccessPolicies,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

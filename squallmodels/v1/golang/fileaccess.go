@@ -80,22 +80,22 @@ func (o FileAccessList) Version() int {
 // FileAccess represents the model of a fileaccess
 type FileAccess struct {
 	// Action tells if the access has been allowed or not.
-	Action string `json:"action" bson:"-"`
+	Action string `json:"action" bson:"-" mapstructure:"action,omitempty"`
 
 	// Count tells how many times the file has been accessed.
-	Count int `json:"count" bson:"-"`
+	Count int `json:"count" bson:"-" mapstructure:"count,omitempty"`
 
 	// Host is the host that served the accessed file.
-	Host string `json:"host" bson:"-"`
+	Host string `json:"host" bson:"-" mapstructure:"host,omitempty"`
 
 	// Mode is the mode of the accessed file.
-	Mode FileAccessModeValue `json:"mode" bson:"-"`
+	Mode FileAccessModeValue `json:"mode" bson:"-" mapstructure:"mode,omitempty"`
 
 	// Path is the path of the accessed file.
-	Path string `json:"path" bson:"-"`
+	Path string `json:"path" bson:"-" mapstructure:"path,omitempty"`
 
 	// Protocol is the protocol used to access the file.
-	Protocol string `json:"protocol" bson:"-"`
+	Protocol string `json:"protocol" bson:"-" mapstructure:"protocol,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

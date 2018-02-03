@@ -92,19 +92,19 @@ func (o APIChecksList) Version() int {
 // APICheck represents the model of a apicheck
 type APICheck struct {
 	// Authorized contains the results of the check.
-	Authorized map[string]bool `json:"authorized" bson:"-"`
+	Authorized map[string]bool `json:"authorized" bson:"-" mapstructure:"authorized,omitempty"`
 
 	// Namespace is the namespace to use to check the api authentication.
-	Namespace string `json:"namespace" bson:"-"`
+	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Operation is the operation you want to check.
-	Operation APICheckOperationValue `json:"operation" bson:"operation"`
+	Operation APICheckOperationValue `json:"operation" bson:"operation" mapstructure:"operation,omitempty"`
 
 	// TargetIdentities contains the list of identities you want to check the authorization.
-	TargetIdentities []string `json:"targetIdentities" bson:"-"`
+	TargetIdentities []string `json:"targetIdentities" bson:"-" mapstructure:"targetIdentities,omitempty"`
 
 	// Token is the token to use to check api authentication
-	Token string `json:"token" bson:"-"`
+	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
