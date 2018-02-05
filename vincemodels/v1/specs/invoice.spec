@@ -114,7 +114,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "StartDate of the invoice period.",
+            "description": "Start date of the invoice period.",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
