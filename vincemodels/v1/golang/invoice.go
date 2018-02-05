@@ -76,7 +76,7 @@ type Invoice struct {
 	EndDate time.Time `json:"endDate" bson:"enddate" mapstructure:"endDate,omitempty"`
 
 	// Price of one enforcer credit.
-	EnforcerCreditPrice int `json:"enforcerCreditPrice" bson:"enforcercreditprice" mapstructure:"enforcerCreditPrice,omitempty"`
+	EnforcerCreditPrice float64 `json:"enforcerCreditPrice" bson:"enforcercreditprice" mapstructure:"enforcerCreditPrice,omitempty"`
 
 	// Number of enforcer credits used during the period.
 	EnforcerCredits int `json:"enforcerCredits" bson:"enforcercredits" mapstructure:"enforcerCredits,omitempty"`
@@ -216,7 +216,7 @@ var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "enforcerCreditPrice",
 		ReadOnly:       true,
 		Stored:         true,
-		Type:           "integer",
+		Type:           "float",
 	},
 	"EnforcerCredits": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -301,7 +301,7 @@ var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "enforcerCreditPrice",
 		ReadOnly:       true,
 		Stored:         true,
-		Type:           "integer",
+		Type:           "float",
 	},
 	"enforcercredits": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
