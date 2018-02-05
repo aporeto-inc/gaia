@@ -136,7 +136,7 @@
             "stored": true,
             "subtype": null,
             "transient": null,
-            "type": "integer",
+            "type": "float",
             "unique": null,
             "uniqueScope": null
         },
