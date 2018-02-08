@@ -265,7 +265,7 @@
             "pu",
             "pus"
         ],
-        "create": false,
+        "create": true,
         "delete": true,
         "description": "A Processing Unit reprents anything that can compute. It can be a Docker container, or a simple Unix process. They are created, updated and deleted by the system as they come and go. You can only modify its tags.  Processing Units use Network Access Policies to define which other Processing Units or External Services they can communicate with and File Access Policies to define what File Paths they can use.",
         "entity_name": "ProcessingUnit",
