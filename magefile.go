@@ -48,6 +48,7 @@ func All() {
 		Vince,
 		Yuffie,
 		Zack,
+		Midgard,
 	)
 }
 
@@ -72,6 +73,14 @@ func Highwind() {
 
 	mg.Deps(
 		func() error { return codegenModel("highwindmodels/v1") },
+	)
+}
+
+// Rufus builds rufus model.
+func Midgard() {
+
+	mg.Deps(
+		func() error { return codegenModel("midgardmodels/v1") },
 	)
 }
 

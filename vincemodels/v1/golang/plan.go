@@ -66,22 +66,22 @@ func (o PlansList) Version() int {
 // Plan represents the model of a plan
 type Plan struct {
 	// Description contains the description of the Plan.
-	Description string `json:"description" bson:"description"`
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// EnforcerQuota contains the maximum number of enforcers available in the Plan.
-	EnforcersQuota int `json:"enforcersQuota" bson:"enforcersquota"`
+	EnforcersQuota int `json:"enforcersQuota" bson:"enforcersquota" mapstructure:"enforcersQuota,omitempty"`
 
 	// Key contains the key identifier of the Plan.
-	Key string `json:"key" bson:"key"`
+	Key string `json:"key" bson:"key" mapstructure:"key,omitempty"`
 
 	// Name contains the name of the Plan.
-	Name string `json:"name" bson:"name"`
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// PoliciesQuota contains the maximum number of policies available in the Plan.
-	PoliciesQuota int `json:"policiesQuota" bson:"policiesquota"`
+	PoliciesQuota int `json:"policiesQuota" bson:"policiesquota" mapstructure:"policiesQuota,omitempty"`
 
 	// ProcessingUnitsQuota contains the maximum PUs available in the Plan.
-	ProcessingUnitsQuota int `json:"processingUnitsQuota" bson:"processingunitsquota"`
+	ProcessingUnitsQuota int `json:"processingUnitsQuota" bson:"processingunitsquota" mapstructure:"processingUnitsQuota,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

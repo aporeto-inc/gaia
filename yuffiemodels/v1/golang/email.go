@@ -77,28 +77,28 @@ func (o EmailsList) Version() int {
 // Email represents the model of a email
 type Email struct {
 	// Attachments is a list of attachments to send
-	Attachments map[string]string `json:"attachments" bson:"-"`
+	Attachments map[string]string `json:"attachments" bson:"-" mapstructure:"attachments,omitempty"`
 
 	// Bcc represents email that should be in copy but hidden
-	Bcc []string `json:"bcc" bson:"-"`
+	Bcc []string `json:"bcc" bson:"-" mapstructure:"bcc,omitempty"`
 
 	// Cc represents the addresses that should be in copy
-	Cc []string `json:"cc" bson:"-"`
+	Cc []string `json:"cc" bson:"-" mapstructure:"cc,omitempty"`
 
 	// Content of the email to send
-	Content string `json:"content" bson:"-"`
+	Content string `json:"content" bson:"-" mapstructure:"content,omitempty"`
 
 	// From represents the sender of the email
-	From string `json:"from" bson:"-"`
+	From string `json:"from" bson:"-" mapstructure:"from,omitempty"`
 
 	// Subject represents the subject of the email
-	Subject string `json:"subject" bson:"-"`
+	Subject string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// To represents receivers of the email
-	To []string `json:"to" bson:"-"`
+	To []string `json:"to" bson:"-" mapstructure:"to,omitempty"`
 
 	// Type represents the type of the content.
-	Type EmailTypeValue `json:"type" bson:"-"`
+	Type EmailTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

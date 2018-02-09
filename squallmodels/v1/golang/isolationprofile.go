@@ -70,49 +70,49 @@ func (o IsolationProfilesList) Version() int {
 // IsolationProfile represents the model of a isolationprofile
 type IsolationProfile struct {
 	// CapabilitiesActions identifies the capabilities that should be added or removed from the processing unit.
-	CapabilitiesActions types.CapabilitiesTypeMap `json:"capabilitiesActions" bson:"capabilitiesactions"`
+	CapabilitiesActions types.CapabilitiesTypeMap `json:"capabilitiesActions" bson:"capabilitiesactions" mapstructure:"capabilitiesActions,omitempty"`
 
 	// DefaultAction is the default action applied to all syscalls of this profile. Default is "Allow".
-	DefaultSyscallAction types.SyscallEnforcementAction `json:"defaultSyscallAction" bson:"defaultsyscallaction"`
+	DefaultSyscallAction types.SyscallEnforcementAction `json:"defaultSyscallAction" bson:"defaultsyscallaction" mapstructure:"defaultSyscallAction,omitempty"`
 
 	// SyscallRules is a list of syscall rules that identify actions for particular syscalls.
-	SyscallRules types.SyscallEnforcementRulesMap `json:"syscallRules" bson:"syscallrules"`
+	SyscallRules types.SyscallEnforcementRulesMap `json:"syscallRules" bson:"syscallrules" mapstructure:"syscallRules,omitempty"`
 
 	// TargetArchitectures is the target processor architectures where this profile can be applied. Default all.
-	TargetArchitectures types.ArchitecturesTypeList `json:"targetArchitectures" bson:"targetarchitectures"`
+	TargetArchitectures types.ArchitecturesTypeList `json:"targetArchitectures" bson:"targetarchitectures" mapstructure:"targetArchitectures,omitempty"`
 
 	// Annotation stores additional information about an entity
-	Annotations map[string][]string `json:"annotations" bson:"annotations"`
+	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity
-	AssociatedTags []string `json:"associatedTags" bson:"associatedtags"`
+	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// CreatedTime is the time at which the object was created
-	CreateTime time.Time `json:"createTime" bson:"createtime"`
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Namespace tag attached to an entity
-	Namespace string `json:"namespace" bson:"namespace"`
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities
-	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags"`
+	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected bool `json:"protected" bson:"protected"`
+	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime"`
+	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// Description is the description of the object.
-	Description string `json:"description" bson:"description"`
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id"`
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" bson:"metadata"`
+	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity
-	Name string `json:"name" bson:"name"`
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

@@ -100,88 +100,88 @@ func (o EnforcersList) Version() int {
 // Enforcer represents the model of a enforcer
 type Enforcer struct {
 	// FQDN contains the fqdn of the server where the enforcer is running.
-	FQDN string `json:"FQDN" bson:"fqdn"`
+	FQDN string `json:"FQDN" bson:"fqdn" mapstructure:"FQDN,omitempty"`
 
 	// Certificate is the certificate of the enforcer.
-	Certificate string `json:"certificate" bson:"certificate"`
+	Certificate string `json:"certificate" bson:"certificate" mapstructure:"certificate,omitempty"`
 
 	// CertificateExpirationDate is the expiration date of the certificate.
-	CertificateExpirationDate time.Time `json:"certificateExpirationDate" bson:"certificateexpirationdate"`
+	CertificateExpirationDate time.Time `json:"certificateExpirationDate" bson:"certificateexpirationdate" mapstructure:"certificateExpirationDate,omitempty"`
 
 	// CertificateKey is the secret key of the enforcer. Returned only when a enforcer is created or the certificate is updated.
-	CertificateKey string `json:"certificateKey" bson:"-"`
+	CertificateKey string `json:"certificateKey" bson:"-" mapstructure:"certificateKey,omitempty"`
 
 	// CertificateRequest can be used to generate a certificate from that CSR instead of letting the server generate your private key for you.
-	CertificateRequest string `json:"certificateRequest" bson:"-"`
+	CertificateRequest string `json:"certificateRequest" bson:"-" mapstructure:"certificateRequest,omitempty"`
 
 	// If set during creation,the server will not initially generate a certificate. In that case you have to provide a valid CSR through certificateRequest during an update.
-	CertificateRequestEnabled bool `json:"certificateRequestEnabled" bson:"certificaterequestenabled"`
+	CertificateRequestEnabled bool `json:"certificateRequestEnabled" bson:"certificaterequestenabled" mapstructure:"certificateRequestEnabled,omitempty"`
 
 	// CertificateStatus indicates if the certificate is valid.
-	CertificateStatus EnforcerCertificateStatusValue `json:"certificateStatus" bson:"certificatestatus"`
+	CertificateStatus EnforcerCertificateStatusValue `json:"certificateStatus" bson:"certificatestatus" mapstructure:"certificateStatus,omitempty"`
 
 	// CollectInfo indicates to the enforcer it needs to collect information.
-	CollectInfo bool `json:"collectInfo" bson:"collectinfo"`
+	CollectInfo bool `json:"collectInfo" bson:"collectinfo" mapstructure:"collectInfo,omitempty"`
 
 	// CollectedInfo represents the latest info collected by the enforcer.
-	CollectedInfo map[string]string `json:"collectedInfo" bson:"collectedinfo"`
+	CollectedInfo map[string]string `json:"collectedInfo" bson:"collectedinfo" mapstructure:"collectedInfo,omitempty"`
 
 	// CurrentVersion holds the enforcerd binary version that is currently associated to this object.
-	CurrentVersion string `json:"currentVersion" bson:"currentversion"`
+	CurrentVersion string `json:"currentVersion" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
 
 	// Contains the ID of the profile used by the instance of enforcerd.
-	EnforcerProfileID string `json:"enforcerProfileID" bson:"enforcerprofileid"`
+	EnforcerProfileID string `json:"enforcerProfileID" bson:"enforcerprofileid" mapstructure:"enforcerProfileID,omitempty"`
 
 	// LastCollectionTime represents the date and time when the info have been collected.
-	LastCollectionTime time.Time `json:"lastCollectionTime" bson:"lastcollectiontime"`
+	LastCollectionTime time.Time `json:"lastCollectionTime" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
 
 	// LastSyncTime holds the last heart beat time.
-	LastSyncTime time.Time `json:"lastSyncTime" bson:"lastsynctime"`
+	LastSyncTime time.Time `json:"lastSyncTime" bson:"lastsynctime" mapstructure:"lastSyncTime,omitempty"`
 
 	// LocalCA contains the initial chain of trust for the enforcer. This valud is only given when you retrieve a single enforcer.
-	LocalCA string `json:"localCA" bson:"-"`
+	LocalCA string `json:"localCA" bson:"-" mapstructure:"localCA,omitempty"`
 
 	// OperationalStatus tells the status of the enforcer.
-	OperationalStatus EnforcerOperationalStatusValue `json:"operationalStatus" bson:"-"`
+	OperationalStatus EnforcerOperationalStatusValue `json:"operationalStatus" bson:"-" mapstructure:"operationalStatus,omitempty"`
 
 	// PublicToken is the public token of the server that will be included in the datapath and its signed by the private CA.
-	PublicToken string `json:"publicToken" bson:"-"`
+	PublicToken string `json:"publicToken" bson:"-" mapstructure:"publicToken,omitempty"`
 
 	// Tells if the the version of enforcerd is outdated and should be updated.
-	UpdateAvailable bool `json:"updateAvailable" bson:"updateavailable"`
+	UpdateAvailable bool `json:"updateAvailable" bson:"updateavailable" mapstructure:"updateAvailable,omitempty"`
 
 	// Annotation stores additional information about an entity
-	Annotations map[string][]string `json:"annotations" bson:"annotations"`
+	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity
-	AssociatedTags []string `json:"associatedTags" bson:"associatedtags"`
+	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// CreatedTime is the time at which the object was created
-	CreateTime time.Time `json:"createTime" bson:"createtime"`
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Namespace tag attached to an entity
-	Namespace string `json:"namespace" bson:"namespace"`
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities
-	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags"`
+	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected bool `json:"protected" bson:"protected"`
+	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime"`
+	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// Description is the description of the object.
-	Description string `json:"description" bson:"description"`
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id"`
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" bson:"metadata"`
+	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity
-	Name string `json:"name" bson:"name"`
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

@@ -90,19 +90,19 @@ func (o ReportsList) Version() int {
 // Report represents the model of a report
 type Report struct {
 	// TSDB Fields to set for the report.
-	Fields map[string]interface{} `json:"fields" bson:"-"`
+	Fields map[string]interface{} `json:"fields" bson:"-" mapstructure:"fields,omitempty"`
 
 	// Kind contains the kind of report.
-	Kind ReportKindValue `json:"kind" bson:"-"`
+	Kind ReportKindValue `json:"kind" bson:"-" mapstructure:"kind,omitempty"`
 
 	// Tags contains the tags associated to the data point.
-	Tags map[string]string `json:"tags" bson:"-"`
+	Tags map[string]string `json:"tags" bson:"-" mapstructure:"tags,omitempty"`
 
 	// Timestamp contains the time for the report.
-	Timestamp time.Time `json:"timestamp" bson:"-"`
+	Timestamp time.Time `json:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
 	// Value contains the value for the report.
-	Value float64 `json:"value" bson:"-"`
+	Value float64 `json:"value" bson:"-" mapstructure:"value,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

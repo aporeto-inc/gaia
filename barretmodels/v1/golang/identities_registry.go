@@ -79,8 +79,7 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &PrivateKeysList{}
 	case RevocationIdentity.Name:
 		return &RevocationsList{}
-	case RootIdentity.Name:
-		return &RootsList{}
+
 	case TokenIdentity.Name:
 		return &TokensList{}
 	default:
@@ -103,8 +102,7 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &PrivateKeysList{}
 	case RevocationIdentity.Category:
 		return &RevocationsList{}
-	case RootIdentity.Category:
-		return &RootsList{}
+
 	case TokenIdentity.Category:
 		return &TokensList{}
 	default:

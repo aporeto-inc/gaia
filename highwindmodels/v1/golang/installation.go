@@ -66,10 +66,10 @@ func (o InstallationsList) Version() int {
 // Installation represents the model of a installation
 type Installation struct {
 	// ID represents the identifier of the installation.
-	ID string `json:"ID" bson:"id"`
+	ID string `json:"ID" bson:"id" mapstructure:"ID,omitempty"`
 
 	// AccountName that should be installed.
-	AccountName string `json:"accountName" bson:"accountname"`
+	AccountName string `json:"accountName" bson:"accountname" mapstructure:"accountName,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

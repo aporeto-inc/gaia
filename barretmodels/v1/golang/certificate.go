@@ -92,22 +92,22 @@ func (o CertificatesList) Version() int {
 // Certificate represents the model of a certificate
 type Certificate struct {
 	// CSR contains the Certificate Signing Request as a PEM encoded string.
-	CSR string `json:"CSR" bson:"-"`
+	CSR string `json:"CSR" bson:"-" mapstructure:"CSR,omitempty"`
 
 	// ID contains the identifier of the certificate.
-	ID string `json:"ID" bson:"-"`
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Certificate contains the certificate data in PEM format.
-	Certificate string `json:"certificate" bson:"-"`
+	Certificate string `json:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// ExpirationDate contains the requested expiration date.
-	ExpirationDate time.Time `json:"expirationDate" bson:"-"`
+	ExpirationDate time.Time `json:"expirationDate" bson:"-" mapstructure:"expirationDate,omitempty"`
 
 	// Selects what CA should sign the certificate.
-	Signer CertificateSignerValue `json:"signer" bson:"-"`
+	Signer CertificateSignerValue `json:"signer" bson:"-" mapstructure:"signer,omitempty"`
 
 	// Usage defines the requested key usage.
-	Usage CertificateUsageValue `json:"usage" bson:"usage"`
+	Usage CertificateUsageValue `json:"usage" bson:"usage" mapstructure:"usage,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

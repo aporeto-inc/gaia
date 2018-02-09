@@ -95,19 +95,19 @@ func (o IssuesList) Version() int {
 // Issue represents the model of a issue
 type Issue struct {
 	// Data contains additional data. The value depends on the issuer type.
-	Data string `json:"data" bson:"data"`
+	Data string `json:"data" bson:"data" mapstructure:"data,omitempty"`
 
 	// Metadata contains various additional information. Meaning depends on the realm.
-	Metadata map[string]interface{} `json:"metadata" bson:"-"`
+	Metadata map[string]interface{} `json:"metadata" bson:"-" mapstructure:"metadata,omitempty"`
 
 	// Token is the token to use for the registration.
-	Token string `json:"token" bson:"-"`
+	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	// Validity configures the max validity time for a token. If it is bigger than the configured max validity, it will be capped.
-	Validity string `json:"validity" bson:"validity"`
+	Validity string `json:"validity" bson:"validity" mapstructure:"validity,omitempty"`
 
 	// Realm is the realm
-	Realm IssueRealmValue `json:"realm" bson:"-"`
+	Realm IssueRealmValue `json:"realm" bson:"-" mapstructure:"realm,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

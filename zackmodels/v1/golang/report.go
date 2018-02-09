@@ -66,19 +66,19 @@ func (o ReportsList) Version() int {
 // Report represents the model of a report
 type Report struct {
 	// Name contains the name metric of statistics data.
-	Name string `json:"name" bson:"-"`
+	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
 
 	// Tags contains the tags associated to the data point.
-	Tags map[string]string `json:"tags" bson:"-"`
+	Tags map[string]string `json:"tags" bson:"-" mapstructure:"tags,omitempty"`
 
 	// Timestamp contains the unix timestamp for the report.
-	Timestamp int64 `json:"timestamp" bson:"-"`
+	Timestamp int64 `json:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
 	// TTL set the time to live for the report in seconds.
-	Ttl int `json:"ttl" bson:"-"`
+	Ttl int `json:"ttl" bson:"-" mapstructure:"ttl,omitempty"`
 
 	// Value contains the value for the report.
-	Value float64 `json:"value" bson:"-"`
+	Value float64 `json:"value" bson:"-" mapstructure:"value,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

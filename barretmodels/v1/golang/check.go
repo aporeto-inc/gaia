@@ -66,7 +66,7 @@ func (o ChecksList) Version() int {
 // Check represents the model of a check
 type Check struct {
 	// ID contains the certificate serialNumber
-	ID string `json:"ID" bson:"-"`
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

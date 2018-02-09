@@ -78,49 +78,49 @@ func (o CertificatesList) Version() int {
 // Certificate represents the model of a certificate
 type Certificate struct {
 	// Admin determines if the certificate must be added to the admin list.
-	Admin bool `json:"admin" bson:"admin"`
+	Admin bool `json:"admin" bson:"admin" mapstructure:"admin,omitempty"`
 
 	// CommonName (CN) for the user certificate
-	CommonName string `json:"commonName" bson:"commonname"`
+	CommonName string `json:"commonName" bson:"commonname" mapstructure:"commonName,omitempty"`
 
 	// Certificate provides a certificate for the user
-	Data string `json:"data" bson:"data"`
+	Data string `json:"data" bson:"data" mapstructure:"data,omitempty"`
 
 	// e-mail address of the user
-	Email string `json:"email" bson:"email"`
+	Email string `json:"email" bson:"email" mapstructure:"email,omitempty"`
 
 	// CertificateExpirationDate indicates the expiration day for the certificate.
-	ExpirationDate time.Time `json:"expirationDate" bson:"expirationdate"`
+	ExpirationDate time.Time `json:"expirationDate" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
 
 	// CertificateKey provides the key for the user. Only available at create or update time.
-	Key string `json:"key" bson:"-"`
+	Key string `json:"key" bson:"-" mapstructure:"key,omitempty"`
 
 	// Name of the certificate.
-	Name string `json:"name" bson:"name"`
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// OrganizationalUnits attribute for the generated certificates
-	OrganizationalUnits []string `json:"organizationalUnits" bson:"organizationalunits"`
+	OrganizationalUnits []string `json:"organizationalUnits" bson:"organizationalunits" mapstructure:"organizationalUnits,omitempty"`
 
 	// ParentID holds the parent account ID.
-	ParentID string `json:"parentID" bson:"parentid"`
+	ParentID string `json:"parentID" bson:"parentid" mapstructure:"parentID,omitempty"`
 
 	// Passphrase to use for the generated p12.
-	Passphrase string `json:"passphrase" bson:"-"`
+	Passphrase string `json:"passphrase" bson:"-" mapstructure:"passphrase,omitempty"`
 
 	// SerialNumber of the certificate.
-	SerialNumber string `json:"serialNumber" bson:"serialnumber"`
+	SerialNumber string `json:"serialNumber" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
 
 	// CertificateStatus provides the status of the certificate. Update with RENEW to get a new certificate.
-	Status CertificateStatusValue `json:"status" bson:"status"`
+	Status CertificateStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
 
 	// ID of the object.
-	ID string `json:"ID" bson:"_id"`
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// createdAt represents the creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime"`
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// UpdateTime represents the last update date of the objct.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime"`
+	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

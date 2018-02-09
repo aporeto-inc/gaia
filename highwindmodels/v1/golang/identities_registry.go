@@ -72,8 +72,7 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &InstallationsList{}
 	case LogIdentity.Name:
 		return &LogsList{}
-	case RootIdentity.Name:
-		return &RootsList{}
+
 	case ServiceIdentity.Name:
 		return &ServicesList{}
 	default:
@@ -94,8 +93,7 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &InstallationsList{}
 	case LogIdentity.Category:
 		return &LogsList{}
-	case RootIdentity.Category:
-		return &RootsList{}
+
 	case ServiceIdentity.Category:
 		return &ServicesList{}
 	default:

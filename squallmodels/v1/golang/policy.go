@@ -101,73 +101,73 @@ func (o PoliciesList) Version() int {
 // Policy represents the model of a policy
 type Policy struct {
 	// Action defines set of actions that must be enforced when a dependency is met.
-	Action map[string]map[string]interface{} `json:"action" bson:"action"`
+	Action map[string]map[string]interface{} `json:"action" bson:"action" mapstructure:"action,omitempty"`
 
 	// This is a set of all object tags for matching in the DB
-	AllObjectTags []string `json:"-" bson:"allobjecttags"`
+	AllObjectTags []string `json:"-" bson:"allobjecttags" mapstructure:"-,omitempty"`
 
 	// This is a set of all subject tags for matching in the DB
-	AllSubjectTags []string `json:"-" bson:"allsubjecttags"`
+	AllSubjectTags []string `json:"-" bson:"allsubjecttags" mapstructure:"-,omitempty"`
 
 	// Object represents set of entities that another entity depends on. As subjects, objects are identified as logical operations on tags when a policy is defined.
-	Object [][]string `json:"object" bson:"object"`
+	Object [][]string `json:"object" bson:"object" mapstructure:"object,omitempty"`
 
 	// Relation describes the required operation to be performed between subjects and objects
-	Relation []string `json:"relation" bson:"relation"`
+	Relation []string `json:"relation" bson:"relation" mapstructure:"relation,omitempty"`
 
 	// Subject represent sets of entities that will have a dependency other entities. Subjects are defined as logical operations on tags. Logical operations can includes AND/OR
-	Subject [][]string `json:"subject" bson:"subject"`
+	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
 	// Type of the policy
-	Type PolicyTypeValue `json:"type" bson:"type"`
+	Type PolicyTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	// Annotation stores additional information about an entity
-	Annotations map[string][]string `json:"annotations" bson:"annotations"`
+	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity
-	AssociatedTags []string `json:"associatedTags" bson:"associatedtags"`
+	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// CreatedTime is the time at which the object was created
-	CreateTime time.Time `json:"createTime" bson:"createtime"`
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Namespace tag attached to an entity
-	Namespace string `json:"namespace" bson:"namespace"`
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities
-	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags"`
+	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected bool `json:"protected" bson:"protected"`
+	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime"`
+	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// Description is the description of the object.
-	Description string `json:"description" bson:"description"`
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Disabled defines if the propert is disabled.
-	Disabled bool `json:"disabled" bson:"disabled"`
+	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id"`
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" bson:"metadata"`
+	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity
-	Name string `json:"name" bson:"name"`
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
-	Propagate bool `json:"propagate" bson:"propagate"`
+	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.
-	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden"`
+	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
 
 	// ActiveDuration defines for how long the policy will be active according to the activeSchedule.
-	ActiveDuration string `json:"activeDuration" bson:"activeduration"`
+	ActiveDuration string `json:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
 
 	// ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.
-	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule"`
+	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

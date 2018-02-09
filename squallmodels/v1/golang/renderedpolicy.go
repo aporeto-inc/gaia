@@ -67,22 +67,22 @@ func (o RenderedPoliciesList) Version() int {
 // RenderedPolicy represents the model of a renderedpolicy
 type RenderedPolicy struct {
 	// EgressPolicies lists all the egress policies attached to ProcessingUnit
-	EgressPolicies map[string]PolicyRulesList `json:"egressPolicies" bson:"-"`
+	EgressPolicies map[string]PolicyRulesList `json:"egressPolicies" bson:"-" mapstructure:"egressPolicies,omitempty"`
 
 	// IngressPolicies lists all the ingress policies attached to ProcessingUnit
-	IngressPolicies map[string]PolicyRulesList `json:"ingressPolicies" bson:"-"`
+	IngressPolicies map[string]PolicyRulesList `json:"ingressPolicies" bson:"-" mapstructure:"ingressPolicies,omitempty"`
 
 	// MatchingTags contains the list of tags that matched the policies.
-	MatchingTags []string `json:"matchingTags" bson:"-"`
+	MatchingTags []string `json:"matchingTags" bson:"-" mapstructure:"matchingTags,omitempty"`
 
 	// Can be set during a POST operation to render a policy on a Processing Unit that has not been created yet.
-	ProcessingUnit *ProcessingUnit `json:"processingUnit" bson:"-"`
+	ProcessingUnit *ProcessingUnit `json:"processingUnit" bson:"-" mapstructure:"processingUnit,omitempty"`
 
 	// Identifier of the ProcessingUnit
-	ProcessingUnitID string `json:"processingUnitID" bson:"-"`
+	ProcessingUnitID string `json:"processingUnitID" bson:"-" mapstructure:"processingUnitID,omitempty"`
 
 	// Profile is the trust profile of the processing unit that should be used during all communications.
-	Profile map[string]string `json:"profile" bson:"-"`
+	Profile map[string]string `json:"profile" bson:"-" mapstructure:"profile,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

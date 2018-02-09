@@ -66,7 +66,7 @@ func (o LogsList) Version() int {
 // Log represents the model of a log
 type Log struct {
 	// Data contains all logs data.
-	Data map[string]string `json:"data" bson:"-"`
+	Data map[string]string `json:"data" bson:"-" mapstructure:"data,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

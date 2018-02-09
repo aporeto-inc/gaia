@@ -67,22 +67,22 @@ func (o AuthoritiesList) Version() int {
 // Authority represents the model of a authority
 type Authority struct {
 	// ID is the identitfier of the Authority.
-	ID string `json:"ID" bson:"_id"`
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// PEM encoded certificate data.
-	Certificate string `json:"certificate" bson:"certificate"`
+	Certificate string `json:"certificate" bson:"certificate" mapstructure:"certificate,omitempty"`
 
 	// CommonName contains the common name of the CA.
-	CommonName string `json:"commonName" bson:"commonname"`
+	CommonName string `json:"commonName" bson:"commonname" mapstructure:"commonName,omitempty"`
 
 	// Date of expiration of the authority.
-	ExpirationDate time.Time `json:"expirationDate" bson:"expirationdate"`
+	ExpirationDate time.Time `json:"expirationDate" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
 
 	// Encrypted private key of the Authority.
-	Key string `json:"-" bson:"key"`
+	Key string `json:"-" bson:"key" mapstructure:"-,omitempty"`
 
 	// serialNumber of the certificate
-	SerialNumber string `json:"serialNumber" bson:"serialnumber"`
+	SerialNumber string `json:"serialNumber" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

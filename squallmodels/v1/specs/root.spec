@@ -41,6 +41,18 @@
             "bulk_create": false,
             "bulk_delete": false,
             "bulk_update": false,
+            "create": true,
+            "delete": false,
+            "deprecated": null,
+            "get": true,
+            "relationship": "root",
+            "rest_name": "auditprofile",
+            "update": false
+        },
+        {
+            "bulk_create": false,
+            "bulk_delete": false,
+            "bulk_update": false,
             "create": false,
             "delete": false,
             "deprecated": null,
@@ -83,6 +95,18 @@
             "get": true,
             "relationship": "root",
             "rest_name": "enforcerprofilemappingpolicy",
+            "update": false
+        },
+        {
+            "bulk_create": false,
+            "bulk_delete": false,
+            "bulk_update": false,
+            "create": true,
+            "delete": false,
+            "deprecated": null,
+            "get": true,
+            "relationship": "root",
+            "rest_name": "export",
             "update": false
         },
         {
@@ -164,6 +188,30 @@
             "create": true,
             "delete": false,
             "deprecated": null,
+            "get": false,
+            "relationship": "root",
+            "rest_name": "import",
+            "update": false
+        },
+        {
+            "bulk_create": false,
+            "bulk_delete": false,
+            "bulk_update": false,
+            "create": true,
+            "delete": false,
+            "deprecated": null,
+            "get": true,
+            "relationship": "root",
+            "rest_name": "isolationprofile",
+            "update": false
+        },
+        {
+            "bulk_create": false,
+            "bulk_delete": false,
+            "bulk_update": false,
+            "create": true,
+            "delete": false,
+            "deprecated": null,
             "get": true,
             "relationship": "root",
             "rest_name": "message",
@@ -227,6 +275,18 @@
             "get": true,
             "relationship": "root",
             "rest_name": "processingunit",
+            "update": false
+        },
+        {
+            "bulk_create": false,
+            "bulk_delete": false,
+            "bulk_update": false,
+            "create": true,
+            "delete": false,
+            "deprecated": null,
+            "get": true,
+            "relationship": "root",
+            "rest_name": "processingunitpolicy",
             "update": false
         },
         {

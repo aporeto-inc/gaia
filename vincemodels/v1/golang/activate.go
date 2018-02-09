@@ -66,7 +66,7 @@ func (o ActivatesList) Version() int {
 // Activate represents the model of a activate
 type Activate struct {
 	// Token contains the activation token
-	Token string `json:"token" bson:"-"`
+	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

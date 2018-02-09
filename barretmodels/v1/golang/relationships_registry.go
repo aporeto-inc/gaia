@@ -35,12 +35,6 @@ func init() {
 		AllowsRetrieve: map[string]bool{
 			"root": true,
 		},
-		AllowsRetrieveMany: map[string]bool{
-			"root": true,
-		},
-		AllowsInfo: map[string]bool{
-			"root": true,
-		},
 	}
 
 	relationshipsRegistry[PrivateKeyIdentity] = &elemental.Relationship{
@@ -54,12 +48,6 @@ func init() {
 			"root": true,
 		},
 		AllowsRetrieve: map[string]bool{
-			"root": true,
-		},
-		AllowsRetrieveMany: map[string]bool{
-			"root": true,
-		},
-		AllowsInfo: map[string]bool{
 			"root": true,
 		},
 	}

@@ -81,34 +81,34 @@ func (o ServicesList) Version() int {
 // Service represents the model of a service
 type Service struct {
 	// ID of the service
-	ID string `json:"ID" bson:"_id"`
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// AccountName represents the vince account name
-	AccountName string `json:"accountName" bson:"accountname"`
+	AccountName string `json:"accountName" bson:"accountname" mapstructure:"accountName,omitempty"`
 
 	// CategoryID of the service.
-	CategoryID string `json:"categoryID" bson:"categoryid"`
+	CategoryID string `json:"categoryID" bson:"categoryid" mapstructure:"categoryID,omitempty"`
 
 	// K8SIdentifier retains the identifier for kubernetes.
-	K8sIdentifier string `json:"-" bson:"k8sidentifier"`
+	K8sIdentifier string `json:"-" bson:"k8sidentifier" mapstructure:"-,omitempty"`
 
 	// Name of the service
-	Name string `json:"name" bson:"name"`
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace in which the service in running.
-	Namespace string `json:"namespace" bson:"namespace"`
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// Parameters is a list of parameters to start the service
-	Parameters []*types.ServiceParameter `json:"parameters" bson:"parameters"`
+	Parameters []*types.ServiceParameter `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// RelatedObjects retains all objects created to use this service.
-	RelatedObjects []*types.ServiceRelatedObject `json:"-" bson:"relatedobjects"`
+	RelatedObjects []*types.ServiceRelatedObject `json:"-" bson:"relatedobjects" mapstructure:"-,omitempty"`
 
 	// Replicas represents the number of replicas for the service.
-	Replicas int `json:"replicas" bson:"replicas"`
+	Replicas int `json:"replicas" bson:"replicas" mapstructure:"replicas,omitempty"`
 
 	// Status of the service.
-	Status ServiceStatusValue `json:"status" bson:"status"`
+	Status ServiceStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

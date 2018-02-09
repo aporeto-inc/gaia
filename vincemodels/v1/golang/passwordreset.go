@@ -66,10 +66,10 @@ func (o PasswordResetsList) Version() int {
 // PasswordReset represents the model of a passwordreset
 type PasswordReset struct {
 	// Password contains the new password.
-	Password string `json:"password" bson:"-"`
+	Password string `json:"password" bson:"-" mapstructure:"password,omitempty"`
 
 	// Token contains the reset password token
-	Token string `json:"token" bson:"-"`
+	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

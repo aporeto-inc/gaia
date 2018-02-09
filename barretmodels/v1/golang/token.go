@@ -66,16 +66,16 @@ func (o TokensList) Version() int {
 // Token represents the model of a token
 type Token struct {
 	// Certificate contains the client certificate to use to create a token.
-	Certificate string `json:"certificate" bson:"-"`
+	Certificate string `json:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// SigningKeyID holds the ID of the custom CA to use to sign the token.
-	SigningKeyID string `json:"signingKeyID" bson:"signingkeyid"`
+	SigningKeyID string `json:"signingKeyID" bson:"signingkeyid" mapstructure:"signingKeyID,omitempty"`
 
 	// Token contains the generated token.
-	Token string `json:"token" bson:"-"`
+	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	// Validity contains the token validity duration.
-	Validity string `json:"validity" bson:"-"`
+	Validity string `json:"validity" bson:"-" mapstructure:"validity,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

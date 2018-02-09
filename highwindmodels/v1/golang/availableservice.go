@@ -67,28 +67,28 @@ func (o AvailableServicesList) Version() int {
 // AvailableService represents the model of a availableservice
 type AvailableService struct {
 	// Beta indicates if the service is in a beta version.
-	Beta bool `json:"beta" bson:"-"`
+	Beta bool `json:"beta" bson:"-" mapstructure:"beta,omitempty"`
 
 	// CategoryID of the service.
-	CategoryID string `json:"categoryID" bson:"-"`
+	CategoryID string `json:"categoryID" bson:"-" mapstructure:"categoryID,omitempty"`
 
 	// Description of the service
-	Description string `json:"description" bson:"-"`
+	Description string `json:"description" bson:"-" mapstructure:"description,omitempty"`
 
 	// Icon contains a base64 image for the available service.
-	Icon string `json:"icon" bson:"-"`
+	Icon string `json:"icon" bson:"-" mapstructure:"icon,omitempty"`
 
 	// LongDescription contains a more detailed description of the service.
-	LongDescription string `json:"longDescription" bson:"-"`
+	LongDescription string `json:"longDescription" bson:"-" mapstructure:"longDescription,omitempty"`
 
 	// Name of the Service
-	Name string `json:"name" bson:"-"`
+	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
 
 	// Parameters of the service the user can or has to specify
-	Parameters []*types.ServiceParameter `json:"parameters" bson:"-"`
+	Parameters []*types.ServiceParameter `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
 
 	// Title represents the title of the service.
-	Title string `json:"title" bson:"-"`
+	Title string `json:"title" bson:"-" mapstructure:"title,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

@@ -84,94 +84,94 @@ func (o AccountsList) Version() int {
 // Account represents the model of a account
 type Account struct {
 	// LDAPAddress holds the account authentication account's private ldap server.
-	LDAPAddress string `json:"LDAPAddress" bson:"ldapaddress"`
+	LDAPAddress string `json:"LDAPAddress" bson:"ldapaddress" mapstructure:"LDAPAddress,omitempty"`
 
 	// LDAPBaseDN holds the base DN to use to ldap queries.
-	LDAPBaseDN string `json:"LDAPBaseDN" bson:"ldapbasedn"`
+	LDAPBaseDN string `json:"LDAPBaseDN" bson:"ldapbasedn" mapstructure:"LDAPBaseDN,omitempty"`
 
 	// LDAPBindDN holds the account's internal LDAP bind dn for querying auth.
-	LDAPBindDN string `json:"LDAPBindDN" bson:"ldapbinddn"`
+	LDAPBindDN string `json:"LDAPBindDN" bson:"ldapbinddn" mapstructure:"LDAPBindDN,omitempty"`
 
 	// LDAPBindPassword holds the password to the LDAPBindDN.
-	LDAPBindPassword string `json:"LDAPBindPassword" bson:"ldapbindpassword"`
+	LDAPBindPassword string `json:"LDAPBindPassword" bson:"ldapbindpassword" mapstructure:"LDAPBindPassword,omitempty"`
 
 	// LDAPCertificateAuthority contains the optional certificate authority that will be used to connect to the LDAP server. It is not needed if the TLS certificate of the LDAP is issued from a public truster CA.
-	LDAPCertificateAuthority string `json:"LDAPCertificateAuthority" bson:"ldapcertificateauthority"`
+	LDAPCertificateAuthority string `json:"LDAPCertificateAuthority" bson:"ldapcertificateauthority" mapstructure:"LDAPCertificateAuthority,omitempty"`
 
 	// LDAPEnabled triggers if the account uses it's own LDAP for authentication.
-	LDAPEnabled bool `json:"LDAPEnabled" bson:"ldapenabled"`
+	LDAPEnabled bool `json:"LDAPEnabled" bson:"ldapenabled" mapstructure:"LDAPEnabled,omitempty"`
 
 	// Set to enable or disable two factor authentication.
-	OTPEnabled bool `json:"OTPEnabled" bson:"otpenabled"`
+	OTPEnabled bool `json:"OTPEnabled" bson:"otpenabled" mapstructure:"OTPEnabled,omitempty"`
 
 	// Returns the base64 encoded QRCode for setting up 2 factor auth.
-	OTPQRCode string `json:"OTPQRCode" bson:"-"`
+	OTPQRCode string `json:"OTPQRCode" bson:"-" mapstructure:"OTPQRCode,omitempty"`
 
 	// Stores the 2 factor secret
-	OTPSecret string `json:"-" bson:"otpsecret"`
+	OTPSecret string `json:"-" bson:"otpsecret" mapstructure:"-,omitempty"`
 
 	// AccessEnabled defines if the account holder should have access to the systems.
-	AccessEnabled bool `json:"accessEnabled" bson:"accessenabled"`
+	AccessEnabled bool `json:"accessEnabled" bson:"accessenabled" mapstructure:"accessEnabled,omitempty"`
 
 	// ActivationExpiration contains the expiration date of the activation token.
-	ActivationExpiration time.Time `json:"-" bson:"activationexpiration"`
+	ActivationExpiration time.Time `json:"-" bson:"activationexpiration" mapstructure:"-,omitempty"`
 
 	// ActivationToken contains the activation token.
-	ActivationToken string `json:"-" bson:"activationtoken"`
+	ActivationToken string `json:"-" bson:"activationtoken" mapstructure:"-,omitempty"`
 
 	// AssociatedAPIAuthPolicyID holds the ID of the associated API auth policy.
-	AssociatedAPIAuthPolicyID string `json:"-" bson:"associatedapiauthpolicyid"`
+	AssociatedAPIAuthPolicyID string `json:"-" bson:"associatedapiauthpolicyid" mapstructure:"-,omitempty"`
 
 	// AssociatedAWSPolicies contains a map of associated AWS Enforcerd Policies.
-	AssociatedAWSPolicies map[string]string `json:"-" bson:"associatedawspolicies"`
+	AssociatedAWSPolicies map[string]string `json:"-" bson:"associatedawspolicies" mapstructure:"-,omitempty"`
 
 	// AssociatedNamespaceID contains the ID of the associated namespace.
-	AssociatedNamespaceID string `json:"-" bson:"associatednamespaceid"`
+	AssociatedNamespaceID string `json:"-" bson:"associatednamespaceid" mapstructure:"-,omitempty"`
 
 	// AssociatedPlanKey contains the plan key that is associated to this account.
-	AssociatedPlanKey string `json:"associatedPlanKey" bson:"associatedplankey"`
+	AssociatedPlanKey string `json:"associatedPlanKey" bson:"associatedplankey" mapstructure:"associatedPlanKey,omitempty"`
 
 	// AssociatedQuotaPolicies contains a mapping to the associated quota pollicies.
-	AssociatedQuotaPolicies map[string]string `json:"-" bson:"associatedquotapolicies"`
+	AssociatedQuotaPolicies map[string]string `json:"-" bson:"associatedquotapolicies" mapstructure:"-,omitempty"`
 
 	// Company of the account user.
-	Company string `json:"company" bson:"company"`
+	Company string `json:"company" bson:"company" mapstructure:"company,omitempty"`
 
 	// Email of the account holder.
-	Email string `json:"email" bson:"email"`
+	Email string `json:"email" bson:"email" mapstructure:"email,omitempty"`
 
 	// First Name of the account user.
-	FirstName string `json:"firstName" bson:"firstname"`
+	FirstName string `json:"firstName" bson:"firstname" mapstructure:"firstName,omitempty"`
 
 	// Last Name of the account user.
-	LastName string `json:"lastName" bson:"lastname"`
+	LastName string `json:"lastName" bson:"lastname" mapstructure:"lastName,omitempty"`
 
 	// Name of the account.
-	Name string `json:"name" bson:"name"`
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Password for the account.
-	Password string `json:"password" bson:"password"`
+	Password string `json:"password" bson:"password" mapstructure:"password,omitempty"`
 
 	// ReCAPTCHAKey contains the capcha validation if reCAPTCH is enabled.
-	ReCAPTCHAKey string `json:"reCAPTCHAKey" bson:"-"`
+	ReCAPTCHAKey string `json:"reCAPTCHAKey" bson:"-" mapstructure:"reCAPTCHAKey,omitempty"`
 
 	// ResetPasswordExpiration contains the expiration time for reseting the password.
-	ResetPasswordExpiration time.Time `json:"-" bson:"resetpasswordexpiration"`
+	ResetPasswordExpiration time.Time `json:"-" bson:"resetpasswordexpiration" mapstructure:"-,omitempty"`
 
 	// ResetPasswordToken contains the token to use for resetting password.
-	ResetPasswordToken string `json:"-" bson:"resetpasswordtoken"`
+	ResetPasswordToken string `json:"-" bson:"resetpasswordtoken" mapstructure:"-,omitempty"`
 
 	// Status of the account.
-	Status AccountStatusValue `json:"status" bson:"status"`
+	Status AccountStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
 
 	// ID of the object.
-	ID string `json:"ID" bson:"_id"`
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// createdAt represents the creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime"`
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// UpdateTime represents the last update date of the objct.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime"`
+	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

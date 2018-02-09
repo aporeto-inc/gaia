@@ -67,34 +67,34 @@ func (o AWSAccountsList) Version() int {
 // AWSAccount represents the model of a awsaccount
 type AWSAccount struct {
 	// AccessKeyID contains the aws access key ID. This is used to retrieve your account id, and it is not stored.
-	AccessKeyID string `json:"accessKeyID" bson:"-"`
+	AccessKeyID string `json:"accessKeyID" bson:"-" mapstructure:"accessKeyID,omitempty"`
 
 	// AccessToken contains your aws access token. It is used to retrieve your account id, and it not stored.
-	AccessToken string `json:"accessToken" bson:"-"`
+	AccessToken string `json:"accessToken" bson:"-" mapstructure:"accessToken,omitempty"`
 
 	// accountID contains your verified accound id.
-	AccountID string `json:"accountID" bson:"accountid"`
+	AccountID string `json:"accountID" bson:"accountid" mapstructure:"accountID,omitempty"`
 
 	// ParentID contains the parent Vince account ID.
-	ParentID string `json:"parentID" bson:"parentid"`
+	ParentID string `json:"parentID" bson:"parentid" mapstructure:"parentID,omitempty"`
 
 	// ParentName contains the name of the Vince parent Account.
-	ParentName string `json:"parentName" bson:"parentname"`
+	ParentName string `json:"parentName" bson:"parentname" mapstructure:"parentName,omitempty"`
 
 	// Region contains your the region where your AWS account is located
-	Region string `json:"region" bson:"region"`
+	Region string `json:"region" bson:"region" mapstructure:"region,omitempty"`
 
 	// secretAccessKey contains the secret key. It is used to retrieve your account id, and it is not stored.
-	SecretAccessKey string `json:"secretAccessKey" bson:"-"`
+	SecretAccessKey string `json:"secretAccessKey" bson:"-" mapstructure:"secretAccessKey,omitempty"`
 
 	// ID of the object.
-	ID string `json:"ID" bson:"_id"`
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// createdAt represents the creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime"`
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// UpdateTime represents the last update date of the objct.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime"`
+	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

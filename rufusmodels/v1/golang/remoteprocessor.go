@@ -78,28 +78,28 @@ func (o RemoteProcessorsList) Version() int {
 // RemoteProcessor represents the model of a remoteprocessor
 type RemoteProcessor struct {
 	// Represents the claims of the currently managed object
-	Claims []string `json:"claims" bson:"-"`
+	Claims []string `json:"claims" bson:"-" mapstructure:"claims,omitempty"`
 
 	// Represents data received from the service
-	Input json.RawMessage `json:"input" bson:"-"`
+	Input json.RawMessage `json:"input" bson:"-" mapstructure:"input,omitempty"`
 
 	// Node defines the type of the hook
-	Mode RemoteProcessorModeValue `json:"mode" bson:"-"`
+	Mode RemoteProcessorModeValue `json:"mode" bson:"-" mapstructure:"mode,omitempty"`
 
 	// Represents the current namespace
-	Namespace string `json:"namespace" bson:"-"`
+	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Define the operation that is currently handled by the service
-	Operation elemental.Operation `json:"operation" bson:"-"`
+	Operation elemental.Operation `json:"operation" bson:"-" mapstructure:"operation,omitempty"`
 
 	// Returns the OutputData filled with the processor information
-	Output elemental.Identifiable `json:"output" bson:"-"`
+	Output elemental.Identifiable `json:"output" bson:"-" mapstructure:"output,omitempty"`
 
 	// RequestID gives the id of the request coming from the main server.
-	RequestID string `json:"requestID" bson:"requestid"`
+	RequestID string `json:"requestID" bson:"requestid" mapstructure:"requestID,omitempty"`
 
 	// Represents the Identity name of the managed object
-	TargetIdentity string `json:"targetIdentity" bson:"-"`
+	TargetIdentity string `json:"targetIdentity" bson:"-" mapstructure:"targetIdentity,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

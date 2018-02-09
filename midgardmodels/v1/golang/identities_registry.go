@@ -53,8 +53,7 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &AuthsList{}
 	case IssueIdentity.Name:
 		return &IssuesList{}
-	case RootIdentity.Name:
-		return &RootsList{}
+
 	default:
 		return nil
 	}
@@ -69,8 +68,7 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &AuthsList{}
 	case IssueIdentity.Category:
 		return &IssuesList{}
-	case RootIdentity.Category:
-		return &RootsList{}
+
 	default:
 		return nil
 	}

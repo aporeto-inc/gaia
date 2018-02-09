@@ -67,37 +67,37 @@ func (o ActivitiesList) Version() int {
 // Activity represents the model of a activity
 type Activity struct {
 	// Claims of the user who performed the operation.
-	Claims interface{} `json:"claims" bson:"claims"`
+	Claims interface{} `json:"claims" bson:"claims" mapstructure:"claims,omitempty"`
 
 	// Data of the notification.
-	Data interface{} `json:"data" bson:"data"`
+	Data interface{} `json:"data" bson:"data" mapstructure:"data,omitempty"`
 
 	// Date of the notification.
-	Date time.Time `json:"date" bson:"date"`
+	Date time.Time `json:"date" bson:"date" mapstructure:"date,omitempty"`
 
 	// Error contains the eventual error.
-	Error interface{} `json:"error" bson:"error"`
+	Error interface{} `json:"error" bson:"error" mapstructure:"error,omitempty"`
 
 	// Message of the notification.
-	Message string `json:"message" bson:"message"`
+	Message string `json:"message" bson:"message" mapstructure:"message,omitempty"`
 
 	// Namespace of the notification.
-	Namespace string `json:"namespace" bson:"namespace"`
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// Operation describe what kind of operation the notification represents.
-	Operation string `json:"operation" bson:"operation"`
+	Operation string `json:"operation" bson:"operation" mapstructure:"operation,omitempty"`
 
 	// OriginalData contains the eventual original data of the object that has been modified.
-	OriginalData interface{} `json:"originalData" bson:"originaldata"`
+	OriginalData interface{} `json:"originalData" bson:"originaldata" mapstructure:"originalData,omitempty"`
 
 	// Source contains meta information about the source.
-	Source string `json:"source" bson:"source"`
+	Source string `json:"source" bson:"source" mapstructure:"source,omitempty"`
 
 	// TargetIdentity is the Identity of the related object.
-	TargetIdentity string `json:"targetIdentity" bson:"targetidentity"`
+	TargetIdentity string `json:"targetIdentity" bson:"targetidentity" mapstructure:"targetIdentity,omitempty"`
 
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id"`
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

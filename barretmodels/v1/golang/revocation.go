@@ -67,19 +67,19 @@ func (o RevocationsList) Version() int {
 // Revocation represents the model of a revocation
 type Revocation struct {
 	// ID contains the ID of the revocation.
-	ID string `json:"-" bson:"_id"`
+	ID string `json:"-" bson:"_id" mapstructure:"-,omitempty"`
 
 	// Contains the certificate expiration date. This will be used to clean up revoked certificates that have expired.
-	ExpirationDate time.Time `json:"expirationDate" bson:"expirationdate"`
+	ExpirationDate time.Time `json:"expirationDate" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
 
 	// Set time from when the certificate will be revoked.
-	RevokeDate time.Time `json:"revokeDate" bson:"revokedate"`
+	RevokeDate time.Time `json:"revokeDate" bson:"revokedate" mapstructure:"revokeDate,omitempty"`
 
 	// SerialNumber of the revoked certificate.
-	SerialNumber string `json:"serialNumber" bson:"serialnumber"`
+	SerialNumber string `json:"serialNumber" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
 
 	// Subject of the certificate related to the revocation.
-	Subject string `json:"subject" bson:"subject"`
+	Subject string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

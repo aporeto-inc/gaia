@@ -67,19 +67,19 @@ func (o DependencyMapsList) Version() int {
 // DependencyMap represents the model of a dependencymap
 type DependencyMap struct {
 	// edges are the edges of the map
-	Edges types.GraphEdgeMap `json:"edges" bson:"-"`
+	Edges types.GraphEdgeMap `json:"edges" bson:"-" mapstructure:"edges,omitempty"`
 
 	// Groups provide information about the group values
-	Groups types.GraphGroupMap `json:"groups" bson:"-"`
+	Groups types.GraphGroupMap `json:"groups" bson:"-" mapstructure:"groups,omitempty"`
 
 	// nodes refers to the nodes of the map
-	Nodes types.GraphNodeMap `json:"nodes" bson:"-"`
+	Nodes types.GraphNodeMap `json:"nodes" bson:"-" mapstructure:"nodes,omitempty"`
 
 	// viewSuggestions provides suggestion of views based on relevant tags.
-	ViewSuggestions []string `json:"viewSuggestions" bson:"-"`
+	ViewSuggestions []string `json:"viewSuggestions" bson:"-" mapstructure:"viewSuggestions,omitempty"`
 
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"-"`
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

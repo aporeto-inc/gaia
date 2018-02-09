@@ -66,13 +66,13 @@ func (o PrivateKeysList) Version() int {
 // PrivateKey represents the model of a privatekey
 type PrivateKey struct {
 	// ID is the internal ID of the key.
-	ID string `json:"-" bson:"_id"`
+	ID string `json:"-" bson:"_id" mapstructure:"-,omitempty"`
 
 	// CertificateSerialNumber represents the certificate serial number associated to this key.
-	CertificateSerialNumber string `json:"-" bson:"certificateserialnumber"`
+	CertificateSerialNumber string `json:"-" bson:"certificateserialnumber" mapstructure:"-,omitempty"`
 
 	// Data contains the privateKey data.
-	Data string `json:"-" bson:"data"`
+	Data string `json:"-" bson:"data" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

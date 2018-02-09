@@ -66,13 +66,13 @@ func (o CategoriesList) Version() int {
 // Category represents the model of a category
 type Category struct {
 	// ID is the identifier of the category.
-	ID string `json:"ID" bson:"_id"`
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Description is the desription of the category.
-	Description string `json:"description" bson:"-"`
+	Description string `json:"description" bson:"-" mapstructure:"description,omitempty"`
 
 	// Name of the category.
-	Name string `json:"name" bson:"name"`
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

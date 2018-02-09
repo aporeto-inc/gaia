@@ -17,9 +17,6 @@ func init() {
 	relationshipsRegistry = elemental.RelationshipsRegistry{}
 
 	relationshipsRegistry[AuthIdentity] = &elemental.Relationship{
-		AllowsRetrieve: map[string]bool{
-			"root": true,
-		},
 		AllowsRetrieveMany: map[string]bool{
 			"root": true,
 		},
