@@ -41,20 +41,20 @@ const (
 
 // ServiceParameter defines a parameter for the service.
 type ServiceParameter struct {
-	Name              string                  `json:"name"`
-	Description       string                  `json:"description"`
-	LongDescription   string                  `json:"longDescription"`
-	Key               string                  `json:"key"`
-	Value             interface{}             `json:"value"`
-	Env               string                  `json:"-"`
-	Type              ServiceParameterType    `json:"type"`
-	AllowedValues     []interface{}           `json:"allowedValues"`
-	DefaultValue      interface{}             `json:"defaultValue"`
-	MountPath         string                  `json:"-"`
-	Backend           ServiceParameterBackend `json:"-"`
-	Optional          bool                    `json:"optional"`
-	Advanced          bool                    `json:"advanced"`
-	VersionConstraint string                  `json:"-"`
+	Name              string                  `json:"name" yaml:"name"`
+	Description       string                  `json:"description" yaml:"description"`
+	LongDescription   string                  `json:"longDescription" yaml:"longDescription"`
+	Key               string                  `json:"key" yaml:"key"`
+	Value             interface{}             `json:"value" yaml:"value"`
+	Env               string                  `json:"-" yaml:"-"`
+	Type              ServiceParameterType    `json:"type" yaml:"type"`
+	AllowedValues     []interface{}           `json:"allowedValues" yaml:"allowedValues"`
+	DefaultValue      interface{}             `json:"defaultValue" yaml:"defaultValue"`
+	MountPath         string                  `json:"-" yaml:"-"`
+	Backend           ServiceParameterBackend `json:"-" yaml:"-"`
+	Optional          bool                    `json:"optional" yaml:"optional"`
+	Advanced          bool                    `json:"advanced" yaml:"advanced"`
+	VersionConstraint string                  `json:"-" yaml:"-"`
 }
 
 // NewServiceParameter creates a new parameter.
