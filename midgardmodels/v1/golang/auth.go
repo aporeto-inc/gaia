@@ -67,7 +67,7 @@ func (o AuthsList) Version() int {
 // Auth represents the model of a auth
 type Auth struct {
 	// Claims are the claims.
-	Claims *claims.MidgardClaims `json:"claims" bson:"-"`
+	Claims *claims.MidgardClaims `json:"claims" bson:"-" mapstructure:"claims,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

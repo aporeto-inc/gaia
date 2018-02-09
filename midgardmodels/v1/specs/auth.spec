@@ -39,7 +39,7 @@
     "children": [],
     "model": {
         "aliases": [],
-        "create": null,
+        "create": false,
         "delete": false,
         "description": "This API verifies if the given token is valid or not.",
         "entity_name": "Auth",
