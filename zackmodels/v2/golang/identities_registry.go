@@ -46,8 +46,7 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 
 	case ReportIdentity.Name:
 		return &ReportsList{}
-	case RootIdentity.Name:
-		return &RootsList{}
+
 	default:
 		return nil
 	}
@@ -60,8 +59,7 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 
 	case ReportIdentity.Category:
 		return &ReportsList{}
-	case RootIdentity.Category:
-		return &RootsList{}
+
 	default:
 		return nil
 	}

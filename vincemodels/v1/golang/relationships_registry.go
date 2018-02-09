@@ -59,9 +59,6 @@ func init() {
 	}
 
 	relationshipsRegistry[ActivateIdentity] = &elemental.Relationship{
-		AllowsRetrieve: map[string]bool{
-			"root": true,
-		},
 		AllowsRetrieveMany: map[string]bool{
 			"root": true,
 		},
@@ -95,9 +92,6 @@ func init() {
 	}
 
 	relationshipsRegistry[CheckIdentity] = &elemental.Relationship{
-		AllowsRetrieve: map[string]bool{
-			"root": true,
-		},
 		AllowsRetrieveMany: map[string]bool{
 			"root": true,
 		},
@@ -134,9 +128,6 @@ func init() {
 		AllowsCreate: map[string]bool{
 			"root": true,
 		},
-		AllowsRetrieve: map[string]bool{
-			"root": true,
-		},
 		AllowsRetrieveMany: map[string]bool{
 			"root": true,
 		},
@@ -150,9 +141,11 @@ func init() {
 			"root": true,
 		},
 		AllowsRetrieveMany: map[string]bool{
+			"plan": true,
 			"root": true,
 		},
 		AllowsInfo: map[string]bool{
+			"plan": true,
 			"root": true,
 		},
 	}

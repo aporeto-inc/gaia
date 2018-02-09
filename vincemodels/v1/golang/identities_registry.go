@@ -95,8 +95,7 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &PasswordResetsList{}
 	case PlanIdentity.Name:
 		return &PlansList{}
-	case RootIdentity.Name:
-		return &RootsList{}
+
 	default:
 		return nil
 	}
@@ -123,8 +122,7 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &PasswordResetsList{}
 	case PlanIdentity.Category:
 		return &PlansList{}
-	case RootIdentity.Category:
-		return &RootsList{}
+
 	default:
 		return nil
 	}

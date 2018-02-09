@@ -279,8 +279,7 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &RenderedPoliciesList{}
 	case RoleIdentity.Name:
 		return &RolesList{}
-	case RootIdentity.Name:
-		return &RootsList{}
+
 	case StatsQueryIdentity.Name:
 		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity.Name:
@@ -363,8 +362,7 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &RenderedPoliciesList{}
 	case RoleIdentity.Category:
 		return &RolesList{}
-	case RootIdentity.Category:
-		return &RootsList{}
+
 	case StatsQueryIdentity.Category:
 		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity.Category:

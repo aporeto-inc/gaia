@@ -17,9 +17,6 @@ func init() {
 	relationshipsRegistry = elemental.RelationshipsRegistry{}
 
 	relationshipsRegistry[AvailableServiceIdentity] = &elemental.Relationship{
-		AllowsRetrieve: map[string]bool{
-			"root": true,
-		},
 		AllowsRetrieveMany: map[string]bool{
 			"root": true,
 		},
@@ -29,9 +26,6 @@ func init() {
 	}
 
 	relationshipsRegistry[CategoryIdentity] = &elemental.Relationship{
-		AllowsRetrieve: map[string]bool{
-			"root": true,
-		},
 		AllowsRetrieveMany: map[string]bool{
 			"root": true,
 		},
@@ -65,9 +59,6 @@ func init() {
 	}
 
 	relationshipsRegistry[LogIdentity] = &elemental.Relationship{
-		AllowsRetrieve: map[string]bool{
-			"service": true,
-		},
 		AllowsRetrieveMany: map[string]bool{
 			"service": true,
 		},

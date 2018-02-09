@@ -13,56 +13,6 @@ var RootIdentity = elemental.Identity{
 	Category: "root",
 }
 
-// RootsList represents a list of Roots
-type RootsList []*Root
-
-// ContentIdentity returns the identity of the objects in the list.
-func (o RootsList) ContentIdentity() elemental.Identity {
-
-	return RootIdentity
-}
-
-// Copy returns a pointer to a copy the RootsList.
-func (o RootsList) Copy() elemental.ContentIdentifiable {
-
-	copy := append(RootsList{}, o...)
-	return &copy
-}
-
-// Append appends the objects to the a new copy of the RootsList.
-func (o RootsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
-
-	out := append(RootsList{}, o...)
-	for _, obj := range objects {
-		out = append(out, obj.(*Root))
-	}
-
-	return out
-}
-
-// List converts the object to an elemental.IdentifiablesList.
-func (o RootsList) List() elemental.IdentifiablesList {
-
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
-	}
-
-	return out
-}
-
-// DefaultOrder returns the default ordering fields of the content.
-func (o RootsList) DefaultOrder() []string {
-
-	return []string{}
-}
-
-// Version returns the version of the content.
-func (o RootsList) Version() int {
-
-	return 1
-}
-
 // Root represents the model of a root
 type Root struct {
 	// ID is the identifier of the object.
