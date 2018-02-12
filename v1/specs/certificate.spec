@@ -431,7 +431,10 @@
         "delete": true,
         "description": "A User represents the owner of some certificates.",
         "entity_name": "Certificate",
-        "extends": [],
+        "extends": [
+            "@identifiable-pk-stored",
+            "@timeable"
+        ],
         "get": true,
         "package": "Vince API",
         "resource_name": "certificates",
