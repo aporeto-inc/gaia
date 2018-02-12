@@ -323,9 +323,7 @@
         "delete": true,
         "description": "Create a remote Kubernetes Cluster integration.",
         "entity_name": "KubernetesCluster",
-        "extends": [
-            "@base"
-        ],
+        "extends": [],
         "get": true,
         "package": "Vince API",
         "resource_name": "kubernetesclusters",
