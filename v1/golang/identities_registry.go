@@ -665,8 +665,8 @@ func AllIdentities() []elemental.Identity {
 }
 
 var aliasesMap = map[string]elemental.Identity{
-	"apiauths":   APIAuthorizationPolicyIdentity,
 	"apiauth":    APIAuthorizationPolicyIdentity,
+	"apiauths":   APIAuthorizationPolicyIdentity,
 	"ap":         AuditProfileIdentity,
 	"ca":         AuthorityIdentity,
 	"asrv":       AvailableServiceIdentity,
@@ -725,10 +725,6 @@ var aliasesMap = map[string]elemental.Identity{
 	"vul":        VulnerabilityIdentity,
 	"vuln":       VulnerabilityIdentity,
 	"vuls":       VulnerabilityIdentity,
-	"api":        X509CertificateIdentity,
-	"apicert":    X509CertificateIdentity,
-	"apis":       X509CertificateIdentity,
-	"apicerts":   X509CertificateIdentity,
 }
 
 // IdentityFromAlias returns the Identity associated to the given alias.
@@ -751,8 +747,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case APIAuthorizationPolicyIdentity:
 		return []string{
-			"apiauths",
 			"apiauth",
+			"apiauths",
 		}
 	case APICheckIdentity:
 		return []string{}
@@ -948,12 +944,7 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"vuls",
 		}
 	case X509CertificateIdentity:
-		return []string{
-			"api",
-			"apicert",
-			"apis",
-			"apicerts",
-		}
+		return []string{}
 	case X509CertificateCheckIdentity:
 		return []string{}
 	}

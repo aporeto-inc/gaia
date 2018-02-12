@@ -47,10 +47,6 @@
         "extends": [],
         "get": false,
         "package": "vince",
-<<<<<<< HEAD
-=======
-        "private": null,
->>>>>>> 9e81c9be581cdec7e3a3e342d81e3ac033482f4f
         "resource_name": "activate",
         "rest_name": "activate",
         "root": null,
