@@ -958,7 +958,10 @@
         "delete": true,
         "description": "Manage your Account.",
         "entity_name": "Account",
-        "extends": [],
+        "extends": [
+            "@identifiable-pk-stored",
+            "@timeable"
+        ],
         "get": true,
         "package": "Vince API",
         "resource_name": "accounts",
