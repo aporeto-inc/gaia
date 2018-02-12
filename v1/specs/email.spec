@@ -288,15 +288,17 @@
     "model": {
         "aliases": [],
         "create": null,
-        "delete": true,
+        "delete": false,
         "description": "Email is a message that can be send via email",
         "entity_name": "Email",
+        "exposed": true,
         "extends": [],
-        "get": true,
-        "package": null,
+        "get": false,
+        "package": "yuffie",
+        "private": true,
         "resource_name": "emails",
         "rest_name": "email",
         "root": null,
-        "update": true
+        "update": false
     }
 }
