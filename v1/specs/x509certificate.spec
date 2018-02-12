@@ -220,12 +220,7 @@
     ],
     "children": [],
     "model": {
-        "aliases": [
-            "apicerts",
-            "apis",
-            "apicert",
-            "api"
-        ],
+        "aliases": [],
         "create": null,
         "delete": false,
         "description": "This API allows to retrieve an client certifcate for api authentication.",
