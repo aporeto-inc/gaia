@@ -104,7 +104,7 @@
             "create": true,
             "delete": false,
             "deprecated": null,
-            "get": true,
+            "get": false,
             "relationship": "root",
             "rest_name": "authority",
             "update": false
