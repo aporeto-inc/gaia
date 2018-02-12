@@ -109,13 +109,14 @@
     "children": [],
     "model": {
         "aliases": [
-            "apiauths",
-            "apiauth"
+            "apiauth",
+            "apiauths"
         ],
         "create": null,
         "delete": true,
         "description": "An API Authorization Policy defines what kind of operations a user of a system can do in a namespace. The operations can be any combination of GET, POST, PUT, DELETE,PATCH or HEAD. By default, an API Authorization Policy will only give permissions in the context of the current namespace but you can make it propagate to all the child namespaces.  It is also possible restrict permissions to apply only on a particular subset of the apis by setting the target identities.",
         "entity_name": "APIAuthorizationPolicy",
+        "exposed": true,
         "extends": [
             "@base",
             "@described",
@@ -127,7 +128,8 @@
             "@schedulable"
         ],
         "get": true,
-        "package": "Squall API",
+        "package": "squall",
+        "private": null,
         "resource_name": "apiauthorizationpolicies",
         "rest_name": "apiauthorizationpolicy",
         "root": null,
