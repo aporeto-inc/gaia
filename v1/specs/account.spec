@@ -958,9 +958,7 @@
         "delete": true,
         "description": "Manage your Account.",
         "entity_name": "Account",
-        "extends": [
-            "@base"
-        ],
+        "extends": [],
         "get": true,
         "package": "Vince API",
         "resource_name": "accounts",
