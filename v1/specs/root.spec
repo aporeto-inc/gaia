@@ -452,6 +452,18 @@
             "create": true,
             "delete": false,
             "deprecated": null,
+            "get": false,
+            "relationship": "root",
+            "rest_name": "prout",
+            "update": false
+        },
+        {
+            "bulk_create": false,
+            "bulk_delete": false,
+            "bulk_update": false,
+            "create": true,
+            "delete": false,
+            "deprecated": null,
             "get": true,
             "relationship": "root",
             "rest_name": "quotapolicy",
@@ -599,18 +611,6 @@
             "get": true,
             "relationship": "root",
             "rest_name": "vulnerability",
-            "update": false
-        },
-        {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": false,
-            "relationship": "root",
-            "rest_name": "x509certificate",
             "update": false
         },
         {
