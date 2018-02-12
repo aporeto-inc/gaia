@@ -924,7 +924,7 @@
             "profile",
             "profiles"
         ],
-        "create": null,
+        "create": true,
         "delete": true,
         "description": "Allows to create reusable configuration profile for your enforcers. Enforcer Profiles contains various startup information that can (for some) be updated live. Enforcer Profiles are assigned to some Enforcer using a Enforcer Profile Mapping Policy.",
         "entity_name": "EnforcerProfile",
