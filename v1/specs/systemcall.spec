@@ -15,7 +15,7 @@
             "@named"
         ],
         "get": true,
-        "package": "",
+        "package": "squall",
         "resource_name": "systemcalls",
         "rest_name": "systemcall",
         "root": null,

@@ -233,7 +233,7 @@
         "entity_name": "Plan",
         "extends": [],
         "get": true,
-        "package": "billing",
+        "package": "vince",
         "resource_name": "plans",
         "rest_name": "plan",
         "root": null,

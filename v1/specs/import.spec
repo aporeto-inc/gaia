@@ -83,7 +83,7 @@
         "entity_name": "Import",
         "extends": [],
         "get": false,
-        "package": null,
+        "package": "squall",
         "resource_name": "import",
         "rest_name": "import",
         "root": null,

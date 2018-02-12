@@ -363,7 +363,7 @@
             "@named"
         ],
         "get": false,
-        "package": "",
+        "package": "squall",
         "resource_name": "policyrules",
         "rest_name": "policyrule",
         "root": null,

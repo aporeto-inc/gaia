@@ -185,7 +185,7 @@
         "entity_name": "Revocation",
         "extends": [],
         "get": false,
-        "package": null,
+        "package": "barret",
         "resource_name": "revocations",
         "rest_name": "revocation",
         "root": null,

@@ -290,7 +290,7 @@
         "entity_name": "Export",
         "extends": [],
         "get": false,
-        "package": null,
+        "package": "squall",
         "resource_name": "export",
         "rest_name": "export",
         "root": null,

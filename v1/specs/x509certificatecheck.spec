@@ -45,7 +45,7 @@
         "entity_name": "X509CertificateCheck",
         "extends": [],
         "get": true,
-        "package": null,
+        "package": "barret",
         "resource_name": "x509certificatechecks",
         "rest_name": "x509certificatecheck",
         "root": null,

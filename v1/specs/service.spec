@@ -379,7 +379,7 @@
         "entity_name": "Service",
         "extends": [],
         "get": true,
-        "package": null,
+        "package": "highwind",
         "resource_name": "services",
         "rest_name": "service",
         "root": null,

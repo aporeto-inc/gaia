@@ -158,7 +158,7 @@
             "@named"
         ],
         "get": true,
-        "package": null,
+        "package": "squall",
         "resource_name": "isolationprofiles",
         "rest_name": "isolationprofile",
         "root": null,

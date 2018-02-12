@@ -45,7 +45,7 @@
         "entity_name": "Log",
         "extends": [],
         "get": false,
-        "package": null,
+        "package": "highwind",
         "resource_name": "logs",
         "rest_name": "log",
         "root": null,

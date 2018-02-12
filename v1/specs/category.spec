@@ -115,7 +115,7 @@
         "entity_name": "Category",
         "extends": [],
         "get": false,
-        "package": null,
+        "package": "highwind",
         "resource_name": "categories",
         "rest_name": "category",
         "root": null,

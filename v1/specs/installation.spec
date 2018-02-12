@@ -80,7 +80,7 @@
         "entity_name": "Installation",
         "extends": [],
         "get": true,
-        "package": null,
+        "package": "highwind",
         "resource_name": "installations",
         "rest_name": "installation",
         "root": null,

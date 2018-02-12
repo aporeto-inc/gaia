@@ -43,7 +43,7 @@
         "entity_name": "Activate",
         "extends": [],
         "get": false,
-        "package": null,
+        "package": "vince",
         "resource_name": "activate",
         "rest_name": "activate",
         "root": null,

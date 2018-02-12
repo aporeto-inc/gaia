@@ -9,7 +9,7 @@
         "entity_name": "AccountCheck",
         "extends": [],
         "get": false,
-        "package": null,
+        "package": "vince",
         "resource_name": "accountchecks",
         "rest_name": "accountcheck",
         "root": null,

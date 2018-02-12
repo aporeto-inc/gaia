@@ -292,7 +292,7 @@
         "entity_name": "AvailableService",
         "extends": [],
         "get": false,
-        "package": null,
+        "package": "highwind",
         "resource_name": "availableservices",
         "rest_name": "availableservice",
         "root": null,

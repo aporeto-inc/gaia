@@ -80,7 +80,7 @@
         "entity_name": "PasswordReset",
         "extends": [],
         "get": false,
-        "package": null,
+        "package": "vince",
         "resource_name": "passwordreset",
         "rest_name": "passwordreset",
         "root": null,

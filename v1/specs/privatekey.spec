@@ -115,7 +115,7 @@
         "entity_name": "PrivateKey",
         "extends": [],
         "get": true,
-        "package": null,
+        "package": "barret",
         "resource_name": "privatekeys",
         "rest_name": "privatekey",
         "root": null,
