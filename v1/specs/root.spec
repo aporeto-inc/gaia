@@ -17,18 +17,6 @@
             "bulk_create": false,
             "bulk_delete": false,
             "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": false,
-            "relationship": "root",
-            "rest_name": "certificate",
-            "update": false
-        },
-        {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
             "create": false,
             "delete": false,
             "deprecated": null,
@@ -47,18 +35,6 @@
             "get": false,
             "relationship": "root",
             "rest_name": "revocation",
-            "update": false
-        },
-        {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": false,
-            "relationship": "root",
-            "rest_name": "token",
             "update": false
         }
     ],
