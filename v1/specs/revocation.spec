@@ -183,6 +183,7 @@
         "delete": false,
         "description": null,
         "entity_name": "Revocation",
+        "exposed": true,
         "extends": [],
         "get": false,
         "package": "barret",

@@ -113,6 +113,7 @@
         "delete": true,
         "description": null,
         "entity_name": "PrivateKey",
+        "exposed": true,
         "extends": [],
         "get": true,
         "package": "barret",

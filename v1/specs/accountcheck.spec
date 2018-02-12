@@ -7,6 +7,7 @@
         "delete": false,
         "description": "[nodoc]",
         "entity_name": "AccountCheck",
+        "exposed": true,
         "extends": [],
         "get": false,
         "package": "vince",

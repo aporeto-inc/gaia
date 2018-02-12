@@ -43,6 +43,7 @@
         "delete": false,
         "description": null,
         "entity_name": "X509CertificateCheck",
+        "exposed": true,
         "extends": [],
         "get": true,
         "package": "barret",

@@ -632,11 +632,13 @@
         "delete": false,
         "description": "[nodoc]",
         "entity_name": "Root",
+        "exposed": true,
         "extends": [
             "@identifiable-nopk-nostored"
         ],
         "get": true,
         "package": "",
+        "private": false,
         "resource_name": "root",
         "rest_name": "root",
         "root": true,

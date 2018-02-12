@@ -358,11 +358,13 @@
         "delete": false,
         "description": "Contains all the activity log that happened in a namespace. All successful or failed actions will be available, and eventual errors as well as the claims of the user who triggered the actiions. This log is capped and only keeps the last 50k entries by default. ",
         "entity_name": "Activity",
+        "exposed": true,
         "extends": [
             "@identifiable-pk-stored"
         ],
         "get": true,
-        "package": "Squall API",
+        "package": "squall",
+        "private": null,
         "resource_name": "activities",
         "rest_name": "activity",
         "root": null,

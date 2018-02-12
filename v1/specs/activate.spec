@@ -26,6 +26,7 @@
             "primary_key": null,
             "read_only": null,
             "required": null,
+            "secret": false,
             "setter": null,
             "stored": false,
             "subtype": null,
@@ -37,13 +38,19 @@
     ],
     "children": [],
     "model": {
+        "aliases": [],
         "create": null,
         "delete": false,
         "description": null,
         "entity_name": "Activate",
+        "exposed": true,
         "extends": [],
         "get": false,
         "package": "vince",
+<<<<<<< HEAD
+=======
+        "private": null,
+>>>>>>> 9e81c9be581cdec7e3a3e342d81e3ac033482f4f
         "resource_name": "activate",
         "rest_name": "activate",
         "root": null,

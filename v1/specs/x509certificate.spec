@@ -220,19 +220,16 @@
     ],
     "children": [],
     "model": {
-        "aliases": [
-            "api",
-            "apicert",
-            "apis",
-            "apicerts"
-        ],
+        "aliases": [],
         "create": null,
         "delete": false,
         "description": "This API allows to retrieve an client certifcate for api authentication.",
         "entity_name": "X509Certificate",
+        "exposed": true,
         "extends": [],
         "get": false,
         "package": "barret",
+        "private": true,
         "resource_name": "x509certificates",
         "rest_name": "x509certificate",
         "root": null,
