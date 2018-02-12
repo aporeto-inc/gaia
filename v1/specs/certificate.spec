@@ -431,9 +431,7 @@
         "delete": true,
         "description": "A User represents the owner of some certificates.",
         "entity_name": "Certificate",
-        "extends": [
-            "@base"
-        ],
+        "extends": [],
         "get": true,
         "package": "Vince API",
         "resource_name": "certificates",
