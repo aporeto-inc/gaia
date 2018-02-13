@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	"github.com/aporeto-inc/elemental"
+	"github.com/aporeto-inc/gaia/v1/golang/types"
 	"time"
 )
 
@@ -124,6 +125,9 @@ type EnforcerProfile struct {
 	// ExcludedNetworks is the list of networks that must be excluded for this enforcer.
 	ExcludedNetworks []string `json:"excludedNetworks" bson:"excludednetworks" mapstructure:"excludedNetworks,omitempty"`
 
+	// HostServices is a list of services that must be activated by default to all enforcers matching this profile.
+	HostServices types.HostServicesList `json:"hostServices" bson:"hostservices" mapstructure:"hostServices,omitempty"`
+
 	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore docker container started with labels matching the rule.
 	IgnoreExpression [][]string `json:"ignoreExpression" bson:"ignoreexpression" mapstructure:"ignoreExpression,omitempty"`
 
@@ -214,6 +218,7 @@ func NewEnforcerProfile() *EnforcerProfile {
 		AuditSocketBufferSize:         16384,
 		DockerSocketAddress:           "/var/run/docker.sock",
 		DockerSocketType:              "unix",
+		HostServices:                  types.HostServicesList{},
 		IPTablesMarkValue:             1000,
 		KubernetesSupportEnabled:      false,
 		LinuxProcessesSupportEnabled:  true,
@@ -678,6 +683,18 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "excluded_networks_list",
 		Type:           "external",
 	},
+	"HostServices": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "HostServices",
+		Description:    `HostServices is a list of services that must be activated by default to all enforcers matching this profile.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "hostServices",
+		Orderable:      true,
+		Stored:         true,
+		SubType:        "host_services_list",
+		Type:           "external",
+	},
 	"IgnoreExpression": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoreExpression",
@@ -1138,6 +1155,18 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Orderable:      true,
 		Stored:         true,
 		SubType:        "excluded_networks_list",
+		Type:           "external",
+	},
+	"hostservices": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "HostServices",
+		Description:    `HostServices is a list of services that must be activated by default to all enforcers matching this profile.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "hostServices",
+		Orderable:      true,
+		Stored:         true,
+		SubType:        "host_services_list",
 		Type:           "external",
 	},
 	"ignoreexpression": elemental.AttributeSpecification{

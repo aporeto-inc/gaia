@@ -11,8 +11,8 @@ var (
 
 // ProcessingUnitService is a network service that the processing unit listens to.
 type ProcessingUnitService struct {
-	Protocol uint8
-	Ports    string
+	Protocol uint8  `json:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
+	Ports    string `json:"ports" bson:"ports" mapstructure:"ports,omitempty"`
 }
 
 // ProcessingUnitServicesList is a list of ProcessingUnitServices
