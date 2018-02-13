@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -47,6 +47,7 @@ const (
 var FlowStatisticIdentity = elemental.Identity{
 	Name:     "flowstatistic",
 	Category: "flowstatistics",
+	Private:  false,
 }
 
 // FlowStatisticsList represents a list of FlowStatistics

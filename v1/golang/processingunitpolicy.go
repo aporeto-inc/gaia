@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -35,6 +35,7 @@ const (
 var ProcessingUnitPolicyIdentity = elemental.Identity{
 	Name:     "processingunitpolicy",
 	Category: "processingunitpolicies",
+	Private:  false,
 }
 
 // ProcessingUnitPoliciesList represents a list of ProcessingUnitPolicies

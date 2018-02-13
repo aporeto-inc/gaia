@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -22,6 +22,7 @@ const (
 var EmailIdentity = elemental.Identity{
 	Name:     "email",
 	Category: "emails",
+	Private:  true,
 }
 
 // EmailsList represents a list of Emails

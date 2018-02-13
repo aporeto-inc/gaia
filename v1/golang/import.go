@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -22,6 +22,7 @@ const (
 var ImportIdentity = elemental.Identity{
 	Name:     "import",
 	Category: "import",
+	Private:  false,
 }
 
 // ImportsList represents a list of Imports

@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -40,6 +40,7 @@ const (
 var IssueIdentity = elemental.Identity{
 	Name:     "issue",
 	Category: "issue",
+	Private:  false,
 }
 
 // IssuesList represents a list of Issues

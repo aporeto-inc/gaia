@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 var PasswordResetIdentity = elemental.Identity{
 	Name:     "passwordreset",
 	Category: "passwordreset",
+	Private:  false,
 }
 
 // PasswordResetsList represents a list of PasswordResets

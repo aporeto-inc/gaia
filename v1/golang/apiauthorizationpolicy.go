@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -12,6 +12,7 @@ import (
 var APIAuthorizationPolicyIdentity = elemental.Identity{
 	Name:     "apiauthorizationpolicy",
 	Category: "apiauthorizationpolicies",
+	Private:  false,
 }
 
 // APIAuthorizationPoliciesList represents a list of APIAuthorizationPolicies

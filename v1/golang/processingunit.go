@@ -1,11 +1,11 @@
-package models
+package gaia
 
 import (
 	"fmt"
 	"sync"
 
 	"github.com/aporeto-inc/elemental"
-	"github.com/aporeto-inc/gaia/squallmodels/v1/golang/types"
+	"github.com/aporeto-inc/gaia/v1/golang/types"
 	"time"
 )
 
@@ -50,6 +50,7 @@ const (
 var ProcessingUnitIdentity = elemental.Identity{
 	Name:     "processingunit",
 	Category: "processingunits",
+	Private:  false,
 }
 
 // ProcessingUnitsList represents a list of ProcessingUnits

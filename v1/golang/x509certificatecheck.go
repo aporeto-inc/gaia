@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 var X509CertificateCheckIdentity = elemental.Identity{
 	Name:     "x509certificatecheck",
 	Category: "x509certificatechecks",
+	Private:  true,
 }
 
 // X509CertificateChecksList represents a list of X509CertificateChecks
@@ -109,6 +110,11 @@ func (o *X509CertificateCheck) Version() int {
 func (o *X509CertificateCheck) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// Doc returns the documentation for the object
+func (o *X509CertificateCheck) Doc() string {
+	return nodocString
 }
 
 func (o *X509CertificateCheck) String() string {

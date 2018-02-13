@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 var CategoryIdentity = elemental.Identity{
 	Name:     "category",
 	Category: "categories",
+	Private:  false,
 }
 
 // CategoriesList represents a list of Categories

@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -12,6 +12,7 @@ import (
 var AuthorityIdentity = elemental.Identity{
 	Name:     "authority",
 	Category: "authorities",
+	Private:  true,
 }
 
 // AuthoritiesList represents a list of Authorities

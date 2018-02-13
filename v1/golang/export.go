@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 var ExportIdentity = elemental.Identity{
 	Name:     "export",
 	Category: "export",
+	Private:  false,
 }
 
 // ExportsList represents a list of Exports

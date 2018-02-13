@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -25,6 +25,7 @@ const (
 var FileAccessIdentity = elemental.Identity{
 	Name:     "fileaccess",
 	Category: "fileaccesses",
+	Private:  false,
 }
 
 // FileAccessList represents a list of FileAccess

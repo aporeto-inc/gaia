@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -12,6 +12,7 @@ import (
 var RevocationIdentity = elemental.Identity{
 	Name:     "revocation",
 	Category: "revocations",
+	Private:  false,
 }
 
 // RevocationsList represents a list of Revocations

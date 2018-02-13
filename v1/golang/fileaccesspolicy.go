@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -12,6 +12,7 @@ import (
 var FileAccessPolicyIdentity = elemental.Identity{
 	Name:     "fileaccesspolicy",
 	Category: "fileaccesspolicies",
+	Private:  false,
 }
 
 // FileAccessPoliciesList represents a list of FileAccessPolicies

@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -23,6 +23,7 @@ const (
 var NetworkAccessPolicyIdentity = elemental.Identity{
 	Name:     "networkaccesspolicy",
 	Category: "networkaccesspolicies",
+	Private:  false,
 }
 
 // NetworkAccessPoliciesList represents a list of NetworkAccessPolicies

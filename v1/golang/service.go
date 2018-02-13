@@ -1,11 +1,11 @@
-package models
+package gaia
 
 import (
 	"fmt"
 	"sync"
 
 	"github.com/aporeto-inc/elemental"
-	"github.com/aporeto-inc/gaia/highwindmodels/v1/golang/types"
+	"github.com/aporeto-inc/gaia/v1/golang/types"
 )
 
 // ServiceStatusValue represents the possible values for attribute "status".
@@ -26,6 +26,7 @@ const (
 var ServiceIdentity = elemental.Identity{
 	Name:     "service",
 	Category: "services",
+	Private:  false,
 }
 
 // ServicesList represents a list of Services

@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -12,6 +12,7 @@ import (
 var AWSAccountIdentity = elemental.Identity{
 	Name:     "awsaccount",
 	Category: "awsaccounts",
+	Private:  false,
 }
 
 // AWSAccountsList represents a list of AWSAccounts

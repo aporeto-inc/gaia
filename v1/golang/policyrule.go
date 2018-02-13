@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 var PolicyRuleIdentity = elemental.Identity{
 	Name:     "policyrule",
 	Category: "policyrules",
+	Private:  false,
 }
 
 // PolicyRulesList represents a list of PolicyRules

@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -26,6 +26,7 @@ const (
 var HookPolicyIdentity = elemental.Identity{
 	Name:     "hookpolicy",
 	Category: "hookpolicies",
+	Private:  false,
 }
 
 // HookPoliciesList represents a list of HookPolicies

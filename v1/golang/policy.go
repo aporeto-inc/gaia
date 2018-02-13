@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -44,6 +44,7 @@ const (
 var PolicyIdentity = elemental.Identity{
 	Name:     "policy",
 	Category: "policies",
+	Private:  false,
 }
 
 // PoliciesList represents a list of Policies

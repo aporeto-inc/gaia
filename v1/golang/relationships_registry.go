@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import "github.com/aporeto-inc/elemental"
 

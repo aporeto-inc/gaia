@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 var TabulationIdentity = elemental.Identity{
 	Name:     "tabulation",
 	Category: "tabulations",
+	Private:  false,
 }
 
 // TabulationsList represents a list of Tabulations

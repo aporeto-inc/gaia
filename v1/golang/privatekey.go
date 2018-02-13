@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 var PrivateKeyIdentity = elemental.Identity{
 	Name:     "privatekey",
 	Category: "privatekeys",
+	Private:  false,
 }
 
 // PrivateKeysList represents a list of PrivateKeys

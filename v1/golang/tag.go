@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 var TagIdentity = elemental.Identity{
 	Name:     "tag",
 	Category: "tags",
+	Private:  false,
 }
 
 // TagsList represents a list of Tags

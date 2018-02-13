@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -23,6 +23,7 @@ const (
 var CertificateIdentity = elemental.Identity{
 	Name:     "certificate",
 	Category: "certificates",
+	Private:  false,
 }
 
 // CertificatesList represents a list of Certificates

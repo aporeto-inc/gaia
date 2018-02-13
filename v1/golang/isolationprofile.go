@@ -1,11 +1,11 @@
-package models
+package gaia
 
 import (
 	"fmt"
 	"sync"
 
 	"github.com/aporeto-inc/elemental"
-	"github.com/aporeto-inc/gaia/squallmodels/v1/golang/types"
+	"github.com/aporeto-inc/gaia/v1/golang/types"
 	"time"
 )
 
@@ -13,6 +13,7 @@ import (
 var IsolationProfileIdentity = elemental.Identity{
 	Name:     "isolationprofile",
 	Category: "isolationprofiles",
+	Private:  false,
 }
 
 // IsolationProfilesList represents a list of IsolationProfiles

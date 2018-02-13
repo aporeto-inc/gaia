@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -29,6 +29,7 @@ const (
 var AccountIdentity = elemental.Identity{
 	Name:     "account",
 	Category: "accounts",
+	Private:  false,
 }
 
 // AccountsList represents a list of Accounts
@@ -183,9 +184,9 @@ func NewAccount() *Account {
 
 	return &Account{
 		ModelVersion:            1,
-		AssociatedAWSPolicies:   m,
+		AssociatedAWSPolicies:   map[string]string{},
 		AssociatedPlanKey:       "aporeto.plan.free",
-		AssociatedQuotaPolicies: m,
+		AssociatedQuotaPolicies: map[string]string{},
 		Status:                  "Pending",
 	}
 }

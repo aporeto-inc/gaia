@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -37,6 +37,7 @@ const (
 var APICheckIdentity = elemental.Identity{
 	Name:     "apicheck",
 	Category: "apichecks",
+	Private:  false,
 }
 
 // APIChecksList represents a list of APIChecks

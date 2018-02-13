@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 var AccountCheckIdentity = elemental.Identity{
 	Name:     "accountcheck",
 	Category: "accountchecks",
+	Private:  false,
 }
 
 // AccountChecksList represents a list of AccountChecks

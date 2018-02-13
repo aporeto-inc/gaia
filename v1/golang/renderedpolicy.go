@@ -1,17 +1,18 @@
-package models
+package gaia
 
 import (
 	"fmt"
 	"sync"
 
 	"github.com/aporeto-inc/elemental"
-	"github.com/aporeto-inc/gaia/squallmodels/v1/golang/constants"
+	"github.com/aporeto-inc/gaia/v1/golang/constants"
 )
 
 // RenderedPolicyIdentity represents the Identity of the object.
 var RenderedPolicyIdentity = elemental.Identity{
 	Name:     "renderedpolicy",
 	Category: "renderedpolicies",
+	Private:  false,
 }
 
 // RenderedPoliciesList represents a list of RenderedPolicies

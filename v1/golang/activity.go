@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -12,6 +12,7 @@ import (
 var ActivityIdentity = elemental.Identity{
 	Name:     "activity",
 	Category: "activities",
+	Private:  false,
 }
 
 // ActivitiesList represents a list of Activities

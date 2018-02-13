@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 var PlanIdentity = elemental.Identity{
 	Name:     "plan",
 	Category: "plans",
+	Private:  false,
 }
 
 // PlansList represents a list of Plans

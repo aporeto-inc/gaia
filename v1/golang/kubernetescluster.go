@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -12,6 +12,7 @@ import (
 var KubernetesClusterIdentity = elemental.Identity{
 	Name:     "kubernetescluster",
 	Category: "kubernetesclusters",
+	Private:  false,
 }
 
 // KubernetesClustersList represents a list of KubernetesClusters

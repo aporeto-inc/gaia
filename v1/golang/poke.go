@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 var PokeIdentity = elemental.Identity{
 	Name:     "poke",
 	Category: "poke",
+	Private:  false,
 }
 
 // PokesList represents a list of Pokes

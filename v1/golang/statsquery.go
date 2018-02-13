@@ -1,17 +1,18 @@
-package models
+package gaia
 
 import (
 	"fmt"
 	"sync"
 
 	"github.com/aporeto-inc/elemental"
-	"github.com/aporeto-inc/gaia/squallmodels/v1/golang/types"
+	"github.com/aporeto-inc/gaia/v1/golang/types"
 )
 
 // StatsQueryIdentity represents the Identity of the object.
 var StatsQueryIdentity = elemental.Identity{
 	Name:     "statsquery",
 	Category: "statsqueries",
+	Private:  false,
 }
 
 // StatsQueriesList represents a list of StatsQueries

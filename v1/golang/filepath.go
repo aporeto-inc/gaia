@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -12,6 +12,7 @@ import (
 var FilePathIdentity = elemental.Identity{
 	Name:     "filepath",
 	Category: "filepaths",
+	Private:  false,
 }
 
 // FilePathsList represents a list of FilePaths

@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -43,6 +43,7 @@ const (
 var EnforcerIdentity = elemental.Identity{
 	Name:     "enforcer",
 	Category: "enforcers",
+	Private:  false,
 }
 
 // EnforcersList represents a list of Enforcers

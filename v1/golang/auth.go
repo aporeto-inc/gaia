@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -12,6 +12,7 @@ import (
 var AuthIdentity = elemental.Identity{
 	Name:     "auth",
 	Category: "auth",
+	Private:  false,
 }
 
 // AuthsList represents a list of Auths

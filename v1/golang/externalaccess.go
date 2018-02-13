@@ -1,17 +1,18 @@
-package models
+package gaia
 
 import (
 	"fmt"
 	"sync"
 
 	"github.com/aporeto-inc/elemental"
-	"github.com/aporeto-inc/gaia/squallmodels/v1/golang/types"
+	"github.com/aporeto-inc/gaia/v1/golang/types"
 )
 
 // ExternalAccessIdentity represents the Identity of the object.
 var ExternalAccessIdentity = elemental.Identity{
 	Name:     "externalaccess",
 	Category: "externalaccesses",
+	Private:  false,
 }
 
 // ExternalAccessList represents a list of ExternalAccess

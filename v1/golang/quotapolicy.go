@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -12,6 +12,7 @@ import (
 var QuotaPolicyIdentity = elemental.Identity{
 	Name:     "quotapolicy",
 	Category: "quotapolicies",
+	Private:  false,
 }
 
 // QuotaPoliciesList represents a list of QuotaPolicies

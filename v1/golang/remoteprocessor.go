@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -23,6 +23,7 @@ const (
 var RemoteProcessorIdentity = elemental.Identity{
 	Name:     "remoteprocessor",
 	Category: "remoteprocessors",
+	Private:  false,
 }
 
 // RemoteProcessorsList represents a list of RemoteProcessors

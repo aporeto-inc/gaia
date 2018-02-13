@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -12,6 +12,7 @@ import (
 var NamespaceMappingPolicyIdentity = elemental.Identity{
 	Name:     "namespacemappingpolicy",
 	Category: "namespacemappingpolicies",
+	Private:  false,
 }
 
 // NamespaceMappingPoliciesList represents a list of NamespaceMappingPolicies

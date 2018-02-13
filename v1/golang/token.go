@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 var TokenIdentity = elemental.Identity{
 	Name:     "token",
 	Category: "tokens",
+	Private:  true,
 }
 
 // TokensList represents a list of Tokens

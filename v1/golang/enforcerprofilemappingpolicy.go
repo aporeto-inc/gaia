@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -12,6 +12,7 @@ import (
 var EnforcerProfileMappingPolicyIdentity = elemental.Identity{
 	Name:     "enforcerprofilemappingpolicy",
 	Category: "enforcerprofilemappingpolicies",
+	Private:  false,
 }
 
 // EnforcerProfileMappingPoliciesList represents a list of EnforcerProfileMappingPolicies

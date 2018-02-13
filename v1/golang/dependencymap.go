@@ -1,17 +1,18 @@
-package models
+package gaia
 
 import (
 	"fmt"
 	"sync"
 
 	"github.com/aporeto-inc/elemental"
-	"github.com/aporeto-inc/gaia/squallmodels/v1/golang/types"
+	"github.com/aporeto-inc/gaia/v1/golang/types"
 )
 
 // DependencyMapIdentity represents the Identity of the object.
 var DependencyMapIdentity = elemental.Identity{
 	Name:     "dependencymap",
 	Category: "dependencymaps",
+	Private:  false,
 }
 
 // DependencyMapsList represents a list of DependencyMaps

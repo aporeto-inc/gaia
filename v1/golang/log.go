@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 var LogIdentity = elemental.Identity{
 	Name:     "log",
 	Category: "logs",
+	Private:  false,
 }
 
 // LogsList represents a list of Logs

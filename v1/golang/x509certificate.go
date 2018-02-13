@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -37,6 +37,7 @@ const (
 var X509CertificateIdentity = elemental.Identity{
 	Name:     "x509certificate",
 	Category: "x509certificates",
+	Private:  true,
 }
 
 // X509CertificatesList represents a list of X509Certificates

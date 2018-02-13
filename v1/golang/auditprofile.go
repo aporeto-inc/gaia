@@ -1,11 +1,11 @@
-package models
+package gaia
 
 import (
 	"fmt"
 	"sync"
 
 	"github.com/aporeto-inc/elemental"
-	"github.com/aporeto-inc/gaia/squallmodels/v1/golang/types"
+	"github.com/aporeto-inc/gaia/v1/golang/types"
 	"time"
 )
 
@@ -13,6 +13,7 @@ import (
 var AuditProfileIdentity = elemental.Identity{
 	Name:     "auditprofile",
 	Category: "auditprofiles",
+	Private:  false,
 }
 
 // AuditProfilesList represents a list of AuditProfiles

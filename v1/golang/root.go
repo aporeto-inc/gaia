@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 var RootIdentity = elemental.Identity{
 	Name:     "root",
 	Category: "root",
+	Private:  false,
 }
 
 // Root represents the model of a root

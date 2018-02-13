@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 var RoleIdentity = elemental.Identity{
 	Name:     "role",
 	Category: "roles",
+	Private:  false,
 }
 
 // RolesList represents a list of Roles

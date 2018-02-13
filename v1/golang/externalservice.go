@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -26,6 +26,7 @@ const (
 var ExternalServiceIdentity = elemental.Identity{
 	Name:     "externalservice",
 	Category: "externalservices",
+	Private:  false,
 }
 
 // ExternalServicesList represents a list of ExternalServices

@@ -1,17 +1,18 @@
-package models
+package gaia
 
 import (
 	"fmt"
 	"sync"
 
 	"github.com/aporeto-inc/elemental"
-	"github.com/aporeto-inc/gaia/highwindmodels/v1/golang/types"
+	"github.com/aporeto-inc/gaia/v1/golang/types"
 )
 
 // AvailableServiceIdentity represents the Identity of the object.
 var AvailableServiceIdentity = elemental.Identity{
 	Name:     "availableservice",
 	Category: "availableservices",
+	Private:  false,
 }
 
 // AvailableServicesList represents a list of AvailableServices

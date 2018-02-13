@@ -1,4 +1,4 @@
-package models
+package gaia
 
 import (
 	"fmt"
@@ -11,6 +11,7 @@ import (
 var SuggestedPolicyIdentity = elemental.Identity{
 	Name:     "suggestedpolicy",
 	Category: "suggestedpolicies",
+	Private:  false,
 }
 
 // SuggestedPoliciesList represents a list of SuggestedPolicies
