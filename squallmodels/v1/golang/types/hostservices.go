@@ -3,7 +3,6 @@ package types
 // HostService is a service associated with an enforcer profile for a host.
 type HostService struct {
 	Name        string                     `json:"name" bson:"name" mapstructure:"name,omitempty"`
-	Tags        []string                   `json:"tags" bson:"tags" mapstructure:"tags,omitempty"`
 	NetworkOnly bool                       `json:"networkonly" bson:"networkonly" mapstructure:"networkonly,omitempty"`
 	Services    ProcessingUnitServicesList `json:"services" bson:"services" mapstructure:"services,omitempty"`
 }
