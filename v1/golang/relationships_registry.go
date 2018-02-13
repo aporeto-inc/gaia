@@ -895,7 +895,11 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[TokenIdentity] = &elemental.Relationship{}
+	relationshipsRegistry[TokenIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+	}
 
 	relationshipsRegistry[VulnerabilityIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
