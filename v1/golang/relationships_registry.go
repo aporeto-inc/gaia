@@ -204,7 +204,11 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[EmailIdentity] = &elemental.Relationship{}
+	relationshipsRegistry[EmailIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+	}
 
 	relationshipsRegistry[EnforcerIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
