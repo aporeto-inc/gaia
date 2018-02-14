@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/aporeto-inc/gaia/v1/golang"
+
 	"github.com/aporeto-inc/elemental"
 	"github.com/aporeto-inc/manipulate"
 	"github.com/aporeto-inc/manipulate/maniptest"
@@ -194,7 +196,7 @@ func TestNamespaces_DescendentsOfNamespace(t *testing.T) {
 
 	Convey("Given I have a namespace and a manipulator", t, func() {
 
-		ns := squallmodels.NewNamespace()
+		ns := gaia.NewNamespace()
 		ns.Name = "/"
 		ns.ID = "0"
 		m := maniptest.NewTestManipulator()
@@ -206,20 +208,20 @@ func TestNamespaces_DescendentsOfNamespace(t *testing.T) {
 				switch ctx.Filter.Values()[0][0].(string) {
 
 				case "/":
-					*dest.(*squallmodels.NamespacesList) = append(*dest.(*squallmodels.NamespacesList),
-						&squallmodels.Namespace{Name: "/1", Namespace: ctx.Namespace, ID: "a"},
-						&squallmodels.Namespace{Name: "/2", Namespace: ctx.Namespace, ID: "b"},
+					*dest.(*gaia.NamespacesList) = append(*dest.(*gaia.NamespacesList),
+						&gaia.Namespace{Name: "/1", Namespace: ctx.Namespace, ID: "a"},
+						&gaia.Namespace{Name: "/2", Namespace: ctx.Namespace, ID: "b"},
 					)
 
 				case "/1":
-					*dest.(*squallmodels.NamespacesList) = append(*dest.(*squallmodels.NamespacesList),
-						&squallmodels.Namespace{Name: "/1/1", Namespace: ctx.Namespace, ID: "c"},
+					*dest.(*gaia.NamespacesList) = append(*dest.(*gaia.NamespacesList),
+						&gaia.Namespace{Name: "/1/1", Namespace: ctx.Namespace, ID: "c"},
 					)
 
 				case "/2":
-					*dest.(*squallmodels.NamespacesList) = append(*dest.(*squallmodels.NamespacesList),
-						&squallmodels.Namespace{Name: "/2/1", Namespace: ctx.Namespace, ID: "d"},
-						&squallmodels.Namespace{Name: "/2/2", Namespace: ctx.Namespace, ID: "e"},
+					*dest.(*gaia.NamespacesList) = append(*dest.(*gaia.NamespacesList),
+						&gaia.Namespace{Name: "/2/1", Namespace: ctx.Namespace, ID: "d"},
+						&gaia.Namespace{Name: "/2/2", Namespace: ctx.Namespace, ID: "e"},
 					)
 				}
 
@@ -269,9 +271,9 @@ func TestNamespaces_DescendentsOfNamespace(t *testing.T) {
 			m.MockRetrieveMany(t, func(ctx *manipulate.Context, dest elemental.ContentIdentifiable) error {
 
 				if ctx.Namespace == "/0/1" {
-					*dest.(*squallmodels.NamespacesList) = append(*dest.(*squallmodels.NamespacesList),
-						&squallmodels.Namespace{Name: "/0/1/1", Namespace: ctx.Namespace, ID: "a"},
-						&squallmodels.Namespace{Name: "/0/1/2", Namespace: ctx.Namespace, ID: "b"},
+					*dest.(*gaia.NamespacesList) = append(*dest.(*gaia.NamespacesList),
+						&gaia.Namespace{Name: "/0/1/1", Namespace: ctx.Namespace, ID: "a"},
+						&gaia.Namespace{Name: "/0/1/2", Namespace: ctx.Namespace, ID: "b"},
 					)
 					return nil
 				}
