@@ -9,6 +9,7 @@ func init() {
 	elemental.RegisterIdentity(AWSAccountIdentity)
 	elemental.RegisterIdentity(CertificateIdentity)
 	elemental.RegisterIdentity(CheckIdentity)
+	elemental.RegisterIdentity(InvoiceIdentity)
 	elemental.RegisterIdentity(KubernetesClusterIdentity)
 	elemental.RegisterIdentity(PasswordResetIdentity)
 	elemental.RegisterIdentity(PlanIdentity)
@@ -33,6 +34,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewCertificate()
 	case CheckIdentity.Name:
 		return NewCheck()
+	case InvoiceIdentity.Name:
+		return NewInvoice()
 	case KubernetesClusterIdentity.Name:
 		return NewKubernetesCluster()
 	case PasswordResetIdentity.Name:
@@ -61,6 +64,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewCertificate()
 	case CheckIdentity.Category:
 		return NewCheck()
+	case InvoiceIdentity.Category:
+		return NewInvoice()
 	case KubernetesClusterIdentity.Category:
 		return NewKubernetesCluster()
 	case PasswordResetIdentity.Category:
@@ -89,6 +94,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &CertificatesList{}
 	case CheckIdentity.Name:
 		return &ChecksList{}
+	case InvoiceIdentity.Name:
+		return &InvoicesList{}
 	case KubernetesClusterIdentity.Name:
 		return &KubernetesClustersList{}
 	case PasswordResetIdentity.Name:
@@ -116,6 +123,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &CertificatesList{}
 	case CheckIdentity.Category:
 		return &ChecksList{}
+	case InvoiceIdentity.Category:
+		return &InvoicesList{}
 	case KubernetesClusterIdentity.Category:
 		return &KubernetesClustersList{}
 	case PasswordResetIdentity.Category:
@@ -137,6 +146,7 @@ func AllIdentities() []elemental.Identity {
 		AWSAccountIdentity,
 		CertificateIdentity,
 		CheckIdentity,
+		InvoiceIdentity,
 		KubernetesClusterIdentity,
 		PasswordResetIdentity,
 		PlanIdentity,
@@ -173,6 +183,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case CertificateIdentity:
 		return []string{}
 	case CheckIdentity:
+		return []string{}
+	case InvoiceIdentity:
 		return []string{}
 	case KubernetesClusterIdentity:
 		return []string{}

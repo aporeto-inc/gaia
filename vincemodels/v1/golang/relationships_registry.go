@@ -100,6 +100,33 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[InvoiceIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"account": true,
+		},
+		AllowsUpdate: map[string]bool{
+			"root": true,
+		},
+		AllowsPatch: map[string]bool{
+			"root": true,
+		},
+		AllowsDelete: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieve: map[string]bool{
+			"account": true,
+			"root":    true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"account": true,
+			"root":    true,
+		},
+		AllowsInfo: map[string]bool{
+			"account": true,
+			"root":    true,
+		},
+	}
+
 	relationshipsRegistry[KubernetesClusterIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
 			"root": true,
