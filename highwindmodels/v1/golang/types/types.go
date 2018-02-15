@@ -192,9 +192,9 @@ func (p *ServiceParameter) ValueToString() string {
 
 // ServiceRelatedObject defines a related object.
 type ServiceRelatedObject struct {
-	Namespace string `json:"-"`
-	Identity  string `json:"-"`
-	ID        string `json:"-"`
+	Namespace string `json:"namespace"`
+	Identity  string `json:"identity"`
+	ID        string `json:"ID"`
 }
 
 // NewServiceRelatedObject creates a new related object.

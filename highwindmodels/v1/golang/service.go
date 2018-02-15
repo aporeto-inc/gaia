@@ -104,6 +104,9 @@ type Service struct {
 	// RelatedObjects retains all objects created to use this service.
 	RelatedObjects []*types.ServiceRelatedObject `json:"-" bson:"relatedobjects" mapstructure:"-,omitempty"`
 
+	// Data retains all objects created to use this service.
+	Data interface{} `json:"-" bson:"data" mapstructure:"-,omitempty"`
+
 	// Replicas represents the number of replicas for the service.
 	Replicas int `json:"replicas" bson:"replicas" mapstructure:"replicas,omitempty"`
 
@@ -299,6 +302,15 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "service_relatedobjects",
 		Type:           "external",
 	},
+	"Data": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Data",
+		Description:    `Data retains all objects created to use this service.`,
+		Name:           "data",
+		Stored:         true,
+		SubType:        "service_data",
+		Type:           "external",
+	},
 	"Replicas": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Replicas",
@@ -416,6 +428,15 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "relatedObjects",
 		Stored:         true,
 		SubType:        "service_relatedobjects",
+		Type:           "external",
+	},
+	"data": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Data",
+		Description:    `Data retains all objects created to use this service.`,
+		Name:           "data",
+		Stored:         true,
+		SubType:        "service_data",
 		Type:           "external",
 	},
 	"replicas": elemental.AttributeSpecification{
