@@ -105,6 +105,9 @@ type Service struct {
 	// RelatedObjects retains all objects created to use this service.
 	RelatedObjects []*types.ServiceRelatedObject `json:"-" bson:"relatedobjects" mapstructure:"-,omitempty"`
 
+	// Data retains all data created to use this service.
+	Data interface{} `json:"-" bson:"data" mapstructure:"-,omitempty"`
+
 	// Replicas represents the number of replicas for the service.
 	Replicas int `json:"replicas" bson:"replicas" mapstructure:"replicas,omitempty"`
 
@@ -121,6 +124,7 @@ func NewService() *Service {
 
 	return &Service{
 		ModelVersion:   1,
+		Data:           nil,
 		Parameters:     []*types.ServiceParameter{},
 		RelatedObjects: []*types.ServiceRelatedObject{},
 		Status:         "Pending",
@@ -247,6 +251,15 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"Data": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Data",
+		Description:    `Data retains all data created to use this service.`,
+		Name:           "data",
+		Stored:         true,
+		SubType:        "service_data",
+		Type:           "external",
+	},
 	"K8sIdentifier": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "K8sIdentifier",
@@ -365,6 +378,15 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"data": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Data",
+		Description:    `Data retains all data created to use this service.`,
+		Name:           "data",
+		Stored:         true,
+		SubType:        "service_data",
+		Type:           "external",
 	},
 	"k8sidentifier": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
