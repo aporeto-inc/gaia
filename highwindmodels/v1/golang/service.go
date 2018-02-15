@@ -26,6 +26,7 @@ const (
 var ServiceIdentity = elemental.Identity{
 	Name:     "service",
 	Category: "services",
+	Private:  false,
 }
 
 // ServicesList represents a list of Services
@@ -123,6 +124,7 @@ func NewService() *Service {
 
 	return &Service{
 		ModelVersion:   1,
+		Data:           nil,
 		Parameters:     []*types.ServiceParameter{},
 		RelatedObjects: []*types.ServiceRelatedObject{},
 		Status:         "Pending",
@@ -249,6 +251,15 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"Data": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Data",
+		Description:    `Data retains all objects created to use this service.`,
+		Name:           "data",
+		Stored:         true,
+		SubType:        "service_data",
+		Type:           "external",
+	},
 	"K8sIdentifier": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "K8sIdentifier",
@@ -300,15 +311,6 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "relatedObjects",
 		Stored:         true,
 		SubType:        "service_relatedobjects",
-		Type:           "external",
-	},
-	"Data": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Data",
-		Description:    `Data retains all objects created to use this service.`,
-		Name:           "data",
-		Stored:         true,
-		SubType:        "service_data",
 		Type:           "external",
 	},
 	"Replicas": elemental.AttributeSpecification{
@@ -377,6 +379,15 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"data": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Data",
+		Description:    `Data retains all objects created to use this service.`,
+		Name:           "data",
+		Stored:         true,
+		SubType:        "service_data",
+		Type:           "external",
+	},
 	"k8sidentifier": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "K8sIdentifier",
@@ -428,15 +439,6 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "relatedObjects",
 		Stored:         true,
 		SubType:        "service_relatedobjects",
-		Type:           "external",
-	},
-	"data": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Data",
-		Description:    `Data retains all objects created to use this service.`,
-		Name:           "data",
-		Stored:         true,
-		SubType:        "service_data",
 		Type:           "external",
 	},
 	"replicas": elemental.AttributeSpecification{

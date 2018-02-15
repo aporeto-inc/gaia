@@ -11,6 +11,7 @@ import (
 var InstallationIdentity = elemental.Identity{
 	Name:     "installation",
 	Category: "installations",
+	Private:  false,
 }
 
 // InstallationsList represents a list of Installations
