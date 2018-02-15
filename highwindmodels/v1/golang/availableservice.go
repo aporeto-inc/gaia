@@ -12,6 +12,7 @@ import (
 var AvailableServiceIdentity = elemental.Identity{
 	Name:     "availableservice",
 	Category: "availableservices",
+	Private:  false,
 }
 
 // AvailableServicesList represents a list of AvailableServices
