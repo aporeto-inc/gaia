@@ -43,7 +43,7 @@
         ],
         "create": null,
         "delete": false,
-        "description": "A span is a batch of jaeger spans.",
+        "description": "A jaegerbatch is a batch of jaeger spans. This is used by external service to post jaeger span in our private jaeger services",
         "entity_name": "Jaegerbatch",
         "exposed": true,
         "extends": [],
