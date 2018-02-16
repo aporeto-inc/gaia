@@ -164,7 +164,7 @@
             "@named"
         ],
         "get": true,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "externalservices",
         "rest_name": "externalservice",
         "root": null,

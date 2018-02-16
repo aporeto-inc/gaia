@@ -89,7 +89,7 @@
             "@named"
         ],
         "get": true,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "filepaths",
         "rest_name": "filepath",
         "root": null,

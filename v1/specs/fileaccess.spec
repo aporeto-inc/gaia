@@ -224,7 +224,7 @@
         "entity_name": "FileAccess",
         "extends": [],
         "get": false,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "fileaccesses",
         "rest_name": "fileaccess",
         "root": null,

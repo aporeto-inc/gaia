@@ -91,7 +91,7 @@
             "@propagated"
         ],
         "get": true,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "enforcerprofilemappingpolicies",
         "rest_name": "enforcerprofilemappingpolicy",
         "root": null,

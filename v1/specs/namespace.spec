@@ -157,7 +157,7 @@
             "@metadatable"
         ],
         "get": true,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "namespaces",
         "rest_name": "namespace",
         "root": null,

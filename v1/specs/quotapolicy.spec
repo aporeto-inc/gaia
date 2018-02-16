@@ -128,7 +128,7 @@
             "@propagated"
         ],
         "get": true,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "quotapolicies",
         "rest_name": "quotapolicy",
         "root": null,

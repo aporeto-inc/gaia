@@ -237,7 +237,7 @@
             "@propagated"
         ],
         "get": true,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "hookpolicies",
         "rest_name": "hookpolicy",
         "root": null,

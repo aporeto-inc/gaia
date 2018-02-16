@@ -92,7 +92,7 @@
             "@named"
         ],
         "get": true,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "namespacemappingpolicies",
         "rest_name": "namespacemappingpolicy",
         "root": null,

@@ -365,7 +365,7 @@
             "@schedulable"
         ],
         "get": true,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "networkaccesspolicies",
         "rest_name": "networkaccesspolicy",
         "root": null,

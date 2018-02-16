@@ -50,7 +50,7 @@
         "entity_name": "SuggestedPolicy",
         "extends": [],
         "get": true,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "suggestedpolicies",
         "rest_name": "suggestedpolicy",
         "root": null,

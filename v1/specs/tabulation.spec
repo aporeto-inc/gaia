@@ -120,7 +120,7 @@
         "entity_name": "Tabulation",
         "extends": [],
         "get": false,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "tabulations",
         "rest_name": "tabulation",
         "root": null,

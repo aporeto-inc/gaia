@@ -47,7 +47,7 @@
         "entity_name": "StatsQuery",
         "extends": [],
         "get": false,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "statsqueries",
         "rest_name": "statsquery",
         "root": null,

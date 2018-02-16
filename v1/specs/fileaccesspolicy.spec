@@ -264,7 +264,7 @@
             "@schedulable"
         ],
         "get": true,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "fileaccesspolicies",
         "rest_name": "fileaccesspolicy",
         "root": null,

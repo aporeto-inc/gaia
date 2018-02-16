@@ -88,7 +88,7 @@
             "@named"
         ],
         "get": true,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "auditprofiles",
         "rest_name": "auditprofile",
         "root": null,

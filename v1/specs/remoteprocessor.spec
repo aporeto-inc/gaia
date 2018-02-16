@@ -296,7 +296,7 @@
         "entity_name": "RemoteProcessor",
         "extends": [],
         "get": false,
-        "package": "Rufus API",
+        "package": "rufus",
         "resource_name": "remoteprocessors",
         "rest_name": "remoteprocessor",
         "root": null,

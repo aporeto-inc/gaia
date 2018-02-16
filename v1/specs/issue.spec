@@ -152,7 +152,7 @@
             "@realm"
         ],
         "get": false,
-        "package": "Midgard API",
+        "package": "midgard",
         "resource_name": "issue",
         "rest_name": "issue",
         "root": null,
