@@ -34,6 +34,7 @@ func init() {
 	elemental.RegisterIdentity(InstallationIdentity)
 	elemental.RegisterIdentity(IsolationProfileIdentity)
 	elemental.RegisterIdentity(IssueIdentity)
+	elemental.RegisterIdentity(JaegerbatchIdentity)
 	elemental.RegisterIdentity(KubernetesClusterIdentity)
 	elemental.RegisterIdentity(LogIdentity)
 	elemental.RegisterIdentity(MessageIdentity)
@@ -135,6 +136,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewIsolationProfile()
 	case IssueIdentity.Name:
 		return NewIssue()
+	case JaegerbatchIdentity.Name:
+		return NewJaegerbatch()
 	case KubernetesClusterIdentity.Name:
 		return NewKubernetesCluster()
 	case LogIdentity.Name:
@@ -267,6 +270,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewIsolationProfile()
 	case IssueIdentity.Category:
 		return NewIssue()
+	case JaegerbatchIdentity.Category:
+		return NewJaegerbatch()
 	case KubernetesClusterIdentity.Category:
 		return NewKubernetesCluster()
 	case LogIdentity.Category:
@@ -399,6 +404,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &IsolationProfilesList{}
 	case IssueIdentity.Name:
 		return &IssuesList{}
+	case JaegerbatchIdentity.Name:
+		return &JaegerbatchsList{}
 	case KubernetesClusterIdentity.Name:
 		return &KubernetesClustersList{}
 	case LogIdentity.Name:
@@ -530,6 +537,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &IsolationProfilesList{}
 	case IssueIdentity.Category:
 		return &IssuesList{}
+	case JaegerbatchIdentity.Category:
+		return &JaegerbatchsList{}
 	case KubernetesClusterIdentity.Category:
 		return &KubernetesClustersList{}
 	case LogIdentity.Category:
@@ -630,6 +639,7 @@ func AllIdentities() []elemental.Identity {
 		InstallationIdentity,
 		IsolationProfileIdentity,
 		IssueIdentity,
+		JaegerbatchIdentity,
 		KubernetesClusterIdentity,
 		LogIdentity,
 		MessageIdentity,
@@ -692,6 +702,7 @@ var aliasesMap = map[string]elemental.Identity{
 	"hookpol":    HookPolicyIdentity,
 	"hookpols":   HookPolicyIdentity,
 	"ip":         IsolationProfileIdentity,
+	"sp":         JaegerbatchIdentity,
 	"mess":       MessageIdentity,
 	"ns":         NamespaceIdentity,
 	"nspolicy":   NamespaceMappingPolicyIdentity,
@@ -838,6 +849,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case IssueIdentity:
 		return []string{}
+	case JaegerbatchIdentity:
+		return []string{
+			"sp",
+		}
 	case KubernetesClusterIdentity:
 		return []string{}
 	case LogIdentity:
