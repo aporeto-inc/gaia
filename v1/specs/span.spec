@@ -46,7 +46,7 @@
         "exposed": true,
         "extends": [],
         "get": false,
-        "package": null,
+        "package": "meister",
         "private": null,
         "resource_name": "spans",
         "rest_name": "span",
