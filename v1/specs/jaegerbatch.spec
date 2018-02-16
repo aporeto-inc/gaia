@@ -29,7 +29,7 @@
             "secret": null,
             "setter": null,
             "stored": true,
-            "subtype": "*jaeger.Batch",
+            "subtype": "jaeger_batch",
             "transient": null,
             "type": "external",
             "unique": null,
