@@ -223,7 +223,7 @@
         "entity_name": "RenderedPolicy",
         "extends": [],
         "get": false,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "renderedpolicies",
         "rest_name": "renderedpolicy",
         "root": false,

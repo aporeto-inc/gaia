@@ -48,7 +48,7 @@
         "entity_name": "ExternalAccess",
         "extends": [],
         "get": false,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "externalaccesses",
         "rest_name": "externalaccess",
         "root": null,

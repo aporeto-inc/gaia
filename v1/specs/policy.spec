@@ -274,7 +274,7 @@
             "@schedulable"
         ],
         "get": true,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "policies",
         "rest_name": "policy",
         "root": null,

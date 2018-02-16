@@ -262,7 +262,7 @@
             "@timeable"
         ],
         "get": true,
-        "package": "Vince API",
+        "package": "vince",
         "resource_name": "awsaccounts",
         "rest_name": "awsaccount",
         "root": null,

@@ -133,7 +133,7 @@
             "@schedulable"
         ],
         "get": true,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "processingunitpolicies",
         "rest_name": "processingunitpolicy",
         "root": null,

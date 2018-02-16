@@ -150,7 +150,7 @@
         "entity_name": "Role",
         "extends": [],
         "get": false,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "roles",
         "rest_name": "role",
         "root": null,

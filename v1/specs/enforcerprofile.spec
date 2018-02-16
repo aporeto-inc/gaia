@@ -935,7 +935,7 @@
             "@named"
         ],
         "get": true,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "enforcerprofiles",
         "rest_name": "enforcerprofile",
         "root": null,

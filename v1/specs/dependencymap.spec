@@ -155,7 +155,7 @@
             "@identifiable-nopk-nostored"
         ],
         "get": false,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "dependencymaps",
         "rest_name": "dependencymap",
         "root": null,

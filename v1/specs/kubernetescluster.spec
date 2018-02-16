@@ -328,7 +328,7 @@
             "@timeable"
         ],
         "get": true,
-        "package": "Vince API",
+        "package": "vince",
         "resource_name": "kubernetesclusters",
         "rest_name": "kubernetescluster",
         "root": null,

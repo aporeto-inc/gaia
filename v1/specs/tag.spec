@@ -117,7 +117,7 @@
             "@identifiable-nopk-stored"
         ],
         "get": false,
-        "package": "Squall API",
+        "package": "squall",
         "resource_name": "tags",
         "rest_name": "tag",
         "root": null,

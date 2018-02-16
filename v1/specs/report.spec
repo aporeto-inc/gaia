@@ -192,7 +192,7 @@
         "entity_name": "Report",
         "extends": [],
         "get": false,
-        "package": "Zack API",
+        "package": "zack",
         "resource_name": "reports",
         "rest_name": "report",
         "root": null,

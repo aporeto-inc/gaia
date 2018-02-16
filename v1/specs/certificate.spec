@@ -436,7 +436,7 @@
             "@timeable"
         ],
         "get": true,
-        "package": "Vince API",
+        "package": "vince",
         "resource_name": "certificates",
         "rest_name": "certificate",
         "root": null,

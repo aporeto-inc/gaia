@@ -45,7 +45,7 @@
         "entity_name": "Auth",
         "extends": [],
         "get": false,
-        "package": "Midgard API",
+        "package": "midgard",
         "resource_name": "auth",
         "rest_name": "auth",
         "root": null,
