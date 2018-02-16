@@ -53,6 +53,6 @@
         "resource_name": "jaegerbatchs",
         "rest_name": "jaegerbatch",
         "root": null,
-        "update": true
+        "update": false
     }
 }
