@@ -38,10 +38,12 @@
     ],
     "children": [],
     "model": {
-        "aliases": [],
+        "aliases": [
+            "sp"
+        ],
         "create": null,
         "delete": false,
-        "description": null,
+        "description": "A span is a batch of jaeger spans.",
         "entity_name": "Span",
         "exposed": true,
         "extends": [],
