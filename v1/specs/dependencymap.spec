@@ -144,18 +144,20 @@
     "children": [],
     "model": {
         "aliases": [
-            "depmap",
-            "depmaps"
+            "depmaps",
+            "depmap"
         ],
         "create": false,
         "delete": false,
         "description": "This api returns a data structure representing the graph of all processing units and their connections in a particular namespace, in a given time window. To pass the time window you can use the query parameters \"startAbsolute\", \"endAbsolute\", \"startRelative\", \"endRelative\".  For example \"https://squall.aporeto.com/dependencymaps?startAbsolute=1489132800000&endAbsolute=1489219200000\"",
         "entity_name": "DependencyMap",
+        "exposed": true,
         "extends": [
             "@identifiable-nopk-nostored"
         ],
         "get": false,
-        "package": "squall",
+        "package": "jenova",
+        "private": false,
         "resource_name": "dependencymaps",
         "rest_name": "dependencymap",
         "root": null,
