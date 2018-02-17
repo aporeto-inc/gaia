@@ -713,10 +713,10 @@ var aliasesMap = map[string]elemental.Identity{
 	"rpols":      RenderedPolicyIdentity,
 	"srv":        ServiceIdentity,
 	"sq":         StatsQueryIdentity,
-	"sugpol":     SuggestedPolicyIdentity,
-	"sugpols":    SuggestedPolicyIdentity,
-	"sugg":       SuggestedPolicyIdentity,
 	"suggs":      SuggestedPolicyIdentity,
+	"sugg":       SuggestedPolicyIdentity,
+	"sugpols":    SuggestedPolicyIdentity,
+	"sugpol":     SuggestedPolicyIdentity,
 	"table":      TabulationIdentity,
 	"tables":     TabulationIdentity,
 	"tabs":       TabulationIdentity,
@@ -918,10 +918,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case SuggestedPolicyIdentity:
 		return []string{
-			"sugpol",
-			"sugpols",
-			"sugg",
 			"suggs",
+			"sugg",
+			"sugpols",
+			"sugpol",
 		}
 	case SystemCallIdentity:
 		return []string{}
