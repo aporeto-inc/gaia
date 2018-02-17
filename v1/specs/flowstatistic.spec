@@ -329,18 +329,20 @@
     "children": [],
     "model": {
         "aliases": [
-            "flowstats",
-            "flowstat"
+            "flowstat",
+            "flowstats"
         ],
         "create": false,
         "delete": false,
         "description": "Returns network access statistics on a particular processing unit or group of processing units based on their tags.",
         "entity_name": "FlowStatistic",
+        "exposed": true,
         "extends": [
             "@identifiable-nopk-nostored"
         ],
         "get": false,
-        "package": "squall",
+        "package": "jenova",
+        "private": false,
         "resource_name": "flowstatistics",
         "rest_name": "flowstatistic",
         "root": null,
