@@ -39,16 +39,18 @@
     "children": [],
     "model": {
         "aliases": [
-            "extac",
-            "extacs"
+            "extacs",
+            "extac"
         ],
         "create": null,
         "delete": false,
         "description": "ExternalAccess allows to retrieve connection from or to an external service",
         "entity_name": "ExternalAccess",
+        "exposed": true,
         "extends": [],
         "get": false,
-        "package": "squall",
+        "package": "jenova",
+        "private": false,
         "resource_name": "externalaccesses",
         "rest_name": "externalaccess",
         "root": null,
