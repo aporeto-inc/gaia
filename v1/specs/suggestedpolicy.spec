@@ -39,10 +39,10 @@
     "children": [],
     "model": {
         "aliases": [
-            "suggs",
-            "sugg",
+            "sugpol",
             "sugpols",
-            "sugpol"
+            "sugg",
+            "suggs"
         ],
         "create": null,
         "delete": false,
@@ -51,7 +51,7 @@
         "exposed": true,
         "extends": [],
         "get": false,
-        "package": "squall",
+        "package": "jenova",
         "private": false,
         "resource_name": "suggestedpolicies",
         "rest_name": "suggestedpolicy",
