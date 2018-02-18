@@ -8,7 +8,14 @@
         "description": null,
         "entity_name": "Apiservice",
         "exposed": true,
-        "extends": [],
+        "extends": [
+            "@archivable",
+            "@base",
+            "@described",
+            "@identifiable-pk-stored",
+            "@metadatable",
+            "@named"
+        ],
         "get": true,
         "package": null,
         "private": null,
