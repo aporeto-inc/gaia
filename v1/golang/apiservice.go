@@ -84,6 +84,9 @@ func (o APIservicesList) Version() int {
 
 // APIservice represents the model of a apiservice
 type APIservice struct {
+	// AllServiceTags is an internal object that summarizes all the implementedBy tags to accelerate database searches. It is not exposed.
+	AllServiceTags []string `json:"-" bson:"allservicetags" mapstructure:"-,omitempty"`
+
 	// ExposedAPIs is a list of API endpoints that are exposed for the service.
 	ExposedAPIs []*types.ExposedAPIList `json:"exposedAPIs" bson:"exposedapis" mapstructure:"exposedAPIs,omitempty"`
 
@@ -151,6 +154,7 @@ func NewAPIservice() *APIservice {
 
 	return &APIservice{
 		ModelVersion:   1,
+		AllServiceTags: []string{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		ExposedAPIs:    []*types.ExposedAPIList{},
@@ -399,6 +403,15 @@ var APIserviceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 		Unique:         true,
+	},
+	"AllServiceTags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AllServiceTags",
+		Description:    `AllServiceTags is an internal object that summarizes all the implementedBy tags to accelerate database searches. It is not exposed.`,
+		Name:           "allServiceTags",
+		Stored:         true,
+		SubType:        "tags_list",
+		Type:           "external",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -660,6 +673,15 @@ var APIserviceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Stored:         true,
 		Type:           "string",
 		Unique:         true,
+	},
+	"allservicetags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AllServiceTags",
+		Description:    `AllServiceTags is an internal object that summarizes all the implementedBy tags to accelerate database searches. It is not exposed.`,
+		Name:           "allServiceTags",
+		Stored:         true,
+		SubType:        "tags_list",
+		Type:           "external",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
