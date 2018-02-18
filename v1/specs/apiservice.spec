@@ -290,8 +290,8 @@
         "aliases": [],
         "create": null,
         "delete": true,
-        "description": "APIservice descibes a L4/L7 service and the corresponding implementation. It allows users to define their services, the APIs that they expose, the implementation of the service. These definitions can be used by network policy in order to define advanced controls based on the APIs.",
-        "entity_name": "APIservice",
+        "description": "APIService descibes a L4/L7 service and the corresponding implementation. It allows users to define their services, the APIs that they expose, the implementation of the service. These definitions can be used by network policy in order to define advanced controls based on the APIs.",
+        "entity_name": "APIService",
         "exposed": true,
         "extends": [
             "@archivable",
