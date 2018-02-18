@@ -6,7 +6,7 @@
         "create": null,
         "delete": true,
         "description": null,
-        "entity_name": "APIService",
+        "entity_name": "Apiservice",
         "exposed": true,
         "extends": [],
         "get": true,
