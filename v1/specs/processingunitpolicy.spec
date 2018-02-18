@@ -113,7 +113,20 @@
             "uniqueScope": null
         }
     ],
-    "children": [],
+    "children": [
+        {
+            "bulk_create": false,
+            "bulk_delete": false,
+            "bulk_update": false,
+            "create": false,
+            "delete": false,
+            "deprecated": null,
+            "get": true,
+            "relationship": "child",
+            "rest_name": "apiservice",
+            "update": false
+        }
+    ],
     "model": {
         "aliases": [
             "pup"
@@ -122,6 +135,7 @@
         "delete": true,
         "description": null,
         "entity_name": "ProcessingUnitPolicy",
+        "exposed": true,
         "extends": [
             "@base",
             "@described",
@@ -134,6 +148,7 @@
         ],
         "get": true,
         "package": "squall",
+        "private": false,
         "resource_name": "processingunitpolicies",
         "rest_name": "processingunitpolicy",
         "root": null,
