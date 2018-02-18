@@ -46,6 +46,21 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[APIserviceIdentity] = &elemental.Relationship{
+		AllowsUpdate: map[string]bool{
+			"root": true,
+		},
+		AllowsPatch: map[string]bool{
+			"root": true,
+		},
+		AllowsDelete: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieve: map[string]bool{
+			"root": true,
+		},
+	}
+
 	relationshipsRegistry[AWSAccountIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
 			"root": true,

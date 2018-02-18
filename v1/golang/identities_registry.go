@@ -10,6 +10,7 @@ func init() {
 	elemental.RegisterIdentity(ActivityIdentity)
 	elemental.RegisterIdentity(APIAuthorizationPolicyIdentity)
 	elemental.RegisterIdentity(APICheckIdentity)
+	elemental.RegisterIdentity(APIserviceIdentity)
 	elemental.RegisterIdentity(AuditProfileIdentity)
 	elemental.RegisterIdentity(AuthIdentity)
 	elemental.RegisterIdentity(AuthorityIdentity)
@@ -87,6 +88,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewAPIAuthorizationPolicy()
 	case APICheckIdentity.Name:
 		return NewAPICheck()
+	case APIserviceIdentity.Name:
+		return NewAPIservice()
 	case AuditProfileIdentity.Name:
 		return NewAuditProfile()
 	case AuthIdentity.Name:
@@ -219,6 +222,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewAPIAuthorizationPolicy()
 	case APICheckIdentity.Category:
 		return NewAPICheck()
+	case APIserviceIdentity.Category:
+		return NewAPIservice()
 	case AuditProfileIdentity.Category:
 		return NewAuditProfile()
 	case AuthIdentity.Category:
@@ -351,6 +356,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &APIAuthorizationPoliciesList{}
 	case APICheckIdentity.Name:
 		return &APIChecksList{}
+	case APIserviceIdentity.Name:
+		return &APIservicesList{}
 	case AuditProfileIdentity.Name:
 		return &AuditProfilesList{}
 	case AuthIdentity.Name:
@@ -482,6 +489,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &APIAuthorizationPoliciesList{}
 	case APICheckIdentity.Category:
 		return &APIChecksList{}
+	case APIserviceIdentity.Category:
+		return &APIservicesList{}
 	case AuditProfileIdentity.Category:
 		return &AuditProfilesList{}
 	case AuthIdentity.Category:
@@ -606,6 +615,7 @@ func AllIdentities() []elemental.Identity {
 		ActivityIdentity,
 		APIAuthorizationPolicyIdentity,
 		APICheckIdentity,
+		APIserviceIdentity,
 		AuditProfileIdentity,
 		AuthIdentity,
 		AuthorityIdentity,
@@ -751,6 +761,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"apiauths",
 		}
 	case APICheckIdentity:
+		return []string{}
+	case APIserviceIdentity:
 		return []string{}
 	case AuditProfileIdentity:
 		return []string{
