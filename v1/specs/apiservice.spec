@@ -116,7 +116,7 @@
             "channel": null,
             "creation_only": null,
             "default_order": null,
-            "default_value": null,
+            "default_value": "L3",
             "deprecated": null,
             "description": "Type is the type of the service (HTTP, TCP, etc). More types will be added to the system.",
             "exposed": true,
