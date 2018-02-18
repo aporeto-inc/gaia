@@ -46,7 +46,7 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[APIserviceIdentity] = &elemental.Relationship{
+	relationshipsRegistry[APIServiceIdentity] = &elemental.Relationship{
 		AllowsUpdate: map[string]bool{
 			"root": true,
 		},

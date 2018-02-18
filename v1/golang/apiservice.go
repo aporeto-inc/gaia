@@ -9,56 +9,56 @@ import (
 	"time"
 )
 
-// APIserviceTypeValue represents the possible values for attribute "type".
-type APIserviceTypeValue string
+// APIServiceTypeValue represents the possible values for attribute "type".
+type APIServiceTypeValue string
 
 const (
-	// APIserviceTypeHttp represents the value HTTP.
-	APIserviceTypeHttp APIserviceTypeValue = "HTTP"
+	// APIServiceTypeHttp represents the value HTTP.
+	APIServiceTypeHttp APIServiceTypeValue = "HTTP"
 
-	// APIserviceTypeL3 represents the value L3.
-	APIserviceTypeL3 APIserviceTypeValue = "L3"
+	// APIServiceTypeL3 represents the value L3.
+	APIServiceTypeL3 APIServiceTypeValue = "L3"
 
-	// APIserviceTypeTcp represents the value TCP.
-	APIserviceTypeTcp APIserviceTypeValue = "TCP"
+	// APIServiceTypeTcp represents the value TCP.
+	APIServiceTypeTcp APIServiceTypeValue = "TCP"
 )
 
-// APIserviceIdentity represents the Identity of the object.
-var APIserviceIdentity = elemental.Identity{
+// APIServiceIdentity represents the Identity of the object.
+var APIServiceIdentity = elemental.Identity{
 	Name:     "apiservice",
 	Category: "apiservices",
 	Private:  false,
 }
 
-// APIservicesList represents a list of APIservices
-type APIservicesList []*APIservice
+// APIServicesList represents a list of APIServices
+type APIServicesList []*APIService
 
 // ContentIdentity returns the identity of the objects in the list.
-func (o APIservicesList) ContentIdentity() elemental.Identity {
+func (o APIServicesList) ContentIdentity() elemental.Identity {
 
-	return APIserviceIdentity
+	return APIServiceIdentity
 }
 
-// Copy returns a pointer to a copy the APIservicesList.
-func (o APIservicesList) Copy() elemental.ContentIdentifiable {
+// Copy returns a pointer to a copy the APIServicesList.
+func (o APIServicesList) Copy() elemental.ContentIdentifiable {
 
-	copy := append(APIservicesList{}, o...)
+	copy := append(APIServicesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the APIservicesList.
-func (o APIservicesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+// Append appends the objects to the a new copy of the APIServicesList.
+func (o APIServicesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
 
-	out := append(APIservicesList{}, o...)
+	out := append(APIServicesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*APIservice))
+		out = append(out, obj.(*APIService))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o APIservicesList) List() elemental.IdentifiablesList {
+func (o APIServicesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}
 	for _, item := range o {
@@ -69,7 +69,7 @@ func (o APIservicesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o APIservicesList) DefaultOrder() []string {
+func (o APIServicesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -77,13 +77,13 @@ func (o APIservicesList) DefaultOrder() []string {
 }
 
 // Version returns the version of the content.
-func (o APIservicesList) Version() int {
+func (o APIServicesList) Version() int {
 
 	return 1
 }
 
-// APIservice represents the model of a apiservice
-type APIservice struct {
+// APIService represents the model of a apiservice
+type APIService struct {
 	// AllServiceTags is an internal object that summarizes all the implementedBy tags to accelerate database searches. It is not exposed.
 	AllServiceTags []string `json:"-" bson:"allservicetags" mapstructure:"-,omitempty"`
 
@@ -106,7 +106,7 @@ type APIservice struct {
 	Port int `json:"port" bson:"port" mapstructure:"port,omitempty"`
 
 	// Type is the type of the service (HTTP, TCP, etc). More types will be added to the system.
-	Type APIserviceTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
+	Type APIServiceTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	// Archived defines if the object is archived.
 	Archived bool `json:"-" bson:"archived" mapstructure:"-,omitempty"`
@@ -149,10 +149,10 @@ type APIservice struct {
 	sync.Mutex
 }
 
-// NewAPIservice returns a new *APIservice
-func NewAPIservice() *APIservice {
+// NewAPIService returns a new *APIService
+func NewAPIService() *APIService {
 
-	return &APIservice{
+	return &APIService{
 		ModelVersion:   1,
 		AllServiceTags: []string{},
 		Annotations:    map[string][]string{},
@@ -168,31 +168,31 @@ func NewAPIservice() *APIservice {
 }
 
 // Identity returns the Identity of the object.
-func (o *APIservice) Identity() elemental.Identity {
+func (o *APIService) Identity() elemental.Identity {
 
-	return APIserviceIdentity
+	return APIServiceIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *APIservice) Identifier() string {
+func (o *APIService) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *APIservice) SetIdentifier(id string) {
+func (o *APIService) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *APIservice) Version() int {
+func (o *APIService) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *APIservice) DefaultOrder() []string {
+func (o *APIService) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -200,131 +200,131 @@ func (o *APIservice) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *APIservice) Doc() string {
+func (o *APIService) Doc() string {
 	return `APIService descibes a L4/L7 service and the corresponding implementation. It allows users to define their services, the APIs that they expose, the implementation of the service. These definitions can be used by network policy in order to define advanced controls based on the APIs.`
 }
 
-func (o *APIservice) String() string {
+func (o *APIService) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetArchived returns the Archived of the receiver.
-func (o *APIservice) GetArchived() bool {
+func (o *APIService) GetArchived() bool {
 
 	return o.Archived
 }
 
 // SetArchived sets the given Archived of the receiver.
-func (o *APIservice) SetArchived(archived bool) {
+func (o *APIService) SetArchived(archived bool) {
 
 	o.Archived = archived
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *APIservice) GetAnnotations() map[string][]string {
+func (o *APIService) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the given Annotations of the receiver.
-func (o *APIservice) SetAnnotations(annotations map[string][]string) {
+func (o *APIService) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *APIservice) GetAssociatedTags() []string {
+func (o *APIService) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the given AssociatedTags of the receiver.
-func (o *APIservice) SetAssociatedTags(associatedTags []string) {
+func (o *APIService) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *APIservice) GetCreateTime() time.Time {
+func (o *APIService) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the given CreateTime of the receiver.
-func (o *APIservice) SetCreateTime(createTime time.Time) {
+func (o *APIService) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *APIservice) GetNamespace() string {
+func (o *APIService) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the given Namespace of the receiver.
-func (o *APIservice) SetNamespace(namespace string) {
+func (o *APIService) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *APIservice) GetNormalizedTags() []string {
+func (o *APIService) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *APIservice) SetNormalizedTags(normalizedTags []string) {
+func (o *APIService) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *APIservice) GetProtected() bool {
+func (o *APIService) GetProtected() bool {
 
 	return o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *APIservice) GetUpdateTime() time.Time {
+func (o *APIService) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *APIservice) SetUpdateTime(updateTime time.Time) {
+func (o *APIService) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *APIservice) GetMetadata() []string {
+func (o *APIService) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the given Metadata of the receiver.
-func (o *APIservice) SetMetadata(metadata []string) {
+func (o *APIService) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *APIservice) GetName() string {
+func (o *APIService) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the given Name of the receiver.
-func (o *APIservice) SetName(name string) {
+func (o *APIService) SetName(name string) {
 
 	o.Name = name
 }
 
 // Validate valides the current information stored into the structure.
-func (o *APIservice) Validate() error {
+func (o *APIService) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -369,24 +369,24 @@ func (o *APIservice) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*APIservice) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*APIService) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := APIserviceAttributesMap[name]; ok {
+	if v, ok := APIServiceAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return APIserviceLowerCaseAttributesMap[name]
+	return APIServiceLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*APIservice) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*APIService) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return APIserviceAttributesMap
+	return APIServiceAttributesMap
 }
 
-// APIserviceAttributesMap represents the map of attribute for APIservice.
-var APIserviceAttributesMap = map[string]elemental.AttributeSpecification{
+// APIServiceAttributesMap represents the map of attribute for APIService.
+var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -629,7 +629,7 @@ var APIserviceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"HTTP", "L3", "TCP"},
 		ConvertedName:  "Type",
-		DefaultValue:   APIserviceTypeL3,
+		DefaultValue:   APIServiceTypeL3,
 		Description:    `Type is the type of the service (HTTP, TCP, etc). More types will be added to the system.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -655,8 +655,8 @@ var APIserviceAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// APIserviceLowerCaseAttributesMap represents the map of attribute for APIservice.
-var APIserviceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// APIServiceLowerCaseAttributesMap represents the map of attribute for APIService.
+var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -899,7 +899,7 @@ var APIserviceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"HTTP", "L3", "TCP"},
 		ConvertedName:  "Type",
-		DefaultValue:   APIserviceTypeL3,
+		DefaultValue:   APIServiceTypeL3,
 		Description:    `Type is the type of the service (HTTP, TCP, etc). More types will be added to the system.`,
 		Exposed:        true,
 		Filterable:     true,
