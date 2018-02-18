@@ -302,7 +302,7 @@
             "@named"
         ],
         "get": true,
-        "package": null,
+        "package": "squall",
         "private": null,
         "resource_name": "apiservices",
         "rest_name": "apiservice",
