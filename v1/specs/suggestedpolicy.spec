@@ -45,15 +45,17 @@
             "suggs"
         ],
         "create": null,
-        "delete": true,
+        "delete": false,
         "description": "Allows to get policy suggestions",
         "entity_name": "SuggestedPolicy",
+        "exposed": true,
         "extends": [],
-        "get": true,
-        "package": "squall",
+        "get": false,
+        "package": "jenova",
+        "private": false,
         "resource_name": "suggestedpolicies",
         "rest_name": "suggestedpolicy",
         "root": null,
-        "update": true
+        "update": false
     }
 }
