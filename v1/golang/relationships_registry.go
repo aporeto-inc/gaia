@@ -59,6 +59,12 @@ func init() {
 		AllowsRetrieve: map[string]bool{
 			"root": true,
 		},
+		AllowsRetrieveMany: map[string]bool{
+			"processingunit": true,
+		},
+		AllowsInfo: map[string]bool{
+			"processingunit": true,
+		},
 	}
 
 	relationshipsRegistry[AWSAccountIdentity] = &elemental.Relationship{
