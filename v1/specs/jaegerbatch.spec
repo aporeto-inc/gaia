@@ -10,7 +10,7 @@
             "default_value": null,
             "deprecated": null,
             "description": "Represent an jaeger batch",
-            "exposed": false,
+            "exposed": true,
             "filterable": false,
             "foreign_key": null,
             "format": null,
