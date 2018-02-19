@@ -4,3 +4,5 @@
 codegen
 *.pyc
 greetingmodels
+vendor
+*.lock
