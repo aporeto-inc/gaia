@@ -47,6 +47,9 @@ func init() {
 	}
 
 	relationshipsRegistry[APIServiceIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
 		AllowsUpdate: map[string]bool{
 			"root": true,
 		},
@@ -61,9 +64,11 @@ func init() {
 		},
 		AllowsRetrieveMany: map[string]bool{
 			"processingunit": true,
+			"root":           true,
 		},
 		AllowsInfo: map[string]bool{
 			"processingunit": true,
+			"root":           true,
 		},
 	}
 
