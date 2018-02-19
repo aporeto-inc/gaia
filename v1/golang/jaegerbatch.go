@@ -68,7 +68,7 @@ func (o JaegerbatchsList) Version() int {
 // Jaegerbatch represents the model of a jaegerbatch
 type Jaegerbatch struct {
 	// Represent an jaeger batch
-	Batch *jaeger.Batch `json:"-" bson:"batch" mapstructure:"-,omitempty"`
+	Batch *jaeger.Batch `json:"batch" bson:"batch" mapstructure:"batch,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -164,6 +164,7 @@ var JaegerbatchAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Batch",
 		CreationOnly:   true,
 		Description:    `Represent an jaeger batch`,
+		Exposed:        true,
 		Name:           "batch",
 		Stored:         true,
 		SubType:        "jaeger_batch",
@@ -178,6 +179,7 @@ var JaegerbatchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		ConvertedName:  "Batch",
 		CreationOnly:   true,
 		Description:    `Represent an jaeger batch`,
+		Exposed:        true,
 		Name:           "batch",
 		Stored:         true,
 		SubType:        "jaeger_batch",
