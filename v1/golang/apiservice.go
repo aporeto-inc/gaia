@@ -88,13 +88,13 @@ type APIService struct {
 	FQDN string `json:"FQDN" bson:"fqdn" mapstructure:"FQDN,omitempty"`
 
 	// IPList is the list of ip address or subnets of the service if available.
-	IPList []*types.IPList `json:"IPList" bson:"iplist" mapstructure:"IPList,omitempty"`
+	IPList types.IPList `json:"IPList" bson:"iplist" mapstructure:"IPList,omitempty"`
 
 	// AllServiceTags is an internal object that summarizes all the implementedBy tags to accelerate database searches. It is not exposed.
 	AllServiceTags []string `json:"-" bson:"allservicetags" mapstructure:"-,omitempty"`
 
 	// ExposedAPIs is a list of API endpoints that are exposed for the service.
-	ExposedAPIs []*types.ExposedAPIList `json:"exposedAPIs" bson:"exposedapis" mapstructure:"exposedAPIs,omitempty"`
+	ExposedAPIs types.ExposedAPIList `json:"exposedAPIs" bson:"exposedapis" mapstructure:"exposedAPIs,omitempty"`
 
 	// External is a boolean that indicates if this is an external service.
 	External bool `json:"external" bson:"external" mapstructure:"external,omitempty"`
@@ -157,9 +157,9 @@ func NewAPIService() *APIService {
 		AllServiceTags: []string{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		ExposedAPIs:    []*types.ExposedAPIList{},
+		ExposedAPIs:    types.ExposedAPIList{},
 		External:       false,
-		IPList:         []*types.IPList{},
+		IPList:         types.IPList{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
 		Port:           443,
