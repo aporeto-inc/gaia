@@ -359,10 +359,10 @@ func init() {
 
 	relationshipsRegistry[FileAccessIdentity] = &elemental.Relationship{
 		AllowsRetrieveMany: map[string]bool{
-			"processingunit": true,
+			"root": true,
 		},
 		AllowsInfo: map[string]bool{
-			"processingunit": true,
+			"root": true,
 		},
 	}
 
@@ -502,6 +502,12 @@ func init() {
 	}
 
 	relationshipsRegistry[IssueIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+	}
+
+	relationshipsRegistry[JaegerbatchIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
 			"root": true,
 		},
@@ -863,18 +869,6 @@ func init() {
 	}
 
 	relationshipsRegistry[SuggestedPolicyIdentity] = &elemental.Relationship{
-		AllowsUpdate: map[string]bool{
-			"root": true,
-		},
-		AllowsPatch: map[string]bool{
-			"root": true,
-		},
-		AllowsDelete: map[string]bool{
-			"root": true,
-		},
-		AllowsRetrieve: map[string]bool{
-			"root": true,
-		},
 		AllowsRetrieveMany: map[string]bool{
 			"root": true,
 		},

@@ -35,6 +35,7 @@ func init() {
 	elemental.RegisterIdentity(InstallationIdentity)
 	elemental.RegisterIdentity(IsolationProfileIdentity)
 	elemental.RegisterIdentity(IssueIdentity)
+	elemental.RegisterIdentity(JaegerbatchIdentity)
 	elemental.RegisterIdentity(KubernetesClusterIdentity)
 	elemental.RegisterIdentity(LogIdentity)
 	elemental.RegisterIdentity(MessageIdentity)
@@ -138,6 +139,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewIsolationProfile()
 	case IssueIdentity.Name:
 		return NewIssue()
+	case JaegerbatchIdentity.Name:
+		return NewJaegerbatch()
 	case KubernetesClusterIdentity.Name:
 		return NewKubernetesCluster()
 	case LogIdentity.Name:
@@ -272,6 +275,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewIsolationProfile()
 	case IssueIdentity.Category:
 		return NewIssue()
+	case JaegerbatchIdentity.Category:
+		return NewJaegerbatch()
 	case KubernetesClusterIdentity.Category:
 		return NewKubernetesCluster()
 	case LogIdentity.Category:
@@ -406,6 +411,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &IsolationProfilesList{}
 	case IssueIdentity.Name:
 		return &IssuesList{}
+	case JaegerbatchIdentity.Name:
+		return &JaegerbatchsList{}
 	case KubernetesClusterIdentity.Name:
 		return &KubernetesClustersList{}
 	case LogIdentity.Name:
@@ -539,6 +546,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &IsolationProfilesList{}
 	case IssueIdentity.Category:
 		return &IssuesList{}
+	case JaegerbatchIdentity.Category:
+		return &JaegerbatchsList{}
 	case KubernetesClusterIdentity.Category:
 		return &KubernetesClustersList{}
 	case LogIdentity.Category:
@@ -640,6 +649,7 @@ func AllIdentities() []elemental.Identity {
 		InstallationIdentity,
 		IsolationProfileIdentity,
 		IssueIdentity,
+		JaegerbatchIdentity,
 		KubernetesClusterIdentity,
 		LogIdentity,
 		MessageIdentity,
@@ -683,25 +693,26 @@ var aliasesMap = map[string]elemental.Identity{
 	"aws":        AWSAccountIdentity,
 	"awsaccs":    AWSAccountIdentity,
 	"awsacc":     AWSAccountIdentity,
-	"depmap":     DependencyMapIdentity,
 	"depmaps":    DependencyMapIdentity,
+	"depmap":     DependencyMapIdentity,
 	"profile":    EnforcerProfileIdentity,
 	"profiles":   EnforcerProfileIdentity,
 	"srvpols":    EnforcerProfileMappingPolicyIdentity,
 	"srvpol":     EnforcerProfileMappingPolicyIdentity,
-	"extac":      ExternalAccessIdentity,
 	"extacs":     ExternalAccessIdentity,
+	"extac":      ExternalAccessIdentity,
 	"extsrv":     ExternalServiceIdentity,
 	"extsrvs":    ExternalServiceIdentity,
 	"fp":         FilePathIdentity,
 	"fps":        FilePathIdentity,
-	"flowstats":  FlowStatisticIdentity,
 	"flowstat":   FlowStatisticIdentity,
+	"flowstats":  FlowStatisticIdentity,
 	"hook":       HookPolicyIdentity,
 	"hooks":      HookPolicyIdentity,
 	"hookpol":    HookPolicyIdentity,
 	"hookpols":   HookPolicyIdentity,
 	"ip":         IsolationProfileIdentity,
+	"sp":         JaegerbatchIdentity,
 	"mess":       MessageIdentity,
 	"ns":         NamespaceIdentity,
 	"nspolicy":   NamespaceMappingPolicyIdentity,
@@ -790,8 +801,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case DependencyMapIdentity:
 		return []string{
-			"depmap",
 			"depmaps",
+			"depmap",
 		}
 	case EmailIdentity:
 		return []string{}
@@ -811,8 +822,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case ExternalAccessIdentity:
 		return []string{
-			"extac",
 			"extacs",
+			"extac",
 		}
 	case ExternalServiceIdentity:
 		return []string{
@@ -830,8 +841,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case FlowStatisticIdentity:
 		return []string{
-			"flowstats",
 			"flowstat",
+			"flowstats",
 		}
 	case HookPolicyIdentity:
 		return []string{
@@ -850,6 +861,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case IssueIdentity:
 		return []string{}
+	case JaegerbatchIdentity:
+		return []string{
+			"sp",
+		}
 	case KubernetesClusterIdentity:
 		return []string{}
 	case LogIdentity:
