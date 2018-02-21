@@ -99,8 +99,14 @@ type APIService struct {
 	// External is a boolean that indicates if this is an external service.
 	External bool `json:"external" bson:"external" mapstructure:"external,omitempty"`
 
+	// ExternalServiceCA is the certificate authority that the service is using. This is needed for external API services with private certificate authorities. The field is optional. If provided, this must be a valid PEM CA file.
+	ExternalServiceCA string `json:"externalServiceCA" bson:"externalserviceca" mapstructure:"externalServiceCA,omitempty"`
+
 	// ImplementedBy is a list of tag selectors that identifies that Processing Units that will implement this service.
 	ImplementedBy [][]string `json:"implementedBy" bson:"implementedby" mapstructure:"implementedBy,omitempty"`
+
+	// NetworkProtocol is the network protocol of the service. Default is TCP.
+	NetworkProtocol int `json:"networkProtocol" bson:"networkprotocol" mapstructure:"networkProtocol,omitempty"`
 
 	// Port is the port of the service. Default 443.
 	Port int `json:"port" bson:"port" mapstructure:"port,omitempty"`
@@ -153,17 +159,18 @@ type APIService struct {
 func NewAPIService() *APIService {
 
 	return &APIService{
-		ModelVersion:   1,
-		AllServiceTags: []string{},
-		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
-		ExposedAPIs:    types.ExposedAPIList{},
-		External:       false,
-		IPList:         types.IPList{},
-		Metadata:       []string{},
-		NormalizedTags: []string{},
-		Port:           443,
-		Type:           "L3",
+		ModelVersion:    1,
+		AllServiceTags:  []string{},
+		Annotations:     map[string][]string{},
+		AssociatedTags:  []string{},
+		ExposedAPIs:     types.ExposedAPIList{},
+		External:        false,
+		IPList:          types.IPList{},
+		Metadata:        []string{},
+		NetworkProtocol: 6,
+		NormalizedTags:  []string{},
+		Port:            443,
+		Type:            "L3",
 	}
 }
 
@@ -334,6 +341,14 @@ func (o *APIService) Validate() error {
 	}
 
 	if err := elemental.ValidateRequiredExternal("implementedBy", o.ImplementedBy); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMaximumInt("networkProtocol", o.NetworkProtocol, int(255), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMinimumInt("networkProtocol", o.NetworkProtocol, int(1), false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -521,6 +536,16 @@ var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"ExternalServiceCA": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExternalServiceCA",
+		Description:    `ExternalServiceCA is the certificate authority that the service is using. This is needed for external API services with private certificate authorities. The field is optional. If provided, this must be a valid PEM CA file.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "externalServiceCA",
+		Stored:         true,
+		Type:           "string",
+	},
 	"ImplementedBy": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ImplementedBy",
@@ -583,6 +608,20 @@ var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"NetworkProtocol": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NetworkProtocol",
+		DefaultValue:   6,
+		Description:    `NetworkProtocol is the network protocol of the service. Default is TCP. `,
+		Exposed:        true,
+		Filterable:     true,
+		MaxValue:       255,
+		MinValue:       1,
+		Name:           "networkProtocol",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"NormalizedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -791,6 +830,16 @@ var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"externalserviceca": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExternalServiceCA",
+		Description:    `ExternalServiceCA is the certificate authority that the service is using. This is needed for external API services with private certificate authorities. The field is optional. If provided, this must be a valid PEM CA file.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "externalServiceCA",
+		Stored:         true,
+		Type:           "string",
+	},
 	"implementedby": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ImplementedBy",
@@ -853,6 +902,20 @@ var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"networkprotocol": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NetworkProtocol",
+		DefaultValue:   6,
+		Description:    `NetworkProtocol is the network protocol of the service. Default is TCP. `,
+		Exposed:        true,
+		Filterable:     true,
+		MaxValue:       255,
+		MinValue:       1,
+		Name:           "networkProtocol",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"normalizedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
