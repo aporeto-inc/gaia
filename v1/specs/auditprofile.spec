@@ -46,7 +46,7 @@
             "deprecated": null,
             "description": "Rules is the list of audit policy rules associated with this policy.",
             "exposed": true,
-            "filterable": true,
+            "filterable": false,
             "foreign_key": null,
             "format": null,
             "getter": null,
