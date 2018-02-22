@@ -481,6 +481,12 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[JaegerbatchIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+	}
+
 	relationshipsRegistry[KubernetesClusterIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
 			"root": true,
