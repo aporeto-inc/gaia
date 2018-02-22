@@ -24,7 +24,7 @@
             "name": "customerID",
             "orderable": true,
             "primary_key": null,
-            "read_only": null,
+            "read_only": true,
             "required": true,
             "secret": null,
             "setter": null,
