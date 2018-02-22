@@ -8,7 +8,9 @@
         "description": null,
         "entity_name": "InvoiceRecord",
         "exposed": true,
-        "extends": [],
+        "extends": [
+            "@identifiable-pk-stored"
+        ],
         "get": true,
         "package": null,
         "private": null,
