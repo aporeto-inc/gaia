@@ -15,6 +15,6 @@
         "resource_name": "customers",
         "rest_name": "customer",
         "root": null,
-        "update": true
+        "update": false
     }
 }
