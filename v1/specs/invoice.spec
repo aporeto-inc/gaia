@@ -9,7 +9,8 @@
         "entity_name": "Invoice",
         "exposed": true,
         "extends": [
-            "@identifiable-pk-stored"
+            "@identifiable-pk-stored",
+            "@timeable"
         ],
         "get": true,
         "package": null,
