@@ -83,7 +83,8 @@
         "entity_name": "Customer",
         "exposed": true,
         "extends": [
-            "@identifiable-pk-stored"
+            "@identifiable-pk-stored",
+            "@timeable"
         ],
         "get": true,
         "package": null,
