@@ -600,7 +600,6 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"LoadBalancerHTTP", "LoadBalancerTCP", "Network"},
 		ConvertedName:  "Type",
-		CreationOnly:   true,
 		DefaultValue:   ExternalServiceTypeNetwork,
 		Description:    `Type represents the type of external service.`,
 		Exposed:        true,
@@ -841,7 +840,6 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"LoadBalancerHTTP", "LoadBalancerTCP", "Network"},
 		ConvertedName:  "Type",
-		CreationOnly:   true,
 		DefaultValue:   ExternalServiceTypeNetwork,
 		Description:    `Type represents the type of external service.`,
 		Exposed:        true,
