@@ -10,7 +10,7 @@
             "channel": null,
             "creation_only": null,
             "default_order": null,
-            "default_value": null,
+            "default_value": "Aporeto",
             "deprecated": null,
             "description": "providerType specifies the cloud provider.",
             "exposed": true,
