@@ -114,7 +114,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "totalCost specifies the total amount to be billed to the customer.",
+            "description": "totalCost specifies the total amount to be billed to the customer in dollars.",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
