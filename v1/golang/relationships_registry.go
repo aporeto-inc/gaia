@@ -359,10 +359,12 @@ func init() {
 
 	relationshipsRegistry[FileAccessIdentity] = &elemental.Relationship{
 		AllowsRetrieveMany: map[string]bool{
-			"root": true,
+			"processingunit": true,
+			"root":           true,
 		},
 		AllowsInfo: map[string]bool{
-			"root": true,
+			"processingunit": true,
+			"root":           true,
 		},
 	}
 
