@@ -138,14 +138,11 @@ func DescendentsOfNamespace(manipulator manipulate.Manipulator, namespace *gaia.
 func AscendentsOfNamespace(manipulator manipulate.Manipulator, namespace *gaia.Namespace) (gaia.NamespacesList, error) {
 
 	names := NamespaceAncestorsNames(namespace.Name)
-	filter := manipulate.NewFilterComposer()
-	for i, name := range names {
-		if i == 0 {
-			filter.WithKey("name").Equals(name)
-		} else {
-			filter.OrKey("name").Equals(name)
-		}
+	subfilters := []*manipulate.Filter{}
+	for _, name := range names {
+		subfilters = append(subfilters, manipulate.NewFilterComposer().WithKey("name").Equals(name).Done())
 	}
+	filter := manipulate.NewFilterComposer().Or(subfilters...)
 
 	mctx := manipulate.NewContextWithFilter(filter.Done())
 	nss := gaia.NamespacesList{}
