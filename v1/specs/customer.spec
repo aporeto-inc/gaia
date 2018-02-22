@@ -8,7 +8,9 @@
         "description": null,
         "entity_name": "Customer",
         "exposed": true,
-        "extends": [],
+        "extends": [
+            "@identifiable-pk-stored"
+        ],
         "get": true,
         "package": null,
         "private": null,
