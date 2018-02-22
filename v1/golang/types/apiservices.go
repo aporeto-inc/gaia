@@ -16,3 +16,6 @@ type ExposedAPI struct {
 	Verbs []string `json:"verb" bson:"verb" mapstructure:"verb,omitempty"`
 	Tags  []string `json:"tags" bson:"tags" mapstructure:"tags,omitempty"`
 }
+
+// PortList is a list of ports for the service.
+type PortList []string

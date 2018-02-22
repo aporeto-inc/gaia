@@ -108,8 +108,8 @@ type APIService struct {
 	// NetworkProtocol is the network protocol of the service. Default is TCP.
 	NetworkProtocol int `json:"networkProtocol" bson:"networkprotocol" mapstructure:"networkProtocol,omitempty"`
 
-	// Port is the port of the service. Default 443.
-	Port int `json:"port" bson:"port" mapstructure:"port,omitempty"`
+	// Ports is a list of ports for the service. Ports are either exact match, or a range portMin:portMax.
+	Ports types.PortList `json:"ports" bson:"ports" mapstructure:"ports,omitempty"`
 
 	// Type is the type of the service (HTTP, TCP, etc). More types will be added to the system.
 	Type APIServiceTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
@@ -169,7 +169,7 @@ func NewAPIService() *APIService {
 		Metadata:        []string{},
 		NetworkProtocol: 6,
 		NormalizedTags:  []string{},
-		Port:            443,
+		Ports:           types.PortList{},
 		Type:            "L3",
 	}
 }
@@ -352,11 +352,11 @@ func (o *APIService) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateMaximumInt("port", o.Port, int(65636), false); err != nil {
-		errors = append(errors, err)
+	if err := elemental.ValidateRequiredExternal("ports", o.Ports); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateMinimumInt("port", o.Port, int(1), false); err != nil {
+	if err := elemental.ValidateRequiredExternal("ports", o.Ports); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -638,20 +638,18 @@ var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Transient:      true,
 		Type:           "external",
 	},
-	"Port": elemental.AttributeSpecification{
+	"Ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Port",
-		DefaultValue:   443,
-		Description:    `Port is the port of the service. Default 443.`,
+		ConvertedName:  "Ports",
+		Description:    `Ports is a list of ports for the service. Ports are either exact match, or a range portMin:portMax.`,
 		Exposed:        true,
 		Filterable:     true,
-		MaxValue:       65636,
-		MinValue:       1,
-		Name:           "port",
+		Name:           "ports",
 		Orderable:      true,
 		Required:       true,
 		Stored:         true,
-		Type:           "integer",
+		SubType:        "port_list",
+		Type:           "external",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -932,20 +930,18 @@ var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Transient:      true,
 		Type:           "external",
 	},
-	"port": elemental.AttributeSpecification{
+	"ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Port",
-		DefaultValue:   443,
-		Description:    `Port is the port of the service. Default 443.`,
+		ConvertedName:  "Ports",
+		Description:    `Ports is a list of ports for the service. Ports are either exact match, or a range portMin:portMax.`,
 		Exposed:        true,
 		Filterable:     true,
-		MaxValue:       65636,
-		MinValue:       1,
-		Name:           "port",
+		Name:           "ports",
 		Orderable:      true,
 		Required:       true,
 		Stored:         true,
-		Type:           "integer",
+		SubType:        "port_list",
+		Type:           "external",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
