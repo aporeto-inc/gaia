@@ -17,6 +17,7 @@ func init() {
 	elemental.RegisterIdentity(AWSAccountIdentity)
 	elemental.RegisterIdentity(CategoryIdentity)
 	elemental.RegisterIdentity(CertificateIdentity)
+	elemental.RegisterIdentity(CustomerIdentity)
 	elemental.RegisterIdentity(DependencyMapIdentity)
 	elemental.RegisterIdentity(EmailIdentity)
 	elemental.RegisterIdentity(EnforcerIdentity)
@@ -32,6 +33,8 @@ func init() {
 	elemental.RegisterIdentity(HookPolicyIdentity)
 	elemental.RegisterIdentity(ImportIdentity)
 	elemental.RegisterIdentity(InstallationIdentity)
+	elemental.RegisterIdentity(InvoiceIdentity)
+	elemental.RegisterIdentity(InvoiceRecordIdentity)
 	elemental.RegisterIdentity(IsolationProfileIdentity)
 	elemental.RegisterIdentity(IssueIdentity)
 	elemental.RegisterIdentity(JaegerbatchIdentity)
@@ -102,6 +105,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewCategory()
 	case CertificateIdentity.Name:
 		return NewCertificate()
+	case CustomerIdentity.Name:
+		return NewCustomer()
 	case DependencyMapIdentity.Name:
 		return NewDependencyMap()
 	case EmailIdentity.Name:
@@ -132,6 +137,10 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewImport()
 	case InstallationIdentity.Name:
 		return NewInstallation()
+	case InvoiceIdentity.Name:
+		return NewInvoice()
+	case InvoiceRecordIdentity.Name:
+		return NewInvoiceRecord()
 	case IsolationProfileIdentity.Name:
 		return NewIsolationProfile()
 	case IssueIdentity.Name:
@@ -236,6 +245,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewCategory()
 	case CertificateIdentity.Category:
 		return NewCertificate()
+	case CustomerIdentity.Category:
+		return NewCustomer()
 	case DependencyMapIdentity.Category:
 		return NewDependencyMap()
 	case EmailIdentity.Category:
@@ -266,6 +277,10 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewImport()
 	case InstallationIdentity.Category:
 		return NewInstallation()
+	case InvoiceIdentity.Category:
+		return NewInvoice()
+	case InvoiceRecordIdentity.Category:
+		return NewInvoiceRecord()
 	case IsolationProfileIdentity.Category:
 		return NewIsolationProfile()
 	case IssueIdentity.Category:
@@ -370,6 +385,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &CategoriesList{}
 	case CertificateIdentity.Name:
 		return &CertificatesList{}
+	case CustomerIdentity.Name:
+		return &CustomersList{}
 	case DependencyMapIdentity.Name:
 		return &DependencyMapsList{}
 	case EmailIdentity.Name:
@@ -400,6 +417,10 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &ImportsList{}
 	case InstallationIdentity.Name:
 		return &InstallationsList{}
+	case InvoiceIdentity.Name:
+		return &InvoicesList{}
+	case InvoiceRecordIdentity.Name:
+		return &InvoiceRecordsList{}
 	case IsolationProfileIdentity.Name:
 		return &IsolationProfilesList{}
 	case IssueIdentity.Name:
@@ -503,6 +524,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &CategoriesList{}
 	case CertificateIdentity.Category:
 		return &CertificatesList{}
+	case CustomerIdentity.Category:
+		return &CustomersList{}
 	case DependencyMapIdentity.Category:
 		return &DependencyMapsList{}
 	case EmailIdentity.Category:
@@ -533,6 +556,10 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &ImportsList{}
 	case InstallationIdentity.Category:
 		return &InstallationsList{}
+	case InvoiceIdentity.Category:
+		return &InvoicesList{}
+	case InvoiceRecordIdentity.Category:
+		return &InvoiceRecordsList{}
 	case IsolationProfileIdentity.Category:
 		return &IsolationProfilesList{}
 	case IssueIdentity.Category:
@@ -622,6 +649,7 @@ func AllIdentities() []elemental.Identity {
 		AWSAccountIdentity,
 		CategoryIdentity,
 		CertificateIdentity,
+		CustomerIdentity,
 		DependencyMapIdentity,
 		EmailIdentity,
 		EnforcerIdentity,
@@ -637,6 +665,8 @@ func AllIdentities() []elemental.Identity {
 		HookPolicyIdentity,
 		ImportIdentity,
 		InstallationIdentity,
+		InvoiceIdentity,
+		InvoiceRecordIdentity,
 		IsolationProfileIdentity,
 		IssueIdentity,
 		JaegerbatchIdentity,
@@ -787,6 +817,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case CertificateIdentity:
 		return []string{}
+	case CustomerIdentity:
+		return []string{}
 	case DependencyMapIdentity:
 		return []string{
 			"depmaps",
@@ -842,6 +874,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case ImportIdentity:
 		return []string{}
 	case InstallationIdentity:
+		return []string{}
+	case InvoiceIdentity:
+		return []string{}
+	case InvoiceRecordIdentity:
 		return []string{}
 	case IsolationProfileIdentity:
 		return []string{
