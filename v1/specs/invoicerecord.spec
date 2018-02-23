@@ -134,7 +134,7 @@
             "secret": null,
             "setter": null,
             "stored": true,
-            "subtype": "InvoiceRecordDetailsList",
+            "subtype": "invoicerecorddetails_list",
             "transient": null,
             "type": "external",
             "unique": null,
