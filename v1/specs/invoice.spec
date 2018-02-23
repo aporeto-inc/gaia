@@ -215,7 +215,7 @@
     "model": {
         "aliases": [],
         "create": null,
-        "delete": true,
+        "delete": false,
         "description": null,
         "entity_name": "Invoice",
         "exposed": true,
@@ -229,6 +229,6 @@
         "resource_name": "invoices",
         "rest_name": "invoice",
         "root": null,
-        "update": true
+        "update": false
     }
 }
