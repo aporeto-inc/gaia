@@ -381,7 +381,7 @@
             "delete": false,
             "deprecated": null,
             "get": false,
-            "relationship": "child",
+            "relationship": "root",
             "rest_name": "jaegerbatch",
             "update": false
         },
