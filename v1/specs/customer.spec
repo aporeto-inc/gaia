@@ -126,7 +126,7 @@
     "model": {
         "aliases": [],
         "create": null,
-        "delete": true,
+        "delete": false,
         "description": null,
         "entity_name": "Customer",
         "exposed": true,
