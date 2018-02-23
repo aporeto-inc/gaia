@@ -199,9 +199,6 @@ func init() {
 		AllowsCreate: map[string]bool{
 			"root": true,
 		},
-		AllowsDelete: map[string]bool{
-			"root": true,
-		},
 		AllowsRetrieve: map[string]bool{
 			"root": true,
 		},
@@ -470,23 +467,16 @@ func init() {
 	}
 
 	relationshipsRegistry[InvoiceIdentity] = &elemental.Relationship{
-		AllowsUpdate: map[string]bool{
-			"root": true,
-		},
-		AllowsPatch: map[string]bool{
-			"root": true,
-		},
-		AllowsDelete: map[string]bool{
-			"root": true,
-		},
 		AllowsRetrieve: map[string]bool{
 			"root": true,
 		},
 		AllowsRetrieveMany: map[string]bool{
 			"customer": true,
+			"root":     true,
 		},
 		AllowsInfo: map[string]bool{
 			"customer": true,
+			"root":     true,
 		},
 	}
 
@@ -502,12 +492,6 @@ func init() {
 		},
 		AllowsRetrieve: map[string]bool{
 			"root": true,
-		},
-		AllowsRetrieveMany: map[string]bool{
-			"customer": true,
-		},
-		AllowsInfo: map[string]bool{
-			"customer": true,
 		},
 	}
 
