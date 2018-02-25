@@ -1,5 +1,7 @@
 package types
 
+import "fmt"
+
 // HostService is a service associated with an enforcer profile for a host.
 type HostService struct {
 	Name        string                     `json:"name" bson:"name" mapstructure:"name,omitempty"`
@@ -15,6 +17,9 @@ type HostServicesList []*HostService
 // you know what you are doing.
 func (h HostServicesList) Validate() error {
 	for _, s := range h {
+		if len(s.Name) > 12 {
+			return fmt.Errorf("Host service names must cannot be more than 12 characters")
+		}
 		if s.Services != nil {
 			if err := s.Services.Validate(); err != nil {
 				return err
