@@ -1,6 +1,6 @@
 [[constraint]]
-  name = "github.com/apache/thrift"
-  version = "0.10.0"
+  name = "github.com/uber/jaeger-client-go"
+  version = "2.x"
 
 [prune]
   go-tests = true
