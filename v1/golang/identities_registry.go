@@ -16,6 +16,7 @@ func init() {
 	elemental.RegisterIdentity(AuthIdentity)
 	elemental.RegisterIdentity(AuthorityIdentity)
 	elemental.RegisterIdentity(AutomationIdentity)
+	elemental.RegisterIdentity(AutomationTemplateIdentity)
 	elemental.RegisterIdentity(AvailableServiceIdentity)
 	elemental.RegisterIdentity(AWSAccountIdentity)
 	elemental.RegisterIdentity(CategoryIdentity)
@@ -67,6 +68,7 @@ func init() {
 	elemental.RegisterIdentity(TagIdentity)
 	elemental.RegisterIdentity(TokenIdentity)
 	elemental.RegisterIdentity(TokenScopePolicyIdentity)
+	elemental.RegisterIdentity(TriggerIdentity)
 	elemental.RegisterIdentity(VulnerabilityIdentity)
 	elemental.RegisterIdentity(X509CertificateIdentity)
 	elemental.RegisterIdentity(X509CertificateCheckIdentity)
@@ -104,6 +106,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewAuthority()
 	case AutomationIdentity.Name:
 		return NewAutomation()
+	case AutomationTemplateIdentity.Name:
+		return NewAutomationTemplate()
 	case AvailableServiceIdentity.Name:
 		return NewAvailableService()
 	case AWSAccountIdentity.Name:
@@ -206,6 +210,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewToken()
 	case TokenScopePolicyIdentity.Name:
 		return NewTokenScopePolicy()
+	case TriggerIdentity.Name:
+		return NewTrigger()
 	case VulnerabilityIdentity.Name:
 		return NewVulnerability()
 	case X509CertificateIdentity.Name:
@@ -246,6 +252,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewAuthority()
 	case AutomationIdentity.Category:
 		return NewAutomation()
+	case AutomationTemplateIdentity.Category:
+		return NewAutomationTemplate()
 	case AvailableServiceIdentity.Category:
 		return NewAvailableService()
 	case AWSAccountIdentity.Category:
@@ -348,6 +356,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewToken()
 	case TokenScopePolicyIdentity.Category:
 		return NewTokenScopePolicy()
+	case TriggerIdentity.Category:
+		return NewTrigger()
 	case VulnerabilityIdentity.Category:
 		return NewVulnerability()
 	case X509CertificateIdentity.Category:
@@ -388,6 +398,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &AuthoritiesList{}
 	case AutomationIdentity.Name:
 		return &AutomationsList{}
+	case AutomationTemplateIdentity.Name:
+		return &AutomationTemplatesList{}
 	case AvailableServiceIdentity.Name:
 		return &AvailableServicesList{}
 	case AWSAccountIdentity.Name:
@@ -489,6 +501,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &TokensList{}
 	case TokenScopePolicyIdentity.Name:
 		return &TokenScopePoliciesList{}
+	case TriggerIdentity.Name:
+		return &TriggersList{}
 	case VulnerabilityIdentity.Name:
 		return &VulnerabilitiesList{}
 	case X509CertificateIdentity.Name:
@@ -529,6 +543,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &AuthoritiesList{}
 	case AutomationIdentity.Category:
 		return &AutomationsList{}
+	case AutomationTemplateIdentity.Category:
+		return &AutomationTemplatesList{}
 	case AvailableServiceIdentity.Category:
 		return &AvailableServicesList{}
 	case AWSAccountIdentity.Category:
@@ -630,6 +646,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &TokensList{}
 	case TokenScopePolicyIdentity.Category:
 		return &TokenScopePoliciesList{}
+	case TriggerIdentity.Category:
+		return &TriggersList{}
 	case VulnerabilityIdentity.Category:
 		return &VulnerabilitiesList{}
 	case X509CertificateIdentity.Category:
@@ -657,6 +675,7 @@ func AllIdentities() []elemental.Identity {
 		AuthIdentity,
 		AuthorityIdentity,
 		AutomationIdentity,
+		AutomationTemplateIdentity,
 		AvailableServiceIdentity,
 		AWSAccountIdentity,
 		CategoryIdentity,
@@ -708,6 +727,7 @@ func AllIdentities() []elemental.Identity {
 		TagIdentity,
 		TokenIdentity,
 		TokenScopePolicyIdentity,
+		TriggerIdentity,
 		VulnerabilityIdentity,
 		X509CertificateIdentity,
 		X509CertificateCheckIdentity,
@@ -719,6 +739,9 @@ var aliasesMap = map[string]elemental.Identity{
 	"apiauths":   APIAuthorizationPolicyIdentity,
 	"ap":         AuditProfileIdentity,
 	"ca":         AuthorityIdentity,
+	"autos":      AutomationIdentity,
+	"auto":       AutomationIdentity,
+	"autotmpl":   AutomationTemplateIdentity,
 	"asrv":       AvailableServiceIdentity,
 	"aws":        AWSAccountIdentity,
 	"awsaccs":    AWSAccountIdentity,
@@ -819,7 +842,14 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"ca",
 		}
 	case AutomationIdentity:
-		return []string{}
+		return []string{
+			"autos",
+			"auto",
+		}
+	case AutomationTemplateIdentity:
+		return []string{
+			"autotmpl",
+		}
 	case AvailableServiceIdentity:
 		return []string{
 			"asrv",
@@ -1002,6 +1032,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"tsp",
 		}
+	case TriggerIdentity:
+		return []string{}
 	case VulnerabilityIdentity:
 		return []string{
 			"vulns",

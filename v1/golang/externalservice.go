@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	"github.com/aporeto-inc/elemental"
+	"github.com/aporeto-inc/gaia/v1/golang/types"
 	"time"
 )
 
@@ -83,6 +84,12 @@ func (o ExternalServicesList) Version() int {
 
 // ExternalService represents the model of a externalservice
 type ExternalService struct {
+	// LoadbalancerAddresses represents the list of adresses of the external services of type LoadBalancer.
+	LoadbalancerAddresses []string `json:"loadbalancerAddresses" bson:"loadbalanceraddresses" mapstructure:"loadbalancerAddresses,omitempty"`
+
+	// LoadbalancerPortsMapping is the list of ports mapped by an extenral service of type load balancer.
+	LoadbalancerPortsMapping []*types.PortMapping `json:"loadbalancerPortsMapping" bson:"loadbalancerportsmapping" mapstructure:"loadbalancerPortsMapping,omitempty"`
+
 	// Network refers to either CIDR or domain name
 	Network string `json:"network" bson:"network" mapstructure:"network,omitempty"`
 
@@ -140,13 +147,15 @@ type ExternalService struct {
 func NewExternalService() *ExternalService {
 
 	return &ExternalService{
-		ModelVersion:   1,
-		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
-		Metadata:       []string{},
-		NormalizedTags: []string{},
-		Port:           "1:65535",
-		Type:           "Network",
+		ModelVersion:             1,
+		Annotations:              map[string][]string{},
+		AssociatedTags:           []string{},
+		LoadbalancerAddresses:    []string{},
+		LoadbalancerPortsMapping: []*types.PortMapping{},
+		Metadata:                 []string{},
+		NormalizedTags:           []string{},
+		Port:                     "1:65535",
+		Type:                     "Network",
 	}
 }
 
@@ -455,6 +464,26 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"LoadbalancerAddresses": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LoadbalancerAddresses",
+		Description:    `LoadbalancerAddresses represents the list of adresses of the external services of type LoadBalancer.`,
+		Exposed:        true,
+		Name:           "loadbalancerAddresses",
+		Stored:         true,
+		SubType:        "addresses_list",
+		Type:           "external",
+	},
+	"LoadbalancerPortsMapping": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LoadbalancerPortsMapping",
+		Description:    `LoadbalancerPortsMapping is the list of ports mapped by an extenral service of type load balancer. `,
+		Exposed:        true,
+		Name:           "loadbalancerPortsMapping",
+		Stored:         true,
+		SubType:        "portmapping_list",
+		Type:           "external",
+	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -571,7 +600,6 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"LoadBalancerHTTP", "LoadBalancerTCP", "Network"},
 		ConvertedName:  "Type",
-		CreationOnly:   true,
 		DefaultValue:   ExternalServiceTypeNetwork,
 		Description:    `Type represents the type of external service.`,
 		Exposed:        true,
@@ -675,6 +703,26 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"loadbalanceraddresses": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LoadbalancerAddresses",
+		Description:    `LoadbalancerAddresses represents the list of adresses of the external services of type LoadBalancer.`,
+		Exposed:        true,
+		Name:           "loadbalancerAddresses",
+		Stored:         true,
+		SubType:        "addresses_list",
+		Type:           "external",
+	},
+	"loadbalancerportsmapping": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LoadbalancerPortsMapping",
+		Description:    `LoadbalancerPortsMapping is the list of ports mapped by an extenral service of type load balancer. `,
+		Exposed:        true,
+		Name:           "loadbalancerPortsMapping",
+		Stored:         true,
+		SubType:        "portmapping_list",
+		Type:           "external",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -792,7 +840,6 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"LoadBalancerHTTP", "LoadBalancerTCP", "Network"},
 		ConvertedName:  "Type",
-		CreationOnly:   true,
 		DefaultValue:   ExternalServiceTypeNetwork,
 		Description:    `Type represents the type of external service.`,
 		Exposed:        true,
