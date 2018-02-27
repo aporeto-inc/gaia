@@ -398,9 +398,9 @@
             "@identifiable-nopk-nostored",
             "@named"
         ],
-        "get": false,
+        "get": true,
         "package": "squall",
-        "private": false,
+        "private": true,
         "resource_name": "policyrules",
         "rest_name": "policyrule",
         "root": null,
