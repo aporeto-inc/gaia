@@ -76,7 +76,7 @@
         "aliases": [],
         "create": null,
         "delete": true,
-        "description": null,
+        "description": "The TokenScopePolicy is a set of policies that allow customization of the authorization tokens issued by the Aporeto service. This allows Aporeto generated tokens to be used by external applications.",
         "entity_name": "TokenScopePolicy",
         "exposed": true,
         "extends": [
