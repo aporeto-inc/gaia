@@ -391,7 +391,7 @@
         "aliases": [],
         "create": false,
         "delete": false,
-        "description": "[nodoc]",
+        "description": "PolicyRule is an internal policy resolution API. Services can use this API to retrieve a policy resolution. ",
         "entity_name": "PolicyRule",
         "exposed": true,
         "extends": [
