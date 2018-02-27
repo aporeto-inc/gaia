@@ -58,18 +58,6 @@
             "deprecated": null,
             "get": true,
             "relationship": "root",
-            "rest_name": "alarm",
-            "update": false
-        },
-        {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "apiauthorizationpolicy",
             "update": false
         },
@@ -131,18 +119,6 @@
             "get": false,
             "relationship": "root",
             "rest_name": "authority",
-            "update": false
-        },
-        {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
-            "rest_name": "automation",
             "update": false
         },
         {
@@ -281,18 +257,6 @@
             "bulk_create": false,
             "bulk_delete": false,
             "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
-            "rest_name": "fileaccess",
-            "update": false
-        },
-        {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
             "create": true,
             "delete": false,
             "deprecated": null,
@@ -383,18 +347,6 @@
             "get": false,
             "relationship": "root",
             "rest_name": "issue",
-            "update": false
-        },
-        {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": false,
-            "relationship": "child",
-            "rest_name": "jaegerbatch",
             "update": false
         },
         {
@@ -671,6 +623,18 @@
             "get": false,
             "relationship": "root",
             "rest_name": "token",
+            "update": false
+        },
+        {
+            "bulk_create": false,
+            "bulk_delete": false,
+            "bulk_update": false,
+            "create": true,
+            "delete": false,
+            "deprecated": null,
+            "get": true,
+            "relationship": "root",
+            "rest_name": "tokenScopePolicy",
             "update": false
         },
         {
