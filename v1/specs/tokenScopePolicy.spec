@@ -79,7 +79,16 @@
         "description": null,
         "entity_name": "TokenScopePolicy",
         "exposed": true,
-        "extends": [],
+        "extends": [
+            "@base",
+            "@described",
+            "@disabled",
+            "@identifiable-nopk-nostored",
+            "@metadatable",
+            "@named",
+            "@propagated",
+            "@schedulable"
+        ],
         "get": true,
         "package": null,
         "private": null,
