@@ -11,7 +11,7 @@ import (
 var PolicyRuleIdentity = elemental.Identity{
 	Name:     "policyrule",
 	Category: "policyrules",
-	Private:  false,
+	Private:  true,
 }
 
 // PolicyRulesList represents a list of PolicyRules
@@ -161,7 +161,7 @@ func (o *PolicyRule) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *PolicyRule) Doc() string {
-	return nodocString
+	return `PolicyRule is an internal policy resolution API. Services can use this API to retrieve a policy resolution. `
 }
 
 func (o *PolicyRule) String() string {

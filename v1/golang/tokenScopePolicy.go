@@ -10,8 +10,8 @@ import (
 
 // TokenScopePolicyIdentity represents the Identity of the object.
 var TokenScopePolicyIdentity = elemental.Identity{
-	Name:     "tokenScopePolicy",
-	Category: "tokenScopePolicies",
+	Name:     "tokenscopepolicy",
+	Category: "tokenscopepolicies",
 	Private:  false,
 }
 
@@ -67,7 +67,7 @@ func (o TokenScopePoliciesList) Version() int {
 	return 1
 }
 
-// TokenScopePolicy represents the model of a tokenScopePolicy
+// TokenScopePolicy represents the model of a tokenscopepolicy
 type TokenScopePolicy struct {
 	// AssignedScopes is the the list of scopes that the policiy will assigns.
 	AssignedScopes []string `json:"assignedScopes" bson:"assignedscopes" mapstructure:"assignedScopes,omitempty"`

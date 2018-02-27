@@ -220,12 +220,6 @@ func init() {
 		AllowsRetrieve: map[string]bool{
 			"root": true,
 		},
-		AllowsRetrieveMany: map[string]bool{
-			"root": true,
-		},
-		AllowsInfo: map[string]bool{
-			"root": true,
-		},
 	}
 
 	relationshipsRegistry[AvailableServiceIdentity] = &elemental.Relationship{
@@ -730,7 +724,20 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[PolicyRuleIdentity] = &elemental.Relationship{}
+	relationshipsRegistry[PolicyRuleIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieve: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
+	}
 
 	relationshipsRegistry[PrivateKeyIdentity] = &elemental.Relationship{
 		AllowsUpdate: map[string]bool{
