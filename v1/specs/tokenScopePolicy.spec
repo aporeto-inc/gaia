@@ -9,7 +9,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "Subject defines the policy on the requested scopes.",
+            "description": "Subject defines the selection criteria that this policy must match on identiy and scope request information.",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
