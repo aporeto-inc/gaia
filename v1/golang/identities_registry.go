@@ -66,6 +66,7 @@ func init() {
 	elemental.RegisterIdentity(TabulationIdentity)
 	elemental.RegisterIdentity(TagIdentity)
 	elemental.RegisterIdentity(TokenIdentity)
+	elemental.RegisterIdentity(TokenScopePolicyIdentity)
 	elemental.RegisterIdentity(VulnerabilityIdentity)
 	elemental.RegisterIdentity(X509CertificateIdentity)
 	elemental.RegisterIdentity(X509CertificateCheckIdentity)
@@ -203,6 +204,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewTag()
 	case TokenIdentity.Name:
 		return NewToken()
+	case TokenScopePolicyIdentity.Name:
+		return NewTokenScopePolicy()
 	case VulnerabilityIdentity.Name:
 		return NewVulnerability()
 	case X509CertificateIdentity.Name:
@@ -343,6 +346,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewTag()
 	case TokenIdentity.Category:
 		return NewToken()
+	case TokenScopePolicyIdentity.Category:
+		return NewTokenScopePolicy()
 	case VulnerabilityIdentity.Category:
 		return NewVulnerability()
 	case X509CertificateIdentity.Category:
@@ -482,6 +487,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &TagsList{}
 	case TokenIdentity.Name:
 		return &TokensList{}
+	case TokenScopePolicyIdentity.Name:
+		return &TokenScopePoliciesList{}
 	case VulnerabilityIdentity.Name:
 		return &VulnerabilitiesList{}
 	case X509CertificateIdentity.Name:
@@ -621,6 +628,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &TagsList{}
 	case TokenIdentity.Category:
 		return &TokensList{}
+	case TokenScopePolicyIdentity.Category:
+		return &TokenScopePoliciesList{}
 	case VulnerabilityIdentity.Category:
 		return &VulnerabilitiesList{}
 	case X509CertificateIdentity.Category:
@@ -698,6 +707,7 @@ func AllIdentities() []elemental.Identity {
 		TabulationIdentity,
 		TagIdentity,
 		TokenIdentity,
+		TokenScopePolicyIdentity,
 		VulnerabilityIdentity,
 		X509CertificateIdentity,
 		X509CertificateCheckIdentity,
@@ -762,6 +772,7 @@ var aliasesMap = map[string]elemental.Identity{
 	"tables":     TabulationIdentity,
 	"tabs":       TabulationIdentity,
 	"tab":        TabulationIdentity,
+	"tsp":        TokenScopePolicyIdentity,
 	"vulns":      VulnerabilityIdentity,
 	"vul":        VulnerabilityIdentity,
 	"vuln":       VulnerabilityIdentity,
@@ -987,6 +998,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case TokenIdentity:
 		return []string{}
+	case TokenScopePolicyIdentity:
+		return []string{
+			"tsp",
+		}
 	case VulnerabilityIdentity:
 		return []string{
 			"vulns",
