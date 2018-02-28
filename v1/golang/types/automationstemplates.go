@@ -9,6 +9,8 @@ const (
 	AutomationTemplateParameterTypeBool   AutomationTemplateParameterType = "boolean"
 	AutomationTemplateParameterTypeInt    AutomationTemplateParameterType = "int"
 	AutomationTemplateParameterTypeFloat  AutomationTemplateParameterType = "float"
+	AutomationTemplateParameterTypeObject AutomationTemplateParameterType = "object"
+	AutomationTemplateParameterTypeArray  AutomationTemplateParameterType = "array"
 )
 
 // An AutomationTemplateParameter represents an automation template parameter.

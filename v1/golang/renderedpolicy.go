@@ -88,6 +88,9 @@ type RenderedPolicy struct {
 	// Profile is the trust profile of the processing unit that should be used during all communications.
 	Profile map[string]string `json:"profile" bson:"-" mapstructure:"profile,omitempty"`
 
+	// Scopes is the set of scopes granted to this Processing Unit that it has to present in HTTP requests.
+	Scopes []string `json:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
+
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
 	sync.Mutex
@@ -101,6 +104,7 @@ func NewRenderedPolicy() *RenderedPolicy {
 		EgressPolicies:     map[string]PolicyRulesList{string(constants.RenderedPolicyTypeNetwork): PolicyRulesList{}, string(constants.RenderedPolicyTypeFile): PolicyRulesList{}, string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{}},
 		ExposedAPIServices: APIServicesList{},
 		IngressPolicies:    map[string]PolicyRulesList{string(constants.RenderedPolicyTypeNetwork): PolicyRulesList{}, string(constants.RenderedPolicyTypeFile): PolicyRulesList{}, string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{}},
+		Scopes:             []string{},
 	}
 }
 
@@ -262,6 +266,16 @@ var RenderedPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "trust_profile",
 		Type:           "external",
 	},
+	"Scopes": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Scopes",
+		Description:    `Scopes is the set of scopes granted to this Processing Unit that it has to present in HTTP requests.`,
+		Exposed:        true,
+		Name:           "scopes",
+		Stored:         true,
+		SubType:        "scopes_list",
+		Type:           "external",
+	},
 }
 
 // RenderedPolicyLowerCaseAttributesMap represents the map of attribute for RenderedPolicy.
@@ -339,6 +353,16 @@ var RenderedPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Name:           "profile",
 		ReadOnly:       true,
 		SubType:        "trust_profile",
+		Type:           "external",
+	},
+	"scopes": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Scopes",
+		Description:    `Scopes is the set of scopes granted to this Processing Unit that it has to present in HTTP requests.`,
+		Exposed:        true,
+		Name:           "scopes",
+		Stored:         true,
+		SubType:        "scopes_list",
 		Type:           "external",
 	},
 }
