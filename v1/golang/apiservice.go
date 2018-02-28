@@ -90,6 +90,9 @@ type APIService struct {
 	// IPList is the list of ip address or subnets of the service if available.
 	IPList types.IPList `json:"IPList" bson:"iplist" mapstructure:"IPList,omitempty"`
 
+	// JWTCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.
+	JWTCertificate string `json:"JWTCertificate" bson:"jwtcertificate" mapstructure:"JWTCertificate,omitempty"`
+
 	// AllServiceTags is an internal object that summarizes all the implementedBy tags to accelerate database searches. It is not exposed.
 	AllServiceTags []string `json:"-" bson:"allservicetags" mapstructure:"-,omitempty"`
 
@@ -443,6 +446,18 @@ var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "ip_list",
 		Type:           "external",
 	},
+	"JWTCertificate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "JWTCertificate",
+		Description:    `JWTCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "JWTCertificate",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"AllServiceTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AllServiceTags",
@@ -734,6 +749,18 @@ var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Stored:         true,
 		SubType:        "ip_list",
 		Type:           "external",
+	},
+	"jwtcertificate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "JWTCertificate",
+		Description:    `JWTCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "JWTCertificate",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"allservicetags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
