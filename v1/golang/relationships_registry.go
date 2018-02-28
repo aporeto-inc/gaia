@@ -208,6 +208,18 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[AutomationTemplateIdentity] = &elemental.Relationship{
+		AllowsRetrieve: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
+	}
+
 	relationshipsRegistry[AvailableServiceIdentity] = &elemental.Relationship{
 		AllowsRetrieveMany: map[string]bool{
 			"root": true,
@@ -988,6 +1000,18 @@ func init() {
 	relationshipsRegistry[TokenIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
 			"root": true,
+		},
+	}
+
+	relationshipsRegistry[TriggerIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"automation": true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"automation": true,
+		},
+		AllowsInfo: map[string]bool{
+			"automation": true,
 		},
 	}
 
