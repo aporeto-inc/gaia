@@ -14,7 +14,7 @@ type ExposedAPIList []ExposedAPI
 type ExposedAPI struct {
 	URI    string   `json:"URI" bson:"URI" mapstructure:"URI,omitempty"`
 	Verbs  []string `json:"verb" bson:"verb" mapstructure:"verb,omitempty"`
-	Scopes []string `json:"tags" bson:"tags" mapstructure:"tags,omitempty"`
+	Scopes []string `json:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
 }
 
 // PortList is a list of ports for the service.
