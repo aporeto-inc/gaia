@@ -79,7 +79,7 @@
             "default_order": null,
             "default_value": null,
             "deprecated": null,
-            "description": "JWTCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field needed if user JWT validation is required for this service. ",
+            "description": "JWTCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field needed if user JWT validation is required for this service. The certifiate must be in PEM format.",
             "exposed": true,
             "filterable": true,
             "foreign_key": null,
