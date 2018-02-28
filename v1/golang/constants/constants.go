@@ -204,6 +204,9 @@ const (
 
 	// ActionOContinueTagString is the system created "observedaction=continue" tag
 	ActionOContinueTagString = "oaction=continue"
+
+	// ActionTokenScope is the system created action=scope tag.
+	ActionTokenScope = "action=scope"
 )
 
 const (
