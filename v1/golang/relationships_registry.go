@@ -287,9 +287,11 @@ func init() {
 			"root": true,
 		},
 		AllowsRetrieveMany: map[string]bool{
+			"enforcerprofilemappingpolicy": true,
 			"root": true,
 		},
 		AllowsInfo: map[string]bool{
+			"enforcerprofilemappingpolicy": true,
 			"root": true,
 		},
 	}
@@ -311,12 +313,14 @@ func init() {
 			"root": true,
 		},
 		AllowsRetrieveMany: map[string]bool{
-			"enforcer": true,
-			"root":     true,
+			"enforcer":                     true,
+			"enforcerprofilemappingpolicy": true,
+			"root": true,
 		},
 		AllowsInfo: map[string]bool{
-			"enforcer": true,
-			"root":     true,
+			"enforcer":                     true,
+			"enforcerprofilemappingpolicy": true,
+			"root": true,
 		},
 	}
 
