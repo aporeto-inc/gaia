@@ -66,6 +66,9 @@ func (o PolicyRefreshsList) Version() int {
 
 // PolicyRefresh represents the model of a policyrefresh
 type PolicyRefresh struct {
+	// Type contains the policy type that is affected.
+	Type string `json:"type" bson:"type" mapstructure:"type,omitempty"`
+
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
 	sync.Mutex
@@ -153,7 +156,33 @@ func (*PolicyRefresh) AttributeSpecifications() map[string]elemental.AttributeSp
 }
 
 // PolicyRefreshAttributesMap represents the map of attribute for PolicyRefresh.
-var PolicyRefreshAttributesMap = map[string]elemental.AttributeSpecification{}
+var PolicyRefreshAttributesMap = map[string]elemental.AttributeSpecification{
+	"Type": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Type",
+		Description:    `Type contains the policy type that is affected.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "type",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
+}
 
 // PolicyRefreshLowerCaseAttributesMap represents the map of attribute for PolicyRefresh.
-var PolicyRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{}
+var PolicyRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"type": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Type",
+		Description:    `Type contains the policy type that is affected.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "type",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
+}
