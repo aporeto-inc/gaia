@@ -48,6 +48,7 @@ func init() {
 	elemental.RegisterIdentity(PlanIdentity)
 	elemental.RegisterIdentity(PokeIdentity)
 	elemental.RegisterIdentity(PolicyIdentity)
+	elemental.RegisterIdentity(PolicyRefreshIdentity)
 	elemental.RegisterIdentity(PolicyRuleIdentity)
 	elemental.RegisterIdentity(PrivateKeyIdentity)
 	elemental.RegisterIdentity(ProcessingUnitIdentity)
@@ -168,6 +169,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewPoke()
 	case PolicyIdentity.Name:
 		return NewPolicy()
+	case PolicyRefreshIdentity.Name:
+		return NewPolicyRefresh()
 	case PolicyRuleIdentity.Name:
 		return NewPolicyRule()
 	case PrivateKeyIdentity.Name:
@@ -310,6 +313,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewPoke()
 	case PolicyIdentity.Category:
 		return NewPolicy()
+	case PolicyRefreshIdentity.Category:
+		return NewPolicyRefresh()
 	case PolicyRuleIdentity.Category:
 		return NewPolicyRule()
 	case PrivateKeyIdentity.Category:
@@ -452,6 +457,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &PokesList{}
 	case PolicyIdentity.Name:
 		return &PoliciesList{}
+	case PolicyRefreshIdentity.Name:
+		return &PolicyRefreshsList{}
 	case PolicyRuleIdentity.Name:
 		return &PolicyRulesList{}
 	case PrivateKeyIdentity.Name:
@@ -593,6 +600,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &PokesList{}
 	case PolicyIdentity.Category:
 		return &PoliciesList{}
+	case PolicyRefreshIdentity.Category:
+		return &PolicyRefreshsList{}
 	case PolicyRuleIdentity.Category:
 		return &PolicyRulesList{}
 	case PrivateKeyIdentity.Category:
@@ -689,6 +698,7 @@ func AllIdentities() []elemental.Identity {
 		PlanIdentity,
 		PokeIdentity,
 		PolicyIdentity,
+		PolicyRefreshIdentity,
 		PolicyRuleIdentity,
 		PrivateKeyIdentity,
 		ProcessingUnitIdentity,
@@ -938,6 +948,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case PokeIdentity:
 		return []string{}
 	case PolicyIdentity:
+		return []string{}
+	case PolicyRefreshIdentity:
 		return []string{}
 	case PolicyRuleIdentity:
 		return []string{}
