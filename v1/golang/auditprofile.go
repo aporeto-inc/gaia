@@ -74,7 +74,7 @@ type AuditProfile struct {
 	Key string `json:"key" bson:"key" mapstructure:"key,omitempty"`
 
 	// Propagated indicates if the audit profile is propagated.
-	Propagated bool `json:"propagated" bson:"-" mapstructure:"propagated,omitempty"`
+	Propagated bool `json:"propagated" bson:"propagated" mapstructure:"propagated,omitempty"`
 
 	// Rules is the list of audit policy rules associated with this policy.
 	Rules types.AuditProfileRuleList `json:"rules" bson:"rules" mapstructure:"rules,omitempty"`
@@ -482,6 +482,7 @@ var AuditProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Propagated indicates if the audit profile is propagated.`,
 		Exposed:        true,
 		Name:           "propagated",
+		Stored:         true,
 		Type:           "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
@@ -676,6 +677,7 @@ var AuditProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Description:    `Propagated indicates if the audit profile is propagated.`,
 		Exposed:        true,
 		Name:           "propagated",
+		Stored:         true,
 		Type:           "boolean",
 	},
 	"protected": elemental.AttributeSpecification{

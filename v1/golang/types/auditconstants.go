@@ -51,6 +51,7 @@ const (
 	AuditFilterTypeUserid     AuditFilterType = "uid"
 	AuditFilterTypeAuid       AuditFilterType = "auid"
 	AuditFilterTypeKey        AuditFilterType = "key"
+	AuditFilterTypeExe        AuditFilterType = "exe"
 )
 
 var auditFilterTypeReverse = map[string]interface{}{
@@ -94,6 +95,7 @@ var auditFilterTypeReverse = map[string]interface{}{
 	"uid":           AuditFilterTypeUserid,
 	"auid":          AuditFilterTypeAuid,
 	"key":           AuditFilterTypeKey,
+	"exe":           AuditFilterTypeExe,
 }
 
 // Validate validates the AuditFilterType
@@ -582,6 +584,7 @@ const (
 	AuditSystemCallTypePROCESS_VM_WRITEV      AuditSystemCallType = "process_vm_writev"
 	AuditSystemCallTypeKCMP                   AuditSystemCallType = "kcmp"
 	AuditSystemCallTypeFINIT_MODULE           AuditSystemCallType = "finit_module"
+	AuditSystemCallTypeSTIME                  AuditSystemCallType = "stime"
 )
 
 var auditSystemCallTypeReverse = map[string]interface{}{
@@ -899,4 +902,5 @@ var auditSystemCallTypeReverse = map[string]interface{}{
 	"process_vm_writev":      AuditSystemCallTypePROCESS_VM_WRITEV,
 	"kcmp":                   AuditSystemCallTypeKCMP,
 	"finit_module":           AuditSystemCallTypeFINIT_MODULE,
+	"stime":                  AuditSystemCallTypeSTIME,
 }
