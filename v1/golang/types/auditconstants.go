@@ -27,7 +27,7 @@ const (
 	AuditFilterTypeFsuid      AuditFilterType = "fsuid"
 	AuditFilterTypeGid        AuditFilterType = "gid"
 	AuditFilterTypeInode      AuditFilterType = "inode"
-	AuditFilterTypeMsgtype    AuditFilterType = "msg_type"
+	AuditFilterTypeMsgtype    AuditFilterType = "msgtype"
 	AuditFilterTypeObjgid     AuditFilterType = "obj_gid"
 	AuditFilterTypeObjlevhigh AuditFilterType = "obj_lev_highj"
 	AuditFilterTypeObjlevlow  AuditFilterType = "obj_lev_low"
@@ -49,6 +49,8 @@ const (
 	AuditFilterTypeSuccess    AuditFilterType = "success"
 	AuditFilterTypeSuid       AuditFilterType = "suid"
 	AuditFilterTypeUserid     AuditFilterType = "uid"
+	AuditFilterTypeAuid       AuditFilterType = "auid"
+	AuditFilterTypeKey        AuditFilterType = "key"
 )
 
 var auditFilterTypeReverse = map[string]interface{}{
@@ -90,15 +92,19 @@ var auditFilterTypeReverse = map[string]interface{}{
 	"success":       AuditFilterTypeSuccess,
 	"suid":          AuditFilterTypeSuid,
 	"uid":           AuditFilterTypeUserid,
+	"auid":          AuditFilterTypeAuid,
+	"key":           AuditFilterTypeKey,
 }
 
 // Validate validates the AuditFilterType
 func (a AuditFilterType) Validate(attribute string) error {
+
 	return elemental.ValidateStringInMap(attribute, string(a), auditFilterTypeReverse, false)
 }
 
 // AuditFilterTypeFromString returns the AuditFilterType from a given string value.
 func AuditFilterTypeFromString(value string) (AuditFilterType, error) {
+
 	t, ok := auditFilterTypeReverse[value]
 	if !ok {
 		return "", fmt.Errorf("unknown AuditFilterType %s", value)
@@ -127,11 +133,13 @@ var auditFilterListTypeReverse = map[string]interface{}{
 
 // Validate validates the AuditFilterListType
 func (a AuditFilterListType) Validate(attribute string) error {
+
 	return elemental.ValidateStringInMap(attribute, string(a), auditFilterListTypeReverse, false)
 }
 
 // AuditFilterListTypeFromString returns the AuditFilterListType from a given string value.
 func AuditFilterListTypeFromString(value string) (AuditFilterListType, error) {
+
 	t, ok := auditFilterListTypeReverse[value]
 	if !ok {
 		return "", fmt.Errorf("unknown AuditFilterListType %s", value)
@@ -156,11 +164,13 @@ var auditFilterActionTypeReverse = map[string]interface{}{
 
 // Validate validates the AuditFilterActionType
 func (a AuditFilterActionType) Validate(attribute string) error {
+
 	return elemental.ValidateStringInMap(attribute, string(a), auditFilterActionTypeReverse, false)
 }
 
 // AuditFilterActionTypeFromString returns the AuditFilterActionType from a given string value.
 func AuditFilterActionTypeFromString(value string) (AuditFilterActionType, error) {
+
 	t, ok := auditFilterActionTypeReverse[value]
 	if !ok {
 		return "", fmt.Errorf("unknown AuditFilterActionType %s", value)
@@ -197,11 +207,13 @@ var auditFilterOperatorReverse = map[string]interface{}{
 
 // Validate validates the audit filter operator
 func (a AuditFilterOperator) Validate(attribute string) error {
+
 	return elemental.ValidateStringInMap(attribute, string(a), auditFilterOperatorReverse, false)
 }
 
 // AuditFilterOperatorFromString returns the AuditFilterOperator from a given string value.
 func AuditFilterOperatorFromString(value string) (AuditFilterOperator, error) {
+
 	t, ok := auditFilterOperatorReverse[value]
 	if !ok {
 		return "", fmt.Errorf("unknown AuditFilterOperator %s", value)
@@ -223,6 +235,7 @@ const (
 
 // Validate validates the audit file permissions
 func (a AuditFilePermissions) Validate(attribute string) error {
+
 	enums := []string{
 		string(AuditFilePermissionsWrite),
 		string(AuditFilePermissionsRead),
@@ -238,11 +251,13 @@ type AuditSystemCallType string
 
 // Validate validates the AuditSystemCallType
 func (a AuditSystemCallType) Validate(attribute string) error {
+
 	return elemental.ValidateStringInMap(attribute, string(a), auditSystemCallTypeReverse, false)
 }
 
 // AuditSystemCallTypeFromString returns the AuditSystemCallType from a given string value.
 func AuditSystemCallTypeFromString(value string) (AuditSystemCallType, error) {
+
 	t, ok := auditSystemCallTypeReverse[value]
 	if !ok {
 		return "", fmt.Errorf("unknown AuditSystemCallType %s", value)

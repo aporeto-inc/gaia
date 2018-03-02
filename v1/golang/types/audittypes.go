@@ -12,6 +12,7 @@ type AuditProfileRuleList []*AuditProfileRule
 
 // Validate will validate all rules in the list
 func (a AuditProfileRuleList) Validate() error {
+
 	errs := []error{}
 
 	for _, r := range a {
@@ -117,6 +118,7 @@ type SyscallRule struct {
 
 // Validate validates the filewathc rule.
 func (r *SyscallRule) Validate() error {
+
 	if err := r.List.Validate("list"); err != nil {
 		return err
 	}
@@ -171,6 +173,7 @@ type AuditFilterSpec struct {
 
 // Validate validates and AuditFilterSpec
 func (f *AuditFilterSpec) Validate() error {
+
 	if err := f.LHS.Validate(""); err != nil {
 		return err
 	}
