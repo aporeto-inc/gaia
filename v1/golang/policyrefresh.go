@@ -66,6 +66,9 @@ func (o PolicyRefreshsList) Version() int {
 
 // PolicyRefresh represents the model of a policyrefresh
 type PolicyRefresh struct {
+	// SourceNamespace contains the original namespace of the updated object.
+	SourceNamespace string `json:"sourceNamespace" bson:"sourcenamespace" mapstructure:"sourceNamespace,omitempty"`
+
 	// Type contains the policy type that is affected.
 	Type string `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
@@ -157,6 +160,18 @@ func (*PolicyRefresh) AttributeSpecifications() map[string]elemental.AttributeSp
 
 // PolicyRefreshAttributesMap represents the map of attribute for PolicyRefresh.
 var PolicyRefreshAttributesMap = map[string]elemental.AttributeSpecification{
+	"SourceNamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SourceNamespace",
+		Description:    `SourceNamespace contains the original namespace of the updated object.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "sourceNamespace",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"Type": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Type",
@@ -173,6 +188,18 @@ var PolicyRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 
 // PolicyRefreshLowerCaseAttributesMap represents the map of attribute for PolicyRefresh.
 var PolicyRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"sourcenamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SourceNamespace",
+		Description:    `SourceNamespace contains the original namespace of the updated object.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "sourceNamespace",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"type": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Type",
