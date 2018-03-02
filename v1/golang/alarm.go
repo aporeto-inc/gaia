@@ -5,60 +5,59 @@ import (
 	"sync"
 
 	"github.com/aporeto-inc/elemental"
-	"github.com/aporeto-inc/gaia/v1/golang/types"
 	"time"
 )
 
-// ExternalServiceTypeValue represents the possible values for attribute "type".
-type ExternalServiceTypeValue string
+// AlarmStatusValue represents the possible values for attribute "status".
+type AlarmStatusValue string
 
 const (
-	// ExternalServiceTypeLoadbalancerhttp represents the value LoadBalancerHTTP.
-	ExternalServiceTypeLoadbalancerhttp ExternalServiceTypeValue = "LoadBalancerHTTP"
+	// AlarmStatusAcknowledged represents the value Acknowledged.
+	AlarmStatusAcknowledged AlarmStatusValue = "Acknowledged"
 
-	// ExternalServiceTypeLoadbalancertcp represents the value LoadBalancerTCP.
-	ExternalServiceTypeLoadbalancertcp ExternalServiceTypeValue = "LoadBalancerTCP"
+	// AlarmStatusOpen represents the value Open.
+	AlarmStatusOpen AlarmStatusValue = "Open"
 
-	// ExternalServiceTypeNetwork represents the value Network.
-	ExternalServiceTypeNetwork ExternalServiceTypeValue = "Network"
+	// AlarmStatusResolved represents the value Resolved.
+	AlarmStatusResolved AlarmStatusValue = "Resolved"
 )
 
-// ExternalServiceIdentity represents the Identity of the object.
-var ExternalServiceIdentity = elemental.Identity{
-	Name:     "externalservice",
-	Category: "externalservices",
+// AlarmIdentity represents the Identity of the object.
+var AlarmIdentity = elemental.Identity{
+	Name:     "alarm",
+	Category: "alarms",
 	Private:  false,
 }
 
-// ExternalServicesList represents a list of ExternalServices
-type ExternalServicesList []*ExternalService
+// AlarmsList represents a list of Alarms
+type AlarmsList []*Alarm
 
 // ContentIdentity returns the identity of the objects in the list.
-func (o ExternalServicesList) ContentIdentity() elemental.Identity {
+func (o AlarmsList) ContentIdentity() elemental.Identity {
 
-	return ExternalServiceIdentity
+	return AlarmIdentity
 }
 
-// Copy returns a pointer to a copy the ExternalServicesList.
-func (o ExternalServicesList) Copy() elemental.ContentIdentifiable {
+// Copy returns a pointer to a copy the AlarmsList.
+func (o AlarmsList) Copy() elemental.ContentIdentifiable {
 
-	copy := append(ExternalServicesList{}, o...)
+	copy := append(AlarmsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the ExternalServicesList.
-func (o ExternalServicesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+// Append appends the objects to the a new copy of the AlarmsList.
+func (o AlarmsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
 
-	out := append(ExternalServicesList{}, o...)
+	out := append(AlarmsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*ExternalService))
+		out = append(out, obj.(*Alarm))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o ExternalServicesList) List() elemental.IdentifiablesList {
+func (o AlarmsList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}
 	for _, item := range o {
@@ -69,7 +68,7 @@ func (o ExternalServicesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o ExternalServicesList) DefaultOrder() []string {
+func (o AlarmsList) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -77,33 +76,27 @@ func (o ExternalServicesList) DefaultOrder() []string {
 }
 
 // Version returns the version of the content.
-func (o ExternalServicesList) Version() int {
+func (o AlarmsList) Version() int {
 
 	return 1
 }
 
-// ExternalService represents the model of a externalservice
-type ExternalService struct {
-	// LoadbalancerAddresses represents the list of adresses of the external services of type LoadBalancer.
-	LoadbalancerAddresses []string `json:"loadbalancerAddresses" bson:"loadbalanceraddresses" mapstructure:"loadbalancerAddresses,omitempty"`
+// Alarm represents the model of a alarm
+type Alarm struct {
+	// Content of the alarm.
+	Content string `json:"content" bson:"content" mapstructure:"content,omitempty"`
 
-	// LoadbalancerPortsMapping is the list of ports mapped by an extenral service of type load balancer.
-	LoadbalancerPortsMapping []*types.PortMapping `json:"loadbalancerPortsMapping" bson:"loadbalancerportsmapping" mapstructure:"loadbalancerPortsMapping,omitempty"`
+	// Data represent user data related to the alams
+	Data map[string]interface{} `json:"data" bson:"data" mapstructure:"data,omitempty"`
 
-	// Network refers to either CIDR or domain name
-	Network string `json:"network" bson:"network" mapstructure:"network,omitempty"`
+	// Kind identifies the kind of alarms. If two alarms are created with the same identifier, then only the occurence will be incremented.
+	Kind string `json:"kind" bson:"kind" mapstructure:"kind,omitempty"`
 
-	// Port refers to network port which could be a single number or 100:2000 to represent a range of ports
-	Port string `json:"port" bson:"port" mapstructure:"port,omitempty"`
+	// Number of time this alarm have been seen.
+	Occurences []time.Time `json:"occurences" bson:"occurences" mapstructure:"occurences,omitempty"`
 
-	// Protocol refers to network protocol like TCP/UDP or the number of the protocol.
-	Protocol string `json:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
-
-	// Type represents the type of external service.
-	Type ExternalServiceTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
-
-	// Archived defines if the object is archived.
-	Archived bool `json:"-" bson:"archived" mapstructure:"-,omitempty"`
+	// Status of the alarm
+	Status AlarmStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
 
 	// Annotation stores additional information about an entity
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -132,9 +125,6 @@ type ExternalService struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
-
 	// Name is the name of the entity
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -143,209 +133,170 @@ type ExternalService struct {
 	sync.Mutex
 }
 
-// NewExternalService returns a new *ExternalService
-func NewExternalService() *ExternalService {
+// NewAlarm returns a new *Alarm
+func NewAlarm() *Alarm {
 
-	return &ExternalService{
-		ModelVersion:             1,
-		Annotations:              map[string][]string{},
-		AssociatedTags:           []string{},
-		LoadbalancerAddresses:    []string{},
-		LoadbalancerPortsMapping: []*types.PortMapping{},
-		Metadata:                 []string{},
-		NormalizedTags:           []string{},
-		Port:                     "1:65535",
-		Type:                     "Network",
+	return &Alarm{
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		Data:           map[string]interface{}{},
+		NormalizedTags: []string{},
+		Occurences:     []time.Time{},
+		Status:         "Open",
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *ExternalService) Identity() elemental.Identity {
+func (o *Alarm) Identity() elemental.Identity {
 
-	return ExternalServiceIdentity
+	return AlarmIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *ExternalService) Identifier() string {
+func (o *Alarm) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *ExternalService) SetIdentifier(id string) {
+func (o *Alarm) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *ExternalService) Version() int {
+func (o *Alarm) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *ExternalService) DefaultOrder() []string {
+func (o *Alarm) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// Doc returns the documentation for the object
-func (o *ExternalService) Doc() string {
-	return `An External Service represents a random network or ip that is not managed by the system. They can be used in Network Access Policies in order to allow traffic from or to the declared network or IP, using the provided protocol and port or ports range. If you want to describe the Internet (ie. anywhere), use 0.0.0.0/0 as address, and 1-65000 for the ports. You will need to use the External Services tags to set some policies.`
-}
-
-func (o *ExternalService) String() string {
+func (o *Alarm) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
-// GetArchived returns the Archived of the receiver.
-func (o *ExternalService) GetArchived() bool {
-
-	return o.Archived
-}
-
-// SetArchived sets the given Archived of the receiver.
-func (o *ExternalService) SetArchived(archived bool) {
-
-	o.Archived = archived
-}
-
 // GetAnnotations returns the Annotations of the receiver.
-func (o *ExternalService) GetAnnotations() map[string][]string {
+func (o *Alarm) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the given Annotations of the receiver.
-func (o *ExternalService) SetAnnotations(annotations map[string][]string) {
+func (o *Alarm) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *ExternalService) GetAssociatedTags() []string {
+func (o *Alarm) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the given AssociatedTags of the receiver.
-func (o *ExternalService) SetAssociatedTags(associatedTags []string) {
+func (o *Alarm) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *ExternalService) GetCreateTime() time.Time {
+func (o *Alarm) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the given CreateTime of the receiver.
-func (o *ExternalService) SetCreateTime(createTime time.Time) {
+func (o *Alarm) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *ExternalService) GetNamespace() string {
+func (o *Alarm) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the given Namespace of the receiver.
-func (o *ExternalService) SetNamespace(namespace string) {
+func (o *Alarm) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *ExternalService) GetNormalizedTags() []string {
+func (o *Alarm) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *ExternalService) SetNormalizedTags(normalizedTags []string) {
+func (o *Alarm) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *ExternalService) GetProtected() bool {
+func (o *Alarm) GetProtected() bool {
 
 	return o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *ExternalService) GetUpdateTime() time.Time {
+func (o *Alarm) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *ExternalService) SetUpdateTime(updateTime time.Time) {
+func (o *Alarm) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
-// GetMetadata returns the Metadata of the receiver.
-func (o *ExternalService) GetMetadata() []string {
-
-	return o.Metadata
-}
-
-// SetMetadata sets the given Metadata of the receiver.
-func (o *ExternalService) SetMetadata(metadata []string) {
-
-	o.Metadata = metadata
-}
-
 // GetName returns the Name of the receiver.
-func (o *ExternalService) GetName() string {
+func (o *Alarm) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the given Name of the receiver.
-func (o *ExternalService) SetName(name string) {
+func (o *Alarm) SetName(name string) {
 
 	o.Name = name
 }
 
 // Validate valides the current information stored into the structure.
-func (o *ExternalService) Validate() error {
+func (o *Alarm) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredString("network", o.Network); err != nil {
+	if err := elemental.ValidateRequiredString("content", o.Content); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("network", o.Network); err != nil {
+	if err := elemental.ValidateRequiredString("content", o.Content); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("port", o.Port, `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("protocol", o.Protocol); err != nil {
+	if err := elemental.ValidateRequiredString("kind", o.Kind); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidatePattern("protocol", o.Protocol, `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`, true); err != nil {
+	if err := elemental.ValidateRequiredString("kind", o.Kind); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("protocol", o.Protocol); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"LoadBalancerHTTP", "LoadBalancerTCP", "Network"}, false); err != nil {
+	if err := elemental.ValidateStringInList("status", string(o.Status), []string{"Acknowledged", "Open", "Resolved"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -369,24 +320,24 @@ func (o *ExternalService) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*ExternalService) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*Alarm) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := ExternalServiceAttributesMap[name]; ok {
+	if v, ok := AlarmAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return ExternalServiceLowerCaseAttributesMap[name]
+	return AlarmLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*ExternalService) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*Alarm) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return ExternalServiceAttributesMap
+	return AlarmAttributesMap
 }
 
-// ExternalServiceAttributesMap represents the map of attribute for ExternalService.
-var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
+// AlarmAttributesMap represents the map of attribute for Alarm.
+var AlarmAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -416,16 +367,6 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "annotations",
 		Type:           "external",
 	},
-	"Archived": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Archived",
-		Description:    `Archived defines if the object is archived.`,
-		Getter:         true,
-		Name:           "archived",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
@@ -437,6 +378,18 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
+	},
+	"Content": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Content",
+		CreationOnly:   true,
+		Description:    `Content of the alarm.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "content",
+		Required:       true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -452,6 +405,17 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "time",
 	},
+	"Data": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Data",
+		CreationOnly:   true,
+		Description:    `Data represent user data related to the alams`,
+		Exposed:        true,
+		Name:           "data",
+		Stored:         true,
+		SubType:        "alarm_data",
+		Type:           "external",
+	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -464,39 +428,19 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"LoadbalancerAddresses": elemental.AttributeSpecification{
+	"Kind": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "LoadbalancerAddresses",
-		Description:    `LoadbalancerAddresses represents the list of adresses of the external services of type LoadBalancer.`,
-		Exposed:        true,
-		Name:           "loadbalancerAddresses",
-		Stored:         true,
-		SubType:        "addresses_list",
-		Type:           "external",
-	},
-	"LoadbalancerPortsMapping": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LoadbalancerPortsMapping",
-		Description:    `LoadbalancerPortsMapping is the list of ports mapped by an extenral service of type load balancer. `,
-		Exposed:        true,
-		Name:           "loadbalancerPortsMapping",
-		Stored:         true,
-		SubType:        "portmapping_list",
-		Type:           "external",
-	},
-	"Metadata": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Metadata",
+		ConvertedName:  "Kind",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
+		Description:    `Kind identifies the kind of alarms. If two alarms are created with the same identifier, then only the occurence will be incremented.`,
 		Exposed:        true,
 		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
+		Format:         "free",
+		Name:           "kind",
+		Orderable:      true,
+		Required:       true,
 		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Type:           "string",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -534,18 +478,6 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Network": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Network",
-		Description:    `Network refers to either CIDR or domain name`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "network",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"NormalizedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -561,17 +493,17 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Transient:      true,
 		Type:           "external",
 	},
-	"Port": elemental.AttributeSpecification{
-		AllowedChars:   `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`,
+	"Occurences": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Port",
-		DefaultValue:   "1:65535",
-		Description:    `Port refers to network port which could be a single number or 100:2000 to represent a range of ports`,
+		Autogenerated:  true,
+		ConvertedName:  "Occurences",
+		CreationOnly:   true,
+		Description:    `Number of time this alarm have been seen.`,
 		Exposed:        true,
-		Filterable:     true,
-		Name:           "port",
+		Name:           "occurences",
 		Stored:         true,
-		Type:           "string",
+		SubType:        "alarm_occurences",
+		Type:           "external",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -585,26 +517,14 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"Protocol": elemental.AttributeSpecification{
-		AllowedChars:   `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`,
-		AllowedChoices: []string{},
-		ConvertedName:  "Protocol",
-		Description:    `Protocol refers to network protocol like TCP/UDP or the number of the protocol.`,
+	"Status": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Acknowledged", "Open", "Resolved"},
+		ConvertedName:  "Status",
+		DefaultValue:   AlarmStatusOpen,
+		Description:    `Status of the alarm`,
 		Exposed:        true,
 		Filterable:     true,
-		Name:           "protocol",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"LoadBalancerHTTP", "LoadBalancerTCP", "Network"},
-		ConvertedName:  "Type",
-		DefaultValue:   ExternalServiceTypeNetwork,
-		Description:    `Type represents the type of external service.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "type",
+		Name:           "status",
 		Orderable:      true,
 		Stored:         true,
 		Type:           "enum",
@@ -625,8 +545,8 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// ExternalServiceLowerCaseAttributesMap represents the map of attribute for ExternalService.
-var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// AlarmLowerCaseAttributesMap represents the map of attribute for Alarm.
+var AlarmLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -656,16 +576,6 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		SubType:        "annotations",
 		Type:           "external",
 	},
-	"archived": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Archived",
-		Description:    `Archived defines if the object is archived.`,
-		Getter:         true,
-		Name:           "archived",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
@@ -677,6 +587,18 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
+	},
+	"content": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Content",
+		CreationOnly:   true,
+		Description:    `Content of the alarm.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "content",
+		Required:       true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -692,6 +614,17 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "time",
 	},
+	"data": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Data",
+		CreationOnly:   true,
+		Description:    `Data represent user data related to the alams`,
+		Exposed:        true,
+		Name:           "data",
+		Stored:         true,
+		SubType:        "alarm_data",
+		Type:           "external",
+	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -704,39 +637,19 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "string",
 	},
-	"loadbalanceraddresses": elemental.AttributeSpecification{
+	"kind": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "LoadbalancerAddresses",
-		Description:    `LoadbalancerAddresses represents the list of adresses of the external services of type LoadBalancer.`,
-		Exposed:        true,
-		Name:           "loadbalancerAddresses",
-		Stored:         true,
-		SubType:        "addresses_list",
-		Type:           "external",
-	},
-	"loadbalancerportsmapping": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LoadbalancerPortsMapping",
-		Description:    `LoadbalancerPortsMapping is the list of ports mapped by an extenral service of type load balancer. `,
-		Exposed:        true,
-		Name:           "loadbalancerPortsMapping",
-		Stored:         true,
-		SubType:        "portmapping_list",
-		Type:           "external",
-	},
-	"metadata": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Metadata",
+		ConvertedName:  "Kind",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
+		Description:    `Kind identifies the kind of alarms. If two alarms are created with the same identifier, then only the occurence will be incremented.`,
 		Exposed:        true,
 		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
+		Format:         "free",
+		Name:           "kind",
+		Orderable:      true,
+		Required:       true,
 		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Type:           "string",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -774,18 +687,6 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "string",
 	},
-	"network": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Network",
-		Description:    `Network refers to either CIDR or domain name`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "network",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"normalizedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -801,17 +702,17 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Transient:      true,
 		Type:           "external",
 	},
-	"port": elemental.AttributeSpecification{
-		AllowedChars:   `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`,
+	"occurences": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Port",
-		DefaultValue:   "1:65535",
-		Description:    `Port refers to network port which could be a single number or 100:2000 to represent a range of ports`,
+		Autogenerated:  true,
+		ConvertedName:  "Occurences",
+		CreationOnly:   true,
+		Description:    `Number of time this alarm have been seen.`,
 		Exposed:        true,
-		Filterable:     true,
-		Name:           "port",
+		Name:           "occurences",
 		Stored:         true,
-		Type:           "string",
+		SubType:        "alarm_occurences",
+		Type:           "external",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -825,26 +726,14 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"protocol": elemental.AttributeSpecification{
-		AllowedChars:   `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`,
-		AllowedChoices: []string{},
-		ConvertedName:  "Protocol",
-		Description:    `Protocol refers to network protocol like TCP/UDP or the number of the protocol.`,
+	"status": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Acknowledged", "Open", "Resolved"},
+		ConvertedName:  "Status",
+		DefaultValue:   AlarmStatusOpen,
+		Description:    `Status of the alarm`,
 		Exposed:        true,
 		Filterable:     true,
-		Name:           "protocol",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"LoadBalancerHTTP", "LoadBalancerTCP", "Network"},
-		ConvertedName:  "Type",
-		DefaultValue:   ExternalServiceTypeNetwork,
-		Description:    `Type represents the type of external service.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "type",
+		Name:           "status",
 		Orderable:      true,
 		Stored:         true,
 		Type:           "enum",
