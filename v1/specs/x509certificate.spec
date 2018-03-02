@@ -169,7 +169,7 @@
             "secret": null,
             "setter": null,
             "stored": false,
-            "subtype": "dns_list",
+            "subtype": "extensions_list",
             "transient": null,
             "type": "external",
             "unique": null,
