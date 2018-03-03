@@ -71,7 +71,7 @@ var auditFilterTypeReverse = map[string]interface{}{
 	"fsuid":         AuditFilterTypeFsuid,
 	"gid":           AuditFilterTypeGid,
 	"inode":         AuditFilterTypeInode,
-	"msg_type":      AuditFilterTypeMsgtype,
+	"msgtype":       AuditFilterTypeMsgtype,
 	"obj_gid":       AuditFilterTypeObjgid,
 	"obj_lev_highj": AuditFilterTypeObjlevhigh,
 	"obj_lev_low":   AuditFilterTypeObjlevlow,
