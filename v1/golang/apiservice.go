@@ -90,8 +90,8 @@ type APIService struct {
 	// IPList is the list of ip address or subnets of the service if available.
 	IPList types.IPList `json:"IPList" bson:"iplist" mapstructure:"IPList,omitempty"`
 
-	// JWTCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.
-	JWTCertificate string `json:"JWTCertificate" bson:"jwtcertificate" mapstructure:"JWTCertificate,omitempty"`
+	// JWTSigningCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.
+	JWTSigningCertificate string `json:"JWTSigningCertificate" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
 	// AllServiceTags is an internal object that summarizes all the implementedBy tags to accelerate database searches. It is not exposed.
 	AllServiceTags []string `json:"-" bson:"allservicetags" mapstructure:"-,omitempty"`
@@ -105,14 +105,14 @@ type APIService struct {
 	// ExternalServiceCA is the certificate authority that the service is using. This is needed for external API services with private certificate authorities. The field is optional. If provided, this must be a valid PEM CA file.
 	ExternalServiceCA string `json:"externalServiceCA" bson:"externalserviceca" mapstructure:"externalServiceCA,omitempty"`
 
-	// ImplementedBy is a list of tag selectors that identifies that Processing Units that will implement this service.
-	ImplementedBy [][]string `json:"implementedBy" bson:"implementedby" mapstructure:"implementedBy,omitempty"`
-
 	// NetworkProtocol is the network protocol of the service. Default is TCP.
 	NetworkProtocol int `json:"networkProtocol" bson:"networkprotocol" mapstructure:"networkProtocol,omitempty"`
 
 	// Ports is a list of ports for the service. Ports are either exact match, or a range portMin:portMax.
 	Ports types.PortList `json:"ports" bson:"ports" mapstructure:"ports,omitempty"`
+
+	// RuntimeSelectors is a list of tag selectors that identifies that Processing Units that will implement this service.
+	RuntimeSelectors [][]string `json:"runtimeSelectors" bson:"runtimeselectors" mapstructure:"runtimeSelectors,omitempty"`
 
 	// Type is the type of the service (HTTP, TCP, etc). More types will be added to the system.
 	Type APIServiceTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
@@ -339,14 +339,6 @@ func (o *APIService) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredExternal("implementedBy", o.ImplementedBy); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("implementedBy", o.ImplementedBy); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateMaximumInt("networkProtocol", o.NetworkProtocol, int(255), false); err != nil {
 		errors = append(errors, err)
 	}
@@ -360,6 +352,14 @@ func (o *APIService) Validate() error {
 	}
 
 	if err := elemental.ValidateRequiredExternal("ports", o.Ports); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("runtimeSelectors", o.RuntimeSelectors); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("runtimeSelectors", o.RuntimeSelectors); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -444,13 +444,13 @@ var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "ip_list",
 		Type:           "external",
 	},
-	"JWTCertificate": elemental.AttributeSpecification{
+	"JWTSigningCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "JWTCertificate",
-		Description:    `JWTCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.`,
+		ConvertedName:  "JWTSigningCertificate",
+		Description:    `JWTSigningCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.`,
 		Exposed:        true,
 		Format:         "free",
-		Name:           "JWTCertificate",
+		Name:           "JWTSigningCertificate",
 		Stored:         true,
 		Type:           "string",
 	},
@@ -555,17 +555,6 @@ var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"ImplementedBy": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ImplementedBy",
-		Description:    `ImplementedBy is a list of tag selectors that identifies that Processing Units that will implement this service.`,
-		Exposed:        true,
-		Name:           "implementedBy",
-		Required:       true,
-		Stored:         true,
-		SubType:        "target_tags",
-		Type:           "external",
-	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -668,6 +657,17 @@ var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"RuntimeSelectors": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RuntimeSelectors",
+		Description:    `RuntimeSelectors is a list of tag selectors that identifies that Processing Units that will implement this service.`,
+		Exposed:        true,
+		Name:           "runtimeSelectors",
+		Required:       true,
+		Stored:         true,
+		SubType:        "target_tags",
+		Type:           "external",
+	},
 	"Type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"HTTP", "L3", "TCP"},
 		ConvertedName:  "Type",
@@ -738,13 +738,13 @@ var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		SubType:        "ip_list",
 		Type:           "external",
 	},
-	"jwtcertificate": elemental.AttributeSpecification{
+	"jwtsigningcertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "JWTCertificate",
-		Description:    `JWTCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.`,
+		ConvertedName:  "JWTSigningCertificate",
+		Description:    `JWTSigningCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.`,
 		Exposed:        true,
 		Format:         "free",
-		Name:           "JWTCertificate",
+		Name:           "JWTSigningCertificate",
 		Stored:         true,
 		Type:           "string",
 	},
@@ -849,17 +849,6 @@ var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Stored:         true,
 		Type:           "string",
 	},
-	"implementedby": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ImplementedBy",
-		Description:    `ImplementedBy is a list of tag selectors that identifies that Processing Units that will implement this service.`,
-		Exposed:        true,
-		Name:           "implementedBy",
-		Required:       true,
-		Stored:         true,
-		SubType:        "target_tags",
-		Type:           "external",
-	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -961,6 +950,17 @@ var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Orderable:      true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"runtimeselectors": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RuntimeSelectors",
+		Description:    `RuntimeSelectors is a list of tag selectors that identifies that Processing Units that will implement this service.`,
+		Exposed:        true,
+		Name:           "runtimeSelectors",
+		Required:       true,
+		Stored:         true,
+		SubType:        "target_tags",
+		Type:           "external",
 	},
 	"type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"HTTP", "L3", "TCP"},
