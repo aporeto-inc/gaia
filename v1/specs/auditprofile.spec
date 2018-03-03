@@ -46,7 +46,7 @@
             "deprecated": null,
             "description": "Propagated indicates if the audit profile is propagated.",
             "exposed": true,
-            "filterable": false,
+            "filterable": true,
             "foreign_key": null,
             "format": null,
             "getter": null,
