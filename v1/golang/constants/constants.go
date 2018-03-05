@@ -58,6 +58,12 @@ const (
 	// StatsTagKeySourceIP represents the source IP tag.
 	StatsTagKeySourceIP = "@srcip"
 
+	// StatsTagKeyURI represents the URI tag.
+	StatsTagKeyURI = "@uri"
+
+	// StatsTagKeyUser represents the URI tag.
+	StatsTagKeyUser = "@user"
+
 	// StatsTagKeyObservationMode represents the that the flow is oberserved.
 	StatsTagKeyObservationMode = "@observed"
 
@@ -102,6 +108,9 @@ const (
 
 	// StatsTagKeyPid represents the parent Pid of the container
 	StatsTagKeyPid = "@sys:pid"
+
+	// StatsTagKeyUserID is the user id.
+	StatsTagKeyUserID = "@sys:uid"
 
 	// StatsTagKeyServerID represents the server ID tag.
 	StatsTagKeyServerID = "@serverid"
