@@ -58,18 +58,6 @@
             "deprecated": null,
             "get": true,
             "relationship": "root",
-            "rest_name": "alarm",
-            "update": false
-        },
-        {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "apiauthorizationpolicy",
             "update": false
         },
@@ -83,6 +71,18 @@
             "get": false,
             "relationship": "root",
             "rest_name": "apicheck",
+            "update": false
+        },
+        {
+            "bulk_create": false,
+            "bulk_delete": false,
+            "bulk_update": false,
+            "create": true,
+            "delete": false,
+            "deprecated": null,
+            "get": true,
+            "relationship": "root",
+            "rest_name": "apiservice",
             "update": false
         },
         {
@@ -119,30 +119,6 @@
             "get": false,
             "relationship": "root",
             "rest_name": "authority",
-            "update": false
-        },
-        {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
-            "rest_name": "automation",
-            "update": false
-        },
-        {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
-            "rest_name": "automationtemplate",
             "update": false
         },
         {
@@ -281,18 +257,6 @@
             "bulk_create": false,
             "bulk_delete": false,
             "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
-            "rest_name": "fileaccess",
-            "update": false
-        },
-        {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
             "create": true,
             "delete": false,
             "deprecated": null,
@@ -392,18 +356,6 @@
             "create": true,
             "delete": false,
             "deprecated": null,
-            "get": false,
-            "relationship": "child",
-            "rest_name": "jaegerbatch",
-            "update": false
-        },
-        {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
             "get": true,
             "relationship": "root",
             "rest_name": "kubernetescluster",
@@ -491,6 +443,18 @@
             "get": true,
             "relationship": "root",
             "rest_name": "policy",
+            "update": false
+        },
+        {
+            "bulk_create": false,
+            "bulk_delete": false,
+            "bulk_update": false,
+            "create": true,
+            "delete": false,
+            "deprecated": null,
+            "get": true,
+            "relationship": "root",
+            "rest_name": "policyrule",
             "update": false
         },
         {
@@ -671,6 +635,18 @@
             "get": false,
             "relationship": "root",
             "rest_name": "token",
+            "update": false
+        },
+        {
+            "bulk_create": false,
+            "bulk_delete": false,
+            "bulk_update": false,
+            "create": true,
+            "delete": false,
+            "deprecated": null,
+            "get": true,
+            "relationship": "root",
+            "rest_name": "tokenscopepolicy",
             "update": false
         },
         {

@@ -11,6 +11,7 @@ func init() {
 	elemental.RegisterIdentity(AlarmIdentity)
 	elemental.RegisterIdentity(APIAuthorizationPolicyIdentity)
 	elemental.RegisterIdentity(APICheckIdentity)
+	elemental.RegisterIdentity(APIServiceIdentity)
 	elemental.RegisterIdentity(AuditProfileIdentity)
 	elemental.RegisterIdentity(AuthIdentity)
 	elemental.RegisterIdentity(AuthorityIdentity)
@@ -67,6 +68,7 @@ func init() {
 	elemental.RegisterIdentity(TabulationIdentity)
 	elemental.RegisterIdentity(TagIdentity)
 	elemental.RegisterIdentity(TokenIdentity)
+	elemental.RegisterIdentity(TokenScopePolicyIdentity)
 	elemental.RegisterIdentity(TriggerIdentity)
 	elemental.RegisterIdentity(VulnerabilityIdentity)
 	elemental.RegisterIdentity(X509CertificateIdentity)
@@ -95,6 +97,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewAPIAuthorizationPolicy()
 	case APICheckIdentity.Name:
 		return NewAPICheck()
+	case APIServiceIdentity.Name:
+		return NewAPIService()
 	case AuditProfileIdentity.Name:
 		return NewAuditProfile()
 	case AuthIdentity.Name:
@@ -207,6 +211,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewTag()
 	case TokenIdentity.Name:
 		return NewToken()
+	case TokenScopePolicyIdentity.Name:
+		return NewTokenScopePolicy()
 	case TriggerIdentity.Name:
 		return NewTrigger()
 	case VulnerabilityIdentity.Name:
@@ -239,6 +245,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewAPIAuthorizationPolicy()
 	case APICheckIdentity.Category:
 		return NewAPICheck()
+	case APIServiceIdentity.Category:
+		return NewAPIService()
 	case AuditProfileIdentity.Category:
 		return NewAuditProfile()
 	case AuthIdentity.Category:
@@ -351,6 +359,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewTag()
 	case TokenIdentity.Category:
 		return NewToken()
+	case TokenScopePolicyIdentity.Category:
+		return NewTokenScopePolicy()
 	case TriggerIdentity.Category:
 		return NewTrigger()
 	case VulnerabilityIdentity.Category:
@@ -383,6 +393,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &APIAuthorizationPoliciesList{}
 	case APICheckIdentity.Name:
 		return &APIChecksList{}
+	case APIServiceIdentity.Name:
+		return &APIServicesList{}
 	case AuditProfileIdentity.Name:
 		return &AuditProfilesList{}
 	case AuthIdentity.Name:
@@ -494,6 +506,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &TagsList{}
 	case TokenIdentity.Name:
 		return &TokensList{}
+	case TokenScopePolicyIdentity.Name:
+		return &TokenScopePoliciesList{}
 	case TriggerIdentity.Name:
 		return &TriggersList{}
 	case VulnerabilityIdentity.Name:
@@ -526,6 +540,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &APIAuthorizationPoliciesList{}
 	case APICheckIdentity.Category:
 		return &APIChecksList{}
+	case APIServiceIdentity.Category:
+		return &APIServicesList{}
 	case AuditProfileIdentity.Category:
 		return &AuditProfilesList{}
 	case AuthIdentity.Category:
@@ -637,6 +653,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &TagsList{}
 	case TokenIdentity.Category:
 		return &TokensList{}
+	case TokenScopePolicyIdentity.Category:
+		return &TokenScopePoliciesList{}
 	case TriggerIdentity.Category:
 		return &TriggersList{}
 	case VulnerabilityIdentity.Category:
@@ -661,6 +679,7 @@ func AllIdentities() []elemental.Identity {
 		AlarmIdentity,
 		APIAuthorizationPolicyIdentity,
 		APICheckIdentity,
+		APIServiceIdentity,
 		AuditProfileIdentity,
 		AuthIdentity,
 		AuthorityIdentity,
@@ -717,6 +736,7 @@ func AllIdentities() []elemental.Identity {
 		TabulationIdentity,
 		TagIdentity,
 		TokenIdentity,
+		TokenScopePolicyIdentity,
 		TriggerIdentity,
 		VulnerabilityIdentity,
 		X509CertificateIdentity,
@@ -785,6 +805,7 @@ var aliasesMap = map[string]elemental.Identity{
 	"tables":     TabulationIdentity,
 	"tabs":       TabulationIdentity,
 	"tab":        TabulationIdentity,
+	"tsp":        TokenScopePolicyIdentity,
 	"vulns":      VulnerabilityIdentity,
 	"vul":        VulnerabilityIdentity,
 	"vuln":       VulnerabilityIdentity,
@@ -817,6 +838,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"apiauths",
 		}
 	case APICheckIdentity:
+		return []string{}
+	case APIServiceIdentity:
 		return []string{}
 	case AuditProfileIdentity:
 		return []string{
@@ -1017,6 +1040,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case TokenIdentity:
 		return []string{}
+	case TokenScopePolicyIdentity:
+		return []string{
+			"tsp",
+		}
 	case TriggerIdentity:
 		return []string{}
 	case VulnerabilityIdentity:

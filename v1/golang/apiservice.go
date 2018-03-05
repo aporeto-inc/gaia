@@ -5,80 +5,60 @@ import (
 	"sync"
 
 	"github.com/aporeto-inc/elemental"
+	"github.com/aporeto-inc/gaia/v1/golang/types"
 	"time"
 )
 
-// PolicyTypeValue represents the possible values for attribute "type".
-type PolicyTypeValue string
+// APIServiceTypeValue represents the possible values for attribute "type".
+type APIServiceTypeValue string
 
 const (
-	// PolicyTypeApiauthorization represents the value APIAuthorization.
-	PolicyTypeApiauthorization PolicyTypeValue = "APIAuthorization"
+	// APIServiceTypeHttp represents the value HTTP.
+	APIServiceTypeHttp APIServiceTypeValue = "HTTP"
 
-	// PolicyTypeEnforcerprofile represents the value EnforcerProfile.
-	PolicyTypeEnforcerprofile PolicyTypeValue = "EnforcerProfile"
+	// APIServiceTypeL3 represents the value L3.
+	APIServiceTypeL3 APIServiceTypeValue = "L3"
 
-	// PolicyTypeFile represents the value File.
-	PolicyTypeFile PolicyTypeValue = "File"
-
-	// PolicyTypeHook represents the value Hook.
-	PolicyTypeHook PolicyTypeValue = "Hook"
-
-	// PolicyTypeNamespacemapping represents the value NamespaceMapping.
-	PolicyTypeNamespacemapping PolicyTypeValue = "NamespaceMapping"
-
-	// PolicyTypeNetwork represents the value Network.
-	PolicyTypeNetwork PolicyTypeValue = "Network"
-
-	// PolicyTypeProcessingunit represents the value ProcessingUnit.
-	PolicyTypeProcessingunit PolicyTypeValue = "ProcessingUnit"
-
-	// PolicyTypeQuota represents the value Quota.
-	PolicyTypeQuota PolicyTypeValue = "Quota"
-
-	// PolicyTypeSyscall represents the value Syscall.
-	PolicyTypeSyscall PolicyTypeValue = "Syscall"
-
-	// PolicyTypeTokenscope represents the value TokenScope.
-	PolicyTypeTokenscope PolicyTypeValue = "TokenScope"
+	// APIServiceTypeTcp represents the value TCP.
+	APIServiceTypeTcp APIServiceTypeValue = "TCP"
 )
 
-// PolicyIdentity represents the Identity of the object.
-var PolicyIdentity = elemental.Identity{
-	Name:     "policy",
-	Category: "policies",
+// APIServiceIdentity represents the Identity of the object.
+var APIServiceIdentity = elemental.Identity{
+	Name:     "apiservice",
+	Category: "apiservices",
 	Private:  false,
 }
 
-// PoliciesList represents a list of Policies
-type PoliciesList []*Policy
+// APIServicesList represents a list of APIServices
+type APIServicesList []*APIService
 
 // ContentIdentity returns the identity of the objects in the list.
-func (o PoliciesList) ContentIdentity() elemental.Identity {
+func (o APIServicesList) ContentIdentity() elemental.Identity {
 
-	return PolicyIdentity
+	return APIServiceIdentity
 }
 
-// Copy returns a pointer to a copy the PoliciesList.
-func (o PoliciesList) Copy() elemental.ContentIdentifiable {
+// Copy returns a pointer to a copy the APIServicesList.
+func (o APIServicesList) Copy() elemental.ContentIdentifiable {
 
-	copy := append(PoliciesList{}, o...)
+	copy := append(APIServicesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the PoliciesList.
-func (o PoliciesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+// Append appends the objects to the a new copy of the APIServicesList.
+func (o APIServicesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
 
-	out := append(PoliciesList{}, o...)
+	out := append(APIServicesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*Policy))
+		out = append(out, obj.(*APIService))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o PoliciesList) List() elemental.IdentifiablesList {
+func (o APIServicesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}
 	for _, item := range o {
@@ -89,7 +69,7 @@ func (o PoliciesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o PoliciesList) DefaultOrder() []string {
+func (o APIServicesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -97,33 +77,48 @@ func (o PoliciesList) DefaultOrder() []string {
 }
 
 // Version returns the version of the content.
-func (o PoliciesList) Version() int {
+func (o APIServicesList) Version() int {
 
 	return 1
 }
 
-// Policy represents the model of a policy
-type Policy struct {
-	// Action defines set of actions that must be enforced when a dependency is met.
-	Action map[string]map[string]interface{} `json:"action" bson:"action" mapstructure:"action,omitempty"`
+// APIService represents the model of a apiservice
+type APIService struct {
+	// FQDN is the fully qualified domain name of the service. It is required for external API services. It can be deduced from a service discovery system in advanced environments.
+	FQDN string `json:"FQDN" bson:"fqdn" mapstructure:"FQDN,omitempty"`
 
-	// This is a set of all object tags for matching in the DB
-	AllObjectTags []string `json:"-" bson:"allobjecttags" mapstructure:"-,omitempty"`
+	// IPList is the list of ip address or subnets of the service if available.
+	IPList types.IPList `json:"IPList" bson:"iplist" mapstructure:"IPList,omitempty"`
 
-	// This is a set of all subject tags for matching in the DB
-	AllSubjectTags []string `json:"-" bson:"allsubjecttags" mapstructure:"-,omitempty"`
+	// JWTSigningCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.
+	JWTSigningCertificate string `json:"JWTSigningCertificate" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
-	// Object represents set of entities that another entity depends on. As subjects, objects are identified as logical operations on tags when a policy is defined.
-	Object [][]string `json:"object" bson:"object" mapstructure:"object,omitempty"`
+	// AllServiceTags is an internal object that summarizes all the implementedBy tags to accelerate database searches. It is not exposed.
+	AllServiceTags []string `json:"-" bson:"allservicetags" mapstructure:"-,omitempty"`
 
-	// Relation describes the required operation to be performed between subjects and objects
-	Relation []string `json:"relation" bson:"relation" mapstructure:"relation,omitempty"`
+	// ExposedAPIs is a list of API endpoints that are exposed for the service.
+	ExposedAPIs types.ExposedAPIList `json:"exposedAPIs" bson:"exposedapis" mapstructure:"exposedAPIs,omitempty"`
 
-	// Subject represent sets of entities that will have a dependency other entities. Subjects are defined as logical operations on tags. Logical operations can includes AND/OR
-	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
+	// External is a boolean that indicates if this is an external service.
+	External bool `json:"external" bson:"external" mapstructure:"external,omitempty"`
 
-	// Type of the policy
-	Type PolicyTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
+	// ExternalServiceCA is the certificate authority that the service is using. This is needed for external API services with private certificate authorities. The field is optional. If provided, this must be a valid PEM CA file.
+	ExternalServiceCA string `json:"externalServiceCA" bson:"externalserviceca" mapstructure:"externalServiceCA,omitempty"`
+
+	// NetworkProtocol is the network protocol of the service. Default is TCP.
+	NetworkProtocol int `json:"networkProtocol" bson:"networkprotocol" mapstructure:"networkProtocol,omitempty"`
+
+	// Ports is a list of ports for the service. Ports are either exact match, or a range portMin:portMax.
+	Ports types.PortList `json:"ports" bson:"ports" mapstructure:"ports,omitempty"`
+
+	// RuntimeSelectors is a list of tag selectors that identifies that Processing Units that will implement this service.
+	RuntimeSelectors [][]string `json:"runtimeSelectors" bson:"runtimeselectors" mapstructure:"runtimeSelectors,omitempty"`
+
+	// Type is the type of the service (HTTP, TCP, etc). More types will be added to the system.
+	Type APIServiceTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
+
+	// Archived defines if the object is archived.
+	Archived bool `json:"-" bson:"archived" mapstructure:"-,omitempty"`
 
 	// Annotation stores additional information about an entity
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -149,9 +144,6 @@ type Policy struct {
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
-	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
-
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
@@ -161,63 +153,56 @@ type Policy struct {
 	// Name is the name of the entity
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
-	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
-
-	// If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.
-	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
-
-	// ActiveDuration defines for how long the policy will be active according to the activeSchedule.
-	ActiveDuration string `json:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
-
-	// ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.
-	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
-
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
 	sync.Mutex
 }
 
-// NewPolicy returns a new *Policy
-func NewPolicy() *Policy {
+// NewAPIService returns a new *APIService
+func NewAPIService() *APIService {
 
-	return &Policy{
-		ModelVersion:   1,
-		AllObjectTags:  []string{},
-		AllSubjectTags: []string{},
-		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
-		Metadata:       []string{},
-		NormalizedTags: []string{},
+	return &APIService{
+		ModelVersion:    1,
+		AllServiceTags:  []string{},
+		Annotations:     map[string][]string{},
+		AssociatedTags:  []string{},
+		ExposedAPIs:     types.ExposedAPIList{},
+		External:        false,
+		IPList:          types.IPList{},
+		Metadata:        []string{},
+		NetworkProtocol: 6,
+		NormalizedTags:  []string{},
+		Ports:           types.PortList{},
+		Type:            "L3",
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *Policy) Identity() elemental.Identity {
+func (o *APIService) Identity() elemental.Identity {
 
-	return PolicyIdentity
+	return APIServiceIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *Policy) Identifier() string {
+func (o *APIService) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *Policy) SetIdentifier(id string) {
+func (o *APIService) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *Policy) Version() int {
+func (o *APIService) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *Policy) DefaultOrder() []string {
+func (o *APIService) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -225,200 +210,160 @@ func (o *Policy) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *Policy) Doc() string {
-	return nodocString
+func (o *APIService) Doc() string {
+	return `APIService descibes a L4/L7 service and the corresponding implementation. It allows users to define their services, the APIs that they expose, the implementation of the service. These definitions can be used by network policy in order to define advanced controls based on the APIs.`
 }
 
-func (o *Policy) String() string {
+func (o *APIService) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetArchived returns the Archived of the receiver.
+func (o *APIService) GetArchived() bool {
+
+	return o.Archived
+}
+
+// SetArchived sets the given Archived of the receiver.
+func (o *APIService) SetArchived(archived bool) {
+
+	o.Archived = archived
+}
+
 // GetAnnotations returns the Annotations of the receiver.
-func (o *Policy) GetAnnotations() map[string][]string {
+func (o *APIService) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the given Annotations of the receiver.
-func (o *Policy) SetAnnotations(annotations map[string][]string) {
+func (o *APIService) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *Policy) GetAssociatedTags() []string {
+func (o *APIService) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the given AssociatedTags of the receiver.
-func (o *Policy) SetAssociatedTags(associatedTags []string) {
+func (o *APIService) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *Policy) GetCreateTime() time.Time {
+func (o *APIService) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the given CreateTime of the receiver.
-func (o *Policy) SetCreateTime(createTime time.Time) {
+func (o *APIService) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *Policy) GetNamespace() string {
+func (o *APIService) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the given Namespace of the receiver.
-func (o *Policy) SetNamespace(namespace string) {
+func (o *APIService) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *Policy) GetNormalizedTags() []string {
+func (o *APIService) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *Policy) SetNormalizedTags(normalizedTags []string) {
+func (o *APIService) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *Policy) GetProtected() bool {
+func (o *APIService) GetProtected() bool {
 
 	return o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *Policy) GetUpdateTime() time.Time {
+func (o *APIService) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *Policy) SetUpdateTime(updateTime time.Time) {
+func (o *APIService) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
-// GetDisabled returns the Disabled of the receiver.
-func (o *Policy) GetDisabled() bool {
-
-	return o.Disabled
-}
-
-// SetDisabled sets the given Disabled of the receiver.
-func (o *Policy) SetDisabled(disabled bool) {
-
-	o.Disabled = disabled
-}
-
 // GetMetadata returns the Metadata of the receiver.
-func (o *Policy) GetMetadata() []string {
+func (o *APIService) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the given Metadata of the receiver.
-func (o *Policy) SetMetadata(metadata []string) {
+func (o *APIService) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *Policy) GetName() string {
+func (o *APIService) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the given Name of the receiver.
-func (o *Policy) SetName(name string) {
+func (o *APIService) SetName(name string) {
 
 	o.Name = name
 }
 
-// GetPropagate returns the Propagate of the receiver.
-func (o *Policy) GetPropagate() bool {
-
-	return o.Propagate
-}
-
-// SetPropagate sets the given Propagate of the receiver.
-func (o *Policy) SetPropagate(propagate bool) {
-
-	o.Propagate = propagate
-}
-
-// GetPropagationHidden returns the PropagationHidden of the receiver.
-func (o *Policy) GetPropagationHidden() bool {
-
-	return o.PropagationHidden
-}
-
-// SetPropagationHidden sets the given PropagationHidden of the receiver.
-func (o *Policy) SetPropagationHidden(propagationHidden bool) {
-
-	o.PropagationHidden = propagationHidden
-}
-
-// GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *Policy) GetActiveDuration() string {
-
-	return o.ActiveDuration
-}
-
-// SetActiveDuration sets the given ActiveDuration of the receiver.
-func (o *Policy) SetActiveDuration(activeDuration string) {
-
-	o.ActiveDuration = activeDuration
-}
-
-// GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *Policy) GetActiveSchedule() string {
-
-	return o.ActiveSchedule
-}
-
-// SetActiveSchedule sets the given ActiveSchedule of the receiver.
-func (o *Policy) SetActiveSchedule(activeSchedule string) {
-
-	o.ActiveSchedule = activeSchedule
-}
-
 // Validate valides the current information stored into the structure.
-func (o *Policy) Validate() error {
+func (o *APIService) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredExternal("action", o.Action); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("action", o.Action); err != nil {
+	if err := elemental.ValidateMaximumInt("networkProtocol", o.NetworkProtocol, int(255), false); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("subject", o.Subject); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("subject", o.Subject); err != nil {
+	if err := elemental.ValidateMinimumInt("networkProtocol", o.NetworkProtocol, int(1), false); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"}, false); err != nil {
+	if err := elemental.ValidateRequiredExternal("ports", o.Ports); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("ports", o.Ports); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("runtimeSelectors", o.RuntimeSelectors); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("runtimeSelectors", o.RuntimeSelectors); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"HTTP", "L3", "TCP"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -427,10 +372,6 @@ func (o *Policy) Validate() error {
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -446,24 +387,36 @@ func (o *Policy) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*Policy) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*APIService) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := PolicyAttributesMap[name]; ok {
+	if v, ok := APIServiceAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return PolicyLowerCaseAttributesMap[name]
+	return APIServiceLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*Policy) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*APIService) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return PolicyAttributesMap
+	return APIServiceAttributesMap
 }
 
-// PolicyAttributesMap represents the map of attribute for Policy.
-var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
+// APIServiceAttributesMap represents the map of attribute for APIService.
+var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
+	"FQDN": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "FQDN",
+		Description:    `FQDN is the fully qualified domain name of the service. It is required for external API services. It can be deduced from a service discovery system in advanced environments.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "FQDN",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -481,58 +434,31 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 		Unique:         true,
 	},
-	"Action": elemental.AttributeSpecification{
+	"IPList": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Action",
-		Description:    `Action defines set of actions that must be enforced when a dependency is met.`,
+		ConvertedName:  "IPList",
+		Description:    `IPList is the list of ip address or subnets of the service if available.`,
 		Exposed:        true,
-		Name:           "action",
-		Required:       true,
+		Name:           "IPList",
 		Stored:         true,
-		SubType:        "actions_list",
+		SubType:        "ip_list",
 		Type:           "external",
 	},
-	"ActiveDuration": elemental.AttributeSpecification{
-		AllowedChars:   `^[0-9]+[smh]$`,
+	"JWTSigningCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "ActiveDuration",
-		Description:    `ActiveDuration defines for how long the policy will be active according to the activeSchedule.`,
+		ConvertedName:  "JWTSigningCertificate",
+		Description:    `JWTSigningCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.`,
 		Exposed:        true,
 		Format:         "free",
-		Getter:         true,
-		Name:           "activeDuration",
-		Setter:         true,
+		Name:           "JWTSigningCertificate",
 		Stored:         true,
 		Type:           "string",
 	},
-	"ActiveSchedule": elemental.AttributeSpecification{
+	"AllServiceTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "ActiveSchedule",
-		Description:    `ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "activeSchedule",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "cron_expression",
-		Type:           "external",
-	},
-	"AllObjectTags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AllObjectTags",
-		Description:    `This is a set of all object tags for matching in the DB`,
-		Name:           "allObjectTags",
-		Required:       true,
-		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
-	},
-	"AllSubjectTags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AllSubjectTags",
-		Description:    `This is a set of all subject tags for matching in the DB`,
-		Name:           "allSubjectTags",
-		Required:       true,
+		ConvertedName:  "AllServiceTags",
+		Description:    `AllServiceTags is an internal object that summarizes all the implementedBy tags to accelerate database searches. It is not exposed.`,
+		Name:           "allServiceTags",
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
@@ -548,6 +474,16 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
+	},
+	"Archived": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Archived",
+		Description:    `Archived defines if the object is archived.`,
+		Getter:         true,
+		Name:           "archived",
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -587,18 +523,37 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Disabled": elemental.AttributeSpecification{
+	"ExposedAPIs": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		ConvertedName:  "ExposedAPIs",
+		Description:    `ExposedAPIs is a list of API endpoints that are exposed for the service.`,
+		Exposed:        true,
+		Name:           "exposedAPIs",
+		Stored:         true,
+		SubType:        "exposed_api_list",
+		Type:           "external",
+	},
+	"External": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "External",
+		DefaultValue:   false,
+		Description:    `External is a boolean that indicates if this is an external service.`,
 		Exposed:        true,
 		Filterable:     true,
-		Getter:         true,
-		Name:           "disabled",
+		Name:           "external",
 		Orderable:      true,
-		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"ExternalServiceCA": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExternalServiceCA",
+		Description:    `ExternalServiceCA is the certificate authority that the service is using. This is needed for external API services with private certificate authorities. The field is optional. If provided, this must be a valid PEM CA file.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "externalServiceCA",
+		Stored:         true,
+		Type:           "string",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -650,6 +605,20 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"NetworkProtocol": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NetworkProtocol",
+		DefaultValue:   6,
+		Description:    `NetworkProtocol is the network protocol of the service. Default is TCP. `,
+		Exposed:        true,
+		Filterable:     true,
+		MaxValue:       255,
+		MinValue:       1,
+		Name:           "networkProtocol",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"NormalizedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -665,41 +634,16 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Transient:      true,
 		Type:           "external",
 	},
-	"Object": elemental.AttributeSpecification{
+	"Ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Object",
-		Description:    `Object represents set of entities that another entity depends on. As subjects, objects are identified as logical operations on tags when a policy is defined.`,
+		ConvertedName:  "Ports",
+		Description:    `Ports is a list of ports for the service. Ports are either exact match, or a range portMin:portMax.`,
 		Exposed:        true,
-		Name:           "object",
+		Name:           "ports",
+		Required:       true,
 		Stored:         true,
-		SubType:        "policies_list",
+		SubType:        "port_list",
 		Type:           "external",
-	},
-	"Propagate": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "propagate",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
-	"PropagationHidden": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PropagationHidden",
-		Description:    `If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "propagationHidden",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -713,36 +657,26 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"Relation": elemental.AttributeSpecification{
+	"RuntimeSelectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Relation",
-		Description:    `Relation describes the required operation to be performed between subjects and objects`,
+		ConvertedName:  "RuntimeSelectors",
+		Description:    `RuntimeSelectors is a list of tag selectors that identifies that Processing Units that will implement this service.`,
 		Exposed:        true,
-		Name:           "relation",
-		Stored:         true,
-		SubType:        "relations_list",
-		Type:           "external",
-	},
-	"Subject": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Subject",
-		Description:    `Subject represent sets of entities that will have a dependency other entities. Subjects are defined as logical operations on tags. Logical operations can includes AND/OR`,
-		Exposed:        true,
-		Name:           "subject",
+		Name:           "runtimeSelectors",
 		Required:       true,
 		Stored:         true,
-		SubType:        "policies_list",
+		SubType:        "target_tags",
 		Type:           "external",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"},
+		AllowedChoices: []string{"HTTP", "L3", "TCP"},
 		ConvertedName:  "Type",
-		CreationOnly:   true,
-		Description:    `Type of the policy`,
+		DefaultValue:   APIServiceTypeL3,
+		Description:    `Type is the type of the service (HTTP, TCP, etc). More types will be added to the system.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "type",
-		PrimaryKey:     true,
+		Orderable:      true,
 		Required:       true,
 		Stored:         true,
 		Type:           "enum",
@@ -763,8 +697,20 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// PolicyLowerCaseAttributesMap represents the map of attribute for Policy.
-var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// APIServiceLowerCaseAttributesMap represents the map of attribute for APIService.
+var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"fqdn": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "FQDN",
+		Description:    `FQDN is the fully qualified domain name of the service. It is required for external API services. It can be deduced from a service discovery system in advanced environments.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "FQDN",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -782,58 +728,31 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 		Unique:         true,
 	},
-	"action": elemental.AttributeSpecification{
+	"iplist": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Action",
-		Description:    `Action defines set of actions that must be enforced when a dependency is met.`,
+		ConvertedName:  "IPList",
+		Description:    `IPList is the list of ip address or subnets of the service if available.`,
 		Exposed:        true,
-		Name:           "action",
-		Required:       true,
+		Name:           "IPList",
 		Stored:         true,
-		SubType:        "actions_list",
+		SubType:        "ip_list",
 		Type:           "external",
 	},
-	"activeduration": elemental.AttributeSpecification{
-		AllowedChars:   `^[0-9]+[smh]$`,
+	"jwtsigningcertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "ActiveDuration",
-		Description:    `ActiveDuration defines for how long the policy will be active according to the activeSchedule.`,
+		ConvertedName:  "JWTSigningCertificate",
+		Description:    `JWTSigningCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.`,
 		Exposed:        true,
 		Format:         "free",
-		Getter:         true,
-		Name:           "activeDuration",
-		Setter:         true,
+		Name:           "JWTSigningCertificate",
 		Stored:         true,
 		Type:           "string",
 	},
-	"activeschedule": elemental.AttributeSpecification{
+	"allservicetags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "ActiveSchedule",
-		Description:    `ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "activeSchedule",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "cron_expression",
-		Type:           "external",
-	},
-	"allobjecttags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AllObjectTags",
-		Description:    `This is a set of all object tags for matching in the DB`,
-		Name:           "allObjectTags",
-		Required:       true,
-		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
-	},
-	"allsubjecttags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AllSubjectTags",
-		Description:    `This is a set of all subject tags for matching in the DB`,
-		Name:           "allSubjectTags",
-		Required:       true,
+		ConvertedName:  "AllServiceTags",
+		Description:    `AllServiceTags is an internal object that summarizes all the implementedBy tags to accelerate database searches. It is not exposed.`,
+		Name:           "allServiceTags",
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
@@ -849,6 +768,16 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
+	},
+	"archived": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Archived",
+		Description:    `Archived defines if the object is archived.`,
+		Getter:         true,
+		Name:           "archived",
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -888,18 +817,37 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"disabled": elemental.AttributeSpecification{
+	"exposedapis": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
+		ConvertedName:  "ExposedAPIs",
+		Description:    `ExposedAPIs is a list of API endpoints that are exposed for the service.`,
+		Exposed:        true,
+		Name:           "exposedAPIs",
+		Stored:         true,
+		SubType:        "exposed_api_list",
+		Type:           "external",
+	},
+	"external": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "External",
+		DefaultValue:   false,
+		Description:    `External is a boolean that indicates if this is an external service.`,
 		Exposed:        true,
 		Filterable:     true,
-		Getter:         true,
-		Name:           "disabled",
+		Name:           "external",
 		Orderable:      true,
-		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"externalserviceca": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExternalServiceCA",
+		Description:    `ExternalServiceCA is the certificate authority that the service is using. This is needed for external API services with private certificate authorities. The field is optional. If provided, this must be a valid PEM CA file.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "externalServiceCA",
+		Stored:         true,
+		Type:           "string",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -951,6 +899,20 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"networkprotocol": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NetworkProtocol",
+		DefaultValue:   6,
+		Description:    `NetworkProtocol is the network protocol of the service. Default is TCP. `,
+		Exposed:        true,
+		Filterable:     true,
+		MaxValue:       255,
+		MinValue:       1,
+		Name:           "networkProtocol",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"normalizedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -966,41 +928,16 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Transient:      true,
 		Type:           "external",
 	},
-	"object": elemental.AttributeSpecification{
+	"ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Object",
-		Description:    `Object represents set of entities that another entity depends on. As subjects, objects are identified as logical operations on tags when a policy is defined.`,
+		ConvertedName:  "Ports",
+		Description:    `Ports is a list of ports for the service. Ports are either exact match, or a range portMin:portMax.`,
 		Exposed:        true,
-		Name:           "object",
+		Name:           "ports",
+		Required:       true,
 		Stored:         true,
-		SubType:        "policies_list",
+		SubType:        "port_list",
 		Type:           "external",
-	},
-	"propagate": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "propagate",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
-	"propagationhidden": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PropagationHidden",
-		Description:    `If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "propagationHidden",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1014,36 +951,26 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"relation": elemental.AttributeSpecification{
+	"runtimeselectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Relation",
-		Description:    `Relation describes the required operation to be performed between subjects and objects`,
+		ConvertedName:  "RuntimeSelectors",
+		Description:    `RuntimeSelectors is a list of tag selectors that identifies that Processing Units that will implement this service.`,
 		Exposed:        true,
-		Name:           "relation",
-		Stored:         true,
-		SubType:        "relations_list",
-		Type:           "external",
-	},
-	"subject": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Subject",
-		Description:    `Subject represent sets of entities that will have a dependency other entities. Subjects are defined as logical operations on tags. Logical operations can includes AND/OR`,
-		Exposed:        true,
-		Name:           "subject",
+		Name:           "runtimeSelectors",
 		Required:       true,
 		Stored:         true,
-		SubType:        "policies_list",
+		SubType:        "target_tags",
 		Type:           "external",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"},
+		AllowedChoices: []string{"HTTP", "L3", "TCP"},
 		ConvertedName:  "Type",
-		CreationOnly:   true,
-		Description:    `Type of the policy`,
+		DefaultValue:   APIServiceTypeL3,
+		Description:    `Type is the type of the service (HTTP, TCP, etc). More types will be added to the system.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "type",
-		PrimaryKey:     true,
+		Orderable:      true,
 		Required:       true,
 		Stored:         true,
 		Type:           "enum",
