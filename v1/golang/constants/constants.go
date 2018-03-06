@@ -61,9 +61,6 @@ const (
 	// StatsTagKeyURI represents the URI tag.
 	StatsTagKeyURI = "@uri"
 
-	// StatsTagKeyUser represents the URI tag.
-	StatsTagKeyUser = "@user"
-
 	// StatsTagKeyObservationMode represents the that the flow is oberserved.
 	StatsTagKeyObservationMode = "@observed"
 
