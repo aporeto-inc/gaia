@@ -70,9 +70,6 @@ func (o AuditProfilesList) Version() int {
 
 // AuditProfile represents the model of a auditprofile
 type AuditProfile struct {
-	// GroupName is the name of the group that this rule must be associated with.
-	Key string `json:"key" bson:"key" mapstructure:"key,omitempty"`
-
 	// Propagated indicates if the audit profile is propagated.
 	Propagated bool `json:"propagated" bson:"propagated" mapstructure:"propagated,omitempty"`
 
@@ -280,18 +277,6 @@ func (o *AuditProfile) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredString("key", o.Key); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateMaximumLength("key", o.Key, 31, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("key", o.Key); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -394,20 +379,6 @@ var AuditProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Format:         "free",
 		Name:           "description",
 		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"Key": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Key",
-		Description:    `GroupName is the name of the group that this rule must be associated with.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		MaxLength:      31,
-		Name:           "key",
-		Orderable:      true,
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -590,20 +561,6 @@ var AuditProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Format:         "free",
 		Name:           "description",
 		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"key": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Key",
-		Description:    `GroupName is the name of the group that this rule must be associated with.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		MaxLength:      31,
-		Name:           "key",
-		Orderable:      true,
-		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
