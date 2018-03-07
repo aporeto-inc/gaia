@@ -176,10 +176,12 @@ func init() {
 			"root": true,
 		},
 		AllowsRetrieveMany: map[string]bool{
-			"root": true,
+			"enforcerprofile": true,
+			"root":            true,
 		},
 		AllowsInfo: map[string]bool{
-			"root": true,
+			"enforcerprofile": true,
+			"root":            true,
 		},
 	}
 
