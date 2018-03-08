@@ -231,6 +231,12 @@ func init() {
 		AllowsRetrieve: map[string]bool{
 			"root": true,
 		},
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
 	}
 
 	relationshipsRegistry[AvailableServiceIdentity] = &elemental.Relationship{
