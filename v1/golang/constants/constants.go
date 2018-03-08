@@ -139,8 +139,8 @@ const (
 	// StatsTagKeyExecutable represents the executable of the syscall
 	StatsTagKeyExecutable = "@exec"
 
-	// StatsTagKeyEventType represents the key of the event type
-	StatsTagKeyEventType = "@type"
+	// StatsTagKeyAuditProfileID represents the key for the audit profile identifier.
+	StatsTagKeyAuditProfileID = "@apid"
 
 	// StatsTagKeySyscallAccessPID represents the pid of the related process.
 	StatsTagKeySyscallAccessPID = "@pid"
