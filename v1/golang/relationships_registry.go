@@ -145,6 +145,9 @@ func init() {
 	}
 
 	relationshipsRegistry[AlarmIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
 		AllowsUpdate: map[string]bool{
 			"root": true,
 		},
@@ -155,6 +158,12 @@ func init() {
 			"root": true,
 		},
 		AllowsRetrieve: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
 			"root": true,
 		},
 	}
