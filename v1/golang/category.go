@@ -177,7 +177,6 @@ var CategoryAttributesMap = map[string]elemental.AttributeSpecification{
 		PrimaryKey:     true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -217,7 +216,6 @@ var CategoryLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		PrimaryKey:     true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

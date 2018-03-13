@@ -406,7 +406,6 @@ var TokenScopePolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"ActiveDuration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -537,7 +536,6 @@ var TokenScopePolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -654,7 +652,6 @@ var TokenScopePolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"activeduration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -785,7 +782,6 @@ var TokenScopePolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

@@ -1,755 +1,292 @@
 {
-    "attributes": [],
     "children": [
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "account",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "accountcheck",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "activate",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "activity",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "alarm",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "apiauthorizationpolicy",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": false,
-            "relationship": "root",
             "rest_name": "apicheck",
-            "update": false
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "apiservice",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "auditprofile",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "auth",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": false,
-            "relationship": "root",
             "rest_name": "authority",
-            "update": false
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "automation",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "automationtemplate",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "availableservice",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "awsaccount",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "certificate",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "dependencymap",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": false,
-            "relationship": "root",
             "rest_name": "email",
-            "update": false
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "enforcer",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "enforcerprofile",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "enforcerprofilemappingpolicy",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "export",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "externalaccess",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "externalservice",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "fileaccess",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "fileaccesspolicy",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "filepath",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "flowstatistic",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "hookpolicy",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": false,
-            "relationship": "root",
             "rest_name": "import",
-            "update": false
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "installation",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "isolationprofile",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": false,
-            "relationship": "root",
             "rest_name": "issue",
-            "update": false
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "kubernetescluster",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "message",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "namespace",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "namespacemappingpolicy",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "networkaccesspolicy",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "passwordreset",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "plan",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "policy",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "policyrule",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "processingunit",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "processingunitpolicy",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "quotapolicy",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": false,
-            "relationship": "root",
             "rest_name": "remoteprocessor",
-            "update": false
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": false,
-            "relationship": "root",
             "rest_name": "renderedpolicy",
-            "update": false
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": false,
-            "relationship": "root",
             "rest_name": "report",
-            "update": false
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "revocation",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "role",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "service",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "statsquery",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "suggestedpolicy",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "systemcall",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "tabulation",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "tag",
-            "update": false
+            "get": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": false,
-            "relationship": "root",
             "rest_name": "token",
-            "update": false
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "tokenscopepolicy",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "vulnerability",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "x509certificate",
-            "update": false
+            "get": true,
+            "create": true
         },
         {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": false,
-            "delete": false,
-            "deprecated": null,
-            "get": true,
-            "relationship": "root",
             "rest_name": "x509certificatecheck",
-            "update": false
+            "get": true
         }
     ],
     "model": {
-        "aliases": [],
-        "create": false,
-        "delete": false,
+        "get": true,
         "description": "[nodoc]",
         "entity_name": "Root",
-        "exposed": true,
         "extends": [
             "@identifiable-nopk-nostored"
         ],
-        "get": true,
-        "package": "",
-        "private": false,
-        "resource_name": "root",
-        "rest_name": "root",
         "root": true,
-        "update": false
+        "resource_name": "root",
+        "rest_name": "root"
     }
 }

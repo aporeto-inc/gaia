@@ -382,7 +382,6 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Actions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -527,7 +526,6 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -672,7 +670,6 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"actions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -817,7 +814,6 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

@@ -430,7 +430,6 @@ var ProcessingUnitPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Action": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"},
@@ -572,7 +571,6 @@ var ProcessingUnitPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -689,7 +687,6 @@ var ProcessingUnitPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"action": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"},
@@ -831,7 +828,6 @@ var ProcessingUnitPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

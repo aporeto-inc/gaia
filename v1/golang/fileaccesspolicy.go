@@ -420,7 +420,6 @@ var FileAccessPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"ActiveDuration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -589,7 +588,6 @@ var FileAccessPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -714,7 +712,6 @@ var FileAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"activeduration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -883,7 +880,6 @@ var FileAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

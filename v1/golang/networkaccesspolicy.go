@@ -443,7 +443,6 @@ var NetworkAccessPolicyAttributesMap = map[string]elemental.AttributeSpecificati
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"ActiveDuration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -603,7 +602,6 @@ var NetworkAccessPolicyAttributesMap = map[string]elemental.AttributeSpecificati
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -758,7 +756,6 @@ var NetworkAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"activeduration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -918,7 +915,6 @@ var NetworkAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
