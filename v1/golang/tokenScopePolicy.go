@@ -8,56 +8,42 @@ import (
 	"time"
 )
 
-// AutomationTriggerValue represents the possible values for attribute "trigger".
-type AutomationTriggerValue string
-
-const (
-	// AutomationTriggerEvent represents the value Event.
-	AutomationTriggerEvent AutomationTriggerValue = "Event"
-
-	// AutomationTriggerRemotecall represents the value RemoteCall.
-	AutomationTriggerRemotecall AutomationTriggerValue = "RemoteCall"
-
-	// AutomationTriggerTime represents the value Time.
-	AutomationTriggerTime AutomationTriggerValue = "Time"
-)
-
-// AutomationIdentity represents the Identity of the object.
-var AutomationIdentity = elemental.Identity{
-	Name:     "automation",
-	Category: "automations",
+// TokenScopePolicyIdentity represents the Identity of the object.
+var TokenScopePolicyIdentity = elemental.Identity{
+	Name:     "tokenscopepolicy",
+	Category: "tokenscopepolicies",
 	Private:  false,
 }
 
-// AutomationsList represents a list of Automations
-type AutomationsList []*Automation
+// TokenScopePoliciesList represents a list of TokenScopePolicies
+type TokenScopePoliciesList []*TokenScopePolicy
 
 // ContentIdentity returns the identity of the objects in the list.
-func (o AutomationsList) ContentIdentity() elemental.Identity {
+func (o TokenScopePoliciesList) ContentIdentity() elemental.Identity {
 
-	return AutomationIdentity
+	return TokenScopePolicyIdentity
 }
 
-// Copy returns a pointer to a copy the AutomationsList.
-func (o AutomationsList) Copy() elemental.ContentIdentifiable {
+// Copy returns a pointer to a copy the TokenScopePoliciesList.
+func (o TokenScopePoliciesList) Copy() elemental.ContentIdentifiable {
 
-	copy := append(AutomationsList{}, o...)
+	copy := append(TokenScopePoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the AutomationsList.
-func (o AutomationsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+// Append appends the objects to the a new copy of the TokenScopePoliciesList.
+func (o TokenScopePoliciesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
 
-	out := append(AutomationsList{}, o...)
+	out := append(TokenScopePoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*Automation))
+		out = append(out, obj.(*TokenScopePolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o AutomationsList) List() elemental.IdentifiablesList {
+func (o TokenScopePoliciesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}
 	for _, item := range o {
@@ -68,7 +54,7 @@ func (o AutomationsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o AutomationsList) DefaultOrder() []string {
+func (o TokenScopePoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -76,48 +62,18 @@ func (o AutomationsList) DefaultOrder() []string {
 }
 
 // Version returns the version of the content.
-func (o AutomationsList) Version() int {
+func (o TokenScopePoliciesList) Version() int {
 
 	return 1
 }
 
-// Automation represents the model of a automation
-type Automation struct {
-	// Action contains the code that will be executed if the condition is met.
-	Actions []string `json:"actions" bson:"actions" mapstructure:"actions,omitempty"`
+// TokenScopePolicy represents the model of a tokenscopepolicy
+type TokenScopePolicy struct {
+	// AssignedScopes is the the list of scopes that the policiy will assigns.
+	AssignedScopes []string `json:"assignedScopes" bson:"assignedscopes" mapstructure:"assignedScopes,omitempty"`
 
-	// Condition contains the code that will be executed to decide if any action should be taken.
-	Condition string `json:"condition" bson:"condition" mapstructure:"condition,omitempty"`
-
-	// Entitlements declares which operations are allowed on which identities.
-	Entitlements map[string][]elemental.Operation `json:"entitlements" bson:"entitlements" mapstructure:"entitlements,omitempty"`
-
-	// Error contains the eventual error of the last run.
-	Errors []string `json:"errors" bson:"errors" mapstructure:"errors,omitempty"`
-
-	// Events contains the identity and operation an event must have to trigger the automation
-	Events map[string][]elemental.EventType `json:"events" bson:"events" mapstructure:"events,omitempty"`
-
-	// LastExecTime holds the last sucessful execution tine.
-	LastExecTime time.Time `json:"lastExecTime" bson:"lastexectime" mapstructure:"lastExecTime,omitempty"`
-
-	// Parameters are passed to the functions.
-	Parameters map[string]interface{} `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
-
-	// Schedule tells when to run the automation. Must be a valid CRON format. This only applies if the trigger is set to Time.
-	Schedule string `json:"schedule" bson:"schedule" mapstructure:"schedule,omitempty"`
-
-	// Stdout contains the last run standard output.
-	Stdout string `json:"stdout" bson:"stdout" mapstructure:"stdout,omitempty"`
-
-	// Token holds the unique access token used as a password to trigger the authentication. It will be visible only after creation.
-	Token string `json:"token" bson:"token" mapstructure:"token,omitempty"`
-
-	// If set to true a new token will be issued, and the previous one invalidated.
-	TokenRenew bool `json:"tokenRenew" bson:"-" mapstructure:"tokenRenew,omitempty"`
-
-	// Trigger controls when the automation should be triggered.
-	Trigger AutomationTriggerValue `json:"trigger" bson:"trigger" mapstructure:"trigger,omitempty"`
+	// Subject defines the selection criteria that this policy must match on identiy and scope request information.
+	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
 	// Annotation stores additional information about an entity
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -147,193 +103,263 @@ type Automation struct {
 	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.
+	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+
+	// Propagate will propagate the policy to all of its children.
+	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
+
+	// If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.
+	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
+
+	// ActiveDuration defines for how long the policy will be active according to the activeSchedule.
+	ActiveDuration string `json:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
+
+	// ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.
+	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
 	sync.Mutex
 }
 
-// NewAutomation returns a new *Automation
-func NewAutomation() *Automation {
+// NewTokenScopePolicy returns a new *TokenScopePolicy
+func NewTokenScopePolicy() *TokenScopePolicy {
 
-	return &Automation{
+	return &TokenScopePolicy{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
+		AssignedScopes: []string{},
 		AssociatedTags: []string{},
-		Entitlements:   map[string][]elemental.Operation{},
-		Events:         map[string][]elemental.EventType{},
+		Metadata:       []string{},
 		NormalizedTags: []string{},
-		Parameters:     map[string]interface{}{},
-		Trigger:        "Time",
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *Automation) Identity() elemental.Identity {
+func (o *TokenScopePolicy) Identity() elemental.Identity {
 
-	return AutomationIdentity
+	return TokenScopePolicyIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *Automation) Identifier() string {
+func (o *TokenScopePolicy) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *Automation) SetIdentifier(id string) {
+func (o *TokenScopePolicy) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *Automation) Version() int {
+func (o *TokenScopePolicy) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *Automation) DefaultOrder() []string {
+func (o *TokenScopePolicy) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-func (o *Automation) String() string {
+// Doc returns the documentation for the object
+func (o *TokenScopePolicy) Doc() string {
+	return `The TokenScopePolicy defines a set of policies that allow customization of the authorization tokens issued by the Aporeto service. This allows Aporeto generated tokens to be used by external applications.`
+}
+
+func (o *TokenScopePolicy) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *Automation) GetAnnotations() map[string][]string {
+func (o *TokenScopePolicy) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the given Annotations of the receiver.
-func (o *Automation) SetAnnotations(annotations map[string][]string) {
+func (o *TokenScopePolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *Automation) GetAssociatedTags() []string {
+func (o *TokenScopePolicy) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the given AssociatedTags of the receiver.
-func (o *Automation) SetAssociatedTags(associatedTags []string) {
+func (o *TokenScopePolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *Automation) GetCreateTime() time.Time {
+func (o *TokenScopePolicy) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the given CreateTime of the receiver.
-func (o *Automation) SetCreateTime(createTime time.Time) {
+func (o *TokenScopePolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *Automation) GetNamespace() string {
+func (o *TokenScopePolicy) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the given Namespace of the receiver.
-func (o *Automation) SetNamespace(namespace string) {
+func (o *TokenScopePolicy) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *Automation) GetNormalizedTags() []string {
+func (o *TokenScopePolicy) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *Automation) SetNormalizedTags(normalizedTags []string) {
+func (o *TokenScopePolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *Automation) GetProtected() bool {
+func (o *TokenScopePolicy) GetProtected() bool {
 
 	return o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *Automation) GetUpdateTime() time.Time {
+func (o *TokenScopePolicy) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *Automation) SetUpdateTime(updateTime time.Time) {
+func (o *TokenScopePolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *Automation) GetDisabled() bool {
+func (o *TokenScopePolicy) GetDisabled() bool {
 
 	return o.Disabled
 }
 
 // SetDisabled sets the given Disabled of the receiver.
-func (o *Automation) SetDisabled(disabled bool) {
+func (o *TokenScopePolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
 }
 
+// GetMetadata returns the Metadata of the receiver.
+func (o *TokenScopePolicy) GetMetadata() []string {
+
+	return o.Metadata
+}
+
+// SetMetadata sets the given Metadata of the receiver.
+func (o *TokenScopePolicy) SetMetadata(metadata []string) {
+
+	o.Metadata = metadata
+}
+
 // GetName returns the Name of the receiver.
-func (o *Automation) GetName() string {
+func (o *TokenScopePolicy) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the given Name of the receiver.
-func (o *Automation) SetName(name string) {
+func (o *TokenScopePolicy) SetName(name string) {
 
 	o.Name = name
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *TokenScopePolicy) GetPropagate() bool {
+
+	return o.Propagate
+}
+
+// SetPropagate sets the given Propagate of the receiver.
+func (o *TokenScopePolicy) SetPropagate(propagate bool) {
+
+	o.Propagate = propagate
+}
+
+// GetPropagationHidden returns the PropagationHidden of the receiver.
+func (o *TokenScopePolicy) GetPropagationHidden() bool {
+
+	return o.PropagationHidden
+}
+
+// SetPropagationHidden sets the given PropagationHidden of the receiver.
+func (o *TokenScopePolicy) SetPropagationHidden(propagationHidden bool) {
+
+	o.PropagationHidden = propagationHidden
+}
+
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *TokenScopePolicy) GetActiveDuration() string {
+
+	return o.ActiveDuration
+}
+
+// SetActiveDuration sets the given ActiveDuration of the receiver.
+func (o *TokenScopePolicy) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *TokenScopePolicy) GetActiveSchedule() string {
+
+	return o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the given ActiveSchedule of the receiver.
+func (o *TokenScopePolicy) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = activeSchedule
+}
+
 // Validate valides the current information stored into the structure.
-func (o *Automation) Validate() error {
+func (o *TokenScopePolicy) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredString("condition", o.Condition); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("condition", o.Condition); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateStringInList("trigger", string(o.Trigger), []string{"Event", "RemoteCall", "Time"}, false); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -349,24 +375,24 @@ func (o *Automation) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*Automation) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*TokenScopePolicy) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := AutomationAttributesMap[name]; ok {
+	if v, ok := TokenScopePolicyAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return AutomationLowerCaseAttributesMap[name]
+	return TokenScopePolicyLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*Automation) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*TokenScopePolicy) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return AutomationAttributesMap
+	return TokenScopePolicyAttributesMap
 }
 
-// AutomationAttributesMap represents the map of attribute for Automation.
-var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
+// TokenScopePolicyAttributesMap represents the map of attribute for TokenScopePolicy.
+var TokenScopePolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -378,22 +404,34 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
-		Stored:         true,
 		Type:           "string",
 		Unique:         true,
 	},
-	"Actions": elemental.AttributeSpecification{
+	"ActiveDuration": elemental.AttributeSpecification{
+		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
-		ConvertedName:  "Actions",
-		Description:    `Action contains the code that will be executed if the condition is met.`,
+		ConvertedName:  "ActiveDuration",
+		Description:    `ActiveDuration defines for how long the policy will be active according to the activeSchedule.`,
 		Exposed:        true,
-		Name:           "actions",
-		Required:       true,
+		Format:         "free",
+		Getter:         true,
+		Name:           "activeDuration",
+		Setter:         true,
 		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Type:           "string",
+	},
+	"ActiveSchedule": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveSchedule",
+		Description:    `ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "activeSchedule",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "cron_expression",
+		Type:           "external",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -407,6 +445,18 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "annotations",
 		Type:           "external",
 	},
+	"AssignedScopes": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssignedScopes",
+		Description:    `AssignedScopes is the the list of scopes that the policiy will assigns.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "assignedScopes",
+		Orderable:      true,
+		Stored:         true,
+		SubType:        "tags_list",
+		Type:           "external",
+	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
@@ -418,17 +468,6 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
-	},
-	"Condition": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Condition",
-		Description:    `Condition contains the code that will be executed to decide if any action should be taken.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "condition",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -469,48 +508,19 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"Entitlements": elemental.AttributeSpecification{
+	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Entitlements",
-		Description:    `Entitlements declares which operations are allowed on which identities.`,
+		ConvertedName:  "Metadata",
+		CreationOnly:   true,
+		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
 		Exposed:        true,
-		Name:           "entitlements",
+		Filterable:     true,
+		Getter:         true,
+		Name:           "metadata",
+		Setter:         true,
 		Stored:         true,
-		SubType:        "automation_entitlements",
+		SubType:        "metadata_list",
 		Type:           "external",
-	},
-	"Errors": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Errors",
-		Description:    `Error contains the eventual error of the last run.`,
-		Exposed:        true,
-		Name:           "errors",
-		ReadOnly:       true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
-	"Events": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Events",
-		Description:    `Events contains the identity and operation an event must have to trigger the automation`,
-		Exposed:        true,
-		Name:           "events",
-		Stored:         true,
-		SubType:        "automation_events",
-		Type:           "external",
-	},
-	"LastExecTime": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "LastExecTime",
-		Description:    `LastExecTime holds the last sucessful execution tine.`,
-		Exposed:        true,
-		Name:           "lastExecTime",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "time",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -563,15 +573,31 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 		Transient:      true,
 		Type:           "external",
 	},
-	"Parameters": elemental.AttributeSpecification{
+	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Parameters",
-		Description:    `Parameters are passed to the functions.`,
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
 		Exposed:        true,
-		Name:           "parameters",
+		Filterable:     true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
-		SubType:        "automation_parameters",
-		Type:           "external",
+		Type:           "boolean",
+	},
+	"PropagationHidden": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PropagationHidden",
+		Description:    `If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "propagationHidden",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -585,59 +611,17 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"Schedule": elemental.AttributeSpecification{
+	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Schedule",
-		Description:    `Schedule tells when to run the automation. Must be a valid CRON format. This only applies if the trigger is set to Time.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "schedule",
-		Stored:         true,
-		Type:           "string",
-	},
-	"Stdout": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Stdout",
-		Description:    `Stdout contains the last run standard output.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "stdout",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"Token": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Token",
-		CreationOnly:   true,
-		Description:    `Token holds the unique access token used as a password to trigger the authentication. It will be visible only after creation.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "token",
-		Stored:         true,
-		Type:           "string",
-	},
-	"TokenRenew": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "TokenRenew",
-		Description:    `If set to true a new token will be issued, and the previous one invalidated.`,
-		Exposed:        true,
-		Name:           "tokenRenew",
-		Type:           "boolean",
-	},
-	"Trigger": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Event", "RemoteCall", "Time"},
-		ConvertedName:  "Trigger",
-		DefaultValue:   AutomationTriggerTime,
-		Description:    `Trigger controls when the automation should be triggered.`,
+		ConvertedName:  "Subject",
+		Description:    `Subject defines the selection criteria that this policy must match on identiy and scope request information.`,
 		Exposed:        true,
 		Filterable:     true,
-		Name:           "trigger",
+		Name:           "subject",
 		Orderable:      true,
 		Stored:         true,
-		Type:           "enum",
+		SubType:        "policies_list",
+		Type:           "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -655,8 +639,8 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// AutomationLowerCaseAttributesMap represents the map of attribute for Automation.
-var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// TokenScopePolicyLowerCaseAttributesMap represents the map of attribute for TokenScopePolicy.
+var TokenScopePolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -668,22 +652,34 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
-		Stored:         true,
 		Type:           "string",
 		Unique:         true,
 	},
-	"actions": elemental.AttributeSpecification{
+	"activeduration": elemental.AttributeSpecification{
+		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
-		ConvertedName:  "Actions",
-		Description:    `Action contains the code that will be executed if the condition is met.`,
+		ConvertedName:  "ActiveDuration",
+		Description:    `ActiveDuration defines for how long the policy will be active according to the activeSchedule.`,
 		Exposed:        true,
-		Name:           "actions",
-		Required:       true,
+		Format:         "free",
+		Getter:         true,
+		Name:           "activeDuration",
+		Setter:         true,
 		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Type:           "string",
+	},
+	"activeschedule": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveSchedule",
+		Description:    `ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "activeSchedule",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "cron_expression",
+		Type:           "external",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -697,6 +693,18 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		SubType:        "annotations",
 		Type:           "external",
 	},
+	"assignedscopes": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssignedScopes",
+		Description:    `AssignedScopes is the the list of scopes that the policiy will assigns.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "assignedScopes",
+		Orderable:      true,
+		Stored:         true,
+		SubType:        "tags_list",
+		Type:           "external",
+	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
@@ -708,17 +716,6 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
-	},
-	"condition": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Condition",
-		Description:    `Condition contains the code that will be executed to decide if any action should be taken.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "condition",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -759,48 +756,19 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"entitlements": elemental.AttributeSpecification{
+	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Entitlements",
-		Description:    `Entitlements declares which operations are allowed on which identities.`,
+		ConvertedName:  "Metadata",
+		CreationOnly:   true,
+		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
 		Exposed:        true,
-		Name:           "entitlements",
+		Filterable:     true,
+		Getter:         true,
+		Name:           "metadata",
+		Setter:         true,
 		Stored:         true,
-		SubType:        "automation_entitlements",
+		SubType:        "metadata_list",
 		Type:           "external",
-	},
-	"errors": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Errors",
-		Description:    `Error contains the eventual error of the last run.`,
-		Exposed:        true,
-		Name:           "errors",
-		ReadOnly:       true,
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
-	"events": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Events",
-		Description:    `Events contains the identity and operation an event must have to trigger the automation`,
-		Exposed:        true,
-		Name:           "events",
-		Stored:         true,
-		SubType:        "automation_events",
-		Type:           "external",
-	},
-	"lastexectime": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "LastExecTime",
-		Description:    `LastExecTime holds the last sucessful execution tine.`,
-		Exposed:        true,
-		Name:           "lastExecTime",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "time",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -853,15 +821,31 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Transient:      true,
 		Type:           "external",
 	},
-	"parameters": elemental.AttributeSpecification{
+	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Parameters",
-		Description:    `Parameters are passed to the functions.`,
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
 		Exposed:        true,
-		Name:           "parameters",
+		Filterable:     true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
-		SubType:        "automation_parameters",
-		Type:           "external",
+		Type:           "boolean",
+	},
+	"propagationhidden": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PropagationHidden",
+		Description:    `If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "propagationHidden",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -875,59 +859,17 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"schedule": elemental.AttributeSpecification{
+	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Schedule",
-		Description:    `Schedule tells when to run the automation. Must be a valid CRON format. This only applies if the trigger is set to Time.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "schedule",
-		Stored:         true,
-		Type:           "string",
-	},
-	"stdout": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Stdout",
-		Description:    `Stdout contains the last run standard output.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "stdout",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"token": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Token",
-		CreationOnly:   true,
-		Description:    `Token holds the unique access token used as a password to trigger the authentication. It will be visible only after creation.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "token",
-		Stored:         true,
-		Type:           "string",
-	},
-	"tokenrenew": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "TokenRenew",
-		Description:    `If set to true a new token will be issued, and the previous one invalidated.`,
-		Exposed:        true,
-		Name:           "tokenRenew",
-		Type:           "boolean",
-	},
-	"trigger": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Event", "RemoteCall", "Time"},
-		ConvertedName:  "Trigger",
-		DefaultValue:   AutomationTriggerTime,
-		Description:    `Trigger controls when the automation should be triggered.`,
+		ConvertedName:  "Subject",
+		Description:    `Subject defines the selection criteria that this policy must match on identiy and scope request information.`,
 		Exposed:        true,
 		Filterable:     true,
-		Name:           "trigger",
+		Name:           "subject",
 		Orderable:      true,
 		Stored:         true,
-		Type:           "enum",
+		SubType:        "policies_list",
+		Type:           "external",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

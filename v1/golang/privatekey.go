@@ -11,7 +11,7 @@ import (
 var PrivateKeyIdentity = elemental.Identity{
 	Name:     "privatekey",
 	Category: "privatekeys",
-	Private:  false,
+	Private:  true,
 }
 
 // PrivateKeysList represents a list of PrivateKeys

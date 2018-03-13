@@ -29,6 +29,9 @@ const (
 
 	// ReportKindSyscall represents the value Syscall.
 	ReportKindSyscall ReportKindValue = "Syscall"
+
+	// ReportKindUser represents the value User.
+	ReportKindUser ReportKindValue = "User"
 )
 
 // ReportIdentity represents the Identity of the object.
@@ -165,7 +168,7 @@ func (o *Report) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("kind", string(o.Kind), []string{"Audit", "Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall"}, false); err != nil {
+	if err := elemental.ValidateStringInList("kind", string(o.Kind), []string{"Audit", "Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall", "User"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -209,7 +212,7 @@ var ReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"Kind": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Audit", "Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall"},
+		AllowedChoices: []string{"Audit", "Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall", "User"},
 		ConvertedName:  "Kind",
 		Description:    `Kind contains the kind of report.`,
 		Exposed:        true,
@@ -255,7 +258,7 @@ var ReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"kind": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Audit", "Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall"},
+		AllowedChoices: []string{"Audit", "Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall", "User"},
 		ConvertedName:  "Kind",
 		Description:    `Kind contains the kind of report.`,
 		Exposed:        true,

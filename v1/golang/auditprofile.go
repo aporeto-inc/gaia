@@ -70,8 +70,8 @@ func (o AuditProfilesList) Version() int {
 
 // AuditProfile represents the model of a auditprofile
 type AuditProfile struct {
-	// GroupName is the name of the group that this rule must be associated with.
-	Key string `json:"key" bson:"key" mapstructure:"key,omitempty"`
+	// Propagated indicates if the audit profile is propagated.
+	Propagated bool `json:"propagated" bson:"propagated" mapstructure:"propagated,omitempty"`
 
 	// Rules is the list of audit policy rules associated with this policy.
 	Rules types.AuditProfileRuleList `json:"rules" bson:"rules" mapstructure:"rules,omitempty"`
@@ -277,18 +277,6 @@ func (o *AuditProfile) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredString("key", o.Key); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateMaximumLength("key", o.Key, 31, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("key", o.Key); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -394,20 +382,6 @@ var AuditProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Key": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Key",
-		Description:    `GroupName is the name of the group that this rule must be associated with.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		MaxLength:      31,
-		Name:           "key",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -473,6 +447,16 @@ var AuditProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Transient:      true,
 		Type:           "external",
 	},
+	"Propagated": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagated",
+		Description:    `Propagated indicates if the audit profile is propagated.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "propagated",
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -490,9 +474,7 @@ var AuditProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Rules",
 		Description:    `Rules is the list of audit policy rules associated with this policy.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "rules",
-		Orderable:      true,
 		Stored:         true,
 		SubType:        "audit_profile_rule_list",
 		Type:           "external",
@@ -582,20 +564,6 @@ var AuditProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "string",
 	},
-	"key": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Key",
-		Description:    `GroupName is the name of the group that this rule must be associated with.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		MaxLength:      31,
-		Name:           "key",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -661,6 +629,16 @@ var AuditProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Transient:      true,
 		Type:           "external",
 	},
+	"propagated": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagated",
+		Description:    `Propagated indicates if the audit profile is propagated.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "propagated",
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -678,9 +656,7 @@ var AuditProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ConvertedName:  "Rules",
 		Description:    `Rules is the list of audit policy rules associated with this policy.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "rules",
-		Orderable:      true,
 		Stored:         true,
 		SubType:        "audit_profile_rule_list",
 		Type:           "external",

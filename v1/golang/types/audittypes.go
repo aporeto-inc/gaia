@@ -12,6 +12,7 @@ type AuditProfileRuleList []*AuditProfileRule
 
 // Validate will validate all rules in the list
 func (a AuditProfileRuleList) Validate() error {
+
 	errs := []error{}
 
 	for _, r := range a {
@@ -117,6 +118,7 @@ type SyscallRule struct {
 
 // Validate validates the filewathc rule.
 func (r *SyscallRule) Validate() error {
+
 	if err := r.List.Validate("list"); err != nil {
 		return err
 	}
@@ -149,6 +151,18 @@ const (
 	AuditFilteRKindValueFilter                                 // Filtering based on values (-F).
 )
 
+// AuditFilterKindFromInt converts an int to an AuditFilterKind.
+func AuditFilterKindFromInt(value int) (AuditFilterKind, error) {
+	switch value {
+	case 1:
+		return AuditFilterKindInterFieldFilter, nil
+	case 2:
+		return AuditFilteRKindValueFilter, nil
+	default:
+		return AuditFilterKindInterFieldFilter, fmt.Errorf("unable to convert AuditFilterKind %d", value)
+	}
+}
+
 // AuditFilterSpec defines a filter to apply to a syscall rule.
 type AuditFilterSpec struct {
 	Kind       AuditFilterKind     `json:"kind"`
@@ -159,6 +173,7 @@ type AuditFilterSpec struct {
 
 // Validate validates and AuditFilterSpec
 func (f *AuditFilterSpec) Validate() error {
+
 	if err := f.LHS.Validate(""); err != nil {
 		return err
 	}

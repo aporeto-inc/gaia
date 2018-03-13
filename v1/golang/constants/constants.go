@@ -58,6 +58,9 @@ const (
 	// StatsTagKeySourceIP represents the source IP tag.
 	StatsTagKeySourceIP = "@srcip"
 
+	// StatsTagKeyURI represents the URI tag.
+	StatsTagKeyURI = "@uri"
+
 	// StatsTagKeyObservationMode represents the that the flow is oberserved.
 	StatsTagKeyObservationMode = "@observed"
 
@@ -103,6 +106,9 @@ const (
 	// StatsTagKeyPid represents the parent Pid of the container
 	StatsTagKeyPid = "@sys:pid"
 
+	// StatsTagKeyUserID is the user id.
+	StatsTagKeyUserID = "@sys:uid"
+
 	// StatsTagKeyServerID represents the server ID tag.
 	StatsTagKeyServerID = "@serverid"
 
@@ -133,8 +139,8 @@ const (
 	// StatsTagKeyExecutable represents the executable of the syscall
 	StatsTagKeyExecutable = "@exec"
 
-	// StatsTagKeyEventType represents the key of the event type
-	StatsTagKeyEventType = "@type"
+	// StatsTagKeyAuditProfileID represents the key for the audit profile identifier.
+	StatsTagKeyAuditProfileID = "@apid"
 
 	// StatsTagKeySyscallAccessPID represents the pid of the related process.
 	StatsTagKeySyscallAccessPID = "@pid"
@@ -204,6 +210,9 @@ const (
 
 	// ActionOContinueTagString is the system created "observedaction=continue" tag
 	ActionOContinueTagString = "oaction=continue"
+
+	// ActionTokenScope is the system created action=scope tag.
+	ActionTokenScope = "action=scope"
 )
 
 const (

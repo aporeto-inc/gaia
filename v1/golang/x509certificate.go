@@ -104,6 +104,9 @@ type X509Certificate struct {
 	// ExpirationDate contains the requested expiration date.
 	ExpirationDate time.Time `json:"expirationDate" bson:"-" mapstructure:"expirationDate,omitempty"`
 
+	// Extensions is a list of extensions that can be added as SAN extensions to the certificate.
+	Extensions []string `json:"extensions" bson:"-" mapstructure:"extensions,omitempty"`
+
 	// Selects what CA should sign the certificate.
 	Signer X509CertificateSignerValue `json:"signer" bson:"-" mapstructure:"signer,omitempty"`
 
@@ -120,6 +123,7 @@ func NewX509Certificate() *X509Certificate {
 
 	return &X509Certificate{
 		ModelVersion: 1,
+		Extensions:   []string{},
 		Signer:       "Public",
 		Usage:        "Client",
 	}
@@ -262,6 +266,16 @@ var X509CertificateAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "time",
 	},
+	"Extensions": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Extensions",
+		CreationOnly:   true,
+		Description:    `Extensions is a list of extensions that can be added as SAN extensions to the certificate.`,
+		Exposed:        true,
+		Name:           "extensions",
+		SubType:        "extensions_list",
+		Type:           "external",
+	},
 	"Signer": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Public", "System"},
 		ConvertedName:  "Signer",
@@ -331,6 +345,16 @@ var X509CertificateLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Name:           "expirationDate",
 		SubType:        "string",
 		Type:           "time",
+	},
+	"extensions": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Extensions",
+		CreationOnly:   true,
+		Description:    `Extensions is a list of extensions that can be added as SAN extensions to the certificate.`,
+		Exposed:        true,
+		Name:           "extensions",
+		SubType:        "extensions_list",
+		Type:           "external",
 	},
 	"signer": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Public", "System"},

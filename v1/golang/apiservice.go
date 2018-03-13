@@ -9,56 +9,56 @@ import (
 	"time"
 )
 
-// ExternalServiceTypeValue represents the possible values for attribute "type".
-type ExternalServiceTypeValue string
+// APIServiceTypeValue represents the possible values for attribute "type".
+type APIServiceTypeValue string
 
 const (
-	// ExternalServiceTypeLoadbalancerhttp represents the value LoadBalancerHTTP.
-	ExternalServiceTypeLoadbalancerhttp ExternalServiceTypeValue = "LoadBalancerHTTP"
+	// APIServiceTypeHttp represents the value HTTP.
+	APIServiceTypeHttp APIServiceTypeValue = "HTTP"
 
-	// ExternalServiceTypeLoadbalancertcp represents the value LoadBalancerTCP.
-	ExternalServiceTypeLoadbalancertcp ExternalServiceTypeValue = "LoadBalancerTCP"
+	// APIServiceTypeL3 represents the value L3.
+	APIServiceTypeL3 APIServiceTypeValue = "L3"
 
-	// ExternalServiceTypeNetwork represents the value Network.
-	ExternalServiceTypeNetwork ExternalServiceTypeValue = "Network"
+	// APIServiceTypeTcp represents the value TCP.
+	APIServiceTypeTcp APIServiceTypeValue = "TCP"
 )
 
-// ExternalServiceIdentity represents the Identity of the object.
-var ExternalServiceIdentity = elemental.Identity{
-	Name:     "externalservice",
-	Category: "externalservices",
+// APIServiceIdentity represents the Identity of the object.
+var APIServiceIdentity = elemental.Identity{
+	Name:     "apiservice",
+	Category: "apiservices",
 	Private:  false,
 }
 
-// ExternalServicesList represents a list of ExternalServices
-type ExternalServicesList []*ExternalService
+// APIServicesList represents a list of APIServices
+type APIServicesList []*APIService
 
 // ContentIdentity returns the identity of the objects in the list.
-func (o ExternalServicesList) ContentIdentity() elemental.Identity {
+func (o APIServicesList) ContentIdentity() elemental.Identity {
 
-	return ExternalServiceIdentity
+	return APIServiceIdentity
 }
 
-// Copy returns a pointer to a copy the ExternalServicesList.
-func (o ExternalServicesList) Copy() elemental.ContentIdentifiable {
+// Copy returns a pointer to a copy the APIServicesList.
+func (o APIServicesList) Copy() elemental.ContentIdentifiable {
 
-	copy := append(ExternalServicesList{}, o...)
+	copy := append(APIServicesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the ExternalServicesList.
-func (o ExternalServicesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+// Append appends the objects to the a new copy of the APIServicesList.
+func (o APIServicesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
 
-	out := append(ExternalServicesList{}, o...)
+	out := append(APIServicesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*ExternalService))
+		out = append(out, obj.(*APIService))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o ExternalServicesList) List() elemental.IdentifiablesList {
+func (o APIServicesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}
 	for _, item := range o {
@@ -69,7 +69,7 @@ func (o ExternalServicesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o ExternalServicesList) DefaultOrder() []string {
+func (o APIServicesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -77,30 +77,45 @@ func (o ExternalServicesList) DefaultOrder() []string {
 }
 
 // Version returns the version of the content.
-func (o ExternalServicesList) Version() int {
+func (o APIServicesList) Version() int {
 
 	return 1
 }
 
-// ExternalService represents the model of a externalservice
-type ExternalService struct {
-	// LoadbalancerAddresses represents the list of adresses of the external services of type LoadBalancer.
-	LoadbalancerAddresses []string `json:"loadbalancerAddresses" bson:"loadbalanceraddresses" mapstructure:"loadbalancerAddresses,omitempty"`
+// APIService represents the model of a apiservice
+type APIService struct {
+	// FQDN is the fully qualified domain name of the service. It is required for external API services. It can be deduced from a service discovery system in advanced environments.
+	FQDN string `json:"FQDN" bson:"fqdn" mapstructure:"FQDN,omitempty"`
 
-	// LoadbalancerPortsMapping is the list of ports mapped by an extenral service of type load balancer.
-	LoadbalancerPortsMapping []*types.PortMapping `json:"loadbalancerPortsMapping" bson:"loadbalancerportsmapping" mapstructure:"loadbalancerPortsMapping,omitempty"`
+	// IPList is the list of ip address or subnets of the service if available.
+	IPList types.IPList `json:"IPList" bson:"iplist" mapstructure:"IPList,omitempty"`
 
-	// Network refers to either CIDR or domain name
-	Network string `json:"network" bson:"network" mapstructure:"network,omitempty"`
+	// JWTSigningCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.
+	JWTSigningCertificate string `json:"JWTSigningCertificate" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
-	// Port refers to network port which could be a single number or 100:2000 to represent a range of ports
-	Port string `json:"port" bson:"port" mapstructure:"port,omitempty"`
+	// AllServiceTags is an internal object that summarizes all the implementedBy tags to accelerate database searches. It is not exposed.
+	AllServiceTags []string `json:"-" bson:"allservicetags" mapstructure:"-,omitempty"`
 
-	// Protocol refers to network protocol like TCP/UDP or the number of the protocol.
-	Protocol string `json:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
+	// ExposedAPIs is a list of API endpoints that are exposed for the service.
+	ExposedAPIs types.ExposedAPIList `json:"exposedAPIs" bson:"exposedapis" mapstructure:"exposedAPIs,omitempty"`
 
-	// Type represents the type of external service.
-	Type ExternalServiceTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
+	// External is a boolean that indicates if this is an external service.
+	External bool `json:"external" bson:"external" mapstructure:"external,omitempty"`
+
+	// ExternalServiceCA is the certificate authority that the service is using. This is needed for external API services with private certificate authorities. The field is optional. If provided, this must be a valid PEM CA file.
+	ExternalServiceCA string `json:"externalServiceCA" bson:"externalserviceca" mapstructure:"externalServiceCA,omitempty"`
+
+	// NetworkProtocol is the network protocol of the service. Default is TCP.
+	NetworkProtocol int `json:"networkProtocol" bson:"networkprotocol" mapstructure:"networkProtocol,omitempty"`
+
+	// Ports is a list of ports for the service. Ports are either exact match, or a range portMin:portMax.
+	Ports types.PortList `json:"ports" bson:"ports" mapstructure:"ports,omitempty"`
+
+	// RuntimeSelectors is a list of tag selectors that identifies that Processing Units that will implement this service.
+	RuntimeSelectors [][]string `json:"runtimeSelectors" bson:"runtimeselectors" mapstructure:"runtimeSelectors,omitempty"`
+
+	// Type is the type of the service (HTTP, TCP, etc). More types will be added to the system.
+	Type APIServiceTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	// Archived defines if the object is archived.
 	Archived bool `json:"-" bson:"archived" mapstructure:"-,omitempty"`
@@ -143,48 +158,51 @@ type ExternalService struct {
 	sync.Mutex
 }
 
-// NewExternalService returns a new *ExternalService
-func NewExternalService() *ExternalService {
+// NewAPIService returns a new *APIService
+func NewAPIService() *APIService {
 
-	return &ExternalService{
-		ModelVersion:             1,
-		Annotations:              map[string][]string{},
-		AssociatedTags:           []string{},
-		LoadbalancerAddresses:    []string{},
-		LoadbalancerPortsMapping: []*types.PortMapping{},
-		Metadata:                 []string{},
-		NormalizedTags:           []string{},
-		Port:                     "1:65535",
-		Type:                     "Network",
+	return &APIService{
+		ModelVersion:    1,
+		AllServiceTags:  []string{},
+		Annotations:     map[string][]string{},
+		AssociatedTags:  []string{},
+		ExposedAPIs:     types.ExposedAPIList{},
+		External:        false,
+		IPList:          types.IPList{},
+		Metadata:        []string{},
+		NetworkProtocol: 6,
+		NormalizedTags:  []string{},
+		Ports:           types.PortList{},
+		Type:            "L3",
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *ExternalService) Identity() elemental.Identity {
+func (o *APIService) Identity() elemental.Identity {
 
-	return ExternalServiceIdentity
+	return APIServiceIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *ExternalService) Identifier() string {
+func (o *APIService) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *ExternalService) SetIdentifier(id string) {
+func (o *APIService) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *ExternalService) Version() int {
+func (o *APIService) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *ExternalService) DefaultOrder() []string {
+func (o *APIService) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -192,160 +210,160 @@ func (o *ExternalService) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *ExternalService) Doc() string {
-	return `An External Service represents a random network or ip that is not managed by the system. They can be used in Network Access Policies in order to allow traffic from or to the declared network or IP, using the provided protocol and port or ports range. If you want to describe the Internet (ie. anywhere), use 0.0.0.0/0 as address, and 1-65000 for the ports. You will need to use the External Services tags to set some policies.`
+func (o *APIService) Doc() string {
+	return `APIService descibes a L4/L7 service and the corresponding implementation. It allows users to define their services, the APIs that they expose, the implementation of the service. These definitions can be used by network policy in order to define advanced controls based on the APIs.`
 }
 
-func (o *ExternalService) String() string {
+func (o *APIService) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetArchived returns the Archived of the receiver.
-func (o *ExternalService) GetArchived() bool {
+func (o *APIService) GetArchived() bool {
 
 	return o.Archived
 }
 
 // SetArchived sets the given Archived of the receiver.
-func (o *ExternalService) SetArchived(archived bool) {
+func (o *APIService) SetArchived(archived bool) {
 
 	o.Archived = archived
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *ExternalService) GetAnnotations() map[string][]string {
+func (o *APIService) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the given Annotations of the receiver.
-func (o *ExternalService) SetAnnotations(annotations map[string][]string) {
+func (o *APIService) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *ExternalService) GetAssociatedTags() []string {
+func (o *APIService) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the given AssociatedTags of the receiver.
-func (o *ExternalService) SetAssociatedTags(associatedTags []string) {
+func (o *APIService) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *ExternalService) GetCreateTime() time.Time {
+func (o *APIService) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the given CreateTime of the receiver.
-func (o *ExternalService) SetCreateTime(createTime time.Time) {
+func (o *APIService) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *ExternalService) GetNamespace() string {
+func (o *APIService) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the given Namespace of the receiver.
-func (o *ExternalService) SetNamespace(namespace string) {
+func (o *APIService) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *ExternalService) GetNormalizedTags() []string {
+func (o *APIService) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *ExternalService) SetNormalizedTags(normalizedTags []string) {
+func (o *APIService) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *ExternalService) GetProtected() bool {
+func (o *APIService) GetProtected() bool {
 
 	return o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *ExternalService) GetUpdateTime() time.Time {
+func (o *APIService) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *ExternalService) SetUpdateTime(updateTime time.Time) {
+func (o *APIService) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *ExternalService) GetMetadata() []string {
+func (o *APIService) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the given Metadata of the receiver.
-func (o *ExternalService) SetMetadata(metadata []string) {
+func (o *APIService) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *ExternalService) GetName() string {
+func (o *APIService) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the given Name of the receiver.
-func (o *ExternalService) SetName(name string) {
+func (o *APIService) SetName(name string) {
 
 	o.Name = name
 }
 
 // Validate valides the current information stored into the structure.
-func (o *ExternalService) Validate() error {
+func (o *APIService) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredString("network", o.Network); err != nil {
+	if err := elemental.ValidateMaximumInt("networkProtocol", o.NetworkProtocol, int(255), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMinimumInt("networkProtocol", o.NetworkProtocol, int(1), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("ports", o.Ports); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("network", o.Network); err != nil {
+	if err := elemental.ValidateRequiredExternal("ports", o.Ports); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("port", o.Port, `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("protocol", o.Protocol); err != nil {
+	if err := elemental.ValidateRequiredExternal("runtimeSelectors", o.RuntimeSelectors); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidatePattern("protocol", o.Protocol, `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`, true); err != nil {
+	if err := elemental.ValidateRequiredExternal("runtimeSelectors", o.RuntimeSelectors); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("protocol", o.Protocol); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"LoadBalancerHTTP", "LoadBalancerTCP", "Network"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"HTTP", "L3", "TCP"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -369,24 +387,36 @@ func (o *ExternalService) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*ExternalService) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*APIService) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := ExternalServiceAttributesMap[name]; ok {
+	if v, ok := APIServiceAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return ExternalServiceLowerCaseAttributesMap[name]
+	return APIServiceLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*ExternalService) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*APIService) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return ExternalServiceAttributesMap
+	return APIServiceAttributesMap
 }
 
-// ExternalServiceAttributesMap represents the map of attribute for ExternalService.
-var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
+// APIServiceAttributesMap represents the map of attribute for APIService.
+var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
+	"FQDN": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "FQDN",
+		Description:    `FQDN is the fully qualified domain name of the service. It is required for external API services. It can be deduced from a service discovery system in advanced environments.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "FQDN",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -403,6 +433,35 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 		Unique:         true,
+	},
+	"IPList": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IPList",
+		Description:    `IPList is the list of ip address or subnets of the service if available.`,
+		Exposed:        true,
+		Name:           "IPList",
+		Stored:         true,
+		SubType:        "ip_list",
+		Type:           "external",
+	},
+	"JWTSigningCertificate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "JWTSigningCertificate",
+		Description:    `JWTSigningCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "JWTSigningCertificate",
+		Stored:         true,
+		Type:           "string",
+	},
+	"AllServiceTags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AllServiceTags",
+		Description:    `AllServiceTags is an internal object that summarizes all the implementedBy tags to accelerate database searches. It is not exposed.`,
+		Name:           "allServiceTags",
+		Stored:         true,
+		SubType:        "tags_list",
+		Type:           "external",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -464,25 +523,37 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"LoadbalancerAddresses": elemental.AttributeSpecification{
+	"ExposedAPIs": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "LoadbalancerAddresses",
-		Description:    `LoadbalancerAddresses represents the list of adresses of the external services of type LoadBalancer.`,
+		ConvertedName:  "ExposedAPIs",
+		Description:    `ExposedAPIs is a list of API endpoints that are exposed for the service.`,
 		Exposed:        true,
-		Name:           "loadbalancerAddresses",
+		Name:           "exposedAPIs",
 		Stored:         true,
-		SubType:        "addresses_list",
+		SubType:        "exposed_api_list",
 		Type:           "external",
 	},
-	"LoadbalancerPortsMapping": elemental.AttributeSpecification{
+	"External": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "LoadbalancerPortsMapping",
-		Description:    `LoadbalancerPortsMapping is the list of ports mapped by an extenral service of type load balancer. `,
+		ConvertedName:  "External",
+		DefaultValue:   false,
+		Description:    `External is a boolean that indicates if this is an external service.`,
 		Exposed:        true,
-		Name:           "loadbalancerPortsMapping",
+		Filterable:     true,
+		Name:           "external",
+		Orderable:      true,
 		Stored:         true,
-		SubType:        "portmapping_list",
-		Type:           "external",
+		Type:           "boolean",
+	},
+	"ExternalServiceCA": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExternalServiceCA",
+		Description:    `ExternalServiceCA is the certificate authority that the service is using. This is needed for external API services with private certificate authorities. The field is optional. If provided, this must be a valid PEM CA file.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "externalServiceCA",
+		Stored:         true,
+		Type:           "string",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -534,17 +605,19 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Network": elemental.AttributeSpecification{
+	"NetworkProtocol": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Network",
-		Description:    `Network refers to either CIDR or domain name`,
+		ConvertedName:  "NetworkProtocol",
+		DefaultValue:   6,
+		Description:    `NetworkProtocol is the network protocol of the service. Default is TCP. `,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
-		Name:           "network",
-		Required:       true,
+		MaxValue:       255,
+		MinValue:       1,
+		Name:           "networkProtocol",
+		Orderable:      true,
 		Stored:         true,
-		Type:           "string",
+		Type:           "integer",
 	},
 	"NormalizedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -561,17 +634,16 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Transient:      true,
 		Type:           "external",
 	},
-	"Port": elemental.AttributeSpecification{
-		AllowedChars:   `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`,
+	"Ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Port",
-		DefaultValue:   "1:65535",
-		Description:    `Port refers to network port which could be a single number or 100:2000 to represent a range of ports`,
+		ConvertedName:  "Ports",
+		Description:    `Ports is a list of ports for the service. Ports are either exact match, or a range portMin:portMax.`,
 		Exposed:        true,
-		Filterable:     true,
-		Name:           "port",
+		Name:           "ports",
+		Required:       true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "port_list",
+		Type:           "external",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -585,27 +657,27 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"Protocol": elemental.AttributeSpecification{
-		AllowedChars:   `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`,
+	"RuntimeSelectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Protocol",
-		Description:    `Protocol refers to network protocol like TCP/UDP or the number of the protocol.`,
+		ConvertedName:  "RuntimeSelectors",
+		Description:    `RuntimeSelectors is a list of tag selectors that identifies that Processing Units that will implement this service.`,
 		Exposed:        true,
-		Filterable:     true,
-		Name:           "protocol",
+		Name:           "runtimeSelectors",
 		Required:       true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "target_tags",
+		Type:           "external",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"LoadBalancerHTTP", "LoadBalancerTCP", "Network"},
+		AllowedChoices: []string{"HTTP", "L3", "TCP"},
 		ConvertedName:  "Type",
-		DefaultValue:   ExternalServiceTypeNetwork,
-		Description:    `Type represents the type of external service.`,
+		DefaultValue:   APIServiceTypeL3,
+		Description:    `Type is the type of the service (HTTP, TCP, etc). More types will be added to the system.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "type",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "enum",
 	},
@@ -625,8 +697,20 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// ExternalServiceLowerCaseAttributesMap represents the map of attribute for ExternalService.
-var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// APIServiceLowerCaseAttributesMap represents the map of attribute for APIService.
+var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"fqdn": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "FQDN",
+		Description:    `FQDN is the fully qualified domain name of the service. It is required for external API services. It can be deduced from a service discovery system in advanced environments.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "FQDN",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -643,6 +727,35 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "string",
 		Unique:         true,
+	},
+	"iplist": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IPList",
+		Description:    `IPList is the list of ip address or subnets of the service if available.`,
+		Exposed:        true,
+		Name:           "IPList",
+		Stored:         true,
+		SubType:        "ip_list",
+		Type:           "external",
+	},
+	"jwtsigningcertificate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "JWTSigningCertificate",
+		Description:    `JWTSigningCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "JWTSigningCertificate",
+		Stored:         true,
+		Type:           "string",
+	},
+	"allservicetags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AllServiceTags",
+		Description:    `AllServiceTags is an internal object that summarizes all the implementedBy tags to accelerate database searches. It is not exposed.`,
+		Name:           "allServiceTags",
+		Stored:         true,
+		SubType:        "tags_list",
+		Type:           "external",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -704,25 +817,37 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "string",
 	},
-	"loadbalanceraddresses": elemental.AttributeSpecification{
+	"exposedapis": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "LoadbalancerAddresses",
-		Description:    `LoadbalancerAddresses represents the list of adresses of the external services of type LoadBalancer.`,
+		ConvertedName:  "ExposedAPIs",
+		Description:    `ExposedAPIs is a list of API endpoints that are exposed for the service.`,
 		Exposed:        true,
-		Name:           "loadbalancerAddresses",
+		Name:           "exposedAPIs",
 		Stored:         true,
-		SubType:        "addresses_list",
+		SubType:        "exposed_api_list",
 		Type:           "external",
 	},
-	"loadbalancerportsmapping": elemental.AttributeSpecification{
+	"external": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "LoadbalancerPortsMapping",
-		Description:    `LoadbalancerPortsMapping is the list of ports mapped by an extenral service of type load balancer. `,
+		ConvertedName:  "External",
+		DefaultValue:   false,
+		Description:    `External is a boolean that indicates if this is an external service.`,
 		Exposed:        true,
-		Name:           "loadbalancerPortsMapping",
+		Filterable:     true,
+		Name:           "external",
+		Orderable:      true,
 		Stored:         true,
-		SubType:        "portmapping_list",
-		Type:           "external",
+		Type:           "boolean",
+	},
+	"externalserviceca": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExternalServiceCA",
+		Description:    `ExternalServiceCA is the certificate authority that the service is using. This is needed for external API services with private certificate authorities. The field is optional. If provided, this must be a valid PEM CA file.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "externalServiceCA",
+		Stored:         true,
+		Type:           "string",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -774,17 +899,19 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "string",
 	},
-	"network": elemental.AttributeSpecification{
+	"networkprotocol": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Network",
-		Description:    `Network refers to either CIDR or domain name`,
+		ConvertedName:  "NetworkProtocol",
+		DefaultValue:   6,
+		Description:    `NetworkProtocol is the network protocol of the service. Default is TCP. `,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
-		Name:           "network",
-		Required:       true,
+		MaxValue:       255,
+		MinValue:       1,
+		Name:           "networkProtocol",
+		Orderable:      true,
 		Stored:         true,
-		Type:           "string",
+		Type:           "integer",
 	},
 	"normalizedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -801,17 +928,16 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Transient:      true,
 		Type:           "external",
 	},
-	"port": elemental.AttributeSpecification{
-		AllowedChars:   `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`,
+	"ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Port",
-		DefaultValue:   "1:65535",
-		Description:    `Port refers to network port which could be a single number or 100:2000 to represent a range of ports`,
+		ConvertedName:  "Ports",
+		Description:    `Ports is a list of ports for the service. Ports are either exact match, or a range portMin:portMax.`,
 		Exposed:        true,
-		Filterable:     true,
-		Name:           "port",
+		Name:           "ports",
+		Required:       true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "port_list",
+		Type:           "external",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -825,27 +951,27 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"protocol": elemental.AttributeSpecification{
-		AllowedChars:   `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`,
+	"runtimeselectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Protocol",
-		Description:    `Protocol refers to network protocol like TCP/UDP or the number of the protocol.`,
+		ConvertedName:  "RuntimeSelectors",
+		Description:    `RuntimeSelectors is a list of tag selectors that identifies that Processing Units that will implement this service.`,
 		Exposed:        true,
-		Filterable:     true,
-		Name:           "protocol",
+		Name:           "runtimeSelectors",
 		Required:       true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "target_tags",
+		Type:           "external",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"LoadBalancerHTTP", "LoadBalancerTCP", "Network"},
+		AllowedChoices: []string{"HTTP", "L3", "TCP"},
 		ConvertedName:  "Type",
-		DefaultValue:   ExternalServiceTypeNetwork,
-		Description:    `Type represents the type of external service.`,
+		DefaultValue:   APIServiceTypeL3,
+		Description:    `Type is the type of the service (HTTP, TCP, etc). More types will be added to the system.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "type",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "enum",
 	},

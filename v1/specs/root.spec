@@ -94,6 +94,18 @@
             "deprecated": null,
             "get": true,
             "relationship": "root",
+            "rest_name": "apiservice",
+            "update": false
+        },
+        {
+            "bulk_create": false,
+            "bulk_delete": false,
+            "bulk_update": false,
+            "create": true,
+            "delete": false,
+            "deprecated": null,
+            "get": true,
+            "relationship": "root",
             "rest_name": "auditprofile",
             "update": false
         },
@@ -131,6 +143,18 @@
             "get": true,
             "relationship": "root",
             "rest_name": "automation",
+            "update": false
+        },
+        {
+            "bulk_create": false,
+            "bulk_delete": false,
+            "bulk_update": false,
+            "create": false,
+            "delete": false,
+            "deprecated": null,
+            "get": true,
+            "relationship": "root",
+            "rest_name": "automationtemplate",
             "update": false
         },
         {
@@ -380,18 +404,6 @@
             "create": true,
             "delete": false,
             "deprecated": null,
-            "get": false,
-            "relationship": "child",
-            "rest_name": "jaegerbatch",
-            "update": false
-        },
-        {
-            "bulk_create": false,
-            "bulk_delete": false,
-            "bulk_update": false,
-            "create": true,
-            "delete": false,
-            "deprecated": null,
             "get": true,
             "relationship": "root",
             "rest_name": "kubernetescluster",
@@ -479,6 +491,18 @@
             "get": true,
             "relationship": "root",
             "rest_name": "policy",
+            "update": false
+        },
+        {
+            "bulk_create": false,
+            "bulk_delete": false,
+            "bulk_update": false,
+            "create": true,
+            "delete": false,
+            "deprecated": null,
+            "get": true,
+            "relationship": "root",
+            "rest_name": "policyrule",
             "update": false
         },
         {
@@ -659,6 +683,18 @@
             "get": false,
             "relationship": "root",
             "rest_name": "token",
+            "update": false
+        },
+        {
+            "bulk_create": false,
+            "bulk_delete": false,
+            "bulk_update": false,
+            "create": true,
+            "delete": false,
+            "deprecated": null,
+            "get": true,
+            "relationship": "root",
+            "rest_name": "tokenscopepolicy",
             "update": false
         },
         {

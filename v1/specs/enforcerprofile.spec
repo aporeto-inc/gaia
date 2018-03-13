@@ -918,7 +918,20 @@
             "uniqueScope": null
         }
     ],
-    "children": [],
+    "children": [
+        {
+            "bulk_create": false,
+            "bulk_delete": false,
+            "bulk_update": false,
+            "create": false,
+            "delete": false,
+            "deprecated": null,
+            "get": true,
+            "relationship": "child",
+            "rest_name": "auditprofile",
+            "update": false
+        }
+    ],
     "model": {
         "aliases": [
             "profile",
@@ -928,6 +941,7 @@
         "delete": true,
         "description": "Allows to create reusable configuration profile for your enforcers. Enforcer Profiles contains various startup information that can (for some) be updated live. Enforcer Profiles are assigned to some Enforcer using a Enforcer Profile Mapping Policy.",
         "entity_name": "EnforcerProfile",
+        "exposed": true,
         "extends": [
             "@base",
             "@described",
@@ -936,6 +950,7 @@
         ],
         "get": true,
         "package": "squall",
+        "private": false,
         "resource_name": "enforcerprofiles",
         "rest_name": "enforcerprofile",
         "root": null,

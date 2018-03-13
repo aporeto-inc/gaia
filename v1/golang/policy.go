@@ -38,6 +38,9 @@ const (
 
 	// PolicyTypeSyscall represents the value Syscall.
 	PolicyTypeSyscall PolicyTypeValue = "Syscall"
+
+	// PolicyTypeTokenscope represents the value TokenScope.
+	PolicyTypeTokenscope PolicyTypeValue = "TokenScope"
 )
 
 // PolicyIdentity represents the Identity of the object.
@@ -415,7 +418,7 @@ func (o *Policy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -732,7 +735,7 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall"},
+		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the policy`,
@@ -1033,7 +1036,7 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall"},
+		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the policy`,

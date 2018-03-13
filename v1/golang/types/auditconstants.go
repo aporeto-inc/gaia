@@ -1,6 +1,8 @@
 package types
 
 import (
+	"fmt"
+
 	"github.com/aporeto-inc/elemental"
 )
 
@@ -20,79 +22,97 @@ const (
 	AuditFilterTypeEgid       AuditFilterType = "egid"
 	AuditFilterTypeEuid       AuditFilterType = "euid"
 	AuditFilterTypeExit       AuditFilterType = "exit"
+	AuditFilterTypeFiletype   AuditFilterType = "filetye"
 	AuditFilterTypeFsgid      AuditFilterType = "fsgid"
 	AuditFilterTypeFsuid      AuditFilterType = "fsuid"
-	AuditFilterTypeFiletype   AuditFilterType = "filetye"
 	AuditFilterTypeGid        AuditFilterType = "gid"
 	AuditFilterTypeInode      AuditFilterType = "inode"
-	AuditFilterTypeMsgtype    AuditFilterType = "msg_type"
-	AuditFilterTypeObjuid     AuditFilterType = "obj_uid"
+	AuditFilterTypeMsgtype    AuditFilterType = "msgtype"
 	AuditFilterTypeObjgid     AuditFilterType = "obj_gid"
-	AuditFilterTypeObjuser    AuditFilterType = "obj_user"
+	AuditFilterTypeObjlevhigh AuditFilterType = "obj_lev_highj"
+	AuditFilterTypeObjlevlow  AuditFilterType = "obj_lev_low"
 	AuditFilterTypeObjrole    AuditFilterType = "obj_role"
 	AuditFilterTypeObjtype    AuditFilterType = "obj_type"
-	AuditFilterTypeObjlevlow  AuditFilterType = "obj_lev_low"
-	AuditFilterTypeObjlevhigh AuditFilterType = "obj_lev_highj"
+	AuditFilterTypeObjuid     AuditFilterType = "obj_uid"
+	AuditFilterTypeObjuser    AuditFilterType = "obj_user"
 	AuditFilterTypePath       AuditFilterType = "path"
 	AuditFilterTypePerm       AuditFilterType = "perm"
 	AuditFilterTypePers       AuditFilterType = "pers"
 	AuditFilterTypePid        AuditFilterType = "pid"
 	AuditFilterTypePpid       AuditFilterType = "ppid"
-	AuditFilterTypeSubuser    AuditFilterType = "subj_user"
+	AuditFilterTypeSgid       AuditFilterType = "sgid"
+	AuditFilterTypeSubclr     AuditFilterType = "subj_clr"
 	AuditFilterTypeSubjrole   AuditFilterType = "subj_role"
 	AuditFilterTypeSubjtype   AuditFilterType = "subj_type"
 	AuditFilterTypeSubsen     AuditFilterType = "subj_sen"
-	AuditFilterTypeSubclr     AuditFilterType = "subj_clr"
-	AuditFilterTypeSgid       AuditFilterType = "sgid"
+	AuditFilterTypeSubuser    AuditFilterType = "subj_user"
 	AuditFilterTypeSuccess    AuditFilterType = "success"
 	AuditFilterTypeSuid       AuditFilterType = "suid"
 	AuditFilterTypeUserid     AuditFilterType = "uid"
+	AuditFilterTypeAuid       AuditFilterType = "auid"
+	AuditFilterTypeKey        AuditFilterType = "key"
+	AuditFilterTypeExe        AuditFilterType = "exe"
 )
 
 var auditFilterTypeReverse = map[string]interface{}{
-	"a0":            nil,
-	"a1":            nil,
-	"a2":            nil,
-	"a3":            nil,
-	"arch":          nil,
-	"devmajor":      nil,
-	"devminor":      nil,
-	"dir":           nil,
-	"egid":          nil,
-	"euid":          nil,
-	"exit":          nil,
-	"fsgid":         nil,
-	"fsuid":         nil,
-	"filetye":       nil,
-	"gid":           nil,
-	"inode":         nil,
-	"msg_type":      nil,
-	"obj_uid":       nil,
-	"obj_gid":       nil,
-	"obj_user":      nil,
-	"obj_role":      nil,
-	"obj_type":      nil,
-	"obj_lev_low":   nil,
-	"obj_lev_highj": nil,
-	"path":          nil,
-	"perm":          nil,
-	"pers":          nil,
-	"pid":           nil,
-	"ppid":          nil,
-	"subj_user":     nil,
-	"subj_role":     nil,
-	"subj_type":     nil,
-	"subj_sen":      nil,
-	"subj_clr":      nil,
-	"sgid":          nil,
-	"success":       nil,
-	"suid":          nil,
-	"uid":           nil,
+	"a0":            AuditFilterTypeA0,
+	"a1":            AuditFilterTypeA1,
+	"a2":            AuditFilterTypeA2,
+	"a3":            AuditFilterTypeA3,
+	"arch":          AuditFilterTypeArch,
+	"devmajor":      AuditFilterTypeDevMajor,
+	"devminor":      AuditFilterTypeDevMinor,
+	"dir":           AuditFilterTypeDir,
+	"egid":          AuditFilterTypeEgid,
+	"euid":          AuditFilterTypeEuid,
+	"exit":          AuditFilterTypeExit,
+	"filetye":       AuditFilterTypeFiletype,
+	"fsgid":         AuditFilterTypeFsgid,
+	"fsuid":         AuditFilterTypeFsuid,
+	"gid":           AuditFilterTypeGid,
+	"inode":         AuditFilterTypeInode,
+	"msgtype":       AuditFilterTypeMsgtype,
+	"obj_gid":       AuditFilterTypeObjgid,
+	"obj_lev_highj": AuditFilterTypeObjlevhigh,
+	"obj_lev_low":   AuditFilterTypeObjlevlow,
+	"obj_role":      AuditFilterTypeObjrole,
+	"obj_type":      AuditFilterTypeObjtype,
+	"obj_uid":       AuditFilterTypeObjuid,
+	"obj_user":      AuditFilterTypeObjuser,
+	"path":          AuditFilterTypePath,
+	"perm":          AuditFilterTypePerm,
+	"pers":          AuditFilterTypePers,
+	"pid":           AuditFilterTypePid,
+	"ppid":          AuditFilterTypePpid,
+	"sgid":          AuditFilterTypeSgid,
+	"subj_clr":      AuditFilterTypeSubclr,
+	"subj_role":     AuditFilterTypeSubjrole,
+	"subj_sen":      AuditFilterTypeSubsen,
+	"subj_type":     AuditFilterTypeSubjtype,
+	"subj_user":     AuditFilterTypeSubuser,
+	"success":       AuditFilterTypeSuccess,
+	"suid":          AuditFilterTypeSuid,
+	"uid":           AuditFilterTypeUserid,
+	"auid":          AuditFilterTypeAuid,
+	"key":           AuditFilterTypeKey,
+	"exe":           AuditFilterTypeExe,
 }
 
 // Validate validates the AuditFilterType
 func (a AuditFilterType) Validate(attribute string) error {
+
 	return elemental.ValidateStringInMap(attribute, string(a), auditFilterTypeReverse, false)
+}
+
+// AuditFilterTypeFromString returns the AuditFilterType from a given string value.
+func AuditFilterTypeFromString(value string) (AuditFilterType, error) {
+
+	t, ok := auditFilterTypeReverse[value]
+	if !ok {
+		return "", fmt.Errorf("unknown AuditFilterType %s", value)
+	}
+
+	return t.(AuditFilterType), nil
 }
 
 // AuditFilterListType are the types allowed in the list argument of audit filters
@@ -107,15 +127,27 @@ const (
 )
 
 var auditFilterListTypeReverse = map[string]interface{}{
-	"task":    nil,
-	"exit":    nil,
-	"user":    nil,
-	"exclude": nil,
+	"task":    AuditFilterListTypeTask,
+	"exit":    AuditFilterListTypeExit,
+	"user":    AuditFilterListTypeUser,
+	"exclude": AuditFilterListTypeExclude,
 }
 
 // Validate validates the AuditFilterListType
 func (a AuditFilterListType) Validate(attribute string) error {
+
 	return elemental.ValidateStringInMap(attribute, string(a), auditFilterListTypeReverse, false)
+}
+
+// AuditFilterListTypeFromString returns the AuditFilterListType from a given string value.
+func AuditFilterListTypeFromString(value string) (AuditFilterListType, error) {
+
+	t, ok := auditFilterListTypeReverse[value]
+	if !ok {
+		return "", fmt.Errorf("unknown AuditFilterListType %s", value)
+	}
+
+	return t.(AuditFilterListType), nil
 }
 
 // AuditFilterActionType are the types allowed in the audit filter action
@@ -127,9 +159,26 @@ const (
 	AuditFilterActionTypeAlways AuditFilterActionType = "always"
 )
 
+var auditFilterActionTypeReverse = map[string]interface{}{
+	"never":  AuditFilterActionTypeNever,
+	"always": AuditFilterActionTypeAlways,
+}
+
 // Validate validates the AuditFilterActionType
 func (a AuditFilterActionType) Validate(attribute string) error {
-	return elemental.ValidateStringInList(attribute, string(a), []string{string(AuditFilterActionTypeNever), string(AuditFilterActionTypeAlways)}, false)
+
+	return elemental.ValidateStringInMap(attribute, string(a), auditFilterActionTypeReverse, false)
+}
+
+// AuditFilterActionTypeFromString returns the AuditFilterActionType from a given string value.
+func AuditFilterActionTypeFromString(value string) (AuditFilterActionType, error) {
+
+	t, ok := auditFilterActionTypeReverse[value]
+	if !ok {
+		return "", fmt.Errorf("unknown AuditFilterActionType %s", value)
+	}
+
+	return t.(AuditFilterActionType), nil
 }
 
 // AuditFilterOperator is the operator for filters.
@@ -148,19 +197,31 @@ const (
 )
 
 var auditFilterOperatorReverse = map[string]interface{}{
-	"=":  nil,
-	"!=": nil,
-	">":  nil,
-	"<":  nil,
-	">=": nil,
-	"<=": nil,
-	"&":  nil,
-	"&=": nil,
+	"=":  AuditFilterOperatorEqual,
+	"!=": AuditFilterOperatorNotEqual,
+	">":  AuditFilterOperatorGreater,
+	"<":  AuditFilterOperatorLessThan,
+	">=": AuditFilterOperatorGreaterOrEqual,
+	"<=": AuditFilterOperatorLessThanOrEqual,
+	"&":  AuditFilterOperatorBitMask,
+	"&=": AuditFilterOperatorBitTest,
 }
 
 // Validate validates the audit filter operator
 func (a AuditFilterOperator) Validate(attribute string) error {
+
 	return elemental.ValidateStringInMap(attribute, string(a), auditFilterOperatorReverse, false)
+}
+
+// AuditFilterOperatorFromString returns the AuditFilterOperator from a given string value.
+func AuditFilterOperatorFromString(value string) (AuditFilterOperator, error) {
+
+	t, ok := auditFilterOperatorReverse[value]
+	if !ok {
+		return "", fmt.Errorf("unknown AuditFilterOperator %s", value)
+	}
+
+	return t.(AuditFilterOperator), nil
 }
 
 // AuditFilePermissions is the type of file permissions
@@ -176,6 +237,7 @@ const (
 
 // Validate validates the audit file permissions
 func (a AuditFilePermissions) Validate(attribute string) error {
+
 	enums := []string{
 		string(AuditFilePermissionsWrite),
 		string(AuditFilePermissionsRead),
@@ -191,7 +253,19 @@ type AuditSystemCallType string
 
 // Validate validates the AuditSystemCallType
 func (a AuditSystemCallType) Validate(attribute string) error {
+
 	return elemental.ValidateStringInMap(attribute, string(a), auditSystemCallTypeReverse, false)
+}
+
+// AuditSystemCallTypeFromString returns the AuditSystemCallType from a given string value.
+func AuditSystemCallTypeFromString(value string) (AuditSystemCallType, error) {
+
+	t, ok := auditSystemCallTypeReverse[value]
+	if !ok {
+		return "", fmt.Errorf("unknown AuditSystemCallType %s", value)
+	}
+
+	return t.(AuditSystemCallType), nil
 }
 
 // Values of AuditSystemCallType.
@@ -510,321 +584,323 @@ const (
 	AuditSystemCallTypePROCESS_VM_WRITEV      AuditSystemCallType = "process_vm_writev"
 	AuditSystemCallTypeKCMP                   AuditSystemCallType = "kcmp"
 	AuditSystemCallTypeFINIT_MODULE           AuditSystemCallType = "finit_module"
+	AuditSystemCallTypeSTIME                  AuditSystemCallType = "stime"
 )
 
 var auditSystemCallTypeReverse = map[string]interface{}{
-	"read":                   nil,
-	"write":                  nil,
-	"open":                   nil,
-	"close":                  nil,
-	"stat":                   nil,
-	"fstat":                  nil,
-	"lstat":                  nil,
-	"poll":                   nil,
-	"lseek":                  nil,
-	"mmap":                   nil,
-	"mprotect":               nil,
-	"munmap":                 nil,
-	"brk":                    nil,
-	"rt_sigaction":           nil,
-	"rt_sigprocmask":         nil,
-	"rt_sigreturn":           nil,
-	"ioctl":                  nil,
-	"pread64":                nil,
-	"pwrite64":               nil,
-	"readv":                  nil,
-	"writev":                 nil,
-	"access":                 nil,
-	"pipe":                   nil,
-	"select":                 nil,
-	"sched_yield":            nil,
-	"mremap":                 nil,
-	"msync":                  nil,
-	"mincore":                nil,
-	"madvise":                nil,
-	"shmget":                 nil,
-	"shmat":                  nil,
-	"shmctl":                 nil,
-	"dup":                    nil,
-	"dup2":                   nil,
-	"pause":                  nil,
-	"nanosleep":              nil,
-	"getitimer":              nil,
-	"alarm":                  nil,
-	"setitimer":              nil,
-	"getpid":                 nil,
-	"sendfile":               nil,
-	"socket":                 nil,
-	"connect":                nil,
-	"accept":                 nil,
-	"sendto":                 nil,
-	"recvfrom":               nil,
-	"sendmsg":                nil,
-	"recvmsg":                nil,
-	"shutdown":               nil,
-	"bind":                   nil,
-	"listen":                 nil,
-	"getsockname":            nil,
-	"getpeername":            nil,
-	"socketpair":             nil,
-	"setsockopt":             nil,
-	"getsockopt":             nil,
-	"clone":                  nil,
-	"fork":                   nil,
-	"vfork":                  nil,
-	"execve":                 nil,
-	"exit":                   nil,
-	"wait4":                  nil,
-	"kill":                   nil,
-	"uname":                  nil,
-	"semget":                 nil,
-	"semop":                  nil,
-	"semctl":                 nil,
-	"shmdt":                  nil,
-	"msgget":                 nil,
-	"msgsnd":                 nil,
-	"msgrcv":                 nil,
-	"msgctl":                 nil,
-	"fcntl":                  nil,
-	"flock":                  nil,
-	"fsync":                  nil,
-	"fdatasync":              nil,
-	"truncate":               nil,
-	"ftruncate":              nil,
-	"getdents":               nil,
-	"getcwd":                 nil,
-	"chdir":                  nil,
-	"fchdir":                 nil,
-	"rename":                 nil,
-	"mkdir":                  nil,
-	"rmdir":                  nil,
-	"creat":                  nil,
-	"link":                   nil,
-	"unlink":                 nil,
-	"symlink":                nil,
-	"readlink":               nil,
-	"chmod":                  nil,
-	"fchmod":                 nil,
-	"chown":                  nil,
-	"fchown":                 nil,
-	"lchown":                 nil,
-	"umask":                  nil,
-	"gettimeofday":           nil,
-	"getrlimit":              nil,
-	"getrusage":              nil,
-	"sysinfo":                nil,
-	"times":                  nil,
-	"ptrace":                 nil,
-	"getuid":                 nil,
-	"syslog":                 nil,
-	"getgid":                 nil,
-	"setuid":                 nil,
-	"setgid":                 nil,
-	"geteuid":                nil,
-	"getegid":                nil,
-	"setpgid":                nil,
-	"getppid":                nil,
-	"getpgrp":                nil,
-	"setsid":                 nil,
-	"setreuid":               nil,
-	"setregid":               nil,
-	"getgroups":              nil,
-	"setgroups":              nil,
-	"setresuid":              nil,
-	"getresuid":              nil,
-	"setresgid":              nil,
-	"getresgid":              nil,
-	"getpgid":                nil,
-	"setfsuid":               nil,
-	"setfsgid":               nil,
-	"getsid":                 nil,
-	"capget":                 nil,
-	"capset":                 nil,
-	"rt_sigpending":          nil,
-	"rt_sigtimedwait":        nil,
-	"rt_sigqueueinfo":        nil,
-	"rt_sigsuspend":          nil,
-	"sigaltstack":            nil,
-	"utime":                  nil,
-	"mknod":                  nil,
-	"uselib":                 nil,
-	"personality":            nil,
-	"ustat":                  nil,
-	"statfs":                 nil,
-	"fstatfs":                nil,
-	"sysfs":                  nil,
-	"getpriority":            nil,
-	"setpriority":            nil,
-	"sched_setparam":         nil,
-	"sched_getparam":         nil,
-	"sched_setscheduler":     nil,
-	"sched_getscheduler":     nil,
-	"sched_get_priority_max": nil,
-	"sched_get_priority_min": nil,
-	"sched_rr_get_interval":  nil,
-	"mlock":                  nil,
-	"munlock":                nil,
-	"mlockall":               nil,
-	"munlockall":             nil,
-	"vhangup":                nil,
-	"modify_ldt":             nil,
-	"pivot_root":             nil,
-	"_sysctl":                nil,
-	"prctl":                  nil,
-	"arch_prctl":             nil,
-	"adjtimex":               nil,
-	"setrlimit":              nil,
-	"chroot":                 nil,
-	"sync":                   nil,
-	"acct":                   nil,
-	"settimeofday":           nil,
-	"mount":                  nil,
-	"umount2":                nil,
-	"swapon":                 nil,
-	"swapoff":                nil,
-	"reboot":                 nil,
-	"sethostname":            nil,
-	"setdomainname":          nil,
-	"iopl":                   nil,
-	"ioperm":                 nil,
-	"create_module":          nil,
-	"init_module":            nil,
-	"delete_module":          nil,
-	"get_kernel_syms":        nil,
-	"query_module":           nil,
-	"quotactl":               nil,
-	"nfsservctl":             nil,
-	"getpmsg":                nil,
-	"putpmsg":                nil,
-	"afs_syscall":            nil,
-	"tuxcall":                nil,
-	"security":               nil,
-	"gettid":                 nil,
-	"readahead":              nil,
-	"setxattr":               nil,
-	"lsetxattr":              nil,
-	"fsetxattr":              nil,
-	"getxattr":               nil,
-	"lgetxattr":              nil,
-	"fgetxattr":              nil,
-	"listxattr":              nil,
-	"llistxattr":             nil,
-	"flistxattr":             nil,
-	"removexattr":            nil,
-	"lremovexattr":           nil,
-	"fremovexattr":           nil,
-	"tkill":                  nil,
-	"time":                   nil,
-	"futex":                  nil,
-	"sched_setaffinity":      nil,
-	"sched_getaffinity":      nil,
-	"set_thread_area":        nil,
-	"io_setup":               nil,
-	"io_destroy":             nil,
-	"io_getevents":           nil,
-	"io_submit":              nil,
-	"io_cancel":              nil,
-	"get_thread_area":        nil,
-	"lookup_dcookie":         nil,
-	"epoll_create":           nil,
-	"epoll_ctl_old":          nil,
-	"epoll_wait_old":         nil,
-	"remap_file_pages":       nil,
-	"getdents64":             nil,
-	"set_tid_address":        nil,
-	"restart_syscall":        nil,
-	"semtimedop":             nil,
-	"fadvise64":              nil,
-	"timer_create":           nil,
-	"timer_settime":          nil,
-	"timer_gettime":          nil,
-	"timer_getoverrun":       nil,
-	"timer_delete":           nil,
-	"clock_settime":          nil,
-	"clock_gettime":          nil,
-	"clock_getres":           nil,
-	"clock_nanosleep":        nil,
-	"exit_group":             nil,
-	"epoll_wait":             nil,
-	"epoll_ctl":              nil,
-	"tgkill":                 nil,
-	"utimes":                 nil,
-	"vserver":                nil,
-	"mbind":                  nil,
-	"set_mempolicy":          nil,
-	"get_mempolicy":          nil,
-	"mq_open":                nil,
-	"mq_unlink":              nil,
-	"mq_timedsend":           nil,
-	"mq_timedreceive":        nil,
-	"mq_notify":              nil,
-	"mq_getsetattr":          nil,
-	"kexec_load":             nil,
-	"waitid":                 nil,
-	"add_key":                nil,
-	"request_key":            nil,
-	"keyctl":                 nil,
-	"ioprio_set":             nil,
-	"ioprio_get":             nil,
-	"inotify_init":           nil,
-	"inotify_add_watch":      nil,
-	"inotify_rm_watch":       nil,
-	"migrate_pages":          nil,
-	"openat":                 nil,
-	"mkdirat":                nil,
-	"mknodat":                nil,
-	"fchownat":               nil,
-	"futimesat":              nil,
-	"newfstatat":             nil,
-	"unlinkat":               nil,
-	"renameat":               nil,
-	"linkat":                 nil,
-	"symlinkat":              nil,
-	"readlinkat":             nil,
-	"fchmodat":               nil,
-	"faccessat":              nil,
-	"pselect6":               nil,
-	"ppoll":                  nil,
-	"unshare":                nil,
-	"set_robust_list":        nil,
-	"get_robust_list":        nil,
-	"splice":                 nil,
-	"tee":                    nil,
-	"sync_file_range":        nil,
-	"vmsplice":               nil,
-	"move_pages":             nil,
-	"utimensat":              nil,
-	"epoll_pwait":            nil,
-	"signalfd":               nil,
-	"timerfd_create":         nil,
-	"eventfd":                nil,
-	"fallocate":              nil,
-	"timerfd_settime":        nil,
-	"timerfd_gettime":        nil,
-	"accept4":                nil,
-	"signalfd4":              nil,
-	"eventfd2":               nil,
-	"epoll_create1":          nil,
-	"dup3":                   nil,
-	"pipe2":                  nil,
-	"inotify_init1":          nil,
-	"preadv":                 nil,
-	"pwritev":                nil,
-	"rt_tgsigqueueinfo":      nil,
-	"perf_event_open":        nil,
-	"recvmmsg":               nil,
-	"fanotify_init":          nil,
-	"fanotify_mark":          nil,
-	"prlimit64":              nil,
-	"name_to_handle_at":      nil,
-	"open_by_handle_at":      nil,
-	"clock_adjtime":          nil,
-	"syncfs":                 nil,
-	"sendmmsg":               nil,
-	"setns":                  nil,
-	"getcpu":                 nil,
-	"process_vm_readv":       nil,
-	"process_vm_writev":      nil,
-	"kcmp":                   nil,
-	"finit_module":           nil,
+	"read":                   AuditSystemCallTypeREAD,
+	"write":                  AuditSystemCallTypeWRITE,
+	"open":                   AuditSystemCallTypeOPEN,
+	"close":                  AuditSystemCallTypeCLOSE,
+	"stat":                   AuditSystemCallTypeSTAT,
+	"fstat":                  AuditSystemCallTypeFSTAT,
+	"lstat":                  AuditSystemCallTypeLSTAT,
+	"poll":                   AuditSystemCallTypePOLL,
+	"lseek":                  AuditSystemCallTypeLSEEK,
+	"mmap":                   AuditSystemCallTypeMMAP,
+	"mprotect":               AuditSystemCallTypeMPROTECT,
+	"munmap":                 AuditSystemCallTypeMUNMAP,
+	"brk":                    AuditSystemCallTypeBRK,
+	"rt_sigaction":           AuditSystemCallTypeRT_SIGACTION,
+	"rt_sigprocmask":         AuditSystemCallTypeRT_SIGPROCMASK,
+	"rt_sigreturn":           AuditSystemCallTypeRT_SIGRETURN,
+	"ioctl":                  AuditSystemCallTypeIOCTL,
+	"pread64":                AuditSystemCallTypePREAD64,
+	"pwrite64":               AuditSystemCallTypePWRITE64,
+	"readv":                  AuditSystemCallTypeREADV,
+	"writev":                 AuditSystemCallTypeWRITEV,
+	"access":                 AuditSystemCallTypeACCESS,
+	"pipe":                   AuditSystemCallTypePIPE,
+	"select":                 AuditSystemCallTypeSELECT,
+	"sched_yield":            AuditSystemCallTypeSCHED_YIELD,
+	"mremap":                 AuditSystemCallTypeMREMAP,
+	"msync":                  AuditSystemCallTypeMSYNC,
+	"mincore":                AuditSystemCallTypeMINCORE,
+	"madvise":                AuditSystemCallTypeMADVISE,
+	"shmget":                 AuditSystemCallTypeSHMGET,
+	"shmat":                  AuditSystemCallTypeSHMAT,
+	"shmctl":                 AuditSystemCallTypeSHMCTL,
+	"dup":                    AuditSystemCallTypeDUP,
+	"dup2":                   AuditSystemCallTypeDUP2,
+	"pause":                  AuditSystemCallTypePAUSE,
+	"nanosleep":              AuditSystemCallTypeNANOSLEEP,
+	"getitimer":              AuditSystemCallTypeGETITIMER,
+	"alarm":                  AuditSystemCallTypeALARM,
+	"setitimer":              AuditSystemCallTypeSETITIMER,
+	"getpid":                 AuditSystemCallTypeGETPID,
+	"sendfile":               AuditSystemCallTypeSENDFILE,
+	"socket":                 AuditSystemCallTypeSOCKET,
+	"connect":                AuditSystemCallTypeCONNECT,
+	"accept":                 AuditSystemCallTypeACCEPT,
+	"sendto":                 AuditSystemCallTypeSENDTO,
+	"recvfrom":               AuditSystemCallTypeRECVFROM,
+	"sendmsg":                AuditSystemCallTypeSENDMSG,
+	"recvmsg":                AuditSystemCallTypeRECVMSG,
+	"shutdown":               AuditSystemCallTypeSHUTDOWN,
+	"bind":                   AuditSystemCallTypeBIND,
+	"listen":                 AuditSystemCallTypeLISTEN,
+	"getsockname":            AuditSystemCallTypeGETSOCKNAME,
+	"getpeername":            AuditSystemCallTypeGETPEERNAME,
+	"socketpair":             AuditSystemCallTypeSOCKETPAIR,
+	"setsockopt":             AuditSystemCallTypeSETSOCKOPT,
+	"getsockopt":             AuditSystemCallTypeGETSOCKOPT,
+	"clone":                  AuditSystemCallTypeCLONE,
+	"fork":                   AuditSystemCallTypeFORK,
+	"vfork":                  AuditSystemCallTypeVFORK,
+	"execve":                 AuditSystemCallTypeEXECVE,
+	"exit":                   AuditSystemCallTypeEXIT,
+	"wait4":                  AuditSystemCallTypeWAIT4,
+	"kill":                   AuditSystemCallTypeKILL,
+	"uname":                  AuditSystemCallTypeUNAME,
+	"semget":                 AuditSystemCallTypeSEMGET,
+	"semop":                  AuditSystemCallTypeSEMOP,
+	"semctl":                 AuditSystemCallTypeSEMCTL,
+	"shmdt":                  AuditSystemCallTypeSHMDT,
+	"msgget":                 AuditSystemCallTypeMSGGET,
+	"msgsnd":                 AuditSystemCallTypeMSGSND,
+	"msgrcv":                 AuditSystemCallTypeMSGRCV,
+	"msgctl":                 AuditSystemCallTypeMSGCTL,
+	"fcntl":                  AuditSystemCallTypeFCNTL,
+	"flock":                  AuditSystemCallTypeFLOCK,
+	"fsync":                  AuditSystemCallTypeFSYNC,
+	"fdatasync":              AuditSystemCallTypeFDATASYNC,
+	"truncate":               AuditSystemCallTypeTRUNCATE,
+	"ftruncate":              AuditSystemCallTypeFTRUNCATE,
+	"getdents":               AuditSystemCallTypeGETDENTS,
+	"getcwd":                 AuditSystemCallTypeGETCWD,
+	"chdir":                  AuditSystemCallTypeCHDIR,
+	"fchdir":                 AuditSystemCallTypeFCHDIR,
+	"rename":                 AuditSystemCallTypeRENAME,
+	"mkdir":                  AuditSystemCallTypeMKDIR,
+	"rmdir":                  AuditSystemCallTypeRMDIR,
+	"creat":                  AuditSystemCallTypeCREAT,
+	"link":                   AuditSystemCallTypeLINK,
+	"unlink":                 AuditSystemCallTypeUNLINK,
+	"symlink":                AuditSystemCallTypeSYMLINK,
+	"readlink":               AuditSystemCallTypeREADLINK,
+	"chmod":                  AuditSystemCallTypeCHMOD,
+	"fchmod":                 AuditSystemCallTypeFCHMOD,
+	"chown":                  AuditSystemCallTypeCHOWN,
+	"fchown":                 AuditSystemCallTypeFCHOWN,
+	"lchown":                 AuditSystemCallTypeLCHOWN,
+	"umask":                  AuditSystemCallTypeUMASK,
+	"gettimeofday":           AuditSystemCallTypeGETTIMEOFDAY,
+	"getrlimit":              AuditSystemCallTypeGETRLIMIT,
+	"getrusage":              AuditSystemCallTypeGETRUSAGE,
+	"sysinfo":                AuditSystemCallTypeSYSINFO,
+	"times":                  AuditSystemCallTypeTIMES,
+	"ptrace":                 AuditSystemCallTypePTRACE,
+	"getuid":                 AuditSystemCallTypeGETUID,
+	"syslog":                 AuditSystemCallTypeSYSLOG,
+	"getgid":                 AuditSystemCallTypeGETGID,
+	"setuid":                 AuditSystemCallTypeSETUID,
+	"setgid":                 AuditSystemCallTypeSETGID,
+	"geteuid":                AuditSystemCallTypeGETEUID,
+	"getegid":                AuditSystemCallTypeGETEGID,
+	"setpgid":                AuditSystemCallTypeSETPGID,
+	"getppid":                AuditSystemCallTypeGETPPID,
+	"getpgrp":                AuditSystemCallTypeGETPGRP,
+	"setsid":                 AuditSystemCallTypeSETSID,
+	"setreuid":               AuditSystemCallTypeSETREUID,
+	"setregid":               AuditSystemCallTypeSETREGID,
+	"getgroups":              AuditSystemCallTypeGETGROUPS,
+	"setgroups":              AuditSystemCallTypeSETGROUPS,
+	"setresuid":              AuditSystemCallTypeSETRESUID,
+	"getresuid":              AuditSystemCallTypeGETRESUID,
+	"setresgid":              AuditSystemCallTypeSETRESGID,
+	"getresgid":              AuditSystemCallTypeGETRESGID,
+	"getpgid":                AuditSystemCallTypeGETPGID,
+	"setfsuid":               AuditSystemCallTypeSETFSUID,
+	"setfsgid":               AuditSystemCallTypeSETFSGID,
+	"getsid":                 AuditSystemCallTypeGETSID,
+	"capget":                 AuditSystemCallTypeCAPGET,
+	"capset":                 AuditSystemCallTypeCAPSET,
+	"rt_sigpending":          AuditSystemCallTypeRT_SIGPENDING,
+	"rt_sigtimedwait":        AuditSystemCallTypeRT_SIGTIMEDWAIT,
+	"rt_sigqueueinfo":        AuditSystemCallTypeRT_SIGQUEUEINFO,
+	"rt_sigsuspend":          AuditSystemCallTypeRT_SIGSUSPEND,
+	"sigaltstack":            AuditSystemCallTypeSIGALTSTACK,
+	"utime":                  AuditSystemCallTypeUTIME,
+	"mknod":                  AuditSystemCallTypeMKNOD,
+	"uselib":                 AuditSystemCallTypeUSELIB,
+	"personality":            AuditSystemCallTypePERSONALITY,
+	"ustat":                  AuditSystemCallTypeUSTAT,
+	"statfs":                 AuditSystemCallTypeSTATFS,
+	"fstatfs":                AuditSystemCallTypeFSTATFS,
+	"sysfs":                  AuditSystemCallTypeSYSFS,
+	"getpriority":            AuditSystemCallTypeGETPRIORITY,
+	"setpriority":            AuditSystemCallTypeSETPRIORITY,
+	"sched_setparam":         AuditSystemCallTypeSCHED_SETPARAM,
+	"sched_getparam":         AuditSystemCallTypeSCHED_GETPARAM,
+	"sched_setscheduler":     AuditSystemCallTypeSCHED_SETSCHEDULER,
+	"sched_getscheduler":     AuditSystemCallTypeSCHED_GETSCHEDULER,
+	"sched_get_priority_max": AuditSystemCallTypeSCHED_GET_PRIORITY_MAX,
+	"sched_get_priority_min": AuditSystemCallTypeSCHED_GET_PRIORITY_MIN,
+	"sched_rr_get_interval":  AuditSystemCallTypeSCHED_RR_GET_INTERVAL,
+	"mlock":                  AuditSystemCallTypeMLOCK,
+	"munlock":                AuditSystemCallTypeMUNLOCK,
+	"mlockall":               AuditSystemCallTypeMLOCKALL,
+	"munlockall":             AuditSystemCallTypeMUNLOCKALL,
+	"vhangup":                AuditSystemCallTypeVHANGUP,
+	"modify_ldt":             AuditSystemCallTypeMODIFY_LDT,
+	"pivot_root":             AuditSystemCallTypePIVOT_ROOT,
+	"_sysctl":                AuditSystemCallType_SYSCTL,
+	"prctl":                  AuditSystemCallTypePRCTL,
+	"arch_prctl":             AuditSystemCallTypeARCH_PRCTL,
+	"adjtimex":               AuditSystemCallTypeADJTIMEX,
+	"setrlimit":              AuditSystemCallTypeSETRLIMIT,
+	"chroot":                 AuditSystemCallTypeCHROOT,
+	"sync":                   AuditSystemCallTypeSYNC,
+	"acct":                   AuditSystemCallTypeACCT,
+	"settimeofday":           AuditSystemCallTypeSETTIMEOFDAY,
+	"mount":                  AuditSystemCallTypeMOUNT,
+	"umount2":                AuditSystemCallTypeUMOUNT2,
+	"swapon":                 AuditSystemCallTypeSWAPON,
+	"swapoff":                AuditSystemCallTypeSWAPOFF,
+	"reboot":                 AuditSystemCallTypeREBOOT,
+	"sethostname":            AuditSystemCallTypeSETHOSTNAME,
+	"setdomainname":          AuditSystemCallTypeSETDOMAINNAME,
+	"iopl":                   AuditSystemCallTypeIOPL,
+	"ioperm":                 AuditSystemCallTypeIOPERM,
+	"create_module":          AuditSystemCallTypeCREATE_MODULE,
+	"init_module":            AuditSystemCallTypeINIT_MODULE,
+	"delete_module":          AuditSystemCallTypeDELETE_MODULE,
+	"get_kernel_syms":        AuditSystemCallTypeGET_KERNEL_SYMS,
+	"query_module":           AuditSystemCallTypeQUERY_MODULE,
+	"quotactl":               AuditSystemCallTypeQUOTACTL,
+	"nfsservctl":             AuditSystemCallTypeNFSSERVCTL,
+	"getpmsg":                AuditSystemCallTypeGETPMSG,
+	"putpmsg":                AuditSystemCallTypePUTPMSG,
+	"afs_syscall":            AuditSystemCallTypeAFS_SYSCALL,
+	"tuxcall":                AuditSystemCallTypeTUXCALL,
+	"security":               AuditSystemCallTypeSECURITY,
+	"gettid":                 AuditSystemCallTypeGETTID,
+	"readahead":              AuditSystemCallTypeREADAHEAD,
+	"setxattr":               AuditSystemCallTypeSETXATTR,
+	"lsetxattr":              AuditSystemCallTypeLSETXATTR,
+	"fsetxattr":              AuditSystemCallTypeFSETXATTR,
+	"getxattr":               AuditSystemCallTypeGETXATTR,
+	"lgetxattr":              AuditSystemCallTypeLGETXATTR,
+	"fgetxattr":              AuditSystemCallTypeFGETXATTR,
+	"listxattr":              AuditSystemCallTypeLISTXATTR,
+	"llistxattr":             AuditSystemCallTypeLLISTXATTR,
+	"flistxattr":             AuditSystemCallTypeFLISTXATTR,
+	"removexattr":            AuditSystemCallTypeREMOVEXATTR,
+	"lremovexattr":           AuditSystemCallTypeLREMOVEXATTR,
+	"fremovexattr":           AuditSystemCallTypeFREMOVEXATTR,
+	"tkill":                  AuditSystemCallTypeTKILL,
+	"time":                   AuditSystemCallTypeTIME,
+	"futex":                  AuditSystemCallTypeFUTEX,
+	"sched_setaffinity":      AuditSystemCallTypeSCHED_SETAFFINITY,
+	"sched_getaffinity":      AuditSystemCallTypeSCHED_GETAFFINITY,
+	"set_thread_area":        AuditSystemCallTypeSET_THREAD_AREA,
+	"io_setup":               AuditSystemCallTypeIO_SETUP,
+	"io_destroy":             AuditSystemCallTypeIO_DESTROY,
+	"io_getevents":           AuditSystemCallTypeIO_GETEVENTS,
+	"io_submit":              AuditSystemCallTypeIO_SUBMIT,
+	"io_cancel":              AuditSystemCallTypeIO_CANCEL,
+	"get_thread_area":        AuditSystemCallTypeGET_THREAD_AREA,
+	"lookup_dcookie":         AuditSystemCallTypeLOOKUP_DCOOKIE,
+	"epoll_create":           AuditSystemCallTypeEPOLL_CREATE,
+	"epoll_ctl_old":          AuditSystemCallTypeEPOLL_CTL_OLD,
+	"epoll_wait_old":         AuditSystemCallTypeEPOLL_WAIT_OLD,
+	"remap_file_pages":       AuditSystemCallTypeREMAP_FILE_PAGES,
+	"getdents64":             AuditSystemCallTypeGETDENTS64,
+	"set_tid_address":        AuditSystemCallTypeSET_TID_ADDRESS,
+	"restart_syscall":        AuditSystemCallTypeRESTART_SYSCALL,
+	"semtimedop":             AuditSystemCallTypeSEMTIMEDOP,
+	"fadvise64":              AuditSystemCallTypeFADVISE64,
+	"timer_create":           AuditSystemCallTypeTIMER_CREATE,
+	"timer_settime":          AuditSystemCallTypeTIMER_SETTIME,
+	"timer_gettime":          AuditSystemCallTypeTIMER_GETTIME,
+	"timer_getoverrun":       AuditSystemCallTypeTIMER_GETOVERRUN,
+	"timer_delete":           AuditSystemCallTypeTIMER_DELETE,
+	"clock_settime":          AuditSystemCallTypeCLOCK_SETTIME,
+	"clock_gettime":          AuditSystemCallTypeCLOCK_GETTIME,
+	"clock_getres":           AuditSystemCallTypeCLOCK_GETRES,
+	"clock_nanosleep":        AuditSystemCallTypeCLOCK_NANOSLEEP,
+	"exit_group":             AuditSystemCallTypeEXIT_GROUP,
+	"epoll_wait":             AuditSystemCallTypeEPOLL_WAIT,
+	"epoll_ctl":              AuditSystemCallTypeEPOLL_CTL,
+	"tgkill":                 AuditSystemCallTypeTGKILL,
+	"utimes":                 AuditSystemCallTypeUTIMES,
+	"vserver":                AuditSystemCallTypeVSERVER,
+	"mbind":                  AuditSystemCallTypeMBIND,
+	"set_mempolicy":          AuditSystemCallTypeSET_MEMPOLICY,
+	"get_mempolicy":          AuditSystemCallTypeGET_MEMPOLICY,
+	"mq_open":                AuditSystemCallTypeMQ_OPEN,
+	"mq_unlink":              AuditSystemCallTypeMQ_UNLINK,
+	"mq_timedsend":           AuditSystemCallTypeMQ_TIMEDSEND,
+	"mq_timedreceive":        AuditSystemCallTypeMQ_TIMEDRECEIVE,
+	"mq_notify":              AuditSystemCallTypeMQ_NOTIFY,
+	"mq_getsetattr":          AuditSystemCallTypeMQ_GETSETATTR,
+	"kexec_load":             AuditSystemCallTypeKEXEC_LOAD,
+	"waitid":                 AuditSystemCallTypeWAITID,
+	"add_key":                AuditSystemCallTypeADD_KEY,
+	"request_key":            AuditSystemCallTypeREQUEST_KEY,
+	"keyctl":                 AuditSystemCallTypeKEYCTL,
+	"ioprio_set":             AuditSystemCallTypeIOPRIO_SET,
+	"ioprio_get":             AuditSystemCallTypeIOPRIO_GET,
+	"inotify_init":           AuditSystemCallTypeINOTIFY_INIT,
+	"inotify_add_watch":      AuditSystemCallTypeINOTIFY_ADD_WATCH,
+	"inotify_rm_watch":       AuditSystemCallTypeINOTIFY_RM_WATCH,
+	"migrate_pages":          AuditSystemCallTypeMIGRATE_PAGES,
+	"openat":                 AuditSystemCallTypeOPENAT,
+	"mkdirat":                AuditSystemCallTypeMKDIRAT,
+	"mknodat":                AuditSystemCallTypeMKNODAT,
+	"fchownat":               AuditSystemCallTypeFCHOWNAT,
+	"futimesat":              AuditSystemCallTypeFUTIMESAT,
+	"newfstatat":             AuditSystemCallTypeNEWFSTATAT,
+	"unlinkat":               AuditSystemCallTypeUNLINKAT,
+	"renameat":               AuditSystemCallTypeRENAMEAT,
+	"linkat":                 AuditSystemCallTypeLINKAT,
+	"symlinkat":              AuditSystemCallTypeSYMLINKAT,
+	"readlinkat":             AuditSystemCallTypeREADLINKAT,
+	"fchmodat":               AuditSystemCallTypeFCHMODAT,
+	"faccessat":              AuditSystemCallTypeFACCESSAT,
+	"pselect6":               AuditSystemCallTypePSELECT6,
+	"ppoll":                  AuditSystemCallTypePPOLL,
+	"unshare":                AuditSystemCallTypeUNSHARE,
+	"set_robust_list":        AuditSystemCallTypeSET_ROBUST_LIST,
+	"get_robust_list":        AuditSystemCallTypeGET_ROBUST_LIST,
+	"splice":                 AuditSystemCallTypeSPLICE,
+	"tee":                    AuditSystemCallTypeTEE,
+	"sync_file_range":        AuditSystemCallTypeSYNC_FILE_RANGE,
+	"vmsplice":               AuditSystemCallTypeVMSPLICE,
+	"move_pages":             AuditSystemCallTypeMOVE_PAGES,
+	"utimensat":              AuditSystemCallTypeUTIMENSAT,
+	"epoll_pwait":            AuditSystemCallTypeEPOLL_PWAIT,
+	"signalfd":               AuditSystemCallTypeSIGNALFD,
+	"timerfd_create":         AuditSystemCallTypeTIMERFD_CREATE,
+	"eventfd":                AuditSystemCallTypeEVENTFD,
+	"fallocate":              AuditSystemCallTypeFALLOCATE,
+	"timerfd_settime":        AuditSystemCallTypeTIMERFD_SETTIME,
+	"timerfd_gettime":        AuditSystemCallTypeTIMERFD_GETTIME,
+	"accept4":                AuditSystemCallTypeACCEPT4,
+	"signalfd4":              AuditSystemCallTypeSIGNALFD4,
+	"eventfd2":               AuditSystemCallTypeEVENTFD2,
+	"epoll_create1":          AuditSystemCallTypeEPOLL_CREATE1,
+	"dup3":                   AuditSystemCallTypeDUP3,
+	"pipe2":                  AuditSystemCallTypePIPE2,
+	"inotify_init1":          AuditSystemCallTypeINOTIFY_INIT1,
+	"preadv":                 AuditSystemCallTypePREADV,
+	"pwritev":                AuditSystemCallTypePWRITEV,
+	"rt_tgsigqueueinfo":      AuditSystemCallTypeRT_TGSIGQUEUEINFO,
+	"perf_event_open":        AuditSystemCallTypePERF_EVENT_OPEN,
+	"recvmmsg":               AuditSystemCallTypeRECVMMSG,
+	"fanotify_init":          AuditSystemCallTypeFANOTIFY_INIT,
+	"fanotify_mark":          AuditSystemCallTypeFANOTIFY_MARK,
+	"prlimit64":              AuditSystemCallTypePRLIMIT64,
+	"name_to_handle_at":      AuditSystemCallTypeNAME_TO_HANDLE_AT,
+	"open_by_handle_at":      AuditSystemCallTypeOPEN_BY_HANDLE_AT,
+	"clock_adjtime":          AuditSystemCallTypeCLOCK_ADJTIME,
+	"syncfs":                 AuditSystemCallTypeSYNCFS,
+	"sendmmsg":               AuditSystemCallTypeSENDMMSG,
+	"setns":                  AuditSystemCallTypeSETNS,
+	"getcpu":                 AuditSystemCallTypeGETCPU,
+	"process_vm_readv":       AuditSystemCallTypePROCESS_VM_READV,
+	"process_vm_writev":      AuditSystemCallTypePROCESS_VM_WRITEV,
+	"kcmp":                   AuditSystemCallTypeKCMP,
+	"finit_module":           AuditSystemCallTypeFINIT_MODULE,
+	"stime":                  AuditSystemCallTypeSTIME,
 }
