@@ -63,6 +63,7 @@
             "ca"
         ],
         "delete": true,
+        "description": "Authority represents a certificate authority",
         "entity_name": "Authority",
         "package": "barret",
         "resource_name": "authorities",
