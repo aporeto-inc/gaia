@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"sync"
 
-	"encoding/json"
 	"github.com/aporeto-inc/elemental"
 )
 
@@ -82,7 +81,7 @@ type RemoteProcessor struct {
 	Claims []string `json:"claims" bson:"-" mapstructure:"claims,omitempty"`
 
 	// Represents data received from the service
-	Input json.RawMessage `json:"input" bson:"-" mapstructure:"input,omitempty"`
+	Input []byte `json:"input" bson:"-" mapstructure:"input,omitempty"`
 
 	// Node defines the type of the hook
 	Mode RemoteProcessorModeValue `json:"mode" bson:"-" mapstructure:"mode,omitempty"`
