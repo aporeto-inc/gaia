@@ -29,6 +29,7 @@
         "delete": true,
         "get": true,
         "update": true,
+        "description": "Internal representation of an private key",
         "entity_name": "PrivateKey",
         "package": "barret",
         "resource_name": "privatekeys",

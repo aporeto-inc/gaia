@@ -18,6 +18,7 @@
         }
     ],
     "model": {
+        "description": "Used to reset an account password.",
         "entity_name": "PasswordReset",
         "package": "vince",
         "resource_name": "passwordreset",

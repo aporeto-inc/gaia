@@ -127,6 +127,11 @@ func (o *Import) DefaultOrder() []string {
 	return []string{}
 }
 
+// Doc returns the documentation for the object
+func (o *Import) Doc() string {
+	return `Imports an export of policies and related objects into the namespace.`
+}
+
 func (o *Import) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())

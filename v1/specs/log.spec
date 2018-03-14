@@ -11,6 +11,7 @@
         }
     ],
     "model": {
+        "description": "Retrieves the log of a deployed app.",
         "entity_name": "Log",
         "package": "highwind",
         "resource_name": "logs",

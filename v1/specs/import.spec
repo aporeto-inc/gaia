@@ -22,6 +22,7 @@
         }
     ],
     "model": {
+        "description": "Imports an export of policies and related objects into the namespace.",
         "entity_name": "Import",
         "package": "squall",
         "resource_name": "import",

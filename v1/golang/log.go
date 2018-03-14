@@ -112,6 +112,11 @@ func (o *Log) DefaultOrder() []string {
 	return []string{}
 }
 
+// Doc returns the documentation for the object
+func (o *Log) Doc() string {
+	return `Retrieves the log of a deployed app.`
+}
+
 func (o *Log) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())

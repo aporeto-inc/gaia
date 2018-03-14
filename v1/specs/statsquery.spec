@@ -15,7 +15,7 @@
             "sq"
         ],
         "create": true,
-        "description": "TimeSeriesData is a generic API to retrieve time series data stored by the Aporeto system. The API allows different types of queries that are all protected within the namespace of the user.",
+        "description": "StatsQuery is a generic API to retrieve time series data stored by the Aporeto system. The API allows different types of queries that are all protected within the namespace of the user.",
         "entity_name": "StatsQuery",
         "package": "jenova",
         "resource_name": "statsqueries",

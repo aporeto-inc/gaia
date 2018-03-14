@@ -118,6 +118,11 @@ func (o *PrivateKey) DefaultOrder() []string {
 	return []string{}
 }
 
+// Doc returns the documentation for the object
+func (o *PrivateKey) Doc() string {
+	return `Internal representation of an private key`
+}
+
 func (o *PrivateKey) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())

@@ -114,6 +114,11 @@ func (o *PasswordReset) DefaultOrder() []string {
 	return []string{}
 }
 
+// Doc returns the documentation for the object
+func (o *PasswordReset) Doc() string {
+	return `Used to reset an account password.`
+}
+
 func (o *PasswordReset) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())

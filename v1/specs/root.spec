@@ -286,6 +286,7 @@
             "@identifiable-nopk-nostored"
         ],
         "root": true,
+        "package": "root",
         "resource_name": "root",
         "rest_name": "root"
     }

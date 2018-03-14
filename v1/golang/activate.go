@@ -111,6 +111,11 @@ func (o *Activate) DefaultOrder() []string {
 	return []string{}
 }
 
+// Doc returns the documentation for the object
+func (o *Activate) Doc() string {
+	return `Used to activate a pending account`
+}
+
 func (o *Activate) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())

@@ -47,6 +47,7 @@
     ],
     "model": {
         "update": true,
+        "description": "Used to revoke a certificate",
         "entity_name": "Revocation",
         "package": "barret",
         "resource_name": "revocations",

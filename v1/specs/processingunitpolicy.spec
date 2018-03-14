@@ -28,7 +28,7 @@
             "type": "external"
         },
         {
-            "description": "Subject  defines the tag selectors that identitfy the processing units to which this policy applies.",
+            "description": "Subject defines the tag selectors that identitfy the processing units to which this policy applies.",
             "exposed": true,
             "filterable": true,
             "name": "subject",
@@ -46,6 +46,7 @@
         "delete": true,
         "get": true,
         "update": true,
+        "description": "A ProcessingUnitPolicies needs a better description.",
         "entity_name": "ProcessingUnitPolicy",
         "extends": [
             "@base",

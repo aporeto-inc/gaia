@@ -10,6 +10,7 @@
         }
     ],
     "model": {
+        "description": "Used to activate a pending account",
         "entity_name": "Activate",
         "package": "vince",
         "resource_name": "activate",

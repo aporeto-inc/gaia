@@ -73,6 +73,7 @@
         }
     ],
     "model": {
+        "description": "Export the policies and related objects in a given namespace.",
         "entity_name": "Export",
         "package": "squall",
         "resource_name": "export",
