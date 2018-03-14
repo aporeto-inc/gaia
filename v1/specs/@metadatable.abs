@@ -12,11 +12,5 @@
             "subtype": "metadata_list",
             "type": "external"
         }
-    ],
-    "model": {
-        "delete": true,
-        "get": true,
-        "update": true,
-        "rest_name": "@metadatable"
-    }
+    ]
 }

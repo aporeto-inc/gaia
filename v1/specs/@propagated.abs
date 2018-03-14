@@ -22,11 +22,5 @@
             "stored": true,
             "type": "boolean"
         }
-    ],
-    "model": {
-        "delete": true,
-        "get": true,
-        "update": true,
-        "rest_name": "@propagated"
-    }
+    ]
 }

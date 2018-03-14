@@ -17,8 +17,5 @@
             "required": true,
             "type": "enum"
         }
-    ],
-    "model": {
-        "rest_name": "@realm"
-    }
+    ]
 }

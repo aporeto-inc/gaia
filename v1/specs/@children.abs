@@ -28,11 +28,5 @@
             "stored": true,
             "type": "string"
         }
-    ],
-    "model": {
-        "delete": true,
-        "get": true,
-        "update": true,
-        "rest_name": "@children"
-    }
+    ]
 }

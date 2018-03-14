@@ -84,8 +84,5 @@
             "stored": true,
             "type": "time"
         }
-    ],
-    "model": {
-        "rest_name": "@base"
-    }
+    ]
 }

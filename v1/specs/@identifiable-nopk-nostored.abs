@@ -10,14 +10,7 @@
             "name": "ID",
             "orderable": true,
             "read_only": true,
-            "stored": true,
             "type": "string"
         }
-    ],
-    "model": {
-        "delete": true,
-        "get": true,
-        "update": true,
-        "rest_name": "@identifiable-nopk-stored"
-    }
+    ]
 }

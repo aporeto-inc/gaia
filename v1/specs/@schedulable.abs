@@ -21,11 +21,5 @@
             "subtype": "cron_expression",
             "type": "external"
         }
-    ],
-    "model": {
-        "delete": true,
-        "get": true,
-        "update": true,
-        "rest_name": "@schedulable"
-    }
+    ]
 }
