@@ -47,10 +47,6 @@ func All() {
 
 func codegenModel(modelPath string) error {
 
-	if err := sh.Run("rego", "beautify", "--src", path.Join(modelPath, "/specs")); err != nil {
-		return err
-	}
-
 	codegenPath := path.Join(modelPath, "codegen")
 	specPath := path.Join(modelPath, "specs")
 	golangPath := path.Join(modelPath, "golang")
