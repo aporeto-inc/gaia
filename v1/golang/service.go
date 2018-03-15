@@ -90,6 +90,9 @@ type Service struct {
 	// CategoryID of the service.
 	CategoryID string `json:"categoryID" bson:"categoryid" mapstructure:"categoryID,omitempty"`
 
+	// Data retains all data created to use this service.
+	Data interface{} `json:"-" bson:"data" mapstructure:"-,omitempty"`
+
 	// K8SIdentifier retains the identifier for kubernetes.
 	K8sIdentifier string `json:"-" bson:"k8sidentifier" mapstructure:"-,omitempty"`
 
@@ -104,9 +107,6 @@ type Service struct {
 
 	// RelatedObjects retains all objects created to use this service.
 	RelatedObjects []*types.ServiceRelatedObject `json:"-" bson:"relatedobjects" mapstructure:"-,omitempty"`
-
-	// Data retains all data created to use this service.
-	Data interface{} `json:"-" bson:"data" mapstructure:"-,omitempty"`
 
 	// Replicas represents the number of replicas for the service.
 	Replicas int `json:"replicas" bson:"replicas" mapstructure:"replicas,omitempty"`
