@@ -121,7 +121,6 @@ var RootAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 }
 
@@ -140,6 +139,5 @@ var RootLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 }

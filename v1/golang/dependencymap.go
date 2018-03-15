@@ -220,7 +220,6 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Edges": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -283,7 +282,6 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"edges": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

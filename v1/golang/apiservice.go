@@ -432,7 +432,6 @@ var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"IPList": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -584,7 +583,6 @@ var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -726,7 +724,6 @@ var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"iplist": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -878,7 +875,6 @@ var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

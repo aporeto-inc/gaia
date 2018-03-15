@@ -247,7 +247,6 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Action": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -309,7 +308,6 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Namespaces": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -381,7 +379,6 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"action": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -443,7 +440,6 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"namespaces": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

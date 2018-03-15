@@ -260,7 +260,6 @@ var CertificateAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Admin": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -458,7 +457,6 @@ var CertificateLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"admin": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

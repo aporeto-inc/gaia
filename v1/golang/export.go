@@ -139,6 +139,11 @@ func (o *Export) DefaultOrder() []string {
 	return []string{}
 }
 
+// Doc returns the documentation for the object
+func (o *Export) Doc() string {
+	return `Export the policies and related objects in a given namespace.`
+}
+
 func (o *Export) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())

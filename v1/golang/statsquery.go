@@ -115,7 +115,7 @@ func (o *StatsQuery) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *StatsQuery) Doc() string {
-	return `TimeSeriesData is a generic API to retrieve time series data stored by the Aporeto system. The API allows different types of queries that are all protected within the namespace of the user.`
+	return `StatsQuery is a generic API to retrieve time series data stored by the Aporeto system. The API allows different types of queries that are all protected within the namespace of the user.`
 }
 
 func (o *StatsQuery) String() string {

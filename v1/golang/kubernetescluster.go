@@ -216,7 +216,6 @@ var KubernetesClusterAttributesMap = map[string]elemental.AttributeSpecification
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"CertificateID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -359,7 +358,6 @@ var KubernetesClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"certificateid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

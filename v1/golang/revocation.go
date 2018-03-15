@@ -125,6 +125,11 @@ func (o *Revocation) DefaultOrder() []string {
 	return []string{}
 }
 
+// Doc returns the documentation for the object
+func (o *Revocation) Doc() string {
+	return `Used to revoke a certificate`
+}
+
 func (o *Revocation) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())

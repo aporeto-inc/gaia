@@ -252,7 +252,6 @@ var FlowStatisticAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"DataPoints": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -372,7 +371,6 @@ var FlowStatisticLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"datapoints": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

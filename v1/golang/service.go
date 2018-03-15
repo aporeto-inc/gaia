@@ -225,7 +225,6 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"AccountName": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -353,7 +352,6 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"accountname": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

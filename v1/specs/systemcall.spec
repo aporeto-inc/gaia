@@ -1,10 +1,8 @@
 {
-    "attributes": [],
-    "children": [],
     "model": {
-        "aliases": [],
-        "create": false,
         "delete": true,
+        "get": true,
+        "update": true,
         "description": "[nodoc]",
         "entity_name": "SystemCall",
         "extends": [
@@ -14,11 +12,8 @@
             "@metadatable",
             "@named"
         ],
-        "get": true,
         "package": "squall",
         "resource_name": "systemcalls",
-        "rest_name": "systemcall",
-        "root": null,
-        "update": true
+        "rest_name": "systemcall"
     }
 }

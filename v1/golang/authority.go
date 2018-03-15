@@ -128,6 +128,11 @@ func (o *Authority) DefaultOrder() []string {
 	return []string{}
 }
 
+// Doc returns the documentation for the object
+func (o *Authority) Doc() string {
+	return `Authority represents a certificate authority`
+}
+
 func (o *Authority) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())

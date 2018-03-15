@@ -98,7 +98,7 @@ type ProcessingUnitPolicy struct {
 	// IsolationProfileSelector are the profiles that must be applied when this policy matches. Only applies to Enforce and LogCompliance actions.
 	IsolationProfileSelector [][]string `json:"isolationProfileSelector" bson:"isolationprofileselector" mapstructure:"isolationProfileSelector,omitempty"`
 
-	// Subject  defines the tag selectors that identitfy the processing units to which this policy applies.
+	// Subject defines the tag selectors that identitfy the processing units to which this policy applies.
 	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
 	// Annotation stores additional information about an entity
@@ -196,6 +196,11 @@ func (o *ProcessingUnitPolicy) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// Doc returns the documentation for the object
+func (o *ProcessingUnitPolicy) Doc() string {
+	return `A ProcessingUnitPolicies needs a better description.`
 }
 
 func (o *ProcessingUnitPolicy) String() string {
@@ -430,7 +435,6 @@ var ProcessingUnitPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Action": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"},
@@ -572,7 +576,6 @@ var ProcessingUnitPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -649,7 +652,7 @@ var ProcessingUnitPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject  defines the tag selectors that identitfy the processing units to which this policy applies.`,
+		Description:    `Subject defines the tag selectors that identitfy the processing units to which this policy applies.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "subject",
@@ -689,7 +692,6 @@ var ProcessingUnitPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"action": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"},
@@ -831,7 +833,6 @@ var ProcessingUnitPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -908,7 +909,7 @@ var ProcessingUnitPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject  defines the tag selectors that identitfy the processing units to which this policy applies.`,
+		Description:    `Subject defines the tag selectors that identitfy the processing units to which this policy applies.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "subject",

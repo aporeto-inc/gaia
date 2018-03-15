@@ -193,7 +193,6 @@ var TagAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Count": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -251,7 +250,6 @@ var TagLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"count": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

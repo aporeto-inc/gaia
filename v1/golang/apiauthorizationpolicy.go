@@ -425,7 +425,6 @@ var APIAuthorizationPolicyAttributesMap = map[string]elemental.AttributeSpecific
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"ActiveDuration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -565,7 +564,6 @@ var APIAuthorizationPolicyAttributesMap = map[string]elemental.AttributeSpecific
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -680,7 +678,6 @@ var APIAuthorizationPolicyLowerCaseAttributesMap = map[string]elemental.Attribut
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"activeduration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -820,7 +817,6 @@ var APIAuthorizationPolicyLowerCaseAttributesMap = map[string]elemental.Attribut
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

@@ -225,7 +225,6 @@ var AWSAccountAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"AccessKeyID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -358,7 +357,6 @@ var AWSAccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"accesskeyid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

@@ -306,7 +306,6 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"LDAPAddress": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -652,7 +651,6 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"ldapaddress": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

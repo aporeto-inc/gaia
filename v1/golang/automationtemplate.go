@@ -281,7 +281,6 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -359,7 +358,6 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

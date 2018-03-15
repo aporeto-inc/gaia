@@ -204,7 +204,6 @@ var ActivityAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"Claims": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -360,7 +359,6 @@ var ActivityLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-		Unique:         true,
 	},
 	"claims": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
