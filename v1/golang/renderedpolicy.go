@@ -103,11 +103,19 @@ type RenderedPolicy struct {
 func NewRenderedPolicy() *RenderedPolicy {
 
 	return &RenderedPolicy{
-		ModelVersion:       1,
-		EgressPolicies:     map[string]PolicyRulesList{string(constants.RenderedPolicyTypeNetwork): PolicyRulesList{}, string(constants.RenderedPolicyTypeFile): PolicyRulesList{}, string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{}},
+		ModelVersion: 1,
+		EgressPolicies: map[string]PolicyRulesList{
+			string(constants.RenderedPolicyTypeNetwork):   PolicyRulesList{},
+			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
+			string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
+		},
 		ExposedAPIServices: APIServicesList{},
-		IngressPolicies:    map[string]PolicyRulesList{string(constants.RenderedPolicyTypeNetwork): PolicyRulesList{}, string(constants.RenderedPolicyTypeFile): PolicyRulesList{}, string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{}},
-		Scopes:             []string{},
+		IngressPolicies: map[string]PolicyRulesList{
+			string(constants.RenderedPolicyTypeNetwork):   PolicyRulesList{},
+			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
+			string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
+		},
+		Scopes: []string{},
 	}
 }
 

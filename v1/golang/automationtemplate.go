@@ -86,7 +86,7 @@ type AutomationTemplate struct {
 	// Function contains the code.
 	Function string `json:"function" bson:"-" mapstructure:"function,omitempty"`
 
-	// Key contais the unique identifier key for the template.
+	// Key contains the unique identifier key for the template.
 	Key string `json:"key" bson:"-" mapstructure:"key,omitempty"`
 
 	// Kind represents the kind of template.
@@ -251,7 +251,7 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 	"Key": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Key",
-		Description:    `Key contais the unique identifier key for the template.`,
+		Description:    `Key contains the unique identifier key for the template.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "key",
@@ -328,7 +328,7 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 	"key": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Key",
-		Description:    `Key contais the unique identifier key for the template.`,
+		Description:    `Key contains the unique identifier key for the template.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "key",

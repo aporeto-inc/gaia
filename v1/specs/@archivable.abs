@@ -1,12 +1,7 @@
-{
-    "attributes": [
-        {
-            "description": "Archived defines if the object is archived.",
-            "getter": true,
-            "name": "archived",
-            "setter": true,
-            "stored": true,
-            "type": "boolean"
-        }
-    ]
-}
+attributes:
+- description: Archived defines if the object is archived.
+  getter: true
+  name: archived
+  setter: true
+  stored: true
+  type: boolean

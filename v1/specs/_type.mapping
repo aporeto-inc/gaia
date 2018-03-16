@@ -1,0 +1,356 @@
+elemental:
+
+  actions_list:
+    type: map[string]map[string]interface{}
+
+  annotations:
+    type: map[string][]string
+    init: map[string][]string{}
+
+  authorized_identities:
+    type: map[string]bool
+    init: map[string]bool{}
+
+  selectors_list:
+    type: map[string]string
+
+  datapoints_list:
+    type: '[]map[string]interface{}'
+    init: '[]map[string]interface{}{}'
+
+  processingunit_transient_tags_map:
+    type: map[string][]string
+
+  file_entities:
+    type: FilePathsList
+    init: FilePathsList{}
+
+  go_time:
+    type: int64
+
+  identity_list:
+    type: '[]string'
+    init: '[]string{}'
+
+  metadata_list:
+    type: '[]string'
+    init: '[]string{}'
+
+  namespace_entities:
+    type:  NamespacesList
+    init: NamespacesList{}
+
+  namespaces_list:
+    type: '[]interface{}'
+
+  network_entities:
+    type: ExternalServicesList
+    init: ExternalServicesList{}
+
+  policies_list:
+    type: '[][]string'
+
+  network_access_policies_list:
+    type: '[]*NetworkAccessPolicy'
+
+  raw_data:
+    type: interface{}
+
+  relations_list:
+    type: '[]string'
+
+  rendered_policy:
+    type: map[string]PolicyRulesList
+    init: |-
+      map[string]PolicyRulesList{
+        string(constants.RenderedPolicyTypeNetwork): PolicyRulesList{},
+        string(constants.RenderedPolicyTypeFile): PolicyRulesList{},
+        string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
+      }
+    import: github.com/aporeto-inc/gaia/v1/golang/constants
+
+  enforcerprofiles_list:
+    type: EnforcerProfilesList
+    init: EnforcerProfilesList{}
+
+  policy_status:
+    type: constants.PolicyStatus
+    init: constants.PolicyStatusEnabled
+    import: github.com/aporeto-inc/gaia/v1/golang/constants
+
+  subjects_list:
+    type: '[]string'
+
+  syscall_entities:
+    type: SystemCallsList
+    init: SystemCallsList{}
+
+  tags_list:
+    type: '[]string'
+    init: '[]string{}'
+
+  target_networks_list:
+    type: '[]string'
+
+  excluded_networks_list:
+    type: '[]string'
+
+  excluded_interfaces_list:
+    type: '[]string'
+
+  target_tags:
+    type: '[][]string'
+
+  trust_profile:
+    type: map[string]string
+
+  collected_info:
+    type: map[string]string
+
+  ports_list:
+    type: '[]string'
+    init: '[]string{}'
+
+  vulnerabilities:
+    type: '[]*Vulnerability'
+
+  vulnerability_level:
+    type: constants.Vulnerability
+    init: constants.VulnerabilityUnknown
+    import: github.com/aporeto-inc/gaia/v1/golang/constants
+
+  graphedges_map:
+    type: types.GraphEdgeMap
+    init: types.GraphEdgeMap{}
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  graphnodes_map:
+    type: types.GraphNodeMap
+    init: types.GraphNodeMap{}
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  graphgroups_map:
+    type: types.GraphGroupMap
+    init: types.GraphGroupMap{}
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  view_suggestions:
+    type: '[]string'
+    init: '[]string{}'
+
+  flowstatistic_origin_list:
+    type: '[]string'
+    init: '[]string{}'
+
+  authorization_map:
+    type: map[string][]string
+    init: map[string][]string{}
+
+  limited_identity_list:
+    type: '[]string'
+    init: '[]string{}'
+
+  tabulated_data:
+    type: '[][]interface{}'
+    init: '[][]interface{}{}'
+
+  ip_records:
+    type: '[]*types.IPRecord'
+    init: '[]*types.IPRecord{}'
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  cron_expression:
+    type: string
+
+  processingunit:
+    type: '*ProcessingUnit'
+
+  trusted_cas_list:
+    type: '[]string'
+    init: '[]string{}'
+
+  system_call_list:
+    type: '[]types.AuditSystemCallType'
+    init: '[]types.AuditSystemCallType{}'
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  audit_profile_rule_list:
+    type: types.AuditProfileRuleList
+    init: types.AuditProfileRuleList{}
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  audit_profile_selector:
+    type: '[]string'
+
+  audit_profiles:
+    type: AuditProfilesList
+
+  time_series_results:
+    type: '[]*types.TimeSeriesQueryResults'
+    init: '[]*types.TimeSeriesQueryResults{}'
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  syscall_rules:
+    type: types.SyscallEnforcementRulesMap
+    init: types.SyscallEnforcementRulesMap{}
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  cap_map:
+    type: types.CapabilitiesTypeMap
+    init: types.CapabilitiesTypeMap{}
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  arch_list:
+    type: types.ArchitecturesTypeList
+    init: types.ArchitecturesTypeList{}
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  isolation_profile_entities:
+    type: IsolationProfilesList
+    init: IsolationProfilesList{}
+
+  syscall_action:
+    type: types.SyscallEnforcementAction
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  exported_data:
+    type: '*Export'
+    init: NewExport()
+
+  exported_data_content:
+    type: '[]map[string]interface{}'
+    init: '[]map[string]interface{}{}'
+
+  processing_unit_services_list:
+    type: types.ProcessingUnitServicesList
+    init: types.ProcessingUnitServicesList{}
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  host_services_list:
+    type: types.HostServicesList
+    init: types.HostServicesList{}
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  service_parameters:
+    type: '[]*types.ServiceParameter'
+    init: '[]*types.ServiceParameter{}'
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  service_relatedobjects:
+    type: '[]*types.ServiceRelatedObject'
+    init: '[]*types.ServiceRelatedObject{}'
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  logs:
+    type: map[string]string
+    init: map[string]string{}
+
+  claims:
+    type: '*claims.MidgardClaims'
+    init: claims.NewMidgardClaims()
+    import: github.com/aporeto-inc/midgard-lib/claims
+
+  metadata:
+    type: map[string]interface{}
+    init: map[string]interface{}{}
+
+  raw_json:
+    type: json.RawMessage
+    import: encoding/json
+
+  elemental_identitifable:
+    type:  elemental.Identifiable
+
+  elemental_operation:
+    type: elemental.Operation
+
+  associated_policies:
+    type: map[string]string
+    init: map[string]string{}
+
+  list_emails:
+    type: '[]string'
+
+  list_attachments:
+    type: map[string]string
+
+  tags_map:
+    type: map[string]string
+    init: map[string]string{}
+
+  int64:
+    type: int64
+
+  tsdb_fields:
+    type: map[string]interface{}
+    init: map[string]interface{}{}
+
+  ip_list:
+    type: types.IPList
+    init: types.IPList{}
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  port_list:
+    type: types.PortList
+    init: types.PortList{}
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  exposed_api_list:
+    type: types.ExposedAPIList
+    init: types.ExposedAPIList{}
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  api_services_entities:
+    type: APIServicesList
+    init: APIServicesList{}
+
+  addresses_list:
+    type: '[]string'
+    init: '[]string{}'
+
+  portmapping_list:
+    type: '[]*types.PortMapping'
+    init: '[]*types.PortMapping{}'
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  jaeger_batch:
+    type: '*jaeger.Batch'
+    init: '&jaeger.Batch{}'
+    import: github.com/uber/jaeger-client-go/thrift-gen/jaeger
+
+  automation_parameters:
+    type: map[string]interface{}
+    init: map[string]interface{}{}
+
+  automation_events:
+    type: map[string][]elemental.EventType
+    init: map[string][]elemental.EventType{}
+
+  automation_entitlements:
+    type: map[string][]elemental.Operation
+    init: map[string][]elemental.Operation{}
+
+  automation_template_parameters:
+    type: map[string]types.AutomationTemplateParameter
+    init: map[string]types.AutomationTemplateParameter{}
+    import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  alarm_data:
+    type: map[string][]interface{}
+    init: map[string][]interface{}{}
+
+  alarm_occurrences:
+    type: '[]time.Time'
+    init: '[]time.Time{}'
+
+  scopes_list:
+    type: '[]string'
+    init: '[]string{}'
+
+  extensions_list:
+    type: '[]string'
+    init: '[]string{}'
+
+  service_data:
+    type: '[]interface{}'
+    init: 'nil'
