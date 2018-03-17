@@ -202,7 +202,7 @@ attributes:
   exposed: true
   stored: true
   allowed_chars: ^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/]{1,16}){1,5}/?)$
-  default_value: :9443
+  default_value: unix:/var/run/aporeto.sock
   filterable: true
   format: free
   orderable: true

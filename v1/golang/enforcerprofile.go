@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"sync"
 
+	"time"
+
 	"github.com/aporeto-inc/elemental"
 	"github.com/aporeto-inc/gaia/v1/golang/types"
-	"time"
 )
 
 // EnforcerProfileDockerSocketTypeValue represents the possible values for attribute "dockerSocketType".
@@ -239,7 +240,7 @@ func NewEnforcerProfile() *EnforcerProfile {
 		PUBookkeepingInterval:         "15m",
 		PUHeartbeatInterval:           "5s",
 		PolicySynchronizationInterval: "10m",
-		ProxyListenAddress:            ":9443",
+		ProxyListenAddress:            "unix:/var/run/aporeto.sock",
 		ReceiverNumberOfQueues:        4,
 		ReceiverQueue:                 0,
 		ReceiverQueueSize:             500,
@@ -840,7 +841,7 @@ resynchronized.`,
 		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/]{1,16}){1,5}/?)$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ProxyListenAddress",
-		DefaultValue:   ":9443",
+		DefaultValue:   "unix:/var/run/aporeto.sock",
 		Description: `ProxyListenAddress is the address the enforcer should use to listen for API
 calls. It can be a port (example :9443) or socket path
 (example: unix:/var/run/aporeto.sock)`,
@@ -1324,7 +1325,7 @@ resynchronized.`,
 		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/]{1,16}){1,5}/?)$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ProxyListenAddress",
-		DefaultValue:   ":9443",
+		DefaultValue:   "unix:/var/run/aporeto.sock",
 		Description: `ProxyListenAddress is the address the enforcer should use to listen for API
 calls. It can be a port (example :9443) or socket path
 (example: unix:/var/run/aporeto.sock)`,

@@ -2479,7 +2479,7 @@ calls. It can be a port (example :9443) or socket path
 | Characteristics | Value                                                                                                                                     |
 | -               | -:                                                                                                                                        |
 | Format          | `/^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/]{1,16}){1,5}/?)$/` |
-| Default         | `:9443`                                                                                                                                   |
+| Default         | `unix:/var/run/aporeto.sock`                                                                                                                                   |
 | Orderable       | `true`                                                                                                                                    |
 | Filterable      | `true`                                                                                                                                    |
 
