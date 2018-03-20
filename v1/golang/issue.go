@@ -104,7 +104,8 @@ type Issue struct {
 	// Token is the token to use for the registration.
 	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
 
-	// Validity configures the max validity time for a token. If it is bigger than the configured max validity, it will be capped.
+	// Validity configures the max validity time for a token. If it is bigger than the
+	// configured max validity, it will be capped.
 	Validity string `json:"validity" bson:"validity" mapstructure:"validity,omitempty"`
 
 	// Realm is the realm
@@ -255,14 +256,15 @@ var IssueAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
 		DefaultValue:   "24h",
-		Description:    `Validity configures the max validity time for a token. If it is bigger than the configured max validity, it will be capped.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "validity",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Validity configures the max validity time for a token. If it is bigger than the
+configured max validity, it will be capped.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "validity",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 }
 
@@ -315,13 +317,14 @@ var IssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
 		DefaultValue:   "24h",
-		Description:    `Validity configures the max validity time for a token. If it is bigger than the configured max validity, it will be capped.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "validity",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Validity configures the max validity time for a token. If it is bigger than the
+configured max validity, it will be capped.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "validity",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 }

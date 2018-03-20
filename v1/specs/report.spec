@@ -1,10 +1,24 @@
+# Model
+model:
+  rest_name: report
+  resource_name: reports
+  entity_name: Report
+  package: zack
+  description: Post a new statistics report.
+
+# Attributes
 attributes:
-- description: TSDB Fields to set for the report.
-  exposed: true
-  name: fields
-  subtype: tsdb_fields
+- name: fields
+  description: TSDB Fields to set for the report.
   type: external
-- allowed_choices:
+  exposed: true
+  subtype: tsdb_fields
+
+- name: kind
+  description: Kind contains the kind of report.
+  type: enum
+  exposed: true
+  allowed_choices:
   - Audit
   - Enforcer
   - FileAccess
@@ -12,26 +26,19 @@ attributes:
   - ProcessingUnit
   - Syscall
   - User
-  description: Kind contains the kind of report.
-  exposed: true
-  name: kind
-  type: enum
-- description: Tags contains the tags associated to the data point.
-  exposed: true
-  name: tags
-  subtype: tags_map
+
+- name: tags
+  description: Tags contains the tags associated to the data point.
   type: external
-- description: Timestamp contains the time for the report.
   exposed: true
-  name: timestamp
+  subtype: tags_map
+
+- name: timestamp
+  description: Timestamp contains the time for the report.
   type: time
-- description: Value contains the value for the report.
   exposed: true
-  name: value
+
+- name: value
+  description: Value contains the value for the report.
   type: float
-model:
-  description: Post a new statistics report.
-  entity_name: Report
-  package: zack
-  resource_name: reports
-  rest_name: report
+  exposed: true

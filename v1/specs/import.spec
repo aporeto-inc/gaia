@@ -1,22 +1,26 @@
+# Model
+model:
+  rest_name: import
+  resource_name: import
+  entity_name: Import
+  package: squall
+  description: Imports an export of policies and related objects into the namespace.
+
+# Attributes
 attributes:
-- description: The data to import.
-  exposed: true
-  name: data
-  required: true
-  subtype: exported_data
+- name: data
+  description: The data to import.
   type: external
-- allowed_choices:
+  exposed: true
+  subtype: exported_data
+  required: true
+
+- name: mode
+  description: How to import the data.
+  type: enum
+  exposed: true
+  required: true
+  allowed_choices:
   - Append
   - Replace
   default_value: Replace
-  description: How to import the data.
-  exposed: true
-  name: mode
-  required: true
-  type: enum
-model:
-  description: Imports an export of policies and related objects into the namespace.
-  entity_name: Import
-  package: squall
-  resource_name: import
-  rest_name: import

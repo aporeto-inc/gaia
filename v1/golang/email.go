@@ -80,7 +80,7 @@ type Email struct {
 	// Attachments is a list of attachments to send
 	Attachments map[string]string `json:"attachments" bson:"-" mapstructure:"attachments,omitempty"`
 
-	// Bcc represents email that should be in copy but hidden
+	// Bcc represents email that should be in copy but hidden.
 	Bcc []string `json:"bcc" bson:"-" mapstructure:"bcc,omitempty"`
 
 	// Cc represents the addresses that should be in copy
@@ -214,7 +214,7 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 	"Bcc": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Bcc",
-		Description:    `Bcc represents email that should be in copy but hidden `,
+		Description:    `Bcc represents email that should be in copy but hidden.`,
 		Exposed:        true,
 		Name:           "bcc",
 		SubType:        "list_emails",
@@ -260,7 +260,7 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 	"To": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "To",
-		Description:    `To represents receivers of the email `,
+		Description:    `To represents receivers of the email`,
 		Exposed:        true,
 		Name:           "to",
 		SubType:        "list_emails",
@@ -291,7 +291,7 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"bcc": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Bcc",
-		Description:    `Bcc represents email that should be in copy but hidden `,
+		Description:    `Bcc represents email that should be in copy but hidden.`,
 		Exposed:        true,
 		Name:           "bcc",
 		SubType:        "list_emails",
@@ -337,7 +337,7 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"to": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "To",
-		Description:    `To represents receivers of the email `,
+		Description:    `To represents receivers of the email`,
 		Exposed:        true,
 		Name:           "to",
 		SubType:        "list_emails",

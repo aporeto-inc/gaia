@@ -1,10 +1,11 @@
+# Attributes
 attributes:
-- description: Disabled defines if the propert is disabled.
+- name: disabled
+  description: Disabled defines if the propert is disabled.
+  type: boolean
   exposed: true
+  stored: true
   filterable: true
   getter: true
-  name: disabled
-  orderable: true
   setter: true
-  stored: true
-  type: boolean
+  orderable: true

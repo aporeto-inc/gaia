@@ -70,16 +70,20 @@ func (o IsolationProfilesList) Version() int {
 
 // IsolationProfile represents the model of a isolationprofile
 type IsolationProfile struct {
-	// CapabilitiesActions identifies the capabilities that should be added or removed from the processing unit.
+	// CapabilitiesActions identifies the capabilities that should be added or removed
+	// from the processing unit.
 	CapabilitiesActions types.CapabilitiesTypeMap `json:"capabilitiesActions" bson:"capabilitiesactions" mapstructure:"capabilitiesActions,omitempty"`
 
-	// DefaultAction is the default action applied to all syscalls of this profile. Default is "Allow".
+	// DefaultAction is the default action applied to all syscalls of this profile.
+	// Default is "Allow".
 	DefaultSyscallAction types.SyscallEnforcementAction `json:"defaultSyscallAction" bson:"defaultsyscallaction" mapstructure:"defaultSyscallAction,omitempty"`
 
-	// SyscallRules is a list of syscall rules that identify actions for particular syscalls.
+	// SyscallRules is a list of syscall rules that identify actions for particular
+	// syscalls.
 	SyscallRules types.SyscallEnforcementRulesMap `json:"syscallRules" bson:"syscallrules" mapstructure:"syscallRules,omitempty"`
 
-	// TargetArchitectures is the target processor architectures where this profile can be applied. Default all.
+	// TargetArchitectures is the target processor architectures where this profile can
+	// be applied. Default all.
 	TargetArchitectures types.ArchitecturesTypeList `json:"targetArchitectures" bson:"targetarchitectures" mapstructure:"targetArchitectures,omitempty"`
 
 	// Annotation stores additional information about an entity
@@ -109,7 +113,8 @@ type IsolationProfile struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity
@@ -165,6 +170,11 @@ func (o *IsolationProfile) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// Doc returns the documentation for the object
+func (o *IsolationProfile) Doc() string {
+	return `An IsolationProfile needs documentation`
 }
 
 func (o *IsolationProfile) String() string {
@@ -361,14 +371,15 @@ var IsolationProfileAttributesMap = map[string]elemental.AttributeSpecification{
 	"CapabilitiesActions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CapabilitiesActions",
-		Description:    `CapabilitiesActions identifies the capabilities that should be added or removed from the processing unit.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "capabilitiesActions",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "cap_map",
-		Type:           "external",
+		Description: `CapabilitiesActions identifies the capabilities that should be added or removed
+from the processing unit.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "capabilitiesActions",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "cap_map",
+		Type:       "external",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -387,14 +398,15 @@ var IsolationProfileAttributesMap = map[string]elemental.AttributeSpecification{
 	"DefaultSyscallAction": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DefaultSyscallAction",
-		Description:    `DefaultAction is the default action applied to all syscalls of this profile. Default is "Allow".`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "defaultSyscallAction",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "syscall_action",
-		Type:           "external",
+		Description: `DefaultAction is the default action applied to all syscalls of this profile.
+Default is "Allow".`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "defaultSyscallAction",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "syscall_action",
+		Type:       "external",
 	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -412,15 +424,16 @@ var IsolationProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -487,26 +500,28 @@ var IsolationProfileAttributesMap = map[string]elemental.AttributeSpecification{
 	"SyscallRules": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SyscallRules",
-		Description:    `SyscallRules is a list of syscall rules that identify actions for particular syscalls.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "syscallRules",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "syscall_rules",
-		Type:           "external",
+		Description: `SyscallRules is a list of syscall rules that identify actions for particular
+syscalls.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "syscallRules",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "syscall_rules",
+		Type:       "external",
 	},
 	"TargetArchitectures": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetArchitectures",
-		Description:    `TargetArchitectures is the target processor architectures where this profile can be applied. Default all.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "targetArchitectures",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "arch_list",
-		Type:           "external",
+		Description: `TargetArchitectures is the target processor architectures where this profile can
+be applied. Default all.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "targetArchitectures",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "arch_list",
+		Type:       "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -569,14 +584,15 @@ var IsolationProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"capabilitiesactions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CapabilitiesActions",
-		Description:    `CapabilitiesActions identifies the capabilities that should be added or removed from the processing unit.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "capabilitiesActions",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "cap_map",
-		Type:           "external",
+		Description: `CapabilitiesActions identifies the capabilities that should be added or removed
+from the processing unit.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "capabilitiesActions",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "cap_map",
+		Type:       "external",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -595,14 +611,15 @@ var IsolationProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"defaultsyscallaction": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DefaultSyscallAction",
-		Description:    `DefaultAction is the default action applied to all syscalls of this profile. Default is "Allow".`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "defaultSyscallAction",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "syscall_action",
-		Type:           "external",
+		Description: `DefaultAction is the default action applied to all syscalls of this profile.
+Default is "Allow".`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "defaultSyscallAction",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "syscall_action",
+		Type:       "external",
 	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -620,15 +637,16 @@ var IsolationProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -695,26 +713,28 @@ var IsolationProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"syscallrules": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SyscallRules",
-		Description:    `SyscallRules is a list of syscall rules that identify actions for particular syscalls.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "syscallRules",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "syscall_rules",
-		Type:           "external",
+		Description: `SyscallRules is a list of syscall rules that identify actions for particular
+syscalls.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "syscallRules",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "syscall_rules",
+		Type:       "external",
 	},
 	"targetarchitectures": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetArchitectures",
-		Description:    `TargetArchitectures is the target processor architectures where this profile can be applied. Default all.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "targetArchitectures",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "arch_list",
-		Type:           "external",
+		Description: `TargetArchitectures is the target processor architectures where this profile can
+be applied. Default all.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "targetArchitectures",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "arch_list",
+		Type:       "external",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

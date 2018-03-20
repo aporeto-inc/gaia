@@ -1,38 +1,20 @@
-attributes:
-- description: Identities contains the list of identity names where the quota will
-    be applied.
-  exposed: true
-  name: identities
-  required: true
-  stored: true
-  subtype: string
-  type: list
-- description: Quota contains the maximum number of object matching the policy subject
-    that can be created.
-  exposed: true
-  name: quota
-  type: integer
-- description: TargetNamespace contains the base namespace from where the count will
-    be done.
-  exposed: true
-  filterable: true
-  format: free
-  name: targetNamespace
-  required: true
-  stored: true
-  type: string
+# Model
 model:
+  rest_name: quotapolicy
+  resource_name: quotapolicies
+  entity_name: QuotaPolicy
+  package: squall
+  description: |-
+    Quotas Policies allows to set quotas on the number of objects that can be
+    created in a namespace.
   aliases:
   - quota
   - quotas
   - quotapol
   - quotapols
-  delete: true
   get: true
   update: true
-  description: Quotas Policies allows to set quotas on the number of objects that
-    can be created in a namespace.
-  entity_name: QuotaPolicy
+  delete: true
   extends:
   - '@base'
   - '@described'
@@ -41,6 +23,31 @@ model:
   - '@metadatable'
   - '@named'
   - '@propagated'
-  package: squall
-  resource_name: quotapolicies
-  rest_name: quotapolicy
+
+# Attributes
+attributes:
+- name: identities
+  description: Identities contains the list of identity names where the quota will
+    be applied.
+  type: list
+  exposed: true
+  subtype: string
+  stored: true
+  required: true
+
+- name: quota
+  description: |-
+    Quota contains the maximum number of object matching the policy subject that can
+    be created.
+  type: integer
+  exposed: true
+
+- name: targetNamespace
+  description: TargetNamespace contains the base namespace from where the count will
+    be done.
+  type: string
+  exposed: true
+  stored: true
+  required: true
+  filterable: true
+  format: free

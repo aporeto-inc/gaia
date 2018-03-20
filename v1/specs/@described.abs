@@ -1,9 +1,10 @@
+# Attributes
 attributes:
-- description: Description is the description of the object.
+- name: description
+  description: Description is the description of the object.
+  type: string
   exposed: true
+  stored: true
   filterable: true
   format: free
-  name: description
   orderable: true
-  stored: true
-  type: string

@@ -109,13 +109,17 @@ type Enforcer struct {
 	// CertificateExpirationDate is the expiration date of the certificate.
 	CertificateExpirationDate time.Time `json:"certificateExpirationDate" bson:"certificateexpirationdate" mapstructure:"certificateExpirationDate,omitempty"`
 
-	// CertificateKey is the secret key of the enforcer. Returned only when a enforcer is created or the certificate is updated.
+	// CertificateKey is the secret key of the enforcer. Returned only when a enforcer
+	// is created or the certificate is updated.
 	CertificateKey string `json:"certificateKey" bson:"-" mapstructure:"certificateKey,omitempty"`
 
-	// CertificateRequest can be used to generate a certificate from that CSR instead of letting the server generate your private key for you.
+	// CertificateRequest can be used to generate a certificate from that CSR instead
+	// of letting the server generate your private key for you.
 	CertificateRequest string `json:"certificateRequest" bson:"-" mapstructure:"certificateRequest,omitempty"`
 
-	// If set during creation,the server will not initially generate a certificate. In that case you have to provide a valid CSR through certificateRequest during an update.
+	// If set during creation,the server will not initially generate a certificate. In
+	// that case you have to provide a valid CSR through certificateRequest during an
+	// update.
 	CertificateRequestEnabled bool `json:"certificateRequestEnabled" bson:"certificaterequestenabled" mapstructure:"certificateRequestEnabled,omitempty"`
 
 	// CertificateStatus indicates if the certificate is valid.
@@ -127,25 +131,29 @@ type Enforcer struct {
 	// CollectedInfo represents the latest info collected by the enforcer.
 	CollectedInfo map[string]string `json:"collectedInfo" bson:"collectedinfo" mapstructure:"collectedInfo,omitempty"`
 
-	// CurrentVersion holds the enforcerd binary version that is currently associated to this object.
+	// CurrentVersion holds the enforcerd binary version that is currently associated
+	// to this object.
 	CurrentVersion string `json:"currentVersion" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
 
 	// Contains the ID of the profile used by the instance of enforcerd.
 	EnforcerProfileID string `json:"enforcerProfileID" bson:"enforcerprofileid" mapstructure:"enforcerProfileID,omitempty"`
 
-	// LastCollectionTime represents the date and time when the info have been collected.
+	// LastCollectionTime represents the date and time when the info have been
+	// collected.
 	LastCollectionTime time.Time `json:"lastCollectionTime" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
 
 	// LastSyncTime holds the last heart beat time.
 	LastSyncTime time.Time `json:"lastSyncTime" bson:"lastsynctime" mapstructure:"lastSyncTime,omitempty"`
 
-	// LocalCA contains the initial chain of trust for the enforcer. This valud is only given when you retrieve a single enforcer.
+	// LocalCA contains the initial chain of trust for the enforcer. This valud is only
+	// given when you retrieve a single enforcer.
 	LocalCA string `json:"localCA" bson:"-" mapstructure:"localCA,omitempty"`
 
 	// OperationalStatus tells the status of the enforcer.
 	OperationalStatus EnforcerOperationalStatusValue `json:"operationalStatus" bson:"-" mapstructure:"operationalStatus,omitempty"`
 
-	// PublicToken is the public token of the server that will be included in the datapath and its signed by the private CA.
+	// PublicToken is the public token of the server that will be included in the
+	// datapath and its signed by the private CA.
 	PublicToken string `json:"publicToken" bson:"-" mapstructure:"publicToken,omitempty"`
 
 	// Tells if the the version of enforcerd is outdated and should be updated.
@@ -178,7 +186,8 @@ type Enforcer struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity
@@ -237,7 +246,14 @@ func (o *Enforcer) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Enforcer) Doc() string {
-	return `A Enforcer Profile contains a configuration for a Enforcer. It contains various parameters, like what network should not policeds, what processing units should be ignored based on their tags and so on. It also contains more advanced parameters to fine tune the Agent. A Enforcer will decide what profile to apply using aEnforcer Profile Mapping Policy. This policy will decide according the Enforcer's tags what profile to use. If an Enforcer tags are matching more than a single policy, it will refuse to start. Some parameters will be applied directly to a running agent, some will need to restart it.`
+	return `An Enforcer Profile contains a configuration for a Enforcer. It contains various
+parameters, like what network should not policeds, what processing units should
+be ignored based on their tags and so on. It also contains more advanced
+parameters to fine tune the Agent. A Enforcer will decide what profile to apply
+using aEnforcer Profile Mapping Policy. This policy will decide according the
+Enforcer's tags what profile to use. If an Enforcer tags are matching more than
+a single policy, it will refuse to start. Some parameters will be applied
+directly to a running agent, some will need to restart it.`
 }
 
 func (o *Enforcer) String() string {
@@ -461,7 +477,7 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Certificate",
-		Description:    `Certificate is the certificate of the enforcer. `,
+		Description:    `Certificate is the certificate of the enforcer.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "certificate",
@@ -485,33 +501,37 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CertificateKey",
-		Description:    `CertificateKey is the secret key of the enforcer. Returned only when a enforcer is created or the certificate is updated.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "certificateKey",
-		Orderable:      true,
-		ReadOnly:       true,
-		Type:           "string",
+		Description: `CertificateKey is the secret key of the enforcer. Returned only when a enforcer
+is created or the certificate is updated.`,
+		Exposed:   true,
+		Format:    "free",
+		Name:      "certificateKey",
+		Orderable: true,
+		ReadOnly:  true,
+		Type:      "string",
 	},
 	"CertificateRequest": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateRequest",
-		Description:    `CertificateRequest can be used to generate a certificate from that CSR instead of letting the server generate your private key for you.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "certificateRequest",
-		Transient:      true,
-		Type:           "string",
+		Description: `CertificateRequest can be used to generate a certificate from that CSR instead
+of letting the server generate your private key for you.`,
+		Exposed:   true,
+		Format:    "free",
+		Name:      "certificateRequest",
+		Transient: true,
+		Type:      "string",
 	},
 	"CertificateRequestEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateRequestEnabled",
 		CreationOnly:   true,
-		Description:    `If set during creation,the server will not initially generate a certificate. In that case you have to provide a valid CSR through certificateRequest during an update.`,
-		Exposed:        true,
-		Name:           "certificateRequestEnabled",
-		Stored:         true,
-		Type:           "boolean",
+		Description: `If set during creation,the server will not initially generate a certificate. In
+that case you have to provide a valid CSR through certificateRequest during an
+update.`,
+		Exposed: true,
+		Name:    "certificateRequestEnabled",
+		Stored:  true,
+		Type:    "boolean",
 	},
 	"CertificateStatus": elemental.AttributeSpecification{
 		AllowedChoices: []string{"RENEW", "REVOKED", "VALID"},
@@ -561,14 +581,15 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 	"CurrentVersion": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CurrentVersion",
-		Description:    `CurrentVersion holds the enforcerd binary version that is currently associated to this object.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "currentVersion",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
+		Description: `CurrentVersion holds the enforcerd binary version that is currently associated
+to this object.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "currentVersion",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -597,11 +618,12 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 	"LastCollectionTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LastCollectionTime",
-		Description:    `LastCollectionTime represents the date and time when the info have been collected.`,
-		Exposed:        true,
-		Name:           "lastCollectionTime",
-		Stored:         true,
-		Type:           "time",
+		Description: `LastCollectionTime represents the date and time when the info have been
+collected.`,
+		Exposed: true,
+		Name:    "lastCollectionTime",
+		Stored:  true,
+		Type:    "time",
 	},
 	"LastSyncTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -618,26 +640,28 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "LocalCA",
-		Description:    `LocalCA contains the initial chain of trust for the enforcer. This valud is only given when you retrieve a single enforcer.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "localCA",
-		Transient:      true,
-		Type:           "string",
+		Description: `LocalCA contains the initial chain of trust for the enforcer. This valud is only
+given when you retrieve a single enforcer.`,
+		Exposed:   true,
+		Format:    "free",
+		Name:      "localCA",
+		Transient: true,
+		Type:      "string",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -718,13 +742,14 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "PublicToken",
-		Description:    `PublicToken is the public token of the server that will be included in the datapath and its signed by the private CA.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "publicToken",
-		ReadOnly:       true,
-		Transient:      true,
-		Type:           "string",
+		Description: `PublicToken is the public token of the server that will be included in the
+datapath and its signed by the private CA.`,
+		Exposed:   true,
+		Format:    "free",
+		Name:      "publicToken",
+		ReadOnly:  true,
+		Transient: true,
+		Type:      "string",
 	},
 	"UpdateAvailable": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -813,7 +838,7 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Certificate",
-		Description:    `Certificate is the certificate of the enforcer. `,
+		Description:    `Certificate is the certificate of the enforcer.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "certificate",
@@ -837,33 +862,37 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CertificateKey",
-		Description:    `CertificateKey is the secret key of the enforcer. Returned only when a enforcer is created or the certificate is updated.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "certificateKey",
-		Orderable:      true,
-		ReadOnly:       true,
-		Type:           "string",
+		Description: `CertificateKey is the secret key of the enforcer. Returned only when a enforcer
+is created or the certificate is updated.`,
+		Exposed:   true,
+		Format:    "free",
+		Name:      "certificateKey",
+		Orderable: true,
+		ReadOnly:  true,
+		Type:      "string",
 	},
 	"certificaterequest": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateRequest",
-		Description:    `CertificateRequest can be used to generate a certificate from that CSR instead of letting the server generate your private key for you.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "certificateRequest",
-		Transient:      true,
-		Type:           "string",
+		Description: `CertificateRequest can be used to generate a certificate from that CSR instead
+of letting the server generate your private key for you.`,
+		Exposed:   true,
+		Format:    "free",
+		Name:      "certificateRequest",
+		Transient: true,
+		Type:      "string",
 	},
 	"certificaterequestenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateRequestEnabled",
 		CreationOnly:   true,
-		Description:    `If set during creation,the server will not initially generate a certificate. In that case you have to provide a valid CSR through certificateRequest during an update.`,
-		Exposed:        true,
-		Name:           "certificateRequestEnabled",
-		Stored:         true,
-		Type:           "boolean",
+		Description: `If set during creation,the server will not initially generate a certificate. In
+that case you have to provide a valid CSR through certificateRequest during an
+update.`,
+		Exposed: true,
+		Name:    "certificateRequestEnabled",
+		Stored:  true,
+		Type:    "boolean",
 	},
 	"certificatestatus": elemental.AttributeSpecification{
 		AllowedChoices: []string{"RENEW", "REVOKED", "VALID"},
@@ -913,14 +942,15 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 	"currentversion": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CurrentVersion",
-		Description:    `CurrentVersion holds the enforcerd binary version that is currently associated to this object.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "currentVersion",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
+		Description: `CurrentVersion holds the enforcerd binary version that is currently associated
+to this object.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "currentVersion",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -949,11 +979,12 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 	"lastcollectiontime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LastCollectionTime",
-		Description:    `LastCollectionTime represents the date and time when the info have been collected.`,
-		Exposed:        true,
-		Name:           "lastCollectionTime",
-		Stored:         true,
-		Type:           "time",
+		Description: `LastCollectionTime represents the date and time when the info have been
+collected.`,
+		Exposed: true,
+		Name:    "lastCollectionTime",
+		Stored:  true,
+		Type:    "time",
 	},
 	"lastsynctime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -970,26 +1001,28 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "LocalCA",
-		Description:    `LocalCA contains the initial chain of trust for the enforcer. This valud is only given when you retrieve a single enforcer.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "localCA",
-		Transient:      true,
-		Type:           "string",
+		Description: `LocalCA contains the initial chain of trust for the enforcer. This valud is only
+given when you retrieve a single enforcer.`,
+		Exposed:   true,
+		Format:    "free",
+		Name:      "localCA",
+		Transient: true,
+		Type:      "string",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1070,13 +1103,14 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "PublicToken",
-		Description:    `PublicToken is the public token of the server that will be included in the datapath and its signed by the private CA.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "publicToken",
-		ReadOnly:       true,
-		Transient:      true,
-		Type:           "string",
+		Description: `PublicToken is the public token of the server that will be included in the
+datapath and its signed by the private CA.`,
+		Exposed:   true,
+		Format:    "free",
+		Name:      "publicToken",
+		ReadOnly:  true,
+		Transient: true,
+		Type:      "string",
 	},
 	"updateavailable": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

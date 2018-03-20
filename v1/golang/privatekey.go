@@ -69,7 +69,8 @@ type PrivateKey struct {
 	// ID is the internal ID of the key.
 	ID string `json:"-" bson:"_id" mapstructure:"-,omitempty"`
 
-	// CertificateSerialNumber represents the certificate serial number associated to this key.
+	// CertificateSerialNumber represents the certificate serial number associated to
+	// this key.
 	CertificateSerialNumber string `json:"-" bson:"certificateserialnumber" mapstructure:"-,omitempty"`
 
 	// Data contains the privateKey data.
@@ -178,11 +179,12 @@ var PrivateKeyAttributesMap = map[string]elemental.AttributeSpecification{
 	"CertificateSerialNumber": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateSerialNumber",
-		Description:    `CertificateSerialNumber represents the certificate serial number associated to this key.`,
-		Format:         "free",
-		Name:           "certificateSerialNumber",
-		Stored:         true,
-		Type:           "string",
+		Description: `CertificateSerialNumber represents the certificate serial number associated to
+this key.`,
+		Format: "free",
+		Name:   "certificateSerialNumber",
+		Stored: true,
+		Type:   "string",
 	},
 	"Data": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -212,11 +214,12 @@ var PrivateKeyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"certificateserialnumber": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateSerialNumber",
-		Description:    `CertificateSerialNumber represents the certificate serial number associated to this key.`,
-		Format:         "free",
-		Name:           "certificateSerialNumber",
-		Stored:         true,
-		Type:           "string",
+		Description: `CertificateSerialNumber represents the certificate serial number associated to
+this key.`,
+		Format: "free",
+		Name:   "certificateSerialNumber",
+		Stored: true,
+		Type:   "string",
 	},
 	"data": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

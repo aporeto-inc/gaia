@@ -70,7 +70,8 @@ type Revocation struct {
 	// ID contains the ID of the revocation.
 	ID string `json:"-" bson:"_id" mapstructure:"-,omitempty"`
 
-	// Contains the certificate expiration date. This will be used to clean up revoked certificates that have expired.
+	// Contains the certificate expiration date. This will be used to clean up revoked
+	// certificates that have expired.
 	ExpirationDate time.Time `json:"expirationDate" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
 
 	// Set time from when the certificate will be revoked.
@@ -188,11 +189,12 @@ var RevocationAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationDate",
 		CreationOnly:   true,
-		Description:    `Contains the certificate expiration date. This will be used to clean up revoked certificates that have expired.`,
-		Exposed:        true,
-		Name:           "expirationDate",
-		Stored:         true,
-		Type:           "time",
+		Description: `Contains the certificate expiration date. This will be used to clean up revoked
+certificates that have expired.`,
+		Exposed: true,
+		Name:    "expirationDate",
+		Stored:  true,
+		Type:    "time",
 	},
 	"RevokeDate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -246,11 +248,12 @@ var RevocationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationDate",
 		CreationOnly:   true,
-		Description:    `Contains the certificate expiration date. This will be used to clean up revoked certificates that have expired.`,
-		Exposed:        true,
-		Name:           "expirationDate",
-		Stored:         true,
-		Type:           "time",
+		Description: `Contains the certificate expiration date. This will be used to clean up revoked
+certificates that have expired.`,
+		Exposed: true,
+		Name:    "expirationDate",
+		Stored:  true,
+		Type:    "time",
 	},
 	"revokedate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

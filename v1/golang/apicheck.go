@@ -101,7 +101,8 @@ type APICheck struct {
 	// Operation is the operation you want to check.
 	Operation APICheckOperationValue `json:"operation" bson:"operation" mapstructure:"operation,omitempty"`
 
-	// TargetIdentities contains the list of identities you want to check the authorization.
+	// TargetIdentities contains the list of identities you want to check the
+	// authorization.
 	TargetIdentities []string `json:"targetIdentities" bson:"-" mapstructure:"targetIdentities,omitempty"`
 
 	// Token is the token to use to check api authentication
@@ -153,7 +154,9 @@ func (o *APICheck) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *APICheck) Doc() string {
-	return `This API allows to verify is a client identitied by his token is allowed to do some operations on some apis. For example, it allows third party system to impersonate a user and ensure a proxfied request should be allowed.`
+	return `This API allows to verify is a client identitied by his token is allowed to do
+some operations on some apis. For example, it allows third party system to
+impersonate a user and ensure a proxfied request should be allowed.`
 }
 
 func (o *APICheck) String() string {
@@ -260,12 +263,13 @@ var APICheckAttributesMap = map[string]elemental.AttributeSpecification{
 	"TargetIdentities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetIdentities",
-		Description:    `TargetIdentities contains the list of identities you want to check the authorization.`,
-		Exposed:        true,
-		Name:           "targetIdentities",
-		Required:       true,
-		SubType:        "identity_list",
-		Type:           "external",
+		Description: `TargetIdentities contains the list of identities you want to check the
+authorization.`,
+		Exposed:  true,
+		Name:     "targetIdentities",
+		Required: true,
+		SubType:  "identity_list",
+		Type:     "external",
 	},
 	"Token": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -316,12 +320,13 @@ var APICheckLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 	"targetidentities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetIdentities",
-		Description:    `TargetIdentities contains the list of identities you want to check the authorization.`,
-		Exposed:        true,
-		Name:           "targetIdentities",
-		Required:       true,
-		SubType:        "identity_list",
-		Type:           "external",
+		Description: `TargetIdentities contains the list of identities you want to check the
+authorization.`,
+		Exposed:  true,
+		Name:     "targetIdentities",
+		Required: true,
+		SubType:  "identity_list",
+		Type:     "external",
 	},
 	"token": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

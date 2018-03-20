@@ -83,10 +83,12 @@ func (o HookPoliciesList) Version() int {
 
 // HookPolicy represents the model of a hookpolicy
 type HookPolicy struct {
-	// CertificateAuthority contains the pem block of the certificate authority used by the remote endpoint.
+	// CertificateAuthority contains the pem block of the certificate authority used by
+	// the remote endpoint.
 	CertificateAuthority string `json:"certificateAuthority" bson:"certificateauthority" mapstructure:"certificateAuthority,omitempty"`
 
-	// ClientCertificate contains the client certificate that will be used to connect to the remote endoint.
+	// ClientCertificate contains the client certificate that will be used to connect
+	// to the remote endoint.
 	ClientCertificate string `json:"clientCertificate" bson:"clientcertificate" mapstructure:"clientCertificate,omitempty"`
 
 	// ClientCertificateKey contains the key associated to the clientCertificate.
@@ -98,7 +100,8 @@ type HookPolicy struct {
 	// Mode define the type of the hook.
 	Mode HookPolicyModeValue `json:"mode" bson:"mode" mapstructure:"mode,omitempty"`
 
-	// Subject contains the tag expression that an object must match in order to trigger the hook.
+	// Subject contains the tag expression that an object must match in order to
+	// trigger the hook.
 	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
 	// Annotation stores additional information about an entity
@@ -131,7 +134,8 @@ type HookPolicy struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity
@@ -140,7 +144,8 @@ type HookPolicy struct {
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.
+	// If set to true while the policy is propagating, it won't be visible to children
+	// namespace, but still used for policy resolution.
 	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
@@ -195,7 +200,9 @@ func (o *HookPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *HookPolicy) Doc() string {
-	return `Hook allows to to define hooks to the write operations in squall. Hooks are sent to an external Rufus server that will do the processing and eventually return a modified version of the object before we save it.`
+	return `Hook allows to to define hooks to the write operations in squall. Hooks are sent
+to an external Rufus server that will do the processing and eventually return a
+modified version of the object before we save it.`
 }
 
 func (o *HookPolicy) String() string {
@@ -470,26 +477,28 @@ var HookPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"CertificateAuthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateAuthority",
-		Description:    `CertificateAuthority contains the pem block of the certificate authority used by the remote endpoint.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "certificateAuthority",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `CertificateAuthority contains the pem block of the certificate authority used by
+the remote endpoint.`,
+		Exposed:   true,
+		Format:    "free",
+		Name:      "certificateAuthority",
+		Orderable: true,
+		Required:  true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"ClientCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificate",
-		Description:    `ClientCertificate contains the client certificate that will be used to connect to the remote endoint.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "clientCertificate",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `ClientCertificate contains the client certificate that will be used to connect
+to the remote endoint.`,
+		Exposed:   true,
+		Format:    "free",
+		Name:      "clientCertificate",
+		Orderable: true,
+		Required:  true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"ClientCertificateKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -559,15 +568,16 @@ var HookPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"Mode": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Both", "Post", "Pre"},
@@ -647,15 +657,16 @@ var HookPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"PropagationHidden": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PropagationHidden",
-		Description:    `If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "propagationHidden",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
+		Description: `If set to true while the policy is propagating, it won't be visible to children
+namespace, but still used for policy resolution.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "propagationHidden",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -672,13 +683,14 @@ var HookPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject contains the tag expression that an object must match in order to trigger the hook.`,
-		Exposed:        true,
-		Name:           "subject",
-		Required:       true,
-		Stored:         true,
-		SubType:        "policies_list",
-		Type:           "external",
+		Description: `Subject contains the tag expression that an object must match in order to
+trigger the hook.`,
+		Exposed:  true,
+		Name:     "subject",
+		Required: true,
+		Stored:   true,
+		SubType:  "policies_list",
+		Type:     "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -739,26 +751,28 @@ var HookPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"certificateauthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateAuthority",
-		Description:    `CertificateAuthority contains the pem block of the certificate authority used by the remote endpoint.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "certificateAuthority",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `CertificateAuthority contains the pem block of the certificate authority used by
+the remote endpoint.`,
+		Exposed:   true,
+		Format:    "free",
+		Name:      "certificateAuthority",
+		Orderable: true,
+		Required:  true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"clientcertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificate",
-		Description:    `ClientCertificate contains the client certificate that will be used to connect to the remote endoint.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "clientCertificate",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `ClientCertificate contains the client certificate that will be used to connect
+to the remote endoint.`,
+		Exposed:   true,
+		Format:    "free",
+		Name:      "clientCertificate",
+		Orderable: true,
+		Required:  true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"clientcertificatekey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -828,15 +842,16 @@ var HookPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"mode": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Both", "Post", "Pre"},
@@ -916,15 +931,16 @@ var HookPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"propagationhidden": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PropagationHidden",
-		Description:    `If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "propagationHidden",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
+		Description: `If set to true while the policy is propagating, it won't be visible to children
+namespace, but still used for policy resolution.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "propagationHidden",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -941,13 +957,14 @@ var HookPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject contains the tag expression that an object must match in order to trigger the hook.`,
-		Exposed:        true,
-		Name:           "subject",
-		Required:       true,
-		Stored:         true,
-		SubType:        "policies_list",
-		Type:           "external",
+		Description: `Subject contains the tag expression that an object must match in order to
+trigger the hook.`,
+		Exposed:  true,
+		Name:     "subject",
+		Required: true,
+		Stored:   true,
+		SubType:  "policies_list",
+		Type:     "external",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

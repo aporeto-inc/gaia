@@ -116,7 +116,8 @@ func (o *PolicyRefresh) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *PolicyRefresh) Doc() string {
-	return `PolicyRefresh is sent to client when as a push event when a policy refresh is needed on their side.`
+	return `PolicyRefresh is sent to client when as a push event when a policy refresh is
+needed on their side.`
 }
 
 func (o *PolicyRefresh) String() string {

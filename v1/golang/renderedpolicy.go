@@ -67,13 +67,15 @@ func (o RenderedPoliciesList) Version() int {
 
 // RenderedPolicy represents the model of a renderedpolicy
 type RenderedPolicy struct {
-	// Certificate is the certificate associated with this PU. It will identify the PU to any internal or external services.
+	// Certificate is the certificate associated with this PU. It will identify the PU
+	// to any internal or external services.
 	Certificate string `json:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// EgressPolicies lists all the egress policies attached to ProcessingUnit
 	EgressPolicies map[string]PolicyRulesList `json:"egressPolicies" bson:"-" mapstructure:"egressPolicies,omitempty"`
 
-	// ExposedAPIServices is the list of services that this processing unit is implementing.
+	// ExposedAPIServices is the list of services that this processing unit is
+	// implementing.
 	ExposedAPIServices APIServicesList `json:"exposedAPIServices" bson:"-" mapstructure:"exposedAPIServices,omitempty"`
 
 	// IngressPolicies lists all the ingress policies attached to ProcessingUnit
@@ -82,16 +84,19 @@ type RenderedPolicy struct {
 	// MatchingTags contains the list of tags that matched the policies.
 	MatchingTags []string `json:"matchingTags" bson:"-" mapstructure:"matchingTags,omitempty"`
 
-	// Can be set during a POST operation to render a policy on a Processing Unit that has not been created yet.
+	// Can be set during a POST operation to render a policy on a Processing Unit that
+	// has not been created yet.
 	ProcessingUnit *ProcessingUnit `json:"processingUnit" bson:"-" mapstructure:"processingUnit,omitempty"`
 
 	// Identifier of the ProcessingUnit
 	ProcessingUnitID string `json:"processingUnitID" bson:"-" mapstructure:"processingUnitID,omitempty"`
 
-	// Profile is the trust profile of the processing unit that should be used during all communications.
+	// Profile is the trust profile of the processing unit that should be used during
+	// all communications.
 	Profile map[string]string `json:"profile" bson:"-" mapstructure:"profile,omitempty"`
 
-	// Scopes is the set of scopes granted to this Processing Unit that it has to present in HTTP requests.
+	// Scopes is the set of scopes granted to this Processing Unit that it has to
+	// present in HTTP requests.
 	Scopes []string `json:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
@@ -205,12 +210,13 @@ var RenderedPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"Certificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Certificate",
-		Description:    `Certificate is the certificate associated with this PU. It will identify the PU to any internal or external services.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "certificate",
-		ReadOnly:       true,
-		Type:           "string",
+		Description: `Certificate is the certificate associated with this PU. It will identify the PU
+to any internal or external services.`,
+		Exposed:  true,
+		Format:   "free",
+		Name:     "certificate",
+		ReadOnly: true,
+		Type:     "string",
 	},
 	"EgressPolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -226,11 +232,12 @@ var RenderedPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"ExposedAPIServices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedAPIServices",
-		Description:    `ExposedAPIServices is the list of services that this processing unit is implementing.`,
-		Exposed:        true,
-		Name:           "exposedAPIServices",
-		SubType:        "api_services_entities",
-		Type:           "external",
+		Description: `ExposedAPIServices is the list of services that this processing unit is
+implementing.`,
+		Exposed: true,
+		Name:    "exposedAPIServices",
+		SubType: "api_services_entities",
+		Type:    "external",
 	},
 	"IngressPolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -258,12 +265,13 @@ var RenderedPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnit",
 		CreationOnly:   true,
-		Description:    `Can be set during a POST operation to render a policy on a Processing Unit that has not been created yet.`,
-		Exposed:        true,
-		Name:           "processingUnit",
-		Required:       true,
-		SubType:        "processingunit",
-		Type:           "external",
+		Description: `Can be set during a POST operation to render a policy on a Processing Unit that
+has not been created yet.`,
+		Exposed:  true,
+		Name:     "processingUnit",
+		Required: true,
+		SubType:  "processingunit",
+		Type:     "external",
 	},
 	"ProcessingUnitID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -280,22 +288,24 @@ var RenderedPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Profile",
-		Description:    `Profile is the trust profile of the processing unit that should be used during all communications.`,
-		Exposed:        true,
-		Name:           "profile",
-		ReadOnly:       true,
-		SubType:        "trust_profile",
-		Type:           "external",
+		Description: `Profile is the trust profile of the processing unit that should be used during
+all communications.`,
+		Exposed:  true,
+		Name:     "profile",
+		ReadOnly: true,
+		SubType:  "trust_profile",
+		Type:     "external",
 	},
 	"Scopes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Scopes",
-		Description:    `Scopes is the set of scopes granted to this Processing Unit that it has to present in HTTP requests.`,
-		Exposed:        true,
-		Name:           "scopes",
-		Stored:         true,
-		SubType:        "scopes_list",
-		Type:           "external",
+		Description: `Scopes is the set of scopes granted to this Processing Unit that it has to
+present in HTTP requests.`,
+		Exposed: true,
+		Name:    "scopes",
+		Stored:  true,
+		SubType: "scopes_list",
+		Type:    "external",
 	},
 }
 
@@ -304,12 +314,13 @@ var RenderedPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"certificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Certificate",
-		Description:    `Certificate is the certificate associated with this PU. It will identify the PU to any internal or external services.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "certificate",
-		ReadOnly:       true,
-		Type:           "string",
+		Description: `Certificate is the certificate associated with this PU. It will identify the PU
+to any internal or external services.`,
+		Exposed:  true,
+		Format:   "free",
+		Name:     "certificate",
+		ReadOnly: true,
+		Type:     "string",
 	},
 	"egresspolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -325,11 +336,12 @@ var RenderedPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"exposedapiservices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedAPIServices",
-		Description:    `ExposedAPIServices is the list of services that this processing unit is implementing.`,
-		Exposed:        true,
-		Name:           "exposedAPIServices",
-		SubType:        "api_services_entities",
-		Type:           "external",
+		Description: `ExposedAPIServices is the list of services that this processing unit is
+implementing.`,
+		Exposed: true,
+		Name:    "exposedAPIServices",
+		SubType: "api_services_entities",
+		Type:    "external",
 	},
 	"ingresspolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -357,12 +369,13 @@ var RenderedPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnit",
 		CreationOnly:   true,
-		Description:    `Can be set during a POST operation to render a policy on a Processing Unit that has not been created yet.`,
-		Exposed:        true,
-		Name:           "processingUnit",
-		Required:       true,
-		SubType:        "processingunit",
-		Type:           "external",
+		Description: `Can be set during a POST operation to render a policy on a Processing Unit that
+has not been created yet.`,
+		Exposed:  true,
+		Name:     "processingUnit",
+		Required: true,
+		SubType:  "processingunit",
+		Type:     "external",
 	},
 	"processingunitid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -379,21 +392,23 @@ var RenderedPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Profile",
-		Description:    `Profile is the trust profile of the processing unit that should be used during all communications.`,
-		Exposed:        true,
-		Name:           "profile",
-		ReadOnly:       true,
-		SubType:        "trust_profile",
-		Type:           "external",
+		Description: `Profile is the trust profile of the processing unit that should be used during
+all communications.`,
+		Exposed:  true,
+		Name:     "profile",
+		ReadOnly: true,
+		SubType:  "trust_profile",
+		Type:     "external",
 	},
 	"scopes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Scopes",
-		Description:    `Scopes is the set of scopes granted to this Processing Unit that it has to present in HTTP requests.`,
-		Exposed:        true,
-		Name:           "scopes",
-		Stored:         true,
-		SubType:        "scopes_list",
-		Type:           "external",
+		Description: `Scopes is the set of scopes granted to this Processing Unit that it has to
+present in HTTP requests.`,
+		Exposed: true,
+		Name:    "scopes",
+		Stored:  true,
+		SubType: "scopes_list",
+		Type:    "external",
 	},
 }

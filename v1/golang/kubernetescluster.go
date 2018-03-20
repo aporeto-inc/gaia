@@ -70,16 +70,17 @@ type KubernetesCluster struct {
 	// Link to the API authorization policy.
 	APIAuthorizationPolicyID string `json:"-" bson:"apiauthorizationpolicyid" mapstructure:"-,omitempty"`
 
-	// Link to the certificate created in Vince for this cluster
+	// Link to the certificate created in Vince for this cluster.
 	CertificateID string `json:"-" bson:"certificateid" mapstructure:"-,omitempty"`
 
-	// base64 of the .tar.gz file that contains all the .YAMLs files needed to create the aporeto side on your kubernetes Cluster
+	// base64 of the .tar.gz file that contains all the .YAMLs files needed to create
+	// the aporeto side on your kubernetes Cluster
 	KubernetesDefinitions string `json:"kubernetesDefinitions" bson:"-" mapstructure:"kubernetesDefinitions,omitempty"`
 
 	// The name of your cluster
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
-	// Link to your namespace
+	// Link to your namespace.
 	NamespaceID string `json:"-" bson:"namespaceid" mapstructure:"-,omitempty"`
 
 	// ID of the parent account.
@@ -88,7 +89,8 @@ type KubernetesCluster struct {
 	// Regenerates the k8s files and certificates.
 	Regenerate bool `json:"regenerate" bson:"-" mapstructure:"regenerate,omitempty"`
 
-	// The namespace in which the Kubernetes specific namespace will be created. By default your account namespace.
+	// The namespace in which the Kubernetes specific namespace will be created. By
+	// default your account namespace.
 	TargetNamespace string `json:"targetNamespace" bson:"targetnamespace" mapstructure:"targetNamespace,omitempty"`
 
 	// List of target networks [deprecated]
@@ -220,7 +222,7 @@ var KubernetesClusterAttributesMap = map[string]elemental.AttributeSpecification
 	"CertificateID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateID",
-		Description:    `Link to the certificate created in Vince for this cluster `,
+		Description:    `Link to the certificate created in Vince for this cluster.`,
 		Format:         "free",
 		Name:           "certificateID",
 		Stored:         true,
@@ -242,14 +244,15 @@ var KubernetesClusterAttributesMap = map[string]elemental.AttributeSpecification
 	"KubernetesDefinitions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "KubernetesDefinitions",
-		Description:    `base64 of the .tar.gz file that contains all the .YAMLs files needed to create the aporeto side on your kubernetes Cluster`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "kubernetesDefinitions",
-		Orderable:      true,
-		ReadOnly:       true,
-		Type:           "string",
+		Description: `base64 of the .tar.gz file that contains all the .YAMLs files needed to create
+the aporeto side on your kubernetes Cluster`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "kubernetesDefinitions",
+		Orderable:  true,
+		ReadOnly:   true,
+		Type:       "string",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -266,7 +269,7 @@ var KubernetesClusterAttributesMap = map[string]elemental.AttributeSpecification
 	"NamespaceID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NamespaceID",
-		Description:    `Link to your namespace `,
+		Description:    `Link to your namespace.`,
 		Format:         "free",
 		Name:           "namespaceID",
 		Stored:         true,
@@ -296,14 +299,15 @@ var KubernetesClusterAttributesMap = map[string]elemental.AttributeSpecification
 	"TargetNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
-		Description:    `The namespace in which the Kubernetes specific namespace will be created. By default your account namespace.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "targetNamespace",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
+		Description: `The namespace in which the Kubernetes specific namespace will be created. By
+default your account namespace.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "targetNamespace",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"TargetNetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -362,7 +366,7 @@ var KubernetesClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 	"certificateid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateID",
-		Description:    `Link to the certificate created in Vince for this cluster `,
+		Description:    `Link to the certificate created in Vince for this cluster.`,
 		Format:         "free",
 		Name:           "certificateID",
 		Stored:         true,
@@ -384,14 +388,15 @@ var KubernetesClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 	"kubernetesdefinitions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "KubernetesDefinitions",
-		Description:    `base64 of the .tar.gz file that contains all the .YAMLs files needed to create the aporeto side on your kubernetes Cluster`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "kubernetesDefinitions",
-		Orderable:      true,
-		ReadOnly:       true,
-		Type:           "string",
+		Description: `base64 of the .tar.gz file that contains all the .YAMLs files needed to create
+the aporeto side on your kubernetes Cluster`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "kubernetesDefinitions",
+		Orderable:  true,
+		ReadOnly:   true,
+		Type:       "string",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -408,7 +413,7 @@ var KubernetesClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 	"namespaceid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NamespaceID",
-		Description:    `Link to your namespace `,
+		Description:    `Link to your namespace.`,
 		Format:         "free",
 		Name:           "namespaceID",
 		Stored:         true,
@@ -438,14 +443,15 @@ var KubernetesClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 	"targetnamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
-		Description:    `The namespace in which the Kubernetes specific namespace will be created. By default your account namespace.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "targetNamespace",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
+		Description: `The namespace in which the Kubernetes specific namespace will be created. By
+default your account namespace.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "targetNamespace",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"targetnetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

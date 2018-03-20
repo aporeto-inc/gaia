@@ -113,13 +113,17 @@ type Policy struct {
 	// This is a set of all subject tags for matching in the DB
 	AllSubjectTags []string `json:"-" bson:"allsubjecttags" mapstructure:"-,omitempty"`
 
-	// Object represents set of entities that another entity depends on. As subjects, objects are identified as logical operations on tags when a policy is defined.
+	// Object represents set of entities that another entity depends on. As subjects,
+	// objects are identified as logical operations on tags when a policy is defined.
 	Object [][]string `json:"object" bson:"object" mapstructure:"object,omitempty"`
 
-	// Relation describes the required operation to be performed between subjects and objects
+	// Relation describes the required operation to be performed between subjects and
+	// objects
 	Relation []string `json:"relation" bson:"relation" mapstructure:"relation,omitempty"`
 
-	// Subject represent sets of entities that will have a dependency other entities. Subjects are defined as logical operations on tags. Logical operations can includes AND/OR
+	// Subject represent sets of entities that will have a dependency other entities.
+	// Subjects are defined as logical operations on tags. Logical operations can
+	// includes AND/OR
 	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
 	// Type of the policy
@@ -155,7 +159,8 @@ type Policy struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity
@@ -164,13 +169,16 @@ type Policy struct {
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.
+	// If set to true while the policy is propagating, it won't be visible to children
+	// namespace, but still used for policy resolution.
 	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
 
-	// ActiveDuration defines for how long the policy will be active according to the activeSchedule.
+	// ActiveDuration defines for how long the policy will be active according to the
+	// activeSchedule.
 	ActiveDuration string `json:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
 
-	// ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.
+	// ActiveSchedule defines when the policy should be active using the cron notation.
+	// The policy will be active for the given activeDuration.
 	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
@@ -495,26 +503,28 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description:    `ActiveDuration defines for how long the policy will be active according to the activeSchedule.`,
-		Exposed:        true,
-		Format:         "free",
-		Getter:         true,
-		Name:           "activeDuration",
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
+		Description: `ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.`,
+		Exposed: true,
+		Format:  "free",
+		Getter:  true,
+		Name:    "activeDuration",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
 	},
 	"ActiveSchedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description:    `ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "activeSchedule",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "cron_expression",
-		Type:           "external",
+		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeSchedule",
+		Setter:  true,
+		Stored:  true,
+		SubType: "cron_expression",
+		Type:    "external",
 	},
 	"AllObjectTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -603,15 +613,16 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -666,12 +677,13 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description:    `Object represents set of entities that another entity depends on. As subjects, objects are identified as logical operations on tags when a policy is defined.`,
-		Exposed:        true,
-		Name:           "object",
-		Stored:         true,
-		SubType:        "policies_list",
-		Type:           "external",
+		Description: `Object represents set of entities that another entity depends on. As subjects,
+objects are identified as logical operations on tags when a policy is defined.`,
+		Exposed: true,
+		Name:    "object",
+		Stored:  true,
+		SubType: "policies_list",
+		Type:    "external",
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -689,15 +701,16 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"PropagationHidden": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PropagationHidden",
-		Description:    `If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "propagationHidden",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
+		Description: `If set to true while the policy is propagating, it won't be visible to children
+namespace, but still used for policy resolution.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "propagationHidden",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -714,23 +727,26 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"Relation": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Relation",
-		Description:    `Relation describes the required operation to be performed between subjects and objects`,
-		Exposed:        true,
-		Name:           "relation",
-		Stored:         true,
-		SubType:        "relations_list",
-		Type:           "external",
+		Description: `Relation describes the required operation to be performed between subjects and
+objects`,
+		Exposed: true,
+		Name:    "relation",
+		Stored:  true,
+		SubType: "relations_list",
+		Type:    "external",
 	},
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject represent sets of entities that will have a dependency other entities. Subjects are defined as logical operations on tags. Logical operations can includes AND/OR`,
-		Exposed:        true,
-		Name:           "subject",
-		Required:       true,
-		Stored:         true,
-		SubType:        "policies_list",
-		Type:           "external",
+		Description: `Subject represent sets of entities that will have a dependency other entities.
+Subjects are defined as logical operations on tags. Logical operations can
+includes AND/OR`,
+		Exposed:  true,
+		Name:     "subject",
+		Required: true,
+		Stored:   true,
+		SubType:  "policies_list",
+		Type:     "external",
 	},
 	"Type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"},
@@ -794,26 +810,28 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description:    `ActiveDuration defines for how long the policy will be active according to the activeSchedule.`,
-		Exposed:        true,
-		Format:         "free",
-		Getter:         true,
-		Name:           "activeDuration",
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
+		Description: `ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.`,
+		Exposed: true,
+		Format:  "free",
+		Getter:  true,
+		Name:    "activeDuration",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
 	},
 	"activeschedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description:    `ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "activeSchedule",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "cron_expression",
-		Type:           "external",
+		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeSchedule",
+		Setter:  true,
+		Stored:  true,
+		SubType: "cron_expression",
+		Type:    "external",
 	},
 	"allobjecttags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -902,15 +920,16 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -965,12 +984,13 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description:    `Object represents set of entities that another entity depends on. As subjects, objects are identified as logical operations on tags when a policy is defined.`,
-		Exposed:        true,
-		Name:           "object",
-		Stored:         true,
-		SubType:        "policies_list",
-		Type:           "external",
+		Description: `Object represents set of entities that another entity depends on. As subjects,
+objects are identified as logical operations on tags when a policy is defined.`,
+		Exposed: true,
+		Name:    "object",
+		Stored:  true,
+		SubType: "policies_list",
+		Type:    "external",
 	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -988,15 +1008,16 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"propagationhidden": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PropagationHidden",
-		Description:    `If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "propagationHidden",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
+		Description: `If set to true while the policy is propagating, it won't be visible to children
+namespace, but still used for policy resolution.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "propagationHidden",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1013,23 +1034,26 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"relation": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Relation",
-		Description:    `Relation describes the required operation to be performed between subjects and objects`,
-		Exposed:        true,
-		Name:           "relation",
-		Stored:         true,
-		SubType:        "relations_list",
-		Type:           "external",
+		Description: `Relation describes the required operation to be performed between subjects and
+objects`,
+		Exposed: true,
+		Name:    "relation",
+		Stored:  true,
+		SubType: "relations_list",
+		Type:    "external",
 	},
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject represent sets of entities that will have a dependency other entities. Subjects are defined as logical operations on tags. Logical operations can includes AND/OR`,
-		Exposed:        true,
-		Name:           "subject",
-		Required:       true,
-		Stored:         true,
-		SubType:        "policies_list",
-		Type:           "external",
+		Description: `Subject represent sets of entities that will have a dependency other entities.
+Subjects are defined as logical operations on tags. Logical operations can
+includes AND/OR`,
+		Exposed:  true,
+		Name:     "subject",
+		Required: true,
+		Stored:   true,
+		SubType:  "policies_list",
+		Type:     "external",
 	},
 	"type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"},

@@ -120,7 +120,8 @@ type FileAccessPolicy struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity
@@ -129,13 +130,16 @@ type FileAccessPolicy struct {
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.
+	// If set to true while the policy is propagating, it won't be visible to children
+	// namespace, but still used for policy resolution.
 	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
 
-	// ActiveDuration defines for how long the policy will be active according to the activeSchedule.
+	// ActiveDuration defines for how long the policy will be active according to the
+	// activeSchedule.
 	ActiveDuration string `json:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
 
-	// ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.
+	// ActiveSchedule defines when the policy should be active using the cron notation.
+	// The policy will be active for the given activeDuration.
 	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
@@ -189,7 +193,15 @@ func (o *FileAccessPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *FileAccessPolicy) Doc() string {
-	return `A File Access Policy allows Processing Units to access various folder and files. It will use the tags of a File Path to know what is the path of the file or folder to allow access to. You can allow the Processing Unit to have any combination of read, write or execute. Note: When a Processing Unit is Docker container, then it will police the volumes mount. executewon't have any effect. Note: File path are not supported yet for standard Linux processes.`
+	return `A File Access Policy allows Processing Units to access various folder and files.
+It will use the tags of a File Path to know what is the path of the file or
+folder to allow access to. You can allow the Processing Unit to have any
+combination of read, write or execute.
+
+When a Processing Unit is Docker container, then it will police the volumes
+mount. executewon''t have any effect.
+
+File path are not supported yet for standard Linux processes.`
 }
 
 func (o *FileAccessPolicy) String() string {
@@ -425,26 +437,28 @@ var FileAccessPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description:    `ActiveDuration defines for how long the policy will be active according to the activeSchedule.`,
-		Exposed:        true,
-		Format:         "free",
-		Getter:         true,
-		Name:           "activeDuration",
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
+		Description: `ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.`,
+		Exposed: true,
+		Format:  "free",
+		Getter:  true,
+		Name:    "activeDuration",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
 	},
 	"ActiveSchedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description:    `ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "activeSchedule",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "cron_expression",
-		Type:           "external",
+		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeSchedule",
+		Setter:  true,
+		Stored:  true,
+		SubType: "cron_expression",
+		Type:    "external",
 	},
 	"AllowsExecute": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -563,15 +577,16 @@ var FileAccessPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -649,15 +664,16 @@ var FileAccessPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"PropagationHidden": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PropagationHidden",
-		Description:    `If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "propagationHidden",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
+		Description: `If set to true while the policy is propagating, it won't be visible to children
+namespace, but still used for policy resolution.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "propagationHidden",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -717,26 +733,28 @@ var FileAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description:    `ActiveDuration defines for how long the policy will be active according to the activeSchedule.`,
-		Exposed:        true,
-		Format:         "free",
-		Getter:         true,
-		Name:           "activeDuration",
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
+		Description: `ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.`,
+		Exposed: true,
+		Format:  "free",
+		Getter:  true,
+		Name:    "activeDuration",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
 	},
 	"activeschedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description:    `ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "activeSchedule",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "cron_expression",
-		Type:           "external",
+		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeSchedule",
+		Setter:  true,
+		Stored:  true,
+		SubType: "cron_expression",
+		Type:    "external",
 	},
 	"allowsexecute": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -855,15 +873,16 @@ var FileAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -941,15 +960,16 @@ var FileAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"propagationhidden": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PropagationHidden",
-		Description:    `If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "propagationHidden",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
+		Description: `If set to true while the policy is propagating, it won't be visible to children
+namespace, but still used for policy resolution.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "propagationHidden",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

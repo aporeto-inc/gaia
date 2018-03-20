@@ -1,6 +1,7 @@
+# Model
 model:
-  description: '[nodoc]'
+  rest_name: accountcheck
+  resource_name: accountchecks
   entity_name: AccountCheck
   package: vince
-  resource_name: accountchecks
-  rest_name: accountcheck
+  description: '[nodoc]'

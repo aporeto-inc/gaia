@@ -1,30 +1,35 @@
+# Model
+model:
+  rest_name: category
+  resource_name: categories
+  entity_name: Category
+  package: highwind
+  description: Category allows to categorized services
+
+# Attributes
 attributes:
-- description: ID is the identifier of the category.
+- name: ID
+  description: ID is the identifier of the category.
+  type: string
   exposed: true
+  stored: true
   filterable: true
   format: free
   identifier: true
-  name: ID
   orderable: true
   primary_key: true
-  stored: true
+
+- name: description
+  description: Description is the desription of the category.
   type: string
-- description: Description is the desription of the category.
   exposed: true
   format: free
-  name: description
+
+- name: name
+  description: Name of the category.
   type: string
-- description: Name of the category.
   exposed: true
+  stored: true
   filterable: true
   format: free
-  name: name
   orderable: true
-  stored: true
-  type: string
-model:
-  description: Category allows to categorized services
-  entity_name: Category
-  package: highwind
-  resource_name: categories
-  rest_name: category

@@ -131,7 +131,13 @@ func (o *DependencyMap) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *DependencyMap) Doc() string {
-	return `This api returns a data structure representing the graph of all processing units and their connections in a particular namespace, in a given time window. To pass the time window you can use the query parameters "startAbsolute", "endAbsolute", "startRelative", "endRelative".  For example "https://squall.aporeto.com/dependencymaps?startAbsolute=1489132800000&endAbsolute=1489219200000"`
+	return `This api returns a data structure representing the graph of all processing units
+and their connections in a particular namespace, in a given time window. To pass
+the time window you can use the query parameters 'startAbsolute', 'endAbsolute',
+'startRelative', 'endRelative'.
+
+For example
+  "/dependencymaps?startAbsolute=1489132800000&endAbsolute=1489219200000"`
 }
 
 func (o *DependencyMap) String() string {

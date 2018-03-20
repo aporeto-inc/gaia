@@ -212,7 +212,7 @@ var AvailableServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Icon": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Icon",
-		Description:    `Icon contains a base64 image for the available service. `,
+		Description:    `Icon contains a base64 image for the available service.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "icon",
@@ -291,7 +291,7 @@ var AvailableServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"icon": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Icon",
-		Description:    `Icon contains a base64 image for the available service. `,
+		Description:    `Icon contains a base64 image for the available service.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "icon",

@@ -116,7 +116,9 @@ type ProcessingUnit struct {
 	// NativeContextID is the Docker UUID or service PID
 	NativeContextID string `json:"nativeContextID" bson:"nativecontextid" mapstructure:"nativeContextID,omitempty"`
 
-	// NetworkServices is the list of services that this processing unit has declared that it will be listening to. This can happen either with an activation command or by exposing the ports in a container manifest.
+	// NetworkServices is the list of services that this processing unit has declared
+	// that it will be listening to. This can happen either with an activation command
+	// or by exposing the ports in a container manifest.
 	NetworkServices types.ProcessingUnitServicesList `json:"networkServices" bson:"networkservices" mapstructure:"networkServices,omitempty"`
 
 	// OperationalStatus of the processing unit
@@ -155,7 +157,8 @@ type ProcessingUnit struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity
@@ -214,7 +217,12 @@ func (o *ProcessingUnit) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *ProcessingUnit) Doc() string {
-	return `A Processing Unit reprents anything that can compute. It can be a Docker container, or a simple Unix process. They are created, updated and deleted by the system as they come and go. You can only modify its tags.  Processing Units use Network Access Policies to define which other Processing Units or External Services they can communicate with and File Access Policies to define what File Paths they can use.`
+	return `A Processing Unit reprents anything that can compute. It can be a Docker
+container, or a simple Unix process. They are created, updated and deleted by
+the system as they come and go. You can only modify its tags.  Processing Units
+use Network Access Policies to define which other Processing Units or External
+Services they can communicate with and File Access Policies to define what File
+Paths they can use.`
 }
 
 func (o *ProcessingUnit) String() string {
@@ -490,15 +498,16 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -549,14 +558,16 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 	"NetworkServices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NetworkServices",
-		Description:    `NetworkServices is the list of services that this processing unit has declared that it will be listening to. This can happen either with an activation command or by exposing the ports in a container manifest.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "networkServices",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "processing_unit_services_list",
-		Type:           "external",
+		Description: `NetworkServices is the list of services that this processing unit has declared
+that it will be listening to. This can happen either with an activation command
+or by exposing the ports in a container manifest.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "networkServices",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "processing_unit_services_list",
+		Type:       "external",
 	},
 	"NormalizedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -728,15 +739,16 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -787,14 +799,16 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"networkservices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NetworkServices",
-		Description:    `NetworkServices is the list of services that this processing unit has declared that it will be listening to. This can happen either with an activation command or by exposing the ports in a container manifest.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "networkServices",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "processing_unit_services_list",
-		Type:           "external",
+		Description: `NetworkServices is the list of services that this processing unit has declared
+that it will be listening to. This can happen either with an activation command
+or by exposing the ports in a container manifest.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "networkServices",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "processing_unit_services_list",
+		Type:       "external",
 	},
 	"normalizedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

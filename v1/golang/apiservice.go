@@ -84,16 +84,21 @@ func (o APIServicesList) Version() int {
 
 // APIService represents the model of a apiservice
 type APIService struct {
-	// FQDN is the fully qualified domain name of the service. It is required for external API services. It can be deduced from a service discovery system in advanced environments.
+	// FQDN is the fully qualified domain name of the service. It is required for
+	// external API services. It can be deduced from a service discovery system in
+	// advanced environments.
 	FQDN string `json:"FQDN" bson:"fqdn" mapstructure:"FQDN,omitempty"`
 
 	// IPList is the list of ip address or subnets of the service if available.
 	IPList types.IPList `json:"IPList" bson:"iplist" mapstructure:"IPList,omitempty"`
 
-	// JWTSigningCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.
+	// JWTSigningCertificate is a certificate that can be used to validate user JWT in
+	// HTTP requests. This is an optional field, needed only if user JWT validation is
+	// required for this service. The certificate must be in PEM format.
 	JWTSigningCertificate string `json:"JWTSigningCertificate" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
-	// AllServiceTags is an internal object that summarizes all the implementedBy tags to accelerate database searches. It is not exposed.
+	// AllServiceTags is an internal object that summarizes all the implementedBy tags
+	// to accelerate database searches. It is not exposed.
 	AllServiceTags []string `json:"-" bson:"allservicetags" mapstructure:"-,omitempty"`
 
 	// ExposedAPIs is a list of API endpoints that are exposed for the service.
@@ -102,19 +107,24 @@ type APIService struct {
 	// External is a boolean that indicates if this is an external service.
 	External bool `json:"external" bson:"external" mapstructure:"external,omitempty"`
 
-	// ExternalServiceCA is the certificate authority that the service is using. This is needed for external API services with private certificate authorities. The field is optional. If provided, this must be a valid PEM CA file.
+	// ExternalServiceCA is the certificate authority that the service is using. This
+	// is needed for external API services with private certificate authorities. The
+	// field is optional. If provided, this must be a valid PEM CA file.
 	ExternalServiceCA string `json:"externalServiceCA" bson:"externalserviceca" mapstructure:"externalServiceCA,omitempty"`
 
-	// NetworkProtocol is the network protocol of the service. Default is TCP.
+	// NetworkProtocol is the network protocol of the service.
 	NetworkProtocol int `json:"networkProtocol" bson:"networkprotocol" mapstructure:"networkProtocol,omitempty"`
 
-	// Ports is a list of ports for the service. Ports are either exact match, or a range portMin:portMax.
+	// Ports is a list of ports for the service. Ports are either exact match, or a
+	// range portMin:portMax.
 	Ports types.PortList `json:"ports" bson:"ports" mapstructure:"ports,omitempty"`
 
-	// RuntimeSelectors is a list of tag selectors that identifies that Processing Units that will implement this service.
+	// RuntimeSelectors is a list of tag selectors that identifies that Processing
+	// Units that will implement this service.
 	RuntimeSelectors [][]string `json:"runtimeSelectors" bson:"runtimeselectors" mapstructure:"runtimeSelectors,omitempty"`
 
-	// Type is the type of the service (HTTP, TCP, etc). More types will be added to the system.
+	// Type is the type of the service (HTTP, TCP, etc). More types will be added to
+	// the system.
 	Type APIServiceTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	// Archived defines if the object is archived.
@@ -147,7 +157,8 @@ type APIService struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity
@@ -211,7 +222,10 @@ func (o *APIService) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *APIService) Doc() string {
-	return `APIService descibes a L4/L7 service and the corresponding implementation. It allows users to define their services, the APIs that they expose, the implementation of the service. These definitions can be used by network policy in order to define advanced controls based on the APIs.`
+	return `APIService descibes a L4/L7 service and the corresponding implementation. It
+allows users to define their services, the APIs that they expose, the
+implementation of the service. These definitions can be used by network policy
+in order to define advanced controls based on the APIs.`
 }
 
 func (o *APIService) String() string {
@@ -408,14 +422,16 @@ var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"FQDN": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FQDN",
-		Description:    `FQDN is the fully qualified domain name of the service. It is required for external API services. It can be deduced from a service discovery system in advanced environments.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "FQDN",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
+		Description: `FQDN is the fully qualified domain name of the service. It is required for
+external API services. It can be deduced from a service discovery system in
+advanced environments.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "FQDN",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -446,21 +462,24 @@ var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"JWTSigningCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "JWTSigningCertificate",
-		Description:    `JWTSigningCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "JWTSigningCertificate",
-		Stored:         true,
-		Type:           "string",
+		Description: `JWTSigningCertificate is a certificate that can be used to validate user JWT in
+HTTP requests. This is an optional field, needed only if user JWT validation is
+required for this service. The certificate must be in PEM format.`,
+		Exposed: true,
+		Format:  "free",
+		Name:    "JWTSigningCertificate",
+		Stored:  true,
+		Type:    "string",
 	},
 	"AllServiceTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AllServiceTags",
-		Description:    `AllServiceTags is an internal object that summarizes all the implementedBy tags to accelerate database searches. It is not exposed.`,
-		Name:           "allServiceTags",
-		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		Description: `AllServiceTags is an internal object that summarizes all the implementedBy tags
+to accelerate database searches. It is not exposed.`,
+		Name:    "allServiceTags",
+		Stored:  true,
+		SubType: "tags_list",
+		Type:    "external",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -547,26 +566,29 @@ var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"ExternalServiceCA": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExternalServiceCA",
-		Description:    `ExternalServiceCA is the certificate authority that the service is using. This is needed for external API services with private certificate authorities. The field is optional. If provided, this must be a valid PEM CA file.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "externalServiceCA",
-		Stored:         true,
-		Type:           "string",
+		Description: `ExternalServiceCA is the certificate authority that the service is using. This
+is needed for external API services with private certificate authorities. The
+field is optional. If provided, this must be a valid PEM CA file.`,
+		Exposed: true,
+		Format:  "free",
+		Name:    "externalServiceCA",
+		Stored:  true,
+		Type:    "string",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -607,7 +629,7 @@ var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NetworkProtocol",
 		DefaultValue:   6,
-		Description:    `NetworkProtocol is the network protocol of the service. Default is TCP. `,
+		Description:    `NetworkProtocol is the network protocol of the service.`,
 		Exposed:        true,
 		Filterable:     true,
 		MaxValue:       255,
@@ -635,13 +657,14 @@ var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Ports",
-		Description:    `Ports is a list of ports for the service. Ports are either exact match, or a range portMin:portMax.`,
-		Exposed:        true,
-		Name:           "ports",
-		Required:       true,
-		Stored:         true,
-		SubType:        "port_list",
-		Type:           "external",
+		Description: `Ports is a list of ports for the service. Ports are either exact match, or a
+range portMin:portMax.`,
+		Exposed:  true,
+		Name:     "ports",
+		Required: true,
+		Stored:   true,
+		SubType:  "port_list",
+		Type:     "external",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -658,26 +681,28 @@ var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"RuntimeSelectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "RuntimeSelectors",
-		Description:    `RuntimeSelectors is a list of tag selectors that identifies that Processing Units that will implement this service.`,
-		Exposed:        true,
-		Name:           "runtimeSelectors",
-		Required:       true,
-		Stored:         true,
-		SubType:        "target_tags",
-		Type:           "external",
+		Description: `RuntimeSelectors is a list of tag selectors that identifies that Processing
+Units that will implement this service.`,
+		Exposed:  true,
+		Name:     "runtimeSelectors",
+		Required: true,
+		Stored:   true,
+		SubType:  "target_tags",
+		Type:     "external",
 	},
 	"Type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"HTTP", "L3", "TCP"},
 		ConvertedName:  "Type",
 		DefaultValue:   APIServiceTypeL3,
-		Description:    `Type is the type of the service (HTTP, TCP, etc). More types will be added to the system.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "type",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "enum",
+		Description: `Type is the type of the service (HTTP, TCP, etc). More types will be added to
+the system.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "type",
+		Orderable:  true,
+		Required:   true,
+		Stored:     true,
+		Type:       "enum",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -700,14 +725,16 @@ var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"fqdn": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FQDN",
-		Description:    `FQDN is the fully qualified domain name of the service. It is required for external API services. It can be deduced from a service discovery system in advanced environments.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "FQDN",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
+		Description: `FQDN is the fully qualified domain name of the service. It is required for
+external API services. It can be deduced from a service discovery system in
+advanced environments.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "FQDN",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -738,21 +765,24 @@ var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"jwtsigningcertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "JWTSigningCertificate",
-		Description:    `JWTSigningCertificate is a certificate that can be used to validate user JWT in HTTP requests. This is an optional field, needed only if user JWT validation is required for this service. The certificate must be in PEM format.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "JWTSigningCertificate",
-		Stored:         true,
-		Type:           "string",
+		Description: `JWTSigningCertificate is a certificate that can be used to validate user JWT in
+HTTP requests. This is an optional field, needed only if user JWT validation is
+required for this service. The certificate must be in PEM format.`,
+		Exposed: true,
+		Format:  "free",
+		Name:    "JWTSigningCertificate",
+		Stored:  true,
+		Type:    "string",
 	},
 	"allservicetags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AllServiceTags",
-		Description:    `AllServiceTags is an internal object that summarizes all the implementedBy tags to accelerate database searches. It is not exposed.`,
-		Name:           "allServiceTags",
-		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		Description: `AllServiceTags is an internal object that summarizes all the implementedBy tags
+to accelerate database searches. It is not exposed.`,
+		Name:    "allServiceTags",
+		Stored:  true,
+		SubType: "tags_list",
+		Type:    "external",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -839,26 +869,29 @@ var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"externalserviceca": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExternalServiceCA",
-		Description:    `ExternalServiceCA is the certificate authority that the service is using. This is needed for external API services with private certificate authorities. The field is optional. If provided, this must be a valid PEM CA file.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "externalServiceCA",
-		Stored:         true,
-		Type:           "string",
+		Description: `ExternalServiceCA is the certificate authority that the service is using. This
+is needed for external API services with private certificate authorities. The
+field is optional. If provided, this must be a valid PEM CA file.`,
+		Exposed: true,
+		Format:  "free",
+		Name:    "externalServiceCA",
+		Stored:  true,
+		Type:    "string",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -899,7 +932,7 @@ var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		ConvertedName:  "NetworkProtocol",
 		DefaultValue:   6,
-		Description:    `NetworkProtocol is the network protocol of the service. Default is TCP. `,
+		Description:    `NetworkProtocol is the network protocol of the service.`,
 		Exposed:        true,
 		Filterable:     true,
 		MaxValue:       255,
@@ -927,13 +960,14 @@ var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Ports",
-		Description:    `Ports is a list of ports for the service. Ports are either exact match, or a range portMin:portMax.`,
-		Exposed:        true,
-		Name:           "ports",
-		Required:       true,
-		Stored:         true,
-		SubType:        "port_list",
-		Type:           "external",
+		Description: `Ports is a list of ports for the service. Ports are either exact match, or a
+range portMin:portMax.`,
+		Exposed:  true,
+		Name:     "ports",
+		Required: true,
+		Stored:   true,
+		SubType:  "port_list",
+		Type:     "external",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -950,26 +984,28 @@ var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"runtimeselectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "RuntimeSelectors",
-		Description:    `RuntimeSelectors is a list of tag selectors that identifies that Processing Units that will implement this service.`,
-		Exposed:        true,
-		Name:           "runtimeSelectors",
-		Required:       true,
-		Stored:         true,
-		SubType:        "target_tags",
-		Type:           "external",
+		Description: `RuntimeSelectors is a list of tag selectors that identifies that Processing
+Units that will implement this service.`,
+		Exposed:  true,
+		Name:     "runtimeSelectors",
+		Required: true,
+		Stored:   true,
+		SubType:  "target_tags",
+		Type:     "external",
 	},
 	"type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"HTTP", "L3", "TCP"},
 		ConvertedName:  "Type",
 		DefaultValue:   APIServiceTypeL3,
-		Description:    `Type is the type of the service (HTTP, TCP, etc). More types will be added to the system.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "type",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "enum",
+		Description: `Type is the type of the service (HTTP, TCP, etc). More types will be added to
+the system.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "type",
+		Orderable:  true,
+		Required:   true,
+		Stored:     true,
+		Type:       "enum",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

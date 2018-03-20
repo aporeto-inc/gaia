@@ -104,7 +104,8 @@ type X509Certificate struct {
 	// ExpirationDate contains the requested expiration date.
 	ExpirationDate time.Time `json:"expirationDate" bson:"-" mapstructure:"expirationDate,omitempty"`
 
-	// Extensions is a list of extensions that can be added as SAN extensions to the certificate.
+	// Extensions is a list of extensions that can be added as SAN extensions to the
+	// certificate.
 	Extensions []string `json:"extensions" bson:"-" mapstructure:"extensions,omitempty"`
 
 	// Selects what CA should sign the certificate.
@@ -270,11 +271,12 @@ var X509CertificateAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Extensions",
 		CreationOnly:   true,
-		Description:    `Extensions is a list of extensions that can be added as SAN extensions to the certificate.`,
-		Exposed:        true,
-		Name:           "extensions",
-		SubType:        "extensions_list",
-		Type:           "external",
+		Description: `Extensions is a list of extensions that can be added as SAN extensions to the
+certificate.`,
+		Exposed: true,
+		Name:    "extensions",
+		SubType: "extensions_list",
+		Type:    "external",
 	},
 	"Signer": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Public", "System"},
@@ -350,11 +352,12 @@ var X509CertificateLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		AllowedChoices: []string{},
 		ConvertedName:  "Extensions",
 		CreationOnly:   true,
-		Description:    `Extensions is a list of extensions that can be added as SAN extensions to the certificate.`,
-		Exposed:        true,
-		Name:           "extensions",
-		SubType:        "extensions_list",
-		Type:           "external",
+		Description: `Extensions is a list of extensions that can be added as SAN extensions to the
+certificate.`,
+		Exposed: true,
+		Name:    "extensions",
+		SubType: "extensions_list",
+		Type:    "external",
 	},
 	"signer": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Public", "System"},

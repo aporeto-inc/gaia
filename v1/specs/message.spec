@@ -1,59 +1,69 @@
-attributes:
-- description: expirationTime is the time after which the message will be deleted.
-  exposed: true
-  filterable: true
-  name: expirationTime
-  orderable: true
-  stored: true
-  type: time
-- allowed_choices:
-  - Danger
-  - Info
-  - Warning
-  default_value: Info
-  description: Level defines how the message is important.
-  exposed: true
-  filterable: true
-  name: level
-  orderable: true
-  stored: true
-  type: enum
-- description: If local is set, the message will only be visible in the current namespace.
-  exposed: true
-  filterable: true
-  name: local
-  orderable: true
-  stored: true
-  type: boolean
-- creation_only: true
-  description: If enabled, the message will be sent to the email associated in namespaces
-    annotations.
-  exposed: true
-  filterable: true
-  name: notifyByEmail
-  type: boolean
-- allowed_chars: ^[0-9]+[smh]$
-  description: Validity set using golang time duration, when the message will be automatically
-    deleted.
-  exposed: true
-  format: free
-  name: validity
-  stored: true
-  type: string
+# Model
 model:
+  rest_name: message
+  resource_name: messages
+  entity_name: Message
+  package: squall
+  description: |-
+    The Message API allows to post public messages that will be visible through all
+    children namespaces.
   aliases:
   - mess
-  delete: true
   get: true
   update: true
-  description: The Message API allows to post public messages that will be visible
-    through all children namespaces
-  entity_name: Message
+  delete: true
   extends:
   - '@base'
   - '@described'
   - '@identifiable-pk-stored'
   - '@named'
-  package: squall
-  resource_name: messages
-  rest_name: message
+
+# Attributes
+attributes:
+- name: expirationTime
+  description: expirationTime is the time after which the message will be deleted.
+  type: time
+  exposed: true
+  stored: true
+  filterable: true
+  orderable: true
+
+- name: level
+  description: Level defines how the message is important.
+  type: enum
+  exposed: true
+  stored: true
+  allowed_choices:
+  - Danger
+  - Info
+  - Warning
+  default_value: Info
+  filterable: true
+  orderable: true
+
+- name: local
+  description: If local is set, the message will only be visible in the current namespace.
+  type: boolean
+  exposed: true
+  stored: true
+  filterable: true
+  orderable: true
+
+- name: notifyByEmail
+  description: |-
+    If enabled, the message will be sent to the email associated in namespaces
+    annotations.
+  type: boolean
+  exposed: true
+  creation_only: true
+  filterable: true
+
+- name: validity
+  description: |-
+    Validity set using golang time duration, when the message will be automatically
+    deleted.
+  type: string
+  exposed: true
+  stored: true
+  allowed_chars: ^[0-9]+[smh]$
+  format: free

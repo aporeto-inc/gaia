@@ -67,10 +67,12 @@ func (o AWSAccountsList) Version() int {
 
 // AWSAccount represents the model of a awsaccount
 type AWSAccount struct {
-	// AccessKeyID contains the aws access key ID. This is used to retrieve your account id, and it is not stored.
+	// AccessKeyID contains the aws access key ID. This is used to retrieve your
+	// account id, and it is not stored.
 	AccessKeyID string `json:"accessKeyID" bson:"-" mapstructure:"accessKeyID,omitempty"`
 
-	// AccessToken contains your aws access token. It is used to retrieve your account id, and it not stored.
+	// AccessToken contains your aws access token. It is used to retrieve your account
+	// id, and it not stored.
 	AccessToken string `json:"accessToken" bson:"-" mapstructure:"accessToken,omitempty"`
 
 	// accountID contains your verified accound id.
@@ -85,7 +87,8 @@ type AWSAccount struct {
 	// Region contains your the region where your AWS account is located
 	Region string `json:"region" bson:"region" mapstructure:"region,omitempty"`
 
-	// secretAccessKey contains the secret key. It is used to retrieve your account id, and it is not stored.
+	// secretAccessKey contains the secret key. It is used to retrieve your account id,
+	// and it is not stored.
 	SecretAccessKey string `json:"secretAccessKey" bson:"-" mapstructure:"secretAccessKey,omitempty"`
 
 	// ID is the identifier of the object.
@@ -142,7 +145,8 @@ func (o *AWSAccount) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *AWSAccount) Doc() string {
-	return `Allows to bind an AWS account to your Aporeto account to allow auto registration of enforcers running on EC2 `
+	return `Allows to bind an AWS account to your Aporeto account to allow auto registration
+of enforcers running on EC2`
 }
 
 func (o *AWSAccount) String() string {
@@ -230,22 +234,24 @@ var AWSAccountAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AccessKeyID",
 		CreationOnly:   true,
-		Description:    `AccessKeyID contains the aws access key ID. This is used to retrieve your account id, and it is not stored.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "accessKeyID",
-		Required:       true,
-		Type:           "string",
+		Description: `AccessKeyID contains the aws access key ID. This is used to retrieve your
+account id, and it is not stored.`,
+		Exposed:  true,
+		Format:   "free",
+		Name:     "accessKeyID",
+		Required: true,
+		Type:     "string",
 	},
 	"AccessToken": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AccessToken",
 		CreationOnly:   true,
-		Description:    `AccessToken contains your aws access token. It is used to retrieve your account id, and it not stored.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "accessToken",
-		Type:           "string",
+		Description: `AccessToken contains your aws access token. It is used to retrieve your account
+id, and it not stored.`,
+		Exposed: true,
+		Format:  "free",
+		Name:    "accessToken",
+		Type:    "string",
 	},
 	"AccountID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -318,12 +324,13 @@ var AWSAccountAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SecretAccessKey",
 		CreationOnly:   true,
-		Description:    `secretAccessKey contains the secret key. It is used to retrieve your account id, and it is not stored.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "secretAccessKey",
-		Required:       true,
-		Type:           "string",
+		Description: `secretAccessKey contains the secret key. It is used to retrieve your account id,
+and it is not stored.`,
+		Exposed:  true,
+		Format:   "free",
+		Name:     "secretAccessKey",
+		Required: true,
+		Type:     "string",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -362,22 +369,24 @@ var AWSAccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		ConvertedName:  "AccessKeyID",
 		CreationOnly:   true,
-		Description:    `AccessKeyID contains the aws access key ID. This is used to retrieve your account id, and it is not stored.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "accessKeyID",
-		Required:       true,
-		Type:           "string",
+		Description: `AccessKeyID contains the aws access key ID. This is used to retrieve your
+account id, and it is not stored.`,
+		Exposed:  true,
+		Format:   "free",
+		Name:     "accessKeyID",
+		Required: true,
+		Type:     "string",
 	},
 	"accesstoken": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AccessToken",
 		CreationOnly:   true,
-		Description:    `AccessToken contains your aws access token. It is used to retrieve your account id, and it not stored.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "accessToken",
-		Type:           "string",
+		Description: `AccessToken contains your aws access token. It is used to retrieve your account
+id, and it not stored.`,
+		Exposed: true,
+		Format:  "free",
+		Name:    "accessToken",
+		Type:    "string",
 	},
 	"accountid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -450,12 +459,13 @@ var AWSAccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		ConvertedName:  "SecretAccessKey",
 		CreationOnly:   true,
-		Description:    `secretAccessKey contains the secret key. It is used to retrieve your account id, and it is not stored.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "secretAccessKey",
-		Required:       true,
-		Type:           "string",
+		Description: `secretAccessKey contains the secret key. It is used to retrieve your account id,
+and it is not stored.`,
+		Exposed:  true,
+		Format:   "free",
+		Name:     "secretAccessKey",
+		Required: true,
+		Type:     "string",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

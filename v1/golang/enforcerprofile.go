@@ -104,10 +104,13 @@ type EnforcerProfile struct {
 	// PUHeartbeatInterval configures the heart beat interval.
 	PUHeartbeatInterval string `json:"PUHeartbeatInterval" bson:"puheartbeatinterval" mapstructure:"PUHeartbeatInterval,omitempty"`
 
-	// AuditProfileSelectors is the list of tags (key/value pairs) that define the audit policies that must be implemented by this enforcer. The enforcer will implement all policies that match any of these tags.
+	// AuditProfileSelectors is the list of tags (key/value pairs) that define the
+	// audit policies that must be implemented by this enforcer. The enforcer will
+	// implement all policies that match any of these tags.
 	AuditProfileSelectors []string `json:"auditProfileSelectors" bson:"auditprofileselectors" mapstructure:"auditProfileSelectors,omitempty"`
 
-	// AuditProfiles returns the audit rules associated with the enforcer profile. This is a read only attribute when an enforcer profile is resolved for an enforcer.
+	// AuditProfiles returns the audit rules associated with the enforcer profile. This
+	// is a read only attribute when an enforcer profile is resolved for an enforcer.
 	AuditProfiles AuditProfilesList `json:"auditProfiles" bson:"-" mapstructure:"auditProfiles,omitempty"`
 
 	// AuditSocketBufferSize is the size of the audit socket buffer. Default 16384.
@@ -122,13 +125,16 @@ type EnforcerProfile struct {
 	// ExcludedInterfaces is a list of interfaces that must be excluded.
 	ExcludedInterfaces []string `json:"excludedInterfaces" bson:"excludedinterfaces" mapstructure:"excludedInterfaces,omitempty"`
 
-	// ExcludedNetworks is the list of networks that must be excluded for this enforcer.
+	// ExcludedNetworks is the list of networks that must be excluded for this
+	// enforcer.
 	ExcludedNetworks []string `json:"excludedNetworks" bson:"excludednetworks" mapstructure:"excludedNetworks,omitempty"`
 
-	// HostServices is a list of services that must be activated by default to all enforcers matching this profile.
+	// HostServices is a list of services that must be activated by default to all
+	// enforcers matching this profile.
 	HostServices types.HostServicesList `json:"hostServices" bson:"hostservices" mapstructure:"hostServices,omitempty"`
 
-	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore docker container started with labels matching the rule.
+	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
+	// docker container started with labels matching the rule.
 	IgnoreExpression [][]string `json:"ignoreExpression" bson:"ignoreexpression" mapstructure:"ignoreExpression,omitempty"`
 
 	// KubernetesSupportEnabled enables kubernetes mode for the enforcer.
@@ -140,13 +146,17 @@ type EnforcerProfile struct {
 	// Select which metadata extractor to use to process new processing units.
 	MetadataExtractor EnforcerProfileMetadataExtractorValue `json:"metadataExtractor" bson:"metadataextractor" mapstructure:"metadataExtractor,omitempty"`
 
-	// PolicySynchronizationInterval configures how often the policy will be resynchronized.
+	// PolicySynchronizationInterval configures how often the policy will be
+	// resynchronized.
 	PolicySynchronizationInterval string `json:"policySynchronizationInterval" bson:"policysynchronizationinterval" mapstructure:"policySynchronizationInterval,omitempty"`
 
-	// ProxyListenAddress is the address the enforcer should use to listen for API calls. It can be a port (example :9443) or socket path (example: unix:/var/run/aporeto.sock)
+	// ProxyListenAddress is the address the enforcer should use to listen for API
+	// calls. It can be a port (example :9443) or socket path
+	// (example: unix:/var/run/aporeto.sock)
 	ProxyListenAddress string `json:"proxyListenAddress" bson:"proxylistenaddress" mapstructure:"proxyListenAddress,omitempty"`
 
-	// ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network receiver starting at the ReceiverQueue
+	// ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network
+	// receiver starting at the ReceiverQueue
 	ReceiverNumberOfQueues int `json:"receiverNumberOfQueues" bson:"receivernumberofqueues" mapstructure:"receiverNumberOfQueues,omitempty"`
 
 	// ReceiverQueue is the base queue number for traffic from the network.
@@ -155,7 +165,8 @@ type EnforcerProfile struct {
 	// ReceiverQueueSize is the queue size of the receiver
 	ReceiverQueueSize int `json:"receiverQueueSize" bson:"receiverqueuesize" mapstructure:"receiverQueueSize,omitempty"`
 
-	// RemoteEnforcerEnabled inidicates whether a single enforcer should be used or a distributed enforcer. True means distributed.
+	// RemoteEnforcerEnabled inidicates whether a single enforcer should be used or a
+	// distributed enforcer. True means distributed.
 	RemoteEnforcerEnabled bool `json:"remoteEnforcerEnabled" bson:"remoteenforcerenabled" mapstructure:"remoteEnforcerEnabled,omitempty"`
 
 	// TargetNetworks is the list of networks that authorization should be applied.
@@ -164,7 +175,8 @@ type EnforcerProfile struct {
 	// TransmitterNumberOfQueues is the number of queues for application traffic.
 	TransmitterNumberOfQueues int `json:"transmitterNumberOfQueues" bson:"transmitternumberofqueues" mapstructure:"transmitterNumberOfQueues,omitempty"`
 
-	// TransmitterQueue is the queue number for traffic from the applications starting at the transmitterQueue
+	// TransmitterQueue is the queue number for traffic from the applications starting
+	// at the transmitterQueue
 	TransmitterQueue int `json:"transmitterQueue" bson:"transmitterqueue" mapstructure:"transmitterQueue,omitempty"`
 
 	// TransmitterQueueSize is the size of the queue for application traffic.
@@ -227,7 +239,7 @@ func NewEnforcerProfile() *EnforcerProfile {
 		PUBookkeepingInterval:         "15m",
 		PUHeartbeatInterval:           "5s",
 		PolicySynchronizationInterval: "10m",
-		ProxyListenAddress:            ":9443",
+		ProxyListenAddress:            "unix:/var/run/aporeto.sock",
 		ReceiverNumberOfQueues:        4,
 		ReceiverQueue:                 0,
 		ReceiverQueueSize:             500,
@@ -273,7 +285,10 @@ func (o *EnforcerProfile) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *EnforcerProfile) Doc() string {
-	return `Allows to create reusable configuration profile for your enforcers. Enforcer Profiles contains various startup information that can (for some) be updated live. Enforcer Profiles are assigned to some Enforcer using a Enforcer Profile Mapping Policy.`
+	return `Allows to create reusable configuration profile for your enforcers. Enforcer
+Profiles contains various startup information that can (for some) be updated
+live. Enforcer Profiles are assigned to some Enforcer using a Enforcer Profile
+Mapping Policy.`
 }
 
 func (o *EnforcerProfile) String() string {
@@ -405,7 +420,7 @@ func (o *EnforcerProfile) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("proxyListenAddress", o.ProxyListenAddress, `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/ ]{1,16}){1,5}/?)$`, false); err != nil {
+	if err := elemental.ValidatePattern("proxyListenAddress", o.ProxyListenAddress, `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/]{1,16}){1,5}/?)$`, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -575,24 +590,27 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 	"AuditProfileSelectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AuditProfileSelectors",
-		Description:    `AuditProfileSelectors is the list of tags (key/value pairs) that define the audit policies that must be implemented by this enforcer. The enforcer will implement all policies that match any of these tags.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "auditProfileSelectors",
-		Stored:         true,
-		SubType:        "audit_profile_selector",
-		Type:           "external",
+		Description: `AuditProfileSelectors is the list of tags (key/value pairs) that define the
+audit policies that must be implemented by this enforcer. The enforcer will
+implement all policies that match any of these tags.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "auditProfileSelectors",
+		Stored:     true,
+		SubType:    "audit_profile_selector",
+		Type:       "external",
 	},
 	"AuditProfiles": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "AuditProfiles",
-		Description:    `AuditProfiles returns the audit rules associated with the enforcer profile. This is a read only attribute when an enforcer profile is resolved for an enforcer.`,
-		Exposed:        true,
-		Name:           "auditProfiles",
-		ReadOnly:       true,
-		SubType:        "audit_profiles",
-		Type:           "external",
+		Description: `AuditProfiles returns the audit rules associated with the enforcer profile. This
+is a read only attribute when an enforcer profile is resolved for an enforcer.`,
+		Exposed:  true,
+		Name:     "auditProfiles",
+		ReadOnly: true,
+		SubType:  "audit_profiles",
+		Type:     "external",
 	},
 	"AuditSocketBufferSize": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -673,36 +691,39 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 	"ExcludedNetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExcludedNetworks",
-		Description:    `ExcludedNetworks is the list of networks that must be excluded for this enforcer.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "excludedNetworks",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "excluded_networks_list",
-		Type:           "external",
+		Description: `ExcludedNetworks is the list of networks that must be excluded for this
+enforcer.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "excludedNetworks",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "excluded_networks_list",
+		Type:       "external",
 	},
 	"HostServices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "HostServices",
-		Description:    `HostServices is a list of services that must be activated by default to all enforcers matching this profile.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "hostServices",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "host_services_list",
-		Type:           "external",
+		Description: `HostServices is a list of services that must be activated by default to all
+enforcers matching this profile.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "hostServices",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "host_services_list",
+		Type:       "external",
 	},
 	"IgnoreExpression": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoreExpression",
-		Description:    `IgnoreExpression allows to set a tag expression that will make Aporeto to ignore docker container started with labels matching the rule.`,
-		Exposed:        true,
-		Name:           "ignoreExpression",
-		Stored:         true,
-		SubType:        "policies_list",
-		Type:           "external",
+		Description: `IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
+docker container started with labels matching the rule.`,
+		Exposed: true,
+		Name:    "ignoreExpression",
+		Stored:  true,
+		SubType: "policies_list",
+		Type:    "external",
 	},
 	"KubernetesSupportEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -793,14 +814,15 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PolicySynchronizationInterval",
 		DefaultValue:   "10m",
-		Description:    `PolicySynchronizationInterval configures how often the policy will be resynchronized.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "policySynchronizationInterval",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
+		Description: `PolicySynchronizationInterval configures how often the policy will be
+resynchronized.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "policySynchronizationInterval",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -815,32 +837,35 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "boolean",
 	},
 	"ProxyListenAddress": elemental.AttributeSpecification{
-		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/ ]{1,16}){1,5}/?)$`,
+		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/]{1,16}){1,5}/?)$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ProxyListenAddress",
-		DefaultValue:   ":9443",
-		Description:    `ProxyListenAddress is the address the enforcer should use to listen for API calls. It can be a port (example :9443) or socket path (example: unix:/var/run/aporeto.sock) `,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "proxyListenAddress",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
+		DefaultValue:   "unix:/var/run/aporeto.sock",
+		Description: `ProxyListenAddress is the address the enforcer should use to listen for API
+calls. It can be a port (example :9443) or socket path
+(example: unix:/var/run/aporeto.sock)`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "proxyListenAddress",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"ReceiverNumberOfQueues": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ReceiverNumberOfQueues",
 		DefaultValue:   4,
-		Description:    `ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network receiver starting at the ReceiverQueue`,
-		Exposed:        true,
-		Filterable:     true,
-		MaxValue:       16,
-		MinValue:       1,
-		Name:           "receiverNumberOfQueues",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "integer",
+		Description: `ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network
+receiver starting at the ReceiverQueue`,
+		Exposed:    true,
+		Filterable: true,
+		MaxValue:   16,
+		MinValue:   1,
+		Name:       "receiverNumberOfQueues",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "integer",
 	},
 	"ReceiverQueue": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -873,13 +898,14 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "RemoteEnforcerEnabled",
 		DefaultValue:   true,
-		Description:    `RemoteEnforcerEnabled inidicates whether a single enforcer should be used or a distributed enforcer. True means distributed.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "remoteEnforcerEnabled",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
+		Description: `RemoteEnforcerEnabled inidicates whether a single enforcer should be used or a
+distributed enforcer. True means distributed.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "remoteEnforcerEnabled",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"TargetNetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -911,15 +937,16 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TransmitterQueue",
 		DefaultValue:   4,
-		Description:    `TransmitterQueue is the queue number for traffic from the applications starting at the transmitterQueue`,
-		Exposed:        true,
-		Filterable:     true,
-		MaxValue:       1000,
-		MinValue:       1,
-		Name:           "transmitterQueue",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "integer",
+		Description: `TransmitterQueue is the queue number for traffic from the applications starting
+at the transmitterQueue`,
+		Exposed:    true,
+		Filterable: true,
+		MaxValue:   1000,
+		MinValue:   1,
+		Name:       "transmitterQueue",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "integer",
 	},
 	"TransmitterQueueSize": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1047,24 +1074,27 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"auditprofileselectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AuditProfileSelectors",
-		Description:    `AuditProfileSelectors is the list of tags (key/value pairs) that define the audit policies that must be implemented by this enforcer. The enforcer will implement all policies that match any of these tags.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "auditProfileSelectors",
-		Stored:         true,
-		SubType:        "audit_profile_selector",
-		Type:           "external",
+		Description: `AuditProfileSelectors is the list of tags (key/value pairs) that define the
+audit policies that must be implemented by this enforcer. The enforcer will
+implement all policies that match any of these tags.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "auditProfileSelectors",
+		Stored:     true,
+		SubType:    "audit_profile_selector",
+		Type:       "external",
 	},
 	"auditprofiles": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "AuditProfiles",
-		Description:    `AuditProfiles returns the audit rules associated with the enforcer profile. This is a read only attribute when an enforcer profile is resolved for an enforcer.`,
-		Exposed:        true,
-		Name:           "auditProfiles",
-		ReadOnly:       true,
-		SubType:        "audit_profiles",
-		Type:           "external",
+		Description: `AuditProfiles returns the audit rules associated with the enforcer profile. This
+is a read only attribute when an enforcer profile is resolved for an enforcer.`,
+		Exposed:  true,
+		Name:     "auditProfiles",
+		ReadOnly: true,
+		SubType:  "audit_profiles",
+		Type:     "external",
 	},
 	"auditsocketbuffersize": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1145,36 +1175,39 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"excludednetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExcludedNetworks",
-		Description:    `ExcludedNetworks is the list of networks that must be excluded for this enforcer.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "excludedNetworks",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "excluded_networks_list",
-		Type:           "external",
+		Description: `ExcludedNetworks is the list of networks that must be excluded for this
+enforcer.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "excludedNetworks",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "excluded_networks_list",
+		Type:       "external",
 	},
 	"hostservices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "HostServices",
-		Description:    `HostServices is a list of services that must be activated by default to all enforcers matching this profile.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "hostServices",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "host_services_list",
-		Type:           "external",
+		Description: `HostServices is a list of services that must be activated by default to all
+enforcers matching this profile.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "hostServices",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "host_services_list",
+		Type:       "external",
 	},
 	"ignoreexpression": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoreExpression",
-		Description:    `IgnoreExpression allows to set a tag expression that will make Aporeto to ignore docker container started with labels matching the rule.`,
-		Exposed:        true,
-		Name:           "ignoreExpression",
-		Stored:         true,
-		SubType:        "policies_list",
-		Type:           "external",
+		Description: `IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
+docker container started with labels matching the rule.`,
+		Exposed: true,
+		Name:    "ignoreExpression",
+		Stored:  true,
+		SubType: "policies_list",
+		Type:    "external",
 	},
 	"kubernetessupportenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1265,14 +1298,15 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		AllowedChoices: []string{},
 		ConvertedName:  "PolicySynchronizationInterval",
 		DefaultValue:   "10m",
-		Description:    `PolicySynchronizationInterval configures how often the policy will be resynchronized.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "policySynchronizationInterval",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
+		Description: `PolicySynchronizationInterval configures how often the policy will be
+resynchronized.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "policySynchronizationInterval",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1287,32 +1321,35 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Type:           "boolean",
 	},
 	"proxylistenaddress": elemental.AttributeSpecification{
-		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/ ]{1,16}){1,5}/?)$`,
+		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/]{1,16}){1,5}/?)$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ProxyListenAddress",
-		DefaultValue:   ":9443",
-		Description:    `ProxyListenAddress is the address the enforcer should use to listen for API calls. It can be a port (example :9443) or socket path (example: unix:/var/run/aporeto.sock) `,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "proxyListenAddress",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
+		DefaultValue:   "unix:/var/run/aporeto.sock",
+		Description: `ProxyListenAddress is the address the enforcer should use to listen for API
+calls. It can be a port (example :9443) or socket path
+(example: unix:/var/run/aporeto.sock)`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "proxyListenAddress",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"receivernumberofqueues": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ReceiverNumberOfQueues",
 		DefaultValue:   4,
-		Description:    `ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network receiver starting at the ReceiverQueue`,
-		Exposed:        true,
-		Filterable:     true,
-		MaxValue:       16,
-		MinValue:       1,
-		Name:           "receiverNumberOfQueues",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "integer",
+		Description: `ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network
+receiver starting at the ReceiverQueue`,
+		Exposed:    true,
+		Filterable: true,
+		MaxValue:   16,
+		MinValue:   1,
+		Name:       "receiverNumberOfQueues",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "integer",
 	},
 	"receiverqueue": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1345,13 +1382,14 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		AllowedChoices: []string{},
 		ConvertedName:  "RemoteEnforcerEnabled",
 		DefaultValue:   true,
-		Description:    `RemoteEnforcerEnabled inidicates whether a single enforcer should be used or a distributed enforcer. True means distributed.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "remoteEnforcerEnabled",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
+		Description: `RemoteEnforcerEnabled inidicates whether a single enforcer should be used or a
+distributed enforcer. True means distributed.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "remoteEnforcerEnabled",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"targetnetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1383,15 +1421,16 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		AllowedChoices: []string{},
 		ConvertedName:  "TransmitterQueue",
 		DefaultValue:   4,
-		Description:    `TransmitterQueue is the queue number for traffic from the applications starting at the transmitterQueue`,
-		Exposed:        true,
-		Filterable:     true,
-		MaxValue:       1000,
-		MinValue:       1,
-		Name:           "transmitterQueue",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "integer",
+		Description: `TransmitterQueue is the queue number for traffic from the applications starting
+at the transmitterQueue`,
+		Exposed:    true,
+		Filterable: true,
+		MaxValue:   1000,
+		MinValue:   1,
+		Name:       "transmitterQueue",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "integer",
 	},
 	"transmitterqueuesize": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

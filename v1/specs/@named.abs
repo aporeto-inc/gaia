@@ -1,13 +1,14 @@
+# Attributes
 attributes:
-- default_order: true
+- name: name
   description: Name is the name of the entity
+  type: string
   exposed: true
+  stored: true
+  required: true
+  default_order: true
   filterable: true
   format: free
   getter: true
-  name: name
-  orderable: true
-  required: true
   setter: true
-  stored: true
-  type: string
+  orderable: true

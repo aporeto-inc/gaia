@@ -92,10 +92,12 @@ type Message struct {
 	// If local is set, the message will only be visible in the current namespace.
 	Local bool `json:"local" bson:"local" mapstructure:"local,omitempty"`
 
-	// If enabled, the message will be sent to the email associated in namespaces annotations.
+	// If enabled, the message will be sent to the email associated in namespaces
+	// annotations.
 	NotifyByEmail bool `json:"notifyByEmail" bson:"-" mapstructure:"notifyByEmail,omitempty"`
 
-	// Validity set using golang time duration, when the message will be automatically deleted.
+	// Validity set using golang time duration, when the message will be automatically
+	// deleted.
 	Validity string `json:"validity" bson:"validity" mapstructure:"validity,omitempty"`
 
 	// Annotation stores additional information about an entity
@@ -179,7 +181,8 @@ func (o *Message) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Message) Doc() string {
-	return `The Message API allows to post public messages that will be visible through all children namespaces`
+	return `The Message API allows to post public messages that will be visible through all
+children namespaces.`
 }
 
 func (o *Message) String() string {
@@ -483,11 +486,12 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NotifyByEmail",
 		CreationOnly:   true,
-		Description:    `If enabled, the message will be sent to the email associated in namespaces annotations.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "notifyByEmail",
-		Type:           "boolean",
+		Description: `If enabled, the message will be sent to the email associated in namespaces
+annotations.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "notifyByEmail",
+		Type:       "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -519,12 +523,13 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
-		Description:    `Validity set using golang time duration, when the message will be automatically deleted.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "validity",
-		Stored:         true,
-		Type:           "string",
+		Description: `Validity set using golang time duration, when the message will be automatically
+deleted.`,
+		Exposed: true,
+		Format:  "free",
+		Name:    "validity",
+		Stored:  true,
+		Type:    "string",
 	},
 }
 
@@ -684,11 +689,12 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NotifyByEmail",
 		CreationOnly:   true,
-		Description:    `If enabled, the message will be sent to the email associated in namespaces annotations.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "notifyByEmail",
-		Type:           "boolean",
+		Description: `If enabled, the message will be sent to the email associated in namespaces
+annotations.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "notifyByEmail",
+		Type:       "boolean",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -720,11 +726,12 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
-		Description:    `Validity set using golang time duration, when the message will be automatically deleted.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "validity",
-		Stored:         true,
-		Type:           "string",
+		Description: `Validity set using golang time duration, when the message will be automatically
+deleted.`,
+		Exposed: true,
+		Format:  "free",
+		Name:    "validity",
+		Stored:  true,
+		Type:    "string",
 	},
 }

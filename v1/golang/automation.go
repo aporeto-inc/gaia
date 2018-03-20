@@ -86,7 +86,8 @@ type Automation struct {
 	// Action contains the code that will be executed if the condition is met.
 	Actions []string `json:"actions" bson:"actions" mapstructure:"actions,omitempty"`
 
-	// Condition contains the code that will be executed to decide if any action should be taken.
+	// Condition contains the code that will be executed to decide if any action should
+	// be taken.
 	Condition string `json:"condition" bson:"condition" mapstructure:"condition,omitempty"`
 
 	// Entitlements declares which operations are allowed on which identities.
@@ -95,7 +96,8 @@ type Automation struct {
 	// Error contains the eventual error of the last run.
 	Errors []string `json:"errors" bson:"errors" mapstructure:"errors,omitempty"`
 
-	// Events contains the identity and operation an event must have to trigger the automation
+	// Events contains the identity and operation an event must have to trigger the
+	// automation
 	Events map[string][]elemental.EventType `json:"events" bson:"events" mapstructure:"events,omitempty"`
 
 	// LastExecTime holds the last successful execution tine.
@@ -104,13 +106,15 @@ type Automation struct {
 	// Parameters are passed to the functions.
 	Parameters map[string]interface{} `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
-	// Schedule tells when to run the automation. Must be a valid CRON format. This only applies if the trigger is set to Time.
+	// Schedule tells when to run the automation. Must be a valid CRON format. This
+	// only applies if the trigger is set to Time.
 	Schedule string `json:"schedule" bson:"schedule" mapstructure:"schedule,omitempty"`
 
 	// Stdout contains the last run standard output.
 	Stdout string `json:"stdout" bson:"stdout" mapstructure:"stdout,omitempty"`
 
-	// Token holds the unique access token used as a password to trigger the authentication. It will be visible only after creation.
+	// Token holds the unique access token used as a password to trigger the
+	// authentication. It will be visible only after creation.
 	Token string `json:"token" bson:"token" mapstructure:"token,omitempty"`
 
 	// If set to true a new token will be issued, and the previous one invalidated.
@@ -202,6 +206,11 @@ func (o *Automation) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// Doc returns the documentation for the object
+func (o *Automation) Doc() string {
+	return `An automation needs documentation.`
 }
 
 func (o *Automation) String() string {
@@ -421,13 +430,14 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 	"Condition": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Condition",
-		Description:    `Condition contains the code that will be executed to decide if any action should be taken.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "condition",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Condition contains the code that will be executed to decide if any action should
+be taken.`,
+		Exposed:  true,
+		Format:   "free",
+		Name:     "condition",
+		Required: true,
+		Stored:   true,
+		Type:     "string",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -493,12 +503,13 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 	"Events": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Events",
-		Description:    `Events contains the identity and operation an event must have to trigger the automation`,
-		Exposed:        true,
-		Name:           "events",
-		Stored:         true,
-		SubType:        "automation_events",
-		Type:           "external",
+		Description: `Events contains the identity and operation an event must have to trigger the
+automation`,
+		Exposed: true,
+		Name:    "events",
+		Stored:  true,
+		SubType: "automation_events",
+		Type:    "external",
 	},
 	"LastExecTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -586,12 +597,13 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 	"Schedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Schedule",
-		Description:    `Schedule tells when to run the automation. Must be a valid CRON format. This only applies if the trigger is set to Time.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "schedule",
-		Stored:         true,
-		Type:           "string",
+		Description: `Schedule tells when to run the automation. Must be a valid CRON format. This
+only applies if the trigger is set to Time.`,
+		Exposed: true,
+		Format:  "free",
+		Name:    "schedule",
+		Stored:  true,
+		Type:    "string",
 	},
 	"Stdout": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -610,12 +622,13 @@ var AutomationAttributesMap = map[string]elemental.AttributeSpecification{
 		Autogenerated:  true,
 		ConvertedName:  "Token",
 		CreationOnly:   true,
-		Description:    `Token holds the unique access token used as a password to trigger the authentication. It will be visible only after creation.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "token",
-		Stored:         true,
-		Type:           "string",
+		Description: `Token holds the unique access token used as a password to trigger the
+authentication. It will be visible only after creation.`,
+		Exposed: true,
+		Format:  "free",
+		Name:    "token",
+		Stored:  true,
+		Type:    "string",
 	},
 	"TokenRenew": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -709,13 +722,14 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"condition": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Condition",
-		Description:    `Condition contains the code that will be executed to decide if any action should be taken.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "condition",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Condition contains the code that will be executed to decide if any action should
+be taken.`,
+		Exposed:  true,
+		Format:   "free",
+		Name:     "condition",
+		Required: true,
+		Stored:   true,
+		Type:     "string",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -781,12 +795,13 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"events": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Events",
-		Description:    `Events contains the identity and operation an event must have to trigger the automation`,
-		Exposed:        true,
-		Name:           "events",
-		Stored:         true,
-		SubType:        "automation_events",
-		Type:           "external",
+		Description: `Events contains the identity and operation an event must have to trigger the
+automation`,
+		Exposed: true,
+		Name:    "events",
+		Stored:  true,
+		SubType: "automation_events",
+		Type:    "external",
 	},
 	"lastexectime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -874,12 +889,13 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"schedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Schedule",
-		Description:    `Schedule tells when to run the automation. Must be a valid CRON format. This only applies if the trigger is set to Time.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "schedule",
-		Stored:         true,
-		Type:           "string",
+		Description: `Schedule tells when to run the automation. Must be a valid CRON format. This
+only applies if the trigger is set to Time.`,
+		Exposed: true,
+		Format:  "free",
+		Name:    "schedule",
+		Stored:  true,
+		Type:    "string",
 	},
 	"stdout": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -898,12 +914,13 @@ var AutomationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Autogenerated:  true,
 		ConvertedName:  "Token",
 		CreationOnly:   true,
-		Description:    `Token holds the unique access token used as a password to trigger the authentication. It will be visible only after creation.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "token",
-		Stored:         true,
-		Type:           "string",
+		Description: `Token holds the unique access token used as a password to trigger the
+authentication. It will be visible only after creation.`,
+		Exposed: true,
+		Format:  "free",
+		Name:    "token",
+		Stored:  true,
+		Type:    "string",
 	},
 	"tokenrenew": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

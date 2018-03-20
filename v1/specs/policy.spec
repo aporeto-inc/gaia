@@ -1,49 +1,84 @@
+# Model
+model:
+  rest_name: policy
+  resource_name: policies
+  entity_name: Policy
+  package: squall
+  description: '[nodoc]'
+  get: true
+  delete: true
+  extends:
+  - '@base'
+  - '@described'
+  - '@disabled'
+  - '@identifiable-pk-stored'
+  - '@metadatable'
+  - '@named'
+  - '@propagated'
+  - '@schedulable'
+
+# Attributes
 attributes:
-- description: Action defines set of actions that must be enforced when a dependency
+- name: action
+  description: Action defines set of actions that must be enforced when a dependency
     is met.
+  type: external
   exposed: true
-  name: action
-  required: true
-  stored: true
   subtype: actions_list
-  type: external
-- description: This is a set of all object tags for matching in the DB
-  name: allObjectTags
-  required: true
   stored: true
-  subtype: tags_list
-  type: external
-- description: This is a set of all subject tags for matching in the DB
-  name: allSubjectTags
   required: true
-  stored: true
-  subtype: tags_list
+
+- name: allObjectTags
+  description: This is a set of all object tags for matching in the DB
   type: external
-- description: Object represents set of entities that another entity depends on. As
-    subjects, objects are identified as logical operations on tags when a policy is
-    defined.
+  subtype: tags_list
+  stored: true
+  required: true
+
+- name: allSubjectTags
+  description: This is a set of all subject tags for matching in the DB
+  type: external
+  subtype: tags_list
+  stored: true
+  required: true
+
+- name: object
+  description: |-
+    Object represents set of entities that another entity depends on. As subjects,
+    objects are identified as logical operations on tags when a policy is defined.
+  type: external
   exposed: true
-  name: object
-  stored: true
   subtype: policies_list
-  type: external
-- description: Relation describes the required operation to be performed between subjects
-    and objects
-  exposed: true
-  name: relation
   stored: true
+
+- name: relation
+  description: |-
+    Relation describes the required operation to be performed between subjects and
+    objects
+  type: external
+  exposed: true
   subtype: relations_list
-  type: external
-- description: Subject represent sets of entities that will have a dependency other
-    entities. Subjects are defined as logical operations on tags. Logical operations
-    can includes AND/OR
-  exposed: true
-  name: subject
-  required: true
   stored: true
-  subtype: policies_list
+
+- name: subject
+  description: |-
+    Subject represent sets of entities that will have a dependency other entities.
+    Subjects are defined as logical operations on tags. Logical operations can
+    includes AND/OR
   type: external
-- allowed_choices:
+  exposed: true
+  subtype: policies_list
+  stored: true
+  required: true
+
+- name: type
+  description: Type of the policy
+  type: enum
+  exposed: true
+  stored: true
+  required: true
+  creation_only: true
+  allowed_choices:
   - APIAuthorization
   - EnforcerProfile
   - File
@@ -54,29 +89,5 @@ attributes:
   - Quota
   - Syscall
   - TokenScope
-  creation_only: true
-  description: Type of the policy
-  exposed: true
   filterable: true
-  name: type
   primary_key: true
-  required: true
-  stored: true
-  type: enum
-model:
-  delete: true
-  get: true
-  description: '[nodoc]'
-  entity_name: Policy
-  extends:
-  - '@base'
-  - '@described'
-  - '@disabled'
-  - '@identifiable-pk-stored'
-  - '@metadatable'
-  - '@named'
-  - '@propagated'
-  - '@schedulable'
-  package: squall
-  resource_name: policies
-  rest_name: policy

@@ -77,25 +77,27 @@ type PolicyRule struct {
 	// EnforcerProfiles provides the information about the server profile.
 	EnforcerProfiles EnforcerProfilesList `json:"enforcerProfiles" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
 
-	// Policy target networks
+	// Policy target networks.
 	ExternalServices ExternalServicesList `json:"externalServices" bson:"-" mapstructure:"externalServices,omitempty"`
 
-	// Policy target networks
+	// Policy target networks.
 	FilePaths FilePathsList `json:"filePaths" bson:"-" mapstructure:"filePaths,omitempty"`
 
 	// IsolationProfiles are the isolation profiles of the rule.
 	IsolationProfiles IsolationProfilesList `json:"isolationProfiles" bson:"-" mapstructure:"isolationProfiles,omitempty"`
 
-	// Policy target networks
+	// Policy target networks.
 	Namespaces NamespacesList `json:"namespaces" bson:"-" mapstructure:"namespaces,omitempty"`
 
-	// List of external services the policy mandate to pass through before reaching the destination.
+	// List of external services the policy mandate to pass through before reaching the
+	// destination.
 	PassthroughExternalServices ExternalServicesList `json:"passthroughExternalServices" bson:"-" mapstructure:"passthroughExternalServices,omitempty"`
 
 	// Propagated indicates if the policy is propagated.
 	Propagated bool `json:"propagated" bson:"-" mapstructure:"propagated,omitempty"`
 
-	// Relation describes the required operation to be performed between subjects and objects
+	// Relation describes the required operation to be performed between subjects and
+	// objects
 	Relation []string `json:"relation" bson:"-" mapstructure:"relation,omitempty"`
 
 	// Policy target tags
@@ -161,7 +163,8 @@ func (o *PolicyRule) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *PolicyRule) Doc() string {
-	return `PolicyRule is an internal policy resolution API. Services can use this API to retrieve a policy resolution. `
+	return `PolicyRule is an internal policy resolution API. Services can use this API to
+retrieve a policy resolution.`
 }
 
 func (o *PolicyRule) String() string {
@@ -269,7 +272,7 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 	"ExternalServices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExternalServices",
-		Description:    `Policy target networks `,
+		Description:    `Policy target networks.`,
 		Exposed:        true,
 		Name:           "externalServices",
 		SubType:        "network_entities",
@@ -278,7 +281,7 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 	"FilePaths": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FilePaths",
-		Description:    `Policy target networks `,
+		Description:    `Policy target networks.`,
 		Exposed:        true,
 		Name:           "filePaths",
 		SubType:        "file_entities",
@@ -312,7 +315,7 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 	"Namespaces": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespaces",
-		Description:    `Policy target networks `,
+		Description:    `Policy target networks.`,
 		Exposed:        true,
 		Name:           "namespaces",
 		SubType:        "namespace_entities",
@@ -321,11 +324,12 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 	"PassthroughExternalServices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PassthroughExternalServices",
-		Description:    `List of external services the policy mandate to pass through before reaching the destination.`,
-		Exposed:        true,
-		Name:           "passthroughExternalServices",
-		SubType:        "network_entities",
-		Type:           "external",
+		Description: `List of external services the policy mandate to pass through before reaching the
+destination.`,
+		Exposed: true,
+		Name:    "passthroughExternalServices",
+		SubType: "network_entities",
+		Type:    "external",
 	},
 	"Propagated": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -338,11 +342,12 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 	"Relation": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Relation",
-		Description:    `Relation describes the required operation to be performed between subjects and objects`,
-		Exposed:        true,
-		Name:           "relation",
-		SubType:        "relations_list",
-		Type:           "external",
+		Description: `Relation describes the required operation to be performed between subjects and
+objects`,
+		Exposed: true,
+		Name:    "relation",
+		SubType: "relations_list",
+		Type:    "external",
 	},
 	"TagClauses": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -401,7 +406,7 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"externalservices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExternalServices",
-		Description:    `Policy target networks `,
+		Description:    `Policy target networks.`,
 		Exposed:        true,
 		Name:           "externalServices",
 		SubType:        "network_entities",
@@ -410,7 +415,7 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"filepaths": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FilePaths",
-		Description:    `Policy target networks `,
+		Description:    `Policy target networks.`,
 		Exposed:        true,
 		Name:           "filePaths",
 		SubType:        "file_entities",
@@ -444,7 +449,7 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"namespaces": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespaces",
-		Description:    `Policy target networks `,
+		Description:    `Policy target networks.`,
 		Exposed:        true,
 		Name:           "namespaces",
 		SubType:        "namespace_entities",
@@ -453,11 +458,12 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"passthroughexternalservices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PassthroughExternalServices",
-		Description:    `List of external services the policy mandate to pass through before reaching the destination.`,
-		Exposed:        true,
-		Name:           "passthroughExternalServices",
-		SubType:        "network_entities",
-		Type:           "external",
+		Description: `List of external services the policy mandate to pass through before reaching the
+destination.`,
+		Exposed: true,
+		Name:    "passthroughExternalServices",
+		SubType: "network_entities",
+		Type:    "external",
 	},
 	"propagated": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -470,11 +476,12 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"relation": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Relation",
-		Description:    `Relation describes the required operation to be performed between subjects and objects`,
-		Exposed:        true,
-		Name:           "relation",
-		SubType:        "relations_list",
-		Type:           "external",
+		Description: `Relation describes the required operation to be performed between subjects and
+objects`,
+		Exposed: true,
+		Name:    "relation",
+		SubType: "relations_list",
+		Type:    "external",
 	},
 	"tagclauses": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

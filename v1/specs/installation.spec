@@ -1,26 +1,30 @@
-attributes:
-- description: ID represents the identifier of the installation.
-  exposed: true
-  filterable: true
-  format: free
-  name: ID
-  orderable: true
-  stored: true
-  type: string
-- description: AccountName that should be installed.
-  exposed: true
-  filterable: true
-  format: free
-  name: accountName
-  orderable: true
-  stored: true
-  type: string
+# Model
 model:
-  delete: true
-  get: true
-  update: true
-  description: Installation represents an installation for a given account
+  rest_name: installation
+  resource_name: installations
   entity_name: Installation
   package: highwind
-  resource_name: installations
-  rest_name: installation
+  description: Installation represents an installation for a given account
+  get: true
+  update: true
+  delete: true
+
+# Attributes
+attributes:
+- name: ID
+  description: ID represents the identifier of the installation.
+  type: string
+  exposed: true
+  stored: true
+  filterable: true
+  format: free
+  orderable: true
+
+- name: accountName
+  description: AccountName that should be installed.
+  type: string
+  exposed: true
+  stored: true
+  filterable: true
+  format: free
+  orderable: true

@@ -1,81 +1,19 @@
-attributes:
-- description: AllowsTraffic if true, the flow will be accepted. Otherwise other actions
-    like "logs" can still be done, but the traffic will be rejected.
-  exposed: true
-  filterable: true
-  name: allowsTraffic
-  orderable: true
-  type: boolean
-- description: DestinationPorts contains the list of allowed ports and ranges.
-  exposed: true
-  filterable: true
-  name: destinationPorts
-  orderable: true
-  subtype: ports_list
-  type: external
-- description: EncryptionEnabled defines if the flow has to be encrypted.
-  exposed: true
-  filterable: true
-  name: encryptionEnabled
-  orderable: true
-  type: boolean
-- description: LogsEnabled defines if the flow has to be logged.
-  exposed: true
-  filterable: true
-  name: logsEnabled
-  orderable: true
-  type: boolean
-- description: Object of the policy.
-  exposed: true
-  name: object
-  orderable: true
-  subtype: policies_list
-  type: external
-- description: If set to true, the flow will be in observation mode.
-  exposed: true
-  filterable: true
-  name: observationEnabled
-  orderable: true
-  type: boolean
-- allowed_choices:
-  - Apply
-  - Continue
-  default_value: Continue
-  description: If observationEnabled is set to true, this will be the final action
-    taken on the packets.
-  exposed: true
-  filterable: true
-  name: observedTrafficAction
-  orderable: true
-  type: enum
-- description: List of tags expressions to match the list of entity to pass the flow
-    through.
-  exposed: true
-  name: passthrough
-  subtype: policies_list
-  type: external
-- description: Subject of the policy.
-  exposed: true
-  name: subject
-  orderable: true
-  subtype: policies_list
-  type: external
-children:
-- rest_name: externalservice
-  get: true
-- rest_name: processingunit
-  get: true
+# Model
 model:
+  rest_name: networkaccesspolicy
+  resource_name: networkaccesspolicies
+  entity_name: NetworkAccessPolicy
+  package: squall
+  description: |-
+    Allows to define networking policies to allow or prevent processing units
+    identitied by their tags to talk to other processing units or external services
+    (also identified by their tags).
   aliases:
   - netpol
   - netpols
-  delete: true
   get: true
   update: true
-  description: Allows to define networking policies to allow or prevent processing
-    units identitied by their tags to talk to other processing units or external services
-    (also identified by their tags).
-  entity_name: NetworkAccessPolicy
+  delete: true
   extends:
   - '@base'
   - '@described'
@@ -85,6 +23,85 @@ model:
   - '@named'
   - '@propagated'
   - '@schedulable'
-  package: squall
-  resource_name: networkaccesspolicies
-  rest_name: networkaccesspolicy
+
+# Attributes
+attributes:
+- name: allowsTraffic
+  description: |-
+    AllowsTraffic if true, the flow will be accepted. Otherwise other actions like
+    "logs" can still be done, but the traffic will be rejected.
+  type: boolean
+  exposed: true
+  filterable: true
+  orderable: true
+
+- name: destinationPorts
+  description: DestinationPorts contains the list of allowed ports and ranges.
+  type: external
+  exposed: true
+  subtype: ports_list
+  filterable: true
+  orderable: true
+
+- name: encryptionEnabled
+  description: EncryptionEnabled defines if the flow has to be encrypted.
+  type: boolean
+  exposed: true
+  filterable: true
+  orderable: true
+
+- name: logsEnabled
+  description: LogsEnabled defines if the flow has to be logged.
+  type: boolean
+  exposed: true
+  filterable: true
+  orderable: true
+
+- name: object
+  description: Object of the policy.
+  type: external
+  exposed: true
+  subtype: policies_list
+  orderable: true
+
+- name: observationEnabled
+  description: If set to true, the flow will be in observation mode.
+  type: boolean
+  exposed: true
+  filterable: true
+  orderable: true
+
+- name: observedTrafficAction
+  description: |-
+    If observationEnabled is set to true, this will be the final action taken on the
+    packets.
+  type: enum
+  exposed: true
+  allowed_choices:
+  - Apply
+  - Continue
+  default_value: Continue
+  filterable: true
+  orderable: true
+
+- name: passthrough
+  description: List of tags expressions to match the list of entity to pass the flow
+    through.
+  type: external
+  exposed: true
+  subtype: policies_list
+
+- name: subject
+  description: Subject of the policy.
+  type: external
+  exposed: true
+  subtype: policies_list
+  orderable: true
+
+# Relations
+relations:
+- rest_name: externalservice
+  get: true
+
+- rest_name: processingunit
+  get: true

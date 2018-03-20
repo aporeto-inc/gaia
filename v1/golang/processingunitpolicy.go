@@ -95,10 +95,12 @@ type ProcessingUnitPolicy struct {
 	// Action determines the action to take while enforcing the isolation profile.
 	Action ProcessingUnitPolicyActionValue `json:"action" bson:"action" mapstructure:"action,omitempty"`
 
-	// IsolationProfileSelector are the profiles that must be applied when this policy matches. Only applies to Enforce and LogCompliance actions.
+	// IsolationProfileSelector are the profiles that must be applied when this policy
+	// matches. Only applies to Enforce and LogCompliance actions.
 	IsolationProfileSelector [][]string `json:"isolationProfileSelector" bson:"isolationprofileselector" mapstructure:"isolationProfileSelector,omitempty"`
 
-	// Subject defines the tag selectors that identitfy the processing units to which this policy applies.
+	// Subject defines the tag selectors that identitfy the processing units to which
+	// this policy applies.
 	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
 	// Annotation stores additional information about an entity
@@ -131,7 +133,8 @@ type ProcessingUnitPolicy struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity
@@ -140,13 +143,16 @@ type ProcessingUnitPolicy struct {
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.
+	// If set to true while the policy is propagating, it won't be visible to children
+	// namespace, but still used for policy resolution.
 	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
 
-	// ActiveDuration defines for how long the policy will be active according to the activeSchedule.
+	// ActiveDuration defines for how long the policy will be active according to the
+	// activeSchedule.
 	ActiveDuration string `json:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
 
-	// ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.
+	// ActiveSchedule defines when the policy should be active using the cron notation.
+	// The policy will be active for the given activeDuration.
 	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
@@ -451,26 +457,28 @@ var ProcessingUnitPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description:    `ActiveDuration defines for how long the policy will be active according to the activeSchedule.`,
-		Exposed:        true,
-		Format:         "free",
-		Getter:         true,
-		Name:           "activeDuration",
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
+		Description: `ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.`,
+		Exposed: true,
+		Format:  "free",
+		Getter:  true,
+		Name:    "activeDuration",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
 	},
 	"ActiveSchedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description:    `ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "activeSchedule",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "cron_expression",
-		Type:           "external",
+		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeSchedule",
+		Setter:  true,
+		Stored:  true,
+		SubType: "cron_expression",
+		Type:    "external",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -538,28 +546,30 @@ var ProcessingUnitPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 	"IsolationProfileSelector": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IsolationProfileSelector",
-		Description:    `IsolationProfileSelector are the profiles that must be applied when this policy matches. Only applies to Enforce and LogCompliance actions.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "isolationProfileSelector",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "policies_list",
-		Type:           "external",
+		Description: `IsolationProfileSelector are the profiles that must be applied when this policy
+matches. Only applies to Enforce and LogCompliance actions.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "isolationProfileSelector",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "policies_list",
+		Type:       "external",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -627,15 +637,16 @@ var ProcessingUnitPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 	"PropagationHidden": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PropagationHidden",
-		Description:    `If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "propagationHidden",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
+		Description: `If set to true while the policy is propagating, it won't be visible to children
+namespace, but still used for policy resolution.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "propagationHidden",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -652,14 +663,15 @@ var ProcessingUnitPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject defines the tag selectors that identitfy the processing units to which this policy applies.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "subject",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "policies_list",
-		Type:           "external",
+		Description: `Subject defines the tag selectors that identitfy the processing units to which
+this policy applies.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "subject",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "policies_list",
+		Type:       "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -708,26 +720,28 @@ var ProcessingUnitPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveDuration",
-		Description:    `ActiveDuration defines for how long the policy will be active according to the activeSchedule.`,
-		Exposed:        true,
-		Format:         "free",
-		Getter:         true,
-		Name:           "activeDuration",
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
+		Description: `ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.`,
+		Exposed: true,
+		Format:  "free",
+		Getter:  true,
+		Name:    "activeDuration",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
 	},
 	"activeschedule": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ActiveSchedule",
-		Description:    `ActiveSchedule defines when the policy should be active using the cron notation. The policy will be active for the given activeDuration.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "activeSchedule",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "cron_expression",
-		Type:           "external",
+		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeSchedule",
+		Setter:  true,
+		Stored:  true,
+		SubType: "cron_expression",
+		Type:    "external",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -795,28 +809,30 @@ var ProcessingUnitPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 	"isolationprofileselector": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IsolationProfileSelector",
-		Description:    `IsolationProfileSelector are the profiles that must be applied when this policy matches. Only applies to Enforce and LogCompliance actions.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "isolationProfileSelector",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "policies_list",
-		Type:           "external",
+		Description: `IsolationProfileSelector are the profiles that must be applied when this policy
+matches. Only applies to Enforce and LogCompliance actions.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "isolationProfileSelector",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "policies_list",
+		Type:       "external",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -884,15 +900,16 @@ var ProcessingUnitPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 	"propagationhidden": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PropagationHidden",
-		Description:    `If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "propagationHidden",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
+		Description: `If set to true while the policy is propagating, it won't be visible to children
+namespace, but still used for policy resolution.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "propagationHidden",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -909,14 +926,15 @@ var ProcessingUnitPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject defines the tag selectors that identitfy the processing units to which this policy applies.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "subject",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "policies_list",
-		Type:           "external",
+		Description: `Subject defines the tag selectors that identitfy the processing units to which
+this policy applies.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "subject",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "policies_list",
+		Type:       "external",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

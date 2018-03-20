@@ -1,17 +1,21 @@
-attributes:
-- creation_only: true
-  description: Represent an jaeger batch
-  exposed: true
-  name: batch
-  stored: true
-  subtype: jaeger_batch
-  type: external
+# Model
 model:
-  aliases:
-  - sp
-  description: A jaegerbatch is a batch of jaeger spans. This is used by external
-    service to post jaeger span in our private jaeger services
+  rest_name: jaegerbatch
+  resource_name: jaegerbatchs
   entity_name: Jaegerbatch
   package: meister
-  resource_name: jaegerbatchs
-  rest_name: jaegerbatch
+  description: |-
+    A jaegerbatch is a batch of jaeger spans. This is used by external service to
+    post jaeger span in our private jaeger services
+  aliases:
+  - sp
+
+# Attributes
+attributes:
+- name: batch
+  description: Represent an jaeger batch
+  type: external
+  exposed: true
+  subtype: jaeger_batch
+  stored: true
+  creation_only: true

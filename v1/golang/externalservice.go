@@ -84,16 +84,19 @@ func (o ExternalServicesList) Version() int {
 
 // ExternalService represents the model of a externalservice
 type ExternalService struct {
-	// LoadbalancerAddresses represents the list of adresses of the external services of type LoadBalancer.
+	// LoadbalancerAddresses represents the list of adresses of the external services
+	// of type LoadBalancer.
 	LoadbalancerAddresses []string `json:"loadbalancerAddresses" bson:"loadbalanceraddresses" mapstructure:"loadbalancerAddresses,omitempty"`
 
-	// LoadbalancerPortsMapping is the list of ports mapped by an extenral service of type load balancer.
+	// LoadbalancerPortsMapping is the list of ports mapped by an extenral service of
+	// type load balancer.
 	LoadbalancerPortsMapping []*types.PortMapping `json:"loadbalancerPortsMapping" bson:"loadbalancerportsmapping" mapstructure:"loadbalancerPortsMapping,omitempty"`
 
 	// Network refers to either CIDR or domain name
 	Network string `json:"network" bson:"network" mapstructure:"network,omitempty"`
 
-	// Port refers to network port which could be a single number or 100:2000 to represent a range of ports
+	// Port refers to network port which could be a single number or 100:2000 to
+	// represent a range of ports
 	Port string `json:"port" bson:"port" mapstructure:"port,omitempty"`
 
 	// Protocol refers to network protocol like TCP/UDP or the number of the protocol.
@@ -132,7 +135,8 @@ type ExternalService struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity
@@ -193,7 +197,12 @@ func (o *ExternalService) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *ExternalService) Doc() string {
-	return `An External Service represents a random network or ip that is not managed by the system. They can be used in Network Access Policies in order to allow traffic from or to the declared network or IP, using the provided protocol and port or ports range. If you want to describe the Internet (ie. anywhere), use 0.0.0.0/0 as address, and 1-65000 for the ports. You will need to use the External Services tags to set some policies.`
+	return `An External Service represents a random network or ip that is not managed by the
+system. They can be used in Network Access Policies in order to allow traffic
+from or to the declared network or IP, using the provided protocol and port or
+ports range. If you want to describe the Internet (ie. anywhere), use 0.0.0.0/0
+as address, and 1-65000 for the ports. You will need to use the External
+Services tags to set some policies.`
 }
 
 func (o *ExternalService) String() string {
@@ -466,36 +475,39 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"LoadbalancerAddresses": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LoadbalancerAddresses",
-		Description:    `LoadbalancerAddresses represents the list of adresses of the external services of type LoadBalancer.`,
-		Exposed:        true,
-		Name:           "loadbalancerAddresses",
-		Stored:         true,
-		SubType:        "addresses_list",
-		Type:           "external",
+		Description: `LoadbalancerAddresses represents the list of adresses of the external services
+of type LoadBalancer.`,
+		Exposed: true,
+		Name:    "loadbalancerAddresses",
+		Stored:  true,
+		SubType: "addresses_list",
+		Type:    "external",
 	},
 	"LoadbalancerPortsMapping": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LoadbalancerPortsMapping",
-		Description:    `LoadbalancerPortsMapping is the list of ports mapped by an extenral service of type load balancer. `,
-		Exposed:        true,
-		Name:           "loadbalancerPortsMapping",
-		Stored:         true,
-		SubType:        "portmapping_list",
-		Type:           "external",
+		Description: `LoadbalancerPortsMapping is the list of ports mapped by an extenral service of
+type load balancer.`,
+		Exposed: true,
+		Name:    "loadbalancerPortsMapping",
+		Stored:  true,
+		SubType: "portmapping_list",
+		Type:    "external",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -564,12 +576,13 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Port",
 		DefaultValue:   "1:65535",
-		Description:    `Port refers to network port which could be a single number or 100:2000 to represent a range of ports`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "port",
-		Stored:         true,
-		Type:           "string",
+		Description: `Port refers to network port which could be a single number or 100:2000 to
+represent a range of ports`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "port",
+		Stored:     true,
+		Type:       "string",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -704,36 +717,39 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"loadbalanceraddresses": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LoadbalancerAddresses",
-		Description:    `LoadbalancerAddresses represents the list of adresses of the external services of type LoadBalancer.`,
-		Exposed:        true,
-		Name:           "loadbalancerAddresses",
-		Stored:         true,
-		SubType:        "addresses_list",
-		Type:           "external",
+		Description: `LoadbalancerAddresses represents the list of adresses of the external services
+of type LoadBalancer.`,
+		Exposed: true,
+		Name:    "loadbalancerAddresses",
+		Stored:  true,
+		SubType: "addresses_list",
+		Type:    "external",
 	},
 	"loadbalancerportsmapping": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LoadbalancerPortsMapping",
-		Description:    `LoadbalancerPortsMapping is the list of ports mapped by an extenral service of type load balancer. `,
-		Exposed:        true,
-		Name:           "loadbalancerPortsMapping",
-		Stored:         true,
-		SubType:        "portmapping_list",
-		Type:           "external",
+		Description: `LoadbalancerPortsMapping is the list of ports mapped by an extenral service of
+type load balancer.`,
+		Exposed: true,
+		Name:    "loadbalancerPortsMapping",
+		Stored:  true,
+		SubType: "portmapping_list",
+		Type:    "external",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -802,12 +818,13 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		AllowedChoices: []string{},
 		ConvertedName:  "Port",
 		DefaultValue:   "1:65535",
-		Description:    `Port refers to network port which could be a single number or 100:2000 to represent a range of ports`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "port",
-		Stored:         true,
-		Type:           "string",
+		Description: `Port refers to network port which could be a single number or 100:2000 to
+represent a range of ports`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "port",
+		Stored:     true,
+		Type:       "string",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

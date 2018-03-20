@@ -96,7 +96,9 @@ type Account struct {
 	// LDAPBindPassword holds the password to the LDAPBindDN.
 	LDAPBindPassword string `json:"LDAPBindPassword" bson:"ldapbindpassword" mapstructure:"LDAPBindPassword,omitempty"`
 
-	// LDAPCertificateAuthority contains the optional certificate authority that will be used to connect to the LDAP server. It is not needed if the TLS certificate of the LDAP is issued from a public truster CA.
+	// LDAPCertificateAuthority contains the optional certificate author ity that will
+	// be used to connect to the LDAP server. It is not needed if the TLS certificate
+	// of the LDAP is issued from a public truster CA.
 	LDAPCertificateAuthority string `json:"LDAPCertificateAuthority" bson:"ldapcertificateauthority" mapstructure:"LDAPCertificateAuthority,omitempty"`
 
 	// LDAPEnabled triggers if the account uses it's own LDAP for authentication.
@@ -223,7 +225,8 @@ func (o *Account) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Account) Doc() string {
-	return `Manage your Account.`
+	return `This api allows to view and manage basic information about your account like
+your name, password, enable 2 factor authentication.`
 }
 
 func (o *Account) String() string {
@@ -346,7 +349,7 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 	"LDAPBindPassword": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LDAPBindPassword",
-		Description:    `LDAPBindPassword holds the password to the LDAPBindDN. `,
+		Description:    `LDAPBindPassword holds the password to the LDAPBindDN.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -358,14 +361,16 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 	"LDAPCertificateAuthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LDAPCertificateAuthority",
-		Description:    `LDAPCertificateAuthority contains the optional certificate authority that will be used to connect to the LDAP server. It is not needed if the TLS certificate of the LDAP is issued from a public truster CA.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "LDAPCertificateAuthority",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
+		Description: `LDAPCertificateAuthority contains the optional certificate author ity that will
+be used to connect to the LDAP server. It is not needed if the TLS certificate
+of the LDAP is issued from a public truster CA.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "LDAPCertificateAuthority",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"LDAPEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -691,7 +696,7 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"ldapbindpassword": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LDAPBindPassword",
-		Description:    `LDAPBindPassword holds the password to the LDAPBindDN. `,
+		Description:    `LDAPBindPassword holds the password to the LDAPBindDN.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -703,14 +708,16 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"ldapcertificateauthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LDAPCertificateAuthority",
-		Description:    `LDAPCertificateAuthority contains the optional certificate authority that will be used to connect to the LDAP server. It is not needed if the TLS certificate of the LDAP is issued from a public truster CA.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "LDAPCertificateAuthority",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
+		Description: `LDAPCertificateAuthority contains the optional certificate author ity that will
+be used to connect to the LDAP server. It is not needed if the TLS certificate
+of the LDAP is issued from a public truster CA.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "LDAPCertificateAuthority",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"ldapenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

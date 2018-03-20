@@ -115,7 +115,8 @@ func (o *Jaegerbatch) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Jaegerbatch) Doc() string {
-	return `A jaegerbatch is a batch of jaeger spans. This is used by external service to post jaeger span in our private jaeger services`
+	return `A jaegerbatch is a batch of jaeger spans. This is used by external service to
+post jaeger span in our private jaeger services`
 }
 
 func (o *Jaegerbatch) String() string {

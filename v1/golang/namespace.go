@@ -73,7 +73,8 @@ type Namespace struct {
 	// LocalCA holds the eventual certificate authority used by this namespace.
 	LocalCA string `json:"localCA" bson:"localca" mapstructure:"localCA,omitempty"`
 
-	// LocalCAEnabled defines if the namespace should use a local Certificate Authority. Switching it off and on again will regenerate a new CA.
+	// LocalCAEnabled defines if the namespace should use a local Certificate
+	// Authority. Switching it off and on again will regenerate a new CA.
 	LocalCAEnabled bool `json:"localCAEnabled" bson:"localcaenabled" mapstructure:"localCAEnabled,omitempty"`
 
 	// Name is the name of the namespace.
@@ -106,7 +107,8 @@ type Namespace struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
@@ -158,7 +160,10 @@ func (o *Namespace) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Namespace) Doc() string {
-	return `A Namespace represents the core organizational unit of the system. All objects always exists in a single namespace. A Namespace can also have child namespaces. They can be used to split the system into organizations, business units, applications, services or any combination you like.`
+	return `A Namespace represents the core organizational unit of the system. All objects
+always exists in a single namespace. A Namespace can also have child namespaces.
+They can be used to split the system into organizations, business units,
+applications, services or any combination you like.`
 }
 
 func (o *Namespace) String() string {
@@ -400,27 +405,29 @@ var NamespaceAttributesMap = map[string]elemental.AttributeSpecification{
 	"LocalCAEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LocalCAEnabled",
-		Description:    `LocalCAEnabled defines if the namespace should use a local Certificate Authority. Switching it off and on again will regenerate a new CA.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "localCAEnabled",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
+		Description: `LocalCAEnabled defines if the namespace should use a local Certificate
+Authority. Switching it off and on again will regenerate a new CA.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "localCAEnabled",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChars:   `^[a-zA-Z0-9-_/]+$`,
@@ -594,27 +601,29 @@ var NamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 	"localcaenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LocalCAEnabled",
-		Description:    `LocalCAEnabled defines if the namespace should use a local Certificate Authority. Switching it off and on again will regenerate a new CA.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "localCAEnabled",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
+		Description: `LocalCAEnabled defines if the namespace should use a local Certificate
+Authority. Switching it off and on again will regenerate a new CA.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "localCAEnabled",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChars:   `^[a-zA-Z0-9-_/]+$`,

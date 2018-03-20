@@ -1,24 +1,29 @@
-attributes:
-- description: SourceNamespace contains the original namespace of the updated object.
-  exposed: true
-  filterable: true
-  format: free
-  name: sourceNamespace
-  orderable: true
-  stored: true
-  type: string
-- description: Type contains the policy type that is affected.
-  exposed: true
-  filterable: true
-  format: free
-  name: type
-  orderable: true
-  stored: true
-  type: string
+# Model
 model:
-  description: PolicyRefresh is sent to client when as a push event when a policy
-    refresh is needed on their side.
+  rest_name: policyrefresh
+  resource_name: policyrefreshs
   entity_name: PolicyRefresh
   package: squall
-  resource_name: policyrefreshs
-  rest_name: policyrefresh
+  description: |-
+    PolicyRefresh is sent to client when as a push event when a policy refresh is
+    needed on their side.
+
+# Attributes
+attributes:
+- name: sourceNamespace
+  description: SourceNamespace contains the original namespace of the updated object.
+  type: string
+  exposed: true
+  stored: true
+  filterable: true
+  format: free
+  orderable: true
+
+- name: type
+  description: Type contains the policy type that is affected.
+  type: string
+  exposed: true
+  stored: true
+  filterable: true
+  format: free
+  orderable: true

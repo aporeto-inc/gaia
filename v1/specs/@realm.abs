@@ -1,5 +1,11 @@
+# Attributes
 attributes:
-- allowed_choices:
+- name: realm
+  description: Realm is the realm
+  type: enum
+  exposed: true
+  required: true
+  allowed_choices:
   - AWSIdentityDocument
   - Certificate
   - Facebook
@@ -8,8 +14,3 @@ attributes:
   - LDAP
   - Twitter
   - Vince
-  description: Realm is the realm
-  exposed: true
-  name: realm
-  required: true
-  type: enum

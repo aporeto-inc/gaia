@@ -1,16 +1,19 @@
-attributes:
-- description: ID contains the certificate serialNumber
-  exposed: true
-  format: free
-  identifier: true
-  name: ID
-  required: true
-  type: string
+# Model
 model:
-  get: true
-  description: '[nodoc]'
+  rest_name: x509certificatecheck
+  resource_name: x509certificatechecks
   entity_name: X509CertificateCheck
   package: barret
-  resource_name: x509certificatechecks
-  rest_name: x509certificatecheck
+  description: '[nodoc]'
   private: true
+  get: true
+
+# Attributes
+attributes:
+- name: ID
+  description: ID contains the certificate serialNumber
+  type: string
+  exposed: true
+  required: true
+  format: free
+  identifier: true

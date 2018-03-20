@@ -72,7 +72,8 @@ type QuotaPolicy struct {
 	// Identities contains the list of identity names where the quota will be applied.
 	Identities []string `json:"identities" bson:"identities" mapstructure:"identities,omitempty"`
 
-	// Quota contains the maximum number of object matching the policy subject that can be created.
+	// Quota contains the maximum number of object matching the policy subject that can
+	// be created.
 	Quota int `json:"quota" bson:"-" mapstructure:"quota,omitempty"`
 
 	// TargetNamespace contains the base namespace from where the count will be done.
@@ -108,7 +109,8 @@ type QuotaPolicy struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity
@@ -117,7 +119,8 @@ type QuotaPolicy struct {
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.
+	// If set to true while the policy is propagating, it won't be visible to children
+	// namespace, but still used for policy resolution.
 	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
@@ -171,7 +174,8 @@ func (o *QuotaPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *QuotaPolicy) Doc() string {
-	return `Quotas Policies allows to set quotas on the number of objects that can be created in a namespace.`
+	return `Quotas Policies allows to set quotas on the number of objects that can be
+created in a namespace.`
 }
 
 func (o *QuotaPolicy) String() string {
@@ -461,15 +465,16 @@ var QuotaPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -537,15 +542,16 @@ var QuotaPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"PropagationHidden": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PropagationHidden",
-		Description:    `If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "propagationHidden",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
+		Description: `If set to true while the policy is propagating, it won't be visible to children
+namespace, but still used for policy resolution.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "propagationHidden",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -562,10 +568,11 @@ var QuotaPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"Quota": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Quota",
-		Description:    `Quota contains the maximum number of object matching the policy subject that can be created.`,
-		Exposed:        true,
-		Name:           "quota",
-		Type:           "integer",
+		Description: `Quota contains the maximum number of object matching the policy subject that can
+be created.`,
+		Exposed: true,
+		Name:    "quota",
+		Type:    "integer",
 	},
 	"TargetNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -689,15 +696,16 @@ var QuotaPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Metadata contains tags that can only be set during creation. They must all start with the '@' prefix, and should only be used by external systems.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "metadata",
-		Setter:         true,
-		Stored:         true,
-		SubType:        "metadata_list",
-		Type:           "external",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -765,15 +773,16 @@ var QuotaPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"propagationhidden": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PropagationHidden",
-		Description:    `If set to true while the policy is propagating, it won't be visible to children namespace, but still used for policy resolution.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "propagationHidden",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
+		Description: `If set to true while the policy is propagating, it won't be visible to children
+namespace, but still used for policy resolution.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "propagationHidden",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -790,10 +799,11 @@ var QuotaPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"quota": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Quota",
-		Description:    `Quota contains the maximum number of object matching the policy subject that can be created.`,
-		Exposed:        true,
-		Name:           "quota",
-		Type:           "integer",
+		Description: `Quota contains the maximum number of object matching the policy subject that can
+be created.`,
+		Exposed: true,
+		Name:    "quota",
+		Type:    "integer",
 	},
 	"targetnamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

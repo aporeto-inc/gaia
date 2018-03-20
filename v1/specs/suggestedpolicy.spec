@@ -1,20 +1,23 @@
-attributes:
-- description: List of suggested network access policies
-  exposed: true
-  filterable: true
-  name: networkAccessPolicies
-  orderable: true
-  stored: true
-  subtype: network_access_policies_list
-  type: external
+# Model
 model:
+  rest_name: suggestedpolicy
+  resource_name: suggestedpolicies
+  entity_name: SuggestedPolicy
+  package: jenova
+  description: Allows to get policy suggestions
   aliases:
   - sugpol
   - sugpols
   - sugg
   - suggs
-  description: Allows to get policy suggestions
-  entity_name: SuggestedPolicy
-  package: jenova
-  resource_name: suggestedpolicies
-  rest_name: suggestedpolicy
+
+# Attributes
+attributes:
+- name: networkAccessPolicies
+  description: List of suggested network access policies
+  type: external
+  exposed: true
+  subtype: network_access_policies_list
+  stored: true
+  filterable: true
+  orderable: true
