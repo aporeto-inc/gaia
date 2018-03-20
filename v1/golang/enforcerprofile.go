@@ -4,10 +4,9 @@ import (
 	"fmt"
 	"sync"
 
-	"time"
-
 	"github.com/aporeto-inc/elemental"
 	"github.com/aporeto-inc/gaia/v1/golang/types"
+	"time"
 )
 
 // EnforcerProfileDockerSocketTypeValue represents the possible values for attribute "dockerSocketType".

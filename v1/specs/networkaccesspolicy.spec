@@ -26,12 +26,15 @@ model:
 
 # Attributes
 attributes:
-- name: allowsTraffic
-  description: |-
-    AllowsTraffic if true, the flow will be accepted. Otherwise other actions like
-    "logs" can still be done, but the traffic will be rejected.
-  type: boolean
+- name: action
+  description: Action defines the action to apply to a flow.
+  type: enum
   exposed: true
+  allowed_choices:
+  - Allow
+  - Reject
+  - Continue
+  default_value: Allow
   filterable: true
   orderable: true
 

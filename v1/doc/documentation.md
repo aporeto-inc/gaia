@@ -4638,6 +4638,17 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+### `action (enum)`
+
+Action defines the action to apply to a flow.
+
+| Characteristics | Value                     |
+| -               | -:                        |
+| Allowed Value   | `Allow, Reject, Continue` |
+| Default         | `Allow`                   |
+| Orderable       | `true`                    |
+| Filterable      | `true`                    |
+
 ### `activeDuration (string)`
 
 ActiveDuration defines for how long the policy will be active according to the
@@ -4654,16 +4665,6 @@ The policy will be active for the given activeDuration.
 
 | Characteristics | Value |
 | -               | -:    |
-
-### `allowsTraffic (boolean)`
-
-AllowsTraffic if true, the flow will be accepted. Otherwise other actions like
-"logs" can still be done, but the traffic will be rejected.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-| Filterable      | `true` |
 
 ### `annotations (external:annotations)`
 
