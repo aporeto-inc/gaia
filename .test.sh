@@ -18,6 +18,7 @@ gometalinter \
     --enable misspell \
     --enable deadcode \
     --enable staticcheck \
+    --enable golint \
     --deadline 5m \
     --tests ./...
 
