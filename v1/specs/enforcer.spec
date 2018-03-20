@@ -84,19 +84,6 @@ attributes:
   stored: true
   creation_only: true
 
-- name: certificateStatus
-  description: CertificateStatus indicates if the certificate is valid.
-  type: enum
-  exposed: true
-  stored: true
-  allowed_choices:
-  - RENEW
-  - REVOKED
-  - VALID
-  default_value: VALID
-  filterable: true
-  orderable: true
-
 - name: collectInfo
   description: CollectInfo indicates to the enforcer it needs to collect information.
   type: boolean

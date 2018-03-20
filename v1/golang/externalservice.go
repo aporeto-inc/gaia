@@ -13,11 +13,11 @@ import (
 type ExternalServiceTypeValue string
 
 const (
-	// ExternalServiceTypeLoadbalancerhttp represents the value LoadBalancerHTTP.
-	ExternalServiceTypeLoadbalancerhttp ExternalServiceTypeValue = "LoadBalancerHTTP"
+	// ExternalServiceTypeLoadBalancerHTTP represents the value LoadBalancerHTTP.
+	ExternalServiceTypeLoadBalancerHTTP ExternalServiceTypeValue = "LoadBalancerHTTP"
 
-	// ExternalServiceTypeLoadbalancertcp represents the value LoadBalancerTCP.
-	ExternalServiceTypeLoadbalancertcp ExternalServiceTypeValue = "LoadBalancerTCP"
+	// ExternalServiceTypeLoadBalancerTCP represents the value LoadBalancerTCP.
+	ExternalServiceTypeLoadBalancerTCP ExternalServiceTypeValue = "LoadBalancerTCP"
 
 	// ExternalServiceTypeNetwork represents the value Network.
 	ExternalServiceTypeNetwork ExternalServiceTypeValue = "Network"

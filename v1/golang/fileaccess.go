@@ -14,8 +14,8 @@ const (
 	// FileAccessModeRead represents the value Read.
 	FileAccessModeRead FileAccessModeValue = "Read"
 
-	// FileAccessModeReadwrite represents the value ReadWrite.
-	FileAccessModeReadwrite FileAccessModeValue = "ReadWrite"
+	// FileAccessModeReadWrite represents the value ReadWrite.
+	FileAccessModeReadWrite FileAccessModeValue = "ReadWrite"
 
 	// FileAccessModeWrite represents the value Write.
 	FileAccessModeWrite FileAccessModeValue = "Write"

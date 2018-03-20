@@ -105,9 +105,9 @@ attributes:
   exposed: true
   stored: true
   allowed_choices:
-  - tcp
-  - unix
-  default_value: unix
+  - TCP
+  - Unix
+  default_value: Unix
   filterable: true
   orderable: true
 

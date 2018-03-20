@@ -13,11 +13,11 @@ import (
 type EnforcerProfileDockerSocketTypeValue string
 
 const (
-	// EnforcerProfileDockerSocketTypeTcp represents the value tcp.
-	EnforcerProfileDockerSocketTypeTcp EnforcerProfileDockerSocketTypeValue = "tcp"
+	// EnforcerProfileDockerSocketTypeTCP represents the value TCP.
+	EnforcerProfileDockerSocketTypeTCP EnforcerProfileDockerSocketTypeValue = "TCP"
 
-	// EnforcerProfileDockerSocketTypeUnix represents the value unix.
-	EnforcerProfileDockerSocketTypeUnix EnforcerProfileDockerSocketTypeValue = "unix"
+	// EnforcerProfileDockerSocketTypeUnix represents the value Unix.
+	EnforcerProfileDockerSocketTypeUnix EnforcerProfileDockerSocketTypeValue = "Unix"
 )
 
 // EnforcerProfileMetadataExtractorValue represents the possible values for attribute "metadataExtractor".
@@ -27,8 +27,8 @@ const (
 	// EnforcerProfileMetadataExtractorDocker represents the value Docker.
 	EnforcerProfileMetadataExtractorDocker EnforcerProfileMetadataExtractorValue = "Docker"
 
-	// EnforcerProfileMetadataExtractorEcs represents the value ECS.
-	EnforcerProfileMetadataExtractorEcs EnforcerProfileMetadataExtractorValue = "ECS"
+	// EnforcerProfileMetadataExtractorECS represents the value ECS.
+	EnforcerProfileMetadataExtractorECS EnforcerProfileMetadataExtractorValue = "ECS"
 
 	// EnforcerProfileMetadataExtractorKubernetes represents the value Kubernetes.
 	EnforcerProfileMetadataExtractorKubernetes EnforcerProfileMetadataExtractorValue = "Kubernetes"
@@ -229,7 +229,7 @@ func NewEnforcerProfile() *EnforcerProfile {
 		AssociatedTags:                []string{},
 		AuditSocketBufferSize:         16384,
 		DockerSocketAddress:           "/var/run/docker.sock",
-		DockerSocketType:              "unix",
+		DockerSocketType:              "Unix",
 		HostServices:                  types.HostServicesList{},
 		IPTablesMarkValue:             1000,
 		KubernetesSupportEnabled:      false,
@@ -408,7 +408,7 @@ func (o *EnforcerProfile) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("dockerSocketType", string(o.DockerSocketType), []string{"tcp", "unix"}, false); err != nil {
+	if err := elemental.ValidateStringInList("dockerSocketType", string(o.DockerSocketType), []string{"TCP", "Unix"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -665,7 +665,7 @@ is a read only attribute when an enforcer profile is resolved for an enforcer.`,
 		Type:           "string",
 	},
 	"DockerSocketType": elemental.AttributeSpecification{
-		AllowedChoices: []string{"tcp", "unix"},
+		AllowedChoices: []string{"TCP", "Unix"},
 		ConvertedName:  "DockerSocketType",
 		DefaultValue:   EnforcerProfileDockerSocketTypeUnix,
 		Description:    `DockerSocketType is the type of socket to use to talk to the docker daemon.`,
@@ -1149,7 +1149,7 @@ is a read only attribute when an enforcer profile is resolved for an enforcer.`,
 		Type:           "string",
 	},
 	"dockersockettype": elemental.AttributeSpecification{
-		AllowedChoices: []string{"tcp", "unix"},
+		AllowedChoices: []string{"TCP", "Unix"},
 		ConvertedName:  "DockerSocketType",
 		DefaultValue:   EnforcerProfileDockerSocketTypeUnix,
 		Description:    `DockerSocketType is the type of socket to use to talk to the docker daemon.`,

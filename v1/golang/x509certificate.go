@@ -29,8 +29,8 @@ const (
 	// X509CertificateUsageServer represents the value Server.
 	X509CertificateUsageServer X509CertificateUsageValue = "Server"
 
-	// X509CertificateUsageServerclient represents the value ServerClient.
-	X509CertificateUsageServerclient X509CertificateUsageValue = "ServerClient"
+	// X509CertificateUsageServerClient represents the value ServerClient.
+	X509CertificateUsageServerClient X509CertificateUsageValue = "ServerClient"
 )
 
 // X509CertificateIdentity represents the Identity of the object.

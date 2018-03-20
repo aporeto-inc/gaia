@@ -2025,17 +2025,6 @@ update.
 | -               | -:     |
 | Creation only   | `true` |
 
-### `certificateStatus (enum)`
-
-CertificateStatus indicates if the certificate is valid.
-
-| Characteristics | Value                   |
-| -               | -:                      |
-| Allowed Value   | `RENEW, REVOKED, VALID` |
-| Default         | `VALID`                 |
-| Orderable       | `true`                  |
-| Filterable      | `true`                  |
-
 ### `collectInfo (boolean)`
 
 CollectInfo indicates to the enforcer it needs to collect information.
@@ -2347,8 +2336,8 @@ DockerSocketType is the type of socket to use to talk to the docker daemon.
 
 | Characteristics | Value       |
 | -               | -:          |
-| Allowed Value   | `tcp, unix` |
-| Default         | `unix`      |
+| Allowed Value   | `TCP, Unix` |
+| Default         | `Unix`      |
 | Orderable       | `true`      |
 | Filterable      | `true`      |
 

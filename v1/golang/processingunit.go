@@ -36,11 +36,11 @@ const (
 	// ProcessingUnitTypeDocker represents the value Docker.
 	ProcessingUnitTypeDocker ProcessingUnitTypeValue = "Docker"
 
-	// ProcessingUnitTypeLinuxservice represents the value LinuxService.
-	ProcessingUnitTypeLinuxservice ProcessingUnitTypeValue = "LinuxService"
+	// ProcessingUnitTypeLinuxService represents the value LinuxService.
+	ProcessingUnitTypeLinuxService ProcessingUnitTypeValue = "LinuxService"
 
-	// ProcessingUnitTypeRkt represents the value RKT.
-	ProcessingUnitTypeRkt ProcessingUnitTypeValue = "RKT"
+	// ProcessingUnitTypeRKT represents the value RKT.
+	ProcessingUnitTypeRKT ProcessingUnitTypeValue = "RKT"
 
 	// ProcessingUnitTypeUser represents the value User.
 	ProcessingUnitTypeUser ProcessingUnitTypeValue = "User"
