@@ -184,7 +184,7 @@ func NewNetworkAccessPolicy() *NetworkAccessPolicy {
 
 	return &NetworkAccessPolicy{
 		ModelVersion:          1,
-		Action:                "Allow",
+		Action:                "Reject",
 		Annotations:           map[string][]string{},
 		AssociatedTags:        []string{},
 		DestinationPorts:      []string{},
@@ -473,7 +473,7 @@ var NetworkAccessPolicyAttributesMap = map[string]elemental.AttributeSpecificati
 	"Action": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Allow", "Reject", "Continue"},
 		ConvertedName:  "Action",
-		DefaultValue:   NetworkAccessPolicyActionAllow,
+		DefaultValue:   NetworkAccessPolicyActionReject,
 		Description:    `Action defines the action to apply to a flow.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -792,7 +792,7 @@ var NetworkAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSp
 	"action": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Allow", "Reject", "Continue"},
 		ConvertedName:  "Action",
-		DefaultValue:   NetworkAccessPolicyActionAllow,
+		DefaultValue:   NetworkAccessPolicyActionReject,
 		Description:    `Action defines the action to apply to a flow.`,
 		Exposed:        true,
 		Filterable:     true,

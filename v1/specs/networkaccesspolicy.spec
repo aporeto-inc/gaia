@@ -34,7 +34,7 @@ attributes:
   - Allow
   - Reject
   - Continue
-  default_value: Allow
+  default_value: Reject
   filterable: true
   orderable: true
 

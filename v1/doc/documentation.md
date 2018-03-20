@@ -4645,7 +4645,7 @@ Action defines the action to apply to a flow.
 | Characteristics | Value                     |
 | -               | -:                        |
 | Allowed Value   | `Allow, Reject, Continue` |
-| Default         | `Allow`                   |
+| Default         | `Reject`                  |
 | Orderable       | `true`                    |
 | Filterable      | `true`                    |
 
