@@ -352,5 +352,5 @@ elemental:
     init: '[]string{}'
 
   service_data:
-    type: '[]interface{}'
+    type: 'interface{}'
     init: 'nil'

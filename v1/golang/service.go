@@ -91,7 +91,7 @@ type Service struct {
 	CategoryID string `json:"categoryID" bson:"categoryid" mapstructure:"categoryID,omitempty"`
 
 	// Data retains all data created to use this service.
-	Data []interface{} `json:"-" bson:"data" mapstructure:"-,omitempty"`
+	Data interface{} `json:"-" bson:"data" mapstructure:"-,omitempty"`
 
 	// K8SIdentifier retains the identifier for kubernetes.
 	K8sIdentifier string `json:"-" bson:"k8sidentifier" mapstructure:"-,omitempty"`
