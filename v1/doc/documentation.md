@@ -2323,22 +2323,12 @@ Description is the description of the object.
 
 DockerSocketAddress is the address of the docker daemon.
 
-| Characteristics | Value                  |
-| -               | -:                     |
-| Default         | `/var/run/docker.sock` |
-| Orderable       | `true`                 |
-| Filterable      | `true`                 |
-
-### `dockerSocketType (enum)`
-
-DockerSocketType is the type of socket to use to talk to the docker daemon.
-
-| Characteristics | Value       |
-| -               | -:          |
-| Allowed Value   | `TCP, Unix` |
-| Default         | `Unix`      |
-| Orderable       | `true`      |
-| Filterable      | `true`      |
+| Characteristics | Value                                                                                                                                       |
+| -               | -:                                                                                                                                          |
+| Format          | `/^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$/` |
+| Default         | `unix:///var/run/docker.sock`                                                                                                               |
+| Orderable       | `true`                                                                                                                                      |
+| Filterable      | `true`                                                                                                                                      |
 
 ### `excludedInterfaces (external:excluded_interfaces_list)`
 
@@ -2462,14 +2452,14 @@ Protected defines if the object is protected.
 
 ProxyListenAddress is the address the enforcer should use to listen for API
 calls. It can be a port (example :9443) or socket path
-(example: unix:/var/run/aporeto.sock)
+(example: unix:///var/run/aporeto.sock)
 
-| Characteristics | Value                                                                                                                                     |
-| -               | -:                                                                                                                                        |
-| Format          | `/^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/]{1,16}){1,5}/?)$/` |
-| Default         | `unix:/var/run/aporeto.sock`                                                                                                              |
-| Orderable       | `true`                                                                                                                                    |
-| Filterable      | `true`                                                                                                                                    |
+| Characteristics | Value                                                                                                                                       |
+| -               | -:                                                                                                                                          |
+| Format          | `/^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$/` |
+| Default         | `unix:///var/run/aporeto.sock`                                                                                                              |
+| Orderable       | `true`                                                                                                                                      |
+| Filterable      | `true`                                                                                                                                      |
 
 ### `receiverNumberOfQueues (integer)`
 

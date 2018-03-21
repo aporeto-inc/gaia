@@ -93,22 +93,10 @@ attributes:
   type: string
   exposed: true
   stored: true
-  default_value: /var/run/docker.sock
+  allowed_chars: ^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$
+  default_value: unix:///var/run/docker.sock
   filterable: true
   format: free
-  orderable: true
-
-- name: dockerSocketType
-  description: DockerSocketType is the type of socket to use to talk to the docker
-    daemon.
-  type: enum
-  exposed: true
-  stored: true
-  allowed_choices:
-  - TCP
-  - Unix
-  default_value: Unix
-  filterable: true
   orderable: true
 
 - name: excludedInterfaces
@@ -197,12 +185,12 @@ attributes:
   description: |-
     ProxyListenAddress is the address the enforcer should use to listen for API
     calls. It can be a port (example :9443) or socket path
-    (example: unix:/var/run/aporeto.sock)
+    (example: unix:///var/run/aporeto.sock)
   type: string
   exposed: true
   stored: true
-  allowed_chars: ^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/]{1,16}){1,5}/?)$
-  default_value: unix:/var/run/aporeto.sock
+  allowed_chars: ^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$
+  default_value: unix:///var/run/aporeto.sock
   filterable: true
   format: free
   orderable: true

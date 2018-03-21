@@ -1,3 +1,4 @@
+#!/bin/bash
 mkdir -p ../doc
 rego doc -d . > ../doc/documentation.md
 cd ../.. && ./gen.sh
