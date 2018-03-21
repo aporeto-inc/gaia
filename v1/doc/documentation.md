@@ -57,7 +57,6 @@
 | [RemoteProcessor](#remoteprocessor)                           | Hook to integrate an Aporeto service.                                               |
 | [RenderedPolicy](#renderedpolicy)                             | Retrieve the aggregated policies applied to a particular processing unit.           |
 | [Report](#report)                                             | Post a new statistics report.                                                       |
-| [Revocation](#revocation)                                     | Used to revoke a certificate                                                        |
 | [Role](#role)                                                 | Roles returns the available roles that can be used with API Authorization           |
 | [Root](#root)                                                 | [nodoc]                                                                             |
 | [Service](#service)                                           | Service represents a service that can be launched                                   |
@@ -6041,46 +6040,6 @@ Value contains the value for the report.
 | Characteristics | Value |
 | -               | -:    |
 
-# Revocation
-
-> Operations: `UPDATE`
-
-Used to revoke a certificate
-
-## Attributes
-
-### `expirationDate (time)`
-
-Contains the certificate expiration date. This will be used to clean up revoked
-certificates that have expired.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Creation only   | `true` |
-
-### `revokeDate (time)`
-
-Set time from when the certificate will be revoked.
-
-| Characteristics | Value |
-| -               | -:    |
-
-### `serialNumber (string)`
-
-SerialNumber of the revoked certificate.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Creation only   | `true` |
-
-### `subject (string)`
-
-Subject of the certificate related to the revocation.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Creation only   | `true` |
-
 # Role
 
 > Operations:
@@ -6937,7 +6896,6 @@ UpdateTime is the time at which an entity was updated.
 Trigger can be used to remotely trigger an automation.
 
 ## Attributes
-
 # Vulnerability
 
 > Operations: `GET`
