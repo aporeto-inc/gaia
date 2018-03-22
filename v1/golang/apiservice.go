@@ -13,14 +13,14 @@ import (
 type APIServiceTypeValue string
 
 const (
-	// APIServiceTypeHttp represents the value HTTP.
-	APIServiceTypeHttp APIServiceTypeValue = "HTTP"
+	// APIServiceTypeHTTP represents the value HTTP.
+	APIServiceTypeHTTP APIServiceTypeValue = "HTTP"
 
 	// APIServiceTypeL3 represents the value L3.
 	APIServiceTypeL3 APIServiceTypeValue = "L3"
 
-	// APIServiceTypeTcp represents the value TCP.
-	APIServiceTypeTcp APIServiceTypeValue = "TCP"
+	// APIServiceTypeTCP represents the value TCP.
+	APIServiceTypeTCP APIServiceTypeValue = "TCP"
 )
 
 // APIServiceIdentity represents the Identity of the object.

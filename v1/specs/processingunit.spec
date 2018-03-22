@@ -96,13 +96,21 @@ attributes:
 # Relations
 relations:
 - rest_name: apiservice
+  descriptions:
+    get: Retrieves the api services used by a processing unit.
   get: true
 
 - rest_name: fileaccess
+  descriptions:
+    get: Retrieves the file accesses done by the processing unit.
   get: true
 
 - rest_name: renderedpolicy
+  descriptions:
+    get: Retrieves the policies for the processing unit.
   get: true
 
 - rest_name: vulnerability
+  descriptions:
+    get: Retrieves the vulnerabilities affecting the processing unit.
   get: true

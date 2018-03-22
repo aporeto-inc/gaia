@@ -12,7 +12,7 @@ import (
 var RevocationIdentity = elemental.Identity{
 	Name:     "revocation",
 	Category: "revocations",
-	Private:  false,
+	Private:  true,
 }
 
 // RevocationsList represents a list of Revocations

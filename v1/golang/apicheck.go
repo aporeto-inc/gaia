@@ -26,8 +26,8 @@ const (
 	// APICheckOperationRetrieve represents the value Retrieve.
 	APICheckOperationRetrieve APICheckOperationValue = "Retrieve"
 
-	// APICheckOperationRetrievemany represents the value RetrieveMany.
-	APICheckOperationRetrievemany APICheckOperationValue = "RetrieveMany"
+	// APICheckOperationRetrieveMany represents the value RetrieveMany.
+	APICheckOperationRetrieveMany APICheckOperationValue = "RetrieveMany"
 
 	// APICheckOperationUpdate represents the value Update.
 	APICheckOperationUpdate APICheckOperationValue = "Update"

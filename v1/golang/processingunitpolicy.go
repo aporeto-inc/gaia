@@ -18,8 +18,8 @@ const (
 	// ProcessingUnitPolicyActionEnforce represents the value Enforce.
 	ProcessingUnitPolicyActionEnforce ProcessingUnitPolicyActionValue = "Enforce"
 
-	// ProcessingUnitPolicyActionLogcompliance represents the value LogCompliance.
-	ProcessingUnitPolicyActionLogcompliance ProcessingUnitPolicyActionValue = "LogCompliance"
+	// ProcessingUnitPolicyActionLogCompliance represents the value LogCompliance.
+	ProcessingUnitPolicyActionLogCompliance ProcessingUnitPolicyActionValue = "LogCompliance"
 
 	// ProcessingUnitPolicyActionReject represents the value Reject.
 	ProcessingUnitPolicyActionReject ProcessingUnitPolicyActionValue = "Reject"

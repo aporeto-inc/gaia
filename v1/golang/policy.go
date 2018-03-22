@@ -12,11 +12,11 @@ import (
 type PolicyTypeValue string
 
 const (
-	// PolicyTypeApiauthorization represents the value APIAuthorization.
-	PolicyTypeApiauthorization PolicyTypeValue = "APIAuthorization"
+	// PolicyTypeAPIAuthorization represents the value APIAuthorization.
+	PolicyTypeAPIAuthorization PolicyTypeValue = "APIAuthorization"
 
-	// PolicyTypeEnforcerprofile represents the value EnforcerProfile.
-	PolicyTypeEnforcerprofile PolicyTypeValue = "EnforcerProfile"
+	// PolicyTypeEnforcerProfile represents the value EnforcerProfile.
+	PolicyTypeEnforcerProfile PolicyTypeValue = "EnforcerProfile"
 
 	// PolicyTypeFile represents the value File.
 	PolicyTypeFile PolicyTypeValue = "File"
@@ -24,14 +24,14 @@ const (
 	// PolicyTypeHook represents the value Hook.
 	PolicyTypeHook PolicyTypeValue = "Hook"
 
-	// PolicyTypeNamespacemapping represents the value NamespaceMapping.
-	PolicyTypeNamespacemapping PolicyTypeValue = "NamespaceMapping"
+	// PolicyTypeNamespaceMapping represents the value NamespaceMapping.
+	PolicyTypeNamespaceMapping PolicyTypeValue = "NamespaceMapping"
 
 	// PolicyTypeNetwork represents the value Network.
 	PolicyTypeNetwork PolicyTypeValue = "Network"
 
-	// PolicyTypeProcessingunit represents the value ProcessingUnit.
-	PolicyTypeProcessingunit PolicyTypeValue = "ProcessingUnit"
+	// PolicyTypeProcessingUnit represents the value ProcessingUnit.
+	PolicyTypeProcessingUnit PolicyTypeValue = "ProcessingUnit"
 
 	// PolicyTypeQuota represents the value Quota.
 	PolicyTypeQuota PolicyTypeValue = "Quota"
@@ -39,8 +39,8 @@ const (
 	// PolicyTypeSyscall represents the value Syscall.
 	PolicyTypeSyscall PolicyTypeValue = "Syscall"
 
-	// PolicyTypeTokenscope represents the value TokenScope.
-	PolicyTypeTokenscope PolicyTypeValue = "TokenScope"
+	// PolicyTypeTokenScope represents the value TokenScope.
+	PolicyTypeTokenScope PolicyTypeValue = "TokenScope"
 )
 
 // PolicyIdentity represents the Identity of the object.

@@ -9,17 +9,6 @@ import (
 	"time"
 )
 
-// EnforcerProfileDockerSocketTypeValue represents the possible values for attribute "dockerSocketType".
-type EnforcerProfileDockerSocketTypeValue string
-
-const (
-	// EnforcerProfileDockerSocketTypeTcp represents the value tcp.
-	EnforcerProfileDockerSocketTypeTcp EnforcerProfileDockerSocketTypeValue = "tcp"
-
-	// EnforcerProfileDockerSocketTypeUnix represents the value unix.
-	EnforcerProfileDockerSocketTypeUnix EnforcerProfileDockerSocketTypeValue = "unix"
-)
-
 // EnforcerProfileMetadataExtractorValue represents the possible values for attribute "metadataExtractor".
 type EnforcerProfileMetadataExtractorValue string
 
@@ -27,8 +16,8 @@ const (
 	// EnforcerProfileMetadataExtractorDocker represents the value Docker.
 	EnforcerProfileMetadataExtractorDocker EnforcerProfileMetadataExtractorValue = "Docker"
 
-	// EnforcerProfileMetadataExtractorEcs represents the value ECS.
-	EnforcerProfileMetadataExtractorEcs EnforcerProfileMetadataExtractorValue = "ECS"
+	// EnforcerProfileMetadataExtractorECS represents the value ECS.
+	EnforcerProfileMetadataExtractorECS EnforcerProfileMetadataExtractorValue = "ECS"
 
 	// EnforcerProfileMetadataExtractorKubernetes represents the value Kubernetes.
 	EnforcerProfileMetadataExtractorKubernetes EnforcerProfileMetadataExtractorValue = "Kubernetes"
@@ -119,9 +108,6 @@ type EnforcerProfile struct {
 	// DockerSocketAddress is the address of the docker daemon.
 	DockerSocketAddress string `json:"dockerSocketAddress" bson:"dockersocketaddress" mapstructure:"dockerSocketAddress,omitempty"`
 
-	// DockerSocketType is the type of socket to use to talk to the docker daemon.
-	DockerSocketType EnforcerProfileDockerSocketTypeValue `json:"dockerSocketType" bson:"dockersockettype" mapstructure:"dockerSocketType,omitempty"`
-
 	// ExcludedInterfaces is a list of interfaces that must be excluded.
 	ExcludedInterfaces []string `json:"excludedInterfaces" bson:"excludedinterfaces" mapstructure:"excludedInterfaces,omitempty"`
 
@@ -152,7 +138,7 @@ type EnforcerProfile struct {
 
 	// ProxyListenAddress is the address the enforcer should use to listen for API
 	// calls. It can be a port (example :9443) or socket path
-	// (example: unix:/var/run/aporeto.sock)
+	// (example: unix:///var/run/aporeto.sock)
 	ProxyListenAddress string `json:"proxyListenAddress" bson:"proxylistenaddress" mapstructure:"proxyListenAddress,omitempty"`
 
 	// ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network
@@ -228,8 +214,7 @@ func NewEnforcerProfile() *EnforcerProfile {
 		Annotations:                   map[string][]string{},
 		AssociatedTags:                []string{},
 		AuditSocketBufferSize:         16384,
-		DockerSocketAddress:           "/var/run/docker.sock",
-		DockerSocketType:              "unix",
+		DockerSocketAddress:           "unix:///var/run/docker.sock",
 		HostServices:                  types.HostServicesList{},
 		IPTablesMarkValue:             1000,
 		KubernetesSupportEnabled:      false,
@@ -239,7 +224,7 @@ func NewEnforcerProfile() *EnforcerProfile {
 		PUBookkeepingInterval:         "15m",
 		PUHeartbeatInterval:           "5s",
 		PolicySynchronizationInterval: "10m",
-		ProxyListenAddress:            "unix:/var/run/aporeto.sock",
+		ProxyListenAddress:            "unix:///var/run/aporeto.sock",
 		ReceiverNumberOfQueues:        4,
 		ReceiverQueue:                 0,
 		ReceiverQueueSize:             500,
@@ -408,7 +393,7 @@ func (o *EnforcerProfile) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("dockerSocketType", string(o.DockerSocketType), []string{"tcp", "unix"}, false); err != nil {
+	if err := elemental.ValidatePattern("dockerSocketAddress", o.DockerSocketAddress, `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -420,7 +405,7 @@ func (o *EnforcerProfile) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("proxyListenAddress", o.ProxyListenAddress, `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/]{1,16}){1,5}/?)$`, false); err != nil {
+	if err := elemental.ValidatePattern("proxyListenAddress", o.ProxyListenAddress, `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -652,9 +637,10 @@ is a read only attribute when an enforcer profile is resolved for an enforcer.`,
 		Type:           "string",
 	},
 	"DockerSocketAddress": elemental.AttributeSpecification{
+		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "DockerSocketAddress",
-		DefaultValue:   "/var/run/docker.sock",
+		DefaultValue:   "unix:///var/run/docker.sock",
 		Description:    `DockerSocketAddress is the address of the docker daemon.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -663,18 +649,6 @@ is a read only attribute when an enforcer profile is resolved for an enforcer.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"DockerSocketType": elemental.AttributeSpecification{
-		AllowedChoices: []string{"tcp", "unix"},
-		ConvertedName:  "DockerSocketType",
-		DefaultValue:   EnforcerProfileDockerSocketTypeUnix,
-		Description:    `DockerSocketType is the type of socket to use to talk to the docker daemon.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "dockerSocketType",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
 	},
 	"ExcludedInterfaces": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -837,13 +811,13 @@ resynchronized.`,
 		Type:           "boolean",
 	},
 	"ProxyListenAddress": elemental.AttributeSpecification{
-		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/]{1,16}){1,5}/?)$`,
+		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ProxyListenAddress",
-		DefaultValue:   "unix:/var/run/aporeto.sock",
+		DefaultValue:   "unix:///var/run/aporeto.sock",
 		Description: `ProxyListenAddress is the address the enforcer should use to listen for API
 calls. It can be a port (example :9443) or socket path
-(example: unix:/var/run/aporeto.sock)`,
+(example: unix:///var/run/aporeto.sock)`,
 		Exposed:    true,
 		Filterable: true,
 		Format:     "free",
@@ -1136,9 +1110,10 @@ is a read only attribute when an enforcer profile is resolved for an enforcer.`,
 		Type:           "string",
 	},
 	"dockersocketaddress": elemental.AttributeSpecification{
+		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "DockerSocketAddress",
-		DefaultValue:   "/var/run/docker.sock",
+		DefaultValue:   "unix:///var/run/docker.sock",
 		Description:    `DockerSocketAddress is the address of the docker daemon.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -1147,18 +1122,6 @@ is a read only attribute when an enforcer profile is resolved for an enforcer.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"dockersockettype": elemental.AttributeSpecification{
-		AllowedChoices: []string{"tcp", "unix"},
-		ConvertedName:  "DockerSocketType",
-		DefaultValue:   EnforcerProfileDockerSocketTypeUnix,
-		Description:    `DockerSocketType is the type of socket to use to talk to the docker daemon.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "dockerSocketType",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
 	},
 	"excludedinterfaces": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1321,13 +1284,13 @@ resynchronized.`,
 		Type:           "boolean",
 	},
 	"proxylistenaddress": elemental.AttributeSpecification{
-		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix:(/[^/]{1,16}){1,5}/?)$`,
+		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ProxyListenAddress",
-		DefaultValue:   "unix:/var/run/aporeto.sock",
+		DefaultValue:   "unix:///var/run/aporeto.sock",
 		Description: `ProxyListenAddress is the address the enforcer should use to listen for API
 calls. It can be a port (example :9443) or socket path
-(example: unix:/var/run/aporeto.sock)`,
+(example: unix:///var/run/aporeto.sock)`,
 		Exposed:    true,
 		Filterable: true,
 		Format:     "free",

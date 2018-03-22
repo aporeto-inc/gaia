@@ -104,4 +104,6 @@ attributes:
 # Relations
 relations:
 - rest_name: log
+  descriptions:
+    get: Returns the logs for a service
   get: true

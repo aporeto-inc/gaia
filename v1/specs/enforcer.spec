@@ -84,19 +84,6 @@ attributes:
   stored: true
   creation_only: true
 
-- name: certificateStatus
-  description: CertificateStatus indicates if the certificate is valid.
-  type: enum
-  exposed: true
-  stored: true
-  allowed_choices:
-  - RENEW
-  - REVOKED
-  - VALID
-  default_value: VALID
-  filterable: true
-  orderable: true
-
 - name: collectInfo
   description: CollectInfo indicates to the enforcer it needs to collect information.
   type: boolean
@@ -193,7 +180,11 @@ attributes:
 # Relations
 relations:
 - rest_name: enforcerprofile
+  descriptions:
+    get: Returns the enforcer profile that must be used by an enforcer.
   get: true
 
 - rest_name: poke
+  descriptions:
+    get: Sends a poke empty object. This is used to ensure an enforcer is up and running.
   get: true

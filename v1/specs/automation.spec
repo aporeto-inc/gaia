@@ -130,5 +130,10 @@ attributes:
 # Relations
 relations:
 - rest_name: trigger
+  descriptions:
+    create: Allows a system to trigger the automation if its `triggerType` property
+      is set to `RemoteCall`.
+    get: Allows a system to trigger the automation if its `triggerType` property is
+      set to `RemoteCall`.
   get: true
   create: true

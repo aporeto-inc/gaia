@@ -104,7 +104,11 @@ attributes:
 # Relations
 relations:
 - rest_name: externalservice
+  descriptions:
+    get: Returns the list of external services affected by a network access policy.
   get: true
 
 - rest_name: processingunit
+  descriptions:
+    get: Returns the list of Processing Units affected by a network access policy.
   get: true

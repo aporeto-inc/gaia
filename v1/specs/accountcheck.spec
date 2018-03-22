@@ -5,3 +5,4 @@ model:
   entity_name: AccountCheck
   package: vince
   description: '[nodoc]'
+  private: true

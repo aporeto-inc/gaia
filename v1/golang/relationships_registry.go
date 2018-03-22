@@ -723,11 +723,9 @@ func init() {
 			"root": true,
 		},
 		AllowsRetrieveMany: map[string]bool{
-			"plan": true,
 			"root": true,
 		},
 		AllowsInfo: map[string]bool{
-			"plan": true,
 			"root": true,
 		},
 	}

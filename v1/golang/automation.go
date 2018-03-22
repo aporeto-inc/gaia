@@ -15,8 +15,8 @@ const (
 	// AutomationTriggerEvent represents the value Event.
 	AutomationTriggerEvent AutomationTriggerValue = "Event"
 
-	// AutomationTriggerRemotecall represents the value RemoteCall.
-	AutomationTriggerRemotecall AutomationTriggerValue = "RemoteCall"
+	// AutomationTriggerRemoteCall represents the value RemoteCall.
+	AutomationTriggerRemoteCall AutomationTriggerValue = "RemoteCall"
 
 	// AutomationTriggerTime represents the value Time.
 	AutomationTriggerTime AutomationTriggerValue = "Time"
