@@ -12,11 +12,11 @@ import (
 type PolicyTypeValue string
 
 const (
-	// PolicyTypeApiauthorization represents the value APIAuthorization.
-	PolicyTypeApiauthorization PolicyTypeValue = "APIAuthorization"
+	// PolicyTypeAPIAuthorization represents the value APIAuthorization.
+	PolicyTypeAPIAuthorization PolicyTypeValue = "APIAuthorization"
 
-	// PolicyTypeEnforcerprofile represents the value EnforcerProfile.
-	PolicyTypeEnforcerprofile PolicyTypeValue = "EnforcerProfile"
+	// PolicyTypeEnforcerProfile represents the value EnforcerProfile.
+	PolicyTypeEnforcerProfile PolicyTypeValue = "EnforcerProfile"
 
 	// PolicyTypeFile represents the value File.
 	PolicyTypeFile PolicyTypeValue = "File"
@@ -24,14 +24,14 @@ const (
 	// PolicyTypeHook represents the value Hook.
 	PolicyTypeHook PolicyTypeValue = "Hook"
 
-	// PolicyTypeNamespacemapping represents the value NamespaceMapping.
-	PolicyTypeNamespacemapping PolicyTypeValue = "NamespaceMapping"
+	// PolicyTypeNamespaceMapping represents the value NamespaceMapping.
+	PolicyTypeNamespaceMapping PolicyTypeValue = "NamespaceMapping"
 
 	// PolicyTypeNetwork represents the value Network.
 	PolicyTypeNetwork PolicyTypeValue = "Network"
 
-	// PolicyTypeProcessingunit represents the value ProcessingUnit.
-	PolicyTypeProcessingunit PolicyTypeValue = "ProcessingUnit"
+	// PolicyTypeProcessingUnit represents the value ProcessingUnit.
+	PolicyTypeProcessingUnit PolicyTypeValue = "ProcessingUnit"
 
 	// PolicyTypeQuota represents the value Quota.
 	PolicyTypeQuota PolicyTypeValue = "Quota"
@@ -39,8 +39,8 @@ const (
 	// PolicyTypeSyscall represents the value Syscall.
 	PolicyTypeSyscall PolicyTypeValue = "Syscall"
 
-	// PolicyTypeTokenscope represents the value TokenScope.
-	PolicyTypeTokenscope PolicyTypeValue = "TokenScope"
+	// PolicyTypeTokenScope represents the value TokenScope.
+	PolicyTypeTokenScope PolicyTypeValue = "TokenScope"
 )
 
 // PolicyIdentity represents the Identity of the object.
@@ -430,8 +430,16 @@ func (o *Policy) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
@@ -589,8 +597,8 @@ The policy will be active for the given activeDuration.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -633,6 +641,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,
@@ -896,8 +905,8 @@ The policy will be active for the given activeDuration.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -940,6 +949,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,

@@ -13,11 +13,11 @@ import (
 type ExternalServiceTypeValue string
 
 const (
-	// ExternalServiceTypeLoadbalancerhttp represents the value LoadBalancerHTTP.
-	ExternalServiceTypeLoadbalancerhttp ExternalServiceTypeValue = "LoadBalancerHTTP"
+	// ExternalServiceTypeLoadBalancerHTTP represents the value LoadBalancerHTTP.
+	ExternalServiceTypeLoadBalancerHTTP ExternalServiceTypeValue = "LoadBalancerHTTP"
 
-	// ExternalServiceTypeLoadbalancertcp represents the value LoadBalancerTCP.
-	ExternalServiceTypeLoadbalancertcp ExternalServiceTypeValue = "LoadBalancerTCP"
+	// ExternalServiceTypeLoadBalancerTCP represents the value LoadBalancerTCP.
+	ExternalServiceTypeLoadBalancerTCP ExternalServiceTypeValue = "LoadBalancerTCP"
 
 	// ExternalServiceTypeNetwork represents the value Network.
 	ExternalServiceTypeNetwork ExternalServiceTypeValue = "Network"
@@ -358,8 +358,16 @@ func (o *ExternalService) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
@@ -465,8 +473,8 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -518,6 +526,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,
@@ -707,8 +716,8 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -760,6 +769,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,

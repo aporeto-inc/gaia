@@ -180,8 +180,16 @@ func (o *AutomationTemplate) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
@@ -223,8 +231,8 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -275,6 +283,7 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,
@@ -300,8 +309,8 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -352,6 +361,7 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,

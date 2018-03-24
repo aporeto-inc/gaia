@@ -246,22 +246,22 @@ type ArchitecturesType string
 
 // Values of ArchitecturesType.
 const (
-	ArchitectureTYpeX86         ArchitecturesType = "x86"
-	ArchitectureTYpeX86_64      ArchitecturesType = "amd64"
-	ArchitectureTYpeX32         ArchitecturesType = "x32"
-	ArchitectureTYpeARM         ArchitecturesType = "arm"
-	ArchitectureTYpeAARCH64     ArchitecturesType = "arm64"
-	ArchitectureTYpeMIPS        ArchitecturesType = "mips"
-	ArchitectureTYpeMIPS64      ArchitecturesType = "mips64"
-	ArchitectureTYpeMIPS64N32   ArchitecturesType = "mips64n32"
-	ArchitectureTYpeMIPSEL      ArchitecturesType = "mipsel"
-	ArchitectureTYpeMIPSEL64    ArchitecturesType = "mipsel64"
-	ArchitectureTYpeMIPSEL64N32 ArchitecturesType = "mipsel64n32"
-	ArchitectureTYpePPC         ArchitecturesType = "ppc"
-	ArchitectureTYpePPC64       ArchitecturesType = "ppc64"
-	ArchitectureTYpePPC64LE     ArchitecturesType = "ppc64le"
-	ArchitectureTYpeS390        ArchitecturesType = "s390"
-	ArchitectureTYpeS390X       ArchitecturesType = "s390x"
+	ArchitectureTypeX86         ArchitecturesType = "x86"
+	ArchitectureTypeX86_64      ArchitecturesType = "amd64"
+	ArchitectureTypeX32         ArchitecturesType = "x32"
+	ArchitectureTypeARM         ArchitecturesType = "arm"
+	ArchitectureTypeAARCH64     ArchitecturesType = "arm64"
+	ArchitectureTypeMIPS        ArchitecturesType = "mips"
+	ArchitectureTypeMIPS64      ArchitecturesType = "mips64"
+	ArchitectureTypeMIPS64N32   ArchitecturesType = "mips64n32"
+	ArchitectureTypeMIPSEL      ArchitecturesType = "mipsel"
+	ArchitectureTypeMIPSEL64    ArchitecturesType = "mipsel64"
+	ArchitectureTypeMIPSEL64N32 ArchitecturesType = "mipsel64n32"
+	ArchitectureTypePPC         ArchitecturesType = "ppc"
+	ArchitectureTypePPC64       ArchitecturesType = "ppc64"
+	ArchitectureTypePPC64LE     ArchitecturesType = "ppc64le"
+	ArchitectureTypeS390        ArchitecturesType = "s390"
+	ArchitectureTypeS390X       ArchitecturesType = "s390x"
 )
 
 var reverseArchitecturesMap = map[string]interface{}{

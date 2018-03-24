@@ -279,8 +279,16 @@ func (o *AuditProfile) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
@@ -376,8 +384,8 @@ var AuditProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -407,6 +415,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,
@@ -557,8 +566,8 @@ var AuditProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -588,6 +597,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,

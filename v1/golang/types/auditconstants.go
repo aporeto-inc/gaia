@@ -270,321 +270,321 @@ func AuditSystemCallTypeFromString(value string) (AuditSystemCallType, error) {
 
 // Values of AuditSystemCallType.
 const (
-	AuditSystemCallTypeREAD                   AuditSystemCallType = "read"
-	AuditSystemCallTypeWRITE                  AuditSystemCallType = "write"
-	AuditSystemCallTypeOPEN                   AuditSystemCallType = "open"
-	AuditSystemCallTypeCLOSE                  AuditSystemCallType = "close"
-	AuditSystemCallTypeSTAT                   AuditSystemCallType = "stat"
-	AuditSystemCallTypeFSTAT                  AuditSystemCallType = "fstat"
-	AuditSystemCallTypeLSTAT                  AuditSystemCallType = "lstat"
-	AuditSystemCallTypePOLL                   AuditSystemCallType = "poll"
-	AuditSystemCallTypeLSEEK                  AuditSystemCallType = "lseek"
-	AuditSystemCallTypeMMAP                   AuditSystemCallType = "mmap"
-	AuditSystemCallTypeMPROTECT               AuditSystemCallType = "mprotect"
-	AuditSystemCallTypeMUNMAP                 AuditSystemCallType = "munmap"
-	AuditSystemCallTypeBRK                    AuditSystemCallType = "brk"
-	AuditSystemCallTypeRT_SIGACTION           AuditSystemCallType = "rt_sigaction"
-	AuditSystemCallTypeRT_SIGPROCMASK         AuditSystemCallType = "rt_sigprocmask"
-	AuditSystemCallTypeRT_SIGRETURN           AuditSystemCallType = "rt_sigreturn"
-	AuditSystemCallTypeIOCTL                  AuditSystemCallType = "ioctl"
-	AuditSystemCallTypePREAD64                AuditSystemCallType = "pread64"
-	AuditSystemCallTypePWRITE64               AuditSystemCallType = "pwrite64"
-	AuditSystemCallTypeREADV                  AuditSystemCallType = "readv"
-	AuditSystemCallTypeWRITEV                 AuditSystemCallType = "writev"
-	AuditSystemCallTypeACCESS                 AuditSystemCallType = "access"
-	AuditSystemCallTypePIPE                   AuditSystemCallType = "pipe"
-	AuditSystemCallTypeSELECT                 AuditSystemCallType = "select"
-	AuditSystemCallTypeSCHED_YIELD            AuditSystemCallType = "sched_yield"
-	AuditSystemCallTypeMREMAP                 AuditSystemCallType = "mremap"
-	AuditSystemCallTypeMSYNC                  AuditSystemCallType = "msync"
-	AuditSystemCallTypeMINCORE                AuditSystemCallType = "mincore"
-	AuditSystemCallTypeMADVISE                AuditSystemCallType = "madvise"
-	AuditSystemCallTypeSHMGET                 AuditSystemCallType = "shmget"
-	AuditSystemCallTypeSHMAT                  AuditSystemCallType = "shmat"
-	AuditSystemCallTypeSHMCTL                 AuditSystemCallType = "shmctl"
-	AuditSystemCallTypeDUP                    AuditSystemCallType = "dup"
-	AuditSystemCallTypeDUP2                   AuditSystemCallType = "dup2"
-	AuditSystemCallTypePAUSE                  AuditSystemCallType = "pause"
-	AuditSystemCallTypeNANOSLEEP              AuditSystemCallType = "nanosleep"
-	AuditSystemCallTypeGETITIMER              AuditSystemCallType = "getitimer"
-	AuditSystemCallTypeALARM                  AuditSystemCallType = "alarm"
-	AuditSystemCallTypeSETITIMER              AuditSystemCallType = "setitimer"
-	AuditSystemCallTypeGETPID                 AuditSystemCallType = "getpid"
-	AuditSystemCallTypeSENDFILE               AuditSystemCallType = "sendfile"
-	AuditSystemCallTypeSOCKET                 AuditSystemCallType = "socket"
-	AuditSystemCallTypeCONNECT                AuditSystemCallType = "connect"
-	AuditSystemCallTypeACCEPT                 AuditSystemCallType = "accept"
-	AuditSystemCallTypeSENDTO                 AuditSystemCallType = "sendto"
-	AuditSystemCallTypeRECVFROM               AuditSystemCallType = "recvfrom"
-	AuditSystemCallTypeSENDMSG                AuditSystemCallType = "sendmsg"
-	AuditSystemCallTypeRECVMSG                AuditSystemCallType = "recvmsg"
-	AuditSystemCallTypeSHUTDOWN               AuditSystemCallType = "shutdown"
-	AuditSystemCallTypeBIND                   AuditSystemCallType = "bind"
-	AuditSystemCallTypeLISTEN                 AuditSystemCallType = "listen"
-	AuditSystemCallTypeGETSOCKNAME            AuditSystemCallType = "getsockname"
-	AuditSystemCallTypeGETPEERNAME            AuditSystemCallType = "getpeername"
-	AuditSystemCallTypeSOCKETPAIR             AuditSystemCallType = "socketpair"
-	AuditSystemCallTypeSETSOCKOPT             AuditSystemCallType = "setsockopt"
-	AuditSystemCallTypeGETSOCKOPT             AuditSystemCallType = "getsockopt"
-	AuditSystemCallTypeCLONE                  AuditSystemCallType = "clone"
-	AuditSystemCallTypeFORK                   AuditSystemCallType = "fork"
-	AuditSystemCallTypeVFORK                  AuditSystemCallType = "vfork"
-	AuditSystemCallTypeEXECVE                 AuditSystemCallType = "execve"
-	AuditSystemCallTypeEXIT                   AuditSystemCallType = "exit"
-	AuditSystemCallTypeWAIT4                  AuditSystemCallType = "wait4"
-	AuditSystemCallTypeKILL                   AuditSystemCallType = "kill"
-	AuditSystemCallTypeUNAME                  AuditSystemCallType = "uname"
-	AuditSystemCallTypeSEMGET                 AuditSystemCallType = "semget"
-	AuditSystemCallTypeSEMOP                  AuditSystemCallType = "semop"
-	AuditSystemCallTypeSEMCTL                 AuditSystemCallType = "semctl"
-	AuditSystemCallTypeSHMDT                  AuditSystemCallType = "shmdt"
-	AuditSystemCallTypeMSGGET                 AuditSystemCallType = "msgget"
-	AuditSystemCallTypeMSGSND                 AuditSystemCallType = "msgsnd"
-	AuditSystemCallTypeMSGRCV                 AuditSystemCallType = "msgrcv"
-	AuditSystemCallTypeMSGCTL                 AuditSystemCallType = "msgctl"
-	AuditSystemCallTypeFCNTL                  AuditSystemCallType = "fcntl"
-	AuditSystemCallTypeFLOCK                  AuditSystemCallType = "flock"
-	AuditSystemCallTypeFSYNC                  AuditSystemCallType = "fsync"
-	AuditSystemCallTypeFDATASYNC              AuditSystemCallType = "fdatasync"
-	AuditSystemCallTypeTRUNCATE               AuditSystemCallType = "truncate"
-	AuditSystemCallTypeFTRUNCATE              AuditSystemCallType = "ftruncate"
-	AuditSystemCallTypeGETDENTS               AuditSystemCallType = "getdents"
-	AuditSystemCallTypeGETCWD                 AuditSystemCallType = "getcwd"
-	AuditSystemCallTypeCHDIR                  AuditSystemCallType = "chdir"
-	AuditSystemCallTypeFCHDIR                 AuditSystemCallType = "fchdir"
-	AuditSystemCallTypeRENAME                 AuditSystemCallType = "rename"
-	AuditSystemCallTypeMKDIR                  AuditSystemCallType = "mkdir"
-	AuditSystemCallTypeRMDIR                  AuditSystemCallType = "rmdir"
-	AuditSystemCallTypeCREAT                  AuditSystemCallType = "creat"
-	AuditSystemCallTypeLINK                   AuditSystemCallType = "link"
-	AuditSystemCallTypeUNLINK                 AuditSystemCallType = "unlink"
-	AuditSystemCallTypeSYMLINK                AuditSystemCallType = "symlink"
-	AuditSystemCallTypeREADLINK               AuditSystemCallType = "readlink"
-	AuditSystemCallTypeCHMOD                  AuditSystemCallType = "chmod"
-	AuditSystemCallTypeFCHMOD                 AuditSystemCallType = "fchmod"
-	AuditSystemCallTypeCHOWN                  AuditSystemCallType = "chown"
-	AuditSystemCallTypeFCHOWN                 AuditSystemCallType = "fchown"
-	AuditSystemCallTypeLCHOWN                 AuditSystemCallType = "lchown"
-	AuditSystemCallTypeUMASK                  AuditSystemCallType = "umask"
-	AuditSystemCallTypeGETTIMEOFDAY           AuditSystemCallType = "gettimeofday"
-	AuditSystemCallTypeGETRLIMIT              AuditSystemCallType = "getrlimit"
-	AuditSystemCallTypeGETRUSAGE              AuditSystemCallType = "getrusage"
-	AuditSystemCallTypeSYSINFO                AuditSystemCallType = "sysinfo"
-	AuditSystemCallTypeTIMES                  AuditSystemCallType = "times"
-	AuditSystemCallTypePTRACE                 AuditSystemCallType = "ptrace"
-	AuditSystemCallTypeGETUID                 AuditSystemCallType = "getuid"
-	AuditSystemCallTypeSYSLOG                 AuditSystemCallType = "syslog"
-	AuditSystemCallTypeGETGID                 AuditSystemCallType = "getgid"
-	AuditSystemCallTypeSETUID                 AuditSystemCallType = "setuid"
-	AuditSystemCallTypeSETGID                 AuditSystemCallType = "setgid"
-	AuditSystemCallTypeGETEUID                AuditSystemCallType = "geteuid"
-	AuditSystemCallTypeGETEGID                AuditSystemCallType = "getegid"
-	AuditSystemCallTypeSETPGID                AuditSystemCallType = "setpgid"
-	AuditSystemCallTypeGETPPID                AuditSystemCallType = "getppid"
-	AuditSystemCallTypeGETPGRP                AuditSystemCallType = "getpgrp"
-	AuditSystemCallTypeSETSID                 AuditSystemCallType = "setsid"
-	AuditSystemCallTypeSETREUID               AuditSystemCallType = "setreuid"
-	AuditSystemCallTypeSETREGID               AuditSystemCallType = "setregid"
-	AuditSystemCallTypeGETGROUPS              AuditSystemCallType = "getgroups"
-	AuditSystemCallTypeSETGROUPS              AuditSystemCallType = "setgroups"
-	AuditSystemCallTypeSETRESUID              AuditSystemCallType = "setresuid"
-	AuditSystemCallTypeGETRESUID              AuditSystemCallType = "getresuid"
-	AuditSystemCallTypeSETRESGID              AuditSystemCallType = "setresgid"
-	AuditSystemCallTypeGETRESGID              AuditSystemCallType = "getresgid"
-	AuditSystemCallTypeGETPGID                AuditSystemCallType = "getpgid"
-	AuditSystemCallTypeSETFSUID               AuditSystemCallType = "setfsuid"
-	AuditSystemCallTypeSETFSGID               AuditSystemCallType = "setfsgid"
-	AuditSystemCallTypeGETSID                 AuditSystemCallType = "getsid"
-	AuditSystemCallTypeCAPGET                 AuditSystemCallType = "capget"
-	AuditSystemCallTypeCAPSET                 AuditSystemCallType = "capset"
-	AuditSystemCallTypeRT_SIGPENDING          AuditSystemCallType = "rt_sigpending"
-	AuditSystemCallTypeRT_SIGTIMEDWAIT        AuditSystemCallType = "rt_sigtimedwait"
-	AuditSystemCallTypeRT_SIGQUEUEINFO        AuditSystemCallType = "rt_sigqueueinfo"
-	AuditSystemCallTypeRT_SIGSUSPEND          AuditSystemCallType = "rt_sigsuspend"
-	AuditSystemCallTypeSIGALTSTACK            AuditSystemCallType = "sigaltstack"
-	AuditSystemCallTypeUTIME                  AuditSystemCallType = "utime"
-	AuditSystemCallTypeMKNOD                  AuditSystemCallType = "mknod"
-	AuditSystemCallTypeUSELIB                 AuditSystemCallType = "uselib"
-	AuditSystemCallTypePERSONALITY            AuditSystemCallType = "personality"
-	AuditSystemCallTypeUSTAT                  AuditSystemCallType = "ustat"
-	AuditSystemCallTypeSTATFS                 AuditSystemCallType = "statfs"
-	AuditSystemCallTypeFSTATFS                AuditSystemCallType = "fstatfs"
-	AuditSystemCallTypeSYSFS                  AuditSystemCallType = "sysfs"
-	AuditSystemCallTypeGETPRIORITY            AuditSystemCallType = "getpriority"
-	AuditSystemCallTypeSETPRIORITY            AuditSystemCallType = "setpriority"
-	AuditSystemCallTypeSCHED_SETPARAM         AuditSystemCallType = "sched_setparam"
-	AuditSystemCallTypeSCHED_GETPARAM         AuditSystemCallType = "sched_getparam"
-	AuditSystemCallTypeSCHED_SETSCHEDULER     AuditSystemCallType = "sched_setscheduler"
-	AuditSystemCallTypeSCHED_GETSCHEDULER     AuditSystemCallType = "sched_getscheduler"
-	AuditSystemCallTypeSCHED_GET_PRIORITY_MAX AuditSystemCallType = "sched_get_priority_max"
-	AuditSystemCallTypeSCHED_GET_PRIORITY_MIN AuditSystemCallType = "sched_get_priority_min"
-	AuditSystemCallTypeSCHED_RR_GET_INTERVAL  AuditSystemCallType = "sched_rr_get_interval"
-	AuditSystemCallTypeMLOCK                  AuditSystemCallType = "mlock"
-	AuditSystemCallTypeMUNLOCK                AuditSystemCallType = "munlock"
-	AuditSystemCallTypeMLOCKALL               AuditSystemCallType = "mlockall"
-	AuditSystemCallTypeMUNLOCKALL             AuditSystemCallType = "munlockall"
-	AuditSystemCallTypeVHANGUP                AuditSystemCallType = "vhangup"
-	AuditSystemCallTypeMODIFY_LDT             AuditSystemCallType = "modify_ldt"
-	AuditSystemCallTypePIVOT_ROOT             AuditSystemCallType = "pivot_root"
-	AuditSystemCallType_SYSCTL                AuditSystemCallType = "_sysctl"
-	AuditSystemCallTypePRCTL                  AuditSystemCallType = "prctl"
-	AuditSystemCallTypeARCH_PRCTL             AuditSystemCallType = "arch_prctl"
-	AuditSystemCallTypeADJTIMEX               AuditSystemCallType = "adjtimex"
-	AuditSystemCallTypeSETRLIMIT              AuditSystemCallType = "setrlimit"
-	AuditSystemCallTypeCHROOT                 AuditSystemCallType = "chroot"
-	AuditSystemCallTypeSYNC                   AuditSystemCallType = "sync"
-	AuditSystemCallTypeACCT                   AuditSystemCallType = "acct"
-	AuditSystemCallTypeSETTIMEOFDAY           AuditSystemCallType = "settimeofday"
-	AuditSystemCallTypeMOUNT                  AuditSystemCallType = "mount"
-	AuditSystemCallTypeUMOUNT2                AuditSystemCallType = "umount2"
-	AuditSystemCallTypeSWAPON                 AuditSystemCallType = "swapon"
-	AuditSystemCallTypeSWAPOFF                AuditSystemCallType = "swapoff"
-	AuditSystemCallTypeREBOOT                 AuditSystemCallType = "reboot"
-	AuditSystemCallTypeSETHOSTNAME            AuditSystemCallType = "sethostname"
-	AuditSystemCallTypeSETDOMAINNAME          AuditSystemCallType = "setdomainname"
-	AuditSystemCallTypeIOPL                   AuditSystemCallType = "iopl"
-	AuditSystemCallTypeIOPERM                 AuditSystemCallType = "ioperm"
-	AuditSystemCallTypeCREATE_MODULE          AuditSystemCallType = "create_module"
-	AuditSystemCallTypeINIT_MODULE            AuditSystemCallType = "init_module"
-	AuditSystemCallTypeDELETE_MODULE          AuditSystemCallType = "delete_module"
-	AuditSystemCallTypeGET_KERNEL_SYMS        AuditSystemCallType = "get_kernel_syms"
-	AuditSystemCallTypeQUERY_MODULE           AuditSystemCallType = "query_module"
-	AuditSystemCallTypeQUOTACTL               AuditSystemCallType = "quotactl"
-	AuditSystemCallTypeNFSSERVCTL             AuditSystemCallType = "nfsservctl"
-	AuditSystemCallTypeGETPMSG                AuditSystemCallType = "getpmsg"
-	AuditSystemCallTypePUTPMSG                AuditSystemCallType = "putpmsg"
-	AuditSystemCallTypeAFS_SYSCALL            AuditSystemCallType = "afs_syscall"
-	AuditSystemCallTypeTUXCALL                AuditSystemCallType = "tuxcall"
-	AuditSystemCallTypeSECURITY               AuditSystemCallType = "security"
-	AuditSystemCallTypeGETTID                 AuditSystemCallType = "gettid"
-	AuditSystemCallTypeREADAHEAD              AuditSystemCallType = "readahead"
-	AuditSystemCallTypeSETXATTR               AuditSystemCallType = "setxattr"
-	AuditSystemCallTypeLSETXATTR              AuditSystemCallType = "lsetxattr"
-	AuditSystemCallTypeFSETXATTR              AuditSystemCallType = "fsetxattr"
-	AuditSystemCallTypeGETXATTR               AuditSystemCallType = "getxattr"
-	AuditSystemCallTypeLGETXATTR              AuditSystemCallType = "lgetxattr"
-	AuditSystemCallTypeFGETXATTR              AuditSystemCallType = "fgetxattr"
-	AuditSystemCallTypeLISTXATTR              AuditSystemCallType = "listxattr"
-	AuditSystemCallTypeLLISTXATTR             AuditSystemCallType = "llistxattr"
-	AuditSystemCallTypeFLISTXATTR             AuditSystemCallType = "flistxattr"
-	AuditSystemCallTypeREMOVEXATTR            AuditSystemCallType = "removexattr"
-	AuditSystemCallTypeLREMOVEXATTR           AuditSystemCallType = "lremovexattr"
-	AuditSystemCallTypeFREMOVEXATTR           AuditSystemCallType = "fremovexattr"
-	AuditSystemCallTypeTKILL                  AuditSystemCallType = "tkill"
-	AuditSystemCallTypeTIME                   AuditSystemCallType = "time"
-	AuditSystemCallTypeFUTEX                  AuditSystemCallType = "futex"
-	AuditSystemCallTypeSCHED_SETAFFINITY      AuditSystemCallType = "sched_setaffinity"
-	AuditSystemCallTypeSCHED_GETAFFINITY      AuditSystemCallType = "sched_getaffinity"
-	AuditSystemCallTypeSET_THREAD_AREA        AuditSystemCallType = "set_thread_area"
-	AuditSystemCallTypeIO_SETUP               AuditSystemCallType = "io_setup"
-	AuditSystemCallTypeIO_DESTROY             AuditSystemCallType = "io_destroy"
-	AuditSystemCallTypeIO_GETEVENTS           AuditSystemCallType = "io_getevents"
-	AuditSystemCallTypeIO_SUBMIT              AuditSystemCallType = "io_submit"
-	AuditSystemCallTypeIO_CANCEL              AuditSystemCallType = "io_cancel"
-	AuditSystemCallTypeGET_THREAD_AREA        AuditSystemCallType = "get_thread_area"
-	AuditSystemCallTypeLOOKUP_DCOOKIE         AuditSystemCallType = "lookup_dcookie"
-	AuditSystemCallTypeEPOLL_CREATE           AuditSystemCallType = "epoll_create"
-	AuditSystemCallTypeEPOLL_CTL_OLD          AuditSystemCallType = "epoll_ctl_old"
-	AuditSystemCallTypeEPOLL_WAIT_OLD         AuditSystemCallType = "epoll_wait_old"
-	AuditSystemCallTypeREMAP_FILE_PAGES       AuditSystemCallType = "remap_file_pages"
-	AuditSystemCallTypeGETDENTS64             AuditSystemCallType = "getdents64"
-	AuditSystemCallTypeSET_TID_ADDRESS        AuditSystemCallType = "set_tid_address"
-	AuditSystemCallTypeRESTART_SYSCALL        AuditSystemCallType = "restart_syscall"
-	AuditSystemCallTypeSEMTIMEDOP             AuditSystemCallType = "semtimedop"
-	AuditSystemCallTypeFADVISE64              AuditSystemCallType = "fadvise64"
-	AuditSystemCallTypeTIMER_CREATE           AuditSystemCallType = "timer_create"
-	AuditSystemCallTypeTIMER_SETTIME          AuditSystemCallType = "timer_settime"
-	AuditSystemCallTypeTIMER_GETTIME          AuditSystemCallType = "timer_gettime"
-	AuditSystemCallTypeTIMER_GETOVERRUN       AuditSystemCallType = "timer_getoverrun"
-	AuditSystemCallTypeTIMER_DELETE           AuditSystemCallType = "timer_delete"
-	AuditSystemCallTypeCLOCK_SETTIME          AuditSystemCallType = "clock_settime"
-	AuditSystemCallTypeCLOCK_GETTIME          AuditSystemCallType = "clock_gettime"
-	AuditSystemCallTypeCLOCK_GETRES           AuditSystemCallType = "clock_getres"
-	AuditSystemCallTypeCLOCK_NANOSLEEP        AuditSystemCallType = "clock_nanosleep"
-	AuditSystemCallTypeEXIT_GROUP             AuditSystemCallType = "exit_group"
-	AuditSystemCallTypeEPOLL_WAIT             AuditSystemCallType = "epoll_wait"
-	AuditSystemCallTypeEPOLL_CTL              AuditSystemCallType = "epoll_ctl"
-	AuditSystemCallTypeTGKILL                 AuditSystemCallType = "tgkill"
-	AuditSystemCallTypeUTIMES                 AuditSystemCallType = "utimes"
-	AuditSystemCallTypeVSERVER                AuditSystemCallType = "vserver"
-	AuditSystemCallTypeMBIND                  AuditSystemCallType = "mbind"
-	AuditSystemCallTypeSET_MEMPOLICY          AuditSystemCallType = "set_mempolicy"
-	AuditSystemCallTypeGET_MEMPOLICY          AuditSystemCallType = "get_mempolicy"
-	AuditSystemCallTypeMQ_OPEN                AuditSystemCallType = "mq_open"
-	AuditSystemCallTypeMQ_UNLINK              AuditSystemCallType = "mq_unlink"
-	AuditSystemCallTypeMQ_TIMEDSEND           AuditSystemCallType = "mq_timedsend"
-	AuditSystemCallTypeMQ_TIMEDRECEIVE        AuditSystemCallType = "mq_timedreceive"
-	AuditSystemCallTypeMQ_NOTIFY              AuditSystemCallType = "mq_notify"
-	AuditSystemCallTypeMQ_GETSETATTR          AuditSystemCallType = "mq_getsetattr"
-	AuditSystemCallTypeKEXEC_LOAD             AuditSystemCallType = "kexec_load"
-	AuditSystemCallTypeWAITID                 AuditSystemCallType = "waitid"
-	AuditSystemCallTypeADD_KEY                AuditSystemCallType = "add_key"
-	AuditSystemCallTypeREQUEST_KEY            AuditSystemCallType = "request_key"
-	AuditSystemCallTypeKEYCTL                 AuditSystemCallType = "keyctl"
-	AuditSystemCallTypeIOPRIO_SET             AuditSystemCallType = "ioprio_set"
-	AuditSystemCallTypeIOPRIO_GET             AuditSystemCallType = "ioprio_get"
-	AuditSystemCallTypeINOTIFY_INIT           AuditSystemCallType = "inotify_init"
-	AuditSystemCallTypeINOTIFY_ADD_WATCH      AuditSystemCallType = "inotify_add_watch"
-	AuditSystemCallTypeINOTIFY_RM_WATCH       AuditSystemCallType = "inotify_rm_watch"
-	AuditSystemCallTypeMIGRATE_PAGES          AuditSystemCallType = "migrate_pages"
-	AuditSystemCallTypeOPENAT                 AuditSystemCallType = "openat"
-	AuditSystemCallTypeMKDIRAT                AuditSystemCallType = "mkdirat"
-	AuditSystemCallTypeMKNODAT                AuditSystemCallType = "mknodat"
-	AuditSystemCallTypeFCHOWNAT               AuditSystemCallType = "fchownat"
-	AuditSystemCallTypeFUTIMESAT              AuditSystemCallType = "futimesat"
-	AuditSystemCallTypeNEWFSTATAT             AuditSystemCallType = "newfstatat"
-	AuditSystemCallTypeUNLINKAT               AuditSystemCallType = "unlinkat"
-	AuditSystemCallTypeRENAMEAT               AuditSystemCallType = "renameat"
-	AuditSystemCallTypeLINKAT                 AuditSystemCallType = "linkat"
-	AuditSystemCallTypeSYMLINKAT              AuditSystemCallType = "symlinkat"
-	AuditSystemCallTypeREADLINKAT             AuditSystemCallType = "readlinkat"
-	AuditSystemCallTypeFCHMODAT               AuditSystemCallType = "fchmodat"
-	AuditSystemCallTypeFACCESSAT              AuditSystemCallType = "faccessat"
-	AuditSystemCallTypePSELECT6               AuditSystemCallType = "pselect6"
-	AuditSystemCallTypePPOLL                  AuditSystemCallType = "ppoll"
-	AuditSystemCallTypeUNSHARE                AuditSystemCallType = "unshare"
-	AuditSystemCallTypeSET_ROBUST_LIST        AuditSystemCallType = "set_robust_list"
-	AuditSystemCallTypeGET_ROBUST_LIST        AuditSystemCallType = "get_robust_list"
-	AuditSystemCallTypeSPLICE                 AuditSystemCallType = "splice"
-	AuditSystemCallTypeTEE                    AuditSystemCallType = "tee"
-	AuditSystemCallTypeSYNC_FILE_RANGE        AuditSystemCallType = "sync_file_range"
-	AuditSystemCallTypeVMSPLICE               AuditSystemCallType = "vmsplice"
-	AuditSystemCallTypeMOVE_PAGES             AuditSystemCallType = "move_pages"
-	AuditSystemCallTypeUTIMENSAT              AuditSystemCallType = "utimensat"
-	AuditSystemCallTypeEPOLL_PWAIT            AuditSystemCallType = "epoll_pwait"
-	AuditSystemCallTypeSIGNALFD               AuditSystemCallType = "signalfd"
-	AuditSystemCallTypeTIMERFD_CREATE         AuditSystemCallType = "timerfd_create"
-	AuditSystemCallTypeEVENTFD                AuditSystemCallType = "eventfd"
-	AuditSystemCallTypeFALLOCATE              AuditSystemCallType = "fallocate"
-	AuditSystemCallTypeTIMERFD_SETTIME        AuditSystemCallType = "timerfd_settime"
-	AuditSystemCallTypeTIMERFD_GETTIME        AuditSystemCallType = "timerfd_gettime"
-	AuditSystemCallTypeACCEPT4                AuditSystemCallType = "accept4"
-	AuditSystemCallTypeSIGNALFD4              AuditSystemCallType = "signalfd4"
-	AuditSystemCallTypeEVENTFD2               AuditSystemCallType = "eventfd2"
-	AuditSystemCallTypeEPOLL_CREATE1          AuditSystemCallType = "epoll_create1"
-	AuditSystemCallTypeDUP3                   AuditSystemCallType = "dup3"
-	AuditSystemCallTypePIPE2                  AuditSystemCallType = "pipe2"
-	AuditSystemCallTypeINOTIFY_INIT1          AuditSystemCallType = "inotify_init1"
-	AuditSystemCallTypePREADV                 AuditSystemCallType = "preadv"
-	AuditSystemCallTypePWRITEV                AuditSystemCallType = "pwritev"
-	AuditSystemCallTypeRT_TGSIGQUEUEINFO      AuditSystemCallType = "rt_tgsigqueueinfo"
-	AuditSystemCallTypePERF_EVENT_OPEN        AuditSystemCallType = "perf_event_open"
-	AuditSystemCallTypeRECVMMSG               AuditSystemCallType = "recvmmsg"
-	AuditSystemCallTypeFANOTIFY_INIT          AuditSystemCallType = "fanotify_init"
-	AuditSystemCallTypeFANOTIFY_MARK          AuditSystemCallType = "fanotify_mark"
-	AuditSystemCallTypePRLIMIT64              AuditSystemCallType = "prlimit64"
-	AuditSystemCallTypeNAME_TO_HANDLE_AT      AuditSystemCallType = "name_to_handle_at"
-	AuditSystemCallTypeOPEN_BY_HANDLE_AT      AuditSystemCallType = "open_by_handle_at"
-	AuditSystemCallTypeCLOCK_ADJTIME          AuditSystemCallType = "clock_adjtime"
-	AuditSystemCallTypeSYNCFS                 AuditSystemCallType = "syncfs"
-	AuditSystemCallTypeSENDMMSG               AuditSystemCallType = "sendmmsg"
-	AuditSystemCallTypeSETNS                  AuditSystemCallType = "setns"
-	AuditSystemCallTypeGETCPU                 AuditSystemCallType = "getcpu"
-	AuditSystemCallTypePROCESS_VM_READV       AuditSystemCallType = "process_vm_readv"
-	AuditSystemCallTypePROCESS_VM_WRITEV      AuditSystemCallType = "process_vm_writev"
-	AuditSystemCallTypeKCMP                   AuditSystemCallType = "kcmp"
-	AuditSystemCallTypeFINIT_MODULE           AuditSystemCallType = "finit_module"
-	AuditSystemCallTypeSTIME                  AuditSystemCallType = "stime"
+	AuditSystemCallTypeREAD                AuditSystemCallType = "read"
+	AuditSystemCallTypeWRITE               AuditSystemCallType = "write"
+	AuditSystemCallTypeOPEN                AuditSystemCallType = "open"
+	AuditSystemCallTypeCLOSE               AuditSystemCallType = "close"
+	AuditSystemCallTypeSTAT                AuditSystemCallType = "stat"
+	AuditSystemCallTypeFSTAT               AuditSystemCallType = "fstat"
+	AuditSystemCallTypeLSTAT               AuditSystemCallType = "lstat"
+	AuditSystemCallTypePOLL                AuditSystemCallType = "poll"
+	AuditSystemCallTypeLSEEK               AuditSystemCallType = "lseek"
+	AuditSystemCallTypeMMAP                AuditSystemCallType = "mmap"
+	AuditSystemCallTypeMPROTECT            AuditSystemCallType = "mprotect"
+	AuditSystemCallTypeMUNMAP              AuditSystemCallType = "munmap"
+	AuditSystemCallTypeBRK                 AuditSystemCallType = "brk"
+	AuditSystemCallTypeRTSIGACTION         AuditSystemCallType = "rt_sigaction"
+	AuditSystemCallTypeRTSIGPROCMASK       AuditSystemCallType = "rt_sigprocmask"
+	AuditSystemCallTypeRTSIGRETURN         AuditSystemCallType = "rt_sigreturn"
+	AuditSystemCallTypeIOCTL               AuditSystemCallType = "ioctl"
+	AuditSystemCallTypePREAD64             AuditSystemCallType = "pread64"
+	AuditSystemCallTypePWRITE64            AuditSystemCallType = "pwrite64"
+	AuditSystemCallTypeREADV               AuditSystemCallType = "readv"
+	AuditSystemCallTypeWRITEV              AuditSystemCallType = "writev"
+	AuditSystemCallTypeACCESS              AuditSystemCallType = "access"
+	AuditSystemCallTypePIPE                AuditSystemCallType = "pipe"
+	AuditSystemCallTypeSELECT              AuditSystemCallType = "select"
+	AuditSystemCallTypeSCHEDYIELD          AuditSystemCallType = "sched_yield"
+	AuditSystemCallTypeMREMAP              AuditSystemCallType = "mremap"
+	AuditSystemCallTypeMSYNC               AuditSystemCallType = "msync"
+	AuditSystemCallTypeMINCORE             AuditSystemCallType = "mincore"
+	AuditSystemCallTypeMADVISE             AuditSystemCallType = "madvise"
+	AuditSystemCallTypeSHMGET              AuditSystemCallType = "shmget"
+	AuditSystemCallTypeSHMAT               AuditSystemCallType = "shmat"
+	AuditSystemCallTypeSHMCTL              AuditSystemCallType = "shmctl"
+	AuditSystemCallTypeDUP                 AuditSystemCallType = "dup"
+	AuditSystemCallTypeDUP2                AuditSystemCallType = "dup2"
+	AuditSystemCallTypePAUSE               AuditSystemCallType = "pause"
+	AuditSystemCallTypeNANOSLEEP           AuditSystemCallType = "nanosleep"
+	AuditSystemCallTypeGETITIMER           AuditSystemCallType = "getitimer"
+	AuditSystemCallTypeALARM               AuditSystemCallType = "alarm"
+	AuditSystemCallTypeSETITIMER           AuditSystemCallType = "setitimer"
+	AuditSystemCallTypeGETPID              AuditSystemCallType = "getpid"
+	AuditSystemCallTypeSENDFILE            AuditSystemCallType = "sendfile"
+	AuditSystemCallTypeSOCKET              AuditSystemCallType = "socket"
+	AuditSystemCallTypeCONNECT             AuditSystemCallType = "connect"
+	AuditSystemCallTypeACCEPT              AuditSystemCallType = "accept"
+	AuditSystemCallTypeSENDTO              AuditSystemCallType = "sendto"
+	AuditSystemCallTypeRECVFROM            AuditSystemCallType = "recvfrom"
+	AuditSystemCallTypeSENDMSG             AuditSystemCallType = "sendmsg"
+	AuditSystemCallTypeRECVMSG             AuditSystemCallType = "recvmsg"
+	AuditSystemCallTypeSHUTDOWN            AuditSystemCallType = "shutdown"
+	AuditSystemCallTypeBIND                AuditSystemCallType = "bind"
+	AuditSystemCallTypeLISTEN              AuditSystemCallType = "listen"
+	AuditSystemCallTypeGETSOCKNAME         AuditSystemCallType = "getsockname"
+	AuditSystemCallTypeGETPEERNAME         AuditSystemCallType = "getpeername"
+	AuditSystemCallTypeSOCKETPAIR          AuditSystemCallType = "socketpair"
+	AuditSystemCallTypeSETSOCKOPT          AuditSystemCallType = "setsockopt"
+	AuditSystemCallTypeGETSOCKOPT          AuditSystemCallType = "getsockopt"
+	AuditSystemCallTypeCLONE               AuditSystemCallType = "clone"
+	AuditSystemCallTypeFORK                AuditSystemCallType = "fork"
+	AuditSystemCallTypeVFORK               AuditSystemCallType = "vfork"
+	AuditSystemCallTypeEXECVE              AuditSystemCallType = "execve"
+	AuditSystemCallTypeEXIT                AuditSystemCallType = "exit"
+	AuditSystemCallTypeWAIT4               AuditSystemCallType = "wait4"
+	AuditSystemCallTypeKILL                AuditSystemCallType = "kill"
+	AuditSystemCallTypeUNAME               AuditSystemCallType = "uname"
+	AuditSystemCallTypeSEMGET              AuditSystemCallType = "semget"
+	AuditSystemCallTypeSEMOP               AuditSystemCallType = "semop"
+	AuditSystemCallTypeSEMCTL              AuditSystemCallType = "semctl"
+	AuditSystemCallTypeSHMDT               AuditSystemCallType = "shmdt"
+	AuditSystemCallTypeMSGGET              AuditSystemCallType = "msgget"
+	AuditSystemCallTypeMSGSND              AuditSystemCallType = "msgsnd"
+	AuditSystemCallTypeMSGRCV              AuditSystemCallType = "msgrcv"
+	AuditSystemCallTypeMSGCTL              AuditSystemCallType = "msgctl"
+	AuditSystemCallTypeFCNTL               AuditSystemCallType = "fcntl"
+	AuditSystemCallTypeFLOCK               AuditSystemCallType = "flock"
+	AuditSystemCallTypeFSYNC               AuditSystemCallType = "fsync"
+	AuditSystemCallTypeFDATASYNC           AuditSystemCallType = "fdatasync"
+	AuditSystemCallTypeTRUNCATE            AuditSystemCallType = "truncate"
+	AuditSystemCallTypeFTRUNCATE           AuditSystemCallType = "ftruncate"
+	AuditSystemCallTypeGETDENTS            AuditSystemCallType = "getdents"
+	AuditSystemCallTypeGETCWD              AuditSystemCallType = "getcwd"
+	AuditSystemCallTypeCHDIR               AuditSystemCallType = "chdir"
+	AuditSystemCallTypeFCHDIR              AuditSystemCallType = "fchdir"
+	AuditSystemCallTypeRENAME              AuditSystemCallType = "rename"
+	AuditSystemCallTypeMKDIR               AuditSystemCallType = "mkdir"
+	AuditSystemCallTypeRMDIR               AuditSystemCallType = "rmdir"
+	AuditSystemCallTypeCREAT               AuditSystemCallType = "creat"
+	AuditSystemCallTypeLINK                AuditSystemCallType = "link"
+	AuditSystemCallTypeUNLINK              AuditSystemCallType = "unlink"
+	AuditSystemCallTypeSYMLINK             AuditSystemCallType = "symlink"
+	AuditSystemCallTypeREADLINK            AuditSystemCallType = "readlink"
+	AuditSystemCallTypeCHMOD               AuditSystemCallType = "chmod"
+	AuditSystemCallTypeFCHMOD              AuditSystemCallType = "fchmod"
+	AuditSystemCallTypeCHOWN               AuditSystemCallType = "chown"
+	AuditSystemCallTypeFCHOWN              AuditSystemCallType = "fchown"
+	AuditSystemCallTypeLCHOWN              AuditSystemCallType = "lchown"
+	AuditSystemCallTypeUMASK               AuditSystemCallType = "umask"
+	AuditSystemCallTypeGETTIMEOFDAY        AuditSystemCallType = "gettimeofday"
+	AuditSystemCallTypeGETRLIMIT           AuditSystemCallType = "getrlimit"
+	AuditSystemCallTypeGETRUSAGE           AuditSystemCallType = "getrusage"
+	AuditSystemCallTypeSYSINFO             AuditSystemCallType = "sysinfo"
+	AuditSystemCallTypeTIMES               AuditSystemCallType = "times"
+	AuditSystemCallTypePTRACE              AuditSystemCallType = "ptrace"
+	AuditSystemCallTypeGETUID              AuditSystemCallType = "getuid"
+	AuditSystemCallTypeSYSLOG              AuditSystemCallType = "syslog"
+	AuditSystemCallTypeGETGID              AuditSystemCallType = "getgid"
+	AuditSystemCallTypeSETUID              AuditSystemCallType = "setuid"
+	AuditSystemCallTypeSETGID              AuditSystemCallType = "setgid"
+	AuditSystemCallTypeGETEUID             AuditSystemCallType = "geteuid"
+	AuditSystemCallTypeGETEGID             AuditSystemCallType = "getegid"
+	AuditSystemCallTypeSETPGID             AuditSystemCallType = "setpgid"
+	AuditSystemCallTypeGETPPID             AuditSystemCallType = "getppid"
+	AuditSystemCallTypeGETPGRP             AuditSystemCallType = "getpgrp"
+	AuditSystemCallTypeSETSID              AuditSystemCallType = "setsid"
+	AuditSystemCallTypeSETREUID            AuditSystemCallType = "setreuid"
+	AuditSystemCallTypeSETREGID            AuditSystemCallType = "setregid"
+	AuditSystemCallTypeGETGROUPS           AuditSystemCallType = "getgroups"
+	AuditSystemCallTypeSETGROUPS           AuditSystemCallType = "setgroups"
+	AuditSystemCallTypeSETRESUID           AuditSystemCallType = "setresuid"
+	AuditSystemCallTypeGETRESUID           AuditSystemCallType = "getresuid"
+	AuditSystemCallTypeSETRESGID           AuditSystemCallType = "setresgid"
+	AuditSystemCallTypeGETRESGID           AuditSystemCallType = "getresgid"
+	AuditSystemCallTypeGETPGID             AuditSystemCallType = "getpgid"
+	AuditSystemCallTypeSETFSUID            AuditSystemCallType = "setfsuid"
+	AuditSystemCallTypeSETFSGID            AuditSystemCallType = "setfsgid"
+	AuditSystemCallTypeGETSID              AuditSystemCallType = "getsid"
+	AuditSystemCallTypeCAPGET              AuditSystemCallType = "capget"
+	AuditSystemCallTypeCAPSET              AuditSystemCallType = "capset"
+	AuditSystemCallTypeRTSIGPENDING        AuditSystemCallType = "rt_sigpending"
+	AuditSystemCallTypeRTSIGTIMEDWAIT      AuditSystemCallType = "rt_sigtimedwait"
+	AuditSystemCallTypeRTSIGQUEUEINFO      AuditSystemCallType = "rt_sigqueueinfo"
+	AuditSystemCallTypeRTSIGSUSPEND        AuditSystemCallType = "rt_sigsuspend"
+	AuditSystemCallTypeSIGALTSTACK         AuditSystemCallType = "sigaltstack"
+	AuditSystemCallTypeUTIME               AuditSystemCallType = "utime"
+	AuditSystemCallTypeMKNOD               AuditSystemCallType = "mknod"
+	AuditSystemCallTypeUSELIB              AuditSystemCallType = "uselib"
+	AuditSystemCallTypePERSONALITY         AuditSystemCallType = "personality"
+	AuditSystemCallTypeUSTAT               AuditSystemCallType = "ustat"
+	AuditSystemCallTypeSTATFS              AuditSystemCallType = "statfs"
+	AuditSystemCallTypeFSTATFS             AuditSystemCallType = "fstatfs"
+	AuditSystemCallTypeSYSFS               AuditSystemCallType = "sysfs"
+	AuditSystemCallTypeGETPRIORITY         AuditSystemCallType = "getpriority"
+	AuditSystemCallTypeSETPRIORITY         AuditSystemCallType = "setpriority"
+	AuditSystemCallTypeSCHEDSETPARAM       AuditSystemCallType = "sched_setparam"
+	AuditSystemCallTypeSCHEDGETPARAM       AuditSystemCallType = "sched_getparam"
+	AuditSystemCallTypeSCHEDSETSCHEDULER   AuditSystemCallType = "sched_setscheduler"
+	AuditSystemCallTypeSCHEDGETSCHEDULER   AuditSystemCallType = "sched_getscheduler"
+	AuditSystemCallTypeSCHEDGETPRIORITYMAX AuditSystemCallType = "sched_get_priority_max"
+	AuditSystemCallTypeSCHEDGETPRIORITYMIN AuditSystemCallType = "sched_get_priority_min"
+	AuditSystemCallTypeSCHEDRRGETINTERVAL  AuditSystemCallType = "sched_rr_get_interval"
+	AuditSystemCallTypeMLOCK               AuditSystemCallType = "mlock"
+	AuditSystemCallTypeMUNLOCK             AuditSystemCallType = "munlock"
+	AuditSystemCallTypeMLOCKALL            AuditSystemCallType = "mlockall"
+	AuditSystemCallTypeMUNLOCKALL          AuditSystemCallType = "munlockall"
+	AuditSystemCallTypeVHANGUP             AuditSystemCallType = "vhangup"
+	AuditSystemCallTypeMODIFYLDT           AuditSystemCallType = "modify_ldt"
+	AuditSystemCallTypePIVOTROOT           AuditSystemCallType = "pivot_root"
+	AuditSystemCallTypeSYSCTL              AuditSystemCallType = "_sysctl"
+	AuditSystemCallTypePRCTL               AuditSystemCallType = "prctl"
+	AuditSystemCallTypeARCHPRCTL           AuditSystemCallType = "arch_prctl"
+	AuditSystemCallTypeADJTIMEX            AuditSystemCallType = "adjtimex"
+	AuditSystemCallTypeSETRLIMIT           AuditSystemCallType = "setrlimit"
+	AuditSystemCallTypeCHROOT              AuditSystemCallType = "chroot"
+	AuditSystemCallTypeSYNC                AuditSystemCallType = "sync"
+	AuditSystemCallTypeACCT                AuditSystemCallType = "acct"
+	AuditSystemCallTypeSETTIMEOFDAY        AuditSystemCallType = "settimeofday"
+	AuditSystemCallTypeMOUNT               AuditSystemCallType = "mount"
+	AuditSystemCallTypeUMOUNT2             AuditSystemCallType = "umount2"
+	AuditSystemCallTypeSWAPON              AuditSystemCallType = "swapon"
+	AuditSystemCallTypeSWAPOFF             AuditSystemCallType = "swapoff"
+	AuditSystemCallTypeREBOOT              AuditSystemCallType = "reboot"
+	AuditSystemCallTypeSETHOSTNAME         AuditSystemCallType = "sethostname"
+	AuditSystemCallTypeSETDOMAINNAME       AuditSystemCallType = "setdomainname"
+	AuditSystemCallTypeIOPL                AuditSystemCallType = "iopl"
+	AuditSystemCallTypeIOPERM              AuditSystemCallType = "ioperm"
+	AuditSystemCallTypeCREATEMODULE        AuditSystemCallType = "create_module"
+	AuditSystemCallTypeINITMODULE          AuditSystemCallType = "init_module"
+	AuditSystemCallTypeDELETEMODULE        AuditSystemCallType = "delete_module"
+	AuditSystemCallTypeGETKERNELSYMS       AuditSystemCallType = "get_kernel_syms"
+	AuditSystemCallTypeQUERYMODULE         AuditSystemCallType = "query_module"
+	AuditSystemCallTypeQUOTACTL            AuditSystemCallType = "quotactl"
+	AuditSystemCallTypeNFSSERVCTL          AuditSystemCallType = "nfsservctl"
+	AuditSystemCallTypeGETPMSG             AuditSystemCallType = "getpmsg"
+	AuditSystemCallTypePUTPMSG             AuditSystemCallType = "putpmsg"
+	AuditSystemCallTypeAFSSYSCALL          AuditSystemCallType = "afs_syscall"
+	AuditSystemCallTypeTUXCALL             AuditSystemCallType = "tuxcall"
+	AuditSystemCallTypeSECURITY            AuditSystemCallType = "security"
+	AuditSystemCallTypeGETTID              AuditSystemCallType = "gettid"
+	AuditSystemCallTypeREADAHEAD           AuditSystemCallType = "readahead"
+	AuditSystemCallTypeSETXATTR            AuditSystemCallType = "setxattr"
+	AuditSystemCallTypeLSETXATTR           AuditSystemCallType = "lsetxattr"
+	AuditSystemCallTypeFSETXATTR           AuditSystemCallType = "fsetxattr"
+	AuditSystemCallTypeGETXATTR            AuditSystemCallType = "getxattr"
+	AuditSystemCallTypeLGETXATTR           AuditSystemCallType = "lgetxattr"
+	AuditSystemCallTypeFGETXATTR           AuditSystemCallType = "fgetxattr"
+	AuditSystemCallTypeLISTXATTR           AuditSystemCallType = "listxattr"
+	AuditSystemCallTypeLLISTXATTR          AuditSystemCallType = "llistxattr"
+	AuditSystemCallTypeFLISTXATTR          AuditSystemCallType = "flistxattr"
+	AuditSystemCallTypeREMOVEXATTR         AuditSystemCallType = "removexattr"
+	AuditSystemCallTypeLREMOVEXATTR        AuditSystemCallType = "lremovexattr"
+	AuditSystemCallTypeFREMOVEXATTR        AuditSystemCallType = "fremovexattr"
+	AuditSystemCallTypeTKILL               AuditSystemCallType = "tkill"
+	AuditSystemCallTypeTIME                AuditSystemCallType = "time"
+	AuditSystemCallTypeFUTEX               AuditSystemCallType = "futex"
+	AuditSystemCallTypeSCHEDSETAFFINITY    AuditSystemCallType = "sched_setaffinity"
+	AuditSystemCallTypeSCHEDGETAFFINITY    AuditSystemCallType = "sched_getaffinity"
+	AuditSystemCallTypeSETTHREADAREA       AuditSystemCallType = "set_thread_area"
+	AuditSystemCallTypeIOSETUP             AuditSystemCallType = "io_setup"
+	AuditSystemCallTypeIODESTROY           AuditSystemCallType = "io_destroy"
+	AuditSystemCallTypeIOGETEVENTS         AuditSystemCallType = "io_getevents"
+	AuditSystemCallTypeIOSUBMIT            AuditSystemCallType = "io_submit"
+	AuditSystemCallTypeIOCANCEL            AuditSystemCallType = "io_cancel"
+	AuditSystemCallTypeGETTHREADAREA       AuditSystemCallType = "get_thread_area"
+	AuditSystemCallTypeLOOKUPDCOOKIE       AuditSystemCallType = "lookup_dcookie"
+	AuditSystemCallTypeEPOLLCREATE         AuditSystemCallType = "epoll_create"
+	AuditSystemCallTypeEPOLLCTLOLD         AuditSystemCallType = "epoll_ctl_old"
+	AuditSystemCallTypeEPOLLWAITOLD        AuditSystemCallType = "epoll_wait_old"
+	AuditSystemCallTypeREMAPFILEPAGES      AuditSystemCallType = "remap_file_pages"
+	AuditSystemCallTypeGETDENTS64          AuditSystemCallType = "getdents64"
+	AuditSystemCallTypeSETTIDADDRESS       AuditSystemCallType = "set_tid_address"
+	AuditSystemCallTypeRESTARTSYSCALL      AuditSystemCallType = "restart_syscall"
+	AuditSystemCallTypeSEMTIMEDOP          AuditSystemCallType = "semtimedop"
+	AuditSystemCallTypeFADVISE64           AuditSystemCallType = "fadvise64"
+	AuditSystemCallTypeTIMERCREATE         AuditSystemCallType = "timer_create"
+	AuditSystemCallTypeTIMERSETTIME        AuditSystemCallType = "timer_settime"
+	AuditSystemCallTypeTIMERGETTIME        AuditSystemCallType = "timer_gettime"
+	AuditSystemCallTypeTIMERGETOVERRUN     AuditSystemCallType = "timer_getoverrun"
+	AuditSystemCallTypeTIMERDELETE         AuditSystemCallType = "timer_delete"
+	AuditSystemCallTypeCLOCKSETTIME        AuditSystemCallType = "clock_settime"
+	AuditSystemCallTypeCLOCKGETTIME        AuditSystemCallType = "clock_gettime"
+	AuditSystemCallTypeCLOCKGETRES         AuditSystemCallType = "clock_getres"
+	AuditSystemCallTypeCLOCKNANOSLEEP      AuditSystemCallType = "clock_nanosleep"
+	AuditSystemCallTypeEXITGROUP           AuditSystemCallType = "exit_group"
+	AuditSystemCallTypeEPOLLWAIT           AuditSystemCallType = "epoll_wait"
+	AuditSystemCallTypeEPOLLCTL            AuditSystemCallType = "epoll_ctl"
+	AuditSystemCallTypeTGKILL              AuditSystemCallType = "tgkill"
+	AuditSystemCallTypeUTIMES              AuditSystemCallType = "utimes"
+	AuditSystemCallTypeVSERVER             AuditSystemCallType = "vserver"
+	AuditSystemCallTypeMBIND               AuditSystemCallType = "mbind"
+	AuditSystemCallTypeSETMEMPOLICY        AuditSystemCallType = "set_mempolicy"
+	AuditSystemCallTypeGETMEMPOLICY        AuditSystemCallType = "get_mempolicy"
+	AuditSystemCallTypeMQOPEN              AuditSystemCallType = "mq_open"
+	AuditSystemCallTypeMQUNLINK            AuditSystemCallType = "mq_unlink"
+	AuditSystemCallTypeMQTIMEDSEND         AuditSystemCallType = "mq_timedsend"
+	AuditSystemCallTypeMQTIMEDRECEIVE      AuditSystemCallType = "mq_timedreceive"
+	AuditSystemCallTypeMQNOTIFY            AuditSystemCallType = "mq_notify"
+	AuditSystemCallTypeMQGETSETATTR        AuditSystemCallType = "mq_getsetattr"
+	AuditSystemCallTypeKEXECLOAD           AuditSystemCallType = "kexec_load"
+	AuditSystemCallTypeWAITID              AuditSystemCallType = "waitid"
+	AuditSystemCallTypeADDKEY              AuditSystemCallType = "add_key"
+	AuditSystemCallTypeREQUESTKEY          AuditSystemCallType = "request_key"
+	AuditSystemCallTypeKEYCTL              AuditSystemCallType = "keyctl"
+	AuditSystemCallTypeIOPRIOSET           AuditSystemCallType = "ioprio_set"
+	AuditSystemCallTypeIOPRIOGET           AuditSystemCallType = "ioprio_get"
+	AuditSystemCallTypeINOTIFYINIT         AuditSystemCallType = "inotify_init"
+	AuditSystemCallTypeINOTIFYADDWATCH     AuditSystemCallType = "inotify_add_watch"
+	AuditSystemCallTypeINOTIFYRMWATCH      AuditSystemCallType = "inotify_rm_watch"
+	AuditSystemCallTypeMIGRATEPAGES        AuditSystemCallType = "migrate_pages"
+	AuditSystemCallTypeOPENAT              AuditSystemCallType = "openat"
+	AuditSystemCallTypeMKDIRAT             AuditSystemCallType = "mkdirat"
+	AuditSystemCallTypeMKNODAT             AuditSystemCallType = "mknodat"
+	AuditSystemCallTypeFCHOWNAT            AuditSystemCallType = "fchownat"
+	AuditSystemCallTypeFUTIMESAT           AuditSystemCallType = "futimesat"
+	AuditSystemCallTypeNEWFSTATAT          AuditSystemCallType = "newfstatat"
+	AuditSystemCallTypeUNLINKAT            AuditSystemCallType = "unlinkat"
+	AuditSystemCallTypeRENAMEAT            AuditSystemCallType = "renameat"
+	AuditSystemCallTypeLINKAT              AuditSystemCallType = "linkat"
+	AuditSystemCallTypeSYMLINKAT           AuditSystemCallType = "symlinkat"
+	AuditSystemCallTypeREADLINKAT          AuditSystemCallType = "readlinkat"
+	AuditSystemCallTypeFCHMODAT            AuditSystemCallType = "fchmodat"
+	AuditSystemCallTypeFACCESSAT           AuditSystemCallType = "faccessat"
+	AuditSystemCallTypePSELECT6            AuditSystemCallType = "pselect6"
+	AuditSystemCallTypePPOLL               AuditSystemCallType = "ppoll"
+	AuditSystemCallTypeUNSHARE             AuditSystemCallType = "unshare"
+	AuditSystemCallTypeSETROBUSTLIST       AuditSystemCallType = "set_robust_list"
+	AuditSystemCallTypeGETROBUSTLIST       AuditSystemCallType = "get_robust_list"
+	AuditSystemCallTypeSPLICE              AuditSystemCallType = "splice"
+	AuditSystemCallTypeTEE                 AuditSystemCallType = "tee"
+	AuditSystemCallTypeSYNCFILERANGE       AuditSystemCallType = "sync_file_range"
+	AuditSystemCallTypeVMSPLICE            AuditSystemCallType = "vmsplice"
+	AuditSystemCallTypeMOVEPAGES           AuditSystemCallType = "move_pages"
+	AuditSystemCallTypeUTIMENSAT           AuditSystemCallType = "utimensat"
+	AuditSystemCallTypeEPOLLPWAIT          AuditSystemCallType = "epoll_pwait"
+	AuditSystemCallTypeSIGNALFD            AuditSystemCallType = "signalfd"
+	AuditSystemCallTypeTIMERFDCREATE       AuditSystemCallType = "timerfd_create"
+	AuditSystemCallTypeEVENTFD             AuditSystemCallType = "eventfd"
+	AuditSystemCallTypeFALLOCATE           AuditSystemCallType = "fallocate"
+	AuditSystemCallTypeTIMERFDSETTIME      AuditSystemCallType = "timerfd_settime"
+	AuditSystemCallTypeTIMERFDGETTIME      AuditSystemCallType = "timerfd_gettime"
+	AuditSystemCallTypeACCEPT4             AuditSystemCallType = "accept4"
+	AuditSystemCallTypeSIGNALFD4           AuditSystemCallType = "signalfd4"
+	AuditSystemCallTypeEVENTFD2            AuditSystemCallType = "eventfd2"
+	AuditSystemCallTypeEPOLLCREATE1        AuditSystemCallType = "epoll_create1"
+	AuditSystemCallTypeDUP3                AuditSystemCallType = "dup3"
+	AuditSystemCallTypePIPE2               AuditSystemCallType = "pipe2"
+	AuditSystemCallTypeINOTIFYINIT1        AuditSystemCallType = "inotify_init1"
+	AuditSystemCallTypePREADV              AuditSystemCallType = "preadv"
+	AuditSystemCallTypePWRITEV             AuditSystemCallType = "pwritev"
+	AuditSystemCallTypeRTTGSIGQUEUEINFO    AuditSystemCallType = "rt_tgsigqueueinfo"
+	AuditSystemCallTypePERFEVENTOPEN       AuditSystemCallType = "perf_event_open"
+	AuditSystemCallTypeRECVMMSG            AuditSystemCallType = "recvmmsg"
+	AuditSystemCallTypeFANOTIFYINIT        AuditSystemCallType = "fanotify_init"
+	AuditSystemCallTypeFANOTIFYMARK        AuditSystemCallType = "fanotify_mark"
+	AuditSystemCallTypePRLIMIT64           AuditSystemCallType = "prlimit64"
+	AuditSystemCallTypeNAMETOHANDLEAT      AuditSystemCallType = "name_to_handle_at"
+	AuditSystemCallTypeOPENBYHANDLEAT      AuditSystemCallType = "open_by_handle_at"
+	AuditSystemCallTypeCLOCKADJTIME        AuditSystemCallType = "clock_adjtime"
+	AuditSystemCallTypeSYNCFS              AuditSystemCallType = "syncfs"
+	AuditSystemCallTypeSENDMMSG            AuditSystemCallType = "sendmmsg"
+	AuditSystemCallTypeSETNS               AuditSystemCallType = "setns"
+	AuditSystemCallTypeGETCPU              AuditSystemCallType = "getcpu"
+	AuditSystemCallTypePROCESSVMREADV      AuditSystemCallType = "process_vm_readv"
+	AuditSystemCallTypePROCESSVMWRITEV     AuditSystemCallType = "process_vm_writev"
+	AuditSystemCallTypeKCMP                AuditSystemCallType = "kcmp"
+	AuditSystemCallTypeFINITMODULE         AuditSystemCallType = "finit_module"
+	AuditSystemCallTypeSTIME               AuditSystemCallType = "stime"
 )
 
 var auditSystemCallTypeReverse = map[string]interface{}{
@@ -601,9 +601,9 @@ var auditSystemCallTypeReverse = map[string]interface{}{
 	"mprotect":               AuditSystemCallTypeMPROTECT,
 	"munmap":                 AuditSystemCallTypeMUNMAP,
 	"brk":                    AuditSystemCallTypeBRK,
-	"rt_sigaction":           AuditSystemCallTypeRT_SIGACTION,
-	"rt_sigprocmask":         AuditSystemCallTypeRT_SIGPROCMASK,
-	"rt_sigreturn":           AuditSystemCallTypeRT_SIGRETURN,
+	"rt_sigaction":           AuditSystemCallTypeRTSIGACTION,
+	"rt_sigprocmask":         AuditSystemCallTypeRTSIGPROCMASK,
+	"rt_sigreturn":           AuditSystemCallTypeRTSIGRETURN,
 	"ioctl":                  AuditSystemCallTypeIOCTL,
 	"pread64":                AuditSystemCallTypePREAD64,
 	"pwrite64":               AuditSystemCallTypePWRITE64,
@@ -612,7 +612,7 @@ var auditSystemCallTypeReverse = map[string]interface{}{
 	"access":                 AuditSystemCallTypeACCESS,
 	"pipe":                   AuditSystemCallTypePIPE,
 	"select":                 AuditSystemCallTypeSELECT,
-	"sched_yield":            AuditSystemCallTypeSCHED_YIELD,
+	"sched_yield":            AuditSystemCallTypeSCHEDYIELD,
 	"mremap":                 AuditSystemCallTypeMREMAP,
 	"msync":                  AuditSystemCallTypeMSYNC,
 	"mincore":                AuditSystemCallTypeMINCORE,
@@ -715,10 +715,10 @@ var auditSystemCallTypeReverse = map[string]interface{}{
 	"getsid":                 AuditSystemCallTypeGETSID,
 	"capget":                 AuditSystemCallTypeCAPGET,
 	"capset":                 AuditSystemCallTypeCAPSET,
-	"rt_sigpending":          AuditSystemCallTypeRT_SIGPENDING,
-	"rt_sigtimedwait":        AuditSystemCallTypeRT_SIGTIMEDWAIT,
-	"rt_sigqueueinfo":        AuditSystemCallTypeRT_SIGQUEUEINFO,
-	"rt_sigsuspend":          AuditSystemCallTypeRT_SIGSUSPEND,
+	"rt_sigpending":          AuditSystemCallTypeRTSIGPENDING,
+	"rt_sigtimedwait":        AuditSystemCallTypeRTSIGTIMEDWAIT,
+	"rt_sigqueueinfo":        AuditSystemCallTypeRTSIGQUEUEINFO,
+	"rt_sigsuspend":          AuditSystemCallTypeRTSIGSUSPEND,
 	"sigaltstack":            AuditSystemCallTypeSIGALTSTACK,
 	"utime":                  AuditSystemCallTypeUTIME,
 	"mknod":                  AuditSystemCallTypeMKNOD,
@@ -730,23 +730,23 @@ var auditSystemCallTypeReverse = map[string]interface{}{
 	"sysfs":                  AuditSystemCallTypeSYSFS,
 	"getpriority":            AuditSystemCallTypeGETPRIORITY,
 	"setpriority":            AuditSystemCallTypeSETPRIORITY,
-	"sched_setparam":         AuditSystemCallTypeSCHED_SETPARAM,
-	"sched_getparam":         AuditSystemCallTypeSCHED_GETPARAM,
-	"sched_setscheduler":     AuditSystemCallTypeSCHED_SETSCHEDULER,
-	"sched_getscheduler":     AuditSystemCallTypeSCHED_GETSCHEDULER,
-	"sched_get_priority_max": AuditSystemCallTypeSCHED_GET_PRIORITY_MAX,
-	"sched_get_priority_min": AuditSystemCallTypeSCHED_GET_PRIORITY_MIN,
-	"sched_rr_get_interval":  AuditSystemCallTypeSCHED_RR_GET_INTERVAL,
+	"sched_setparam":         AuditSystemCallTypeSCHEDSETPARAM,
+	"sched_getparam":         AuditSystemCallTypeSCHEDGETPARAM,
+	"sched_setscheduler":     AuditSystemCallTypeSCHEDSETSCHEDULER,
+	"sched_getscheduler":     AuditSystemCallTypeSCHEDGETSCHEDULER,
+	"sched_get_priority_max": AuditSystemCallTypeSCHEDGETPRIORITYMAX,
+	"sched_get_priority_min": AuditSystemCallTypeSCHEDGETPRIORITYMIN,
+	"sched_rr_get_interval":  AuditSystemCallTypeSCHEDRRGETINTERVAL,
 	"mlock":                  AuditSystemCallTypeMLOCK,
 	"munlock":                AuditSystemCallTypeMUNLOCK,
 	"mlockall":               AuditSystemCallTypeMLOCKALL,
 	"munlockall":             AuditSystemCallTypeMUNLOCKALL,
 	"vhangup":                AuditSystemCallTypeVHANGUP,
-	"modify_ldt":             AuditSystemCallTypeMODIFY_LDT,
-	"pivot_root":             AuditSystemCallTypePIVOT_ROOT,
-	"_sysctl":                AuditSystemCallType_SYSCTL,
+	"modify_ldt":             AuditSystemCallTypeMODIFYLDT,
+	"pivot_root":             AuditSystemCallTypePIVOTROOT,
+	"_sysctl":                AuditSystemCallTypeSYSCTL,
 	"prctl":                  AuditSystemCallTypePRCTL,
-	"arch_prctl":             AuditSystemCallTypeARCH_PRCTL,
+	"arch_prctl":             AuditSystemCallTypeARCHPRCTL,
 	"adjtimex":               AuditSystemCallTypeADJTIMEX,
 	"setrlimit":              AuditSystemCallTypeSETRLIMIT,
 	"chroot":                 AuditSystemCallTypeCHROOT,
@@ -762,16 +762,16 @@ var auditSystemCallTypeReverse = map[string]interface{}{
 	"setdomainname":          AuditSystemCallTypeSETDOMAINNAME,
 	"iopl":                   AuditSystemCallTypeIOPL,
 	"ioperm":                 AuditSystemCallTypeIOPERM,
-	"create_module":          AuditSystemCallTypeCREATE_MODULE,
-	"init_module":            AuditSystemCallTypeINIT_MODULE,
-	"delete_module":          AuditSystemCallTypeDELETE_MODULE,
-	"get_kernel_syms":        AuditSystemCallTypeGET_KERNEL_SYMS,
-	"query_module":           AuditSystemCallTypeQUERY_MODULE,
+	"create_module":          AuditSystemCallTypeCREATEMODULE,
+	"init_module":            AuditSystemCallTypeINITMODULE,
+	"delete_module":          AuditSystemCallTypeDELETEMODULE,
+	"get_kernel_syms":        AuditSystemCallTypeGETKERNELSYMS,
+	"query_module":           AuditSystemCallTypeQUERYMODULE,
 	"quotactl":               AuditSystemCallTypeQUOTACTL,
 	"nfsservctl":             AuditSystemCallTypeNFSSERVCTL,
 	"getpmsg":                AuditSystemCallTypeGETPMSG,
 	"putpmsg":                AuditSystemCallTypePUTPMSG,
-	"afs_syscall":            AuditSystemCallTypeAFS_SYSCALL,
+	"afs_syscall":            AuditSystemCallTypeAFSSYSCALL,
 	"tuxcall":                AuditSystemCallTypeTUXCALL,
 	"security":               AuditSystemCallTypeSECURITY,
 	"gettid":                 AuditSystemCallTypeGETTID,
@@ -791,60 +791,60 @@ var auditSystemCallTypeReverse = map[string]interface{}{
 	"tkill":                  AuditSystemCallTypeTKILL,
 	"time":                   AuditSystemCallTypeTIME,
 	"futex":                  AuditSystemCallTypeFUTEX,
-	"sched_setaffinity":      AuditSystemCallTypeSCHED_SETAFFINITY,
-	"sched_getaffinity":      AuditSystemCallTypeSCHED_GETAFFINITY,
-	"set_thread_area":        AuditSystemCallTypeSET_THREAD_AREA,
-	"io_setup":               AuditSystemCallTypeIO_SETUP,
-	"io_destroy":             AuditSystemCallTypeIO_DESTROY,
-	"io_getevents":           AuditSystemCallTypeIO_GETEVENTS,
-	"io_submit":              AuditSystemCallTypeIO_SUBMIT,
-	"io_cancel":              AuditSystemCallTypeIO_CANCEL,
-	"get_thread_area":        AuditSystemCallTypeGET_THREAD_AREA,
-	"lookup_dcookie":         AuditSystemCallTypeLOOKUP_DCOOKIE,
-	"epoll_create":           AuditSystemCallTypeEPOLL_CREATE,
-	"epoll_ctl_old":          AuditSystemCallTypeEPOLL_CTL_OLD,
-	"epoll_wait_old":         AuditSystemCallTypeEPOLL_WAIT_OLD,
-	"remap_file_pages":       AuditSystemCallTypeREMAP_FILE_PAGES,
+	"sched_setaffinity":      AuditSystemCallTypeSCHEDSETAFFINITY,
+	"sched_getaffinity":      AuditSystemCallTypeSCHEDGETAFFINITY,
+	"set_thread_area":        AuditSystemCallTypeSETTHREADAREA,
+	"io_setup":               AuditSystemCallTypeIOSETUP,
+	"io_destroy":             AuditSystemCallTypeIODESTROY,
+	"io_getevents":           AuditSystemCallTypeIOGETEVENTS,
+	"io_submit":              AuditSystemCallTypeIOSUBMIT,
+	"io_cancel":              AuditSystemCallTypeIOCANCEL,
+	"get_thread_area":        AuditSystemCallTypeGETTHREADAREA,
+	"lookup_dcookie":         AuditSystemCallTypeLOOKUPDCOOKIE,
+	"epoll_create":           AuditSystemCallTypeEPOLLCREATE,
+	"epoll_ctl_old":          AuditSystemCallTypeEPOLLCTLOLD,
+	"epoll_wait_old":         AuditSystemCallTypeEPOLLWAITOLD,
+	"remap_file_pages":       AuditSystemCallTypeREMAPFILEPAGES,
 	"getdents64":             AuditSystemCallTypeGETDENTS64,
-	"set_tid_address":        AuditSystemCallTypeSET_TID_ADDRESS,
-	"restart_syscall":        AuditSystemCallTypeRESTART_SYSCALL,
+	"set_tid_address":        AuditSystemCallTypeSETTIDADDRESS,
+	"restart_syscall":        AuditSystemCallTypeRESTARTSYSCALL,
 	"semtimedop":             AuditSystemCallTypeSEMTIMEDOP,
 	"fadvise64":              AuditSystemCallTypeFADVISE64,
-	"timer_create":           AuditSystemCallTypeTIMER_CREATE,
-	"timer_settime":          AuditSystemCallTypeTIMER_SETTIME,
-	"timer_gettime":          AuditSystemCallTypeTIMER_GETTIME,
-	"timer_getoverrun":       AuditSystemCallTypeTIMER_GETOVERRUN,
-	"timer_delete":           AuditSystemCallTypeTIMER_DELETE,
-	"clock_settime":          AuditSystemCallTypeCLOCK_SETTIME,
-	"clock_gettime":          AuditSystemCallTypeCLOCK_GETTIME,
-	"clock_getres":           AuditSystemCallTypeCLOCK_GETRES,
-	"clock_nanosleep":        AuditSystemCallTypeCLOCK_NANOSLEEP,
-	"exit_group":             AuditSystemCallTypeEXIT_GROUP,
-	"epoll_wait":             AuditSystemCallTypeEPOLL_WAIT,
-	"epoll_ctl":              AuditSystemCallTypeEPOLL_CTL,
+	"timer_create":           AuditSystemCallTypeTIMERCREATE,
+	"timer_settime":          AuditSystemCallTypeTIMERSETTIME,
+	"timer_gettime":          AuditSystemCallTypeTIMERGETTIME,
+	"timer_getoverrun":       AuditSystemCallTypeTIMERGETOVERRUN,
+	"timer_delete":           AuditSystemCallTypeTIMERDELETE,
+	"clock_settime":          AuditSystemCallTypeCLOCKSETTIME,
+	"clock_gettime":          AuditSystemCallTypeCLOCKGETTIME,
+	"clock_getres":           AuditSystemCallTypeCLOCKGETRES,
+	"clock_nanosleep":        AuditSystemCallTypeCLOCKNANOSLEEP,
+	"exit_group":             AuditSystemCallTypeEXITGROUP,
+	"epoll_wait":             AuditSystemCallTypeEPOLLWAIT,
+	"epoll_ctl":              AuditSystemCallTypeEPOLLCTL,
 	"tgkill":                 AuditSystemCallTypeTGKILL,
 	"utimes":                 AuditSystemCallTypeUTIMES,
 	"vserver":                AuditSystemCallTypeVSERVER,
 	"mbind":                  AuditSystemCallTypeMBIND,
-	"set_mempolicy":          AuditSystemCallTypeSET_MEMPOLICY,
-	"get_mempolicy":          AuditSystemCallTypeGET_MEMPOLICY,
-	"mq_open":                AuditSystemCallTypeMQ_OPEN,
-	"mq_unlink":              AuditSystemCallTypeMQ_UNLINK,
-	"mq_timedsend":           AuditSystemCallTypeMQ_TIMEDSEND,
-	"mq_timedreceive":        AuditSystemCallTypeMQ_TIMEDRECEIVE,
-	"mq_notify":              AuditSystemCallTypeMQ_NOTIFY,
-	"mq_getsetattr":          AuditSystemCallTypeMQ_GETSETATTR,
-	"kexec_load":             AuditSystemCallTypeKEXEC_LOAD,
+	"set_mempolicy":          AuditSystemCallTypeSETMEMPOLICY,
+	"get_mempolicy":          AuditSystemCallTypeGETMEMPOLICY,
+	"mq_open":                AuditSystemCallTypeMQOPEN,
+	"mq_unlink":              AuditSystemCallTypeMQUNLINK,
+	"mq_timedsend":           AuditSystemCallTypeMQTIMEDSEND,
+	"mq_timedreceive":        AuditSystemCallTypeMQTIMEDRECEIVE,
+	"mq_notify":              AuditSystemCallTypeMQNOTIFY,
+	"mq_getsetattr":          AuditSystemCallTypeMQGETSETATTR,
+	"kexec_load":             AuditSystemCallTypeKEXECLOAD,
 	"waitid":                 AuditSystemCallTypeWAITID,
-	"add_key":                AuditSystemCallTypeADD_KEY,
-	"request_key":            AuditSystemCallTypeREQUEST_KEY,
+	"add_key":                AuditSystemCallTypeADDKEY,
+	"request_key":            AuditSystemCallTypeREQUESTKEY,
 	"keyctl":                 AuditSystemCallTypeKEYCTL,
-	"ioprio_set":             AuditSystemCallTypeIOPRIO_SET,
-	"ioprio_get":             AuditSystemCallTypeIOPRIO_GET,
-	"inotify_init":           AuditSystemCallTypeINOTIFY_INIT,
-	"inotify_add_watch":      AuditSystemCallTypeINOTIFY_ADD_WATCH,
-	"inotify_rm_watch":       AuditSystemCallTypeINOTIFY_RM_WATCH,
-	"migrate_pages":          AuditSystemCallTypeMIGRATE_PAGES,
+	"ioprio_set":             AuditSystemCallTypeIOPRIOSET,
+	"ioprio_get":             AuditSystemCallTypeIOPRIOGET,
+	"inotify_init":           AuditSystemCallTypeINOTIFYINIT,
+	"inotify_add_watch":      AuditSystemCallTypeINOTIFYADDWATCH,
+	"inotify_rm_watch":       AuditSystemCallTypeINOTIFYRMWATCH,
+	"migrate_pages":          AuditSystemCallTypeMIGRATEPAGES,
 	"openat":                 AuditSystemCallTypeOPENAT,
 	"mkdirat":                AuditSystemCallTypeMKDIRAT,
 	"mknodat":                AuditSystemCallTypeMKNODAT,
@@ -861,46 +861,46 @@ var auditSystemCallTypeReverse = map[string]interface{}{
 	"pselect6":               AuditSystemCallTypePSELECT6,
 	"ppoll":                  AuditSystemCallTypePPOLL,
 	"unshare":                AuditSystemCallTypeUNSHARE,
-	"set_robust_list":        AuditSystemCallTypeSET_ROBUST_LIST,
-	"get_robust_list":        AuditSystemCallTypeGET_ROBUST_LIST,
+	"set_robust_list":        AuditSystemCallTypeSETROBUSTLIST,
+	"get_robust_list":        AuditSystemCallTypeGETROBUSTLIST,
 	"splice":                 AuditSystemCallTypeSPLICE,
 	"tee":                    AuditSystemCallTypeTEE,
-	"sync_file_range":        AuditSystemCallTypeSYNC_FILE_RANGE,
+	"sync_file_range":        AuditSystemCallTypeSYNCFILERANGE,
 	"vmsplice":               AuditSystemCallTypeVMSPLICE,
-	"move_pages":             AuditSystemCallTypeMOVE_PAGES,
+	"move_pages":             AuditSystemCallTypeMOVEPAGES,
 	"utimensat":              AuditSystemCallTypeUTIMENSAT,
-	"epoll_pwait":            AuditSystemCallTypeEPOLL_PWAIT,
+	"epoll_pwait":            AuditSystemCallTypeEPOLLPWAIT,
 	"signalfd":               AuditSystemCallTypeSIGNALFD,
-	"timerfd_create":         AuditSystemCallTypeTIMERFD_CREATE,
+	"timerfd_create":         AuditSystemCallTypeTIMERFDCREATE,
 	"eventfd":                AuditSystemCallTypeEVENTFD,
 	"fallocate":              AuditSystemCallTypeFALLOCATE,
-	"timerfd_settime":        AuditSystemCallTypeTIMERFD_SETTIME,
-	"timerfd_gettime":        AuditSystemCallTypeTIMERFD_GETTIME,
+	"timerfd_settime":        AuditSystemCallTypeTIMERFDSETTIME,
+	"timerfd_gettime":        AuditSystemCallTypeTIMERFDGETTIME,
 	"accept4":                AuditSystemCallTypeACCEPT4,
 	"signalfd4":              AuditSystemCallTypeSIGNALFD4,
 	"eventfd2":               AuditSystemCallTypeEVENTFD2,
-	"epoll_create1":          AuditSystemCallTypeEPOLL_CREATE1,
+	"epoll_create1":          AuditSystemCallTypeEPOLLCREATE1,
 	"dup3":                   AuditSystemCallTypeDUP3,
 	"pipe2":                  AuditSystemCallTypePIPE2,
-	"inotify_init1":          AuditSystemCallTypeINOTIFY_INIT1,
+	"inotify_init1":          AuditSystemCallTypeINOTIFYINIT1,
 	"preadv":                 AuditSystemCallTypePREADV,
 	"pwritev":                AuditSystemCallTypePWRITEV,
-	"rt_tgsigqueueinfo":      AuditSystemCallTypeRT_TGSIGQUEUEINFO,
-	"perf_event_open":        AuditSystemCallTypePERF_EVENT_OPEN,
+	"rt_tgsigqueueinfo":      AuditSystemCallTypeRTTGSIGQUEUEINFO,
+	"perf_event_open":        AuditSystemCallTypePERFEVENTOPEN,
 	"recvmmsg":               AuditSystemCallTypeRECVMMSG,
-	"fanotify_init":          AuditSystemCallTypeFANOTIFY_INIT,
-	"fanotify_mark":          AuditSystemCallTypeFANOTIFY_MARK,
+	"fanotify_init":          AuditSystemCallTypeFANOTIFYINIT,
+	"fanotify_mark":          AuditSystemCallTypeFANOTIFYMARK,
 	"prlimit64":              AuditSystemCallTypePRLIMIT64,
-	"name_to_handle_at":      AuditSystemCallTypeNAME_TO_HANDLE_AT,
-	"open_by_handle_at":      AuditSystemCallTypeOPEN_BY_HANDLE_AT,
-	"clock_adjtime":          AuditSystemCallTypeCLOCK_ADJTIME,
+	"name_to_handle_at":      AuditSystemCallTypeNAMETOHANDLEAT,
+	"open_by_handle_at":      AuditSystemCallTypeOPENBYHANDLEAT,
+	"clock_adjtime":          AuditSystemCallTypeCLOCKADJTIME,
 	"syncfs":                 AuditSystemCallTypeSYNCFS,
 	"sendmmsg":               AuditSystemCallTypeSENDMMSG,
 	"setns":                  AuditSystemCallTypeSETNS,
 	"getcpu":                 AuditSystemCallTypeGETCPU,
-	"process_vm_readv":       AuditSystemCallTypePROCESS_VM_READV,
-	"process_vm_writev":      AuditSystemCallTypePROCESS_VM_WRITEV,
+	"process_vm_readv":       AuditSystemCallTypePROCESSVMREADV,
+	"process_vm_writev":      AuditSystemCallTypePROCESSVMWRITEV,
 	"kcmp":                   AuditSystemCallTypeKCMP,
-	"finit_module":           AuditSystemCallTypeFINIT_MODULE,
+	"finit_module":           AuditSystemCallTypeFINITMODULE,
 	"stime":                  AuditSystemCallTypeSTIME,
 }

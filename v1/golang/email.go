@@ -11,8 +11,8 @@ import (
 type EmailTypeValue string
 
 const (
-	// EmailTypeHtml represents the value HTML.
-	EmailTypeHtml EmailTypeValue = "HTML"
+	// EmailTypeHTML represents the value HTML.
+	EmailTypeHTML EmailTypeValue = "HTML"
 
 	// EmailTypePlain represents the value Plain.
 	EmailTypePlain EmailTypeValue = "Plain"

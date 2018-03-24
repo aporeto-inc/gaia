@@ -11,8 +11,8 @@ import (
 type IssueRealmValue string
 
 const (
-	// IssueRealmAwsidentitydocument represents the value AWSIdentityDocument.
-	IssueRealmAwsidentitydocument IssueRealmValue = "AWSIdentityDocument"
+	// IssueRealmAWSIdentityDocument represents the value AWSIdentityDocument.
+	IssueRealmAWSIdentityDocument IssueRealmValue = "AWSIdentityDocument"
 
 	// IssueRealmCertificate represents the value Certificate.
 	IssueRealmCertificate IssueRealmValue = "Certificate"
@@ -26,8 +26,8 @@ const (
 	// IssueRealmGoogle represents the value Google.
 	IssueRealmGoogle IssueRealmValue = "Google"
 
-	// IssueRealmLdap represents the value LDAP.
-	IssueRealmLdap IssueRealmValue = "LDAP"
+	// IssueRealmLDAP represents the value LDAP.
+	IssueRealmLDAP IssueRealmValue = "LDAP"
 
 	// IssueRealmTwitter represents the value Twitter.
 	IssueRealmTwitter IssueRealmValue = "Twitter"

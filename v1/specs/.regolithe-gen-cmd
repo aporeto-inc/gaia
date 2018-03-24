@@ -1,3 +1,5 @@
+#!/bin/bash
 mkdir -p ../doc
-rego doc -d . > ../doc/documentation.md
+data=$(rego doc -d . || exit 1)
+echo "$data" > ../doc/documentation.md
 cd ../.. && ./gen.sh

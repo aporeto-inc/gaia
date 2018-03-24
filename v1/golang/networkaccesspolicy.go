@@ -8,6 +8,20 @@ import (
 	"time"
 )
 
+// NetworkAccessPolicyActionValue represents the possible values for attribute "action".
+type NetworkAccessPolicyActionValue string
+
+const (
+	// NetworkAccessPolicyActionAllow represents the value Allow.
+	NetworkAccessPolicyActionAllow NetworkAccessPolicyActionValue = "Allow"
+
+	// NetworkAccessPolicyActionContinue represents the value Continue.
+	NetworkAccessPolicyActionContinue NetworkAccessPolicyActionValue = "Continue"
+
+	// NetworkAccessPolicyActionReject represents the value Reject.
+	NetworkAccessPolicyActionReject NetworkAccessPolicyActionValue = "Reject"
+)
+
 // NetworkAccessPolicyObservedTrafficActionValue represents the possible values for attribute "observedTrafficAction".
 type NetworkAccessPolicyObservedTrafficActionValue string
 
@@ -80,9 +94,8 @@ func (o NetworkAccessPoliciesList) Version() int {
 
 // NetworkAccessPolicy represents the model of a networkaccesspolicy
 type NetworkAccessPolicy struct {
-	// AllowsTraffic if true, the flow will be accepted. Otherwise other actions like
-	// "logs" can still be done, but the traffic will be rejected.
-	AllowsTraffic bool `json:"allowsTraffic" bson:"-" mapstructure:"allowsTraffic,omitempty"`
+	// Action defines the action to apply to a flow.
+	Action NetworkAccessPolicyActionValue `json:"action" bson:"-" mapstructure:"action,omitempty"`
 
 	// DestinationPorts contains the list of allowed ports and ranges.
 	DestinationPorts []string `json:"destinationPorts" bson:"-" mapstructure:"destinationPorts,omitempty"`
@@ -171,6 +184,7 @@ func NewNetworkAccessPolicy() *NetworkAccessPolicy {
 
 	return &NetworkAccessPolicy{
 		ModelVersion:          1,
+		Action:                "Reject",
 		Annotations:           map[string][]string{},
 		AssociatedTags:        []string{},
 		DestinationPorts:      []string{},
@@ -392,12 +406,24 @@ func (o *NetworkAccessPolicy) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Allow", "Reject", "Continue"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateStringInList("observedTrafficAction", string(o.ObservedTrafficAction), []string{"Apply", "Continue"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
@@ -452,6 +478,17 @@ var NetworkAccessPolicyAttributesMap = map[string]elemental.AttributeSpecificati
 		ReadOnly:       true,
 		Type:           "string",
 	},
+	"Action": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Allow", "Reject", "Continue"},
+		ConvertedName:  "Action",
+		DefaultValue:   NetworkAccessPolicyActionReject,
+		Description:    `Action defines the action to apply to a flow.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "action",
+		Orderable:      true,
+		Type:           "enum",
+	},
 	"ActiveDuration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
@@ -478,17 +515,6 @@ The policy will be active for the given activeDuration.`,
 		Stored:  true,
 		SubType: "cron_expression",
 		Type:    "external",
-	},
-	"AllowsTraffic": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AllowsTraffic",
-		Description: `AllowsTraffic if true, the flow will be accepted. Otherwise other actions like
-"logs" can still be done, but the traffic will be rejected.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "allowsTraffic",
-		Orderable:  true,
-		Type:       "boolean",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -533,8 +559,8 @@ The policy will be active for the given activeDuration.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -608,6 +634,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,
@@ -771,6 +798,17 @@ var NetworkAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		ReadOnly:       true,
 		Type:           "string",
 	},
+	"action": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Allow", "Reject", "Continue"},
+		ConvertedName:  "Action",
+		DefaultValue:   NetworkAccessPolicyActionReject,
+		Description:    `Action defines the action to apply to a flow.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "action",
+		Orderable:      true,
+		Type:           "enum",
+	},
 	"activeduration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
@@ -797,17 +835,6 @@ The policy will be active for the given activeDuration.`,
 		Stored:  true,
 		SubType: "cron_expression",
 		Type:    "external",
-	},
-	"allowstraffic": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AllowsTraffic",
-		Description: `AllowsTraffic if true, the flow will be accepted. Otherwise other actions like
-"logs" can still be done, but the traffic will be rejected.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "allowsTraffic",
-		Orderable:  true,
-		Type:       "boolean",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -852,8 +879,8 @@ The policy will be active for the given activeDuration.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -927,6 +954,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,

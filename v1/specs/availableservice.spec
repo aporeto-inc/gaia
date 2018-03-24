@@ -7,6 +7,9 @@ model:
   description: AvailableService represents a service that is available for launching
   aliases:
   - asrv
+  extends:
+  - '@described'
+  - '@named'
 
 # Attributes
 attributes:
@@ -24,12 +27,6 @@ attributes:
   filterable: true
   format: free
 
-- name: description
-  description: Description of the service
-  type: string
-  exposed: true
-  format: free
-
 - name: icon
   description: Icon contains a base64 image for the available service.
   type: string
@@ -39,12 +36,6 @@ attributes:
 
 - name: longDescription
   description: LongDescription contains a more detailed description of the service.
-  type: string
-  exposed: true
-  format: free
-
-- name: name
-  description: Name of the Service
   type: string
   exposed: true
   format: free

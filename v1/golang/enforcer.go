@@ -8,20 +8,6 @@ import (
 	"time"
 )
 
-// EnforcerCertificateStatusValue represents the possible values for attribute "certificateStatus".
-type EnforcerCertificateStatusValue string
-
-const (
-	// EnforcerCertificateStatusRenew represents the value RENEW.
-	EnforcerCertificateStatusRenew EnforcerCertificateStatusValue = "RENEW"
-
-	// EnforcerCertificateStatusRevoked represents the value REVOKED.
-	EnforcerCertificateStatusRevoked EnforcerCertificateStatusValue = "REVOKED"
-
-	// EnforcerCertificateStatusValid represents the value VALID.
-	EnforcerCertificateStatusValid EnforcerCertificateStatusValue = "VALID"
-)
-
 // EnforcerOperationalStatusValue represents the possible values for attribute "operationalStatus".
 type EnforcerOperationalStatusValue string
 
@@ -122,9 +108,6 @@ type Enforcer struct {
 	// update.
 	CertificateRequestEnabled bool `json:"certificateRequestEnabled" bson:"certificaterequestenabled" mapstructure:"certificateRequestEnabled,omitempty"`
 
-	// CertificateStatus indicates if the certificate is valid.
-	CertificateStatus EnforcerCertificateStatusValue `json:"certificateStatus" bson:"certificatestatus" mapstructure:"certificateStatus,omitempty"`
-
 	// CollectInfo indicates to the enforcer it needs to collect information.
 	CollectInfo bool `json:"collectInfo" bson:"collectinfo" mapstructure:"collectInfo,omitempty"`
 
@@ -205,7 +188,6 @@ func NewEnforcer() *Enforcer {
 		ModelVersion:      1,
 		Annotations:       map[string][]string{},
 		AssociatedTags:    []string{},
-		CertificateStatus: "VALID",
 		Metadata:          []string{},
 		NormalizedTags:    []string{},
 		OperationalStatus: "Initialized",
@@ -377,12 +359,16 @@ func (o *Enforcer) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("certificateStatus", string(o.CertificateStatus), []string{"RENEW", "REVOKED", "VALID"}, false); err != nil {
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
@@ -533,18 +519,6 @@ update.`,
 		Stored:  true,
 		Type:    "boolean",
 	},
-	"CertificateStatus": elemental.AttributeSpecification{
-		AllowedChoices: []string{"RENEW", "REVOKED", "VALID"},
-		ConvertedName:  "CertificateStatus",
-		DefaultValue:   EnforcerCertificateStatusValid,
-		Description:    `CertificateStatus indicates if the certificate is valid.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "certificateStatus",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
-	},
 	"CollectInfo": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CollectInfo",
@@ -596,8 +570,8 @@ to this object.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -672,6 +646,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,
@@ -894,18 +869,6 @@ update.`,
 		Stored:  true,
 		Type:    "boolean",
 	},
-	"certificatestatus": elemental.AttributeSpecification{
-		AllowedChoices: []string{"RENEW", "REVOKED", "VALID"},
-		ConvertedName:  "CertificateStatus",
-		DefaultValue:   EnforcerCertificateStatusValid,
-		Description:    `CertificateStatus indicates if the certificate is valid.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "certificateStatus",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
-	},
 	"collectinfo": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CollectInfo",
@@ -957,8 +920,8 @@ to this object.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -1033,6 +996,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,

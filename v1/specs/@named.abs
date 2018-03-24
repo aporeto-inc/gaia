@@ -11,4 +11,5 @@ attributes:
   format: free
   getter: true
   setter: true
+  max_length: 256
   orderable: true

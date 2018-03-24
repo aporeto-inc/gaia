@@ -56,7 +56,9 @@ func (o AvailableServicesList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o AvailableServicesList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"name",
+	}
 }
 
 // Version returns the version of the content.
@@ -73,23 +75,23 @@ type AvailableService struct {
 	// CategoryID of the service.
 	CategoryID string `json:"categoryID" bson:"-" mapstructure:"categoryID,omitempty"`
 
-	// Description of the service
-	Description string `json:"description" bson:"-" mapstructure:"description,omitempty"`
-
 	// Icon contains a base64 image for the available service.
 	Icon string `json:"icon" bson:"-" mapstructure:"icon,omitempty"`
 
 	// LongDescription contains a more detailed description of the service.
 	LongDescription string `json:"longDescription" bson:"-" mapstructure:"longDescription,omitempty"`
 
-	// Name of the Service
-	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
-
 	// Parameters of the service the user can or has to specify
 	Parameters []*types.ServiceParameter `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
 
 	// Title represents the title of the service.
 	Title string `json:"title" bson:"-" mapstructure:"title,omitempty"`
+
+	// Description is the description of the object.
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+
+	// Name is the name of the entity
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -131,7 +133,9 @@ func (o *AvailableService) Version() int {
 // DefaultOrder returns the list of default ordering fields.
 func (o *AvailableService) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"name",
+	}
 }
 
 // Doc returns the documentation for the object
@@ -144,11 +148,39 @@ func (o *AvailableService) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetName returns the Name of the receiver.
+func (o *AvailableService) GetName() string {
+
+	return o.Name
+}
+
+// SetName sets the given Name of the receiver.
+func (o *AvailableService) SetName(name string) {
+
+	o.Name = name
+}
+
 // Validate valides the current information stored into the structure.
 func (o *AvailableService) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		errors = append(errors, err)
+	}
 
 	if len(requiredErrors) > 0 {
 		return requiredErrors
@@ -203,10 +235,13 @@ var AvailableServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description of the service`,
+		Description:    `Description is the description of the object.`,
 		Exposed:        true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
+		Orderable:      true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"Icon": elemental.AttributeSpecification{
@@ -231,10 +266,18 @@ var AvailableServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		Description:    `Name of the Service`,
+		DefaultOrder:   true,
+		Description:    `Name is the name of the entity`,
 		Exposed:        true,
+		Filterable:     true,
 		Format:         "free",
+		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
+		Orderable:      true,
+		Required:       true,
+		Setter:         true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"Parameters": elemental.AttributeSpecification{
@@ -282,10 +325,13 @@ var AvailableServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
-		Description:    `Description of the service`,
+		Description:    `Description is the description of the object.`,
 		Exposed:        true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
+		Orderable:      true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"icon": elemental.AttributeSpecification{
@@ -310,10 +356,18 @@ var AvailableServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		Description:    `Name of the Service`,
+		DefaultOrder:   true,
+		Description:    `Name is the name of the entity`,
 		Exposed:        true,
+		Filterable:     true,
 		Format:         "free",
+		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
+		Orderable:      true,
+		Required:       true,
+		Setter:         true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"parameters": elemental.AttributeSpecification{

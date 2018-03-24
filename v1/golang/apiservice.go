@@ -13,14 +13,14 @@ import (
 type APIServiceTypeValue string
 
 const (
-	// APIServiceTypeHttp represents the value HTTP.
-	APIServiceTypeHttp APIServiceTypeValue = "HTTP"
+	// APIServiceTypeHTTP represents the value HTTP.
+	APIServiceTypeHTTP APIServiceTypeValue = "HTTP"
 
 	// APIServiceTypeL3 represents the value L3.
 	APIServiceTypeL3 APIServiceTypeValue = "L3"
 
-	// APIServiceTypeTcp represents the value TCP.
-	APIServiceTypeTcp APIServiceTypeValue = "TCP"
+	// APIServiceTypeTCP represents the value TCP.
+	APIServiceTypeTCP APIServiceTypeValue = "TCP"
 )
 
 // APIServiceIdentity represents the Identity of the object.
@@ -381,8 +381,16 @@ func (o *APIService) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
@@ -534,8 +542,8 @@ to accelerate database searches. It is not exposed.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -599,6 +607,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,
@@ -837,8 +846,8 @@ to accelerate database searches. It is not exposed.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -902,6 +911,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,

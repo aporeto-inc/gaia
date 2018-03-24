@@ -26,12 +26,15 @@ model:
 
 # Attributes
 attributes:
-- name: allowsTraffic
-  description: |-
-    AllowsTraffic if true, the flow will be accepted. Otherwise other actions like
-    "logs" can still be done, but the traffic will be rejected.
-  type: boolean
+- name: action
+  description: Action defines the action to apply to a flow.
+  type: enum
   exposed: true
+  allowed_choices:
+  - Allow
+  - Reject
+  - Continue
+  default_value: Reject
   filterable: true
   orderable: true
 
@@ -101,7 +104,11 @@ attributes:
 # Relations
 relations:
 - rest_name: externalservice
+  descriptions:
+    get: Returns the list of external services affected by a network access policy.
   get: true
 
 - rest_name: processingunit
+  descriptions:
+    get: Returns the list of Processing Units affected by a network access policy.
   get: true

@@ -18,14 +18,14 @@ const (
 	// ReportKindEnforcer represents the value Enforcer.
 	ReportKindEnforcer ReportKindValue = "Enforcer"
 
-	// ReportKindFileaccess represents the value FileAccess.
-	ReportKindFileaccess ReportKindValue = "FileAccess"
+	// ReportKindFileAccess represents the value FileAccess.
+	ReportKindFileAccess ReportKindValue = "FileAccess"
 
 	// ReportKindFlow represents the value Flow.
 	ReportKindFlow ReportKindValue = "Flow"
 
-	// ReportKindProcessingunit represents the value ProcessingUnit.
-	ReportKindProcessingunit ReportKindValue = "ProcessingUnit"
+	// ReportKindProcessingUnit represents the value ProcessingUnit.
+	ReportKindProcessingUnit ReportKindValue = "ProcessingUnit"
 
 	// ReportKindSyscall represents the value Syscall.
 	ReportKindSyscall ReportKindValue = "Syscall"

@@ -5,6 +5,7 @@ model:
   entity_name: Revocation
   package: barret
   description: Used to revoke a certificate
+  private: true
   update: true
 
 # Attributes

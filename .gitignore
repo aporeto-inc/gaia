@@ -6,3 +6,4 @@ codegen
 greetingmodels
 vendor
 *.lock
+coverage.txt

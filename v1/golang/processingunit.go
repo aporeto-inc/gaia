@@ -36,11 +36,11 @@ const (
 	// ProcessingUnitTypeDocker represents the value Docker.
 	ProcessingUnitTypeDocker ProcessingUnitTypeValue = "Docker"
 
-	// ProcessingUnitTypeLinuxservice represents the value LinuxService.
-	ProcessingUnitTypeLinuxservice ProcessingUnitTypeValue = "LinuxService"
+	// ProcessingUnitTypeLinuxService represents the value LinuxService.
+	ProcessingUnitTypeLinuxService ProcessingUnitTypeValue = "LinuxService"
 
-	// ProcessingUnitTypeRkt represents the value RKT.
-	ProcessingUnitTypeRkt ProcessingUnitTypeValue = "RKT"
+	// ProcessingUnitTypeRKT represents the value RKT.
+	ProcessingUnitTypeRKT ProcessingUnitTypeValue = "RKT"
 
 	// ProcessingUnitTypeUser represents the value User.
 	ProcessingUnitTypeUser ProcessingUnitTypeValue = "User"
@@ -358,8 +358,16 @@ func (o *ProcessingUnit) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
@@ -465,8 +473,8 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -518,6 +526,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,
@@ -706,8 +715,8 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -759,6 +768,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,

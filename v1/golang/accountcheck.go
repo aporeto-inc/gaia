@@ -11,7 +11,7 @@ import (
 var AccountCheckIdentity = elemental.Identity{
 	Name:     "accountcheck",
 	Category: "accountchecks",
-	Private:  false,
+	Private:  true,
 }
 
 // AccountChecksList represents a list of AccountChecks

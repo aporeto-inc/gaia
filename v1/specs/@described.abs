@@ -5,6 +5,6 @@ attributes:
   type: string
   exposed: true
   stored: true
-  filterable: true
   format: free
+  max_length: 1024
   orderable: true

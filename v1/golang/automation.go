@@ -15,8 +15,8 @@ const (
 	// AutomationTriggerEvent represents the value Event.
 	AutomationTriggerEvent AutomationTriggerValue = "Event"
 
-	// AutomationTriggerRemotecall represents the value RemoteCall.
-	AutomationTriggerRemotecall AutomationTriggerValue = "RemoteCall"
+	// AutomationTriggerRemoteCall represents the value RemoteCall.
+	AutomationTriggerRemoteCall AutomationTriggerValue = "RemoteCall"
 
 	// AutomationTriggerTime represents the value Time.
 	AutomationTriggerTime AutomationTriggerValue = "Time"
@@ -338,8 +338,16 @@ func (o *Automation) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
@@ -458,8 +466,8 @@ be taken.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -531,6 +539,7 @@ automation`,
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,
@@ -750,8 +759,8 @@ be taken.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Format:         "free",
+		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
 		Stored:         true,
@@ -823,6 +832,7 @@ automation`,
 		Filterable:     true,
 		Format:         "free",
 		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
 		Required:       true,
