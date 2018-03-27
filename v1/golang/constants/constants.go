@@ -154,7 +154,7 @@ const (
 	// StatsTagKeyFlowTypeExternalService represents the ext value.
 	StatsTagKeyFlowTypeExternalService = "ext"
 
-	// StatsTagKeyL4Proto represents the L4 protocol for the flow
+	// StatsTagKeyL4Protocol represents the L4 protocol for the flow
 	StatsTagKeyL4Protocol = "@l4proto"
 )
 
