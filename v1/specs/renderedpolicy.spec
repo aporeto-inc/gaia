@@ -22,7 +22,7 @@ attributes:
   format: free
 
 - name: egressPolicies
-  description: EgressPolicies lists all the egress policies attached to ProcessingUnit
+  description: EgressPolicies lists all the egress policies attached to processing unit.
   type: external
   exposed: true
   subtype: rendered_policy
@@ -38,7 +38,7 @@ attributes:
   subtype: api_services_entities
 
 - name: ingressPolicies
-  description: IngressPolicies lists all the ingress policies attached to ProcessingUnit
+  description: IngressPolicies lists all the ingress policies attached to processing unit.
   type: external
   exposed: true
   subtype: rendered_policy
@@ -62,9 +62,18 @@ attributes:
   subtype: processingunit
   required: true
   creation_only: true
+  example_value: |-
+    {
+      "name": "pu",
+      "type": "Docker",
+      "normalizedTags": [
+        "a=a",
+        "b=b"
+      ]
+    }
 
 - name: processingUnitID
-  description: Identifier of the ProcessingUnit
+  description: Identifier of the processing unit.
   type: string
   exposed: true
   read_only: true
@@ -83,7 +92,7 @@ attributes:
 
 - name: scopes
   description: |-
-    Scopes is the set of scopes granted to this Processing Unit that it has to
+    Scopes is the set of scopes granted to this processing unit that it has to
     present in HTTP requests.
   type: external
   exposed: true

@@ -6,14 +6,14 @@ model:
   package: meister
   description: |-
     A jaegerbatch is a batch of jaeger spans. This is used by external service to
-    post jaeger span in our private jaeger services
+    post jaeger span in our private jaeger services.
   aliases:
   - sp
 
 # Attributes
 attributes:
 - name: batch
-  description: Represent an jaeger batch
+  description: Represents a jaeger batch.
   type: external
   exposed: true
   subtype: jaeger_batch

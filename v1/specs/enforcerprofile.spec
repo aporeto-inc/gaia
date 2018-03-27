@@ -185,7 +185,8 @@ attributes:
   description: |-
     ProxyListenAddress is the address the enforcer should use to listen for API
     calls. It can be a port (example :9443) or socket path
-    (example: unix:///var/run/aporeto.sock)
+    example:
+      unix:///var/run/aporeto.sock.
   type: string
   exposed: true
   stored: true
@@ -198,7 +199,7 @@ attributes:
 - name: receiverNumberOfQueues
   description: |-
     ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network
-    receiver starting at the ReceiverQueue
+    receiver starting at the ReceiverQueue.
   type: integer
   exposed: true
   stored: true
@@ -219,7 +220,7 @@ attributes:
   orderable: true
 
 - name: receiverQueueSize
-  description: ReceiverQueueSize is the queue size of the receiver
+  description: ReceiverQueueSize is the queue size of the receiver.
   type: integer
   exposed: true
   stored: true
@@ -264,7 +265,7 @@ attributes:
 - name: transmitterQueue
   description: |-
     TransmitterQueue is the queue number for traffic from the applications starting
-    at the transmitterQueue
+    at the transmitterQueue.
   type: integer
   exposed: true
   stored: true

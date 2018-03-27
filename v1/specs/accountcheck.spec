@@ -4,5 +4,5 @@ model:
   resource_name: accountchecks
   entity_name: AccountCheck
   package: vince
-  description: '[nodoc]'
+  description: Validates the password for an account.
   private: true

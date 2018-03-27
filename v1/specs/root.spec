@@ -4,7 +4,7 @@ model:
   resource_name: root
   entity_name: Root
   package: root
-  description: '[nodoc]ZOB'
+  description: root object.
   get: true
   extends:
   - '@identifiable-nopk-nostored'
@@ -17,7 +17,7 @@ relations:
     create: Creates a new Account.
     get: |-
       Retrieves all accounts. This is a private API that can only be done by the
-      system
+      system.
   get: true
   create: true
 
@@ -143,8 +143,7 @@ relations:
 
 - rest_name: export
   descriptions:
-    get: Exports all policies and related object of a namespace.
-  get: true
+    create: Exports all policies and related object of a namespace.
   create: true
 
 - rest_name: externalaccess
@@ -223,7 +222,7 @@ relations:
 
 - rest_name: message
   descriptions:
-    create: Creates a new message
+    create: Creates a new message.
     get: Retrieves the list of messages.
   get: true
   create: true
@@ -251,7 +250,8 @@ relations:
 
 - rest_name: passwordreset
   descriptions:
-    create: Resets the password for an account.
+    get: Sends a link to the account email to reset the password.
+    create: Resets the password for an account using the provided link.
   get: true
   create: true
 
@@ -354,7 +354,7 @@ relations:
 
 - rest_name: token
   descriptions:
-    get: Creates a new token.
+    create: Creates a new token.
   create: true
 
 - rest_name: tokenscopepolicy

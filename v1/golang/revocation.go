@@ -128,7 +128,7 @@ func (o *Revocation) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Revocation) Doc() string {
-	return `Used to revoke a certificate`
+	return `Used to revoke a certificate.`
 }
 
 func (o *Revocation) String() string {

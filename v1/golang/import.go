@@ -147,10 +147,6 @@ func (o *Import) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("data", o.Data); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateStringInList("mode", string(o.Mode), []string{"Append", "Replace"}, false); err != nil {
 		errors = append(errors, err)
 	}

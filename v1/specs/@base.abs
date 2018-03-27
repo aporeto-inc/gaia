@@ -1,7 +1,7 @@
 # Attributes
 attributes:
 - name: annotations
-  description: Annotation stores additional information about an entity
+  description: Annotation stores additional information about an entity.
   type: external
   exposed: true
   subtype: annotations
@@ -10,7 +10,7 @@ attributes:
   setter: true
 
 - name: associatedTags
-  description: AssociatedTags are the list of tags attached to an entity
+  description: AssociatedTags are the list of tags attached to an entity.
   type: external
   exposed: true
   subtype: tags_list
@@ -19,7 +19,7 @@ attributes:
   setter: true
 
 - name: createTime
-  description: CreatedTime is the time at which the object was created
+  description: CreatedTime is the time at which the object was created.
   type: time
   exposed: true
   stored: true
@@ -30,7 +30,7 @@ attributes:
   orderable: true
 
 - name: namespace
-  description: Namespace tag attached to an entity
+  description: Namespace tag attached to an entity.
   type: string
   exposed: true
   stored: true
@@ -46,7 +46,7 @@ attributes:
   primary_key: true
 
 - name: normalizedTags
-  description: NormalizedTags contains the list of normalized tags of the entities
+  description: NormalizedTags contains the list of normalized tags of the entities.
   type: external
   exposed: true
   subtype: tags_list

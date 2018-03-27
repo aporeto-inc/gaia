@@ -14,6 +14,7 @@ attributes:
   exposed: true
   subtype: exported_data
   required: true
+  example_value: previous output of export
 
 - name: mode
   description: How to import the data.

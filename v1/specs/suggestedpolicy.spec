@@ -4,7 +4,7 @@ model:
   resource_name: suggestedpolicies
   entity_name: SuggestedPolicy
   package: jenova
-  description: Allows to get policy suggestions
+  description: Allows to get policy suggestions.
   aliases:
   - sugpol
   - sugpols
@@ -14,7 +14,7 @@ model:
 # Attributes
 attributes:
 - name: networkAccessPolicies
-  description: List of suggested network access policies
+  description: List of suggested network access policies.
   type: external
   exposed: true
   subtype: network_access_policies_list

@@ -71,7 +71,7 @@ type Category struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Name is the name of the entity
+	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Description is the description of the object.
@@ -124,7 +124,7 @@ func (o *Category) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Category) Doc() string {
-	return `Category allows to categorized services`
+	return `Category allows to categorized services.`
 }
 
 func (o *Category) String() string {
@@ -155,10 +155,6 @@ func (o *Category) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -228,7 +224,7 @@ var CategoryAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity`,
+		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -277,7 +273,7 @@ var CategoryLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity`,
+		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",

@@ -30,7 +30,7 @@ model:
 attributes:
 - name: enforcerID
   description: EnforcerID is the ID of the enforcer associated with the processing
-    unit
+    unit.
   type: string
   exposed: true
   stored: true
@@ -38,7 +38,7 @@ attributes:
   format: free
 
 - name: lastSyncTime
-  description: LastSyncTime is the time when the policy was last resolved
+  description: LastSyncTime is the time when the policy was last resolved.
   type: time
   exposed: true
   stored: true
@@ -46,7 +46,7 @@ attributes:
   orderable: true
 
 - name: nativeContextID
-  description: NativeContextID is the Docker UUID or service PID
+  description: NativeContextID is the Docker UUID or service PID.
   type: string
   exposed: true
   stored: true
@@ -66,7 +66,7 @@ attributes:
   orderable: true
 
 - name: operationalStatus
-  description: OperationalStatus of the processing unit
+  description: OperationalStatus of the processing unit.
   type: enum
   exposed: true
   stored: true
@@ -80,7 +80,7 @@ attributes:
   filterable: true
 
 - name: type
-  description: Type of the container ecosystem
+  description: Type of the container ecosystem.
   type: enum
   exposed: true
   stored: true
@@ -91,6 +91,7 @@ attributes:
   - LinuxService
   - RKT
   - User
+  default_value: Docker
   filterable: true
 
 # Relations

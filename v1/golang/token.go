@@ -140,10 +140,6 @@ func (o *Token) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("certificate", o.Certificate); err != nil {
-		errors = append(errors, err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}

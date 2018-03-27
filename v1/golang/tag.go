@@ -150,10 +150,6 @@ func (o *Tag) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("value", o.Value); err != nil {
-		errors = append(errors, err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}

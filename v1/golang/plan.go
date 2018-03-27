@@ -128,7 +128,7 @@ func (o *Plan) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Plan) Doc() string {
-	return `Plan contains the various billing plans available`
+	return `Plan contains the various billing plans available.`
 }
 
 func (o *Plan) String() string {

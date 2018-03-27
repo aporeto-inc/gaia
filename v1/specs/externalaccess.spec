@@ -5,7 +5,7 @@ model:
   entity_name: ExternalAccess
   package: jenova
   description: ExternalAccess allows to retrieve connection from or to an external
-    service
+    service.
   aliases:
   - extacs
   - extac
@@ -13,7 +13,7 @@ model:
 # Attributes
 attributes:
 - name: IPRecords
-  description: IPRecords refers to a list of IPRecord that contains the IP information
+  description: IPRecords refers to a list of IPRecord that contains the IP information.
   type: external
   exposed: true
   subtype: ip_records

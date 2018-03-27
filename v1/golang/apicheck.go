@@ -105,7 +105,7 @@ type APICheck struct {
 	// authorization.
 	TargetIdentities []string `json:"targetIdentities" bson:"-" mapstructure:"targetIdentities,omitempty"`
 
-	// Token is the token to use to check api authentication
+	// Token is the token to use to check api authentication.
 	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
@@ -174,10 +174,6 @@ func (o *APICheck) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateStringInList("operation", string(o.Operation), []string{"Create", "Delete", "Info", "Patch", "Retrieve", "RetrieveMany", "Update"}, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -186,16 +182,8 @@ func (o *APICheck) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("targetIdentities", o.TargetIdentities); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("token", o.Token); err != nil {
 		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("token", o.Token); err != nil {
-		errors = append(errors, err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -274,7 +262,7 @@ authorization.`,
 	"Token": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Token",
-		Description:    `Token is the token to use to check api authentication`,
+		Description:    `Token is the token to use to check api authentication.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "token",
@@ -331,7 +319,7 @@ authorization.`,
 	"token": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Token",
-		Description:    `Token is the token to use to check api authentication`,
+		Description:    `Token is the token to use to check api authentication.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "token",

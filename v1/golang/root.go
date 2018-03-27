@@ -64,7 +64,7 @@ func (o *Root) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Root) Doc() string {
-	return `[nodoc]ZOB`
+	return `root object.`
 }
 
 func (o *Root) String() string {

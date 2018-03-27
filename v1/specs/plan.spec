@@ -4,7 +4,7 @@ model:
   resource_name: plans
   entity_name: Plan
   package: vince
-  description: Plan contains the various billing plans available
+  description: Plan contains the various billing plans available.
   get: true
 
 # Attributes

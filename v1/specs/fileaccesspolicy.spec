@@ -51,7 +51,7 @@ attributes:
   orderable: true
 
 - name: encryptionEnabled
-  description: EncryptionEnabled will enable the automatic encryption
+  description: EncryptionEnabled will enable the automatic encryption.
   type: boolean
   exposed: true
   filterable: true
@@ -72,7 +72,7 @@ attributes:
   orderable: true
 
 - name: subject
-  description: Subject is the subject of the policy
+  description: Subject is the subject of the policy.
   type: external
   exposed: true
   subtype: policies_list

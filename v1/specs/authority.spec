@@ -4,7 +4,7 @@ model:
   resource_name: authorities
   entity_name: Authority
   package: barret
-  description: Authority represents a certificate authority
+  description: Authority represents a certificate authority.
   aliases:
   - ca
   private: true
@@ -38,6 +38,7 @@ attributes:
   stored: true
   required: true
   creation_only: true
+  example_value: my ca
   format: free
 
 - name: expirationDate
@@ -55,7 +56,7 @@ attributes:
   format: free
 
 - name: serialNumber
-  description: serialNumber of the certificate
+  description: serialNumber of the certificate.
   type: string
   exposed: true
   stored: true

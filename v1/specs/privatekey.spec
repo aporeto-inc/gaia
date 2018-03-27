@@ -4,7 +4,7 @@ model:
   resource_name: privatekeys
   entity_name: PrivateKey
   package: barret
-  description: Internal representation of an private key
+  description: Internal representation of an private key.
   private: true
   get: true
   update: true

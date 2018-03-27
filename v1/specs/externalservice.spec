@@ -46,18 +46,19 @@ attributes:
   stored: true
 
 - name: network
-  description: Network refers to either CIDR or domain name
+  description: Network refers to either CIDR or domain name.
   type: string
   exposed: true
   stored: true
   required: true
+  example_value: 0.0.0.0/0
   filterable: true
   format: free
 
 - name: port
   description: |-
     Port refers to network port which could be a single number or 100:2000 to
-    represent a range of ports
+    represent a range of ports.
   type: string
   exposed: true
   stored: true
@@ -73,6 +74,7 @@ attributes:
   stored: true
   required: true
   allowed_chars: ^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
+  example_value: TCP
   filterable: true
 
 - name: type

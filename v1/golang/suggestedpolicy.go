@@ -66,7 +66,7 @@ func (o SuggestedPoliciesList) Version() int {
 
 // SuggestedPolicy represents the model of a suggestedpolicy
 type SuggestedPolicy struct {
-	// List of suggested network access policies
+	// List of suggested network access policies.
 	NetworkAccessPolicies []*NetworkAccessPolicy `json:"networkAccessPolicies" bson:"networkaccesspolicies" mapstructure:"networkAccessPolicies,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
@@ -113,7 +113,7 @@ func (o *SuggestedPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *SuggestedPolicy) Doc() string {
-	return `Allows to get policy suggestions`
+	return `Allows to get policy suggestions.`
 }
 
 func (o *SuggestedPolicy) String() string {
@@ -160,7 +160,7 @@ var SuggestedPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"NetworkAccessPolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NetworkAccessPolicies",
-		Description:    `List of suggested network access policies`,
+		Description:    `List of suggested network access policies.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "networkAccessPolicies",
@@ -176,7 +176,7 @@ var SuggestedPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"networkaccesspolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NetworkAccessPolicies",
-		Description:    `List of suggested network access policies`,
+		Description:    `List of suggested network access policies.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "networkAccessPolicies",

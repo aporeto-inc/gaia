@@ -81,7 +81,7 @@ type AvailableService struct {
 	// LongDescription contains a more detailed description of the service.
 	LongDescription string `json:"longDescription" bson:"-" mapstructure:"longDescription,omitempty"`
 
-	// Parameters of the service the user can or has to specify
+	// Parameters of the service the user can or has to specify.
 	Parameters []*types.ServiceParameter `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
 
 	// Title represents the title of the service.
@@ -90,7 +90,7 @@ type AvailableService struct {
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Name is the name of the entity
+	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
@@ -140,7 +140,7 @@ func (o *AvailableService) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *AvailableService) Doc() string {
-	return `AvailableService represents a service that is available for launching`
+	return `AvailableService represents a service that is available for launching.`
 }
 
 func (o *AvailableService) String() string {
@@ -175,10 +175,6 @@ func (o *AvailableService) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -267,7 +263,7 @@ var AvailableServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity`,
+		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -283,7 +279,7 @@ var AvailableServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters of the service the user can or has to specify`,
+		Description:    `Parameters of the service the user can or has to specify.`,
 		Exposed:        true,
 		Name:           "parameters",
 		SubType:        "service_parameters",
@@ -357,7 +353,7 @@ var AvailableServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity`,
+		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -373,7 +369,7 @@ var AvailableServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters of the service the user can or has to specify`,
+		Description:    `Parameters of the service the user can or has to specify.`,
 		Exposed:        true,
 		Name:           "parameters",
 		SubType:        "service_parameters",

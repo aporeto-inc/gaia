@@ -1,7 +1,7 @@
 # Attributes
 attributes:
 - name: realm
-  description: Realm is the realm
+  description: Realm is the authentication realm.
   type: enum
   exposed: true
   required: true
@@ -14,3 +14,4 @@ attributes:
   - LDAP
   - Twitter
   - Vince
+  example_value: Certificate

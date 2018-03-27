@@ -7,7 +7,7 @@
 | Object                                                        | Description                                                                         |
 | -                                                             | -                                                                                   |
 | [Account](#account)                                           | This api allows to view and manage basic information about your account like        |
-| [Activate](#activate)                                         | Used to activate a pending account                                                  |
+| [Activate](#activate)                                         | Used to activate a pending account.                                                 |
 | [Activity](#activity)                                         | Contains all the activity log that happened in a namespace. All successful or       |
 | [Alarm](#alarm)                                               | An alarm represents an event requiring attention.                                   |
 | [APIAuthorizationPolicy](#apiauthorizationpolicy)             | An API Authorization Policy defines what kind of operations a user of a system      |
@@ -16,17 +16,17 @@
 | [AuditProfile](#auditprofile)                                 | AuditProfile is an audit policy that consists of a set of audit rules. An audit     |
 | [Auth](#auth)                                                 | This API verifies if the given token is valid or not.                               |
 | [Automation](#automation)                                     | An automation needs documentation.                                                  |
-| [AutomationTemplate](#automationtemplate)                     | Templates that ca be used in automations                                            |
-| [AvailableService](#availableservice)                         | AvailableService represents a service that is available for launching               |
+| [AutomationTemplate](#automationtemplate)                     | Templates that ca be used in automations.                                           |
+| [AvailableService](#availableservice)                         | AvailableService represents a service that is available for launching.              |
 | [AWSAccount](#awsaccount)                                     | Allows to bind an AWS account to your Aporeto account to allow auto registration... |
-| [Category](#category)                                         | Category allows to categorized services                                             |
+| [Category](#category)                                         | Category allows to categorized services.                                            |
 | [Certificate](#certificate)                                   | A User represents the owner of some certificates.                                   |
 | [DependencyMap](#dependencymap)                               | This api returns a data structure representing the graph of all processing units... |
 | [Enforcer](#enforcer)                                         | An Enforcer Profile contains a configuration for a Enforcer. It contains various... |
 | [EnforcerProfile](#enforcerprofile)                           | Allows to create reusable configuration profile for your enforcers. Enforcer        |
 | [EnforcerProfileMappingPolicy](#enforcerprofilemappingpolicy) | A Enforcer Profile Mapping Policy will tell what Enforcer Profile should be used... |
 | [Export](#export)                                             | Export the policies and related objects in a given namespace.                       |
-| [ExternalAccess](#externalaccess)                             | ExternalAccess allows to retrieve connection from or to an external service         |
+| [ExternalAccess](#externalaccess)                             | ExternalAccess allows to retrieve connection from or to an external service.        |
 | [ExternalService](#externalservice)                           | An External Service represents a random network or ip that is not managed by the... |
 | [FileAccess](#fileaccess)                                     | Returns file access statistics on a particular processing unit.                     |
 | [FileAccessPolicy](#fileaccesspolicy)                         | A File Access Policy allows Processing Units to access various folder and files.... |
@@ -34,8 +34,8 @@
 | [FlowStatistic](#flowstatistic)                               | Returns network access statistics on a particular processing unit or group of       |
 | [HookPolicy](#hookpolicy)                                     | Hook allows to to define hooks to the write operations in squall. Hooks are sent... |
 | [Import](#import)                                             | Imports an export of policies and related objects into the namespace.               |
-| [Installation](#installation)                                 | Installation represents an installation for a given account                         |
-| [IsolationProfile](#isolationprofile)                         | An IsolationProfile needs documentation                                             |
+| [Installation](#installation)                                 | Installation represents an installation for a given account.                        |
+| [IsolationProfile](#isolationprofile)                         | An IsolationProfile needs documentation.                                            |
 | [Issue](#issue)                                               | This API issues a new token according to given data.                                |
 | [Jaegerbatch](#jaegerbatch)                                   | A jaegerbatch is a batch of jaeger spans. This is used by external service to       |
 | [KubernetesCluster](#kubernetescluster)                       | Create a remote Kubernetes Cluster integration.                                     |
@@ -45,9 +45,9 @@
 | [NamespaceMappingPolicy](#namespacemappingpolicy)             | A Namespace Mapping Policy defines in which namespace a Processing Unit should      |
 | [NetworkAccessPolicy](#networkaccesspolicy)                   | Allows to define networking policies to allow or prevent processing units           |
 | [PasswordReset](#passwordreset)                               | Used to reset an account password.                                                  |
-| [Plan](#plan)                                                 | Plan contains the various billing plans available                                   |
+| [Plan](#plan)                                                 | Plan contains the various billing plans available.                                  |
 | [Poke](#poke)                                                 | When available, poke can be used to update various information about the parent.... |
-| [Policy](#policy)                                             | [nodoc]                                                                             |
+| [Policy](#policy)                                             | Policy represents the policy primitive used by all aporeto policies.                |
 | [PolicyRefresh](#policyrefresh)                               | PolicyRefresh is sent to client when as a push event when a policy refresh is       |
 | [PolicyRule](#policyrule)                                     | PolicyRule is an internal policy resolution API. Services can use this API to       |
 | [ProcessingUnit](#processingunit)                             | A Processing Unit reprents anything that can compute. It can be a Docker            |
@@ -57,28 +57,37 @@
 | [RenderedPolicy](#renderedpolicy)                             | Retrieve the aggregated policies applied to a particular processing unit.           |
 | [Report](#report)                                             | Post a new statistics report.                                                       |
 | [Role](#role)                                                 | Roles returns the available roles that can be used with API Authorization           |
-| [Root](#root)                                                 | [nodoc]ZOB                                                                          |
-| [Service](#service)                                           | Service represents a service that can be launched                                   |
+| [Root](#root)                                                 | root object.                                                                        |
+| [Service](#service)                                           | Service represents a service that can be launched.                                  |
 | [StatsQuery](#statsquery)                                     | StatsQuery is a generic API to retrieve time series data stored by the Aporeto      |
-| [SuggestedPolicy](#suggestedpolicy)                           | Allows to get policy suggestions                                                    |
-| [SystemCall](#systemcall)                                     | [nodoc]                                                                             |
+| [SuggestedPolicy](#suggestedpolicy)                           | Allows to get policy suggestions.                                                   |
+| [SystemCall](#systemcall)                                     | This object has never been used and should be removed.                              |
 | [Tabulation](#tabulation)                                     | Tabulate API allows you to retrieve a custom table view for any identity using      |
 | [Tag](#tag)                                                   | A tag is a string in the form of "key=value" that can applied to all objects in     |
 | [TokenScopePolicy](#tokenscopepolicy)                         | The TokenScopePolicy defines a set of policies that allow customization of the      |
 | [Trigger](#trigger)                                           | Trigger can be used to remotely trigger an automation.                              |
-| [Vulnerability](#vulnerability)                               | A vulnerabily represents a particular CVE                                           |
+| [Vulnerability](#vulnerability)                               | A vulnerabily represents a particular CVE.                                          |
 
 ## Account
 
 This api allows to view and manage basic information about your account like
 your name, password, enable 2 factor authentication.
 
+### Example
+
+```json
+{
+  "email": "user@aporeto.com",
+  "name": "acme"
+}
+```
+
 ### Relations
 
 | Method   | URL         | Description |
 | -:       | -           | -           |
 | `GET`    | `/accounts` | Retrieves all accounts. This is a private API that can only be done by the
-system     |
+system.    |
 | `POST`   | `/accounts`     | Creates a new Account.                       |
 | `DELETE` | `/accounts/:id` | Deletes the `account` with the given `:id`.  |
 | `GET`    | `/accounts/:id` | Retrieve the `account` with the given `:id`. |
@@ -278,7 +287,7 @@ Status of the account.
 
 #### `updateTime (time)`
 
-Last update date of the object
+Last update date of the object.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -289,7 +298,7 @@ Last update date of the object
 
 ## Activate
 
-Used to activate a pending account
+Used to activate a pending account.
 
 ### Relations
 
@@ -301,7 +310,7 @@ Used to activate a pending account
 
 #### `token (string)`
 
-Token contains the activation token
+Token contains the activation token.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -446,6 +455,16 @@ TargetIdentity is the Identity of the related object.
 
 An alarm represents an event requiring attention.
 
+### Example
+
+```json
+{
+  "content": "This is an alarm",
+  "kind": "aporeto.alarm.kind",
+  "name": "the name"
+}
+```
+
 ### Relations
 
 | Method   | URL           | Description                                |
@@ -472,11 +491,11 @@ ID is the identifier of the object.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `content (string)`
 
@@ -489,7 +508,7 @@ Content of the alarm.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -499,7 +518,7 @@ CreatedTime is the time at which the object was created
 
 #### `data (external:alarm_data)`
 
-Data represent user data related to the alams
+Data represent user data related to the alams.
 
 #### `description (string)`
 
@@ -524,7 +543,7 @@ identifier, then only the occurrence will be incremented.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -535,7 +554,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -547,7 +566,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -574,7 +593,7 @@ Protected defines if the object is protected.
 
 #### `status (enum)`
 
-Status of the alarm
+Status of the alarm.
 
 | Characteristics | Value                          |
 | -               | -:                             |
@@ -602,6 +621,18 @@ permissions in the context of the current namespace but you can make it
 propagate to all the child namespaces. It is also possible restrict permissions
 to apply only on a particular subset of the apis by setting the target
 identities.
+
+### Example
+
+```json
+{
+  "authorizedIdentities": [
+    "@auth:role=namespace.editor"
+  ],
+  "authorizedNamespace": "/namespace",
+  "name": "the name"
+}
+```
 
 ### Relations
 
@@ -643,11 +674,11 @@ The policy will be active for the given activeDuration.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `authorizedIdentities (external:identity_list)`
 
@@ -668,7 +699,7 @@ AuthorizedNamespace defines on what namespace the policy applies.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -706,7 +737,7 @@ with the '@' prefix, and should only be used by external systems.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -717,7 +748,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -729,7 +760,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -788,6 +819,19 @@ This API allows to verify is a client identitied by his token is allowed to do
 some operations on some apis. For example, it allows third party system to
 impersonate a user and ensure a proxfied request should be allowed.
 
+### Example
+
+```json
+{
+  "namespace": "/namespace",
+  "targetIdentities": [
+    "processingunit",
+    "enforcer"
+  ],
+  "token": "valid.jwt.token"
+}
+```
+
 ### Relations
 
 | Method | URL          | Description                                                         |
@@ -834,7 +878,7 @@ authorization.
 
 #### `token (string)`
 
-Token is the token to use to check api authentication
+Token is the token to use to check api authentication.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -846,6 +890,27 @@ APIService descibes a L4/L7 service and the corresponding implementation. It
 allows users to define their services, the APIs that they expose, the
 implementation of the service. These definitions can be used by network policy
 in order to define advanced controls based on the APIs.
+
+### Example
+
+```json
+{
+  "name": "the name",
+  "ports": [
+    80,
+    "445:448"
+  ],
+  "runtimeSelectors": [
+    [
+      "a=a",
+      "b=b"
+    ],
+    [
+      "c=c"
+    ]
+  ]
+}
+```
 
 ### Relations
 
@@ -895,15 +960,15 @@ required for this service. The certificate must be in PEM format.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -952,7 +1017,7 @@ with the '@' prefix, and should only be used by external systems.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -963,7 +1028,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -987,7 +1052,7 @@ NetworkProtocol is the network protocol of the service.
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1049,6 +1114,14 @@ UpdateTime is the time at which an entity was updated.
 AuditProfile is an audit policy that consists of a set of audit rules. An audit
 policy will determine that types of events that must be captured in the kernel.
 
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
+
 ### Relations
 
 | Method   | URL                                   | Description                                                    |
@@ -1076,15 +1149,15 @@ ID is the identifier of the object.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1113,7 +1186,7 @@ with the '@' prefix, and should only be used by external systems.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1124,7 +1197,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1136,7 +1209,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1199,17 +1272,28 @@ Claims are the claims.
 
 An automation needs documentation.
 
+### Example
+
+```json
+{
+  "condition": "function when(m, params) { return { continue: true }}",
+  "name": "the name"
+}
+```
+
 ### Relations
 
-| Method   | URL                         | Description                                                                                     |
-| -:       | -                           | -                                                                                               |
-| `GET`    | `/automations`              | Retrieves the list of Automations.                                                              |
-| `POST`   | `/automations`              | Creates a new Automation.                                                                       |
-| `DELETE` | `/automations/:id`          | Deletes the `automation` with the given `:id`.                                                  |
-| `GET`    | `/automations/:id`          | Retrieve the `automation` with the given `:id`.                                                 |
-| `PUT`    | `/automations/:id`          | Updates the `automation` with the given `:id`.                                                  |
-| `GET`    | `/automations/:id/triggers` | Allows a system to trigger the automation if its `triggerType` property is set to `RemoteCall`. |
-| `POST`   | `/automations/:id/triggers` | Allows a system to trigger the automation if its `triggerType` property is set to `RemoteCall`. |
+| Method         | URL                         | Description                                     |
+| -:             | -                           | -                                               |
+| `GET`          | `/automations`              | Retrieves the list of Automations.              |
+| `POST`         | `/automations`              | Creates a new Automation.                       |
+| `DELETE`       | `/automations/:id`          | Deletes the `automation` with the given `:id`.  |
+| `GET`          | `/automations/:id`          | Retrieve the `automation` with the given `:id`. |
+| `PUT`          | `/automations/:id`          | Updates the `automation` with the given `:id`.  |
+| `GET`          | `/automations/:id/triggers` | Allows a system to trigger the automation if its `triggerType` property is set
+to `RemoteCall`. |
+| `POST`         | `/automations/:id/triggers` | Allows a system to trigger the automation if its `triggerType` property is set
+to `RemoteCall`. |
 
 ### Attributes
 
@@ -1229,17 +1313,13 @@ ID is the identifier of the object.
 
 Action contains the code that will be executed if the condition is met.
 
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
-
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `condition (string)`
 
@@ -1252,7 +1332,7 @@ be taken.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1294,7 +1374,7 @@ Error contains the eventual error of the last run.
 #### `events (external:automation_events)`
 
 Events contains the identity and operation an event must have to trigger the
-automation
+automation.
 
 #### `lastExecTime (time)`
 
@@ -1307,7 +1387,7 @@ LastExecTime holds the last successful execution tine.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1318,7 +1398,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1330,7 +1410,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1401,7 +1481,15 @@ UpdateTime is the time at which an entity was updated.
 
 ## AutomationTemplate
 
-Templates that ca be used in automations
+Templates that ca be used in automations.
+
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
 
 ### Relations
 
@@ -1444,7 +1532,7 @@ Kind represents the kind of template.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1459,7 +1547,15 @@ Parameters contains the parameter description of the function.
 
 ## AvailableService
 
-AvailableService represents a service that is available for launching
+AvailableService represents a service that is available for launching.
+
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
 
 ### Relations
 
@@ -1509,7 +1605,7 @@ LongDescription contains a more detailed description of the service.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1520,7 +1616,7 @@ Name is the name of the entity
 
 #### `parameters (external:service_parameters)`
 
-Parameters of the service the user can or has to specify
+Parameters of the service the user can or has to specify.
 
 #### `title (string)`
 
@@ -1529,7 +1625,17 @@ Title represents the title of the service.
 ## AWSAccount
 
 Allows to bind an AWS account to your Aporeto account to allow auto registration
-of enforcers running on EC2
+of enforcers running on EC2.
+
+### Example
+
+```json
+{
+  "accessKeyID": "aws access key id",
+  "region": "us-west-2",
+  "secretAccessKey": "aws secret access key"
+}
+```
 
 ### Relations
 
@@ -1617,7 +1723,7 @@ ParentName contains the name of the Vince parent Account.
 
 #### `region (string)`
 
-Region contains your the region where your AWS account is located
+Region contains your the region where your AWS account is located.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1638,7 +1744,7 @@ and it is not stored.
 
 #### `updateTime (time)`
 
-Last update date of the object
+Last update date of the object.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1649,7 +1755,15 @@ Last update date of the object
 
 ## Category
 
-Category allows to categorized services
+Category allows to categorized services.
+
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
 
 ### Attributes
 
@@ -1676,7 +1790,7 @@ Description is the description of the object.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1688,6 +1802,16 @@ Name is the name of the entity
 ## Certificate
 
 A User represents the owner of some certificates.
+
+### Example
+
+```json
+{
+  "commonName": "john doe",
+  "email": "john@doe.com",
+  "name": "john.doe"
+}
+```
 
 ### Relations
 
@@ -1724,7 +1848,7 @@ Admin determines if the certificate must be added to the admin list.
 
 #### `commonName (string)`
 
-CommonName (CN) for the user certificate
+CommonName (CN) for the user certificate.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1747,7 +1871,7 @@ Creation date of the object.
 
 #### `data (string)`
 
-Certificate provides a certificate for the user
+Certificate provides a certificate for the user.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1756,7 +1880,7 @@ Certificate provides a certificate for the user
 
 #### `email (string)`
 
-e-mail address of the user
+e-mail address of the user.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1797,7 +1921,7 @@ Name of the certificate.
 
 #### `organizationalUnits (list)`
 
-OrganizationalUnits attribute for the generated certificates
+OrganizationalUnits attribute for the generated certificates.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1849,7 +1973,7 @@ get a new certificate.
 
 #### `updateTime (time)`
 
-Last update date of the object
+Last update date of the object.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -1866,7 +1990,7 @@ the time window you can use the query parameters 'startAbsolute', 'endAbsolute',
 'startRelative', 'endRelative'.
 
 For example
-  "/dependencymaps?startAbsolute=1489132800000&endAbsolute=1489219200000"
+  "/dependencymaps?startAbsolute=1489132800000&endAbsolute=1489219200000".
 
 ### Relations
 
@@ -1890,29 +2014,26 @@ ID is the identifier of the object.
 
 #### `edges (external:graphedges_map)`
 
-edges are the edges of the map
+edges are the edges of the map.
 
 | Characteristics | Value  |
 | -               | -:     |
-| Required        | `true` |
 | Read only       | `true` |
 
 #### `groups (external:graphgroups_map)`
 
-Groups provide information about the group values
+Groups provide information about the group values.
 
 | Characteristics | Value  |
 | -               | -:     |
-| Required        | `true` |
 | Read only       | `true` |
 
 #### `nodes (external:graphnodes_map)`
 
-nodes refers to the nodes of the map
+nodes refers to the nodes of the map.
 
 | Characteristics | Value  |
 | -               | -:     |
-| Required        | `true` |
 | Read only       | `true` |
 
 #### `viewSuggestions (external:view_suggestions)`
@@ -1921,7 +2042,6 @@ viewSuggestions provides suggestion of views based on relevant tags.
 
 | Characteristics | Value  |
 | -               | -:     |
-| Required        | `true` |
 | Read only       | `true` |
 
 ## Enforcer
@@ -1934,6 +2054,15 @@ using aEnforcer Profile Mapping Policy. This policy will decide according the
 Enforcer's tags what profile to use. If an Enforcer tags are matching more than
 a single policy, it will refuse to start. Some parameters will be applied
 directly to a running agent, some will need to restart it.
+
+### Example
+
+```json
+{
+  "FQDN": "server1.domain.com",
+  "name": "the name"
+}
+```
 
 ### Relations
 
@@ -1975,11 +2104,11 @@ ID is the identifier of the object.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `certificate (string)`
 
@@ -2036,7 +2165,7 @@ CollectedInfo represents the latest info collected by the enforcer.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2107,7 +2236,7 @@ with the '@' prefix, and should only be used by external systems.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2118,7 +2247,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2130,7 +2259,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2194,18 +2323,27 @@ Profiles contains various startup information that can (for some) be updated
 live. Enforcer Profiles are assigned to some Enforcer using a Enforcer Profile
 Mapping Policy.
 
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
+
 ### Relations
 
-| Method   | URL                                                    | Description                                                                            |
-| -:       | -                                                      | -                                                                                      |
-| `GET`    | `/enforcerprofiles`                                    | Retrieves the list of enforcer profiles.                                               |
-| `POST`   | `/enforcerprofiles`                                    | Creates a new enforcer profile.                                                        |
-| `DELETE` | `/enforcerprofiles/:id`                                | Deletes the `enforcerprofile` with the given `:id`.                                    |
-| `GET`    | `/enforcerprofiles/:id`                                | Retrieve the `enforcerprofile` with the given `:id`.                                   |
-| `PUT`    | `/enforcerprofiles/:id`                                | Updates the `enforcerprofile` with the given `:id`.                                    |
-| `GET`    | `/enforcerprofilemappingpolicies/:id/enforcerprofiles` | Returns the list of enforcer profiles that an enforcer profile mapping policy matches. |
-| `GET`    | `/enforcers/:id/enforcerprofiles`                      | Returns the enforcer profile that must be used by an enforcer.                         |
-| `GET`    | `/enforcerprofiles/:id/auditprofiles`                  | Returns the list of AuditProfiles used by an enforcer profile.                         |
+| Method   | URL                                                    | Description                                          |
+| -:       | -                                                      | -                                                    |
+| `GET`    | `/enforcerprofiles`                                    | Retrieves the list of enforcer profiles.             |
+| `POST`   | `/enforcerprofiles`                                    | Creates a new enforcer profile.                      |
+| `DELETE` | `/enforcerprofiles/:id`                                | Deletes the `enforcerprofile` with the given `:id`.  |
+| `GET`    | `/enforcerprofiles/:id`                                | Retrieve the `enforcerprofile` with the given `:id`. |
+| `PUT`    | `/enforcerprofiles/:id`                                | Updates the `enforcerprofile` with the given `:id`.  |
+| `GET`    | `/enforcerprofilemappingpolicies/:id/enforcerprofiles` | Returns the list of enforcer profiles that an enforcer profile mapping policy
+matches.   |
+| `GET`    | `/enforcers/:id/enforcerprofiles`     | Returns the enforcer profile that must be used by an enforcer. |
+| `GET`    | `/enforcerprofiles/:id/auditprofiles` | Returns the list of AuditProfiles used by an enforcer profile. |
 
 ### Attributes
 
@@ -2256,11 +2394,11 @@ PUHeartbeatInterval configures the heart beat interval.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `auditProfileSelectors (external:audit_profile_selector)`
 
@@ -2295,7 +2433,7 @@ AuditSocketBufferSize is the size of the audit socket buffer. Default 16384.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2388,7 +2526,7 @@ Select which metadata extractor to use to process new processing units.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2399,7 +2537,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2411,7 +2549,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2443,7 +2581,8 @@ Protected defines if the object is protected.
 
 ProxyListenAddress is the address the enforcer should use to listen for API
 calls. It can be a port (example :9443) or socket path
-(example: unix:///var/run/aporeto.sock)
+example:
+  unix:///var/run/aporeto.sock.
 
 | Characteristics | Value                                                                                                                                       |
 | -               | -:                                                                                                                                          |
@@ -2455,7 +2594,7 @@ calls. It can be a port (example :9443) or socket path
 #### `receiverNumberOfQueues (integer)`
 
 ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network
-receiver starting at the ReceiverQueue
+receiver starting at the ReceiverQueue.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2478,7 +2617,7 @@ ReceiverQueue is the base queue number for traffic from the network.
 
 #### `receiverQueueSize (integer)`
 
-ReceiverQueueSize is the queue size of the receiver
+ReceiverQueueSize is the queue size of the receiver.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2523,7 +2662,7 @@ TransmitterNumberOfQueues is the number of queues for application traffic.
 #### `transmitterQueue (integer)`
 
 TransmitterQueue is the queue number for traffic from the applications starting
-at the transmitterQueue
+at the transmitterQueue.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2565,17 +2704,44 @@ A Enforcer Profile Mapping Policy will tell what Enforcer Profile should be used
 by and Aporeto Agent based on the Enforcer that have been used during the
 registration. The policy can also be propagated down to the child namespace.
 
+### Example
+
+```json
+{
+  "name": "the name",
+  "object": [
+    [
+      "a=a",
+      "b=b"
+    ],
+    [
+      "c=c"
+    ]
+  ],
+  "subject": [
+    [
+      "a=a",
+      "b=b"
+    ],
+    [
+      "c=c"
+    ]
+  ]
+}
+```
+
 ### Relations
 
-| Method   | URL                                                    | Description                                                                            |
-| -:       | -                                                      | -                                                                                      |
-| `GET`    | `/enforcerprofilemappingpolicies`                      | Retrieves the list of enforcer profile mapping policies.                               |
-| `POST`   | `/enforcerprofilemappingpolicies`                      | Creates a new enforcer profile mapping policies.                                       |
-| `DELETE` | `/enforcerprofilemappingpolicies/:id`                  | Deletes the `enforcerprofilemappingpolicy` with the given `:id`.                       |
-| `GET`    | `/enforcerprofilemappingpolicies/:id`                  | Retrieve the `enforcerprofilemappingpolicy` with the given `:id`.                      |
-| `PUT`    | `/enforcerprofilemappingpolicies/:id`                  | Updates the `enforcerprofilemappingpolicy` with the given `:id`.                       |
-| `GET`    | `/enforcerprofilemappingpolicies/:id/enforcerprofiles` | Returns the list of enforcer profiles that an enforcer profile mapping policy matches. |
-| `GET`    | `/enforcerprofilemappingpolicies/:id/enforcers`        | Returns the list of enforcers affected by an enforcer profile mapping policy.          |
+| Method   | URL                                                    | Description                                                       |
+| -:       | -                                                      | -                                                                 |
+| `GET`    | `/enforcerprofilemappingpolicies`                      | Retrieves the list of enforcer profile mapping policies.          |
+| `POST`   | `/enforcerprofilemappingpolicies`                      | Creates a new enforcer profile mapping policies.                  |
+| `DELETE` | `/enforcerprofilemappingpolicies/:id`                  | Deletes the `enforcerprofilemappingpolicy` with the given `:id`.  |
+| `GET`    | `/enforcerprofilemappingpolicies/:id`                  | Retrieve the `enforcerprofilemappingpolicy` with the given `:id`. |
+| `PUT`    | `/enforcerprofilemappingpolicies/:id`                  | Updates the `enforcerprofilemappingpolicy` with the given `:id`.  |
+| `GET`    | `/enforcerprofilemappingpolicies/:id/enforcerprofiles` | Returns the list of enforcer profiles that an enforcer profile mapping policy
+matches.   |
+| `GET`    | `/enforcerprofilemappingpolicies/:id/enforcers` | Returns the list of enforcers affected by an enforcer profile mapping policy. |
 
 ### Attributes
 
@@ -2593,15 +2759,15 @@ ID is the identifier of the object.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2639,7 +2805,7 @@ with the '@' prefix, and should only be used by external systems.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2650,7 +2816,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2662,7 +2828,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2731,14 +2897,13 @@ Export the policies and related objects in a given namespace.
 
 | Method | URL       | Description                                             |
 | -:     | -         | -                                                       |
-| `GET`  | `/export` | Exports all policies and related object of a namespace. |
-| `POST` | `/export` |                                                         |
+| `POST` | `/export` | Exports all policies and related object of a namespace. |
 
 ### Attributes
 
 #### `APIVersion (integer)`
 
-APIVersion of the api used for the exported data
+APIVersion of the api used for the exported data.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2792,7 +2957,7 @@ List of all exported isolation profiles.
 
 #### `networkAccessPolicies (external:exported_data_content)`
 
-List of exported network policies
+List of exported network policies.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2806,11 +2971,10 @@ List of all exported processingUnitPolicies.
 | Characteristics | Value  |
 | -               | -:     |
 | Autogenerated   | `true` |
-| Required        | `true` |
 
 ## ExternalAccess
 
-ExternalAccess allows to retrieve connection from or to an external service
+ExternalAccess allows to retrieve connection from or to an external service.
 
 ### Relations
 
@@ -2822,7 +2986,7 @@ ExternalAccess allows to retrieve connection from or to an external service
 
 #### `IPRecords (external:ip_records)`
 
-IPRecords refers to a list of IPRecord that contains the IP information
+IPRecords refers to a list of IPRecord that contains the IP information.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2837,6 +3001,16 @@ from or to the declared network or IP, using the provided protocol and port or
 ports range. If you want to describe the Internet (ie. anywhere), use 0.0.0.0/0
 as address, and 1-65000 for the ports. You will need to use the External
 Services tags to set some policies.
+
+### Example
+
+```json
+{
+  "name": "the name",
+  "network": "0.0.0.0/0",
+  "protocol": "TCP"
+}
+```
 
 ### Relations
 
@@ -2865,15 +3039,15 @@ ID is the identifier of the object.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2912,7 +3086,7 @@ with the '@' prefix, and should only be used by external systems.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2923,7 +3097,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2935,7 +3109,7 @@ Namespace tag attached to an entity
 
 #### `network (string)`
 
-Network refers to either CIDR or domain name
+Network refers to either CIDR or domain name.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2944,7 +3118,7 @@ Network refers to either CIDR or domain name
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -2954,7 +3128,7 @@ NormalizedTags contains the list of normalized tags of the entities
 #### `port (string)`
 
 Port refers to network port which could be a single number or 100:2000 to
-represent a range of ports
+represent a range of ports.
 
 | Characteristics | Value                                                                                                                                                                                                            |
 | -               | -:                                                                                                                                                                                                               |
@@ -3082,6 +3256,14 @@ mount. executewon''t have any effect.
 
 File path are not supported yet for standard Linux processes.
 
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
+
 ### Relations
 
 | Method   | URL                       | Description                                           |
@@ -3149,15 +3331,15 @@ AllowsWrite allows to write the files.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3185,7 +3367,7 @@ Disabled defines if the propert is disabled.
 
 #### `encryptionEnabled (boolean)`
 
-EncryptionEnabled will enable the automatic encryption
+EncryptionEnabled will enable the automatic encryption.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3213,7 +3395,7 @@ with the '@' prefix, and should only be used by external systems.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3224,7 +3406,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3236,7 +3418,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3281,7 +3463,7 @@ Protected defines if the object is protected.
 
 #### `subject (external:policies_list)`
 
-Subject is the subject of the policy
+Subject is the subject of the policy.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3303,6 +3485,15 @@ A File Path represents a random path to a file or a folder. They can be used in
 aFile Access Policiesin order to allow Processing Units to access them, using
 various modes (read, write, execute). You will need to use the File Paths tags
 to set some policies. A good example would bevolume=web or file=/etc/passwd.
+
+### Example
+
+```json
+{
+  "filepath": "/etc/passwd",
+  "name": "the name"
+}
+```
 
 ### Relations
 
@@ -3330,15 +3521,15 @@ ID is the identifier of the object.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3357,7 +3548,7 @@ Description is the description of the object.
 
 #### `filepath (string)`
 
-FilePath refer to the file mount path
+FilePath refer to the file mount path.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3376,7 +3567,7 @@ with the '@' prefix, and should only be used by external systems.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3387,7 +3578,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3399,7 +3590,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3417,11 +3608,10 @@ Protected defines if the object is protected.
 
 #### `server (string)`
 
-server is the server name/ID/IP associated with the file path
+server is the server name/ID/IP associated with the file path.
 
 | Characteristics | Value  |
 | -               | -:     |
-| Required        | `true` |
 | Creation only   | `true` |
 | Filterable      | `true` |
 
@@ -3481,7 +3671,7 @@ DestinationIDs is the IDs of the destination.
 
 #### `destinationTags (external:selectors_list)`
 
-DestinationTags contains the tags used to identify destination
+DestinationTags contains the tags used to identify destination.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3530,7 +3720,7 @@ SourceTags contains the tags used to identify the source.
 
 #### `type (enum)`
 
-Type is the type of representation
+Type is the type of representation.
 
 | Characteristics | Value                |
 | -               | -:                   |
@@ -3554,6 +3744,23 @@ in the FlowStatistic object.
 Hook allows to to define hooks to the write operations in squall. Hooks are sent
 to an external Rufus server that will do the processing and eventually return a
 modified version of the object before we save it.
+
+### Example
+
+```json
+{
+  "certificateAuthority": "-----BEGIN CERTIFICATE-----\nMIIBbjCCARSgAwIBAgIRANRbvVzTzBZOvMCb8BiKCLowCgYIKoZIzj0EAwIwJjEN\nMAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNTE4\nNDgwN1oXDTI3MTEyNDE4NDgwN1owJjENMAsGA1UEChMEQWNtZTEVMBMGA1UEAxMM\nQWNtZSBSb290IENBMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJ/80HR51+vau\n7XH7zS7b8ABA0e/TdBOg1NznbnXdXil1tDvWloWuH5+/bbaiEg54wksJHFXaukw8\njhTLU7zT56MjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wCgYI\nKoZIzj0EAwIDSAAwRQIhALwAZh2KLFFC1qfb5CqFHExlXS0PUltax9PvQCN9P0vl\nAiBl7/st9u/JpERjJgirxJxOgKNlV6pq9ti75EfQtZZcQA==\n-----END CERTIFICATE-----",
+  "clientCertificate": "-----BEGIN CERTIFICATE-----\nMIIBczCCARigAwIBAgIRALD3Vz81Pq10g7n4eAkOsCYwCgYIKoZIzj0EAwIwJjEN\nMAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNzA2\nNTM1MloXDTI3MTEyNjA2NTM1MlowGDEWMBQGA1UEAxMNY2xhaXJlLWNsaWVudDBZ\nMBMGByqGSM49AgEGCCqGSM49AwEHA0IABOmzPJj+t25T148eQH5gVrZ7nHwckF5O\nevJQ3CjSEMesjZ/u7cW8IBfXlxZKHxl91IEbbB3svci4c8pycUNZ2kujNTAzMA4G\nA1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggrBgEFBQcDAjAMBgNVHRMBAf8EAjAA\nMAoGCCqGSM49BAMCA0kAMEYCIQCjAAmkQpTua0HR4q6jnePaFBp/JMXwTXTxzbV6\npeGbBQIhAP+1OR8GFnn2PlacwHqWXHwkvy6CLPVikvgtwEdB6jH8\n-----END CERTIFICATE-----",
+  "clientCertificateKey": "-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIGOXJI/123456789oamOu4tQAIKFdbyvkIJg9GME0mHzoAoGCCqGSM49\nAwEHoUQDQgAE6bM8mP123456789AfmBWtnucfByQXk568lDcKNIQx6yNn+7txbwg\nF9eXFkofGX3UgRtsHe123456789xQ1naSw==\n-----END EC PRIVATE KEY-----",
+  "endpoint": "https://hooks.hookserver.com/remoteprocessors",
+  "name": "the name",
+  "subject": [
+    [
+      "$identity=processingunit"
+    ]
+  ]
+}
+```
 
 ### Relations
 
@@ -3581,11 +3788,11 @@ ID is the identifier of the object.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `certificateAuthority (string)`
 
@@ -3618,7 +3825,7 @@ ClientCertificateKey contains the key associated to the clientCertificate.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3677,7 +3884,7 @@ Mode define the type of the hook.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3688,7 +3895,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3700,7 +3907,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3758,6 +3965,14 @@ UpdateTime is the time at which an entity was updated.
 
 Imports an export of policies and related objects into the namespace.
 
+### Example
+
+```json
+{
+  "data": "previous output of export"
+}
+```
+
 ### Relations
 
 | Method | URL       | Description                          |
@@ -3786,7 +4001,7 @@ How to import the data.
 
 ## Installation
 
-Installation represents an installation for a given account
+Installation represents an installation for a given account.
 
 ### Relations
 
@@ -3820,7 +4035,15 @@ AccountName that should be installed.
 
 ## IsolationProfile
 
-An IsolationProfile needs documentation
+An IsolationProfile needs documentation.
+
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
 
 ### Relations
 
@@ -3848,11 +4071,11 @@ ID is the identifier of the object.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `capabilitiesActions (external:cap_map)`
 
@@ -3866,7 +4089,7 @@ from the processing unit.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3905,7 +4128,7 @@ with the '@' prefix, and should only be used by external systems.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3916,7 +4139,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3928,7 +4151,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3978,6 +4201,14 @@ UpdateTime is the time at which an entity was updated.
 
 This API issues a new token according to given data.
 
+### Example
+
+```json
+{
+  "realm": "Certificate"
+}
+```
+
 ### Relations
 
 | Method | URL      | Description         |
@@ -4005,7 +4236,7 @@ Metadata contains various additional information. Meaning depends on the realm.
 
 #### `realm (enum)`
 
-Realm is the realm
+Realm is the authentication realm.
 
 | Characteristics | Value                                                                              |
 | -               | -:                                                                                 |
@@ -4036,13 +4267,13 @@ configured max validity, it will be capped.
 ## Jaegerbatch
 
 A jaegerbatch is a batch of jaeger spans. This is used by external service to
-post jaeger span in our private jaeger services
+post jaeger span in our private jaeger services.
 
 ### Attributes
 
 #### `batch (external:jaeger_batch)`
 
-Represent an jaeger batch
+Represents a jaeger batch.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4090,7 +4321,7 @@ Creation date of the object.
 #### `kubernetesDefinitions (string)`
 
 base64 of the .tar.gz file that contains all the .YAMLs files needed to create
-the aporeto side on your kubernetes Cluster
+the aporeto side on your kubernetes Cluster.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4100,7 +4331,7 @@ the aporeto side on your kubernetes Cluster
 
 #### `name (string)`
 
-The name of your cluster
+The name of your cluster.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4133,7 +4364,9 @@ default your account namespace.
 
 #### `targetNetworks (external:target_networks_list)`
 
-List of target networks [deprecated]
+> This attribute is deprecated
+
+List of target networks.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4142,7 +4375,7 @@ List of target networks [deprecated]
 
 #### `updateTime (time)`
 
-Last update date of the object
+Last update date of the object.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4157,9 +4390,9 @@ Retrieves the log of a deployed app.
 
 ### Relations
 
-| Method | URL                  | Description                    |
-| -:     | -                    | -                              |
-| `GET`  | `/services/:id/logs` | Returns the logs for a service |
+| Method | URL                  | Description                     |
+| -:     | -                    | -                               |
+| `GET`  | `/services/:id/logs` | Returns the logs for a service. |
 
 ### Attributes
 
@@ -4177,12 +4410,20 @@ Data contains all logs data.
 The Message API allows to post public messages that will be visible through all
 children namespaces.
 
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
+
 ### Relations
 
 | Method   | URL             | Description                                  |
 | -:       | -               | -                                            |
 | `GET`    | `/messages`     | Retrieves the list of messages.              |
-| `POST`   | `/messages`     | Creates a new message                        |
+| `POST`   | `/messages`     | Creates a new message.                       |
 | `DELETE` | `/messages/:id` | Deletes the `message` with the given `:id`.  |
 | `GET`    | `/messages/:id` | Retrieve the `message` with the given `:id`. |
 | `PUT`    | `/messages/:id` | Updates the `message` with the given `:id`.  |
@@ -4203,15 +4444,15 @@ ID is the identifier of the object.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4259,7 +4500,7 @@ If local is set, the message will only be visible in the current namespace.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4270,7 +4511,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4282,7 +4523,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4334,6 +4575,14 @@ always exists in a single namespace. A Namespace can also have child namespaces.
 They can be used to split the system into organizations, business units,
 applications, services or any combination you like.
 
+### Example
+
+```json
+{
+  "name": "mynamespace"
+}
+```
+
 ### Relations
 
 | Method   | URL               | Description                                    |
@@ -4360,15 +4609,15 @@ ID is the identifier of the object.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4428,7 +4677,7 @@ Name is the name of the namespace.
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4440,7 +4689,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4484,6 +4733,20 @@ namespace, based on a lot of factor.
 You can put in place a quarantine namespace that will grab all Processing Units
 with too much vulnerabilities for instances.
 
+### Example
+
+```json
+{
+  "mappedNamespace": "/blue/namespace",
+  "name": "the name",
+  "subject": [
+    [
+      "color=blue"
+    ]
+  ]
+}
+```
+
 ### Relations
 
 | Method   | URL                             | Description                                                 |
@@ -4510,15 +4773,15 @@ ID is the identifier of the object.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4546,7 +4809,7 @@ Disabled defines if the propert is disabled.
 
 #### `mappedNamespace (string)`
 
-mappedNamespace is the mapped namespace
+mappedNamespace is the mapped namespace.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4566,7 +4829,7 @@ with the '@' prefix, and should only be used by external systems.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4577,7 +4840,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4589,7 +4852,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4611,6 +4874,7 @@ Subject is the subject.
 
 | Characteristics | Value  |
 | -               | -:     |
+| Required        | `true` |
 | Orderable       | `true` |
 
 #### `updateTime (time)`
@@ -4628,6 +4892,14 @@ UpdateTime is the time at which an entity was updated.
 Allows to define networking policies to allow or prevent processing units
 identitied by their tags to talk to other processing units or external services
 (also identified by their tags).
+
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
 
 ### Relations
 
@@ -4682,15 +4954,15 @@ The policy will be active for the given activeDuration.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4755,7 +5027,7 @@ with the '@' prefix, and should only be used by external systems.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4766,7 +5038,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4778,7 +5050,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4868,12 +5140,21 @@ UpdateTime is the time at which an entity was updated.
 
 Used to reset an account password.
 
+### Example
+
+```json
+{
+  "password": "NewPassword123@",
+  "token": "valid.jwt.token"
+}
+```
+
 ### Relations
 
-| Method | URL              | Description                         |
-| -:     | -                | -                                   |
-| `GET`  | `/passwordreset` |                                     |
-| `POST` | `/passwordreset` | Resets the password for an account. |
+| Method | URL              | Description                                                 |
+| -:     | -                | -                                                           |
+| `GET`  | `/passwordreset` | Sends a link to the account email to reset the password.    |
+| `POST` | `/passwordreset` | Resets the password for an account using the provided link. |
 
 ### Attributes
 
@@ -4887,7 +5168,7 @@ Password contains the new password.
 
 #### `token (string)`
 
-Token contains the reset password token
+Token contains the reset password token.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4895,7 +5176,7 @@ Token contains the reset password token
 
 ## Plan
 
-Plan contains the various billing plans available
+Plan contains the various billing plans available.
 
 ### Relations
 
@@ -4973,7 +5254,15 @@ For instance, for enforcers, poke will be use as the heartbeat.
 
 ## Policy
 
-[nodoc]
+Policy represents the policy primitive used by all aporeto policies.
+
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
 
 ### Relations
 
@@ -5001,10 +5290,6 @@ ID is the identifier of the object.
 
 Action defines set of actions that must be enforced when a dependency is met.
 
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
-
 #### `activeDuration (string)`
 
 ActiveDuration defines for how long the policy will be active according to the
@@ -5021,15 +5306,15 @@ The policy will be active for the given activeDuration.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5067,7 +5352,7 @@ with the '@' prefix, and should only be used by external systems.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5078,7 +5363,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5090,7 +5375,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5133,26 +5418,21 @@ Protected defines if the object is protected.
 #### `relation (external:relations_list)`
 
 Relation describes the required operation to be performed between subjects and
-objects
+objects.
 
 #### `subject (external:policies_list)`
 
 Subject represent sets of entities that will have a dependency other entities.
 Subjects are defined as logical operations on tags. Logical operations can
-includes AND/OR
-
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
+includes AND/OR.
 
 #### `type (enum)`
 
-Type of the policy
+Type of the policy.
 
 | Characteristics | Value                                                                                                                  |
 | -               | -:                                                                                                                     |
 | Allowed Value   | `APIAuthorization, EnforcerProfile, File, Hook, NamespaceMapping, Network, ProcessingUnit, Quota, Syscall, TokenScope` |
-| Required        | `true`                                                                                                                 |
 | Creation only   | `true`                                                                                                                 |
 | Filterable      | `true`                                                                                                                 |
 
@@ -5195,6 +5475,14 @@ Type contains the policy type that is affected.
 
 PolicyRule is an internal policy resolution API. Services can use this API to
 retrieve a policy resolution.
+
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
 
 ### Relations
 
@@ -5244,7 +5532,7 @@ IsolationProfiles are the isolation profiles of the rule.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5269,11 +5557,11 @@ Propagated indicates if the policy is propagated.
 #### `relation (external:relations_list)`
 
 Relation describes the required operation to be performed between subjects and
-objects
+objects.
 
 #### `tagClauses (external:target_tags)`
 
-Policy target tags
+Policy target tags.
 
 ## ProcessingUnit
 
@@ -5283,6 +5571,14 @@ the system as they come and go. You can only modify its tags.  Processing Units
 use Network Access Policies to define which other Processing Units or External
 Services they can communicate with and File Access Policies to define what File
 Paths they can use.
+
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
 
 ### Relations
 
@@ -5316,15 +5612,15 @@ ID is the identifier of the object.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5343,7 +5639,7 @@ Description is the description of the object.
 
 #### `enforcerID (string)`
 
-EnforcerID is the ID of the enforcer associated with the processing unit
+EnforcerID is the ID of the enforcer associated with the processing unit.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5351,7 +5647,7 @@ EnforcerID is the ID of the enforcer associated with the processing unit
 
 #### `lastSyncTime (time)`
 
-LastSyncTime is the time when the policy was last resolved
+LastSyncTime is the time when the policy was last resolved.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5370,7 +5666,7 @@ with the '@' prefix, and should only be used by external systems.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5381,7 +5677,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5393,7 +5689,7 @@ Namespace tag attached to an entity
 
 #### `nativeContextID (string)`
 
-NativeContextID is the Docker UUID or service PID
+NativeContextID is the Docker UUID or service PID.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5412,7 +5708,7 @@ or by exposing the ports in a container manifest.
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5421,7 +5717,7 @@ NormalizedTags contains the list of normalized tags of the entities
 
 #### `operationalStatus (enum)`
 
-OperationalStatus of the processing unit
+OperationalStatus of the processing unit.
 
 | Characteristics | Value                                               |
 | -               | -:                                                  |
@@ -5440,11 +5736,12 @@ Protected defines if the object is protected.
 
 #### `type (enum)`
 
-Type of the container ecosystem
+Type of the container ecosystem.
 
 | Characteristics | Value                             |
 | -               | -:                                |
 | Allowed Value   | `Docker, LinuxService, RKT, User` |
+| Default         | `Docker`                          |
 | Required        | `true`                            |
 | Creation only   | `true`                            |
 | Filterable      | `true`                            |
@@ -5462,6 +5759,14 @@ UpdateTime is the time at which an entity was updated.
 ## ProcessingUnitPolicy
 
 A ProcessingUnitPolicies needs a better description.
+
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
 
 ### Relations
 
@@ -5513,15 +5818,15 @@ The policy will be active for the given activeDuration.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5569,7 +5874,7 @@ with the '@' prefix, and should only be used by external systems.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5580,7 +5885,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5592,7 +5897,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5652,6 +5957,19 @@ UpdateTime is the time at which an entity was updated.
 Quotas Policies allows to set quotas on the number of objects that can be
 created in a namespace.
 
+### Example
+
+```json
+{
+  "identities": [
+    "processingunit",
+    "enforcer"
+  ],
+  "name": "the name",
+  "targetNamespace": "/my/namespace"
+}
+```
+
 ### Relations
 
 | Method   | URL                  | Description                                      |
@@ -5678,15 +5996,15 @@ ID is the identifier of the object.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5732,7 +6050,7 @@ with the '@' prefix, and should only be used by external systems.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5743,7 +6061,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5755,7 +6073,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5818,6 +6136,21 @@ UpdateTime is the time at which an entity was updated.
 
 Hook to integrate an Aporeto service.
 
+### Example
+
+```json
+{
+  "claims": [
+    "@auth:realm=certificate",
+    "@auth:commonname=john"
+  ],
+  "input": "{\n  \"name\": \"hello\",\n  \"description\": \"hello\",\n}",
+  "namespace": "/my/namespace",
+  "operation": "create",
+  "targetIdentity": "processingunit"
+}
+```
+
 ### Relations
 
 | Method | URL                 | Description             |
@@ -5828,7 +6161,7 @@ Hook to integrate an Aporeto service.
 
 #### `claims (list)`
 
-Represents the claims of the currently managed object
+Represents the claims of the currently managed object.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5836,7 +6169,7 @@ Represents the claims of the currently managed object
 
 #### `input (external:raw_json)`
 
-Represents data received from the service
+Represents data received from the service.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5844,16 +6177,17 @@ Represents data received from the service
 
 #### `mode (enum)`
 
-Node defines the type of the hook
+Node defines the type of the hook.
 
 | Characteristics | Value       |
 | -               | -:          |
 | Allowed Value   | `Post, Pre` |
+| Default         | `Pre`       |
 | Required        | `true`      |
 
 #### `namespace (string)`
 
-Represents the current namespace
+Represents the current namespace.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5861,7 +6195,7 @@ Represents the current namespace
 
 #### `operation (external:elemental_operation)`
 
-Define the operation that is currently handled by the service
+Define the operation that is currently handled by the service.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5869,7 +6203,7 @@ Define the operation that is currently handled by the service
 
 #### `output (external:elemental_identitifable)`
 
-Returns the OutputData filled with the processor information
+Returns the OutputData filled with the processor information.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5887,7 +6221,7 @@ RequestID gives the id of the request coming from the main server.
 
 #### `targetIdentity (string)`
 
-Represents the Identity name of the managed object
+Represents the Identity name of the managed object.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5896,6 +6230,14 @@ Represents the Identity name of the managed object
 ## RenderedPolicy
 
 Retrieve the aggregated policies applied to a particular processing unit.
+
+### Example
+
+```json
+{
+  "processingUnit": "{\n  \"name\": \"pu\",\n  \"type\": \"Docker\",\n  \"normalizedTags\": [\n    \"a=a\",\n    \"b=b\"\n  ]\n}"
+}
+```
 
 ### Relations
 
@@ -5917,7 +6259,7 @@ to any internal or external services.
 
 #### `egressPolicies (external:rendered_policy)`
 
-EgressPolicies lists all the egress policies attached to ProcessingUnit
+EgressPolicies lists all the egress policies attached to processing unit.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5931,7 +6273,7 @@ implementing.
 
 #### `ingressPolicies (external:rendered_policy)`
 
-IngressPolicies lists all the ingress policies attached to ProcessingUnit
+IngressPolicies lists all the ingress policies attached to processing unit.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5959,7 +6301,7 @@ has not been created yet.
 
 #### `processingUnitID (string)`
 
-Identifier of the ProcessingUnit
+Identifier of the processing unit.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5978,7 +6320,7 @@ all communications.
 
 #### `scopes (external:scopes_list)`
 
-Scopes is the set of scopes granted to this Processing Unit that it has to
+Scopes is the set of scopes granted to this processing unit that it has to
 present in HTTP requests.
 
 ## Report
@@ -6068,7 +6410,7 @@ Name of the role.
 
 ## Service
 
-Service represents a service that can be launched
+Service represents a service that can be launched.
 
 ### Relations
 
@@ -6079,13 +6421,13 @@ Service represents a service that can be launched
 | `DELETE` | `/services/:id`      | Deletes the `service` with the given `:id`.  |
 | `GET`    | `/services/:id`      | Retrieve the `service` with the given `:id`. |
 | `PUT`    | `/services/:id`      | Updates the `service` with the given `:id`.  |
-| `GET`    | `/services/:id/logs` | Returns the logs for a service               |
+| `GET`    | `/services/:id/logs` | Returns the logs for a service.              |
 
 ### Attributes
 
 #### `ID (string)`
 
-ID of the service
+ID of the service.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6096,7 +6438,7 @@ ID of the service
 
 #### `accountName (string)`
 
-AccountName represents the vince account name
+AccountName represents the vince account name.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6114,7 +6456,7 @@ CategoryID of the service.
 
 #### `name (string)`
 
-Name of the service
+Name of the service.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6133,7 +6475,7 @@ Namespace in which the service in running.
 
 #### `parameters (external:service_parameters)`
 
-Parameters is a list of parameters to start the service
+Parameters is a list of parameters to start the service.
 
 #### `replicas (integer)`
 
@@ -6176,7 +6518,7 @@ Results contains the result of the query.
 
 ## SuggestedPolicy
 
-Allows to get policy suggestions
+Allows to get policy suggestions.
 
 ### Relations
 
@@ -6188,7 +6530,7 @@ Allows to get policy suggestions
 
 #### `networkAccessPolicies (external:network_access_policies_list)`
 
-List of suggested network access policies
+List of suggested network access policies.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6197,7 +6539,15 @@ List of suggested network access policies
 
 ## SystemCall
 
-[nodoc]
+This object has never been used and should be removed.
+
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
 
 ### Relations
 
@@ -6225,15 +6575,15 @@ ID is the identifier of the object.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6262,7 +6612,7 @@ with the '@' prefix, and should only be used by external systems.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6273,7 +6623,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6285,7 +6635,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6360,6 +6710,14 @@ xxx and a name set to "the name" will be tagged by default with "$name=the name"
 and "$id=xxx"). Tags starting with an "@" have been generated by an external
 system.
 
+### Example
+
+```json
+{
+  "value": "key=value"
+}
+```
+
 ### Relations
 
 | Method | URL     | Description                                        |
@@ -6414,6 +6772,14 @@ The TokenScopePolicy defines a set of policies that allow customization of the
 authorization tokens issued by the Aporeto service. This allows Aporeto
 generated tokens to be used by external applications.
 
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
+
 ### Relations
 
 | Method   | URL                       | Description                                           |
@@ -6454,7 +6820,7 @@ The policy will be active for the given activeDuration.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `assignedScopes (external:tags_list)`
 
@@ -6467,11 +6833,11 @@ AssignedScopes is the the list of scopes that the policiy will assigns.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6509,7 +6875,7 @@ with the '@' prefix, and should only be used by external systems.
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6520,7 +6886,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6532,7 +6898,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6593,14 +6959,26 @@ Trigger can be used to remotely trigger an automation.
 
 ### Relations
 
-| Method | URL                         | Description                                                                                     |
-| -:     | -                           | -                                                                                               |
-| `GET`  | `/automations/:id/triggers` | Allows a system to trigger the automation if its `triggerType` property is set to `RemoteCall`. |
-| `POST` | `/automations/:id/triggers` | Allows a system to trigger the automation if its `triggerType` property is set to `RemoteCall`. |
+| Method         | URL                         | Description |
+| -:             | -                           | -           |
+| `GET`          | `/automations/:id/triggers` | Allows a system to trigger the automation if its `triggerType` property is set
+to `RemoteCall`. |
+| `POST`         | `/automations/:id/triggers` | Allows a system to trigger the automation if its `triggerType` property is set
+to `RemoteCall`. |
 
 ## Vulnerability
 
-A vulnerabily represents a particular CVE
+A vulnerabily represents a particular CVE.
+
+### Example
+
+```json
+{
+  "link": "https://cve.com/CVE-1234",
+  "name": "the name",
+  "severity": 3
+}
+```
 
 ### Relations
 
@@ -6628,15 +7006,15 @@ ID is the identifier of the object.
 
 #### `annotations (external:annotations)`
 
-Annotation stores additional information about an entity
+Annotation stores additional information about an entity.
 
 #### `associatedTags (external:tags_list)`
 
-AssociatedTags are the list of tags attached to an entity
+AssociatedTags are the list of tags attached to an entity.
 
 #### `createTime (time)`
 
-CreatedTime is the time at which the object was created
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6655,7 +7033,7 @@ Description is the description of the object.
 
 #### `link (string)`
 
-Link is the URL that refers to the vulnerability
+Link is the URL that refers to the vulnerability.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6667,7 +7045,7 @@ Link is the URL that refers to the vulnerability
 
 #### `name (string)`
 
-Name is the name of the entity
+Name is the name of the entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6678,7 +7056,7 @@ Name is the name of the entity
 
 #### `namespace (string)`
 
-Namespace tag attached to an entity
+Namespace tag attached to an entity.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6690,7 +7068,7 @@ Namespace tag attached to an entity
 
 #### `normalizedTags (external:tags_list)`
 
-NormalizedTags contains the list of normalized tags of the entities
+NormalizedTags contains the list of normalized tags of the entities.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6708,7 +7086,7 @@ Protected defines if the object is protected.
 
 #### `severity (external:vulnerability_level)`
 
-Severity refers to the security vulnerability level
+Severity refers to the security vulnerability level.
 
 | Characteristics | Value  |
 | -               | -:     |

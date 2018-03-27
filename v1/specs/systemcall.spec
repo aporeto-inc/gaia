@@ -4,7 +4,7 @@ model:
   resource_name: systemcalls
   entity_name: SystemCall
   package: squall
-  description: '[nodoc]'
+  description: This object has never been used and should be removed.
   get: true
   update: true
   delete: true

@@ -77,25 +77,25 @@ func (o EmailsList) Version() int {
 
 // Email represents the model of a email
 type Email struct {
-	// Attachments is a list of attachments to send
+	// Attachments is a list of attachments to send.
 	Attachments map[string]string `json:"attachments" bson:"-" mapstructure:"attachments,omitempty"`
 
 	// Bcc represents email that should be in copy but hidden.
 	Bcc []string `json:"bcc" bson:"-" mapstructure:"bcc,omitempty"`
 
-	// Cc represents the addresses that should be in copy
+	// Cc represents the addresses that should be in copy.
 	Cc []string `json:"cc" bson:"-" mapstructure:"cc,omitempty"`
 
-	// Content of the email to send
+	// Content of the email to send.
 	Content string `json:"content" bson:"-" mapstructure:"content,omitempty"`
 
-	// From represents the sender of the email
+	// From represents the sender of the email.
 	From string `json:"from" bson:"-" mapstructure:"from,omitempty"`
 
-	// Subject represents the subject of the email
+	// Subject represents the subject of the email.
 	Subject string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
-	// To represents receivers of the email
+	// To represents receivers of the email.
 	To []string `json:"to" bson:"-" mapstructure:"to,omitempty"`
 
 	// Type represents the type of the content.
@@ -146,7 +146,7 @@ func (o *Email) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Email) Doc() string {
-	return `Email is a message that can be send via email`
+	return `Email is a message that can be send via email.`
 }
 
 func (o *Email) String() string {
@@ -162,10 +162,6 @@ func (o *Email) Validate() error {
 
 	if err := elemental.ValidateRequiredString("from", o.From); err != nil {
 		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("from", o.From); err != nil {
-		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"HTML", "Plain"}, false); err != nil {
@@ -205,7 +201,7 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 	"Attachments": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Attachments",
-		Description:    `Attachments is a list of attachments to send`,
+		Description:    `Attachments is a list of attachments to send.`,
 		Exposed:        true,
 		Name:           "attachments",
 		SubType:        "list_attachments",
@@ -223,7 +219,7 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 	"Cc": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Cc",
-		Description:    `Cc represents the addresses that should be in copy`,
+		Description:    `Cc represents the addresses that should be in copy.`,
 		Exposed:        true,
 		Name:           "cc",
 		SubType:        "list_emails",
@@ -232,7 +228,7 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 	"Content": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Content",
-		Description:    `Content of the email to send`,
+		Description:    `Content of the email to send.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "content",
@@ -241,9 +237,8 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 	"From": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "From",
-		Description:    `From represents the sender of the email`,
+		Description:    `From represents the sender of the email.`,
 		Exposed:        true,
-		Format:         "email",
 		Name:           "from",
 		Required:       true,
 		Type:           "string",
@@ -251,7 +246,7 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject represents the subject of the email`,
+		Description:    `Subject represents the subject of the email.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "subject",
@@ -260,7 +255,7 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 	"To": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "To",
-		Description:    `To represents receivers of the email`,
+		Description:    `To represents receivers of the email.`,
 		Exposed:        true,
 		Name:           "to",
 		SubType:        "list_emails",
@@ -282,7 +277,7 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"attachments": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Attachments",
-		Description:    `Attachments is a list of attachments to send`,
+		Description:    `Attachments is a list of attachments to send.`,
 		Exposed:        true,
 		Name:           "attachments",
 		SubType:        "list_attachments",
@@ -300,7 +295,7 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"cc": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Cc",
-		Description:    `Cc represents the addresses that should be in copy`,
+		Description:    `Cc represents the addresses that should be in copy.`,
 		Exposed:        true,
 		Name:           "cc",
 		SubType:        "list_emails",
@@ -309,7 +304,7 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"content": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Content",
-		Description:    `Content of the email to send`,
+		Description:    `Content of the email to send.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "content",
@@ -318,9 +313,8 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"from": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "From",
-		Description:    `From represents the sender of the email`,
+		Description:    `From represents the sender of the email.`,
 		Exposed:        true,
-		Format:         "email",
 		Name:           "from",
 		Required:       true,
 		Type:           "string",
@@ -328,7 +322,7 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject represents the subject of the email`,
+		Description:    `Subject represents the subject of the email.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "subject",
@@ -337,7 +331,7 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"to": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "To",
-		Description:    `To represents receivers of the email`,
+		Description:    `To represents receivers of the email.`,
 		Exposed:        true,
 		Name:           "to",
 		SubType:        "list_emails",

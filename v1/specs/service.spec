@@ -4,7 +4,7 @@ model:
   resource_name: services
   entity_name: Service
   package: highwind
-  description: Service represents a service that can be launched
+  description: Service represents a service that can be launched.
   aliases:
   - srv
   get: true
@@ -14,7 +14,7 @@ model:
 # Attributes
 attributes:
 - name: ID
-  description: ID of the service
+  description: ID of the service.
   type: string
   exposed: true
   stored: true
@@ -26,7 +26,7 @@ attributes:
   primary_key: true
 
 - name: accountName
-  description: AccountName represents the vince account name
+  description: AccountName represents the vince account name.
   type: string
   exposed: true
   stored: true
@@ -56,7 +56,7 @@ attributes:
   format: free
 
 - name: name
-  description: Name of the service
+  description: Name of the service.
   type: string
   exposed: true
   stored: true
@@ -75,7 +75,7 @@ attributes:
   orderable: true
 
 - name: parameters
-  description: Parameters is a list of parameters to start the service
+  description: Parameters is a list of parameters to start the service.
   type: external
   exposed: true
   subtype: service_parameters
@@ -111,5 +111,5 @@ attributes:
 relations:
 - rest_name: log
   descriptions:
-    get: Returns the logs for a service
+    get: Returns the logs for a service.
   get: true

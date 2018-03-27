@@ -1,12 +1,13 @@
 # Attributes
 attributes:
 - name: name
-  description: Name is the name of the entity
+  description: Name is the name of the entity.
   type: string
   exposed: true
   stored: true
   required: true
   default_order: true
+  example_value: the name
   filterable: true
   format: free
   getter: true

@@ -12,44 +12,55 @@ model:
 # Attributes
 attributes:
 - name: claims
-  description: Represents the claims of the currently managed object
+  description: Represents the claims of the currently managed object.
   type: list
   exposed: true
   subtype: string
   required: true
+  example_value:
+  - '@auth:realm=certificate'
+  - '@auth:commonname=john'
 
 - name: input
-  description: Represents data received from the service
+  description: Represents data received from the service.
   type: external
   exposed: true
   subtype: raw_json
   required: true
+  example_value: |-
+    {
+      "name": "hello",
+      "description": "hello",
+    }
 
 - name: mode
-  description: Node defines the type of the hook
+  description: Node defines the type of the hook.
   type: enum
   exposed: true
   required: true
   allowed_choices:
   - Post
   - Pre
+  default_value: Pre
 
 - name: namespace
-  description: Represents the current namespace
+  description: Represents the current namespace.
   type: string
   exposed: true
   required: true
+  example_value: /my/namespace
   format: free
 
 - name: operation
-  description: Define the operation that is currently handled by the service
+  description: Define the operation that is currently handled by the service.
   type: external
   exposed: true
   subtype: elemental_operation
   required: true
+  example_value: create
 
 - name: output
-  description: Returns the OutputData filled with the processor information
+  description: Returns the OutputData filled with the processor information.
   type: external
   exposed: true
   subtype: elemental_identitifable
@@ -66,8 +77,9 @@ attributes:
   orderable: true
 
 - name: targetIdentity
-  description: Represents the Identity name of the managed object
+  description: Represents the Identity name of the managed object.
   type: string
   exposed: true
   required: true
+  example_value: processingunit
   format: free

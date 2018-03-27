@@ -97,16 +97,16 @@ type PolicyRule struct {
 	Propagated bool `json:"propagated" bson:"-" mapstructure:"propagated,omitempty"`
 
 	// Relation describes the required operation to be performed between subjects and
-	// objects
+	// objects.
 	Relation []string `json:"relation" bson:"-" mapstructure:"relation,omitempty"`
 
-	// Policy target tags
+	// Policy target tags.
 	TagClauses [][]string `json:"tagClauses" bson:"-" mapstructure:"tagClauses,omitempty"`
 
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Name is the name of the entity
+	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
@@ -195,10 +195,6 @@ func (o *PolicyRule) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -304,7 +300,7 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity`,
+		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -348,7 +344,7 @@ destination.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Relation",
 		Description: `Relation describes the required operation to be performed between subjects and
-objects`,
+objects.`,
 		Exposed: true,
 		Name:    "relation",
 		SubType: "relations_list",
@@ -357,7 +353,7 @@ objects`,
 	"TagClauses": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TagClauses",
-		Description:    `Policy target tags`,
+		Description:    `Policy target tags.`,
 		Exposed:        true,
 		Name:           "tagClauses",
 		SubType:        "target_tags",
@@ -439,7 +435,7 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		DefaultOrder:   true,
-		Description:    `Name is the name of the entity`,
+		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -483,7 +479,7 @@ destination.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Relation",
 		Description: `Relation describes the required operation to be performed between subjects and
-objects`,
+objects.`,
 		Exposed: true,
 		Name:    "relation",
 		SubType: "relations_list",
@@ -492,7 +488,7 @@ objects`,
 	"tagclauses": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TagClauses",
-		Description:    `Policy target tags`,
+		Description:    `Policy target tags.`,
 		Exposed:        true,
 		Name:           "tagClauses",
 		SubType:        "target_tags",

@@ -34,6 +34,9 @@ attributes:
   subtype: string
   stored: true
   required: true
+  example_value:
+  - processingunit
+  - enforcer
 
 - name: quota
   description: |-
@@ -49,5 +52,6 @@ attributes:
   exposed: true
   stored: true
   required: true
+  example_value: /my/namespace
   filterable: true
   format: free

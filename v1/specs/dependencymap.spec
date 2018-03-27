@@ -11,7 +11,7 @@ model:
     'startRelative', 'endRelative'.
 
     For example
-      "/dependencymaps?startAbsolute=1489132800000&endAbsolute=1489219200000"
+      "/dependencymaps?startAbsolute=1489132800000&endAbsolute=1489219200000".
   aliases:
   - depmaps
   - depmap
@@ -21,27 +21,24 @@ model:
 # Attributes
 attributes:
 - name: edges
-  description: edges are the edges of the map
+  description: edges are the edges of the map.
   type: external
   exposed: true
   subtype: graphedges_map
-  required: true
   read_only: true
 
 - name: groups
-  description: Groups provide information about the group values
+  description: Groups provide information about the group values.
   type: external
   exposed: true
   subtype: graphgroups_map
-  required: true
   read_only: true
 
 - name: nodes
-  description: nodes refers to the nodes of the map
+  description: nodes refers to the nodes of the map.
   type: external
   exposed: true
   subtype: graphnodes_map
-  required: true
   read_only: true
 
 - name: viewSuggestions
@@ -49,5 +46,4 @@ attributes:
   type: external
   exposed: true
   subtype: view_suggestions
-  required: true
   read_only: true

@@ -32,6 +32,10 @@ attributes:
   subtype: policies_list
   stored: true
   required: true
+  example_value:
+  - - a=a
+    - b=b
+  - - c=c
 
 - name: subject
   description: Subject is the subject of the policy.
@@ -40,12 +44,17 @@ attributes:
   subtype: policies_list
   stored: true
   required: true
+  example_value:
+  - - a=a
+    - b=b
+  - - c=c
 
 # Relations
 relations:
 - rest_name: enforcerprofile
   descriptions:
-    get: Returns the list of enforcer profiles that an enforcer profile mapping policy
+    get: |-
+      Returns the list of enforcer profiles that an enforcer profile mapping policy
       matches.
   get: true
 

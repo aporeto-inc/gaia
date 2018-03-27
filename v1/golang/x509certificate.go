@@ -180,10 +180,6 @@ func (o *X509Certificate) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("CSR", o.CSR); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateStringInList("signer", string(o.Signer), []string{"Public", "System"}, false); err != nil {
 		errors = append(errors, err)
 	}

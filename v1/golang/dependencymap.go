@@ -67,13 +67,13 @@ func (o DependencyMapsList) Version() int {
 
 // DependencyMap represents the model of a dependencymap
 type DependencyMap struct {
-	// edges are the edges of the map
+	// edges are the edges of the map.
 	Edges types.GraphEdgeMap `json:"edges" bson:"-" mapstructure:"edges,omitempty"`
 
-	// Groups provide information about the group values
+	// Groups provide information about the group values.
 	Groups types.GraphGroupMap `json:"groups" bson:"-" mapstructure:"groups,omitempty"`
 
-	// nodes refers to the nodes of the map
+	// nodes refers to the nodes of the map.
 	Nodes types.GraphNodeMap `json:"nodes" bson:"-" mapstructure:"nodes,omitempty"`
 
 	// viewSuggestions provides suggestion of views based on relevant tags.
@@ -137,7 +137,7 @@ the time window you can use the query parameters 'startAbsolute', 'endAbsolute',
 'startRelative', 'endRelative'.
 
 For example
-  "/dependencymaps?startAbsolute=1489132800000&endAbsolute=1489219200000"`
+  "/dependencymaps?startAbsolute=1489132800000&endAbsolute=1489219200000".`
 }
 
 func (o *DependencyMap) String() string {
@@ -150,38 +150,6 @@ func (o *DependencyMap) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
-
-	if err := elemental.ValidateRequiredExternal("edges", o.Edges); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("edges", o.Edges); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("groups", o.Groups); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("groups", o.Groups); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("nodes", o.Nodes); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("nodes", o.Nodes); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("viewSuggestions", o.ViewSuggestions); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("viewSuggestions", o.ViewSuggestions); err != nil {
-		errors = append(errors, err)
-	}
 
 	if len(requiredErrors) > 0 {
 		return requiredErrors
@@ -230,33 +198,30 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 	"Edges": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Edges",
-		Description:    `edges are the edges of the map`,
+		Description:    `edges are the edges of the map.`,
 		Exposed:        true,
 		Name:           "edges",
 		ReadOnly:       true,
-		Required:       true,
 		SubType:        "graphedges_map",
 		Type:           "external",
 	},
 	"Groups": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Groups",
-		Description:    `Groups provide information about the group values`,
+		Description:    `Groups provide information about the group values.`,
 		Exposed:        true,
 		Name:           "groups",
 		ReadOnly:       true,
-		Required:       true,
 		SubType:        "graphgroups_map",
 		Type:           "external",
 	},
 	"Nodes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Nodes",
-		Description:    `nodes refers to the nodes of the map`,
+		Description:    `nodes refers to the nodes of the map.`,
 		Exposed:        true,
 		Name:           "nodes",
 		ReadOnly:       true,
-		Required:       true,
 		SubType:        "graphnodes_map",
 		Type:           "external",
 	},
@@ -267,7 +232,6 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "viewSuggestions",
 		ReadOnly:       true,
-		Required:       true,
 		SubType:        "view_suggestions",
 		Type:           "external",
 	},
@@ -292,33 +256,30 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"edges": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Edges",
-		Description:    `edges are the edges of the map`,
+		Description:    `edges are the edges of the map.`,
 		Exposed:        true,
 		Name:           "edges",
 		ReadOnly:       true,
-		Required:       true,
 		SubType:        "graphedges_map",
 		Type:           "external",
 	},
 	"groups": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Groups",
-		Description:    `Groups provide information about the group values`,
+		Description:    `Groups provide information about the group values.`,
 		Exposed:        true,
 		Name:           "groups",
 		ReadOnly:       true,
-		Required:       true,
 		SubType:        "graphgroups_map",
 		Type:           "external",
 	},
 	"nodes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Nodes",
-		Description:    `nodes refers to the nodes of the map`,
+		Description:    `nodes refers to the nodes of the map.`,
 		Exposed:        true,
 		Name:           "nodes",
 		ReadOnly:       true,
-		Required:       true,
 		SubType:        "graphnodes_map",
 		Type:           "external",
 	},
@@ -329,7 +290,6 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Exposed:        true,
 		Name:           "viewSuggestions",
 		ReadOnly:       true,
-		Required:       true,
 		SubType:        "view_suggestions",
 		Type:           "external",
 	},

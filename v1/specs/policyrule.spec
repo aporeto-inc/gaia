@@ -73,13 +73,13 @@ attributes:
 - name: relation
   description: |-
     Relation describes the required operation to be performed between subjects and
-    objects
+    objects.
   type: external
   exposed: true
   subtype: relations_list
 
 - name: tagClauses
-  description: Policy target tags
+  description: Policy target tags.
   type: external
   exposed: true
   subtype: target_tags

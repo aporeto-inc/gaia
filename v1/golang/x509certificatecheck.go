@@ -66,7 +66,7 @@ func (o X509CertificateChecksList) Version() int {
 
 // X509CertificateCheck represents the model of a x509certificatecheck
 type X509CertificateCheck struct {
-	// ID contains the certificate serialNumber
+	// ID contains the certificate serialNumber.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
@@ -114,7 +114,7 @@ func (o *X509CertificateCheck) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *X509CertificateCheck) Doc() string {
-	return nodocString
+	return `Verifies a certificate has not been revoked.`
 }
 
 func (o *X509CertificateCheck) String() string {
@@ -130,10 +130,6 @@ func (o *X509CertificateCheck) Validate() error {
 
 	if err := elemental.ValidateRequiredString("ID", o.ID); err != nil {
 		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("ID", o.ID); err != nil {
-		errors = append(errors, err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -169,7 +165,7 @@ var X509CertificateCheckAttributesMap = map[string]elemental.AttributeSpecificat
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
-		Description:    `ID contains the certificate serialNumber`,
+		Description:    `ID contains the certificate serialNumber.`,
 		Exposed:        true,
 		Format:         "free",
 		Identifier:     true,
@@ -184,7 +180,7 @@ var X509CertificateCheckLowerCaseAttributesMap = map[string]elemental.AttributeS
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
-		Description:    `ID contains the certificate serialNumber`,
+		Description:    `ID contains the certificate serialNumber.`,
 		Exposed:        true,
 		Format:         "free",
 		Identifier:     true,

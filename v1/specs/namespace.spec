@@ -58,6 +58,7 @@ attributes:
   required: true
   creation_only: true
   allowed_chars: ^[a-zA-Z0-9-_/]+$
+  example_value: mynamespace
   filterable: true
   format: free
   getter: true

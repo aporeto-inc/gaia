@@ -32,6 +32,7 @@ attributes:
   stored: true
   required: true
   creation_only: true
+  example_value: server1.domain.com
   filterable: true
   format: free
   orderable: true

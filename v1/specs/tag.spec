@@ -42,5 +42,6 @@ attributes:
   required: true
   creation_only: true
   allowed_chars: ^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@~<>#/-]+$
+  example_value: key=value
   format: free
   primary_key: true

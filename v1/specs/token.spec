@@ -15,6 +15,19 @@ attributes:
   exposed: true
   required: true
   creation_only: true
+  example_value: |-
+    -----BEGIN CERTIFICATE-----
+    MIIBsjCCAVigAwIBAgIQCjRniVLvvHhekhI3H7+m8DAKBggqhkjOPQQDAjBGMRAw
+    DgYDVQQKEwdBcG9yZXRvMQ8wDQYDVQQLEwZhcG9tdXgxITAfBgNVBAMTGEFwb211
+    eCBQdWJsaWMgU2lnbmluZyBDQTAeFw0xODAxMTcwNjUzNTFaFw0yNzExMjYwNjUz
+    NTFaMDkxETAPBgNVBAoTCGFwb3Rlc3RzMREwDwYDVQQLEwhhcG90ZXN0czERMA8G
+    A1UEAxMIYXBvdGVzdHMwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASJsYjvdkaf
+    qE/TL/eQETmIl8uFgqJi2LumYgEjHPHLlz8fJzDP12yQsqgOPymqmFCjmnVsdxcW
+    YbXTwQzWW5kwozUwMzAOBgNVHQ8BAf8EBAMCB4AwEwYDVR0lBAwwCgYIKwYBBQUH
+    AwIwDAYDVR0TAQH/BAIwADAKBggqhkjOPQQDAgNIADBFAiEAgNxYC2hMqll3aTS8
+    oBbFevZHAV5p0nyzRNj2pFrHEaQCIG4A9zKzE2f8g3zEaKcQNZ3Bxrk/T+hcJxaG
+    Mlri6/+4
+    -----END CERTIFICATE-----
   format: free
 
 - name: signingKeyID

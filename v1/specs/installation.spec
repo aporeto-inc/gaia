@@ -4,7 +4,7 @@ model:
   resource_name: installations
   entity_name: Installation
   package: highwind
-  description: Installation represents an installation for a given account
+  description: Installation represents an installation for a given account.
   get: true
   update: true
   delete: true

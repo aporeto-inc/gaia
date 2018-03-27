@@ -4,7 +4,7 @@ model:
   resource_name: availableservices
   entity_name: AvailableService
   package: highwind
-  description: AvailableService represents a service that is available for launching
+  description: AvailableService represents a service that is available for launching.
   aliases:
   - asrv
   extends:
@@ -41,7 +41,7 @@ attributes:
   format: free
 
 - name: parameters
-  description: Parameters of the service the user can or has to specify
+  description: Parameters of the service the user can or has to specify.
   type: external
   exposed: true
   subtype: service_parameters

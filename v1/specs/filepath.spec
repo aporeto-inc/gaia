@@ -25,20 +25,20 @@ model:
 # Attributes
 attributes:
 - name: filepath
-  description: FilePath refer to the file mount path
+  description: FilePath refer to the file mount path.
   type: string
   exposed: true
   stored: true
   required: true
+  example_value: /etc/passwd
   filterable: true
   format: free
 
 - name: server
-  description: server is the server name/ID/IP associated with the file path
+  description: server is the server name/ID/IP associated with the file path.
   type: string
   exposed: true
   stored: true
-  required: true
   creation_only: true
   filterable: true
   format: free

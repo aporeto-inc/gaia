@@ -108,7 +108,7 @@ type Issue struct {
 	// configured max validity, it will be capped.
 	Validity string `json:"validity" bson:"validity" mapstructure:"validity,omitempty"`
 
-	// Realm is the realm
+	// Realm is the authentication realm.
 	Realm IssueRealmValue `json:"realm" bson:"-" mapstructure:"realm,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
@@ -234,7 +234,7 @@ var IssueAttributesMap = map[string]elemental.AttributeSpecification{
 	"Realm": elemental.AttributeSpecification{
 		AllowedChoices: []string{"AWSIdentityDocument", "Certificate", "Facebook", "Github", "Google", "LDAP", "Twitter", "Vince"},
 		ConvertedName:  "Realm",
-		Description:    `Realm is the realm`,
+		Description:    `Realm is the authentication realm.`,
 		Exposed:        true,
 		Name:           "realm",
 		Required:       true,
@@ -295,7 +295,7 @@ var IssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"realm": elemental.AttributeSpecification{
 		AllowedChoices: []string{"AWSIdentityDocument", "Certificate", "Facebook", "Github", "Google", "LDAP", "Twitter", "Vince"},
 		ConvertedName:  "Realm",
-		Description:    `Realm is the realm`,
+		Description:    `Realm is the authentication realm.`,
 		Exposed:        true,
 		Name:           "realm",
 		Required:       true,

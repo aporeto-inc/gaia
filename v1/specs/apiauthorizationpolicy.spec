@@ -37,12 +37,15 @@ attributes:
   exposed: true
   subtype: identity_list
   required: true
+  example_value:
+  - '@auth:role=namespace.editor'
 
 - name: authorizedNamespace
   description: AuthorizedNamespace defines on what namespace the policy applies.
   type: string
   exposed: true
   required: true
+  example_value: /namespace
   filterable: true
   format: free
 

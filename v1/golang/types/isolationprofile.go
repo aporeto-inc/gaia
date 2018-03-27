@@ -28,8 +28,8 @@ func (s SyscallEnforcementRulesMap) Validate() error {
 
 // SyscallEnforcementRule  is a rule to match a syscall in Seccomp.
 type SyscallEnforcementRule struct {
-	DefaultAction SyscallEnforcementAction         `json:"action"`
-	Args          map[uint]*SyscallEnforcermentArg `json:"args"`
+	DefaultAction SyscallEnforcementAction  `json:"action"`
+	Args          []*SyscallEnforcermentArg `json:"args"`
 }
 
 // Validate validates a syscall enforcement rule.

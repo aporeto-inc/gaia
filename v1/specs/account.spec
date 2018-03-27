@@ -89,7 +89,7 @@ attributes:
   transient: true
 
 - name: OTPSecret
-  description: Stores the 2 factor secret
+  description: Stores the 2 factor secret.
   type: string
   stored: true
   format: free
@@ -168,6 +168,7 @@ attributes:
   exposed: true
   stored: true
   required: true
+  example_value: user@aporeto.com
   filterable: true
   format: free
   orderable: true
@@ -198,6 +199,7 @@ attributes:
   required: true
   creation_only: true
   allowed_chars: ^[^\*\=]*$
+  example_value: acme
   filterable: true
   format: free
   orderable: true

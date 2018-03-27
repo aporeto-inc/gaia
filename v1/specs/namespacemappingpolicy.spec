@@ -39,11 +39,12 @@ model:
 # Attributes
 attributes:
 - name: mappedNamespace
-  description: mappedNamespace is the mapped namespace
+  description: mappedNamespace is the mapped namespace.
   type: string
   exposed: true
   stored: true
   required: true
+  example_value: /blue/namespace
   filterable: true
   format: free
   orderable: true
@@ -53,4 +54,7 @@ attributes:
   type: external
   exposed: true
   subtype: policies_list
+  required: true
+  example_value:
+  - - color=blue
   orderable: true

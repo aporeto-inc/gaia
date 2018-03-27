@@ -29,7 +29,7 @@ attributes:
 - name: kubernetesDefinitions
   description: |-
     base64 of the .tar.gz file that contains all the .YAMLs files needed to create
-    the aporeto side on your kubernetes Cluster
+    the aporeto side on your kubernetes Cluster.
   type: string
   exposed: true
   read_only: true
@@ -38,7 +38,7 @@ attributes:
   orderable: true
 
 - name: name
-  description: The name of your cluster
+  description: The name of your cluster.
   type: string
   exposed: true
   stored: true
@@ -79,7 +79,8 @@ attributes:
   orderable: true
 
 - name: targetNetworks
-  description: List of target networks [deprecated]
+  description: List of target networks.
+  deprecated: true
   type: external
   exposed: true
   subtype: target_networks_list

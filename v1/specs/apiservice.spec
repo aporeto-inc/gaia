@@ -105,6 +105,9 @@ attributes:
   subtype: port_list
   stored: true
   required: true
+  example_value:
+  - 80
+  - 445:448
 
 - name: runtimeSelectors
   description: |-
@@ -115,6 +118,10 @@ attributes:
   subtype: target_tags
   stored: true
   required: true
+  example_value:
+  - - a=a
+    - b=b
+  - - c=c
 
 - name: type
   description: |-

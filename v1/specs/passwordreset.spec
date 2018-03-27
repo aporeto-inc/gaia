@@ -13,11 +13,13 @@ attributes:
   type: string
   exposed: true
   required: true
+  example_value: NewPassword123@
   format: free
 
 - name: token
-  description: Token contains the reset password token
+  description: Token contains the reset password token.
   type: string
   exposed: true
   required: true
+  example_value: valid.jwt.token
   format: free

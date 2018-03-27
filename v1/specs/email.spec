@@ -4,13 +4,13 @@ model:
   resource_name: emails
   entity_name: Email
   package: yuffie
-  description: Email is a message that can be send via email
+  description: Email is a message that can be send via email.
   private: true
 
 # Attributes
 attributes:
 - name: attachments
-  description: Attachments is a list of attachments to send
+  description: Attachments is a list of attachments to send.
   type: external
   exposed: true
   subtype: list_attachments
@@ -22,32 +22,32 @@ attributes:
   subtype: list_emails
 
 - name: cc
-  description: Cc represents the addresses that should be in copy
+  description: Cc represents the addresses that should be in copy.
   type: external
   exposed: true
   subtype: list_emails
 
 - name: content
-  description: Content of the email to send
+  description: Content of the email to send.
   type: string
   exposed: true
   format: free
 
 - name: from
-  description: From represents the sender of the email
+  description: From represents the sender of the email.
   type: string
   exposed: true
   required: true
-  format: email
+  example_value: sender@server.com
 
 - name: subject
-  description: Subject represents the subject of the email
+  description: Subject represents the subject of the email.
   type: string
   exposed: true
   format: free
 
 - name: to
-  description: To represents receivers of the email
+  description: To represents receivers of the email.
   type: external
   exposed: true
   subtype: list_emails

@@ -78,28 +78,28 @@ func (o RemoteProcessorsList) Version() int {
 
 // RemoteProcessor represents the model of a remoteprocessor
 type RemoteProcessor struct {
-	// Represents the claims of the currently managed object
+	// Represents the claims of the currently managed object.
 	Claims []string `json:"claims" bson:"-" mapstructure:"claims,omitempty"`
 
-	// Represents data received from the service
+	// Represents data received from the service.
 	Input json.RawMessage `json:"input" bson:"-" mapstructure:"input,omitempty"`
 
-	// Node defines the type of the hook
+	// Node defines the type of the hook.
 	Mode RemoteProcessorModeValue `json:"mode" bson:"-" mapstructure:"mode,omitempty"`
 
-	// Represents the current namespace
+	// Represents the current namespace.
 	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
-	// Define the operation that is currently handled by the service
+	// Define the operation that is currently handled by the service.
 	Operation elemental.Operation `json:"operation" bson:"-" mapstructure:"operation,omitempty"`
 
-	// Returns the OutputData filled with the processor information
+	// Returns the OutputData filled with the processor information.
 	Output elemental.Identifiable `json:"output" bson:"-" mapstructure:"output,omitempty"`
 
 	// RequestID gives the id of the request coming from the main server.
 	RequestID string `json:"requestID" bson:"requestid" mapstructure:"requestID,omitempty"`
 
-	// Represents the Identity name of the managed object
+	// Represents the Identity name of the managed object.
 	TargetIdentity string `json:"targetIdentity" bson:"-" mapstructure:"targetIdentity,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
@@ -112,6 +112,7 @@ func NewRemoteProcessor() *RemoteProcessor {
 
 	return &RemoteProcessor{
 		ModelVersion: 1,
+		Mode:         "Pre",
 	}
 }
 
@@ -164,10 +165,6 @@ func (o *RemoteProcessor) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("input", o.Input); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateStringInList("mode", string(o.Mode), []string{"Post", "Pre"}, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -176,24 +173,12 @@ func (o *RemoteProcessor) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateRequiredExternal("operation", o.Operation); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("operation", o.Operation); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("targetIdentity", o.TargetIdentity); err != nil {
 		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("targetIdentity", o.TargetIdentity); err != nil {
-		errors = append(errors, err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -229,7 +214,7 @@ var RemoteProcessorAttributesMap = map[string]elemental.AttributeSpecification{
 	"Claims": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Claims",
-		Description:    `Represents the claims of the currently managed object`,
+		Description:    `Represents the claims of the currently managed object.`,
 		Exposed:        true,
 		Name:           "claims",
 		Required:       true,
@@ -239,7 +224,7 @@ var RemoteProcessorAttributesMap = map[string]elemental.AttributeSpecification{
 	"Input": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Input",
-		Description:    `Represents data received from the service`,
+		Description:    `Represents data received from the service.`,
 		Exposed:        true,
 		Name:           "input",
 		Required:       true,
@@ -249,7 +234,8 @@ var RemoteProcessorAttributesMap = map[string]elemental.AttributeSpecification{
 	"Mode": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Post", "Pre"},
 		ConvertedName:  "Mode",
-		Description:    `Node defines the type of the hook`,
+		DefaultValue:   RemoteProcessorModePre,
+		Description:    `Node defines the type of the hook.`,
 		Exposed:        true,
 		Name:           "mode",
 		Required:       true,
@@ -258,7 +244,7 @@ var RemoteProcessorAttributesMap = map[string]elemental.AttributeSpecification{
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
-		Description:    `Represents the current namespace`,
+		Description:    `Represents the current namespace.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "namespace",
@@ -268,7 +254,7 @@ var RemoteProcessorAttributesMap = map[string]elemental.AttributeSpecification{
 	"Operation": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Operation",
-		Description:    `Define the operation that is currently handled by the service`,
+		Description:    `Define the operation that is currently handled by the service.`,
 		Exposed:        true,
 		Name:           "operation",
 		Required:       true,
@@ -279,7 +265,7 @@ var RemoteProcessorAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Output",
-		Description:    `Returns the OutputData filled with the processor information`,
+		Description:    `Returns the OutputData filled with the processor information.`,
 		Exposed:        true,
 		Name:           "output",
 		ReadOnly:       true,
@@ -301,7 +287,7 @@ var RemoteProcessorAttributesMap = map[string]elemental.AttributeSpecification{
 	"TargetIdentity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetIdentity",
-		Description:    `Represents the Identity name of the managed object`,
+		Description:    `Represents the Identity name of the managed object.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "targetIdentity",
@@ -315,7 +301,7 @@ var RemoteProcessorLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"claims": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Claims",
-		Description:    `Represents the claims of the currently managed object`,
+		Description:    `Represents the claims of the currently managed object.`,
 		Exposed:        true,
 		Name:           "claims",
 		Required:       true,
@@ -325,7 +311,7 @@ var RemoteProcessorLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"input": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Input",
-		Description:    `Represents data received from the service`,
+		Description:    `Represents data received from the service.`,
 		Exposed:        true,
 		Name:           "input",
 		Required:       true,
@@ -335,7 +321,8 @@ var RemoteProcessorLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"mode": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Post", "Pre"},
 		ConvertedName:  "Mode",
-		Description:    `Node defines the type of the hook`,
+		DefaultValue:   RemoteProcessorModePre,
+		Description:    `Node defines the type of the hook.`,
 		Exposed:        true,
 		Name:           "mode",
 		Required:       true,
@@ -344,7 +331,7 @@ var RemoteProcessorLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
-		Description:    `Represents the current namespace`,
+		Description:    `Represents the current namespace.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "namespace",
@@ -354,7 +341,7 @@ var RemoteProcessorLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"operation": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Operation",
-		Description:    `Define the operation that is currently handled by the service`,
+		Description:    `Define the operation that is currently handled by the service.`,
 		Exposed:        true,
 		Name:           "operation",
 		Required:       true,
@@ -365,7 +352,7 @@ var RemoteProcessorLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Output",
-		Description:    `Returns the OutputData filled with the processor information`,
+		Description:    `Returns the OutputData filled with the processor information.`,
 		Exposed:        true,
 		Name:           "output",
 		ReadOnly:       true,
@@ -387,7 +374,7 @@ var RemoteProcessorLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"targetidentity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetIdentity",
-		Description:    `Represents the Identity name of the managed object`,
+		Description:    `Represents the Identity name of the managed object.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "targetIdentity",

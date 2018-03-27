@@ -11,7 +11,7 @@ attributes:
   orderable: true
 
 - name: updateTime
-  description: Last update date of the object
+  description: Last update date of the object.
   type: time
   exposed: true
   stored: true

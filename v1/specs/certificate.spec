@@ -23,19 +23,20 @@ attributes:
   orderable: true
 
 - name: commonName
-  description: CommonName (CN) for the user certificate
+  description: CommonName (CN) for the user certificate.
   type: string
   exposed: true
   stored: true
   required: true
   creation_only: true
+  example_value: john doe
   filterable: true
   format: free
   max_length: 64
   orderable: true
 
 - name: data
-  description: Certificate provides a certificate for the user
+  description: Certificate provides a certificate for the user.
   type: string
   exposed: true
   stored: true
@@ -44,12 +45,13 @@ attributes:
   format: free
 
 - name: email
-  description: e-mail address of the user
+  description: e-mail address of the user.
   type: string
   exposed: true
   stored: true
   required: true
   creation_only: true
+  example_value: john@doe.com
   filterable: true
   format: email
   orderable: true
@@ -79,12 +81,13 @@ attributes:
   exposed: true
   stored: true
   required: true
+  example_value: john.doe
   filterable: true
   format: free
   orderable: true
 
 - name: organizationalUnits
-  description: OrganizationalUnits attribute for the generated certificates
+  description: OrganizationalUnits attribute for the generated certificates.
   type: list
   exposed: true
   subtype: string

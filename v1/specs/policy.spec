@@ -4,7 +4,7 @@ model:
   resource_name: policies
   entity_name: Policy
   package: squall
-  description: '[nodoc]'
+  description: Policy represents the policy primitive used by all aporeto policies.
   get: true
   delete: true
   extends:
@@ -26,21 +26,18 @@ attributes:
   exposed: true
   subtype: actions_list
   stored: true
-  required: true
 
 - name: allObjectTags
-  description: This is a set of all object tags for matching in the DB
+  description: This is a set of all object tags for matching in the DB.
   type: external
   subtype: tags_list
   stored: true
-  required: true
 
 - name: allSubjectTags
-  description: This is a set of all subject tags for matching in the DB
+  description: This is a set of all subject tags for matching in the DB.
   type: external
   subtype: tags_list
   stored: true
-  required: true
 
 - name: object
   description: |-
@@ -54,7 +51,7 @@ attributes:
 - name: relation
   description: |-
     Relation describes the required operation to be performed between subjects and
-    objects
+    objects.
   type: external
   exposed: true
   subtype: relations_list
@@ -64,19 +61,17 @@ attributes:
   description: |-
     Subject represent sets of entities that will have a dependency other entities.
     Subjects are defined as logical operations on tags. Logical operations can
-    includes AND/OR
+    includes AND/OR.
   type: external
   exposed: true
   subtype: policies_list
   stored: true
-  required: true
 
 - name: type
-  description: Type of the policy
+  description: Type of the policy.
   type: enum
   exposed: true
   stored: true
-  required: true
   creation_only: true
   allowed_choices:
   - APIAuthorization

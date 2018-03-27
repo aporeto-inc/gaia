@@ -116,7 +116,7 @@ func (o *Installation) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Installation) Doc() string {
-	return `Installation represents an installation for a given account`
+	return `Installation represents an installation for a given account.`
 }
 
 func (o *Installation) String() string {

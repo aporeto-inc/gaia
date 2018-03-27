@@ -24,6 +24,7 @@ attributes:
   type: string
   exposed: true
   required: true
+  example_value: /namespace
   format: free
 
 - name: operation
@@ -50,10 +51,14 @@ attributes:
   exposed: true
   subtype: identity_list
   required: true
+  example_value:
+  - processingunit
+  - enforcer
 
 - name: token
-  description: Token is the token to use to check api authentication
+  description: Token is the token to use to check api authentication.
   type: string
   exposed: true
   required: true
+  example_value: valid.jwt.token
   format: free
