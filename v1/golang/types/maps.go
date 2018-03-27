@@ -97,17 +97,28 @@ func NewGraphGroup() *GraphGroup {
 	}
 }
 
+// L4ProtocolValue defines the values for L4 protocol.
+type L4ProtocolValue string
+
+// L4ProtocolValue definition
+const (
+	L4ProtocolValueTCP     L4ProtocolValue = "TCP"
+	L4ProtocolValueUDP     L4ProtocolValue = "UDP"
+	L4ProtocolValueUnknown L4ProtocolValue = "N/A"
+)
+
 // IPRecord represent an IP record.
 type IPRecord struct {
-	Actions          []string `json:"actions"`
-	IP               string   `json:"IP"`
-	Hostnames        []string `json:"hostnames"`
-	DestinationPorts []string `json:"destinationPorts"`
-	Hits             int      `json:"hits"`
-	Latitude         float32  `json:"latitude"`
-	Longitude        float32  `json:"longitude"`
-	Country          string   `json:"country"`
-	City             string   `json:"city"`
+	Actions          []string        `json:"actions"`
+	IP               string          `json:"IP"`
+	Hostnames        []string        `json:"hostnames"`
+	DestinationPorts []string        `json:"destinationPorts"`
+	Hits             int             `json:"hits"`
+	Latitude         float32         `json:"latitude"`
+	Longitude        float32         `json:"longitude"`
+	Country          string          `json:"country"`
+	City             string          `json:"city"`
+	L4Protocol       L4ProtocolValue `json:"l4Protocol"`
 
 	sync.Mutex `json:"-"`
 }
