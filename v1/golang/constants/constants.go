@@ -153,6 +153,9 @@ const (
 
 	// StatsTagKeyFlowTypeExternalService represents the ext value.
 	StatsTagKeyFlowTypeExternalService = "ext"
+
+	// StatsTagKeyL4Proto represents the L4 protocol for the flow
+	StatsTagKeyL4Proto = "@l4proto"
 )
 
 // Shared Policy constants
