@@ -47,8 +47,6 @@ attributes:
   exposed: true
   subtype: policies_list
   stored: true
-  filterable: true
-  orderable: true
 
 - name: subject
   description: |-
@@ -58,5 +56,3 @@ attributes:
   exposed: true
   subtype: policies_list
   stored: true
-  filterable: true
-  orderable: true
