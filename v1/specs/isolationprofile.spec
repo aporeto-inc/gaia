@@ -39,7 +39,6 @@ attributes:
   exposed: true
   subtype: syscall_action
   stored: true
-  filterable: true
   orderable: true
 
 - name: syscallRules
