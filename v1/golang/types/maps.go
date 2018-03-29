@@ -245,9 +245,10 @@ func init() {
 }
 
 // ProtocolName returns the IANA for the protocol
-func ProtocolName(n int) string {
+func ProtocolName(n int64) string {
 
-	if n < 0 || n > len(l4Protocols) {
+	l := int64(len(l4Protocols))
+	if n < 0 || n >= l {
 		return "N/A"
 	}
 
