@@ -70,8 +70,14 @@ type KubernetesCluster struct {
 	// Link to the API authorization policy.
 	APIAuthorizationPolicyID string `json:"-" bson:"apiauthorizationpolicyid" mapstructure:"-,omitempty"`
 
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
 	// Link to the certificate created in Vince for this cluster.
 	CertificateID string `json:"-" bson:"certificateid" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// base64 of the .tar.gz file that contains all the .YAMLs files needed to create
 	// the aporeto side on your kubernetes Cluster.
@@ -95,12 +101,6 @@ type KubernetesCluster struct {
 
 	// List of target networks.
 	TargetNetworks []string `json:"targetNetworks" bson:"targetnetworks" mapstructure:"targetNetworks,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`

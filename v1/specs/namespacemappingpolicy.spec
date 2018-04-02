@@ -38,23 +38,24 @@ model:
 
 # Attributes
 attributes:
-- name: mappedNamespace
-  description: mappedNamespace is the mapped namespace.
-  type: string
-  exposed: true
-  stored: true
-  required: true
-  example_value: /blue/namespace
-  filterable: true
-  format: free
-  orderable: true
+  v1:
+  - name: mappedNamespace
+    description: mappedNamespace is the mapped namespace.
+    type: string
+    exposed: true
+    stored: true
+    required: true
+    example_value: /blue/namespace
+    filterable: true
+    format: free
+    orderable: true
 
-- name: subject
-  description: Subject is the subject.
-  type: external
-  exposed: true
-  subtype: policies_list
-  required: true
-  example_value:
-  - - color=blue
-  orderable: true
+  - name: subject
+    description: Subject is the subject.
+    type: external
+    exposed: true
+    subtype: policies_list
+    required: true
+    example_value:
+    - - color=blue
+    orderable: true

@@ -69,6 +69,9 @@ func (o SystemCallsList) Version() int {
 
 // SystemCall represents the model of a systemcall
 type SystemCall struct {
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
@@ -77,6 +80,16 @@ type SystemCall struct {
 
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Name is the name of the entity.
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
@@ -89,19 +102,6 @@ type SystemCall struct {
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
-
-	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Metadata contains tags that can only be set during creation. They must all start
-	// with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
-
-	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -198,6 +198,30 @@ func (o *SystemCall) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetMetadata returns the Metadata of the receiver.
+func (o *SystemCall) GetMetadata() []string {
+
+	return o.Metadata
+}
+
+// SetMetadata sets the given Metadata of the receiver.
+func (o *SystemCall) SetMetadata(metadata []string) {
+
+	o.Metadata = metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *SystemCall) GetName() string {
+
+	return o.Name
+}
+
+// SetName sets the given Name of the receiver.
+func (o *SystemCall) SetName(name string) {
+
+	o.Name = name
+}
+
 // GetNamespace returns the Namespace of the receiver.
 func (o *SystemCall) GetNamespace() string {
 
@@ -238,30 +262,6 @@ func (o *SystemCall) GetUpdateTime() time.Time {
 func (o *SystemCall) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
-}
-
-// GetMetadata returns the Metadata of the receiver.
-func (o *SystemCall) GetMetadata() []string {
-
-	return o.Metadata
-}
-
-// SetMetadata sets the given Metadata of the receiver.
-func (o *SystemCall) SetMetadata(metadata []string) {
-
-	o.Metadata = metadata
-}
-
-// GetName returns the Name of the receiver.
-func (o *SystemCall) GetName() string {
-
-	return o.Name
-}
-
-// SetName sets the given Name of the receiver.
-func (o *SystemCall) SetName(name string) {
-
-	o.Name = name
 }
 
 // Validate valides the current information stored into the structure.

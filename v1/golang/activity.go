@@ -67,6 +67,9 @@ func (o ActivitiesList) Version() int {
 
 // Activity represents the model of a activity
 type Activity struct {
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
 	// Claims of the user who performed the operation.
 	Claims interface{} `json:"claims" bson:"claims" mapstructure:"claims,omitempty"`
 
@@ -97,9 +100,6 @@ type Activity struct {
 
 	// TargetIdentity is the Identity of the related object.
 	TargetIdentity string `json:"targetIdentity" bson:"targetidentity" mapstructure:"targetIdentity,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

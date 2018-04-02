@@ -92,16 +92,19 @@ func (o ProcessingUnitPoliciesList) Version() int {
 
 // ProcessingUnitPolicy represents the model of a processingunitpolicy
 type ProcessingUnitPolicy struct {
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
 	// Action determines the action to take while enforcing the isolation profile.
 	Action ProcessingUnitPolicyActionValue `json:"action" bson:"action" mapstructure:"action,omitempty"`
 
-	// IsolationProfileSelector are the profiles that must be applied when this policy
-	// matches. Only applies to Enforce and LogCompliance actions.
-	IsolationProfileSelector [][]string `json:"isolationProfileSelector" bson:"isolationprofileselector" mapstructure:"isolationProfileSelector,omitempty"`
+	// ActiveDuration defines for how long the policy will be active according to the
+	// activeSchedule.
+	ActiveDuration string `json:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
 
-	// Subject defines the tag selectors that identitfy the processing units to which
-	// this policy applies.
-	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
+	// ActiveSchedule defines when the policy should be active using the cron notation.
+	// The policy will be active for the given activeDuration.
+	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -112,26 +115,15 @@ type ProcessingUnitPolicy struct {
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Namespace tag attached to an entity.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
-
-	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
-
-	// Protected defines if the object is protected.
-	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
-
-	// UpdateTime is the time at which an entity was updated.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
-
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+	// IsolationProfileSelector are the profiles that must be applied when this policy
+	// matches. Only applies to Enforce and LogCompliance actions.
+	IsolationProfileSelector [][]string `json:"isolationProfileSelector" bson:"isolationprofileselector" mapstructure:"isolationProfileSelector,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -140,6 +132,12 @@ type ProcessingUnitPolicy struct {
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
+	// Namespace tag attached to an entity.
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
@@ -147,13 +145,15 @@ type ProcessingUnitPolicy struct {
 	// namespace, but still used for policy resolution.
 	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
 
-	// ActiveDuration defines for how long the policy will be active according to the
-	// activeSchedule.
-	ActiveDuration string `json:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// ActiveSchedule defines when the policy should be active using the cron notation.
-	// The policy will be active for the given activeDuration.
-	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
+	// Subject defines the tag selectors that identitfy the processing units to which
+	// this policy applies.
+	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -214,6 +214,30 @@ func (o *ProcessingUnitPolicy) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *ProcessingUnitPolicy) GetActiveDuration() string {
+
+	return o.ActiveDuration
+}
+
+// SetActiveDuration sets the given ActiveDuration of the receiver.
+func (o *ProcessingUnitPolicy) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *ProcessingUnitPolicy) GetActiveSchedule() string {
+
+	return o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the given ActiveSchedule of the receiver.
+func (o *ProcessingUnitPolicy) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = activeSchedule
+}
+
 // GetAnnotations returns the Annotations of the receiver.
 func (o *ProcessingUnitPolicy) GetAnnotations() map[string][]string {
 
@@ -248,48 +272,6 @@ func (o *ProcessingUnitPolicy) GetCreateTime() time.Time {
 func (o *ProcessingUnitPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
-}
-
-// GetNamespace returns the Namespace of the receiver.
-func (o *ProcessingUnitPolicy) GetNamespace() string {
-
-	return o.Namespace
-}
-
-// SetNamespace sets the given Namespace of the receiver.
-func (o *ProcessingUnitPolicy) SetNamespace(namespace string) {
-
-	o.Namespace = namespace
-}
-
-// GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *ProcessingUnitPolicy) GetNormalizedTags() []string {
-
-	return o.NormalizedTags
-}
-
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *ProcessingUnitPolicy) SetNormalizedTags(normalizedTags []string) {
-
-	o.NormalizedTags = normalizedTags
-}
-
-// GetProtected returns the Protected of the receiver.
-func (o *ProcessingUnitPolicy) GetProtected() bool {
-
-	return o.Protected
-}
-
-// GetUpdateTime returns the UpdateTime of the receiver.
-func (o *ProcessingUnitPolicy) GetUpdateTime() time.Time {
-
-	return o.UpdateTime
-}
-
-// SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *ProcessingUnitPolicy) SetUpdateTime(updateTime time.Time) {
-
-	o.UpdateTime = updateTime
 }
 
 // GetDisabled returns the Disabled of the receiver.
@@ -328,6 +310,30 @@ func (o *ProcessingUnitPolicy) SetName(name string) {
 	o.Name = name
 }
 
+// GetNamespace returns the Namespace of the receiver.
+func (o *ProcessingUnitPolicy) GetNamespace() string {
+
+	return o.Namespace
+}
+
+// SetNamespace sets the given Namespace of the receiver.
+func (o *ProcessingUnitPolicy) SetNamespace(namespace string) {
+
+	o.Namespace = namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *ProcessingUnitPolicy) GetNormalizedTags() []string {
+
+	return o.NormalizedTags
+}
+
+// SetNormalizedTags sets the given NormalizedTags of the receiver.
+func (o *ProcessingUnitPolicy) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = normalizedTags
+}
+
 // GetPropagate returns the Propagate of the receiver.
 func (o *ProcessingUnitPolicy) GetPropagate() bool {
 
@@ -352,28 +358,22 @@ func (o *ProcessingUnitPolicy) SetPropagationHidden(propagationHidden bool) {
 	o.PropagationHidden = propagationHidden
 }
 
-// GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *ProcessingUnitPolicy) GetActiveDuration() string {
+// GetProtected returns the Protected of the receiver.
+func (o *ProcessingUnitPolicy) GetProtected() bool {
 
-	return o.ActiveDuration
+	return o.Protected
 }
 
-// SetActiveDuration sets the given ActiveDuration of the receiver.
-func (o *ProcessingUnitPolicy) SetActiveDuration(activeDuration string) {
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *ProcessingUnitPolicy) GetUpdateTime() time.Time {
 
-	o.ActiveDuration = activeDuration
+	return o.UpdateTime
 }
 
-// GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *ProcessingUnitPolicy) GetActiveSchedule() string {
+// SetUpdateTime sets the given UpdateTime of the receiver.
+func (o *ProcessingUnitPolicy) SetUpdateTime(updateTime time.Time) {
 
-	return o.ActiveSchedule
-}
-
-// SetActiveSchedule sets the given ActiveSchedule of the receiver.
-func (o *ProcessingUnitPolicy) SetActiveSchedule(activeSchedule string) {
-
-	o.ActiveSchedule = activeSchedule
+	o.UpdateTime = updateTime
 }
 
 // Validate valides the current information stored into the structure.
@@ -386,6 +386,10 @@ func (o *ProcessingUnitPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -395,10 +399,6 @@ func (o *ProcessingUnitPolicy) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, false); err != nil {
 		errors = append(errors, err)
 	}
 

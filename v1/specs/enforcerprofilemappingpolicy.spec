@@ -25,29 +25,30 @@ model:
 
 # Attributes
 attributes:
-- name: object
-  description: Object is the list of tags to use to find a enforcer profile.
-  type: external
-  exposed: true
-  subtype: policies_list
-  stored: true
-  required: true
-  example_value:
-  - - a=a
-    - b=b
-  - - c=c
+  v1:
+  - name: object
+    description: Object is the list of tags to use to find a enforcer profile.
+    type: external
+    exposed: true
+    subtype: policies_list
+    stored: true
+    required: true
+    example_value:
+    - - a=a
+      - b=b
+    - - c=c
 
-- name: subject
-  description: Subject is the subject of the policy.
-  type: external
-  exposed: true
-  subtype: policies_list
-  stored: true
-  required: true
-  example_value:
-  - - a=a
-    - b=b
-  - - c=c
+  - name: subject
+    description: Subject is the subject of the policy.
+    type: external
+    exposed: true
+    subtype: policies_list
+    stored: true
+    required: true
+    example_value:
+    - - a=a
+      - b=b
+    - - c=c
 
 # Relations
 relations:

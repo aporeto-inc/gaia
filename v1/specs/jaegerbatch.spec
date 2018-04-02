@@ -12,10 +12,11 @@ model:
 
 # Attributes
 attributes:
-- name: batch
-  description: Represents a jaeger batch.
-  type: external
-  exposed: true
-  subtype: jaeger_batch
-  stored: true
-  creation_only: true
+  v1:
+  - name: batch
+    description: Represents a jaeger batch.
+    type: external
+    exposed: true
+    subtype: jaeger_batch
+    stored: true
+    creation_only: true

@@ -20,30 +20,31 @@ model:
 
 # Attributes
 attributes:
-- name: edges
-  description: edges are the edges of the map.
-  type: external
-  exposed: true
-  subtype: graphedges_map
-  read_only: true
+  v1:
+  - name: edges
+    description: edges are the edges of the map.
+    type: external
+    exposed: true
+    subtype: graphedges_map
+    read_only: true
 
-- name: groups
-  description: Groups provide information about the group values.
-  type: external
-  exposed: true
-  subtype: graphgroups_map
-  read_only: true
+  - name: groups
+    description: Groups provide information about the group values.
+    type: external
+    exposed: true
+    subtype: graphgroups_map
+    read_only: true
 
-- name: nodes
-  description: nodes refers to the nodes of the map.
-  type: external
-  exposed: true
-  subtype: graphnodes_map
-  read_only: true
+  - name: nodes
+    description: nodes refers to the nodes of the map.
+    type: external
+    exposed: true
+    subtype: graphnodes_map
+    read_only: true
 
-- name: viewSuggestions
-  description: viewSuggestions provides suggestion of views based on relevant tags.
-  type: external
-  exposed: true
-  subtype: view_suggestions
-  read_only: true
+  - name: viewSuggestions
+    description: viewSuggestions provides suggestion of views based on relevant tags.
+    type: external
+    exposed: true
+    subtype: view_suggestions
+    read_only: true

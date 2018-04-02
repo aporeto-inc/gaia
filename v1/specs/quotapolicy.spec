@@ -26,32 +26,33 @@ model:
 
 # Attributes
 attributes:
-- name: identities
-  description: Identities contains the list of identity names where the quota will
-    be applied.
-  type: list
-  exposed: true
-  subtype: string
-  stored: true
-  required: true
-  example_value:
-  - processingunit
-  - enforcer
+  v1:
+  - name: identities
+    description: Identities contains the list of identity names where the quota will
+      be applied.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    required: true
+    example_value:
+    - processingunit
+    - enforcer
 
-- name: quota
-  description: |-
-    Quota contains the maximum number of object matching the policy subject that can
-    be created.
-  type: integer
-  exposed: true
+  - name: quota
+    description: |-
+      Quota contains the maximum number of object matching the policy subject that can
+      be created.
+    type: integer
+    exposed: true
 
-- name: targetNamespace
-  description: TargetNamespace contains the base namespace from where the count will
-    be done.
-  type: string
-  exposed: true
-  stored: true
-  required: true
-  example_value: /my/namespace
-  filterable: true
-  format: free
+  - name: targetNamespace
+    description: TargetNamespace contains the base namespace from where the count
+      will be done.
+    type: string
+    exposed: true
+    stored: true
+    required: true
+    example_value: /my/namespace
+    filterable: true
+    format: free

@@ -83,12 +83,30 @@ func (o AutomationsList) Version() int {
 
 // Automation represents the model of a automation
 type Automation struct {
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
 	// Action contains the code that will be executed if the condition is met.
 	Actions []string `json:"actions" bson:"actions" mapstructure:"actions,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// Condition contains the code that will be executed to decide if any action should
 	// be taken.
 	Condition string `json:"condition" bson:"condition" mapstructure:"condition,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+
+	// Disabled defines if the propert is disabled.
+	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
 	// Entitlements declares which operations are allowed on which identities.
 	Entitlements map[string][]elemental.Operation `json:"entitlements" bson:"entitlements" mapstructure:"entitlements,omitempty"`
@@ -103,8 +121,20 @@ type Automation struct {
 	// LastExecTime holds the last successful execution tine.
 	LastExecTime time.Time `json:"lastExecTime" bson:"lastexectime" mapstructure:"lastExecTime,omitempty"`
 
+	// Name is the name of the entity.
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
 	// Parameters are passed to the functions.
 	Parameters map[string]interface{} `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Schedule tells when to run the automation. Must be a valid CRON format. This
 	// only applies if the trigger is set to Time.
@@ -123,38 +153,8 @@ type Automation struct {
 	// Trigger controls when the automation should be triggered.
 	Trigger AutomationTriggerValue `json:"trigger" bson:"trigger" mapstructure:"trigger,omitempty"`
 
-	// Annotation stores additional information about an entity.
-	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
-
-	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
-
-	// CreatedTime is the time at which the object was created.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
-
-	// Namespace tag attached to an entity.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
-
-	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
-
-	// Protected defines if the object is protected.
-	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
-
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
-
-	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// Disabled defines if the propert is disabled.
-	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -254,6 +254,30 @@ func (o *Automation) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetDisabled returns the Disabled of the receiver.
+func (o *Automation) GetDisabled() bool {
+
+	return o.Disabled
+}
+
+// SetDisabled sets the given Disabled of the receiver.
+func (o *Automation) SetDisabled(disabled bool) {
+
+	o.Disabled = disabled
+}
+
+// GetName returns the Name of the receiver.
+func (o *Automation) GetName() string {
+
+	return o.Name
+}
+
+// SetName sets the given Name of the receiver.
+func (o *Automation) SetName(name string) {
+
+	o.Name = name
+}
+
 // GetNamespace returns the Namespace of the receiver.
 func (o *Automation) GetNamespace() string {
 
@@ -296,30 +320,6 @@ func (o *Automation) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
-// GetDisabled returns the Disabled of the receiver.
-func (o *Automation) GetDisabled() bool {
-
-	return o.Disabled
-}
-
-// SetDisabled sets the given Disabled of the receiver.
-func (o *Automation) SetDisabled(disabled bool) {
-
-	o.Disabled = disabled
-}
-
-// GetName returns the Name of the receiver.
-func (o *Automation) GetName() string {
-
-	return o.Name
-}
-
-// SetName sets the given Name of the receiver.
-func (o *Automation) SetName(name string) {
-
-	o.Name = name
-}
-
 // Validate valides the current information stored into the structure.
 func (o *Automation) Validate() error {
 
@@ -328,10 +328,6 @@ func (o *Automation) Validate() error {
 
 	if err := elemental.ValidateRequiredString("condition", o.Condition); err != nil {
 		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateStringInList("trigger", string(o.Trigger), []string{"Event", "RemoteCall", "Time"}, false); err != nil {
-		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
@@ -343,6 +339,10 @@ func (o *Automation) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("trigger", string(o.Trigger), []string{"Event", "RemoteCall", "Time"}, false); err != nil {
 		errors = append(errors, err)
 	}
 

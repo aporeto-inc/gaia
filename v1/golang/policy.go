@@ -104,8 +104,19 @@ func (o PoliciesList) Version() int {
 
 // Policy represents the model of a policy
 type Policy struct {
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
 	// Action defines set of actions that must be enforced when a dependency is met.
 	Action map[string]map[string]interface{} `json:"action" bson:"action" mapstructure:"action,omitempty"`
+
+	// ActiveDuration defines for how long the policy will be active according to the
+	// activeSchedule.
+	ActiveDuration string `json:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
+
+	// ActiveSchedule defines when the policy should be active using the cron notation.
+	// The policy will be active for the given activeDuration.
+	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	// This is a set of all object tags for matching in the DB.
 	AllObjectTags []string `json:"-" bson:"allobjecttags" mapstructure:"-,omitempty"`
@@ -113,9 +124,47 @@ type Policy struct {
 	// This is a set of all subject tags for matching in the DB.
 	AllSubjectTags []string `json:"-" bson:"allsubjecttags" mapstructure:"-,omitempty"`
 
+	// Annotation stores additional information about an entity.
+	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+
+	// Disabled defines if the propert is disabled.
+	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Name is the name of the entity.
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
 	// Object represents set of entities that another entity depends on. As subjects,
 	// objects are identified as logical operations on tags when a policy is defined.
 	Object [][]string `json:"object" bson:"object" mapstructure:"object,omitempty"`
+
+	// Propagate will propagate the policy to all of its children.
+	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
+
+	// If set to true while the policy is propagating, it won't be visible to children
+	// namespace, but still used for policy resolution.
+	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Relation describes the required operation to be performed between subjects and
 	// objects.
@@ -129,57 +178,8 @@ type Policy struct {
 	// Type of the policy.
 	Type PolicyTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
-	// Annotation stores additional information about an entity.
-	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
-
-	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
-
-	// CreatedTime is the time at which the object was created.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
-
-	// Namespace tag attached to an entity.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
-
-	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
-
-	// Protected defines if the object is protected.
-	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
-
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
-
-	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// Disabled defines if the propert is disabled.
-	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Metadata contains tags that can only be set during creation. They must all start
-	// with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
-
-	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
-
-	// Propagate will propagate the policy to all of its children.
-	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
-
-	// If set to true while the policy is propagating, it won't be visible to children
-	// namespace, but still used for policy resolution.
-	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
-
-	// ActiveDuration defines for how long the policy will be active according to the
-	// activeSchedule.
-	ActiveDuration string `json:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
-
-	// ActiveSchedule defines when the policy should be active using the cron notation.
-	// The policy will be active for the given activeDuration.
-	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -242,6 +242,30 @@ func (o *Policy) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *Policy) GetActiveDuration() string {
+
+	return o.ActiveDuration
+}
+
+// SetActiveDuration sets the given ActiveDuration of the receiver.
+func (o *Policy) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *Policy) GetActiveSchedule() string {
+
+	return o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the given ActiveSchedule of the receiver.
+func (o *Policy) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = activeSchedule
+}
+
 // GetAnnotations returns the Annotations of the receiver.
 func (o *Policy) GetAnnotations() map[string][]string {
 
@@ -276,48 +300,6 @@ func (o *Policy) GetCreateTime() time.Time {
 func (o *Policy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
-}
-
-// GetNamespace returns the Namespace of the receiver.
-func (o *Policy) GetNamespace() string {
-
-	return o.Namespace
-}
-
-// SetNamespace sets the given Namespace of the receiver.
-func (o *Policy) SetNamespace(namespace string) {
-
-	o.Namespace = namespace
-}
-
-// GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *Policy) GetNormalizedTags() []string {
-
-	return o.NormalizedTags
-}
-
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *Policy) SetNormalizedTags(normalizedTags []string) {
-
-	o.NormalizedTags = normalizedTags
-}
-
-// GetProtected returns the Protected of the receiver.
-func (o *Policy) GetProtected() bool {
-
-	return o.Protected
-}
-
-// GetUpdateTime returns the UpdateTime of the receiver.
-func (o *Policy) GetUpdateTime() time.Time {
-
-	return o.UpdateTime
-}
-
-// SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *Policy) SetUpdateTime(updateTime time.Time) {
-
-	o.UpdateTime = updateTime
 }
 
 // GetDisabled returns the Disabled of the receiver.
@@ -356,6 +338,30 @@ func (o *Policy) SetName(name string) {
 	o.Name = name
 }
 
+// GetNamespace returns the Namespace of the receiver.
+func (o *Policy) GetNamespace() string {
+
+	return o.Namespace
+}
+
+// SetNamespace sets the given Namespace of the receiver.
+func (o *Policy) SetNamespace(namespace string) {
+
+	o.Namespace = namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *Policy) GetNormalizedTags() []string {
+
+	return o.NormalizedTags
+}
+
+// SetNormalizedTags sets the given NormalizedTags of the receiver.
+func (o *Policy) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = normalizedTags
+}
+
 // GetPropagate returns the Propagate of the receiver.
 func (o *Policy) GetPropagate() bool {
 
@@ -380,28 +386,22 @@ func (o *Policy) SetPropagationHidden(propagationHidden bool) {
 	o.PropagationHidden = propagationHidden
 }
 
-// GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *Policy) GetActiveDuration() string {
+// GetProtected returns the Protected of the receiver.
+func (o *Policy) GetProtected() bool {
 
-	return o.ActiveDuration
+	return o.Protected
 }
 
-// SetActiveDuration sets the given ActiveDuration of the receiver.
-func (o *Policy) SetActiveDuration(activeDuration string) {
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *Policy) GetUpdateTime() time.Time {
 
-	o.ActiveDuration = activeDuration
+	return o.UpdateTime
 }
 
-// GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *Policy) GetActiveSchedule() string {
+// SetUpdateTime sets the given UpdateTime of the receiver.
+func (o *Policy) SetUpdateTime(updateTime time.Time) {
 
-	return o.ActiveSchedule
-}
-
-// SetActiveSchedule sets the given ActiveSchedule of the receiver.
-func (o *Policy) SetActiveSchedule(activeSchedule string) {
-
-	o.ActiveSchedule = activeSchedule
+	o.UpdateTime = updateTime
 }
 
 // Validate valides the current information stored into the structure.
@@ -410,7 +410,7 @@ func (o *Policy) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"}, false); err != nil {
+	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -426,7 +426,7 @@ func (o *Policy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"}, false); err != nil {
 		errors = append(errors, err)
 	}
 

@@ -80,6 +80,9 @@ func (o AutomationTemplatesList) Version() int {
 
 // AutomationTemplate represents the model of a automationtemplate
 type AutomationTemplate struct {
+	// Description is the description of the object.
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+
 	// Entitlements contains the entitlements needed for executing the function.
 	Entitlements map[string][]elemental.Operation `json:"entitlements" bson:"-" mapstructure:"entitlements,omitempty"`
 
@@ -92,14 +95,11 @@ type AutomationTemplate struct {
 	// Kind represents the kind of template.
 	Kind AutomationTemplateKindValue `json:"kind" bson:"-" mapstructure:"kind,omitempty"`
 
-	// Parameters contains the parameter description of the function.
-	Parameters map[string]types.AutomationTemplateParameter `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
-
-	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
-
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+
+	// Parameters contains the parameter description of the function.
+	Parameters map[string]types.AutomationTemplateParameter `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -176,11 +176,11 @@ func (o *AutomationTemplate) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("kind", string(o.Kind), []string{"Action", "Condition"}, false); err != nil {
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+	if err := elemental.ValidateStringInList("kind", string(o.Kind), []string{"Action", "Condition"}, false); err != nil {
 		errors = append(errors, err)
 	}
 

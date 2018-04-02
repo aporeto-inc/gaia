@@ -3749,9 +3749,31 @@ modified version of the object before we save it.
 
 ```json
 {
-  "certificateAuthority": "-----BEGIN CERTIFICATE-----\nMIIBbjCCARSgAwIBAgIRANRbvVzTzBZOvMCb8BiKCLowCgYIKoZIzj0EAwIwJjEN\nMAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNTE4\nNDgwN1oXDTI3MTEyNDE4NDgwN1owJjENMAsGA1UEChMEQWNtZTEVMBMGA1UEAxMM\nQWNtZSBSb290IENBMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJ/80HR51+vau\n7XH7zS7b8ABA0e/TdBOg1NznbnXdXil1tDvWloWuH5+/bbaiEg54wksJHFXaukw8\njhTLU7zT56MjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wCgYI\nKoZIzj0EAwIDSAAwRQIhALwAZh2KLFFC1qfb5CqFHExlXS0PUltax9PvQCN9P0vl\nAiBl7/st9u/JpERjJgirxJxOgKNlV6pq9ti75EfQtZZcQA==\n-----END CERTIFICATE-----",
-  "clientCertificate": "-----BEGIN CERTIFICATE-----\nMIIBczCCARigAwIBAgIRALD3Vz81Pq10g7n4eAkOsCYwCgYIKoZIzj0EAwIwJjEN\nMAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNzA2\nNTM1MloXDTI3MTEyNjA2NTM1MlowGDEWMBQGA1UEAxMNY2xhaXJlLWNsaWVudDBZ\nMBMGByqGSM49AgEGCCqGSM49AwEHA0IABOmzPJj+t25T148eQH5gVrZ7nHwckF5O\nevJQ3CjSEMesjZ/u7cW8IBfXlxZKHxl91IEbbB3svci4c8pycUNZ2kujNTAzMA4G\nA1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggrBgEFBQcDAjAMBgNVHRMBAf8EAjAA\nMAoGCCqGSM49BAMCA0kAMEYCIQCjAAmkQpTua0HR4q6jnePaFBp/JMXwTXTxzbV6\npeGbBQIhAP+1OR8GFnn2PlacwHqWXHwkvy6CLPVikvgtwEdB6jH8\n-----END CERTIFICATE-----",
-  "clientCertificateKey": "-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIGOXJI/123456789oamOu4tQAIKFdbyvkIJg9GME0mHzoAoGCCqGSM49\nAwEHoUQDQgAE6bM8mP123456789AfmBWtnucfByQXk568lDcKNIQx6yNn+7txbwg\nF9eXFkofGX3UgRtsHe123456789xQ1naSw==\n-----END EC PRIVATE KEY-----",
+  "certificateAuthority": "-----BEGIN CERTIFICATE-----
+MIIBbjCCARSgAwIBAgIRANRbvVzTzBZOvMCb8BiKCLowCgYIKoZIzj0EAwIwJjEN
+MAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNTE4
+NDgwN1oXDTI3MTEyNDE4NDgwN1owJjENMAsGA1UEChMEQWNtZTEVMBMGA1UEAxMM
+QWNtZSBSb290IENBMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJ/80HR51+vau
+7XH7zS7b8ABA0e/TdBOg1NznbnXdXil1tDvWloWuH5+/bbaiEg54wksJHFXaukw8
+jhTLU7zT56MjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wCgYI
+KoZIzj0EAwIDSAAwRQIhALwAZh2KLFFC1qfb5CqFHExlXS0PUltax9PvQCN9P0vl
+AiBl7/st9u/JpERjJgirxJxOgKNlV6pq9ti75EfQtZZcQA==
+-----END CERTIFICATE-----",
+  "clientCertificate": "-----BEGIN CERTIFICATE-----
+MIIBczCCARigAwIBAgIRALD3Vz81Pq10g7n4eAkOsCYwCgYIKoZIzj0EAwIwJjEN
+MAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNzA2
+NTM1MloXDTI3MTEyNjA2NTM1MlowGDEWMBQGA1UEAxMNY2xhaXJlLWNsaWVudDBZ
+MBMGByqGSM49AgEGCCqGSM49AwEHA0IABOmzPJj+t25T148eQH5gVrZ7nHwckF5O
+evJQ3CjSEMesjZ/u7cW8IBfXlxZKHxl91IEbbB3svci4c8pycUNZ2kujNTAzMA4G
+A1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggrBgEFBQcDAjAMBgNVHRMBAf8EAjAA
+MAoGCCqGSM49BAMCA0kAMEYCIQCjAAmkQpTua0HR4q6jnePaFBp/JMXwTXTxzbV6
+peGbBQIhAP+1OR8GFnn2PlacwHqWXHwkvy6CLPVikvgtwEdB6jH8
+-----END CERTIFICATE-----",
+  "clientCertificateKey": "-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIGOXJI/123456789oamOu4tQAIKFdbyvkIJg9GME0mHzoAoGCCqGSM49
+AwEHoUQDQgAE6bM8mP123456789AfmBWtnucfByQXk568lDcKNIQx6yNn+7txbwg
+F9eXFkofGX3UgRtsHe123456789xQ1naSw==
+-----END EC PRIVATE KEY-----",
   "endpoint": "https://hooks.hookserver.com/remoteprocessors",
   "name": "the name",
   "subject": [
@@ -6144,7 +6166,10 @@ Hook to integrate an Aporeto service.
     "@auth:realm=certificate",
     "@auth:commonname=john"
   ],
-  "input": "{\n  \"name\": \"hello\",\n  \"description\": \"hello\",\n}",
+  "input": "{
+  \"name\": \"hello\",
+  \"description\": \"hello\",
+}",
   "namespace": "/my/namespace",
   "operation": "create",
   "targetIdentity": "processingunit"
@@ -6235,7 +6260,14 @@ Retrieve the aggregated policies applied to a particular processing unit.
 
 ```json
 {
-  "processingUnit": "{\n  \"name\": \"pu\",\n  \"type\": \"Docker\",\n  \"normalizedTags\": [\n    \"a=a\",\n    \"b=b\"\n  ]\n}"
+  "processingUnit": "{
+  \"name\": \"pu\",
+  \"type\": \"Docker\",
+  \"normalizedTags\": [
+    \"a=a\",
+    \"b=b\"
+  ]
+}"
 }
 ```
 

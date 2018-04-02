@@ -102,6 +102,9 @@ func (o FlowStatisticsList) Version() int {
 
 // FlowStatistic represents the model of a flowstatistic
 type FlowStatistic struct {
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
 	// DataPoints is a list of time/value pairs that represent the flow events over
 	// time.
 	DataPoints []map[string]interface{} `json:"dataPoints" bson:"-" mapstructure:"dataPoints,omitempty"`
@@ -130,9 +133,6 @@ type FlowStatistic struct {
 	// UserIdentifier can be set by the user as a query parameter. It will be returned
 	// in the FlowStatistic object.
 	UserIdentifier string `json:"userIdentifier" bson:"-" mapstructure:"userIdentifier,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

@@ -78,11 +78,17 @@ func (o CertificatesList) Version() int {
 
 // Certificate represents the model of a certificate
 type Certificate struct {
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
 	// Admin determines if the certificate must be added to the admin list.
 	Admin bool `json:"admin" bson:"admin" mapstructure:"admin,omitempty"`
 
 	// CommonName (CN) for the user certificate.
 	CommonName string `json:"commonName" bson:"commonname" mapstructure:"commonName,omitempty"`
+
+	// Creation date of the object.
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Certificate provides a certificate for the user.
 	Data string `json:"data" bson:"data" mapstructure:"data,omitempty"`
@@ -115,12 +121,6 @@ type Certificate struct {
 	// CertificateStatus provides the status of the certificate. Update with RENEW to
 	// get a new certificate.
 	Status CertificateStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`

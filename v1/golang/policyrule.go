@@ -71,6 +71,9 @@ type PolicyRule struct {
 	// APIServices provides the APIServices of this policy rule.
 	APIServices APIServicesList `json:"APIServices" bson:"-" mapstructure:"APIServices,omitempty"`
 
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
 	// Action defines set of actions that must be enforced when a dependency is met.
 	Action map[string]map[string]interface{} `json:"action" bson:"-" mapstructure:"action,omitempty"`
 
@@ -85,6 +88,9 @@ type PolicyRule struct {
 
 	// IsolationProfiles are the isolation profiles of the rule.
 	IsolationProfiles IsolationProfilesList `json:"isolationProfiles" bson:"-" mapstructure:"isolationProfiles,omitempty"`
+
+	// Name is the name of the entity.
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Policy target networks.
 	Namespaces NamespacesList `json:"namespaces" bson:"-" mapstructure:"namespaces,omitempty"`
@@ -102,12 +108,6 @@ type PolicyRule struct {
 
 	// Policy target tags.
 	TagClauses [][]string `json:"tagClauses" bson:"-" mapstructure:"tagClauses,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
-
-	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

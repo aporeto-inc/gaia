@@ -29,51 +29,52 @@ model:
 
 # Attributes
 attributes:
-- name: allowsExecute
-  description: AllowsExecute allows to execute the files.
-  type: boolean
-  exposed: true
-  filterable: true
-  orderable: true
+  v1:
+  - name: allowsExecute
+    description: AllowsExecute allows to execute the files.
+    type: boolean
+    exposed: true
+    filterable: true
+    orderable: true
 
-- name: allowsRead
-  description: AllowsRead allows to read the files.
-  type: boolean
-  exposed: true
-  filterable: true
-  orderable: true
+  - name: allowsRead
+    description: AllowsRead allows to read the files.
+    type: boolean
+    exposed: true
+    filterable: true
+    orderable: true
 
-- name: allowsWrite
-  description: AllowsWrite allows to write the files.
-  type: boolean
-  exposed: true
-  filterable: true
-  orderable: true
+  - name: allowsWrite
+    description: AllowsWrite allows to write the files.
+    type: boolean
+    exposed: true
+    filterable: true
+    orderable: true
 
-- name: encryptionEnabled
-  description: EncryptionEnabled will enable the automatic encryption.
-  type: boolean
-  exposed: true
-  filterable: true
-  orderable: true
+  - name: encryptionEnabled
+    description: EncryptionEnabled will enable the automatic encryption.
+    type: boolean
+    exposed: true
+    filterable: true
+    orderable: true
 
-- name: logsEnabled
-  description: LogsEnabled will enable logging when this policy is used.
-  type: boolean
-  exposed: true
-  filterable: true
-  orderable: true
+  - name: logsEnabled
+    description: LogsEnabled will enable logging when this policy is used.
+    type: boolean
+    exposed: true
+    filterable: true
+    orderable: true
 
-- name: object
-  description: Object is the object of the policy.
-  type: external
-  exposed: true
-  subtype: policies_list
-  orderable: true
+  - name: object
+    description: Object is the object of the policy.
+    type: external
+    exposed: true
+    subtype: policies_list
+    orderable: true
 
-- name: subject
-  description: Subject is the subject of the policy.
-  type: external
-  exposed: true
-  subtype: policies_list
-  orderable: true
+  - name: subject
+    description: Subject is the subject of the policy.
+    type: external
+    exposed: true
+    subtype: policies_list
+    orderable: true

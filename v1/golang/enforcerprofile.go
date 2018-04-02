@@ -84,6 +84,9 @@ func (o EnforcerProfilesList) Version() int {
 
 // EnforcerProfile represents the model of a enforcerprofile
 type EnforcerProfile struct {
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
 	// IptablesMarkValue is the mark value to be used in an iptables implementation.
 	IPTablesMarkValue int `json:"IPTablesMarkValue" bson:"iptablesmarkvalue" mapstructure:"IPTablesMarkValue,omitempty"`
 
@@ -92,6 +95,12 @@ type EnforcerProfile struct {
 
 	// PUHeartbeatInterval configures the heart beat interval.
 	PUHeartbeatInterval string `json:"PUHeartbeatInterval" bson:"puheartbeatinterval" mapstructure:"PUHeartbeatInterval,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// AuditProfileSelectors is the list of tags (key/value pairs) that define the
 	// audit policies that must be implemented by this enforcer. The enforcer will
@@ -104,6 +113,12 @@ type EnforcerProfile struct {
 
 	// AuditSocketBufferSize is the size of the audit socket buffer. Default 16384.
 	AuditSocketBufferSize int `json:"auditSocketBufferSize" bson:"auditsocketbuffersize" mapstructure:"auditSocketBufferSize,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// DockerSocketAddress is the address of the docker daemon.
 	DockerSocketAddress string `json:"dockerSocketAddress" bson:"dockersocketaddress" mapstructure:"dockerSocketAddress,omitempty"`
@@ -132,9 +147,21 @@ type EnforcerProfile struct {
 	// Select which metadata extractor to use to process new processing units.
 	MetadataExtractor EnforcerProfileMetadataExtractorValue `json:"metadataExtractor" bson:"metadataextractor" mapstructure:"metadataExtractor,omitempty"`
 
+	// Name is the name of the entity.
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
 	// PolicySynchronizationInterval configures how often the policy will be
 	// resynchronized.
 	PolicySynchronizationInterval string `json:"policySynchronizationInterval" bson:"policysynchronizationinterval" mapstructure:"policySynchronizationInterval,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// ProxyListenAddress is the address the enforcer should use to listen for API
 	// calls. It can be a port (example :9443) or socket path
@@ -172,35 +199,8 @@ type EnforcerProfile struct {
 	// List of trusted CA. If empty the main chain of trust will be used.
 	TrustedCAs []string `json:"trustedCAs" bson:"trustedcas" mapstructure:"trustedCAs,omitempty"`
 
-	// Annotation stores additional information about an entity.
-	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
-
-	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
-
-	// CreatedTime is the time at which the object was created.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
-
-	// Namespace tag attached to an entity.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
-
-	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
-
-	// Protected defines if the object is protected.
-	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
-
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
-
-	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -318,6 +318,18 @@ func (o *EnforcerProfile) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetName returns the Name of the receiver.
+func (o *EnforcerProfile) GetName() string {
+
+	return o.Name
+}
+
+// SetName sets the given Name of the receiver.
+func (o *EnforcerProfile) SetName(name string) {
+
+	o.Name = name
+}
+
 // GetNamespace returns the Namespace of the receiver.
 func (o *EnforcerProfile) GetNamespace() string {
 
@@ -360,18 +372,6 @@ func (o *EnforcerProfile) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
-// GetName returns the Name of the receiver.
-func (o *EnforcerProfile) GetName() string {
-
-	return o.Name
-}
-
-// SetName sets the given Name of the receiver.
-func (o *EnforcerProfile) SetName(name string) {
-
-	o.Name = name
-}
-
 // Validate valides the current information stored into the structure.
 func (o *EnforcerProfile) Validate() error {
 
@@ -394,11 +394,23 @@ func (o *EnforcerProfile) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidatePattern("dockerSocketAddress", o.DockerSocketAddress, `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`, false); err != nil {
 		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateStringInList("metadataExtractor", string(o.MetadataExtractor), []string{"Docker", "ECS", "Kubernetes"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -451,18 +463,6 @@ func (o *EnforcerProfile) Validate() error {
 	}
 
 	if err := elemental.ValidateMinimumInt("transmitterQueueSize", o.TransmitterQueueSize, int(1), false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = append(errors, err)
 	}
 

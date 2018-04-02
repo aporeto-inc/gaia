@@ -25,22 +25,23 @@ model:
 
 # Attributes
 attributes:
-- name: assignedScopes
-  description: AssignedScopes is the the list of scopes that the policiy will assigns.
-  type: external
-  exposed: true
-  subtype: tags_list
-  stored: true
-  filterable: true
-  orderable: true
+  v1:
+  - name: assignedScopes
+    description: AssignedScopes is the the list of scopes that the policiy will assigns.
+    type: external
+    exposed: true
+    subtype: tags_list
+    stored: true
+    filterable: true
+    orderable: true
 
-- name: subject
-  description: |-
-    Subject defines the selection criteria that this policy must match on identiy
-    and scope request information.
-  type: external
-  exposed: true
-  subtype: policies_list
-  stored: true
-  filterable: true
-  orderable: true
+  - name: subject
+    description: |-
+      Subject defines the selection criteria that this policy must match on identiy
+      and scope request information.
+    type: external
+    exposed: true
+    subtype: policies_list
+    stored: true
+    filterable: true
+    orderable: true

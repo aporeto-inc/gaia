@@ -75,23 +75,23 @@ type AvailableService struct {
 	// CategoryID of the service.
 	CategoryID string `json:"categoryID" bson:"-" mapstructure:"categoryID,omitempty"`
 
+	// Description is the description of the object.
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+
 	// Icon contains a base64 image for the available service.
 	Icon string `json:"icon" bson:"-" mapstructure:"icon,omitempty"`
 
 	// LongDescription contains a more detailed description of the service.
 	LongDescription string `json:"longDescription" bson:"-" mapstructure:"longDescription,omitempty"`
 
+	// Name is the name of the entity.
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+
 	// Parameters of the service the user can or has to specify.
 	Parameters []*types.ServiceParameter `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
 
 	// Title represents the title of the service.
 	Title string `json:"title" bson:"-" mapstructure:"title,omitempty"`
-
-	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

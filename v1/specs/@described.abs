@@ -1,10 +1,11 @@
 # Attributes
 attributes:
-- name: description
-  description: Description is the description of the object.
-  type: string
-  exposed: true
-  stored: true
-  format: free
-  max_length: 1024
-  orderable: true
+  v1:
+  - name: description
+    description: Description is the description of the object.
+    type: string
+    exposed: true
+    stored: true
+    format: free
+    max_length: 1024
+    orderable: true

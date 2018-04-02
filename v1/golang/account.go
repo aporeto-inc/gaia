@@ -84,6 +84,9 @@ func (o AccountsList) Version() int {
 
 // Account represents the model of a account
 type Account struct {
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
 	// LDAPAddress holds the account authentication account's private ldap server.
 	LDAPAddress string `json:"LDAPAddress" bson:"ldapaddress" mapstructure:"LDAPAddress,omitempty"`
 
@@ -140,6 +143,9 @@ type Account struct {
 	// Company of the account user.
 	Company string `json:"company" bson:"company" mapstructure:"company,omitempty"`
 
+	// Creation date of the object.
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+
 	// Email of the account holder.
 	Email string `json:"email" bson:"email" mapstructure:"email,omitempty"`
 
@@ -166,12 +172,6 @@ type Account struct {
 
 	// Status of the account.
 	Status AccountStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`

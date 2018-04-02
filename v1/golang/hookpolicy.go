@@ -83,6 +83,15 @@ func (o HookPoliciesList) Version() int {
 
 // HookPolicy represents the model of a hookpolicy
 type HookPolicy struct {
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
 	// CertificateAuthority contains the pem block of the certificate authority used by
 	// the remote endpoint.
 	CertificateAuthority string `json:"certificateAuthority" bson:"certificateauthority" mapstructure:"certificateAuthority,omitempty"`
@@ -94,36 +103,8 @@ type HookPolicy struct {
 	// ClientCertificateKey contains the key associated to the clientCertificate.
 	ClientCertificateKey string `json:"clientCertificateKey" bson:"clientcertificatekey" mapstructure:"clientCertificateKey,omitempty"`
 
-	// Endpoint contains the full address of the remote processor endoint.
-	Endpoint string `json:"endpoint" bson:"endpoint" mapstructure:"endpoint,omitempty"`
-
-	// Mode define the type of the hook.
-	Mode HookPolicyModeValue `json:"mode" bson:"mode" mapstructure:"mode,omitempty"`
-
-	// Subject contains the tag expression that an object must match in order to
-	// trigger the hook.
-	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
-
-	// Annotation stores additional information about an entity.
-	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
-
-	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
-
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
-
-	// Namespace tag attached to an entity.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
-
-	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
-
-	// Protected defines if the object is protected.
-	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
-
-	// UpdateTime is the time at which an entity was updated.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
@@ -131,15 +112,24 @@ type HookPolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+	// Endpoint contains the full address of the remote processor endoint.
+	Endpoint string `json:"endpoint" bson:"endpoint" mapstructure:"endpoint,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
+	// Mode define the type of the hook.
+	Mode HookPolicyModeValue `json:"mode" bson:"mode" mapstructure:"mode,omitempty"`
+
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
@@ -147,6 +137,16 @@ type HookPolicy struct {
 	// If set to true while the policy is propagating, it won't be visible to children
 	// namespace, but still used for policy resolution.
 	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// Subject contains the tag expression that an object must match in order to
+	// trigger the hook.
+	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -246,48 +246,6 @@ func (o *HookPolicy) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
-// GetNamespace returns the Namespace of the receiver.
-func (o *HookPolicy) GetNamespace() string {
-
-	return o.Namespace
-}
-
-// SetNamespace sets the given Namespace of the receiver.
-func (o *HookPolicy) SetNamespace(namespace string) {
-
-	o.Namespace = namespace
-}
-
-// GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *HookPolicy) GetNormalizedTags() []string {
-
-	return o.NormalizedTags
-}
-
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *HookPolicy) SetNormalizedTags(normalizedTags []string) {
-
-	o.NormalizedTags = normalizedTags
-}
-
-// GetProtected returns the Protected of the receiver.
-func (o *HookPolicy) GetProtected() bool {
-
-	return o.Protected
-}
-
-// GetUpdateTime returns the UpdateTime of the receiver.
-func (o *HookPolicy) GetUpdateTime() time.Time {
-
-	return o.UpdateTime
-}
-
-// SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *HookPolicy) SetUpdateTime(updateTime time.Time) {
-
-	o.UpdateTime = updateTime
-}
-
 // GetDisabled returns the Disabled of the receiver.
 func (o *HookPolicy) GetDisabled() bool {
 
@@ -324,6 +282,30 @@ func (o *HookPolicy) SetName(name string) {
 	o.Name = name
 }
 
+// GetNamespace returns the Namespace of the receiver.
+func (o *HookPolicy) GetNamespace() string {
+
+	return o.Namespace
+}
+
+// SetNamespace sets the given Namespace of the receiver.
+func (o *HookPolicy) SetNamespace(namespace string) {
+
+	o.Namespace = namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *HookPolicy) GetNormalizedTags() []string {
+
+	return o.NormalizedTags
+}
+
+// SetNormalizedTags sets the given NormalizedTags of the receiver.
+func (o *HookPolicy) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = normalizedTags
+}
+
 // GetPropagate returns the Propagate of the receiver.
 func (o *HookPolicy) GetPropagate() bool {
 
@@ -348,6 +330,24 @@ func (o *HookPolicy) SetPropagationHidden(propagationHidden bool) {
 	o.PropagationHidden = propagationHidden
 }
 
+// GetProtected returns the Protected of the receiver.
+func (o *HookPolicy) GetProtected() bool {
+
+	return o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *HookPolicy) GetUpdateTime() time.Time {
+
+	return o.UpdateTime
+}
+
+// SetUpdateTime sets the given UpdateTime of the receiver.
+func (o *HookPolicy) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = updateTime
+}
+
 // Validate valides the current information stored into the structure.
 func (o *HookPolicy) Validate() error {
 
@@ -366,19 +366,15 @@ func (o *HookPolicy) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("endpoint", o.Endpoint); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateStringInList("mode", string(o.Mode), []string{"Both", "Post", "Pre"}, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("subject", o.Subject); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -388,6 +384,10 @@ func (o *HookPolicy) Validate() error {
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("subject", o.Subject); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if len(requiredErrors) > 0 {

@@ -9,54 +9,55 @@ model:
 
 # Attributes
 attributes:
-- name: attachments
-  description: Attachments is a list of attachments to send.
-  type: external
-  exposed: true
-  subtype: list_attachments
+  v1:
+  - name: attachments
+    description: Attachments is a list of attachments to send.
+    type: external
+    exposed: true
+    subtype: list_attachments
 
-- name: bcc
-  description: Bcc represents email that should be in copy but hidden.
-  type: external
-  exposed: true
-  subtype: list_emails
+  - name: bcc
+    description: Bcc represents email that should be in copy but hidden.
+    type: external
+    exposed: true
+    subtype: list_emails
 
-- name: cc
-  description: Cc represents the addresses that should be in copy.
-  type: external
-  exposed: true
-  subtype: list_emails
+  - name: cc
+    description: Cc represents the addresses that should be in copy.
+    type: external
+    exposed: true
+    subtype: list_emails
 
-- name: content
-  description: Content of the email to send.
-  type: string
-  exposed: true
-  format: free
+  - name: content
+    description: Content of the email to send.
+    type: string
+    exposed: true
+    format: free
 
-- name: from
-  description: From represents the sender of the email.
-  type: string
-  exposed: true
-  required: true
-  example_value: sender@server.com
+  - name: from
+    description: From represents the sender of the email.
+    type: string
+    exposed: true
+    required: true
+    example_value: sender@server.com
 
-- name: subject
-  description: Subject represents the subject of the email.
-  type: string
-  exposed: true
-  format: free
+  - name: subject
+    description: Subject represents the subject of the email.
+    type: string
+    exposed: true
+    format: free
 
-- name: to
-  description: To represents receivers of the email.
-  type: external
-  exposed: true
-  subtype: list_emails
+  - name: to
+    description: To represents receivers of the email.
+    type: external
+    exposed: true
+    subtype: list_emails
 
-- name: type
-  description: Type represents the type of the content.
-  type: enum
-  exposed: true
-  allowed_choices:
-  - HTML
-  - Plain
-  default_value: Plain
+  - name: type
+    description: Type represents the type of the content.
+    type: enum
+    exposed: true
+    allowed_choices:
+    - HTML
+    - Plain
+    default_value: Plain

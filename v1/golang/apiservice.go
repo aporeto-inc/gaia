@@ -89,6 +89,9 @@ type APIService struct {
 	// advanced environments.
 	FQDN string `json:"FQDN" bson:"fqdn" mapstructure:"FQDN,omitempty"`
 
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
 	// IPList is the list of ip address or subnets of the service if available.
 	IPList types.IPList `json:"IPList" bson:"iplist" mapstructure:"IPList,omitempty"`
 
@@ -101,6 +104,21 @@ type APIService struct {
 	// to accelerate database searches. It is not exposed.
 	AllServiceTags []string `json:"-" bson:"allservicetags" mapstructure:"-,omitempty"`
 
+	// Annotation stores additional information about an entity.
+	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// Archived defines if the object is archived.
+	Archived bool `json:"-" bson:"archived" mapstructure:"-,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+
 	// ExposedAPIs is a list of API endpoints that are exposed for the service.
 	ExposedAPIs types.ExposedAPIList `json:"exposedAPIs" bson:"exposedapis" mapstructure:"exposedAPIs,omitempty"`
 
@@ -112,12 +130,28 @@ type APIService struct {
 	// field is optional. If provided, this must be a valid PEM CA file.
 	ExternalServiceCA string `json:"externalServiceCA" bson:"externalserviceca" mapstructure:"externalServiceCA,omitempty"`
 
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Name is the name of the entity.
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+
 	// NetworkProtocol is the network protocol of the service.
 	NetworkProtocol int `json:"networkProtocol" bson:"networkprotocol" mapstructure:"networkProtocol,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Ports is a list of ports for the service. Ports are either exact match, or a
 	// range portMin:portMax.
 	Ports types.PortList `json:"ports" bson:"ports" mapstructure:"ports,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// RuntimeSelectors is a list of tag selectors that identifies that Processing
 	// Units that will implement this service.
@@ -127,42 +161,8 @@ type APIService struct {
 	// the system.
 	Type APIServiceTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
-	// Archived defines if the object is archived.
-	Archived bool `json:"-" bson:"archived" mapstructure:"-,omitempty"`
-
-	// Annotation stores additional information about an entity.
-	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
-
-	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
-
-	// CreatedTime is the time at which the object was created.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
-
-	// Namespace tag attached to an entity.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
-
-	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
-
-	// Protected defines if the object is protected.
-	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
-
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
-
-	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Metadata contains tags that can only be set during creation. They must all start
-	// with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
-
-	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -233,18 +233,6 @@ func (o *APIService) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
-// GetArchived returns the Archived of the receiver.
-func (o *APIService) GetArchived() bool {
-
-	return o.Archived
-}
-
-// SetArchived sets the given Archived of the receiver.
-func (o *APIService) SetArchived(archived bool) {
-
-	o.Archived = archived
-}
-
 // GetAnnotations returns the Annotations of the receiver.
 func (o *APIService) GetAnnotations() map[string][]string {
 
@@ -255,6 +243,18 @@ func (o *APIService) GetAnnotations() map[string][]string {
 func (o *APIService) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
+}
+
+// GetArchived returns the Archived of the receiver.
+func (o *APIService) GetArchived() bool {
+
+	return o.Archived
+}
+
+// SetArchived sets the given Archived of the receiver.
+func (o *APIService) SetArchived(archived bool) {
+
+	o.Archived = archived
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -279,6 +279,30 @@ func (o *APIService) GetCreateTime() time.Time {
 func (o *APIService) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *APIService) GetMetadata() []string {
+
+	return o.Metadata
+}
+
+// SetMetadata sets the given Metadata of the receiver.
+func (o *APIService) SetMetadata(metadata []string) {
+
+	o.Metadata = metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *APIService) GetName() string {
+
+	return o.Name
+}
+
+// SetName sets the given Name of the receiver.
+func (o *APIService) SetName(name string) {
+
+	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
@@ -323,35 +347,23 @@ func (o *APIService) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
-// GetMetadata returns the Metadata of the receiver.
-func (o *APIService) GetMetadata() []string {
-
-	return o.Metadata
-}
-
-// SetMetadata sets the given Metadata of the receiver.
-func (o *APIService) SetMetadata(metadata []string) {
-
-	o.Metadata = metadata
-}
-
-// GetName returns the Name of the receiver.
-func (o *APIService) GetName() string {
-
-	return o.Name
-}
-
-// SetName sets the given Name of the receiver.
-func (o *APIService) SetName(name string) {
-
-	o.Name = name
-}
-
 // Validate valides the current information stored into the structure.
 func (o *APIService) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
+	}
 
 	if err := elemental.ValidateMaximumInt("networkProtocol", o.NetworkProtocol, int(255), false); err != nil {
 		errors = append(errors, err)
@@ -370,18 +382,6 @@ func (o *APIService) Validate() error {
 	}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"HTTP", "L3", "TCP"}, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = append(errors, err)
 	}
 

@@ -8,20 +8,21 @@ model:
 
 # Attributes
 attributes:
-- name: data
-  description: The data to import.
-  type: external
-  exposed: true
-  subtype: exported_data
-  required: true
-  example_value: previous output of export
+  v1:
+  - name: data
+    description: The data to import.
+    type: external
+    exposed: true
+    subtype: exported_data
+    required: true
+    example_value: previous output of export
 
-- name: mode
-  description: How to import the data.
-  type: enum
-  exposed: true
-  required: true
-  allowed_choices:
-  - Append
-  - Replace
-  default_value: Replace
+  - name: mode
+    description: How to import the data.
+    type: enum
+    exposed: true
+    required: true
+    allowed_choices:
+    - Append
+    - Replace
+    default_value: Replace

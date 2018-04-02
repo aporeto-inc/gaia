@@ -89,6 +89,15 @@ type Enforcer struct {
 	// FQDN contains the fqdn of the server where the enforcer is running.
 	FQDN string `json:"FQDN" bson:"fqdn" mapstructure:"FQDN,omitempty"`
 
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
 	// Certificate is the certificate of the enforcer.
 	Certificate string `json:"certificate" bson:"certificate" mapstructure:"certificate,omitempty"`
 
@@ -114,9 +123,15 @@ type Enforcer struct {
 	// CollectedInfo represents the latest info collected by the enforcer.
 	CollectedInfo map[string]string `json:"collectedInfo" bson:"collectedinfo" mapstructure:"collectedInfo,omitempty"`
 
+	// CreatedTime is the time at which the object was created.
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+
 	// CurrentVersion holds the enforcerd binary version that is currently associated
 	// to this object.
 	CurrentVersion string `json:"currentVersion" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
+
+	// Description is the description of the object.
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Contains the ID of the profile used by the instance of enforcerd.
 	EnforcerProfileID string `json:"enforcerProfileID" bson:"enforcerprofileid" mapstructure:"enforcerProfileID,omitempty"`
@@ -132,8 +147,24 @@ type Enforcer struct {
 	// given when you retrieve a single enforcer.
 	LocalCA string `json:"localCA" bson:"-" mapstructure:"localCA,omitempty"`
 
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Name is the name of the entity.
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
 	// OperationalStatus tells the status of the enforcer.
 	OperationalStatus EnforcerOperationalStatusValue `json:"operationalStatus" bson:"-" mapstructure:"operationalStatus,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// PublicToken is the public token of the server that will be included in the
 	// datapath and its signed by the private CA.
@@ -142,39 +173,8 @@ type Enforcer struct {
 	// Tells if the the version of enforcerd is outdated and should be updated.
 	UpdateAvailable bool `json:"updateAvailable" bson:"updateavailable" mapstructure:"updateAvailable,omitempty"`
 
-	// Annotation stores additional information about an entity.
-	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
-
-	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
-
-	// CreatedTime is the time at which the object was created.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
-
-	// Namespace tag attached to an entity.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
-
-	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
-
-	// Protected defines if the object is protected.
-	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
-
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
-
-	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Metadata contains tags that can only be set during creation. They must all start
-	// with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
-
-	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -279,6 +279,30 @@ func (o *Enforcer) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetMetadata returns the Metadata of the receiver.
+func (o *Enforcer) GetMetadata() []string {
+
+	return o.Metadata
+}
+
+// SetMetadata sets the given Metadata of the receiver.
+func (o *Enforcer) SetMetadata(metadata []string) {
+
+	o.Metadata = metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *Enforcer) GetName() string {
+
+	return o.Name
+}
+
+// SetName sets the given Name of the receiver.
+func (o *Enforcer) SetName(name string) {
+
+	o.Name = name
+}
+
 // GetNamespace returns the Namespace of the receiver.
 func (o *Enforcer) GetNamespace() string {
 
@@ -319,30 +343,6 @@ func (o *Enforcer) GetUpdateTime() time.Time {
 func (o *Enforcer) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
-}
-
-// GetMetadata returns the Metadata of the receiver.
-func (o *Enforcer) GetMetadata() []string {
-
-	return o.Metadata
-}
-
-// SetMetadata sets the given Metadata of the receiver.
-func (o *Enforcer) SetMetadata(metadata []string) {
-
-	o.Metadata = metadata
-}
-
-// GetName returns the Name of the receiver.
-func (o *Enforcer) GetName() string {
-
-	return o.Name
-}
-
-// SetName sets the given Name of the receiver.
-func (o *Enforcer) SetName(name string) {
-
-	o.Name = name
 }
 
 // Validate valides the current information stored into the structure.

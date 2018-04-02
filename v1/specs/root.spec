@@ -250,8 +250,8 @@ relations:
 
 - rest_name: passwordreset
   descriptions:
-    get: Sends a link to the account email to reset the password.
     create: Resets the password for an account using the provided link.
+    get: Sends a link to the account email to reset the password.
   get: true
   create: true
 

@@ -69,11 +69,8 @@ func (o NamespaceMappingPoliciesList) Version() int {
 
 // NamespaceMappingPolicy represents the model of a namespacemappingpolicy
 type NamespaceMappingPolicy struct {
-	// mappedNamespace is the mapped namespace.
-	MappedNamespace string `json:"mappedNamespace" bson:"mappednamespace" mapstructure:"mappedNamespace,omitempty"`
-
-	// Subject is the subject.
-	Subject [][]string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -84,6 +81,22 @@ type NamespaceMappingPolicy struct {
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// Description is the description of the object.
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+
+	// Disabled defines if the propert is disabled.
+	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
+
+	// mappedNamespace is the mapped namespace.
+	MappedNamespace string `json:"mappedNamespace" bson:"mappednamespace" mapstructure:"mappedNamespace,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Name is the name of the entity.
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
@@ -93,24 +106,11 @@ type NamespaceMappingPolicy struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
+	// Subject is the subject.
+	Subject [][]string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
+
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
-
-	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// Disabled defines if the propert is disabled.
-	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
-
-	// Metadata contains tags that can only be set during creation. They must all start
-	// with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
-
-	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -221,6 +221,42 @@ func (o *NamespaceMappingPolicy) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetDisabled returns the Disabled of the receiver.
+func (o *NamespaceMappingPolicy) GetDisabled() bool {
+
+	return o.Disabled
+}
+
+// SetDisabled sets the given Disabled of the receiver.
+func (o *NamespaceMappingPolicy) SetDisabled(disabled bool) {
+
+	o.Disabled = disabled
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *NamespaceMappingPolicy) GetMetadata() []string {
+
+	return o.Metadata
+}
+
+// SetMetadata sets the given Metadata of the receiver.
+func (o *NamespaceMappingPolicy) SetMetadata(metadata []string) {
+
+	o.Metadata = metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *NamespaceMappingPolicy) GetName() string {
+
+	return o.Name
+}
+
+// SetName sets the given Name of the receiver.
+func (o *NamespaceMappingPolicy) SetName(name string) {
+
+	o.Name = name
+}
+
 // GetNamespace returns the Namespace of the receiver.
 func (o *NamespaceMappingPolicy) GetNamespace() string {
 
@@ -263,58 +299,18 @@ func (o *NamespaceMappingPolicy) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
-// GetDisabled returns the Disabled of the receiver.
-func (o *NamespaceMappingPolicy) GetDisabled() bool {
-
-	return o.Disabled
-}
-
-// SetDisabled sets the given Disabled of the receiver.
-func (o *NamespaceMappingPolicy) SetDisabled(disabled bool) {
-
-	o.Disabled = disabled
-}
-
-// GetMetadata returns the Metadata of the receiver.
-func (o *NamespaceMappingPolicy) GetMetadata() []string {
-
-	return o.Metadata
-}
-
-// SetMetadata sets the given Metadata of the receiver.
-func (o *NamespaceMappingPolicy) SetMetadata(metadata []string) {
-
-	o.Metadata = metadata
-}
-
-// GetName returns the Name of the receiver.
-func (o *NamespaceMappingPolicy) GetName() string {
-
-	return o.Name
-}
-
-// SetName sets the given Name of the receiver.
-func (o *NamespaceMappingPolicy) SetName(name string) {
-
-	o.Name = name
-}
-
 // Validate valides the current information stored into the structure.
 func (o *NamespaceMappingPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredString("mappedNamespace", o.MappedNamespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("subject", o.Subject); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("mappedNamespace", o.MappedNamespace); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
@@ -323,6 +319,10 @@ func (o *NamespaceMappingPolicy) Validate() error {
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("subject", o.Subject); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if len(requiredErrors) > 0 {
