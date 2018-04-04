@@ -2488,7 +2488,6 @@ enforcers matching this profile.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `ignoreExpression (external:policies_list)`
 
