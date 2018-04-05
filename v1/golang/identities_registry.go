@@ -68,6 +68,7 @@ func init() {
 	elemental.RegisterIdentity(SystemCallIdentity)
 	elemental.RegisterIdentity(TabulationIdentity)
 	elemental.RegisterIdentity(TagIdentity)
+	elemental.RegisterIdentity(TagInjectIdentity)
 	elemental.RegisterIdentity(TokenIdentity)
 	elemental.RegisterIdentity(TokenScopePolicyIdentity)
 	elemental.RegisterIdentity(TriggerIdentity)
@@ -212,6 +213,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewTabulation()
 	case TagIdentity.Name:
 		return NewTag()
+	case TagInjectIdentity.Name:
+		return NewTagInject()
 	case TokenIdentity.Name:
 		return NewToken()
 	case TokenScopePolicyIdentity.Name:
@@ -362,6 +365,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewTabulation()
 	case TagIdentity.Category:
 		return NewTag()
+	case TagInjectIdentity.Category:
+		return NewTagInject()
 	case TokenIdentity.Category:
 		return NewToken()
 	case TokenScopePolicyIdentity.Category:
@@ -511,6 +516,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &TabulationsList{}
 	case TagIdentity.Name:
 		return &TagsList{}
+	case TagInjectIdentity.Name:
+		return &TagInjectsList{}
 	case TokenIdentity.Name:
 		return &TokensList{}
 	case TokenScopePolicyIdentity.Name:
@@ -660,6 +667,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &TabulationsList{}
 	case TagIdentity.Category:
 		return &TagsList{}
+	case TagInjectIdentity.Category:
+		return &TagInjectsList{}
 	case TokenIdentity.Category:
 		return &TokensList{}
 	case TokenScopePolicyIdentity.Category:
@@ -745,6 +754,7 @@ func AllIdentities() []elemental.Identity {
 		SystemCallIdentity,
 		TabulationIdentity,
 		TagIdentity,
+		TagInjectIdentity,
 		TokenIdentity,
 		TokenScopePolicyIdentity,
 		TriggerIdentity,
@@ -1049,6 +1059,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"tab",
 		}
 	case TagIdentity:
+		return []string{}
+	case TagInjectIdentity:
 		return []string{}
 	case TokenIdentity:
 		return []string{}

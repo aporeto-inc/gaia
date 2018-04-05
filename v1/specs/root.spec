@@ -357,6 +357,11 @@ relations:
     get: Retrieves the list of existing tags in the system.
   get: true
 
+- rest_name: taginject
+  descriptions:
+    create: Internal api to inject tags.
+  create: true
+
 - rest_name: token
   descriptions:
     create: Creates a new token.

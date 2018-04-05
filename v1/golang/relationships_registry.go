@@ -996,6 +996,12 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[TagInjectIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+	}
+
 	relationshipsRegistry[TokenIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
 			"root": true,
