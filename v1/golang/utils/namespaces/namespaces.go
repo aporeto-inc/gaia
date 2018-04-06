@@ -163,6 +163,7 @@ func NamespaceByName(manipulator manipulate.Manipulator, name string) (*gaia.Nam
 			WithKey("name").Equals(name).
 			Done(),
 	)
+	mctx.Recursive = true
 
 	nslist := gaia.NamespacesList{}
 	if err := manipulator.RetrieveMany(mctx, &nslist); err != nil {
