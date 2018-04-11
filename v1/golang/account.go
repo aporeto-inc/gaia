@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"sync"
 
-	"time"
-
 	"github.com/aporeto-inc/elemental"
+	"time"
 )
 
 // AccountLDAPConnSecurityProtocolValue represents the possible values for attribute "LDAPConnSecurityProtocol".
@@ -124,8 +123,8 @@ type Account struct {
 	// of the LDAP is issued from a public truster CA.
 	LDAPCertificateAuthority string `json:"LDAPCertificateAuthority" bson:"ldapcertificateauthority" mapstructure:"LDAPCertificateAuthority,omitempty"`
 
-	// LDAPConnectionProtocol holds the connection type for the LDAP provider.
-	LDAPConnSecurityProtocol AccountLDAPConnSecurityProtocolValue `json:"LDAPConnSecurityProtocol" bson:"LDAPConnSecurityProtocol" mapstructure:"LDAPConnSecurityProtocol,omitempty"`
+	// LDAPConnProtocol holds the connection type for the LDAP provider.
+	LDAPConnSecurityProtocol AccountLDAPConnSecurityProtocolValue `json:"LDAPConnSecurityProtocol" bson:"ldapconnsecurityprotocol" mapstructure:"LDAPConnSecurityProtocol,omitempty"`
 
 	// LDAPEnabled triggers if the account uses it's own LDAP for authentication.
 	LDAPEnabled bool `json:"LDAPEnabled" bson:"ldapenabled" mapstructure:"LDAPEnabled,omitempty"`
@@ -213,7 +212,7 @@ func NewAccount() *Account {
 		AssociatedPlanKey:        "aporeto.plan.free",
 		AssociatedQuotaPolicies:  map[string]string{},
 		LDAPBindSearchFilter:     "uid",
-		LDAPConnSecurityProtocol: "None",
+		LDAPConnSecurityProtocol: "InbandTLS",
 		Status: "Pending",
 	}
 }
@@ -411,8 +410,8 @@ of the LDAP is issued from a public truster CA.`,
 	"LDAPConnSecurityProtocol": elemental.AttributeSpecification{
 		AllowedChoices: []string{"None", "TLS", "InbandTLS"},
 		ConvertedName:  "LDAPConnSecurityProtocol",
-		DefaultValue:   AccountLDAPConnSecurityProtocolNone,
-		Description:    `LDAPConnectionProtocol holds the connection type for the LDAP provider.`,
+		DefaultValue:   AccountLDAPConnSecurityProtocolInbandtls,
+		Description:    `LDAPConnProtocol holds the connection type for the LDAP provider.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "LDAPConnSecurityProtocol",
@@ -782,11 +781,11 @@ of the LDAP is issued from a public truster CA.`,
 		Stored:     true,
 		Type:       "string",
 	},
-	"LDAPConnSecurityProtocol": elemental.AttributeSpecification{
+	"ldapconnsecurityprotocol": elemental.AttributeSpecification{
 		AllowedChoices: []string{"None", "TLS", "InbandTLS"},
 		ConvertedName:  "LDAPConnSecurityProtocol",
-		DefaultValue:   AccountLDAPConnSecurityProtocolNone,
-		Description:    `LDAPConnectionProtocol holds the connection type for the LDAP provider.`,
+		DefaultValue:   AccountLDAPConnSecurityProtocolInbandtls,
+		Description:    `LDAPConnProtocol holds the connection type for the LDAP provider.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "LDAPConnSecurityProtocol",

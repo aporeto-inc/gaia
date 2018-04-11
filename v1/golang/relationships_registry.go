@@ -283,8 +283,6 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[CustomerIdentity] = &elemental.Relationship{}
-
 	relationshipsRegistry[DependencyMapIdentity] = &elemental.Relationship{
 		AllowsRetrieveMany: map[string]bool{
 			"root": true,
