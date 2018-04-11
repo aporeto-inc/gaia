@@ -80,8 +80,8 @@ attributes:
     format: free
     orderable: true
 
-  - name: LDAPConnectionSecurityProtocol
-    description: LDAPConnectionProtocol holds the connection type for the LDAP provider.
+  - name: LDAPConnSecurityProtocol
+    description: LDAPConnProtocol holds the connection type for the LDAP provider.
     type: enum
     exposed: true
     stored: true
@@ -89,7 +89,7 @@ attributes:
     - None
     - TLS
     - InbandTLS
-    default_value: None
+    default_value: InbandTLS
     filterable: true
     orderable: true
 

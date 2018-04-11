@@ -167,7 +167,7 @@ of the LDAP is issued from a public truster CA.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `LDAPConnectionSecurityProtocol (enum)`
+#### `LDAPConnSecurityProtocol (enum)`
 
 LDAPConnectionProtocol holds the connection type for the LDAP provider.
 
