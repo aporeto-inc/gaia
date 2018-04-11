@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/aporeto-inc/elemental"
 	"time"
+
+	"github.com/aporeto-inc/elemental"
 )
 
 // AccountLDAPConnSecurityProtocolValue represents the possible values for attribute "LDAPConnSecurityProtocol".
@@ -410,7 +411,7 @@ of the LDAP is issued from a public truster CA.`,
 	"LDAPConnSecurityProtocol": elemental.AttributeSpecification{
 		AllowedChoices: []string{"None", "TLS", "InbandTLS"},
 		ConvertedName:  "LDAPConnSecurityProtocol",
-		DefaultValue:   AccountLDAPConnSecurityProtocolInbandtls,
+		DefaultValue:   AccountLDAPConnSecurityProtocolInbandTLS,
 		Description:    `LDAPConnProtocol holds the connection type for the LDAP provider.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -784,7 +785,7 @@ of the LDAP is issued from a public truster CA.`,
 	"ldapconnsecurityprotocol": elemental.AttributeSpecification{
 		AllowedChoices: []string{"None", "TLS", "InbandTLS"},
 		ConvertedName:  "LDAPConnSecurityProtocol",
-		DefaultValue:   AccountLDAPConnSecurityProtocolInbandtls,
+		DefaultValue:   AccountLDAPConnSecurityProtocolInbandTLS,
 		Description:    `LDAPConnProtocol holds the connection type for the LDAP provider.`,
 		Exposed:        true,
 		Filterable:     true,
