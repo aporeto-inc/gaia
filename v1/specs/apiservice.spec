@@ -112,13 +112,13 @@ attributes:
 
   - name: runtimeSelectors
     description: |-
-      RuntimeSelectors is a list of tag selectors that identifies that Processing
-      Units that will implement this service.
+      RuntimeSelectors is a list of tag selectors that identifies the Processing
+      Units that will implement this service. The list can be empty for external
+      services.
     type: external
     exposed: true
     subtype: target_tags
     stored: true
-    required: true
     example_value:
     - - a=a
       - b=b

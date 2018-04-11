@@ -153,8 +153,9 @@ type APIService struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// RuntimeSelectors is a list of tag selectors that identifies that Processing
-	// Units that will implement this service.
+	// RuntimeSelectors is a list of tag selectors that identifies the Processing
+	// Units that will implement this service. The list can be empty for external
+	// services.
 	RuntimeSelectors [][]string `json:"runtimeSelectors" bson:"runtimeselectors" mapstructure:"runtimeSelectors,omitempty"`
 
 	// Type is the type of the service (HTTP, TCP, etc). More types will be added to
@@ -374,10 +375,6 @@ func (o *APIService) Validate() error {
 	}
 
 	if err := elemental.ValidateRequiredExternal("ports", o.Ports); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("runtimeSelectors", o.RuntimeSelectors); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
@@ -678,14 +675,14 @@ range portMin:portMax.`,
 	"RuntimeSelectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "RuntimeSelectors",
-		Description: `RuntimeSelectors is a list of tag selectors that identifies that Processing
-Units that will implement this service.`,
-		Exposed:  true,
-		Name:     "runtimeSelectors",
-		Required: true,
-		Stored:   true,
-		SubType:  "target_tags",
-		Type:     "external",
+		Description: `RuntimeSelectors is a list of tag selectors that identifies the Processing
+Units that will implement this service. The list can be empty for external
+services.`,
+		Exposed: true,
+		Name:    "runtimeSelectors",
+		Stored:  true,
+		SubType: "target_tags",
+		Type:    "external",
 	},
 	"Type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"HTTP", "L3", "TCP"},
@@ -982,14 +979,14 @@ range portMin:portMax.`,
 	"runtimeselectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "RuntimeSelectors",
-		Description: `RuntimeSelectors is a list of tag selectors that identifies that Processing
-Units that will implement this service.`,
-		Exposed:  true,
-		Name:     "runtimeSelectors",
-		Required: true,
-		Stored:   true,
-		SubType:  "target_tags",
-		Type:     "external",
+		Description: `RuntimeSelectors is a list of tag selectors that identifies the Processing
+Units that will implement this service. The list can be empty for external
+services.`,
+		Exposed: true,
+		Name:    "runtimeSelectors",
+		Stored:  true,
+		SubType: "target_tags",
+		Type:    "external",
 	},
 	"type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"HTTP", "L3", "TCP"},

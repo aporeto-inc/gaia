@@ -1079,12 +1079,9 @@ Protected defines if the object is protected.
 
 #### `runtimeSelectors (external:target_tags)`
 
-RuntimeSelectors is a list of tag selectors that identifies that Processing
-Units that will implement this service.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
+RuntimeSelectors is a list of tag selectors that identifies the Processing
+Units that will implement this service. The list can be empty for external
+services.
 
 #### `type (enum)`
 
