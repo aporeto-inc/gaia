@@ -55,6 +55,19 @@ attributes:
     format: free
     orderable: true
 
+  - name: LDAPBindSearchFilter
+    description: |-
+      LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
+      Windows based systems, value may be 'sAMAccountName'. For Linux and other
+      systems, value may be 'uid'.
+    type: string
+    exposed: true
+    stored: true
+    default_value: uid
+    filterable: true
+    format: free
+    orderable: true
+
   - name: LDAPCertificateAuthority
     description: |-
       LDAPCertificateAuthority contains the optional certificate author ity that will
@@ -65,6 +78,19 @@ attributes:
     stored: true
     filterable: true
     format: free
+    orderable: true
+
+  - name: LDAPConnectionSecurityProtocol
+    description: LDAPConnectionProtocol holds the connection type for the LDAP provider.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - None
+    - TLS
+    - InbandTLS
+    default_value: None
+    filterable: true
     orderable: true
 
   - name: LDAPEnabled

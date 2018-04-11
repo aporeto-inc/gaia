@@ -8,6 +8,20 @@ import (
 	"time"
 )
 
+// AccountLDAPConnectionSecurityProtocolValue represents the possible values for attribute "LDAPConnectionSecurityProtocol".
+type AccountLDAPConnectionSecurityProtocolValue string
+
+const (
+	// AccountLDAPConnectionSecurityProtocolInbandTLS represents the value InbandTLS.
+	AccountLDAPConnectionSecurityProtocolInbandTLS AccountLDAPConnectionSecurityProtocolValue = "InbandTLS"
+
+	// AccountLDAPConnectionSecurityProtocolNone represents the value None.
+	AccountLDAPConnectionSecurityProtocolNone AccountLDAPConnectionSecurityProtocolValue = "None"
+
+	// AccountLDAPConnectionSecurityProtocolTLS represents the value TLS.
+	AccountLDAPConnectionSecurityProtocolTLS AccountLDAPConnectionSecurityProtocolValue = "TLS"
+)
+
 // AccountStatusValue represents the possible values for attribute "status".
 type AccountStatusValue string
 
@@ -99,10 +113,18 @@ type Account struct {
 	// LDAPBindPassword holds the password to the LDAPBindDN.
 	LDAPBindPassword string `json:"LDAPBindPassword" bson:"ldapbindpassword" mapstructure:"LDAPBindPassword,omitempty"`
 
+	// LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
+	// Windows based systems, value may be 'sAMAccountName'. For Linux and other
+	// systems, value may be 'uid'.
+	LDAPBindSearchFilter string `json:"LDAPBindSearchFilter" bson:"ldapbindsearchfilter" mapstructure:"LDAPBindSearchFilter,omitempty"`
+
 	// LDAPCertificateAuthority contains the optional certificate author ity that will
 	// be used to connect to the LDAP server. It is not needed if the TLS certificate
 	// of the LDAP is issued from a public truster CA.
 	LDAPCertificateAuthority string `json:"LDAPCertificateAuthority" bson:"ldapcertificateauthority" mapstructure:"LDAPCertificateAuthority,omitempty"`
+
+	// LDAPConnectionProtocol holds the connection type for the LDAP provider.
+	LDAPConnectionSecurityProtocol AccountLDAPConnectionSecurityProtocolValue `json:"LDAPConnectionSecurityProtocol" bson:"ldapconnectionsecurityprotocol" mapstructure:"LDAPConnectionSecurityProtocol,omitempty"`
 
 	// LDAPEnabled triggers if the account uses it's own LDAP for authentication.
 	LDAPEnabled bool `json:"LDAPEnabled" bson:"ldapenabled" mapstructure:"LDAPEnabled,omitempty"`
@@ -185,11 +207,13 @@ type Account struct {
 func NewAccount() *Account {
 
 	return &Account{
-		ModelVersion:            1,
-		AssociatedAWSPolicies:   map[string]string{},
-		AssociatedPlanKey:       "aporeto.plan.free",
-		AssociatedQuotaPolicies: map[string]string{},
-		Status:                  "Pending",
+		ModelVersion:                   1,
+		AssociatedAWSPolicies:          map[string]string{},
+		AssociatedPlanKey:              "aporeto.plan.free",
+		AssociatedQuotaPolicies:        map[string]string{},
+		LDAPBindSearchFilter:           "uid",
+		LDAPConnectionSecurityProtocol: "None",
+		Status: "Pending",
 	}
 }
 
@@ -239,6 +263,10 @@ func (o *Account) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateStringInList("LDAPConnectionSecurityProtocol", string(o.LDAPConnectionSecurityProtocol), []string{"None", "TLS", "InbandTLS"}, false); err != nil {
+		errors = append(errors, err)
+	}
 
 	if err := elemental.ValidateRequiredString("email", o.Email); err != nil {
 		requiredErrors = append(requiredErrors, err)
@@ -350,6 +378,21 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"LDAPBindSearchFilter": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LDAPBindSearchFilter",
+		DefaultValue:   "uid",
+		Description: `LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
+Windows based systems, value may be 'sAMAccountName'. For Linux and other
+systems, value may be 'uid'.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "LDAPBindSearchFilter",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
+	},
 	"LDAPCertificateAuthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LDAPCertificateAuthority",
@@ -363,6 +406,18 @@ of the LDAP is issued from a public truster CA.`,
 		Orderable:  true,
 		Stored:     true,
 		Type:       "string",
+	},
+	"LDAPConnectionSecurityProtocol": elemental.AttributeSpecification{
+		AllowedChoices: []string{"None", "TLS", "InbandTLS"},
+		ConvertedName:  "LDAPConnectionSecurityProtocol",
+		DefaultValue:   AccountLDAPConnectionSecurityProtocolNone,
+		Description:    `LDAPConnectionProtocol holds the connection type for the LDAP provider.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "LDAPConnectionSecurityProtocol",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
 	},
 	"LDAPEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -697,6 +752,21 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"ldapbindsearchfilter": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LDAPBindSearchFilter",
+		DefaultValue:   "uid",
+		Description: `LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
+Windows based systems, value may be 'sAMAccountName'. For Linux and other
+systems, value may be 'uid'.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "LDAPBindSearchFilter",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
+	},
 	"ldapcertificateauthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LDAPCertificateAuthority",
@@ -710,6 +780,18 @@ of the LDAP is issued from a public truster CA.`,
 		Orderable:  true,
 		Stored:     true,
 		Type:       "string",
+	},
+	"ldapconnectionsecurityprotocol": elemental.AttributeSpecification{
+		AllowedChoices: []string{"None", "TLS", "InbandTLS"},
+		ConvertedName:  "LDAPConnectionSecurityProtocol",
+		DefaultValue:   AccountLDAPConnectionSecurityProtocolNone,
+		Description:    `LDAPConnectionProtocol holds the connection type for the LDAP provider.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "LDAPConnectionSecurityProtocol",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
 	},
 	"ldapenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

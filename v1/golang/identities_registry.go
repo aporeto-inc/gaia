@@ -21,6 +21,7 @@ func init() {
 	elemental.RegisterIdentity(AWSAccountIdentity)
 	elemental.RegisterIdentity(CategoryIdentity)
 	elemental.RegisterIdentity(CertificateIdentity)
+	elemental.RegisterIdentity(CustomerIdentity)
 	elemental.RegisterIdentity(DependencyMapIdentity)
 	elemental.RegisterIdentity(EmailIdentity)
 	elemental.RegisterIdentity(EnforcerIdentity)
@@ -119,6 +120,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewCategory()
 	case CertificateIdentity.Name:
 		return NewCertificate()
+	case CustomerIdentity.Name:
+		return NewCustomer()
 	case DependencyMapIdentity.Name:
 		return NewDependencyMap()
 	case EmailIdentity.Name:
@@ -271,6 +274,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewCategory()
 	case CertificateIdentity.Category:
 		return NewCertificate()
+	case CustomerIdentity.Category:
+		return NewCustomer()
 	case DependencyMapIdentity.Category:
 		return NewDependencyMap()
 	case EmailIdentity.Category:
@@ -423,6 +428,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &CategoriesList{}
 	case CertificateIdentity.Name:
 		return &CertificatesList{}
+	case CustomerIdentity.Name:
+		return &CustomersList{}
 	case DependencyMapIdentity.Name:
 		return &DependencyMapsList{}
 	case EmailIdentity.Name:
@@ -574,6 +581,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &CategoriesList{}
 	case CertificateIdentity.Category:
 		return &CertificatesList{}
+	case CustomerIdentity.Category:
+		return &CustomersList{}
 	case DependencyMapIdentity.Category:
 		return &DependencyMapsList{}
 	case EmailIdentity.Category:
@@ -707,6 +716,7 @@ func AllIdentities() []elemental.Identity {
 		AWSAccountIdentity,
 		CategoryIdentity,
 		CertificateIdentity,
+		CustomerIdentity,
 		DependencyMapIdentity,
 		EmailIdentity,
 		EnforcerIdentity,
@@ -893,6 +903,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case CategoryIdentity:
 		return []string{}
 	case CertificateIdentity:
+		return []string{}
+	case CustomerIdentity:
 		return []string{}
 	case DependencyMapIdentity:
 		return []string{
