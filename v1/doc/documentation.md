@@ -895,6 +895,10 @@ in order to define advanced controls based on the APIs.
 
 ```json
 {
+  "listeningPort": [
+    80,
+    "445:448"
+  ],
   "name": "the name",
   "ports": [
     80,
@@ -927,9 +931,10 @@ in order to define advanced controls based on the APIs.
 
 #### `FQDN (string)`
 
-FQDN is the fully qualified domain name of the service. It is required for
-external API services. It can be deduced from a service discovery system in
-advanced environments.
+FQDN is the fully qualified domain name of the service. It is required
+for external API services. For HTTP services, FQND must match the host part
+of the URI that is used to call a service. It will be used for automatically
+generating service certificates for internal services.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -950,7 +955,10 @@ ID is the identifier of the object.
 
 #### `IPList (external:ip_list)`
 
-IPList is the list of ip address or subnets of the service if available.
+IPList is the list of ip address or subnets of the service if available. This is
+an
+optional field and it can be automatically populated at runtime by the enforcers
+if DNS resolution is available.
 
 #### `JWTSigningCertificate (string)`
 
@@ -1004,6 +1012,16 @@ External is a boolean that indicates if this is an external service.
 ExternalServiceCA is the certificate authority that the service is using. This
 is needed for external API services with private certificate authorities. The
 field is optional. If provided, this must be a valid PEM CA file.
+
+#### `listeningPort (string)`
+
+listeningPort is the port that the application is listening to and
+it can be different than the ports describing the service. This is needed for
+port mapping use cases where there is private and public ports.
+
+| Characteristics | Value                                                                                                     |
+| -               | -:                                                                                                        |
+| Format          | `/^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)$/` |
 
 #### `metadata (external:metadata_list)`
 
@@ -1061,8 +1079,10 @@ NormalizedTags contains the list of normalized tags of the entities.
 
 #### `ports (external:port_list)`
 
-Ports is a list of ports for the service. Ports are either exact match, or a
-range portMin:portMax.
+Ports is a list of the public ports for the service. Ports are either
+exact match, or a range portMin:portMax. For HTTP services only exact match
+ports aresupported. These should be the ports that are used by other services
+to communicate with the defined service.
 
 | Characteristics | Value  |
 | -               | -:     |

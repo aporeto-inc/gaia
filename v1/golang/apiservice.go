@@ -84,15 +84,19 @@ func (o APIServicesList) Version() int {
 
 // APIService represents the model of a apiservice
 type APIService struct {
-	// FQDN is the fully qualified domain name of the service. It is required for
-	// external API services. It can be deduced from a service discovery system in
-	// advanced environments.
+	// FQDN is the fully qualified domain name of the service. It is required
+	// for external API services. For HTTP services, FQND must match the host part
+	// of the URI that is used to call a service. It will be used for automatically
+	// generating service certificates for internal services.
 	FQDN string `json:"FQDN" bson:"fqdn" mapstructure:"FQDN,omitempty"`
 
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// IPList is the list of ip address or subnets of the service if available.
+	// IPList is the list of ip address or subnets of the service if available. This is
+	// an
+	// optional field and it can be automatically populated at runtime by the enforcers
+	// if DNS resolution is available.
 	IPList types.IPList `json:"IPList" bson:"iplist" mapstructure:"IPList,omitempty"`
 
 	// JWTSigningCertificate is a certificate that can be used to validate user JWT in
@@ -130,6 +134,11 @@ type APIService struct {
 	// field is optional. If provided, this must be a valid PEM CA file.
 	ExternalServiceCA string `json:"externalServiceCA" bson:"externalserviceca" mapstructure:"externalServiceCA,omitempty"`
 
+	// listeningPort is the port that the application is listening to and
+	// it can be different than the ports describing the service. This is needed for
+	// port mapping use cases where there is private and public ports.
+	ListeningPort string `json:"listeningPort" bson:"listeningport" mapstructure:"listeningPort,omitempty"`
+
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
@@ -146,8 +155,10 @@ type APIService struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Ports is a list of ports for the service. Ports are either exact match, or a
-	// range portMin:portMax.
+	// Ports is a list of the public ports for the service. Ports are either
+	// exact match, or a range portMin:portMax. For HTTP services only exact match
+	// ports aresupported. These should be the ports that are used by other services
+	// to communicate with the defined service.
 	Ports types.PortList `json:"ports" bson:"ports" mapstructure:"ports,omitempty"`
 
 	// Protected defines if the object is protected.
@@ -358,6 +369,10 @@ func (o *APIService) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidatePattern("listeningPort", o.ListeningPort, `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)$`, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -415,9 +430,10 @@ var APIServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"FQDN": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FQDN",
-		Description: `FQDN is the fully qualified domain name of the service. It is required for
-external API services. It can be deduced from a service discovery system in
-advanced environments.`,
+		Description: `FQDN is the fully qualified domain name of the service. It is required
+for external API services. For HTTP services, FQND must match the host part
+of the URI that is used to call a service. It will be used for automatically
+generating service certificates for internal services.`,
 		Exposed:    true,
 		Filterable: true,
 		Format:     "free",
@@ -445,12 +461,15 @@ advanced environments.`,
 	"IPList": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IPList",
-		Description:    `IPList is the list of ip address or subnets of the service if available.`,
-		Exposed:        true,
-		Name:           "IPList",
-		Stored:         true,
-		SubType:        "ip_list",
-		Type:           "external",
+		Description: `IPList is the list of ip address or subnets of the service if available. This is
+an
+optional field and it can be automatically populated at runtime by the enforcers
+if DNS resolution is available.`,
+		Exposed: true,
+		Name:    "IPList",
+		Stored:  true,
+		SubType: "ip_list",
+		Type:    "external",
 	},
 	"JWTSigningCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -568,6 +587,18 @@ field is optional. If provided, this must be a valid PEM CA file.`,
 		Stored:  true,
 		Type:    "string",
 	},
+	"ListeningPort": elemental.AttributeSpecification{
+		AllowedChars:   `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "ListeningPort",
+		Description: `listeningPort is the port that the application is listening to and
+it can be different than the ports describing the service. This is needed for
+port mapping use cases where there is private and public ports.`,
+		Exposed: true,
+		Name:    "listeningPort",
+		Stored:  true,
+		Type:    "string",
+	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -651,8 +682,10 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Ports",
-		Description: `Ports is a list of ports for the service. Ports are either exact match, or a
-range portMin:portMax.`,
+		Description: `Ports is a list of the public ports for the service. Ports are either
+exact match, or a range portMin:portMax. For HTTP services only exact match
+ports aresupported. These should be the ports that are used by other services
+to communicate with the defined service.`,
 		Exposed:  true,
 		Name:     "ports",
 		Required: true,
@@ -719,9 +752,10 @@ var APIServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"fqdn": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FQDN",
-		Description: `FQDN is the fully qualified domain name of the service. It is required for
-external API services. It can be deduced from a service discovery system in
-advanced environments.`,
+		Description: `FQDN is the fully qualified domain name of the service. It is required
+for external API services. For HTTP services, FQND must match the host part
+of the URI that is used to call a service. It will be used for automatically
+generating service certificates for internal services.`,
 		Exposed:    true,
 		Filterable: true,
 		Format:     "free",
@@ -749,12 +783,15 @@ advanced environments.`,
 	"iplist": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IPList",
-		Description:    `IPList is the list of ip address or subnets of the service if available.`,
-		Exposed:        true,
-		Name:           "IPList",
-		Stored:         true,
-		SubType:        "ip_list",
-		Type:           "external",
+		Description: `IPList is the list of ip address or subnets of the service if available. This is
+an
+optional field and it can be automatically populated at runtime by the enforcers
+if DNS resolution is available.`,
+		Exposed: true,
+		Name:    "IPList",
+		Stored:  true,
+		SubType: "ip_list",
+		Type:    "external",
 	},
 	"jwtsigningcertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -872,6 +909,18 @@ field is optional. If provided, this must be a valid PEM CA file.`,
 		Stored:  true,
 		Type:    "string",
 	},
+	"listeningport": elemental.AttributeSpecification{
+		AllowedChars:   `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "ListeningPort",
+		Description: `listeningPort is the port that the application is listening to and
+it can be different than the ports describing the service. This is needed for
+port mapping use cases where there is private and public ports.`,
+		Exposed: true,
+		Name:    "listeningPort",
+		Stored:  true,
+		Type:    "string",
+	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -955,8 +1004,10 @@ with the '@' prefix, and should only be used by external systems.`,
 	"ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Ports",
-		Description: `Ports is a list of ports for the service. Ports are either exact match, or a
-range portMin:portMax.`,
+		Description: `Ports is a list of the public ports for the service. Ports are either
+exact match, or a range portMin:portMax. For HTTP services only exact match
+ports aresupported. These should be the ports that are used by other services
+to communicate with the defined service.`,
 		Exposed:  true,
 		Name:     "ports",
 		Required: true,
