@@ -25,9 +25,10 @@ attributes:
   v1:
   - name: FQDN
     description: |-
-      FQDN is the fully qualified domain name of the service. It is required for
-      external API services. It can be deduced from a service discovery system in
-      advanced environments.
+      FQDN is the fully qualified domain name of the service. It is required
+      for external API services. For HTTP services, FQND must match the host part
+      of the URI that is used to call a service. It will be used for automatically
+      generating service certificates for internal services.
     type: string
     exposed: true
     stored: true
@@ -36,7 +37,11 @@ attributes:
     orderable: true
 
   - name: IPList
-    description: IPList is the list of ip address or subnets of the service if available.
+    description: |-
+      IPList is the list of ip address or subnets of the service if available. This is
+      an
+      optional field and it can be automatically populated at runtime by the enforcers
+      if DNS resolution is available.
     type: external
     exposed: true
     subtype: ip_list
@@ -86,6 +91,19 @@ attributes:
     stored: true
     format: free
 
+  - name: listeningPort
+    description: |-
+      listeningPort is the port that the application is listening to and
+      it can be different than the ports describing the service. This is needed for
+      port mapping use cases where there is private and public ports.
+    type: string
+    exposed: true
+    stored: true
+    allowed_chars: ^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)$
+    example_value:
+    - 80
+    - 445:448
+
   - name: networkProtocol
     description: NetworkProtocol is the network protocol of the service.
     type: integer
@@ -99,8 +117,10 @@ attributes:
 
   - name: ports
     description: |-
-      Ports is a list of ports for the service. Ports are either exact match, or a
-      range portMin:portMax.
+      Ports is a list of the public ports for the service. Ports are either
+      exact match, or a range portMin:portMax. For HTTP services only exact match
+      ports aresupported. These should be the ports that are used by other services
+      to communicate with the defined service.
     type: external
     exposed: true
     subtype: port_list
@@ -112,13 +132,13 @@ attributes:
 
   - name: runtimeSelectors
     description: |-
-      RuntimeSelectors is a list of tag selectors that identifies that Processing
-      Units that will implement this service.
+      RuntimeSelectors is a list of tag selectors that identifies the Processing
+      Units that will implement this service. The list can be empty for external
+      services.
     type: external
     exposed: true
     subtype: target_tags
     stored: true
-    required: true
     example_value:
     - - a=a
       - b=b
