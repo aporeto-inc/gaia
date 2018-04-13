@@ -98,6 +98,11 @@ type TokenScopePolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
+	// Fallback indicates that this is fallback policy. It will only be
+	// applied if no other policies have been resolved. If the policy is also
+	// propagated it will become a fallback for children namespaces.
+	Fallback bool `json:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
+
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
@@ -260,6 +265,18 @@ func (o *TokenScopePolicy) GetDisabled() bool {
 func (o *TokenScopePolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
+}
+
+// GetFallback returns the Fallback of the receiver.
+func (o *TokenScopePolicy) GetFallback() bool {
+
+	return o.Fallback
+}
+
+// SetFallback sets the given Fallback of the receiver.
+func (o *TokenScopePolicy) SetFallback(fallback bool) {
+
+	o.Fallback = fallback
 }
 
 // GetMetadata returns the Metadata of the receiver.
@@ -520,6 +537,21 @@ The policy will be active for the given activeDuration.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"Fallback": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Fallback",
+		Description: `Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "fallback",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
+	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -771,6 +803,21 @@ The policy will be active for the given activeDuration.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"fallback": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Fallback",
+		Description: `Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "fallback",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

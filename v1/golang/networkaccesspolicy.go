@@ -129,6 +129,11 @@ type NetworkAccessPolicy struct {
 	// EncryptionEnabled defines if the flow has to be encrypted.
 	EncryptionEnabled bool `json:"encryptionEnabled" bson:"-" mapstructure:"encryptionEnabled,omitempty"`
 
+	// Fallback indicates that this is fallback policy. It will only be
+	// applied if no other policies have been resolved. If the policy is also
+	// propagated it will become a fallback for children namespaces.
+	Fallback bool `json:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
+
 	// LogsEnabled defines if the flow has to be logged.
 	LogsEnabled bool `json:"logsEnabled" bson:"-" mapstructure:"logsEnabled,omitempty"`
 
@@ -308,6 +313,18 @@ func (o *NetworkAccessPolicy) GetDisabled() bool {
 func (o *NetworkAccessPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
+}
+
+// GetFallback returns the Fallback of the receiver.
+func (o *NetworkAccessPolicy) GetFallback() bool {
+
+	return o.Fallback
+}
+
+// SetFallback sets the given Fallback of the receiver.
+func (o *NetworkAccessPolicy) SetFallback(fallback bool) {
+
+	o.Fallback = fallback
 }
 
 // GetMetadata returns the Metadata of the receiver.
@@ -595,6 +612,21 @@ The policy will be active for the given activeDuration.`,
 		Name:           "encryptionEnabled",
 		Orderable:      true,
 		Type:           "boolean",
+	},
+	"Fallback": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Fallback",
+		Description: `Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "fallback",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"LogsEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -915,6 +947,21 @@ The policy will be active for the given activeDuration.`,
 		Name:           "encryptionEnabled",
 		Orderable:      true,
 		Type:           "boolean",
+	},
+	"fallback": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Fallback",
+		Description: `Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "fallback",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"logsenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

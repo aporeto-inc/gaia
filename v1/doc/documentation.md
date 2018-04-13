@@ -748,6 +748,17 @@ Disabled defines if the propert is disabled.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
 #### `metadata (external:metadata_list)`
 
 Metadata contains tags that can only be set during creation. They must all start
@@ -2816,6 +2827,17 @@ Disabled defines if the propert is disabled.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
 #### `metadata (external:metadata_list)`
 
 Metadata contains tags that can only be set during creation. They must all start
@@ -3397,6 +3419,17 @@ EncryptionEnabled will enable the automatic encryption.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
 #### `logsEnabled (boolean)`
 
 LogsEnabled will enable logging when this policy is used.
@@ -3903,6 +3936,17 @@ Endpoint contains the full address of the remote processor endoint.
 | Characteristics | Value  |
 | -               | -:     |
 | Required        | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
+
+| Characteristics | Value  |
+| -               | -:     |
 | Orderable       | `true` |
 | Filterable      | `true` |
 
@@ -5051,6 +5095,17 @@ EncryptionEnabled defines if the flow has to be encrypted.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
 #### `logsEnabled (boolean)`
 
 LogsEnabled defines if the flow has to be logged.
@@ -5379,6 +5434,17 @@ Description is the description of the object.
 #### `disabled (boolean)`
 
 Disabled defines if the propert is disabled.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5897,6 +5963,17 @@ Disabled defines if the propert is disabled.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
 #### `isolationProfileSelector (external:policies_list)`
 
 IsolationProfileSelector are the profiles that must be applied when this policy
@@ -6069,6 +6146,17 @@ Description is the description of the object.
 #### `disabled (boolean)`
 
 Disabled defines if the propert is disabled.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6912,6 +7000,17 @@ Description is the description of the object.
 #### `disabled (boolean)`
 
 Disabled defines if the propert is disabled.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
 
 | Characteristics | Value  |
 | -               | -:     |
