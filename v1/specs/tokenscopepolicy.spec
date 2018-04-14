@@ -21,6 +21,7 @@ model:
   - '@metadatable'
   - '@named'
   - '@propagated'
+  - '@fallback'
   - '@schedulable'
 
 # Attributes

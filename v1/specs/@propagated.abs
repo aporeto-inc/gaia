@@ -1,19 +1,6 @@
 # Attributes
 attributes:
   v1:
-  - name: fallback
-    description: |-
-      Fallback indicates that this is fallback policy. It will only be
-      applied if no other policies have been resolved. If the policy is also
-      propagated it will become a fallback for children namespaces.
-    type: boolean
-    exposed: true
-    stored: true
-    filterable: true
-    getter: true
-    setter: true
-    orderable: true
-
   - name: propagate
     description: Propagate will propagate the policy to all of its children.
     type: boolean
