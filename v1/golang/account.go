@@ -115,6 +115,12 @@ type Account struct {
 	// other systems, value may be 'uid={USERNAME}'.
 	LDAPBindSearchFilter string `json:"LDAPBindSearchFilter" bson:"ldapbindsearchfilter" mapstructure:"LDAPBindSearchFilter,omitempty"`
 
+	// LDAPBindSubjectKey holds key to be used to populate the subject. If you want to
+	// use the user as a subject, for Windows based systems you may use
+	// 'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
+	// also use any alternate key.
+	LDAPBindSubjectKey string `json:"LDAPBindSubjectKey" bson:"ldapbindsubjectkey" mapstructure:"LDAPBindSubjectKey,omitempty"`
+
 	// LDAPCertificateAuthority contains the optional certificate author ity that will
 	// be used to connect to the LDAP server. It is not needed if the TLS certificate
 	// of the LDAP is issued from a public truster CA.
@@ -209,6 +215,7 @@ func NewAccount() *Account {
 		AssociatedPlanKey:        "aporeto.plan.free",
 		AssociatedQuotaPolicies:  map[string]string{},
 		LDAPBindSearchFilter:     "uid={USERNAME}",
+		LDAPBindSubjectKey:       "uid",
 		LDAPConnSecurityProtocol: "InbandTLS",
 		Status: "Pending",
 	}
@@ -386,6 +393,22 @@ other systems, value may be 'uid={USERNAME}'.`,
 		Filterable: true,
 		Format:     "free",
 		Name:       "LDAPBindSearchFilter",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
+	},
+	"LDAPBindSubjectKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LDAPBindSubjectKey",
+		DefaultValue:   "uid",
+		Description: `LDAPBindSubjectKey holds key to be used to populate the subject. If you want to
+use the user as a subject, for Windows based systems you may use
+'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
+also use any alternate key.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "LDAPBindSubjectKey",
 		Orderable:  true,
 		Stored:     true,
 		Type:       "string",
@@ -760,6 +783,22 @@ other systems, value may be 'uid={USERNAME}'.`,
 		Filterable: true,
 		Format:     "free",
 		Name:       "LDAPBindSearchFilter",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
+	},
+	"ldapbindsubjectkey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LDAPBindSubjectKey",
+		DefaultValue:   "uid",
+		Description: `LDAPBindSubjectKey holds key to be used to populate the subject. If you want to
+use the user as a subject, for Windows based systems you may use
+'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
+also use any alternate key.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "LDAPBindSubjectKey",
 		Orderable:  true,
 		Stored:     true,
 		Type:       "string",
