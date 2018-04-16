@@ -55,9 +55,9 @@ attributes:
     format: free
     orderable: true
 
-  - name: LDAPBindSearchFilter
+  - name: LDAPBindUserKey
     description: |-
-      LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
+      LDAPBindUserKey holds filter to be used to uniquely search a user. For
       Windows based systems, value may be 'sAMAccountName'. For Linux and
       other systems, value may be 'uid'.
     type: string
