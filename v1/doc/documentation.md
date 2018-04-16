@@ -146,14 +146,14 @@ LDAPBindPassword holds the password to the LDAPBindDN.
 #### `LDAPBindSearchFilter (string)`
 
 LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
-Windows based systems, value may be 'sAMAccountName={USERNAME}'. For Linux and
-other systems, value may be 'uid={USERNAME}'.
+Windows based systems, value may be 'sAMAccountName'. For Linux and
+other systems, value may be 'uid'.
 
-| Characteristics | Value            |
-| -               | -:               |
-| Default         | `uid={USERNAME}` |
-| Orderable       | `true`           |
-| Filterable      | `true`           |
+| Characteristics | Value  |
+| -               | -:     |
+| Default         | `uid`  |
+| Orderable       | `true` |
+| Filterable      | `true` |
 
 #### `LDAPCertificateAuthority (string)`
 

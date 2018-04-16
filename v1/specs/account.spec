@@ -58,12 +58,12 @@ attributes:
   - name: LDAPBindSearchFilter
     description: |-
       LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
-      Windows based systems, value may be 'sAMAccountName={USERNAME}'. For Linux and
-      other systems, value may be 'uid={USERNAME}'.
+      Windows based systems, value may be 'sAMAccountName'. For Linux and
+      other systems, value may be 'uid'.
     type: string
     exposed: true
     stored: true
-    default_value: uid={USERNAME}
+    default_value: uid
     filterable: true
     format: free
     orderable: true
