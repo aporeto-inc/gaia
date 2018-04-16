@@ -790,8 +790,8 @@ var aliasesMap = map[string]elemental.Identity{
 	"depmap":     DependencyMapIdentity,
 	"profile":    EnforcerProfileIdentity,
 	"profiles":   EnforcerProfileIdentity,
-	"srvpols":    EnforcerProfileMappingPolicyIdentity,
-	"srvpol":     EnforcerProfileMappingPolicyIdentity,
+	"enfpols":    EnforcerProfileMappingPolicyIdentity,
+	"enfpol":     EnforcerProfileMappingPolicyIdentity,
 	"extacs":     ExternalAccessIdentity,
 	"extac":      ExternalAccessIdentity,
 	"extsrv":     ExternalServiceIdentity,
@@ -827,6 +827,7 @@ var aliasesMap = map[string]elemental.Identity{
 	"rpols":      RenderedPolicyIdentity,
 	"srv":        ServiceIdentity,
 	"srvpol":     ServicePolicyIdentity,
+	"srvpols":    ServicePolicyIdentity,
 	"sq":         StatsQueryIdentity,
 	"sugpol":     SuggestedPolicyIdentity,
 	"sugpols":    SuggestedPolicyIdentity,
@@ -921,8 +922,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case EnforcerProfileMappingPolicyIdentity:
 		return []string{
-			"srvpols",
-			"srvpol",
+			"enfpols",
+			"enfpol",
 		}
 	case ExportIdentity:
 		return []string{}
@@ -1052,6 +1053,7 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case ServicePolicyIdentity:
 		return []string{
 			"srvpol",
+			"srvpols",
 		}
 	case StatsQueryIdentity:
 		return []string{

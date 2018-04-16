@@ -10,6 +10,7 @@ model:
     are exposed or consuming.
   aliases:
   - srvpol
+  - srvpols
   get: true
   update: true
   delete: true
@@ -29,7 +30,7 @@ attributes:
   - name: FQDN
     description: |-
       FQDN is the fully qualified domain name of the the servers behind the services
-      matched by object. FQND must match the host part
+      matched by object. FQDN must match the host part
       of the URI that is used to call a service. It will be used for automatically
       generating service certificates for internal services.
     type: string
