@@ -8,56 +8,56 @@ import (
 	"github.com/aporeto-inc/gaia/v1/golang/types"
 )
 
-// ServiceStatusValue represents the possible values for attribute "status".
-type ServiceStatusValue string
+// InstalledAppStatusValue represents the possible values for attribute "status".
+type InstalledAppStatusValue string
 
 const (
-	// ServiceStatusError represents the value Error.
-	ServiceStatusError ServiceStatusValue = "Error"
+	// InstalledAppStatusError represents the value Error.
+	InstalledAppStatusError InstalledAppStatusValue = "Error"
 
-	// ServiceStatusPending represents the value Pending.
-	ServiceStatusPending ServiceStatusValue = "Pending"
+	// InstalledAppStatusPending represents the value Pending.
+	InstalledAppStatusPending InstalledAppStatusValue = "Pending"
 
-	// ServiceStatusRunning represents the value Running.
-	ServiceStatusRunning ServiceStatusValue = "Running"
+	// InstalledAppStatusRunning represents the value Running.
+	InstalledAppStatusRunning InstalledAppStatusValue = "Running"
 )
 
-// ServiceIdentity represents the Identity of the object.
-var ServiceIdentity = elemental.Identity{
-	Name:     "service",
-	Category: "services",
+// InstalledAppIdentity represents the Identity of the object.
+var InstalledAppIdentity = elemental.Identity{
+	Name:     "installedapp",
+	Category: "installedapps",
 	Private:  false,
 }
 
-// ServicesList represents a list of Services
-type ServicesList []*Service
+// InstalledAppsList represents a list of InstalledApps
+type InstalledAppsList []*InstalledApp
 
 // ContentIdentity returns the identity of the objects in the list.
-func (o ServicesList) ContentIdentity() elemental.Identity {
+func (o InstalledAppsList) ContentIdentity() elemental.Identity {
 
-	return ServiceIdentity
+	return InstalledAppIdentity
 }
 
-// Copy returns a pointer to a copy the ServicesList.
-func (o ServicesList) Copy() elemental.ContentIdentifiable {
+// Copy returns a pointer to a copy the InstalledAppsList.
+func (o InstalledAppsList) Copy() elemental.ContentIdentifiable {
 
-	copy := append(ServicesList{}, o...)
+	copy := append(InstalledAppsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the ServicesList.
-func (o ServicesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+// Append appends the objects to the a new copy of the InstalledAppsList.
+func (o InstalledAppsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
 
-	out := append(ServicesList{}, o...)
+	out := append(InstalledAppsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*Service))
+		out = append(out, obj.(*InstalledApp))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o ServicesList) List() elemental.IdentifiablesList {
+func (o InstalledAppsList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}
 	for _, item := range o {
@@ -68,107 +68,107 @@ func (o ServicesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o ServicesList) DefaultOrder() []string {
+func (o InstalledAppsList) DefaultOrder() []string {
 
 	return []string{}
 }
 
 // Version returns the version of the content.
-func (o ServicesList) Version() int {
+func (o InstalledAppsList) Version() int {
 
 	return 1
 }
 
-// Service represents the model of a service
-type Service struct {
-	// ID of the service.
+// InstalledApp represents the model of a installedapp
+type InstalledApp struct {
+	// ID of the installed app.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// AccountName represents the vince account name.
 	AccountName string `json:"accountName" bson:"accountname" mapstructure:"accountName,omitempty"`
 
-	// CategoryID of the service.
+	// CategoryID of the app.
 	CategoryID string `json:"categoryID" bson:"categoryid" mapstructure:"categoryID,omitempty"`
 
 	// K8SIdentifier retains the identifier for kubernetes.
 	K8sIdentifier string `json:"-" bson:"k8sidentifier" mapstructure:"-,omitempty"`
 
-	// Name of the service.
+	// Name of the installed app.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
-	// Namespace in which the service in running.
+	// Namespace in which the app is running.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// Parameters is a list of parameters to start the service.
-	Parameters []*types.ServiceParameter `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
+	// Parameters is a list of parameters to start the app.
+	Parameters []*types.AppParameter `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
-	// RelatedObjects retains all objects created to use this service.
-	RelatedObjects []*types.ServiceRelatedObject `json:"-" bson:"relatedobjects" mapstructure:"-,omitempty"`
+	// RelatedObjects retains all objects created to use this app.
+	RelatedObjects []*types.AppRelatedObject `json:"-" bson:"relatedobjects" mapstructure:"-,omitempty"`
 
-	// Replicas represents the number of replicas for the service.
+	// Replicas represents the number of replicas for the app.
 	Replicas int `json:"replicas" bson:"replicas" mapstructure:"replicas,omitempty"`
 
-	// Status of the service.
-	Status ServiceStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
+	// Status of the app.
+	Status InstalledAppStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
 	sync.Mutex
 }
 
-// NewService returns a new *Service
-func NewService() *Service {
+// NewInstalledApp returns a new *InstalledApp
+func NewInstalledApp() *InstalledApp {
 
-	return &Service{
+	return &InstalledApp{
 		ModelVersion:   1,
-		Parameters:     []*types.ServiceParameter{},
-		RelatedObjects: []*types.ServiceRelatedObject{},
+		Parameters:     []*types.AppParameter{},
+		RelatedObjects: []*types.AppRelatedObject{},
 		Status:         "Pending",
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *Service) Identity() elemental.Identity {
+func (o *InstalledApp) Identity() elemental.Identity {
 
-	return ServiceIdentity
+	return InstalledAppIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *Service) Identifier() string {
+func (o *InstalledApp) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *Service) SetIdentifier(id string) {
+func (o *InstalledApp) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *Service) Version() int {
+func (o *InstalledApp) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *Service) DefaultOrder() []string {
+func (o *InstalledApp) DefaultOrder() []string {
 
 	return []string{}
 }
 
 // Doc returns the documentation for the object
-func (o *Service) Doc() string {
-	return `Service represents a service that can be launched.`
+func (o *InstalledApp) Doc() string {
+	return `InstalledApps represents an installed application.`
 }
 
-func (o *Service) String() string {
+func (o *InstalledApp) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Service) Validate() error {
+func (o *InstalledApp) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -189,29 +189,29 @@ func (o *Service) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*Service) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*InstalledApp) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := ServiceAttributesMap[name]; ok {
+	if v, ok := InstalledAppAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return ServiceLowerCaseAttributesMap[name]
+	return InstalledAppLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*Service) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*InstalledApp) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return ServiceAttributesMap
+	return InstalledAppAttributesMap
 }
 
-// ServiceAttributesMap represents the map of attribute for Service.
-var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
+// InstalledAppAttributesMap represents the map of attribute for InstalledApp.
+var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID of the service.`,
+		Description:    `ID of the installed app.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -236,7 +236,7 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"CategoryID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CategoryID",
-		Description:    `CategoryID of the service.`,
+		Description:    `CategoryID of the app.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -259,7 +259,7 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		CreationOnly:   true,
-		Description:    `Name of the service.`,
+		Description:    `Name of the installed app.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -271,7 +271,7 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
-		Description:    `Namespace in which the service in running.`,
+		Description:    `Namespace in which the app is running.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -283,26 +283,26 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters is a list of parameters to start the service.`,
+		Description:    `Parameters is a list of parameters to start the app.`,
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
-		SubType:        "service_parameters",
+		SubType:        "app_parameters",
 		Type:           "external",
 	},
 	"RelatedObjects": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "RelatedObjects",
-		Description:    `RelatedObjects retains all objects created to use this service.`,
+		Description:    `RelatedObjects retains all objects created to use this app.`,
 		Name:           "relatedObjects",
 		Stored:         true,
-		SubType:        "service_relatedobjects",
+		SubType:        "app_relatedobjects",
 		Type:           "external",
 	},
 	"Replicas": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Replicas",
-		Description:    `Replicas represents the number of replicas for the service.`,
+		Description:    `Replicas represents the number of replicas for the app.`,
 		Exposed:        true,
 		Name:           "replicas",
 		Stored:         true,
@@ -311,8 +311,8 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Status": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Error", "Pending", "Running"},
 		ConvertedName:  "Status",
-		DefaultValue:   ServiceStatusPending,
-		Description:    `Status of the service.`,
+		DefaultValue:   InstalledAppStatusPending,
+		Description:    `Status of the app.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "status",
@@ -323,13 +323,13 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// ServiceLowerCaseAttributesMap represents the map of attribute for Service.
-var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// InstalledAppLowerCaseAttributesMap represents the map of attribute for InstalledApp.
+var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID of the service.`,
+		Description:    `ID of the installed app.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -354,7 +354,7 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"categoryid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CategoryID",
-		Description:    `CategoryID of the service.`,
+		Description:    `CategoryID of the app.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -377,7 +377,7 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		CreationOnly:   true,
-		Description:    `Name of the service.`,
+		Description:    `Name of the installed app.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -389,7 +389,7 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
-		Description:    `Namespace in which the service in running.`,
+		Description:    `Namespace in which the app is running.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -401,26 +401,26 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters is a list of parameters to start the service.`,
+		Description:    `Parameters is a list of parameters to start the app.`,
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
-		SubType:        "service_parameters",
+		SubType:        "app_parameters",
 		Type:           "external",
 	},
 	"relatedobjects": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "RelatedObjects",
-		Description:    `RelatedObjects retains all objects created to use this service.`,
+		Description:    `RelatedObjects retains all objects created to use this app.`,
 		Name:           "relatedObjects",
 		Stored:         true,
-		SubType:        "service_relatedobjects",
+		SubType:        "app_relatedobjects",
 		Type:           "external",
 	},
 	"replicas": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Replicas",
-		Description:    `Replicas represents the number of replicas for the service.`,
+		Description:    `Replicas represents the number of replicas for the app.`,
 		Exposed:        true,
 		Name:           "replicas",
 		Stored:         true,
@@ -429,8 +429,8 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"status": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Error", "Pending", "Running"},
 		ConvertedName:  "Status",
-		DefaultValue:   ServiceStatusPending,
-		Description:    `Status of the service.`,
+		DefaultValue:   InstalledAppStatusPending,
+		Description:    `Status of the app.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "status",

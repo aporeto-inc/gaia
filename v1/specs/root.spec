@@ -91,9 +91,9 @@ relations:
     get: Retrieves the list of automation templates.
   get: true
 
-- rest_name: availableservice
+- rest_name: app
   descriptions:
-    get: Retrieves the list of available services.
+    get: Retrieves the list of apps.
   get: true
 
 - rest_name: awsaccount
@@ -323,10 +323,10 @@ relations:
     get: Retrieves the list of existing roles.
   get: true
 
-- rest_name: service
+- rest_name: installedapp
   descriptions:
-    create: Installs a new service.
-    get: Retrieves the lisy of services.
+    create: Installs a new app.
+    get: Retrieves the list of installed apps.
   get: true
   create: true
 

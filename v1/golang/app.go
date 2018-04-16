@@ -8,42 +8,42 @@ import (
 	"github.com/aporeto-inc/gaia/v1/golang/types"
 )
 
-// AvailableServiceIdentity represents the Identity of the object.
-var AvailableServiceIdentity = elemental.Identity{
-	Name:     "availableservice",
-	Category: "availableservices",
+// AppIdentity represents the Identity of the object.
+var AppIdentity = elemental.Identity{
+	Name:     "app",
+	Category: "apps",
 	Private:  false,
 }
 
-// AvailableServicesList represents a list of AvailableServices
-type AvailableServicesList []*AvailableService
+// AppsList represents a list of Apps
+type AppsList []*App
 
 // ContentIdentity returns the identity of the objects in the list.
-func (o AvailableServicesList) ContentIdentity() elemental.Identity {
+func (o AppsList) ContentIdentity() elemental.Identity {
 
-	return AvailableServiceIdentity
+	return AppIdentity
 }
 
-// Copy returns a pointer to a copy the AvailableServicesList.
-func (o AvailableServicesList) Copy() elemental.ContentIdentifiable {
+// Copy returns a pointer to a copy the AppsList.
+func (o AppsList) Copy() elemental.ContentIdentifiable {
 
-	copy := append(AvailableServicesList{}, o...)
+	copy := append(AppsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the AvailableServicesList.
-func (o AvailableServicesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+// Append appends the objects to the a new copy of the AppsList.
+func (o AppsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
 
-	out := append(AvailableServicesList{}, o...)
+	out := append(AppsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*AvailableService))
+		out = append(out, obj.(*App))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o AvailableServicesList) List() elemental.IdentifiablesList {
+func (o AppsList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}
 	for _, item := range o {
@@ -54,7 +54,7 @@ func (o AvailableServicesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o AvailableServicesList) DefaultOrder() []string {
+func (o AppsList) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -62,35 +62,35 @@ func (o AvailableServicesList) DefaultOrder() []string {
 }
 
 // Version returns the version of the content.
-func (o AvailableServicesList) Version() int {
+func (o AppsList) Version() int {
 
 	return 1
 }
 
-// AvailableService represents the model of a availableservice
-type AvailableService struct {
-	// Beta indicates if the service is in a beta version.
+// App represents the model of a app
+type App struct {
+	// Beta indicates if the app is in a beta version.
 	Beta bool `json:"beta" bson:"-" mapstructure:"beta,omitempty"`
 
-	// CategoryID of the service.
+	// CategoryID of the app.
 	CategoryID string `json:"categoryID" bson:"-" mapstructure:"categoryID,omitempty"`
 
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Icon contains a base64 image for the available service.
+	// Icon contains a base64 image for the app.
 	Icon string `json:"icon" bson:"-" mapstructure:"icon,omitempty"`
 
-	// LongDescription contains a more detailed description of the service.
+	// LongDescription contains a more detailed description of the app.
 	LongDescription string `json:"longDescription" bson:"-" mapstructure:"longDescription,omitempty"`
 
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
-	// Parameters of the service the user can or has to specify.
-	Parameters []*types.ServiceParameter `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
+	// Parameters of the app the user can or has to specify.
+	Parameters []*types.AppParameter `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
 
-	// Title represents the title of the service.
+	// Title represents the title of the app.
 	Title string `json:"title" bson:"-" mapstructure:"title,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
@@ -98,40 +98,40 @@ type AvailableService struct {
 	sync.Mutex
 }
 
-// NewAvailableService returns a new *AvailableService
-func NewAvailableService() *AvailableService {
+// NewApp returns a new *App
+func NewApp() *App {
 
-	return &AvailableService{
+	return &App{
 		ModelVersion: 1,
-		Parameters:   []*types.ServiceParameter{},
+		Parameters:   []*types.AppParameter{},
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *AvailableService) Identity() elemental.Identity {
+func (o *App) Identity() elemental.Identity {
 
-	return AvailableServiceIdentity
+	return AppIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *AvailableService) Identifier() string {
+func (o *App) Identifier() string {
 
 	return ""
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *AvailableService) SetIdentifier(id string) {
+func (o *App) SetIdentifier(id string) {
 
 }
 
 // Version returns the hardcoded version of the model.
-func (o *AvailableService) Version() int {
+func (o *App) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *AvailableService) DefaultOrder() []string {
+func (o *App) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -139,29 +139,29 @@ func (o *AvailableService) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *AvailableService) Doc() string {
-	return `AvailableService represents a service that is available for launching.`
+func (o *App) Doc() string {
+	return `App represents an application that can be installed.`
 }
 
-func (o *AvailableService) String() string {
+func (o *App) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetName returns the Name of the receiver.
-func (o *AvailableService) GetName() string {
+func (o *App) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the given Name of the receiver.
-func (o *AvailableService) SetName(name string) {
+func (o *App) SetName(name string) {
 
 	o.Name = name
 }
 
 // Validate valides the current information stored into the structure.
-func (o *AvailableService) Validate() error {
+func (o *App) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -190,28 +190,28 @@ func (o *AvailableService) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*AvailableService) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*App) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := AvailableServiceAttributesMap[name]; ok {
+	if v, ok := AppAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return AvailableServiceLowerCaseAttributesMap[name]
+	return AppLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*AvailableService) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*App) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return AvailableServiceAttributesMap
+	return AppAttributesMap
 }
 
-// AvailableServiceAttributesMap represents the map of attribute for AvailableService.
-var AvailableServiceAttributesMap = map[string]elemental.AttributeSpecification{
+// AppAttributesMap represents the map of attribute for App.
+var AppAttributesMap = map[string]elemental.AttributeSpecification{
 	"Beta": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Beta",
-		Description:    `Beta indicates if the service is in a beta version.`,
+		Description:    `Beta indicates if the app is in a beta version.`,
 		Exposed:        true,
 		Name:           "beta",
 		ReadOnly:       true,
@@ -220,7 +220,7 @@ var AvailableServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"CategoryID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CategoryID",
-		Description:    `CategoryID of the service.`,
+		Description:    `CategoryID of the app.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -243,7 +243,7 @@ var AvailableServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Icon": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Icon",
-		Description:    `Icon contains a base64 image for the available service.`,
+		Description:    `Icon contains a base64 image for the app.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "icon",
@@ -253,7 +253,7 @@ var AvailableServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"LongDescription": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LongDescription",
-		Description:    `LongDescription contains a more detailed description of the service.`,
+		Description:    `LongDescription contains a more detailed description of the app.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "longDescription",
@@ -279,16 +279,16 @@ var AvailableServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"Parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters of the service the user can or has to specify.`,
+		Description:    `Parameters of the app the user can or has to specify.`,
 		Exposed:        true,
 		Name:           "parameters",
-		SubType:        "service_parameters",
+		SubType:        "app_parameters",
 		Type:           "external",
 	},
 	"Title": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Title",
-		Description:    `Title represents the title of the service.`,
+		Description:    `Title represents the title of the app.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "title",
@@ -296,12 +296,12 @@ var AvailableServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// AvailableServiceLowerCaseAttributesMap represents the map of attribute for AvailableService.
-var AvailableServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// AppLowerCaseAttributesMap represents the map of attribute for App.
+var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"beta": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Beta",
-		Description:    `Beta indicates if the service is in a beta version.`,
+		Description:    `Beta indicates if the app is in a beta version.`,
 		Exposed:        true,
 		Name:           "beta",
 		ReadOnly:       true,
@@ -310,7 +310,7 @@ var AvailableServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"categoryid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CategoryID",
-		Description:    `CategoryID of the service.`,
+		Description:    `CategoryID of the app.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
@@ -333,7 +333,7 @@ var AvailableServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"icon": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Icon",
-		Description:    `Icon contains a base64 image for the available service.`,
+		Description:    `Icon contains a base64 image for the app.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "icon",
@@ -343,7 +343,7 @@ var AvailableServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"longdescription": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LongDescription",
-		Description:    `LongDescription contains a more detailed description of the service.`,
+		Description:    `LongDescription contains a more detailed description of the app.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "longDescription",
@@ -369,16 +369,16 @@ var AvailableServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 	"parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters of the service the user can or has to specify.`,
+		Description:    `Parameters of the app the user can or has to specify.`,
 		Exposed:        true,
 		Name:           "parameters",
-		SubType:        "service_parameters",
+		SubType:        "app_parameters",
 		Type:           "external",
 	},
 	"title": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Title",
-		Description:    `Title represents the title of the service.`,
+		Description:    `Title represents the title of the app.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "title",

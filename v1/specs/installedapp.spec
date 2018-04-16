@@ -1,12 +1,13 @@
 # Model
 model:
-  rest_name: service
-  resource_name: services
-  entity_name: Service
+  rest_name: installedapp
+  resource_name: installedapps
+  entity_name: InstalledApp
   package: highwind
-  description: Service represents a service that can be launched.
+  description: InstalledApps represents an installed application.
   aliases:
-  - srv
+  - iapps
+  - iapp
   get: true
   update: true
   delete: true
@@ -15,7 +16,7 @@ model:
 attributes:
   v1:
   - name: ID
-    description: ID of the service.
+    description: ID of the installed app.
     type: string
     exposed: true
     stored: true
@@ -35,7 +36,7 @@ attributes:
     format: free
 
   - name: categoryID
-    description: CategoryID of the service.
+    description: CategoryID of the app.
     type: string
     exposed: true
     stored: true
@@ -51,7 +52,7 @@ attributes:
     format: free
 
   - name: name
-    description: Name of the service.
+    description: Name of the installed app.
     type: string
     exposed: true
     stored: true
@@ -61,7 +62,7 @@ attributes:
     orderable: true
 
   - name: namespace
-    description: Namespace in which the service in running.
+    description: Namespace in which the app is running.
     type: string
     exposed: true
     stored: true
@@ -70,26 +71,26 @@ attributes:
     orderable: true
 
   - name: parameters
-    description: Parameters is a list of parameters to start the service.
+    description: Parameters is a list of parameters to start the app.
     type: external
     exposed: true
-    subtype: service_parameters
+    subtype: app_parameters
     stored: true
 
   - name: relatedObjects
-    description: RelatedObjects retains all objects created to use this service.
+    description: RelatedObjects retains all objects created to use this app.
     type: external
-    subtype: service_relatedobjects
+    subtype: app_relatedobjects
     stored: true
 
   - name: replicas
-    description: Replicas represents the number of replicas for the service.
+    description: Replicas represents the number of replicas for the app.
     type: integer
     exposed: true
     stored: true
 
   - name: status
-    description: Status of the service.
+    description: Status of the app.
     type: enum
     exposed: true
     stored: true
@@ -106,5 +107,5 @@ attributes:
 relations:
 - rest_name: log
   descriptions:
-    get: Returns the logs for a service.
+    get: Returns the logs for a app.
   get: true

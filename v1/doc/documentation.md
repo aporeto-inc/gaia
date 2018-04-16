@@ -13,11 +13,11 @@
 | [APIAuthorizationPolicy](#apiauthorizationpolicy)             | An API Authorization Policy defines what kind of operations a user of a system      |
 | [APICheck](#apicheck)                                         | This API allows to verify is a client identitied by his token is allowed to do      |
 | [APIService](#apiservice)                                     | APIService descibes a L4/L7 service and the corresponding implementation. It        |
+| [App](#app)                                                   | App represents an application that can be installed.                                |
 | [AuditProfile](#auditprofile)                                 | AuditProfile is an audit policy that consists of a set of audit rules. An audit     |
 | [Auth](#auth)                                                 | This API verifies if the given token is valid or not.                               |
 | [Automation](#automation)                                     | An automation needs documentation.                                                  |
 | [AutomationTemplate](#automationtemplate)                     | Templates that ca be used in automations.                                           |
-| [AvailableService](#availableservice)                         | AvailableService represents a service that is available for launching.              |
 | [AWSAccount](#awsaccount)                                     | Allows to bind an AWS account to your Aporeto account to allow auto registration... |
 | [Category](#category)                                         | Category allows to categorized services.                                            |
 | [Certificate](#certificate)                                   | A User represents the owner of some certificates.                                   |
@@ -35,6 +35,7 @@
 | [HookPolicy](#hookpolicy)                                     | Hook allows to to define hooks to the write operations in squall. Hooks are sent... |
 | [Import](#import)                                             | Imports an export of policies and related objects into the namespace.               |
 | [Installation](#installation)                                 | Installation represents an installation for a given account.                        |
+| [InstalledApp](#installedapp)                                 | InstalledApps represents an installed application.                                  |
 | [IsolationProfile](#isolationprofile)                         | An IsolationProfile needs documentation.                                            |
 | [Issue](#issue)                                               | This API issues a new token according to given data.                                |
 | [Jaegerbatch](#jaegerbatch)                                   | A jaegerbatch is a batch of jaeger spans. This is used by external service to       |
@@ -58,7 +59,6 @@
 | [Report](#report)                                             | Post a new statistics report.                                                       |
 | [Role](#role)                                                 | Roles returns the available roles that can be used with API Authorization           |
 | [Root](#root)                                                 | root object.                                                                        |
-| [Service](#service)                                           | Service represents a service that can be launched.                                  |
 | [StatsQuery](#statsquery)                                     | StatsQuery is a generic API to retrieve time series data stored by the Aporeto      |
 | [SuggestedPolicy](#suggestedpolicy)                           | Allows to get policy suggestions.                                                   |
 | [SystemCall](#systemcall)                                     | This object has never been used and should be removed.                              |
@@ -1160,6 +1160,83 @@ UpdateTime is the time at which an entity was updated.
 | Read only       | `true` |
 | Orderable       | `true` |
 
+## App
+
+App represents an application that can be installed.
+
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
+
+### Relations
+
+| Method | URL     | Description                 |
+| -:     | -       | -                           |
+| `GET`  | `/apps` | Retrieves the list of apps. |
+
+### Attributes
+
+#### `beta (boolean)`
+
+Beta indicates if the app is in a beta version.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Read only       | `true` |
+
+#### `categoryID (string)`
+
+CategoryID of the app.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Read only       | `true` |
+| Filterable      | `true` |
+
+#### `description (string)`
+
+Description is the description of the object.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `1024` |
+| Orderable       | `true` |
+
+#### `icon (string)`
+
+Icon contains a base64 image for the app.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Read only       | `true` |
+
+#### `longDescription (string)`
+
+LongDescription contains a more detailed description of the app.
+
+#### `name (string)`
+
+Name is the name of the entity.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `256`  |
+| Required        | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `parameters (external:app_parameters)`
+
+Parameters of the app the user can or has to specify.
+
+#### `title (string)`
+
+Title represents the title of the app.
+
 ## AuditProfile
 
 AuditProfile is an audit policy that consists of a set of audit rules. An audit
@@ -1595,83 +1672,6 @@ Name is the name of the entity.
 #### `parameters (external:automation_template_parameters)`
 
 Parameters contains the parameter description of the function.
-
-## AvailableService
-
-AvailableService represents a service that is available for launching.
-
-### Example
-
-```json
-{
-  "name": "the name"
-}
-```
-
-### Relations
-
-| Method | URL                  | Description                               |
-| -:     | -                    | -                                         |
-| `GET`  | `/availableservices` | Retrieves the list of available services. |
-
-### Attributes
-
-#### `beta (boolean)`
-
-Beta indicates if the service is in a beta version.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Read only       | `true` |
-
-#### `categoryID (string)`
-
-CategoryID of the service.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Read only       | `true` |
-| Filterable      | `true` |
-
-#### `description (string)`
-
-Description is the description of the object.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Max length      | `1024` |
-| Orderable       | `true` |
-
-#### `icon (string)`
-
-Icon contains a base64 image for the available service.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Read only       | `true` |
-
-#### `longDescription (string)`
-
-LongDescription contains a more detailed description of the service.
-
-#### `name (string)`
-
-Name is the name of the entity.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Max length      | `256`  |
-| Required        | `true` |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
-#### `parameters (external:service_parameters)`
-
-Parameters of the service the user can or has to specify.
-
-#### `title (string)`
-
-Title represents the title of the service.
 
 ## AWSAccount
 
@@ -4139,6 +4139,91 @@ AccountName that should be installed.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+## InstalledApp
+
+InstalledApps represents an installed application.
+
+### Relations
+
+| Method   | URL                       | Description                                       |
+| -:       | -                         | -                                                 |
+| `GET`    | `/installedapps`          | Retrieves the list of installed apps.             |
+| `POST`   | `/installedapps`          | Installs a new app.                               |
+| `DELETE` | `/installedapps/:id`      | Deletes the `installedapp` with the given `:id`.  |
+| `GET`    | `/installedapps/:id`      | Retrieve the `installedapp` with the given `:id`. |
+| `PUT`    | `/installedapps/:id`      | Updates the `installedapp` with the given `:id`.  |
+| `GET`    | `/installedapps/:id/logs` | Returns the logs for a app.                       |
+
+### Attributes
+
+#### `ID (string)`
+
+ID of the installed app.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Identifier      | `true` |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Filterable      | `true` |
+
+#### `accountName (string)`
+
+AccountName represents the vince account name.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Creation only   | `true` |
+
+#### `categoryID (string)`
+
+CategoryID of the app.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Read only       | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `name (string)`
+
+Name of the installed app.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Creation only   | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `namespace (string)`
+
+Namespace in which the app is running.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `parameters (external:app_parameters)`
+
+Parameters is a list of parameters to start the app.
+
+#### `replicas (integer)`
+
+Replicas represents the number of replicas for the app.
+
+#### `status (enum)`
+
+Status of the app.
+
+| Characteristics | Value                     |
+| -               | -:                        |
+| Allowed Value   | `Error, Pending, Running` |
+| Default         | `Pending`                 |
+| Read only       | `true`                    |
+| Orderable       | `true`                    |
+| Filterable      | `true`                    |
+
 ## IsolationProfile
 
 An IsolationProfile needs documentation.
@@ -4496,9 +4581,9 @@ Retrieves the log of a deployed app.
 
 ### Relations
 
-| Method | URL                  | Description                     |
-| -:     | -                    | -                               |
-| `GET`  | `/services/:id/logs` | Returns the logs for a service. |
+| Method | URL                       | Description                 |
+| -:     | -                         | -                           |
+| `GET`  | `/installedapps/:id/logs` | Returns the logs for a app. |
 
 ### Attributes
 
@@ -6567,91 +6652,6 @@ Name of the role.
 | -               | -:     |
 | Autogenerated   | `true` |
 | Read only       | `true` |
-
-## Service
-
-Service represents a service that can be launched.
-
-### Relations
-
-| Method   | URL                  | Description                                  |
-| -:       | -                    | -                                            |
-| `GET`    | `/services`          | Retrieves the lisy of services.              |
-| `POST`   | `/services`          | Installs a new service.                      |
-| `DELETE` | `/services/:id`      | Deletes the `service` with the given `:id`.  |
-| `GET`    | `/services/:id`      | Retrieve the `service` with the given `:id`. |
-| `PUT`    | `/services/:id`      | Updates the `service` with the given `:id`.  |
-| `GET`    | `/services/:id/logs` | Returns the logs for a service.              |
-
-### Attributes
-
-#### `ID (string)`
-
-ID of the service.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Identifier      | `true` |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-| Filterable      | `true` |
-
-#### `accountName (string)`
-
-AccountName represents the vince account name.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Creation only   | `true` |
-
-#### `categoryID (string)`
-
-CategoryID of the service.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Read only       | `true` |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
-#### `name (string)`
-
-Name of the service.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Creation only   | `true` |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
-#### `namespace (string)`
-
-Namespace in which the service in running.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
-#### `parameters (external:service_parameters)`
-
-Parameters is a list of parameters to start the service.
-
-#### `replicas (integer)`
-
-Replicas represents the number of replicas for the service.
-
-#### `status (enum)`
-
-Status of the service.
-
-| Characteristics | Value                     |
-| -               | -:                        |
-| Allowed Value   | `Error, Pending, Running` |
-| Default         | `Pending`                 |
-| Read only       | `true`                    |
-| Orderable       | `true`                    |
-| Filterable      | `true`                    |
 
 ## StatsQuery
 
