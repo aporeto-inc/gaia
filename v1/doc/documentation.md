@@ -155,19 +155,6 @@ other systems, value may be 'uid={USERNAME}'.
 | Orderable       | `true`           |
 | Filterable      | `true`           |
 
-#### `LDAPBindSubjectKey (string)`
-
-LDAPBindSubjectKey holds key to be used to populate the subject. If you want to
-use the user as a subject, for Windows based systems you may use
-'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
-also use any alternate key.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Default         | `uid`  |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
 #### `LDAPCertificateAuthority (string)`
 
 LDAPCertificateAuthority contains the optional certificate author ity that will
@@ -196,6 +183,19 @@ LDAPEnabled triggers if the account uses it's own LDAP for authentication.
 
 | Characteristics | Value  |
 | -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `LDAPSubjectKey (string)`
+
+LDAPSubjectKey holds key to be used to populate the subject. If you want to
+use the user as a subject, for Windows based systems you may use
+'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
+also use any alternate key.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Default         | `uid`  |
 | Orderable       | `true` |
 | Filterable      | `true` |
 
