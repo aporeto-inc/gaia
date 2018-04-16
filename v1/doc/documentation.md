@@ -143,9 +143,9 @@ LDAPBindPassword holds the password to the LDAPBindDN.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `LDAPBindUserKey (string)`
+#### `LDAPBindSearchFilter (string)`
 
-LDAPBindUserKey holds filter to be used to uniquely search a user. For
+LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
 Windows based systems, value may be 'sAMAccountName'. For Linux and
 other systems, value may be 'uid'.
 

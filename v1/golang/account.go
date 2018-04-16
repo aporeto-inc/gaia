@@ -110,10 +110,10 @@ type Account struct {
 	// LDAPBindPassword holds the password to the LDAPBindDN.
 	LDAPBindPassword string `json:"LDAPBindPassword" bson:"ldapbindpassword" mapstructure:"LDAPBindPassword,omitempty"`
 
-	// LDAPBindUserKey holds filter to be used to uniquely search a user. For
+	// LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
 	// Windows based systems, value may be 'sAMAccountName'. For Linux and
 	// other systems, value may be 'uid'.
-	LDAPBindUserKey string `json:"LDAPBindUserKey" bson:"ldapbinduserkey" mapstructure:"LDAPBindUserKey,omitempty"`
+	LDAPBindSearchFilter string `json:"LDAPBindSearchFilter" bson:"ldapbindsearchfilter" mapstructure:"LDAPBindSearchFilter,omitempty"`
 
 	// LDAPCertificateAuthority contains the optional certificate author ity that will
 	// be used to connect to the LDAP server. It is not needed if the TLS certificate
@@ -208,7 +208,7 @@ func NewAccount() *Account {
 		AssociatedAWSPolicies:    map[string]string{},
 		AssociatedPlanKey:        "aporeto.plan.free",
 		AssociatedQuotaPolicies:  map[string]string{},
-		LDAPBindUserKey:          "uid",
+		LDAPBindSearchFilter:     "uid",
 		LDAPConnSecurityProtocol: "InbandTLS",
 		Status: "Pending",
 	}
@@ -375,17 +375,17 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"LDAPBindUserKey": elemental.AttributeSpecification{
+	"LDAPBindSearchFilter": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "LDAPBindUserKey",
+		ConvertedName:  "LDAPBindSearchFilter",
 		DefaultValue:   "uid",
-		Description: `LDAPBindUserKey holds filter to be used to uniquely search a user. For
+		Description: `LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
 Windows based systems, value may be 'sAMAccountName'. For Linux and
 other systems, value may be 'uid'.`,
 		Exposed:    true,
 		Filterable: true,
 		Format:     "free",
-		Name:       "LDAPBindUserKey",
+		Name:       "LDAPBindSearchFilter",
 		Orderable:  true,
 		Stored:     true,
 		Type:       "string",
@@ -749,17 +749,17 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"ldapbinduserkey": elemental.AttributeSpecification{
+	"ldapbindsearchfilter": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "LDAPBindUserKey",
+		ConvertedName:  "LDAPBindSearchFilter",
 		DefaultValue:   "uid",
-		Description: `LDAPBindUserKey holds filter to be used to uniquely search a user. For
+		Description: `LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
 Windows based systems, value may be 'sAMAccountName'. For Linux and
 other systems, value may be 'uid'.`,
 		Exposed:    true,
 		Filterable: true,
 		Format:     "free",
-		Name:       "LDAPBindUserKey",
+		Name:       "LDAPBindSearchFilter",
 		Orderable:  true,
 		Stored:     true,
 		Type:       "string",
