@@ -9,8 +9,8 @@ model:
     by and Aporeto Agent based on the Enforcer that have been used during the
     registration. The policy can also be propagated down to the child namespace.
   aliases:
-  - srvpols
-  - srvpol
+  - enfpols
+  - enfpol
   get: true
   update: true
   delete: true

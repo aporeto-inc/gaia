@@ -63,6 +63,7 @@ func init() {
 	elemental.RegisterIdentity(RoleIdentity)
 	elemental.RegisterIdentity(RootIdentity)
 	elemental.RegisterIdentity(ServiceIdentity)
+	elemental.RegisterIdentity(ServicePolicyIdentity)
 	elemental.RegisterIdentity(StatsQueryIdentity)
 	elemental.RegisterIdentity(SuggestedPolicyIdentity)
 	elemental.RegisterIdentity(SystemCallIdentity)
@@ -203,6 +204,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewRoot()
 	case ServiceIdentity.Name:
 		return NewService()
+	case ServicePolicyIdentity.Name:
+		return NewServicePolicy()
 	case StatsQueryIdentity.Name:
 		return NewStatsQuery()
 	case SuggestedPolicyIdentity.Name:
@@ -355,6 +358,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewRoot()
 	case ServiceIdentity.Category:
 		return NewService()
+	case ServicePolicyIdentity.Category:
+		return NewServicePolicy()
 	case StatsQueryIdentity.Category:
 		return NewStatsQuery()
 	case SuggestedPolicyIdentity.Category:
@@ -506,6 +511,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 
 	case ServiceIdentity.Name:
 		return &ServicesList{}
+	case ServicePolicyIdentity.Name:
+		return &ServicePoliciesList{}
 	case StatsQueryIdentity.Name:
 		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity.Name:
@@ -657,6 +664,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 
 	case ServiceIdentity.Category:
 		return &ServicesList{}
+	case ServicePolicyIdentity.Category:
+		return &ServicePoliciesList{}
 	case StatsQueryIdentity.Category:
 		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity.Category:
@@ -749,6 +758,7 @@ func AllIdentities() []elemental.Identity {
 		RoleIdentity,
 		RootIdentity,
 		ServiceIdentity,
+		ServicePolicyIdentity,
 		StatsQueryIdentity,
 		SuggestedPolicyIdentity,
 		SystemCallIdentity,
@@ -780,8 +790,8 @@ var aliasesMap = map[string]elemental.Identity{
 	"depmap":     DependencyMapIdentity,
 	"profile":    EnforcerProfileIdentity,
 	"profiles":   EnforcerProfileIdentity,
-	"srvpols":    EnforcerProfileMappingPolicyIdentity,
-	"srvpol":     EnforcerProfileMappingPolicyIdentity,
+	"enfpols":    EnforcerProfileMappingPolicyIdentity,
+	"enfpol":     EnforcerProfileMappingPolicyIdentity,
 	"extacs":     ExternalAccessIdentity,
 	"extac":      ExternalAccessIdentity,
 	"extsrv":     ExternalServiceIdentity,
@@ -816,6 +826,8 @@ var aliasesMap = map[string]elemental.Identity{
 	"rpol":       RenderedPolicyIdentity,
 	"rpols":      RenderedPolicyIdentity,
 	"srv":        ServiceIdentity,
+	"srvpol":     ServicePolicyIdentity,
+	"srvpols":    ServicePolicyIdentity,
 	"sq":         StatsQueryIdentity,
 	"sugpol":     SuggestedPolicyIdentity,
 	"sugpols":    SuggestedPolicyIdentity,
@@ -910,8 +922,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case EnforcerProfileMappingPolicyIdentity:
 		return []string{
-			"srvpols",
-			"srvpol",
+			"enfpols",
+			"enfpol",
 		}
 	case ExportIdentity:
 		return []string{}
@@ -1037,6 +1049,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case ServiceIdentity:
 		return []string{
 			"srv",
+		}
+	case ServicePolicyIdentity:
+		return []string{
+			"srvpol",
+			"srvpols",
 		}
 	case StatsQueryIdentity:
 		return []string{
