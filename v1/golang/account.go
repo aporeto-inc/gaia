@@ -111,8 +111,8 @@ type Account struct {
 	LDAPBindPassword string `json:"LDAPBindPassword" bson:"ldapbindpassword" mapstructure:"LDAPBindPassword,omitempty"`
 
 	// LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
-	// Windows based systems, value may be 'sAMAccountName'. For Linux and
-	// other systems, value may be 'uid'.
+	// Windows based systems, value may be 'sAMAccountName={USERNAME}'. For Linux and
+	// other systems, value may be 'uid={USERNAME}'.
 	LDAPBindSearchFilter string `json:"LDAPBindSearchFilter" bson:"ldapbindsearchfilter" mapstructure:"LDAPBindSearchFilter,omitempty"`
 
 	// LDAPCertificateAuthority contains the optional certificate author ity that will
@@ -208,7 +208,7 @@ func NewAccount() *Account {
 		AssociatedAWSPolicies:    map[string]string{},
 		AssociatedPlanKey:        "aporeto.plan.free",
 		AssociatedQuotaPolicies:  map[string]string{},
-		LDAPBindSearchFilter:     "uid",
+		LDAPBindSearchFilter:     "uid={USERNAME}",
 		LDAPConnSecurityProtocol: "InbandTLS",
 		Status: "Pending",
 	}
@@ -378,10 +378,10 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 	"LDAPBindSearchFilter": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LDAPBindSearchFilter",
-		DefaultValue:   "uid",
+		DefaultValue:   "uid={USERNAME}",
 		Description: `LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
-Windows based systems, value may be 'sAMAccountName'. For Linux and
-other systems, value may be 'uid'.`,
+Windows based systems, value may be 'sAMAccountName={USERNAME}'. For Linux and
+other systems, value may be 'uid={USERNAME}'.`,
 		Exposed:    true,
 		Filterable: true,
 		Format:     "free",
@@ -752,10 +752,10 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"ldapbindsearchfilter": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LDAPBindSearchFilter",
-		DefaultValue:   "uid",
+		DefaultValue:   "uid={USERNAME}",
 		Description: `LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
-Windows based systems, value may be 'sAMAccountName'. For Linux and
-other systems, value may be 'uid'.`,
+Windows based systems, value may be 'sAMAccountName={USERNAME}'. For Linux and
+other systems, value may be 'uid={USERNAME}'.`,
 		Exposed:    true,
 		Filterable: true,
 		Format:     "free",
