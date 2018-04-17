@@ -231,14 +231,14 @@ elemental:
     init: types.HostServicesList{}
     import: github.com/aporeto-inc/gaia/v1/golang/types
 
-  service_parameters:
-    type: '[]*types.ServiceParameter'
-    init: '[]*types.ServiceParameter{}'
+  app_parameters:
+    type: '[]*types.AppParameter'
+    init: '[]*types.AppParameter{}'
     import: github.com/aporeto-inc/gaia/v1/golang/types
 
-  service_relatedobjects:
-    type: '[]*types.ServiceRelatedObject'
-    init: '[]*types.ServiceRelatedObject{}'
+  app_relatedobjects:
+    type: '[]*types.AppRelatedObject'
+    init: '[]*types.AppRelatedObject{}'
     import: github.com/aporeto-inc/gaia/v1/golang/types
 
   logs:

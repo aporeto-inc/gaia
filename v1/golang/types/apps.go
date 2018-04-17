@@ -7,68 +7,68 @@ import (
 	"time"
 )
 
-// ServiceParameterType is the type representing the type of a parameter
-type ServiceParameterType string
+// AppParameterType is the type representing the type of a parameter
+type AppParameterType string
 
-// Various values for ServiceParameterType.
+// Various values for AppParameterType.
 const (
-	ServiceParameterTypeBool        ServiceParameterType = "bool"
-	ServiceParameterTypeDuration    ServiceParameterType = "duration"
-	ServiceParameterTypeEnum        ServiceParameterType = "enum"
-	ServiceParameterTypeIntSlice    ServiceParameterType = "intSlice"
-	ServiceParameterTypeInt         ServiceParameterType = "int"
-	ServiceParameterTypeFloat       ServiceParameterType = "float"
-	ServiceParameterTypeFloatSlice  ServiceParameterType = "floatSlice"
-	ServiceParameterTypePassword    ServiceParameterType = "password"
-	ServiceParameterTypeString      ServiceParameterType = "string"
-	ServiceParameterTypeStringSlice ServiceParameterType = "stringSlice"
+	AppParameterTypeBool        AppParameterType = "bool"
+	AppParameterTypeDuration    AppParameterType = "duration"
+	AppParameterTypeEnum        AppParameterType = "enum"
+	AppParameterTypeIntSlice    AppParameterType = "intSlice"
+	AppParameterTypeInt         AppParameterType = "int"
+	AppParameterTypeFloat       AppParameterType = "float"
+	AppParameterTypeFloatSlice  AppParameterType = "floatSlice"
+	AppParameterTypePassword    AppParameterType = "password"
+	AppParameterTypeString      AppParameterType = "string"
+	AppParameterTypeStringSlice AppParameterType = "stringSlice"
 )
 
-// ServiceParameterBackend defines the link of the service parameter.
-type ServiceParameterBackend int
+// AppParameterBackend defines the link of the service parameter.
+type AppParameterBackend int
 
 const (
-	// ServiceParameterBackendGlobalSecret defines a link to installation secret.
-	ServiceParameterBackendGlobalSecret ServiceParameterBackend = iota
+	// AppParameterBackendGlobalSecret defines a link to installation secret.
+	AppParameterBackendGlobalSecret AppParameterBackend = iota
 
-	// ServiceParameterBackendGlobalConfigMap defines a link to installation config map.
-	ServiceParameterBackendGlobalConfigMap
+	// AppParameterBackendGlobalConfigMap defines a link to installation config map.
+	AppParameterBackendGlobalConfigMap
 
-	// ServiceParameterBackendLocalSecret defines a link to service secret.
-	ServiceParameterBackendLocalSecret
+	// AppParameterBackendLocalSecret defines a link to service secret.
+	AppParameterBackendLocalSecret
 
-	// ServiceParameterBackendLocalConfigMap defines a link to service config map.
-	ServiceParameterBackendLocalConfigMap
+	// AppParameterBackendLocalConfigMap defines a link to service config map.
+	AppParameterBackendLocalConfigMap
 )
 
-// ServiceParameter defines a parameter for the service.
-type ServiceParameter struct {
-	Name              string                  `json:"name"`
-	Description       string                  `json:"description"`
-	LongDescription   string                  `json:"longDescription"`
-	Key               string                  `json:"key"`
-	Value             interface{}             `json:"value"`
-	Env               string                  `json:"-"`
-	Type              ServiceParameterType    `json:"type"`
-	AllowedValues     []interface{}           `json:"allowedValues"`
-	DefaultValue      interface{}             `json:"defaultValue"`
-	MountPath         string                  `json:"-"`
-	Backend           ServiceParameterBackend `json:"-"`
-	Optional          bool                    `json:"optional"`
-	Advanced          bool                    `json:"advanced"`
-	VersionConstraint string                  `json:"-"`
+// AppParameter defines a parameter for the service.
+type AppParameter struct {
+	Name              string              `json:"name"`
+	Description       string              `json:"description"`
+	LongDescription   string              `json:"longDescription"`
+	Key               string              `json:"key"`
+	Value             interface{}         `json:"value"`
+	Env               string              `json:"-"`
+	Type              AppParameterType    `json:"type"`
+	AllowedValues     []interface{}       `json:"allowedValues"`
+	DefaultValue      interface{}         `json:"defaultValue"`
+	MountPath         string              `json:"-"`
+	Backend           AppParameterBackend `json:"-"`
+	Optional          bool                `json:"optional"`
+	Advanced          bool                `json:"advanced"`
+	VersionConstraint string              `json:"-"`
 }
 
-// NewServiceParameter creates a new parameter.
-func NewServiceParameter() *ServiceParameter {
+// NewAppParameter creates a new parameter.
+func NewAppParameter() *AppParameter {
 
-	return &ServiceParameter{}
+	return &AppParameter{}
 }
 
 // Copy returns a copy of the current parameter.
-func (p *ServiceParameter) Copy() *ServiceParameter {
+func (p *AppParameter) Copy() *AppParameter {
 
-	copy := NewServiceParameter()
+	copy := NewAppParameter()
 	copy.Name = p.Name
 	copy.Description = p.Description
 	copy.LongDescription = p.LongDescription
@@ -88,27 +88,27 @@ func (p *ServiceParameter) Copy() *ServiceParameter {
 }
 
 // Validate validates the service parameter.
-func (p *ServiceParameter) Validate() error {
+func (p *AppParameter) Validate() error {
 
 	switch p.Type {
-	case ServiceParameterTypeString, ServiceParameterTypePassword:
+	case AppParameterTypeString, AppParameterTypePassword:
 		return p.validateStringValue()
 
-	case ServiceParameterTypeInt:
+	case AppParameterTypeInt:
 		return p.validateIntValue()
 
-	case ServiceParameterTypeFloat:
+	case AppParameterTypeFloat:
 		return p.validateFloatValue()
 
-	case ServiceParameterTypeBool:
+	case AppParameterTypeBool:
 		return p.validateBoolValue()
 
-	case ServiceParameterTypeDuration:
+	case AppParameterTypeDuration:
 		return p.validateDurationValue()
 
-	case ServiceParameterTypeStringSlice,
-		ServiceParameterTypeIntSlice,
-		ServiceParameterTypeFloatSlice:
+	case AppParameterTypeStringSlice,
+		AppParameterTypeIntSlice,
+		AppParameterTypeFloatSlice:
 		return p.validateSliceValue()
 	}
 
@@ -116,20 +116,20 @@ func (p *ServiceParameter) Validate() error {
 }
 
 // ValueToString returns the value as a string.
-func (p *ServiceParameter) ValueToString() string {
+func (p *AppParameter) ValueToString() string {
 
 	switch p.Type {
-	case ServiceParameterTypePassword, ServiceParameterTypeString:
+	case AppParameterTypePassword, AppParameterTypeString:
 		if value, ok := p.Value.(string); ok {
 			return value
 		}
 
-	case ServiceParameterTypeBool:
+	case AppParameterTypeBool:
 		if value, ok := p.Value.(bool); ok {
 			return strconv.FormatBool(value)
 		}
 
-	case ServiceParameterTypeInt:
+	case AppParameterTypeInt:
 		if value, ok := p.Value.(int); ok {
 			return strconv.Itoa(value)
 		}
@@ -138,17 +138,17 @@ func (p *ServiceParameter) ValueToString() string {
 			return strconv.FormatFloat(value, 'f', -1, 32)
 		}
 
-	case ServiceParameterTypeFloat:
+	case AppParameterTypeFloat:
 		if value, ok := p.Value.(float64); ok {
 			return strconv.FormatFloat(value, 'f', -1, 32)
 		}
 
-	case ServiceParameterTypeDuration:
+	case AppParameterTypeDuration:
 		if value, ok := p.Value.(string); ok {
 			return value
 		}
 
-	case ServiceParameterTypeStringSlice:
+	case AppParameterTypeStringSlice:
 		values := []string{}
 		if vs, ok := p.Value.([]interface{}); ok {
 			for _, v := range vs {
@@ -157,7 +157,7 @@ func (p *ServiceParameter) ValueToString() string {
 		}
 		return strings.Join(values, " ")
 
-	case ServiceParameterTypeEnum:
+	case AppParameterTypeEnum:
 		switch p.Value.(type) {
 		case string:
 			return p.Value.(string)
@@ -170,7 +170,7 @@ func (p *ServiceParameter) ValueToString() string {
 		}
 		return ""
 
-	case ServiceParameterTypeIntSlice:
+	case AppParameterTypeIntSlice:
 		values := []string{}
 		if vs, ok := p.Value.([]interface{}); ok {
 			for _, v := range vs {
@@ -179,7 +179,7 @@ func (p *ServiceParameter) ValueToString() string {
 		}
 		return strings.Join(values, " ")
 
-	case ServiceParameterTypeFloatSlice:
+	case AppParameterTypeFloatSlice:
 		values := []string{}
 		if vs, ok := p.Value.([]interface{}); ok {
 			for _, v := range vs {
@@ -192,25 +192,25 @@ func (p *ServiceParameter) ValueToString() string {
 	return ""
 }
 
-// ServiceRelatedObject defines a related object.
-type ServiceRelatedObject struct {
+// AppRelatedObject defines a related object.
+type AppRelatedObject struct {
 	Namespace string `json:"-"`
 	Identity  string `json:"-"`
 	ID        string `json:"-"`
 }
 
-// NewServiceRelatedObject creates a new related object.
-func NewServiceRelatedObject() *ServiceRelatedObject {
+// NewAppRelatedObject creates a new related object.
+func NewAppRelatedObject() *AppRelatedObject {
 
-	return &ServiceRelatedObject{}
+	return &AppRelatedObject{}
 }
 
-// ServiceRelatedObjectOption is to prepare the future :)
-type ServiceRelatedObjectOption struct {
+// AppRelatedObjectOption is to prepare the future :)
+type AppRelatedObjectOption struct {
 }
 
 // validateStringValue validates a string parameter.
-func (p *ServiceParameter) validateStringValue() error {
+func (p *AppParameter) validateStringValue() error {
 
 	if !p.Optional && (p.Value == nil || p.Value.(string) == "") {
 		return fmt.Errorf("%s is required", p.Name)
@@ -227,7 +227,7 @@ func (p *ServiceParameter) validateStringValue() error {
 }
 
 // validateIntValue validates a int parameter.
-func (p *ServiceParameter) validateIntValue() error {
+func (p *AppParameter) validateIntValue() error {
 
 	if !p.Optional && (p.Value == nil || p.Value == 0) {
 		return fmt.Errorf("%s is required", p.Name)
@@ -249,7 +249,7 @@ func (p *ServiceParameter) validateIntValue() error {
 }
 
 // validateFloatValue validates a float parameter.
-func (p *ServiceParameter) validateFloatValue() error {
+func (p *AppParameter) validateFloatValue() error {
 
 	if !p.Optional && p.Value == nil {
 		return fmt.Errorf("%s is required", p.Name)
@@ -266,7 +266,7 @@ func (p *ServiceParameter) validateFloatValue() error {
 }
 
 // validateBoolValue validates a bool parameter.
-func (p *ServiceParameter) validateBoolValue() error {
+func (p *AppParameter) validateBoolValue() error {
 
 	if !p.Optional && p.Value == nil {
 		return fmt.Errorf("%s is required", p.Name)
@@ -283,7 +283,7 @@ func (p *ServiceParameter) validateBoolValue() error {
 }
 
 // validateDurationValue validates a duration parameter.
-func (p *ServiceParameter) validateDurationValue() error {
+func (p *AppParameter) validateDurationValue() error {
 
 	if !p.Optional && p.Value == nil {
 		return fmt.Errorf("%s is required", p.Name)
@@ -305,7 +305,7 @@ func (p *ServiceParameter) validateDurationValue() error {
 }
 
 // validateStringSliceValue validates a string slice parameter.
-func (p *ServiceParameter) validateSliceValue() error {
+func (p *AppParameter) validateSliceValue() error {
 
 	if !p.Optional && p.Value == nil {
 		return fmt.Errorf("%s is required", p.Name)
@@ -338,22 +338,22 @@ func (p *ServiceParameter) validateSliceValue() error {
 }
 
 // isStringAllowedValue returns true if the value is allowed
-func isAllowedValue(allowedValues []interface{}, value interface{}, parameterType ServiceParameterType) error {
+func isAllowedValue(allowedValues []interface{}, value interface{}, parameterType AppParameterType) error {
 
 	switch parameterType {
-	case ServiceParameterTypeStringSlice:
+	case AppParameterTypeStringSlice:
 		_, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("%d is not a string", value)
 		}
 
-	case ServiceParameterTypeIntSlice:
+	case AppParameterTypeIntSlice:
 		_, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("%d is not an int", value)
 		}
 
-	case ServiceParameterTypeFloatSlice:
+	case AppParameterTypeFloatSlice:
 		_, ok := value.(float64)
 		if !ok {
 			return fmt.Errorf("%d is not a float", value)
