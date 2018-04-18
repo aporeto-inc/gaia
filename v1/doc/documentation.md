@@ -186,6 +186,16 @@ LDAPEnabled triggers if the account uses it's own LDAP for authentication.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `LDAPIgnoreKeys (external:ignore_list)`
+
+LDAPIgnoreKeys holds a list of keys that must not be imported into Aporeto
+authorization system.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
 #### `LDAPSubjectKey (string)`
 
 LDAPSubjectKey holds key to be used to populate the subject. If you want to

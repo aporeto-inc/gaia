@@ -32,6 +32,10 @@ elemental:
     type: '[]string'
     init: '[]string{}'
 
+  ignore_list:
+    type: '[]string'
+    init: '[]string{}'
+
   metadata_list:
     type: '[]string'
     init: '[]string{}'
