@@ -100,9 +100,9 @@ attributes:
     filterable: true
     orderable: true
 
-  - name: LDAPIgnoreKeys
+  - name: LDAPIgnoredKeys
     description: |-
-      LDAPIgnoreKeys holds a list of keys that must not be imported into Aporeto
+      LDAPIgnoredKeys holds a list of keys that must not be imported into Aporeto
       authorization system.
     type: external
     exposed: true

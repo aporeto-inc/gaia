@@ -126,9 +126,9 @@ type Account struct {
 	// LDAPEnabled triggers if the account uses it's own LDAP for authentication.
 	LDAPEnabled bool `json:"LDAPEnabled" bson:"ldapenabled" mapstructure:"LDAPEnabled,omitempty"`
 
-	// LDAPIgnoreKeys holds a list of keys that must not be imported into Aporeto
+	// LDAPIgnoredKeys holds a list of keys that must not be imported into Aporeto
 	// authorization system.
-	LDAPIgnoreKeys []string `json:"LDAPIgnoreKeys" bson:"ldapignorekeys" mapstructure:"LDAPIgnoreKeys,omitempty"`
+	LDAPIgnoredKeys []string `json:"LDAPIgnoredKeys" bson:"LDAPIgnoredKeys" mapstructure:"LDAPIgnoredKeys,omitempty"`
 
 	// LDAPSubjectKey holds key to be used to populate the subject. If you want to
 	// use the user as a subject, for Windows based systems you may use
@@ -220,7 +220,7 @@ func NewAccount() *Account {
 		AssociatedQuotaPolicies:  map[string]string{},
 		LDAPBindSearchFilter:     "uid={USERNAME}",
 		LDAPConnSecurityProtocol: "InbandTLS",
-		LDAPIgnoreKeys:           []string{},
+		LDAPIgnoredKeys:           []string{},
 		LDAPSubjectKey:           "uid",
 		Status:                   "Pending",
 	}
@@ -439,15 +439,15 @@ of the LDAP is issued from a public truster CA.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"LDAPIgnoreKeys": elemental.AttributeSpecification{
+	"LDAPIgnoredKeys": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "LDAPIgnoreKeys",
-		Description: `LDAPIgnoreKeys holds a list of keys that must not be imported into Aporeto
+		ConvertedName:  "LDAPIgnoredKeys",
+		Description: `LDAPIgnoredKeys holds a list of keys that must not be imported into Aporeto
 authorization system.`,
 		Exposed:    true,
 		Filterable: true,
 		Format:     "free",
-		Name:       "LDAPIgnoreKeys",
+		Name:       "LDAPIgnoredKeys",
 		Orderable:  true,
 		Stored:     true,
 		SubType:    "ignore_list",
@@ -843,15 +843,15 @@ of the LDAP is issued from a public truster CA.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"ldapignorekeys": elemental.AttributeSpecification{
+	"LDAPIgnoredKeys": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "LDAPIgnoreKeys",
-		Description: `LDAPIgnoreKeys holds a list of keys that must not be imported into Aporeto
+		ConvertedName:  "LDAPIgnoredKeys",
+		Description: `LDAPIgnoredKeys holds a list of keys that must not be imported into Aporeto
 authorization system.`,
 		Exposed:    true,
 		Filterable: true,
 		Format:     "free",
-		Name:       "LDAPIgnoreKeys",
+		Name:       "LDAPIgnoredKeys",
 		Orderable:  true,
 		Stored:     true,
 		SubType:    "ignore_list",
