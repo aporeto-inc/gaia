@@ -11,7 +11,6 @@ func init() {
 	elemental.RegisterIdentity(AlarmIdentity)
 	elemental.RegisterIdentity(APIAuthorizationPolicyIdentity)
 	elemental.RegisterIdentity(APICheckIdentity)
-	elemental.RegisterIdentity(APIServiceIdentity)
 	elemental.RegisterIdentity(AppIdentity)
 	elemental.RegisterIdentity(AuditProfileIdentity)
 	elemental.RegisterIdentity(AuthIdentity)
@@ -63,6 +62,7 @@ func init() {
 	elemental.RegisterIdentity(RevocationIdentity)
 	elemental.RegisterIdentity(RoleIdentity)
 	elemental.RegisterIdentity(RootIdentity)
+	elemental.RegisterIdentity(ServiceIdentity)
 	elemental.RegisterIdentity(StatsQueryIdentity)
 	elemental.RegisterIdentity(SuggestedPolicyIdentity)
 	elemental.RegisterIdentity(SystemCallIdentity)
@@ -99,8 +99,6 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewAPIAuthorizationPolicy()
 	case APICheckIdentity.Name:
 		return NewAPICheck()
-	case APIServiceIdentity.Name:
-		return NewAPIService()
 	case AppIdentity.Name:
 		return NewApp()
 	case AuditProfileIdentity.Name:
@@ -203,6 +201,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewRole()
 	case RootIdentity.Name:
 		return NewRoot()
+	case ServiceIdentity.Name:
+		return NewService()
 	case StatsQueryIdentity.Name:
 		return NewStatsQuery()
 	case SuggestedPolicyIdentity.Name:
@@ -251,8 +251,6 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewAPIAuthorizationPolicy()
 	case APICheckIdentity.Category:
 		return NewAPICheck()
-	case APIServiceIdentity.Category:
-		return NewAPIService()
 	case AppIdentity.Category:
 		return NewApp()
 	case AuditProfileIdentity.Category:
@@ -355,6 +353,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewRole()
 	case RootIdentity.Category:
 		return NewRoot()
+	case ServiceIdentity.Category:
+		return NewService()
 	case StatsQueryIdentity.Category:
 		return NewStatsQuery()
 	case SuggestedPolicyIdentity.Category:
@@ -403,8 +403,6 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &APIAuthorizationPoliciesList{}
 	case APICheckIdentity.Name:
 		return &APIChecksList{}
-	case APIServiceIdentity.Name:
-		return &APIServicesList{}
 	case AppIdentity.Name:
 		return &AppsList{}
 	case AuditProfileIdentity.Name:
@@ -506,6 +504,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 	case RoleIdentity.Name:
 		return &RolesList{}
 
+	case ServiceIdentity.Name:
+		return &ServicesList{}
 	case StatsQueryIdentity.Name:
 		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity.Name:
@@ -554,8 +554,6 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &APIAuthorizationPoliciesList{}
 	case APICheckIdentity.Category:
 		return &APIChecksList{}
-	case APIServiceIdentity.Category:
-		return &APIServicesList{}
 	case AppIdentity.Category:
 		return &AppsList{}
 	case AuditProfileIdentity.Category:
@@ -657,6 +655,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 	case RoleIdentity.Category:
 		return &RolesList{}
 
+	case ServiceIdentity.Category:
+		return &ServicesList{}
 	case StatsQueryIdentity.Category:
 		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity.Category:
@@ -697,7 +697,6 @@ func AllIdentities() []elemental.Identity {
 		AlarmIdentity,
 		APIAuthorizationPolicyIdentity,
 		APICheckIdentity,
-		APIServiceIdentity,
 		AppIdentity,
 		AuditProfileIdentity,
 		AuthIdentity,
@@ -749,6 +748,7 @@ func AllIdentities() []elemental.Identity {
 		RevocationIdentity,
 		RoleIdentity,
 		RootIdentity,
+		ServiceIdentity,
 		StatsQueryIdentity,
 		SuggestedPolicyIdentity,
 		SystemCallIdentity,
@@ -858,8 +858,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"apiauths",
 		}
 	case APICheckIdentity:
-		return []string{}
-	case APIServiceIdentity:
 		return []string{}
 	case AppIdentity:
 		return []string{}
@@ -1036,6 +1034,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case RoleIdentity:
 		return []string{}
 	case RootIdentity:
+		return []string{}
+	case ServiceIdentity:
 		return []string{}
 	case StatsQueryIdentity:
 		return []string{

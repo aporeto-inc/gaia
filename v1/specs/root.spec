@@ -55,10 +55,10 @@ relations:
     create: Verfies the authorizations on various identities for a given token.
   create: true
 
-- rest_name: apiservice
+- rest_name: service
   descriptions:
-    create: Creates a new API Service.
-    get: Retrieves the list of API Services.
+    create: Creates a new Service.
+    get: Retrieves the list of Services.
   get: true
   create: true
 
