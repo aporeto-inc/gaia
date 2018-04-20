@@ -85,6 +85,15 @@ const (
 	// StatsTagKeyPolicyNamespace represents the policy ID tag.
 	StatsTagKeyPolicyNamespace = "@policyns"
 
+	// StatsTagKeyService represents the policy ID tag.
+	StatsTagKeyService = "@srvid"
+
+	// StatsTagKeyServiceType is the service type of a flow
+	StatsTagKeyServiceType = "@srvtype"
+
+	// StatsTagKeyServiceUserID is the user ID that is accessing a service
+	StatsTagKeyServiceUserID = "@usrid"
+
 	// StatsTagKeyProcessingUnitID represents the processing unit ID tag.
 	StatsTagKeyProcessingUnitID = "$id"
 
@@ -159,9 +168,6 @@ const (
 
 	// StatsTagKeyL4Protocol represents the L4 protocol for the flow
 	StatsTagKeyL4Protocol = "@l4proto"
-
-	// StatsTagKeyServiceType is the service type of a flow
-	StatsTagKeyServiceType = "@srvtype"
 )
 
 // Shared Policy constants
