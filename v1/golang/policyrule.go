@@ -74,6 +74,9 @@ type PolicyRule struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
+	// PolicyNamespace is the namespace of the policy that created this rule.
+	PolicyNamespace string `json:"PolicyNamespace" bson:"-" mapstructure:"PolicyNamespace,omitempty"`
+
 	// Action defines set of actions that must be enforced when a dependency is met.
 	Action map[string]map[string]interface{} `json:"action" bson:"-" mapstructure:"action,omitempty"`
 
@@ -83,7 +86,7 @@ type PolicyRule struct {
 	// Policy target networks.
 	ExternalServices ExternalServicesList `json:"externalServices" bson:"-" mapstructure:"externalServices,omitempty"`
 
-	// Policy target networks.
+	// Policy target file paths.
 	FilePaths FilePathsList `json:"filePaths" bson:"-" mapstructure:"filePaths,omitempty"`
 
 	// IsolationProfiles are the isolation profiles of the rule.
@@ -92,7 +95,7 @@ type PolicyRule struct {
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
-	// Policy target networks.
+	// Policy target namespaces.
 	Namespaces NamespacesList `json:"namespaces" bson:"-" mapstructure:"namespaces,omitempty"`
 
 	// List of external services the policy mandate to pass through before reaching the
@@ -251,6 +254,14 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 	},
+	"PolicyNamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PolicyNamespace",
+		Description:    `PolicyNamespace is the namespace of the policy that created this rule.`,
+		Exposed:        true,
+		Name:           "PolicyNamespace",
+		Type:           "string",
+	},
 	"Action": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Action",
@@ -281,7 +292,7 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 	"FilePaths": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FilePaths",
-		Description:    `Policy target networks.`,
+		Description:    `Policy target file paths.`,
 		Exposed:        true,
 		Name:           "filePaths",
 		SubType:        "file_entities",
@@ -316,7 +327,7 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 	"Namespaces": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespaces",
-		Description:    `Policy target networks.`,
+		Description:    `Policy target namespaces.`,
 		Exposed:        true,
 		Name:           "namespaces",
 		SubType:        "namespace_entities",
@@ -386,6 +397,14 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		ReadOnly:       true,
 		Type:           "string",
 	},
+	"policynamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PolicyNamespace",
+		Description:    `PolicyNamespace is the namespace of the policy that created this rule.`,
+		Exposed:        true,
+		Name:           "PolicyNamespace",
+		Type:           "string",
+	},
 	"action": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Action",
@@ -416,7 +435,7 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"filepaths": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FilePaths",
-		Description:    `Policy target networks.`,
+		Description:    `Policy target file paths.`,
 		Exposed:        true,
 		Name:           "filePaths",
 		SubType:        "file_entities",
@@ -451,7 +470,7 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"namespaces": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespaces",
-		Description:    `Policy target networks.`,
+		Description:    `Policy target namespaces.`,
 		Exposed:        true,
 		Name:           "namespaces",
 		SubType:        "namespace_entities",

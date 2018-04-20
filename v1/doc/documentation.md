@@ -5638,6 +5638,10 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `PolicyNamespace (string)`
+
+PolicyNamespace is the namespace of the policy that created this rule.
+
 #### `action (external:actions_list)`
 
 Action defines set of actions that must be enforced when a dependency is met.
@@ -5652,7 +5656,7 @@ Policy target networks.
 
 #### `filePaths (external:file_entities)`
 
-Policy target networks.
+Policy target file paths.
 
 #### `isolationProfiles (external:isolation_profile_entities)`
 
@@ -5671,7 +5675,7 @@ Name is the name of the entity.
 
 #### `namespaces (external:namespace_entities)`
 
-Policy target networks.
+Policy target namespaces.
 
 #### `passthroughExternalServices (external:network_entities)`
 

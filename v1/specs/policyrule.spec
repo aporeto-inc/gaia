@@ -21,6 +21,12 @@ attributes:
     exposed: true
     subtype: api_services_entities
 
+  - name: PolicyNamespace
+    description: PolicyNamespace is the namespace of the policy that created this
+      rule.
+    type: string
+    exposed: true
+
   - name: action
     description: Action defines set of actions that must be enforced when a dependency
       is met.
@@ -41,7 +47,7 @@ attributes:
     subtype: network_entities
 
   - name: filePaths
-    description: Policy target networks.
+    description: Policy target file paths.
     type: external
     exposed: true
     subtype: file_entities
@@ -53,7 +59,7 @@ attributes:
     subtype: isolation_profile_entities
 
   - name: namespaces
-    description: Policy target networks.
+    description: Policy target namespaces.
     type: external
     exposed: true
     subtype: namespace_entities
