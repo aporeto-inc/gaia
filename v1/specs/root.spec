@@ -265,6 +265,11 @@ relations:
     get: Retrieves the list of policy primitives.
   get: true
 
+- rest_name: policyrenderer
+  descriptions:
+    create: Render a policy of a given type for a given set of tags.
+  create: true
+
 - rest_name: policyrule
   descriptions:
     create: Creates a new policy rule.

@@ -774,6 +774,12 @@ func init() {
 
 	relationshipsRegistry[PolicyRefreshIdentity] = &elemental.Relationship{}
 
+	relationshipsRegistry[PolicyRendererIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+	}
+
 	relationshipsRegistry[PolicyRuleIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
 			"root": true,

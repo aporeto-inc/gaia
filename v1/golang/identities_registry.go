@@ -51,6 +51,7 @@ func init() {
 	elemental.RegisterIdentity(PokeIdentity)
 	elemental.RegisterIdentity(PolicyIdentity)
 	elemental.RegisterIdentity(PolicyRefreshIdentity)
+	elemental.RegisterIdentity(PolicyRendererIdentity)
 	elemental.RegisterIdentity(PolicyRuleIdentity)
 	elemental.RegisterIdentity(PrivateKeyIdentity)
 	elemental.RegisterIdentity(ProcessingUnitIdentity)
@@ -179,6 +180,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewPolicy()
 	case PolicyRefreshIdentity.Name:
 		return NewPolicyRefresh()
+	case PolicyRendererIdentity.Name:
+		return NewPolicyRenderer()
 	case PolicyRuleIdentity.Name:
 		return NewPolicyRule()
 	case PrivateKeyIdentity.Name:
@@ -331,6 +334,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewPolicy()
 	case PolicyRefreshIdentity.Category:
 		return NewPolicyRefresh()
+	case PolicyRendererIdentity.Category:
+		return NewPolicyRenderer()
 	case PolicyRuleIdentity.Category:
 		return NewPolicyRule()
 	case PrivateKeyIdentity.Category:
@@ -483,6 +488,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &PoliciesList{}
 	case PolicyRefreshIdentity.Name:
 		return &PolicyRefreshsList{}
+	case PolicyRendererIdentity.Name:
+		return &PolicyRenderersList{}
 	case PolicyRuleIdentity.Name:
 		return &PolicyRulesList{}
 	case PrivateKeyIdentity.Name:
@@ -634,6 +641,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &PoliciesList{}
 	case PolicyRefreshIdentity.Category:
 		return &PolicyRefreshsList{}
+	case PolicyRendererIdentity.Category:
+		return &PolicyRenderersList{}
 	case PolicyRuleIdentity.Category:
 		return &PolicyRulesList{}
 	case PrivateKeyIdentity.Category:
@@ -737,6 +746,7 @@ func AllIdentities() []elemental.Identity {
 		PokeIdentity,
 		PolicyIdentity,
 		PolicyRefreshIdentity,
+		PolicyRendererIdentity,
 		PolicyRuleIdentity,
 		PrivateKeyIdentity,
 		ProcessingUnitIdentity,
@@ -996,6 +1006,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case PolicyIdentity:
 		return []string{}
 	case PolicyRefreshIdentity:
+		return []string{}
+	case PolicyRendererIdentity:
 		return []string{}
 	case PolicyRuleIdentity:
 		return []string{}
