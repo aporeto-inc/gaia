@@ -21,6 +21,13 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: claims
+    description: claims represents a user or a script that have accessed an api.
+    type: external
+    exposed: true
+    subtype: graphclaims_map
+    read_only: true
+
   - name: edges
     description: edges are the edges of the map.
     type: external

@@ -156,6 +156,10 @@ const (
 
 	// StatsTagKeyL4Protocol represents the L4 protocol for the flow
 	StatsTagKeyL4Protocol = "@l4proto"
+
+	// StatsTagKeyClaimsID represents claims ID for the flow
+	StatsTagKeyClaimsID = "@sys:uid" // TODO: change to @claimid
+
 )
 
 // Shared Policy constants

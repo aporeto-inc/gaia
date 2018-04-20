@@ -2086,6 +2086,14 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `claims (external:graphclaims_map)`
+
+claims represents a user or a script that have accessed an api.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Read only       | `true` |
+
 #### `edges (external:graphedges_map)`
 
 edges are the edges of the map.
