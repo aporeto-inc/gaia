@@ -7,46 +7,46 @@ import (
 	"github.com/aporeto-inc/elemental"
 )
 
-// PolicyRendererPolicyTypeValue represents the possible values for attribute "policyType".
-type PolicyRendererPolicyTypeValue string
+// PolicyRendererTypeValue represents the possible values for attribute "type".
+type PolicyRendererTypeValue string
 
 const (
-	// PolicyRendererPolicyTypeAPIAuthorization represents the value APIAuthorization.
-	PolicyRendererPolicyTypeAPIAuthorization PolicyRendererPolicyTypeValue = "APIAuthorization"
+	// PolicyRendererTypeAPIAuthorization represents the value APIAuthorization.
+	PolicyRendererTypeAPIAuthorization PolicyRendererTypeValue = "APIAuthorization"
 
-	// PolicyRendererPolicyTypeEnforcerProfile represents the value EnforcerProfile.
-	PolicyRendererPolicyTypeEnforcerProfile PolicyRendererPolicyTypeValue = "EnforcerProfile"
+	// PolicyRendererTypeEnforcerProfile represents the value EnforcerProfile.
+	PolicyRendererTypeEnforcerProfile PolicyRendererTypeValue = "EnforcerProfile"
 
-	// PolicyRendererPolicyTypeFile represents the value File.
-	PolicyRendererPolicyTypeFile PolicyRendererPolicyTypeValue = "File"
+	// PolicyRendererTypeFile represents the value File.
+	PolicyRendererTypeFile PolicyRendererTypeValue = "File"
 
-	// PolicyRendererPolicyTypeHook represents the value Hook.
-	PolicyRendererPolicyTypeHook PolicyRendererPolicyTypeValue = "Hook"
+	// PolicyRendererTypeHook represents the value Hook.
+	PolicyRendererTypeHook PolicyRendererTypeValue = "Hook"
 
-	// PolicyRendererPolicyTypeNamespaceMapping represents the value NamespaceMapping.
-	PolicyRendererPolicyTypeNamespaceMapping PolicyRendererPolicyTypeValue = "NamespaceMapping"
+	// PolicyRendererTypeNamespaceMapping represents the value NamespaceMapping.
+	PolicyRendererTypeNamespaceMapping PolicyRendererTypeValue = "NamespaceMapping"
 
-	// PolicyRendererPolicyTypeNetwork represents the value Network.
-	PolicyRendererPolicyTypeNetwork PolicyRendererPolicyTypeValue = "Network"
+	// PolicyRendererTypeNetwork represents the value Network.
+	PolicyRendererTypeNetwork PolicyRendererTypeValue = "Network"
 
-	// PolicyRendererPolicyTypeProcessingUnit represents the value ProcessingUnit.
-	PolicyRendererPolicyTypeProcessingUnit PolicyRendererPolicyTypeValue = "ProcessingUnit"
+	// PolicyRendererTypeProcessingUnit represents the value ProcessingUnit.
+	PolicyRendererTypeProcessingUnit PolicyRendererTypeValue = "ProcessingUnit"
 
-	// PolicyRendererPolicyTypeQuota represents the value Quota.
-	PolicyRendererPolicyTypeQuota PolicyRendererPolicyTypeValue = "Quota"
+	// PolicyRendererTypeQuota represents the value Quota.
+	PolicyRendererTypeQuota PolicyRendererTypeValue = "Quota"
 
-	// PolicyRendererPolicyTypeSyscall represents the value Syscall.
-	PolicyRendererPolicyTypeSyscall PolicyRendererPolicyTypeValue = "Syscall"
+	// PolicyRendererTypeSyscall represents the value Syscall.
+	PolicyRendererTypeSyscall PolicyRendererTypeValue = "Syscall"
 
-	// PolicyRendererPolicyTypeTokenScope represents the value TokenScope.
-	PolicyRendererPolicyTypeTokenScope PolicyRendererPolicyTypeValue = "TokenScope"
+	// PolicyRendererTypeTokenScope represents the value TokenScope.
+	PolicyRendererTypeTokenScope PolicyRendererTypeValue = "TokenScope"
 )
 
 // PolicyRendererIdentity represents the Identity of the object.
 var PolicyRendererIdentity = elemental.Identity{
 	Name:     "policyrenderer",
 	Category: "policyrenderers",
-	Private:  false,
+	Private:  true,
 }
 
 // PolicyRenderersList represents a list of PolicyRenderers
@@ -104,11 +104,11 @@ type PolicyRenderer struct {
 	// List of policies rendered for the given set of tags.
 	Policies PolicyRulesList `json:"policies" bson:"-" mapstructure:"policies,omitempty"`
 
-	// Type of the policy to render.
-	PolicyType PolicyRendererPolicyTypeValue `json:"policyType" bson:"-" mapstructure:"policyType,omitempty"`
-
 	// List of tags of the object to render the hook policy for.
-	TargetTags []string `json:"targetTags" bson:"-" mapstructure:"targetTags,omitempty"`
+	Tags []string `json:"tags" bson:"-" mapstructure:"tags,omitempty"`
+
+	// Type of the policy to render.
+	Type PolicyRendererTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -169,7 +169,7 @@ func (o *PolicyRenderer) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("policyType", string(o.PolicyType), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -214,24 +214,24 @@ var PolicyRendererAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "policy_rules_list",
 		Type:           "external",
 	},
-	"PolicyType": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"},
-		ConvertedName:  "PolicyType",
-		Description:    `Type of the policy to render.`,
-		Exposed:        true,
-		Name:           "policyType",
-		Required:       true,
-		Type:           "enum",
-	},
-	"TargetTags": elemental.AttributeSpecification{
+	"Tags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "TargetTags",
+		ConvertedName:  "Tags",
 		Description:    `List of tags of the object to render the hook policy for.`,
 		Exposed:        true,
-		Name:           "targetTags",
+		Name:           "tags",
 		Required:       true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"Type": elemental.AttributeSpecification{
+		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"},
+		ConvertedName:  "Type",
+		Description:    `Type of the policy to render.`,
+		Exposed:        true,
+		Name:           "type",
+		Required:       true,
+		Type:           "enum",
 	},
 }
 
@@ -248,23 +248,23 @@ var PolicyRendererLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		SubType:        "policy_rules_list",
 		Type:           "external",
 	},
-	"policytype": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"},
-		ConvertedName:  "PolicyType",
-		Description:    `Type of the policy to render.`,
-		Exposed:        true,
-		Name:           "policyType",
-		Required:       true,
-		Type:           "enum",
-	},
-	"targettags": elemental.AttributeSpecification{
+	"tags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "TargetTags",
+		ConvertedName:  "Tags",
 		Description:    `List of tags of the object to render the hook policy for.`,
 		Exposed:        true,
-		Name:           "targetTags",
+		Name:           "tags",
 		Required:       true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"type": elemental.AttributeSpecification{
+		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"},
+		ConvertedName:  "Type",
+		Description:    `Type of the policy to render.`,
+		Exposed:        true,
+		Name:           "type",
+		Required:       true,
+		Type:           "enum",
 	},
 }
