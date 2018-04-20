@@ -12,12 +12,12 @@ func init() {
 	elemental.RegisterIdentity(APIAuthorizationPolicyIdentity)
 	elemental.RegisterIdentity(APICheckIdentity)
 	elemental.RegisterIdentity(APIServiceIdentity)
+	elemental.RegisterIdentity(AppIdentity)
 	elemental.RegisterIdentity(AuditProfileIdentity)
 	elemental.RegisterIdentity(AuthIdentity)
 	elemental.RegisterIdentity(AuthorityIdentity)
 	elemental.RegisterIdentity(AutomationIdentity)
 	elemental.RegisterIdentity(AutomationTemplateIdentity)
-	elemental.RegisterIdentity(AvailableServiceIdentity)
 	elemental.RegisterIdentity(AWSAccountIdentity)
 	elemental.RegisterIdentity(CategoryIdentity)
 	elemental.RegisterIdentity(CertificateIdentity)
@@ -36,6 +36,7 @@ func init() {
 	elemental.RegisterIdentity(HookPolicyIdentity)
 	elemental.RegisterIdentity(ImportIdentity)
 	elemental.RegisterIdentity(InstallationIdentity)
+	elemental.RegisterIdentity(InstalledAppIdentity)
 	elemental.RegisterIdentity(IsolationProfileIdentity)
 	elemental.RegisterIdentity(IssueIdentity)
 	elemental.RegisterIdentity(JaegerbatchIdentity)
@@ -62,7 +63,6 @@ func init() {
 	elemental.RegisterIdentity(RevocationIdentity)
 	elemental.RegisterIdentity(RoleIdentity)
 	elemental.RegisterIdentity(RootIdentity)
-	elemental.RegisterIdentity(ServiceIdentity)
 	elemental.RegisterIdentity(StatsQueryIdentity)
 	elemental.RegisterIdentity(SuggestedPolicyIdentity)
 	elemental.RegisterIdentity(SystemCallIdentity)
@@ -101,6 +101,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewAPICheck()
 	case APIServiceIdentity.Name:
 		return NewAPIService()
+	case AppIdentity.Name:
+		return NewApp()
 	case AuditProfileIdentity.Name:
 		return NewAuditProfile()
 	case AuthIdentity.Name:
@@ -111,8 +113,6 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewAutomation()
 	case AutomationTemplateIdentity.Name:
 		return NewAutomationTemplate()
-	case AvailableServiceIdentity.Name:
-		return NewAvailableService()
 	case AWSAccountIdentity.Name:
 		return NewAWSAccount()
 	case CategoryIdentity.Name:
@@ -149,6 +149,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewImport()
 	case InstallationIdentity.Name:
 		return NewInstallation()
+	case InstalledAppIdentity.Name:
+		return NewInstalledApp()
 	case IsolationProfileIdentity.Name:
 		return NewIsolationProfile()
 	case IssueIdentity.Name:
@@ -201,8 +203,6 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewRole()
 	case RootIdentity.Name:
 		return NewRoot()
-	case ServiceIdentity.Name:
-		return NewService()
 	case StatsQueryIdentity.Name:
 		return NewStatsQuery()
 	case SuggestedPolicyIdentity.Name:
@@ -253,6 +253,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewAPICheck()
 	case APIServiceIdentity.Category:
 		return NewAPIService()
+	case AppIdentity.Category:
+		return NewApp()
 	case AuditProfileIdentity.Category:
 		return NewAuditProfile()
 	case AuthIdentity.Category:
@@ -263,8 +265,6 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewAutomation()
 	case AutomationTemplateIdentity.Category:
 		return NewAutomationTemplate()
-	case AvailableServiceIdentity.Category:
-		return NewAvailableService()
 	case AWSAccountIdentity.Category:
 		return NewAWSAccount()
 	case CategoryIdentity.Category:
@@ -301,6 +301,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewImport()
 	case InstallationIdentity.Category:
 		return NewInstallation()
+	case InstalledAppIdentity.Category:
+		return NewInstalledApp()
 	case IsolationProfileIdentity.Category:
 		return NewIsolationProfile()
 	case IssueIdentity.Category:
@@ -353,8 +355,6 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewRole()
 	case RootIdentity.Category:
 		return NewRoot()
-	case ServiceIdentity.Category:
-		return NewService()
 	case StatsQueryIdentity.Category:
 		return NewStatsQuery()
 	case SuggestedPolicyIdentity.Category:
@@ -405,6 +405,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &APIChecksList{}
 	case APIServiceIdentity.Name:
 		return &APIServicesList{}
+	case AppIdentity.Name:
+		return &AppsList{}
 	case AuditProfileIdentity.Name:
 		return &AuditProfilesList{}
 	case AuthIdentity.Name:
@@ -415,8 +417,6 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &AutomationsList{}
 	case AutomationTemplateIdentity.Name:
 		return &AutomationTemplatesList{}
-	case AvailableServiceIdentity.Name:
-		return &AvailableServicesList{}
 	case AWSAccountIdentity.Name:
 		return &AWSAccountsList{}
 	case CategoryIdentity.Name:
@@ -453,6 +453,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &ImportsList{}
 	case InstallationIdentity.Name:
 		return &InstallationsList{}
+	case InstalledAppIdentity.Name:
+		return &InstalledAppsList{}
 	case IsolationProfileIdentity.Name:
 		return &IsolationProfilesList{}
 	case IssueIdentity.Name:
@@ -504,8 +506,6 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 	case RoleIdentity.Name:
 		return &RolesList{}
 
-	case ServiceIdentity.Name:
-		return &ServicesList{}
 	case StatsQueryIdentity.Name:
 		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity.Name:
@@ -556,6 +556,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &APIChecksList{}
 	case APIServiceIdentity.Category:
 		return &APIServicesList{}
+	case AppIdentity.Category:
+		return &AppsList{}
 	case AuditProfileIdentity.Category:
 		return &AuditProfilesList{}
 	case AuthIdentity.Category:
@@ -566,8 +568,6 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &AutomationsList{}
 	case AutomationTemplateIdentity.Category:
 		return &AutomationTemplatesList{}
-	case AvailableServiceIdentity.Category:
-		return &AvailableServicesList{}
 	case AWSAccountIdentity.Category:
 		return &AWSAccountsList{}
 	case CategoryIdentity.Category:
@@ -604,6 +604,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &ImportsList{}
 	case InstallationIdentity.Category:
 		return &InstallationsList{}
+	case InstalledAppIdentity.Category:
+		return &InstalledAppsList{}
 	case IsolationProfileIdentity.Category:
 		return &IsolationProfilesList{}
 	case IssueIdentity.Category:
@@ -655,8 +657,6 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 	case RoleIdentity.Category:
 		return &RolesList{}
 
-	case ServiceIdentity.Category:
-		return &ServicesList{}
 	case StatsQueryIdentity.Category:
 		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity.Category:
@@ -698,12 +698,12 @@ func AllIdentities() []elemental.Identity {
 		APIAuthorizationPolicyIdentity,
 		APICheckIdentity,
 		APIServiceIdentity,
+		AppIdentity,
 		AuditProfileIdentity,
 		AuthIdentity,
 		AuthorityIdentity,
 		AutomationIdentity,
 		AutomationTemplateIdentity,
-		AvailableServiceIdentity,
 		AWSAccountIdentity,
 		CategoryIdentity,
 		CertificateIdentity,
@@ -722,6 +722,7 @@ func AllIdentities() []elemental.Identity {
 		HookPolicyIdentity,
 		ImportIdentity,
 		InstallationIdentity,
+		InstalledAppIdentity,
 		IsolationProfileIdentity,
 		IssueIdentity,
 		JaegerbatchIdentity,
@@ -748,7 +749,6 @@ func AllIdentities() []elemental.Identity {
 		RevocationIdentity,
 		RoleIdentity,
 		RootIdentity,
-		ServiceIdentity,
 		StatsQueryIdentity,
 		SuggestedPolicyIdentity,
 		SystemCallIdentity,
@@ -772,7 +772,6 @@ var aliasesMap = map[string]elemental.Identity{
 	"autos":      AutomationIdentity,
 	"auto":       AutomationIdentity,
 	"autotmpl":   AutomationTemplateIdentity,
-	"asrv":       AvailableServiceIdentity,
 	"aws":        AWSAccountIdentity,
 	"awsaccs":    AWSAccountIdentity,
 	"awsacc":     AWSAccountIdentity,
@@ -794,6 +793,8 @@ var aliasesMap = map[string]elemental.Identity{
 	"hooks":      HookPolicyIdentity,
 	"hookpol":    HookPolicyIdentity,
 	"hookpols":   HookPolicyIdentity,
+	"iapps":      InstalledAppIdentity,
+	"iapp":       InstalledAppIdentity,
 	"ip":         IsolationProfileIdentity,
 	"sp":         JaegerbatchIdentity,
 	"mess":       MessageIdentity,
@@ -815,7 +816,6 @@ var aliasesMap = map[string]elemental.Identity{
 	"hk":         RemoteProcessorIdentity,
 	"rpol":       RenderedPolicyIdentity,
 	"rpols":      RenderedPolicyIdentity,
-	"srv":        ServiceIdentity,
 	"sq":         StatsQueryIdentity,
 	"sugpol":     SuggestedPolicyIdentity,
 	"sugpols":    SuggestedPolicyIdentity,
@@ -861,6 +861,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case APIServiceIdentity:
 		return []string{}
+	case AppIdentity:
+		return []string{}
 	case AuditProfileIdentity:
 		return []string{
 			"ap",
@@ -879,10 +881,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case AutomationTemplateIdentity:
 		return []string{
 			"autotmpl",
-		}
-	case AvailableServiceIdentity:
-		return []string{
-			"asrv",
 		}
 	case AWSAccountIdentity:
 		return []string{
@@ -950,6 +948,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case InstallationIdentity:
 		return []string{}
+	case InstalledAppIdentity:
+		return []string{
+			"iapps",
+			"iapp",
+		}
 	case IsolationProfileIdentity:
 		return []string{
 			"ip",
@@ -1034,10 +1037,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case RootIdentity:
 		return []string{}
-	case ServiceIdentity:
-		return []string{
-			"srv",
-		}
 	case StatsQueryIdentity:
 		return []string{
 			"sq",

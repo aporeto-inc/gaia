@@ -100,6 +100,32 @@ attributes:
     filterable: true
     orderable: true
 
+  - name: LDAPIgnoredKeys
+    description: |-
+      LDAPIgnoredKeys holds a list of keys that must not be imported into Aporeto
+      authorization system.
+    type: external
+    exposed: true
+    subtype: ignore_list
+    stored: true
+    filterable: true
+    format: free
+    orderable: true
+
+  - name: LDAPSubjectKey
+    description: |-
+      LDAPSubjectKey holds key to be used to populate the subject. If you want to
+      use the user as a subject, for Windows based systems you may use
+      'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
+      also use any alternate key.
+    type: string
+    exposed: true
+    stored: true
+    default_value: uid
+    filterable: true
+    format: free
+    orderable: true
+
   - name: OTPEnabled
     description: Set to enable or disable two factor authentication.
     type: boolean
