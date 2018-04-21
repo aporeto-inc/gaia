@@ -2568,6 +2568,18 @@ enforcers matching this profile.
 IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
 docker container started with labels matching the rule.
 
+#### `kubernetesMetadataExtractor (enum)`
+
+Select which metadata extractor to use to process new processing units from
+Kubernetes.
+
+| Characteristics | Value                                  |
+| -               | -:                                     |
+| Allowed Value   | `KubeSquall, PodAtomic, PodContainers` |
+| Default         | `KubeSquall`                           |
+| Orderable       | `true`                                 |
+| Filterable      | `true`                                 |
+
 #### `kubernetesSupportEnabled (boolean)`
 
 KubernetesSupportEnabled enables kubernetes mode for the enforcer.

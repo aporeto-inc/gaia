@@ -140,6 +140,21 @@ attributes:
     subtype: policies_list
     stored: true
 
+  - name: kubernetesMetadataExtractor
+    description: |-
+      Select which metadata extractor to use to process new processing units from
+      Kubernetes.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - KubeSquall
+    - PodAtomic
+    - PodContainers
+    default_value: KubeSquall
+    filterable: true
+    orderable: true
+
   - name: kubernetesSupportEnabled
     description: KubernetesSupportEnabled enables kubernetes mode for the enforcer.
     type: boolean
