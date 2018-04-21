@@ -59,6 +59,7 @@ func init() {
 	elemental.RegisterIdentity(RemoteProcessorIdentity)
 	elemental.RegisterIdentity(RenderedPolicyIdentity)
 	elemental.RegisterIdentity(ReportIdentity)
+	elemental.RegisterIdentity(RESTAPISpecIdentity)
 	elemental.RegisterIdentity(RevocationIdentity)
 	elemental.RegisterIdentity(RoleIdentity)
 	elemental.RegisterIdentity(RootIdentity)
@@ -195,6 +196,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewRenderedPolicy()
 	case ReportIdentity.Name:
 		return NewReport()
+	case RESTAPISpecIdentity.Name:
+		return NewRESTAPISpec()
 	case RevocationIdentity.Name:
 		return NewRevocation()
 	case RoleIdentity.Name:
@@ -347,6 +350,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewRenderedPolicy()
 	case ReportIdentity.Category:
 		return NewReport()
+	case RESTAPISpecIdentity.Category:
+		return NewRESTAPISpec()
 	case RevocationIdentity.Category:
 		return NewRevocation()
 	case RoleIdentity.Category:
@@ -499,6 +504,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &RenderedPoliciesList{}
 	case ReportIdentity.Name:
 		return &ReportsList{}
+	case RESTAPISpecIdentity.Name:
+		return &RESTAPISpecsList{}
 	case RevocationIdentity.Name:
 		return &RevocationsList{}
 	case RoleIdentity.Name:
@@ -650,6 +657,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &RenderedPoliciesList{}
 	case ReportIdentity.Category:
 		return &ReportsList{}
+	case RESTAPISpecIdentity.Category:
+		return &RESTAPISpecsList{}
 	case RevocationIdentity.Category:
 		return &RevocationsList{}
 	case RoleIdentity.Category:
@@ -745,6 +754,7 @@ func AllIdentities() []elemental.Identity {
 		RemoteProcessorIdentity,
 		RenderedPolicyIdentity,
 		ReportIdentity,
+		RESTAPISpecIdentity,
 		RevocationIdentity,
 		RoleIdentity,
 		RootIdentity,
@@ -779,8 +789,8 @@ var aliasesMap = map[string]elemental.Identity{
 	"depmap":     DependencyMapIdentity,
 	"profile":    EnforcerProfileIdentity,
 	"profiles":   EnforcerProfileIdentity,
-	"srvpols":    EnforcerProfileMappingPolicyIdentity,
-	"srvpol":     EnforcerProfileMappingPolicyIdentity,
+	"enfpols":    EnforcerProfileMappingPolicyIdentity,
+	"enfpol":     EnforcerProfileMappingPolicyIdentity,
 	"extacs":     ExternalAccessIdentity,
 	"extac":      ExternalAccessIdentity,
 	"extsrv":     ExternalServiceIdentity,
@@ -816,6 +826,7 @@ var aliasesMap = map[string]elemental.Identity{
 	"hk":         RemoteProcessorIdentity,
 	"rpol":       RenderedPolicyIdentity,
 	"rpols":      RenderedPolicyIdentity,
+	"srv":        ServiceIdentity,
 	"sq":         StatsQueryIdentity,
 	"sugpol":     SuggestedPolicyIdentity,
 	"sugpols":    SuggestedPolicyIdentity,
@@ -906,8 +917,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case EnforcerProfileMappingPolicyIdentity:
 		return []string{
-			"srvpols",
-			"srvpol",
+			"enfpols",
+			"enfpol",
 		}
 	case ExportIdentity:
 		return []string{}
@@ -1029,6 +1040,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case ReportIdentity:
 		return []string{}
+	case RESTAPISpecIdentity:
+		return []string{}
 	case RevocationIdentity:
 		return []string{}
 	case RoleIdentity:
@@ -1036,7 +1049,9 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case RootIdentity:
 		return []string{}
 	case ServiceIdentity:
-		return []string{}
+		return []string{
+			"srv",
+		}
 	case StatsQueryIdentity:
 		return []string{
 			"sq",

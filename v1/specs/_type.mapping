@@ -305,8 +305,8 @@ elemental:
     import: github.com/aporeto-inc/gaia/v1/golang/types
 
   api_services_entities:
-    type: APIServicesList
-    init: APIServicesList{}
+    type: ServicesList
+    init: ServicesList{}
 
   addresses_list:
     type: '[]string'

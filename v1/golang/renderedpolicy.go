@@ -76,7 +76,7 @@ type RenderedPolicy struct {
 
 	// ExposedAPIServices is the list of services that this processing unit is
 	// implementing.
-	ExposedAPIServices APIServicesList `json:"exposedAPIServices" bson:"-" mapstructure:"exposedAPIServices,omitempty"`
+	ExposedAPIServices ServicesList `json:"exposedAPIServices" bson:"-" mapstructure:"exposedAPIServices,omitempty"`
 
 	// IngressPolicies lists all the ingress policies attached to processing unit.
 	IngressPolicies map[string]PolicyRulesList `json:"ingressPolicies" bson:"-" mapstructure:"ingressPolicies,omitempty"`
@@ -114,7 +114,7 @@ func NewRenderedPolicy() *RenderedPolicy {
 			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
 			string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
 		},
-		ExposedAPIServices: APIServicesList{},
+		ExposedAPIServices: ServicesList{},
 		IngressPolicies: map[string]PolicyRulesList{
 			string(constants.RenderedPolicyTypeNetwork):   PolicyRulesList{},
 			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},

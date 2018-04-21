@@ -69,7 +69,7 @@ func (o PolicyRulesList) Version() int {
 // PolicyRule represents the model of a policyrule
 type PolicyRule struct {
 	// APIServices provides the APIServices of this policy rule.
-	APIServices APIServicesList `json:"APIServices" bson:"-" mapstructure:"APIServices,omitempty"`
+	APIServices ServicesList `json:"APIServices" bson:"-" mapstructure:"APIServices,omitempty"`
 
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
@@ -122,7 +122,7 @@ func NewPolicyRule() *PolicyRule {
 
 	return &PolicyRule{
 		ModelVersion:                1,
-		APIServices:                 APIServicesList{},
+		APIServices:                 ServicesList{},
 		EnforcerProfiles:            EnforcerProfilesList{},
 		ExternalServices:            ExternalServicesList{},
 		FilePaths:                   FilePathsList{},
