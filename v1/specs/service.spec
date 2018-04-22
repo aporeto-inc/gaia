@@ -4,10 +4,11 @@ model:
   resource_name: services
   entity_name: Service
   package: squall
-  description: "A Service defines a generic service object at L4 or L7 that encapsulates\nthe
-    description of a micro-service. A service exposes APIs and can be\nimplemented
-    through third party entities (such as a cloud provider) or through \nprocessign
-    units."
+  description: |-
+    A Service defines a generic service object at L4 or L7 that encapsulates the
+    description of a micro-service. A service exposes APIs and can be implemented
+    through third party entities (such as a cloud provider) or through  processign
+    units.
   aliases:
   - srv
   get: true
@@ -122,6 +123,7 @@ attributes:
     exposed: true
     stored: true
     required: true
+    default_value: 80
     example_value: 443
     max_value: 65535
     min_value: 1
@@ -134,7 +136,6 @@ attributes:
     exposed: true
     subtype: policies_list
     stored: true
-    required: true
     example_value:
     - - $identity=processingunit
 

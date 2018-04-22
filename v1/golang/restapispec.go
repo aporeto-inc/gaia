@@ -100,6 +100,13 @@ type RESTAPISpec struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
+	// Propagate will propagate the policy to all of its children.
+	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
+
+	// If set to true while the policy is propagating, it won't be visible to children
+	// namespace, but still used for policy resolution.
+	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
+
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -248,6 +255,30 @@ func (o *RESTAPISpec) GetNormalizedTags() []string {
 func (o *RESTAPISpec) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
+}
+
+// GetPropagate returns the Propagate of the receiver.
+func (o *RESTAPISpec) GetPropagate() bool {
+
+	return o.Propagate
+}
+
+// SetPropagate sets the given Propagate of the receiver.
+func (o *RESTAPISpec) SetPropagate(propagate bool) {
+
+	o.Propagate = propagate
+}
+
+// GetPropagationHidden returns the PropagationHidden of the receiver.
+func (o *RESTAPISpec) GetPropagationHidden() bool {
+
+	return o.PropagationHidden
+}
+
+// SetPropagationHidden sets the given PropagationHidden of the receiver.
+func (o *RESTAPISpec) SetPropagationHidden(propagationHidden bool) {
+
+	o.PropagationHidden = propagationHidden
 }
 
 // GetProtected returns the Protected of the receiver.
@@ -453,6 +484,33 @@ var RESTAPISpecAttributesMap = map[string]elemental.AttributeSpecification{
 		Transient:      true,
 		Type:           "external",
 	},
+	"Propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
+	"PropagationHidden": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PropagationHidden",
+		Description: `If set to true while the policy is propagating, it won't be visible to children
+namespace, but still used for policy resolution.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "propagationHidden",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
+	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -619,6 +677,33 @@ var RESTAPISpecLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		SubType:        "tags_list",
 		Transient:      true,
 		Type:           "external",
+	},
+	"propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
+	"propagationhidden": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PropagationHidden",
+		Description: `If set to true while the policy is propagating, it won't be visible to children
+namespace, but still used for policy resolution.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "propagationHidden",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

@@ -188,6 +188,7 @@ func NewService() *Service {
 		External:       false,
 		IPs:            types.IPList{},
 		NormalizedTags: []string{},
+		Port:           80,
 		Type:           "HTTP",
 	}
 }
@@ -226,10 +227,10 @@ func (o *Service) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Service) Doc() string {
-	return `A Service defines a generic service object at L4 or L7 that encapsulates
-the description of a micro-service. A service exposes APIs and can be
-implemented through third party entities (such as a cloud provider) or through 
-processign units.`
+	return `A Service defines a generic service object at L4 or L7 that encapsulates the
+description of a micro-service. A service exposes APIs and can be implemented
+through third party entities (such as a cloud provider) or through  processign
+units.`
 }
 
 func (o *Service) String() string {
@@ -375,10 +376,6 @@ func (o *Service) Validate() error {
 
 	if err := elemental.ValidateMinimumInt("port", o.Port, int(1), false); err != nil {
 		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("selectors", o.Selectors); err != nil {
-		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"HTTP", "TCP"}, false); err != nil {
@@ -654,6 +651,7 @@ whereas the port that the implementation is listening can be different.`,
 	"Port": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Port",
+		DefaultValue:   80,
 		Description: `Port is the port that the implementation of the service is listening to and
 it can be different than the exposedPorts describing the service. This is needed
 for port mapping use cases where there is private and public ports.`,
@@ -682,12 +680,11 @@ for port mapping use cases where there is private and public ports.`,
 		ConvertedName:  "Selectors",
 		Description: `Selectors contains the tag expression that an a processing unit
 must match in order to implement this particular service.`,
-		Exposed:  true,
-		Name:     "selectors",
-		Required: true,
-		Stored:   true,
-		SubType:  "policies_list",
-		Type:     "external",
+		Exposed: true,
+		Name:    "selectors",
+		Stored:  true,
+		SubType: "policies_list",
+		Type:    "external",
 	},
 	"ServiceCA": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -968,6 +965,7 @@ whereas the port that the implementation is listening can be different.`,
 	"port": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Port",
+		DefaultValue:   80,
 		Description: `Port is the port that the implementation of the service is listening to and
 it can be different than the exposedPorts describing the service. This is needed
 for port mapping use cases where there is private and public ports.`,
@@ -996,12 +994,11 @@ for port mapping use cases where there is private and public ports.`,
 		ConvertedName:  "Selectors",
 		Description: `Selectors contains the tag expression that an a processing unit
 must match in order to implement this particular service.`,
-		Exposed:  true,
-		Name:     "selectors",
-		Required: true,
-		Stored:   true,
-		SubType:  "policies_list",
-		Type:     "external",
+		Exposed: true,
+		Name:    "selectors",
+		Stored:  true,
+		SubType: "policies_list",
+		Type:    "external",
 	},
 	"serviceca": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
