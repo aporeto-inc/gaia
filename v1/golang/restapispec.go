@@ -157,10 +157,8 @@ func (o *RESTAPISpec) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *RESTAPISpec) Doc() string {
-	return `RESTAPISpec descibes a L4/L7 service and the corresponding implementation. It
-allows users to define their services, the APIs that they expose, the
-implementation of the service. These definitions can be used by network policy
-in order to define advanced controls based on the APIs.`
+	return `RESTAPISpec descibes the REST APIs exposed by a service. These APIs
+can be associated with one or more services.`
 }
 
 func (o *RESTAPISpec) String() string {

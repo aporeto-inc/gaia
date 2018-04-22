@@ -5,10 +5,8 @@ model:
   entity_name: RESTAPISpec
   package: squall
   description: |-
-    RESTAPISpec descibes a L4/L7 service and the corresponding implementation. It
-    allows users to define their services, the APIs that they expose, the
-    implementation of the service. These definitions can be used by network policy
-    in order to define advanced controls based on the APIs.
+    RESTAPISpec descibes the REST APIs exposed by a service. These APIs
+    can be associated with one or more services.
   get: true
   update: true
   delete: true

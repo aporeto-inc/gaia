@@ -4,18 +4,20 @@ model:
   resource_name: services
   entity_name: Service
   package: squall
-  description: |-
-    A Service allows to declare what Services processing
-    units are exposing or consuming.
+  description: "A Service defines a generic service object at L4 or L7 that encapsulates\nthe
+    description of a micro-service. A service exposes APIs and can be\nimplemented
+    through third party entities (such as a cloud provider) or through \nprocessign
+    units."
   aliases:
   - srv
   get: true
   update: true
   delete: true
   extends:
+  - '@archivable'
   - '@base'
   - '@described'
-  - '@identifiable-nopk-nostored'
+  - '@identifiable-pk-stored'
   - '@named'
 
 # Attributes
@@ -23,11 +25,10 @@ attributes:
   v1:
   - name: IPs
     description: |-
-      ExposedIPs is the list of IP addresses or subnets of the servers behind the
-      services
-      matched by object. This is an optional field and it can be
-      automatically populated at runtime by the enforcers if DNS resolution is
-      available.
+      IPs is the list of IP addresses where the service can be accessed.
+      This is an optional attribute and is only required if no host names are
+      provided.
+      The system will automatically resolve IP addresses from  host names otherwise.
     type: external
     exposed: true
     subtype: ip_list
@@ -43,10 +44,34 @@ attributes:
     stored: true
     format: free
 
+  - name: allAPITags
+    description: This is a set of all API tags for matching in the DB.
+    type: external
+    subtype: tags_list
+    stored: true
+    read_only: true
+
+  - name: allServiceTags
+    description: This is a set of all selector tags for matching in the DB.
+    type: external
+    subtype: tags_list
+    stored: true
+    read_only: true
+
+  - name: endpoints
+    description: |-
+      Endpoints is a read only attribute that actually resolves the API
+      endpoints that the service is exposing. Only valid during policy rendering.
+    type: external
+    exposed: true
+    subtype: exposed_api_list
+    read_only: true
+
   - name: exposedAPIs
     description: |-
-      ExposedAPIs contains the tag expression that an object must match in order to
-      trigger the hook.
+      ExposedAPIs contains a tag expression that will determine which
+      APIs a servie is exposing. The APIs can be defined as the RESTAPISpec or
+      similar specifications for other L7 protocols.
     type: external
     exposed: true
     subtype: policies_list
@@ -57,10 +82,11 @@ attributes:
 
   - name: exposedPort
     description: |-
-      Ports is a list of the public ports for the service. Ports are either
-      exact match, or a range portMin:portMax. For HTTP services only exact match
-      ports aresupported. These should be the ports that are used by other services
-      to communicate with the defined service.
+      ExposedPort is the port that the service can be accessed. Note that
+      this is different from the Port attribute that describes the port that the
+      service is actually listening. For example if a load balancer is used, the
+      ExposedPort is the port that the load balancer is listening for the service,
+      whereas the port that the implementation is listening can be different.
     type: integer
     exposed: true
     stored: true
@@ -79,12 +105,7 @@ attributes:
     orderable: true
 
   - name: hosts
-    description: |-
-      Hosts  is the fully qualified domain name of the the servers behind the
-      services
-      matched by object. FQDN must match the host part
-      of the URI that is used to call a service. It will be used for automatically
-      generating service certificates for internal services.
+    description: Hosts are the names that the service can be accessed with.
     type: list
     exposed: true
     subtype: string
@@ -94,9 +115,9 @@ attributes:
 
   - name: port
     description: |-
-      Port is the port that the application is listening to and
-      it can be different than the ports describing the service. This is needed for
-      port mapping use cases where there is private and public ports.
+      Port is the port that the implementation of the service is listening to and
+      it can be different than the exposedPorts describing the service. This is needed
+      for port mapping use cases where there is private and public ports.
     type: integer
     exposed: true
     stored: true
@@ -108,8 +129,7 @@ attributes:
   - name: selectors
     description: |-
       Selectors contains the tag expression that an a processing unit
-      must match in order to
-      trigger the hook.
+      must match in order to implement this particular service.
     type: external
     exposed: true
     subtype: policies_list

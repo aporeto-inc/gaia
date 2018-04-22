@@ -82,13 +82,12 @@ func (o ServicesList) Version() int {
 // Service represents the model of a service
 type Service struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// ExposedIPs is the list of IP addresses or subnets of the servers behind the
-	// services
-	// matched by object. This is an optional field and it can be
-	// automatically populated at runtime by the enforcers if DNS resolution is
-	// available.
+	// IPs is the list of IP addresses where the service can be accessed.
+	// This is an optional attribute and is only required if no host names are
+	// provided.
+	// The system will automatically resolve IP addresses from  host names otherwise.
 	IPs types.IPList `json:"IPs" bson:"ips" mapstructure:"IPs,omitempty"`
 
 	// JWTSigningCertificate is a certificate that can be used to validate user JWT in
@@ -96,8 +95,17 @@ type Service struct {
 	// required for this service. The certificate must be in PEM format.
 	JWTSigningCertificate string `json:"JWTSigningCertificate" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
+	// This is a set of all API tags for matching in the DB.
+	AllAPITags []string `json:"-" bson:"allapitags" mapstructure:"-,omitempty"`
+
+	// This is a set of all selector tags for matching in the DB.
+	AllServiceTags []string `json:"-" bson:"allservicetags" mapstructure:"-,omitempty"`
+
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// Archived defines if the object is archived.
+	Archived bool `json:"-" bson:"archived" mapstructure:"-,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
@@ -108,24 +116,26 @@ type Service struct {
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// ExposedAPIs contains the tag expression that an object must match in order to
-	// trigger the hook.
+	// Endpoints is a read only attribute that actually resolves the API
+	// endpoints that the service is exposing. Only valid during policy rendering.
+	Endpoints types.ExposedAPIList `json:"endpoints" bson:"-" mapstructure:"endpoints,omitempty"`
+
+	// ExposedAPIs contains a tag expression that will determine which
+	// APIs a servie is exposing. The APIs can be defined as the RESTAPISpec or
+	// similar specifications for other L7 protocols.
 	ExposedAPIs [][]string `json:"exposedAPIs" bson:"exposedapis" mapstructure:"exposedAPIs,omitempty"`
 
-	// Ports is a list of the public ports for the service. Ports are either
-	// exact match, or a range portMin:portMax. For HTTP services only exact match
-	// ports aresupported. These should be the ports that are used by other services
-	// to communicate with the defined service.
+	// ExposedPort is the port that the service can be accessed. Note that
+	// this is different from the Port attribute that describes the port that the
+	// service is actually listening. For example if a load balancer is used, the
+	// ExposedPort is the port that the load balancer is listening for the service,
+	// whereas the port that the implementation is listening can be different.
 	ExposedPort int `json:"exposedPort" bson:"exposedport" mapstructure:"exposedPort,omitempty"`
 
 	// External is a boolean that indicates if this is an external service.
 	External bool `json:"external" bson:"external" mapstructure:"external,omitempty"`
 
-	// Hosts  is the fully qualified domain name of the the servers behind the
-	// services
-	// matched by object. FQDN must match the host part
-	// of the URI that is used to call a service. It will be used for automatically
-	// generating service certificates for internal services.
+	// Hosts are the names that the service can be accessed with.
 	Hosts []string `json:"hosts" bson:"hosts" mapstructure:"hosts,omitempty"`
 
 	// Name is the name of the entity.
@@ -137,17 +147,16 @@ type Service struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Port is the port that the application is listening to and
-	// it can be different than the ports describing the service. This is needed for
-	// port mapping use cases where there is private and public ports.
+	// Port is the port that the implementation of the service is listening to and
+	// it can be different than the exposedPorts describing the service. This is needed
+	// for port mapping use cases where there is private and public ports.
 	Port int `json:"port" bson:"port" mapstructure:"port,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Selectors contains the tag expression that an a processing unit
-	// must match in order to
-	// trigger the hook.
+	// must match in order to implement this particular service.
 	Selectors [][]string `json:"selectors" bson:"selectors" mapstructure:"selectors,omitempty"`
 
 	// ServiceCA  is the certificate authority that the service is using. This
@@ -171,8 +180,11 @@ func NewService() *Service {
 
 	return &Service{
 		ModelVersion:   1,
+		AllAPITags:     []string{},
+		AllServiceTags: []string{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
+		Endpoints:      types.ExposedAPIList{},
 		External:       false,
 		IPs:            types.IPList{},
 		NormalizedTags: []string{},
@@ -214,8 +226,10 @@ func (o *Service) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Service) Doc() string {
-	return `A Service allows to declare what Services processing
-units are exposing or consuming.`
+	return `A Service defines a generic service object at L4 or L7 that encapsulates
+the description of a micro-service. A service exposes APIs and can be
+implemented through third party entities (such as a cloud provider) or through 
+processign units.`
 }
 
 func (o *Service) String() string {
@@ -233,6 +247,18 @@ func (o *Service) GetAnnotations() map[string][]string {
 func (o *Service) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
+}
+
+// GetArchived returns the Archived of the receiver.
+func (o *Service) GetArchived() bool {
+
+	return o.Archived
+}
+
+// SetArchived sets the given Archived of the receiver.
+func (o *Service) SetArchived(archived bool) {
+
+	o.Archived = archived
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -400,17 +426,18 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
+		PrimaryKey:     true,
 		ReadOnly:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"IPs": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IPs",
-		Description: `ExposedIPs is the list of IP addresses or subnets of the servers behind the
-services
-matched by object. This is an optional field and it can be
-automatically populated at runtime by the enforcers if DNS resolution is
-available.`,
+		Description: `IPs is the list of IP addresses where the service can be accessed.
+This is an optional attribute and is only required if no host names are
+provided.
+The system will automatically resolve IP addresses from  host names otherwise.`,
 		Exposed: true,
 		Name:    "IPs",
 		Stored:  true,
@@ -429,6 +456,26 @@ required for this service. The certificate must be in PEM format.`,
 		Stored:  true,
 		Type:    "string",
 	},
+	"AllAPITags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AllAPITags",
+		Description:    `This is a set of all API tags for matching in the DB.`,
+		Name:           "allAPITags",
+		ReadOnly:       true,
+		Stored:         true,
+		SubType:        "tags_list",
+		Type:           "external",
+	},
+	"AllServiceTags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AllServiceTags",
+		Description:    `This is a set of all selector tags for matching in the DB.`,
+		Name:           "allServiceTags",
+		ReadOnly:       true,
+		Stored:         true,
+		SubType:        "tags_list",
+		Type:           "external",
+	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
@@ -440,6 +487,16 @@ required for this service. The certificate must be in PEM format.`,
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
+	},
+	"Archived": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Archived",
+		Description:    `Archived defines if the object is archived.`,
+		Getter:         true,
+		Name:           "archived",
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -479,11 +536,23 @@ required for this service. The certificate must be in PEM format.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"Endpoints": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Endpoints",
+		Description: `Endpoints is a read only attribute that actually resolves the API
+endpoints that the service is exposing. Only valid during policy rendering.`,
+		Exposed:  true,
+		Name:     "endpoints",
+		ReadOnly: true,
+		SubType:  "exposed_api_list",
+		Type:     "external",
+	},
 	"ExposedAPIs": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedAPIs",
-		Description: `ExposedAPIs contains the tag expression that an object must match in order to
-trigger the hook.`,
+		Description: `ExposedAPIs contains a tag expression that will determine which
+APIs a servie is exposing. The APIs can be defined as the RESTAPISpec or
+similar specifications for other L7 protocols.`,
 		Exposed:  true,
 		Name:     "exposedAPIs",
 		Required: true,
@@ -494,10 +563,11 @@ trigger the hook.`,
 	"ExposedPort": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedPort",
-		Description: `Ports is a list of the public ports for the service. Ports are either
-exact match, or a range portMin:portMax. For HTTP services only exact match
-ports aresupported. These should be the ports that are used by other services
-to communicate with the defined service.`,
+		Description: `ExposedPort is the port that the service can be accessed. Note that
+this is different from the Port attribute that describes the port that the
+service is actually listening. For example if a load balancer is used, the
+ExposedPort is the port that the load balancer is listening for the service,
+whereas the port that the implementation is listening can be different.`,
 		Exposed:  true,
 		MaxValue: 65535,
 		MinValue: 1,
@@ -521,18 +591,14 @@ to communicate with the defined service.`,
 	"Hosts": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Hosts",
-		Description: `Hosts  is the fully qualified domain name of the the servers behind the
-services
-matched by object. FQDN must match the host part
-of the URI that is used to call a service. It will be used for automatically
-generating service certificates for internal services.`,
-		Exposed:   true,
-		Format:    "free",
-		Name:      "hosts",
-		Orderable: true,
-		Stored:    true,
-		SubType:   "string",
-		Type:      "list",
+		Description:    `Hosts are the names that the service can be accessed with.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "hosts",
+		Orderable:      true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -588,9 +654,9 @@ generating service certificates for internal services.`,
 	"Port": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Port",
-		Description: `Port is the port that the application is listening to and
-it can be different than the ports describing the service. This is needed for
-port mapping use cases where there is private and public ports.`,
+		Description: `Port is the port that the implementation of the service is listening to and
+it can be different than the exposedPorts describing the service. This is needed
+for port mapping use cases where there is private and public ports.`,
 		Exposed:  true,
 		MaxValue: 65535,
 		MinValue: 1,
@@ -615,8 +681,7 @@ port mapping use cases where there is private and public ports.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Selectors",
 		Description: `Selectors contains the tag expression that an a processing unit
-must match in order to
-trigger the hook.`,
+must match in order to implement this particular service.`,
 		Exposed:  true,
 		Name:     "selectors",
 		Required: true,
@@ -675,17 +740,18 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
+		PrimaryKey:     true,
 		ReadOnly:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"ips": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IPs",
-		Description: `ExposedIPs is the list of IP addresses or subnets of the servers behind the
-services
-matched by object. This is an optional field and it can be
-automatically populated at runtime by the enforcers if DNS resolution is
-available.`,
+		Description: `IPs is the list of IP addresses where the service can be accessed.
+This is an optional attribute and is only required if no host names are
+provided.
+The system will automatically resolve IP addresses from  host names otherwise.`,
 		Exposed: true,
 		Name:    "IPs",
 		Stored:  true,
@@ -704,6 +770,26 @@ required for this service. The certificate must be in PEM format.`,
 		Stored:  true,
 		Type:    "string",
 	},
+	"allapitags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AllAPITags",
+		Description:    `This is a set of all API tags for matching in the DB.`,
+		Name:           "allAPITags",
+		ReadOnly:       true,
+		Stored:         true,
+		SubType:        "tags_list",
+		Type:           "external",
+	},
+	"allservicetags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AllServiceTags",
+		Description:    `This is a set of all selector tags for matching in the DB.`,
+		Name:           "allServiceTags",
+		ReadOnly:       true,
+		Stored:         true,
+		SubType:        "tags_list",
+		Type:           "external",
+	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
@@ -715,6 +801,16 @@ required for this service. The certificate must be in PEM format.`,
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
+	},
+	"archived": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Archived",
+		Description:    `Archived defines if the object is archived.`,
+		Getter:         true,
+		Name:           "archived",
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -754,11 +850,23 @@ required for this service. The certificate must be in PEM format.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"endpoints": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Endpoints",
+		Description: `Endpoints is a read only attribute that actually resolves the API
+endpoints that the service is exposing. Only valid during policy rendering.`,
+		Exposed:  true,
+		Name:     "endpoints",
+		ReadOnly: true,
+		SubType:  "exposed_api_list",
+		Type:     "external",
+	},
 	"exposedapis": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedAPIs",
-		Description: `ExposedAPIs contains the tag expression that an object must match in order to
-trigger the hook.`,
+		Description: `ExposedAPIs contains a tag expression that will determine which
+APIs a servie is exposing. The APIs can be defined as the RESTAPISpec or
+similar specifications for other L7 protocols.`,
 		Exposed:  true,
 		Name:     "exposedAPIs",
 		Required: true,
@@ -769,10 +877,11 @@ trigger the hook.`,
 	"exposedport": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedPort",
-		Description: `Ports is a list of the public ports for the service. Ports are either
-exact match, or a range portMin:portMax. For HTTP services only exact match
-ports aresupported. These should be the ports that are used by other services
-to communicate with the defined service.`,
+		Description: `ExposedPort is the port that the service can be accessed. Note that
+this is different from the Port attribute that describes the port that the
+service is actually listening. For example if a load balancer is used, the
+ExposedPort is the port that the load balancer is listening for the service,
+whereas the port that the implementation is listening can be different.`,
 		Exposed:  true,
 		MaxValue: 65535,
 		MinValue: 1,
@@ -796,18 +905,14 @@ to communicate with the defined service.`,
 	"hosts": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Hosts",
-		Description: `Hosts  is the fully qualified domain name of the the servers behind the
-services
-matched by object. FQDN must match the host part
-of the URI that is used to call a service. It will be used for automatically
-generating service certificates for internal services.`,
-		Exposed:   true,
-		Format:    "free",
-		Name:      "hosts",
-		Orderable: true,
-		Stored:    true,
-		SubType:   "string",
-		Type:      "list",
+		Description:    `Hosts are the names that the service can be accessed with.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "hosts",
+		Orderable:      true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -863,9 +968,9 @@ generating service certificates for internal services.`,
 	"port": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Port",
-		Description: `Port is the port that the application is listening to and
-it can be different than the ports describing the service. This is needed for
-port mapping use cases where there is private and public ports.`,
+		Description: `Port is the port that the implementation of the service is listening to and
+it can be different than the exposedPorts describing the service. This is needed
+for port mapping use cases where there is private and public ports.`,
 		Exposed:  true,
 		MaxValue: 65535,
 		MinValue: 1,
@@ -890,8 +995,7 @@ port mapping use cases where there is private and public ports.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Selectors",
 		Description: `Selectors contains the tag expression that an a processing unit
-must match in order to
-trigger the hook.`,
+must match in order to implement this particular service.`,
 		Exposed:  true,
 		Name:     "selectors",
 		Required: true,

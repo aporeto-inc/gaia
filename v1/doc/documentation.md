@@ -56,10 +56,10 @@
 | [RemoteProcessor](#remoteprocessor)                           | Hook to integrate an Aporeto service.                                               |
 | [RenderedPolicy](#renderedpolicy)                             | Retrieve the aggregated policies applied to a particular processing unit.           |
 | [Report](#report)                                             | Post a new statistics report.                                                       |
-| [RESTAPISpec](#restapispec)                                   | RESTAPISpec descibes a L4/L7 service and the corresponding implementation. It       |
+| [RESTAPISpec](#restapispec)                                   | RESTAPISpec descibes the REST APIs exposed by a service. These APIs                 |
 | [Role](#role)                                                 | Roles returns the available roles that can be used with API Authorization           |
 | [Root](#root)                                                 | root object.                                                                        |
-| [Service](#service)                                           | A Service allows to declare what Services processing                                |
+| [Service](#service)                                           | A Service defines a generic service object at L4 or L7 that encapsulates            |
 | [StatsQuery](#statsquery)                                     | StatsQuery is a generic API to retrieve time series data stored by the Aporeto      |
 | [SuggestedPolicy](#suggestedpolicy)                           | Allows to get policy suggestions.                                                   |
 | [SystemCall](#systemcall)                                     | This object has never been used and should be removed.                              |
@@ -6392,10 +6392,8 @@ Value contains the value for the report.
 
 ## RESTAPISpec
 
-RESTAPISpec descibes a L4/L7 service and the corresponding implementation. It
-allows users to define their services, the APIs that they expose, the
-implementation of the service. These definitions can be used by network policy
-in order to define advanced controls based on the APIs.
+RESTAPISpec descibes the REST APIs exposed by a service. These APIs
+can be associated with one or more services.
 
 ### Example
 
@@ -6562,8 +6560,10 @@ Name of the role.
 
 ## Service
 
-A Service allows to declare what Services processing
-units are exposing or consuming.
+A Service defines a generic service object at L4 or L7 that encapsulates
+the description of a micro-service. A service exposes APIs and can be
+implemented through third party entities (such as a cloud provider) or through 
+processign units.
 
 ### Example
 
@@ -6612,11 +6612,10 @@ ID is the identifier of the object.
 
 #### `IPs (external:ip_list)`
 
-ExposedIPs is the list of IP addresses or subnets of the servers behind the
-services
-matched by object. This is an optional field and it can be
-automatically populated at runtime by the enforcers if DNS resolution is
-available.
+IPs is the list of IP addresses where the service can be accessed.
+This is an optional attribute and is only required if no host names are
+provided.
+The system will automatically resolve IP addresses from  host names otherwise.
 
 #### `JWTSigningCertificate (string)`
 
@@ -6651,10 +6650,20 @@ Description is the description of the object.
 | Max length      | `1024` |
 | Orderable       | `true` |
 
+#### `endpoints (external:exposed_api_list)`
+
+Endpoints is a read only attribute that actually resolves the API
+endpoints that the service is exposing. Only valid during policy rendering.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Read only       | `true` |
+
 #### `exposedAPIs (external:policies_list)`
 
-ExposedAPIs contains the tag expression that an object must match in order to
-trigger the hook.
+ExposedAPIs contains a tag expression that will determine which
+APIs a servie is exposing. The APIs can be defined as the RESTAPISpec or
+similar specifications for other L7 protocols.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6662,10 +6671,11 @@ trigger the hook.
 
 #### `exposedPort (integer)`
 
-Ports is a list of the public ports for the service. Ports are either
-exact match, or a range portMin:portMax. For HTTP services only exact match
-ports aresupported. These should be the ports that are used by other services
-to communicate with the defined service.
+ExposedPort is the port that the service can be accessed. Note that
+this is different from the Port attribute that describes the port that the
+service is actually listening. For example if a load balancer is used, the
+ExposedPort is the port that the load balancer is listening for the service,
+whereas the port that the implementation is listening can be different.
 
 | Characteristics | Value   |
 | -               | -:      |
@@ -6685,11 +6695,7 @@ External is a boolean that indicates if this is an external service.
 
 #### `hosts (list)`
 
-Hosts  is the fully qualified domain name of the the servers behind the
-services
-matched by object. FQDN must match the host part
-of the URI that is used to call a service. It will be used for automatically
-generating service certificates for internal services.
+Hosts are the names that the service can be accessed with.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6729,9 +6735,9 @@ NormalizedTags contains the list of normalized tags of the entities.
 
 #### `port (integer)`
 
-Port is the port that the application is listening to and
-it can be different than the ports describing the service. This is needed for
-port mapping use cases where there is private and public ports.
+Port is the port that the implementation of the service is listening to and
+it can be different than the exposedPorts describing the service. This is needed
+for port mapping use cases where there is private and public ports.
 
 | Characteristics | Value   |
 | -               | -:      |
@@ -6751,8 +6757,7 @@ Protected defines if the object is protected.
 #### `selectors (external:policies_list)`
 
 Selectors contains the tag expression that an a processing unit
-must match in order to
-trigger the hook.
+must match in order to implement this particular service.
 
 | Characteristics | Value  |
 | -               | -:     |
