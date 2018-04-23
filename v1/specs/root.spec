@@ -272,11 +272,9 @@ relations:
     get: Retrieves the list of policy primitives.
   get: true
 
-- rest_name: policyrule
+- rest_name: policyrenderer
   descriptions:
-    create: Creates a new policy rule.
-    get: Retrieves the list of policy rules.
-  get: true
+    create: Render a policy of a given type for a given set of tags.
   create: true
 
 - rest_name: processingunit
@@ -346,13 +344,6 @@ relations:
   descriptions:
     get: Retrieves a list of network policy suggestion.
   get: true
-
-- rest_name: systemcall
-  descriptions:
-    create: Unused.
-    get: Unused.
-  get: true
-  create: true
 
 - rest_name: tabulation
   descriptions:

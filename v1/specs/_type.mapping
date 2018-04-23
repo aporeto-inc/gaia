@@ -63,6 +63,10 @@ elemental:
   relations_list:
     type: '[]string'
 
+  policy_rules_list:
+    type: PolicyRulesList
+    init: PolicyRulesList{}
+
   rendered_policy:
     type: map[string]PolicyRulesList
     init: |-
