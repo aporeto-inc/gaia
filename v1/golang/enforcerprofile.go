@@ -9,6 +9,20 @@ import (
 	"time"
 )
 
+// EnforcerProfileKubernetesMetadataExtractorValue represents the possible values for attribute "kubernetesMetadataExtractor".
+type EnforcerProfileKubernetesMetadataExtractorValue string
+
+const (
+	// EnforcerProfileKubernetesMetadataExtractorKubeSquall represents the value KubeSquall.
+	EnforcerProfileKubernetesMetadataExtractorKubeSquall EnforcerProfileKubernetesMetadataExtractorValue = "KubeSquall"
+
+	// EnforcerProfileKubernetesMetadataExtractorPodAtomic represents the value PodAtomic.
+	EnforcerProfileKubernetesMetadataExtractorPodAtomic EnforcerProfileKubernetesMetadataExtractorValue = "PodAtomic"
+
+	// EnforcerProfileKubernetesMetadataExtractorPodContainers represents the value PodContainers.
+	EnforcerProfileKubernetesMetadataExtractorPodContainers EnforcerProfileKubernetesMetadataExtractorValue = "PodContainers"
+)
+
 // EnforcerProfileMetadataExtractorValue represents the possible values for attribute "metadataExtractor".
 type EnforcerProfileMetadataExtractorValue string
 
@@ -138,6 +152,10 @@ type EnforcerProfile struct {
 	// docker container started with labels matching the rule.
 	IgnoreExpression [][]string `json:"ignoreExpression" bson:"ignoreexpression" mapstructure:"ignoreExpression,omitempty"`
 
+	// Select which metadata extractor to use to process new processing units from
+	// Kubernetes.
+	KubernetesMetadataExtractor EnforcerProfileKubernetesMetadataExtractorValue `json:"kubernetesMetadataExtractor" bson:"kubernetesmetadataextractor" mapstructure:"kubernetesMetadataExtractor,omitempty"`
+
 	// KubernetesSupportEnabled enables kubernetes mode for the enforcer.
 	KubernetesSupportEnabled bool `json:"kubernetesSupportEnabled" bson:"kubernetessupportenabled" mapstructure:"kubernetesSupportEnabled,omitempty"`
 
@@ -218,6 +236,7 @@ func NewEnforcerProfile() *EnforcerProfile {
 		DockerSocketAddress:           "unix:///var/run/docker.sock",
 		HostServices:                  types.HostServicesList{},
 		IPTablesMarkValue:             1000,
+		KubernetesMetadataExtractor:   "KubeSquall",
 		KubernetesSupportEnabled:      false,
 		LinuxProcessesSupportEnabled:  true,
 		MetadataExtractor:             "Docker",
@@ -399,6 +418,10 @@ func (o *EnforcerProfile) Validate() error {
 	}
 
 	if err := elemental.ValidatePattern("dockerSocketAddress", o.DockerSocketAddress, `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("kubernetesMetadataExtractor", string(o.KubernetesMetadataExtractor), []string{"KubeSquall", "PodAtomic", "PodContainers"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -703,6 +726,19 @@ docker container started with labels matching the rule.`,
 		Stored:  true,
 		SubType: "policies_list",
 		Type:    "external",
+	},
+	"KubernetesMetadataExtractor": elemental.AttributeSpecification{
+		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
+		ConvertedName:  "KubernetesMetadataExtractor",
+		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
+		Description: `Select which metadata extractor to use to process new processing units from
+Kubernetes.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "kubernetesMetadataExtractor",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "enum",
 	},
 	"KubernetesSupportEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1178,6 +1214,19 @@ docker container started with labels matching the rule.`,
 		Stored:  true,
 		SubType: "policies_list",
 		Type:    "external",
+	},
+	"kubernetesmetadataextractor": elemental.AttributeSpecification{
+		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
+		ConvertedName:  "KubernetesMetadataExtractor",
+		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
+		Description: `Select which metadata extractor to use to process new processing units from
+Kubernetes.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "kubernetesMetadataExtractor",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "enum",
 	},
 	"kubernetessupportenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
