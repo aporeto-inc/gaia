@@ -4540,6 +4540,17 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `activationType (enum)`
+
+Defines the mode of activation on the KubernetesCluster.
+
+| Characteristics | Value                                  |
+| -               | -:                                     |
+| Allowed Value   | `KubeSquall, PodAtomic, PodContainers` |
+| Default         | `KubeSquall`                           |
+| Orderable       | `true`                                 |
+| Filterable      | `true`                                 |
+
 #### `createTime (time)`
 
 Creation date of the object.

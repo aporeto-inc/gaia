@@ -21,6 +21,19 @@ attributes:
     stored: true
     format: free
 
+  - name: activationType
+    description: Defines the mode of activation on the KubernetesCluster.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - KubeSquall
+    - PodAtomic
+    - PodContainers
+    default_value: KubeSquall
+    filterable: true
+    orderable: true
+
   - name: certificateID
     description: Link to the certificate created in Vince for this cluster.
     type: string
