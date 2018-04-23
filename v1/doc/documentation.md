@@ -6405,13 +6405,14 @@ can be associated with one or more services.
 
 ### Relations
 
-| Method   | URL                 | Description                                      |
-| -:       | -                   | -                                                |
-| `GET`    | `/restapispecs`     | Retrieves the list of REST API specifications.   |
-| `POST`   | `/restapispecs`     | Creates a new REST API specification.            |
-| `DELETE` | `/restapispecs/:id` | Deletes the `restapispec` with the given `:id`.  |
-| `GET`    | `/restapispecs/:id` | Retrieve the `restapispec` with the given `:id`. |
-| `PUT`    | `/restapispecs/:id` | Updates the `restapispec` with the given `:id`.  |
+| Method   | URL                          | Description                                      |
+| -:       | -                            | -                                                |
+| `GET`    | `/restapispecs`              | Retrieves the list of REST API specifications.   |
+| `POST`   | `/restapispecs`              | Creates a new REST API specification.            |
+| `DELETE` | `/restapispecs/:id`          | Deletes the `restapispec` with the given `:id`.  |
+| `GET`    | `/restapispecs/:id`          | Retrieve the `restapispec` with the given `:id`. |
+| `PUT`    | `/restapispecs/:id`          | Updates the `restapispec` with the given `:id`.  |
+| `GET`    | `/services/:id/restapispecs` | Retrieves the REST APIs exposed by this service. |
 
 ### Attributes
 
@@ -6613,6 +6614,7 @@ units.
 | `GET`    | `/services/:id`                 | Retrieve the `service` with the given `:id`.      |
 | `PUT`    | `/services/:id`                 | Updates the `service` with the given `:id`.       |
 | `GET`    | `/processingunits/:id/services` | Retrieves the services used by a processing unit. |
+| `GET`    | `/services/:id/restapispecs`    | Retrieves the REST APIs exposed by this service.  |
 
 ### Attributes
 

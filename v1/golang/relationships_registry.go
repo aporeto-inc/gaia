@@ -877,10 +877,12 @@ func init() {
 			"root": true,
 		},
 		AllowsRetrieveMany: map[string]bool{
-			"root": true,
+			"root":    true,
+			"service": true,
 		},
 		AllowsInfo: map[string]bool{
-			"root": true,
+			"root":    true,
+			"service": true,
 		},
 	}
 

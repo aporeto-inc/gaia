@@ -158,3 +158,10 @@ attributes:
     - HTTP
     - TCP
     default_value: HTTP
+
+# Relations
+relations:
+- rest_name: restapispec
+  descriptions:
+    get: Retrieves the REST APIs exposed by this service.
+  get: true
