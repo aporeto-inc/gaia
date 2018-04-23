@@ -1,6 +1,7 @@
 package types
 
 import (
+	"strconv"
 	"sync"
 )
 
@@ -247,16 +248,19 @@ func init() {
 // ProtocolName returns the IANA for the protocol
 func ProtocolName(n int64) string {
 
-	l := int64(len(l4Protocols))
-	if n < 0 || n >= l {
-		return "N/A"
+	if n < 0 {
+		return ""
+	}
+
+	if n >= int64(len(l4Protocols)) {
+		return strconv.FormatInt(n, 10)
 	}
 
 	if protocol := l4Protocols[n]; protocol != "" {
 		return protocol
 	}
 
-	return "N/A"
+	return strconv.FormatInt(n, 10)
 }
 
 // IPRecord represent an IP record.
