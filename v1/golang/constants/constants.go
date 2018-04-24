@@ -121,6 +121,9 @@ const (
 	// StatsTagKeyUserID is the user id.
 	StatsTagKeyUserID = "@sys:uid"
 
+	// StatsTagClaimID is the claim ID
+	StatsTagClaimID = "@claimid"
+
 	// StatsTagKeyServerID represents the server ID tag.
 	StatsTagKeyServerID = "@serverid"
 
