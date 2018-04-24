@@ -170,7 +170,7 @@ const (
 	StatsTagKeyL4Protocol = "@l4proto"
 
 	// StatsTagKeyClaimsID represents claims ID for the flow
-	StatsTagKeyClaimsID = "@sys:uid" // TODO: change to @claimid
+	StatsTagKeyClaimsID = "@usrid" // TODO: change to @claimid
 
 )
 

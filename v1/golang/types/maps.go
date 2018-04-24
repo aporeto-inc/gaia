@@ -23,6 +23,7 @@ type GraphEdge struct {
 	AcceptedFlows         int                    `json:"acceptedFlows"`
 	DestinationID         string                 `json:"destinationID"`
 	DestinationType       GraphEdgeExtremityType `json:"destinationType"`
+	DestinationPort       string                 `json:"destinationPort"`
 	ID                    string                 `json:"ID"`
 	Name                  string                 `json:"name"`
 	RejectedFlows         int                    `json:"rejectedFlows"`
