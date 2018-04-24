@@ -5606,6 +5606,7 @@ Paths they can use.
 | `GET`    | `/processingunits/:id`                       | Retrieve the `processingunit` with the given `:id`.                       |
 | `PUT`    | `/processingunits/:id`                       | Updates the `processingunit` with the given `:id`.                        |
 | `GET`    | `/networkaccesspolicies/:id/processingunits` | Returns the list of Processing Units affected by a network access policy. |
+| `GET`    | `/services/:id/processingunits`              | Retrieves the Processing Units that implement this service.               |
 | `GET`    | `/vulnerabilities/:id/processingunits`       | Retrieves the processing units affected by the a vulnerabily.             |
 | `GET`    | `/processingunits/:id/fileaccesses`          | Retrieves the file accesses done by the processing unit.                  |
 | `GET`    | `/processingunits/:id/renderedpolicies`      | Retrieves the policies for the processing unit.                           |
@@ -6623,15 +6624,16 @@ units.
 
 ### Relations
 
-| Method   | URL                             | Description                                       |
-| -:       | -                               | -                                                 |
-| `GET`    | `/services`                     | Retrieves the list of Services.                   |
-| `POST`   | `/services`                     | Creates a new Service.                            |
-| `DELETE` | `/services/:id`                 | Deletes the `service` with the given `:id`.       |
-| `GET`    | `/services/:id`                 | Retrieve the `service` with the given `:id`.      |
-| `PUT`    | `/services/:id`                 | Updates the `service` with the given `:id`.       |
-| `GET`    | `/processingunits/:id/services` | Retrieves the services used by a processing unit. |
-| `GET`    | `/services/:id/restapispecs`    | Retrieves the REST APIs exposed by this service.  |
+| Method   | URL                             | Description                                                 |
+| -:       | -                               | -                                                           |
+| `GET`    | `/services`                     | Retrieves the list of Services.                             |
+| `POST`   | `/services`                     | Creates a new Service.                                      |
+| `DELETE` | `/services/:id`                 | Deletes the `service` with the given `:id`.                 |
+| `GET`    | `/services/:id`                 | Retrieve the `service` with the given `:id`.                |
+| `PUT`    | `/services/:id`                 | Updates the `service` with the given `:id`.                 |
+| `GET`    | `/processingunits/:id/services` | Retrieves the services used by a processing unit.           |
+| `GET`    | `/services/:id/processingunits` | Retrieves the Processing Units that implement this service. |
+| `GET`    | `/services/:id/restapispecs`    | Retrieves the REST APIs exposed by this service.            |
 
 ### Attributes
 

@@ -794,11 +794,13 @@ func init() {
 		AllowsRetrieveMany: map[string]bool{
 			"networkaccesspolicy": true,
 			"root":                true,
+			"service":             true,
 			"vulnerability":       true,
 		},
 		AllowsInfo: map[string]bool{
 			"networkaccesspolicy": true,
 			"root":                true,
+			"service":             true,
 			"vulnerability":       true,
 		},
 	}

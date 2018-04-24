@@ -165,3 +165,8 @@ relations:
   descriptions:
     get: Retrieves the REST APIs exposed by this service.
   get: true
+
+- rest_name: processingunit
+  descriptions:
+    get: Retrieves the Processing Units that implement this service.
+  get: true
