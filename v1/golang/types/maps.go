@@ -23,18 +23,19 @@ type GraphEdge struct {
 	AcceptedFlows         int                    `json:"acceptedFlows"`
 	DestinationID         string                 `json:"destinationID"`
 	DestinationType       GraphEdgeExtremityType `json:"destinationType"`
-	DestinationPort       string                 `json:"destinationPort"`
 	ID                    string                 `json:"ID"`
 	Name                  string                 `json:"name"`
 	RejectedFlows         int                    `json:"rejectedFlows"`
 	SourceID              string                 `json:"sourceID"`
 	SourceType            GraphEdgeExtremityType `json:"sourceType"`
 	PolicyIDs             map[string]int         `json:"policyIDs"`
+	ServiceIDs            map[string]int         `json:"serviceIDs"`
 	Encrypted             int                    `json:"encrypted"`
 	ObservedAcceptedFlows int                    `json:"observedAcceptedFlows"`
 	ObservedRejectedFlows int                    `json:"observedRejectedFlows"`
 	ObservedPolicyIDs     map[string]int         `json:"observedPolicyIDs"`
 	ObservedEncrypted     int                    `json:"observedEncrypted"`
+	ObservedServiceIDs    map[string]int         `json:"observedServiceIDs"`
 }
 
 // NewGraphEdge returns a new *GraphEdge

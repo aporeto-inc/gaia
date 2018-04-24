@@ -351,7 +351,10 @@ func init() {
 	}
 
 	relationshipsRegistry[ExportIdentity] = &elemental.Relationship{
-		AllowsCreate: map[string]bool{
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
 			"root": true,
 		},
 	}
