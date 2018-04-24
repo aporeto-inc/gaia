@@ -150,8 +150,8 @@ relations:
 
 - rest_name: export
   descriptions:
-    create: Exports all policies and related object of a namespace.
-  create: true
+    get: Exports all policies and related object of a namespace.
+  get: true
 
 - rest_name: externalaccess
   descriptions:
