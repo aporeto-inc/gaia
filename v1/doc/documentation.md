@@ -6400,9 +6400,9 @@ TSDB Fields to set for the report.
 
 Kind contains the kind of report.
 
-| Characteristics | Value                                                              |
-| -               | -:                                                                 |
-| Allowed Value   | `Audit, Enforcer, FileAccess, Flow, ProcessingUnit, Syscall, User` |
+| Characteristics | Value                                                                |
+| -               | -:                                                                   |
+| Allowed Value   | `Audit, Enforcer, FileAccess, Flow, ProcessingUnit, Syscall, Claims` |
 
 #### `tags (external:tags_map)`
 

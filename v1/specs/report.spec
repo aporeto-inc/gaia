@@ -26,7 +26,7 @@ attributes:
     - Flow
     - ProcessingUnit
     - Syscall
-    - User
+    - Claims
 
   - name: tags
     description: Tags contains the tags associated to the data point.
