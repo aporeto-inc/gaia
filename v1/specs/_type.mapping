@@ -142,6 +142,10 @@ elemental:
     init: types.GraphGroupMap{}
     import: github.com/aporeto-inc/gaia/v1/golang/types
 
+  graphclaims_map:
+    type: map[string]interface{}
+    init: map[string]interface{}{}
+
   view_suggestions:
     type: '[]string'
     init: '[]string{}'
