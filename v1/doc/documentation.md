@@ -6736,10 +6736,6 @@ ExposedAPIs contains a tag expression that will determine which
 APIs a servie is exposing. The APIs can be defined as the RESTAPISpec or
 similar specifications for other L7 protocols.
 
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
-
 #### `exposedPort (integer)`
 
 ExposedPort is the port that the service can be accessed. Note that

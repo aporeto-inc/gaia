@@ -350,10 +350,6 @@ func (o *Service) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("exposedAPIs", o.ExposedAPIs); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if err := elemental.ValidateMaximumInt("exposedPort", o.ExposedPort, int(65535), false); err != nil {
 		errors = append(errors, err)
 	}
@@ -550,12 +546,11 @@ endpoints that the service is exposing. Only valid during policy rendering.`,
 		Description: `ExposedAPIs contains a tag expression that will determine which
 APIs a servie is exposing. The APIs can be defined as the RESTAPISpec or
 similar specifications for other L7 protocols.`,
-		Exposed:  true,
-		Name:     "exposedAPIs",
-		Required: true,
-		Stored:   true,
-		SubType:  "policies_list",
-		Type:     "external",
+		Exposed: true,
+		Name:    "exposedAPIs",
+		Stored:  true,
+		SubType: "policies_list",
+		Type:    "external",
 	},
 	"ExposedPort": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -864,12 +859,11 @@ endpoints that the service is exposing. Only valid during policy rendering.`,
 		Description: `ExposedAPIs contains a tag expression that will determine which
 APIs a servie is exposing. The APIs can be defined as the RESTAPISpec or
 similar specifications for other L7 protocols.`,
-		Exposed:  true,
-		Name:     "exposedAPIs",
-		Required: true,
-		Stored:   true,
-		SubType:  "policies_list",
-		Type:     "external",
+		Exposed: true,
+		Name:    "exposedAPIs",
+		Stored:  true,
+		SubType: "policies_list",
+		Type:    "external",
 	},
 	"exposedport": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

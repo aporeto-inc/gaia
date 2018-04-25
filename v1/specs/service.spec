@@ -77,7 +77,6 @@ attributes:
     exposed: true
     subtype: policies_list
     stored: true
-    required: true
     example_value:
     - - package=p1
 
