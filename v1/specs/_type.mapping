@@ -302,11 +302,6 @@ elemental:
     init: types.IPList{}
     import: github.com/aporeto-inc/gaia/v1/golang/types
 
-  port_list:
-    type: types.PortList
-    init: types.PortList{}
-    import: github.com/aporeto-inc/gaia/v1/golang/types
-
   exposed_api_list:
     type: types.ExposedAPIList
     init: types.ExposedAPIList{}
