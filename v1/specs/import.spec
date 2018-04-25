@@ -24,5 +24,6 @@ attributes:
     required: true
     allowed_choices:
     - Append
-    - Replace
-    default_value: Replace
+    - ReplacePartial
+    - ReplaceFull
+    default_value: Append
