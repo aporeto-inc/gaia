@@ -121,7 +121,7 @@ type Service struct {
 	Endpoints types.ExposedAPIList `json:"endpoints" bson:"-" mapstructure:"endpoints,omitempty"`
 
 	// ExposedAPIs contains a tag expression that will determine which
-	// APIs a servie is exposing. The APIs can be defined as the RESTAPISpec or
+	// APIs a service is exposing. The APIs can be defined as the RESTAPISpec or
 	// similar specifications for other L7 protocols.
 	ExposedAPIs [][]string `json:"exposedAPIs" bson:"exposedapis" mapstructure:"exposedAPIs,omitempty"`
 
@@ -229,7 +229,7 @@ func (o *Service) DefaultOrder() []string {
 func (o *Service) Doc() string {
 	return `A Service defines a generic service object at L4 or L7 that encapsulates the
 description of a micro-service. A service exposes APIs and can be implemented
-through third party entities (such as a cloud provider) or through  processign
+through third party entities (such as a cloud provider) or through  processing
 units.`
 }
 
@@ -544,7 +544,7 @@ endpoints that the service is exposing. Only valid during policy rendering.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedAPIs",
 		Description: `ExposedAPIs contains a tag expression that will determine which
-APIs a servie is exposing. The APIs can be defined as the RESTAPISpec or
+APIs a service is exposing. The APIs can be defined as the RESTAPISpec or
 similar specifications for other L7 protocols.`,
 		Exposed: true,
 		Name:    "exposedAPIs",
@@ -571,7 +571,6 @@ whereas the port that the implementation is listening can be different.`,
 	"External": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "External",
-		DefaultValue:   false,
 		Description:    `External is a boolean that indicates if this is an external service.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -857,7 +856,7 @@ endpoints that the service is exposing. Only valid during policy rendering.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ExposedAPIs",
 		Description: `ExposedAPIs contains a tag expression that will determine which
-APIs a servie is exposing. The APIs can be defined as the RESTAPISpec or
+APIs a service is exposing. The APIs can be defined as the RESTAPISpec or
 similar specifications for other L7 protocols.`,
 		Exposed: true,
 		Name:    "exposedAPIs",
@@ -884,7 +883,6 @@ whereas the port that the implementation is listening can be different.`,
 	"external": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "External",
-		DefaultValue:   false,
 		Description:    `External is a boolean that indicates if this is an external service.`,
 		Exposed:        true,
 		Filterable:     true,

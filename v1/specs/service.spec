@@ -7,7 +7,7 @@ model:
   description: |-
     A Service defines a generic service object at L4 or L7 that encapsulates the
     description of a micro-service. A service exposes APIs and can be implemented
-    through third party entities (such as a cloud provider) or through  processign
+    through third party entities (such as a cloud provider) or through  processing
     units.
   aliases:
   - srv
@@ -71,7 +71,7 @@ attributes:
   - name: exposedAPIs
     description: |-
       ExposedAPIs contains a tag expression that will determine which
-      APIs a servie is exposing. The APIs can be defined as the RESTAPISpec or
+      APIs a service is exposing. The APIs can be defined as the RESTAPISpec or
       similar specifications for other L7 protocols.
     type: external
     exposed: true
@@ -100,7 +100,7 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    default_value: "false"
+    default_value: false
     filterable: true
     orderable: true
 

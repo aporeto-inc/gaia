@@ -6632,7 +6632,7 @@ Name of the role.
 
 A Service defines a generic service object at L4 or L7 that encapsulates the
 description of a micro-service. A service exposes APIs and can be implemented
-through third party entities (such as a cloud provider) or through  processign
+through third party entities (such as a cloud provider) or through  processing
 units.
 
 ### Example
@@ -6733,7 +6733,7 @@ endpoints that the service is exposing. Only valid during policy rendering.
 #### `exposedAPIs (external:policies_list)`
 
 ExposedAPIs contains a tag expression that will determine which
-APIs a servie is exposing. The APIs can be defined as the RESTAPISpec or
+APIs a service is exposing. The APIs can be defined as the RESTAPISpec or
 similar specifications for other L7 protocols.
 
 #### `exposedPort (integer)`
@@ -6754,11 +6754,11 @@ whereas the port that the implementation is listening can be different.
 
 External is a boolean that indicates if this is an external service.
 
-| Characteristics | Value   |
-| -               | -:      |
-| Default         | `false` |
-| Orderable       | `true`  |
-| Filterable      | `true`  |
+| Characteristics | Value             |
+| -               | -:                |
+| Default         | `%!s(bool=false)` |
+| Orderable       | `true`            |
+| Filterable      | `true`            |
 
 #### `hosts (list)`
 

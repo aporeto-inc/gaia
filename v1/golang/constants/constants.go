@@ -231,27 +231,6 @@ const (
 
 	// ActionTokenScope is the system created action=scope tag.
 	ActionTokenScope = "action=scope"
-
-	// ActionExpose is the system created action=expose tag.
-	ActionExpose = "action=expose"
-
-	// ActionConsume is the system created action=consume tag.
-	ActionConsume = "action=consume"
-)
-
-// Exposed Policy Targets
-const (
-	// ActionExposedFQDN is the system create $exposedFQDN.
-	ActionExposedFQDN = "$exposedFQDN"
-
-	// ActionExposedIPs is the system create $exposedIPs.
-	ActionExposedIPs = "$exposedIPs"
-
-	// ActionExposedPorts is the system create $exposedPorts
-	ActionExposedPorts = "$exposedPorts"
-
-	// ActionJWTSigningCertificate is the system created $exposedJWT
-	ActionJWTSigningCertificate = "$exposedJWT"
 )
 
 const (
