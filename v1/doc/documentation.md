@@ -5548,10 +5548,6 @@ retrieve a policy resolution.
 
 ### Attributes
 
-#### `APIServices (external:api_services_entities)`
-
-APIServices provides the APIServices of this policy rule.
-
 #### `ID (string)`
 
 ID is the identifier of the object.
@@ -5567,6 +5563,10 @@ ID is the identifier of the object.
 #### `PolicyNamespace (string)`
 
 PolicyNamespace is the namespace of the policy that created this rule.
+
+#### `Services (external:api_services_entities)`
+
+Services provides the services of this policy rule.
 
 #### `action (external:actions_list)`
 
