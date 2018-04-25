@@ -70,34 +70,34 @@ type Export struct {
 	APIVersion int `json:"APIVersion" bson:"-" mapstructure:"APIVersion,omitempty"`
 
 	// List of all exported RESTAPISpecs.
-	RESTAPISpecs []map[string]interface{} `json:"RESTAPISpecs" bson:"-" mapstructure:"RESTAPISpecs,omitempty"`
+	RESTAPISpecs []map[string]interface{} `json:"RESTAPISpecs,omitempty" bson:"-" mapstructure:"RESTAPISpecs,omitempty,omitempty"`
 
 	// List of all exported audit profiles.
-	AuditProfiles []map[string]interface{} `json:"auditProfiles" bson:"-" mapstructure:"auditProfiles,omitempty"`
+	AuditProfiles []map[string]interface{} `json:"auditProfiles,omitempty" bson:"-" mapstructure:"auditProfiles,omitempty,omitempty"`
 
 	// List of exported external services.
-	ExternalServices []map[string]interface{} `json:"externalServices" bson:"-" mapstructure:"externalServices,omitempty"`
+	ExternalServices []map[string]interface{} `json:"externalServices,omitempty" bson:"-" mapstructure:"externalServices,omitempty,omitempty"`
 
 	// List of exported file access policies.
-	FileAccessPolicies []map[string]interface{} `json:"fileAccessPolicies" bson:"-" mapstructure:"fileAccessPolicies,omitempty"`
+	FileAccessPolicies []map[string]interface{} `json:"fileAccessPolicies,omitempty" bson:"-" mapstructure:"fileAccessPolicies,omitempty,omitempty"`
 
 	// List of exported file paths.
-	FilePaths []map[string]interface{} `json:"filePaths" bson:"-" mapstructure:"filePaths,omitempty"`
+	FilePaths []map[string]interface{} `json:"filePaths,omitempty" bson:"-" mapstructure:"filePaths,omitempty,omitempty"`
 
 	// List of all exported isolation profiles.
-	IsolationProfiles []map[string]interface{} `json:"isolationProfiles" bson:"-" mapstructure:"isolationProfiles,omitempty"`
+	IsolationProfiles []map[string]interface{} `json:"isolationProfiles,omitempty" bson:"-" mapstructure:"isolationProfiles,omitempty,omitempty"`
 
 	// List of exported network policies.
-	NetworkAccessPolicies []map[string]interface{} `json:"networkAccessPolicies" bson:"-" mapstructure:"networkAccessPolicies,omitempty"`
+	NetworkAccessPolicies []map[string]interface{} `json:"networkAccessPolicies,omitempty" bson:"-" mapstructure:"networkAccessPolicies,omitempty,omitempty"`
 
 	// List of all exported processingUnitPolicies.
-	ProcessingUnitPolicies []map[string]interface{} `json:"processingUnitPolicies" bson:"-" mapstructure:"processingUnitPolicies,omitempty"`
+	ProcessingUnitPolicies []map[string]interface{} `json:"processingUnitPolicies,omitempty" bson:"-" mapstructure:"processingUnitPolicies,omitempty,omitempty"`
 
 	// List of all exported services.
-	Services []map[string]interface{} `json:"services" bson:"-" mapstructure:"services,omitempty"`
+	Services []map[string]interface{} `json:"services,omitempty" bson:"-" mapstructure:"services,omitempty,omitempty"`
 
 	// List of all exported tokenScopePolicies.
-	TokenScopePolicies []map[string]interface{} `json:"tokenScopePolicies" bson:"-" mapstructure:"tokenScopePolicies,omitempty"`
+	TokenScopePolicies []map[string]interface{} `json:"tokenScopePolicies,omitempty" bson:"-" mapstructure:"tokenScopePolicies,omitempty,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -108,17 +108,7 @@ type Export struct {
 func NewExport() *Export {
 
 	return &Export{
-		ModelVersion:           1,
-		AuditProfiles:          []map[string]interface{}{},
-		ExternalServices:       []map[string]interface{}{},
-		FileAccessPolicies:     []map[string]interface{}{},
-		FilePaths:              []map[string]interface{}{},
-		IsolationProfiles:      []map[string]interface{}{},
-		NetworkAccessPolicies:  []map[string]interface{}{},
-		ProcessingUnitPolicies: []map[string]interface{}{},
-		RESTAPISpecs:           []map[string]interface{}{},
-		Services:               []map[string]interface{}{},
-		TokenScopePolicies:     []map[string]interface{}{},
+		ModelVersion: 1,
 	}
 }
 

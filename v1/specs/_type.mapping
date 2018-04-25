@@ -231,7 +231,6 @@ elemental:
 
   exported_data_content:
     type: '[]map[string]interface{}'
-    init: '[]map[string]interface{}{}'
 
   processing_unit_services_list:
     type: types.ProcessingUnitServicesList

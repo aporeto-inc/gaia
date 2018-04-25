@@ -14,8 +14,11 @@ const (
 	// ImportModeAppend represents the value Append.
 	ImportModeAppend ImportModeValue = "Append"
 
-	// ImportModeReplace represents the value Replace.
-	ImportModeReplace ImportModeValue = "Replace"
+	// ImportModeReplaceFull represents the value ReplaceFull.
+	ImportModeReplaceFull ImportModeValue = "ReplaceFull"
+
+	// ImportModeReplacePartial represents the value ReplacePartial.
+	ImportModeReplacePartial ImportModeValue = "ReplacePartial"
 )
 
 // ImportIdentity represents the Identity of the object.
@@ -94,7 +97,7 @@ func NewImport() *Import {
 	return &Import{
 		ModelVersion: 1,
 		Data:         NewExport(),
-		Mode:         "Replace",
+		Mode:         "Append",
 	}
 }
 
@@ -147,7 +150,7 @@ func (o *Import) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateStringInList("mode", string(o.Mode), []string{"Append", "Replace"}, false); err != nil {
+	if err := elemental.ValidateStringInList("mode", string(o.Mode), []string{"Append", "ReplacePartial", "ReplaceFull"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -192,9 +195,9 @@ var ImportAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"Mode": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Append", "Replace"},
+		AllowedChoices: []string{"Append", "ReplacePartial", "ReplaceFull"},
 		ConvertedName:  "Mode",
-		DefaultValue:   ImportModeReplace,
+		DefaultValue:   ImportModeAppend,
 		Description:    `How to import the data.`,
 		Exposed:        true,
 		Name:           "mode",
@@ -216,9 +219,9 @@ var ImportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"mode": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Append", "Replace"},
+		AllowedChoices: []string{"Append", "ReplacePartial", "ReplaceFull"},
 		ConvertedName:  "Mode",
-		DefaultValue:   ImportModeReplace,
+		DefaultValue:   ImportModeAppend,
 		Description:    `How to import the data.`,
 		Exposed:        true,
 		Name:           "mode",
