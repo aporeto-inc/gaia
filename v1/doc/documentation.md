@@ -3927,7 +3927,8 @@ Imports an export of policies and related objects into the namespace.
 
 ```json
 {
-  "data": "previous output of export"
+  "data": "previous output of export",
+  "mode": "Append|ReplacePartial|ReplaceFull"
 }
 ```
 
@@ -3954,7 +3955,6 @@ How to import the data.
 | Characteristics | Value                                 |
 | -               | -:                                    |
 | Allowed Value   | `Append, ReplacePartial, ReplaceFull` |
-| Default         | `Append`                              |
 | Required        | `true`                                |
 
 ## Installation
@@ -5643,7 +5643,8 @@ Paths they can use.
 
 ```json
 {
-  "name": "the name"
+  "name": "the name",
+  "type": "Docker"
 }
 ```
 
@@ -5809,7 +5810,6 @@ Type of the container ecosystem.
 | Characteristics | Value                             |
 | -               | -:                                |
 | Allowed Value   | `Docker, LinuxService, RKT, User` |
-| Default         | `Docker`                          |
 | Required        | `true`                            |
 | Creation only   | `true`                            |
 | Filterable      | `true`                            |
@@ -6238,6 +6238,7 @@ Hook to integrate an Aporeto service.
   \"name\": \"hello\",
   \"description\": \"hello\",
 }",
+  "mode": "Pre",
   "namespace": "/my/namespace",
   "operation": "create",
   "targetIdentity": "processingunit"
@@ -6275,7 +6276,6 @@ Node defines the type of the hook.
 | Characteristics | Value       |
 | -               | -:          |
 | Allowed Value   | `Post, Pre` |
-| Default         | `Pre`       |
 | Required        | `true`      |
 
 #### `namespace (string)`
@@ -6665,6 +6665,7 @@ units.
   ],
   "exposedPort": 443,
   "name": "the name",
+  "port": 443,
   "selectors": [
     [
       "$identity=processingunit"
@@ -6825,12 +6826,11 @@ Port is the port that the implementation of the service is listening to and
 it can be different than the exposedPorts describing the service. This is needed
 for port mapping use cases where there is private and public ports.
 
-| Characteristics | Value         |
-| -               | -:            |
-| Default         | `%!s(int=80)` |
-| Min length      | `1`           |
-| Max length      | `65535`       |
-| Required        | `true`        |
+| Characteristics | Value   |
+| -               | -:      |
+| Min length      | `1`     |
+| Max length      | `65535` |
+| Required        | `true`  |
 
 #### `protected (boolean)`
 

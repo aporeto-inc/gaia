@@ -42,7 +42,7 @@ attributes:
     allowed_choices:
     - Post
     - Pre
-    default_value: Pre
+    example_value: Pre
 
   - name: namespace
     description: Represents the current namespace.

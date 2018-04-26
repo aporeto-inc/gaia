@@ -188,7 +188,6 @@ func NewService() *Service {
 		External:       false,
 		IPs:            types.IPList{},
 		NormalizedTags: []string{},
-		Port:           80,
 		Type:           "HTTP",
 	}
 }
@@ -645,7 +644,6 @@ whereas the port that the implementation is listening can be different.`,
 	"Port": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Port",
-		DefaultValue:   80,
 		Description: `Port is the port that the implementation of the service is listening to and
 it can be different than the exposedPorts describing the service. This is needed
 for port mapping use cases where there is private and public ports.`,
@@ -957,7 +955,6 @@ whereas the port that the implementation is listening can be different.`,
 	"port": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Port",
-		DefaultValue:   80,
 		Description: `Port is the port that the implementation of the service is listening to and
 it can be different than the exposedPorts describing the service. This is needed
 for port mapping use cases where there is private and public ports.`,
