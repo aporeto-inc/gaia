@@ -5569,14 +5569,6 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `PolicyNamespace (string)`
-
-PolicyNamespace is the namespace of the policy that created this rule.
-
-#### `Services (external:api_services_entities)`
-
-Services provides the services of this policy rule.
-
 #### `action (external:actions_list)`
 
 Action defines set of actions that must be enforced when a dependency is met.
@@ -5617,6 +5609,10 @@ Policy target namespaces.
 List of external services the policy mandate to pass through before reaching the
 destination.
 
+#### `policyNamespace (string)`
+
+PolicyNamespace is the namespace of the policy that created this rule.
+
 #### `propagated (boolean)`
 
 Propagated indicates if the policy is propagated.
@@ -5625,6 +5621,10 @@ Propagated indicates if the policy is propagated.
 
 Relation describes the required operation to be performed between subjects and
 objects.
+
+#### `services (external:api_services_entities)`
+
+Services provides the services of this policy rule.
 
 #### `tagClauses (external:target_tags)`
 

@@ -47,14 +47,17 @@ func NewGraphEdge() *GraphEdge {
 type GraphNodeType string
 
 const (
-	// GraphNodeTypeContainer represents the value Container.
-	GraphNodeTypeContainer GraphNodeType = "Container"
+	// GraphNodeTypeDocker represents the value Docker.
+	GraphNodeTypeDocker GraphNodeType = "Docker"
 
 	// GraphNodeTypeExternalService represents the value EternalService.
 	GraphNodeTypeExternalService GraphNodeType = "ExternalService"
 
 	// GraphNodeTypeVolume represents the value Volume.
 	GraphNodeTypeVolume GraphNodeType = "Volume"
+
+	// GraphNodeTypeClaim represents the value Claim.
+	GraphNodeTypeClaim GraphNodeType = "Claim"
 )
 
 // GraphNodeMap is a map of id to GraphNode
