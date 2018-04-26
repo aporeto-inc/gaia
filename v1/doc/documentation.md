@@ -6830,7 +6830,6 @@ for port mapping use cases where there is private and public ports.
 | Default         | `%!s(int=80)` |
 | Min length      | `1`           |
 | Max length      | `65535`       |
-| Required        | `true`        |
 
 #### `protected (boolean)`
 
