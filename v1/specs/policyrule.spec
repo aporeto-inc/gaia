@@ -15,17 +15,17 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: APIServices
-    description: APIServices provides the APIServices of this policy rule.
-    type: external
-    exposed: true
-    subtype: api_services_entities
-
   - name: PolicyNamespace
     description: PolicyNamespace is the namespace of the policy that created this
       rule.
     type: string
     exposed: true
+
+  - name: Services
+    description: Services provides the services of this policy rule.
+    type: external
+    exposed: true
+    subtype: api_services_entities
 
   - name: action
     description: Action defines set of actions that must be enforced when a dependency
