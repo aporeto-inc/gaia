@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"sync"
 
+	"time"
+
 	"github.com/aporeto-inc/elemental"
 	"github.com/aporeto-inc/gaia/v1/golang/types"
-	"time"
 )
 
 // ServiceTypeValue represents the possible values for attribute "type".
@@ -350,6 +351,10 @@ func (o *Service) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateRequiredInt("exposedPort", o.ExposedPort); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	if err := elemental.ValidateMaximumInt("exposedPort", o.ExposedPort, int(65535), false); err != nil {
 		errors = append(errors, err)
 	}
@@ -364,6 +369,10 @@ func (o *Service) Validate() error {
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredInt("port", o.Port); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateMaximumInt("port", o.Port, int(65535), false); err != nil {
