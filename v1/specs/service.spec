@@ -121,7 +121,11 @@ attributes:
     type: integer
     exposed: true
     stored: true
+<<<<<<< HEAD
     required: true
+=======
+    default_value: 80
+>>>>>>> e82974da9cdb6bb90aeec943b6a34e973f14a35a
     example_value: 443
     max_value: 65535
     min_value: 1

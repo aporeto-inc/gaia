@@ -349,6 +349,10 @@ func (o *Service) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateRequiredInt("exposedPort", o.ExposedPort); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	if err := elemental.ValidateMaximumInt("exposedPort", o.ExposedPort, int(65535), false); err != nil {
 		errors = append(errors, err)
 	}
@@ -651,7 +655,6 @@ for port mapping use cases where there is private and public ports.`,
 		MaxValue: 65535,
 		MinValue: 1,
 		Name:     "port",
-		Required: true,
 		Stored:   true,
 		Type:     "integer",
 	},
@@ -962,7 +965,6 @@ for port mapping use cases where there is private and public ports.`,
 		MaxValue: 65535,
 		MinValue: 1,
 		Name:     "port",
-		Required: true,
 		Stored:   true,
 		Type:     "integer",
 	},
