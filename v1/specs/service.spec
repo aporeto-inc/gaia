@@ -93,7 +93,6 @@ attributes:
     required: true
     example_value: 443
     max_value: 65535
-    min_value: 1
 
   - name: external
     description: External is a boolean that indicates if this is an external service.
@@ -124,7 +123,6 @@ attributes:
     required: true
     example_value: 443
     max_value: 65535
-    min_value: 1
 
   - name: selectors
     description: |-

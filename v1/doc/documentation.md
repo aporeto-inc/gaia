@@ -6766,7 +6766,6 @@ whereas the port that the implementation is listening can be different.
 
 | Characteristics | Value   |
 | -               | -:      |
-| Min length      | `1`     |
 | Max length      | `65535` |
 | Required        | `true`  |
 
@@ -6828,7 +6827,6 @@ for port mapping use cases where there is private and public ports.
 
 | Characteristics | Value   |
 | -               | -:      |
-| Min length      | `1`     |
 | Max length      | `65535` |
 | Required        | `true`  |
 
