@@ -71,12 +71,6 @@ type PolicyRule struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// PolicyNamespace is the namespace of the policy that created this rule.
-	PolicyNamespace string `json:"PolicyNamespace" bson:"-" mapstructure:"PolicyNamespace,omitempty"`
-
-	// Services provides the services of this policy rule.
-	Services ServicesList `json:"Services" bson:"-" mapstructure:"Services,omitempty"`
-
 	// Action defines set of actions that must be enforced when a dependency is met.
 	Action map[string]map[string]interface{} `json:"action" bson:"-" mapstructure:"action,omitempty"`
 
@@ -102,12 +96,18 @@ type PolicyRule struct {
 	// destination.
 	PassthroughExternalServices ExternalServicesList `json:"passthroughExternalServices" bson:"-" mapstructure:"passthroughExternalServices,omitempty"`
 
+	// PolicyNamespace is the namespace of the policy that created this rule.
+	PolicyNamespace string `json:"policyNamespace" bson:"-" mapstructure:"policyNamespace,omitempty"`
+
 	// Propagated indicates if the policy is propagated.
 	Propagated bool `json:"propagated" bson:"-" mapstructure:"propagated,omitempty"`
 
 	// Relation describes the required operation to be performed between subjects and
 	// objects.
 	Relation []string `json:"relation" bson:"-" mapstructure:"relation,omitempty"`
+
+	// Services provides the services of this policy rule.
+	Services ServicesList `json:"services" bson:"-" mapstructure:"services,omitempty"`
 
 	// Policy target tags.
 	TagClauses [][]string `json:"tagClauses" bson:"-" mapstructure:"tagClauses,omitempty"`
@@ -245,23 +245,6 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 	},
-	"PolicyNamespace": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PolicyNamespace",
-		Description:    `PolicyNamespace is the namespace of the policy that created this rule.`,
-		Exposed:        true,
-		Name:           "PolicyNamespace",
-		Type:           "string",
-	},
-	"Services": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Services",
-		Description:    `Services provides the services of this policy rule.`,
-		Exposed:        true,
-		Name:           "Services",
-		SubType:        "api_services_entities",
-		Type:           "external",
-	},
 	"Action": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Action",
@@ -343,6 +326,14 @@ destination.`,
 		SubType: "network_entities",
 		Type:    "external",
 	},
+	"PolicyNamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PolicyNamespace",
+		Description:    `PolicyNamespace is the namespace of the policy that created this rule.`,
+		Exposed:        true,
+		Name:           "policyNamespace",
+		Type:           "string",
+	},
 	"Propagated": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagated",
@@ -360,6 +351,15 @@ objects.`,
 		Name:    "relation",
 		SubType: "relations_list",
 		Type:    "external",
+	},
+	"Services": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Services",
+		Description:    `Services provides the services of this policy rule.`,
+		Exposed:        true,
+		Name:           "services",
+		SubType:        "api_services_entities",
+		Type:           "external",
 	},
 	"TagClauses": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -387,23 +387,6 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
-	},
-	"policynamespace": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PolicyNamespace",
-		Description:    `PolicyNamespace is the namespace of the policy that created this rule.`,
-		Exposed:        true,
-		Name:           "PolicyNamespace",
-		Type:           "string",
-	},
-	"services": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Services",
-		Description:    `Services provides the services of this policy rule.`,
-		Exposed:        true,
-		Name:           "Services",
-		SubType:        "api_services_entities",
-		Type:           "external",
 	},
 	"action": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -486,6 +469,14 @@ destination.`,
 		SubType: "network_entities",
 		Type:    "external",
 	},
+	"policynamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PolicyNamespace",
+		Description:    `PolicyNamespace is the namespace of the policy that created this rule.`,
+		Exposed:        true,
+		Name:           "policyNamespace",
+		Type:           "string",
+	},
 	"propagated": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagated",
@@ -503,6 +494,15 @@ objects.`,
 		Name:    "relation",
 		SubType: "relations_list",
 		Type:    "external",
+	},
+	"services": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Services",
+		Description:    `Services provides the services of this policy rule.`,
+		Exposed:        true,
+		Name:           "services",
+		SubType:        "api_services_entities",
+		Type:           "external",
 	},
 	"tagclauses": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

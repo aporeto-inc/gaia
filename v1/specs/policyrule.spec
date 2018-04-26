@@ -15,18 +15,6 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: PolicyNamespace
-    description: PolicyNamespace is the namespace of the policy that created this
-      rule.
-    type: string
-    exposed: true
-
-  - name: Services
-    description: Services provides the services of this policy rule.
-    type: external
-    exposed: true
-    subtype: api_services_entities
-
   - name: action
     description: Action defines set of actions that must be enforced when a dependency
       is met.
@@ -72,6 +60,12 @@ attributes:
     exposed: true
     subtype: network_entities
 
+  - name: policyNamespace
+    description: PolicyNamespace is the namespace of the policy that created this
+      rule.
+    type: string
+    exposed: true
+
   - name: propagated
     description: Propagated indicates if the policy is propagated.
     type: boolean
@@ -84,6 +78,12 @@ attributes:
     type: external
     exposed: true
     subtype: relations_list
+
+  - name: services
+    description: Services provides the services of this policy rule.
+    type: external
+    exposed: true
+    subtype: api_services_entities
 
   - name: tagClauses
     description: Policy target tags.
