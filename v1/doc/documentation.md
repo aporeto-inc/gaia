@@ -6826,19 +6826,11 @@ Port is the port that the implementation of the service is listening to and
 it can be different than the exposedPorts describing the service. This is needed
 for port mapping use cases where there is private and public ports.
 
-<<<<<<< HEAD
 | Characteristics | Value   |
 | -               | -:      |
 | Min length      | `1`     |
 | Max length      | `65535` |
 | Required        | `true`  |
-=======
-| Characteristics | Value         |
-| -               | -:            |
-| Default         | `%!s(int=80)` |
-| Min length      | `1`           |
-| Max length      | `65535`       |
->>>>>>> e82974da9cdb6bb90aeec943b6a34e973f14a35a
 
 #### `protected (boolean)`
 
