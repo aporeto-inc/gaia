@@ -353,10 +353,6 @@ func (o *Service) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateMinimumInt("exposedPort", o.ExposedPort, int(1), false); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -366,10 +362,6 @@ func (o *Service) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumInt("port", o.Port, int(65535), false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateMinimumInt("port", o.Port, int(1), false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -561,7 +553,6 @@ ExposedPort is the port that the load balancer is listening for the service,
 whereas the port that the implementation is listening can be different.`,
 		Exposed:  true,
 		MaxValue: 65535,
-		MinValue: 1,
 		Name:     "exposedPort",
 		Required: true,
 		Stored:   true,
@@ -649,7 +640,6 @@ it can be different than the exposedPorts describing the service. This is needed
 for port mapping use cases where there is private and public ports.`,
 		Exposed:  true,
 		MaxValue: 65535,
-		MinValue: 1,
 		Name:     "port",
 		Required: true,
 		Stored:   true,
@@ -872,7 +862,6 @@ ExposedPort is the port that the load balancer is listening for the service,
 whereas the port that the implementation is listening can be different.`,
 		Exposed:  true,
 		MaxValue: 65535,
-		MinValue: 1,
 		Name:     "exposedPort",
 		Required: true,
 		Stored:   true,
@@ -960,7 +949,6 @@ it can be different than the exposedPorts describing the service. This is needed
 for port mapping use cases where there is private and public ports.`,
 		Exposed:  true,
 		MaxValue: 65535,
-		MinValue: 1,
 		Name:     "port",
 		Required: true,
 		Stored:   true,
