@@ -128,7 +128,6 @@ attributes:
     exposed: true
     subtype: host_services_list
     stored: true
-    filterable: true
     orderable: true
 
   - name: ignoreExpression
