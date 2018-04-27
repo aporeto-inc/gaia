@@ -6,6 +6,7 @@ import (
 
 	"github.com/aporeto-inc/elemental"
 	"github.com/aporeto-inc/gaia/v1/golang/constants"
+	"time"
 )
 
 // RenderedPolicyIdentity represents the Identity of the object.
@@ -67,9 +68,18 @@ func (o RenderedPoliciesList) Version() int {
 
 // RenderedPolicy represents the model of a renderedpolicy
 type RenderedPolicy struct {
+	// Annotation stores additional information about an entity.
+	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
 	// Certificate is the certificate associated with this PU. It will identify the PU
 	// to any internal or external services.
 	Certificate string `json:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// EgressPolicies lists all the egress policies attached to processing unit.
 	EgressPolicies map[string]PolicyRulesList `json:"egressPolicies" bson:"-" mapstructure:"egressPolicies,omitempty"`
@@ -84,6 +94,12 @@ type RenderedPolicy struct {
 	// MatchingTags contains the list of tags that matched the policies.
 	MatchingTags []string `json:"matchingTags" bson:"-" mapstructure:"matchingTags,omitempty"`
 
+	// Namespace tag attached to an entity.
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
 	// Can be set during a POST operation to render a policy on a Processing Unit that
 	// has not been created yet.
 	ProcessingUnit *ProcessingUnit `json:"processingUnit" bson:"-" mapstructure:"processingUnit,omitempty"`
@@ -95,9 +111,15 @@ type RenderedPolicy struct {
 	// all communications.
 	Profile map[string]string `json:"profile" bson:"-" mapstructure:"profile,omitempty"`
 
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
+
 	// Scopes is the set of scopes granted to this processing unit that it has to
 	// present in HTTP requests.
 	Scopes []string `json:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -108,7 +130,9 @@ type RenderedPolicy struct {
 func NewRenderedPolicy() *RenderedPolicy {
 
 	return &RenderedPolicy{
-		ModelVersion: 1,
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
 		EgressPolicies: map[string]PolicyRulesList{
 			string(constants.RenderedPolicyTypeNetwork):   PolicyRulesList{},
 			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
@@ -120,7 +144,8 @@ func NewRenderedPolicy() *RenderedPolicy {
 			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
 			string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
 		},
-		Scopes: []string{},
+		NormalizedTags: []string{},
+		Scopes:         []string{},
 	}
 }
 
@@ -163,6 +188,84 @@ func (o *RenderedPolicy) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetAnnotations returns the Annotations of the receiver.
+func (o *RenderedPolicy) GetAnnotations() map[string][]string {
+
+	return o.Annotations
+}
+
+// SetAnnotations sets the given Annotations of the receiver.
+func (o *RenderedPolicy) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = annotations
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *RenderedPolicy) GetAssociatedTags() []string {
+
+	return o.AssociatedTags
+}
+
+// SetAssociatedTags sets the given AssociatedTags of the receiver.
+func (o *RenderedPolicy) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = associatedTags
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *RenderedPolicy) GetCreateTime() time.Time {
+
+	return o.CreateTime
+}
+
+// SetCreateTime sets the given CreateTime of the receiver.
+func (o *RenderedPolicy) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = createTime
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *RenderedPolicy) GetNamespace() string {
+
+	return o.Namespace
+}
+
+// SetNamespace sets the given Namespace of the receiver.
+func (o *RenderedPolicy) SetNamespace(namespace string) {
+
+	o.Namespace = namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *RenderedPolicy) GetNormalizedTags() []string {
+
+	return o.NormalizedTags
+}
+
+// SetNormalizedTags sets the given NormalizedTags of the receiver.
+func (o *RenderedPolicy) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = normalizedTags
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *RenderedPolicy) GetProtected() bool {
+
+	return o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *RenderedPolicy) GetUpdateTime() time.Time {
+
+	return o.UpdateTime
+}
+
+// SetUpdateTime sets the given UpdateTime of the receiver.
+func (o *RenderedPolicy) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = updateTime
+}
+
 // Validate valides the current information stored into the structure.
 func (o *RenderedPolicy) Validate() error {
 
@@ -203,6 +306,30 @@ func (*RenderedPolicy) AttributeSpecifications() map[string]elemental.AttributeS
 
 // RenderedPolicyAttributesMap represents the map of attribute for RenderedPolicy.
 var RenderedPolicyAttributesMap = map[string]elemental.AttributeSpecification{
+	"Annotations": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Annotations",
+		Description:    `Annotation stores additional information about an entity.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "annotations",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "annotations",
+		Type:           "external",
+	},
+	"AssociatedTags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssociatedTags",
+		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "associatedTags",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "tags_list",
+		Type:           "external",
+	},
 	"Certificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Certificate",
@@ -213,6 +340,20 @@ to any internal or external services.`,
 		Name:     "certificate",
 		ReadOnly: true,
 		Type:     "string",
+	},
+	"CreateTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateTime",
+		Description:    `CreatedTime is the time at which the object was created.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "createTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"EgressPolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -257,6 +398,40 @@ implementing.`,
 		SubType:        "string",
 		Type:           "list",
 	},
+	"Namespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Namespace",
+		CreationOnly:   true,
+		Description:    `Namespace tag attached to an entity.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Getter:         true,
+		Index:          true,
+		Name:           "namespace",
+		Orderable:      true,
+		PrimaryKey:     true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"NormalizedTags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "NormalizedTags",
+		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "normalizedTags",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		SubType:        "tags_list",
+		Transient:      true,
+		Type:           "external",
+	},
 	"ProcessingUnit": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnit",
@@ -292,6 +467,18 @@ all communications.`,
 		SubType:  "trust_profile",
 		Type:     "external",
 	},
+	"Protected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Protected",
+		Description:    `Protected defines if the object is protected.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "protected",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"Scopes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Scopes",
@@ -303,10 +490,48 @@ present in HTTP requests.`,
 		SubType: "scopes_list",
 		Type:    "external",
 	},
+	"UpdateTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateTime",
+		Description:    `UpdateTime is the time at which an entity was updated.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "updateTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
+	},
 }
 
 // RenderedPolicyLowerCaseAttributesMap represents the map of attribute for RenderedPolicy.
 var RenderedPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"annotations": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Annotations",
+		Description:    `Annotation stores additional information about an entity.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "annotations",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "annotations",
+		Type:           "external",
+	},
+	"associatedtags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssociatedTags",
+		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "associatedTags",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "tags_list",
+		Type:           "external",
+	},
 	"certificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Certificate",
@@ -317,6 +542,20 @@ to any internal or external services.`,
 		Name:     "certificate",
 		ReadOnly: true,
 		Type:     "string",
+	},
+	"createtime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateTime",
+		Description:    `CreatedTime is the time at which the object was created.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "createTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"egresspolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -361,6 +600,40 @@ implementing.`,
 		SubType:        "string",
 		Type:           "list",
 	},
+	"namespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Namespace",
+		CreationOnly:   true,
+		Description:    `Namespace tag attached to an entity.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Getter:         true,
+		Index:          true,
+		Name:           "namespace",
+		Orderable:      true,
+		PrimaryKey:     true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"normalizedtags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "NormalizedTags",
+		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "normalizedTags",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		SubType:        "tags_list",
+		Transient:      true,
+		Type:           "external",
+	},
 	"processingunit": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ProcessingUnit",
@@ -396,6 +669,18 @@ all communications.`,
 		SubType:  "trust_profile",
 		Type:     "external",
 	},
+	"protected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Protected",
+		Description:    `Protected defines if the object is protected.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "protected",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"scopes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Scopes",
@@ -406,5 +691,19 @@ present in HTTP requests.`,
 		Stored:  true,
 		SubType: "scopes_list",
 		Type:    "external",
+	},
+	"updatetime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateTime",
+		Description:    `UpdateTime is the time at which an entity was updated.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "updateTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 }

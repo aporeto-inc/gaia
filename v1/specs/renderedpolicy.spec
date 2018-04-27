@@ -9,6 +9,8 @@ model:
   aliases:
   - rpol
   - rpols
+  extends:
+  - '@base'
 
 # Attributes
 attributes:
