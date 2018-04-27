@@ -3955,7 +3955,6 @@ How to import the data.
 | Characteristics | Value                                 |
 | -               | -:                                    |
 | Allowed Value   | `Append, ReplacePartial, ReplaceFull` |
-| Required        | `true`                                |
 
 ## Installation
 
@@ -5810,7 +5809,6 @@ Type of the container ecosystem.
 | Characteristics | Value                             |
 | -               | -:                                |
 | Allowed Value   | `Docker, LinuxService, RKT, User` |
-| Required        | `true`                            |
 | Creation only   | `true`                            |
 | Filterable      | `true`                            |
 
@@ -6276,7 +6274,6 @@ Node defines the type of the hook.
 | Characteristics | Value       |
 | -               | -:          |
 | Allowed Value   | `Post, Pre` |
-| Required        | `true`      |
 
 #### `namespace (string)`
 

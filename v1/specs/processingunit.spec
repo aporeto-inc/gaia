@@ -85,7 +85,6 @@ attributes:
     type: enum
     exposed: true
     stored: true
-    required: true
     creation_only: true
     allowed_choices:
     - Docker

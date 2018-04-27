@@ -38,7 +38,6 @@ attributes:
     description: Node defines the type of the hook.
     type: enum
     exposed: true
-    required: true
     allowed_choices:
     - Post
     - Pre

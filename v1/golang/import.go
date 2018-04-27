@@ -199,7 +199,6 @@ var ImportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `How to import the data.`,
 		Exposed:        true,
 		Name:           "mode",
-		Required:       true,
 		Type:           "enum",
 	},
 }
@@ -222,7 +221,6 @@ var ImportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `How to import the data.`,
 		Exposed:        true,
 		Name:           "mode",
-		Required:       true,
 		Type:           "enum",
 	},
 }

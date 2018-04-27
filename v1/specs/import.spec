@@ -21,7 +21,6 @@ attributes:
     description: How to import the data.
     type: enum
     exposed: true
-    required: true
     allowed_choices:
     - Append
     - ReplacePartial
