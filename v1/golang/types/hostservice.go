@@ -17,6 +17,9 @@ type HostServicesList []*HostService
 // you know what you are doing.
 func (h HostServicesList) Validate() error {
 	for _, s := range h {
+		if len(s.Name) == 0 {
+			return fmt.Errorf("Host service names must be specified")
+		}
 		if len(s.Name) > 12 {
 			return fmt.Errorf("Host service names must cannot be more than 12 characters")
 		}

@@ -2263,10 +2263,6 @@ AuditProfileSelectors is the list of tags (key/value pairs) that define the
 audit policies that must be implemented by this enforcer. The enforcer will
 implement all policies that match any of these tags.
 
-| Characteristics | Value  |
-| -               | -:     |
-| Filterable      | `true` |
-
 #### `auditProfiles (external:audit_profiles)`
 
 AuditProfiles returns the audit rules associated with the enforcer profile. This
@@ -2341,11 +2337,6 @@ enforcer.
 
 HostServices is a list of services that must be activated by default to all
 enforcers matching this profile.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `ignoreExpression (external:policies_list)`
 
@@ -4144,11 +4135,6 @@ CreatedTime is the time at which the object was created.
 DefaultAction is the default action applied to all syscalls of this profile.
 Default is "Allow".
 
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
 #### `description (string)`
 
 Description is the description of the object.
@@ -5934,11 +5920,6 @@ propagated it will become a fallback for children namespaces.
 IsolationProfileSelector are the profiles that must be applied when this policy
 matches. Only applies to Enforce and LogCompliance actions.
 
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
 #### `metadata (external:metadata_list)`
 
 Metadata contains tags that can only be set during creation. They must all start
@@ -6013,11 +5994,6 @@ Protected defines if the object is protected.
 
 Subject defines the tag selectors that identitfy the processing units to which
 this policy applies.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `updateTime (time)`
 

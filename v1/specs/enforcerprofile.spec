@@ -66,7 +66,6 @@ attributes:
     exposed: true
     subtype: audit_profile_selector
     stored: true
-    filterable: true
 
   - name: auditProfiles
     description: |-
@@ -128,8 +127,6 @@ attributes:
     exposed: true
     subtype: host_services_list
     stored: true
-    filterable: true
-    orderable: true
 
   - name: ignoreExpression
     description: |-
