@@ -35,6 +35,10 @@ elemental:
   ignore_list:
     type: '[]string'
     init: '[]string{}'
+  
+  invoicerecord_list:
+    type: '[]string'
+    init: '[]string{}'
 
   metadata_list:
     type: '[]string'
