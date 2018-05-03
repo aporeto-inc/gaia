@@ -71,7 +71,7 @@ type DependencyMap struct {
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// claims represents a user or a script that have accessed an api.
-	Claims map[string]interface{} `json:"claims" bson:"-" mapstructure:"claims,omitempty"`
+	Claims map[string][]string `json:"claims" bson:"-" mapstructure:"claims,omitempty"`
 
 	// edges are the edges of the map.
 	Edges types.GraphEdgeMap `json:"edges" bson:"-" mapstructure:"edges,omitempty"`
@@ -95,7 +95,7 @@ func NewDependencyMap() *DependencyMap {
 
 	return &DependencyMap{
 		ModelVersion:    1,
-		Claims:          map[string]interface{}{},
+		Claims:          map[string][]string{},
 		Edges:           types.GraphEdgeMap{},
 		Groups:          types.GraphGroupMap{},
 		Nodes:           types.GraphNodeMap{},
