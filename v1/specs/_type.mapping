@@ -147,8 +147,8 @@ elemental:
     import: github.com/aporeto-inc/gaia/v1/golang/types
 
   graphclaims_map:
-    type: map[string]interface{}
-    init: map[string]interface{}{}
+    type: map[string][]string
+    init: map[string][]string{}
 
   view_suggestions:
     type: '[]string'
