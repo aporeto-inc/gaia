@@ -160,6 +160,9 @@ type Account struct {
 	// AssociatedAWSPolicies contains a map of associated AWS Enforcerd Policies.
 	AssociatedAWSPolicies map[string]string `json:"-" bson:"associatedawspolicies" mapstructure:"-,omitempty"`
 
+	// associatedBillingID holds the ID of the associated billing customer.
+	AssociatedBillingID string `json:"-" bson:"associatedbillingid" mapstructure:"-,omitempty"`
+
 	// AssociatedNamespaceID contains the ID of the associated namespace.
 	AssociatedNamespaceID string `json:"-" bson:"associatednamespaceid" mapstructure:"-,omitempty"`
 
@@ -547,6 +550,15 @@ also use any alternate key.`,
 		Stored:         true,
 		SubType:        "associated_policies",
 		Type:           "external",
+	},
+	"AssociatedBillingID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssociatedBillingID",
+		Description:    `associatedBillingID holds the ID of the associated billing customer.`,
+		Format:         "free",
+		Name:           "associatedBillingID",
+		Stored:         true,
+		Type:           "string",
 	},
 	"AssociatedNamespaceID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -952,6 +964,15 @@ also use any alternate key.`,
 		Stored:         true,
 		SubType:        "associated_policies",
 		Type:           "external",
+	},
+	"associatedbillingid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssociatedBillingID",
+		Description:    `associatedBillingID holds the ID of the associated billing customer.`,
+		Format:         "free",
+		Name:           "associatedBillingID",
+		Stored:         true,
+		Type:           "string",
 	},
 	"associatednamespaceid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

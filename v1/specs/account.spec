@@ -186,6 +186,12 @@ attributes:
     subtype: associated_policies
     stored: true
 
+  - name: associatedBillingID
+    description: associatedBillingID holds the ID of the associated billing customer.
+    type: string
+    stored: true
+    format: free
+
   - name: associatedNamespaceID
     description: AssociatedNamespaceID contains the ID of the associated namespace.
     type: string
