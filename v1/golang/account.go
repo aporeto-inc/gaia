@@ -161,7 +161,7 @@ type Account struct {
 	AssociatedAWSPolicies map[string]string `json:"-" bson:"associatedawspolicies" mapstructure:"-,omitempty"`
 
 	// associatedBillingID holds the ID of the associated billing customer.
-	AssociatedBillingID string `json:"-" bson:"associatedbillingid" mapstructure:"-,omitempty"`
+	AssociatedBillingID string `json:"associatedBillingID" bson:"associatedbillingid" mapstructure:"associatedBillingID,omitempty"`
 
 	// AssociatedNamespaceID contains the ID of the associated namespace.
 	AssociatedNamespaceID string `json:"-" bson:"associatednamespaceid" mapstructure:"-,omitempty"`
@@ -555,6 +555,7 @@ also use any alternate key.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedBillingID",
 		Description:    `associatedBillingID holds the ID of the associated billing customer.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "associatedBillingID",
 		Stored:         true,
@@ -969,6 +970,7 @@ also use any alternate key.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedBillingID",
 		Description:    `associatedBillingID holds the ID of the associated billing customer.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "associatedBillingID",
 		Stored:         true,

@@ -189,6 +189,7 @@ attributes:
   - name: associatedBillingID
     description: associatedBillingID holds the ID of the associated billing customer.
     type: string
+    exposed: true
     stored: true
     format: free
 
