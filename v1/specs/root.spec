@@ -103,11 +103,9 @@ relations:
     get: Retrieves the list of apps.
   get: true
 
-- rest_name: awsaccount
+- rest_name: awsregister
   descriptions:
-    create: Creates a new aws account binding.
-    get: Retrieves the list of aws account bindings.
-  get: true
+    create: Creates a new aws registration for billing.
   create: true
 
 - rest_name: certificate

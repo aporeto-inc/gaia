@@ -17,6 +17,7 @@ func init() {
 	elemental.RegisterIdentity(AutomationIdentity)
 	elemental.RegisterIdentity(AutomationTemplateIdentity)
 	elemental.RegisterIdentity(AWSAccountIdentity)
+	elemental.RegisterIdentity(AWSRegisterIdentity)
 	elemental.RegisterIdentity(CategoryIdentity)
 	elemental.RegisterIdentity(CertificateIdentity)
 	elemental.RegisterIdentity(CustomerIdentity)
@@ -116,6 +117,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewAutomationTemplate()
 	case AWSAccountIdentity.Name:
 		return NewAWSAccount()
+	case AWSRegisterIdentity.Name:
+		return NewAWSRegister()
 	case CategoryIdentity.Name:
 		return NewCategory()
 	case CertificateIdentity.Name:
@@ -276,6 +279,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewAutomationTemplate()
 	case AWSAccountIdentity.Category:
 		return NewAWSAccount()
+	case AWSRegisterIdentity.Category:
+		return NewAWSRegister()
 	case CategoryIdentity.Category:
 		return NewCategory()
 	case CertificateIdentity.Category:
@@ -436,6 +441,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &AutomationTemplatesList{}
 	case AWSAccountIdentity.Name:
 		return &AWSAccountsList{}
+	case AWSRegisterIdentity.Name:
+		return &AWSRegistersList{}
 	case CategoryIdentity.Name:
 		return &CategoriesList{}
 	case CertificateIdentity.Name:
@@ -594,6 +601,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &AutomationTemplatesList{}
 	case AWSAccountIdentity.Category:
 		return &AWSAccountsList{}
+	case AWSRegisterIdentity.Category:
+		return &AWSRegistersList{}
 	case CategoryIdentity.Category:
 		return &CategoriesList{}
 	case CertificateIdentity.Category:
@@ -737,6 +746,7 @@ func AllIdentities() []elemental.Identity {
 		AutomationIdentity,
 		AutomationTemplateIdentity,
 		AWSAccountIdentity,
+		AWSRegisterIdentity,
 		CategoryIdentity,
 		CertificateIdentity,
 		CustomerIdentity,
@@ -924,6 +934,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"awsaccs",
 			"awsacc",
 		}
+	case AWSRegisterIdentity:
+		return []string{}
 	case CategoryIdentity:
 		return []string{}
 	case CertificateIdentity:

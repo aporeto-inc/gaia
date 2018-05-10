@@ -47,19 +47,16 @@ func init() {
 	}
 
 	relationshipsRegistry[AWSAccountIdentity] = &elemental.Relationship{
-		AllowsCreate: map[string]bool{
-			"root": true,
-		},
 		AllowsDelete: map[string]bool{
 			"root": true,
 		},
 		AllowsRetrieve: map[string]bool{
 			"root": true,
 		},
-		AllowsRetrieveMany: map[string]bool{
-			"root": true,
-		},
-		AllowsInfo: map[string]bool{
+	}
+
+	relationshipsRegistry[AWSRegisterIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
 			"root": true,
 		},
 	}
