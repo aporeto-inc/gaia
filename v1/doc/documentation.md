@@ -1845,11 +1845,13 @@ billing purposes.
 
 ### Relations
 
-| Method   | URL              | Description                                   |
-| -:       | -                | -                                             |
-| `DELETE` | `/customers/:id` | Deletes the `customer` with the given `:id`.  |
-| `GET`    | `/customers/:id` | Retrieve the `customer` with the given `:id`. |
-| `PUT`    | `/customers/:id` | Updates the `customer` with the given `:id`.  |
+| Method   | URL              | Description                                        |
+| -:       | -                | -                                                  |
+| `GET`    | `/customers`     | Retrieves the list of existing billable customers. |
+| `POST`   | `/customers`     | Creates a new billable customer.                   |
+| `DELETE` | `/customers/:id` | Deletes the `customer` with the given `:id`.       |
+| `GET`    | `/customers/:id` | Retrieve the `customer` with the given `:id`.      |
+| `PUT`    | `/customers/:id` | Updates the `customer` with the given `:id`.       |
 
 ### Attributes
 
