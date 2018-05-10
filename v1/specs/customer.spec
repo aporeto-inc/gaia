@@ -1,7 +1,7 @@
 # Model
 model:
   rest_name: customer
-  resource_name: customers
+  resource_name: customer
   entity_name: Customer
   package: bill
   description: |-
