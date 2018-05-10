@@ -4536,6 +4536,12 @@ configured max validity, it will be capped.
 A jaegerbatch is a batch of jaeger spans. This is used by external service to
 post jaeger span in our private jaeger services.
 
+### Relations
+
+| Method | URL             | Description                   |
+| -:     | -               | -                             |
+| `POST` | `/jaegerbatchs` | Sends a jaeger tracing batch. |
+
 ### Attributes
 
 #### `batch (external:jaeger_batch)`
@@ -4573,6 +4579,17 @@ ID is the identifier of the object.
 | Read only       | `true` |
 | Orderable       | `true` |
 | Filterable      | `true` |
+
+#### `activationType (enum)`
+
+Defines the mode of activation on the KubernetesCluster.
+
+| Characteristics | Value                                  |
+| -               | -:                                     |
+| Allowed Value   | `KubeSquall, PodAtomic, PodContainers` |
+| Default         | `KubeSquall`                           |
+| Orderable       | `true`                                 |
+| Filterable      | `true`                                 |
 
 #### `createTime (time)`
 

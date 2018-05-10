@@ -220,6 +220,11 @@ relations:
     create: Issues a new token.
   create: true
 
+- rest_name: jaegerbatch
+  descriptions:
+    create: Sends a jaeger tracing batch.
+  create: true
+
 - rest_name: kubernetescluster
   descriptions:
     create: Creates a new kubernetes cluster.
