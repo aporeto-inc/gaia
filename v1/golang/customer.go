@@ -40,7 +40,7 @@ const (
 var CustomerIdentity = elemental.Identity{
 	Name:     "customer",
 	Category: "customers",
-	Private:  false,
+	Private:  true,
 }
 
 // CustomersList represents a list of Customers

@@ -7,6 +7,7 @@ model:
   description: |-
     This api allows to view and manage basic information about customer profile for
     billing purposes.
+  private: true
   get: true
   update: true
   delete: true
