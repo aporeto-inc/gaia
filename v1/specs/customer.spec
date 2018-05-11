@@ -47,6 +47,7 @@ attributes:
     read_only: true
     allowed_choices:
     - SubscribePending
+    - SubscribeFailed
     - SubscribeSuccess
     - UnsubscribePending
     - UnsubscribeSuccess

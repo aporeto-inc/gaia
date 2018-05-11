@@ -23,6 +23,9 @@ const (
 type CustomerStateValue string
 
 const (
+	// CustomerStateSubscribeFailed represents the value SubscribeFailed.
+	CustomerStateSubscribeFailed CustomerStateValue = "SubscribeFailed"
+
 	// CustomerStateSubscribePending represents the value SubscribePending.
 	CustomerStateSubscribePending CustomerStateValue = "SubscribePending"
 
@@ -180,7 +183,7 @@ func (o *Customer) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("State", string(o.State), []string{"SubscribePending", "SubscribeSuccess", "UnsubscribePending", "UnsubscribeSuccess"}, false); err != nil {
+	if err := elemental.ValidateStringInList("State", string(o.State), []string{"SubscribePending", "SubscribeFailed", "SubscribeSuccess", "UnsubscribePending", "UnsubscribeSuccess"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -254,7 +257,7 @@ customer to enable provider billing.`,
 		Type:       "string",
 	},
 	"State": elemental.AttributeSpecification{
-		AllowedChoices: []string{"SubscribePending", "SubscribeSuccess", "UnsubscribePending", "UnsubscribeSuccess"},
+		AllowedChoices: []string{"SubscribePending", "SubscribeFailed", "SubscribeSuccess", "UnsubscribePending", "UnsubscribeSuccess"},
 		ConvertedName:  "State",
 		DefaultValue:   CustomerStateSubscribePending,
 		Description:    `State holds the status of the customer with the provider.`,
@@ -334,7 +337,7 @@ customer to enable provider billing.`,
 		Type:       "string",
 	},
 	"state": elemental.AttributeSpecification{
-		AllowedChoices: []string{"SubscribePending", "SubscribeSuccess", "UnsubscribePending", "UnsubscribeSuccess"},
+		AllowedChoices: []string{"SubscribePending", "SubscribeFailed", "SubscribeSuccess", "UnsubscribePending", "UnsubscribeSuccess"},
 		ConvertedName:  "State",
 		DefaultValue:   CustomerStateSubscribePending,
 		Description:    `State holds the status of the customer with the provider.`,
