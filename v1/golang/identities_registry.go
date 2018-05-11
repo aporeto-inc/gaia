@@ -16,7 +16,6 @@ func init() {
 	elemental.RegisterIdentity(AuthorityIdentity)
 	elemental.RegisterIdentity(AutomationIdentity)
 	elemental.RegisterIdentity(AutomationTemplateIdentity)
-	elemental.RegisterIdentity(AWSAccountIdentity)
 	elemental.RegisterIdentity(AWSRegisterIdentity)
 	elemental.RegisterIdentity(CategoryIdentity)
 	elemental.RegisterIdentity(CertificateIdentity)
@@ -115,8 +114,6 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewAutomation()
 	case AutomationTemplateIdentity.Name:
 		return NewAutomationTemplate()
-	case AWSAccountIdentity.Name:
-		return NewAWSAccount()
 	case AWSRegisterIdentity.Name:
 		return NewAWSRegister()
 	case CategoryIdentity.Name:
@@ -277,8 +274,6 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewAutomation()
 	case AutomationTemplateIdentity.Category:
 		return NewAutomationTemplate()
-	case AWSAccountIdentity.Category:
-		return NewAWSAccount()
 	case AWSRegisterIdentity.Category:
 		return NewAWSRegister()
 	case CategoryIdentity.Category:
@@ -439,8 +434,6 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &AutomationsList{}
 	case AutomationTemplateIdentity.Name:
 		return &AutomationTemplatesList{}
-	case AWSAccountIdentity.Name:
-		return &AWSAccountsList{}
 	case AWSRegisterIdentity.Name:
 		return &AWSRegistersList{}
 	case CategoryIdentity.Name:
@@ -599,8 +592,6 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &AutomationsList{}
 	case AutomationTemplateIdentity.Category:
 		return &AutomationTemplatesList{}
-	case AWSAccountIdentity.Category:
-		return &AWSAccountsList{}
 	case AWSRegisterIdentity.Category:
 		return &AWSRegistersList{}
 	case CategoryIdentity.Category:
@@ -745,7 +736,6 @@ func AllIdentities() []elemental.Identity {
 		AuthorityIdentity,
 		AutomationIdentity,
 		AutomationTemplateIdentity,
-		AWSAccountIdentity,
 		AWSRegisterIdentity,
 		CategoryIdentity,
 		CertificateIdentity,
@@ -819,9 +809,6 @@ var aliasesMap = map[string]elemental.Identity{
 	"autos":      AutomationIdentity,
 	"auto":       AutomationIdentity,
 	"autotmpl":   AutomationTemplateIdentity,
-	"aws":        AWSAccountIdentity,
-	"awsaccs":    AWSAccountIdentity,
-	"awsacc":     AWSAccountIdentity,
 	"depmaps":    DependencyMapIdentity,
 	"depmap":     DependencyMapIdentity,
 	"profile":    EnforcerProfileIdentity,
@@ -927,12 +914,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case AutomationTemplateIdentity:
 		return []string{
 			"autotmpl",
-		}
-	case AWSAccountIdentity:
-		return []string{
-			"aws",
-			"awsaccs",
-			"awsacc",
 		}
 	case AWSRegisterIdentity:
 		return []string{}
