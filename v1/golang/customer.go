@@ -39,7 +39,7 @@ const (
 // CustomerIdentity represents the Identity of the object.
 var CustomerIdentity = elemental.Identity{
 	Name:     "customer",
-	Category: "customer",
+	Category: "customers",
 	Private:  false,
 }
 

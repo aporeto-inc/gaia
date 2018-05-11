@@ -115,13 +115,6 @@ relations:
   get: true
   create: true
 
-- rest_name: customer
-  descriptions:
-    create: Creates a new billable customer.
-    get: Retrieves the list of existing billable customers.
-  get: true
-  create: true
-
 - rest_name: dependencymap
   descriptions:
     get: Retrieves the dependencymap of a namespace.
