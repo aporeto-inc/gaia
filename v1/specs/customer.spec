@@ -17,15 +17,6 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: AccountID
-    description: AccountID is the id of the customer in the aporeto applications.
-    type: string
-    exposed: true
-    stored: true
-    filterable: true
-    format: free
-    orderable: true
-
   - name: Provider
     description: Provider holds the name of the provider to be billed for this service.
     type: enum

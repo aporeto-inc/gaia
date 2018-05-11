@@ -1902,15 +1902,6 @@ billing purposes.
 
 ### Attributes
 
-#### `AccountID (string)`
-
-AccountID is the id of the customer in the aporeto applications.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
 #### `ID (string)`
 
 ID is the identifier of the object.
