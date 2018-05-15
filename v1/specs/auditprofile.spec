@@ -22,16 +22,17 @@ model:
 
 # Attributes
 attributes:
-- name: propagated
-  description: Propagated indicates if the audit profile is propagated.
-  type: boolean
-  exposed: true
-  stored: true
-  filterable: true
+  v1:
+  - name: propagated
+    description: Propagated indicates if the audit profile is propagated.
+    type: boolean
+    exposed: true
+    stored: true
+    filterable: true
 
-- name: rules
-  description: Rules is the list of audit policy rules associated with this policy.
-  type: external
-  exposed: true
-  subtype: audit_profile_rule_list
-  stored: true
+  - name: rules
+    description: Rules is the list of audit policy rules associated with this policy.
+    type: external
+    exposed: true
+    subtype: audit_profile_rule_list
+    stored: true

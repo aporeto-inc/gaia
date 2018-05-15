@@ -69,11 +69,8 @@ func (o FilePathsList) Version() int {
 
 // FilePath represents the model of a filepath
 type FilePath struct {
-	// FilePath refer to the file mount path.
-	Filepath string `json:"filepath" bson:"filepath" mapstructure:"filepath,omitempty"`
-
-	// server is the server name/ID/IP associated with the file path.
-	Server string `json:"server" bson:"server" mapstructure:"server,omitempty"`
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -84,6 +81,19 @@ type FilePath struct {
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// Description is the description of the object.
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+
+	// FilePath refer to the file mount path.
+	Filepath string `json:"filepath" bson:"filepath" mapstructure:"filepath,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Name is the name of the entity.
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
@@ -93,21 +103,11 @@ type FilePath struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
+	// server is the server name/ID/IP associated with the file path.
+	Server string `json:"server" bson:"server" mapstructure:"server,omitempty"`
+
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
-
-	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Metadata contains tags that can only be set during creation. They must all start
-	// with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
-
-	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -207,6 +207,30 @@ func (o *FilePath) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetMetadata returns the Metadata of the receiver.
+func (o *FilePath) GetMetadata() []string {
+
+	return o.Metadata
+}
+
+// SetMetadata sets the given Metadata of the receiver.
+func (o *FilePath) SetMetadata(metadata []string) {
+
+	o.Metadata = metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *FilePath) GetName() string {
+
+	return o.Name
+}
+
+// SetName sets the given Name of the receiver.
+func (o *FilePath) SetName(name string) {
+
+	o.Name = name
+}
+
 // GetNamespace returns the Namespace of the receiver.
 func (o *FilePath) GetNamespace() string {
 
@@ -249,42 +273,18 @@ func (o *FilePath) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
-// GetMetadata returns the Metadata of the receiver.
-func (o *FilePath) GetMetadata() []string {
-
-	return o.Metadata
-}
-
-// SetMetadata sets the given Metadata of the receiver.
-func (o *FilePath) SetMetadata(metadata []string) {
-
-	o.Metadata = metadata
-}
-
-// GetName returns the Name of the receiver.
-func (o *FilePath) GetName() string {
-
-	return o.Name
-}
-
-// SetName sets the given Name of the receiver.
-func (o *FilePath) SetName(name string) {
-
-	o.Name = name
-}
-
 // Validate valides the current information stored into the structure.
 func (o *FilePath) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredString("filepath", o.Filepath); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("filepath", o.Filepath); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {

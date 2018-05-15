@@ -8,37 +8,38 @@ model:
 
 # Attributes
 attributes:
-- name: fields
-  description: TSDB Fields to set for the report.
-  type: external
-  exposed: true
-  subtype: tsdb_fields
+  v1:
+  - name: fields
+    description: TSDB Fields to set for the report.
+    type: external
+    exposed: true
+    subtype: tsdb_fields
 
-- name: kind
-  description: Kind contains the kind of report.
-  type: enum
-  exposed: true
-  allowed_choices:
-  - Audit
-  - Enforcer
-  - FileAccess
-  - Flow
-  - ProcessingUnit
-  - Syscall
-  - User
+  - name: kind
+    description: Kind contains the kind of report.
+    type: enum
+    exposed: true
+    allowed_choices:
+    - Audit
+    - Enforcer
+    - FileAccess
+    - Flow
+    - ProcessingUnit
+    - Syscall
+    - Claims
 
-- name: tags
-  description: Tags contains the tags associated to the data point.
-  type: external
-  exposed: true
-  subtype: tags_map
+  - name: tags
+    description: Tags contains the tags associated to the data point.
+    type: external
+    exposed: true
+    subtype: tags_map
 
-- name: timestamp
-  description: Timestamp contains the time for the report.
-  type: time
-  exposed: true
+  - name: timestamp
+    description: Timestamp contains the time for the report.
+    type: time
+    exposed: true
 
-- name: value
-  description: Value contains the value for the report.
-  type: float
-  exposed: true
+  - name: value
+    description: Value contains the value for the report.
+    type: float
+    exposed: true

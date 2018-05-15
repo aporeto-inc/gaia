@@ -74,9 +74,9 @@ type RenderedPolicy struct {
 	// EgressPolicies lists all the egress policies attached to processing unit.
 	EgressPolicies map[string]PolicyRulesList `json:"egressPolicies" bson:"-" mapstructure:"egressPolicies,omitempty"`
 
-	// ExposedAPIServices is the list of services that this processing unit is
+	// ExposedServices is the list of services that this processing unit is
 	// implementing.
-	ExposedAPIServices APIServicesList `json:"exposedAPIServices" bson:"-" mapstructure:"exposedAPIServices,omitempty"`
+	ExposedServices ServicesList `json:"exposedServices" bson:"-" mapstructure:"exposedServices,omitempty"`
 
 	// IngressPolicies lists all the ingress policies attached to processing unit.
 	IngressPolicies map[string]PolicyRulesList `json:"ingressPolicies" bson:"-" mapstructure:"ingressPolicies,omitempty"`
@@ -114,7 +114,7 @@ func NewRenderedPolicy() *RenderedPolicy {
 			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
 			string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
 		},
-		ExposedAPIServices: APIServicesList{},
+		ExposedServices: ServicesList{},
 		IngressPolicies: map[string]PolicyRulesList{
 			string(constants.RenderedPolicyTypeNetwork):   PolicyRulesList{},
 			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
@@ -225,13 +225,13 @@ to any internal or external services.`,
 		SubType:        "rendered_policy",
 		Type:           "external",
 	},
-	"ExposedAPIServices": elemental.AttributeSpecification{
+	"ExposedServices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "ExposedAPIServices",
-		Description: `ExposedAPIServices is the list of services that this processing unit is
+		ConvertedName:  "ExposedServices",
+		Description: `ExposedServices is the list of services that this processing unit is
 implementing.`,
 		Exposed: true,
-		Name:    "exposedAPIServices",
+		Name:    "exposedServices",
 		SubType: "api_services_entities",
 		Type:    "external",
 	},
@@ -329,13 +329,13 @@ to any internal or external services.`,
 		SubType:        "rendered_policy",
 		Type:           "external",
 	},
-	"exposedapiservices": elemental.AttributeSpecification{
+	"exposedservices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "ExposedAPIServices",
-		Description: `ExposedAPIServices is the list of services that this processing unit is
+		ConvertedName:  "ExposedServices",
+		Description: `ExposedServices is the list of services that this processing unit is
 implementing.`,
 		Exposed: true,
-		Name:    "exposedAPIServices",
+		Name:    "exposedServices",
 		SubType: "api_services_entities",
 		Type:    "external",
 	},

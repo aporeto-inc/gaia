@@ -1,8 +1,9 @@
 # Attributes
 attributes:
-- name: archived
-  description: Archived defines if the object is archived.
-  type: boolean
-  stored: true
-  getter: true
-  setter: true
+  v1:
+  - name: archived
+    description: Archived defines if the object is archived.
+    type: boolean
+    stored: true
+    getter: true
+    setter: true

@@ -55,10 +55,17 @@ relations:
     create: Verfies the authorizations on various identities for a given token.
   create: true
 
-- rest_name: apiservice
+- rest_name: restapispec
   descriptions:
-    create: Creates a new API Service.
-    get: Retrieves the list of API Services.
+    create: Creates a new REST API specification.
+    get: Retrieves the list of REST API specifications.
+  get: true
+  create: true
+
+- rest_name: service
+  descriptions:
+    create: Creates a new Service.
+    get: Retrieves the list of Services.
   get: true
   create: true
 
@@ -91,9 +98,9 @@ relations:
     get: Retrieves the list of automation templates.
   get: true
 
-- rest_name: availableservice
+- rest_name: app
   descriptions:
-    get: Retrieves the list of available services.
+    get: Retrieves the list of apps.
   get: true
 
 - rest_name: awsaccount
@@ -143,8 +150,8 @@ relations:
 
 - rest_name: export
   descriptions:
-    create: Exports all policies and related object of a namespace.
-  create: true
+    get: Exports all policies and related object of a namespace.
+  get: true
 
 - rest_name: externalaccess
   descriptions:
@@ -213,6 +220,11 @@ relations:
     create: Issues a new token.
   create: true
 
+- rest_name: jaegerbatch
+  descriptions:
+    create: Sends a jaeger tracing batch.
+  create: true
+
 - rest_name: kubernetescluster
   descriptions:
     create: Creates a new kubernetes cluster.
@@ -250,8 +262,8 @@ relations:
 
 - rest_name: passwordreset
   descriptions:
-    get: Sends a link to the account email to reset the password.
     create: Resets the password for an account using the provided link.
+    get: Sends a link to the account email to reset the password.
   get: true
   create: true
 
@@ -265,11 +277,9 @@ relations:
     get: Retrieves the list of policy primitives.
   get: true
 
-- rest_name: policyrule
+- rest_name: policyrenderer
   descriptions:
-    create: Creates a new policy rule.
-    get: Retrieves the list of policy rules.
-  get: true
+    create: Render a policy of a given type for a given set of tags.
   create: true
 
 - rest_name: processingunit
@@ -284,6 +294,11 @@ relations:
     create: Creates a new processing unit policy.
     get: Retrieves the list of processing unit policies.
   get: true
+  create: true
+
+- rest_name: quotacheck
+  descriptions:
+    create: Verifies if the quota is exceeded for a particular object.
   create: true
 
 - rest_name: quotapolicy
@@ -318,10 +333,10 @@ relations:
     get: Retrieves the list of existing roles.
   get: true
 
-- rest_name: service
+- rest_name: installedapp
   descriptions:
-    create: Installs a new service.
-    get: Retrieves the lisy of services.
+    create: Installs a new app.
+    get: Retrieves the list of installed apps.
   get: true
   create: true
 
@@ -335,13 +350,6 @@ relations:
     get: Retrieves a list of network policy suggestion.
   get: true
 
-- rest_name: systemcall
-  descriptions:
-    create: Unused.
-    get: Unused.
-  get: true
-  create: true
-
 - rest_name: tabulation
   descriptions:
     get: Retrieves tabulated informations based on parameters.
@@ -351,6 +359,11 @@ relations:
   descriptions:
     get: Retrieves the list of existing tags in the system.
   get: true
+
+- rest_name: taginject
+  descriptions:
+    create: Internal api to inject tags.
+  create: true
 
 - rest_name: token
   descriptions:

@@ -83,21 +83,8 @@ func (o AlarmsList) Version() int {
 
 // Alarm represents the model of a alarm
 type Alarm struct {
-	// Content of the alarm.
-	Content string `json:"content" bson:"content" mapstructure:"content,omitempty"`
-
-	// Data represent user data related to the alams.
-	Data []map[string]string `json:"data" bson:"data" mapstructure:"data,omitempty"`
-
-	// Kind identifies the kind of alarms. If two alarms are created with the same
-	// identifier, then only the occurrence will be incremented.
-	Kind string `json:"kind" bson:"kind" mapstructure:"kind,omitempty"`
-
-	// Number of time this alarm have been seen.
-	Occurrences []time.Time `json:"occurrences" bson:"occurrences" mapstructure:"occurrences,omitempty"`
-
-	// Status of the alarm.
-	Status AlarmStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -105,8 +92,24 @@ type Alarm struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// Content of the alarm.
+	Content string `json:"content" bson:"content" mapstructure:"content,omitempty"`
+
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Data represent user data related to the alams.
+	Data []map[string]string `json:"data" bson:"data" mapstructure:"data,omitempty"`
+
+	// Description is the description of the object.
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+
+	// Kind identifies the kind of alarms. If two alarms are created with the same
+	// identifier, then only the occurrence will be incremented.
+	Kind string `json:"kind" bson:"kind" mapstructure:"kind,omitempty"`
+
+	// Name is the name of the entity.
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
@@ -114,20 +117,17 @@ type Alarm struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
+	// Number of time this alarm have been seen.
+	Occurrences []time.Time `json:"occurrences" bson:"occurrences" mapstructure:"occurrences,omitempty"`
+
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
+	// Status of the alarm.
+	Status AlarmStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
+
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
-
-	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -226,6 +226,18 @@ func (o *Alarm) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetName returns the Name of the receiver.
+func (o *Alarm) GetName() string {
+
+	return o.Name
+}
+
+// SetName sets the given Name of the receiver.
+func (o *Alarm) SetName(name string) {
+
+	o.Name = name
+}
+
 // GetNamespace returns the Namespace of the receiver.
 func (o *Alarm) GetNamespace() string {
 
@@ -268,18 +280,6 @@ func (o *Alarm) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
-// GetName returns the Name of the receiver.
-func (o *Alarm) GetName() string {
-
-	return o.Name
-}
-
-// SetName sets the given Name of the receiver.
-func (o *Alarm) SetName(name string) {
-
-	o.Name = name
-}
-
 // Validate valides the current information stored into the structure.
 func (o *Alarm) Validate() error {
 
@@ -290,16 +290,12 @@ func (o *Alarm) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("kind", o.Kind); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateStringInList("status", string(o.Status), []string{"Acknowledged", "Open", "Resolved"}, false); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("kind", o.Kind); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
@@ -307,6 +303,10 @@ func (o *Alarm) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("status", string(o.Status), []string{"Acknowledged", "Open", "Resolved"}, false); err != nil {
 		errors = append(errors, err)
 	}
 

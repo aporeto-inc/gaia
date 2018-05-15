@@ -32,6 +32,10 @@ elemental:
     type: '[]string'
     init: '[]string{}'
 
+  ignore_list:
+    type: '[]string'
+    init: '[]string{}'
+
   metadata_list:
     type: '[]string'
     init: '[]string{}'
@@ -58,6 +62,10 @@ elemental:
 
   relations_list:
     type: '[]string'
+
+  policy_rules_list:
+    type: PolicyRulesList
+    init: PolicyRulesList{}
 
   rendered_policy:
     type: map[string]PolicyRulesList
@@ -133,6 +141,10 @@ elemental:
     type: types.GraphGroupMap
     init: types.GraphGroupMap{}
     import: github.com/aporeto-inc/gaia/v1/golang/types
+
+  graphclaims_map:
+    type: map[string][]string
+    init: map[string][]string{}
 
   view_suggestions:
     type: '[]string'
@@ -219,7 +231,6 @@ elemental:
 
   exported_data_content:
     type: '[]map[string]interface{}'
-    init: '[]map[string]interface{}{}'
 
   processing_unit_services_list:
     type: types.ProcessingUnitServicesList
@@ -231,14 +242,14 @@ elemental:
     init: types.HostServicesList{}
     import: github.com/aporeto-inc/gaia/v1/golang/types
 
-  service_parameters:
-    type: '[]*types.ServiceParameter'
-    init: '[]*types.ServiceParameter{}'
+  app_parameters:
+    type: '[]*types.AppParameter'
+    init: '[]*types.AppParameter{}'
     import: github.com/aporeto-inc/gaia/v1/golang/types
 
-  service_relatedobjects:
-    type: '[]*types.ServiceRelatedObject'
-    init: '[]*types.ServiceRelatedObject{}'
+  app_relatedobjects:
+    type: '[]*types.AppRelatedObject'
+    init: '[]*types.AppRelatedObject{}'
     import: github.com/aporeto-inc/gaia/v1/golang/types
 
   logs:
@@ -290,19 +301,14 @@ elemental:
     init: types.IPList{}
     import: github.com/aporeto-inc/gaia/v1/golang/types
 
-  port_list:
-    type: types.PortList
-    init: types.PortList{}
-    import: github.com/aporeto-inc/gaia/v1/golang/types
-
   exposed_api_list:
     type: types.ExposedAPIList
     init: types.ExposedAPIList{}
     import: github.com/aporeto-inc/gaia/v1/golang/types
 
   api_services_entities:
-    type: APIServicesList
-    init: APIServicesList{}
+    type: ServicesList
+    init: ServicesList{}
 
   addresses_list:
     type: '[]string'

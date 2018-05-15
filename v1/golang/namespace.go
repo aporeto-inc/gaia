@@ -67,8 +67,23 @@ func (o NamespacesList) Version() int {
 
 // Namespace represents the model of a namespace
 type Namespace struct {
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+
 	// AssociatedLocalCAID holds the remote ID of the certificate authority to use.
 	AssociatedLocalCAID string `json:"-" bson:"associatedlocalcaid" mapstructure:"-,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// LocalCA holds the eventual certificate authority used by this namespace.
 	LocalCA string `json:"localCA" bson:"localca" mapstructure:"localCA,omitempty"`
@@ -77,17 +92,12 @@ type Namespace struct {
 	// Authority. Switching it off and on again will regenerate a new CA.
 	LocalCAEnabled bool `json:"localCAEnabled" bson:"localcaenabled" mapstructure:"localCAEnabled,omitempty"`
 
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+
 	// Name is the name of the namespace.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
-
-	// Annotation stores additional information about an entity.
-	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
-
-	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
-
-	// CreatedTime is the time at which the object was created.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
@@ -100,16 +110,6 @@ type Namespace struct {
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
-
-	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Metadata contains tags that can only be set during creation. They must all start
-	// with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -171,12 +171,6 @@ func (o *Namespace) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
-// GetName returns the Name of the receiver.
-func (o *Namespace) GetName() string {
-
-	return o.Name
-}
-
 // GetAnnotations returns the Annotations of the receiver.
 func (o *Namespace) GetAnnotations() map[string][]string {
 
@@ -211,6 +205,24 @@ func (o *Namespace) GetCreateTime() time.Time {
 func (o *Namespace) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *Namespace) GetMetadata() []string {
+
+	return o.Metadata
+}
+
+// SetMetadata sets the given Metadata of the receiver.
+func (o *Namespace) SetMetadata(metadata []string) {
+
+	o.Metadata = metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *Namespace) GetName() string {
+
+	return o.Name
 }
 
 // GetNamespace returns the Namespace of the receiver.
@@ -255,33 +267,21 @@ func (o *Namespace) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
-// GetMetadata returns the Metadata of the receiver.
-func (o *Namespace) GetMetadata() []string {
-
-	return o.Metadata
-}
-
-// SetMetadata sets the given Metadata of the receiver.
-func (o *Namespace) SetMetadata(metadata []string) {
-
-	o.Metadata = metadata
-}
-
 // Validate valides the current information stored into the structure.
 func (o *Namespace) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidatePattern("name", o.Name, `^[a-zA-Z0-9-_/]+$`, true); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
 	}
 

@@ -83,22 +83,8 @@ func (o MessagesList) Version() int {
 
 // Message represents the model of a message
 type Message struct {
-	// expirationTime is the time after which the message will be deleted.
-	ExpirationTime time.Time `json:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
-
-	// Level defines how the message is important.
-	Level MessageLevelValue `json:"level" bson:"level" mapstructure:"level,omitempty"`
-
-	// If local is set, the message will only be visible in the current namespace.
-	Local bool `json:"local" bson:"local" mapstructure:"local,omitempty"`
-
-	// If enabled, the message will be sent to the email associated in namespaces
-	// annotations.
-	NotifyByEmail bool `json:"notifyByEmail" bson:"-" mapstructure:"notifyByEmail,omitempty"`
-
-	// Validity set using golang time duration, when the message will be automatically
-	// deleted.
-	Validity string `json:"validity" bson:"validity" mapstructure:"validity,omitempty"`
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -109,11 +95,30 @@ type Message struct {
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// Description is the description of the object.
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+
+	// expirationTime is the time after which the message will be deleted.
+	ExpirationTime time.Time `json:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
+
+	// Level defines how the message is important.
+	Level MessageLevelValue `json:"level" bson:"level" mapstructure:"level,omitempty"`
+
+	// If local is set, the message will only be visible in the current namespace.
+	Local bool `json:"local" bson:"local" mapstructure:"local,omitempty"`
+
+	// Name is the name of the entity.
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// If enabled, the message will be sent to the email associated in namespaces
+	// annotations.
+	NotifyByEmail bool `json:"notifyByEmail" bson:"-" mapstructure:"notifyByEmail,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
@@ -121,14 +126,9 @@ type Message struct {
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
-	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+	// Validity set using golang time duration, when the message will be automatically
+	// deleted.
+	Validity string `json:"validity" bson:"validity" mapstructure:"validity,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -226,6 +226,18 @@ func (o *Message) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetName returns the Name of the receiver.
+func (o *Message) GetName() string {
+
+	return o.Name
+}
+
+// SetName sets the given Name of the receiver.
+func (o *Message) SetName(name string) {
+
+	o.Name = name
+}
+
 // GetNamespace returns the Namespace of the receiver.
 func (o *Message) GetNamespace() string {
 
@@ -268,33 +280,17 @@ func (o *Message) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
-// GetName returns the Name of the receiver.
-func (o *Message) GetName() string {
-
-	return o.Name
-}
-
-// SetName sets the given Name of the receiver.
-func (o *Message) SetName(name string) {
-
-	o.Name = name
-}
-
 // Validate valides the current information stored into the structure.
 func (o *Message) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("level", string(o.Level), []string{"Danger", "Info", "Warning"}, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidatePattern("validity", o.Validity, `^[0-9]+[smh]$`, false); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("level", string(o.Level), []string{"Danger", "Info", "Warning"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -303,6 +299,10 @@ func (o *Message) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidatePattern("validity", o.Validity, `^[0-9]+[smh]$`, false); err != nil {
 		errors = append(errors, err)
 	}
 

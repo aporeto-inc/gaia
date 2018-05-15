@@ -69,6 +69,17 @@ func (o FileAccessPoliciesList) Version() int {
 
 // FileAccessPolicy represents the model of a fileaccesspolicy
 type FileAccessPolicy struct {
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
+	// ActiveDuration defines for how long the policy will be active according to the
+	// activeSchedule.
+	ActiveDuration string `json:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
+
+	// ActiveSchedule defines when the policy should be active using the cron notation.
+	// The policy will be active for the given activeDuration.
+	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
+
 	// AllowsExecute allows to execute the files.
 	AllowsExecute bool `json:"allowsExecute" bson:"-" mapstructure:"allowsExecute,omitempty"`
 
@@ -77,18 +88,6 @@ type FileAccessPolicy struct {
 
 	// AllowsWrite allows to write the files.
 	AllowsWrite bool `json:"allowsWrite" bson:"-" mapstructure:"allowsWrite,omitempty"`
-
-	// EncryptionEnabled will enable the automatic encryption.
-	EncryptionEnabled bool `json:"encryptionEnabled" bson:"-" mapstructure:"encryptionEnabled,omitempty"`
-
-	// LogsEnabled will enable logging when this policy is used.
-	LogsEnabled bool `json:"logsEnabled" bson:"-" mapstructure:"logsEnabled,omitempty"`
-
-	// Object is the object of the policy.
-	Object [][]string `json:"object" bson:"-" mapstructure:"object,omitempty"`
-
-	// Subject is the subject of the policy.
-	Subject [][]string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -99,26 +98,22 @@ type FileAccessPolicy struct {
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Namespace tag attached to an entity.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
-
-	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
-
-	// Protected defines if the object is protected.
-	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
-
-	// UpdateTime is the time at which an entity was updated.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
-
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+	// EncryptionEnabled will enable the automatic encryption.
+	EncryptionEnabled bool `json:"encryptionEnabled" bson:"-" mapstructure:"encryptionEnabled,omitempty"`
+
+	// Fallback indicates that this is fallback policy. It will only be
+	// applied if no other policies have been resolved. If the policy is also
+	// propagated it will become a fallback for children namespaces.
+	Fallback bool `json:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
+
+	// LogsEnabled will enable logging when this policy is used.
+	LogsEnabled bool `json:"logsEnabled" bson:"-" mapstructure:"logsEnabled,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -127,6 +122,15 @@ type FileAccessPolicy struct {
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
+	// Namespace tag attached to an entity.
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Object is the object of the policy.
+	Object [][]string `json:"object" bson:"-" mapstructure:"object,omitempty"`
+
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
@@ -134,13 +138,14 @@ type FileAccessPolicy struct {
 	// namespace, but still used for policy resolution.
 	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
 
-	// ActiveDuration defines for how long the policy will be active according to the
-	// activeSchedule.
-	ActiveDuration string `json:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// ActiveSchedule defines when the policy should be active using the cron notation.
-	// The policy will be active for the given activeDuration.
-	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
+	// Subject is the subject of the policy.
+	Subject [][]string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -209,6 +214,30 @@ func (o *FileAccessPolicy) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *FileAccessPolicy) GetActiveDuration() string {
+
+	return o.ActiveDuration
+}
+
+// SetActiveDuration sets the given ActiveDuration of the receiver.
+func (o *FileAccessPolicy) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *FileAccessPolicy) GetActiveSchedule() string {
+
+	return o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the given ActiveSchedule of the receiver.
+func (o *FileAccessPolicy) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = activeSchedule
+}
+
 // GetAnnotations returns the Annotations of the receiver.
 func (o *FileAccessPolicy) GetAnnotations() map[string][]string {
 
@@ -245,48 +274,6 @@ func (o *FileAccessPolicy) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
-// GetNamespace returns the Namespace of the receiver.
-func (o *FileAccessPolicy) GetNamespace() string {
-
-	return o.Namespace
-}
-
-// SetNamespace sets the given Namespace of the receiver.
-func (o *FileAccessPolicy) SetNamespace(namespace string) {
-
-	o.Namespace = namespace
-}
-
-// GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *FileAccessPolicy) GetNormalizedTags() []string {
-
-	return o.NormalizedTags
-}
-
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *FileAccessPolicy) SetNormalizedTags(normalizedTags []string) {
-
-	o.NormalizedTags = normalizedTags
-}
-
-// GetProtected returns the Protected of the receiver.
-func (o *FileAccessPolicy) GetProtected() bool {
-
-	return o.Protected
-}
-
-// GetUpdateTime returns the UpdateTime of the receiver.
-func (o *FileAccessPolicy) GetUpdateTime() time.Time {
-
-	return o.UpdateTime
-}
-
-// SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *FileAccessPolicy) SetUpdateTime(updateTime time.Time) {
-
-	o.UpdateTime = updateTime
-}
-
 // GetDisabled returns the Disabled of the receiver.
 func (o *FileAccessPolicy) GetDisabled() bool {
 
@@ -297,6 +284,18 @@ func (o *FileAccessPolicy) GetDisabled() bool {
 func (o *FileAccessPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
+}
+
+// GetFallback returns the Fallback of the receiver.
+func (o *FileAccessPolicy) GetFallback() bool {
+
+	return o.Fallback
+}
+
+// SetFallback sets the given Fallback of the receiver.
+func (o *FileAccessPolicy) SetFallback(fallback bool) {
+
+	o.Fallback = fallback
 }
 
 // GetMetadata returns the Metadata of the receiver.
@@ -323,6 +322,30 @@ func (o *FileAccessPolicy) SetName(name string) {
 	o.Name = name
 }
 
+// GetNamespace returns the Namespace of the receiver.
+func (o *FileAccessPolicy) GetNamespace() string {
+
+	return o.Namespace
+}
+
+// SetNamespace sets the given Namespace of the receiver.
+func (o *FileAccessPolicy) SetNamespace(namespace string) {
+
+	o.Namespace = namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *FileAccessPolicy) GetNormalizedTags() []string {
+
+	return o.NormalizedTags
+}
+
+// SetNormalizedTags sets the given NormalizedTags of the receiver.
+func (o *FileAccessPolicy) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = normalizedTags
+}
+
 // GetPropagate returns the Propagate of the receiver.
 func (o *FileAccessPolicy) GetPropagate() bool {
 
@@ -347,28 +370,22 @@ func (o *FileAccessPolicy) SetPropagationHidden(propagationHidden bool) {
 	o.PropagationHidden = propagationHidden
 }
 
-// GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *FileAccessPolicy) GetActiveDuration() string {
+// GetProtected returns the Protected of the receiver.
+func (o *FileAccessPolicy) GetProtected() bool {
 
-	return o.ActiveDuration
+	return o.Protected
 }
 
-// SetActiveDuration sets the given ActiveDuration of the receiver.
-func (o *FileAccessPolicy) SetActiveDuration(activeDuration string) {
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *FileAccessPolicy) GetUpdateTime() time.Time {
 
-	o.ActiveDuration = activeDuration
+	return o.UpdateTime
 }
 
-// GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *FileAccessPolicy) GetActiveSchedule() string {
+// SetUpdateTime sets the given UpdateTime of the receiver.
+func (o *FileAccessPolicy) SetUpdateTime(updateTime time.Time) {
 
-	return o.ActiveSchedule
-}
-
-// SetActiveSchedule sets the given ActiveSchedule of the receiver.
-func (o *FileAccessPolicy) SetActiveSchedule(activeSchedule string) {
-
-	o.ActiveSchedule = activeSchedule
+	o.UpdateTime = updateTime
 }
 
 // Validate valides the current information stored into the structure.
@@ -376,6 +393,10 @@ func (o *FileAccessPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, false); err != nil {
+		errors = append(errors, err)
+	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
@@ -386,10 +407,6 @@ func (o *FileAccessPolicy) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -566,6 +583,21 @@ The policy will be active for the given activeDuration.`,
 		Name:           "encryptionEnabled",
 		Orderable:      true,
 		Type:           "boolean",
+	},
+	"Fallback": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Fallback",
+		Description: `Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "fallback",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"LogsEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -863,6 +895,21 @@ The policy will be active for the given activeDuration.`,
 		Name:           "encryptionEnabled",
 		Orderable:      true,
 		Type:           "boolean",
+	},
+	"fallback": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Fallback",
+		Description: `Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "fallback",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"logsenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

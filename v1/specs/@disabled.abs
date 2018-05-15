@@ -1,11 +1,12 @@
 # Attributes
 attributes:
-- name: disabled
-  description: Disabled defines if the propert is disabled.
-  type: boolean
-  exposed: true
-  stored: true
-  filterable: true
-  getter: true
-  setter: true
-  orderable: true
+  v1:
+  - name: disabled
+    description: Disabled defines if the propert is disabled.
+    type: boolean
+    exposed: true
+    stored: true
+    filterable: true
+    getter: true
+    setter: true
+    orderable: true

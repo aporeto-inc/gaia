@@ -3,7 +3,6 @@ package gaia
 import "github.com/aporeto-inc/elemental"
 
 func init() {
-
 	elemental.RegisterIdentity(AccountIdentity)
 	elemental.RegisterIdentity(AccountCheckIdentity)
 	elemental.RegisterIdentity(ActivateIdentity)
@@ -11,13 +10,12 @@ func init() {
 	elemental.RegisterIdentity(AlarmIdentity)
 	elemental.RegisterIdentity(APIAuthorizationPolicyIdentity)
 	elemental.RegisterIdentity(APICheckIdentity)
-	elemental.RegisterIdentity(APIServiceIdentity)
+	elemental.RegisterIdentity(AppIdentity)
 	elemental.RegisterIdentity(AuditProfileIdentity)
 	elemental.RegisterIdentity(AuthIdentity)
 	elemental.RegisterIdentity(AuthorityIdentity)
 	elemental.RegisterIdentity(AutomationIdentity)
 	elemental.RegisterIdentity(AutomationTemplateIdentity)
-	elemental.RegisterIdentity(AvailableServiceIdentity)
 	elemental.RegisterIdentity(AWSAccountIdentity)
 	elemental.RegisterIdentity(CategoryIdentity)
 	elemental.RegisterIdentity(CertificateIdentity)
@@ -36,6 +34,7 @@ func init() {
 	elemental.RegisterIdentity(HookPolicyIdentity)
 	elemental.RegisterIdentity(ImportIdentity)
 	elemental.RegisterIdentity(InstallationIdentity)
+	elemental.RegisterIdentity(InstalledAppIdentity)
 	elemental.RegisterIdentity(IsolationProfileIdentity)
 	elemental.RegisterIdentity(IssueIdentity)
 	elemental.RegisterIdentity(JaegerbatchIdentity)
@@ -50,23 +49,26 @@ func init() {
 	elemental.RegisterIdentity(PokeIdentity)
 	elemental.RegisterIdentity(PolicyIdentity)
 	elemental.RegisterIdentity(PolicyRefreshIdentity)
+	elemental.RegisterIdentity(PolicyRendererIdentity)
 	elemental.RegisterIdentity(PolicyRuleIdentity)
 	elemental.RegisterIdentity(PrivateKeyIdentity)
 	elemental.RegisterIdentity(ProcessingUnitIdentity)
 	elemental.RegisterIdentity(ProcessingUnitPolicyIdentity)
+	elemental.RegisterIdentity(QuotaCheckIdentity)
 	elemental.RegisterIdentity(QuotaPolicyIdentity)
 	elemental.RegisterIdentity(RemoteProcessorIdentity)
 	elemental.RegisterIdentity(RenderedPolicyIdentity)
 	elemental.RegisterIdentity(ReportIdentity)
+	elemental.RegisterIdentity(RESTAPISpecIdentity)
 	elemental.RegisterIdentity(RevocationIdentity)
 	elemental.RegisterIdentity(RoleIdentity)
 	elemental.RegisterIdentity(RootIdentity)
 	elemental.RegisterIdentity(ServiceIdentity)
 	elemental.RegisterIdentity(StatsQueryIdentity)
 	elemental.RegisterIdentity(SuggestedPolicyIdentity)
-	elemental.RegisterIdentity(SystemCallIdentity)
 	elemental.RegisterIdentity(TabulationIdentity)
 	elemental.RegisterIdentity(TagIdentity)
+	elemental.RegisterIdentity(TagInjectIdentity)
 	elemental.RegisterIdentity(TokenIdentity)
 	elemental.RegisterIdentity(TokenScopePolicyIdentity)
 	elemental.RegisterIdentity(TriggerIdentity)
@@ -97,8 +99,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewAPIAuthorizationPolicy()
 	case APICheckIdentity.Name:
 		return NewAPICheck()
-	case APIServiceIdentity.Name:
-		return NewAPIService()
+	case AppIdentity.Name:
+		return NewApp()
 	case AuditProfileIdentity.Name:
 		return NewAuditProfile()
 	case AuthIdentity.Name:
@@ -109,8 +111,6 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewAutomation()
 	case AutomationTemplateIdentity.Name:
 		return NewAutomationTemplate()
-	case AvailableServiceIdentity.Name:
-		return NewAvailableService()
 	case AWSAccountIdentity.Name:
 		return NewAWSAccount()
 	case CategoryIdentity.Name:
@@ -147,6 +147,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewImport()
 	case InstallationIdentity.Name:
 		return NewInstallation()
+	case InstalledAppIdentity.Name:
+		return NewInstalledApp()
 	case IsolationProfileIdentity.Name:
 		return NewIsolationProfile()
 	case IssueIdentity.Name:
@@ -175,6 +177,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewPolicy()
 	case PolicyRefreshIdentity.Name:
 		return NewPolicyRefresh()
+	case PolicyRendererIdentity.Name:
+		return NewPolicyRenderer()
 	case PolicyRuleIdentity.Name:
 		return NewPolicyRule()
 	case PrivateKeyIdentity.Name:
@@ -183,6 +187,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewProcessingUnit()
 	case ProcessingUnitPolicyIdentity.Name:
 		return NewProcessingUnitPolicy()
+	case QuotaCheckIdentity.Name:
+		return NewQuotaCheck()
 	case QuotaPolicyIdentity.Name:
 		return NewQuotaPolicy()
 	case RemoteProcessorIdentity.Name:
@@ -191,6 +197,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewRenderedPolicy()
 	case ReportIdentity.Name:
 		return NewReport()
+	case RESTAPISpecIdentity.Name:
+		return NewRESTAPISpec()
 	case RevocationIdentity.Name:
 		return NewRevocation()
 	case RoleIdentity.Name:
@@ -203,12 +211,12 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewStatsQuery()
 	case SuggestedPolicyIdentity.Name:
 		return NewSuggestedPolicy()
-	case SystemCallIdentity.Name:
-		return NewSystemCall()
 	case TabulationIdentity.Name:
 		return NewTabulation()
 	case TagIdentity.Name:
 		return NewTag()
+	case TagInjectIdentity.Name:
+		return NewTagInject()
 	case TokenIdentity.Name:
 		return NewToken()
 	case TokenScopePolicyIdentity.Name:
@@ -245,8 +253,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewAPIAuthorizationPolicy()
 	case APICheckIdentity.Category:
 		return NewAPICheck()
-	case APIServiceIdentity.Category:
-		return NewAPIService()
+	case AppIdentity.Category:
+		return NewApp()
 	case AuditProfileIdentity.Category:
 		return NewAuditProfile()
 	case AuthIdentity.Category:
@@ -257,8 +265,6 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewAutomation()
 	case AutomationTemplateIdentity.Category:
 		return NewAutomationTemplate()
-	case AvailableServiceIdentity.Category:
-		return NewAvailableService()
 	case AWSAccountIdentity.Category:
 		return NewAWSAccount()
 	case CategoryIdentity.Category:
@@ -295,6 +301,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewImport()
 	case InstallationIdentity.Category:
 		return NewInstallation()
+	case InstalledAppIdentity.Category:
+		return NewInstalledApp()
 	case IsolationProfileIdentity.Category:
 		return NewIsolationProfile()
 	case IssueIdentity.Category:
@@ -323,6 +331,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewPolicy()
 	case PolicyRefreshIdentity.Category:
 		return NewPolicyRefresh()
+	case PolicyRendererIdentity.Category:
+		return NewPolicyRenderer()
 	case PolicyRuleIdentity.Category:
 		return NewPolicyRule()
 	case PrivateKeyIdentity.Category:
@@ -331,6 +341,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewProcessingUnit()
 	case ProcessingUnitPolicyIdentity.Category:
 		return NewProcessingUnitPolicy()
+	case QuotaCheckIdentity.Category:
+		return NewQuotaCheck()
 	case QuotaPolicyIdentity.Category:
 		return NewQuotaPolicy()
 	case RemoteProcessorIdentity.Category:
@@ -339,6 +351,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewRenderedPolicy()
 	case ReportIdentity.Category:
 		return NewReport()
+	case RESTAPISpecIdentity.Category:
+		return NewRESTAPISpec()
 	case RevocationIdentity.Category:
 		return NewRevocation()
 	case RoleIdentity.Category:
@@ -351,12 +365,12 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewStatsQuery()
 	case SuggestedPolicyIdentity.Category:
 		return NewSuggestedPolicy()
-	case SystemCallIdentity.Category:
-		return NewSystemCall()
 	case TabulationIdentity.Category:
 		return NewTabulation()
 	case TagIdentity.Category:
 		return NewTag()
+	case TagInjectIdentity.Category:
+		return NewTagInject()
 	case TokenIdentity.Category:
 		return NewToken()
 	case TokenScopePolicyIdentity.Category:
@@ -393,8 +407,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &APIAuthorizationPoliciesList{}
 	case APICheckIdentity.Name:
 		return &APIChecksList{}
-	case APIServiceIdentity.Name:
-		return &APIServicesList{}
+	case AppIdentity.Name:
+		return &AppsList{}
 	case AuditProfileIdentity.Name:
 		return &AuditProfilesList{}
 	case AuthIdentity.Name:
@@ -405,8 +419,6 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &AutomationsList{}
 	case AutomationTemplateIdentity.Name:
 		return &AutomationTemplatesList{}
-	case AvailableServiceIdentity.Name:
-		return &AvailableServicesList{}
 	case AWSAccountIdentity.Name:
 		return &AWSAccountsList{}
 	case CategoryIdentity.Name:
@@ -443,6 +455,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &ImportsList{}
 	case InstallationIdentity.Name:
 		return &InstallationsList{}
+	case InstalledAppIdentity.Name:
+		return &InstalledAppsList{}
 	case IsolationProfileIdentity.Name:
 		return &IsolationProfilesList{}
 	case IssueIdentity.Name:
@@ -471,6 +485,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &PoliciesList{}
 	case PolicyRefreshIdentity.Name:
 		return &PolicyRefreshsList{}
+	case PolicyRendererIdentity.Name:
+		return &PolicyRenderersList{}
 	case PolicyRuleIdentity.Name:
 		return &PolicyRulesList{}
 	case PrivateKeyIdentity.Name:
@@ -479,6 +495,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &ProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity.Name:
 		return &ProcessingUnitPoliciesList{}
+	case QuotaCheckIdentity.Name:
+		return &QuotaChecksList{}
 	case QuotaPolicyIdentity.Name:
 		return &QuotaPoliciesList{}
 	case RemoteProcessorIdentity.Name:
@@ -487,23 +505,24 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &RenderedPoliciesList{}
 	case ReportIdentity.Name:
 		return &ReportsList{}
+	case RESTAPISpecIdentity.Name:
+		return &RESTAPISpecsList{}
 	case RevocationIdentity.Name:
 		return &RevocationsList{}
 	case RoleIdentity.Name:
 		return &RolesList{}
-
 	case ServiceIdentity.Name:
 		return &ServicesList{}
 	case StatsQueryIdentity.Name:
 		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity.Name:
 		return &SuggestedPoliciesList{}
-	case SystemCallIdentity.Name:
-		return &SystemCallsList{}
 	case TabulationIdentity.Name:
 		return &TabulationsList{}
 	case TagIdentity.Name:
 		return &TagsList{}
+	case TagInjectIdentity.Name:
+		return &TagInjectsList{}
 	case TokenIdentity.Name:
 		return &TokensList{}
 	case TokenScopePolicyIdentity.Name:
@@ -540,8 +559,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &APIAuthorizationPoliciesList{}
 	case APICheckIdentity.Category:
 		return &APIChecksList{}
-	case APIServiceIdentity.Category:
-		return &APIServicesList{}
+	case AppIdentity.Category:
+		return &AppsList{}
 	case AuditProfileIdentity.Category:
 		return &AuditProfilesList{}
 	case AuthIdentity.Category:
@@ -552,8 +571,6 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &AutomationsList{}
 	case AutomationTemplateIdentity.Category:
 		return &AutomationTemplatesList{}
-	case AvailableServiceIdentity.Category:
-		return &AvailableServicesList{}
 	case AWSAccountIdentity.Category:
 		return &AWSAccountsList{}
 	case CategoryIdentity.Category:
@@ -590,6 +607,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &ImportsList{}
 	case InstallationIdentity.Category:
 		return &InstallationsList{}
+	case InstalledAppIdentity.Category:
+		return &InstalledAppsList{}
 	case IsolationProfileIdentity.Category:
 		return &IsolationProfilesList{}
 	case IssueIdentity.Category:
@@ -618,6 +637,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &PoliciesList{}
 	case PolicyRefreshIdentity.Category:
 		return &PolicyRefreshsList{}
+	case PolicyRendererIdentity.Category:
+		return &PolicyRenderersList{}
 	case PolicyRuleIdentity.Category:
 		return &PolicyRulesList{}
 	case PrivateKeyIdentity.Category:
@@ -626,6 +647,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &ProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity.Category:
 		return &ProcessingUnitPoliciesList{}
+	case QuotaCheckIdentity.Category:
+		return &QuotaChecksList{}
 	case QuotaPolicyIdentity.Category:
 		return &QuotaPoliciesList{}
 	case RemoteProcessorIdentity.Category:
@@ -634,23 +657,24 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &RenderedPoliciesList{}
 	case ReportIdentity.Category:
 		return &ReportsList{}
+	case RESTAPISpecIdentity.Category:
+		return &RESTAPISpecsList{}
 	case RevocationIdentity.Category:
 		return &RevocationsList{}
 	case RoleIdentity.Category:
 		return &RolesList{}
-
 	case ServiceIdentity.Category:
 		return &ServicesList{}
 	case StatsQueryIdentity.Category:
 		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity.Category:
 		return &SuggestedPoliciesList{}
-	case SystemCallIdentity.Category:
-		return &SystemCallsList{}
 	case TabulationIdentity.Category:
 		return &TabulationsList{}
 	case TagIdentity.Category:
 		return &TagsList{}
+	case TagInjectIdentity.Category:
+		return &TagInjectsList{}
 	case TokenIdentity.Category:
 		return &TokensList{}
 	case TokenScopePolicyIdentity.Category:
@@ -679,13 +703,12 @@ func AllIdentities() []elemental.Identity {
 		AlarmIdentity,
 		APIAuthorizationPolicyIdentity,
 		APICheckIdentity,
-		APIServiceIdentity,
+		AppIdentity,
 		AuditProfileIdentity,
 		AuthIdentity,
 		AuthorityIdentity,
 		AutomationIdentity,
 		AutomationTemplateIdentity,
-		AvailableServiceIdentity,
 		AWSAccountIdentity,
 		CategoryIdentity,
 		CertificateIdentity,
@@ -704,6 +727,7 @@ func AllIdentities() []elemental.Identity {
 		HookPolicyIdentity,
 		ImportIdentity,
 		InstallationIdentity,
+		InstalledAppIdentity,
 		IsolationProfileIdentity,
 		IssueIdentity,
 		JaegerbatchIdentity,
@@ -718,23 +742,26 @@ func AllIdentities() []elemental.Identity {
 		PokeIdentity,
 		PolicyIdentity,
 		PolicyRefreshIdentity,
+		PolicyRendererIdentity,
 		PolicyRuleIdentity,
 		PrivateKeyIdentity,
 		ProcessingUnitIdentity,
 		ProcessingUnitPolicyIdentity,
+		QuotaCheckIdentity,
 		QuotaPolicyIdentity,
 		RemoteProcessorIdentity,
 		RenderedPolicyIdentity,
 		ReportIdentity,
+		RESTAPISpecIdentity,
 		RevocationIdentity,
 		RoleIdentity,
 		RootIdentity,
 		ServiceIdentity,
 		StatsQueryIdentity,
 		SuggestedPolicyIdentity,
-		SystemCallIdentity,
 		TabulationIdentity,
 		TagIdentity,
+		TagInjectIdentity,
 		TokenIdentity,
 		TokenScopePolicyIdentity,
 		TriggerIdentity,
@@ -752,7 +779,6 @@ var aliasesMap = map[string]elemental.Identity{
 	"autos":      AutomationIdentity,
 	"auto":       AutomationIdentity,
 	"autotmpl":   AutomationTemplateIdentity,
-	"asrv":       AvailableServiceIdentity,
 	"aws":        AWSAccountIdentity,
 	"awsaccs":    AWSAccountIdentity,
 	"awsacc":     AWSAccountIdentity,
@@ -760,8 +786,8 @@ var aliasesMap = map[string]elemental.Identity{
 	"depmap":     DependencyMapIdentity,
 	"profile":    EnforcerProfileIdentity,
 	"profiles":   EnforcerProfileIdentity,
-	"srvpols":    EnforcerProfileMappingPolicyIdentity,
-	"srvpol":     EnforcerProfileMappingPolicyIdentity,
+	"enfpols":    EnforcerProfileMappingPolicyIdentity,
+	"enfpol":     EnforcerProfileMappingPolicyIdentity,
 	"extacs":     ExternalAccessIdentity,
 	"extac":      ExternalAccessIdentity,
 	"extsrv":     ExternalServiceIdentity,
@@ -774,6 +800,8 @@ var aliasesMap = map[string]elemental.Identity{
 	"hooks":      HookPolicyIdentity,
 	"hookpol":    HookPolicyIdentity,
 	"hookpols":   HookPolicyIdentity,
+	"iapps":      InstalledAppIdentity,
+	"iapp":       InstalledAppIdentity,
 	"ip":         IsolationProfileIdentity,
 	"sp":         JaegerbatchIdentity,
 	"mess":       MessageIdentity,
@@ -839,7 +867,7 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case APICheckIdentity:
 		return []string{}
-	case APIServiceIdentity:
+	case AppIdentity:
 		return []string{}
 	case AuditProfileIdentity:
 		return []string{
@@ -859,10 +887,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case AutomationTemplateIdentity:
 		return []string{
 			"autotmpl",
-		}
-	case AvailableServiceIdentity:
-		return []string{
-			"asrv",
 		}
 	case AWSAccountIdentity:
 		return []string{
@@ -890,8 +914,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case EnforcerProfileMappingPolicyIdentity:
 		return []string{
-			"srvpols",
-			"srvpol",
+			"enfpols",
+			"enfpol",
 		}
 	case ExportIdentity:
 		return []string{}
@@ -930,6 +954,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case InstallationIdentity:
 		return []string{}
+	case InstalledAppIdentity:
+		return []string{
+			"iapps",
+			"iapp",
+		}
 	case IsolationProfileIdentity:
 		return []string{
 			"ip",
@@ -974,6 +1003,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case PolicyRefreshIdentity:
 		return []string{}
+	case PolicyRendererIdentity:
+		return []string{}
 	case PolicyRuleIdentity:
 		return []string{}
 	case PrivateKeyIdentity:
@@ -987,6 +1018,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"pup",
 		}
+	case QuotaCheckIdentity:
+		return []string{}
 	case QuotaPolicyIdentity:
 		return []string{
 			"quota",
@@ -1005,6 +1038,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"rpols",
 		}
 	case ReportIdentity:
+		return []string{}
+	case RESTAPISpecIdentity:
 		return []string{}
 	case RevocationIdentity:
 		return []string{}
@@ -1027,8 +1062,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"sugg",
 			"suggs",
 		}
-	case SystemCallIdentity:
-		return []string{}
 	case TabulationIdentity:
 		return []string{
 			"table",
@@ -1037,6 +1070,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"tab",
 		}
 	case TagIdentity:
+		return []string{}
+	case TagInjectIdentity:
 		return []string{}
 	case TokenIdentity:
 		return []string{}

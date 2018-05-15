@@ -15,6 +15,9 @@ const (
 	// ReportKindAudit represents the value Audit.
 	ReportKindAudit ReportKindValue = "Audit"
 
+	// ReportKindClaims represents the value Claims.
+	ReportKindClaims ReportKindValue = "Claims"
+
 	// ReportKindEnforcer represents the value Enforcer.
 	ReportKindEnforcer ReportKindValue = "Enforcer"
 
@@ -29,9 +32,6 @@ const (
 
 	// ReportKindSyscall represents the value Syscall.
 	ReportKindSyscall ReportKindValue = "Syscall"
-
-	// ReportKindUser represents the value User.
-	ReportKindUser ReportKindValue = "User"
 )
 
 // ReportIdentity represents the Identity of the object.
@@ -168,7 +168,7 @@ func (o *Report) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("kind", string(o.Kind), []string{"Audit", "Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall", "User"}, false); err != nil {
+	if err := elemental.ValidateStringInList("kind", string(o.Kind), []string{"Audit", "Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall", "Claims"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -212,7 +212,7 @@ var ReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"Kind": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Audit", "Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall", "User"},
+		AllowedChoices: []string{"Audit", "Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall", "Claims"},
 		ConvertedName:  "Kind",
 		Description:    `Kind contains the kind of report.`,
 		Exposed:        true,
@@ -258,7 +258,7 @@ var ReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"kind": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Audit", "Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall", "User"},
+		AllowedChoices: []string{"Audit", "Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall", "Claims"},
 		ConvertedName:  "Kind",
 		Description:    `Kind contains the kind of report.`,
 		Exposed:        true,

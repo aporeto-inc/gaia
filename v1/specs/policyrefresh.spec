@@ -10,20 +10,21 @@ model:
 
 # Attributes
 attributes:
-- name: sourceNamespace
-  description: SourceNamespace contains the original namespace of the updated object.
-  type: string
-  exposed: true
-  stored: true
-  filterable: true
-  format: free
-  orderable: true
+  v1:
+  - name: sourceNamespace
+    description: SourceNamespace contains the original namespace of the updated object.
+    type: string
+    exposed: true
+    stored: true
+    filterable: true
+    format: free
+    orderable: true
 
-- name: type
-  description: Type contains the policy type that is affected.
-  type: string
-  exposed: true
-  stored: true
-  filterable: true
-  format: free
-  orderable: true
+  - name: type
+    description: Type contains the policy type that is affected.
+    type: string
+    exposed: true
+    stored: true
+    filterable: true
+    format: free
+    orderable: true

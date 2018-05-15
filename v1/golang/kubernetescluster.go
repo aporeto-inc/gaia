@@ -8,6 +8,20 @@ import (
 	"time"
 )
 
+// KubernetesClusterActivationTypeValue represents the possible values for attribute "activationType".
+type KubernetesClusterActivationTypeValue string
+
+const (
+	// KubernetesClusterActivationTypeKubeSquall represents the value KubeSquall.
+	KubernetesClusterActivationTypeKubeSquall KubernetesClusterActivationTypeValue = "KubeSquall"
+
+	// KubernetesClusterActivationTypePodAtomic represents the value PodAtomic.
+	KubernetesClusterActivationTypePodAtomic KubernetesClusterActivationTypeValue = "PodAtomic"
+
+	// KubernetesClusterActivationTypePodContainers represents the value PodContainers.
+	KubernetesClusterActivationTypePodContainers KubernetesClusterActivationTypeValue = "PodContainers"
+)
+
 // KubernetesClusterIdentity represents the Identity of the object.
 var KubernetesClusterIdentity = elemental.Identity{
 	Name:     "kubernetescluster",
@@ -70,8 +84,17 @@ type KubernetesCluster struct {
 	// Link to the API authorization policy.
 	APIAuthorizationPolicyID string `json:"-" bson:"apiauthorizationpolicyid" mapstructure:"-,omitempty"`
 
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Defines the mode of activation on the KubernetesCluster.
+	ActivationType KubernetesClusterActivationTypeValue `json:"activationType" bson:"activationtype" mapstructure:"activationType,omitempty"`
+
 	// Link to the certificate created in Vince for this cluster.
 	CertificateID string `json:"-" bson:"certificateid" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// base64 of the .tar.gz file that contains all the .YAMLs files needed to create
 	// the aporeto side on your kubernetes Cluster.
@@ -96,12 +119,6 @@ type KubernetesCluster struct {
 	// List of target networks.
 	TargetNetworks []string `json:"targetNetworks" bson:"targetnetworks" mapstructure:"targetNetworks,omitempty"`
 
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
-
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
@@ -114,7 +131,8 @@ type KubernetesCluster struct {
 func NewKubernetesCluster() *KubernetesCluster {
 
 	return &KubernetesCluster{
-		ModelVersion: 1,
+		ModelVersion:   1,
+		ActivationType: "KubeSquall",
 	}
 }
 
@@ -163,6 +181,10 @@ func (o *KubernetesCluster) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateStringInList("activationType", string(o.ActivationType), []string{"KubeSquall", "PodAtomic", "PodContainers"}, false); err != nil {
+		errors = append(errors, err)
+	}
 
 	if len(requiredErrors) > 0 {
 		return requiredErrors
@@ -218,6 +240,18 @@ var KubernetesClusterAttributesMap = map[string]elemental.AttributeSpecification
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"ActivationType": elemental.AttributeSpecification{
+		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
+		ConvertedName:  "ActivationType",
+		DefaultValue:   KubernetesClusterActivationTypeKubeSquall,
+		Description:    `Defines the mode of activation on the KubernetesCluster.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "activationType",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
 	},
 	"CertificateID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -363,6 +397,18 @@ var KubernetesClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"activationtype": elemental.AttributeSpecification{
+		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
+		ConvertedName:  "ActivationType",
+		DefaultValue:   KubernetesClusterActivationTypeKubeSquall,
+		Description:    `Defines the mode of activation on the KubernetesCluster.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "activationType",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
 	},
 	"certificateid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

@@ -67,6 +67,9 @@ func (o AWSAccountsList) Version() int {
 
 // AWSAccount represents the model of a awsaccount
 type AWSAccount struct {
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
 	// AccessKeyID contains the aws access key ID. This is used to retrieve your
 	// account id, and it is not stored.
 	AccessKeyID string `json:"accessKeyID" bson:"-" mapstructure:"accessKeyID,omitempty"`
@@ -77,6 +80,9 @@ type AWSAccount struct {
 
 	// accountID contains your verified accound id.
 	AccountID string `json:"accountID" bson:"accountid" mapstructure:"accountID,omitempty"`
+
+	// Creation date of the object.
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// ParentID contains the parent Vince account ID.
 	ParentID string `json:"parentID" bson:"parentid" mapstructure:"parentID,omitempty"`
@@ -90,12 +96,6 @@ type AWSAccount struct {
 	// secretAccessKey contains the secret key. It is used to retrieve your account id,
 	// and it is not stored.
 	SecretAccessKey string `json:"secretAccessKey" bson:"-" mapstructure:"secretAccessKey,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`

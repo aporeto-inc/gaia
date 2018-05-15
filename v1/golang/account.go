@@ -8,6 +8,17 @@ import (
 	"time"
 )
 
+// AccountLDAPConnSecurityProtocolValue represents the possible values for attribute "LDAPConnSecurityProtocol".
+type AccountLDAPConnSecurityProtocolValue string
+
+const (
+	// AccountLDAPConnSecurityProtocolInbandTLS represents the value InbandTLS.
+	AccountLDAPConnSecurityProtocolInbandTLS AccountLDAPConnSecurityProtocolValue = "InbandTLS"
+
+	// AccountLDAPConnSecurityProtocolTLS represents the value TLS.
+	AccountLDAPConnSecurityProtocolTLS AccountLDAPConnSecurityProtocolValue = "TLS"
+)
+
 // AccountStatusValue represents the possible values for attribute "status".
 type AccountStatusValue string
 
@@ -84,6 +95,9 @@ func (o AccountsList) Version() int {
 
 // Account represents the model of a account
 type Account struct {
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
 	// LDAPAddress holds the account authentication account's private ldap server.
 	LDAPAddress string `json:"LDAPAddress" bson:"ldapaddress" mapstructure:"LDAPAddress,omitempty"`
 
@@ -96,13 +110,31 @@ type Account struct {
 	// LDAPBindPassword holds the password to the LDAPBindDN.
 	LDAPBindPassword string `json:"LDAPBindPassword" bson:"ldapbindpassword" mapstructure:"LDAPBindPassword,omitempty"`
 
+	// LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
+	// Windows based systems, value may be 'sAMAccountName={USERNAME}'. For Linux and
+	// other systems, value may be 'uid={USERNAME}'.
+	LDAPBindSearchFilter string `json:"LDAPBindSearchFilter" bson:"ldapbindsearchfilter" mapstructure:"LDAPBindSearchFilter,omitempty"`
+
 	// LDAPCertificateAuthority contains the optional certificate author ity that will
 	// be used to connect to the LDAP server. It is not needed if the TLS certificate
 	// of the LDAP is issued from a public truster CA.
 	LDAPCertificateAuthority string `json:"LDAPCertificateAuthority" bson:"ldapcertificateauthority" mapstructure:"LDAPCertificateAuthority,omitempty"`
 
+	// LDAPConnProtocol holds the connection type for the LDAP provider.
+	LDAPConnSecurityProtocol AccountLDAPConnSecurityProtocolValue `json:"LDAPConnSecurityProtocol" bson:"ldapconnsecurityprotocol" mapstructure:"LDAPConnSecurityProtocol,omitempty"`
+
 	// LDAPEnabled triggers if the account uses it's own LDAP for authentication.
 	LDAPEnabled bool `json:"LDAPEnabled" bson:"ldapenabled" mapstructure:"LDAPEnabled,omitempty"`
+
+	// LDAPIgnoredKeys holds a list of keys that must not be imported into Aporeto
+	// authorization system.
+	LDAPIgnoredKeys []string `json:"LDAPIgnoredKeys" bson:"ldapignoredkeys" mapstructure:"LDAPIgnoredKeys,omitempty"`
+
+	// LDAPSubjectKey holds key to be used to populate the subject. If you want to
+	// use the user as a subject, for Windows based systems you may use
+	// 'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
+	// also use any alternate key.
+	LDAPSubjectKey string `json:"LDAPSubjectKey" bson:"ldapsubjectkey" mapstructure:"LDAPSubjectKey,omitempty"`
 
 	// Set to enable or disable two factor authentication.
 	OTPEnabled bool `json:"OTPEnabled" bson:"otpenabled" mapstructure:"OTPEnabled,omitempty"`
@@ -120,13 +152,16 @@ type Account struct {
 	ActivationExpiration time.Time `json:"-" bson:"activationexpiration" mapstructure:"-,omitempty"`
 
 	// ActivationToken contains the activation token.
-	ActivationToken string `json:"-" bson:"activationtoken" mapstructure:"-,omitempty"`
+	ActivationToken string `json:"activationToken,omitempty" bson:"activationtoken" mapstructure:"activationToken,omitempty,omitempty"`
 
 	// AssociatedAPIAuthPolicyID holds the ID of the associated API auth policy.
 	AssociatedAPIAuthPolicyID string `json:"-" bson:"associatedapiauthpolicyid" mapstructure:"-,omitempty"`
 
 	// AssociatedAWSPolicies contains a map of associated AWS Enforcerd Policies.
 	AssociatedAWSPolicies map[string]string `json:"-" bson:"associatedawspolicies" mapstructure:"-,omitempty"`
+
+	// associatedBillingID holds the ID of the associated billing customer.
+	AssociatedBillingID string `json:"associatedBillingID" bson:"associatedbillingid" mapstructure:"associatedBillingID,omitempty"`
 
 	// AssociatedNamespaceID contains the ID of the associated namespace.
 	AssociatedNamespaceID string `json:"-" bson:"associatednamespaceid" mapstructure:"-,omitempty"`
@@ -139,6 +174,9 @@ type Account struct {
 
 	// Company of the account user.
 	Company string `json:"company" bson:"company" mapstructure:"company,omitempty"`
+
+	// Creation date of the object.
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Email of the account holder.
 	Email string `json:"email" bson:"email" mapstructure:"email,omitempty"`
@@ -167,12 +205,6 @@ type Account struct {
 	// Status of the account.
 	Status AccountStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
 
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
-
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
@@ -185,11 +217,15 @@ type Account struct {
 func NewAccount() *Account {
 
 	return &Account{
-		ModelVersion:            1,
-		AssociatedAWSPolicies:   map[string]string{},
-		AssociatedPlanKey:       "aporeto.plan.free",
-		AssociatedQuotaPolicies: map[string]string{},
-		Status:                  "Pending",
+		ModelVersion:             1,
+		AssociatedAWSPolicies:    map[string]string{},
+		AssociatedPlanKey:        "aporeto.plan.free",
+		AssociatedQuotaPolicies:  map[string]string{},
+		LDAPBindSearchFilter:     "uid={USERNAME}",
+		LDAPConnSecurityProtocol: "InbandTLS",
+		LDAPIgnoredKeys:          []string{},
+		LDAPSubjectKey:           "uid",
+		Status:                   "Pending",
 	}
 }
 
@@ -239,6 +275,10 @@ func (o *Account) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateStringInList("LDAPConnSecurityProtocol", string(o.LDAPConnSecurityProtocol), []string{"TLS", "InbandTLS"}, false); err != nil {
+		errors = append(errors, err)
+	}
 
 	if err := elemental.ValidateRequiredString("email", o.Email); err != nil {
 		requiredErrors = append(requiredErrors, err)
@@ -350,6 +390,21 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"LDAPBindSearchFilter": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LDAPBindSearchFilter",
+		DefaultValue:   "uid={USERNAME}",
+		Description: `LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
+Windows based systems, value may be 'sAMAccountName={USERNAME}'. For Linux and
+other systems, value may be 'uid={USERNAME}'.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "LDAPBindSearchFilter",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
+	},
 	"LDAPCertificateAuthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LDAPCertificateAuthority",
@@ -364,6 +419,18 @@ of the LDAP is issued from a public truster CA.`,
 		Stored:     true,
 		Type:       "string",
 	},
+	"LDAPConnSecurityProtocol": elemental.AttributeSpecification{
+		AllowedChoices: []string{"TLS", "InbandTLS"},
+		ConvertedName:  "LDAPConnSecurityProtocol",
+		DefaultValue:   AccountLDAPConnSecurityProtocolInbandTLS,
+		Description:    `LDAPConnProtocol holds the connection type for the LDAP provider.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "LDAPConnSecurityProtocol",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
+	},
 	"LDAPEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LDAPEnabled",
@@ -374,6 +441,36 @@ of the LDAP is issued from a public truster CA.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"LDAPIgnoredKeys": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LDAPIgnoredKeys",
+		Description: `LDAPIgnoredKeys holds a list of keys that must not be imported into Aporeto
+authorization system.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "LDAPIgnoredKeys",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "ignore_list",
+		Type:       "external",
+	},
+	"LDAPSubjectKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LDAPSubjectKey",
+		DefaultValue:   "uid",
+		Description: `LDAPSubjectKey holds key to be used to populate the subject. If you want to
+use the user as a subject, for Windows based systems you may use
+'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
+also use any alternate key.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "LDAPSubjectKey",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"OTPEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -430,6 +527,7 @@ of the LDAP is issued from a public truster CA.`,
 		Autogenerated:  true,
 		ConvertedName:  "ActivationToken",
 		Description:    `ActivationToken contains the activation token.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "activationToken",
 		Stored:         true,
@@ -452,6 +550,16 @@ of the LDAP is issued from a public truster CA.`,
 		Stored:         true,
 		SubType:        "associated_policies",
 		Type:           "external",
+	},
+	"AssociatedBillingID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssociatedBillingID",
+		Description:    `associatedBillingID holds the ID of the associated billing customer.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "associatedBillingID",
+		Stored:         true,
+		Type:           "string",
 	},
 	"AssociatedNamespaceID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -697,6 +805,21 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"ldapbindsearchfilter": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LDAPBindSearchFilter",
+		DefaultValue:   "uid={USERNAME}",
+		Description: `LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
+Windows based systems, value may be 'sAMAccountName={USERNAME}'. For Linux and
+other systems, value may be 'uid={USERNAME}'.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "LDAPBindSearchFilter",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
+	},
 	"ldapcertificateauthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LDAPCertificateAuthority",
@@ -711,6 +834,18 @@ of the LDAP is issued from a public truster CA.`,
 		Stored:     true,
 		Type:       "string",
 	},
+	"ldapconnsecurityprotocol": elemental.AttributeSpecification{
+		AllowedChoices: []string{"TLS", "InbandTLS"},
+		ConvertedName:  "LDAPConnSecurityProtocol",
+		DefaultValue:   AccountLDAPConnSecurityProtocolInbandTLS,
+		Description:    `LDAPConnProtocol holds the connection type for the LDAP provider.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "LDAPConnSecurityProtocol",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
+	},
 	"ldapenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LDAPEnabled",
@@ -721,6 +856,36 @@ of the LDAP is issued from a public truster CA.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"ldapignoredkeys": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LDAPIgnoredKeys",
+		Description: `LDAPIgnoredKeys holds a list of keys that must not be imported into Aporeto
+authorization system.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "LDAPIgnoredKeys",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "ignore_list",
+		Type:       "external",
+	},
+	"ldapsubjectkey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LDAPSubjectKey",
+		DefaultValue:   "uid",
+		Description: `LDAPSubjectKey holds key to be used to populate the subject. If you want to
+use the user as a subject, for Windows based systems you may use
+'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
+also use any alternate key.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "LDAPSubjectKey",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"otpenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -777,6 +942,7 @@ of the LDAP is issued from a public truster CA.`,
 		Autogenerated:  true,
 		ConvertedName:  "ActivationToken",
 		Description:    `ActivationToken contains the activation token.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "activationToken",
 		Stored:         true,
@@ -799,6 +965,16 @@ of the LDAP is issued from a public truster CA.`,
 		Stored:         true,
 		SubType:        "associated_policies",
 		Type:           "external",
+	},
+	"associatedbillingid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssociatedBillingID",
+		Description:    `associatedBillingID holds the ID of the associated billing customer.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "associatedBillingID",
+		Stored:         true,
+		Type:           "string",
 	},
 	"associatednamespaceid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

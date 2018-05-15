@@ -95,6 +95,9 @@ type APICheck struct {
 	// Authorized contains the results of the check.
 	Authorized map[string]bool `json:"authorized" bson:"-" mapstructure:"authorized,omitempty"`
 
+	// Claims contains the decoded claims used.
+	Claims []string `json:"claims" bson:"-" mapstructure:"claims,omitempty"`
+
 	// Namespace is the namespace to use to check the api authentication.
 	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
@@ -227,12 +230,21 @@ var APICheckAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "authorized_identities",
 		Type:           "external",
 	},
+	"Claims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Claims",
+		Description:    `Claims contains the decoded claims used.`,
+		Exposed:        true,
+		Name:           "claims",
+		ReadOnly:       true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
 		Description:    `Namespace is the namespace to use to check the api authentication.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "namespace",
 		Required:       true,
 		Type:           "string",
@@ -264,7 +276,6 @@ authorization.`,
 		ConvertedName:  "Token",
 		Description:    `Token is the token to use to check api authentication.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "token",
 		Required:       true,
 		Type:           "string",
@@ -284,12 +295,21 @@ var APICheckLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		SubType:        "authorized_identities",
 		Type:           "external",
 	},
+	"claims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Claims",
+		Description:    `Claims contains the decoded claims used.`,
+		Exposed:        true,
+		Name:           "claims",
+		ReadOnly:       true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Namespace",
 		Description:    `Namespace is the namespace to use to check the api authentication.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "namespace",
 		Required:       true,
 		Type:           "string",
@@ -321,7 +341,6 @@ authorization.`,
 		ConvertedName:  "Token",
 		Description:    `Token is the token to use to check api authentication.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "token",
 		Required:       true,
 		Type:           "string",

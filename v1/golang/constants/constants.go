@@ -82,6 +82,15 @@ const (
 	// StatsTagKeyPolicyID represents the policy ID tag.
 	StatsTagKeyPolicyID = "@policyid"
 
+	// StatsTagKeyPolicyNamespace represents the policy ID tag.
+	StatsTagKeyPolicyNamespace = "@policyns"
+
+	// StatsTagKeyServiceID represents the service ID tag.
+	StatsTagKeyServiceID = "@srvid"
+
+	// StatsTagKeyServiceType is the service type of a flow
+	StatsTagKeyServiceType = "@srvtype"
+
 	// StatsTagKeyProcessingUnitID represents the processing unit ID tag.
 	StatsTagKeyProcessingUnitID = "$id"
 
@@ -108,6 +117,9 @@ const (
 
 	// StatsTagKeyUserID is the user id.
 	StatsTagKeyUserID = "@sys:uid"
+
+	// StatsTagClaimID is the claim ID
+	StatsTagClaimID = "@claimid"
 
 	// StatsTagKeyServerID represents the server ID tag.
 	StatsTagKeyServerID = "@serverid"
@@ -153,6 +165,12 @@ const (
 
 	// StatsTagKeyFlowTypeExternalService represents the ext value.
 	StatsTagKeyFlowTypeExternalService = "ext"
+
+	// StatsTagKeyL4Protocol represents the L4 protocol for the flow
+	StatsTagKeyL4Protocol = "@l4proto"
+
+	// StatsTagKeyClaimsID represents claims ID for the flow
+	StatsTagKeyClaimsID = "@claimid"
 )
 
 // Shared Policy constants

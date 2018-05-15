@@ -19,44 +19,42 @@ model:
   - '@metadatable'
   - '@named'
   - '@propagated'
+  - '@fallback'
   - '@schedulable'
 
 # Attributes
 attributes:
-- name: action
-  description: Action determines the action to take while enforcing the isolation
-    profile.
-  type: enum
-  exposed: true
-  stored: true
-  allowed_choices:
-  - Delete
-  - Enforce
-  - LogCompliance
-  - Reject
-  - Snapshot
-  - Stop
-  filterable: true
-  orderable: true
+  v1:
+  - name: action
+    description: Action determines the action to take while enforcing the isolation
+      profile.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Delete
+    - Enforce
+    - LogCompliance
+    - Reject
+    - Snapshot
+    - Stop
+    filterable: true
+    orderable: true
 
-- name: isolationProfileSelector
-  description: |-
-    IsolationProfileSelector are the profiles that must be applied when this policy
-    matches. Only applies to Enforce and LogCompliance actions.
-  type: external
-  exposed: true
-  subtype: policies_list
-  stored: true
-  filterable: true
-  orderable: true
+  - name: isolationProfileSelector
+    description: |-
+      IsolationProfileSelector are the profiles that must be applied when this policy
+      matches. Only applies to Enforce and LogCompliance actions.
+    type: external
+    exposed: true
+    subtype: policies_list
+    stored: true
 
-- name: subject
-  description: |-
-    Subject defines the tag selectors that identitfy the processing units to which
-    this policy applies.
-  type: external
-  exposed: true
-  subtype: policies_list
-  stored: true
-  filterable: true
-  orderable: true
+  - name: subject
+    description: |-
+      Subject defines the tag selectors that identitfy the processing units to which
+      this policy applies.
+    type: external
+    exposed: true
+    subtype: policies_list
+    stored: true

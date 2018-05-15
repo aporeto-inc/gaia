@@ -46,32 +46,6 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[APIServiceIdentity] = &elemental.Relationship{
-		AllowsCreate: map[string]bool{
-			"root": true,
-		},
-		AllowsUpdate: map[string]bool{
-			"root": true,
-		},
-		AllowsPatch: map[string]bool{
-			"root": true,
-		},
-		AllowsDelete: map[string]bool{
-			"root": true,
-		},
-		AllowsRetrieve: map[string]bool{
-			"root": true,
-		},
-		AllowsRetrieveMany: map[string]bool{
-			"processingunit": true,
-			"root":           true,
-		},
-		AllowsInfo: map[string]bool{
-			"processingunit": true,
-			"root":           true,
-		},
-	}
-
 	relationshipsRegistry[AWSAccountIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
 			"root": true,
@@ -168,6 +142,15 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[AppIdentity] = &elemental.Relationship{
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
+	}
+
 	relationshipsRegistry[AuditProfileIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
 			"root": true,
@@ -240,15 +223,6 @@ func init() {
 		AllowsRetrieve: map[string]bool{
 			"root": true,
 		},
-		AllowsRetrieveMany: map[string]bool{
-			"root": true,
-		},
-		AllowsInfo: map[string]bool{
-			"root": true,
-		},
-	}
-
-	relationshipsRegistry[AvailableServiceIdentity] = &elemental.Relationship{
 		AllowsRetrieveMany: map[string]bool{
 			"root": true,
 		},
@@ -377,7 +351,10 @@ func init() {
 	}
 
 	relationshipsRegistry[ExportIdentity] = &elemental.Relationship{
-		AllowsCreate: map[string]bool{
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
 			"root": true,
 		},
 	}
@@ -539,6 +516,30 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[InstalledAppIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+		AllowsUpdate: map[string]bool{
+			"root": true,
+		},
+		AllowsPatch: map[string]bool{
+			"root": true,
+		},
+		AllowsDelete: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieve: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
+	}
+
 	relationshipsRegistry[IsolationProfileIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
 			"root": true,
@@ -569,7 +570,11 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[JaegerbatchIdentity] = &elemental.Relationship{}
+	relationshipsRegistry[JaegerbatchIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+	}
 
 	relationshipsRegistry[KubernetesClusterIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
@@ -597,10 +602,10 @@ func init() {
 
 	relationshipsRegistry[LogIdentity] = &elemental.Relationship{
 		AllowsRetrieveMany: map[string]bool{
-			"service": true,
+			"installedapp": true,
 		},
 		AllowsInfo: map[string]bool{
-			"service": true,
+			"installedapp": true,
 		},
 	}
 
@@ -750,17 +755,14 @@ func init() {
 
 	relationshipsRegistry[PolicyRefreshIdentity] = &elemental.Relationship{}
 
-	relationshipsRegistry[PolicyRuleIdentity] = &elemental.Relationship{
+	relationshipsRegistry[PolicyRendererIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
 			"root": true,
 		},
+	}
+
+	relationshipsRegistry[PolicyRuleIdentity] = &elemental.Relationship{
 		AllowsRetrieve: map[string]bool{
-			"root": true,
-		},
-		AllowsRetrieveMany: map[string]bool{
-			"root": true,
-		},
-		AllowsInfo: map[string]bool{
 			"root": true,
 		},
 	}
@@ -799,11 +801,13 @@ func init() {
 		AllowsRetrieveMany: map[string]bool{
 			"networkaccesspolicy": true,
 			"root":                true,
+			"service":             true,
 			"vulnerability":       true,
 		},
 		AllowsInfo: map[string]bool{
 			"networkaccesspolicy": true,
 			"root":                true,
+			"service":             true,
 			"vulnerability":       true,
 		},
 	}
@@ -832,6 +836,12 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[QuotaCheckIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+	}
+
 	relationshipsRegistry[QuotaPolicyIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
 			"root": true,
@@ -853,6 +863,32 @@ func init() {
 		},
 		AllowsInfo: map[string]bool{
 			"root": true,
+		},
+	}
+
+	relationshipsRegistry[RESTAPISpecIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+		AllowsUpdate: map[string]bool{
+			"root": true,
+		},
+		AllowsPatch: map[string]bool{
+			"root": true,
+		},
+		AllowsDelete: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieve: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"root":    true,
+			"service": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root":    true,
+			"service": true,
 		},
 	}
 
@@ -923,10 +959,12 @@ func init() {
 			"root": true,
 		},
 		AllowsRetrieveMany: map[string]bool{
-			"root": true,
+			"processingunit": true,
+			"root":           true,
 		},
 		AllowsInfo: map[string]bool{
-			"root": true,
+			"processingunit": true,
+			"root":           true,
 		},
 	}
 
@@ -940,30 +978,6 @@ func init() {
 	}
 
 	relationshipsRegistry[SuggestedPolicyIdentity] = &elemental.Relationship{
-		AllowsRetrieveMany: map[string]bool{
-			"root": true,
-		},
-		AllowsInfo: map[string]bool{
-			"root": true,
-		},
-	}
-
-	relationshipsRegistry[SystemCallIdentity] = &elemental.Relationship{
-		AllowsCreate: map[string]bool{
-			"root": true,
-		},
-		AllowsUpdate: map[string]bool{
-			"root": true,
-		},
-		AllowsPatch: map[string]bool{
-			"root": true,
-		},
-		AllowsDelete: map[string]bool{
-			"root": true,
-		},
-		AllowsRetrieve: map[string]bool{
-			"root": true,
-		},
 		AllowsRetrieveMany: map[string]bool{
 			"root": true,
 		},
@@ -986,6 +1000,12 @@ func init() {
 			"root": true,
 		},
 		AllowsInfo: map[string]bool{
+			"root": true,
+		},
+	}
+
+	relationshipsRegistry[TagInjectIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
 			"root": true,
 		},
 	}

@@ -13,11 +13,12 @@ model:
 
 # Attributes
 attributes:
-- name: networkAccessPolicies
-  description: List of suggested network access policies.
-  type: external
-  exposed: true
-  subtype: network_access_policies_list
-  stored: true
-  filterable: true
-  orderable: true
+  v1:
+  - name: networkAccessPolicies
+    description: List of suggested network access policies.
+    type: external
+    exposed: true
+    subtype: network_access_policies_list
+    stored: true
+    filterable: true
+    orderable: true

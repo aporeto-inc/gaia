@@ -69,11 +69,8 @@ func (o EnforcerProfileMappingPoliciesList) Version() int {
 
 // EnforcerProfileMappingPolicy represents the model of a enforcerprofilemappingpolicy
 type EnforcerProfileMappingPolicy struct {
-	// Object is the list of tags to use to find a enforcer profile.
-	Object [][]string `json:"object" bson:"object" mapstructure:"object,omitempty"`
-
-	// Subject is the subject of the policy.
-	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -84,26 +81,16 @@ type EnforcerProfileMappingPolicy struct {
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Namespace tag attached to an entity.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
-
-	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
-
-	// Protected defines if the object is protected.
-	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
-
-	// UpdateTime is the time at which an entity was updated.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
-
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+	// Fallback indicates that this is fallback policy. It will only be
+	// applied if no other policies have been resolved. If the policy is also
+	// propagated it will become a fallback for children namespaces.
+	Fallback bool `json:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -112,12 +99,30 @@ type EnforcerProfileMappingPolicy struct {
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
+	// Namespace tag attached to an entity.
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Object is the list of tags to use to find a enforcer profile.
+	Object [][]string `json:"object" bson:"object" mapstructure:"object,omitempty"`
+
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// If set to true while the policy is propagating, it won't be visible to children
 	// namespace, but still used for policy resolution.
 	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// Subject is the subject of the policy.
+	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -216,48 +221,6 @@ func (o *EnforcerProfileMappingPolicy) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
-// GetNamespace returns the Namespace of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetNamespace() string {
-
-	return o.Namespace
-}
-
-// SetNamespace sets the given Namespace of the receiver.
-func (o *EnforcerProfileMappingPolicy) SetNamespace(namespace string) {
-
-	o.Namespace = namespace
-}
-
-// GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetNormalizedTags() []string {
-
-	return o.NormalizedTags
-}
-
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *EnforcerProfileMappingPolicy) SetNormalizedTags(normalizedTags []string) {
-
-	o.NormalizedTags = normalizedTags
-}
-
-// GetProtected returns the Protected of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetProtected() bool {
-
-	return o.Protected
-}
-
-// GetUpdateTime returns the UpdateTime of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetUpdateTime() time.Time {
-
-	return o.UpdateTime
-}
-
-// SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *EnforcerProfileMappingPolicy) SetUpdateTime(updateTime time.Time) {
-
-	o.UpdateTime = updateTime
-}
-
 // GetDisabled returns the Disabled of the receiver.
 func (o *EnforcerProfileMappingPolicy) GetDisabled() bool {
 
@@ -268,6 +231,18 @@ func (o *EnforcerProfileMappingPolicy) GetDisabled() bool {
 func (o *EnforcerProfileMappingPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
+}
+
+// GetFallback returns the Fallback of the receiver.
+func (o *EnforcerProfileMappingPolicy) GetFallback() bool {
+
+	return o.Fallback
+}
+
+// SetFallback sets the given Fallback of the receiver.
+func (o *EnforcerProfileMappingPolicy) SetFallback(fallback bool) {
+
+	o.Fallback = fallback
 }
 
 // GetMetadata returns the Metadata of the receiver.
@@ -294,6 +269,30 @@ func (o *EnforcerProfileMappingPolicy) SetName(name string) {
 	o.Name = name
 }
 
+// GetNamespace returns the Namespace of the receiver.
+func (o *EnforcerProfileMappingPolicy) GetNamespace() string {
+
+	return o.Namespace
+}
+
+// SetNamespace sets the given Namespace of the receiver.
+func (o *EnforcerProfileMappingPolicy) SetNamespace(namespace string) {
+
+	o.Namespace = namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *EnforcerProfileMappingPolicy) GetNormalizedTags() []string {
+
+	return o.NormalizedTags
+}
+
+// SetNormalizedTags sets the given NormalizedTags of the receiver.
+func (o *EnforcerProfileMappingPolicy) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = normalizedTags
+}
+
 // GetPropagate returns the Propagate of the receiver.
 func (o *EnforcerProfileMappingPolicy) GetPropagate() bool {
 
@@ -318,19 +317,29 @@ func (o *EnforcerProfileMappingPolicy) SetPropagationHidden(propagationHidden bo
 	o.PropagationHidden = propagationHidden
 }
 
+// GetProtected returns the Protected of the receiver.
+func (o *EnforcerProfileMappingPolicy) GetProtected() bool {
+
+	return o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *EnforcerProfileMappingPolicy) GetUpdateTime() time.Time {
+
+	return o.UpdateTime
+}
+
+// SetUpdateTime sets the given UpdateTime of the receiver.
+func (o *EnforcerProfileMappingPolicy) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = updateTime
+}
+
 // Validate valides the current information stored into the structure.
 func (o *EnforcerProfileMappingPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
-
-	if err := elemental.ValidateRequiredExternal("object", o.Object); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("subject", o.Subject); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
@@ -342,6 +351,14 @@ func (o *EnforcerProfileMappingPolicy) Validate() error {
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("object", o.Object); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("subject", o.Subject); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -450,6 +467,21 @@ var EnforcerProfileMappingPolicyAttributesMap = map[string]elemental.AttributeSp
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"Fallback": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Fallback",
+		Description: `Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "fallback",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -672,6 +704,21 @@ var EnforcerProfileMappingPolicyLowerCaseAttributesMap = map[string]elemental.At
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"fallback": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Fallback",
+		Description: `Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "fallback",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

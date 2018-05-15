@@ -5,45 +5,46 @@ import (
 	"sync"
 
 	"github.com/aporeto-inc/elemental"
+	"github.com/aporeto-inc/gaia/v1/golang/types"
 	"time"
 )
 
-// SystemCallIdentity represents the Identity of the object.
-var SystemCallIdentity = elemental.Identity{
-	Name:     "systemcall",
-	Category: "systemcalls",
+// RESTAPISpecIdentity represents the Identity of the object.
+var RESTAPISpecIdentity = elemental.Identity{
+	Name:     "restapispec",
+	Category: "restapispecs",
 	Private:  false,
 }
 
-// SystemCallsList represents a list of SystemCalls
-type SystemCallsList []*SystemCall
+// RESTAPISpecsList represents a list of RESTAPISpecs
+type RESTAPISpecsList []*RESTAPISpec
 
 // ContentIdentity returns the identity of the objects in the list.
-func (o SystemCallsList) ContentIdentity() elemental.Identity {
+func (o RESTAPISpecsList) ContentIdentity() elemental.Identity {
 
-	return SystemCallIdentity
+	return RESTAPISpecIdentity
 }
 
-// Copy returns a pointer to a copy the SystemCallsList.
-func (o SystemCallsList) Copy() elemental.ContentIdentifiable {
+// Copy returns a pointer to a copy the RESTAPISpecsList.
+func (o RESTAPISpecsList) Copy() elemental.ContentIdentifiable {
 
-	copy := append(SystemCallsList{}, o...)
+	copy := append(RESTAPISpecsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SystemCallsList.
-func (o SystemCallsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+// Append appends the objects to the a new copy of the RESTAPISpecsList.
+func (o RESTAPISpecsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
 
-	out := append(SystemCallsList{}, o...)
+	out := append(RESTAPISpecsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SystemCall))
+		out = append(out, obj.(*RESTAPISpec))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SystemCallsList) List() elemental.IdentifiablesList {
+func (o RESTAPISpecsList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}
 	for _, item := range o {
@@ -54,7 +55,7 @@ func (o SystemCallsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SystemCallsList) DefaultOrder() []string {
+func (o RESTAPISpecsList) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -62,15 +63,21 @@ func (o SystemCallsList) DefaultOrder() []string {
 }
 
 // Version returns the version of the content.
-func (o SystemCallsList) Version() int {
+func (o RESTAPISpecsList) Version() int {
 
 	return 1
 }
 
-// SystemCall represents the model of a systemcall
-type SystemCall struct {
+// RESTAPISpec represents the model of a restapispec
+type RESTAPISpec struct {
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// Archived defines if the object is archived.
+	Archived bool `json:"-" bson:"archived" mapstructure:"-,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
@@ -78,11 +85,27 @@ type SystemCall struct {
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// Description is the description of the object.
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+
+	// EndPoints is a list of API endpoints that are exposed for the service.
+	Endpoints types.ExposedAPIList `json:"endpoints" bson:"endpoints" mapstructure:"endpoints,omitempty"`
+
+	// Name is the name of the entity.
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Propagate will propagate the policy to all of its children.
+	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
+
+	// If set to true while the policy is propagating, it won't be visible to children
+	// namespace, but still used for policy resolution.
+	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
@@ -90,62 +113,49 @@ type SystemCall struct {
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
-	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Metadata contains tags that can only be set during creation. They must all start
-	// with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
-
-	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
-
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
 	sync.Mutex
 }
 
-// NewSystemCall returns a new *SystemCall
-func NewSystemCall() *SystemCall {
+// NewRESTAPISpec returns a new *RESTAPISpec
+func NewRESTAPISpec() *RESTAPISpec {
 
-	return &SystemCall{
+	return &RESTAPISpec{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		Metadata:       []string{},
+		Endpoints:      types.ExposedAPIList{},
 		NormalizedTags: []string{},
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *SystemCall) Identity() elemental.Identity {
+func (o *RESTAPISpec) Identity() elemental.Identity {
 
-	return SystemCallIdentity
+	return RESTAPISpecIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *SystemCall) Identifier() string {
+func (o *RESTAPISpec) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *SystemCall) SetIdentifier(id string) {
+func (o *RESTAPISpec) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SystemCall) Version() int {
+func (o *RESTAPISpec) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *SystemCall) DefaultOrder() []string {
+func (o *RESTAPISpec) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -153,119 +163,144 @@ func (o *SystemCall) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *SystemCall) Doc() string {
-	return `This object has never been used and should be removed.`
+func (o *RESTAPISpec) Doc() string {
+	return `RESTAPISpec descibes the REST APIs exposed by a service. These APIs
+can be associated with one or more services.`
 }
 
-func (o *SystemCall) String() string {
+func (o *RESTAPISpec) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SystemCall) GetAnnotations() map[string][]string {
+func (o *RESTAPISpec) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the given Annotations of the receiver.
-func (o *SystemCall) SetAnnotations(annotations map[string][]string) {
+func (o *RESTAPISpec) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
+// GetArchived returns the Archived of the receiver.
+func (o *RESTAPISpec) GetArchived() bool {
+
+	return o.Archived
+}
+
+// SetArchived sets the given Archived of the receiver.
+func (o *RESTAPISpec) SetArchived(archived bool) {
+
+	o.Archived = archived
+}
+
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SystemCall) GetAssociatedTags() []string {
+func (o *RESTAPISpec) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the given AssociatedTags of the receiver.
-func (o *SystemCall) SetAssociatedTags(associatedTags []string) {
+func (o *RESTAPISpec) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SystemCall) GetCreateTime() time.Time {
+func (o *RESTAPISpec) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the given CreateTime of the receiver.
-func (o *SystemCall) SetCreateTime(createTime time.Time) {
+func (o *RESTAPISpec) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
-// GetNamespace returns the Namespace of the receiver.
-func (o *SystemCall) GetNamespace() string {
-
-	return o.Namespace
-}
-
-// SetNamespace sets the given Namespace of the receiver.
-func (o *SystemCall) SetNamespace(namespace string) {
-
-	o.Namespace = namespace
-}
-
-// GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SystemCall) GetNormalizedTags() []string {
-
-	return o.NormalizedTags
-}
-
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *SystemCall) SetNormalizedTags(normalizedTags []string) {
-
-	o.NormalizedTags = normalizedTags
-}
-
-// GetProtected returns the Protected of the receiver.
-func (o *SystemCall) GetProtected() bool {
-
-	return o.Protected
-}
-
-// GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SystemCall) GetUpdateTime() time.Time {
-
-	return o.UpdateTime
-}
-
-// SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *SystemCall) SetUpdateTime(updateTime time.Time) {
-
-	o.UpdateTime = updateTime
-}
-
-// GetMetadata returns the Metadata of the receiver.
-func (o *SystemCall) GetMetadata() []string {
-
-	return o.Metadata
-}
-
-// SetMetadata sets the given Metadata of the receiver.
-func (o *SystemCall) SetMetadata(metadata []string) {
-
-	o.Metadata = metadata
-}
-
 // GetName returns the Name of the receiver.
-func (o *SystemCall) GetName() string {
+func (o *RESTAPISpec) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the given Name of the receiver.
-func (o *SystemCall) SetName(name string) {
+func (o *RESTAPISpec) SetName(name string) {
 
 	o.Name = name
 }
 
+// GetNamespace returns the Namespace of the receiver.
+func (o *RESTAPISpec) GetNamespace() string {
+
+	return o.Namespace
+}
+
+// SetNamespace sets the given Namespace of the receiver.
+func (o *RESTAPISpec) SetNamespace(namespace string) {
+
+	o.Namespace = namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *RESTAPISpec) GetNormalizedTags() []string {
+
+	return o.NormalizedTags
+}
+
+// SetNormalizedTags sets the given NormalizedTags of the receiver.
+func (o *RESTAPISpec) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = normalizedTags
+}
+
+// GetPropagate returns the Propagate of the receiver.
+func (o *RESTAPISpec) GetPropagate() bool {
+
+	return o.Propagate
+}
+
+// SetPropagate sets the given Propagate of the receiver.
+func (o *RESTAPISpec) SetPropagate(propagate bool) {
+
+	o.Propagate = propagate
+}
+
+// GetPropagationHidden returns the PropagationHidden of the receiver.
+func (o *RESTAPISpec) GetPropagationHidden() bool {
+
+	return o.PropagationHidden
+}
+
+// SetPropagationHidden sets the given PropagationHidden of the receiver.
+func (o *RESTAPISpec) SetPropagationHidden(propagationHidden bool) {
+
+	o.PropagationHidden = propagationHidden
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *RESTAPISpec) GetProtected() bool {
+
+	return o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *RESTAPISpec) GetUpdateTime() time.Time {
+
+	return o.UpdateTime
+}
+
+// SetUpdateTime sets the given UpdateTime of the receiver.
+func (o *RESTAPISpec) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = updateTime
+}
+
 // Validate valides the current information stored into the structure.
-func (o *SystemCall) Validate() error {
+func (o *RESTAPISpec) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -294,24 +329,24 @@ func (o *SystemCall) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*SystemCall) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*RESTAPISpec) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := SystemCallAttributesMap[name]; ok {
+	if v, ok := RESTAPISpecAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return SystemCallLowerCaseAttributesMap[name]
+	return RESTAPISpecLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*SystemCall) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*RESTAPISpec) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return SystemCallAttributesMap
+	return RESTAPISpecAttributesMap
 }
 
-// SystemCallAttributesMap represents the map of attribute for SystemCall.
-var SystemCallAttributesMap = map[string]elemental.AttributeSpecification{
+// RESTAPISpecAttributesMap represents the map of attribute for RESTAPISpec.
+var RESTAPISpecAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -339,6 +374,16 @@ var SystemCallAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
+	},
+	"Archived": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Archived",
+		Description:    `Archived defines if the object is archived.`,
+		Getter:         true,
+		Name:           "archived",
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -378,20 +423,15 @@ var SystemCallAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Metadata": elemental.AttributeSpecification{
+	"Endpoints": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Metadata",
-		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
-with the '@' prefix, and should only be used by external systems.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "metadata",
-		Setter:     true,
-		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		ConvertedName:  "Endpoints",
+		Description:    `EndPoints is a list of API endpoints that are exposed for the service.`,
+		Exposed:        true,
+		Name:           "endpoints",
+		Stored:         true,
+		SubType:        "exposed_api_list",
+		Type:           "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -444,6 +484,33 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "external",
 	},
+	"Propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
+	"PropagationHidden": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PropagationHidden",
+		Description: `If set to true while the policy is propagating, it won't be visible to children
+namespace, but still used for policy resolution.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "propagationHidden",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
+	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -472,8 +539,8 @@ with the '@' prefix, and should only be used by external systems.`,
 	},
 }
 
-// SystemCallLowerCaseAttributesMap represents the map of attribute for SystemCall.
-var SystemCallLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// RESTAPISpecLowerCaseAttributesMap represents the map of attribute for RESTAPISpec.
+var RESTAPISpecLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -501,6 +568,16 @@ var SystemCallLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
+	},
+	"archived": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Archived",
+		Description:    `Archived defines if the object is archived.`,
+		Getter:         true,
+		Name:           "archived",
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -540,20 +617,15 @@ var SystemCallLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Stored:         true,
 		Type:           "string",
 	},
-	"metadata": elemental.AttributeSpecification{
+	"endpoints": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Metadata",
-		CreationOnly:   true,
-		Description: `Metadata contains tags that can only be set during creation. They must all start
-with the '@' prefix, and should only be used by external systems.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "metadata",
-		Setter:     true,
-		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		ConvertedName:  "Endpoints",
+		Description:    `EndPoints is a list of API endpoints that are exposed for the service.`,
+		Exposed:        true,
+		Name:           "endpoints",
+		Stored:         true,
+		SubType:        "exposed_api_list",
+		Type:           "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -605,6 +677,33 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:        "tags_list",
 		Transient:      true,
 		Type:           "external",
+	},
+	"propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
+	"propagationhidden": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PropagationHidden",
+		Description: `If set to true while the policy is propagating, it won't be visible to children
+namespace, but still used for policy resolution.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "propagationHidden",
+		Orderable:  true,
+		Setter:     true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

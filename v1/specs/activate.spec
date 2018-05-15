@@ -8,9 +8,10 @@ model:
 
 # Attributes
 attributes:
-- name: token
-  description: Token contains the activation token.
-  type: string
-  exposed: true
-  creation_only: true
-  format: free
+  v1:
+  - name: token
+    description: Token contains the activation token.
+    type: string
+    exposed: true
+    creation_only: true
+    format: free

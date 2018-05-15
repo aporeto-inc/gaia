@@ -112,7 +112,6 @@ func NewRemoteProcessor() *RemoteProcessor {
 
 	return &RemoteProcessor{
 		ModelVersion: 1,
-		Mode:         "Pre",
 	}
 }
 
@@ -234,11 +233,9 @@ var RemoteProcessorAttributesMap = map[string]elemental.AttributeSpecification{
 	"Mode": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Post", "Pre"},
 		ConvertedName:  "Mode",
-		DefaultValue:   RemoteProcessorModePre,
 		Description:    `Node defines the type of the hook.`,
 		Exposed:        true,
 		Name:           "mode",
-		Required:       true,
 		Type:           "enum",
 	},
 	"Namespace": elemental.AttributeSpecification{
@@ -321,11 +318,9 @@ var RemoteProcessorLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 	"mode": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Post", "Pre"},
 		ConvertedName:  "Mode",
-		DefaultValue:   RemoteProcessorModePre,
 		Description:    `Node defines the type of the hook.`,
 		Exposed:        true,
 		Name:           "mode",
-		Required:       true,
 		Type:           "enum",
 	},
 	"namespace": elemental.AttributeSpecification{

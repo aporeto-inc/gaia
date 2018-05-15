@@ -26,32 +26,34 @@ model:
   - '@metadatable'
   - '@named'
   - '@propagated'
+  - '@fallback'
   - '@schedulable'
 
 # Attributes
 attributes:
-- name: authorizedIdentities
-  description: AuthorizedIdentities defines the list of api identities the policy
-    applies to.
-  type: external
-  exposed: true
-  subtype: identity_list
-  required: true
-  example_value:
-  - '@auth:role=namespace.editor'
+  v1:
+  - name: authorizedIdentities
+    description: AuthorizedIdentities defines the list of api identities the policy
+      applies to.
+    type: external
+    exposed: true
+    subtype: identity_list
+    required: true
+    example_value:
+    - '@auth:role=namespace.editor'
 
-- name: authorizedNamespace
-  description: AuthorizedNamespace defines on what namespace the policy applies.
-  type: string
-  exposed: true
-  required: true
-  example_value: /namespace
-  filterable: true
-  format: free
+  - name: authorizedNamespace
+    description: AuthorizedNamespace defines on what namespace the policy applies.
+    type: string
+    exposed: true
+    required: true
+    example_value: /namespace
+    filterable: true
+    format: free
 
-- name: subject
-  description: Subject is the subject.
-  type: external
-  exposed: true
-  subtype: policies_list
-  orderable: true
+  - name: subject
+    description: Subject is the subject.
+    type: external
+    exposed: true
+    subtype: policies_list
+    orderable: true

@@ -12,12 +12,11 @@
 | [Alarm](#alarm)                                               | An alarm represents an event requiring attention.                                   |
 | [APIAuthorizationPolicy](#apiauthorizationpolicy)             | An API Authorization Policy defines what kind of operations a user of a system      |
 | [APICheck](#apicheck)                                         | This API allows to verify is a client identitied by his token is allowed to do      |
-| [APIService](#apiservice)                                     | APIService descibes a L4/L7 service and the corresponding implementation. It        |
+| [App](#app)                                                   | App represents an application that can be installed.                                |
 | [AuditProfile](#auditprofile)                                 | AuditProfile is an audit policy that consists of a set of audit rules. An audit     |
 | [Auth](#auth)                                                 | This API verifies if the given token is valid or not.                               |
 | [Automation](#automation)                                     | An automation needs documentation.                                                  |
 | [AutomationTemplate](#automationtemplate)                     | Templates that ca be used in automations.                                           |
-| [AvailableService](#availableservice)                         | AvailableService represents a service that is available for launching.              |
 | [AWSAccount](#awsaccount)                                     | Allows to bind an AWS account to your Aporeto account to allow auto registration... |
 | [Category](#category)                                         | Category allows to categorized services.                                            |
 | [Certificate](#certificate)                                   | A User represents the owner of some certificates.                                   |
@@ -35,6 +34,7 @@
 | [HookPolicy](#hookpolicy)                                     | Hook allows to to define hooks to the write operations in squall. Hooks are sent... |
 | [Import](#import)                                             | Imports an export of policies and related objects into the namespace.               |
 | [Installation](#installation)                                 | Installation represents an installation for a given account.                        |
+| [InstalledApp](#installedapp)                                 | InstalledApps represents an installed application.                                  |
 | [IsolationProfile](#isolationprofile)                         | An IsolationProfile needs documentation.                                            |
 | [Issue](#issue)                                               | This API issues a new token according to given data.                                |
 | [Jaegerbatch](#jaegerbatch)                                   | A jaegerbatch is a batch of jaeger spans. This is used by external service to       |
@@ -56,12 +56,12 @@
 | [RemoteProcessor](#remoteprocessor)                           | Hook to integrate an Aporeto service.                                               |
 | [RenderedPolicy](#renderedpolicy)                             | Retrieve the aggregated policies applied to a particular processing unit.           |
 | [Report](#report)                                             | Post a new statistics report.                                                       |
+| [RESTAPISpec](#restapispec)                                   | RESTAPISpec descibes the REST APIs exposed by a service. These APIs                 |
 | [Role](#role)                                                 | Roles returns the available roles that can be used with API Authorization           |
 | [Root](#root)                                                 | root object.                                                                        |
-| [Service](#service)                                           | Service represents a service that can be launched.                                  |
+| [Service](#service)                                           | A Service defines a generic service object at L4 or L7 that encapsulates the        |
 | [StatsQuery](#statsquery)                                     | StatsQuery is a generic API to retrieve time series data stored by the Aporeto      |
 | [SuggestedPolicy](#suggestedpolicy)                           | Allows to get policy suggestions.                                                   |
-| [SystemCall](#systemcall)                                     | This object has never been used and should be removed.                              |
 | [Tabulation](#tabulation)                                     | Tabulate API allows you to retrieve a custom table view for any identity using      |
 | [Tag](#tag)                                                   | A tag is a string in the form of "key=value" that can applied to all objects in     |
 | [TokenScopePolicy](#tokenscopepolicy)                         | The TokenScopePolicy defines a set of policies that allow customization of the      |
@@ -143,6 +143,18 @@ LDAPBindPassword holds the password to the LDAPBindDN.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `LDAPBindSearchFilter (string)`
+
+LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
+Windows based systems, value may be 'sAMAccountName={USERNAME}'. For Linux and
+other systems, value may be 'uid={USERNAME}'.
+
+| Characteristics | Value            |
+| -               | -:               |
+| Default         | `uid={USERNAME}` |
+| Orderable       | `true`           |
+| Filterable      | `true`           |
+
 #### `LDAPCertificateAuthority (string)`
 
 LDAPCertificateAuthority contains the optional certificate author ity that will
@@ -154,12 +166,46 @@ of the LDAP is issued from a public truster CA.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `LDAPConnSecurityProtocol (enum)`
+
+LDAPConnProtocol holds the connection type for the LDAP provider.
+
+| Characteristics | Value            |
+| -               | -:               |
+| Allowed Value   | `TLS, InbandTLS` |
+| Default         | `InbandTLS`      |
+| Orderable       | `true`           |
+| Filterable      | `true`           |
+
 #### `LDAPEnabled (boolean)`
 
 LDAPEnabled triggers if the account uses it's own LDAP for authentication.
 
 | Characteristics | Value  |
 | -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `LDAPIgnoredKeys (external:ignore_list)`
+
+LDAPIgnoredKeys holds a list of keys that must not be imported into Aporeto
+authorization system.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `LDAPSubjectKey (string)`
+
+LDAPSubjectKey holds key to be used to populate the subject. If you want to
+use the user as a subject, for Windows based systems you may use
+'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
+also use any alternate key.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Default         | `uid`  |
 | Orderable       | `true` |
 | Filterable      | `true` |
 
@@ -184,6 +230,19 @@ AccessEnabled defines if the account holder should have access to the systems.
 | -               | -:     |
 | Orderable       | `true` |
 | Filterable      | `true` |
+
+#### `activationToken (string)`
+
+ActivationToken contains the activation token.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Omit if empty   | `true` |
+
+#### `associatedBillingID (string)`
+
+associatedBillingID holds the ID of the associated billing customer.
 
 #### `associatedPlanKey (string)`
 
@@ -725,6 +784,17 @@ Disabled defines if the propert is disabled.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
 #### `metadata (external:metadata_list)`
 
 Metadata contains tags that can only be set during creation. They must all start
@@ -849,6 +919,14 @@ Authorized contains the results of the check.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
+#### `claims (list)`
+
+Claims contains the decoded claims used.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Read only       | `true` |
+
 #### `namespace (string)`
 
 Namespace is the namespace to use to check the api authentication.
@@ -884,97 +962,42 @@ Token is the token to use to check api authentication.
 | -               | -:     |
 | Required        | `true` |
 
-## APIService
+## App
 
-APIService descibes a L4/L7 service and the corresponding implementation. It
-allows users to define their services, the APIs that they expose, the
-implementation of the service. These definitions can be used by network policy
-in order to define advanced controls based on the APIs.
+App represents an application that can be installed.
 
 ### Example
 
 ```json
 {
-  "name": "the name",
-  "ports": [
-    80,
-    "445:448"
-  ],
-  "runtimeSelectors": [
-    [
-      "a=a",
-      "b=b"
-    ],
-    [
-      "c=c"
-    ]
-  ]
+  "name": "the name"
 }
 ```
 
 ### Relations
 
-| Method   | URL                                | Description                                           |
-| -:       | -                                  | -                                                     |
-| `GET`    | `/apiservices`                     | Retrieves the list of API Services.                   |
-| `POST`   | `/apiservices`                     | Creates a new API Service.                            |
-| `DELETE` | `/apiservices/:id`                 | Deletes the `apiservice` with the given `:id`.        |
-| `GET`    | `/apiservices/:id`                 | Retrieve the `apiservice` with the given `:id`.       |
-| `PUT`    | `/apiservices/:id`                 | Updates the `apiservice` with the given `:id`.        |
-| `GET`    | `/processingunits/:id/apiservices` | Retrieves the api services used by a processing unit. |
+| Method | URL     | Description                 |
+| -:     | -       | -                           |
+| `GET`  | `/apps` | Retrieves the list of apps. |
 
 ### Attributes
 
-#### `FQDN (string)`
+#### `beta (boolean)`
 
-FQDN is the fully qualified domain name of the service. It is required for
-external API services. It can be deduced from a service discovery system in
-advanced environments.
+Beta indicates if the app is in a beta version.
 
 | Characteristics | Value  |
 | -               | -:     |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
-#### `ID (string)`
-
-ID is the identifier of the object.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Identifier      | `true` |
-| Autogenerated   | `true` |
 | Read only       | `true` |
-| Orderable       | `true` |
-| Filterable      | `true` |
 
-#### `IPList (external:ip_list)`
+#### `categoryID (string)`
 
-IPList is the list of ip address or subnets of the service if available.
-
-#### `JWTSigningCertificate (string)`
-
-JWTSigningCertificate is a certificate that can be used to validate user JWT in
-HTTP requests. This is an optional field, needed only if user JWT validation is
-required for this service. The certificate must be in PEM format.
-
-#### `annotations (external:annotations)`
-
-Annotation stores additional information about an entity.
-
-#### `associatedTags (external:tags_list)`
-
-AssociatedTags are the list of tags attached to an entity.
-
-#### `createTime (time)`
-
-CreatedTime is the time at which the object was created.
+CategoryID of the app.
 
 | Characteristics | Value  |
 | -               | -:     |
-| Autogenerated   | `true` |
 | Read only       | `true` |
-| Orderable       | `true` |
+| Filterable      | `true` |
 
 #### `description (string)`
 
@@ -985,35 +1008,17 @@ Description is the description of the object.
 | Max length      | `1024` |
 | Orderable       | `true` |
 
-#### `exposedAPIs (external:exposed_api_list)`
+#### `icon (string)`
 
-ExposedAPIs is a list of API endpoints that are exposed for the service.
-
-#### `external (boolean)`
-
-External is a boolean that indicates if this is an external service.
-
-| Characteristics | Value   |
-| -               | -:      |
-| Default         | `false` |
-| Orderable       | `true`  |
-| Filterable      | `true`  |
-
-#### `externalServiceCA (string)`
-
-ExternalServiceCA is the certificate authority that the service is using. This
-is needed for external API services with private certificate authorities. The
-field is optional. If provided, this must be a valid PEM CA file.
-
-#### `metadata (external:metadata_list)`
-
-Metadata contains tags that can only be set during creation. They must all start
-with the '@' prefix, and should only be used by external systems.
+Icon contains a base64 image for the app.
 
 | Characteristics | Value  |
 | -               | -:     |
-| Creation only   | `true` |
-| Filterable      | `true` |
+| Read only       | `true` |
+
+#### `longDescription (string)`
+
+LongDescription contains a more detailed description of the app.
 
 #### `name (string)`
 
@@ -1026,88 +1031,13 @@ Name is the name of the entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `namespace (string)`
+#### `parameters (external:app_parameters)`
 
-Namespace tag attached to an entity.
+Parameters of the app the user can or has to specify.
 
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-| Creation only   | `true` |
-| Orderable       | `true` |
-| Filterable      | `true` |
+#### `title (string)`
 
-#### `networkProtocol (integer)`
-
-NetworkProtocol is the network protocol of the service.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Default         | `6`    |
-| Min length      | `1`    |
-| Max length      | `255`  |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
-#### `normalizedTags (external:tags_list)`
-
-NormalizedTags contains the list of normalized tags of the entities.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-
-#### `ports (external:port_list)`
-
-Ports is a list of ports for the service. Ports are either exact match, or a
-range portMin:portMax.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
-
-#### `protected (boolean)`
-
-Protected defines if the object is protected.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
-#### `runtimeSelectors (external:target_tags)`
-
-RuntimeSelectors is a list of tag selectors that identifies that Processing
-Units that will implement this service.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
-
-#### `type (enum)`
-
-Type is the type of the service (HTTP, TCP, etc). More types will be added to
-the system.
-
-| Characteristics | Value           |
-| -               | -:              |
-| Allowed Value   | `HTTP, L3, TCP` |
-| Default         | `L3`            |
-| Required        | `true`          |
-| Orderable       | `true`          |
-| Filterable      | `true`          |
-
-#### `updateTime (time)`
-
-UpdateTime is the time at which an entity was updated.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-| Orderable       | `true` |
+Title represents the title of the app.
 
 ## AuditProfile
 
@@ -1545,83 +1475,6 @@ Name is the name of the entity.
 
 Parameters contains the parameter description of the function.
 
-## AvailableService
-
-AvailableService represents a service that is available for launching.
-
-### Example
-
-```json
-{
-  "name": "the name"
-}
-```
-
-### Relations
-
-| Method | URL                  | Description                               |
-| -:     | -                    | -                                         |
-| `GET`  | `/availableservices` | Retrieves the list of available services. |
-
-### Attributes
-
-#### `beta (boolean)`
-
-Beta indicates if the service is in a beta version.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Read only       | `true` |
-
-#### `categoryID (string)`
-
-CategoryID of the service.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Read only       | `true` |
-| Filterable      | `true` |
-
-#### `description (string)`
-
-Description is the description of the object.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Max length      | `1024` |
-| Orderable       | `true` |
-
-#### `icon (string)`
-
-Icon contains a base64 image for the available service.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Read only       | `true` |
-
-#### `longDescription (string)`
-
-LongDescription contains a more detailed description of the service.
-
-#### `name (string)`
-
-Name is the name of the entity.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Max length      | `256`  |
-| Required        | `true` |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
-#### `parameters (external:service_parameters)`
-
-Parameters of the service the user can or has to specify.
-
-#### `title (string)`
-
-Title represents the title of the service.
-
 ## AWSAccount
 
 Allows to bind an AWS account to your Aporeto account to allow auto registration
@@ -2011,6 +1864,14 @@ ID is the identifier of the object.
 | Read only       | `true` |
 | Orderable       | `true` |
 | Filterable      | `true` |
+
+#### `claims (external:graphclaims_map)`
+
+claims represents a user or a script that have accessed an api.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Read only       | `true` |
 
 #### `edges (external:graphedges_map)`
 
@@ -2406,10 +2267,6 @@ AuditProfileSelectors is the list of tags (key/value pairs) that define the
 audit policies that must be implemented by this enforcer. The enforcer will
 implement all policies that match any of these tags.
 
-| Characteristics | Value  |
-| -               | -:     |
-| Filterable      | `true` |
-
 #### `auditProfiles (external:audit_profiles)`
 
 AuditProfiles returns the audit rules associated with the enforcer profile. This
@@ -2485,15 +2342,22 @@ enforcer.
 HostServices is a list of services that must be activated by default to all
 enforcers matching this profile.
 
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
 #### `ignoreExpression (external:policies_list)`
 
 IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
 docker container started with labels matching the rule.
+
+#### `kubernetesMetadataExtractor (enum)`
+
+Select which metadata extractor to use to process new processing units from
+Kubernetes.
+
+| Characteristics | Value                                  |
+| -               | -:                                     |
+| Allowed Value   | `KubeSquall, PodAtomic, PodContainers` |
+| Default         | `KubeSquall`                           |
+| Orderable       | `true`                                 |
+| Filterable      | `true`                                 |
 
 #### `kubernetesSupportEnabled (boolean)`
 
@@ -2793,6 +2657,17 @@ Disabled defines if the propert is disabled.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
 #### `metadata (external:metadata_list)`
 
 Metadata contains tags that can only be set during creation. They must all start
@@ -2897,7 +2772,7 @@ Export the policies and related objects in a given namespace.
 
 | Method | URL       | Description                                             |
 | -:     | -         | -                                                       |
-| `POST` | `/export` | Exports all policies and related object of a namespace. |
+| `GET`  | `/export` | Exports all policies and related object of a namespace. |
 
 ### Attributes
 
@@ -2910,6 +2785,15 @@ APIVersion of the api used for the exported data.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
+#### `RESTAPISpecs (external:exported_data_content)`
+
+List of all exported RESTAPISpecs.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Omit if empty   | `true` |
+
 #### `auditProfiles (external:exported_data_content)`
 
 List of all exported audit profiles.
@@ -2918,6 +2802,7 @@ List of all exported audit profiles.
 | -               | -:     |
 | Autogenerated   | `true` |
 | Read only       | `true` |
+| Omit if empty   | `true` |
 
 #### `externalServices (external:exported_data_content)`
 
@@ -2927,6 +2812,7 @@ List of exported external services.
 | -               | -:     |
 | Autogenerated   | `true` |
 | Read only       | `true` |
+| Omit if empty   | `true` |
 
 #### `fileAccessPolicies (external:exported_data_content)`
 
@@ -2936,6 +2822,7 @@ List of exported file access policies.
 | -               | -:     |
 | Autogenerated   | `true` |
 | Read only       | `true` |
+| Omit if empty   | `true` |
 
 #### `filePaths (external:exported_data_content)`
 
@@ -2945,6 +2832,7 @@ List of exported file paths.
 | -               | -:     |
 | Autogenerated   | `true` |
 | Read only       | `true` |
+| Omit if empty   | `true` |
 
 #### `isolationProfiles (external:exported_data_content)`
 
@@ -2954,6 +2842,7 @@ List of all exported isolation profiles.
 | -               | -:     |
 | Autogenerated   | `true` |
 | Read only       | `true` |
+| Omit if empty   | `true` |
 
 #### `networkAccessPolicies (external:exported_data_content)`
 
@@ -2963,6 +2852,7 @@ List of exported network policies.
 | -               | -:     |
 | Autogenerated   | `true` |
 | Read only       | `true` |
+| Omit if empty   | `true` |
 
 #### `processingUnitPolicies (external:exported_data_content)`
 
@@ -2971,6 +2861,25 @@ List of all exported processingUnitPolicies.
 | Characteristics | Value  |
 | -               | -:     |
 | Autogenerated   | `true` |
+| Omit if empty   | `true` |
+
+#### `services (external:exported_data_content)`
+
+List of all exported services.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Omit if empty   | `true` |
+
+#### `tokenScopePolicies (external:exported_data_content)`
+
+List of all exported tokenScopePolicies.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Omit if empty   | `true` |
 
 ## ExternalAccess
 
@@ -3374,6 +3283,17 @@ EncryptionEnabled will enable the automatic encryption.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
 #### `logsEnabled (boolean)`
 
 LogsEnabled will enable logging when this policy is used.
@@ -3749,9 +3669,31 @@ modified version of the object before we save it.
 
 ```json
 {
-  "certificateAuthority": "-----BEGIN CERTIFICATE-----\nMIIBbjCCARSgAwIBAgIRANRbvVzTzBZOvMCb8BiKCLowCgYIKoZIzj0EAwIwJjEN\nMAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNTE4\nNDgwN1oXDTI3MTEyNDE4NDgwN1owJjENMAsGA1UEChMEQWNtZTEVMBMGA1UEAxMM\nQWNtZSBSb290IENBMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJ/80HR51+vau\n7XH7zS7b8ABA0e/TdBOg1NznbnXdXil1tDvWloWuH5+/bbaiEg54wksJHFXaukw8\njhTLU7zT56MjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wCgYI\nKoZIzj0EAwIDSAAwRQIhALwAZh2KLFFC1qfb5CqFHExlXS0PUltax9PvQCN9P0vl\nAiBl7/st9u/JpERjJgirxJxOgKNlV6pq9ti75EfQtZZcQA==\n-----END CERTIFICATE-----",
-  "clientCertificate": "-----BEGIN CERTIFICATE-----\nMIIBczCCARigAwIBAgIRALD3Vz81Pq10g7n4eAkOsCYwCgYIKoZIzj0EAwIwJjEN\nMAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNzA2\nNTM1MloXDTI3MTEyNjA2NTM1MlowGDEWMBQGA1UEAxMNY2xhaXJlLWNsaWVudDBZ\nMBMGByqGSM49AgEGCCqGSM49AwEHA0IABOmzPJj+t25T148eQH5gVrZ7nHwckF5O\nevJQ3CjSEMesjZ/u7cW8IBfXlxZKHxl91IEbbB3svci4c8pycUNZ2kujNTAzMA4G\nA1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggrBgEFBQcDAjAMBgNVHRMBAf8EAjAA\nMAoGCCqGSM49BAMCA0kAMEYCIQCjAAmkQpTua0HR4q6jnePaFBp/JMXwTXTxzbV6\npeGbBQIhAP+1OR8GFnn2PlacwHqWXHwkvy6CLPVikvgtwEdB6jH8\n-----END CERTIFICATE-----",
-  "clientCertificateKey": "-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIGOXJI/123456789oamOu4tQAIKFdbyvkIJg9GME0mHzoAoGCCqGSM49\nAwEHoUQDQgAE6bM8mP123456789AfmBWtnucfByQXk568lDcKNIQx6yNn+7txbwg\nF9eXFkofGX3UgRtsHe123456789xQ1naSw==\n-----END EC PRIVATE KEY-----",
+  "certificateAuthority": "-----BEGIN CERTIFICATE-----
+MIIBbjCCARSgAwIBAgIRANRbvVzTzBZOvMCb8BiKCLowCgYIKoZIzj0EAwIwJjEN
+MAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNTE4
+NDgwN1oXDTI3MTEyNDE4NDgwN1owJjENMAsGA1UEChMEQWNtZTEVMBMGA1UEAxMM
+QWNtZSBSb290IENBMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJ/80HR51+vau
+7XH7zS7b8ABA0e/TdBOg1NznbnXdXil1tDvWloWuH5+/bbaiEg54wksJHFXaukw8
+jhTLU7zT56MjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wCgYI
+KoZIzj0EAwIDSAAwRQIhALwAZh2KLFFC1qfb5CqFHExlXS0PUltax9PvQCN9P0vl
+AiBl7/st9u/JpERjJgirxJxOgKNlV6pq9ti75EfQtZZcQA==
+-----END CERTIFICATE-----",
+  "clientCertificate": "-----BEGIN CERTIFICATE-----
+MIIBczCCARigAwIBAgIRALD3Vz81Pq10g7n4eAkOsCYwCgYIKoZIzj0EAwIwJjEN
+MAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNzA2
+NTM1MloXDTI3MTEyNjA2NTM1MlowGDEWMBQGA1UEAxMNY2xhaXJlLWNsaWVudDBZ
+MBMGByqGSM49AgEGCCqGSM49AwEHA0IABOmzPJj+t25T148eQH5gVrZ7nHwckF5O
+evJQ3CjSEMesjZ/u7cW8IBfXlxZKHxl91IEbbB3svci4c8pycUNZ2kujNTAzMA4G
+A1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggrBgEFBQcDAjAMBgNVHRMBAf8EAjAA
+MAoGCCqGSM49BAMCA0kAMEYCIQCjAAmkQpTua0HR4q6jnePaFBp/JMXwTXTxzbV6
+peGbBQIhAP+1OR8GFnn2PlacwHqWXHwkvy6CLPVikvgtwEdB6jH8
+-----END CERTIFICATE-----",
+  "clientCertificateKey": "-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIGOXJI/123456789oamOu4tQAIKFdbyvkIJg9GME0mHzoAoGCCqGSM49
+AwEHoUQDQgAE6bM8mP123456789AfmBWtnucfByQXk568lDcKNIQx6yNn+7txbwg
+F9eXFkofGX3UgRtsHe123456789xQ1naSw==
+-----END EC PRIVATE KEY-----",
   "endpoint": "https://hooks.hookserver.com/remoteprocessors",
   "name": "the name",
   "subject": [
@@ -3858,6 +3800,17 @@ Endpoint contains the full address of the remote processor endoint.
 | Characteristics | Value  |
 | -               | -:     |
 | Required        | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
+
+| Characteristics | Value  |
+| -               | -:     |
 | Orderable       | `true` |
 | Filterable      | `true` |
 
@@ -3969,7 +3922,8 @@ Imports an export of policies and related objects into the namespace.
 
 ```json
 {
-  "data": "previous output of export"
+  "data": "previous output of export",
+  "mode": "Append|ReplacePartial|ReplaceFull"
 }
 ```
 
@@ -3993,11 +3947,9 @@ The data to import.
 
 How to import the data.
 
-| Characteristics | Value             |
-| -               | -:                |
-| Allowed Value   | `Append, Replace` |
-| Default         | `Replace`         |
-| Required        | `true`            |
+| Characteristics | Value                                 |
+| -               | -:                                    |
+| Allowed Value   | `Append, ReplacePartial, ReplaceFull` |
 
 ## Installation
 
@@ -4032,6 +3984,91 @@ AccountName that should be installed.
 | -               | -:     |
 | Orderable       | `true` |
 | Filterable      | `true` |
+
+## InstalledApp
+
+InstalledApps represents an installed application.
+
+### Relations
+
+| Method   | URL                       | Description                                       |
+| -:       | -                         | -                                                 |
+| `GET`    | `/installedapps`          | Retrieves the list of installed apps.             |
+| `POST`   | `/installedapps`          | Installs a new app.                               |
+| `DELETE` | `/installedapps/:id`      | Deletes the `installedapp` with the given `:id`.  |
+| `GET`    | `/installedapps/:id`      | Retrieve the `installedapp` with the given `:id`. |
+| `PUT`    | `/installedapps/:id`      | Updates the `installedapp` with the given `:id`.  |
+| `GET`    | `/installedapps/:id/logs` | Returns the logs for a app.                       |
+
+### Attributes
+
+#### `ID (string)`
+
+ID of the installed app.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Identifier      | `true` |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Filterable      | `true` |
+
+#### `accountName (string)`
+
+AccountName represents the vince account name.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Creation only   | `true` |
+
+#### `categoryID (string)`
+
+CategoryID of the app.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Read only       | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `name (string)`
+
+Name of the installed app.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Creation only   | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `namespace (string)`
+
+Namespace in which the app is running.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `parameters (external:app_parameters)`
+
+Parameters is a list of parameters to start the app.
+
+#### `replicas (integer)`
+
+Replicas represents the number of replicas for the app.
+
+#### `status (enum)`
+
+Status of the app.
+
+| Characteristics | Value                     |
+| -               | -:                        |
+| Allowed Value   | `Error, Pending, Running` |
+| Default         | `Pending`                 |
+| Read only       | `true`                    |
+| Orderable       | `true`                    |
+| Filterable      | `true`                    |
 
 ## IsolationProfile
 
@@ -4101,11 +4138,6 @@ CreatedTime is the time at which the object was created.
 
 DefaultAction is the default action applied to all syscalls of this profile.
 Default is "Allow".
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `description (string)`
 
@@ -4269,6 +4301,12 @@ configured max validity, it will be capped.
 A jaegerbatch is a batch of jaeger spans. This is used by external service to
 post jaeger span in our private jaeger services.
 
+### Relations
+
+| Method | URL             | Description                   |
+| -:     | -               | -                             |
+| `POST` | `/jaegerbatchs` | Sends a jaeger tracing batch. |
+
 ### Attributes
 
 #### `batch (external:jaeger_batch)`
@@ -4306,6 +4344,17 @@ ID is the identifier of the object.
 | Read only       | `true` |
 | Orderable       | `true` |
 | Filterable      | `true` |
+
+#### `activationType (enum)`
+
+Defines the mode of activation on the KubernetesCluster.
+
+| Characteristics | Value                                  |
+| -               | -:                                     |
+| Allowed Value   | `KubeSquall, PodAtomic, PodContainers` |
+| Default         | `KubeSquall`                           |
+| Orderable       | `true`                                 |
+| Filterable      | `true`                                 |
 
 #### `createTime (time)`
 
@@ -4390,9 +4439,9 @@ Retrieves the log of a deployed app.
 
 ### Relations
 
-| Method | URL                  | Description                     |
-| -:     | -                    | -                               |
-| `GET`  | `/services/:id/logs` | Returns the logs for a service. |
+| Method | URL                       | Description                 |
+| -:     | -                         | -                           |
+| `GET`  | `/installedapps/:id/logs` | Returns the logs for a app. |
 
 ### Attributes
 
@@ -4934,7 +4983,7 @@ Action defines the action to apply to a flow.
 | Characteristics | Value                     |
 | -               | -:                        |
 | Allowed Value   | `Allow, Reject, Continue` |
-| Default         | `Reject`                  |
+| Default         | `Allow`                   |
 | Orderable       | `true`                    |
 | Filterable      | `true`                    |
 
@@ -5000,6 +5049,17 @@ Disabled defines if the propert is disabled.
 #### `encryptionEnabled (boolean)`
 
 EncryptionEnabled defines if the flow has to be encrypted.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -5340,6 +5400,17 @@ Disabled defines if the propert is disabled.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
 #### `metadata (external:metadata_list)`
 
 Metadata contains tags that can only be set during creation. They must all start
@@ -5430,11 +5501,11 @@ includes AND/OR.
 
 Type of the policy.
 
-| Characteristics | Value                                                                                                                  |
-| -               | -:                                                                                                                     |
-| Allowed Value   | `APIAuthorization, EnforcerProfile, File, Hook, NamespaceMapping, Network, ProcessingUnit, Quota, Syscall, TokenScope` |
-| Creation only   | `true`                                                                                                                 |
-| Filterable      | `true`                                                                                                                 |
+| Characteristics | Value                                                                                                                           |
+| -               | -:                                                                                                                              |
+| Allowed Value   | `APIAuthorization, EnforcerProfile, File, Hook, NamespaceMapping, Network, ProcessingUnit, Quota, Service, Syscall, TokenScope` |
+| Creation only   | `true`                                                                                                                          |
+| Filterable      | `true`                                                                                                                          |
 
 #### `updateTime (time)`
 
@@ -5488,15 +5559,9 @@ retrieve a policy resolution.
 
 | Method | URL                | Description                                     |
 | -:     | -                  | -                                               |
-| `GET`  | `/policyrules`     | Retrieves the list of policy rules.             |
-| `POST` | `/policyrules`     | Creates a new policy rule.                      |
 | `GET`  | `/policyrules/:id` | Retrieve the `policyrule` with the given `:id`. |
 
 ### Attributes
-
-#### `APIServices (external:api_services_entities)`
-
-APIServices provides the APIServices of this policy rule.
 
 #### `ID (string)`
 
@@ -5524,7 +5589,7 @@ Policy target networks.
 
 #### `filePaths (external:file_entities)`
 
-Policy target networks.
+Policy target file paths.
 
 #### `isolationProfiles (external:isolation_profile_entities)`
 
@@ -5543,12 +5608,16 @@ Name is the name of the entity.
 
 #### `namespaces (external:namespace_entities)`
 
-Policy target networks.
+Policy target namespaces.
 
 #### `passthroughExternalServices (external:network_entities)`
 
 List of external services the policy mandate to pass through before reaching the
 destination.
+
+#### `policyNamespace (string)`
+
+PolicyNamespace is the namespace of the policy that created this rule.
 
 #### `propagated (boolean)`
 
@@ -5558,6 +5627,10 @@ Propagated indicates if the policy is propagated.
 
 Relation describes the required operation to be performed between subjects and
 objects.
+
+#### `services (external:api_services_entities)`
+
+Services provides the services of this policy rule.
 
 #### `tagClauses (external:target_tags)`
 
@@ -5576,7 +5649,8 @@ Paths they can use.
 
 ```json
 {
-  "name": "the name"
+  "name": "the name",
+  "type": "Docker"
 }
 ```
 
@@ -5590,10 +5664,11 @@ Paths they can use.
 | `GET`    | `/processingunits/:id`                       | Retrieve the `processingunit` with the given `:id`.                       |
 | `PUT`    | `/processingunits/:id`                       | Updates the `processingunit` with the given `:id`.                        |
 | `GET`    | `/networkaccesspolicies/:id/processingunits` | Returns the list of Processing Units affected by a network access policy. |
+| `GET`    | `/services/:id/processingunits`              | Retrieves the Processing Units that implement this service.               |
 | `GET`    | `/vulnerabilities/:id/processingunits`       | Retrieves the processing units affected by the a vulnerabily.             |
-| `GET`    | `/processingunits/:id/apiservices`           | Retrieves the api services used by a processing unit.                     |
 | `GET`    | `/processingunits/:id/fileaccesses`          | Retrieves the file accesses done by the processing unit.                  |
 | `GET`    | `/processingunits/:id/renderedpolicies`      | Retrieves the policies for the processing unit.                           |
+| `GET`    | `/processingunits/:id/services`              | Retrieves the services used by a processing unit.                         |
 | `GET`    | `/processingunits/:id/vulnerabilities`       | Retrieves the vulnerabilities affecting the processing unit.              |
 
 ### Attributes
@@ -5741,8 +5816,6 @@ Type of the container ecosystem.
 | Characteristics | Value                             |
 | -               | -:                                |
 | Allowed Value   | `Docker, LinuxService, RKT, User` |
-| Default         | `Docker`                          |
-| Required        | `true`                            |
 | Creation only   | `true`                            |
 | Filterable      | `true`                            |
 
@@ -5852,15 +5925,21 @@ Disabled defines if the propert is disabled.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `isolationProfileSelector (external:policies_list)`
+#### `fallback (boolean)`
 
-IsolationProfileSelector are the profiles that must be applied when this policy
-matches. Only applies to Enforce and LogCompliance actions.
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
 
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
 | Filterable      | `true` |
+
+#### `isolationProfileSelector (external:policies_list)`
+
+IsolationProfileSelector are the profiles that must be applied when this policy
+matches. Only applies to Enforce and LogCompliance actions.
 
 #### `metadata (external:metadata_list)`
 
@@ -5936,11 +6015,6 @@ Protected defines if the object is protected.
 
 Subject defines the tag selectors that identitfy the processing units to which
 this policy applies.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `updateTime (time)`
 
@@ -6024,6 +6098,17 @@ Description is the description of the object.
 #### `disabled (boolean)`
 
 Disabled defines if the propert is disabled.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -6144,7 +6229,11 @@ Hook to integrate an Aporeto service.
     "@auth:realm=certificate",
     "@auth:commonname=john"
   ],
-  "input": "{\n  \"name\": \"hello\",\n  \"description\": \"hello\",\n}",
+  "input": "{
+  \"name\": \"hello\",
+  \"description\": \"hello\",
+}",
+  "mode": "Pre",
   "namespace": "/my/namespace",
   "operation": "create",
   "targetIdentity": "processingunit"
@@ -6182,8 +6271,6 @@ Node defines the type of the hook.
 | Characteristics | Value       |
 | -               | -:          |
 | Allowed Value   | `Post, Pre` |
-| Default         | `Pre`       |
-| Required        | `true`      |
 
 #### `namespace (string)`
 
@@ -6235,7 +6322,14 @@ Retrieve the aggregated policies applied to a particular processing unit.
 
 ```json
 {
-  "processingUnit": "{\n  \"name\": \"pu\",\n  \"type\": \"Docker\",\n  \"normalizedTags\": [\n    \"a=a\",\n    \"b=b\"\n  ]\n}"
+  "processingUnit": "{
+  \"name\": \"pu\",
+  \"type\": \"Docker\",
+  \"normalizedTags\": [
+    \"a=a\",
+    \"b=b\"
+  ]
+}"
 }
 ```
 
@@ -6266,9 +6360,9 @@ EgressPolicies lists all the egress policies attached to processing unit.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `exposedAPIServices (external:api_services_entities)`
+#### `exposedServices (external:api_services_entities)`
 
-ExposedAPIServices is the list of services that this processing unit is
+ExposedServices is the list of services that this processing unit is
 implementing.
 
 #### `ingressPolicies (external:rendered_policy)`
@@ -6343,9 +6437,9 @@ TSDB Fields to set for the report.
 
 Kind contains the kind of report.
 
-| Characteristics | Value                                                              |
-| -               | -:                                                                 |
-| Allowed Value   | `Audit, Enforcer, FileAccess, Flow, ProcessingUnit, Syscall, User` |
+| Characteristics | Value                                                                |
+| -               | -:                                                                   |
+| Allowed Value   | `Audit, Enforcer, FileAccess, Flow, ProcessingUnit, Syscall, Claims` |
 
 #### `tags (external:tags_map)`
 
@@ -6358,6 +6452,145 @@ Timestamp contains the time for the report.
 #### `value (float)`
 
 Value contains the value for the report.
+
+## RESTAPISpec
+
+RESTAPISpec descibes the REST APIs exposed by a service. These APIs
+can be associated with one or more services.
+
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
+
+### Relations
+
+| Method   | URL                          | Description                                      |
+| -:       | -                            | -                                                |
+| `GET`    | `/restapispecs`              | Retrieves the list of REST API specifications.   |
+| `POST`   | `/restapispecs`              | Creates a new REST API specification.            |
+| `DELETE` | `/restapispecs/:id`          | Deletes the `restapispec` with the given `:id`.  |
+| `GET`    | `/restapispecs/:id`          | Retrieve the `restapispec` with the given `:id`. |
+| `PUT`    | `/restapispecs/:id`          | Updates the `restapispec` with the given `:id`.  |
+| `GET`    | `/services/:id/restapispecs` | Retrieves the REST APIs exposed by this service. |
+
+### Attributes
+
+#### `ID (string)`
+
+ID is the identifier of the object.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Identifier      | `true` |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `annotations (external:annotations)`
+
+Annotation stores additional information about an entity.
+
+#### `associatedTags (external:tags_list)`
+
+AssociatedTags are the list of tags attached to an entity.
+
+#### `createTime (time)`
+
+CreatedTime is the time at which the object was created.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
+
+#### `description (string)`
+
+Description is the description of the object.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `1024` |
+| Orderable       | `true` |
+
+#### `endpoints (external:exposed_api_list)`
+
+EndPoints is a list of API endpoints that are exposed for the service.
+
+#### `name (string)`
+
+Name is the name of the entity.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `256`  |
+| Required        | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `namespace (string)`
+
+Namespace tag attached to an entity.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Creation only   | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `normalizedTags (external:tags_list)`
+
+NormalizedTags contains the list of normalized tags of the entities.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+
+#### `propagate (boolean)`
+
+Propagate will propagate the policy to all of its children.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `propagationHidden (boolean)`
+
+If set to true while the policy is propagating, it won't be visible to children
+namespace, but still used for policy resolution.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `protected (boolean)`
+
+Protected defines if the object is protected.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `updateTime (time)`
+
+UpdateTime is the time at which an entity was updated.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
 
 ## Role
 
@@ -6410,88 +6643,225 @@ Name of the role.
 
 ## Service
 
-Service represents a service that can be launched.
+A Service defines a generic service object at L4 or L7 that encapsulates the
+description of a micro-service. A service exposes APIs and can be implemented
+through third party entities (such as a cloud provider) or through  processing
+units.
+
+### Example
+
+```json
+{
+  "exposedAPIs": [
+    [
+      "package=p1"
+    ]
+  ],
+  "exposedPort": 443,
+  "name": "the name",
+  "port": 443,
+  "selectors": [
+    [
+      "$identity=processingunit"
+    ]
+  ]
+}
+```
 
 ### Relations
 
-| Method   | URL                  | Description                                  |
-| -:       | -                    | -                                            |
-| `GET`    | `/services`          | Retrieves the lisy of services.              |
-| `POST`   | `/services`          | Installs a new service.                      |
-| `DELETE` | `/services/:id`      | Deletes the `service` with the given `:id`.  |
-| `GET`    | `/services/:id`      | Retrieve the `service` with the given `:id`. |
-| `PUT`    | `/services/:id`      | Updates the `service` with the given `:id`.  |
-| `GET`    | `/services/:id/logs` | Returns the logs for a service.              |
+| Method   | URL                             | Description                                                 |
+| -:       | -                               | -                                                           |
+| `GET`    | `/services`                     | Retrieves the list of Services.                             |
+| `POST`   | `/services`                     | Creates a new Service.                                      |
+| `DELETE` | `/services/:id`                 | Deletes the `service` with the given `:id`.                 |
+| `GET`    | `/services/:id`                 | Retrieve the `service` with the given `:id`.                |
+| `PUT`    | `/services/:id`                 | Updates the `service` with the given `:id`.                 |
+| `GET`    | `/processingunits/:id/services` | Retrieves the services used by a processing unit.           |
+| `GET`    | `/services/:id/processingunits` | Retrieves the Processing Units that implement this service. |
+| `GET`    | `/services/:id/restapispecs`    | Retrieves the REST APIs exposed by this service.            |
 
 ### Attributes
 
 #### `ID (string)`
 
-ID of the service.
+ID is the identifier of the object.
 
 | Characteristics | Value  |
 | -               | -:     |
 | Identifier      | `true` |
 | Autogenerated   | `true` |
 | Read only       | `true` |
+| Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `accountName (string)`
+#### `IPs (external:ip_list)`
 
-AccountName represents the vince account name.
+IPs is the list of IP addresses where the service can be accessed.
+This is an optional attribute and is only required if no host names are
+provided.
+The system will automatically resolve IP addresses from  host names otherwise.
+
+#### `JWTSigningCertificate (string)`
+
+JWTSigningCertificate is a certificate that can be used to validate user JWT in
+HTTP requests. This is an optional field, needed only if user JWT validation is
+required for this service. The certificate must be in PEM format.
+
+#### `annotations (external:annotations)`
+
+Annotation stores additional information about an entity.
+
+#### `associatedTags (external:tags_list)`
+
+AssociatedTags are the list of tags attached to an entity.
+
+#### `createTime (time)`
+
+CreatedTime is the time at which the object was created.
 
 | Characteristics | Value  |
 | -               | -:     |
-| Creation only   | `true` |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
 
-#### `categoryID (string)`
+#### `description (string)`
 
-CategoryID of the service.
+Description is the description of the object.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `1024` |
+| Orderable       | `true` |
+
+#### `endpoints (external:exposed_api_list)`
+
+Endpoints is a read only attribute that actually resolves the API
+endpoints that the service is exposing. Only valid during policy rendering.
 
 | Characteristics | Value  |
 | -               | -:     |
 | Read only       | `true` |
-| Orderable       | `true` |
-| Filterable      | `true` |
 
-#### `name (string)`
+#### `exposedAPIs (external:policies_list)`
 
-Name of the service.
+ExposedAPIs contains a tag expression that will determine which
+APIs a service is exposing. The APIs can be defined as the RESTAPISpec or
+similar specifications for other L7 protocols.
+
+#### `exposedPort (integer)`
+
+ExposedPort is the port that the service can be accessed. Note that
+this is different from the Port attribute that describes the port that the
+service is actually listening. For example if a load balancer is used, the
+ExposedPort is the port that the load balancer is listening for the service,
+whereas the port that the implementation is listening can be different.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Max length      | `65535` |
+| Required        | `true`  |
+
+#### `external (boolean)`
+
+External is a boolean that indicates if this is an external service.
+
+| Characteristics | Value             |
+| -               | -:                |
+| Default         | `%!s(bool=false)` |
+| Orderable       | `true`            |
+| Filterable      | `true`            |
+
+#### `hosts (list)`
+
+Hosts are the names that the service can be accessed with.
 
 | Characteristics | Value  |
 | -               | -:     |
-| Creation only   | `true` |
+| Orderable       | `true` |
+
+#### `name (string)`
+
+Name is the name of the entity.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `256`  |
+| Required        | `true` |
 | Orderable       | `true` |
 | Filterable      | `true` |
 
 #### `namespace (string)`
 
-Namespace in which the service in running.
+Namespace tag attached to an entity.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Creation only   | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `normalizedTags (external:tags_list)`
+
+NormalizedTags contains the list of normalized tags of the entities.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+
+#### `port (integer)`
+
+Port is the port that the implementation of the service is listening to and
+it can be different than the exposedPorts describing the service. This is needed
+for port mapping use cases where there is private and public ports.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Max length      | `65535` |
+| Required        | `true`  |
+
+#### `protected (boolean)`
+
+Protected defines if the object is protected.
 
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `parameters (external:service_parameters)`
+#### `selectors (external:policies_list)`
 
-Parameters is a list of parameters to start the service.
+Selectors contains the tag expression that an a processing unit
+must match in order to implement this particular service.
 
-#### `replicas (integer)`
+#### `serviceCA (string)`
 
-Replicas represents the number of replicas for the service.
+ServiceCA  is the certificate authority that the service is using. This
+is needed for external services with private certificate authorities. The
+field is optional. If provided, this must be a valid PEM CA file.
 
-#### `status (enum)`
+#### `type (enum)`
 
-Status of the service.
+Type is the type of the service.
 
-| Characteristics | Value                     |
-| -               | -:                        |
-| Allowed Value   | `Error, Pending, Running` |
-| Default         | `Pending`                 |
-| Read only       | `true`                    |
-| Orderable       | `true`                    |
-| Filterable      | `true`                    |
+| Characteristics | Value       |
+| -               | -:          |
+| Allowed Value   | `HTTP, TCP` |
+| Default         | `HTTP`      |
+
+#### `updateTime (time)`
+
+UpdateTime is the time at which an entity was updated.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
 
 ## StatsQuery
 
@@ -6536,130 +6906,6 @@ List of suggested network access policies.
 | -               | -:     |
 | Orderable       | `true` |
 | Filterable      | `true` |
-
-## SystemCall
-
-This object has never been used and should be removed.
-
-### Example
-
-```json
-{
-  "name": "the name"
-}
-```
-
-### Relations
-
-| Method   | URL                | Description                                     |
-| -:       | -                  | -                                               |
-| `GET`    | `/systemcalls`     | Unused.                                         |
-| `POST`   | `/systemcalls`     | Unused.                                         |
-| `DELETE` | `/systemcalls/:id` | Deletes the `systemcall` with the given `:id`.  |
-| `GET`    | `/systemcalls/:id` | Retrieve the `systemcall` with the given `:id`. |
-| `PUT`    | `/systemcalls/:id` | Updates the `systemcall` with the given `:id`.  |
-
-### Attributes
-
-#### `ID (string)`
-
-ID is the identifier of the object.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Identifier      | `true` |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
-#### `annotations (external:annotations)`
-
-Annotation stores additional information about an entity.
-
-#### `associatedTags (external:tags_list)`
-
-AssociatedTags are the list of tags attached to an entity.
-
-#### `createTime (time)`
-
-CreatedTime is the time at which the object was created.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-| Orderable       | `true` |
-
-#### `description (string)`
-
-Description is the description of the object.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Max length      | `1024` |
-| Orderable       | `true` |
-
-#### `metadata (external:metadata_list)`
-
-Metadata contains tags that can only be set during creation. They must all start
-with the '@' prefix, and should only be used by external systems.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Creation only   | `true` |
-| Filterable      | `true` |
-
-#### `name (string)`
-
-Name is the name of the entity.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Max length      | `256`  |
-| Required        | `true` |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
-#### `namespace (string)`
-
-Namespace tag attached to an entity.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-| Creation only   | `true` |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
-#### `normalizedTags (external:tags_list)`
-
-NormalizedTags contains the list of normalized tags of the entities.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-
-#### `protected (boolean)`
-
-Protected defines if the object is protected.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
-#### `updateTime (time)`
-
-UpdateTime is the time at which an entity was updated.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-| Orderable       | `true` |
 
 ## Tabulation
 
@@ -6857,6 +7103,17 @@ Description is the description of the object.
 #### `disabled (boolean)`
 
 Disabled defines if the propert is disabled.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
 
 | Characteristics | Value  |
 | -               | -:     |

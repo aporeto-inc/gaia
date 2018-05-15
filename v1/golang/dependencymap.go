@@ -67,6 +67,12 @@ func (o DependencyMapsList) Version() int {
 
 // DependencyMap represents the model of a dependencymap
 type DependencyMap struct {
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
+	// claims represents a user or a script that have accessed an api.
+	Claims map[string][]string `json:"claims" bson:"-" mapstructure:"claims,omitempty"`
+
 	// edges are the edges of the map.
 	Edges types.GraphEdgeMap `json:"edges" bson:"-" mapstructure:"edges,omitempty"`
 
@@ -79,9 +85,6 @@ type DependencyMap struct {
 	// viewSuggestions provides suggestion of views based on relevant tags.
 	ViewSuggestions []string `json:"viewSuggestions" bson:"-" mapstructure:"viewSuggestions,omitempty"`
 
-	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
-
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
 	sync.Mutex
@@ -92,6 +95,7 @@ func NewDependencyMap() *DependencyMap {
 
 	return &DependencyMap{
 		ModelVersion:    1,
+		Claims:          map[string][]string{},
 		Edges:           types.GraphEdgeMap{},
 		Groups:          types.GraphGroupMap{},
 		Nodes:           types.GraphNodeMap{},
@@ -195,6 +199,16 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 	},
+	"Claims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Claims",
+		Description:    `claims represents a user or a script that have accessed an api.`,
+		Exposed:        true,
+		Name:           "claims",
+		ReadOnly:       true,
+		SubType:        "graphclaims_map",
+		Type:           "external",
+	},
 	"Edges": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Edges",
@@ -252,6 +266,16 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
+	},
+	"claims": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Claims",
+		Description:    `claims represents a user or a script that have accessed an api.`,
+		Exposed:        true,
+		Name:           "claims",
+		ReadOnly:       true,
+		SubType:        "graphclaims_map",
+		Type:           "external",
 	},
 	"edges": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
