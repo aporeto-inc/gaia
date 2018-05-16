@@ -18,7 +18,7 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: Provider
+  - name: provider
     description: Provider holds the name of the provider to be billed for this service.
     type: enum
     exposed: true
@@ -28,7 +28,7 @@ attributes:
     - AWS
     default_value: Aporeto
 
-  - name: ProviderCustomerID
+  - name: providerCustomerID
     description: |-
       ProviderCustomerID holds the customer id as used by the provider for this
       customer to enable provider billing.
@@ -39,7 +39,7 @@ attributes:
     format: free
     orderable: true
 
-  - name: State
+  - name: state
     description: State holds the status of the customer with the provider.
     type: enum
     exposed: true

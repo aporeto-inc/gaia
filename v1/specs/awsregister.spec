@@ -12,7 +12,7 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: Provider
+  - name: provider
     description: Token Provided by AWS.
     type: string
     exposed: true

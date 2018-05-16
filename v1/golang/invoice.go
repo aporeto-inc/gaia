@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-// InvoiceBilledToProviderValue represents the possible values for attribute "BilledToProvider".
+// InvoiceBilledToProviderValue represents the possible values for attribute "billedToProvider".
 type InvoiceBilledToProviderValue string
 
 const (
@@ -78,23 +78,23 @@ func (o InvoicesList) Version() int {
 
 // Invoice represents the model of a invoice
 type Invoice struct {
-	// AccountID references the id of the customer that this invoice belongs to.
-	AccountID string `json:"AccountID" bson:"accountid" mapstructure:"AccountID,omitempty"`
-
-	// BilledToProvider holds the name of the provider that this invoice was billed to.
-	BilledToProvider InvoiceBilledToProviderValue `json:"BilledToProvider" bson:"billedtoprovider" mapstructure:"BilledToProvider,omitempty"`
-
-	// EndDate holds the end date for this invoice.
-	EndDate time.Time `json:"EndDate" bson:"enddate" mapstructure:"EndDate,omitempty"`
-
 	// ID is the id of the invoice.
 	ID string `json:"ID" bson:"id" mapstructure:"ID,omitempty"`
 
-	// StartDate holds the start date for this invoice.
-	StartDate time.Time `json:"StartDate" bson:"startdate" mapstructure:"StartDate,omitempty"`
+	// AccountID references the id of the customer that this invoice belongs to.
+	AccountID string `json:"accountID" bson:"accountid" mapstructure:"accountID,omitempty"`
+
+	// BilledToProvider holds the name of the provider that this invoice was billed to.
+	BilledToProvider InvoiceBilledToProviderValue `json:"billedToProvider" bson:"billedtoprovider" mapstructure:"billedToProvider,omitempty"`
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// EndDate holds the end date for this invoice.
+	EndDate time.Time `json:"endDate" bson:"enddate" mapstructure:"endDate,omitempty"`
+
+	// StartDate holds the start date for this invoice.
+	StartDate time.Time `json:"startDate" bson:"startdate" mapstructure:"startDate,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -158,7 +158,7 @@ func (o *Invoice) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("BilledToProvider", string(o.BilledToProvider), []string{"Aporeto", "AWS"}, false); err != nil {
+	if err := elemental.ValidateStringInList("billedToProvider", string(o.BilledToProvider), []string{"Aporeto", "AWS"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -192,40 +192,6 @@ func (*Invoice) AttributeSpecifications() map[string]elemental.AttributeSpecific
 
 // InvoiceAttributesMap represents the map of attribute for Invoice.
 var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
-	"AccountID": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AccountID",
-		Description:    `AccountID references the id of the customer that this invoice belongs to.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "AccountID",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"BilledToProvider": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Aporeto", "AWS"},
-		ConvertedName:  "BilledToProvider",
-		DefaultValue:   InvoiceBilledToProviderAporeto,
-		Description:    `BilledToProvider holds the name of the provider that this invoice was billed to.`,
-		Exposed:        true,
-		Name:           "BilledToProvider",
-		Stored:         true,
-		Type:           "enum",
-	},
-	"EndDate": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "EndDate",
-		Description:    `EndDate holds the end date for this invoice.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "EndDate",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "time",
-	},
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
@@ -238,17 +204,27 @@ var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"StartDate": elemental.AttributeSpecification{
+	"AccountID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "StartDate",
-		Description:    `StartDate holds the start date for this invoice.`,
+		ConvertedName:  "AccountID",
+		Description:    `AccountID references the id of the customer that this invoice belongs to.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
-		Name:           "StartDate",
+		Name:           "accountID",
 		Orderable:      true,
 		Stored:         true,
-		Type:           "time",
+		Type:           "string",
+	},
+	"BilledToProvider": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Aporeto", "AWS"},
+		ConvertedName:  "BilledToProvider",
+		DefaultValue:   InvoiceBilledToProviderAporeto,
+		Description:    `BilledToProvider holds the name of the provider that this invoice was billed to.`,
+		Exposed:        true,
+		Name:           "billedToProvider",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -260,6 +236,30 @@ var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Stored:         true,
+		Type:           "time",
+	},
+	"EndDate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EndDate",
+		Description:    `EndDate holds the end date for this invoice.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "endDate",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "time",
+	},
+	"StartDate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "StartDate",
+		Description:    `StartDate holds the start date for this invoice.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "startDate",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -280,40 +280,6 @@ var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
 
 // InvoiceLowerCaseAttributesMap represents the map of attribute for Invoice.
 var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"accountid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AccountID",
-		Description:    `AccountID references the id of the customer that this invoice belongs to.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "AccountID",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"billedtoprovider": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Aporeto", "AWS"},
-		ConvertedName:  "BilledToProvider",
-		DefaultValue:   InvoiceBilledToProviderAporeto,
-		Description:    `BilledToProvider holds the name of the provider that this invoice was billed to.`,
-		Exposed:        true,
-		Name:           "BilledToProvider",
-		Stored:         true,
-		Type:           "enum",
-	},
-	"enddate": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "EndDate",
-		Description:    `EndDate holds the end date for this invoice.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "EndDate",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "time",
-	},
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
@@ -326,17 +292,27 @@ var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"startdate": elemental.AttributeSpecification{
+	"accountid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "StartDate",
-		Description:    `StartDate holds the start date for this invoice.`,
+		ConvertedName:  "AccountID",
+		Description:    `AccountID references the id of the customer that this invoice belongs to.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
-		Name:           "StartDate",
+		Name:           "accountID",
 		Orderable:      true,
 		Stored:         true,
-		Type:           "time",
+		Type:           "string",
+	},
+	"billedtoprovider": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Aporeto", "AWS"},
+		ConvertedName:  "BilledToProvider",
+		DefaultValue:   InvoiceBilledToProviderAporeto,
+		Description:    `BilledToProvider holds the name of the provider that this invoice was billed to.`,
+		Exposed:        true,
+		Name:           "billedToProvider",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -348,6 +324,30 @@ var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Stored:         true,
+		Type:           "time",
+	},
+	"enddate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EndDate",
+		Description:    `EndDate holds the end date for this invoice.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "endDate",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "time",
+	},
+	"startdate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "StartDate",
+		Description:    `StartDate holds the start date for this invoice.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "startDate",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "time",
 	},

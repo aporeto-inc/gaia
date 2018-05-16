@@ -15,7 +15,16 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: AccountID
+  - name: ID
+    description: ID is the id of the invoice.
+    type: string
+    exposed: true
+    stored: true
+    filterable: true
+    format: free
+    orderable: true
+
+  - name: accountID
     description: AccountID references the id of the customer that this invoice belongs
       to.
     type: string
@@ -25,7 +34,7 @@ attributes:
     format: free
     orderable: true
 
-  - name: BilledToProvider
+  - name: billedToProvider
     description: BilledToProvider holds the name of the provider that this invoice
       was billed to.
     type: enum
@@ -36,7 +45,7 @@ attributes:
     - AWS
     default_value: Aporeto
 
-  - name: EndDate
+  - name: endDate
     description: EndDate holds the end date for this invoice.
     type: time
     exposed: true
@@ -45,16 +54,7 @@ attributes:
     format: free
     orderable: true
 
-  - name: ID
-    description: ID is the id of the invoice.
-    type: string
-    exposed: true
-    stored: true
-    filterable: true
-    format: free
-    orderable: true
-
-  - name: StartDate
+  - name: startDate
     description: StartDate holds the start date for this invoice.
     type: time
     exposed: true

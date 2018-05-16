@@ -24,7 +24,7 @@ attributes:
     format: free
     orderable: true
 
-  - name: InvoiceID
+  - name: invoiceID
     description: |-
       InvoiceID references the id of the invoice that this invoice record provides
       details for.
@@ -35,7 +35,7 @@ attributes:
     format: free
     orderable: true
 
-  - name: InvoiceRecords
+  - name: invoiceRecords
     description: InvoiceRecords provides details about billing units.
     type: external
     exposed: true
