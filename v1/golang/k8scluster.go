@@ -81,7 +81,9 @@ func (o K8SClustersList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o K8SClustersList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"name",
+	}
 }
 
 // Version returns the version of the content.
@@ -107,34 +109,39 @@ type K8SCluster struct {
 	// Defines the mode of activation on the KubernetesCluster.
 	ActivationType K8SClusterActivationTypeValue `json:"activationType" bson:"activationtype" mapstructure:"activationType,omitempty"`
 
-	// Link to the certificate created in Vince for this cluster.
+	// Annotation stores additional information about an entity.
+	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// Link to the certificate created in Barret for this cluster.
 	CertificateID string `json:"-" bson:"certificateid" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// Description is the description of the object.
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+
 	// base64 of the .tar.gz file that contains all the .YAMLs files needed to create
 	// the aporeto side on your kubernetes Cluster.
 	KubernetesDefinitions string `json:"kubernetesDefinitions" bson:"-" mapstructure:"kubernetesDefinitions,omitempty"`
 
-	// The name of your cluster.
+	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
-	// Link to your namespace.
-	NamespaceID string `json:"-" bson:"namespaceid" mapstructure:"-,omitempty"`
+	// Namespace tag attached to an entity.
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// ID of the parent account.
-	ParentID string `json:"parentID" bson:"parentid" mapstructure:"parentID,omitempty"`
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Regenerates the k8s files and certificates.
 	Regenerate bool `json:"regenerate" bson:"-" mapstructure:"regenerate,omitempty"`
-
-	// The namespace in which the Kubernetes specific namespace will be created. By
-	// default your account namespace.
-	TargetNamespace string `json:"targetNamespace" bson:"targetnamespace" mapstructure:"targetNamespace,omitempty"`
-
-	// List of target networks.
-	TargetNetworks []string `json:"targetNetworks" bson:"targetnetworks" mapstructure:"targetNetworks,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -150,7 +157,10 @@ func NewK8SCluster() *K8SCluster {
 	return &K8SCluster{
 		ModelVersion:      1,
 		ActivationType:    "KubeSquall",
+		Annotations:       map[string][]string{},
+		AssociatedTags:    []string{},
 		NetworkPolicyType: "Kubernetes",
+		NormalizedTags:    []string{},
 	}
 }
 
@@ -181,7 +191,9 @@ func (o *K8SCluster) Version() int {
 // DefaultOrder returns the list of default ordering fields.
 func (o *K8SCluster) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"name",
+	}
 }
 
 // Doc returns the documentation for the object
@@ -192,6 +204,72 @@ func (o *K8SCluster) Doc() string {
 func (o *K8SCluster) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// GetAnnotations returns the Annotations of the receiver.
+func (o *K8SCluster) GetAnnotations() map[string][]string {
+
+	return o.Annotations
+}
+
+// SetAnnotations sets the given Annotations of the receiver.
+func (o *K8SCluster) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = annotations
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *K8SCluster) GetAssociatedTags() []string {
+
+	return o.AssociatedTags
+}
+
+// SetAssociatedTags sets the given AssociatedTags of the receiver.
+func (o *K8SCluster) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = associatedTags
+}
+
+// GetName returns the Name of the receiver.
+func (o *K8SCluster) GetName() string {
+
+	return o.Name
+}
+
+// SetName sets the given Name of the receiver.
+func (o *K8SCluster) SetName(name string) {
+
+	o.Name = name
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *K8SCluster) GetNamespace() string {
+
+	return o.Namespace
+}
+
+// SetNamespace sets the given Namespace of the receiver.
+func (o *K8SCluster) SetNamespace(namespace string) {
+
+	o.Namespace = namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *K8SCluster) GetNormalizedTags() []string {
+
+	return o.NormalizedTags
+}
+
+// SetNormalizedTags sets the given NormalizedTags of the receiver.
+func (o *K8SCluster) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = normalizedTags
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *K8SCluster) GetProtected() bool {
+
+	return o.Protected
 }
 
 // Validate valides the current information stored into the structure.
@@ -205,6 +283,18 @@ func (o *K8SCluster) Validate() error {
 	}
 
 	if err := elemental.ValidateStringInList("activationType", string(o.ActivationType), []string{"KubeSquall", "PodAtomic", "PodContainers"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -290,10 +380,34 @@ consistent policies in Squall.`,
 		Stored:         true,
 		Type:           "enum",
 	},
+	"Annotations": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Annotations",
+		Description:    `Annotation stores additional information about an entity.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "annotations",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "annotations",
+		Type:           "external",
+	},
+	"AssociatedTags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssociatedTags",
+		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "associatedTags",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "tags_list",
+		Type:           "external",
+	},
 	"CertificateID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateID",
-		Description:    `Link to the certificate created in Vince for this cluster.`,
+		Description:    `Link to the certificate created in Barret for this cluster.`,
 		Format:         "free",
 		Name:           "certificateID",
 		Stored:         true,
@@ -312,6 +426,18 @@ consistent policies in Squall.`,
 		Stored:         true,
 		Type:           "time",
 	},
+	"Description": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Description",
+		Description:    `Description is the description of the object.`,
+		Exposed:        true,
+		Format:         "free",
+		MaxLength:      1024,
+		Name:           "description",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"KubernetesDefinitions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "KubernetesDefinitions",
@@ -328,36 +454,65 @@ the aporeto side on your kubernetes Cluster.`,
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		Description:    `The name of your cluster.`,
+		DefaultOrder:   true,
+		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
+		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
+		Required:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
-	"NamespaceID": elemental.AttributeSpecification{
+	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "NamespaceID",
-		Description:    `Link to your namespace.`,
-		Format:         "free",
-		Name:           "namespaceID",
-		Stored:         true,
-		Type:           "string",
-	},
-	"ParentID": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ParentID",
-		Description:    `ID of the parent account.`,
+		Autogenerated:  true,
+		ConvertedName:  "Namespace",
+		CreationOnly:   true,
+		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
-		Name:           "parentID",
+		Getter:         true,
+		Index:          true,
+		Name:           "namespace",
 		Orderable:      true,
+		PrimaryKey:     true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"NormalizedTags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "NormalizedTags",
+		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "normalizedTags",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		SubType:        "tags_list",
+		Transient:      true,
+		Type:           "external",
+	},
+	"Protected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Protected",
+		Description:    `Protected defines if the object is protected.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "protected",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"Regenerate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -366,32 +521,6 @@ the aporeto side on your kubernetes Cluster.`,
 		Exposed:        true,
 		Name:           "regenerate",
 		Type:           "boolean",
-	},
-	"TargetNamespace": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "TargetNamespace",
-		Description: `The namespace in which the Kubernetes specific namespace will be created. By
-default your account namespace.`,
-		Exposed:    true,
-		Filterable: true,
-		Format:     "free",
-		Name:       "targetNamespace",
-		Orderable:  true,
-		Stored:     true,
-		Type:       "string",
-	},
-	"TargetNetworks": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "TargetNetworks",
-		Deprecated:     true,
-		Description:    `List of target networks.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "targetNetworks",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "target_networks_list",
-		Type:           "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -462,10 +591,34 @@ consistent policies in Squall.`,
 		Stored:         true,
 		Type:           "enum",
 	},
+	"annotations": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Annotations",
+		Description:    `Annotation stores additional information about an entity.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "annotations",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "annotations",
+		Type:           "external",
+	},
+	"associatedtags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssociatedTags",
+		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "associatedTags",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "tags_list",
+		Type:           "external",
+	},
 	"certificateid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateID",
-		Description:    `Link to the certificate created in Vince for this cluster.`,
+		Description:    `Link to the certificate created in Barret for this cluster.`,
 		Format:         "free",
 		Name:           "certificateID",
 		Stored:         true,
@@ -484,6 +637,18 @@ consistent policies in Squall.`,
 		Stored:         true,
 		Type:           "time",
 	},
+	"description": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Description",
+		Description:    `Description is the description of the object.`,
+		Exposed:        true,
+		Format:         "free",
+		MaxLength:      1024,
+		Name:           "description",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"kubernetesdefinitions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "KubernetesDefinitions",
@@ -500,36 +665,65 @@ the aporeto side on your kubernetes Cluster.`,
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		Description:    `The name of your cluster.`,
+		DefaultOrder:   true,
+		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
+		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
+		Required:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
-	"namespaceid": elemental.AttributeSpecification{
+	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "NamespaceID",
-		Description:    `Link to your namespace.`,
-		Format:         "free",
-		Name:           "namespaceID",
-		Stored:         true,
-		Type:           "string",
-	},
-	"parentid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ParentID",
-		Description:    `ID of the parent account.`,
+		Autogenerated:  true,
+		ConvertedName:  "Namespace",
+		CreationOnly:   true,
+		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
-		Name:           "parentID",
+		Getter:         true,
+		Index:          true,
+		Name:           "namespace",
 		Orderable:      true,
+		PrimaryKey:     true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"normalizedtags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "NormalizedTags",
+		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "normalizedTags",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		SubType:        "tags_list",
+		Transient:      true,
+		Type:           "external",
+	},
+	"protected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Protected",
+		Description:    `Protected defines if the object is protected.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "protected",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"regenerate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -538,32 +732,6 @@ the aporeto side on your kubernetes Cluster.`,
 		Exposed:        true,
 		Name:           "regenerate",
 		Type:           "boolean",
-	},
-	"targetnamespace": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "TargetNamespace",
-		Description: `The namespace in which the Kubernetes specific namespace will be created. By
-default your account namespace.`,
-		Exposed:    true,
-		Filterable: true,
-		Format:     "free",
-		Name:       "targetNamespace",
-		Orderable:  true,
-		Stored:     true,
-		Type:       "string",
-	},
-	"targetnetworks": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "TargetNetworks",
-		Deprecated:     true,
-		Description:    `List of target networks.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "targetNetworks",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "target_networks_list",
-		Type:           "external",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

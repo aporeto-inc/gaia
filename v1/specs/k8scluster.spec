@@ -3,7 +3,7 @@ model:
   rest_name: k8scluster
   resource_name: k8sclusters
   entity_name: K8SCluster
-  package: vince
+  package: cactuar
   description: Create a remote Kubernetes Cluster integration.
   get: true
   update: true
@@ -11,6 +11,9 @@ model:
   extends:
   - '@identifiable-pk-stored'
   - '@timeable'
+  - '@base'
+  - '@named'
+  - '@described'
 
 # Attributes
 attributes:
@@ -51,7 +54,7 @@ attributes:
     orderable: true
 
   - name: certificateID
-    description: Link to the certificate created in Vince for this cluster.
+    description: Link to the certificate created in Barret for this cluster.
     type: string
     stored: true
     format: free
@@ -67,53 +70,7 @@ attributes:
     format: free
     orderable: true
 
-  - name: name
-    description: The name of your cluster.
-    type: string
-    exposed: true
-    stored: true
-    filterable: true
-    format: free
-    orderable: true
-
-  - name: namespaceID
-    description: Link to your namespace.
-    type: string
-    stored: true
-    format: free
-
-  - name: parentID
-    description: ID of the parent account.
-    type: string
-    exposed: true
-    stored: true
-    read_only: true
-    filterable: true
-    format: free
-    orderable: true
-
   - name: regenerate
     description: Regenerates the k8s files and certificates.
     type: boolean
     exposed: true
-
-  - name: targetNamespace
-    description: |-
-      The namespace in which the Kubernetes specific namespace will be created. By
-      default your account namespace.
-    type: string
-    exposed: true
-    stored: true
-    filterable: true
-    format: free
-    orderable: true
-
-  - name: targetNetworks
-    description: List of target networks.
-    type: external
-    exposed: true
-    subtype: target_networks_list
-    stored: true
-    deprecated: true
-    filterable: true
-    orderable: true
