@@ -53,7 +53,7 @@ attributes:
     filterable: true
     orderable: true
 
-  - name: certificateID
+  - name: certificateSN
     description: Link to the certificate created in Barret for this cluster.
     type: string
     stored: true

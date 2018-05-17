@@ -116,7 +116,7 @@ type K8SCluster struct {
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// Link to the certificate created in Barret for this cluster.
-	CertificateID string `json:"-" bson:"certificateid" mapstructure:"-,omitempty"`
+	CertificateSN string `json:"-" bson:"certificatesn" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
@@ -404,12 +404,12 @@ consistent policies in Squall.`,
 		SubType:        "tags_list",
 		Type:           "external",
 	},
-	"CertificateID": elemental.AttributeSpecification{
+	"CertificateSN": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "CertificateID",
+		ConvertedName:  "CertificateSN",
 		Description:    `Link to the certificate created in Barret for this cluster.`,
 		Format:         "free",
-		Name:           "certificateID",
+		Name:           "certificateSN",
 		Stored:         true,
 		Type:           "string",
 	},
@@ -615,12 +615,12 @@ consistent policies in Squall.`,
 		SubType:        "tags_list",
 		Type:           "external",
 	},
-	"certificateid": elemental.AttributeSpecification{
+	"certificatesn": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "CertificateID",
+		ConvertedName:  "CertificateSN",
 		Description:    `Link to the certificate created in Barret for this cluster.`,
 		Format:         "free",
-		Name:           "certificateID",
+		Name:           "certificateSN",
 		Stored:         true,
 		Type:           "string",
 	},
