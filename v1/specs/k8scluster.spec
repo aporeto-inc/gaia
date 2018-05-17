@@ -50,7 +50,6 @@ attributes:
     type: string
     exposed: true
     read_only: true
-    filterable: true
     format: free
     orderable: true
 

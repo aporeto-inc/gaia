@@ -4402,7 +4402,6 @@ the aporeto side on your kubernetes Cluster.
 | -               | -:     |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `name (string)`
 
