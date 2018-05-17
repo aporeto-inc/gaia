@@ -24,22 +24,6 @@ attributes:
     stored: true
     format: free
 
-  - name: NetworkPolicyType
-    description: |-
-      Defines what type of network policy will be applied on your cluster in Squall.
-      Kubernetes means that All the Kubernetes policies will be synced to Squall.
-      No Policies means that policies are not synced and it's up to the user to create
-      consistent policies in Squall.
-    type: enum
-    exposed: true
-    stored: true
-    allowed_choices:
-    - Kubernetes
-    - NoPolicy
-    default_value: Kubernetes
-    filterable: true
-    orderable: true
-
   - name: activationType
     description: Defines the mode of activation on the KubernetesCluster.
     type: enum
@@ -68,6 +52,22 @@ attributes:
     read_only: true
     filterable: true
     format: free
+    orderable: true
+
+  - name: networkPolicyType
+    description: |-
+      Defines what type of network policy will be applied on your cluster in Squall.
+      Kubernetes means that All the Kubernetes policies will be synced to Squall.
+      No Policies means that policies are not synced and it's up to the user to create
+      consistent policies in Squall.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Kubernetes
+    - NoPolicy
+    default_value: Kubernetes
+    filterable: true
     orderable: true
 
   - name: regenerate

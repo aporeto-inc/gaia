@@ -232,6 +232,13 @@ relations:
   get: true
   create: true
 
+- rest_name: k8scluster
+  descriptions:
+    create: Creates a new kubernetes cluster.
+    get: Retrieves the list of kubernetes clusters.
+  get: true
+  create: true
+
 - rest_name: message
   descriptions:
     create: Creates a new message.

@@ -8,17 +8,6 @@ import (
 	"time"
 )
 
-// K8SClusterNetworkPolicyTypeValue represents the possible values for attribute "NetworkPolicyType".
-type K8SClusterNetworkPolicyTypeValue string
-
-const (
-	// K8SClusterNetworkPolicyTypeKubernetes represents the value Kubernetes.
-	K8SClusterNetworkPolicyTypeKubernetes K8SClusterNetworkPolicyTypeValue = "Kubernetes"
-
-	// K8SClusterNetworkPolicyTypeNoPolicy represents the value NoPolicy.
-	K8SClusterNetworkPolicyTypeNoPolicy K8SClusterNetworkPolicyTypeValue = "NoPolicy"
-)
-
 // K8SClusterActivationTypeValue represents the possible values for attribute "activationType".
 type K8SClusterActivationTypeValue string
 
@@ -31,6 +20,17 @@ const (
 
 	// K8SClusterActivationTypePodContainers represents the value PodContainers.
 	K8SClusterActivationTypePodContainers K8SClusterActivationTypeValue = "PodContainers"
+)
+
+// K8SClusterNetworkPolicyTypeValue represents the possible values for attribute "networkPolicyType".
+type K8SClusterNetworkPolicyTypeValue string
+
+const (
+	// K8SClusterNetworkPolicyTypeKubernetes represents the value Kubernetes.
+	K8SClusterNetworkPolicyTypeKubernetes K8SClusterNetworkPolicyTypeValue = "Kubernetes"
+
+	// K8SClusterNetworkPolicyTypeNoPolicy represents the value NoPolicy.
+	K8SClusterNetworkPolicyTypeNoPolicy K8SClusterNetworkPolicyTypeValue = "NoPolicy"
 )
 
 // K8SClusterIdentity represents the Identity of the object.
@@ -100,12 +100,6 @@ type K8SCluster struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// Defines what type of network policy will be applied on your cluster in Squall.
-	// Kubernetes means that All the Kubernetes policies will be synced to Squall.
-	// No Policies means that policies are not synced and it's up to the user to create
-	// consistent policies in Squall.
-	NetworkPolicyType K8SClusterNetworkPolicyTypeValue `json:"NetworkPolicyType" bson:"networkpolicytype" mapstructure:"NetworkPolicyType,omitempty"`
-
 	// Defines the mode of activation on the KubernetesCluster.
 	ActivationType K8SClusterActivationTypeValue `json:"activationType" bson:"activationtype" mapstructure:"activationType,omitempty"`
 
@@ -133,6 +127,12 @@ type K8SCluster struct {
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// Defines what type of network policy will be applied on your cluster in Squall.
+	// Kubernetes means that All the Kubernetes policies will be synced to Squall.
+	// No Policies means that policies are not synced and it's up to the user to create
+	// consistent policies in Squall.
+	NetworkPolicyType K8SClusterNetworkPolicyTypeValue `json:"networkPolicyType" bson:"networkpolicytype" mapstructure:"networkPolicyType,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
@@ -278,10 +278,6 @@ func (o *K8SCluster) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("NetworkPolicyType", string(o.NetworkPolicyType), []string{"Kubernetes", "NoPolicy"}, false); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateStringInList("activationType", string(o.ActivationType), []string{"KubeSquall", "PodAtomic", "PodContainers"}, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -295,6 +291,10 @@ func (o *K8SCluster) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("networkPolicyType", string(o.NetworkPolicyType), []string{"Kubernetes", "NoPolicy"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -352,21 +352,6 @@ var K8SClusterAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"NetworkPolicyType": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Kubernetes", "NoPolicy"},
-		ConvertedName:  "NetworkPolicyType",
-		DefaultValue:   K8SClusterNetworkPolicyTypeKubernetes,
-		Description: `Defines what type of network policy will be applied on your cluster in Squall.
-Kubernetes means that All the Kubernetes policies will be synced to Squall.
-No Policies means that policies are not synced and it's up to the user to create
-consistent policies in Squall.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "NetworkPolicyType",
-		Orderable:  true,
-		Stored:     true,
-		Type:       "enum",
 	},
 	"ActivationType": elemental.AttributeSpecification{
 		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
@@ -487,6 +472,21 @@ the aporeto side on your kubernetes Cluster.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"NetworkPolicyType": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Kubernetes", "NoPolicy"},
+		ConvertedName:  "NetworkPolicyType",
+		DefaultValue:   K8SClusterNetworkPolicyTypeKubernetes,
+		Description: `Defines what type of network policy will be applied on your cluster in Squall.
+Kubernetes means that All the Kubernetes policies will be synced to Squall.
+No Policies means that policies are not synced and it's up to the user to create
+consistent policies in Squall.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "networkPolicyType",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "enum",
+	},
 	"NormalizedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -563,21 +563,6 @@ var K8SClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"networkpolicytype": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Kubernetes", "NoPolicy"},
-		ConvertedName:  "NetworkPolicyType",
-		DefaultValue:   K8SClusterNetworkPolicyTypeKubernetes,
-		Description: `Defines what type of network policy will be applied on your cluster in Squall.
-Kubernetes means that All the Kubernetes policies will be synced to Squall.
-No Policies means that policies are not synced and it's up to the user to create
-consistent policies in Squall.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "NetworkPolicyType",
-		Orderable:  true,
-		Stored:     true,
-		Type:       "enum",
 	},
 	"activationtype": elemental.AttributeSpecification{
 		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
@@ -697,6 +682,21 @@ the aporeto side on your kubernetes Cluster.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"networkpolicytype": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Kubernetes", "NoPolicy"},
+		ConvertedName:  "NetworkPolicyType",
+		DefaultValue:   K8SClusterNetworkPolicyTypeKubernetes,
+		Description: `Defines what type of network policy will be applied on your cluster in Squall.
+Kubernetes means that All the Kubernetes policies will be synced to Squall.
+No Policies means that policies are not synced and it's up to the user to create
+consistent policies in Squall.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "networkPolicyType",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "enum",
 	},
 	"normalizedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

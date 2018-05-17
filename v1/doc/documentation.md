@@ -4334,6 +4334,8 @@ Create a remote Kubernetes Cluster integration.
 
 | Method   | URL                | Description                                     |
 | -:       | -                  | -                                               |
+| `GET`    | `/k8sclusters`     | Retrieves the list of kubernetes clusters.      |
+| `POST`   | `/k8sclusters`     | Creates a new kubernetes cluster.               |
 | `DELETE` | `/k8sclusters/:id` | Deletes the `k8scluster` with the given `:id`.  |
 | `GET`    | `/k8sclusters/:id` | Retrieve the `k8scluster` with the given `:id`. |
 | `PUT`    | `/k8sclusters/:id` | Updates the `k8scluster` with the given `:id`.  |
@@ -4351,20 +4353,6 @@ ID is the identifier of the object.
 | Read only       | `true` |
 | Orderable       | `true` |
 | Filterable      | `true` |
-
-#### `NetworkPolicyType (enum)`
-
-Defines what type of network policy will be applied on your cluster in Squall.
-Kubernetes means that All the Kubernetes policies will be synced to Squall.
-No Policies means that policies are not synced and it's up to the user to create
-consistent policies in Squall.
-
-| Characteristics | Value                  |
-| -               | -:                     |
-| Allowed Value   | `Kubernetes, NoPolicy` |
-| Default         | `Kubernetes`           |
-| Orderable       | `true`                 |
-| Filterable      | `true`                 |
 
 #### `activationType (enum)`
 
@@ -4438,6 +4426,20 @@ Namespace tag attached to an entity.
 | Creation only   | `true` |
 | Orderable       | `true` |
 | Filterable      | `true` |
+
+#### `networkPolicyType (enum)`
+
+Defines what type of network policy will be applied on your cluster in Squall.
+Kubernetes means that All the Kubernetes policies will be synced to Squall.
+No Policies means that policies are not synced and it's up to the user to create
+consistent policies in Squall.
+
+| Characteristics | Value                  |
+| -               | -:                     |
+| Allowed Value   | `Kubernetes, NoPolicy` |
+| Default         | `Kubernetes`           |
+| Orderable       | `true`                 |
+| Filterable      | `true`                 |
 
 #### `normalizedTags (external:tags_list)`
 
