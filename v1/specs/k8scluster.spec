@@ -1,8 +1,8 @@
 # Model
 model:
-  rest_name: kubernetescluster
-  resource_name: kubernetesclusters
-  entity_name: KubernetesCluster
+  rest_name: k8scluster
+  resource_name: k8sclusters
+  entity_name: K8SCluster
   package: vince
   description: Create a remote Kubernetes Cluster integration.
   get: true

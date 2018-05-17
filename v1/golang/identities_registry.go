@@ -3,6 +3,7 @@ package gaia
 import "github.com/aporeto-inc/elemental"
 
 func init() {
+
 	elemental.RegisterIdentity(AccountIdentity)
 	elemental.RegisterIdentity(AccountCheckIdentity)
 	elemental.RegisterIdentity(ActivateIdentity)
@@ -38,6 +39,7 @@ func init() {
 	elemental.RegisterIdentity(IsolationProfileIdentity)
 	elemental.RegisterIdentity(IssueIdentity)
 	elemental.RegisterIdentity(JaegerbatchIdentity)
+	elemental.RegisterIdentity(K8SClusterIdentity)
 	elemental.RegisterIdentity(KubernetesClusterIdentity)
 	elemental.RegisterIdentity(LogIdentity)
 	elemental.RegisterIdentity(MessageIdentity)
@@ -155,6 +157,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewIssue()
 	case JaegerbatchIdentity.Name:
 		return NewJaegerbatch()
+	case K8SClusterIdentity.Name:
+		return NewK8SCluster()
 	case KubernetesClusterIdentity.Name:
 		return NewKubernetesCluster()
 	case LogIdentity.Name:
@@ -309,6 +313,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewIssue()
 	case JaegerbatchIdentity.Category:
 		return NewJaegerbatch()
+	case K8SClusterIdentity.Category:
+		return NewK8SCluster()
 	case KubernetesClusterIdentity.Category:
 		return NewKubernetesCluster()
 	case LogIdentity.Category:
@@ -463,6 +469,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &IssuesList{}
 	case JaegerbatchIdentity.Name:
 		return &JaegerbatchsList{}
+	case K8SClusterIdentity.Name:
+		return &K8SClustersList{}
 	case KubernetesClusterIdentity.Name:
 		return &KubernetesClustersList{}
 	case LogIdentity.Name:
@@ -511,6 +519,7 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &RevocationsList{}
 	case RoleIdentity.Name:
 		return &RolesList{}
+
 	case ServiceIdentity.Name:
 		return &ServicesList{}
 	case StatsQueryIdentity.Name:
@@ -615,6 +624,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &IssuesList{}
 	case JaegerbatchIdentity.Category:
 		return &JaegerbatchsList{}
+	case K8SClusterIdentity.Category:
+		return &K8SClustersList{}
 	case KubernetesClusterIdentity.Category:
 		return &KubernetesClustersList{}
 	case LogIdentity.Category:
@@ -663,6 +674,7 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &RevocationsList{}
 	case RoleIdentity.Category:
 		return &RolesList{}
+
 	case ServiceIdentity.Category:
 		return &ServicesList{}
 	case StatsQueryIdentity.Category:
@@ -731,6 +743,7 @@ func AllIdentities() []elemental.Identity {
 		IsolationProfileIdentity,
 		IssueIdentity,
 		JaegerbatchIdentity,
+		K8SClusterIdentity,
 		KubernetesClusterIdentity,
 		LogIdentity,
 		MessageIdentity,
@@ -969,6 +982,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"sp",
 		}
+	case K8SClusterIdentity:
+		return []string{}
 	case KubernetesClusterIdentity:
 		return []string{}
 	case LogIdentity:
