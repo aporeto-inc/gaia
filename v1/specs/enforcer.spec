@@ -99,6 +99,16 @@ attributes:
     subtype: collected_info
     stored: true
 
+  - name: createTime
+    description: |-
+      createTime holds the time this enforcerd was created. This is preserved across
+      disconnects.
+    type: time
+    exposed: true
+    stored: true
+    filterable: true
+    orderable: true
+
   - name: currentVersion
     description: |-
       CurrentVersion holds the enforcerd binary version that is currently associated
@@ -117,6 +127,16 @@ attributes:
     stored: true
     filterable: true
     format: free
+    orderable: true
+
+  - name: initializeTime
+    description: |-
+      initializeTime holds the time this enforcerd completed initialization. This is
+      preserved across disconnects.
+    type: time
+    exposed: true
+    stored: true
+    filterable: true
     orderable: true
 
   - name: lastCollectionTime
