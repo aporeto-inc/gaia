@@ -4344,6 +4344,20 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `NetworkPolicyType (enum)`
+
+Defines what type of network policy will be applied on your cluster in Squall.
+Kubernetes means that All the Kubernetes policies will be synced to Squall.
+No Policies means that policies are not synced and it's up to the user to create
+consistent policies in Squall.
+
+| Characteristics | Value                  |
+| -               | -:                     |
+| Allowed Value   | `Kubernetes, NoPolicy` |
+| Default         | `Kubernetes`           |
+| Orderable       | `true`                 |
+| Filterable      | `true`                 |
+
 #### `activationType (enum)`
 
 Defines the mode of activation on the KubernetesCluster.
