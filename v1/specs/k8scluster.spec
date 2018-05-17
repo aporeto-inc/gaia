@@ -38,7 +38,7 @@ attributes:
     orderable: true
 
   - name: certificateSN
-    description: Link to the certificate created in Barret for this cluster.
+    description: Link to the certificate created for this cluster.
     type: string
     stored: true
     format: free
@@ -55,7 +55,7 @@ attributes:
 
   - name: networkPolicyType
     description: |-
-      Defines what type of network policy will be applied on your cluster in Squall.
+      Defines what type of network policy will be applied on your cluster.
       Kubernetes means that All the Kubernetes policies will be synced to Squall.
       No Policies means that policies are not synced and it's up to the user to create
       consistent policies in Squall.

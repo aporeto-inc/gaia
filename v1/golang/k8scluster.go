@@ -109,7 +109,7 @@ type K8SCluster struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// Link to the certificate created in Barret for this cluster.
+	// Link to the certificate created for this cluster.
 	CertificateSN string `json:"-" bson:"certificatesn" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
@@ -128,7 +128,7 @@ type K8SCluster struct {
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// Defines what type of network policy will be applied on your cluster in Squall.
+	// Defines what type of network policy will be applied on your cluster.
 	// Kubernetes means that All the Kubernetes policies will be synced to Squall.
 	// No Policies means that policies are not synced and it's up to the user to create
 	// consistent policies in Squall.
@@ -392,7 +392,7 @@ var K8SClusterAttributesMap = map[string]elemental.AttributeSpecification{
 	"CertificateSN": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateSN",
-		Description:    `Link to the certificate created in Barret for this cluster.`,
+		Description:    `Link to the certificate created for this cluster.`,
 		Format:         "free",
 		Name:           "certificateSN",
 		Stored:         true,
@@ -475,7 +475,7 @@ the aporeto side on your kubernetes Cluster.`,
 		AllowedChoices: []string{"Kubernetes", "NoPolicy"},
 		ConvertedName:  "NetworkPolicyType",
 		DefaultValue:   K8SClusterNetworkPolicyTypeKubernetes,
-		Description: `Defines what type of network policy will be applied on your cluster in Squall.
+		Description: `Defines what type of network policy will be applied on your cluster.
 Kubernetes means that All the Kubernetes policies will be synced to Squall.
 No Policies means that policies are not synced and it's up to the user to create
 consistent policies in Squall.`,
@@ -602,7 +602,7 @@ var K8SClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"certificatesn": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateSN",
-		Description:    `Link to the certificate created in Barret for this cluster.`,
+		Description:    `Link to the certificate created for this cluster.`,
 		Format:         "free",
 		Name:           "certificateSN",
 		Stored:         true,
@@ -685,7 +685,7 @@ the aporeto side on your kubernetes Cluster.`,
 		AllowedChoices: []string{"Kubernetes", "NoPolicy"},
 		ConvertedName:  "NetworkPolicyType",
 		DefaultValue:   K8SClusterNetworkPolicyTypeKubernetes,
-		Description: `Defines what type of network policy will be applied on your cluster in Squall.
+		Description: `Defines what type of network policy will be applied on your cluster.
 Kubernetes means that All the Kubernetes policies will be synced to Squall.
 No Policies means that policies are not synced and it's up to the user to create
 consistent policies in Squall.`,
