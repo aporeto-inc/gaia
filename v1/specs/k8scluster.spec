@@ -14,6 +14,7 @@ model:
   - '@base'
   - '@named'
   - '@described'
+  - '@metadatable'
 
 # Attributes
 attributes:

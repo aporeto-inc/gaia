@@ -122,6 +122,10 @@ type K8SCluster struct {
 	// the aporeto side on your kubernetes Cluster.
 	KubernetesDefinitions string `json:"kubernetesDefinitions" bson:"-" mapstructure:"kubernetesDefinitions,omitempty"`
 
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -159,6 +163,7 @@ func NewK8SCluster() *K8SCluster {
 		ActivationType:    "KubeSquall",
 		Annotations:       map[string][]string{},
 		AssociatedTags:    []string{},
+		Metadata:          []string{},
 		NetworkPolicyType: "Kubernetes",
 		NormalizedTags:    []string{},
 	}
@@ -228,6 +233,18 @@ func (o *K8SCluster) GetAssociatedTags() []string {
 func (o *K8SCluster) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *K8SCluster) GetMetadata() []string {
+
+	return o.Metadata
+}
+
+// SetMetadata sets the given Metadata of the receiver.
+func (o *K8SCluster) SetMetadata(metadata []string) {
+
+	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
@@ -434,6 +451,21 @@ the aporeto side on your kubernetes Cluster.`,
 		Orderable: true,
 		ReadOnly:  true,
 		Type:      "string",
+	},
+	"Metadata": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Metadata",
+		CreationOnly:   true,
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -644,6 +676,21 @@ the aporeto side on your kubernetes Cluster.`,
 		Orderable: true,
 		ReadOnly:  true,
 		Type:      "string",
+	},
+	"metadata": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Metadata",
+		CreationOnly:   true,
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

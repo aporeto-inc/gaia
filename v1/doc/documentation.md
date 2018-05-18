@@ -4403,6 +4403,16 @@ the aporeto side on your kubernetes Cluster.
 | Read only       | `true` |
 | Orderable       | `true` |
 
+#### `metadata (external:metadata_list)`
+
+Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Creation only   | `true` |
+| Filterable      | `true` |
+
 #### `name (string)`
 
 Name is the name of the entity.
