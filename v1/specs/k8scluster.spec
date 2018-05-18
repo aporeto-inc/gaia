@@ -9,12 +9,11 @@ model:
   update: true
   delete: true
   extends:
-  - '@identifiable-pk-stored'
-  - '@timeable'
   - '@base'
-  - '@named'
   - '@described'
+  - '@identifiable-pk-stored'
   - '@metadatable'
+  - '@named'
 
 # Attributes
 attributes:
