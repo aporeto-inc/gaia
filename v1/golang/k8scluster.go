@@ -132,6 +132,9 @@ type K8SCluster struct {
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
+	// Link to the cluster namespace.
+	NamespaceID string `json:"-" bson:"namespaceid" mapstructure:"-,omitempty"`
+
 	// Defines what type of network policy will be applied on your cluster.
 	// Kubernetes means that All the Kubernetes policies will be synced to Squall.
 	// No Policies means that policies are not synced and it's up to the user to create
@@ -528,6 +531,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"NamespaceID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NamespaceID",
+		Description:    `Link to the cluster namespace.`,
+		Format:         "free",
+		Name:           "namespaceID",
+		Stored:         true,
+		Type:           "string",
+	},
 	"NetworkPolicyType": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Kubernetes", "NoPolicy"},
 		ConvertedName:  "NetworkPolicyType",
@@ -752,6 +764,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		PrimaryKey:     true,
 		ReadOnly:       true,
 		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"namespaceid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NamespaceID",
+		Description:    `Link to the cluster namespace.`,
+		Format:         "free",
+		Name:           "namespaceID",
 		Stored:         true,
 		Type:           "string",
 	},

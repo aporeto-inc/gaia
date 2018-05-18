@@ -53,6 +53,12 @@ attributes:
     format: free
     orderable: true
 
+  - name: namespaceID
+    description: Link to the cluster namespace.
+    type: string
+    stored: true
+    format: free
+
   - name: networkPolicyType
     description: |-
       Defines what type of network policy will be applied on your cluster.
