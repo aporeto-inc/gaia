@@ -47,19 +47,16 @@ func init() {
 	}
 
 	relationshipsRegistry[AWSAccountIdentity] = &elemental.Relationship{
-		AllowsCreate: map[string]bool{
-			"root": true,
-		},
 		AllowsDelete: map[string]bool{
 			"root": true,
 		},
 		AllowsRetrieve: map[string]bool{
 			"root": true,
 		},
-		AllowsRetrieveMany: map[string]bool{
-			"root": true,
-		},
-		AllowsInfo: map[string]bool{
+	}
+
+	relationshipsRegistry[AWSRegisterIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
 			"root": true,
 		},
 	}
@@ -253,6 +250,21 @@ func init() {
 			"root": true,
 		},
 		AllowsInfo: map[string]bool{
+			"root": true,
+		},
+	}
+
+	relationshipsRegistry[CustomerIdentity] = &elemental.Relationship{
+		AllowsUpdate: map[string]bool{
+			"root": true,
+		},
+		AllowsPatch: map[string]bool{
+			"root": true,
+		},
+		AllowsDelete: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieve: map[string]bool{
 			"root": true,
 		},
 	}
@@ -536,6 +548,36 @@ func init() {
 			"root": true,
 		},
 		AllowsInfo: map[string]bool{
+			"root": true,
+		},
+	}
+
+	relationshipsRegistry[InvoiceIdentity] = &elemental.Relationship{
+		AllowsUpdate: map[string]bool{
+			"root": true,
+		},
+		AllowsPatch: map[string]bool{
+			"root": true,
+		},
+		AllowsDelete: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieve: map[string]bool{
+			"root": true,
+		},
+	}
+
+	relationshipsRegistry[InvoiceRecordIdentity] = &elemental.Relationship{
+		AllowsUpdate: map[string]bool{
+			"root": true,
+		},
+		AllowsPatch: map[string]bool{
+			"root": true,
+		},
+		AllowsDelete: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieve: map[string]bool{
 			"root": true,
 		},
 	}
