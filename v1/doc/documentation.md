@@ -1039,6 +1039,10 @@ Parameters of the app the user can or has to specify.
 
 Title represents the title of the app.
 
+#### `versionParameters (external:app_versionparameters)`
+
+VersionParameters contains parameters for each available version.
+
 ## AuditProfile
 
 AuditProfile is an audit policy that consists of a set of audit rules. An audit
@@ -4031,6 +4035,10 @@ CategoryID of the app.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `currentVersion (string)`
+
+Version of the installed app.
+
 #### `name (string)`
 
 Name of the installed app.
@@ -4053,10 +4061,6 @@ Namespace in which the app is running.
 #### `parameters (external:app_parameters)`
 
 Parameters is a list of parameters to start the app.
-
-#### `replicas (integer)`
-
-Replicas represents the number of replicas for the app.
 
 #### `status (enum)`
 

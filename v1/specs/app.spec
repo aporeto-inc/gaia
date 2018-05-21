@@ -50,3 +50,9 @@ attributes:
     type: string
     exposed: true
     format: free
+
+  - name: versionParameters
+    description: VersionParameters contains parameters for each available version.
+    type: external
+    exposed: true
+    subtype: app_versionparameters

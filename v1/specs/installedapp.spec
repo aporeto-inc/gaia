@@ -45,6 +45,12 @@ attributes:
     format: free
     orderable: true
 
+  - name: currentVersion
+    description: Version of the installed app.
+    type: string
+    exposed: true
+    stored: true
+
   - name: data
     description: Data retains all data created to use this service.
     type: external
@@ -87,12 +93,6 @@ attributes:
     description: RelatedObjects retains all objects created to use this app.
     type: external
     subtype: app_relatedobjects
-    stored: true
-
-  - name: replicas
-    description: Replicas represents the number of replicas for the app.
-    type: integer
-    exposed: true
     stored: true
 
   - name: status
