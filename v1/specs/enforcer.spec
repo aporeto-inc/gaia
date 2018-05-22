@@ -149,7 +149,6 @@ attributes:
     description: OperationalStatus tells the status of the enforcer.
     type: enum
     exposed: true
-    read_only: true
     allowed_choices:
     - Registered
     - Connected
