@@ -103,6 +103,10 @@ type K8SCluster struct {
 	// Defines the mode of activation on the KubernetesCluster.
 	ActivationType K8SClusterActivationTypeValue `json:"activationType" bson:"activationtype" mapstructure:"activationType,omitempty"`
 
+	// The email address that will receive a copy of the Kubernetes cluster YAMLs
+	// definition.
+	AdminEmail string `json:"adminEmail" bson:"adminemail" mapstructure:"adminEmail,omitempty"`
+
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
@@ -409,6 +413,19 @@ var K8SClusterAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "enum",
 	},
+	"AdminEmail": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AdminEmail",
+		Description: `The email address that will receive a copy of the Kubernetes cluster YAMLs
+definition.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "adminEmail",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
+	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
@@ -644,6 +661,19 @@ var K8SClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Orderable:      true,
 		Stored:         true,
 		Type:           "enum",
+	},
+	"adminemail": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AdminEmail",
+		Description: `The email address that will receive a copy of the Kubernetes cluster YAMLs
+definition.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "adminEmail",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

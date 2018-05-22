@@ -4365,6 +4365,16 @@ Defines the mode of activation on the KubernetesCluster.
 | Orderable       | `true`                                 |
 | Filterable      | `true`                                 |
 
+#### `adminEmail (string)`
+
+The email address that will receive a copy of the Kubernetes cluster YAMLs
+definition.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
 #### `annotations (external:annotations)`
 
 Annotation stores additional information about an entity.

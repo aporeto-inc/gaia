@@ -37,6 +37,17 @@ attributes:
     filterable: true
     orderable: true
 
+  - name: adminEmail
+    description: |-
+      The email address that will receive a copy of the Kubernetes cluster YAMLs
+      definition.
+    type: string
+    exposed: true
+    stored: true
+    filterable: true
+    format: free
+    orderable: true
+
   - name: certificateSN
     description: Link to the certificate created for this cluster.
     type: string
