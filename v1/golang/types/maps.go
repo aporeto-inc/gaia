@@ -66,15 +66,14 @@ type GraphNodeMap map[string]*GraphNode
 
 // GraphNode represents the model of a Node
 type GraphNode struct {
-	Description        string        `json:"description"`
-	GroupID            string        `json:"groupID"`
-	ID                 string        `json:"ID"`
-	Name               string        `json:"name"`
-	Namespace          string        `json:"namespace"`
-	Status             string        `json:"status"`
-	Tags               []string      `json:"tags,omitempty"`
-	Type               GraphNodeType `json:"type"`
-	VulnerabilityLevel string        `json:"vulnerabilityLevel"`
+	Description string        `json:"description"`
+	GroupID     string        `json:"groupID"`
+	ID          string        `json:"ID"`
+	Name        string        `json:"name"`
+	Namespace   string        `json:"namespace"`
+	Status      string        `json:"status"`
+	Tags        []string      `json:"tags,omitempty"`
+	Type        GraphNodeType `json:"type"`
 }
 
 // NewGraphNode returns a new *GraphNode
