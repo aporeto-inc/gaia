@@ -48,6 +48,15 @@ attributes:
     format: free
     orderable: true
 
+  - name: certificate
+    description: The string representation of the Certificate used by the Kubernetes
+      cluster.
+    type: string
+    exposed: true
+    stored: true
+    read_only: true
+    format: free
+
   - name: certificateSN
     description: Link to the certificate created for this cluster.
     type: string

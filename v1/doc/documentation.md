@@ -4383,6 +4383,14 @@ Annotation stores additional information about an entity.
 
 AssociatedTags are the list of tags attached to an entity.
 
+#### `certificate (string)`
+
+The string representation of the Certificate used by the Kubernetes cluster.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Read only       | `true` |
+
 #### `createTime (time)`
 
 CreatedTime is the time at which the object was created.

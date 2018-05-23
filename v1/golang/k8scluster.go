@@ -113,6 +113,9 @@ type K8SCluster struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// The string representation of the Certificate used by the Kubernetes cluster.
+	Certificate string `json:"certificate" bson:"certificate" mapstructure:"certificate,omitempty"`
+
 	// Link to the certificate created for this cluster.
 	CertificateSN string `json:"-" bson:"certificatesn" mapstructure:"-,omitempty"`
 
@@ -450,6 +453,17 @@ definition.`,
 		SubType:        "tags_list",
 		Type:           "external",
 	},
+	"Certificate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Certificate",
+		Description:    `The string representation of the Certificate used by the Kubernetes cluster.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "certificate",
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"CertificateSN": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateSN",
@@ -698,6 +712,17 @@ definition.`,
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
+	},
+	"certificate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Certificate",
+		Description:    `The string representation of the Certificate used by the Kubernetes cluster.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "certificate",
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"certificatesn": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
