@@ -356,3 +356,7 @@ elemental:
   extensions_list:
     type: '[]string'
     init: '[]string{}'
+
+  identity_tags:
+    type: 'map[string]string'
+    init: 'map[string]string{}'
