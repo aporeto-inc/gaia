@@ -24,39 +24,19 @@ const (
 	AppParameterTypeStringSlice AppParameterType = "stringSlice"
 )
 
-// AppParameterBackend defines the link of the service parameter.
-type AppParameterBackend int
-
-const (
-	// AppParameterBackendGlobalSecret defines a link to installation secret.
-	AppParameterBackendGlobalSecret AppParameterBackend = iota
-
-	// AppParameterBackendGlobalConfigMap defines a link to installation config map.
-	AppParameterBackendGlobalConfigMap
-
-	// AppParameterBackendLocalSecret defines a link to service secret.
-	AppParameterBackendLocalSecret
-
-	// AppParameterBackendLocalConfigMap defines a link to service config map.
-	AppParameterBackendLocalConfigMap
-)
-
 // AppParameter defines a parameter for the service.
 type AppParameter struct {
-	Name              string              `json:"name"`
-	Description       string              `json:"description"`
-	LongDescription   string              `json:"longDescription"`
-	Key               string              `json:"key"`
-	Value             interface{}         `json:"value"`
-	Env               string              `json:"-"`
-	Type              AppParameterType    `json:"type"`
-	AllowedValues     []interface{}       `json:"allowedValues"`
-	DefaultValue      interface{}         `json:"defaultValue"`
-	MountPath         string              `json:"-"`
-	Backend           AppParameterBackend `json:"-"`
-	Optional          bool                `json:"optional"`
-	Advanced          bool                `json:"advanced"`
-	VersionConstraint string              `json:"-"`
+	Name            string           `json:"name"`
+	Description     string           `json:"description"`
+	LongDescription string           `json:"longDescription"`
+	Key             string           `json:"key"`
+	Value           interface{}      `json:"value"`
+	Type            AppParameterType `json:"type"`
+	AllowedValues   []interface{}    `json:"allowedValues"`
+	DefaultValue    interface{}      `json:"defaultValue"`
+	MountPath       string           `json:"-"`
+	Optional        bool             `json:"optional"`
+	Advanced        bool             `json:"advanced"`
 }
 
 // NewAppParameter creates a new parameter.
@@ -74,15 +54,12 @@ func (p *AppParameter) Copy() *AppParameter {
 	copy.LongDescription = p.LongDescription
 	copy.Key = p.Key
 	copy.Value = p.Value
-	copy.Env = p.Env
 	copy.Type = p.Type
 	copy.AllowedValues = append(copy.AllowedValues, p.AllowedValues...)
 	copy.DefaultValue = p.DefaultValue
 	copy.MountPath = p.MountPath
-	copy.Backend = p.Backend
 	copy.Optional = p.Optional
 	copy.Advanced = p.Advanced
-	copy.VersionConstraint = p.VersionConstraint
 
 	return copy
 }
