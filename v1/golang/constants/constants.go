@@ -347,12 +347,3 @@ const (
 	// HTTPMethodHeadTagString is the system created http-method=PATCH tag.
 	HTTPMethodHeadTagString = "http-method=head"
 )
-
-// Vulnerability Constants
-const (
-	// VulnerabilityTagKeyLevel is the key of the vulnerability tag.
-	VulnerabilityTagKeyLevel = "vulnerability:level"
-
-	// VulnerabilityTagKeyCVE is the key of the cve tag.
-	VulnerabilityTagKeyCVE = "vulnerability:cve"
-)
