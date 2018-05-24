@@ -138,6 +138,10 @@ type Service struct {
 	// Hosts are the names that the service can be accessed with.
 	Hosts []string `json:"hosts" bson:"hosts" mapstructure:"hosts,omitempty"`
 
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -187,6 +191,7 @@ func NewService() *Service {
 		Endpoints:      types.ExposedAPIList{},
 		External:       false,
 		IPs:            types.IPList{},
+		Metadata:       []string{},
 		NormalizedTags: []string{},
 		Type:           "HTTP",
 	}
@@ -283,6 +288,18 @@ func (o *Service) GetCreateTime() time.Time {
 func (o *Service) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *Service) GetMetadata() []string {
+
+	return o.Metadata
+}
+
+// SetMetadata sets the given Metadata of the receiver.
+func (o *Service) SetMetadata(metadata []string) {
+
+	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
@@ -588,6 +605,21 @@ whereas the port that the implementation is listening can be different.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"Metadata": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Metadata",
+		CreationOnly:   true,
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -897,6 +929,21 @@ whereas the port that the implementation is listening can be different.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"metadata": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Metadata",
+		CreationOnly:   true,
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
