@@ -267,6 +267,13 @@ relations:
   get: true
   create: true
 
+- rest_name: servicedependency
+  descriptions:
+    create: Creates a new service dependency.
+    get: Retrieves the list of service dependencies.
+  get: true
+  create: true
+
 - rest_name: passwordreset
   descriptions:
     create: Resets the password for an account using the provided link.

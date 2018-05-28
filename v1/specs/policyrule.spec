@@ -80,7 +80,7 @@ attributes:
     subtype: relations_list
 
   - name: services
-    description: Services provides the services of this policy rule.
+    description: Policy target services.
     type: external
     exposed: true
     subtype: api_services_entities

@@ -36,8 +36,8 @@ const (
 	// PolicyTypeQuota represents the value Quota.
 	PolicyTypeQuota PolicyTypeValue = "Quota"
 
-	// PolicyTypeService represents the value Service.
-	PolicyTypeService PolicyTypeValue = "Service"
+	// PolicyTypeServiceDependency represents the value ServiceDependency.
+	PolicyTypeServiceDependency PolicyTypeValue = "ServiceDependency"
 
 	// PolicyTypeSyscall represents the value Syscall.
 	PolicyTypeSyscall PolicyTypeValue = "Syscall"
@@ -446,7 +446,7 @@ func (o *Policy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "Syscall", "TokenScope"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "ServiceDependency", "Syscall", "TokenScope"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -769,7 +769,7 @@ includes AND/OR.`,
 		Type:    "external",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "Syscall", "TokenScope"},
+		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "ServiceDependency", "Syscall", "TokenScope"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the policy.`,
@@ -1087,7 +1087,7 @@ includes AND/OR.`,
 		Type:    "external",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "Syscall", "TokenScope"},
+		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "ServiceDependency", "Syscall", "TokenScope"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the policy.`,
