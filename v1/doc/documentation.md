@@ -4938,6 +4938,11 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `networkAccessPolicyTags (external:tags_list)`
+
+List of tags that will be added to every `or` clause of all network access
+policies in the namespace and its children.
+
 #### `normalizedTags (external:tags_list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
