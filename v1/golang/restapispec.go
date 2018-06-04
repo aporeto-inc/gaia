@@ -91,6 +91,10 @@ type RESTAPISpec struct {
 	// EndPoints is a list of API endpoints that are exposed for the service.
 	Endpoints types.ExposedAPIList `json:"endpoints" bson:"endpoints" mapstructure:"endpoints,omitempty"`
 
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -126,6 +130,7 @@ func NewRESTAPISpec() *RESTAPISpec {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Endpoints:      types.ExposedAPIList{},
+		Metadata:       []string{},
 		NormalizedTags: []string{},
 	}
 }
@@ -219,6 +224,18 @@ func (o *RESTAPISpec) GetCreateTime() time.Time {
 func (o *RESTAPISpec) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *RESTAPISpec) GetMetadata() []string {
+
+	return o.Metadata
+}
+
+// SetMetadata sets the given Metadata of the receiver.
+func (o *RESTAPISpec) SetMetadata(metadata []string) {
+
+	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
@@ -433,6 +450,21 @@ var RESTAPISpecAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "exposed_api_list",
 		Type:           "external",
 	},
+	"Metadata": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Metadata",
+		CreationOnly:   true,
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
+	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -626,6 +658,21 @@ var RESTAPISpecLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Stored:         true,
 		SubType:        "exposed_api_list",
 		Type:           "external",
+	},
+	"metadata": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Metadata",
+		CreationOnly:   true,
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

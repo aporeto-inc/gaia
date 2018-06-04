@@ -66,3 +66,12 @@ attributes:
     index: true
     orderable: true
     primary_key: true
+
+  - name: networkAccessPolicyTags
+    description: |-
+      List of tags that will be added to every `or` clause of all network access
+      policies in the namespace and its children.
+    type: external
+    exposed: true
+    subtype: tags_list
+    stored: true

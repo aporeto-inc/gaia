@@ -17,6 +17,7 @@ model:
   - '@identifiable-pk-stored'
   - '@named'
   - '@propagated'
+  - '@metadatable'
 
 # Attributes
 attributes:

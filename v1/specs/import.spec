@@ -25,4 +25,4 @@ attributes:
     - Append
     - ReplacePartial
     - ReplaceFull
-    example_value: Append|ReplacePartial|ReplaceFull
+    example_value: ReplacePartial

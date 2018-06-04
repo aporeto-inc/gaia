@@ -20,6 +20,7 @@ model:
   - '@described'
   - '@identifiable-pk-stored'
   - '@named'
+  - '@metadatable'
 
 # Attributes
 attributes:
