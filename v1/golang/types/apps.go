@@ -12,16 +12,17 @@ type AppParameterType string
 
 // Various values for AppParameterType.
 const (
-	AppParameterTypeBool        AppParameterType = "bool"
-	AppParameterTypeDuration    AppParameterType = "duration"
-	AppParameterTypeEnum        AppParameterType = "enum"
-	AppParameterTypeIntSlice    AppParameterType = "intSlice"
-	AppParameterTypeInt         AppParameterType = "int"
-	AppParameterTypeFloat       AppParameterType = "float"
-	AppParameterTypeFloatSlice  AppParameterType = "floatSlice"
-	AppParameterTypePassword    AppParameterType = "password"
-	AppParameterTypeString      AppParameterType = "string"
-	AppParameterTypeStringSlice AppParameterType = "stringSlice"
+	AppParameterTypeBool             AppParameterType = "bool"
+	AppParameterTypeDuration         AppParameterType = "duration"
+	AppParameterTypeEnum             AppParameterType = "enum"
+	AppParameterTypeIntSlice         AppParameterType = "intSlice"
+	AppParameterTypeInt              AppParameterType = "int"
+	AppParameterTypeFloat            AppParameterType = "float"
+	AppParameterTypeFloatSlice       AppParameterType = "floatSlice"
+	AppParameterTypePassword         AppParameterType = "password"
+	AppParameterTypeString           AppParameterType = "string"
+	AppParameterTypeStringSlice      AppParameterType = "stringSlice"
+	AppParameterTypeMapFloat64String AppParameterType = "map[float64]string"
 )
 
 // AppParameterBackend defines the link of the service parameter.
@@ -184,6 +185,15 @@ func (p *AppParameter) ValueToString() string {
 		if vs, ok := p.Value.([]interface{}); ok {
 			for _, v := range vs {
 				values = append(values, strconv.FormatFloat(v.(float64), 'f', -1, 64))
+			}
+		}
+		return strings.Join(values, " ")
+
+	case AppParameterTypeMapFloat64String:
+		values := []string{}
+		if vs, ok := p.Value.([]interface{}); ok {
+			for _, v := range vs {
+				values = append(values, v.(string))
 			}
 		}
 		return strings.Join(values, " ")
