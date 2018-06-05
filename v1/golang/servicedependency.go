@@ -183,10 +183,10 @@ func (o *ServiceDependency) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *ServiceDependency) Doc() string {
-	return `Allows to define a service dependency where a set of processing units 
-as defined by their tags or the services they implement are dependent on 
-another service. This policy allows the system to properly define service 
-dependencies and route traffic at the corresponding layer.`
+	return `Allows to define a service dependency where a set of processing units as defined
+by their tags or the services they implement are dependent on another service.
+This policy allows the system to properly define service dependencies and route
+traffic at the corresponding layer.`
 }
 
 func (o *ServiceDependency) String() string {

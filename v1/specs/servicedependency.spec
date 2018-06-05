@@ -4,10 +4,11 @@ model:
   resource_name: servicedependencies
   entity_name: ServiceDependency
   package: squall
-  description: "Allows to define a service dependency where a set of processing units
-    \nas defined by their tags or the services they implement are dependent on \nanother
-    service. This policy allows the system to properly define service \ndependencies
-    and route traffic at the corresponding layer."
+  description: |-
+    Allows to define a service dependency where a set of processing units as defined
+    by their tags or the services they implement are dependent on another service.
+    This policy allows the system to properly define service dependencies and route
+    traffic at the corresponding layer.
   aliases:
   - srvdep
   - srvdeps

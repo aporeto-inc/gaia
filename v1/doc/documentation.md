@@ -61,7 +61,7 @@
 | [Role](#role)                                                 | Roles returns the available roles that can be used with API Authorization           |
 | [Root](#root)                                                 | root object.                                                                        |
 | [Service](#service)                                           | A Service defines a generic service object at L4 or L7 that encapsulates the        |
-| [ServiceDependency](#servicedependency)                       | Allows to define a service dependency where a set of processing units               |
+| [ServiceDependency](#servicedependency)                       | Allows to define a service dependency where a set of processing units as defined... |
 | [StatsQuery](#statsquery)                                     | StatsQuery is a generic API to retrieve time series data stored by the Aporeto      |
 | [SuggestedPolicy](#suggestedpolicy)                           | Allows to get policy suggestions.                                                   |
 | [Tabulation](#tabulation)                                     | Tabulate API allows you to retrieve a custom table view for any identity using      |
@@ -7105,10 +7105,10 @@ UpdateTime is the time at which an entity was updated.
 
 ## ServiceDependency
 
-Allows to define a service dependency where a set of processing units 
-as defined by their tags or the services they implement are dependent on 
-another service. This policy allows the system to properly define service 
-dependencies and route traffic at the corresponding layer.
+Allows to define a service dependency where a set of processing units as defined
+by their tags or the services they implement are dependent on another service.
+This policy allows the system to properly define service dependencies and route
+traffic at the corresponding layer.
 
 ### Example
 
