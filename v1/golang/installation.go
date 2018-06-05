@@ -66,8 +66,8 @@ func (o InstallationsList) Version() int {
 
 // Installation represents the model of a installation
 type Installation struct {
-	// ID represents the identifier of the installation.
-	ID string `json:"ID" bson:"id" mapstructure:"ID,omitempty"`
+	// ID is the identifier of the object.
+	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// AccountName that should be installed.
 	AccountName string `json:"accountName" bson:"accountname" mapstructure:"accountName,omitempty"`
@@ -94,12 +94,13 @@ func (o *Installation) Identity() elemental.Identity {
 // Identifier returns the value of the object's unique identifier.
 func (o *Installation) Identifier() string {
 
-	return ""
+	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
 func (o *Installation) SetIdentifier(id string) {
 
+	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
@@ -163,12 +164,14 @@ var InstallationAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
-		Description:    `ID represents the identifier of the installation.`,
+		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
+		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
+		PrimaryKey:     true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -191,12 +194,14 @@ var InstallationLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
-		Description:    `ID represents the identifier of the installation.`,
+		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
+		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
+		PrimaryKey:     true,
 		Stored:         true,
 		Type:           "string",
 	},

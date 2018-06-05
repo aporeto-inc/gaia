@@ -3994,10 +3994,11 @@ Installation represents an installation for a given account.
 
 #### `ID (string)`
 
-ID represents the identifier of the installation.
+ID is the identifier of the object.
 
 | Characteristics | Value  |
 | -               | -:     |
+| Identifier      | `true` |
 | Orderable       | `true` |
 | Filterable      | `true` |
 

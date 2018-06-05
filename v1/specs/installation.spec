@@ -13,13 +13,15 @@ model:
 attributes:
   v1:
   - name: ID
-    description: ID represents the identifier of the installation.
+    description: ID is the identifier of the object.
     type: string
     exposed: true
     stored: true
     filterable: true
     format: free
+    identifier: true
     orderable: true
+    primary_key: true
 
   - name: accountName
     description: AccountName that should be installed.
