@@ -106,7 +106,7 @@ type PolicyRule struct {
 	// objects.
 	Relation []string `json:"relation" bson:"-" mapstructure:"relation,omitempty"`
 
-	// Services provides the services of this policy rule.
+	// Policy target services.
 	Services ServicesList `json:"services" bson:"-" mapstructure:"services,omitempty"`
 
 	// Policy target tags.
@@ -355,7 +355,7 @@ objects.`,
 	"Services": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Services",
-		Description:    `Services provides the services of this policy rule.`,
+		Description:    `Policy target services.`,
 		Exposed:        true,
 		Name:           "services",
 		SubType:        "api_services_entities",
@@ -498,7 +498,7 @@ objects.`,
 	"services": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Services",
-		Description:    `Services provides the services of this policy rule.`,
+		Description:    `Policy target services.`,
 		Exposed:        true,
 		Name:           "services",
 		SubType:        "api_services_entities",

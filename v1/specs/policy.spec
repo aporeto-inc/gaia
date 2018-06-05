@@ -84,7 +84,7 @@ attributes:
     - Network
     - ProcessingUnit
     - Quota
-    - Service
+    - ServiceDependency
     - Syscall
     - TokenScope
     filterable: true
