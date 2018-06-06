@@ -3,6 +3,7 @@ package gaia
 import "github.com/aporeto-inc/elemental"
 
 func init() {
+
 	elemental.RegisterIdentity(AccountIdentity)
 	elemental.RegisterIdentity(AccountCheckIdentity)
 	elemental.RegisterIdentity(ActivateIdentity)
@@ -17,6 +18,7 @@ func init() {
 	elemental.RegisterIdentity(AutomationIdentity)
 	elemental.RegisterIdentity(AutomationTemplateIdentity)
 	elemental.RegisterIdentity(AWSAccountIdentity)
+	elemental.RegisterIdentity(AWSApiGatewayIdentity)
 	elemental.RegisterIdentity(CategoryIdentity)
 	elemental.RegisterIdentity(CertificateIdentity)
 	elemental.RegisterIdentity(DependencyMapIdentity)
@@ -114,6 +116,8 @@ func IdentifiableForIdentity(identity string) elemental.Identifiable {
 		return NewAutomationTemplate()
 	case AWSAccountIdentity.Name:
 		return NewAWSAccount()
+	case AWSApiGatewayIdentity.Name:
+		return NewAWSApiGateway()
 	case CategoryIdentity.Name:
 		return NewCategory()
 	case CertificateIdentity.Name:
@@ -270,6 +274,8 @@ func IdentifiableForCategory(category string) elemental.Identifiable {
 		return NewAutomationTemplate()
 	case AWSAccountIdentity.Category:
 		return NewAWSAccount()
+	case AWSApiGatewayIdentity.Category:
+		return NewAWSApiGateway()
 	case CategoryIdentity.Category:
 		return NewCategory()
 	case CertificateIdentity.Category:
@@ -426,6 +432,8 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &AutomationTemplatesList{}
 	case AWSAccountIdentity.Name:
 		return &AWSAccountsList{}
+	case AWSApiGatewayIdentity.Name:
+		return &AWSApiGatewaysList{}
 	case CategoryIdentity.Name:
 		return &CategoriesList{}
 	case CertificateIdentity.Name:
@@ -518,6 +526,7 @@ func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiab
 		return &RevocationsList{}
 	case RoleIdentity.Name:
 		return &RolesList{}
+
 	case ServiceIdentity.Name:
 		return &ServicesList{}
 	case StatsQueryIdentity.Name:
@@ -580,6 +589,8 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &AutomationTemplatesList{}
 	case AWSAccountIdentity.Category:
 		return &AWSAccountsList{}
+	case AWSApiGatewayIdentity.Category:
+		return &AWSApiGatewaysList{}
 	case CategoryIdentity.Category:
 		return &CategoriesList{}
 	case CertificateIdentity.Category:
@@ -672,6 +683,7 @@ func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiab
 		return &RevocationsList{}
 	case RoleIdentity.Category:
 		return &RolesList{}
+
 	case ServiceIdentity.Category:
 		return &ServicesList{}
 	case StatsQueryIdentity.Category:
@@ -719,6 +731,7 @@ func AllIdentities() []elemental.Identity {
 		AutomationIdentity,
 		AutomationTemplateIdentity,
 		AWSAccountIdentity,
+		AWSApiGatewayIdentity,
 		CategoryIdentity,
 		CertificateIdentity,
 		DependencyMapIdentity,
@@ -904,6 +917,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"awsaccs",
 			"awsacc",
 		}
+	case AWSApiGatewayIdentity:
+		return []string{}
 	case CategoryIdentity:
 		return []string{}
 	case CertificateIdentity:
