@@ -230,7 +230,8 @@ elemental:
     init: NewExport()
 
   exported_data_content:
-    type: '[]map[string]interface{}'
+    type: 'map[string][]map[string]interface{}'
+    init: 'map[string][]map[string]interface{}{}'
 
   processing_unit_services_list:
     type: types.ProcessingUnitServicesList
