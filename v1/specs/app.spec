@@ -39,12 +39,6 @@ attributes:
     exposed: true
     format: free
 
-  - name: parameters
-    description: Parameters of the app the user can or has to specify.
-    type: external
-    exposed: true
-    subtype: app_parameters
-
   - name: title
     description: Title represents the title of the app.
     type: string

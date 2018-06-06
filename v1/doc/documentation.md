@@ -1032,10 +1032,6 @@ Name is the name of the entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `parameters (external:app_parameters)`
-
-Parameters of the app the user can or has to specify.
-
 #### `title (string)`
 
 Title represents the title of the app.

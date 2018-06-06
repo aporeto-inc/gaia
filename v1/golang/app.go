@@ -87,9 +87,6 @@ type App struct {
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
-	// Parameters of the app the user can or has to specify.
-	Parameters []*types.AppParameter `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
-
 	// Title represents the title of the app.
 	Title string `json:"title" bson:"-" mapstructure:"title,omitempty"`
 
@@ -106,7 +103,6 @@ func NewApp() *App {
 
 	return &App{
 		ModelVersion:      1,
-		Parameters:        []*types.AppParameter{},
 		VersionParameters: map[string][]*types.AppParameter{},
 	}
 }
@@ -280,15 +276,6 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Parameters": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Parameters",
-		Description:    `Parameters of the app the user can or has to specify.`,
-		Exposed:        true,
-		Name:           "parameters",
-		SubType:        "app_parameters",
-		Type:           "external",
-	},
 	"Title": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Title",
@@ -378,15 +365,6 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"parameters": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Parameters",
-		Description:    `Parameters of the app the user can or has to specify.`,
-		Exposed:        true,
-		Name:           "parameters",
-		SubType:        "app_parameters",
-		Type:           "external",
 	},
 	"title": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
