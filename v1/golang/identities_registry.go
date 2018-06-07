@@ -228,24 +228,24 @@ var (
 // ModelVersion returns the current version of the model.
 func ModelVersion() float64 { return 1 }
 
-type identifiableFactory struct{}
+type modelManager struct{}
 
-func (f identifiableFactory) IdentityFromName(name string) elemental.Identity {
+func (f modelManager) IdentityFromName(name string) elemental.Identity {
 
 	return identityNamesMap[name]
 }
 
-func (f identifiableFactory) IdentityFromCategory(category string) elemental.Identity {
+func (f modelManager) IdentityFromCategory(category string) elemental.Identity {
 
 	return identitycategoriesMap[category]
 }
 
-func (f identifiableFactory) IdentityFromAlias(alias string) elemental.Identity {
+func (f modelManager) IdentityFromAlias(alias string) elemental.Identity {
 
 	return aliasesMap[alias]
 }
 
-func (f identifiableFactory) IdentityFromAny(any string) (i elemental.Identity) {
+func (f modelManager) IdentityFromAny(any string) (i elemental.Identity) {
 
 	if i = f.IdentityFromName(any); !i.IsEmpty() {
 		return i
@@ -258,7 +258,7 @@ func (f identifiableFactory) IdentityFromAny(any string) (i elemental.Identity) 
 	return f.IdentityFromAlias(any)
 }
 
-func (f identifiableFactory) Identifiable(identity elemental.Identity) elemental.Identifiable {
+func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identifiable {
 
 	switch identity {
 
@@ -413,12 +413,12 @@ func (f identifiableFactory) Identifiable(identity elemental.Identity) elemental
 	}
 }
 
-func (f identifiableFactory) IdentifiableFromString(any string) elemental.Identifiable {
+func (f modelManager) IdentifiableFromString(any string) elemental.Identifiable {
 
 	return f.Identifiable(f.IdentityFromAny(any))
 }
 
-func (f identifiableFactory) ContentIdentifiable(identity elemental.Identity) elemental.ContentIdentifiable {
+func (f modelManager) ContentIdentifiable(identity elemental.Identity) elemental.ContentIdentifiable {
 
 	switch identity {
 
@@ -571,20 +571,20 @@ func (f identifiableFactory) ContentIdentifiable(identity elemental.Identity) el
 	}
 }
 
-func (f identifiableFactory) ContentIdentifiableFromString(any string) elemental.ContentIdentifiable {
+func (f modelManager) ContentIdentifiableFromString(any string) elemental.ContentIdentifiable {
 
 	return f.ContentIdentifiable(f.IdentityFromAny(any))
 }
 
-func (f identifiableFactory) Relationships() elemental.RelationshipsRegistry {
+func (f modelManager) Relationships() elemental.RelationshipsRegistry {
 
 	return relationshipsRegistry
 }
 
-var ifactory = identifiableFactory{}
+var manager = modelManager{}
 
-// Factory returns the model elemental.IdentifiableFactory.
-func Factory() elemental.IdentifiableFactory { return ifactory }
+// Manager returns the model elemental.ModelManager.
+func Manager() elemental.ModelManager { return manager }
 
 // AllIdentities returns all existing identities.
 func AllIdentities() []elemental.Identity {
