@@ -3,7 +3,7 @@ model:
   rest_name: tabulation
   resource_name: tabulations
   entity_name: Tabulation
-  package: squall
+  package: elena
   description: |-
     Tabulate API allows you to retrieve a custom table view for any identity using
     any tags you like as columns.

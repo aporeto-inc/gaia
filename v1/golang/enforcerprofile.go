@@ -113,6 +113,9 @@ type EnforcerProfile struct {
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
+	// Port used by aporeto application proxy.
+	ApplicationProxyPort int `json:"applicationProxyPort" bson:"applicationproxyport" mapstructure:"applicationProxyPort,omitempty"`
+
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
@@ -231,6 +234,7 @@ func NewEnforcerProfile() *EnforcerProfile {
 	return &EnforcerProfile{
 		ModelVersion:                  1,
 		Annotations:                   map[string][]string{},
+		ApplicationProxyPort:          20992,
 		AssociatedTags:                []string{},
 		AuditSocketBufferSize:         16384,
 		DockerSocketAddress:           "unix:///var/run/docker.sock",
@@ -406,6 +410,14 @@ func (o *EnforcerProfile) Validate() error {
 	}
 
 	if err := elemental.ValidatePattern("PUHeartbeatInterval", o.PUHeartbeatInterval, `^[0-9]+[smh]$`, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMaximumInt("applicationProxyPort", o.ApplicationProxyPort, int(65535), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMinimumInt("applicationProxyPort", o.ApplicationProxyPort, int(1), false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -587,6 +599,20 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
+	},
+	"ApplicationProxyPort": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ApplicationProxyPort",
+		DefaultValue:   20992,
+		Description:    `Port used by aporeto application proxy.`,
+		Exposed:        true,
+		Filterable:     true,
+		MaxValue:       65535,
+		MinValue:       1,
+		Name:           "applicationProxyPort",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1072,6 +1098,20 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
+	},
+	"applicationproxyport": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ApplicationProxyPort",
+		DefaultValue:   20992,
+		Description:    `Port used by aporeto application proxy.`,
+		Exposed:        true,
+		Filterable:     true,
+		MaxValue:       65535,
+		MinValue:       1,
+		Name:           "applicationProxyPort",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

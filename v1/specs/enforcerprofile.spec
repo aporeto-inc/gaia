@@ -30,7 +30,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "1000"
+    default_value: 1000
     filterable: true
     max_value: 65000
     orderable: true
@@ -55,6 +55,17 @@ attributes:
     default_value: 5s
     filterable: true
     format: free
+    orderable: true
+
+  - name: applicationProxyPort
+    description: Port used by aporeto application proxy.
+    type: integer
+    exposed: true
+    stored: true
+    default_value: 20992
+    filterable: true
+    max_value: 65535
+    min_value: 1
     orderable: true
 
   - name: auditProfileSelectors

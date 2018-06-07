@@ -90,6 +90,12 @@ type InstalledApp struct {
 	// CategoryID of the app.
 	CategoryID string `json:"categoryID" bson:"categoryid" mapstructure:"categoryID,omitempty"`
 
+	// Version of the installed app.
+	CurrentVersion string `json:"currentVersion" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
+
+	// Data retains all data created to use this service.
+	Data interface{} `json:"-" bson:"data" mapstructure:"-,omitempty"`
+
 	// K8SIdentifier retains the identifier for kubernetes.
 	K8sIdentifier string `json:"-" bson:"k8sidentifier" mapstructure:"-,omitempty"`
 
@@ -105,9 +111,6 @@ type InstalledApp struct {
 	// RelatedObjects retains all objects created to use this app.
 	RelatedObjects []*types.AppRelatedObject `json:"-" bson:"relatedobjects" mapstructure:"-,omitempty"`
 
-	// Replicas represents the number of replicas for the app.
-	Replicas int `json:"replicas" bson:"replicas" mapstructure:"replicas,omitempty"`
-
 	// Status of the app.
 	Status InstalledAppStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
 
@@ -121,6 +124,7 @@ func NewInstalledApp() *InstalledApp {
 
 	return &InstalledApp{
 		ModelVersion:   1,
+		Data:           nil,
 		Parameters:     []*types.AppParameter{},
 		RelatedObjects: []*types.AppRelatedObject{},
 		Status:         "Pending",
@@ -246,6 +250,24 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"CurrentVersion": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CurrentVersion",
+		Description:    `Version of the installed app.`,
+		Exposed:        true,
+		Name:           "currentVersion",
+		Stored:         true,
+		Type:           "string",
+	},
+	"Data": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Data",
+		Description:    `Data retains all data created to use this service.`,
+		Name:           "data",
+		Stored:         true,
+		SubType:        "service_data",
+		Type:           "external",
+	},
 	"K8sIdentifier": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "K8sIdentifier",
@@ -298,15 +320,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "app_relatedobjects",
 		Type:           "external",
-	},
-	"Replicas": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Replicas",
-		Description:    `Replicas represents the number of replicas for the app.`,
-		Exposed:        true,
-		Name:           "replicas",
-		Stored:         true,
-		Type:           "integer",
 	},
 	"Status": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Error", "Pending", "Running"},
@@ -364,6 +377,24 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "string",
 	},
+	"currentversion": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CurrentVersion",
+		Description:    `Version of the installed app.`,
+		Exposed:        true,
+		Name:           "currentVersion",
+		Stored:         true,
+		Type:           "string",
+	},
+	"data": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Data",
+		Description:    `Data retains all data created to use this service.`,
+		Name:           "data",
+		Stored:         true,
+		SubType:        "service_data",
+		Type:           "external",
+	},
 	"k8sidentifier": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "K8sIdentifier",
@@ -416,15 +447,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		SubType:        "app_relatedobjects",
 		Type:           "external",
-	},
-	"replicas": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Replicas",
-		Description:    `Replicas represents the number of replicas for the app.`,
-		Exposed:        true,
-		Name:           "replicas",
-		Stored:         true,
-		Type:           "integer",
 	},
 	"status": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Error", "Pending", "Running"},

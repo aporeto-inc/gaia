@@ -87,11 +87,11 @@ type App struct {
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
-	// Parameters of the app the user can or has to specify.
-	Parameters []*types.AppParameter `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
-
 	// Title represents the title of the app.
 	Title string `json:"title" bson:"-" mapstructure:"title,omitempty"`
+
+	// VersionParameters contains parameters for each available version.
+	VersionParameters map[string][]*types.AppParameter `json:"versionParameters" bson:"-" mapstructure:"versionParameters,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -102,8 +102,8 @@ type App struct {
 func NewApp() *App {
 
 	return &App{
-		ModelVersion: 1,
-		Parameters:   []*types.AppParameter{},
+		ModelVersion:      1,
+		VersionParameters: map[string][]*types.AppParameter{},
 	}
 }
 
@@ -276,15 +276,6 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Parameters": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Parameters",
-		Description:    `Parameters of the app the user can or has to specify.`,
-		Exposed:        true,
-		Name:           "parameters",
-		SubType:        "app_parameters",
-		Type:           "external",
-	},
 	"Title": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Title",
@@ -293,6 +284,15 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		Format:         "free",
 		Name:           "title",
 		Type:           "string",
+	},
+	"VersionParameters": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "VersionParameters",
+		Description:    `VersionParameters contains parameters for each available version.`,
+		Exposed:        true,
+		Name:           "versionParameters",
+		SubType:        "app_versionparameters",
+		Type:           "external",
 	},
 }
 
@@ -366,15 +366,6 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"parameters": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Parameters",
-		Description:    `Parameters of the app the user can or has to specify.`,
-		Exposed:        true,
-		Name:           "parameters",
-		SubType:        "app_parameters",
-		Type:           "external",
-	},
 	"title": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Title",
@@ -383,5 +374,14 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Format:         "free",
 		Name:           "title",
 		Type:           "string",
+	},
+	"versionparameters": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "VersionParameters",
+		Description:    `VersionParameters contains parameters for each available version.`,
+		Exposed:        true,
+		Name:           "versionParameters",
+		SubType:        "app_versionparameters",
+		Type:           "external",
 	},
 }
