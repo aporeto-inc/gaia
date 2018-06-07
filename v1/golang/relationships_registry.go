@@ -6,12 +6,6 @@ const nodocString = "[nodoc]" // nolint: varcheck,deadcode
 
 var relationshipsRegistry elemental.RelationshipsRegistry
 
-// Relationships returns the model relationships.
-func Relationships() elemental.RelationshipsRegistry {
-
-	return relationshipsRegistry
-}
-
 func init() {
 
 	relationshipsRegistry = elemental.RelationshipsRegistry{}
