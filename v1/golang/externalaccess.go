@@ -18,21 +18,21 @@ var ExternalAccessIdentity = elemental.Identity{
 // ExternalAccessList represents a list of ExternalAccess
 type ExternalAccessList []*ExternalAccess
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o ExternalAccessList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o ExternalAccessList) Identity() elemental.Identity {
 
 	return ExternalAccessIdentity
 }
 
 // Copy returns a pointer to a copy the ExternalAccessList.
-func (o ExternalAccessList) Copy() elemental.ContentIdentifiable {
+func (o ExternalAccessList) Copy() elemental.Identifiables {
 
 	copy := append(ExternalAccessList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the ExternalAccessList.
-func (o ExternalAccessList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o ExternalAccessList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(ExternalAccessList{}, o...)
 	for _, obj := range objects {

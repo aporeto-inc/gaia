@@ -32,21 +32,21 @@ var KubernetesClusterIdentity = elemental.Identity{
 // KubernetesClustersList represents a list of KubernetesClusters
 type KubernetesClustersList []*KubernetesCluster
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o KubernetesClustersList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o KubernetesClustersList) Identity() elemental.Identity {
 
 	return KubernetesClusterIdentity
 }
 
 // Copy returns a pointer to a copy the KubernetesClustersList.
-func (o KubernetesClustersList) Copy() elemental.ContentIdentifiable {
+func (o KubernetesClustersList) Copy() elemental.Identifiables {
 
 	copy := append(KubernetesClustersList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the KubernetesClustersList.
-func (o KubernetesClustersList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o KubernetesClustersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(KubernetesClustersList{}, o...)
 	for _, obj := range objects {

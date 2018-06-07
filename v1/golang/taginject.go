@@ -17,21 +17,21 @@ var TagInjectIdentity = elemental.Identity{
 // TagInjectsList represents a list of TagInjects
 type TagInjectsList []*TagInject
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o TagInjectsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o TagInjectsList) Identity() elemental.Identity {
 
 	return TagInjectIdentity
 }
 
 // Copy returns a pointer to a copy the TagInjectsList.
-func (o TagInjectsList) Copy() elemental.ContentIdentifiable {
+func (o TagInjectsList) Copy() elemental.Identifiables {
 
 	copy := append(TagInjectsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the TagInjectsList.
-func (o TagInjectsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o TagInjectsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(TagInjectsList{}, o...)
 	for _, obj := range objects {

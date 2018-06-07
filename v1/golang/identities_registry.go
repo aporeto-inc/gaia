@@ -418,7 +418,7 @@ func (f modelManager) IdentifiableFromString(any string) elemental.Identifiable 
 	return f.Identifiable(f.IdentityFromAny(any))
 }
 
-func (f modelManager) ContentIdentifiable(identity elemental.Identity) elemental.ContentIdentifiable {
+func (f modelManager) Identifiables(identity elemental.Identity) elemental.Identifiables {
 
 	switch identity {
 
@@ -571,9 +571,9 @@ func (f modelManager) ContentIdentifiable(identity elemental.Identity) elemental
 	}
 }
 
-func (f modelManager) ContentIdentifiableFromString(any string) elemental.ContentIdentifiable {
+func (f modelManager) IdentifiablesFromString(any string) elemental.Identifiables {
 
-	return f.ContentIdentifiable(f.IdentityFromAny(any))
+	return f.Identifiables(f.IdentityFromAny(any))
 }
 
 func (f modelManager) Relationships() elemental.RelationshipsRegistry {

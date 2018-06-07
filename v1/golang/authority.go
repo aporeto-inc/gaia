@@ -18,21 +18,21 @@ var AuthorityIdentity = elemental.Identity{
 // AuthoritiesList represents a list of Authorities
 type AuthoritiesList []*Authority
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o AuthoritiesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o AuthoritiesList) Identity() elemental.Identity {
 
 	return AuthorityIdentity
 }
 
 // Copy returns a pointer to a copy the AuthoritiesList.
-func (o AuthoritiesList) Copy() elemental.ContentIdentifiable {
+func (o AuthoritiesList) Copy() elemental.Identifiables {
 
 	copy := append(AuthoritiesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the AuthoritiesList.
-func (o AuthoritiesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o AuthoritiesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(AuthoritiesList{}, o...)
 	for _, obj := range objects {

@@ -56,21 +56,21 @@ var PolicyIdentity = elemental.Identity{
 // PoliciesList represents a list of Policies
 type PoliciesList []*Policy
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o PoliciesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o PoliciesList) Identity() elemental.Identity {
 
 	return PolicyIdentity
 }
 
 // Copy returns a pointer to a copy the PoliciesList.
-func (o PoliciesList) Copy() elemental.ContentIdentifiable {
+func (o PoliciesList) Copy() elemental.Identifiables {
 
 	copy := append(PoliciesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the PoliciesList.
-func (o PoliciesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o PoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(PoliciesList{}, o...)
 	for _, obj := range objects {

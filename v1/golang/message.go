@@ -32,21 +32,21 @@ var MessageIdentity = elemental.Identity{
 // MessagesList represents a list of Messages
 type MessagesList []*Message
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o MessagesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o MessagesList) Identity() elemental.Identity {
 
 	return MessageIdentity
 }
 
 // Copy returns a pointer to a copy the MessagesList.
-func (o MessagesList) Copy() elemental.ContentIdentifiable {
+func (o MessagesList) Copy() elemental.Identifiables {
 
 	copy := append(MessagesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the MessagesList.
-func (o MessagesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o MessagesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(MessagesList{}, o...)
 	for _, obj := range objects {

@@ -17,21 +17,21 @@ var LogIdentity = elemental.Identity{
 // LogsList represents a list of Logs
 type LogsList []*Log
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o LogsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o LogsList) Identity() elemental.Identity {
 
 	return LogIdentity
 }
 
 // Copy returns a pointer to a copy the LogsList.
-func (o LogsList) Copy() elemental.ContentIdentifiable {
+func (o LogsList) Copy() elemental.Identifiables {
 
 	copy := append(LogsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the LogsList.
-func (o LogsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o LogsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(LogsList{}, o...)
 	for _, obj := range objects {

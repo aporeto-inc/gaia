@@ -18,21 +18,21 @@ var FilePathIdentity = elemental.Identity{
 // FilePathsList represents a list of FilePaths
 type FilePathsList []*FilePath
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o FilePathsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o FilePathsList) Identity() elemental.Identity {
 
 	return FilePathIdentity
 }
 
 // Copy returns a pointer to a copy the FilePathsList.
-func (o FilePathsList) Copy() elemental.ContentIdentifiable {
+func (o FilePathsList) Copy() elemental.Identifiables {
 
 	copy := append(FilePathsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the FilePathsList.
-func (o FilePathsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o FilePathsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(FilePathsList{}, o...)
 	for _, obj := range objects {

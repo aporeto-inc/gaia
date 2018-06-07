@@ -17,21 +17,21 @@ var SuggestedPolicyIdentity = elemental.Identity{
 // SuggestedPoliciesList represents a list of SuggestedPolicies
 type SuggestedPoliciesList []*SuggestedPolicy
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o SuggestedPoliciesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o SuggestedPoliciesList) Identity() elemental.Identity {
 
 	return SuggestedPolicyIdentity
 }
 
 // Copy returns a pointer to a copy the SuggestedPoliciesList.
-func (o SuggestedPoliciesList) Copy() elemental.ContentIdentifiable {
+func (o SuggestedPoliciesList) Copy() elemental.Identifiables {
 
 	copy := append(SuggestedPoliciesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the SuggestedPoliciesList.
-func (o SuggestedPoliciesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o SuggestedPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(SuggestedPoliciesList{}, o...)
 	for _, obj := range objects {

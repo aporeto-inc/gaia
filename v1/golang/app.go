@@ -18,21 +18,21 @@ var AppIdentity = elemental.Identity{
 // AppsList represents a list of Apps
 type AppsList []*App
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o AppsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o AppsList) Identity() elemental.Identity {
 
 	return AppIdentity
 }
 
 // Copy returns a pointer to a copy the AppsList.
-func (o AppsList) Copy() elemental.ContentIdentifiable {
+func (o AppsList) Copy() elemental.Identifiables {
 
 	copy := append(AppsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the AppsList.
-func (o AppsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o AppsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(AppsList{}, o...)
 	for _, obj := range objects {

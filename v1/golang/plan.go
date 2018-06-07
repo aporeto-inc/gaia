@@ -17,21 +17,21 @@ var PlanIdentity = elemental.Identity{
 // PlansList represents a list of Plans
 type PlansList []*Plan
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o PlansList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o PlansList) Identity() elemental.Identity {
 
 	return PlanIdentity
 }
 
 // Copy returns a pointer to a copy the PlansList.
-func (o PlansList) Copy() elemental.ContentIdentifiable {
+func (o PlansList) Copy() elemental.Identifiables {
 
 	copy := append(PlansList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the PlansList.
-func (o PlansList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o PlansList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(PlansList{}, o...)
 	for _, obj := range objects {

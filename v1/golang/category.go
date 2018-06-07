@@ -17,21 +17,21 @@ var CategoryIdentity = elemental.Identity{
 // CategoriesList represents a list of Categories
 type CategoriesList []*Category
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o CategoriesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o CategoriesList) Identity() elemental.Identity {
 
 	return CategoryIdentity
 }
 
 // Copy returns a pointer to a copy the CategoriesList.
-func (o CategoriesList) Copy() elemental.ContentIdentifiable {
+func (o CategoriesList) Copy() elemental.Identifiables {
 
 	copy := append(CategoriesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the CategoriesList.
-func (o CategoriesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o CategoriesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(CategoriesList{}, o...)
 	for _, obj := range objects {

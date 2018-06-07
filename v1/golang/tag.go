@@ -17,21 +17,21 @@ var TagIdentity = elemental.Identity{
 // TagsList represents a list of Tags
 type TagsList []*Tag
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o TagsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o TagsList) Identity() elemental.Identity {
 
 	return TagIdentity
 }
 
 // Copy returns a pointer to a copy the TagsList.
-func (o TagsList) Copy() elemental.ContentIdentifiable {
+func (o TagsList) Copy() elemental.Identifiables {
 
 	copy := append(TagsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the TagsList.
-func (o TagsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o TagsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(TagsList{}, o...)
 	for _, obj := range objects {

@@ -18,21 +18,21 @@ var JaegerbatchIdentity = elemental.Identity{
 // JaegerbatchsList represents a list of Jaegerbatchs
 type JaegerbatchsList []*Jaegerbatch
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o JaegerbatchsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o JaegerbatchsList) Identity() elemental.Identity {
 
 	return JaegerbatchIdentity
 }
 
 // Copy returns a pointer to a copy the JaegerbatchsList.
-func (o JaegerbatchsList) Copy() elemental.ContentIdentifiable {
+func (o JaegerbatchsList) Copy() elemental.Identifiables {
 
 	copy := append(JaegerbatchsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the JaegerbatchsList.
-func (o JaegerbatchsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o JaegerbatchsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(JaegerbatchsList{}, o...)
 	for _, obj := range objects {

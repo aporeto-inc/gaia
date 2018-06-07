@@ -31,21 +31,21 @@ var FileAccessIdentity = elemental.Identity{
 // FileAccessList represents a list of FileAccess
 type FileAccessList []*FileAccess
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o FileAccessList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o FileAccessList) Identity() elemental.Identity {
 
 	return FileAccessIdentity
 }
 
 // Copy returns a pointer to a copy the FileAccessList.
-func (o FileAccessList) Copy() elemental.ContentIdentifiable {
+func (o FileAccessList) Copy() elemental.Identifiables {
 
 	copy := append(FileAccessList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the FileAccessList.
-func (o FileAccessList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o FileAccessList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(FileAccessList{}, o...)
 	for _, obj := range objects {

@@ -17,21 +17,21 @@ var PasswordResetIdentity = elemental.Identity{
 // PasswordResetsList represents a list of PasswordResets
 type PasswordResetsList []*PasswordReset
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o PasswordResetsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o PasswordResetsList) Identity() elemental.Identity {
 
 	return PasswordResetIdentity
 }
 
 // Copy returns a pointer to a copy the PasswordResetsList.
-func (o PasswordResetsList) Copy() elemental.ContentIdentifiable {
+func (o PasswordResetsList) Copy() elemental.Identifiables {
 
 	copy := append(PasswordResetsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the PasswordResetsList.
-func (o PasswordResetsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o PasswordResetsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(PasswordResetsList{}, o...)
 	for _, obj := range objects {

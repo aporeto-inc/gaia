@@ -29,21 +29,21 @@ var CertificateIdentity = elemental.Identity{
 // CertificatesList represents a list of Certificates
 type CertificatesList []*Certificate
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o CertificatesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o CertificatesList) Identity() elemental.Identity {
 
 	return CertificateIdentity
 }
 
 // Copy returns a pointer to a copy the CertificatesList.
-func (o CertificatesList) Copy() elemental.ContentIdentifiable {
+func (o CertificatesList) Copy() elemental.Identifiables {
 
 	copy := append(CertificatesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the CertificatesList.
-func (o CertificatesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o CertificatesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(CertificatesList{}, o...)
 	for _, obj := range objects {

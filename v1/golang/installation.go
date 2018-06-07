@@ -17,21 +17,21 @@ var InstallationIdentity = elemental.Identity{
 // InstallationsList represents a list of Installations
 type InstallationsList []*Installation
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o InstallationsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o InstallationsList) Identity() elemental.Identity {
 
 	return InstallationIdentity
 }
 
 // Copy returns a pointer to a copy the InstallationsList.
-func (o InstallationsList) Copy() elemental.ContentIdentifiable {
+func (o InstallationsList) Copy() elemental.Identifiables {
 
 	copy := append(InstallationsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the InstallationsList.
-func (o InstallationsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o InstallationsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(InstallationsList{}, o...)
 	for _, obj := range objects {

@@ -18,21 +18,21 @@ var EnforcerProfileMappingPolicyIdentity = elemental.Identity{
 // EnforcerProfileMappingPoliciesList represents a list of EnforcerProfileMappingPolicies
 type EnforcerProfileMappingPoliciesList []*EnforcerProfileMappingPolicy
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o EnforcerProfileMappingPoliciesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o EnforcerProfileMappingPoliciesList) Identity() elemental.Identity {
 
 	return EnforcerProfileMappingPolicyIdentity
 }
 
 // Copy returns a pointer to a copy the EnforcerProfileMappingPoliciesList.
-func (o EnforcerProfileMappingPoliciesList) Copy() elemental.ContentIdentifiable {
+func (o EnforcerProfileMappingPoliciesList) Copy() elemental.Identifiables {
 
 	copy := append(EnforcerProfileMappingPoliciesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the EnforcerProfileMappingPoliciesList.
-func (o EnforcerProfileMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o EnforcerProfileMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(EnforcerProfileMappingPoliciesList{}, o...)
 	for _, obj := range objects {

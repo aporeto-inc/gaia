@@ -18,21 +18,21 @@ var AWSAccountIdentity = elemental.Identity{
 // AWSAccountsList represents a list of AWSAccounts
 type AWSAccountsList []*AWSAccount
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o AWSAccountsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o AWSAccountsList) Identity() elemental.Identity {
 
 	return AWSAccountIdentity
 }
 
 // Copy returns a pointer to a copy the AWSAccountsList.
-func (o AWSAccountsList) Copy() elemental.ContentIdentifiable {
+func (o AWSAccountsList) Copy() elemental.Identifiables {
 
 	copy := append(AWSAccountsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the AWSAccountsList.
-func (o AWSAccountsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o AWSAccountsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(AWSAccountsList{}, o...)
 	for _, obj := range objects {

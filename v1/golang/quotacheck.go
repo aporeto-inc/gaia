@@ -17,21 +17,21 @@ var QuotaCheckIdentity = elemental.Identity{
 // QuotaChecksList represents a list of QuotaChecks
 type QuotaChecksList []*QuotaCheck
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o QuotaChecksList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o QuotaChecksList) Identity() elemental.Identity {
 
 	return QuotaCheckIdentity
 }
 
 // Copy returns a pointer to a copy the QuotaChecksList.
-func (o QuotaChecksList) Copy() elemental.ContentIdentifiable {
+func (o QuotaChecksList) Copy() elemental.Identifiables {
 
 	copy := append(QuotaChecksList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the QuotaChecksList.
-func (o QuotaChecksList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o QuotaChecksList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(QuotaChecksList{}, o...)
 	for _, obj := range objects {

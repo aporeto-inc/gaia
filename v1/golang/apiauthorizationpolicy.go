@@ -18,21 +18,21 @@ var APIAuthorizationPolicyIdentity = elemental.Identity{
 // APIAuthorizationPoliciesList represents a list of APIAuthorizationPolicies
 type APIAuthorizationPoliciesList []*APIAuthorizationPolicy
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o APIAuthorizationPoliciesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o APIAuthorizationPoliciesList) Identity() elemental.Identity {
 
 	return APIAuthorizationPolicyIdentity
 }
 
 // Copy returns a pointer to a copy the APIAuthorizationPoliciesList.
-func (o APIAuthorizationPoliciesList) Copy() elemental.ContentIdentifiable {
+func (o APIAuthorizationPoliciesList) Copy() elemental.Identifiables {
 
 	copy := append(APIAuthorizationPoliciesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the APIAuthorizationPoliciesList.
-func (o APIAuthorizationPoliciesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o APIAuthorizationPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(APIAuthorizationPoliciesList{}, o...)
 	for _, obj := range objects {

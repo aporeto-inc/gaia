@@ -43,21 +43,21 @@ var K8SClusterIdentity = elemental.Identity{
 // K8SClustersList represents a list of K8SClusters
 type K8SClustersList []*K8SCluster
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o K8SClustersList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o K8SClustersList) Identity() elemental.Identity {
 
 	return K8SClusterIdentity
 }
 
 // Copy returns a pointer to a copy the K8SClustersList.
-func (o K8SClustersList) Copy() elemental.ContentIdentifiable {
+func (o K8SClustersList) Copy() elemental.Identifiables {
 
 	copy := append(K8SClustersList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the K8SClustersList.
-func (o K8SClustersList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o K8SClustersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(K8SClustersList{}, o...)
 	for _, obj := range objects {

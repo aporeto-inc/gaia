@@ -46,21 +46,21 @@ var IssueIdentity = elemental.Identity{
 // IssuesList represents a list of Issues
 type IssuesList []*Issue
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o IssuesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o IssuesList) Identity() elemental.Identity {
 
 	return IssueIdentity
 }
 
 // Copy returns a pointer to a copy the IssuesList.
-func (o IssuesList) Copy() elemental.ContentIdentifiable {
+func (o IssuesList) Copy() elemental.Identifiables {
 
 	copy := append(IssuesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the IssuesList.
-func (o IssuesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o IssuesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(IssuesList{}, o...)
 	for _, obj := range objects {

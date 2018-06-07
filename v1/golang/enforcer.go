@@ -38,21 +38,21 @@ var EnforcerIdentity = elemental.Identity{
 // EnforcersList represents a list of Enforcers
 type EnforcersList []*Enforcer
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o EnforcersList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o EnforcersList) Identity() elemental.Identity {
 
 	return EnforcerIdentity
 }
 
 // Copy returns a pointer to a copy the EnforcersList.
-func (o EnforcersList) Copy() elemental.ContentIdentifiable {
+func (o EnforcersList) Copy() elemental.Identifiables {
 
 	copy := append(EnforcersList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the EnforcersList.
-func (o EnforcersList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o EnforcersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(EnforcersList{}, o...)
 	for _, obj := range objects {
