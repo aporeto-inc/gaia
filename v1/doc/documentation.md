@@ -1624,6 +1624,8 @@ managed API decisions for the AWS API Gateway.
 
 | Method   | URL                   | Description                                        |
 | -:       | -                     | -                                                  |
+| `GET`    | `/awsapigateways`     | Query the flow status for the AWS API Gateway.     |
+| `POST`   | `/awsapigateways`     | Query the flow status for the AWS API Gateway.     |
 | `DELETE` | `/awsapigateways/:id` | Deletes the `awsapigateway` with the given `:id`.  |
 | `GET`    | `/awsapigateways/:id` | Retrieve the `awsapigateway` with the given `:id`. |
 | `PUT`    | `/awsapigateways/:id` | Updates the `awsapigateway` with the given `:id`.  |
