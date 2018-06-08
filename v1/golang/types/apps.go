@@ -5,6 +5,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/aporeto-inc/addedeffect/tagutils"
 )
 
 // AppParameterType is the type representing the type of a parameter
@@ -22,7 +24,7 @@ const (
 	AppParameterTypePassword         AppParameterType = "password"
 	AppParameterTypeString           AppParameterType = "string"
 	AppParameterTypeStringSlice      AppParameterType = "stringSlice"
-	AppParameterTypeMapFloat64String AppParameterType = "map[float64]string"
+	AppParameterTypeMapCVSSThreshold AppParameterType = "cvssthreshold"
 )
 
 // AppParameter defines a parameter for the service.
@@ -88,6 +90,9 @@ func (p *AppParameter) Validate() error {
 		AppParameterTypeIntSlice,
 		AppParameterTypeFloatSlice:
 		return p.validateSliceValue()
+
+	case AppParameterTypeMapCVSSThreshold:
+		return p.validateCVSSThreshold()
 	}
 
 	return nil
@@ -166,7 +171,7 @@ func (p *AppParameter) ValueToString() string {
 		}
 		return strings.Join(values, " ")
 
-	case AppParameterTypeMapFloat64String:
+	case AppParameterTypeMapCVSSThreshold:
 		values := []string{}
 		if vs, ok := p.Value.([]interface{}); ok {
 			for _, v := range vs {
@@ -322,6 +327,57 @@ func (p *AppParameter) validateSliceValue() error {
 	}
 
 	return nil
+}
+
+// validateCVSSThreshold valides the format of a cvss threshold
+func (p *AppParameter) validateCVSSThreshold() error {
+
+	if !p.Optional && p.Value == nil {
+		return fmt.Errorf("%s is required", p.Name)
+	}
+
+	if p.Value == nil {
+		return nil
+	}
+
+	thresholds, ok := p.Value.([]interface{})
+	if !ok {
+		return fmt.Errorf("%s is not of type []string", p.Name)
+	}
+
+	for _, th := range thresholds {
+		strTh, ok := th.(string)
+		if !ok {
+			return fmt.Errorf("threshold %s is not of type string", th)
+		}
+		_, _, err := ValidateCVSSThresholdFormat(strTh)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+
+}
+
+// ValidateCVSSThresholdFormat verify threshoold is of type "float64:tag"
+func ValidateCVSSThresholdFormat(th string) (float64, string, error) {
+
+	s := strings.SplitN(th, ":", 2)
+	if len(s) != 2 {
+		return 0, "", fmt.Errorf("invalid cvss thresold format. use score:tag")
+	}
+
+	f, err := strconv.ParseFloat(s[0], 64)
+	if err != nil {
+		return 0, "", fmt.Errorf("invalid score %s: %s", s[0], err.Error())
+	}
+
+	if _, _, err = tagutils.Split(s[1]); err != nil {
+		return 0, "", fmt.Errorf("invalid tag %s: %s", s[1], err.Error())
+	}
+
+	return f, s[1], nil
 }
 
 // isStringAllowedValue returns true if the value is allowed
