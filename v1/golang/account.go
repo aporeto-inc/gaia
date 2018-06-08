@@ -46,21 +46,21 @@ var AccountIdentity = elemental.Identity{
 // AccountsList represents a list of Accounts
 type AccountsList []*Account
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o AccountsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o AccountsList) Identity() elemental.Identity {
 
 	return AccountIdentity
 }
 
 // Copy returns a pointer to a copy the AccountsList.
-func (o AccountsList) Copy() elemental.ContentIdentifiable {
+func (o AccountsList) Copy() elemental.Identifiables {
 
 	copy := append(AccountsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the AccountsList.
-func (o AccountsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o AccountsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(AccountsList{}, o...)
 	for _, obj := range objects {

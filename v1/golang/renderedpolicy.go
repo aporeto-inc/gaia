@@ -18,21 +18,21 @@ var RenderedPolicyIdentity = elemental.Identity{
 // RenderedPoliciesList represents a list of RenderedPolicies
 type RenderedPoliciesList []*RenderedPolicy
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o RenderedPoliciesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o RenderedPoliciesList) Identity() elemental.Identity {
 
 	return RenderedPolicyIdentity
 }
 
 // Copy returns a pointer to a copy the RenderedPoliciesList.
-func (o RenderedPoliciesList) Copy() elemental.ContentIdentifiable {
+func (o RenderedPoliciesList) Copy() elemental.Identifiables {
 
 	copy := append(RenderedPoliciesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the RenderedPoliciesList.
-func (o RenderedPoliciesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o RenderedPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(RenderedPoliciesList{}, o...)
 	for _, obj := range objects {

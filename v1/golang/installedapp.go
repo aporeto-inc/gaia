@@ -32,21 +32,21 @@ var InstalledAppIdentity = elemental.Identity{
 // InstalledAppsList represents a list of InstalledApps
 type InstalledAppsList []*InstalledApp
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o InstalledAppsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o InstalledAppsList) Identity() elemental.Identity {
 
 	return InstalledAppIdentity
 }
 
 // Copy returns a pointer to a copy the InstalledAppsList.
-func (o InstalledAppsList) Copy() elemental.ContentIdentifiable {
+func (o InstalledAppsList) Copy() elemental.Identifiables {
 
 	copy := append(InstalledAppsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the InstalledAppsList.
-func (o InstalledAppsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o InstalledAppsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(InstalledAppsList{}, o...)
 	for _, obj := range objects {

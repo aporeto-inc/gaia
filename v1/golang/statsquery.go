@@ -18,21 +18,21 @@ var StatsQueryIdentity = elemental.Identity{
 // StatsQueriesList represents a list of StatsQueries
 type StatsQueriesList []*StatsQuery
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o StatsQueriesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o StatsQueriesList) Identity() elemental.Identity {
 
 	return StatsQueryIdentity
 }
 
 // Copy returns a pointer to a copy the StatsQueriesList.
-func (o StatsQueriesList) Copy() elemental.ContentIdentifiable {
+func (o StatsQueriesList) Copy() elemental.Identifiables {
 
 	copy := append(StatsQueriesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the StatsQueriesList.
-func (o StatsQueriesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o StatsQueriesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(StatsQueriesList{}, o...)
 	for _, obj := range objects {

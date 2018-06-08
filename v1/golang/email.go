@@ -28,21 +28,21 @@ var EmailIdentity = elemental.Identity{
 // EmailsList represents a list of Emails
 type EmailsList []*Email
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o EmailsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o EmailsList) Identity() elemental.Identity {
 
 	return EmailIdentity
 }
 
 // Copy returns a pointer to a copy the EmailsList.
-func (o EmailsList) Copy() elemental.ContentIdentifiable {
+func (o EmailsList) Copy() elemental.Identifiables {
 
 	copy := append(EmailsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the EmailsList.
-func (o EmailsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o EmailsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(EmailsList{}, o...)
 	for _, obj := range objects {

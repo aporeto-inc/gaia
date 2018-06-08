@@ -17,21 +17,21 @@ var TabulationIdentity = elemental.Identity{
 // TabulationsList represents a list of Tabulations
 type TabulationsList []*Tabulation
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o TabulationsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o TabulationsList) Identity() elemental.Identity {
 
 	return TabulationIdentity
 }
 
 // Copy returns a pointer to a copy the TabulationsList.
-func (o TabulationsList) Copy() elemental.ContentIdentifiable {
+func (o TabulationsList) Copy() elemental.Identifiables {
 
 	copy := append(TabulationsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the TabulationsList.
-func (o TabulationsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o TabulationsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(TabulationsList{}, o...)
 	for _, obj := range objects {

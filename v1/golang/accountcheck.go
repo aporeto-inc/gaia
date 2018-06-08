@@ -17,21 +17,21 @@ var AccountCheckIdentity = elemental.Identity{
 // AccountChecksList represents a list of AccountChecks
 type AccountChecksList []*AccountCheck
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o AccountChecksList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o AccountChecksList) Identity() elemental.Identity {
 
 	return AccountCheckIdentity
 }
 
 // Copy returns a pointer to a copy the AccountChecksList.
-func (o AccountChecksList) Copy() elemental.ContentIdentifiable {
+func (o AccountChecksList) Copy() elemental.Identifiables {
 
 	copy := append(AccountChecksList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the AccountChecksList.
-func (o AccountChecksList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o AccountChecksList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(AccountChecksList{}, o...)
 	for _, obj := range objects {

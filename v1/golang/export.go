@@ -17,21 +17,21 @@ var ExportIdentity = elemental.Identity{
 // ExportsList represents a list of Exports
 type ExportsList []*Export
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o ExportsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o ExportsList) Identity() elemental.Identity {
 
 	return ExportIdentity
 }
 
 // Copy returns a pointer to a copy the ExportsList.
-func (o ExportsList) Copy() elemental.ContentIdentifiable {
+func (o ExportsList) Copy() elemental.Identifiables {
 
 	copy := append(ExportsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the ExportsList.
-func (o ExportsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o ExportsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(ExportsList{}, o...)
 	for _, obj := range objects {

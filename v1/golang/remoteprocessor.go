@@ -29,21 +29,21 @@ var RemoteProcessorIdentity = elemental.Identity{
 // RemoteProcessorsList represents a list of RemoteProcessors
 type RemoteProcessorsList []*RemoteProcessor
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o RemoteProcessorsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o RemoteProcessorsList) Identity() elemental.Identity {
 
 	return RemoteProcessorIdentity
 }
 
 // Copy returns a pointer to a copy the RemoteProcessorsList.
-func (o RemoteProcessorsList) Copy() elemental.ContentIdentifiable {
+func (o RemoteProcessorsList) Copy() elemental.Identifiables {
 
 	copy := append(RemoteProcessorsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the RemoteProcessorsList.
-func (o RemoteProcessorsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o RemoteProcessorsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(RemoteProcessorsList{}, o...)
 	for _, obj := range objects {

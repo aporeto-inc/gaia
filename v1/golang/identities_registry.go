@@ -2,704 +2,589 @@ package gaia
 
 import "github.com/aporeto-inc/elemental"
 
-func init() {
-	elemental.RegisterIdentity(AccountIdentity)
-	elemental.RegisterIdentity(AccountCheckIdentity)
-	elemental.RegisterIdentity(ActivateIdentity)
-	elemental.RegisterIdentity(ActivityIdentity)
-	elemental.RegisterIdentity(AlarmIdentity)
-	elemental.RegisterIdentity(APIAuthorizationPolicyIdentity)
-	elemental.RegisterIdentity(APICheckIdentity)
-	elemental.RegisterIdentity(AppIdentity)
-	elemental.RegisterIdentity(AuditProfileIdentity)
-	elemental.RegisterIdentity(AuthIdentity)
-	elemental.RegisterIdentity(AuthorityIdentity)
-	elemental.RegisterIdentity(AutomationIdentity)
-	elemental.RegisterIdentity(AutomationTemplateIdentity)
-	elemental.RegisterIdentity(AWSAccountIdentity)
-	elemental.RegisterIdentity(CategoryIdentity)
-	elemental.RegisterIdentity(CertificateIdentity)
-	elemental.RegisterIdentity(DependencyMapIdentity)
-	elemental.RegisterIdentity(EmailIdentity)
-	elemental.RegisterIdentity(EnforcerIdentity)
-	elemental.RegisterIdentity(EnforcerProfileIdentity)
-	elemental.RegisterIdentity(EnforcerProfileMappingPolicyIdentity)
-	elemental.RegisterIdentity(ExportIdentity)
-	elemental.RegisterIdentity(ExternalAccessIdentity)
-	elemental.RegisterIdentity(ExternalServiceIdentity)
-	elemental.RegisterIdentity(FileAccessIdentity)
-	elemental.RegisterIdentity(FileAccessPolicyIdentity)
-	elemental.RegisterIdentity(FilePathIdentity)
-	elemental.RegisterIdentity(FlowStatisticIdentity)
-	elemental.RegisterIdentity(HookPolicyIdentity)
-	elemental.RegisterIdentity(ImportIdentity)
-	elemental.RegisterIdentity(InstallationIdentity)
-	elemental.RegisterIdentity(InstalledAppIdentity)
-	elemental.RegisterIdentity(IsolationProfileIdentity)
-	elemental.RegisterIdentity(IssueIdentity)
-	elemental.RegisterIdentity(JaegerbatchIdentity)
-	elemental.RegisterIdentity(K8SClusterIdentity)
-	elemental.RegisterIdentity(KubernetesClusterIdentity)
-	elemental.RegisterIdentity(LogIdentity)
-	elemental.RegisterIdentity(MessageIdentity)
-	elemental.RegisterIdentity(NamespaceIdentity)
-	elemental.RegisterIdentity(NamespaceMappingPolicyIdentity)
-	elemental.RegisterIdentity(NetworkAccessPolicyIdentity)
-	elemental.RegisterIdentity(PasswordResetIdentity)
-	elemental.RegisterIdentity(PlanIdentity)
-	elemental.RegisterIdentity(PokeIdentity)
-	elemental.RegisterIdentity(PolicyIdentity)
-	elemental.RegisterIdentity(PolicyRefreshIdentity)
-	elemental.RegisterIdentity(PolicyRendererIdentity)
-	elemental.RegisterIdentity(PolicyRuleIdentity)
-	elemental.RegisterIdentity(PrivateKeyIdentity)
-	elemental.RegisterIdentity(ProcessingUnitIdentity)
-	elemental.RegisterIdentity(ProcessingUnitPolicyIdentity)
-	elemental.RegisterIdentity(QuotaCheckIdentity)
-	elemental.RegisterIdentity(QuotaPolicyIdentity)
-	elemental.RegisterIdentity(RemoteProcessorIdentity)
-	elemental.RegisterIdentity(RenderedPolicyIdentity)
-	elemental.RegisterIdentity(ReportIdentity)
-	elemental.RegisterIdentity(RESTAPISpecIdentity)
-	elemental.RegisterIdentity(RevocationIdentity)
-	elemental.RegisterIdentity(RoleIdentity)
-	elemental.RegisterIdentity(RootIdentity)
-	elemental.RegisterIdentity(ServiceIdentity)
-	elemental.RegisterIdentity(StatsQueryIdentity)
-	elemental.RegisterIdentity(SuggestedPolicyIdentity)
-	elemental.RegisterIdentity(TabulationIdentity)
-	elemental.RegisterIdentity(TagIdentity)
-	elemental.RegisterIdentity(TagInjectIdentity)
-	elemental.RegisterIdentity(TokenIdentity)
-	elemental.RegisterIdentity(TokenScopePolicyIdentity)
-	elemental.RegisterIdentity(TriggerIdentity)
-	elemental.RegisterIdentity(VulnerabilityIdentity)
-	elemental.RegisterIdentity(X509CertificateIdentity)
-	elemental.RegisterIdentity(X509CertificateCheckIdentity)
-}
+var (
+	identityNamesMap = map[string]elemental.Identity{
+		"account":                      AccountIdentity,
+		"accountcheck":                 AccountCheckIdentity,
+		"activate":                     ActivateIdentity,
+		"activity":                     ActivityIdentity,
+		"alarm":                        AlarmIdentity,
+		"apiauthorizationpolicy":       APIAuthorizationPolicyIdentity,
+		"apicheck":                     APICheckIdentity,
+		"app":                          AppIdentity,
+		"auditprofile":                 AuditProfileIdentity,
+		"auth":                         AuthIdentity,
+		"authority":                    AuthorityIdentity,
+		"automation":                   AutomationIdentity,
+		"automationtemplate":           AutomationTemplateIdentity,
+		"awsaccount":                   AWSAccountIdentity,
+		"category":                     CategoryIdentity,
+		"certificate":                  CertificateIdentity,
+		"dependencymap":                DependencyMapIdentity,
+		"email":                        EmailIdentity,
+		"enforcer":                     EnforcerIdentity,
+		"enforcerprofile":              EnforcerProfileIdentity,
+		"enforcerprofilemappingpolicy": EnforcerProfileMappingPolicyIdentity,
+		"export":                       ExportIdentity,
+		"externalaccess":               ExternalAccessIdentity,
+		"externalservice":              ExternalServiceIdentity,
+		"fileaccess":                   FileAccessIdentity,
+		"fileaccesspolicy":             FileAccessPolicyIdentity,
+		"filepath":                     FilePathIdentity,
+		"flowstatistic":                FlowStatisticIdentity,
+		"hookpolicy":                   HookPolicyIdentity,
+		"import":                       ImportIdentity,
+		"installation":                 InstallationIdentity,
+		"installedapp":                 InstalledAppIdentity,
+		"isolationprofile":             IsolationProfileIdentity,
+		"issue":                        IssueIdentity,
+		"jaegerbatch":                  JaegerbatchIdentity,
+		"k8scluster":                   K8SClusterIdentity,
+		"kubernetescluster":            KubernetesClusterIdentity,
+		"log":                          LogIdentity,
+		"message":                      MessageIdentity,
+		"namespace":                    NamespaceIdentity,
+		"namespacemappingpolicy":       NamespaceMappingPolicyIdentity,
+		"networkaccesspolicy":          NetworkAccessPolicyIdentity,
+		"passwordreset":                PasswordResetIdentity,
+		"plan":                         PlanIdentity,
+		"poke":                         PokeIdentity,
+		"policy":                       PolicyIdentity,
+		"policyrefresh":                PolicyRefreshIdentity,
+		"policyrenderer":               PolicyRendererIdentity,
+		"policyrule":                   PolicyRuleIdentity,
+		"privatekey":                   PrivateKeyIdentity,
+		"processingunit":               ProcessingUnitIdentity,
+		"processingunitpolicy":         ProcessingUnitPolicyIdentity,
+		"quotacheck":                   QuotaCheckIdentity,
+		"quotapolicy":                  QuotaPolicyIdentity,
+		"remoteprocessor":              RemoteProcessorIdentity,
+		"renderedpolicy":               RenderedPolicyIdentity,
+		"report":                       ReportIdentity,
+		"restapispec":                  RESTAPISpecIdentity,
+		"revocation":                   RevocationIdentity,
+		"role":                         RoleIdentity,
+		"root":                         RootIdentity,
+		"service":                      ServiceIdentity,
+		"statsquery":                   StatsQueryIdentity,
+		"suggestedpolicy":              SuggestedPolicyIdentity,
+		"tabulation":                   TabulationIdentity,
+		"tag":                          TagIdentity,
+		"taginject":                    TagInjectIdentity,
+		"token":                        TokenIdentity,
+		"tokenscopepolicy":             TokenScopePolicyIdentity,
+		"trigger":                      TriggerIdentity,
+		"vulnerability":                VulnerabilityIdentity,
+		"x509certificate":              X509CertificateIdentity,
+		"x509certificatecheck":         X509CertificateCheckIdentity,
+	}
+
+	identitycategoriesMap = map[string]elemental.Identity{
+		"accounts":                       AccountIdentity,
+		"accountchecks":                  AccountCheckIdentity,
+		"activate":                       ActivateIdentity,
+		"activities":                     ActivityIdentity,
+		"alarms":                         AlarmIdentity,
+		"apiauthorizationpolicies":       APIAuthorizationPolicyIdentity,
+		"apichecks":                      APICheckIdentity,
+		"apps":                           AppIdentity,
+		"auditprofiles":                  AuditProfileIdentity,
+		"auth":                           AuthIdentity,
+		"authorities":                    AuthorityIdentity,
+		"automations":                    AutomationIdentity,
+		"automationtemplates":            AutomationTemplateIdentity,
+		"awsaccounts":                    AWSAccountIdentity,
+		"categories":                     CategoryIdentity,
+		"certificates":                   CertificateIdentity,
+		"dependencymaps":                 DependencyMapIdentity,
+		"emails":                         EmailIdentity,
+		"enforcers":                      EnforcerIdentity,
+		"enforcerprofiles":               EnforcerProfileIdentity,
+		"enforcerprofilemappingpolicies": EnforcerProfileMappingPolicyIdentity,
+		"export":                   ExportIdentity,
+		"externalaccesses":         ExternalAccessIdentity,
+		"externalservices":         ExternalServiceIdentity,
+		"fileaccesses":             FileAccessIdentity,
+		"fileaccesspolicies":       FileAccessPolicyIdentity,
+		"filepaths":                FilePathIdentity,
+		"flowstatistics":           FlowStatisticIdentity,
+		"hookpolicies":             HookPolicyIdentity,
+		"import":                   ImportIdentity,
+		"installations":            InstallationIdentity,
+		"installedapps":            InstalledAppIdentity,
+		"isolationprofiles":        IsolationProfileIdentity,
+		"issue":                    IssueIdentity,
+		"jaegerbatchs":             JaegerbatchIdentity,
+		"k8sclusters":              K8SClusterIdentity,
+		"kubernetesclusters":       KubernetesClusterIdentity,
+		"logs":                     LogIdentity,
+		"messages":                 MessageIdentity,
+		"namespaces":               NamespaceIdentity,
+		"namespacemappingpolicies": NamespaceMappingPolicyIdentity,
+		"networkaccesspolicies":    NetworkAccessPolicyIdentity,
+		"passwordreset":            PasswordResetIdentity,
+		"plans":                    PlanIdentity,
+		"poke":                     PokeIdentity,
+		"policies":                 PolicyIdentity,
+		"policyrefreshs":           PolicyRefreshIdentity,
+		"policyrenderers":          PolicyRendererIdentity,
+		"policyrules":              PolicyRuleIdentity,
+		"privatekeys":              PrivateKeyIdentity,
+		"processingunits":          ProcessingUnitIdentity,
+		"processingunitpolicies":   ProcessingUnitPolicyIdentity,
+		"quotacheck":               QuotaCheckIdentity,
+		"quotapolicies":            QuotaPolicyIdentity,
+		"remoteprocessors":         RemoteProcessorIdentity,
+		"renderedpolicies":         RenderedPolicyIdentity,
+		"reports":                  ReportIdentity,
+		"restapispecs":             RESTAPISpecIdentity,
+		"revocations":              RevocationIdentity,
+		"roles":                    RoleIdentity,
+		"root":                     RootIdentity,
+		"services":                 ServiceIdentity,
+		"statsqueries":             StatsQueryIdentity,
+		"suggestedpolicies":        SuggestedPolicyIdentity,
+		"tabulations":              TabulationIdentity,
+		"tags":                     TagIdentity,
+		"taginjects":               TagInjectIdentity,
+		"tokens":                   TokenIdentity,
+		"tokenscopepolicies":       TokenScopePolicyIdentity,
+		"triggers":                 TriggerIdentity,
+		"vulnerabilities":          VulnerabilityIdentity,
+		"x509certificates":         X509CertificateIdentity,
+		"x509certificatechecks":    X509CertificateCheckIdentity,
+	}
+
+	aliasesMap = map[string]elemental.Identity{
+		"apiauth":    APIAuthorizationPolicyIdentity,
+		"apiauths":   APIAuthorizationPolicyIdentity,
+		"ap":         AuditProfileIdentity,
+		"ca":         AuthorityIdentity,
+		"autos":      AutomationIdentity,
+		"auto":       AutomationIdentity,
+		"autotmpl":   AutomationTemplateIdentity,
+		"aws":        AWSAccountIdentity,
+		"awsaccs":    AWSAccountIdentity,
+		"awsacc":     AWSAccountIdentity,
+		"depmaps":    DependencyMapIdentity,
+		"depmap":     DependencyMapIdentity,
+		"profile":    EnforcerProfileIdentity,
+		"profiles":   EnforcerProfileIdentity,
+		"enfpols":    EnforcerProfileMappingPolicyIdentity,
+		"enfpol":     EnforcerProfileMappingPolicyIdentity,
+		"extacs":     ExternalAccessIdentity,
+		"extac":      ExternalAccessIdentity,
+		"extsrv":     ExternalServiceIdentity,
+		"extsrvs":    ExternalServiceIdentity,
+		"fp":         FilePathIdentity,
+		"fps":        FilePathIdentity,
+		"flowstat":   FlowStatisticIdentity,
+		"flowstats":  FlowStatisticIdentity,
+		"hook":       HookPolicyIdentity,
+		"hooks":      HookPolicyIdentity,
+		"hookpol":    HookPolicyIdentity,
+		"hookpols":   HookPolicyIdentity,
+		"iapps":      InstalledAppIdentity,
+		"iapp":       InstalledAppIdentity,
+		"ip":         IsolationProfileIdentity,
+		"sp":         JaegerbatchIdentity,
+		"mess":       MessageIdentity,
+		"ns":         NamespaceIdentity,
+		"nspolicy":   NamespaceMappingPolicyIdentity,
+		"nspolicies": NamespaceMappingPolicyIdentity,
+		"nsmap":      NamespaceMappingPolicyIdentity,
+		"nsmaps":     NamespaceMappingPolicyIdentity,
+		"netpol":     NetworkAccessPolicyIdentity,
+		"netpols":    NetworkAccessPolicyIdentity,
+		"pu":         ProcessingUnitIdentity,
+		"pus":        ProcessingUnitIdentity,
+		"pup":        ProcessingUnitPolicyIdentity,
+		"quota":      QuotaPolicyIdentity,
+		"quotas":     QuotaPolicyIdentity,
+		"quotapol":   QuotaPolicyIdentity,
+		"quotapols":  QuotaPolicyIdentity,
+		"hks":        RemoteProcessorIdentity,
+		"hk":         RemoteProcessorIdentity,
+		"rpol":       RenderedPolicyIdentity,
+		"rpols":      RenderedPolicyIdentity,
+		"srv":        ServiceIdentity,
+		"sq":         StatsQueryIdentity,
+		"sugpol":     SuggestedPolicyIdentity,
+		"sugpols":    SuggestedPolicyIdentity,
+		"sugg":       SuggestedPolicyIdentity,
+		"suggs":      SuggestedPolicyIdentity,
+		"table":      TabulationIdentity,
+		"tables":     TabulationIdentity,
+		"tabs":       TabulationIdentity,
+		"tab":        TabulationIdentity,
+		"tsp":        TokenScopePolicyIdentity,
+		"vulns":      VulnerabilityIdentity,
+		"vul":        VulnerabilityIdentity,
+		"vuln":       VulnerabilityIdentity,
+		"vuls":       VulnerabilityIdentity,
+	}
+)
 
 // ModelVersion returns the current version of the model.
 func ModelVersion() float64 { return 1 }
 
-// IdentifiableForIdentity returns a new instance of the Identifiable for the given identity name.
-func IdentifiableForIdentity(identity string) elemental.Identifiable {
+type modelManager struct{}
+
+func (f modelManager) IdentityFromName(name string) elemental.Identity {
+
+	return identityNamesMap[name]
+}
+
+func (f modelManager) IdentityFromCategory(category string) elemental.Identity {
+
+	return identitycategoriesMap[category]
+}
+
+func (f modelManager) IdentityFromAlias(alias string) elemental.Identity {
+
+	return aliasesMap[alias]
+}
+
+func (f modelManager) IdentityFromAny(any string) (i elemental.Identity) {
+
+	if i = f.IdentityFromName(any); !i.IsEmpty() {
+		return i
+	}
+
+	if i = f.IdentityFromCategory(any); !i.IsEmpty() {
+		return i
+	}
+
+	return f.IdentityFromAlias(any)
+}
+
+func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identifiable {
 
 	switch identity {
 
-	case AccountIdentity.Name:
+	case AccountIdentity:
 		return NewAccount()
-	case AccountCheckIdentity.Name:
+	case AccountCheckIdentity:
 		return NewAccountCheck()
-	case ActivateIdentity.Name:
+	case ActivateIdentity:
 		return NewActivate()
-	case ActivityIdentity.Name:
+	case ActivityIdentity:
 		return NewActivity()
-	case AlarmIdentity.Name:
+	case AlarmIdentity:
 		return NewAlarm()
-	case APIAuthorizationPolicyIdentity.Name:
+	case APIAuthorizationPolicyIdentity:
 		return NewAPIAuthorizationPolicy()
-	case APICheckIdentity.Name:
+	case APICheckIdentity:
 		return NewAPICheck()
-	case AppIdentity.Name:
+	case AppIdentity:
 		return NewApp()
-	case AuditProfileIdentity.Name:
+	case AuditProfileIdentity:
 		return NewAuditProfile()
-	case AuthIdentity.Name:
+	case AuthIdentity:
 		return NewAuth()
-	case AuthorityIdentity.Name:
+	case AuthorityIdentity:
 		return NewAuthority()
-	case AutomationIdentity.Name:
+	case AutomationIdentity:
 		return NewAutomation()
-	case AutomationTemplateIdentity.Name:
+	case AutomationTemplateIdentity:
 		return NewAutomationTemplate()
-	case AWSAccountIdentity.Name:
+	case AWSAccountIdentity:
 		return NewAWSAccount()
-	case CategoryIdentity.Name:
+	case CategoryIdentity:
 		return NewCategory()
-	case CertificateIdentity.Name:
+	case CertificateIdentity:
 		return NewCertificate()
-	case DependencyMapIdentity.Name:
+	case DependencyMapIdentity:
 		return NewDependencyMap()
-	case EmailIdentity.Name:
+	case EmailIdentity:
 		return NewEmail()
-	case EnforcerIdentity.Name:
+	case EnforcerIdentity:
 		return NewEnforcer()
-	case EnforcerProfileIdentity.Name:
+	case EnforcerProfileIdentity:
 		return NewEnforcerProfile()
-	case EnforcerProfileMappingPolicyIdentity.Name:
+	case EnforcerProfileMappingPolicyIdentity:
 		return NewEnforcerProfileMappingPolicy()
-	case ExportIdentity.Name:
+	case ExportIdentity:
 		return NewExport()
-	case ExternalAccessIdentity.Name:
+	case ExternalAccessIdentity:
 		return NewExternalAccess()
-	case ExternalServiceIdentity.Name:
+	case ExternalServiceIdentity:
 		return NewExternalService()
-	case FileAccessIdentity.Name:
+	case FileAccessIdentity:
 		return NewFileAccess()
-	case FileAccessPolicyIdentity.Name:
+	case FileAccessPolicyIdentity:
 		return NewFileAccessPolicy()
-	case FilePathIdentity.Name:
+	case FilePathIdentity:
 		return NewFilePath()
-	case FlowStatisticIdentity.Name:
+	case FlowStatisticIdentity:
 		return NewFlowStatistic()
-	case HookPolicyIdentity.Name:
+	case HookPolicyIdentity:
 		return NewHookPolicy()
-	case ImportIdentity.Name:
+	case ImportIdentity:
 		return NewImport()
-	case InstallationIdentity.Name:
+	case InstallationIdentity:
 		return NewInstallation()
-	case InstalledAppIdentity.Name:
+	case InstalledAppIdentity:
 		return NewInstalledApp()
-	case IsolationProfileIdentity.Name:
+	case IsolationProfileIdentity:
 		return NewIsolationProfile()
-	case IssueIdentity.Name:
+	case IssueIdentity:
 		return NewIssue()
-	case JaegerbatchIdentity.Name:
+	case JaegerbatchIdentity:
 		return NewJaegerbatch()
-	case K8SClusterIdentity.Name:
+	case K8SClusterIdentity:
 		return NewK8SCluster()
-	case KubernetesClusterIdentity.Name:
+	case KubernetesClusterIdentity:
 		return NewKubernetesCluster()
-	case LogIdentity.Name:
+	case LogIdentity:
 		return NewLog()
-	case MessageIdentity.Name:
+	case MessageIdentity:
 		return NewMessage()
-	case NamespaceIdentity.Name:
+	case NamespaceIdentity:
 		return NewNamespace()
-	case NamespaceMappingPolicyIdentity.Name:
+	case NamespaceMappingPolicyIdentity:
 		return NewNamespaceMappingPolicy()
-	case NetworkAccessPolicyIdentity.Name:
+	case NetworkAccessPolicyIdentity:
 		return NewNetworkAccessPolicy()
-	case PasswordResetIdentity.Name:
+	case PasswordResetIdentity:
 		return NewPasswordReset()
-	case PlanIdentity.Name:
+	case PlanIdentity:
 		return NewPlan()
-	case PokeIdentity.Name:
+	case PokeIdentity:
 		return NewPoke()
-	case PolicyIdentity.Name:
+	case PolicyIdentity:
 		return NewPolicy()
-	case PolicyRefreshIdentity.Name:
+	case PolicyRefreshIdentity:
 		return NewPolicyRefresh()
-	case PolicyRendererIdentity.Name:
+	case PolicyRendererIdentity:
 		return NewPolicyRenderer()
-	case PolicyRuleIdentity.Name:
+	case PolicyRuleIdentity:
 		return NewPolicyRule()
-	case PrivateKeyIdentity.Name:
+	case PrivateKeyIdentity:
 		return NewPrivateKey()
-	case ProcessingUnitIdentity.Name:
+	case ProcessingUnitIdentity:
 		return NewProcessingUnit()
-	case ProcessingUnitPolicyIdentity.Name:
+	case ProcessingUnitPolicyIdentity:
 		return NewProcessingUnitPolicy()
-	case QuotaCheckIdentity.Name:
+	case QuotaCheckIdentity:
 		return NewQuotaCheck()
-	case QuotaPolicyIdentity.Name:
+	case QuotaPolicyIdentity:
 		return NewQuotaPolicy()
-	case RemoteProcessorIdentity.Name:
+	case RemoteProcessorIdentity:
 		return NewRemoteProcessor()
-	case RenderedPolicyIdentity.Name:
+	case RenderedPolicyIdentity:
 		return NewRenderedPolicy()
-	case ReportIdentity.Name:
+	case ReportIdentity:
 		return NewReport()
-	case RESTAPISpecIdentity.Name:
+	case RESTAPISpecIdentity:
 		return NewRESTAPISpec()
-	case RevocationIdentity.Name:
+	case RevocationIdentity:
 		return NewRevocation()
-	case RoleIdentity.Name:
+	case RoleIdentity:
 		return NewRole()
-	case RootIdentity.Name:
+	case RootIdentity:
 		return NewRoot()
-	case ServiceIdentity.Name:
+	case ServiceIdentity:
 		return NewService()
-	case StatsQueryIdentity.Name:
+	case StatsQueryIdentity:
 		return NewStatsQuery()
-	case SuggestedPolicyIdentity.Name:
+	case SuggestedPolicyIdentity:
 		return NewSuggestedPolicy()
-	case TabulationIdentity.Name:
+	case TabulationIdentity:
 		return NewTabulation()
-	case TagIdentity.Name:
+	case TagIdentity:
 		return NewTag()
-	case TagInjectIdentity.Name:
+	case TagInjectIdentity:
 		return NewTagInject()
-	case TokenIdentity.Name:
+	case TokenIdentity:
 		return NewToken()
-	case TokenScopePolicyIdentity.Name:
+	case TokenScopePolicyIdentity:
 		return NewTokenScopePolicy()
-	case TriggerIdentity.Name:
+	case TriggerIdentity:
 		return NewTrigger()
-	case VulnerabilityIdentity.Name:
+	case VulnerabilityIdentity:
 		return NewVulnerability()
-	case X509CertificateIdentity.Name:
+	case X509CertificateIdentity:
 		return NewX509Certificate()
-	case X509CertificateCheckIdentity.Name:
+	case X509CertificateCheckIdentity:
 		return NewX509CertificateCheck()
 	default:
 		return nil
 	}
 }
 
-// IdentifiableForCategory returns a new instance of the Identifiable for the given category name.
-func IdentifiableForCategory(category string) elemental.Identifiable {
+func (f modelManager) IdentifiableFromString(any string) elemental.Identifiable {
 
-	switch category {
-
-	case AccountIdentity.Category:
-		return NewAccount()
-	case AccountCheckIdentity.Category:
-		return NewAccountCheck()
-	case ActivateIdentity.Category:
-		return NewActivate()
-	case ActivityIdentity.Category:
-		return NewActivity()
-	case AlarmIdentity.Category:
-		return NewAlarm()
-	case APIAuthorizationPolicyIdentity.Category:
-		return NewAPIAuthorizationPolicy()
-	case APICheckIdentity.Category:
-		return NewAPICheck()
-	case AppIdentity.Category:
-		return NewApp()
-	case AuditProfileIdentity.Category:
-		return NewAuditProfile()
-	case AuthIdentity.Category:
-		return NewAuth()
-	case AuthorityIdentity.Category:
-		return NewAuthority()
-	case AutomationIdentity.Category:
-		return NewAutomation()
-	case AutomationTemplateIdentity.Category:
-		return NewAutomationTemplate()
-	case AWSAccountIdentity.Category:
-		return NewAWSAccount()
-	case CategoryIdentity.Category:
-		return NewCategory()
-	case CertificateIdentity.Category:
-		return NewCertificate()
-	case DependencyMapIdentity.Category:
-		return NewDependencyMap()
-	case EmailIdentity.Category:
-		return NewEmail()
-	case EnforcerIdentity.Category:
-		return NewEnforcer()
-	case EnforcerProfileIdentity.Category:
-		return NewEnforcerProfile()
-	case EnforcerProfileMappingPolicyIdentity.Category:
-		return NewEnforcerProfileMappingPolicy()
-	case ExportIdentity.Category:
-		return NewExport()
-	case ExternalAccessIdentity.Category:
-		return NewExternalAccess()
-	case ExternalServiceIdentity.Category:
-		return NewExternalService()
-	case FileAccessIdentity.Category:
-		return NewFileAccess()
-	case FileAccessPolicyIdentity.Category:
-		return NewFileAccessPolicy()
-	case FilePathIdentity.Category:
-		return NewFilePath()
-	case FlowStatisticIdentity.Category:
-		return NewFlowStatistic()
-	case HookPolicyIdentity.Category:
-		return NewHookPolicy()
-	case ImportIdentity.Category:
-		return NewImport()
-	case InstallationIdentity.Category:
-		return NewInstallation()
-	case InstalledAppIdentity.Category:
-		return NewInstalledApp()
-	case IsolationProfileIdentity.Category:
-		return NewIsolationProfile()
-	case IssueIdentity.Category:
-		return NewIssue()
-	case JaegerbatchIdentity.Category:
-		return NewJaegerbatch()
-	case K8SClusterIdentity.Category:
-		return NewK8SCluster()
-	case KubernetesClusterIdentity.Category:
-		return NewKubernetesCluster()
-	case LogIdentity.Category:
-		return NewLog()
-	case MessageIdentity.Category:
-		return NewMessage()
-	case NamespaceIdentity.Category:
-		return NewNamespace()
-	case NamespaceMappingPolicyIdentity.Category:
-		return NewNamespaceMappingPolicy()
-	case NetworkAccessPolicyIdentity.Category:
-		return NewNetworkAccessPolicy()
-	case PasswordResetIdentity.Category:
-		return NewPasswordReset()
-	case PlanIdentity.Category:
-		return NewPlan()
-	case PokeIdentity.Category:
-		return NewPoke()
-	case PolicyIdentity.Category:
-		return NewPolicy()
-	case PolicyRefreshIdentity.Category:
-		return NewPolicyRefresh()
-	case PolicyRendererIdentity.Category:
-		return NewPolicyRenderer()
-	case PolicyRuleIdentity.Category:
-		return NewPolicyRule()
-	case PrivateKeyIdentity.Category:
-		return NewPrivateKey()
-	case ProcessingUnitIdentity.Category:
-		return NewProcessingUnit()
-	case ProcessingUnitPolicyIdentity.Category:
-		return NewProcessingUnitPolicy()
-	case QuotaCheckIdentity.Category:
-		return NewQuotaCheck()
-	case QuotaPolicyIdentity.Category:
-		return NewQuotaPolicy()
-	case RemoteProcessorIdentity.Category:
-		return NewRemoteProcessor()
-	case RenderedPolicyIdentity.Category:
-		return NewRenderedPolicy()
-	case ReportIdentity.Category:
-		return NewReport()
-	case RESTAPISpecIdentity.Category:
-		return NewRESTAPISpec()
-	case RevocationIdentity.Category:
-		return NewRevocation()
-	case RoleIdentity.Category:
-		return NewRole()
-	case RootIdentity.Category:
-		return NewRoot()
-	case ServiceIdentity.Category:
-		return NewService()
-	case StatsQueryIdentity.Category:
-		return NewStatsQuery()
-	case SuggestedPolicyIdentity.Category:
-		return NewSuggestedPolicy()
-	case TabulationIdentity.Category:
-		return NewTabulation()
-	case TagIdentity.Category:
-		return NewTag()
-	case TagInjectIdentity.Category:
-		return NewTagInject()
-	case TokenIdentity.Category:
-		return NewToken()
-	case TokenScopePolicyIdentity.Category:
-		return NewTokenScopePolicy()
-	case TriggerIdentity.Category:
-		return NewTrigger()
-	case VulnerabilityIdentity.Category:
-		return NewVulnerability()
-	case X509CertificateIdentity.Category:
-		return NewX509Certificate()
-	case X509CertificateCheckIdentity.Category:
-		return NewX509CertificateCheck()
-	default:
-		return nil
-	}
+	return f.Identifiable(f.IdentityFromAny(any))
 }
 
-// ContentIdentifiableForIdentity returns a new instance of a ContentIdentifiable for the given identity name.
-func ContentIdentifiableForIdentity(identity string) elemental.ContentIdentifiable {
+func (f modelManager) Identifiables(identity elemental.Identity) elemental.Identifiables {
 
 	switch identity {
 
-	case AccountIdentity.Name:
+	case AccountIdentity:
 		return &AccountsList{}
-	case AccountCheckIdentity.Name:
+	case AccountCheckIdentity:
 		return &AccountChecksList{}
-	case ActivateIdentity.Name:
+	case ActivateIdentity:
 		return &ActivatesList{}
-	case ActivityIdentity.Name:
+	case ActivityIdentity:
 		return &ActivitiesList{}
-	case AlarmIdentity.Name:
+	case AlarmIdentity:
 		return &AlarmsList{}
-	case APIAuthorizationPolicyIdentity.Name:
+	case APIAuthorizationPolicyIdentity:
 		return &APIAuthorizationPoliciesList{}
-	case APICheckIdentity.Name:
+	case APICheckIdentity:
 		return &APIChecksList{}
-	case AppIdentity.Name:
+	case AppIdentity:
 		return &AppsList{}
-	case AuditProfileIdentity.Name:
+	case AuditProfileIdentity:
 		return &AuditProfilesList{}
-	case AuthIdentity.Name:
+	case AuthIdentity:
 		return &AuthsList{}
-	case AuthorityIdentity.Name:
+	case AuthorityIdentity:
 		return &AuthoritiesList{}
-	case AutomationIdentity.Name:
+	case AutomationIdentity:
 		return &AutomationsList{}
-	case AutomationTemplateIdentity.Name:
+	case AutomationTemplateIdentity:
 		return &AutomationTemplatesList{}
-	case AWSAccountIdentity.Name:
+	case AWSAccountIdentity:
 		return &AWSAccountsList{}
-	case CategoryIdentity.Name:
+	case CategoryIdentity:
 		return &CategoriesList{}
-	case CertificateIdentity.Name:
+	case CertificateIdentity:
 		return &CertificatesList{}
-	case DependencyMapIdentity.Name:
+	case DependencyMapIdentity:
 		return &DependencyMapsList{}
-	case EmailIdentity.Name:
+	case EmailIdentity:
 		return &EmailsList{}
-	case EnforcerIdentity.Name:
+	case EnforcerIdentity:
 		return &EnforcersList{}
-	case EnforcerProfileIdentity.Name:
+	case EnforcerProfileIdentity:
 		return &EnforcerProfilesList{}
-	case EnforcerProfileMappingPolicyIdentity.Name:
+	case EnforcerProfileMappingPolicyIdentity:
 		return &EnforcerProfileMappingPoliciesList{}
-	case ExportIdentity.Name:
+	case ExportIdentity:
 		return &ExportsList{}
-	case ExternalAccessIdentity.Name:
+	case ExternalAccessIdentity:
 		return &ExternalAccessList{}
-	case ExternalServiceIdentity.Name:
+	case ExternalServiceIdentity:
 		return &ExternalServicesList{}
-	case FileAccessIdentity.Name:
+	case FileAccessIdentity:
 		return &FileAccessList{}
-	case FileAccessPolicyIdentity.Name:
+	case FileAccessPolicyIdentity:
 		return &FileAccessPoliciesList{}
-	case FilePathIdentity.Name:
+	case FilePathIdentity:
 		return &FilePathsList{}
-	case FlowStatisticIdentity.Name:
+	case FlowStatisticIdentity:
 		return &FlowStatisticsList{}
-	case HookPolicyIdentity.Name:
+	case HookPolicyIdentity:
 		return &HookPoliciesList{}
-	case ImportIdentity.Name:
+	case ImportIdentity:
 		return &ImportsList{}
-	case InstallationIdentity.Name:
+	case InstallationIdentity:
 		return &InstallationsList{}
-	case InstalledAppIdentity.Name:
+	case InstalledAppIdentity:
 		return &InstalledAppsList{}
-	case IsolationProfileIdentity.Name:
+	case IsolationProfileIdentity:
 		return &IsolationProfilesList{}
-	case IssueIdentity.Name:
+	case IssueIdentity:
 		return &IssuesList{}
-	case JaegerbatchIdentity.Name:
+	case JaegerbatchIdentity:
 		return &JaegerbatchsList{}
-	case K8SClusterIdentity.Name:
+	case K8SClusterIdentity:
 		return &K8SClustersList{}
-	case KubernetesClusterIdentity.Name:
+	case KubernetesClusterIdentity:
 		return &KubernetesClustersList{}
-	case LogIdentity.Name:
+	case LogIdentity:
 		return &LogsList{}
-	case MessageIdentity.Name:
+	case MessageIdentity:
 		return &MessagesList{}
-	case NamespaceIdentity.Name:
+	case NamespaceIdentity:
 		return &NamespacesList{}
-	case NamespaceMappingPolicyIdentity.Name:
+	case NamespaceMappingPolicyIdentity:
 		return &NamespaceMappingPoliciesList{}
-	case NetworkAccessPolicyIdentity.Name:
+	case NetworkAccessPolicyIdentity:
 		return &NetworkAccessPoliciesList{}
-	case PasswordResetIdentity.Name:
+	case PasswordResetIdentity:
 		return &PasswordResetsList{}
-	case PlanIdentity.Name:
+	case PlanIdentity:
 		return &PlansList{}
-	case PokeIdentity.Name:
+	case PokeIdentity:
 		return &PokesList{}
-	case PolicyIdentity.Name:
+	case PolicyIdentity:
 		return &PoliciesList{}
-	case PolicyRefreshIdentity.Name:
+	case PolicyRefreshIdentity:
 		return &PolicyRefreshsList{}
-	case PolicyRendererIdentity.Name:
+	case PolicyRendererIdentity:
 		return &PolicyRenderersList{}
-	case PolicyRuleIdentity.Name:
+	case PolicyRuleIdentity:
 		return &PolicyRulesList{}
-	case PrivateKeyIdentity.Name:
+	case PrivateKeyIdentity:
 		return &PrivateKeysList{}
-	case ProcessingUnitIdentity.Name:
+	case ProcessingUnitIdentity:
 		return &ProcessingUnitsList{}
-	case ProcessingUnitPolicyIdentity.Name:
+	case ProcessingUnitPolicyIdentity:
 		return &ProcessingUnitPoliciesList{}
-	case QuotaCheckIdentity.Name:
+	case QuotaCheckIdentity:
 		return &QuotaChecksList{}
-	case QuotaPolicyIdentity.Name:
+	case QuotaPolicyIdentity:
 		return &QuotaPoliciesList{}
-	case RemoteProcessorIdentity.Name:
+	case RemoteProcessorIdentity:
 		return &RemoteProcessorsList{}
-	case RenderedPolicyIdentity.Name:
+	case RenderedPolicyIdentity:
 		return &RenderedPoliciesList{}
-	case ReportIdentity.Name:
+	case ReportIdentity:
 		return &ReportsList{}
-	case RESTAPISpecIdentity.Name:
+	case RESTAPISpecIdentity:
 		return &RESTAPISpecsList{}
-	case RevocationIdentity.Name:
+	case RevocationIdentity:
 		return &RevocationsList{}
-	case RoleIdentity.Name:
+	case RoleIdentity:
 		return &RolesList{}
-	case ServiceIdentity.Name:
+	case ServiceIdentity:
 		return &ServicesList{}
-	case StatsQueryIdentity.Name:
+	case StatsQueryIdentity:
 		return &StatsQueriesList{}
-	case SuggestedPolicyIdentity.Name:
+	case SuggestedPolicyIdentity:
 		return &SuggestedPoliciesList{}
-	case TabulationIdentity.Name:
+	case TabulationIdentity:
 		return &TabulationsList{}
-	case TagIdentity.Name:
+	case TagIdentity:
 		return &TagsList{}
-	case TagInjectIdentity.Name:
+	case TagInjectIdentity:
 		return &TagInjectsList{}
-	case TokenIdentity.Name:
+	case TokenIdentity:
 		return &TokensList{}
-	case TokenScopePolicyIdentity.Name:
+	case TokenScopePolicyIdentity:
 		return &TokenScopePoliciesList{}
-	case TriggerIdentity.Name:
+	case TriggerIdentity:
 		return &TriggersList{}
-	case VulnerabilityIdentity.Name:
+	case VulnerabilityIdentity:
 		return &VulnerabilitiesList{}
-	case X509CertificateIdentity.Name:
+	case X509CertificateIdentity:
 		return &X509CertificatesList{}
-	case X509CertificateCheckIdentity.Name:
+	case X509CertificateCheckIdentity:
 		return &X509CertificateChecksList{}
 	default:
 		return nil
 	}
 }
 
-// ContentIdentifiableForCategory returns a new instance of a ContentIdentifiable for the given category name.
-func ContentIdentifiableForCategory(category string) elemental.ContentIdentifiable {
+func (f modelManager) IdentifiablesFromString(any string) elemental.Identifiables {
 
-	switch category {
-
-	case AccountIdentity.Category:
-		return &AccountsList{}
-	case AccountCheckIdentity.Category:
-		return &AccountChecksList{}
-	case ActivateIdentity.Category:
-		return &ActivatesList{}
-	case ActivityIdentity.Category:
-		return &ActivitiesList{}
-	case AlarmIdentity.Category:
-		return &AlarmsList{}
-	case APIAuthorizationPolicyIdentity.Category:
-		return &APIAuthorizationPoliciesList{}
-	case APICheckIdentity.Category:
-		return &APIChecksList{}
-	case AppIdentity.Category:
-		return &AppsList{}
-	case AuditProfileIdentity.Category:
-		return &AuditProfilesList{}
-	case AuthIdentity.Category:
-		return &AuthsList{}
-	case AuthorityIdentity.Category:
-		return &AuthoritiesList{}
-	case AutomationIdentity.Category:
-		return &AutomationsList{}
-	case AutomationTemplateIdentity.Category:
-		return &AutomationTemplatesList{}
-	case AWSAccountIdentity.Category:
-		return &AWSAccountsList{}
-	case CategoryIdentity.Category:
-		return &CategoriesList{}
-	case CertificateIdentity.Category:
-		return &CertificatesList{}
-	case DependencyMapIdentity.Category:
-		return &DependencyMapsList{}
-	case EmailIdentity.Category:
-		return &EmailsList{}
-	case EnforcerIdentity.Category:
-		return &EnforcersList{}
-	case EnforcerProfileIdentity.Category:
-		return &EnforcerProfilesList{}
-	case EnforcerProfileMappingPolicyIdentity.Category:
-		return &EnforcerProfileMappingPoliciesList{}
-	case ExportIdentity.Category:
-		return &ExportsList{}
-	case ExternalAccessIdentity.Category:
-		return &ExternalAccessList{}
-	case ExternalServiceIdentity.Category:
-		return &ExternalServicesList{}
-	case FileAccessIdentity.Category:
-		return &FileAccessList{}
-	case FileAccessPolicyIdentity.Category:
-		return &FileAccessPoliciesList{}
-	case FilePathIdentity.Category:
-		return &FilePathsList{}
-	case FlowStatisticIdentity.Category:
-		return &FlowStatisticsList{}
-	case HookPolicyIdentity.Category:
-		return &HookPoliciesList{}
-	case ImportIdentity.Category:
-		return &ImportsList{}
-	case InstallationIdentity.Category:
-		return &InstallationsList{}
-	case InstalledAppIdentity.Category:
-		return &InstalledAppsList{}
-	case IsolationProfileIdentity.Category:
-		return &IsolationProfilesList{}
-	case IssueIdentity.Category:
-		return &IssuesList{}
-	case JaegerbatchIdentity.Category:
-		return &JaegerbatchsList{}
-	case K8SClusterIdentity.Category:
-		return &K8SClustersList{}
-	case KubernetesClusterIdentity.Category:
-		return &KubernetesClustersList{}
-	case LogIdentity.Category:
-		return &LogsList{}
-	case MessageIdentity.Category:
-		return &MessagesList{}
-	case NamespaceIdentity.Category:
-		return &NamespacesList{}
-	case NamespaceMappingPolicyIdentity.Category:
-		return &NamespaceMappingPoliciesList{}
-	case NetworkAccessPolicyIdentity.Category:
-		return &NetworkAccessPoliciesList{}
-	case PasswordResetIdentity.Category:
-		return &PasswordResetsList{}
-	case PlanIdentity.Category:
-		return &PlansList{}
-	case PokeIdentity.Category:
-		return &PokesList{}
-	case PolicyIdentity.Category:
-		return &PoliciesList{}
-	case PolicyRefreshIdentity.Category:
-		return &PolicyRefreshsList{}
-	case PolicyRendererIdentity.Category:
-		return &PolicyRenderersList{}
-	case PolicyRuleIdentity.Category:
-		return &PolicyRulesList{}
-	case PrivateKeyIdentity.Category:
-		return &PrivateKeysList{}
-	case ProcessingUnitIdentity.Category:
-		return &ProcessingUnitsList{}
-	case ProcessingUnitPolicyIdentity.Category:
-		return &ProcessingUnitPoliciesList{}
-	case QuotaCheckIdentity.Category:
-		return &QuotaChecksList{}
-	case QuotaPolicyIdentity.Category:
-		return &QuotaPoliciesList{}
-	case RemoteProcessorIdentity.Category:
-		return &RemoteProcessorsList{}
-	case RenderedPolicyIdentity.Category:
-		return &RenderedPoliciesList{}
-	case ReportIdentity.Category:
-		return &ReportsList{}
-	case RESTAPISpecIdentity.Category:
-		return &RESTAPISpecsList{}
-	case RevocationIdentity.Category:
-		return &RevocationsList{}
-	case RoleIdentity.Category:
-		return &RolesList{}
-	case ServiceIdentity.Category:
-		return &ServicesList{}
-	case StatsQueryIdentity.Category:
-		return &StatsQueriesList{}
-	case SuggestedPolicyIdentity.Category:
-		return &SuggestedPoliciesList{}
-	case TabulationIdentity.Category:
-		return &TabulationsList{}
-	case TagIdentity.Category:
-		return &TagsList{}
-	case TagInjectIdentity.Category:
-		return &TagInjectsList{}
-	case TokenIdentity.Category:
-		return &TokensList{}
-	case TokenScopePolicyIdentity.Category:
-		return &TokenScopePoliciesList{}
-	case TriggerIdentity.Category:
-		return &TriggersList{}
-	case VulnerabilityIdentity.Category:
-		return &VulnerabilitiesList{}
-	case X509CertificateIdentity.Category:
-		return &X509CertificatesList{}
-	case X509CertificateCheckIdentity.Category:
-		return &X509CertificateChecksList{}
-	default:
-		return nil
-	}
+	return f.Identifiables(f.IdentityFromAny(any))
 }
+
+func (f modelManager) Relationships() elemental.RelationshipsRegistry {
+
+	return relationshipsRegistry
+}
+
+var manager = modelManager{}
+
+// Manager returns the model elemental.ModelManager.
+func Manager() elemental.ModelManager { return manager }
 
 // AllIdentities returns all existing identities.
 func AllIdentities() []elemental.Identity {
@@ -779,81 +664,6 @@ func AllIdentities() []elemental.Identity {
 		X509CertificateIdentity,
 		X509CertificateCheckIdentity,
 	}
-}
-
-var aliasesMap = map[string]elemental.Identity{
-	"apiauth":    APIAuthorizationPolicyIdentity,
-	"apiauths":   APIAuthorizationPolicyIdentity,
-	"ap":         AuditProfileIdentity,
-	"ca":         AuthorityIdentity,
-	"autos":      AutomationIdentity,
-	"auto":       AutomationIdentity,
-	"autotmpl":   AutomationTemplateIdentity,
-	"aws":        AWSAccountIdentity,
-	"awsaccs":    AWSAccountIdentity,
-	"awsacc":     AWSAccountIdentity,
-	"depmaps":    DependencyMapIdentity,
-	"depmap":     DependencyMapIdentity,
-	"profile":    EnforcerProfileIdentity,
-	"profiles":   EnforcerProfileIdentity,
-	"enfpols":    EnforcerProfileMappingPolicyIdentity,
-	"enfpol":     EnforcerProfileMappingPolicyIdentity,
-	"extacs":     ExternalAccessIdentity,
-	"extac":      ExternalAccessIdentity,
-	"extsrv":     ExternalServiceIdentity,
-	"extsrvs":    ExternalServiceIdentity,
-	"fp":         FilePathIdentity,
-	"fps":        FilePathIdentity,
-	"flowstat":   FlowStatisticIdentity,
-	"flowstats":  FlowStatisticIdentity,
-	"hook":       HookPolicyIdentity,
-	"hooks":      HookPolicyIdentity,
-	"hookpol":    HookPolicyIdentity,
-	"hookpols":   HookPolicyIdentity,
-	"iapps":      InstalledAppIdentity,
-	"iapp":       InstalledAppIdentity,
-	"ip":         IsolationProfileIdentity,
-	"sp":         JaegerbatchIdentity,
-	"mess":       MessageIdentity,
-	"ns":         NamespaceIdentity,
-	"nspolicy":   NamespaceMappingPolicyIdentity,
-	"nspolicies": NamespaceMappingPolicyIdentity,
-	"nsmap":      NamespaceMappingPolicyIdentity,
-	"nsmaps":     NamespaceMappingPolicyIdentity,
-	"netpol":     NetworkAccessPolicyIdentity,
-	"netpols":    NetworkAccessPolicyIdentity,
-	"pu":         ProcessingUnitIdentity,
-	"pus":        ProcessingUnitIdentity,
-	"pup":        ProcessingUnitPolicyIdentity,
-	"quota":      QuotaPolicyIdentity,
-	"quotas":     QuotaPolicyIdentity,
-	"quotapol":   QuotaPolicyIdentity,
-	"quotapols":  QuotaPolicyIdentity,
-	"hks":        RemoteProcessorIdentity,
-	"hk":         RemoteProcessorIdentity,
-	"rpol":       RenderedPolicyIdentity,
-	"rpols":      RenderedPolicyIdentity,
-	"srv":        ServiceIdentity,
-	"sq":         StatsQueryIdentity,
-	"sugpol":     SuggestedPolicyIdentity,
-	"sugpols":    SuggestedPolicyIdentity,
-	"sugg":       SuggestedPolicyIdentity,
-	"suggs":      SuggestedPolicyIdentity,
-	"table":      TabulationIdentity,
-	"tables":     TabulationIdentity,
-	"tabs":       TabulationIdentity,
-	"tab":        TabulationIdentity,
-	"tsp":        TokenScopePolicyIdentity,
-	"vulns":      VulnerabilityIdentity,
-	"vul":        VulnerabilityIdentity,
-	"vuln":       VulnerabilityIdentity,
-	"vuls":       VulnerabilityIdentity,
-}
-
-// IdentityFromAlias returns the Identity associated to the given alias.
-func IdentityFromAlias(alias string) elemental.Identity {
-
-	return aliasesMap[alias]
 }
 
 // AliasesForIdentity returns all the aliases for the given identity.

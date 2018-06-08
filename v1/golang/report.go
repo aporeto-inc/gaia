@@ -44,21 +44,21 @@ var ReportIdentity = elemental.Identity{
 // ReportsList represents a list of Reports
 type ReportsList []*Report
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o ReportsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o ReportsList) Identity() elemental.Identity {
 
 	return ReportIdentity
 }
 
 // Copy returns a pointer to a copy the ReportsList.
-func (o ReportsList) Copy() elemental.ContentIdentifiable {
+func (o ReportsList) Copy() elemental.Identifiables {
 
 	copy := append(ReportsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the ReportsList.
-func (o ReportsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o ReportsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(ReportsList{}, o...)
 	for _, obj := range objects {

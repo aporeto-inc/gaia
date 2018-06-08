@@ -52,21 +52,21 @@ var PolicyRendererIdentity = elemental.Identity{
 // PolicyRenderersList represents a list of PolicyRenderers
 type PolicyRenderersList []*PolicyRenderer
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o PolicyRenderersList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o PolicyRenderersList) Identity() elemental.Identity {
 
 	return PolicyRendererIdentity
 }
 
 // Copy returns a pointer to a copy the PolicyRenderersList.
-func (o PolicyRenderersList) Copy() elemental.ContentIdentifiable {
+func (o PolicyRenderersList) Copy() elemental.Identifiables {
 
 	copy := append(PolicyRenderersList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the PolicyRenderersList.
-func (o PolicyRenderersList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o PolicyRenderersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(PolicyRenderersList{}, o...)
 	for _, obj := range objects {

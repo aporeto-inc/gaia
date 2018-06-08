@@ -32,21 +32,21 @@ var AlarmIdentity = elemental.Identity{
 // AlarmsList represents a list of Alarms
 type AlarmsList []*Alarm
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o AlarmsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o AlarmsList) Identity() elemental.Identity {
 
 	return AlarmIdentity
 }
 
 // Copy returns a pointer to a copy the AlarmsList.
-func (o AlarmsList) Copy() elemental.ContentIdentifiable {
+func (o AlarmsList) Copy() elemental.Identifiables {
 
 	copy := append(AlarmsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the AlarmsList.
-func (o AlarmsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o AlarmsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(AlarmsList{}, o...)
 	for _, obj := range objects {

@@ -19,21 +19,21 @@ var AuditProfileIdentity = elemental.Identity{
 // AuditProfilesList represents a list of AuditProfiles
 type AuditProfilesList []*AuditProfile
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o AuditProfilesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o AuditProfilesList) Identity() elemental.Identity {
 
 	return AuditProfileIdentity
 }
 
 // Copy returns a pointer to a copy the AuditProfilesList.
-func (o AuditProfilesList) Copy() elemental.ContentIdentifiable {
+func (o AuditProfilesList) Copy() elemental.Identifiables {
 
 	copy := append(AuditProfilesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the AuditProfilesList.
-func (o AuditProfilesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o AuditProfilesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(AuditProfilesList{}, o...)
 	for _, obj := range objects {

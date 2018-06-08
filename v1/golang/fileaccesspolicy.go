@@ -18,21 +18,21 @@ var FileAccessPolicyIdentity = elemental.Identity{
 // FileAccessPoliciesList represents a list of FileAccessPolicies
 type FileAccessPoliciesList []*FileAccessPolicy
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o FileAccessPoliciesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o FileAccessPoliciesList) Identity() elemental.Identity {
 
 	return FileAccessPolicyIdentity
 }
 
 // Copy returns a pointer to a copy the FileAccessPoliciesList.
-func (o FileAccessPoliciesList) Copy() elemental.ContentIdentifiable {
+func (o FileAccessPoliciesList) Copy() elemental.Identifiables {
 
 	copy := append(FileAccessPoliciesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the FileAccessPoliciesList.
-func (o FileAccessPoliciesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o FileAccessPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(FileAccessPoliciesList{}, o...)
 	for _, obj := range objects {

@@ -29,21 +29,21 @@ var AutomationTemplateIdentity = elemental.Identity{
 // AutomationTemplatesList represents a list of AutomationTemplates
 type AutomationTemplatesList []*AutomationTemplate
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o AutomationTemplatesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o AutomationTemplatesList) Identity() elemental.Identity {
 
 	return AutomationTemplateIdentity
 }
 
 // Copy returns a pointer to a copy the AutomationTemplatesList.
-func (o AutomationTemplatesList) Copy() elemental.ContentIdentifiable {
+func (o AutomationTemplatesList) Copy() elemental.Identifiables {
 
 	copy := append(AutomationTemplatesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the AutomationTemplatesList.
-func (o AutomationTemplatesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o AutomationTemplatesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(AutomationTemplatesList{}, o...)
 	for _, obj := range objects {

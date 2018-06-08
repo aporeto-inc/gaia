@@ -18,21 +18,21 @@ var AuthIdentity = elemental.Identity{
 // AuthsList represents a list of Auths
 type AuthsList []*Auth
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o AuthsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o AuthsList) Identity() elemental.Identity {
 
 	return AuthIdentity
 }
 
 // Copy returns a pointer to a copy the AuthsList.
-func (o AuthsList) Copy() elemental.ContentIdentifiable {
+func (o AuthsList) Copy() elemental.Identifiables {
 
 	copy := append(AuthsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the AuthsList.
-func (o AuthsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o AuthsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(AuthsList{}, o...)
 	for _, obj := range objects {

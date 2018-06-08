@@ -31,21 +31,21 @@ var ImportIdentity = elemental.Identity{
 // ImportsList represents a list of Imports
 type ImportsList []*Import
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o ImportsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o ImportsList) Identity() elemental.Identity {
 
 	return ImportIdentity
 }
 
 // Copy returns a pointer to a copy the ImportsList.
-func (o ImportsList) Copy() elemental.ContentIdentifiable {
+func (o ImportsList) Copy() elemental.Identifiables {
 
 	copy := append(ImportsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the ImportsList.
-func (o ImportsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o ImportsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(ImportsList{}, o...)
 	for _, obj := range objects {

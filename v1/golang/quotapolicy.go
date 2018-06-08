@@ -18,21 +18,21 @@ var QuotaPolicyIdentity = elemental.Identity{
 // QuotaPoliciesList represents a list of QuotaPolicies
 type QuotaPoliciesList []*QuotaPolicy
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o QuotaPoliciesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o QuotaPoliciesList) Identity() elemental.Identity {
 
 	return QuotaPolicyIdentity
 }
 
 // Copy returns a pointer to a copy the QuotaPoliciesList.
-func (o QuotaPoliciesList) Copy() elemental.ContentIdentifiable {
+func (o QuotaPoliciesList) Copy() elemental.Identifiables {
 
 	copy := append(QuotaPoliciesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the QuotaPoliciesList.
-func (o QuotaPoliciesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o QuotaPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(QuotaPoliciesList{}, o...)
 	for _, obj := range objects {

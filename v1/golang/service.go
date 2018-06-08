@@ -30,21 +30,21 @@ var ServiceIdentity = elemental.Identity{
 // ServicesList represents a list of Services
 type ServicesList []*Service
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o ServicesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o ServicesList) Identity() elemental.Identity {
 
 	return ServiceIdentity
 }
 
 // Copy returns a pointer to a copy the ServicesList.
-func (o ServicesList) Copy() elemental.ContentIdentifiable {
+func (o ServicesList) Copy() elemental.Identifiables {
 
 	copy := append(ServicesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the ServicesList.
-func (o ServicesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o ServicesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(ServicesList{}, o...)
 	for _, obj := range objects {

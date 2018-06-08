@@ -43,21 +43,21 @@ var APICheckIdentity = elemental.Identity{
 // APIChecksList represents a list of APIChecks
 type APIChecksList []*APICheck
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o APIChecksList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o APIChecksList) Identity() elemental.Identity {
 
 	return APICheckIdentity
 }
 
 // Copy returns a pointer to a copy the APIChecksList.
-func (o APIChecksList) Copy() elemental.ContentIdentifiable {
+func (o APIChecksList) Copy() elemental.Identifiables {
 
 	copy := append(APIChecksList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the APIChecksList.
-func (o APIChecksList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o APIChecksList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(APIChecksList{}, o...)
 	for _, obj := range objects {

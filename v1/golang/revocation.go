@@ -18,21 +18,21 @@ var RevocationIdentity = elemental.Identity{
 // RevocationsList represents a list of Revocations
 type RevocationsList []*Revocation
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o RevocationsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o RevocationsList) Identity() elemental.Identity {
 
 	return RevocationIdentity
 }
 
 // Copy returns a pointer to a copy the RevocationsList.
-func (o RevocationsList) Copy() elemental.ContentIdentifiable {
+func (o RevocationsList) Copy() elemental.Identifiables {
 
 	copy := append(RevocationsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the RevocationsList.
-func (o RevocationsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o RevocationsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(RevocationsList{}, o...)
 	for _, obj := range objects {

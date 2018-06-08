@@ -18,21 +18,21 @@ var TokenScopePolicyIdentity = elemental.Identity{
 // TokenScopePoliciesList represents a list of TokenScopePolicies
 type TokenScopePoliciesList []*TokenScopePolicy
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o TokenScopePoliciesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o TokenScopePoliciesList) Identity() elemental.Identity {
 
 	return TokenScopePolicyIdentity
 }
 
 // Copy returns a pointer to a copy the TokenScopePoliciesList.
-func (o TokenScopePoliciesList) Copy() elemental.ContentIdentifiable {
+func (o TokenScopePoliciesList) Copy() elemental.Identifiables {
 
 	copy := append(TokenScopePoliciesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the TokenScopePoliciesList.
-func (o TokenScopePoliciesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o TokenScopePoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(TokenScopePoliciesList{}, o...)
 	for _, obj := range objects {

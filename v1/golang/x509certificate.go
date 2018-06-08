@@ -43,21 +43,21 @@ var X509CertificateIdentity = elemental.Identity{
 // X509CertificatesList represents a list of X509Certificates
 type X509CertificatesList []*X509Certificate
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o X509CertificatesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o X509CertificatesList) Identity() elemental.Identity {
 
 	return X509CertificateIdentity
 }
 
 // Copy returns a pointer to a copy the X509CertificatesList.
-func (o X509CertificatesList) Copy() elemental.ContentIdentifiable {
+func (o X509CertificatesList) Copy() elemental.Identifiables {
 
 	copy := append(X509CertificatesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the X509CertificatesList.
-func (o X509CertificatesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o X509CertificatesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(X509CertificatesList{}, o...)
 	for _, obj := range objects {

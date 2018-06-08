@@ -19,21 +19,21 @@ var RESTAPISpecIdentity = elemental.Identity{
 // RESTAPISpecsList represents a list of RESTAPISpecs
 type RESTAPISpecsList []*RESTAPISpec
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o RESTAPISpecsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o RESTAPISpecsList) Identity() elemental.Identity {
 
 	return RESTAPISpecIdentity
 }
 
 // Copy returns a pointer to a copy the RESTAPISpecsList.
-func (o RESTAPISpecsList) Copy() elemental.ContentIdentifiable {
+func (o RESTAPISpecsList) Copy() elemental.Identifiables {
 
 	copy := append(RESTAPISpecsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the RESTAPISpecsList.
-func (o RESTAPISpecsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o RESTAPISpecsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(RESTAPISpecsList{}, o...)
 	for _, obj := range objects {

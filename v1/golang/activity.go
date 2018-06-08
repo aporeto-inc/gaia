@@ -18,21 +18,21 @@ var ActivityIdentity = elemental.Identity{
 // ActivitiesList represents a list of Activities
 type ActivitiesList []*Activity
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o ActivitiesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o ActivitiesList) Identity() elemental.Identity {
 
 	return ActivityIdentity
 }
 
 // Copy returns a pointer to a copy the ActivitiesList.
-func (o ActivitiesList) Copy() elemental.ContentIdentifiable {
+func (o ActivitiesList) Copy() elemental.Identifiables {
 
 	copy := append(ActivitiesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the ActivitiesList.
-func (o ActivitiesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o ActivitiesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(ActivitiesList{}, o...)
 	for _, obj := range objects {

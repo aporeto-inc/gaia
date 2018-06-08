@@ -17,21 +17,21 @@ var PrivateKeyIdentity = elemental.Identity{
 // PrivateKeysList represents a list of PrivateKeys
 type PrivateKeysList []*PrivateKey
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o PrivateKeysList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o PrivateKeysList) Identity() elemental.Identity {
 
 	return PrivateKeyIdentity
 }
 
 // Copy returns a pointer to a copy the PrivateKeysList.
-func (o PrivateKeysList) Copy() elemental.ContentIdentifiable {
+func (o PrivateKeysList) Copy() elemental.Identifiables {
 
 	copy := append(PrivateKeysList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the PrivateKeysList.
-func (o PrivateKeysList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o PrivateKeysList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(PrivateKeysList{}, o...)
 	for _, obj := range objects {

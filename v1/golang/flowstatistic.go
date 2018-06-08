@@ -53,21 +53,21 @@ var FlowStatisticIdentity = elemental.Identity{
 // FlowStatisticsList represents a list of FlowStatistics
 type FlowStatisticsList []*FlowStatistic
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o FlowStatisticsList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o FlowStatisticsList) Identity() elemental.Identity {
 
 	return FlowStatisticIdentity
 }
 
 // Copy returns a pointer to a copy the FlowStatisticsList.
-func (o FlowStatisticsList) Copy() elemental.ContentIdentifiable {
+func (o FlowStatisticsList) Copy() elemental.Identifiables {
 
 	copy := append(FlowStatisticsList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the FlowStatisticsList.
-func (o FlowStatisticsList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o FlowStatisticsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(FlowStatisticsList{}, o...)
 	for _, obj := range objects {

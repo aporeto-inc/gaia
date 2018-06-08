@@ -17,21 +17,21 @@ var RoleIdentity = elemental.Identity{
 // RolesList represents a list of Roles
 type RolesList []*Role
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o RolesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o RolesList) Identity() elemental.Identity {
 
 	return RoleIdentity
 }
 
 // Copy returns a pointer to a copy the RolesList.
-func (o RolesList) Copy() elemental.ContentIdentifiable {
+func (o RolesList) Copy() elemental.Identifiables {
 
 	copy := append(RolesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the RolesList.
-func (o RolesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o RolesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(RolesList{}, o...)
 	for _, obj := range objects {

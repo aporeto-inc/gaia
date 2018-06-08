@@ -17,21 +17,21 @@ var ActivateIdentity = elemental.Identity{
 // ActivatesList represents a list of Activates
 type ActivatesList []*Activate
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o ActivatesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o ActivatesList) Identity() elemental.Identity {
 
 	return ActivateIdentity
 }
 
 // Copy returns a pointer to a copy the ActivatesList.
-func (o ActivatesList) Copy() elemental.ContentIdentifiable {
+func (o ActivatesList) Copy() elemental.Identifiables {
 
 	copy := append(ActivatesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the ActivatesList.
-func (o ActivatesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o ActivatesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(ActivatesList{}, o...)
 	for _, obj := range objects {

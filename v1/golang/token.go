@@ -17,21 +17,21 @@ var TokenIdentity = elemental.Identity{
 // TokensList represents a list of Tokens
 type TokensList []*Token
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o TokensList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o TokensList) Identity() elemental.Identity {
 
 	return TokenIdentity
 }
 
 // Copy returns a pointer to a copy the TokensList.
-func (o TokensList) Copy() elemental.ContentIdentifiable {
+func (o TokensList) Copy() elemental.Identifiables {
 
 	copy := append(TokensList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the TokensList.
-func (o TokensList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o TokensList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(TokensList{}, o...)
 	for _, obj := range objects {

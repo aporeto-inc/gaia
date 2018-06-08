@@ -19,21 +19,21 @@ var IsolationProfileIdentity = elemental.Identity{
 // IsolationProfilesList represents a list of IsolationProfiles
 type IsolationProfilesList []*IsolationProfile
 
-// ContentIdentity returns the identity of the objects in the list.
-func (o IsolationProfilesList) ContentIdentity() elemental.Identity {
+// Identity returns the identity of the objects in the list.
+func (o IsolationProfilesList) Identity() elemental.Identity {
 
 	return IsolationProfileIdentity
 }
 
 // Copy returns a pointer to a copy the IsolationProfilesList.
-func (o IsolationProfilesList) Copy() elemental.ContentIdentifiable {
+func (o IsolationProfilesList) Copy() elemental.Identifiables {
 
 	copy := append(IsolationProfilesList{}, o...)
 	return &copy
 }
 
 // Append appends the objects to the a new copy of the IsolationProfilesList.
-func (o IsolationProfilesList) Append(objects ...elemental.Identifiable) elemental.ContentIdentifiable {
+func (o IsolationProfilesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
 	out := append(IsolationProfilesList{}, o...)
 	for _, obj := range objects {
