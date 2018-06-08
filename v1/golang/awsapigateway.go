@@ -72,6 +72,9 @@ type AWSApiGateway struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
+	// the accounf ID for the gateway managing this request.
+	AccountID string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
@@ -352,6 +355,14 @@ var AWSApiGatewayAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"AccountID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AccountID",
+		Description:    `the accounf ID for the gateway managing this request.`,
+		Format:         "free",
+		Name:           "accountID",
+		Type:           "string",
+	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
@@ -579,6 +590,14 @@ var AWSApiGatewayLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		PrimaryKey:     true,
 		ReadOnly:       true,
 		Stored:         true,
+		Type:           "string",
+	},
+	"accountid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AccountID",
+		Description:    `the accounf ID for the gateway managing this request.`,
+		Format:         "free",
+		Name:           "accountID",
 		Type:           "string",
 	},
 	"annotations": elemental.AttributeSpecification{

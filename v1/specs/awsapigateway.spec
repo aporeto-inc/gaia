@@ -18,6 +18,11 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: accountID
+    description: the accounf ID for the gateway managing this request.
+    type: string
+    format: free
+
   - name: apiID
     description: API ID as defined on AWS for the API that handled this request.
     type: string
