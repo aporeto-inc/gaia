@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/aporeto-inc/elemental"
-	"github.com/aporeto-inc/gaia/v1/golang/types"
+	"go.aporeto.io/elemental"
+	"go.aporeto.io/gaia/v1/golang/types"
 )
 
 // ExternalAccessIdentity represents the Identity of the object.

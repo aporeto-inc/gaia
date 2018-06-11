@@ -75,7 +75,7 @@ elemental:
         string(constants.RenderedPolicyTypeFile): PolicyRulesList{},
         string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
       }
-    import: github.com/aporeto-inc/gaia/v1/golang/constants
+    import: go.aporeto.io/gaia/v1/golang/constants
 
   enforcerprofiles_list:
     type: EnforcerProfilesList
@@ -84,7 +84,7 @@ elemental:
   policy_status:
     type: constants.PolicyStatus
     init: constants.PolicyStatusEnabled
-    import: github.com/aporeto-inc/gaia/v1/golang/constants
+    import: go.aporeto.io/gaia/v1/golang/constants
 
   subjects_list:
     type: '[]string'
@@ -125,22 +125,22 @@ elemental:
   vulnerability_level:
     type: constants.Vulnerability
     init: constants.VulnerabilityUnknown
-    import: github.com/aporeto-inc/gaia/v1/golang/constants
+    import: go.aporeto.io/gaia/v1/golang/constants
 
   graphedges_map:
     type: types.GraphEdgeMap
     init: types.GraphEdgeMap{}
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   graphnodes_map:
     type: types.GraphNodeMap
     init: types.GraphNodeMap{}
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   graphgroups_map:
     type: types.GraphGroupMap
     init: types.GraphGroupMap{}
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   graphclaims_map:
     type: map[string][]string
@@ -169,7 +169,7 @@ elemental:
   ip_records:
     type: '[]*types.IPRecord'
     init: '[]*types.IPRecord{}'
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   cron_expression:
     type: string
@@ -184,12 +184,12 @@ elemental:
   system_call_list:
     type: '[]types.AuditSystemCallType'
     init: '[]types.AuditSystemCallType{}'
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   audit_profile_rule_list:
     type: types.AuditProfileRuleList
     init: types.AuditProfileRuleList{}
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   audit_profile_selector:
     type: '[]string'
@@ -200,22 +200,22 @@ elemental:
   time_series_results:
     type: '[]*types.TimeSeriesQueryResults'
     init: '[]*types.TimeSeriesQueryResults{}'
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   syscall_rules:
     type: types.SyscallEnforcementRulesMap
     init: types.SyscallEnforcementRulesMap{}
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   cap_map:
     type: types.CapabilitiesTypeMap
     init: types.CapabilitiesTypeMap{}
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   arch_list:
     type: types.ArchitecturesTypeList
     init: types.ArchitecturesTypeList{}
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   isolation_profile_entities:
     type: IsolationProfilesList
@@ -223,7 +223,7 @@ elemental:
 
   syscall_action:
     type: types.SyscallEnforcementAction
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   exported_data:
     type: '*Export'
@@ -236,22 +236,22 @@ elemental:
   processing_unit_services_list:
     type: types.ProcessingUnitServicesList
     init: types.ProcessingUnitServicesList{}
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   host_services_list:
     type: types.HostServicesList
     init: types.HostServicesList{}
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   app_parameters:
     type: '[]*types.AppParameter'
     init: '[]*types.AppParameter{}'
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   app_relatedobjects:
     type: '[]*types.AppRelatedObject'
     init: '[]*types.AppRelatedObject{}'
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   logs:
     type: map[string]string
@@ -260,7 +260,7 @@ elemental:
   claims:
     type: '*claims.MidgardClaims'
     init: claims.NewMidgardClaims()
-    import: github.com/aporeto-inc/midgard-lib/claims
+    import: go.aporeto.io/midgard-lib/claims
 
   metadata:
     type: map[string]interface{}
@@ -300,12 +300,12 @@ elemental:
   ip_list:
     type: types.IPList
     init: types.IPList{}
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   exposed_api_list:
     type: types.ExposedAPIList
     init: types.ExposedAPIList{}
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   api_services_entities:
     type: ServicesList
@@ -318,7 +318,7 @@ elemental:
   portmapping_list:
     type: '[]*types.PortMapping'
     init: '[]*types.PortMapping{}'
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   jaeger_batch:
     type: '*jaeger.Batch'
@@ -340,7 +340,7 @@ elemental:
   automation_template_parameters:
     type: map[string]types.AutomationTemplateParameter
     init: map[string]types.AutomationTemplateParameter{}
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   alarm_data:
     type: '[]map[string]string'
@@ -361,7 +361,7 @@ elemental:
   app_versionparameters:
     type: 'map[string][]*types.AppParameter'
     init: 'map[string][]*types.AppParameter{}'
-    import: github.com/aporeto-inc/gaia/v1/golang/types
+    import: go.aporeto.io/gaia/v1/golang/types
 
   service_data:
     type: 'interface{}'

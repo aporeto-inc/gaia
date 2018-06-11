@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/aporeto-inc/elemental"
 	"github.com/uber/jaeger-client-go/thrift-gen/jaeger"
+	"go.aporeto.io/elemental"
 )
 
 // JaegerbatchIdentity represents the Identity of the object.

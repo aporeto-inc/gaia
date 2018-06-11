@@ -3,7 +3,7 @@ package types
 import (
 	"fmt"
 
-	"github.com/aporeto-inc/elemental"
+	"go.aporeto.io/elemental"
 )
 
 // AuditFilterType are the valid IDs of the audit filters.

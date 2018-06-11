@@ -1,6 +1,6 @@
 package gaia
 
-import "github.com/aporeto-inc/elemental"
+import "go.aporeto.io/elemental"
 
 var (
 	identityNamesMap = map[string]elemental.Identity{

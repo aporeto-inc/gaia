@@ -5,7 +5,7 @@ import (
 	"sync"
 
 	"encoding/json"
-	"github.com/aporeto-inc/elemental"
+	"go.aporeto.io/elemental"
 )
 
 // RemoteProcessorModeValue represents the possible values for attribute "mode".

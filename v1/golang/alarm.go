@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/aporeto-inc/elemental"
 	"time"
+
+	"go.aporeto.io/elemental"
 )
 
 // AlarmStatusValue represents the possible values for attribute "status".

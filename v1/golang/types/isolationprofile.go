@@ -3,7 +3,7 @@ package types
 import (
 	"net/http"
 
-	"github.com/aporeto-inc/elemental"
+	"go.aporeto.io/elemental"
 )
 
 // SyscallEnforcementRulesMap is a list of SyscallEnforcementRule.

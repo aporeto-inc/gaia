@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/aporeto-inc/elemental"
-	"github.com/aporeto-inc/midgard-lib/claims"
+	"go.aporeto.io/elemental"
+	"go.aporeto.io/midgard-lib/claims"
 )
 
 // AuthIdentity represents the Identity of the object.
