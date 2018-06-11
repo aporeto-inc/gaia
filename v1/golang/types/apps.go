@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/aporeto-inc/addedeffect/tagutils"
+	"go.aporeto.io/addedeffect/tagutils"
 )
 
 // AppParameterType is the type representing the type of a parameter
