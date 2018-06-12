@@ -1644,6 +1644,10 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `accountID (string)`
+
+the accounf ID for the gateway managing this request.
+
 #### `annotations (external:annotations)`
 
 Annotation stores additional information about an entity.
@@ -1690,6 +1694,10 @@ with the '@' prefix, and should only be used by external systems.
 | Creation only   | `true` |
 | Filterable      | `true` |
 
+#### `method (string)`
+
+API method that handled this request.
+
 #### `name (string)`
 
 Name is the name of the entity.
@@ -1713,6 +1721,10 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `namespaceID (string)`
+
+Link to the cluster namespace where the AWS API gateway is defined.
+
 #### `normalizedTags (external:tags_list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
@@ -1730,6 +1742,22 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 | Filterable      | `true` |
+
+#### `ressource (string)`
+
+API ressource that handled this request.
+
+#### `ressourceID (string)`
+
+API ressource ID that handled this request.
+
+#### `sourceIP (string)`
+
+the client ip for this request.
+
+#### `stage (string)`
+
+the stage name as defined on AWS for the API that handled this request.
 
 #### `updateTime (time)`
 

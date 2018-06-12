@@ -21,6 +21,7 @@ attributes:
   - name: accountID
     description: the accounf ID for the gateway managing this request.
     type: string
+    exposed: true
     format: free
 
   - name: apiID
@@ -39,29 +40,35 @@ attributes:
   - name: method
     description: API method that handled this request.
     type: string
+    exposed: true
     format: free
 
   - name: namespaceID
     description: Link to the cluster namespace where the AWS API gateway is defined.
     type: string
+    exposed: true
     format: free
 
   - name: ressource
     description: API ressource that handled this request.
     type: string
+    exposed: true
     format: free
 
   - name: ressourceID
     description: API ressource ID that handled this request.
     type: string
+    exposed: true
     format: free
 
   - name: sourceIP
     description: the client ip for this request.
     type: string
+    exposed: true
     format: free
 
   - name: stage
     description: the stage name as defined on AWS for the API that handled this request.
     type: string
+    exposed: true
     format: free

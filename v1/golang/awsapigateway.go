@@ -73,7 +73,7 @@ type AWSApiGateway struct {
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// the accounf ID for the gateway managing this request.
-	AccountID string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	AccountID string `json:"accountID" bson:"-" mapstructure:"accountID,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -98,7 +98,7 @@ type AWSApiGateway struct {
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// API method that handled this request.
-	Method string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Method string `json:"method" bson:"-" mapstructure:"method,omitempty"`
 
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
@@ -107,7 +107,7 @@ type AWSApiGateway struct {
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// Link to the cluster namespace where the AWS API gateway is defined.
-	NamespaceID string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	NamespaceID string `json:"namespaceID" bson:"-" mapstructure:"namespaceID,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
@@ -116,16 +116,16 @@ type AWSApiGateway struct {
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// API ressource that handled this request.
-	Ressource string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Ressource string `json:"ressource" bson:"-" mapstructure:"ressource,omitempty"`
 
 	// API ressource ID that handled this request.
-	RessourceID string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	RessourceID string `json:"ressourceID" bson:"-" mapstructure:"ressourceID,omitempty"`
 
 	// the client ip for this request.
-	SourceIP string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	SourceIP string `json:"sourceIP" bson:"-" mapstructure:"sourceIP,omitempty"`
 
 	// the stage name as defined on AWS for the API that handled this request.
-	Stage string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Stage string `json:"stage" bson:"-" mapstructure:"stage,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -359,6 +359,7 @@ var AWSApiGatewayAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AccountID",
 		Description:    `the accounf ID for the gateway managing this request.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "accountID",
 		Type:           "string",
@@ -451,6 +452,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Method",
 		Description:    `API method that handled this request.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "method",
 		Type:           "string",
@@ -495,6 +497,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "NamespaceID",
 		Description:    `Link to the cluster namespace where the AWS API gateway is defined.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "namespaceID",
 		Type:           "string",
@@ -530,6 +533,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Ressource",
 		Description:    `API ressource that handled this request.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "ressource",
 		Type:           "string",
@@ -538,6 +542,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "RessourceID",
 		Description:    `API ressource ID that handled this request.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "ressourceID",
 		Type:           "string",
@@ -546,6 +551,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceIP",
 		Description:    `the client ip for this request.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "sourceIP",
 		Type:           "string",
@@ -554,6 +560,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Stage",
 		Description:    `the stage name as defined on AWS for the API that handled this request.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "stage",
 		Type:           "string",
@@ -596,6 +603,7 @@ var AWSApiGatewayLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		AllowedChoices: []string{},
 		ConvertedName:  "AccountID",
 		Description:    `the accounf ID for the gateway managing this request.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "accountID",
 		Type:           "string",
@@ -688,6 +696,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Method",
 		Description:    `API method that handled this request.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "method",
 		Type:           "string",
@@ -732,6 +741,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "NamespaceID",
 		Description:    `Link to the cluster namespace where the AWS API gateway is defined.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "namespaceID",
 		Type:           "string",
@@ -767,6 +777,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Ressource",
 		Description:    `API ressource that handled this request.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "ressource",
 		Type:           "string",
@@ -775,6 +786,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "RessourceID",
 		Description:    `API ressource ID that handled this request.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "ressourceID",
 		Type:           "string",
@@ -783,6 +795,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceIP",
 		Description:    `the client ip for this request.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "sourceIP",
 		Type:           "string",
@@ -791,6 +804,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Stage",
 		Description:    `the stage name as defined on AWS for the API that handled this request.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "stage",
 		Type:           "string",
