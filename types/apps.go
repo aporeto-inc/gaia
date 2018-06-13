@@ -5,8 +5,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
-	"go.aporeto.io/addedeffect/tagutils"
 )
 
 // AppParameterType is the type representing the type of a parameter
@@ -373,8 +371,8 @@ func ValidateCVSSThresholdFormat(th string) (float64, string, error) {
 		return 0, "", fmt.Errorf("invalid score %s: %s", s[0], err.Error())
 	}
 
-	if _, _, err = tagutils.Split(s[1]); err != nil {
-		return 0, "", fmt.Errorf("invalid tag %s: %s", s[1], err.Error())
+	if res := strings.SplitN(s[1], "=", 2); len(res) != 2 {
+		return 0, "", fmt.Errorf("invalid tag %s", s[1])
 	}
 
 	return f, s[1], nil
