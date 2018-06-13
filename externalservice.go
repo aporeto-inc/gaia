@@ -5,46 +5,60 @@ import (
 	"sync"
 
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/v1/golang/types"
+	"go.aporeto.io/gaia/types"
 	"time"
 )
 
-// IsolationProfileIdentity represents the Identity of the object.
-var IsolationProfileIdentity = elemental.Identity{
-	Name:     "isolationprofile",
-	Category: "isolationprofiles",
+// ExternalServiceTypeValue represents the possible values for attribute "type".
+type ExternalServiceTypeValue string
+
+const (
+	// ExternalServiceTypeLoadBalancerHTTP represents the value LoadBalancerHTTP.
+	ExternalServiceTypeLoadBalancerHTTP ExternalServiceTypeValue = "LoadBalancerHTTP"
+
+	// ExternalServiceTypeLoadBalancerTCP represents the value LoadBalancerTCP.
+	ExternalServiceTypeLoadBalancerTCP ExternalServiceTypeValue = "LoadBalancerTCP"
+
+	// ExternalServiceTypeNetwork represents the value Network.
+	ExternalServiceTypeNetwork ExternalServiceTypeValue = "Network"
+)
+
+// ExternalServiceIdentity represents the Identity of the object.
+var ExternalServiceIdentity = elemental.Identity{
+	Name:     "externalservice",
+	Category: "externalservices",
 	Private:  false,
 }
 
-// IsolationProfilesList represents a list of IsolationProfiles
-type IsolationProfilesList []*IsolationProfile
+// ExternalServicesList represents a list of ExternalServices
+type ExternalServicesList []*ExternalService
 
 // Identity returns the identity of the objects in the list.
-func (o IsolationProfilesList) Identity() elemental.Identity {
+func (o ExternalServicesList) Identity() elemental.Identity {
 
-	return IsolationProfileIdentity
+	return ExternalServiceIdentity
 }
 
-// Copy returns a pointer to a copy the IsolationProfilesList.
-func (o IsolationProfilesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the ExternalServicesList.
+func (o ExternalServicesList) Copy() elemental.Identifiables {
 
-	copy := append(IsolationProfilesList{}, o...)
+	copy := append(ExternalServicesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the IsolationProfilesList.
-func (o IsolationProfilesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the ExternalServicesList.
+func (o ExternalServicesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(IsolationProfilesList{}, o...)
+	out := append(ExternalServicesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*IsolationProfile))
+		out = append(out, obj.(*ExternalService))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o IsolationProfilesList) List() elemental.IdentifiablesList {
+func (o ExternalServicesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}
 	for _, item := range o {
@@ -55,7 +69,7 @@ func (o IsolationProfilesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o IsolationProfilesList) DefaultOrder() []string {
+func (o ExternalServicesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -63,35 +77,38 @@ func (o IsolationProfilesList) DefaultOrder() []string {
 }
 
 // Version returns the version of the content.
-func (o IsolationProfilesList) Version() int {
+func (o ExternalServicesList) Version() int {
 
 	return 1
 }
 
-// IsolationProfile represents the model of a isolationprofile
-type IsolationProfile struct {
+// ExternalService represents the model of a externalservice
+type ExternalService struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
+	// Archived defines if the object is archived.
+	Archived bool `json:"-" bson:"archived" mapstructure:"-,omitempty"`
+
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
-
-	// CapabilitiesActions identifies the capabilities that should be added or removed
-	// from the processing unit.
-	CapabilitiesActions types.CapabilitiesTypeMap `json:"capabilitiesActions" bson:"capabilitiesactions" mapstructure:"capabilitiesActions,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// DefaultAction is the default action applied to all syscalls of this profile.
-	// Default is "Allow".
-	DefaultSyscallAction types.SyscallEnforcementAction `json:"defaultSyscallAction" bson:"defaultsyscallaction" mapstructure:"defaultSyscallAction,omitempty"`
-
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+
+	// LoadbalancerAddresses represents the list of adresses of the external services
+	// of type LoadBalancer.
+	LoadbalancerAddresses []string `json:"loadbalancerAddresses" bson:"loadbalanceraddresses" mapstructure:"loadbalancerAddresses,omitempty"`
+
+	// LoadbalancerPortsMapping is the list of ports mapped by an extenral service of
+	// type load balancer.
+	LoadbalancerPortsMapping []*types.PortMapping `json:"loadbalancerPortsMapping" bson:"loadbalancerportsmapping" mapstructure:"loadbalancerPortsMapping,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -103,19 +120,24 @@ type IsolationProfile struct {
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
+	// Network refers to either CIDR or domain name.
+	Network string `json:"network" bson:"network" mapstructure:"network,omitempty"`
+
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Port refers to network port which could be a single number or 100:2000 to
+	// represent a range of ports.
+	Port string `json:"port" bson:"port" mapstructure:"port,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// SyscallRules is a list of syscall rules that identify actions for particular
-	// syscalls.
-	SyscallRules types.SyscallEnforcementRulesMap `json:"syscallRules" bson:"syscallrules" mapstructure:"syscallRules,omitempty"`
+	// Protocol refers to network protocol like TCP/UDP or the number of the protocol.
+	Protocol string `json:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
 
-	// TargetArchitectures is the target processor architectures where this profile can
-	// be applied. Default all.
-	TargetArchitectures types.ArchitecturesTypeList `json:"targetArchitectures" bson:"targetarchitectures" mapstructure:"targetArchitectures,omitempty"`
+	// Type represents the type of external service.
+	Type ExternalServiceTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -125,47 +147,48 @@ type IsolationProfile struct {
 	sync.Mutex
 }
 
-// NewIsolationProfile returns a new *IsolationProfile
-func NewIsolationProfile() *IsolationProfile {
+// NewExternalService returns a new *ExternalService
+func NewExternalService() *ExternalService {
 
-	return &IsolationProfile{
-		ModelVersion:        1,
-		Annotations:         map[string][]string{},
-		AssociatedTags:      []string{},
-		CapabilitiesActions: types.CapabilitiesTypeMap{},
-		Metadata:            []string{},
-		NormalizedTags:      []string{},
-		SyscallRules:        types.SyscallEnforcementRulesMap{},
-		TargetArchitectures: types.ArchitecturesTypeList{},
+	return &ExternalService{
+		ModelVersion:             1,
+		Annotations:              map[string][]string{},
+		AssociatedTags:           []string{},
+		LoadbalancerAddresses:    []string{},
+		LoadbalancerPortsMapping: []*types.PortMapping{},
+		Metadata:                 []string{},
+		NormalizedTags:           []string{},
+		Port:                     "1:65535",
+		Type:                     "Network",
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *IsolationProfile) Identity() elemental.Identity {
+func (o *ExternalService) Identity() elemental.Identity {
 
-	return IsolationProfileIdentity
+	return ExternalServiceIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *IsolationProfile) Identifier() string {
+func (o *ExternalService) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *IsolationProfile) SetIdentifier(id string) {
+func (o *ExternalService) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *IsolationProfile) Version() int {
+func (o *ExternalService) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *IsolationProfile) DefaultOrder() []string {
+func (o *ExternalService) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -173,119 +196,136 @@ func (o *IsolationProfile) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *IsolationProfile) Doc() string {
-	return `An IsolationProfile needs documentation.`
+func (o *ExternalService) Doc() string {
+	return `An External Service represents a random network or ip that is not managed by the
+system. They can be used in Network Access Policies in order to allow traffic
+from or to the declared network or IP, using the provided protocol and port or
+ports range. If you want to describe the Internet (ie. anywhere), use 0.0.0.0/0
+as address, and 1-65000 for the ports. You will need to use the External
+Services tags to set some policies.`
 }
 
-func (o *IsolationProfile) String() string {
+func (o *ExternalService) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *IsolationProfile) GetAnnotations() map[string][]string {
+func (o *ExternalService) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the given Annotations of the receiver.
-func (o *IsolationProfile) SetAnnotations(annotations map[string][]string) {
+func (o *ExternalService) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
+// GetArchived returns the Archived of the receiver.
+func (o *ExternalService) GetArchived() bool {
+
+	return o.Archived
+}
+
+// SetArchived sets the given Archived of the receiver.
+func (o *ExternalService) SetArchived(archived bool) {
+
+	o.Archived = archived
+}
+
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *IsolationProfile) GetAssociatedTags() []string {
+func (o *ExternalService) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the given AssociatedTags of the receiver.
-func (o *IsolationProfile) SetAssociatedTags(associatedTags []string) {
+func (o *ExternalService) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *IsolationProfile) GetCreateTime() time.Time {
+func (o *ExternalService) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the given CreateTime of the receiver.
-func (o *IsolationProfile) SetCreateTime(createTime time.Time) {
+func (o *ExternalService) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *IsolationProfile) GetMetadata() []string {
+func (o *ExternalService) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the given Metadata of the receiver.
-func (o *IsolationProfile) SetMetadata(metadata []string) {
+func (o *ExternalService) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *IsolationProfile) GetName() string {
+func (o *ExternalService) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the given Name of the receiver.
-func (o *IsolationProfile) SetName(name string) {
+func (o *ExternalService) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *IsolationProfile) GetNamespace() string {
+func (o *ExternalService) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the given Namespace of the receiver.
-func (o *IsolationProfile) SetNamespace(namespace string) {
+func (o *ExternalService) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *IsolationProfile) GetNormalizedTags() []string {
+func (o *ExternalService) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *IsolationProfile) SetNormalizedTags(normalizedTags []string) {
+func (o *ExternalService) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *IsolationProfile) GetProtected() bool {
+func (o *ExternalService) GetProtected() bool {
 
 	return o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *IsolationProfile) GetUpdateTime() time.Time {
+func (o *ExternalService) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *IsolationProfile) SetUpdateTime(updateTime time.Time) {
+func (o *ExternalService) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // Validate valides the current information stored into the structure.
-func (o *IsolationProfile) Validate() error {
+func (o *ExternalService) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -302,6 +342,26 @@ func (o *IsolationProfile) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateRequiredString("network", o.Network); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidatePattern("port", o.Port, `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("protocol", o.Protocol); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidatePattern("protocol", o.Protocol, `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`, true); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"LoadBalancerHTTP", "LoadBalancerTCP", "Network"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -314,24 +374,24 @@ func (o *IsolationProfile) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*IsolationProfile) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*ExternalService) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := IsolationProfileAttributesMap[name]; ok {
+	if v, ok := ExternalServiceAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return IsolationProfileLowerCaseAttributesMap[name]
+	return ExternalServiceLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*IsolationProfile) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*ExternalService) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return IsolationProfileAttributesMap
+	return ExternalServiceAttributesMap
 }
 
-// IsolationProfileAttributesMap represents the map of attribute for IsolationProfile.
-var IsolationProfileAttributesMap = map[string]elemental.AttributeSpecification{
+// ExternalServiceAttributesMap represents the map of attribute for ExternalService.
+var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -360,6 +420,16 @@ var IsolationProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "annotations",
 		Type:           "external",
 	},
+	"Archived": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Archived",
+		Description:    `Archived defines if the object is archived.`,
+		Getter:         true,
+		Name:           "archived",
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
@@ -371,19 +441,6 @@ var IsolationProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
-	},
-	"CapabilitiesActions": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CapabilitiesActions",
-		Description: `CapabilitiesActions identifies the capabilities that should be added or removed
-from the processing unit.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "capabilitiesActions",
-		Orderable:  true,
-		Stored:     true,
-		SubType:    "cap_map",
-		Type:       "external",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -399,17 +456,6 @@ from the processing unit.`,
 		Stored:         true,
 		Type:           "time",
 	},
-	"DefaultSyscallAction": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "DefaultSyscallAction",
-		Description: `DefaultAction is the default action applied to all syscalls of this profile.
-Default is "Allow".`,
-		Exposed: true,
-		Name:    "defaultSyscallAction",
-		Stored:  true,
-		SubType: "syscall_action",
-		Type:    "external",
-	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -421,6 +467,28 @@ Default is "Allow".`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"LoadbalancerAddresses": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LoadbalancerAddresses",
+		Description: `LoadbalancerAddresses represents the list of adresses of the external services
+of type LoadBalancer.`,
+		Exposed: true,
+		Name:    "loadbalancerAddresses",
+		Stored:  true,
+		SubType: "addresses_list",
+		Type:    "external",
+	},
+	"LoadbalancerPortsMapping": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LoadbalancerPortsMapping",
+		Description: `LoadbalancerPortsMapping is the list of ports mapped by an extenral service of
+type load balancer.`,
+		Exposed: true,
+		Name:    "loadbalancerPortsMapping",
+		Stored:  true,
+		SubType: "portmapping_list",
+		Type:    "external",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -473,6 +541,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"Network": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Network",
+		Description:    `Network refers to either CIDR or domain name.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "network",
+		Required:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"NormalizedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -488,6 +568,19 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "external",
 	},
+	"Port": elemental.AttributeSpecification{
+		AllowedChars:   `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "Port",
+		DefaultValue:   "1:65535",
+		Description: `Port refers to network port which could be a single number or 100:2000 to
+represent a range of ports.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "port",
+		Stored:     true,
+		Type:       "string",
+	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -500,31 +593,29 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"SyscallRules": elemental.AttributeSpecification{
+	"Protocol": elemental.AttributeSpecification{
+		AllowedChars:   `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`,
 		AllowedChoices: []string{},
-		ConvertedName:  "SyscallRules",
-		Description: `SyscallRules is a list of syscall rules that identify actions for particular
-syscalls.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "syscallRules",
-		Orderable:  true,
-		Stored:     true,
-		SubType:    "syscall_rules",
-		Type:       "external",
+		ConvertedName:  "Protocol",
+		Description:    `Protocol refers to network protocol like TCP/UDP or the number of the protocol.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "protocol",
+		Required:       true,
+		Stored:         true,
+		Type:           "string",
 	},
-	"TargetArchitectures": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "TargetArchitectures",
-		Description: `TargetArchitectures is the target processor architectures where this profile can
-be applied. Default all.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "targetArchitectures",
-		Orderable:  true,
-		Stored:     true,
-		SubType:    "arch_list",
-		Type:       "external",
+	"Type": elemental.AttributeSpecification{
+		AllowedChoices: []string{"LoadBalancerHTTP", "LoadBalancerTCP", "Network"},
+		ConvertedName:  "Type",
+		DefaultValue:   ExternalServiceTypeNetwork,
+		Description:    `Type represents the type of external service.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "type",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -542,8 +633,8 @@ be applied. Default all.`,
 	},
 }
 
-// IsolationProfileLowerCaseAttributesMap represents the map of attribute for IsolationProfile.
-var IsolationProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// ExternalServiceLowerCaseAttributesMap represents the map of attribute for ExternalService.
+var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -572,6 +663,16 @@ var IsolationProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		SubType:        "annotations",
 		Type:           "external",
 	},
+	"archived": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Archived",
+		Description:    `Archived defines if the object is archived.`,
+		Getter:         true,
+		Name:           "archived",
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
@@ -583,19 +684,6 @@ var IsolationProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
-	},
-	"capabilitiesactions": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CapabilitiesActions",
-		Description: `CapabilitiesActions identifies the capabilities that should be added or removed
-from the processing unit.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "capabilitiesActions",
-		Orderable:  true,
-		Stored:     true,
-		SubType:    "cap_map",
-		Type:       "external",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -611,17 +699,6 @@ from the processing unit.`,
 		Stored:         true,
 		Type:           "time",
 	},
-	"defaultsyscallaction": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "DefaultSyscallAction",
-		Description: `DefaultAction is the default action applied to all syscalls of this profile.
-Default is "Allow".`,
-		Exposed: true,
-		Name:    "defaultSyscallAction",
-		Stored:  true,
-		SubType: "syscall_action",
-		Type:    "external",
-	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -633,6 +710,28 @@ Default is "Allow".`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"loadbalanceraddresses": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LoadbalancerAddresses",
+		Description: `LoadbalancerAddresses represents the list of adresses of the external services
+of type LoadBalancer.`,
+		Exposed: true,
+		Name:    "loadbalancerAddresses",
+		Stored:  true,
+		SubType: "addresses_list",
+		Type:    "external",
+	},
+	"loadbalancerportsmapping": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LoadbalancerPortsMapping",
+		Description: `LoadbalancerPortsMapping is the list of ports mapped by an extenral service of
+type load balancer.`,
+		Exposed: true,
+		Name:    "loadbalancerPortsMapping",
+		Stored:  true,
+		SubType: "portmapping_list",
+		Type:    "external",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -685,6 +784,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"network": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Network",
+		Description:    `Network refers to either CIDR or domain name.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "network",
+		Required:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"normalizedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -700,6 +811,19 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "external",
 	},
+	"port": elemental.AttributeSpecification{
+		AllowedChars:   `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "Port",
+		DefaultValue:   "1:65535",
+		Description: `Port refers to network port which could be a single number or 100:2000 to
+represent a range of ports.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "port",
+		Stored:     true,
+		Type:       "string",
+	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -712,31 +836,29 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"syscallrules": elemental.AttributeSpecification{
+	"protocol": elemental.AttributeSpecification{
+		AllowedChars:   `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`,
 		AllowedChoices: []string{},
-		ConvertedName:  "SyscallRules",
-		Description: `SyscallRules is a list of syscall rules that identify actions for particular
-syscalls.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "syscallRules",
-		Orderable:  true,
-		Stored:     true,
-		SubType:    "syscall_rules",
-		Type:       "external",
+		ConvertedName:  "Protocol",
+		Description:    `Protocol refers to network protocol like TCP/UDP or the number of the protocol.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "protocol",
+		Required:       true,
+		Stored:         true,
+		Type:           "string",
 	},
-	"targetarchitectures": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "TargetArchitectures",
-		Description: `TargetArchitectures is the target processor architectures where this profile can
-be applied. Default all.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "targetArchitectures",
-		Orderable:  true,
-		Stored:     true,
-		SubType:    "arch_list",
-		Type:       "external",
+	"type": elemental.AttributeSpecification{
+		AllowedChoices: []string{"LoadBalancerHTTP", "LoadBalancerTCP", "Network"},
+		ConvertedName:  "Type",
+		DefaultValue:   ExternalServiceTypeNetwork,
+		Description:    `Type represents the type of external service.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "type",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "enum",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

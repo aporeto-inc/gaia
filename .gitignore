@@ -1,9 +1,4 @@
-*.py[cod]
-*.egg
-*.egg-info
 codegen
-*.pyc
-greetingmodels
 vendor
 *.lock
 coverage.txt

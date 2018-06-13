@@ -5,7 +5,7 @@ import (
 	"sync"
 
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/v1/golang/types"
+	"go.aporeto.io/gaia/types"
 )
 
 // ExternalAccessIdentity represents the Identity of the object.

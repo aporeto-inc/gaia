@@ -5,7 +5,7 @@ import (
 	"sync"
 
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/v1/golang/constants"
+	"go.aporeto.io/gaia/constants"
 )
 
 // RenderedPolicyIdentity represents the Identity of the object.

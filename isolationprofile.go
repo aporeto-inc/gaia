@@ -5,46 +5,46 @@ import (
 	"sync"
 
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/v1/golang/constants"
+	"go.aporeto.io/gaia/types"
 	"time"
 )
 
-// VulnerabilityIdentity represents the Identity of the object.
-var VulnerabilityIdentity = elemental.Identity{
-	Name:     "vulnerability",
-	Category: "vulnerabilities",
+// IsolationProfileIdentity represents the Identity of the object.
+var IsolationProfileIdentity = elemental.Identity{
+	Name:     "isolationprofile",
+	Category: "isolationprofiles",
 	Private:  false,
 }
 
-// VulnerabilitiesList represents a list of Vulnerabilities
-type VulnerabilitiesList []*Vulnerability
+// IsolationProfilesList represents a list of IsolationProfiles
+type IsolationProfilesList []*IsolationProfile
 
 // Identity returns the identity of the objects in the list.
-func (o VulnerabilitiesList) Identity() elemental.Identity {
+func (o IsolationProfilesList) Identity() elemental.Identity {
 
-	return VulnerabilityIdentity
+	return IsolationProfileIdentity
 }
 
-// Copy returns a pointer to a copy the VulnerabilitiesList.
-func (o VulnerabilitiesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the IsolationProfilesList.
+func (o IsolationProfilesList) Copy() elemental.Identifiables {
 
-	copy := append(VulnerabilitiesList{}, o...)
+	copy := append(IsolationProfilesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the VulnerabilitiesList.
-func (o VulnerabilitiesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the IsolationProfilesList.
+func (o IsolationProfilesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(VulnerabilitiesList{}, o...)
+	out := append(IsolationProfilesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*Vulnerability))
+		out = append(out, obj.(*IsolationProfile))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o VulnerabilitiesList) List() elemental.IdentifiablesList {
+func (o IsolationProfilesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}
 	for _, item := range o {
@@ -55,7 +55,7 @@ func (o VulnerabilitiesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o VulnerabilitiesList) DefaultOrder() []string {
+func (o IsolationProfilesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -63,16 +63,13 @@ func (o VulnerabilitiesList) DefaultOrder() []string {
 }
 
 // Version returns the version of the content.
-func (o VulnerabilitiesList) Version() int {
+func (o IsolationProfilesList) Version() int {
 
 	return 1
 }
 
-// Vulnerability represents the model of a vulnerability
-type Vulnerability struct {
-	// CVSS v2 score.
-	CVSS2Score float64 `json:"CVSS2Score" bson:"cvss2score" mapstructure:"CVSS2Score,omitempty"`
-
+// IsolationProfile represents the model of a isolationprofile
+type IsolationProfile struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
@@ -82,14 +79,23 @@ type Vulnerability struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// CapabilitiesActions identifies the capabilities that should be added or removed
+	// from the processing unit.
+	CapabilitiesActions types.CapabilitiesTypeMap `json:"capabilitiesActions" bson:"capabilitiesactions" mapstructure:"capabilitiesActions,omitempty"`
+
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// DefaultAction is the default action applied to all syscalls of this profile.
+	// Default is "Allow".
+	DefaultSyscallAction types.SyscallEnforcementAction `json:"defaultSyscallAction" bson:"defaultsyscallaction" mapstructure:"defaultSyscallAction,omitempty"`
 
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Link is the URL that refers to the vulnerability.
-	Link string `json:"link" bson:"link" mapstructure:"link,omitempty"`
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
@@ -103,8 +109,13 @@ type Vulnerability struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Severity refers to the security vulnerability level.
-	Severity constants.Vulnerability `json:"severity" bson:"severity" mapstructure:"severity,omitempty"`
+	// SyscallRules is a list of syscall rules that identify actions for particular
+	// syscalls.
+	SyscallRules types.SyscallEnforcementRulesMap `json:"syscallRules" bson:"syscallrules" mapstructure:"syscallRules,omitempty"`
+
+	// TargetArchitectures is the target processor architectures where this profile can
+	// be applied. Default all.
+	TargetArchitectures types.ArchitecturesTypeList `json:"targetArchitectures" bson:"targetarchitectures" mapstructure:"targetArchitectures,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -114,44 +125,47 @@ type Vulnerability struct {
 	sync.Mutex
 }
 
-// NewVulnerability returns a new *Vulnerability
-func NewVulnerability() *Vulnerability {
+// NewIsolationProfile returns a new *IsolationProfile
+func NewIsolationProfile() *IsolationProfile {
 
-	return &Vulnerability{
-		ModelVersion:   1,
-		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
-		NormalizedTags: []string{},
-		Severity:       constants.VulnerabilityUnknown,
+	return &IsolationProfile{
+		ModelVersion:        1,
+		Annotations:         map[string][]string{},
+		AssociatedTags:      []string{},
+		CapabilitiesActions: types.CapabilitiesTypeMap{},
+		Metadata:            []string{},
+		NormalizedTags:      []string{},
+		SyscallRules:        types.SyscallEnforcementRulesMap{},
+		TargetArchitectures: types.ArchitecturesTypeList{},
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *Vulnerability) Identity() elemental.Identity {
+func (o *IsolationProfile) Identity() elemental.Identity {
 
-	return VulnerabilityIdentity
+	return IsolationProfileIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *Vulnerability) Identifier() string {
+func (o *IsolationProfile) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *Vulnerability) SetIdentifier(id string) {
+func (o *IsolationProfile) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *Vulnerability) Version() int {
+func (o *IsolationProfile) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *Vulnerability) DefaultOrder() []string {
+func (o *IsolationProfile) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -159,107 +173,119 @@ func (o *Vulnerability) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *Vulnerability) Doc() string {
-	return `A vulnerabily represents a particular CVE.`
+func (o *IsolationProfile) Doc() string {
+	return `An IsolationProfile needs documentation.`
 }
 
-func (o *Vulnerability) String() string {
+func (o *IsolationProfile) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *Vulnerability) GetAnnotations() map[string][]string {
+func (o *IsolationProfile) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the given Annotations of the receiver.
-func (o *Vulnerability) SetAnnotations(annotations map[string][]string) {
+func (o *IsolationProfile) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *Vulnerability) GetAssociatedTags() []string {
+func (o *IsolationProfile) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the given AssociatedTags of the receiver.
-func (o *Vulnerability) SetAssociatedTags(associatedTags []string) {
+func (o *IsolationProfile) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *Vulnerability) GetCreateTime() time.Time {
+func (o *IsolationProfile) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the given CreateTime of the receiver.
-func (o *Vulnerability) SetCreateTime(createTime time.Time) {
+func (o *IsolationProfile) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
+// GetMetadata returns the Metadata of the receiver.
+func (o *IsolationProfile) GetMetadata() []string {
+
+	return o.Metadata
+}
+
+// SetMetadata sets the given Metadata of the receiver.
+func (o *IsolationProfile) SetMetadata(metadata []string) {
+
+	o.Metadata = metadata
+}
+
 // GetName returns the Name of the receiver.
-func (o *Vulnerability) GetName() string {
+func (o *IsolationProfile) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the given Name of the receiver.
-func (o *Vulnerability) SetName(name string) {
+func (o *IsolationProfile) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *Vulnerability) GetNamespace() string {
+func (o *IsolationProfile) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the given Namespace of the receiver.
-func (o *Vulnerability) SetNamespace(namespace string) {
+func (o *IsolationProfile) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *Vulnerability) GetNormalizedTags() []string {
+func (o *IsolationProfile) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *Vulnerability) SetNormalizedTags(normalizedTags []string) {
+func (o *IsolationProfile) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *Vulnerability) GetProtected() bool {
+func (o *IsolationProfile) GetProtected() bool {
 
 	return o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *Vulnerability) GetUpdateTime() time.Time {
+func (o *IsolationProfile) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *Vulnerability) SetUpdateTime(updateTime time.Time) {
+func (o *IsolationProfile) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Vulnerability) Validate() error {
+func (o *IsolationProfile) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -268,20 +294,12 @@ func (o *Vulnerability) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("link", o.Link); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("severity", o.Severity); err != nil {
-		requiredErrors = append(requiredErrors, err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -296,35 +314,24 @@ func (o *Vulnerability) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*Vulnerability) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*IsolationProfile) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := VulnerabilityAttributesMap[name]; ok {
+	if v, ok := IsolationProfileAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return VulnerabilityLowerCaseAttributesMap[name]
+	return IsolationProfileLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*Vulnerability) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*IsolationProfile) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return VulnerabilityAttributesMap
+	return IsolationProfileAttributesMap
 }
 
-// VulnerabilityAttributesMap represents the map of attribute for Vulnerability.
-var VulnerabilityAttributesMap = map[string]elemental.AttributeSpecification{
-	"CVSS2Score": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CVSS2Score",
-		CreationOnly:   true,
-		Description:    `CVSS v2 score.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "CVSS2Score",
-		Stored:         true,
-		Type:           "float",
-	},
+// IsolationProfileAttributesMap represents the map of attribute for IsolationProfile.
+var IsolationProfileAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -365,6 +372,19 @@ var VulnerabilityAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "tags_list",
 		Type:           "external",
 	},
+	"CapabilitiesActions": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CapabilitiesActions",
+		Description: `CapabilitiesActions identifies the capabilities that should be added or removed
+from the processing unit.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "capabilitiesActions",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "cap_map",
+		Type:       "external",
+	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -379,6 +399,17 @@ var VulnerabilityAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "time",
 	},
+	"DefaultSyscallAction": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "DefaultSyscallAction",
+		Description: `DefaultAction is the default action applied to all syscalls of this profile.
+Default is "Allow".`,
+		Exposed: true,
+		Name:    "defaultSyscallAction",
+		Stored:  true,
+		SubType: "syscall_action",
+		Type:    "external",
+	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -391,20 +422,20 @@ var VulnerabilityAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Link": elemental.AttributeSpecification{
+	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Link",
+		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Link is the URL that refers to the vulnerability.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "link",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -469,18 +500,31 @@ var VulnerabilityAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"Severity": elemental.AttributeSpecification{
+	"SyscallRules": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Severity",
-		CreationOnly:   true,
-		Description:    `Severity refers to the security vulnerability level.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "severity",
-		Required:       true,
-		Stored:         true,
-		SubType:        "vulnerability_level",
-		Type:           "external",
+		ConvertedName:  "SyscallRules",
+		Description: `SyscallRules is a list of syscall rules that identify actions for particular
+syscalls.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "syscallRules",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "syscall_rules",
+		Type:       "external",
+	},
+	"TargetArchitectures": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TargetArchitectures",
+		Description: `TargetArchitectures is the target processor architectures where this profile can
+be applied. Default all.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "targetArchitectures",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "arch_list",
+		Type:       "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -498,19 +542,8 @@ var VulnerabilityAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// VulnerabilityLowerCaseAttributesMap represents the map of attribute for Vulnerability.
-var VulnerabilityLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"cvss2score": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CVSS2Score",
-		CreationOnly:   true,
-		Description:    `CVSS v2 score.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "CVSS2Score",
-		Stored:         true,
-		Type:           "float",
-	},
+// IsolationProfileLowerCaseAttributesMap represents the map of attribute for IsolationProfile.
+var IsolationProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -551,6 +584,19 @@ var VulnerabilityLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		SubType:        "tags_list",
 		Type:           "external",
 	},
+	"capabilitiesactions": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CapabilitiesActions",
+		Description: `CapabilitiesActions identifies the capabilities that should be added or removed
+from the processing unit.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "capabilitiesActions",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "cap_map",
+		Type:       "external",
+	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -565,6 +611,17 @@ var VulnerabilityLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Stored:         true,
 		Type:           "time",
 	},
+	"defaultsyscallaction": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "DefaultSyscallAction",
+		Description: `DefaultAction is the default action applied to all syscalls of this profile.
+Default is "Allow".`,
+		Exposed: true,
+		Name:    "defaultSyscallAction",
+		Stored:  true,
+		SubType: "syscall_action",
+		Type:    "external",
+	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -577,20 +634,20 @@ var VulnerabilityLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Stored:         true,
 		Type:           "string",
 	},
-	"link": elemental.AttributeSpecification{
+	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Link",
+		ConvertedName:  "Metadata",
 		CreationOnly:   true,
-		Description:    `Link is the URL that refers to the vulnerability.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "link",
-		Orderable:      true,
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -655,18 +712,31 @@ var VulnerabilityLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"severity": elemental.AttributeSpecification{
+	"syscallrules": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Severity",
-		CreationOnly:   true,
-		Description:    `Severity refers to the security vulnerability level.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "severity",
-		Required:       true,
-		Stored:         true,
-		SubType:        "vulnerability_level",
-		Type:           "external",
+		ConvertedName:  "SyscallRules",
+		Description: `SyscallRules is a list of syscall rules that identify actions for particular
+syscalls.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "syscallRules",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "syscall_rules",
+		Type:       "external",
+	},
+	"targetarchitectures": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TargetArchitectures",
+		Description: `TargetArchitectures is the target processor architectures where this profile can
+be applied. Default all.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "targetArchitectures",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "arch_list",
+		Type:       "external",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

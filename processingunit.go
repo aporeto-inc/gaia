@@ -5,60 +5,83 @@ import (
 	"sync"
 
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/v1/golang/types"
+	"go.aporeto.io/gaia/types"
 	"time"
 )
 
-// ExternalServiceTypeValue represents the possible values for attribute "type".
-type ExternalServiceTypeValue string
+// ProcessingUnitOperationalStatusValue represents the possible values for attribute "operationalStatus".
+type ProcessingUnitOperationalStatusValue string
 
 const (
-	// ExternalServiceTypeLoadBalancerHTTP represents the value LoadBalancerHTTP.
-	ExternalServiceTypeLoadBalancerHTTP ExternalServiceTypeValue = "LoadBalancerHTTP"
+	// ProcessingUnitOperationalStatusInitialized represents the value Initialized.
+	ProcessingUnitOperationalStatusInitialized ProcessingUnitOperationalStatusValue = "Initialized"
 
-	// ExternalServiceTypeLoadBalancerTCP represents the value LoadBalancerTCP.
-	ExternalServiceTypeLoadBalancerTCP ExternalServiceTypeValue = "LoadBalancerTCP"
+	// ProcessingUnitOperationalStatusPaused represents the value Paused.
+	ProcessingUnitOperationalStatusPaused ProcessingUnitOperationalStatusValue = "Paused"
 
-	// ExternalServiceTypeNetwork represents the value Network.
-	ExternalServiceTypeNetwork ExternalServiceTypeValue = "Network"
+	// ProcessingUnitOperationalStatusRunning represents the value Running.
+	ProcessingUnitOperationalStatusRunning ProcessingUnitOperationalStatusValue = "Running"
+
+	// ProcessingUnitOperationalStatusStopped represents the value Stopped.
+	ProcessingUnitOperationalStatusStopped ProcessingUnitOperationalStatusValue = "Stopped"
+
+	// ProcessingUnitOperationalStatusTerminated represents the value Terminated.
+	ProcessingUnitOperationalStatusTerminated ProcessingUnitOperationalStatusValue = "Terminated"
 )
 
-// ExternalServiceIdentity represents the Identity of the object.
-var ExternalServiceIdentity = elemental.Identity{
-	Name:     "externalservice",
-	Category: "externalservices",
+// ProcessingUnitTypeValue represents the possible values for attribute "type".
+type ProcessingUnitTypeValue string
+
+const (
+	// ProcessingUnitTypeDocker represents the value Docker.
+	ProcessingUnitTypeDocker ProcessingUnitTypeValue = "Docker"
+
+	// ProcessingUnitTypeLinuxService represents the value LinuxService.
+	ProcessingUnitTypeLinuxService ProcessingUnitTypeValue = "LinuxService"
+
+	// ProcessingUnitTypeRKT represents the value RKT.
+	ProcessingUnitTypeRKT ProcessingUnitTypeValue = "RKT"
+
+	// ProcessingUnitTypeUser represents the value User.
+	ProcessingUnitTypeUser ProcessingUnitTypeValue = "User"
+)
+
+// ProcessingUnitIdentity represents the Identity of the object.
+var ProcessingUnitIdentity = elemental.Identity{
+	Name:     "processingunit",
+	Category: "processingunits",
 	Private:  false,
 }
 
-// ExternalServicesList represents a list of ExternalServices
-type ExternalServicesList []*ExternalService
+// ProcessingUnitsList represents a list of ProcessingUnits
+type ProcessingUnitsList []*ProcessingUnit
 
 // Identity returns the identity of the objects in the list.
-func (o ExternalServicesList) Identity() elemental.Identity {
+func (o ProcessingUnitsList) Identity() elemental.Identity {
 
-	return ExternalServiceIdentity
+	return ProcessingUnitIdentity
 }
 
-// Copy returns a pointer to a copy the ExternalServicesList.
-func (o ExternalServicesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the ProcessingUnitsList.
+func (o ProcessingUnitsList) Copy() elemental.Identifiables {
 
-	copy := append(ExternalServicesList{}, o...)
+	copy := append(ProcessingUnitsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the ExternalServicesList.
-func (o ExternalServicesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the ProcessingUnitsList.
+func (o ProcessingUnitsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(ExternalServicesList{}, o...)
+	out := append(ProcessingUnitsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*ExternalService))
+		out = append(out, obj.(*ProcessingUnit))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o ExternalServicesList) List() elemental.IdentifiablesList {
+func (o ProcessingUnitsList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}
 	for _, item := range o {
@@ -69,7 +92,7 @@ func (o ExternalServicesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o ExternalServicesList) DefaultOrder() []string {
+func (o ProcessingUnitsList) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -77,13 +100,13 @@ func (o ExternalServicesList) DefaultOrder() []string {
 }
 
 // Version returns the version of the content.
-func (o ExternalServicesList) Version() int {
+func (o ProcessingUnitsList) Version() int {
 
 	return 1
 }
 
-// ExternalService represents the model of a externalservice
-type ExternalService struct {
+// ProcessingUnit represents the model of a processingunit
+type ProcessingUnit struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
@@ -102,13 +125,11 @@ type ExternalService struct {
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// LoadbalancerAddresses represents the list of adresses of the external services
-	// of type LoadBalancer.
-	LoadbalancerAddresses []string `json:"loadbalancerAddresses" bson:"loadbalanceraddresses" mapstructure:"loadbalancerAddresses,omitempty"`
+	// EnforcerID is the ID of the enforcer associated with the processing unit.
+	EnforcerID string `json:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
 
-	// LoadbalancerPortsMapping is the list of ports mapped by an extenral service of
-	// type load balancer.
-	LoadbalancerPortsMapping []*types.PortMapping `json:"loadbalancerPortsMapping" bson:"loadbalancerportsmapping" mapstructure:"loadbalancerPortsMapping,omitempty"`
+	// LastSyncTime is the time when the policy was last resolved.
+	LastSyncTime time.Time `json:"lastSyncTime" bson:"lastsynctime" mapstructure:"lastSyncTime,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -120,24 +141,25 @@ type ExternalService struct {
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// Network refers to either CIDR or domain name.
-	Network string `json:"network" bson:"network" mapstructure:"network,omitempty"`
+	// NativeContextID is the Docker UUID or service PID.
+	NativeContextID string `json:"nativeContextID" bson:"nativecontextid" mapstructure:"nativeContextID,omitempty"`
+
+	// NetworkServices is the list of services that this processing unit has declared
+	// that it will be listening to. This can happen either with an activation command
+	// or by exposing the ports in a container manifest.
+	NetworkServices types.ProcessingUnitServicesList `json:"networkServices" bson:"networkservices" mapstructure:"networkServices,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Port refers to network port which could be a single number or 100:2000 to
-	// represent a range of ports.
-	Port string `json:"port" bson:"port" mapstructure:"port,omitempty"`
+	// OperationalStatus of the processing unit.
+	OperationalStatus ProcessingUnitOperationalStatusValue `json:"operationalStatus" bson:"operationalstatus" mapstructure:"operationalStatus,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Protocol refers to network protocol like TCP/UDP or the number of the protocol.
-	Protocol string `json:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
-
-	// Type represents the type of external service.
-	Type ExternalServiceTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
+	// Type of the container ecosystem.
+	Type ProcessingUnitTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -147,48 +169,46 @@ type ExternalService struct {
 	sync.Mutex
 }
 
-// NewExternalService returns a new *ExternalService
-func NewExternalService() *ExternalService {
+// NewProcessingUnit returns a new *ProcessingUnit
+func NewProcessingUnit() *ProcessingUnit {
 
-	return &ExternalService{
-		ModelVersion:             1,
-		Annotations:              map[string][]string{},
-		AssociatedTags:           []string{},
-		LoadbalancerAddresses:    []string{},
-		LoadbalancerPortsMapping: []*types.PortMapping{},
-		Metadata:                 []string{},
-		NormalizedTags:           []string{},
-		Port:                     "1:65535",
-		Type:                     "Network",
+	return &ProcessingUnit{
+		ModelVersion:      1,
+		Annotations:       map[string][]string{},
+		AssociatedTags:    []string{},
+		Metadata:          []string{},
+		NetworkServices:   types.ProcessingUnitServicesList{},
+		NormalizedTags:    []string{},
+		OperationalStatus: "Initialized",
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *ExternalService) Identity() elemental.Identity {
+func (o *ProcessingUnit) Identity() elemental.Identity {
 
-	return ExternalServiceIdentity
+	return ProcessingUnitIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *ExternalService) Identifier() string {
+func (o *ProcessingUnit) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *ExternalService) SetIdentifier(id string) {
+func (o *ProcessingUnit) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *ExternalService) Version() int {
+func (o *ProcessingUnit) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *ExternalService) DefaultOrder() []string {
+func (o *ProcessingUnit) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -196,136 +216,136 @@ func (o *ExternalService) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *ExternalService) Doc() string {
-	return `An External Service represents a random network or ip that is not managed by the
-system. They can be used in Network Access Policies in order to allow traffic
-from or to the declared network or IP, using the provided protocol and port or
-ports range. If you want to describe the Internet (ie. anywhere), use 0.0.0.0/0
-as address, and 1-65000 for the ports. You will need to use the External
-Services tags to set some policies.`
+func (o *ProcessingUnit) Doc() string {
+	return `A Processing Unit reprents anything that can compute. It can be a Docker
+container, or a simple Unix process. They are created, updated and deleted by
+the system as they come and go. You can only modify its tags.  Processing Units
+use Network Access Policies to define which other Processing Units or External
+Services they can communicate with and File Access Policies to define what File
+Paths they can use.`
 }
 
-func (o *ExternalService) String() string {
+func (o *ProcessingUnit) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *ExternalService) GetAnnotations() map[string][]string {
+func (o *ProcessingUnit) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the given Annotations of the receiver.
-func (o *ExternalService) SetAnnotations(annotations map[string][]string) {
+func (o *ProcessingUnit) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetArchived returns the Archived of the receiver.
-func (o *ExternalService) GetArchived() bool {
+func (o *ProcessingUnit) GetArchived() bool {
 
 	return o.Archived
 }
 
 // SetArchived sets the given Archived of the receiver.
-func (o *ExternalService) SetArchived(archived bool) {
+func (o *ProcessingUnit) SetArchived(archived bool) {
 
 	o.Archived = archived
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *ExternalService) GetAssociatedTags() []string {
+func (o *ProcessingUnit) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the given AssociatedTags of the receiver.
-func (o *ExternalService) SetAssociatedTags(associatedTags []string) {
+func (o *ProcessingUnit) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *ExternalService) GetCreateTime() time.Time {
+func (o *ProcessingUnit) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the given CreateTime of the receiver.
-func (o *ExternalService) SetCreateTime(createTime time.Time) {
+func (o *ProcessingUnit) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *ExternalService) GetMetadata() []string {
+func (o *ProcessingUnit) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the given Metadata of the receiver.
-func (o *ExternalService) SetMetadata(metadata []string) {
+func (o *ProcessingUnit) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *ExternalService) GetName() string {
+func (o *ProcessingUnit) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the given Name of the receiver.
-func (o *ExternalService) SetName(name string) {
+func (o *ProcessingUnit) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *ExternalService) GetNamespace() string {
+func (o *ProcessingUnit) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the given Namespace of the receiver.
-func (o *ExternalService) SetNamespace(namespace string) {
+func (o *ProcessingUnit) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *ExternalService) GetNormalizedTags() []string {
+func (o *ProcessingUnit) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *ExternalService) SetNormalizedTags(normalizedTags []string) {
+func (o *ProcessingUnit) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *ExternalService) GetProtected() bool {
+func (o *ProcessingUnit) GetProtected() bool {
 
 	return o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *ExternalService) GetUpdateTime() time.Time {
+func (o *ProcessingUnit) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *ExternalService) SetUpdateTime(updateTime time.Time) {
+func (o *ProcessingUnit) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // Validate valides the current information stored into the structure.
-func (o *ExternalService) Validate() error {
+func (o *ProcessingUnit) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -342,23 +362,11 @@ func (o *ExternalService) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("network", o.Network); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidatePattern("port", o.Port, `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`, false); err != nil {
+	if err := elemental.ValidateStringInList("operationalStatus", string(o.OperationalStatus), []string{"Initialized", "Paused", "Running", "Stopped", "Terminated"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("protocol", o.Protocol); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidatePattern("protocol", o.Protocol, `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`, true); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"LoadBalancerHTTP", "LoadBalancerTCP", "Network"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Docker", "LinuxService", "RKT", "User"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -374,24 +382,24 @@ func (o *ExternalService) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*ExternalService) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*ProcessingUnit) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := ExternalServiceAttributesMap[name]; ok {
+	if v, ok := ProcessingUnitAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return ExternalServiceLowerCaseAttributesMap[name]
+	return ProcessingUnitLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*ExternalService) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*ProcessingUnit) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return ExternalServiceAttributesMap
+	return ProcessingUnitAttributesMap
 }
 
-// ExternalServiceAttributesMap represents the map of attribute for ExternalService.
-var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
+// ProcessingUnitAttributesMap represents the map of attribute for ProcessingUnit.
+var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -468,27 +476,27 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"LoadbalancerAddresses": elemental.AttributeSpecification{
+	"EnforcerID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "LoadbalancerAddresses",
-		Description: `LoadbalancerAddresses represents the list of adresses of the external services
-of type LoadBalancer.`,
-		Exposed: true,
-		Name:    "loadbalancerAddresses",
-		Stored:  true,
-		SubType: "addresses_list",
-		Type:    "external",
+		ConvertedName:  "EnforcerID",
+		Description:    `EnforcerID is the ID of the enforcer associated with the processing unit.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "enforcerID",
+		Stored:         true,
+		Type:           "string",
 	},
-	"LoadbalancerPortsMapping": elemental.AttributeSpecification{
+	"LastSyncTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "LoadbalancerPortsMapping",
-		Description: `LoadbalancerPortsMapping is the list of ports mapped by an extenral service of
-type load balancer.`,
-		Exposed: true,
-		Name:    "loadbalancerPortsMapping",
-		Stored:  true,
-		SubType: "portmapping_list",
-		Type:    "external",
+		Autogenerated:  true,
+		ConvertedName:  "LastSyncTime",
+		Description:    `LastSyncTime is the time when the policy was last resolved.`,
+		Exposed:        true,
+		Name:           "lastSyncTime",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -541,17 +549,30 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"Network": elemental.AttributeSpecification{
+	"NativeContextID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Network",
-		Description:    `Network refers to either CIDR or domain name.`,
+		ConvertedName:  "NativeContextID",
+		Description:    `NativeContextID is the Docker UUID or service PID.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
-		Name:           "network",
-		Required:       true,
+		Name:           "nativeContextID",
 		Stored:         true,
 		Type:           "string",
+	},
+	"NetworkServices": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NetworkServices",
+		Description: `NetworkServices is the list of services that this processing unit has declared
+that it will be listening to. This can happen either with an activation command
+or by exposing the ports in a container manifest.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "networkServices",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "processing_unit_services_list",
+		Type:       "external",
 	},
 	"NormalizedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -568,18 +589,16 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "external",
 	},
-	"Port": elemental.AttributeSpecification{
-		AllowedChars:   `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`,
-		AllowedChoices: []string{},
-		ConvertedName:  "Port",
-		DefaultValue:   "1:65535",
-		Description: `Port refers to network port which could be a single number or 100:2000 to
-represent a range of ports.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "port",
-		Stored:     true,
-		Type:       "string",
+	"OperationalStatus": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Initialized", "Paused", "Running", "Stopped", "Terminated"},
+		ConvertedName:  "OperationalStatus",
+		DefaultValue:   ProcessingUnitOperationalStatusInitialized,
+		Description:    `OperationalStatus of the processing unit.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "operationalStatus",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -593,27 +612,15 @@ represent a range of ports.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"Protocol": elemental.AttributeSpecification{
-		AllowedChars:   `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`,
-		AllowedChoices: []string{},
-		ConvertedName:  "Protocol",
-		Description:    `Protocol refers to network protocol like TCP/UDP or the number of the protocol.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "protocol",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"LoadBalancerHTTP", "LoadBalancerTCP", "Network"},
+		AllowedChoices: []string{"Docker", "LinuxService", "RKT", "User"},
 		ConvertedName:  "Type",
-		DefaultValue:   ExternalServiceTypeNetwork,
-		Description:    `Type represents the type of external service.`,
+		CreationOnly:   true,
+		Description:    `Type of the container ecosystem.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "type",
-		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "enum",
 	},
@@ -633,8 +640,8 @@ represent a range of ports.`,
 	},
 }
 
-// ExternalServiceLowerCaseAttributesMap represents the map of attribute for ExternalService.
-var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// ProcessingUnitLowerCaseAttributesMap represents the map of attribute for ProcessingUnit.
+var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -711,27 +718,27 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "string",
 	},
-	"loadbalanceraddresses": elemental.AttributeSpecification{
+	"enforcerid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "LoadbalancerAddresses",
-		Description: `LoadbalancerAddresses represents the list of adresses of the external services
-of type LoadBalancer.`,
-		Exposed: true,
-		Name:    "loadbalancerAddresses",
-		Stored:  true,
-		SubType: "addresses_list",
-		Type:    "external",
+		ConvertedName:  "EnforcerID",
+		Description:    `EnforcerID is the ID of the enforcer associated with the processing unit.`,
+		Exposed:        true,
+		Filterable:     true,
+		Format:         "free",
+		Name:           "enforcerID",
+		Stored:         true,
+		Type:           "string",
 	},
-	"loadbalancerportsmapping": elemental.AttributeSpecification{
+	"lastsynctime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "LoadbalancerPortsMapping",
-		Description: `LoadbalancerPortsMapping is the list of ports mapped by an extenral service of
-type load balancer.`,
-		Exposed: true,
-		Name:    "loadbalancerPortsMapping",
-		Stored:  true,
-		SubType: "portmapping_list",
-		Type:    "external",
+		Autogenerated:  true,
+		ConvertedName:  "LastSyncTime",
+		Description:    `LastSyncTime is the time when the policy was last resolved.`,
+		Exposed:        true,
+		Name:           "lastSyncTime",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -784,17 +791,30 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"network": elemental.AttributeSpecification{
+	"nativecontextid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Network",
-		Description:    `Network refers to either CIDR or domain name.`,
+		ConvertedName:  "NativeContextID",
+		Description:    `NativeContextID is the Docker UUID or service PID.`,
 		Exposed:        true,
 		Filterable:     true,
 		Format:         "free",
-		Name:           "network",
-		Required:       true,
+		Name:           "nativeContextID",
 		Stored:         true,
 		Type:           "string",
+	},
+	"networkservices": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "NetworkServices",
+		Description: `NetworkServices is the list of services that this processing unit has declared
+that it will be listening to. This can happen either with an activation command
+or by exposing the ports in a container manifest.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "networkServices",
+		Orderable:  true,
+		Stored:     true,
+		SubType:    "processing_unit_services_list",
+		Type:       "external",
 	},
 	"normalizedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -811,18 +831,16 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "external",
 	},
-	"port": elemental.AttributeSpecification{
-		AllowedChars:   `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`,
-		AllowedChoices: []string{},
-		ConvertedName:  "Port",
-		DefaultValue:   "1:65535",
-		Description: `Port refers to network port which could be a single number or 100:2000 to
-represent a range of ports.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "port",
-		Stored:     true,
-		Type:       "string",
+	"operationalstatus": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Initialized", "Paused", "Running", "Stopped", "Terminated"},
+		ConvertedName:  "OperationalStatus",
+		DefaultValue:   ProcessingUnitOperationalStatusInitialized,
+		Description:    `OperationalStatus of the processing unit.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "operationalStatus",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -836,27 +854,15 @@ represent a range of ports.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"protocol": elemental.AttributeSpecification{
-		AllowedChars:   `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`,
-		AllowedChoices: []string{},
-		ConvertedName:  "Protocol",
-		Description:    `Protocol refers to network protocol like TCP/UDP or the number of the protocol.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "protocol",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"LoadBalancerHTTP", "LoadBalancerTCP", "Network"},
+		AllowedChoices: []string{"Docker", "LinuxService", "RKT", "User"},
 		ConvertedName:  "Type",
-		DefaultValue:   ExternalServiceTypeNetwork,
-		Description:    `Type represents the type of external service.`,
+		CreationOnly:   true,
+		Description:    `Type of the container ecosystem.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "type",
-		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "enum",
 	},

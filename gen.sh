@@ -1,7 +1,7 @@
 #!/bin/bash
 
-elegen folder -d v1/specs -o codegen || exit 1
+elegen folder -d specs -o codegen || exit 1
 
-rm -rf ./v1/golang/*.go
-mv codegen/elemental/*.go ./v1/golang
+rm -rf ./*.go
+mv codegen/elemental/*.go ./
 rm -rf codegen
