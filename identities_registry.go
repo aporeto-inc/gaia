@@ -18,8 +18,10 @@ var (
 		"automation":                   AutomationIdentity,
 		"automationtemplate":           AutomationTemplateIdentity,
 		"awsaccount":                   AWSAccountIdentity,
+		"awsregister":                  AWSRegisterIdentity,
 		"category":                     CategoryIdentity,
 		"certificate":                  CertificateIdentity,
+		"customer":                     CustomerIdentity,
 		"dependencymap":                DependencyMapIdentity,
 		"email":                        EmailIdentity,
 		"enforcer":                     EnforcerIdentity,
@@ -36,6 +38,8 @@ var (
 		"import":                       ImportIdentity,
 		"installation":                 InstallationIdentity,
 		"installedapp":                 InstalledAppIdentity,
+		"invoice":                      InvoiceIdentity,
+		"invoicerecord":                InvoiceRecordIdentity,
 		"isolationprofile":             IsolationProfileIdentity,
 		"issue":                        IssueIdentity,
 		"jaegerbatch":                  JaegerbatchIdentity,
@@ -94,8 +98,10 @@ var (
 		"automations":                    AutomationIdentity,
 		"automationtemplates":            AutomationTemplateIdentity,
 		"awsaccounts":                    AWSAccountIdentity,
+		"awsregister":                    AWSRegisterIdentity,
 		"categories":                     CategoryIdentity,
 		"certificates":                   CertificateIdentity,
+		"customers":                      CustomerIdentity,
 		"dependencymaps":                 DependencyMapIdentity,
 		"emails":                         EmailIdentity,
 		"enforcers":                      EnforcerIdentity,
@@ -112,6 +118,8 @@ var (
 		"import":                   ImportIdentity,
 		"installations":            InstallationIdentity,
 		"installedapps":            InstalledAppIdentity,
+		"invoices":                 InvoiceIdentity,
+		"invoicerecords":           InvoiceRecordIdentity,
 		"isolationprofiles":        IsolationProfileIdentity,
 		"issue":                    IssueIdentity,
 		"jaegerbatchs":             JaegerbatchIdentity,
@@ -290,10 +298,14 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAutomationTemplate()
 	case AWSAccountIdentity:
 		return NewAWSAccount()
+	case AWSRegisterIdentity:
+		return NewAWSRegister()
 	case CategoryIdentity:
 		return NewCategory()
 	case CertificateIdentity:
 		return NewCertificate()
+	case CustomerIdentity:
+		return NewCustomer()
 	case DependencyMapIdentity:
 		return NewDependencyMap()
 	case EmailIdentity:
@@ -326,6 +338,10 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewInstallation()
 	case InstalledAppIdentity:
 		return NewInstalledApp()
+	case InvoiceIdentity:
+		return NewInvoice()
+	case InvoiceRecordIdentity:
+		return NewInvoiceRecord()
 	case IsolationProfileIdentity:
 		return NewIsolationProfile()
 	case IssueIdentity:
@@ -450,10 +466,14 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &AutomationTemplatesList{}
 	case AWSAccountIdentity:
 		return &AWSAccountsList{}
+	case AWSRegisterIdentity:
+		return &AWSRegistersList{}
 	case CategoryIdentity:
 		return &CategoriesList{}
 	case CertificateIdentity:
 		return &CertificatesList{}
+	case CustomerIdentity:
+		return &CustomersList{}
 	case DependencyMapIdentity:
 		return &DependencyMapsList{}
 	case EmailIdentity:
@@ -486,6 +506,10 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &InstallationsList{}
 	case InstalledAppIdentity:
 		return &InstalledAppsList{}
+	case InvoiceIdentity:
+		return &InvoicesList{}
+	case InvoiceRecordIdentity:
+		return &InvoiceRecordsList{}
 	case IsolationProfileIdentity:
 		return &IsolationProfilesList{}
 	case IssueIdentity:
@@ -604,8 +628,10 @@ func AllIdentities() []elemental.Identity {
 		AutomationIdentity,
 		AutomationTemplateIdentity,
 		AWSAccountIdentity,
+		AWSRegisterIdentity,
 		CategoryIdentity,
 		CertificateIdentity,
+		CustomerIdentity,
 		DependencyMapIdentity,
 		EmailIdentity,
 		EnforcerIdentity,
@@ -622,6 +648,8 @@ func AllIdentities() []elemental.Identity {
 		ImportIdentity,
 		InstallationIdentity,
 		InstalledAppIdentity,
+		InvoiceIdentity,
+		InvoiceRecordIdentity,
 		IsolationProfileIdentity,
 		IssueIdentity,
 		JaegerbatchIdentity,
@@ -714,9 +742,13 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"awsaccs",
 			"awsacc",
 		}
+	case AWSRegisterIdentity:
+		return []string{}
 	case CategoryIdentity:
 		return []string{}
 	case CertificateIdentity:
+		return []string{}
+	case CustomerIdentity:
 		return []string{}
 	case DependencyMapIdentity:
 		return []string{
@@ -779,6 +811,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"iapps",
 			"iapp",
 		}
+	case InvoiceIdentity:
+		return []string{}
+	case InvoiceRecordIdentity:
+		return []string{}
 	case IsolationProfileIdentity:
 		return []string{
 			"ip",

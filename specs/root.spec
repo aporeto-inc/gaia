@@ -110,6 +110,11 @@ relations:
   get: true
   create: true
 
+- rest_name: awsregister
+  descriptions:
+    create: Creates a new aws registration for billing.
+  create: true
+
 - rest_name: certificate
   descriptions:
     create: Creates a new user certificate.
