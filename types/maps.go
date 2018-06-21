@@ -11,6 +11,7 @@ type GraphEdgeMap map[string]*GraphEdge
 // GraphEdgeExtremityType represents the source or destination type.
 type GraphEdgeExtremityType string
 
+// GraphPolicyInfo contains infor about the policy.
 type GraphPolicyInfo struct {
 	Count     int    `json:"count"`
 	Namespace string `json:"namespace"`
