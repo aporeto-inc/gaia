@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"sync"
 
+	"time"
+
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/types"
-	"time"
 )
 
 // ExternalServiceTypeValue represents the possible values for attribute "type".

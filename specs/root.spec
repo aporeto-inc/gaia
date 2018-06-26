@@ -153,6 +153,13 @@ relations:
   get: true
   create: true
 
+- rest_name: eventlog
+  descriptions:
+    create: Creates a new eventlog for a particular entity.
+    get: Retrieves the eventlogs for one or multiple entities.
+  get: true
+  create: true
+
 - rest_name: export
   descriptions:
     create: Exports all policies and related object of a namespace.

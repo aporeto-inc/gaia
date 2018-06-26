@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"sync"
 
+	"time"
+
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/types"
-	"time"
 )
 
 // AuditProfileIdentity represents the Identity of the object.

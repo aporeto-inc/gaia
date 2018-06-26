@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"sync"
 
-	"go.aporeto.io/elemental"
 	"time"
+
+	"go.aporeto.io/elemental"
 )
 
 // PolicyTypeValue represents the possible values for attribute "type".

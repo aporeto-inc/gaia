@@ -27,6 +27,7 @@ var (
 		"enforcer":                     EnforcerIdentity,
 		"enforcerprofile":              EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicy": EnforcerProfileMappingPolicyIdentity,
+		"eventlog":                     EventLogIdentity,
 		"export":                       ExportIdentity,
 		"externalaccess":               ExternalAccessIdentity,
 		"externalservice":              ExternalServiceIdentity,
@@ -107,60 +108,61 @@ var (
 		"enforcers":                      EnforcerIdentity,
 		"enforcerprofiles":               EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicies": EnforcerProfileMappingPolicyIdentity,
-		"export":                   ExportIdentity,
-		"externalaccesses":         ExternalAccessIdentity,
-		"externalservices":         ExternalServiceIdentity,
-		"fileaccesses":             FileAccessIdentity,
-		"fileaccesspolicies":       FileAccessPolicyIdentity,
-		"filepaths":                FilePathIdentity,
-		"flowstatistics":           FlowStatisticIdentity,
-		"hookpolicies":             HookPolicyIdentity,
-		"import":                   ImportIdentity,
-		"installations":            InstallationIdentity,
-		"installedapps":            InstalledAppIdentity,
-		"invoices":                 InvoiceIdentity,
-		"invoicerecords":           InvoiceRecordIdentity,
-		"isolationprofiles":        IsolationProfileIdentity,
-		"issue":                    IssueIdentity,
-		"jaegerbatchs":             JaegerbatchIdentity,
-		"k8sclusters":              K8SClusterIdentity,
-		"kubernetesclusters":       KubernetesClusterIdentity,
-		"logs":                     LogIdentity,
-		"messages":                 MessageIdentity,
-		"namespaces":               NamespaceIdentity,
-		"namespacemappingpolicies": NamespaceMappingPolicyIdentity,
-		"networkaccesspolicies":    NetworkAccessPolicyIdentity,
-		"passwordreset":            PasswordResetIdentity,
-		"plans":                    PlanIdentity,
-		"poke":                     PokeIdentity,
-		"policies":                 PolicyIdentity,
-		"policyrefreshs":           PolicyRefreshIdentity,
-		"policyrenderers":          PolicyRendererIdentity,
-		"policyrules":              PolicyRuleIdentity,
-		"privatekeys":              PrivateKeyIdentity,
-		"processingunits":          ProcessingUnitIdentity,
-		"processingunitpolicies":   ProcessingUnitPolicyIdentity,
-		"quotacheck":               QuotaCheckIdentity,
-		"quotapolicies":            QuotaPolicyIdentity,
-		"remoteprocessors":         RemoteProcessorIdentity,
-		"renderedpolicies":         RenderedPolicyIdentity,
-		"reports":                  ReportIdentity,
-		"restapispecs":             RESTAPISpecIdentity,
-		"revocations":              RevocationIdentity,
-		"roles":                    RoleIdentity,
-		"root":                     RootIdentity,
-		"services":                 ServiceIdentity,
-		"statsqueries":             StatsQueryIdentity,
-		"suggestedpolicies":        SuggestedPolicyIdentity,
-		"tabulations":              TabulationIdentity,
-		"tags":                     TagIdentity,
-		"taginjects":               TagInjectIdentity,
-		"tokens":                   TokenIdentity,
-		"tokenscopepolicies":       TokenScopePolicyIdentity,
-		"triggers":                 TriggerIdentity,
-		"vulnerabilities":          VulnerabilityIdentity,
-		"x509certificates":         X509CertificateIdentity,
-		"x509certificatechecks":    X509CertificateCheckIdentity,
+		"eventlogs":                      EventLogIdentity,
+		"export":                         ExportIdentity,
+		"externalaccesses":               ExternalAccessIdentity,
+		"externalservices":               ExternalServiceIdentity,
+		"fileaccesses":                   FileAccessIdentity,
+		"fileaccesspolicies":             FileAccessPolicyIdentity,
+		"filepaths":                      FilePathIdentity,
+		"flowstatistics":                 FlowStatisticIdentity,
+		"hookpolicies":                   HookPolicyIdentity,
+		"import":                         ImportIdentity,
+		"installations":                  InstallationIdentity,
+		"installedapps":                  InstalledAppIdentity,
+		"invoices":                       InvoiceIdentity,
+		"invoicerecords":                 InvoiceRecordIdentity,
+		"isolationprofiles":              IsolationProfileIdentity,
+		"issue":                          IssueIdentity,
+		"jaegerbatchs":                   JaegerbatchIdentity,
+		"k8sclusters":                    K8SClusterIdentity,
+		"kubernetesclusters":             KubernetesClusterIdentity,
+		"logs":                           LogIdentity,
+		"messages":                       MessageIdentity,
+		"namespaces":                     NamespaceIdentity,
+		"namespacemappingpolicies":       NamespaceMappingPolicyIdentity,
+		"networkaccesspolicies":          NetworkAccessPolicyIdentity,
+		"passwordreset":                  PasswordResetIdentity,
+		"plans":                          PlanIdentity,
+		"poke":                           PokeIdentity,
+		"policies":                       PolicyIdentity,
+		"policyrefreshs":                 PolicyRefreshIdentity,
+		"policyrenderers":                PolicyRendererIdentity,
+		"policyrules":                    PolicyRuleIdentity,
+		"privatekeys":                    PrivateKeyIdentity,
+		"processingunits":                ProcessingUnitIdentity,
+		"processingunitpolicies":         ProcessingUnitPolicyIdentity,
+		"quotacheck":                     QuotaCheckIdentity,
+		"quotapolicies":                  QuotaPolicyIdentity,
+		"remoteprocessors":               RemoteProcessorIdentity,
+		"renderedpolicies":               RenderedPolicyIdentity,
+		"reports":                        ReportIdentity,
+		"restapispecs":                   RESTAPISpecIdentity,
+		"revocations":                    RevocationIdentity,
+		"roles":                          RoleIdentity,
+		"root":                           RootIdentity,
+		"services":                       ServiceIdentity,
+		"statsqueries":                   StatsQueryIdentity,
+		"suggestedpolicies":              SuggestedPolicyIdentity,
+		"tabulations":                    TabulationIdentity,
+		"tags":                           TagIdentity,
+		"taginjects":                     TagInjectIdentity,
+		"tokens":                         TokenIdentity,
+		"tokenscopepolicies":             TokenScopePolicyIdentity,
+		"triggers":                       TriggerIdentity,
+		"vulnerabilities":                VulnerabilityIdentity,
+		"x509certificates":               X509CertificateIdentity,
+		"x509certificatechecks":          X509CertificateCheckIdentity,
 	}
 
 	aliasesMap = map[string]elemental.Identity{
@@ -316,6 +318,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewEnforcerProfile()
 	case EnforcerProfileMappingPolicyIdentity:
 		return NewEnforcerProfileMappingPolicy()
+	case EventLogIdentity:
+		return NewEventLog()
 	case ExportIdentity:
 		return NewExport()
 	case ExternalAccessIdentity:
@@ -484,6 +488,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &EnforcerProfilesList{}
 	case EnforcerProfileMappingPolicyIdentity:
 		return &EnforcerProfileMappingPoliciesList{}
+	case EventLogIdentity:
+		return &EventLogsList{}
 	case ExportIdentity:
 		return &ExportsList{}
 	case ExternalAccessIdentity:
@@ -637,6 +643,7 @@ func AllIdentities() []elemental.Identity {
 		EnforcerIdentity,
 		EnforcerProfileIdentity,
 		EnforcerProfileMappingPolicyIdentity,
+		EventLogIdentity,
 		ExportIdentity,
 		ExternalAccessIdentity,
 		ExternalServiceIdentity,
@@ -769,6 +776,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"enfpols",
 			"enfpol",
 		}
+	case EventLogIdentity:
+		return []string{}
 	case ExportIdentity:
 		return []string{}
 	case ExternalAccessIdentity:

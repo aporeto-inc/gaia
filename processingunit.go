@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"sync"
 
+	"time"
+
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/types"
-	"time"
 )
 
 // ProcessingUnitOperationalStatusValue represents the possible values for attribute "operationalStatus".
