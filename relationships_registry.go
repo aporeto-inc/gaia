@@ -365,6 +365,18 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[EventLogIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
+	}
+
 	relationshipsRegistry[ExportIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
 			"root": true,
