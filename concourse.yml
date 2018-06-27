@@ -7,7 +7,7 @@ image_resource:
 
 inputs:
 - name: src
-  path: go/src/github.com/aporeto-inc/gaia
+  path:  go/src/go.aporeto.io/gaia
 
 run:
   path: bash
@@ -17,6 +17,6 @@ run:
       export PATH=$PATH:$GOPATH/bin:$PWD/go/bin
       export GOPATH=$PWD/go:$GOPATH
 
-      cd go/src/github.com/aporeto-inc/gaia
+      cd  go/src/go.aporeto.io/gaia
       dep ensure -v
       ./.test.sh
