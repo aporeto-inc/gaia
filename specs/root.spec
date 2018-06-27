@@ -110,6 +110,12 @@ relations:
   get: true
   create: true
 
+- rest_name: awsapigateway
+  descriptions:
+    create: Query the flow status for the AWS API Gateway.
+    get: Query the flow status for the AWS API Gateway.
+  get: true
+
 - rest_name: awsregister
   descriptions:
     create: Creates a new aws registration for billing.

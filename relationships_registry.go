@@ -58,10 +58,35 @@ func init() {
 		},
 	}
 
+<<<<<<< HEAD:v1/golang/relationships_registry.go
+	relationshipsRegistry[AWSApiGatewayIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+		AllowsUpdate: map[string]bool{
+			"root": true,
+		},
+		AllowsPatch: map[string]bool{
+			"root": true,
+		},
+		AllowsDelete: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieve: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
+=======
 	relationshipsRegistry[AWSRegisterIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
 			"root": true,
 		},
+>>>>>>> origin:relationships_registry.go
 	}
 
 	relationshipsRegistry[AccountIdentity] = &elemental.Relationship{
