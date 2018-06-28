@@ -13,7 +13,6 @@ model:
   - '@described'
   - '@identifiable-pk-stored'
   - '@metadatable'
-  - '@named'
 
 # Attributes
 attributes:
@@ -71,6 +70,22 @@ attributes:
     exposed: true
     read_only: true
     format: free
+    orderable: true
+
+  - name: name
+    description: Name is the name of the entity.
+    type: string
+    exposed: true
+    stored: true
+    required: true
+    creation_only: true
+    default_order: true
+    example_value: the name
+    filterable: true
+    format: free
+    getter: true
+    setter: true
+    max_length: 256
     orderable: true
 
   - name: namespaceID

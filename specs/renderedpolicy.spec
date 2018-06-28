@@ -22,6 +22,13 @@ attributes:
     read_only: true
     format: free
 
+  - name: dependendServices
+    description: DependendServices is the list of services that this processing unit
+      depends on.
+    type: external
+    exposed: true
+    subtype: api_services_entities
+
   - name: egressPolicies
     description: EgressPolicies lists all the egress policies attached to processing
       unit.

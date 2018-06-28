@@ -369,6 +369,13 @@ relations:
     get: Retrieves statistics information based on parameters.
   get: true
 
+- rest_name: servicedependency
+  descriptions:
+    create: Creates a new service dependency.
+    get: Retrieves the list of service dependencies.
+  get: true
+  create: true
+
 - rest_name: suggestedpolicy
   descriptions:
     get: Retrieves a list of network policy suggestion.
