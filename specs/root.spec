@@ -115,6 +115,11 @@ relations:
     create: Creates a new aws registration for billing.
   create: true
 
+- rest_name: awsapigateway
+  descriptions:
+    create: MAnages the AWS API Gateway.
+  create: true
+
 - rest_name: certificate
   descriptions:
     create: Creates a new user certificate.

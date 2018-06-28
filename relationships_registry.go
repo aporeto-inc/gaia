@@ -59,6 +59,9 @@ func init() {
 	}
 
 	relationshipsRegistry[AWSApiGatewayIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
 		AllowsUpdate: map[string]bool{
 			"root": true,
 		},
