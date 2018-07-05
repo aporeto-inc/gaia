@@ -117,7 +117,9 @@ relations:
 
 - rest_name: awsapigateway
   descriptions:
-    create: MAnages the AWS API Gateway.
+    create: Manages the AWS API Gateway.
+    get: create an AWS API Gateway.
+  get: true
   create: true
 
 - rest_name: certificate

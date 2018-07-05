@@ -5,6 +5,7 @@ model:
   entity_name: AWSApiGateway
   package: goldrush
   description: managed API decisions for the AWS API Gateway.
+  create: true
   get: true
   update: true
   delete: true
