@@ -28,6 +28,7 @@ attributes:
   - name: apiID
     description: API ID as defined on AWS for the API that handled this request.
     type: string
+    exposed: true
     format: free
 
   - name: authorized

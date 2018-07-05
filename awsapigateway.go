@@ -80,7 +80,7 @@ type AWSApiGateway struct {
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// API ID as defined on AWS for the API that handled this request.
-	ApiID string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	ApiID string `json:"apiID" bson:"-" mapstructure:"apiID,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
@@ -381,6 +381,7 @@ var AWSApiGatewayAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ApiID",
 		Description:    `API ID as defined on AWS for the API that handled this request.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "apiID",
 		Type:           "string",
@@ -625,6 +626,7 @@ var AWSApiGatewayLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		AllowedChoices: []string{},
 		ConvertedName:  "ApiID",
 		Description:    `API ID as defined on AWS for the API that handled this request.`,
+		Exposed:        true,
 		Format:         "free",
 		Name:           "apiID",
 		Type:           "string",
