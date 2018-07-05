@@ -66,6 +66,7 @@
 | [Role](#role)                                                 | Roles returns the available roles that can be used with API Authorization           |
 | [Root](#root)                                                 | root object.                                                                        |
 | [Service](#service)                                           | A Service defines a generic service object at L4 or L7 that encapsulates the        |
+| [ServiceDependency](#servicedependency)                       | Allows to define a service dependency where a set of processing units as defined... |
 | [StatsQuery](#statsquery)                                     | StatsQuery is a generic API to retrieve time series data stored by the Aporeto      |
 | [SuggestedPolicy](#suggestedpolicy)                           | Allows to get policy suggestions.                                                   |
 | [Tabulation](#tabulation)                                     | Tabulate API allows you to retrieve a custom table view for any identity using      |
@@ -6112,11 +6113,11 @@ includes AND/OR.
 
 Type of the policy.
 
-| Characteristics | Value                                                                                                                           |
-| -               | -:                                                                                                                              |
-| Allowed Value   | `APIAuthorization, EnforcerProfile, File, Hook, NamespaceMapping, Network, ProcessingUnit, Quota, Service, Syscall, TokenScope` |
-| Creation only   | `true`                                                                                                                          |
-| Filterable      | `true`                                                                                                                          |
+| Characteristics | Value                                                                                                                                              |
+| -               | -:                                                                                                                                                 |
+| Allowed Value   | `APIAuthorization, EnforcerProfile, File, Hook, NamespaceMapping, Network, ProcessingUnit, Quota, Service, Syscall, TokenScope, ServiceDependency` |
+| Creation only   | `true`                                                                                                                                             |
+| Filterable      | `true`                                                                                                                                             |
 
 #### `updateTime (time)`
 
@@ -6275,6 +6276,7 @@ Paths they can use.
 | `GET`    | `/processingunits/:id`                       | Retrieve the `processingunit` with the given `:id`.                       |
 | `PUT`    | `/processingunits/:id`                       | Updates the `processingunit` with the given `:id`.                        |
 | `GET`    | `/networkaccesspolicies/:id/processingunits` | Returns the list of Processing Units affected by a network access policy. |
+| `GET`    | `/servicedependencies/:id/processingunits`   | Returns the list of Processing Units that depend on an service.           |
 | `GET`    | `/services/:id/processingunits`              | Retrieves the Processing Units that implement this service.               |
 | `GET`    | `/vulnerabilities/:id/processingunits`       | Retrieves the processing units affected by the a vulnerabily.             |
 | `GET`    | `/processingunits/:id/fileaccesses`          | Retrieves the file accesses done by the processing unit.                  |
@@ -6963,6 +6965,10 @@ to any internal or external services.
 | -               | -:     |
 | Read only       | `true` |
 
+#### `dependendServices (external:api_services_entities)`
+
+DependendServices is the list of services that this processing unit depends on.
+
 #### `egressPolicies (external:rendered_policy)`
 
 EgressPolicies lists all the egress policies attached to processing unit.
@@ -7292,16 +7298,17 @@ units.
 
 ### Relations
 
-| Method   | URL                             | Description                                                 |
-| -:       | -                               | -                                                           |
-| `GET`    | `/services`                     | Retrieves the list of Services.                             |
-| `POST`   | `/services`                     | Creates a new Service.                                      |
-| `DELETE` | `/services/:id`                 | Deletes the `service` with the given `:id`.                 |
-| `GET`    | `/services/:id`                 | Retrieve the `service` with the given `:id`.                |
-| `PUT`    | `/services/:id`                 | Updates the `service` with the given `:id`.                 |
-| `GET`    | `/processingunits/:id/services` | Retrieves the services used by a processing unit.           |
-| `GET`    | `/services/:id/processingunits` | Retrieves the Processing Units that implement this service. |
-| `GET`    | `/services/:id/restapispecs`    | Retrieves the REST APIs exposed by this service.            |
+| Method   | URL                                 | Description                                                                   |
+| -:       | -                                   | -                                                                             |
+| `GET`    | `/services`                         | Retrieves the list of Services.                                               |
+| `POST`   | `/services`                         | Creates a new Service.                                                        |
+| `DELETE` | `/services/:id`                     | Deletes the `service` with the given `:id`.                                   |
+| `GET`    | `/services/:id`                     | Retrieve the `service` with the given `:id`.                                  |
+| `PUT`    | `/services/:id`                     | Updates the `service` with the given `:id`.                                   |
+| `GET`    | `/processingunits/:id/services`     | Retrieves the services used by a processing unit.                             |
+| `GET`    | `/servicedependencies/:id/services` | Returns the list of external services that are targets of service dependency. |
+| `GET`    | `/services/:id/processingunits`     | Retrieves the Processing Units that implement this service.                   |
+| `GET`    | `/services/:id/restapispecs`        | Retrieves the REST APIs exposed by this service.                              |
 
 ### Attributes
 
@@ -7337,6 +7344,31 @@ Annotation stores additional information about an entity.
 #### `associatedTags (external:tags_list)`
 
 AssociatedTags are the list of tags attached to an entity.
+
+#### `authorizationID (string)`
+
+authorizationID is only valid for OIDC authorization and defines the
+issuer ID of the OAUTH token.
+
+#### `authorizationProvider (string)`
+
+authorizationProvider is only valid for OAUTH authorization and defines the
+URL to the OAUTH provider that must be used.
+
+#### `authorizationSecret (string)`
+
+authorizationSecret is only valid for OIDC authorization and defines the
+secret that should be used with the OAUTH provider to validate tokens.
+
+#### `authorizationType (enum)`
+
+AuthorizationType defines the user authorization type that should be used.
+Currently supporting PKI, and OIDC.
+
+| Characteristics | Value             |
+| -               | -:                |
+| Allowed Value   | `PKI, OIDC, None` |
+| Default         | `PKI`             |
 
 #### `createTime (time)`
 
@@ -7465,6 +7497,37 @@ Protected defines if the object is protected.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `redirectOnFail (boolean)`
+
+RedirectOnFail is a boolean that forces a redirect response if an API request
+arrives and the user authorization information is not valid. This only applies
+to HTTP services and it is only send for APIs that are not public.
+
+| Characteristics | Value             |
+| -               | -:                |
+| Default         | `%!s(bool=false)` |
+| Orderable       | `true`            |
+| Filterable      | `true`            |
+
+#### `redirectOnNoToken (boolean)`
+
+RedirectOnNoToken is a boolean that forces a redirect response if an API request
+arrives and there is no user authorization infromation. This only applies to
+HTTP services and it is only send for APIs that are not public.
+
+| Characteristics | Value             |
+| -               | -:                |
+| Default         | `%!s(bool=false)` |
+| Orderable       | `true`            |
+| Filterable      | `true`            |
+
+#### `redirectURL (string)`
+
+RedirectURL is the URL that will be send back to the user to
+redirect for authentication if there is no user authorization information in
+the API request. If the redirect flag is not set, this field has no meaning.The
+template is a Go Lang template where specific functions are supported.
+
 #### `selectors (external:policies_list)`
 
 Selectors contains the tag expression that an a processing unit
@@ -7484,6 +7547,202 @@ Type is the type of the service.
 | -               | -:          |
 | Allowed Value   | `HTTP, TCP` |
 | Default         | `HTTP`      |
+
+#### `updateTime (time)`
+
+UpdateTime is the time at which an entity was updated.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
+
+## ServiceDependency
+
+Allows to define a service dependency where a set of processing units as defined
+by their tags require access to specific services.
+
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
+
+### Relations
+
+| Method   | URL                                        | Description                                                                   |
+| -:       | -                                          | -                                                                             |
+| `GET`    | `/servicedependencies`                     | Retrieves the list of service dependencies.                                   |
+| `POST`   | `/servicedependencies`                     | Creates a new service dependency.                                             |
+| `DELETE` | `/servicedependencies/:id`                 | Deletes the `servicedependency` with the given `:id`.                         |
+| `GET`    | `/servicedependencies/:id`                 | Retrieve the `servicedependency` with the given `:id`.                        |
+| `PUT`    | `/servicedependencies/:id`                 | Updates the `servicedependency` with the given `:id`.                         |
+| `GET`    | `/servicedependencies/:id/processingunits` | Returns the list of Processing Units that depend on an service.               |
+| `GET`    | `/servicedependencies/:id/services`        | Returns the list of external services that are targets of service dependency. |
+
+### Attributes
+
+#### `ID (string)`
+
+ID is the identifier of the object.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Identifier      | `true` |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `activeDuration (string)`
+
+ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.
+
+| Characteristics | Value             |
+| -               | -:                |
+| Format          | `/^[0-9]+[smh]$/` |
+
+#### `activeSchedule (external:cron_expression)`
+
+ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.
+
+#### `annotations (external:annotations)`
+
+Annotation stores additional information about an entity.
+
+#### `associatedTags (external:tags_list)`
+
+AssociatedTags are the list of tags attached to an entity.
+
+#### `createTime (time)`
+
+CreatedTime is the time at which the object was created.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
+
+#### `description (string)`
+
+Description is the description of the object.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `1024` |
+| Orderable       | `true` |
+
+#### `disabled (boolean)`
+
+Disabled defines if the propert is disabled.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `metadata (external:metadata_list)`
+
+Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Creation only   | `true` |
+| Filterable      | `true` |
+
+#### `name (string)`
+
+Name is the name of the entity.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `256`  |
+| Required        | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `namespace (string)`
+
+Namespace tag attached to an entity.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Creation only   | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `normalizedTags (external:tags_list)`
+
+NormalizedTags contains the list of normalized tags of the entities.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+
+#### `object (external:policies_list)`
+
+Object of the policy.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `propagate (boolean)`
+
+Propagate will propagate the policy to all of its children.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `propagationHidden (boolean)`
+
+If set to true while the policy is propagating, it won't be visible to children
+namespace, but still used for policy resolution.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `protected (boolean)`
+
+Protected defines if the object is protected.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `subject (external:policies_list)`
+
+Subject of the policy.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
 
 #### `updateTime (time)`
 

@@ -172,7 +172,7 @@ type Enforcer struct {
 
 	// PublicToken is the public token of the server that will be included in the
 	// datapath and its signed by the private CA.
-	PublicToken string `json:"publicToken" bson:"-" mapstructure:"publicToken,omitempty"`
+	PublicToken string `json:"publicToken" bson:"publictoken" mapstructure:"publicToken,omitempty"`
 
 	// startTime holds the time this enforcerd was started. This time-stamp is reported
 	// by the enforcer and is is preserved across disconnects.
@@ -722,6 +722,7 @@ datapath and its signed by the private CA.`,
 		Format:    "free",
 		Name:      "publicToken",
 		ReadOnly:  true,
+		Stored:    true,
 		Transient: true,
 		Type:      "string",
 	},
@@ -1083,6 +1084,7 @@ datapath and its signed by the private CA.`,
 		Format:    "free",
 		Name:      "publicToken",
 		ReadOnly:  true,
+		Stored:    true,
 		Transient: true,
 		Type:      "string",
 	},
