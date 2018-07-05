@@ -70,6 +70,9 @@ const (
 	// StatsTagKeyObservedPolicyID represents the observation policy ID.
 	StatsTagKeyObservedPolicyID = "@opolicyid"
 
+	// StatsTagKeyObservedPolicyNamespace represents the observation policy Namespace.
+	StatsTagKeyObservedPolicyNamespace = "@opolicyns"
+
 	// StatsTagKeySourceType represents the source type tag.
 	StatsTagKeySourceType = "@srctype"
 

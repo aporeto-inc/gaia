@@ -477,6 +477,12 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[FlowReportIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+	}
+
 	relationshipsRegistry[FlowStatisticIdentity] = &elemental.Relationship{
 		AllowsRetrieveMany: map[string]bool{
 			"root": true,
@@ -880,12 +886,14 @@ func init() {
 			"networkaccesspolicy": true,
 			"root":                true,
 			"service":             true,
+			"servicedependency":   true,
 			"vulnerability":       true,
 		},
 		AllowsInfo: map[string]bool{
 			"networkaccesspolicy": true,
 			"root":                true,
 			"service":             true,
+			"servicedependency":   true,
 			"vulnerability":       true,
 		},
 	}
@@ -1037,12 +1045,38 @@ func init() {
 			"root": true,
 		},
 		AllowsRetrieveMany: map[string]bool{
-			"processingunit": true,
-			"root":           true,
+			"processingunit":    true,
+			"root":              true,
+			"servicedependency": true,
 		},
 		AllowsInfo: map[string]bool{
-			"processingunit": true,
-			"root":           true,
+			"processingunit":    true,
+			"root":              true,
+			"servicedependency": true,
+		},
+	}
+
+	relationshipsRegistry[ServiceDependencyIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+		AllowsUpdate: map[string]bool{
+			"root": true,
+		},
+		AllowsPatch: map[string]bool{
+			"root": true,
+		},
+		AllowsDelete: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieve: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
 		},
 	}
 

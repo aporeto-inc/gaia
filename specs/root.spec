@@ -342,6 +342,11 @@ relations:
     create: Create a statistics report.
   create: true
 
+- rest_name: flowreport
+  descriptions:
+    create: Create a flow statistics report.
+  create: true
+
 - rest_name: revocation
   descriptions:
     get: Verify the revocation of a certificate according to parameters.
@@ -363,6 +368,13 @@ relations:
   descriptions:
     get: Retrieves statistics information based on parameters.
   get: true
+
+- rest_name: servicedependency
+  descriptions:
+    create: Creates a new service dependency.
+    get: Retrieves the list of service dependencies.
+  get: true
+  create: true
 
 - rest_name: suggestedpolicy
   descriptions:

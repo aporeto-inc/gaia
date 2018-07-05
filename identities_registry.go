@@ -34,6 +34,7 @@ var (
 		"fileaccess":                   FileAccessIdentity,
 		"fileaccesspolicy":             FileAccessPolicyIdentity,
 		"filepath":                     FilePathIdentity,
+		"flowreport":                   FlowReportIdentity,
 		"flowstatistic":                FlowStatisticIdentity,
 		"hookpolicy":                   HookPolicyIdentity,
 		"import":                       ImportIdentity,
@@ -71,6 +72,7 @@ var (
 		"role":                         RoleIdentity,
 		"root":                         RootIdentity,
 		"service":                      ServiceIdentity,
+		"servicedependency":            ServiceDependencyIdentity,
 		"statsquery":                   StatsQueryIdentity,
 		"suggestedpolicy":              SuggestedPolicyIdentity,
 		"tabulation":                   TabulationIdentity,
@@ -115,6 +117,7 @@ var (
 		"fileaccesses":                   FileAccessIdentity,
 		"fileaccesspolicies":             FileAccessPolicyIdentity,
 		"filepaths":                      FilePathIdentity,
+		"flowreports":                    FlowReportIdentity,
 		"flowstatistics":                 FlowStatisticIdentity,
 		"hookpolicies":                   HookPolicyIdentity,
 		"import":                         ImportIdentity,
@@ -152,6 +155,7 @@ var (
 		"roles":                          RoleIdentity,
 		"root":                           RootIdentity,
 		"services":                       ServiceIdentity,
+		"servicedependencies":            ServiceDependencyIdentity,
 		"statsqueries":                   StatsQueryIdentity,
 		"suggestedpolicies":              SuggestedPolicyIdentity,
 		"tabulations":                    TabulationIdentity,
@@ -218,6 +222,8 @@ var (
 		"rpol":       RenderedPolicyIdentity,
 		"rpols":      RenderedPolicyIdentity,
 		"srv":        ServiceIdentity,
+		"srvdep":     ServiceDependencyIdentity,
+		"srvdeps":    ServiceDependencyIdentity,
 		"sq":         StatsQueryIdentity,
 		"sugpol":     SuggestedPolicyIdentity,
 		"sugpols":    SuggestedPolicyIdentity,
@@ -332,6 +338,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewFileAccessPolicy()
 	case FilePathIdentity:
 		return NewFilePath()
+	case FlowReportIdentity:
+		return NewFlowReport()
 	case FlowStatisticIdentity:
 		return NewFlowStatistic()
 	case HookPolicyIdentity:
@@ -406,6 +414,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewRoot()
 	case ServiceIdentity:
 		return NewService()
+	case ServiceDependencyIdentity:
+		return NewServiceDependency()
 	case StatsQueryIdentity:
 		return NewStatsQuery()
 	case SuggestedPolicyIdentity:
@@ -502,6 +512,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &FileAccessPoliciesList{}
 	case FilePathIdentity:
 		return &FilePathsList{}
+	case FlowReportIdentity:
+		return &FlowReportsList{}
 	case FlowStatisticIdentity:
 		return &FlowStatisticsList{}
 	case HookPolicyIdentity:
@@ -574,6 +586,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &RolesList{}
 	case ServiceIdentity:
 		return &ServicesList{}
+	case ServiceDependencyIdentity:
+		return &ServiceDependenciesList{}
 	case StatsQueryIdentity:
 		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity:
@@ -650,6 +664,7 @@ func AllIdentities() []elemental.Identity {
 		FileAccessIdentity,
 		FileAccessPolicyIdentity,
 		FilePathIdentity,
+		FlowReportIdentity,
 		FlowStatisticIdentity,
 		HookPolicyIdentity,
 		ImportIdentity,
@@ -687,6 +702,7 @@ func AllIdentities() []elemental.Identity {
 		RoleIdentity,
 		RootIdentity,
 		ServiceIdentity,
+		ServiceDependencyIdentity,
 		StatsQueryIdentity,
 		SuggestedPolicyIdentity,
 		TabulationIdentity,
@@ -799,6 +815,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"fp",
 			"fps",
 		}
+	case FlowReportIdentity:
+		return []string{}
 	case FlowStatisticIdentity:
 		return []string{
 			"flowstat",
@@ -917,6 +935,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case ServiceIdentity:
 		return []string{
 			"srv",
+		}
+	case ServiceDependencyIdentity:
+		return []string{
+			"srvdep",
+			"srvdeps",
 		}
 	case StatsQueryIdentity:
 		return []string{

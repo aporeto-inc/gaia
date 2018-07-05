@@ -9,83 +9,42 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// PolicyTypeValue represents the possible values for attribute "type".
-type PolicyTypeValue string
-
-const (
-	// PolicyTypeAPIAuthorization represents the value APIAuthorization.
-	PolicyTypeAPIAuthorization PolicyTypeValue = "APIAuthorization"
-
-	// PolicyTypeEnforcerProfile represents the value EnforcerProfile.
-	PolicyTypeEnforcerProfile PolicyTypeValue = "EnforcerProfile"
-
-	// PolicyTypeFile represents the value File.
-	PolicyTypeFile PolicyTypeValue = "File"
-
-	// PolicyTypeHook represents the value Hook.
-	PolicyTypeHook PolicyTypeValue = "Hook"
-
-	// PolicyTypeNamespaceMapping represents the value NamespaceMapping.
-	PolicyTypeNamespaceMapping PolicyTypeValue = "NamespaceMapping"
-
-	// PolicyTypeNetwork represents the value Network.
-	PolicyTypeNetwork PolicyTypeValue = "Network"
-
-	// PolicyTypeProcessingUnit represents the value ProcessingUnit.
-	PolicyTypeProcessingUnit PolicyTypeValue = "ProcessingUnit"
-
-	// PolicyTypeQuota represents the value Quota.
-	PolicyTypeQuota PolicyTypeValue = "Quota"
-
-	// PolicyTypeService represents the value Service.
-	PolicyTypeService PolicyTypeValue = "Service"
-
-	// PolicyTypeServiceDependency represents the value ServiceDependency.
-	PolicyTypeServiceDependency PolicyTypeValue = "ServiceDependency"
-
-	// PolicyTypeSyscall represents the value Syscall.
-	PolicyTypeSyscall PolicyTypeValue = "Syscall"
-
-	// PolicyTypeTokenScope represents the value TokenScope.
-	PolicyTypeTokenScope PolicyTypeValue = "TokenScope"
-)
-
-// PolicyIdentity represents the Identity of the object.
-var PolicyIdentity = elemental.Identity{
-	Name:     "policy",
-	Category: "policies",
+// ServiceDependencyIdentity represents the Identity of the object.
+var ServiceDependencyIdentity = elemental.Identity{
+	Name:     "servicedependency",
+	Category: "servicedependencies",
 	Private:  false,
 }
 
-// PoliciesList represents a list of Policies
-type PoliciesList []*Policy
+// ServiceDependenciesList represents a list of ServiceDependencies
+type ServiceDependenciesList []*ServiceDependency
 
 // Identity returns the identity of the objects in the list.
-func (o PoliciesList) Identity() elemental.Identity {
+func (o ServiceDependenciesList) Identity() elemental.Identity {
 
-	return PolicyIdentity
+	return ServiceDependencyIdentity
 }
 
-// Copy returns a pointer to a copy the PoliciesList.
-func (o PoliciesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the ServiceDependenciesList.
+func (o ServiceDependenciesList) Copy() elemental.Identifiables {
 
-	copy := append(PoliciesList{}, o...)
+	copy := append(ServiceDependenciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the PoliciesList.
-func (o PoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the ServiceDependenciesList.
+func (o ServiceDependenciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(PoliciesList{}, o...)
+	out := append(ServiceDependenciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*Policy))
+		out = append(out, obj.(*ServiceDependency))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o PoliciesList) List() elemental.IdentifiablesList {
+func (o ServiceDependenciesList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}
 	for _, item := range o {
@@ -96,7 +55,7 @@ func (o PoliciesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o PoliciesList) DefaultOrder() []string {
+func (o ServiceDependenciesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -104,18 +63,15 @@ func (o PoliciesList) DefaultOrder() []string {
 }
 
 // Version returns the version of the content.
-func (o PoliciesList) Version() int {
+func (o ServiceDependenciesList) Version() int {
 
 	return 1
 }
 
-// Policy represents the model of a policy
-type Policy struct {
+// ServiceDependency represents the model of a servicedependency
+type ServiceDependency struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Action defines set of actions that must be enforced when a dependency is met.
-	Action map[string]map[string]interface{} `json:"action" bson:"action" mapstructure:"action,omitempty"`
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// ActiveDuration defines for how long the policy will be active according to the
 	// activeSchedule.
@@ -124,12 +80,6 @@ type Policy struct {
 	// ActiveSchedule defines when the policy should be active using the cron notation.
 	// The policy will be active for the given activeDuration.
 	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
-
-	// This is a set of all object tags for matching in the DB.
-	AllObjectTags []string `json:"-" bson:"allobjecttags" mapstructure:"-,omitempty"`
-
-	// This is a set of all subject tags for matching in the DB.
-	AllSubjectTags []string `json:"-" bson:"allsubjecttags" mapstructure:"-,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -164,9 +114,8 @@ type Policy struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Object represents set of entities that another entity depends on. As subjects,
-	// objects are identified as logical operations on tags when a policy is defined.
-	Object [][]string `json:"object" bson:"object" mapstructure:"object,omitempty"`
+	// Object of the policy.
+	Object [][]string `json:"object" bson:"-" mapstructure:"object,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
@@ -178,17 +127,8 @@ type Policy struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Relation describes the required operation to be performed between subjects and
-	// objects.
-	Relation []string `json:"relation" bson:"relation" mapstructure:"relation,omitempty"`
-
-	// Subject represent sets of entities that will have a dependency other entities.
-	// Subjects are defined as logical operations on tags. Logical operations can
-	// includes AND/OR.
-	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
-
-	// Type of the policy.
-	Type PolicyTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
+	// Subject of the policy.
+	Subject [][]string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -198,13 +138,11 @@ type Policy struct {
 	sync.Mutex
 }
 
-// NewPolicy returns a new *Policy
-func NewPolicy() *Policy {
+// NewServiceDependency returns a new *ServiceDependency
+func NewServiceDependency() *ServiceDependency {
 
-	return &Policy{
+	return &ServiceDependency{
 		ModelVersion:   1,
-		AllObjectTags:  []string{},
-		AllSubjectTags: []string{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Metadata:       []string{},
@@ -213,31 +151,31 @@ func NewPolicy() *Policy {
 }
 
 // Identity returns the Identity of the object.
-func (o *Policy) Identity() elemental.Identity {
+func (o *ServiceDependency) Identity() elemental.Identity {
 
-	return PolicyIdentity
+	return ServiceDependencyIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *Policy) Identifier() string {
+func (o *ServiceDependency) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *Policy) SetIdentifier(id string) {
+func (o *ServiceDependency) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *Policy) Version() int {
+func (o *ServiceDependency) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *Policy) DefaultOrder() []string {
+func (o *ServiceDependency) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -245,191 +183,192 @@ func (o *Policy) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *Policy) Doc() string {
-	return `Policy represents the policy primitive used by all aporeto policies.`
+func (o *ServiceDependency) Doc() string {
+	return `Allows to define a service dependency where a set of processing units as defined
+by their tags require access to specific services.`
 }
 
-func (o *Policy) String() string {
+func (o *ServiceDependency) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *Policy) GetActiveDuration() string {
+func (o *ServiceDependency) GetActiveDuration() string {
 
 	return o.ActiveDuration
 }
 
 // SetActiveDuration sets the given ActiveDuration of the receiver.
-func (o *Policy) SetActiveDuration(activeDuration string) {
+func (o *ServiceDependency) SetActiveDuration(activeDuration string) {
 
 	o.ActiveDuration = activeDuration
 }
 
 // GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *Policy) GetActiveSchedule() string {
+func (o *ServiceDependency) GetActiveSchedule() string {
 
 	return o.ActiveSchedule
 }
 
 // SetActiveSchedule sets the given ActiveSchedule of the receiver.
-func (o *Policy) SetActiveSchedule(activeSchedule string) {
+func (o *ServiceDependency) SetActiveSchedule(activeSchedule string) {
 
 	o.ActiveSchedule = activeSchedule
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *Policy) GetAnnotations() map[string][]string {
+func (o *ServiceDependency) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the given Annotations of the receiver.
-func (o *Policy) SetAnnotations(annotations map[string][]string) {
+func (o *ServiceDependency) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *Policy) GetAssociatedTags() []string {
+func (o *ServiceDependency) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the given AssociatedTags of the receiver.
-func (o *Policy) SetAssociatedTags(associatedTags []string) {
+func (o *ServiceDependency) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *Policy) GetCreateTime() time.Time {
+func (o *ServiceDependency) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the given CreateTime of the receiver.
-func (o *Policy) SetCreateTime(createTime time.Time) {
+func (o *ServiceDependency) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *Policy) GetDisabled() bool {
+func (o *ServiceDependency) GetDisabled() bool {
 
 	return o.Disabled
 }
 
 // SetDisabled sets the given Disabled of the receiver.
-func (o *Policy) SetDisabled(disabled bool) {
+func (o *ServiceDependency) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *Policy) GetFallback() bool {
+func (o *ServiceDependency) GetFallback() bool {
 
 	return o.Fallback
 }
 
 // SetFallback sets the given Fallback of the receiver.
-func (o *Policy) SetFallback(fallback bool) {
+func (o *ServiceDependency) SetFallback(fallback bool) {
 
 	o.Fallback = fallback
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *Policy) GetMetadata() []string {
+func (o *ServiceDependency) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the given Metadata of the receiver.
-func (o *Policy) SetMetadata(metadata []string) {
+func (o *ServiceDependency) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *Policy) GetName() string {
+func (o *ServiceDependency) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the given Name of the receiver.
-func (o *Policy) SetName(name string) {
+func (o *ServiceDependency) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *Policy) GetNamespace() string {
+func (o *ServiceDependency) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the given Namespace of the receiver.
-func (o *Policy) SetNamespace(namespace string) {
+func (o *ServiceDependency) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *Policy) GetNormalizedTags() []string {
+func (o *ServiceDependency) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *Policy) SetNormalizedTags(normalizedTags []string) {
+func (o *ServiceDependency) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *Policy) GetPropagate() bool {
+func (o *ServiceDependency) GetPropagate() bool {
 
 	return o.Propagate
 }
 
 // SetPropagate sets the given Propagate of the receiver.
-func (o *Policy) SetPropagate(propagate bool) {
+func (o *ServiceDependency) SetPropagate(propagate bool) {
 
 	o.Propagate = propagate
 }
 
 // GetPropagationHidden returns the PropagationHidden of the receiver.
-func (o *Policy) GetPropagationHidden() bool {
+func (o *ServiceDependency) GetPropagationHidden() bool {
 
 	return o.PropagationHidden
 }
 
 // SetPropagationHidden sets the given PropagationHidden of the receiver.
-func (o *Policy) SetPropagationHidden(propagationHidden bool) {
+func (o *ServiceDependency) SetPropagationHidden(propagationHidden bool) {
 
 	o.PropagationHidden = propagationHidden
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *Policy) GetProtected() bool {
+func (o *ServiceDependency) GetProtected() bool {
 
 	return o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *Policy) GetUpdateTime() time.Time {
+func (o *ServiceDependency) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *Policy) SetUpdateTime(updateTime time.Time) {
+func (o *ServiceDependency) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Policy) Validate() error {
+func (o *ServiceDependency) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -450,10 +389,6 @@ func (o *Policy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "Syscall", "TokenScope", "ServiceDependency"}, false); err != nil {
-		errors = append(errors, err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -466,24 +401,24 @@ func (o *Policy) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*Policy) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*ServiceDependency) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := PolicyAttributesMap[name]; ok {
+	if v, ok := ServiceDependencyAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return PolicyLowerCaseAttributesMap[name]
+	return ServiceDependencyLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*Policy) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*ServiceDependency) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return PolicyAttributesMap
+	return ServiceDependencyAttributesMap
 }
 
-// PolicyAttributesMap represents the map of attribute for Policy.
-var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
+// ServiceDependencyAttributesMap represents the map of attribute for ServiceDependency.
+var ServiceDependencyAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -495,20 +430,8 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
-		Stored:         true,
 		Type:           "string",
-	},
-	"Action": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Action",
-		Description:    `Action defines set of actions that must be enforced when a dependency is met.`,
-		Exposed:        true,
-		Name:           "action",
-		Stored:         true,
-		SubType:        "actions_list",
-		Type:           "external",
 	},
 	"ActiveDuration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -536,24 +459,6 @@ The policy will be active for the given activeDuration.`,
 		Stored:  true,
 		SubType: "cron_expression",
 		Type:    "external",
-	},
-	"AllObjectTags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AllObjectTags",
-		Description:    `This is a set of all object tags for matching in the DB.`,
-		Name:           "allObjectTags",
-		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
-	},
-	"AllSubjectTags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AllSubjectTags",
-		Description:    `This is a set of all subject tags for matching in the DB.`,
-		Name:           "allSubjectTags",
-		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -702,13 +607,12 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Object represents set of entities that another entity depends on. As subjects,
-objects are identified as logical operations on tags when a policy is defined.`,
-		Exposed: true,
-		Name:    "object",
-		Stored:  true,
-		SubType: "policies_list",
-		Type:    "external",
+		Description:    `Object of the policy.`,
+		Exposed:        true,
+		Name:           "object",
+		Orderable:      true,
+		SubType:        "policies_list",
+		Type:           "external",
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -749,40 +653,15 @@ namespace, but still used for policy resolution.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"Relation": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Relation",
-		Description: `Relation describes the required operation to be performed between subjects and
-objects.`,
-		Exposed: true,
-		Name:    "relation",
-		Stored:  true,
-		SubType: "relations_list",
-		Type:    "external",
-	},
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject represent sets of entities that will have a dependency other entities.
-Subjects are defined as logical operations on tags. Logical operations can
-includes AND/OR.`,
-		Exposed: true,
-		Name:    "subject",
-		Stored:  true,
-		SubType: "policies_list",
-		Type:    "external",
-	},
-	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "Syscall", "TokenScope", "ServiceDependency"},
-		ConvertedName:  "Type",
-		CreationOnly:   true,
-		Description:    `Type of the policy.`,
+		Description:    `Subject of the policy.`,
 		Exposed:        true,
-		Filterable:     true,
-		Name:           "type",
-		PrimaryKey:     true,
-		Stored:         true,
-		Type:           "enum",
+		Name:           "subject",
+		Orderable:      true,
+		SubType:        "policies_list",
+		Type:           "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -800,8 +679,8 @@ includes AND/OR.`,
 	},
 }
 
-// PolicyLowerCaseAttributesMap represents the map of attribute for Policy.
-var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// ServiceDependencyLowerCaseAttributesMap represents the map of attribute for ServiceDependency.
+var ServiceDependencyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -813,20 +692,8 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
-		Stored:         true,
 		Type:           "string",
-	},
-	"action": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Action",
-		Description:    `Action defines set of actions that must be enforced when a dependency is met.`,
-		Exposed:        true,
-		Name:           "action",
-		Stored:         true,
-		SubType:        "actions_list",
-		Type:           "external",
 	},
 	"activeduration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -854,24 +721,6 @@ The policy will be active for the given activeDuration.`,
 		Stored:  true,
 		SubType: "cron_expression",
 		Type:    "external",
-	},
-	"allobjecttags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AllObjectTags",
-		Description:    `This is a set of all object tags for matching in the DB.`,
-		Name:           "allObjectTags",
-		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
-	},
-	"allsubjecttags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AllSubjectTags",
-		Description:    `This is a set of all subject tags for matching in the DB.`,
-		Name:           "allSubjectTags",
-		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1020,13 +869,12 @@ with the '@' prefix, and should only be used by external systems.`,
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Object represents set of entities that another entity depends on. As subjects,
-objects are identified as logical operations on tags when a policy is defined.`,
-		Exposed: true,
-		Name:    "object",
-		Stored:  true,
-		SubType: "policies_list",
-		Type:    "external",
+		Description:    `Object of the policy.`,
+		Exposed:        true,
+		Name:           "object",
+		Orderable:      true,
+		SubType:        "policies_list",
+		Type:           "external",
 	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1067,40 +915,15 @@ namespace, but still used for policy resolution.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"relation": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Relation",
-		Description: `Relation describes the required operation to be performed between subjects and
-objects.`,
-		Exposed: true,
-		Name:    "relation",
-		Stored:  true,
-		SubType: "relations_list",
-		Type:    "external",
-	},
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject represent sets of entities that will have a dependency other entities.
-Subjects are defined as logical operations on tags. Logical operations can
-includes AND/OR.`,
-		Exposed: true,
-		Name:    "subject",
-		Stored:  true,
-		SubType: "policies_list",
-		Type:    "external",
-	},
-	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "Syscall", "TokenScope", "ServiceDependency"},
-		ConvertedName:  "Type",
-		CreationOnly:   true,
-		Description:    `Type of the policy.`,
+		Description:    `Subject of the policy.`,
 		Exposed:        true,
-		Filterable:     true,
-		Name:           "type",
-		PrimaryKey:     true,
-		Stored:         true,
-		Type:           "enum",
+		Name:           "subject",
+		Orderable:      true,
+		SubType:        "policies_list",
+		Type:           "external",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
