@@ -57,12 +57,6 @@ attributes:
     exposed: true
     format: free
 
-  - name: ressourceID
-    description: API ressource ID that handled this request.
-    type: string
-    exposed: true
-    format: free
-
   - name: sourceIP
     description: the client ip for this request.
     type: string
@@ -71,6 +65,12 @@ attributes:
 
   - name: stage
     description: the stage name as defined on AWS for the API that handled this request.
+    type: string
+    exposed: true
+    format: free
+
+  - name: token
+    description: the JWT token that was optionally attached to this request.
     type: string
     exposed: true
     format: free

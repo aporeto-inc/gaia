@@ -119,14 +119,14 @@ type AWSApiGateway struct {
 	// API ressource that handled this request.
 	Ressource string `json:"ressource" bson:"-" mapstructure:"ressource,omitempty"`
 
-	// API ressource ID that handled this request.
-	RessourceID string `json:"ressourceID" bson:"-" mapstructure:"ressourceID,omitempty"`
-
 	// the client ip for this request.
 	SourceIP string `json:"sourceIP" bson:"-" mapstructure:"sourceIP,omitempty"`
 
 	// the stage name as defined on AWS for the API that handled this request.
 	Stage string `json:"stage" bson:"-" mapstructure:"stage,omitempty"`
+
+	// the JWT token that was optionally attached to this request.
+	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -540,15 +540,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:           "ressource",
 		Type:           "string",
 	},
-	"RessourceID": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "RessourceID",
-		Description:    `API ressource ID that handled this request.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "ressourceID",
-		Type:           "string",
-	},
 	"SourceIP": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceIP",
@@ -565,6 +556,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "stage",
+		Type:           "string",
+	},
+	"Token": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Token",
+		Description:    `the JWT token that was optionally attached to this request.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "token",
 		Type:           "string",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
@@ -785,15 +785,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:           "ressource",
 		Type:           "string",
 	},
-	"ressourceid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "RessourceID",
-		Description:    `API ressource ID that handled this request.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "ressourceID",
-		Type:           "string",
-	},
 	"sourceip": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceIP",
@@ -810,6 +801,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "stage",
+		Type:           "string",
+	},
+	"token": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Token",
+		Description:    `the JWT token that was optionally attached to this request.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "token",
 		Type:           "string",
 	},
 	"updatetime": elemental.AttributeSpecification{
