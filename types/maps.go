@@ -11,6 +11,12 @@ type GraphEdgeMap map[string]*GraphEdge
 // GraphEdgeExtremityType represents the source or destination type.
 type GraphEdgeExtremityType string
 
+// GraphPolicyInfo contains infor about the policy.
+type GraphPolicyInfo struct {
+	Count     int    `json:"count"`
+	Namespace string `json:"namespace"`
+}
+
 const (
 	// GraphEdgeExtremityTypePU represents the value of a pu extremity.
 	GraphEdgeExtremityTypePU GraphEdgeExtremityType = "pu"
@@ -21,22 +27,22 @@ const (
 
 // GraphEdge represents the model of a Edge
 type GraphEdge struct {
-	AcceptedFlows         int                    `json:"acceptedFlows"`
-	DestinationID         string                 `json:"destinationID"`
-	DestinationType       GraphEdgeExtremityType `json:"destinationType"`
-	ID                    string                 `json:"ID"`
-	Name                  string                 `json:"name"`
-	RejectedFlows         int                    `json:"rejectedFlows"`
-	SourceID              string                 `json:"sourceID"`
-	SourceType            GraphEdgeExtremityType `json:"sourceType"`
-	PolicyIDs             map[string]int         `json:"policyIDs"`
-	ServiceIDs            map[string]int         `json:"serviceIDs"`
-	Encrypted             int                    `json:"encrypted"`
-	ObservedAcceptedFlows int                    `json:"observedAcceptedFlows"`
-	ObservedRejectedFlows int                    `json:"observedRejectedFlows"`
-	ObservedPolicyIDs     map[string]int         `json:"observedPolicyIDs"`
-	ObservedEncrypted     int                    `json:"observedEncrypted"`
-	ObservedServiceIDs    map[string]int         `json:"observedServiceIDs"`
+	AcceptedFlows         int                         `json:"acceptedFlows"`
+	DestinationID         string                      `json:"destinationID"`
+	DestinationType       GraphEdgeExtremityType      `json:"destinationType"`
+	ID                    string                      `json:"ID"`
+	Name                  string                      `json:"name"`
+	RejectedFlows         int                         `json:"rejectedFlows"`
+	SourceID              string                      `json:"sourceID"`
+	SourceType            GraphEdgeExtremityType      `json:"sourceType"`
+	PolicyIDs             map[string]*GraphPolicyInfo `json:"policyIDs"`
+	ServiceIDs            map[string]int              `json:"serviceIDs"`
+	Encrypted             int                         `json:"encrypted"`
+	ObservedAcceptedFlows int                         `json:"observedAcceptedFlows"`
+	ObservedRejectedFlows int                         `json:"observedRejectedFlows"`
+	ObservedPolicyIDs     map[string]*GraphPolicyInfo `json:"observedPolicyIDs"`
+	ObservedEncrypted     int                         `json:"observedEncrypted"`
+	ObservedServiceIDs    map[string]int              `json:"observedServiceIDs"`
 }
 
 // NewGraphEdge returns a new *GraphEdge
