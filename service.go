@@ -196,7 +196,7 @@ type Service struct {
 	RedirectOnFail bool `json:"redirectOnFail" bson:"redirectonfail" mapstructure:"redirectOnFail,omitempty"`
 
 	// RedirectOnNoToken is a boolean that forces a redirect response if an API request
-	// arrives and there is no user authorization infromation. This only applies to
+	// arrives and there is no user authorization information. This only applies to
 	// HTTP services and it is only send for APIs that are not public.
 	RedirectOnNoToken bool `json:"redirectOnNoToken" bson:"redirectonnotoken" mapstructure:"redirectOnNoToken,omitempty"`
 
@@ -809,7 +809,7 @@ to HTTP services and it is only send for APIs that are not public.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "RedirectOnNoToken",
 		Description: `RedirectOnNoToken is a boolean that forces a redirect response if an API request
-arrives and there is no user authorization infromation. This only applies to
+arrives and there is no user authorization information. This only applies to
 HTTP services and it is only send for APIs that are not public.`,
 		Exposed:    true,
 		Filterable: true,
@@ -1213,7 +1213,7 @@ to HTTP services and it is only send for APIs that are not public.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "RedirectOnNoToken",
 		Description: `RedirectOnNoToken is a boolean that forces a redirect response if an API request
-arrives and there is no user authorization infromation. This only applies to
+arrives and there is no user authorization information. This only applies to
 HTTP services and it is only send for APIs that are not public.`,
 		Exposed:    true,
 		Filterable: true,

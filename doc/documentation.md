@@ -7512,7 +7512,7 @@ to HTTP services and it is only send for APIs that are not public.
 #### `redirectOnNoToken (boolean)`
 
 RedirectOnNoToken is a boolean that forces a redirect response if an API request
-arrives and there is no user authorization infromation. This only applies to
+arrives and there is no user authorization information. This only applies to
 HTTP services and it is only send for APIs that are not public.
 
 | Characteristics | Value             |
