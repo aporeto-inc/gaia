@@ -9,42 +9,42 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// AWSApiGatewayIdentity represents the Identity of the object.
-var AWSApiGatewayIdentity = elemental.Identity{
+// AWSAPIGatewayIdentity represents the Identity of the object.
+var AWSAPIGatewayIdentity = elemental.Identity{
 	Name:     "awsapigateway",
 	Category: "awsapigateways",
 	Private:  false,
 }
 
-// AWSApiGatewaysList represents a list of AWSApiGateways
-type AWSApiGatewaysList []*AWSApiGateway
+// AWSAPIGatewaysList represents a list of AWSAPIGateways
+type AWSAPIGatewaysList []*AWSAPIGateway
 
 // Identity returns the identity of the objects in the list.
-func (o AWSApiGatewaysList) Identity() elemental.Identity {
+func (o AWSAPIGatewaysList) Identity() elemental.Identity {
 
-	return AWSApiGatewayIdentity
+	return AWSAPIGatewayIdentity
 }
 
-// Copy returns a pointer to a copy the AWSApiGatewaysList.
-func (o AWSApiGatewaysList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the AWSAPIGatewaysList.
+func (o AWSAPIGatewaysList) Copy() elemental.Identifiables {
 
-	copy := append(AWSApiGatewaysList{}, o...)
+	copy := append(AWSAPIGatewaysList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the AWSApiGatewaysList.
-func (o AWSApiGatewaysList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the AWSAPIGatewaysList.
+func (o AWSAPIGatewaysList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(AWSApiGatewaysList{}, o...)
+	out := append(AWSAPIGatewaysList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*AWSApiGateway))
+		out = append(out, obj.(*AWSAPIGateway))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o AWSApiGatewaysList) List() elemental.IdentifiablesList {
+func (o AWSAPIGatewaysList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}
 	for _, item := range o {
@@ -55,7 +55,7 @@ func (o AWSApiGatewaysList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o AWSApiGatewaysList) DefaultOrder() []string {
+func (o AWSAPIGatewaysList) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -63,24 +63,24 @@ func (o AWSApiGatewaysList) DefaultOrder() []string {
 }
 
 // Version returns the version of the content.
-func (o AWSApiGatewaysList) Version() int {
+func (o AWSAPIGatewaysList) Version() int {
 
 	return 1
 }
 
-// AWSApiGateway represents the model of a awsapigateway
-type AWSApiGateway struct {
+// AWSAPIGateway represents the model of a awsapigateway
+type AWSAPIGateway struct {
+	// API ID as defined on AWS for the API that handled this request.
+	APIID string `json:"APIID" bson:"-" mapstructure:"APIID,omitempty"`
+
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// the accounf ID for the gateway managing this request.
+	// the account ID for the gateway managing this request.
 	AccountID string `json:"accountID" bson:"-" mapstructure:"accountID,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
-
-	// API ID as defined on AWS for the API that handled this request.
-	ApiID string `json:"apiID" bson:"-" mapstructure:"apiID,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
@@ -116,8 +116,8 @@ type AWSApiGateway struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// API ressource that handled this request.
-	Ressource string `json:"ressource" bson:"-" mapstructure:"ressource,omitempty"`
+	// API resource that handled this request.
+	Resource string `json:"resource" bson:"-" mapstructure:"resource,omitempty"`
 
 	// the client ip for this request.
 	SourceIP string `json:"sourceIP" bson:"-" mapstructure:"sourceIP,omitempty"`
@@ -136,10 +136,10 @@ type AWSApiGateway struct {
 	sync.Mutex
 }
 
-// NewAWSApiGateway returns a new *AWSApiGateway
-func NewAWSApiGateway() *AWSApiGateway {
+// NewAWSAPIGateway returns a new *AWSAPIGateway
+func NewAWSAPIGateway() *AWSAPIGateway {
 
-	return &AWSApiGateway{
+	return &AWSAPIGateway{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
@@ -149,31 +149,31 @@ func NewAWSApiGateway() *AWSApiGateway {
 }
 
 // Identity returns the Identity of the object.
-func (o *AWSApiGateway) Identity() elemental.Identity {
+func (o *AWSAPIGateway) Identity() elemental.Identity {
 
-	return AWSApiGatewayIdentity
+	return AWSAPIGatewayIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *AWSApiGateway) Identifier() string {
+func (o *AWSAPIGateway) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *AWSApiGateway) SetIdentifier(id string) {
+func (o *AWSAPIGateway) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *AWSApiGateway) Version() int {
+func (o *AWSAPIGateway) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *AWSApiGateway) DefaultOrder() []string {
+func (o *AWSAPIGateway) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -181,119 +181,119 @@ func (o *AWSApiGateway) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *AWSApiGateway) Doc() string {
+func (o *AWSAPIGateway) Doc() string {
 	return `managed API decisions for the AWS API Gateway.`
 }
 
-func (o *AWSApiGateway) String() string {
+func (o *AWSAPIGateway) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *AWSApiGateway) GetAnnotations() map[string][]string {
+func (o *AWSAPIGateway) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the given Annotations of the receiver.
-func (o *AWSApiGateway) SetAnnotations(annotations map[string][]string) {
+func (o *AWSAPIGateway) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *AWSApiGateway) GetAssociatedTags() []string {
+func (o *AWSAPIGateway) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the given AssociatedTags of the receiver.
-func (o *AWSApiGateway) SetAssociatedTags(associatedTags []string) {
+func (o *AWSAPIGateway) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *AWSApiGateway) GetCreateTime() time.Time {
+func (o *AWSAPIGateway) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the given CreateTime of the receiver.
-func (o *AWSApiGateway) SetCreateTime(createTime time.Time) {
+func (o *AWSAPIGateway) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *AWSApiGateway) GetMetadata() []string {
+func (o *AWSAPIGateway) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the given Metadata of the receiver.
-func (o *AWSApiGateway) SetMetadata(metadata []string) {
+func (o *AWSAPIGateway) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *AWSApiGateway) GetName() string {
+func (o *AWSAPIGateway) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the given Name of the receiver.
-func (o *AWSApiGateway) SetName(name string) {
+func (o *AWSAPIGateway) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *AWSApiGateway) GetNamespace() string {
+func (o *AWSAPIGateway) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the given Namespace of the receiver.
-func (o *AWSApiGateway) SetNamespace(namespace string) {
+func (o *AWSAPIGateway) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *AWSApiGateway) GetNormalizedTags() []string {
+func (o *AWSAPIGateway) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *AWSApiGateway) SetNormalizedTags(normalizedTags []string) {
+func (o *AWSAPIGateway) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *AWSApiGateway) GetProtected() bool {
+func (o *AWSAPIGateway) GetProtected() bool {
 
 	return o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *AWSApiGateway) GetUpdateTime() time.Time {
+func (o *AWSAPIGateway) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *AWSApiGateway) SetUpdateTime(updateTime time.Time) {
+func (o *AWSAPIGateway) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // Validate valides the current information stored into the structure.
-func (o *AWSApiGateway) Validate() error {
+func (o *AWSAPIGateway) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -322,24 +322,33 @@ func (o *AWSApiGateway) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*AWSApiGateway) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*AWSAPIGateway) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := AWSApiGatewayAttributesMap[name]; ok {
+	if v, ok := AWSAPIGatewayAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return AWSApiGatewayLowerCaseAttributesMap[name]
+	return AWSAPIGatewayLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*AWSApiGateway) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*AWSAPIGateway) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return AWSApiGatewayAttributesMap
+	return AWSAPIGatewayAttributesMap
 }
 
-// AWSApiGatewayAttributesMap represents the map of attribute for AWSApiGateway.
-var AWSApiGatewayAttributesMap = map[string]elemental.AttributeSpecification{
+// AWSAPIGatewayAttributesMap represents the map of attribute for AWSAPIGateway.
+var AWSAPIGatewayAttributesMap = map[string]elemental.AttributeSpecification{
+	"APIID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "APIID",
+		Description:    `API ID as defined on AWS for the API that handled this request.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "APIID",
+		Type:           "string",
+	},
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -359,7 +368,7 @@ var AWSApiGatewayAttributesMap = map[string]elemental.AttributeSpecification{
 	"AccountID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AccountID",
-		Description:    `the accounf ID for the gateway managing this request.`,
+		Description:    `the account ID for the gateway managing this request.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "accountID",
@@ -376,15 +385,6 @@ var AWSApiGatewayAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
-	},
-	"ApiID": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ApiID",
-		Description:    `API ID as defined on AWS for the API that handled this request.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "apiID",
-		Type:           "string",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -531,13 +531,13 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"Ressource": elemental.AttributeSpecification{
+	"Resource": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Ressource",
-		Description:    `API ressource that handled this request.`,
+		ConvertedName:  "Resource",
+		Description:    `API resource that handled this request.`,
 		Exposed:        true,
 		Format:         "free",
-		Name:           "ressource",
+		Name:           "resource",
 		Type:           "string",
 	},
 	"SourceIP": elemental.AttributeSpecification{
@@ -583,8 +583,17 @@ with the '@' prefix, and should only be used by external systems.`,
 	},
 }
 
-// AWSApiGatewayLowerCaseAttributesMap represents the map of attribute for AWSApiGateway.
-var AWSApiGatewayLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// AWSAPIGatewayLowerCaseAttributesMap represents the map of attribute for AWSAPIGateway.
+var AWSAPIGatewayLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"apiid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "APIID",
+		Description:    `API ID as defined on AWS for the API that handled this request.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "APIID",
+		Type:           "string",
+	},
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -604,7 +613,7 @@ var AWSApiGatewayLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"accountid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AccountID",
-		Description:    `the accounf ID for the gateway managing this request.`,
+		Description:    `the account ID for the gateway managing this request.`,
 		Exposed:        true,
 		Format:         "free",
 		Name:           "accountID",
@@ -621,15 +630,6 @@ var AWSApiGatewayLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
-	},
-	"apiid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ApiID",
-		Description:    `API ID as defined on AWS for the API that handled this request.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "apiID",
-		Type:           "string",
 	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -776,13 +776,13 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"ressource": elemental.AttributeSpecification{
+	"resource": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Ressource",
-		Description:    `API ressource that handled this request.`,
+		ConvertedName:  "Resource",
+		Description:    `API resource that handled this request.`,
 		Exposed:        true,
 		Format:         "free",
-		Name:           "ressource",
+		Name:           "resource",
 		Type:           "string",
 	},
 	"sourceip": elemental.AttributeSpecification{

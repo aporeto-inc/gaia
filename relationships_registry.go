@@ -40,8 +40,14 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[AWSAccountIdentity] = &elemental.Relationship{
+	relationshipsRegistry[AWSAPIGatewayIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+		AllowsUpdate: map[string]bool{
+			"root": true,
+		},
+		AllowsPatch: map[string]bool{
 			"root": true,
 		},
 		AllowsDelete: map[string]bool{
@@ -58,14 +64,8 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[AWSApiGatewayIdentity] = &elemental.Relationship{
+	relationshipsRegistry[AWSAccountIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
-			"root": true,
-		},
-		AllowsUpdate: map[string]bool{
-			"root": true,
-		},
-		AllowsPatch: map[string]bool{
 			"root": true,
 		},
 		AllowsDelete: map[string]bool{

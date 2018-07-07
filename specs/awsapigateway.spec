@@ -2,7 +2,7 @@
 model:
   rest_name: awsapigateway
   resource_name: awsapigateways
-  entity_name: AWSApiGateway
+  entity_name: AWSAPIGateway
   package: goldrush
   description: managed API decisions for the AWS API Gateway.
   create: true
@@ -19,14 +19,14 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: accountID
-    description: the accounf ID for the gateway managing this request.
+  - name: APIID
+    description: API ID as defined on AWS for the API that handled this request.
     type: string
     exposed: true
     format: free
 
-  - name: apiID
-    description: API ID as defined on AWS for the API that handled this request.
+  - name: accountID
+    description: the account ID for the gateway managing this request.
     type: string
     exposed: true
     format: free
@@ -51,8 +51,8 @@ attributes:
     exposed: true
     format: free
 
-  - name: ressource
-    description: API ressource that handled this request.
+  - name: resource
+    description: API resource that handled this request.
     type: string
     exposed: true
     format: free
