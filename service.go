@@ -235,7 +235,7 @@ func NewService() *Service {
 		AllServiceTags:    []string{},
 		Annotations:       map[string][]string{},
 		AssociatedTags:    []string{},
-		AuthorizationType: "PKI",
+		AuthorizationType: "None",
 		Endpoints:         types.ExposedAPIList{},
 		External:          false,
 		IPs:               types.IPList{},
@@ -606,7 +606,7 @@ secret that should be used with the OAUTH provider to validate tokens.`,
 	"AuthorizationType": elemental.AttributeSpecification{
 		AllowedChoices: []string{"PKI", "OIDC", "None"},
 		ConvertedName:  "AuthorizationType",
-		DefaultValue:   ServiceAuthorizationTypePKI,
+		DefaultValue:   ServiceAuthorizationTypeNone,
 		Description: `AuthorizationType defines the user authorization type that should be used.
 Currently supporting PKI, and OIDC.`,
 		Exposed: true,
@@ -1010,7 +1010,7 @@ secret that should be used with the OAUTH provider to validate tokens.`,
 	"authorizationtype": elemental.AttributeSpecification{
 		AllowedChoices: []string{"PKI", "OIDC", "None"},
 		ConvertedName:  "AuthorizationType",
-		DefaultValue:   ServiceAuthorizationTypePKI,
+		DefaultValue:   ServiceAuthorizationTypeNone,
 		Description: `AuthorizationType defines the user authorization type that should be used.
 Currently supporting PKI, and OIDC.`,
 		Exposed: true,

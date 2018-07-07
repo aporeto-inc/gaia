@@ -95,7 +95,7 @@ attributes:
     - PKI
     - OIDC
     - None
-    default_value: PKI
+    default_value: None
 
   - name: endpoints
     description: |-

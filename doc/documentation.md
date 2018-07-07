@@ -7368,7 +7368,7 @@ Currently supporting PKI, and OIDC.
 | Characteristics | Value             |
 | -               | -:                |
 | Allowed Value   | `PKI, OIDC, None` |
-| Default         | `PKI`             |
+| Default         | `None`            |
 
 #### `createTime (time)`
 
