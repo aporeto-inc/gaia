@@ -92,6 +92,7 @@ attributes:
     - LinuxService
     - RKT
     - User
+    - APIGateway
     example_value: Docker
     filterable: true
 
