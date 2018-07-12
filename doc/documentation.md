@@ -7511,6 +7511,31 @@ Annotation stores additional information about an entity.
 
 AssociatedTags are the list of tags attached to an entity.
 
+#### `authorizationID (string)`
+
+authorizationID is only valid for OIDC authorization and defines the
+issuer ID of the OAUTH token.
+
+#### `authorizationProvider (string)`
+
+authorizationProvider is only valid for OAUTH authorization and defines the
+URL to the OAUTH provider that must be used.
+
+#### `authorizationSecret (string)`
+
+authorizationSecret is only valid for OIDC authorization and defines the
+secret that should be used with the OAUTH provider to validate tokens.
+
+#### `authorizationType (enum)`
+
+AuthorizationType defines the user authorization type that should be used.
+Currently supporting PKI, and OIDC.
+
+| Characteristics | Value             |
+| -               | -:                |
+| Allowed Value   | `PKI, OIDC, None` |
+| Default         | `None`            |
+
 #### `createTime (time)`
 
 CreatedTime is the time at which the object was created.
@@ -7637,6 +7662,37 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 | Filterable      | `true` |
+
+#### `redirectOnFail (boolean)`
+
+RedirectOnFail is a boolean that forces a redirect response if an API request
+arrives and the user authorization information is not valid. This only applies
+to HTTP services and it is only send for APIs that are not public.
+
+| Characteristics | Value             |
+| -               | -:                |
+| Default         | `%!s(bool=false)` |
+| Orderable       | `true`            |
+| Filterable      | `true`            |
+
+#### `redirectOnNoToken (boolean)`
+
+RedirectOnNoToken is a boolean that forces a redirect response if an API request
+arrives and there is no user authorization information. This only applies to
+HTTP services and it is only send for APIs that are not public.
+
+| Characteristics | Value             |
+| -               | -:                |
+| Default         | `%!s(bool=false)` |
+| Orderable       | `true`            |
+| Filterable      | `true`            |
+
+#### `redirectURL (string)`
+
+RedirectURL is the URL that will be send back to the user to
+redirect for authentication if there is no user authorization information in
+the API request. If the redirect flag is not set, this field has no meaning.The
+template is a Go Lang template where specific functions are supported.
 
 #### `selectors (external:policies_list)`
 

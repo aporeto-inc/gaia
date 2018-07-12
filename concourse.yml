@@ -18,5 +18,4 @@ run:
       export GOPATH=$PWD/go:$GOPATH
 
       cd  go/src/go.aporeto.io/gaia
-      dep ensure -v
-      ./.test.sh
+      make ci

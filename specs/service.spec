@@ -60,6 +60,43 @@ attributes:
     stored: true
     read_only: true
 
+  - name: authorizationID
+    description: |-
+      authorizationID is only valid for OIDC authorization and defines the
+      issuer ID of the OAUTH token.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: authorizationProvider
+    description: |-
+      authorizationProvider is only valid for OAUTH authorization and defines the
+      URL to the OAUTH provider that must be used.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: authorizationSecret
+    description: |-
+      authorizationSecret is only valid for OIDC authorization and defines the
+      secret that should be used with the OAUTH provider to validate tokens.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: authorizationType
+    description: |-
+      AuthorizationType defines the user authorization type that should be used.
+      Currently supporting PKI, and OIDC.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - PKI
+    - OIDC
+    - None
+    default_value: None
+
   - name: endpoints
     description: |-
       Endpoints is a read only attribute that actually resolves the API
@@ -124,6 +161,41 @@ attributes:
     required: true
     example_value: 443
     max_value: 65535
+
+  - name: redirectOnFail
+    description: |-
+      RedirectOnFail is a boolean that forces a redirect response if an API request
+      arrives and the user authorization information is not valid. This only applies
+      to HTTP services and it is only send for APIs that are not public.
+    type: boolean
+    exposed: true
+    stored: true
+    default_value: false
+    filterable: true
+    orderable: true
+
+  - name: redirectOnNoToken
+    description: |-
+      RedirectOnNoToken is a boolean that forces a redirect response if an API request
+      arrives and there is no user authorization information. This only applies to
+      HTTP services and it is only send for APIs that are not public.
+    type: boolean
+    exposed: true
+    stored: true
+    default_value: false
+    filterable: true
+    orderable: true
+
+  - name: redirectURL
+    description: |-
+      RedirectURL is the URL that will be send back to the user to
+      redirect for authentication if there is no user authorization information in
+      the API request. If the redirect flag is not set, this field has no meaning.The
+      template is a Go Lang template where specific functions are supported.
+    type: string
+    exposed: true
+    stored: true
+    format: free
 
   - name: selectors
     description: |-

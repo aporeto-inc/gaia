@@ -10,6 +10,20 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
+// ServiceAuthorizationTypeValue represents the possible values for attribute "authorizationType".
+type ServiceAuthorizationTypeValue string
+
+const (
+	// ServiceAuthorizationTypeNone represents the value None.
+	ServiceAuthorizationTypeNone ServiceAuthorizationTypeValue = "None"
+
+	// ServiceAuthorizationTypeOIDC represents the value OIDC.
+	ServiceAuthorizationTypeOIDC ServiceAuthorizationTypeValue = "OIDC"
+
+	// ServiceAuthorizationTypePKI represents the value PKI.
+	ServiceAuthorizationTypePKI ServiceAuthorizationTypeValue = "PKI"
+)
+
 // ServiceTypeValue represents the possible values for attribute "type".
 type ServiceTypeValue string
 
@@ -111,6 +125,22 @@ type Service struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// authorizationID is only valid for OIDC authorization and defines the
+	// issuer ID of the OAUTH token.
+	AuthorizationID string `json:"authorizationID" bson:"authorizationid" mapstructure:"authorizationID,omitempty"`
+
+	// authorizationProvider is only valid for OAUTH authorization and defines the
+	// URL to the OAUTH provider that must be used.
+	AuthorizationProvider string `json:"authorizationProvider" bson:"authorizationprovider" mapstructure:"authorizationProvider,omitempty"`
+
+	// authorizationSecret is only valid for OIDC authorization and defines the
+	// secret that should be used with the OAUTH provider to validate tokens.
+	AuthorizationSecret string `json:"authorizationSecret" bson:"authorizationsecret" mapstructure:"authorizationSecret,omitempty"`
+
+	// AuthorizationType defines the user authorization type that should be used.
+	// Currently supporting PKI, and OIDC.
+	AuthorizationType ServiceAuthorizationTypeValue `json:"authorizationType" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
+
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -160,6 +190,22 @@ type Service struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
+	// RedirectOnFail is a boolean that forces a redirect response if an API request
+	// arrives and the user authorization information is not valid. This only applies
+	// to HTTP services and it is only send for APIs that are not public.
+	RedirectOnFail bool `json:"redirectOnFail" bson:"redirectonfail" mapstructure:"redirectOnFail,omitempty"`
+
+	// RedirectOnNoToken is a boolean that forces a redirect response if an API request
+	// arrives and there is no user authorization information. This only applies to
+	// HTTP services and it is only send for APIs that are not public.
+	RedirectOnNoToken bool `json:"redirectOnNoToken" bson:"redirectonnotoken" mapstructure:"redirectOnNoToken,omitempty"`
+
+	// RedirectURL is the URL that will be send back to the user to
+	// redirect for authentication if there is no user authorization information in
+	// the API request. If the redirect flag is not set, this field has no meaning.The
+	// template is a Go Lang template where specific functions are supported.
+	RedirectURL string `json:"redirectURL" bson:"redirecturl" mapstructure:"redirectURL,omitempty"`
+
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to implement this particular service.
 	Selectors [][]string `json:"selectors" bson:"selectors" mapstructure:"selectors,omitempty"`
@@ -184,17 +230,20 @@ type Service struct {
 func NewService() *Service {
 
 	return &Service{
-		ModelVersion:   1,
-		AllAPITags:     []string{},
-		AllServiceTags: []string{},
-		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
-		Endpoints:      types.ExposedAPIList{},
-		External:       false,
-		IPs:            types.IPList{},
-		Metadata:       []string{},
-		NormalizedTags: []string{},
-		Type:           "HTTP",
+		ModelVersion:      1,
+		AllAPITags:        []string{},
+		AllServiceTags:    []string{},
+		Annotations:       map[string][]string{},
+		AssociatedTags:    []string{},
+		AuthorizationType: "None",
+		Endpoints:         types.ExposedAPIList{},
+		External:          false,
+		IPs:               types.IPList{},
+		Metadata:          []string{},
+		NormalizedTags:    []string{},
+		RedirectOnFail:    false,
+		RedirectOnNoToken: false,
+		Type:              "HTTP",
 	}
 }
 
@@ -363,6 +412,10 @@ func (o *Service) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateStringInList("authorizationType", string(o.AuthorizationType), []string{"PKI", "OIDC", "None"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -519,6 +572,47 @@ required for this service. The certificate must be in PEM format.`,
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
+	},
+	"AuthorizationID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizationID",
+		Description: `authorizationID is only valid for OIDC authorization and defines the
+issuer ID of the OAUTH token.`,
+		Exposed: true,
+		Name:    "authorizationID",
+		Stored:  true,
+		Type:    "string",
+	},
+	"AuthorizationProvider": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizationProvider",
+		Description: `authorizationProvider is only valid for OAUTH authorization and defines the
+URL to the OAUTH provider that must be used.`,
+		Exposed: true,
+		Name:    "authorizationProvider",
+		Stored:  true,
+		Type:    "string",
+	},
+	"AuthorizationSecret": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizationSecret",
+		Description: `authorizationSecret is only valid for OIDC authorization and defines the
+secret that should be used with the OAUTH provider to validate tokens.`,
+		Exposed: true,
+		Name:    "authorizationSecret",
+		Stored:  true,
+		Type:    "string",
+	},
+	"AuthorizationType": elemental.AttributeSpecification{
+		AllowedChoices: []string{"PKI", "OIDC", "None"},
+		ConvertedName:  "AuthorizationType",
+		DefaultValue:   ServiceAuthorizationTypeNone,
+		Description: `AuthorizationType defines the user authorization type that should be used.
+Currently supporting PKI, and OIDC.`,
+		Exposed: true,
+		Name:    "authorizationType",
+		Stored:  true,
+		Type:    "enum",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -698,6 +792,45 @@ for port mapping use cases where there is private and public ports.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"RedirectOnFail": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RedirectOnFail",
+		Description: `RedirectOnFail is a boolean that forces a redirect response if an API request
+arrives and the user authorization information is not valid. This only applies
+to HTTP services and it is only send for APIs that are not public.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "redirectOnFail",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "boolean",
+	},
+	"RedirectOnNoToken": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RedirectOnNoToken",
+		Description: `RedirectOnNoToken is a boolean that forces a redirect response if an API request
+arrives and there is no user authorization information. This only applies to
+HTTP services and it is only send for APIs that are not public.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "redirectOnNoToken",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "boolean",
+	},
+	"RedirectURL": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RedirectURL",
+		Description: `RedirectURL is the URL that will be send back to the user to
+redirect for authentication if there is no user authorization information in
+the API request. If the redirect flag is not set, this field has no meaning.The
+template is a Go Lang template where specific functions are supported.`,
+		Exposed: true,
+		Format:  "free",
+		Name:    "redirectURL",
+		Stored:  true,
+		Type:    "string",
+	},
 	"Selectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Selectors",
@@ -843,6 +976,47 @@ required for this service. The certificate must be in PEM format.`,
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
+	},
+	"authorizationid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizationID",
+		Description: `authorizationID is only valid for OIDC authorization and defines the
+issuer ID of the OAUTH token.`,
+		Exposed: true,
+		Name:    "authorizationID",
+		Stored:  true,
+		Type:    "string",
+	},
+	"authorizationprovider": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizationProvider",
+		Description: `authorizationProvider is only valid for OAUTH authorization and defines the
+URL to the OAUTH provider that must be used.`,
+		Exposed: true,
+		Name:    "authorizationProvider",
+		Stored:  true,
+		Type:    "string",
+	},
+	"authorizationsecret": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizationSecret",
+		Description: `authorizationSecret is only valid for OIDC authorization and defines the
+secret that should be used with the OAUTH provider to validate tokens.`,
+		Exposed: true,
+		Name:    "authorizationSecret",
+		Stored:  true,
+		Type:    "string",
+	},
+	"authorizationtype": elemental.AttributeSpecification{
+		AllowedChoices: []string{"PKI", "OIDC", "None"},
+		ConvertedName:  "AuthorizationType",
+		DefaultValue:   ServiceAuthorizationTypeNone,
+		Description: `AuthorizationType defines the user authorization type that should be used.
+Currently supporting PKI, and OIDC.`,
+		Exposed: true,
+		Name:    "authorizationType",
+		Stored:  true,
+		Type:    "enum",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1021,6 +1195,45 @@ for port mapping use cases where there is private and public ports.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"redirectonfail": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RedirectOnFail",
+		Description: `RedirectOnFail is a boolean that forces a redirect response if an API request
+arrives and the user authorization information is not valid. This only applies
+to HTTP services and it is only send for APIs that are not public.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "redirectOnFail",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "boolean",
+	},
+	"redirectonnotoken": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RedirectOnNoToken",
+		Description: `RedirectOnNoToken is a boolean that forces a redirect response if an API request
+arrives and there is no user authorization information. This only applies to
+HTTP services and it is only send for APIs that are not public.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "redirectOnNoToken",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "boolean",
+	},
+	"redirecturl": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RedirectURL",
+		Description: `RedirectURL is the URL that will be send back to the user to
+redirect for authentication if there is no user authorization information in
+the API request. If the redirect flag is not set, this field has no meaning.The
+template is a Go Lang template where specific functions are supported.`,
+		Exposed: true,
+		Format:  "free",
+		Name:    "redirectURL",
+		Stored:  true,
+		Type:    "string",
 	},
 	"selectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
