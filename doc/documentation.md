@@ -789,6 +789,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -1094,6 +1095,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -2108,6 +2110,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -2684,6 +2687,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -3024,6 +3028,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -3331,6 +3336,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -3499,6 +3505,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -4005,6 +4012,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `mode (enum)`
 
@@ -4466,6 +4474,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -4729,6 +4738,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -5187,6 +5197,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -5352,6 +5363,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -5553,6 +5565,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -5881,6 +5894,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -6195,6 +6209,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -6400,6 +6415,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -6576,6 +6592,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -6973,6 +6990,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -7264,6 +7282,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -7481,6 +7500,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
@@ -7826,6 +7846,7 @@ with the '@' prefix, and should only be used by external systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Creation only   | `true` |
+| Filterable      | `true` |
 
 #### `name (string)`
 
