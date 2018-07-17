@@ -38,7 +38,6 @@ attributes:
     - Reject
     - Snapshot
     - Stop
-    filterable: true
     orderable: true
 
   - name: isolationProfileSelector

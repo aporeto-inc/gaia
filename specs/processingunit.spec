@@ -63,7 +63,6 @@ attributes:
     exposed: true
     subtype: processing_unit_services_list
     stored: true
-    filterable: true
     orderable: true
 
   - name: operationalStatus
@@ -78,7 +77,6 @@ attributes:
     - Stopped
     - Terminated
     default_value: Initialized
-    filterable: true
 
   - name: type
     description: Type of the container ecosystem.
@@ -93,7 +91,6 @@ attributes:
     - RKT
     - User
     example_value: Docker
-    filterable: true
 
 # Relations
 relations:

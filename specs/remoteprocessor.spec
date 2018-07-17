@@ -72,7 +72,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    filterable: true
     format: free
     orderable: true
 

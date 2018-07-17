@@ -10,6 +10,5 @@ attributes:
     subtype: metadata_list
     stored: true
     creation_only: true
-    filterable: true
     getter: true
     setter: true

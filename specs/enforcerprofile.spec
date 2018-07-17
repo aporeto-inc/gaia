@@ -31,7 +31,6 @@ attributes:
     exposed: true
     stored: true
     default_value: 1000
-    filterable: true
     max_value: 65000
     orderable: true
 
@@ -42,7 +41,6 @@ attributes:
     stored: true
     allowed_chars: ^[0-9]+[smh]$
     default_value: 15m
-    filterable: true
     format: free
     orderable: true
 
@@ -53,7 +51,6 @@ attributes:
     stored: true
     allowed_chars: ^[0-9]+[smh]$
     default_value: 5s
-    filterable: true
     format: free
     orderable: true
 
@@ -63,7 +60,6 @@ attributes:
     exposed: true
     stored: true
     default_value: 20992
-    filterable: true
     max_value: 65535
     min_value: 1
     orderable: true
@@ -95,7 +91,6 @@ attributes:
     exposed: true
     stored: true
     default_value: "16384"
-    filterable: true
     max_value: 262144
     orderable: true
 
@@ -106,7 +101,6 @@ attributes:
     stored: true
     allowed_chars: ^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$
     default_value: unix:///var/run/docker.sock
-    filterable: true
     format: free
     orderable: true
 
@@ -116,7 +110,6 @@ attributes:
     exposed: true
     subtype: excluded_interfaces_list
     stored: true
-    filterable: true
     orderable: true
 
   - name: excludedNetworks
@@ -127,7 +120,6 @@ attributes:
     exposed: true
     subtype: excluded_networks_list
     stored: true
-    filterable: true
     orderable: true
 
   - name: hostServices
@@ -160,7 +152,6 @@ attributes:
     - PodAtomic
     - PodContainers
     default_value: KubeSquall
-    filterable: true
     orderable: true
 
   - name: kubernetesSupportEnabled
@@ -169,7 +160,6 @@ attributes:
     exposed: true
     stored: true
     default_value: "false"
-    filterable: true
     orderable: true
 
   - name: linuxProcessesSupportEnabled
@@ -190,7 +180,6 @@ attributes:
     - ECS
     - Kubernetes
     default_value: Docker
-    filterable: true
     orderable: true
 
   - name: policySynchronizationInterval
@@ -202,7 +191,6 @@ attributes:
     stored: true
     allowed_chars: ^[0-9]+[smh]$
     default_value: 10m
-    filterable: true
     format: free
     orderable: true
 
@@ -217,7 +205,6 @@ attributes:
     stored: true
     allowed_chars: ^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$
     default_value: unix:///var/run/aporeto.sock
-    filterable: true
     format: free
     orderable: true
 
@@ -229,7 +216,6 @@ attributes:
     exposed: true
     stored: true
     default_value: "4"
-    filterable: true
     max_value: 16
     min_value: 1
     orderable: true
@@ -240,7 +226,6 @@ attributes:
     exposed: true
     stored: true
     default_value: "0"
-    filterable: true
     max_value: 1000
     orderable: true
 
@@ -250,7 +235,6 @@ attributes:
     exposed: true
     stored: true
     default_value: "500"
-    filterable: true
     max_value: 5000
     min_value: 1
     orderable: true
@@ -263,7 +247,6 @@ attributes:
     exposed: true
     stored: true
     default_value: "true"
-    filterable: true
     orderable: true
 
   - name: targetNetworks
@@ -273,7 +256,6 @@ attributes:
     exposed: true
     subtype: target_networks_list
     stored: true
-    filterable: true
     orderable: true
 
   - name: transmitterNumberOfQueues
@@ -283,7 +265,6 @@ attributes:
     exposed: true
     stored: true
     default_value: "4"
-    filterable: true
     max_value: 16
     min_value: 1
     orderable: true
@@ -296,7 +277,6 @@ attributes:
     exposed: true
     stored: true
     default_value: "4"
-    filterable: true
     max_value: 1000
     min_value: 1
     orderable: true
@@ -307,7 +287,6 @@ attributes:
     exposed: true
     stored: true
     default_value: "500"
-    filterable: true
     max_value: 1000
     min_value: 1
     orderable: true

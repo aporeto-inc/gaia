@@ -88,5 +88,4 @@ attributes:
     - Syscall
     - TokenScope
     - ServiceDependency
-    filterable: true
     primary_key: true

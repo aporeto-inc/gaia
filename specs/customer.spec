@@ -27,6 +27,7 @@ attributes:
     - Aporeto
     - AWS
     default_value: Aporeto
+    filterable: true
 
   - name: providerCustomerID
     description: |-
@@ -35,7 +36,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    filterable: true
     format: free
     orderable: true
 

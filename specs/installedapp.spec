@@ -41,7 +41,6 @@ attributes:
     exposed: true
     stored: true
     read_only: true
-    filterable: true
     format: free
     orderable: true
 
@@ -106,7 +105,6 @@ attributes:
     - Pending
     - Running
     default_value: Pending
-    filterable: true
     orderable: true
 
 # Relations

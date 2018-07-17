@@ -89,5 +89,4 @@ attributes:
     - Server
     - ServerClient
     default_value: Client
-    filterable: true
     orderable: true

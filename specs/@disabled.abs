@@ -6,7 +6,6 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    filterable: true
     getter: true
     setter: true
     orderable: true

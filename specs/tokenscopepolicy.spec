@@ -33,7 +33,6 @@ attributes:
     exposed: true
     subtype: tags_list
     stored: true
-    filterable: true
     orderable: true
 
   - name: subject
@@ -44,5 +43,4 @@ attributes:
     exposed: true
     subtype: policies_list
     stored: true
-    filterable: true
     orderable: true

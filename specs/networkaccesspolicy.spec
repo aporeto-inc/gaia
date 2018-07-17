@@ -37,7 +37,6 @@ attributes:
     - Reject
     - Continue
     default_value: Allow
-    filterable: true
     orderable: true
 
   - name: destinationPorts
@@ -45,21 +44,18 @@ attributes:
     type: external
     exposed: true
     subtype: ports_list
-    filterable: true
     orderable: true
 
   - name: encryptionEnabled
     description: EncryptionEnabled defines if the flow has to be encrypted.
     type: boolean
     exposed: true
-    filterable: true
     orderable: true
 
   - name: logsEnabled
     description: LogsEnabled defines if the flow has to be logged.
     type: boolean
     exposed: true
-    filterable: true
     orderable: true
 
   - name: object
@@ -73,7 +69,6 @@ attributes:
     description: If set to true, the flow will be in observation mode.
     type: boolean
     exposed: true
-    filterable: true
     orderable: true
 
   - name: observedTrafficAction
@@ -86,7 +81,6 @@ attributes:
     - Apply
     - Continue
     default_value: Continue
-    filterable: true
     orderable: true
 
   - name: passthrough

@@ -29,7 +29,6 @@ attributes:
     exposed: true
     subtype: cap_map
     stored: true
-    filterable: true
     orderable: true
 
   - name: defaultSyscallAction
@@ -49,7 +48,6 @@ attributes:
     exposed: true
     subtype: syscall_rules
     stored: true
-    filterable: true
     orderable: true
 
   - name: targetArchitectures
@@ -60,5 +58,4 @@ attributes:
     exposed: true
     subtype: arch_list
     stored: true
-    filterable: true
     orderable: true
