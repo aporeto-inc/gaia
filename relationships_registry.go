@@ -1080,6 +1080,15 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[SquallTagIdentity] = &elemental.Relationship{
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
+	}
+
 	relationshipsRegistry[StatsQueryIdentity] = &elemental.Relationship{
 		AllowsRetrieveMany: map[string]bool{
 			"root": true,

@@ -426,3 +426,8 @@ relations:
   descriptions:
     get: Verifies if a x509 certificate is valid.
   get: true
+
+- rest_name: squalltag
+  descriptions:
+    get: Retrieves a computed list of tags from squall for caching.
+  get: true

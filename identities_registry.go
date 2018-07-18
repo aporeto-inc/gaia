@@ -73,6 +73,7 @@ var (
 		"root":                         RootIdentity,
 		"service":                      ServiceIdentity,
 		"servicedependency":            ServiceDependencyIdentity,
+		"squalltag":                    SquallTagIdentity,
 		"statsquery":                   StatsQueryIdentity,
 		"suggestedpolicy":              SuggestedPolicyIdentity,
 		"tabulation":                   TabulationIdentity,
@@ -156,6 +157,7 @@ var (
 		"root":                           RootIdentity,
 		"services":                       ServiceIdentity,
 		"servicedependencies":            ServiceDependencyIdentity,
+		"squalltags":                     SquallTagIdentity,
 		"statsqueries":                   StatsQueryIdentity,
 		"suggestedpolicies":              SuggestedPolicyIdentity,
 		"tabulations":                    TabulationIdentity,
@@ -416,6 +418,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewService()
 	case ServiceDependencyIdentity:
 		return NewServiceDependency()
+	case SquallTagIdentity:
+		return NewSquallTag()
 	case StatsQueryIdentity:
 		return NewStatsQuery()
 	case SuggestedPolicyIdentity:
@@ -588,6 +592,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ServicesList{}
 	case ServiceDependencyIdentity:
 		return &ServiceDependenciesList{}
+	case SquallTagIdentity:
+		return &SquallTagsList{}
 	case StatsQueryIdentity:
 		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity:
@@ -703,6 +709,7 @@ func AllIdentities() []elemental.Identity {
 		RootIdentity,
 		ServiceIdentity,
 		ServiceDependencyIdentity,
+		SquallTagIdentity,
 		StatsQueryIdentity,
 		SuggestedPolicyIdentity,
 		TabulationIdentity,
@@ -941,6 +948,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"srvdep",
 			"srvdeps",
 		}
+	case SquallTagIdentity:
+		return []string{}
 	case StatsQueryIdentity:
 		return []string{
 			"sq",
