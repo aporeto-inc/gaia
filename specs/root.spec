@@ -184,6 +184,13 @@ relations:
   get: true
   create: true
 
+- rest_name: externalnetwork
+  descriptions:
+    create: Creates a new external network.
+    get: Retrieves the list of external network.
+  get: true
+  create: true
+
 - rest_name: fileaccess
   descriptions:
     get: Retrieves the list of file access according to parameters.
