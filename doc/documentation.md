@@ -3397,16 +3397,6 @@ Description is the description of the object.
 | Max length      | `1024` |
 | Orderable       | `true` |
 
-#### `loadbalancerAddresses (external:addresses_list)`
-
-LoadbalancerAddresses represents the list of adresses of the external services
-of type LoadBalancer.
-
-#### `loadbalancerPortsMapping (external:portmapping_list)`
-
-LoadbalancerPortsMapping is the list of ports mapped by an extenral service of
-type load balancer.
-
 #### `metadata (external:metadata_list)`
 
 Metadata contains tags that can only be set during creation. They must all start
@@ -3487,17 +3477,6 @@ Protocol refers to network protocol like TCP/UDP or the number of the protocol.
 | Format          | `/^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/` |
 | Required        | `true`                                                                 |
 | Filterable      | `true`                                                                 |
-
-#### `type (enum)`
-
-Type represents the type of external service.
-
-| Characteristics | Value                                        |
-| -               | -:                                           |
-| Allowed Value   | `LoadBalancerHTTP, LoadBalancerTCP, Network` |
-| Default         | `Network`                                    |
-| Orderable       | `true`                                       |
-| Filterable      | `true`                                       |
 
 #### `updateTime (time)`
 

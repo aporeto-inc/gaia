@@ -22,24 +22,6 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: loadbalancerAddresses
-    description: |-
-      LoadbalancerAddresses represents the list of adresses of the external services
-      of type LoadBalancer.
-    type: external
-    exposed: true
-    subtype: addresses_list
-    stored: true
-
-  - name: loadbalancerPortsMapping
-    description: |-
-      LoadbalancerPortsMapping is the list of ports mapped by an extenral service of
-      type load balancer.
-    type: external
-    exposed: true
-    subtype: portmapping_list
-    stored: true
-
   - name: network
     description: Network refers to either CIDR or domain name.
     type: string
@@ -71,16 +53,3 @@ attributes:
     allowed_chars: ^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
     example_value: TCP
     filterable: true
-
-  - name: type
-    description: Type represents the type of external service.
-    type: enum
-    exposed: true
-    stored: true
-    allowed_choices:
-    - LoadBalancerHTTP
-    - LoadBalancerTCP
-    - Network
-    default_value: Network
-    filterable: true
-    orderable: true

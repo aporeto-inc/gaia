@@ -78,10 +78,10 @@ type PolicyRule struct {
 	EnforcerProfiles EnforcerProfilesList `json:"enforcerProfiles" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
 
 	// Policy target networks.
-	ExternalNetworks ExternalServicesList `json:"externalNetworks" bson:"-" mapstructure:"externalNetworks,omitempty"`
+	ExternalNetworks ExternalNetworksList `json:"externalNetworks" bson:"-" mapstructure:"externalNetworks,omitempty"`
 
 	// Policy target networks.
-	ExternalServices ExternalNetworksList `json:"externalServices" bson:"-" mapstructure:"externalServices,omitempty"`
+	ExternalServices ExternalServicesList `json:"externalServices" bson:"-" mapstructure:"externalServices,omitempty"`
 
 	// Policy target file paths.
 	FilePaths FilePathsList `json:"filePaths" bson:"-" mapstructure:"filePaths,omitempty"`
@@ -122,8 +122,8 @@ func NewPolicyRule() *PolicyRule {
 	return &PolicyRule{
 		ModelVersion:      1,
 		EnforcerProfiles:  EnforcerProfilesList{},
-		ExternalNetworks:  ExternalServicesList{},
-		ExternalServices:  ExternalNetworksList{},
+		ExternalNetworks:  ExternalNetworksList{},
+		ExternalServices:  ExternalServicesList{},
 		FilePaths:         FilePathsList{},
 		IsolationProfiles: IsolationProfilesList{},
 		Namespaces:        NamespacesList{},
