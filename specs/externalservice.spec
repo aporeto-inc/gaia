@@ -27,7 +27,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    required: true
     example_value: 0.0.0.0/0
     filterable: true
     format: free

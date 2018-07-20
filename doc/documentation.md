@@ -3436,7 +3436,6 @@ Network refers to either CIDR or domain name.
 
 | Characteristics | Value  |
 | -               | -:     |
-| Required        | `true` |
 | Filterable      | `true` |
 
 #### `normalizedTags (external:tags_list)`
