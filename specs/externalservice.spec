@@ -47,7 +47,9 @@ attributes:
     stored: true
 
   - name: network
-    description: Network refers to either CIDR or domain name.
+    description: |-
+      Network is a comma separated list of networks (CIDRs or IP addresses
+      or subnets, where this external service is defined.
     type: string
     exposed: true
     stored: true
@@ -58,14 +60,14 @@ attributes:
 
   - name: port
     description: |-
-      Port refers to network port which could be a single number or 100:2000 to
-      represent a range of ports.
+      Port refers to network port which could be a comma separated list
+      of single numbers or 100:2000 to represent a range of ports.
     type: string
     exposed: true
     stored: true
-    allowed_chars: ^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$
     default_value: 1:65535
     filterable: true
+    format: free
 
   - name: protocol
     description: Protocol refers to network protocol like TCP/UDP or the number of

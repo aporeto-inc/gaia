@@ -121,14 +121,15 @@ type ExternalService struct {
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// Network refers to either CIDR or domain name.
+	// Network is a comma separated list of networks (CIDRs or IP addresses
+	// or subnets, where this external service is defined.
 	Network string `json:"network" bson:"network" mapstructure:"network,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Port refers to network port which could be a single number or 100:2000 to
-	// represent a range of ports.
+	// Port refers to network port which could be a comma separated list
+	// of single numbers or 100:2000 to represent a range of ports.
 	Port string `json:"port" bson:"port" mapstructure:"port,omitempty"`
 
 	// Protected defines if the object is protected.
@@ -347,10 +348,6 @@ func (o *ExternalService) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidatePattern("port", o.Port, `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`, false); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("protocol", o.Protocol); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -545,14 +542,15 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Network": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Network",
-		Description:    `Network refers to either CIDR or domain name.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "network",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Network is a comma separated list of networks (CIDRs or IP addresses
+or subnets, where this external service is defined.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "network",
+		Required:   true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"NormalizedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -570,14 +568,14 @@ with the '@' prefix, and should only be used by external systems.`,
 		Type:           "external",
 	},
 	"Port": elemental.AttributeSpecification{
-		AllowedChars:   `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Port",
 		DefaultValue:   "1:65535",
-		Description: `Port refers to network port which could be a single number or 100:2000 to
-represent a range of ports.`,
+		Description: `Port refers to network port which could be a comma separated list
+of single numbers or 100:2000 to represent a range of ports.`,
 		Exposed:    true,
 		Filterable: true,
+		Format:     "free",
 		Name:       "port",
 		Stored:     true,
 		Type:       "string",
@@ -788,14 +786,15 @@ with the '@' prefix, and should only be used by external systems.`,
 	"network": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Network",
-		Description:    `Network refers to either CIDR or domain name.`,
-		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
-		Name:           "network",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `Network is a comma separated list of networks (CIDRs or IP addresses
+or subnets, where this external service is defined.`,
+		Exposed:    true,
+		Filterable: true,
+		Format:     "free",
+		Name:       "network",
+		Required:   true,
+		Stored:     true,
+		Type:       "string",
 	},
 	"normalizedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -813,14 +812,14 @@ with the '@' prefix, and should only be used by external systems.`,
 		Type:           "external",
 	},
 	"port": elemental.AttributeSpecification{
-		AllowedChars:   `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Port",
 		DefaultValue:   "1:65535",
-		Description: `Port refers to network port which could be a single number or 100:2000 to
-represent a range of ports.`,
+		Description: `Port refers to network port which could be a comma separated list
+of single numbers or 100:2000 to represent a range of ports.`,
 		Exposed:    true,
 		Filterable: true,
+		Format:     "free",
 		Name:       "port",
 		Stored:     true,
 		Type:       "string",

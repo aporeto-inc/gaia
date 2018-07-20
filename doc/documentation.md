@@ -3291,7 +3291,8 @@ Namespace tag attached to an entity.
 
 #### `network (string)`
 
-Network refers to either CIDR or domain name.
+Network is a comma separated list of networks (CIDRs or IP addresses
+or subnets, where this external service is defined.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -3309,14 +3310,13 @@ NormalizedTags contains the list of normalized tags of the entities.
 
 #### `port (string)`
 
-Port refers to network port which could be a single number or 100:2000 to
-represent a range of ports.
+Port refers to network port which could be a comma separated list
+of single numbers or 100:2000 to represent a range of ports.
 
-| Characteristics | Value                                                                                                                                                                                                            |
-| -               | -:                                                                                                                                                                                                               |
-| Format          | `/^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$/` |
-| Default         | `1:65535`                                                                                                                                                                                                        |
-| Filterable      | `true`                                                                                                                                                                                                           |
+| Characteristics | Value     |
+| -               | -:        |
+| Default         | `1:65535` |
+| Filterable      | `true`    |
 
 #### `protected (boolean)`
 
