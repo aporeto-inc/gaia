@@ -57,8 +57,8 @@ const (
 	// GraphNodeTypeDocker represents the value Docker.
 	GraphNodeTypeDocker GraphNodeType = "Docker"
 
-	// GraphNodeTypeExternalNetwork represents the value eternal network.
-	GraphNodeTypeExternalNetwork GraphNodeType = "ExternalService"
+	// GraphNodeTypeExternalNetwork represents the value external network.
+	GraphNodeTypeExternalNetwork GraphNodeType = "ExternalNetwork"
 
 	// GraphNodeTypeVolume represents the value Volume.
 	GraphNodeTypeVolume GraphNodeType = "Volume"
