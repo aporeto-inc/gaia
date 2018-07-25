@@ -24,6 +24,8 @@ model:
   - '@propagated'
   - '@fallback'
   - '@schedulable'
+  - '@negatable-object'
+  - '@negatable-subject'
 
 # Attributes
 attributes:
@@ -88,13 +90,6 @@ attributes:
     default_value: Continue
     filterable: true
     orderable: true
-
-  - name: passthrough
-    description: List of tags expressions to match the list of entity to pass the
-      flow through.
-    type: external
-    exposed: true
-    subtype: policies_list
 
   - name: subject
     description: Subject of the policy.
