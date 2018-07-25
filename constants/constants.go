@@ -130,6 +130,15 @@ const (
 	// StatsTagKeyNamespace represents the namespace tag.
 	StatsTagKeyNamespace = "$namespace"
 
+	// StatsTagKeySourceNamespace represents the destination namespace tag.
+	StatsTagKeySourceNamespace = "@srcns"
+
+	// StatsTagKeyDestinationNamespace represents the destination namespace tag.
+	StatsTagKeyDestinationNamespace = "@destns"
+
+	// StatsTagKeyServiceNamespace represents the service namespace tag.
+	StatsTagKeyServiceNamespace = "@srvns"
+
 	// StatsTagKeyAporetoContextID represents the aporeto context ID.
 	StatsTagKeyAporetoContextID = "@squallid"
 

@@ -78,6 +78,9 @@ type PolicyRule struct {
 	EnforcerProfiles EnforcerProfilesList `json:"enforcerProfiles" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
 
 	// Policy target networks.
+	ExternalNetworks ExternalNetworksList `json:"externalNetworks" bson:"-" mapstructure:"externalNetworks,omitempty"`
+
+	// Policy target networks.
 	ExternalServices ExternalServicesList `json:"externalServices" bson:"-" mapstructure:"externalServices,omitempty"`
 
 	// Policy target file paths.
@@ -91,10 +94,6 @@ type PolicyRule struct {
 
 	// Policy target namespaces.
 	Namespaces NamespacesList `json:"namespaces" bson:"-" mapstructure:"namespaces,omitempty"`
-
-	// List of external services the policy mandate to pass through before reaching the
-	// destination.
-	PassthroughExternalServices ExternalServicesList `json:"passthroughExternalServices" bson:"-" mapstructure:"passthroughExternalServices,omitempty"`
 
 	// PolicyNamespace is the namespace of the policy that created this rule.
 	PolicyNamespace string `json:"policyNamespace" bson:"-" mapstructure:"policyNamespace,omitempty"`
@@ -121,14 +120,14 @@ type PolicyRule struct {
 func NewPolicyRule() *PolicyRule {
 
 	return &PolicyRule{
-		ModelVersion:                1,
-		EnforcerProfiles:            EnforcerProfilesList{},
-		ExternalServices:            ExternalServicesList{},
-		FilePaths:                   FilePathsList{},
-		IsolationProfiles:           IsolationProfilesList{},
-		Namespaces:                  NamespacesList{},
-		PassthroughExternalServices: ExternalServicesList{},
-		Services:                    ServicesList{},
+		ModelVersion:      1,
+		EnforcerProfiles:  EnforcerProfilesList{},
+		ExternalNetworks:  ExternalNetworksList{},
+		ExternalServices:  ExternalServicesList{},
+		FilePaths:         FilePathsList{},
+		IsolationProfiles: IsolationProfilesList{},
+		Namespaces:        NamespacesList{},
+		Services:          ServicesList{},
 	}
 }
 
@@ -263,13 +262,23 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "enforcerprofiles_list",
 		Type:           "external",
 	},
+	"ExternalNetworks": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExternalNetworks",
+		Description:    `Policy target networks.`,
+		Exposed:        true,
+		Name:           "externalNetworks",
+		SubType:        "network_entities",
+		Type:           "external",
+	},
 	"ExternalServices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExternalServices",
+		Deprecated:     true,
 		Description:    `Policy target networks.`,
 		Exposed:        true,
 		Name:           "externalServices",
-		SubType:        "network_entities",
+		SubType:        "deprecated_network_entities",
 		Type:           "external",
 	},
 	"FilePaths": elemental.AttributeSpecification{
@@ -315,16 +324,6 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "namespaces",
 		SubType:        "namespace_entities",
 		Type:           "external",
-	},
-	"PassthroughExternalServices": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PassthroughExternalServices",
-		Description: `List of external services the policy mandate to pass through before reaching the
-destination.`,
-		Exposed: true,
-		Name:    "passthroughExternalServices",
-		SubType: "network_entities",
-		Type:    "external",
 	},
 	"PolicyNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -406,13 +405,23 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		SubType:        "enforcerprofiles_list",
 		Type:           "external",
 	},
+	"externalnetworks": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExternalNetworks",
+		Description:    `Policy target networks.`,
+		Exposed:        true,
+		Name:           "externalNetworks",
+		SubType:        "network_entities",
+		Type:           "external",
+	},
 	"externalservices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExternalServices",
+		Deprecated:     true,
 		Description:    `Policy target networks.`,
 		Exposed:        true,
 		Name:           "externalServices",
-		SubType:        "network_entities",
+		SubType:        "deprecated_network_entities",
 		Type:           "external",
 	},
 	"filepaths": elemental.AttributeSpecification{
@@ -458,16 +467,6 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Name:           "namespaces",
 		SubType:        "namespace_entities",
 		Type:           "external",
-	},
-	"passthroughexternalservices": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PassthroughExternalServices",
-		Description: `List of external services the policy mandate to pass through before reaching the
-destination.`,
-		Exposed: true,
-		Name:    "passthroughExternalServices",
-		SubType: "network_entities",
-		Type:    "external",
 	},
 	"policynamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

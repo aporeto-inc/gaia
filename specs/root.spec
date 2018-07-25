@@ -115,6 +115,13 @@ relations:
     create: Creates a new aws registration for billing.
   create: true
 
+- rest_name: awsapigateway
+  descriptions:
+    create: Manages the AWS API Gateway.
+    get: create an AWS API Gateway.
+  get: true
+  create: true
+
 - rest_name: certificate
   descriptions:
     create: Creates a new user certificate.
@@ -174,6 +181,13 @@ relations:
   descriptions:
     create: Creates a new external service.
     get: Retrieves the list of external services.
+  get: true
+  create: true
+
+- rest_name: externalnetwork
+  descriptions:
+    create: Creates a new external network.
+    get: Retrieves the list of external network.
   get: true
   create: true
 
@@ -425,4 +439,9 @@ relations:
 - rest_name: x509certificatecheck
   descriptions:
     get: Verifies if a x509 certificate is valid.
+  get: true
+
+- rest_name: squalltag
+  descriptions:
+    get: Retrieves a computed list of tags from squall for caching.
   get: true

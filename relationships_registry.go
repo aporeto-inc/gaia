@@ -40,6 +40,30 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[AWSAPIGatewayIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+		AllowsUpdate: map[string]bool{
+			"root": true,
+		},
+		AllowsPatch: map[string]bool{
+			"root": true,
+		},
+		AllowsDelete: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieve: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
+	}
+
 	relationshipsRegistry[AWSAccountIdentity] = &elemental.Relationship{
 		AllowsCreate: map[string]bool{
 			"root": true,
@@ -384,6 +408,30 @@ func init() {
 	}
 
 	relationshipsRegistry[ExternalAccessIdentity] = &elemental.Relationship{
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
+	}
+
+	relationshipsRegistry[ExternalNetworkIdentity] = &elemental.Relationship{
+		AllowsCreate: map[string]bool{
+			"root": true,
+		},
+		AllowsUpdate: map[string]bool{
+			"root": true,
+		},
+		AllowsPatch: map[string]bool{
+			"root": true,
+		},
+		AllowsDelete: map[string]bool{
+			"root": true,
+		},
+		AllowsRetrieve: map[string]bool{
+			"root": true,
+		},
 		AllowsRetrieveMany: map[string]bool{
 			"root": true,
 		},
@@ -815,10 +863,12 @@ func init() {
 
 	relationshipsRegistry[PokeIdentity] = &elemental.Relationship{
 		AllowsRetrieveMany: map[string]bool{
-			"enforcer": true,
+			"enforcer":       true,
+			"processingunit": true,
 		},
 		AllowsInfo: map[string]bool{
-			"enforcer": true,
+			"enforcer":       true,
+			"processingunit": true,
 		},
 	}
 
@@ -1072,6 +1122,15 @@ func init() {
 		AllowsRetrieve: map[string]bool{
 			"root": true,
 		},
+		AllowsRetrieveMany: map[string]bool{
+			"root": true,
+		},
+		AllowsInfo: map[string]bool{
+			"root": true,
+		},
+	}
+
+	relationshipsRegistry[SquallTagIdentity] = &elemental.Relationship{
 		AllowsRetrieveMany: map[string]bool{
 			"root": true,
 		},

@@ -34,6 +34,9 @@ const (
 type ProcessingUnitTypeValue string
 
 const (
+	// ProcessingUnitTypeAPIGateway represents the value APIGateway.
+	ProcessingUnitTypeAPIGateway ProcessingUnitTypeValue = "APIGateway"
+
 	// ProcessingUnitTypeDocker represents the value Docker.
 	ProcessingUnitTypeDocker ProcessingUnitTypeValue = "Docker"
 
@@ -367,7 +370,7 @@ func (o *ProcessingUnit) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Docker", "LinuxService", "RKT", "User"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Docker", "LinuxService", "RKT", "User", "APIGateway"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -611,7 +614,7 @@ or by exposing the ports in a container manifest.`,
 		Type:           "boolean",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Docker", "LinuxService", "RKT", "User"},
+		AllowedChoices: []string{"Docker", "LinuxService", "RKT", "User", "APIGateway"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the container ecosystem.`,
@@ -849,7 +852,7 @@ or by exposing the ports in a container manifest.`,
 		Type:           "boolean",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Docker", "LinuxService", "RKT", "User"},
+		AllowedChoices: []string{"Docker", "LinuxService", "RKT", "User", "APIGateway"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the container ecosystem.`,

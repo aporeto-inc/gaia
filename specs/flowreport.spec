@@ -35,7 +35,6 @@ attributes:
     description: Namespace of the receiver.
     type: string
     exposed: true
-    required: true
     example_value: /my/namespace
 
   - name: destinationPort
@@ -64,6 +63,14 @@ attributes:
     type: boolean
     exposed: true
 
+  - name: namespace
+    description: This is here for backward compatibility.
+    type: string
+    exposed: true
+    required: true
+    deprecated: true
+    example_value: /my/namespace
+
   - name: observed
     description: Tells if the flow is from design mode.
     type: boolean
@@ -76,6 +83,8 @@ attributes:
     allowed_choices:
     - Accept
     - Reject
+    - NotApplicable
+    default_value: NotApplicable
 
   - name: observedPolicyID
     description: ID of the network policy that observed the flow.
@@ -151,7 +160,6 @@ attributes:
     description: Namespace of the receiver.
     type: string
     exposed: true
-    required: true
     example_value: /my/namespace
 
   - name: sourceType
@@ -174,7 +182,7 @@ attributes:
 
   - name: value
     description: Number of flows in the report.
-    type: float
+    type: integer
     exposed: true
     required: true
     example_value: 1

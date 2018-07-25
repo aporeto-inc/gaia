@@ -90,6 +90,7 @@ attributes:
     - LinuxService
     - RKT
     - User
+    - APIGateway
     example_value: Docker
 
 # Relations
@@ -112,4 +113,11 @@ relations:
 - rest_name: vulnerability
   descriptions:
     get: Retrieves the vulnerabilities affecting the processing unit.
+  get: true
+
+- rest_name: poke
+  descriptions:
+    get: |-
+      Sends a poke empty object. This will send a snaphot of the pu to time series
+      database.
   get: true

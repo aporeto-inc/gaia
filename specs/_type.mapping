@@ -56,10 +56,15 @@ namespace_entities:
     type:  NamespacesList
     init: NamespacesList{}
 
-network_entities:
+deprecated_network_entities:
   elemental:
     type: ExternalServicesList
     init: ExternalServicesList{}
+
+network_entities:
+  elemental:
+    type: ExternalNetworksList
+    init: ExternalNetworksList{}
 
 policies_list:
   elemental:
@@ -364,17 +369,6 @@ api_services_entities:
   elemental:
     type: ServicesList
     init: ServicesList{}
-
-addresses_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
-portmapping_list:
-  elemental:
-    type: '[]*types.PortMapping'
-    init: '[]*types.PortMapping{}'
-    import: go.aporeto.io/gaia/types
 
 jaeger_batch:
   elemental:

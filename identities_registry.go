@@ -18,6 +18,7 @@ var (
 		"automation":                   AutomationIdentity,
 		"automationtemplate":           AutomationTemplateIdentity,
 		"awsaccount":                   AWSAccountIdentity,
+		"awsapigateway":                AWSAPIGatewayIdentity,
 		"awsregister":                  AWSRegisterIdentity,
 		"category":                     CategoryIdentity,
 		"certificate":                  CertificateIdentity,
@@ -30,6 +31,7 @@ var (
 		"eventlog":                     EventLogIdentity,
 		"export":                       ExportIdentity,
 		"externalaccess":               ExternalAccessIdentity,
+		"externalnetwork":              ExternalNetworkIdentity,
 		"externalservice":              ExternalServiceIdentity,
 		"fileaccess":                   FileAccessIdentity,
 		"fileaccesspolicy":             FileAccessPolicyIdentity,
@@ -73,6 +75,7 @@ var (
 		"root":                         RootIdentity,
 		"service":                      ServiceIdentity,
 		"servicedependency":            ServiceDependencyIdentity,
+		"squalltag":                    SquallTagIdentity,
 		"statsquery":                   StatsQueryIdentity,
 		"suggestedpolicy":              SuggestedPolicyIdentity,
 		"tabulation":                   TabulationIdentity,
@@ -101,6 +104,7 @@ var (
 		"automations":                    AutomationIdentity,
 		"automationtemplates":            AutomationTemplateIdentity,
 		"awsaccounts":                    AWSAccountIdentity,
+		"awsapigateways":                 AWSAPIGatewayIdentity,
 		"awsregister":                    AWSRegisterIdentity,
 		"categories":                     CategoryIdentity,
 		"certificates":                   CertificateIdentity,
@@ -113,6 +117,7 @@ var (
 		"eventlogs":                      EventLogIdentity,
 		"export":                         ExportIdentity,
 		"externalaccesses":               ExternalAccessIdentity,
+		"externalnetworks":               ExternalNetworkIdentity,
 		"externalservices":               ExternalServiceIdentity,
 		"fileaccesses":                   FileAccessIdentity,
 		"fileaccesspolicies":             FileAccessPolicyIdentity,
@@ -156,6 +161,7 @@ var (
 		"root":                           RootIdentity,
 		"services":                       ServiceIdentity,
 		"servicedependencies":            ServiceDependencyIdentity,
+		"squalltags":                     SquallTagIdentity,
 		"statsqueries":                   StatsQueryIdentity,
 		"suggestedpolicies":              SuggestedPolicyIdentity,
 		"tabulations":                    TabulationIdentity,
@@ -188,6 +194,8 @@ var (
 		"enfpol":     EnforcerProfileMappingPolicyIdentity,
 		"extacs":     ExternalAccessIdentity,
 		"extac":      ExternalAccessIdentity,
+		"extnet":     ExternalNetworkIdentity,
+		"extnets":    ExternalNetworkIdentity,
 		"extsrv":     ExternalServiceIdentity,
 		"extsrvs":    ExternalServiceIdentity,
 		"fp":         FilePathIdentity,
@@ -306,6 +314,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAutomationTemplate()
 	case AWSAccountIdentity:
 		return NewAWSAccount()
+	case AWSAPIGatewayIdentity:
+		return NewAWSAPIGateway()
 	case AWSRegisterIdentity:
 		return NewAWSRegister()
 	case CategoryIdentity:
@@ -330,6 +340,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewExport()
 	case ExternalAccessIdentity:
 		return NewExternalAccess()
+	case ExternalNetworkIdentity:
+		return NewExternalNetwork()
 	case ExternalServiceIdentity:
 		return NewExternalService()
 	case FileAccessIdentity:
@@ -416,6 +428,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewService()
 	case ServiceDependencyIdentity:
 		return NewServiceDependency()
+	case SquallTagIdentity:
+		return NewSquallTag()
 	case StatsQueryIdentity:
 		return NewStatsQuery()
 	case SuggestedPolicyIdentity:
@@ -480,6 +494,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &AutomationTemplatesList{}
 	case AWSAccountIdentity:
 		return &AWSAccountsList{}
+	case AWSAPIGatewayIdentity:
+		return &AWSAPIGatewaysList{}
 	case AWSRegisterIdentity:
 		return &AWSRegistersList{}
 	case CategoryIdentity:
@@ -504,6 +520,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ExportsList{}
 	case ExternalAccessIdentity:
 		return &ExternalAccessList{}
+	case ExternalNetworkIdentity:
+		return &ExternalNetworksList{}
 	case ExternalServiceIdentity:
 		return &ExternalServicesList{}
 	case FileAccessIdentity:
@@ -588,6 +606,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ServicesList{}
 	case ServiceDependencyIdentity:
 		return &ServiceDependenciesList{}
+	case SquallTagIdentity:
+		return &SquallTagsList{}
 	case StatsQueryIdentity:
 		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity:
@@ -648,6 +668,7 @@ func AllIdentities() []elemental.Identity {
 		AutomationIdentity,
 		AutomationTemplateIdentity,
 		AWSAccountIdentity,
+		AWSAPIGatewayIdentity,
 		AWSRegisterIdentity,
 		CategoryIdentity,
 		CertificateIdentity,
@@ -660,6 +681,7 @@ func AllIdentities() []elemental.Identity {
 		EventLogIdentity,
 		ExportIdentity,
 		ExternalAccessIdentity,
+		ExternalNetworkIdentity,
 		ExternalServiceIdentity,
 		FileAccessIdentity,
 		FileAccessPolicyIdentity,
@@ -703,6 +725,7 @@ func AllIdentities() []elemental.Identity {
 		RootIdentity,
 		ServiceIdentity,
 		ServiceDependencyIdentity,
+		SquallTagIdentity,
 		StatsQueryIdentity,
 		SuggestedPolicyIdentity,
 		TabulationIdentity,
@@ -765,6 +788,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"awsaccs",
 			"awsacc",
 		}
+	case AWSAPIGatewayIdentity:
+		return []string{}
 	case AWSRegisterIdentity:
 		return []string{}
 	case CategoryIdentity:
@@ -800,6 +825,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"extacs",
 			"extac",
+		}
+	case ExternalNetworkIdentity:
+		return []string{
+			"extnet",
+			"extnets",
 		}
 	case ExternalServiceIdentity:
 		return []string{
@@ -941,6 +971,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"srvdep",
 			"srvdeps",
 		}
+	case SquallTagIdentity:
+		return []string{}
 	case StatsQueryIdentity:
 		return []string{
 			"sq",

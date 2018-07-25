@@ -28,11 +28,18 @@ attributes:
     exposed: true
     subtype: enforcerprofiles_list
 
-  - name: externalServices
+  - name: externalNetworks
     description: Policy target networks.
     type: external
     exposed: true
     subtype: network_entities
+
+  - name: externalServices
+    description: Policy target networks.
+    type: external
+    exposed: true
+    subtype: deprecated_network_entities
+    deprecated: true
 
   - name: filePaths
     description: Policy target file paths.
@@ -51,14 +58,6 @@ attributes:
     type: external
     exposed: true
     subtype: namespace_entities
-
-  - name: passthroughExternalServices
-    description: |-
-      List of external services the policy mandate to pass through before reaching the
-      destination.
-    type: external
-    exposed: true
-    subtype: network_entities
 
   - name: policyNamespace
     description: PolicyNamespace is the namespace of the policy that created this

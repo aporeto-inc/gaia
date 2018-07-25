@@ -9,42 +9,42 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// ExternalServiceIdentity represents the Identity of the object.
-var ExternalServiceIdentity = elemental.Identity{
-	Name:     "externalservice",
-	Category: "externalservices",
+// ExternalNetworkIdentity represents the Identity of the object.
+var ExternalNetworkIdentity = elemental.Identity{
+	Name:     "externalnetwork",
+	Category: "externalnetworks",
 	Private:  false,
 }
 
-// ExternalServicesList represents a list of ExternalServices
-type ExternalServicesList []*ExternalService
+// ExternalNetworksList represents a list of ExternalNetworks
+type ExternalNetworksList []*ExternalNetwork
 
 // Identity returns the identity of the objects in the list.
-func (o ExternalServicesList) Identity() elemental.Identity {
+func (o ExternalNetworksList) Identity() elemental.Identity {
 
-	return ExternalServiceIdentity
+	return ExternalNetworkIdentity
 }
 
-// Copy returns a pointer to a copy the ExternalServicesList.
-func (o ExternalServicesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the ExternalNetworksList.
+func (o ExternalNetworksList) Copy() elemental.Identifiables {
 
-	copy := append(ExternalServicesList{}, o...)
+	copy := append(ExternalNetworksList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the ExternalServicesList.
-func (o ExternalServicesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the ExternalNetworksList.
+func (o ExternalNetworksList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(ExternalServicesList{}, o...)
+	out := append(ExternalNetworksList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*ExternalService))
+		out = append(out, obj.(*ExternalNetwork))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o ExternalServicesList) List() elemental.IdentifiablesList {
+func (o ExternalNetworksList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}
 	for _, item := range o {
@@ -55,7 +55,7 @@ func (o ExternalServicesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o ExternalServicesList) DefaultOrder() []string {
+func (o ExternalNetworksList) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -63,13 +63,13 @@ func (o ExternalServicesList) DefaultOrder() []string {
 }
 
 // Version returns the version of the content.
-func (o ExternalServicesList) Version() int {
+func (o ExternalNetworksList) Version() int {
 
 	return 1
 }
 
-// ExternalService represents the model of a externalservice
-type ExternalService struct {
+// ExternalNetwork represents the model of a externalnetwork
+type ExternalNetwork struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
@@ -88,6 +88,9 @@ type ExternalService struct {
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
+	// List of CIDRs or domain name.
+	Entries []string `json:"entries" bson:"entries" mapstructure:"entries,omitempty"`
+
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
@@ -97,9 +100,6 @@ type ExternalService struct {
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
-
-	// Network refers to either CIDR or domain name.
-	Network string `json:"network" bson:"network" mapstructure:"network,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
@@ -122,10 +122,10 @@ type ExternalService struct {
 	sync.Mutex
 }
 
-// NewExternalService returns a new *ExternalService
-func NewExternalService() *ExternalService {
+// NewExternalNetwork returns a new *ExternalNetwork
+func NewExternalNetwork() *ExternalNetwork {
 
-	return &ExternalService{
+	return &ExternalNetwork{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
@@ -136,31 +136,31 @@ func NewExternalService() *ExternalService {
 }
 
 // Identity returns the Identity of the object.
-func (o *ExternalService) Identity() elemental.Identity {
+func (o *ExternalNetwork) Identity() elemental.Identity {
 
-	return ExternalServiceIdentity
+	return ExternalNetworkIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *ExternalService) Identifier() string {
+func (o *ExternalNetwork) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *ExternalService) SetIdentifier(id string) {
+func (o *ExternalNetwork) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *ExternalService) Version() int {
+func (o *ExternalNetwork) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *ExternalService) DefaultOrder() []string {
+func (o *ExternalNetwork) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -168,131 +168,136 @@ func (o *ExternalService) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *ExternalService) Doc() string {
-	return `This API is deprecated in favor of externalnetworks.`
+func (o *ExternalNetwork) Doc() string {
+	return `An External Network represents a random network or ip that is not managed by the
+system. They can be used in Network Access Policies in order to allow traffic
+from or to the declared network or IP, using the provided protocol and port or
+ports range. If you want to describe the Internet (ie. anywhere), use 0.0.0.0/0
+as address, and 1-65000 for the ports. You will need to use the External
+Services tags to set some policies.`
 }
 
-func (o *ExternalService) String() string {
+func (o *ExternalNetwork) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *ExternalService) GetAnnotations() map[string][]string {
+func (o *ExternalNetwork) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the given Annotations of the receiver.
-func (o *ExternalService) SetAnnotations(annotations map[string][]string) {
+func (o *ExternalNetwork) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetArchived returns the Archived of the receiver.
-func (o *ExternalService) GetArchived() bool {
+func (o *ExternalNetwork) GetArchived() bool {
 
 	return o.Archived
 }
 
 // SetArchived sets the given Archived of the receiver.
-func (o *ExternalService) SetArchived(archived bool) {
+func (o *ExternalNetwork) SetArchived(archived bool) {
 
 	o.Archived = archived
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *ExternalService) GetAssociatedTags() []string {
+func (o *ExternalNetwork) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the given AssociatedTags of the receiver.
-func (o *ExternalService) SetAssociatedTags(associatedTags []string) {
+func (o *ExternalNetwork) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *ExternalService) GetCreateTime() time.Time {
+func (o *ExternalNetwork) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the given CreateTime of the receiver.
-func (o *ExternalService) SetCreateTime(createTime time.Time) {
+func (o *ExternalNetwork) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *ExternalService) GetMetadata() []string {
+func (o *ExternalNetwork) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the given Metadata of the receiver.
-func (o *ExternalService) SetMetadata(metadata []string) {
+func (o *ExternalNetwork) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *ExternalService) GetName() string {
+func (o *ExternalNetwork) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the given Name of the receiver.
-func (o *ExternalService) SetName(name string) {
+func (o *ExternalNetwork) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *ExternalService) GetNamespace() string {
+func (o *ExternalNetwork) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the given Namespace of the receiver.
-func (o *ExternalService) SetNamespace(namespace string) {
+func (o *ExternalNetwork) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *ExternalService) GetNormalizedTags() []string {
+func (o *ExternalNetwork) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *ExternalService) SetNormalizedTags(normalizedTags []string) {
+func (o *ExternalNetwork) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *ExternalService) GetProtected() bool {
+func (o *ExternalNetwork) GetProtected() bool {
 
 	return o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *ExternalService) GetUpdateTime() time.Time {
+func (o *ExternalNetwork) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *ExternalService) SetUpdateTime(updateTime time.Time) {
+func (o *ExternalNetwork) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // Validate valides the current information stored into the structure.
-func (o *ExternalService) Validate() error {
+func (o *ExternalNetwork) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -333,24 +338,24 @@ func (o *ExternalService) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*ExternalService) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*ExternalNetwork) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := ExternalServiceAttributesMap[name]; ok {
+	if v, ok := ExternalNetworkAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return ExternalServiceLowerCaseAttributesMap[name]
+	return ExternalNetworkLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*ExternalService) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*ExternalNetwork) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return ExternalServiceAttributesMap
+	return ExternalNetworkAttributesMap
 }
 
-// ExternalServiceAttributesMap represents the map of attribute for ExternalService.
-var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
+// ExternalNetworkAttributesMap represents the map of attribute for ExternalNetwork.
+var ExternalNetworkAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -427,6 +432,17 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"Entries": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Entries",
+		Description:    `List of CIDRs or domain name.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "entries",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -478,16 +494,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"Network": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Network",
-		Description:    `Network refers to either CIDR or domain name.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "network",
-		Stored:         true,
-		Type:           "string",
-	},
 	"NormalizedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -510,10 +516,11 @@ with the '@' prefix, and should only be used by external systems.`,
 		DefaultValue:   "1:65535",
 		Description: `Port refers to network port which could be a single number or 100:2000 to
 represent a range of ports.`,
-		Exposed: true,
-		Name:    "port",
-		Stored:  true,
-		Type:    "string",
+		Exposed:    true,
+		Filterable: true,
+		Name:       "port",
+		Stored:     true,
+		Type:       "string",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -554,8 +561,8 @@ represent a range of ports.`,
 	},
 }
 
-// ExternalServiceLowerCaseAttributesMap represents the map of attribute for ExternalService.
-var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// ExternalNetworkLowerCaseAttributesMap represents the map of attribute for ExternalNetwork.
+var ExternalNetworkLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -632,6 +639,17 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "string",
 	},
+	"entries": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Entries",
+		Description:    `List of CIDRs or domain name.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "entries",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -683,16 +701,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"network": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Network",
-		Description:    `Network refers to either CIDR or domain name.`,
-		Exposed:        true,
-		Format:         "free",
-		Name:           "network",
-		Stored:         true,
-		Type:           "string",
-	},
 	"normalizedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -715,10 +723,11 @@ with the '@' prefix, and should only be used by external systems.`,
 		DefaultValue:   "1:65535",
 		Description: `Port refers to network port which could be a single number or 100:2000 to
 represent a range of ports.`,
-		Exposed: true,
-		Name:    "port",
-		Stored:  true,
-		Type:    "string",
+		Exposed:    true,
+		Filterable: true,
+		Name:       "port",
+		Stored:     true,
+		Type:       "string",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

@@ -10,6 +10,7 @@ ci: init lint test
 init:
 	dep ensure -v
 
+.PHONY:codegen
 codegen:
 	elegen folder -d specs -o codegen || exit 1
 	rm -rf ./*.go

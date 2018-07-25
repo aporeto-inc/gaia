@@ -41,6 +41,9 @@ const (
 	// FlowReportObservedActionAccept represents the value Accept.
 	FlowReportObservedActionAccept FlowReportObservedActionValue = "Accept"
 
+	// FlowReportObservedActionNotApplicable represents the value NotApplicable.
+	FlowReportObservedActionNotApplicable FlowReportObservedActionValue = "NotApplicable"
+
 	// FlowReportObservedActionReject represents the value Reject.
 	FlowReportObservedActionReject FlowReportObservedActionValue = "Reject"
 )
@@ -156,6 +159,9 @@ type FlowReport struct {
 	// Tells is the flow has been encrypted.
 	Encrypted bool `json:"encrypted" bson:"-" mapstructure:"encrypted,omitempty"`
 
+	// This is here for backward compatibility.
+	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
+
 	// Tells if the flow is from design mode.
 	Observed bool `json:"observed" bson:"-" mapstructure:"observed,omitempty"`
 
@@ -208,7 +214,7 @@ type FlowReport struct {
 	Timestamp time.Time `json:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
 	// Number of flows in the report.
-	Value float64 `json:"value" bson:"-" mapstructure:"value,omitempty"`
+	Value int `json:"value" bson:"-" mapstructure:"value,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -219,7 +225,8 @@ type FlowReport struct {
 func NewFlowReport() *FlowReport {
 
 	return &FlowReport{
-		ModelVersion: 1,
+		ModelVersion:   1,
+		ObservedAction: "NotApplicable",
 	}
 }
 
@@ -276,15 +283,15 @@ func (o *FlowReport) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("destinationNamespace", o.DestinationNamespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if err := elemental.ValidateStringInList("destinationType", string(o.DestinationType), []string{"ProcessingUnit", "ExternalService", "Claims"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("observedAction", string(o.ObservedAction), []string{"Accept", "Reject"}, false); err != nil {
+	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateStringInList("observedAction", string(o.ObservedAction), []string{"Accept", "Reject", "NotApplicable"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -300,10 +307,6 @@ func (o *FlowReport) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("sourceNamespace", o.SourceNamespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if err := elemental.ValidateStringInList("sourceType", string(o.SourceType), []string{"ProcessingUnit", "ExternalService", "Claims"}, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -312,7 +315,7 @@ func (o *FlowReport) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredFloat("value", o.Value); err != nil {
+	if err := elemental.ValidateRequiredInt("value", o.Value); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
@@ -378,7 +381,6 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Namespace of the receiver.`,
 		Exposed:        true,
 		Name:           "destinationNamespace",
-		Required:       true,
 		Type:           "string",
 	},
 	"DestinationPort": elemental.AttributeSpecification{
@@ -414,6 +416,16 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "encrypted",
 		Type:           "boolean",
 	},
+	"Namespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Namespace",
+		Deprecated:     true,
+		Description:    `This is here for backward compatibility.`,
+		Exposed:        true,
+		Name:           "namespace",
+		Required:       true,
+		Type:           "string",
+	},
 	"Observed": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Observed",
@@ -423,8 +435,9 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "boolean",
 	},
 	"ObservedAction": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Accept", "Reject"},
+		AllowedChoices: []string{"Accept", "Reject", "NotApplicable"},
 		ConvertedName:  "ObservedAction",
+		DefaultValue:   FlowReportObservedActionNotApplicable,
 		Description:    `Action observed on the flow.`,
 		Exposed:        true,
 		Name:           "observedAction",
@@ -532,7 +545,6 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Namespace of the receiver.`,
 		Exposed:        true,
 		Name:           "sourceNamespace",
-		Required:       true,
 		Type:           "string",
 	},
 	"SourceType": elemental.AttributeSpecification{
@@ -560,7 +572,7 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "value",
 		Required:       true,
-		Type:           "float",
+		Type:           "integer",
 	},
 }
 
@@ -598,7 +610,6 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `Namespace of the receiver.`,
 		Exposed:        true,
 		Name:           "destinationNamespace",
-		Required:       true,
 		Type:           "string",
 	},
 	"destinationport": elemental.AttributeSpecification{
@@ -634,6 +645,16 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Name:           "encrypted",
 		Type:           "boolean",
 	},
+	"namespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Namespace",
+		Deprecated:     true,
+		Description:    `This is here for backward compatibility.`,
+		Exposed:        true,
+		Name:           "namespace",
+		Required:       true,
+		Type:           "string",
+	},
 	"observed": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Observed",
@@ -643,8 +664,9 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Type:           "boolean",
 	},
 	"observedaction": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Accept", "Reject"},
+		AllowedChoices: []string{"Accept", "Reject", "NotApplicable"},
 		ConvertedName:  "ObservedAction",
+		DefaultValue:   FlowReportObservedActionNotApplicable,
 		Description:    `Action observed on the flow.`,
 		Exposed:        true,
 		Name:           "observedAction",
@@ -752,7 +774,6 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `Namespace of the receiver.`,
 		Exposed:        true,
 		Name:           "sourceNamespace",
-		Required:       true,
 		Type:           "string",
 	},
 	"sourcetype": elemental.AttributeSpecification{
@@ -780,6 +801,6 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Exposed:        true,
 		Name:           "value",
 		Required:       true,
-		Type:           "float",
+		Type:           "integer",
 	},
 }

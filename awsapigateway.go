@@ -9,42 +9,42 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// ExternalServiceIdentity represents the Identity of the object.
-var ExternalServiceIdentity = elemental.Identity{
-	Name:     "externalservice",
-	Category: "externalservices",
+// AWSAPIGatewayIdentity represents the Identity of the object.
+var AWSAPIGatewayIdentity = elemental.Identity{
+	Name:     "awsapigateway",
+	Category: "awsapigateways",
 	Private:  false,
 }
 
-// ExternalServicesList represents a list of ExternalServices
-type ExternalServicesList []*ExternalService
+// AWSAPIGatewaysList represents a list of AWSAPIGateways
+type AWSAPIGatewaysList []*AWSAPIGateway
 
 // Identity returns the identity of the objects in the list.
-func (o ExternalServicesList) Identity() elemental.Identity {
+func (o AWSAPIGatewaysList) Identity() elemental.Identity {
 
-	return ExternalServiceIdentity
+	return AWSAPIGatewayIdentity
 }
 
-// Copy returns a pointer to a copy the ExternalServicesList.
-func (o ExternalServicesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the AWSAPIGatewaysList.
+func (o AWSAPIGatewaysList) Copy() elemental.Identifiables {
 
-	copy := append(ExternalServicesList{}, o...)
+	copy := append(AWSAPIGatewaysList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the ExternalServicesList.
-func (o ExternalServicesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the AWSAPIGatewaysList.
+func (o AWSAPIGatewaysList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(ExternalServicesList{}, o...)
+	out := append(AWSAPIGatewaysList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*ExternalService))
+		out = append(out, obj.(*AWSAPIGateway))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o ExternalServicesList) List() elemental.IdentifiablesList {
+func (o AWSAPIGatewaysList) List() elemental.IdentifiablesList {
 
 	out := elemental.IdentifiablesList{}
 	for _, item := range o {
@@ -55,7 +55,7 @@ func (o ExternalServicesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o ExternalServicesList) DefaultOrder() []string {
+func (o AWSAPIGatewaysList) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -63,24 +63,30 @@ func (o ExternalServicesList) DefaultOrder() []string {
 }
 
 // Version returns the version of the content.
-func (o ExternalServicesList) Version() int {
+func (o AWSAPIGatewaysList) Version() int {
 
 	return 1
 }
 
-// ExternalService represents the model of a externalservice
-type ExternalService struct {
+// AWSAPIGateway represents the model of a awsapigateway
+type AWSAPIGateway struct {
+	// API ID as defined on AWS for the API that handled this request.
+	APIID string `json:"APIID" bson:"-" mapstructure:"APIID,omitempty"`
+
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// the account ID for the gateway managing this request.
+	AccountID string `json:"accountID" bson:"-" mapstructure:"accountID,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// Archived defines if the object is archived.
-	Archived bool `json:"-" bson:"archived" mapstructure:"-,omitempty"`
-
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// The policy decision for this API flow.
+	Authorized bool `json:"authorized" bson:"-" mapstructure:"authorized,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
@@ -92,27 +98,35 @@ type ExternalService struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
+	// API method that handled this request.
+	Method string `json:"method" bson:"-" mapstructure:"method,omitempty"`
+
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// Network refers to either CIDR or domain name.
-	Network string `json:"network" bson:"network" mapstructure:"network,omitempty"`
+	// Link to the cluster namespace where the AWS API gateway is defined.
+	NamespaceID string `json:"namespaceID" bson:"-" mapstructure:"namespaceID,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Port refers to network port which could be a single number or 100:2000 to
-	// represent a range of ports.
-	Port string `json:"port" bson:"port" mapstructure:"port,omitempty"`
-
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Protocol refers to network protocol like TCP/UDP or the number of the protocol.
-	Protocol string `json:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
+	// API resource that handled this request.
+	Resource string `json:"resource" bson:"-" mapstructure:"resource,omitempty"`
+
+	// the client ip for this request.
+	SourceIP string `json:"sourceIP" bson:"-" mapstructure:"sourceIP,omitempty"`
+
+	// the stage name as defined on AWS for the API that handled this request.
+	Stage string `json:"stage" bson:"-" mapstructure:"stage,omitempty"`
+
+	// the JWT token that was optionally attached to this request.
+	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -122,45 +136,44 @@ type ExternalService struct {
 	sync.Mutex
 }
 
-// NewExternalService returns a new *ExternalService
-func NewExternalService() *ExternalService {
+// NewAWSAPIGateway returns a new *AWSAPIGateway
+func NewAWSAPIGateway() *AWSAPIGateway {
 
-	return &ExternalService{
+	return &AWSAPIGateway{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
-		Port:           "1:65535",
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *ExternalService) Identity() elemental.Identity {
+func (o *AWSAPIGateway) Identity() elemental.Identity {
 
-	return ExternalServiceIdentity
+	return AWSAPIGatewayIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *ExternalService) Identifier() string {
+func (o *AWSAPIGateway) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *ExternalService) SetIdentifier(id string) {
+func (o *AWSAPIGateway) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *ExternalService) Version() int {
+func (o *AWSAPIGateway) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *ExternalService) DefaultOrder() []string {
+func (o *AWSAPIGateway) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -168,131 +181,119 @@ func (o *ExternalService) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *ExternalService) Doc() string {
-	return `This API is deprecated in favor of externalnetworks.`
+func (o *AWSAPIGateway) Doc() string {
+	return `managed API decisions for the AWS API Gateway.`
 }
 
-func (o *ExternalService) String() string {
+func (o *AWSAPIGateway) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *ExternalService) GetAnnotations() map[string][]string {
+func (o *AWSAPIGateway) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the given Annotations of the receiver.
-func (o *ExternalService) SetAnnotations(annotations map[string][]string) {
+func (o *AWSAPIGateway) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
-// GetArchived returns the Archived of the receiver.
-func (o *ExternalService) GetArchived() bool {
-
-	return o.Archived
-}
-
-// SetArchived sets the given Archived of the receiver.
-func (o *ExternalService) SetArchived(archived bool) {
-
-	o.Archived = archived
-}
-
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *ExternalService) GetAssociatedTags() []string {
+func (o *AWSAPIGateway) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the given AssociatedTags of the receiver.
-func (o *ExternalService) SetAssociatedTags(associatedTags []string) {
+func (o *AWSAPIGateway) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *ExternalService) GetCreateTime() time.Time {
+func (o *AWSAPIGateway) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the given CreateTime of the receiver.
-func (o *ExternalService) SetCreateTime(createTime time.Time) {
+func (o *AWSAPIGateway) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *ExternalService) GetMetadata() []string {
+func (o *AWSAPIGateway) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the given Metadata of the receiver.
-func (o *ExternalService) SetMetadata(metadata []string) {
+func (o *AWSAPIGateway) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *ExternalService) GetName() string {
+func (o *AWSAPIGateway) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the given Name of the receiver.
-func (o *ExternalService) SetName(name string) {
+func (o *AWSAPIGateway) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *ExternalService) GetNamespace() string {
+func (o *AWSAPIGateway) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the given Namespace of the receiver.
-func (o *ExternalService) SetNamespace(namespace string) {
+func (o *AWSAPIGateway) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *ExternalService) GetNormalizedTags() []string {
+func (o *AWSAPIGateway) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the given NormalizedTags of the receiver.
-func (o *ExternalService) SetNormalizedTags(normalizedTags []string) {
+func (o *AWSAPIGateway) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *ExternalService) GetProtected() bool {
+func (o *AWSAPIGateway) GetProtected() bool {
 
 	return o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *ExternalService) GetUpdateTime() time.Time {
+func (o *AWSAPIGateway) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the given UpdateTime of the receiver.
-func (o *ExternalService) SetUpdateTime(updateTime time.Time) {
+func (o *AWSAPIGateway) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // Validate valides the current information stored into the structure.
-func (o *ExternalService) Validate() error {
+func (o *AWSAPIGateway) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -309,18 +310,6 @@ func (o *ExternalService) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("port", o.Port, `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("protocol", o.Protocol); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidatePattern("protocol", o.Protocol, `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`, true); err != nil {
-		errors = append(errors, err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -333,24 +322,33 @@ func (o *ExternalService) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*ExternalService) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*AWSAPIGateway) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := ExternalServiceAttributesMap[name]; ok {
+	if v, ok := AWSAPIGatewayAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return ExternalServiceLowerCaseAttributesMap[name]
+	return AWSAPIGatewayLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*ExternalService) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*AWSAPIGateway) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return ExternalServiceAttributesMap
+	return AWSAPIGatewayAttributesMap
 }
 
-// ExternalServiceAttributesMap represents the map of attribute for ExternalService.
-var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
+// AWSAPIGatewayAttributesMap represents the map of attribute for AWSAPIGateway.
+var AWSAPIGatewayAttributesMap = map[string]elemental.AttributeSpecification{
+	"APIID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "APIID",
+		Description:    `API ID as defined on AWS for the API that handled this request.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "APIID",
+		Type:           "string",
+	},
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -367,6 +365,15 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"AccountID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AccountID",
+		Description:    `the account ID for the gateway managing this request.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "accountID",
+		Type:           "string",
+	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
@@ -379,16 +386,6 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "annotations",
 		Type:           "external",
 	},
-	"Archived": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Archived",
-		Description:    `Archived defines if the object is archived.`,
-		Getter:         true,
-		Name:           "archived",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
@@ -400,6 +397,17 @@ var ExternalServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
+	},
+	"Authorized": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Authorized",
+		Description:    `The policy decision for this API flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "authorized",
+		Orderable:      true,
+		ReadOnly:       true,
+		Type:           "boolean",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -442,6 +450,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "metadata_list",
 		Type:       "external",
 	},
+	"Method": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Method",
+		Description:    `API method that handled this request.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "method",
+		Type:           "string",
+	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -478,14 +495,13 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"Network": elemental.AttributeSpecification{
+	"NamespaceID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Network",
-		Description:    `Network refers to either CIDR or domain name.`,
+		ConvertedName:  "NamespaceID",
+		Description:    `Link to the cluster namespace where the AWS API gateway is defined.`,
 		Exposed:        true,
 		Format:         "free",
-		Name:           "network",
-		Stored:         true,
+		Name:           "namespaceID",
 		Type:           "string",
 	},
 	"NormalizedTags": elemental.AttributeSpecification{
@@ -503,18 +519,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "external",
 	},
-	"Port": elemental.AttributeSpecification{
-		AllowedChars:   `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`,
-		AllowedChoices: []string{},
-		ConvertedName:  "Port",
-		DefaultValue:   "1:65535",
-		Description: `Port refers to network port which could be a single number or 100:2000 to
-represent a range of ports.`,
-		Exposed: true,
-		Name:    "port",
-		Stored:  true,
-		Type:    "string",
-	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -526,16 +530,40 @@ represent a range of ports.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"Protocol": elemental.AttributeSpecification{
-		AllowedChars:   `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`,
+	"Resource": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Protocol",
-		Description:    `Protocol refers to network protocol like TCP/UDP or the number of the protocol.`,
+		ConvertedName:  "Resource",
+		Description:    `API resource that handled this request.`,
 		Exposed:        true,
-		Filterable:     true,
-		Name:           "protocol",
-		Required:       true,
-		Stored:         true,
+		Format:         "free",
+		Name:           "resource",
+		Type:           "string",
+	},
+	"SourceIP": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SourceIP",
+		Description:    `the client ip for this request.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "sourceIP",
+		Type:           "string",
+	},
+	"Stage": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Stage",
+		Description:    `the stage name as defined on AWS for the API that handled this request.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "stage",
+		Type:           "string",
+	},
+	"Token": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Token",
+		Description:    `the JWT token that was optionally attached to this request.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "token",
 		Type:           "string",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
@@ -554,8 +582,17 @@ represent a range of ports.`,
 	},
 }
 
-// ExternalServiceLowerCaseAttributesMap represents the map of attribute for ExternalService.
-var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// AWSAPIGatewayLowerCaseAttributesMap represents the map of attribute for AWSAPIGateway.
+var AWSAPIGatewayLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"apiid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "APIID",
+		Description:    `API ID as defined on AWS for the API that handled this request.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "APIID",
+		Type:           "string",
+	},
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -572,6 +609,15 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "string",
 	},
+	"accountid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AccountID",
+		Description:    `the account ID for the gateway managing this request.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "accountID",
+		Type:           "string",
+	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
@@ -584,16 +630,6 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		SubType:        "annotations",
 		Type:           "external",
 	},
-	"archived": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Archived",
-		Description:    `Archived defines if the object is archived.`,
-		Getter:         true,
-		Name:           "archived",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
@@ -605,6 +641,17 @@ var ExternalServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
+	},
+	"authorized": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Authorized",
+		Description:    `The policy decision for this API flow.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "authorized",
+		Orderable:      true,
+		ReadOnly:       true,
+		Type:           "boolean",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -647,6 +694,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "metadata_list",
 		Type:       "external",
 	},
+	"method": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Method",
+		Description:    `API method that handled this request.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "method",
+		Type:           "string",
+	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -683,14 +739,13 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"network": elemental.AttributeSpecification{
+	"namespaceid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Network",
-		Description:    `Network refers to either CIDR or domain name.`,
+		ConvertedName:  "NamespaceID",
+		Description:    `Link to the cluster namespace where the AWS API gateway is defined.`,
 		Exposed:        true,
 		Format:         "free",
-		Name:           "network",
-		Stored:         true,
+		Name:           "namespaceID",
 		Type:           "string",
 	},
 	"normalizedtags": elemental.AttributeSpecification{
@@ -708,18 +763,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "external",
 	},
-	"port": elemental.AttributeSpecification{
-		AllowedChars:   `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`,
-		AllowedChoices: []string{},
-		ConvertedName:  "Port",
-		DefaultValue:   "1:65535",
-		Description: `Port refers to network port which could be a single number or 100:2000 to
-represent a range of ports.`,
-		Exposed: true,
-		Name:    "port",
-		Stored:  true,
-		Type:    "string",
-	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -731,16 +774,40 @@ represent a range of ports.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"protocol": elemental.AttributeSpecification{
-		AllowedChars:   `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`,
+	"resource": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Protocol",
-		Description:    `Protocol refers to network protocol like TCP/UDP or the number of the protocol.`,
+		ConvertedName:  "Resource",
+		Description:    `API resource that handled this request.`,
 		Exposed:        true,
-		Filterable:     true,
-		Name:           "protocol",
-		Required:       true,
-		Stored:         true,
+		Format:         "free",
+		Name:           "resource",
+		Type:           "string",
+	},
+	"sourceip": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SourceIP",
+		Description:    `the client ip for this request.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "sourceIP",
+		Type:           "string",
+	},
+	"stage": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Stage",
+		Description:    `the stage name as defined on AWS for the API that handled this request.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "stage",
+		Type:           "string",
+	},
+	"token": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Token",
+		Description:    `the JWT token that was optionally attached to this request.`,
+		Exposed:        true,
+		Format:         "free",
+		Name:           "token",
 		Type:           "string",
 	},
 	"updatetime": elemental.AttributeSpecification{

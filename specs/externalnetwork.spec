@@ -1,13 +1,19 @@
 # Model
 model:
-  rest_name: externalservice
-  resource_name: externalservices
-  entity_name: ExternalService
+  rest_name: externalnetwork
+  resource_name: externalnetworks
+  entity_name: ExternalNetwork
   package: squall
-  description: This API is deprecated in favor of externalnetworks.
+  description: |-
+    An External Network represents a random network or ip that is not managed by the
+    system. They can be used in Network Access Policies in order to allow traffic
+    from or to the declared network or IP, using the provided protocol and port or
+    ports range. If you want to describe the Internet (ie. anywhere), use 0.0.0.0/0
+    as address, and 1-65000 for the ports. You will need to use the External
+    Services tags to set some policies.
   aliases:
-  - extsrv
-  - extsrvs
+  - extnet
+  - extnets
   get: true
   update: true
   delete: true
@@ -22,12 +28,12 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: network
-    description: Network refers to either CIDR or domain name.
-    type: string
+  - name: entries
+    description: List of CIDRs or domain name.
+    type: list
     exposed: true
+    subtype: string
     stored: true
-    example_value: 0.0.0.0/0
     format: free
 
   - name: port
@@ -39,6 +45,7 @@ attributes:
     stored: true
     allowed_chars: ^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$
     default_value: 1:65535
+    filterable: true
 
   - name: protocol
     description: Protocol refers to network protocol like TCP/UDP or the number of
