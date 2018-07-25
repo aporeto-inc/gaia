@@ -197,10 +197,10 @@ const (
 	RelationRunPUTagString = "relation=run"
 
 	// ActionNegateSubjectTagString is the system create action=negate-subject tag.
-	ActionNegateSubjectTagString = "relation=negate-subject"
+	ActionNegateSubjectTagString = "action=negate-subject"
 
 	// ActionNegateObjectTagString is the system create action=negate-object tag.
-	ActionNegateObjectTagString = "relation=negate-object"
+	ActionNegateObjectTagString = "action=negate-object"
 
 	// ActionAllowTagString is the system created action=allow tag.
 	ActionAllowTagString = "action=allow"
