@@ -4050,6 +4050,30 @@ Action observed on the flow.
 | Allowed Value   | `Accept, Reject, NotApplicable` |
 | Default         | `NotApplicable`                 |
 
+#### `observedPolicyID (string)`
+
+ID of the network policy that observed the flow.
+
+#### `observedPolicyNamespace (string)`
+
+Namespace of the network policy that observed the flow.
+
+#### `policyID (string)`
+
+ID of the network policy that accepted the flow.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `policyNamespace (string)`
+
+Namespace of the network policy that accepted the flow.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
 #### `protocol (integer)`
 
 protocol number.

@@ -169,16 +169,16 @@ type FlowReport struct {
 	ObservedAction FlowReportObservedActionValue `json:"observedAction" bson:"-" mapstructure:"observedAction,omitempty"`
 
 	// ID of the network policy that observed the flow.
-	ObservedPolicyID string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	ObservedPolicyID string `json:"observedPolicyID" bson:"-" mapstructure:"observedPolicyID,omitempty"`
 
 	// Namespace of the network policy that observed the flow.
-	ObservedPolicyNamespace string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	ObservedPolicyNamespace string `json:"observedPolicyNamespace" bson:"-" mapstructure:"observedPolicyNamespace,omitempty"`
 
 	// ID of the network policy that accepted the flow.
-	PolicyID string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	PolicyID string `json:"policyID" bson:"-" mapstructure:"policyID,omitempty"`
 
 	// Namespace of the network policy that accepted the flow.
-	PolicyNamespace string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	PolicyNamespace string `json:"policyNamespace" bson:"-" mapstructure:"policyNamespace,omitempty"`
 
 	// protocol number.
 	Protocol int `json:"protocol" bson:"-" mapstructure:"protocol,omitempty"`
@@ -293,6 +293,14 @@ func (o *FlowReport) Validate() error {
 
 	if err := elemental.ValidateStringInList("observedAction", string(o.ObservedAction), []string{"Accept", "Reject", "NotApplicable"}, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("policyID", o.PolicyID); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("policyNamespace", o.PolicyNamespace); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateRequiredInt("protocol", o.Protocol); err != nil {
@@ -447,6 +455,7 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ObservedPolicyID",
 		Description:    `ID of the network policy that observed the flow.`,
+		Exposed:        true,
 		Name:           "observedPolicyID",
 		Type:           "string",
 	},
@@ -454,6 +463,7 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ObservedPolicyNamespace",
 		Description:    `Namespace of the network policy that observed the flow.`,
+		Exposed:        true,
 		Name:           "observedPolicyNamespace",
 		Type:           "string",
 	},
@@ -461,6 +471,7 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PolicyID",
 		Description:    `ID of the network policy that accepted the flow.`,
+		Exposed:        true,
 		Name:           "policyID",
 		Required:       true,
 		Type:           "string",
@@ -469,6 +480,7 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PolicyNamespace",
 		Description:    `Namespace of the network policy that accepted the flow.`,
+		Exposed:        true,
 		Name:           "policyNamespace",
 		Required:       true,
 		Type:           "string",
@@ -676,6 +688,7 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		ConvertedName:  "ObservedPolicyID",
 		Description:    `ID of the network policy that observed the flow.`,
+		Exposed:        true,
 		Name:           "observedPolicyID",
 		Type:           "string",
 	},
@@ -683,6 +696,7 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		ConvertedName:  "ObservedPolicyNamespace",
 		Description:    `Namespace of the network policy that observed the flow.`,
+		Exposed:        true,
 		Name:           "observedPolicyNamespace",
 		Type:           "string",
 	},
@@ -690,6 +704,7 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		ConvertedName:  "PolicyID",
 		Description:    `ID of the network policy that accepted the flow.`,
+		Exposed:        true,
 		Name:           "policyID",
 		Required:       true,
 		Type:           "string",
@@ -698,6 +713,7 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		ConvertedName:  "PolicyNamespace",
 		Description:    `Namespace of the network policy that accepted the flow.`,
+		Exposed:        true,
 		Name:           "policyNamespace",
 		Required:       true,
 		Type:           "string",
