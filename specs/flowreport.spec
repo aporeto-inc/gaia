@@ -89,22 +89,26 @@ attributes:
   - name: observedPolicyID
     description: ID of the network policy that observed the flow.
     type: string
+    exposed: true
     example_value: xxx-xxx-xxx
 
   - name: observedPolicyNamespace
     description: Namespace of the network policy that observed the flow.
     type: string
+    exposed: true
     example_value: /my/namespace
 
   - name: policyID
     description: ID of the network policy that accepted the flow.
     type: string
+    exposed: true
     required: true
     example_value: xxx-xxx-xxx
 
   - name: policyNamespace
     description: Namespace of the network policy that accepted the flow.
     type: string
+    exposed: true
     required: true
     example_value: /my/namespace
 
