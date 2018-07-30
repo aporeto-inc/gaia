@@ -5910,6 +5910,14 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `negateObject (boolean)`
+
+Setting this to true will invert the object to find what is not matching.
+
+#### `negateSubject (boolean)`
+
+Setting this to true will invert the subject to find what is not matching.
+
 #### `normalizedTags (external:tags_list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
@@ -5945,10 +5953,6 @@ packets.
 | Allowed Value   | `Apply, Continue` |
 | Default         | `Continue`        |
 | Orderable       | `true`            |
-
-#### `passthrough (external:policies_list)`
-
-List of tags expressions to match the list of entity to pass the flow through.
 
 #### `propagate (boolean)`
 
