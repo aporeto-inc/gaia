@@ -122,12 +122,13 @@ relations:
       Sends a poke empty object. This will send a snaphot of the pu to time series
       database.
     parameters:
-    - name: status
-      description: If set, changes the status of the processing unit alongside with
-        the poke.
-      type: enum
-      allowed_choices:
-      - Paused
-      - Running
-      - Stopped
-      example_value: Running
+      entries:
+      - name: status
+        description: If set, changes the status of the processing unit alongside with
+          the poke.
+        type: enum
+        allowed_choices:
+        - Paused
+        - Running
+        - Stopped
+        example_value: Running
