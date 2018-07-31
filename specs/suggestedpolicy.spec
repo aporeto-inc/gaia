@@ -20,5 +20,4 @@ attributes:
     exposed: true
     subtype: network_access_policies_list
     stored: true
-    filterable: true
     orderable: true

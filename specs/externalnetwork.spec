@@ -45,7 +45,6 @@ attributes:
     stored: true
     allowed_chars: ^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$
     default_value: 1:65535
-    filterable: true
 
   - name: protocol
     description: Protocol refers to network protocol like TCP/UDP or the number of
@@ -56,4 +55,3 @@ attributes:
     required: true
     allowed_chars: ^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
     example_value: TCP
-    filterable: true

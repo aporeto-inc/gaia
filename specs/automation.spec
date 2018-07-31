@@ -125,7 +125,6 @@ attributes:
     - RemoteCall
     - Time
     default_value: Time
-    filterable: true
     orderable: true
 
 # Relations

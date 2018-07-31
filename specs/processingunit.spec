@@ -51,7 +51,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    filterable: true
     format: free
 
   - name: networkServices
@@ -63,7 +62,6 @@ attributes:
     exposed: true
     subtype: processing_unit_services_list
     stored: true
-    filterable: true
     orderable: true
 
   - name: operationalStatus

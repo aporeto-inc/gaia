@@ -20,7 +20,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    filterable: true
     format: free
     orderable: true
 
@@ -30,7 +29,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    filterable: true
     format: free
     orderable: true
 
@@ -50,7 +48,6 @@ attributes:
     type: time
     exposed: true
     stored: true
-    filterable: true
     format: free
     orderable: true
 
@@ -59,6 +56,5 @@ attributes:
     type: time
     exposed: true
     stored: true
-    filterable: true
     format: free
     orderable: true

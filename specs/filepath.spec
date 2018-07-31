@@ -32,7 +32,6 @@ attributes:
     stored: true
     required: true
     example_value: /etc/passwd
-    filterable: true
     format: free
 
   - name: server
@@ -41,5 +40,4 @@ attributes:
     exposed: true
     stored: true
     creation_only: true
-    filterable: true
     format: free

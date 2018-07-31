@@ -35,35 +35,30 @@ attributes:
     description: AllowsExecute allows to execute the files.
     type: boolean
     exposed: true
-    filterable: true
     orderable: true
 
   - name: allowsRead
     description: AllowsRead allows to read the files.
     type: boolean
     exposed: true
-    filterable: true
     orderable: true
 
   - name: allowsWrite
     description: AllowsWrite allows to write the files.
     type: boolean
     exposed: true
-    filterable: true
     orderable: true
 
   - name: encryptionEnabled
     description: EncryptionEnabled will enable the automatic encryption.
     type: boolean
     exposed: true
-    filterable: true
     orderable: true
 
   - name: logsEnabled
     description: LogsEnabled will enable logging when this policy is used.
     type: boolean
     exposed: true
-    filterable: true
     orderable: true
 
   - name: object

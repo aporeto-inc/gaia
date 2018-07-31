@@ -48,7 +48,6 @@ attributes:
     exposed: true
     required: true
     example_value: /namespace
-    filterable: true
     format: free
 
   - name: subject

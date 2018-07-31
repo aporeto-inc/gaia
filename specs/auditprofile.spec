@@ -28,7 +28,6 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    filterable: true
 
   - name: rules
     description: Rules is the list of audit policy rules associated with this policy.

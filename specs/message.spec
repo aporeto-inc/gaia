@@ -26,7 +26,6 @@ attributes:
     type: time
     exposed: true
     stored: true
-    filterable: true
     orderable: true
 
   - name: level
@@ -39,7 +38,6 @@ attributes:
     - Info
     - Warning
     default_value: Info
-    filterable: true
     orderable: true
 
   - name: local
@@ -48,7 +46,6 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    filterable: true
     orderable: true
 
   - name: notifyByEmail
@@ -58,7 +55,6 @@ attributes:
     type: boolean
     exposed: true
     creation_only: true
-    filterable: true
 
   - name: validity
     description: |-

@@ -20,7 +20,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    filterable: true
     format: free
     orderable: true
 
@@ -31,7 +30,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    filterable: true
     format: free
     orderable: true
 
@@ -41,6 +39,5 @@ attributes:
     exposed: true
     subtype: invoicerecord_list
     stored: true
-    filterable: true
     format: free
     orderable: true
