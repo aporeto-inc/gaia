@@ -11,8 +11,10 @@ model:
   - aws
   - awsaccs
   - awsacc
-  get: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
   extends:
   - '@identifiable-pk-stored'
   - '@timeable'

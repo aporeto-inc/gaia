@@ -8,9 +8,12 @@ model:
   aliases:
   - autos
   - auto
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
   extends:
   - '@base'
   - '@described'
@@ -131,12 +134,11 @@ attributes:
 # Relations
 relations:
 - rest_name: trigger
-  descriptions:
-    create: |-
+  get:
+    description: |-
       Allows a system to trigger the automation if its `triggerType` property is set
       to `RemoteCall`.
-    get: |-
+  create:
+    description: |-
       Allows a system to trigger the automation if its `triggerType` property is set
       to `RemoteCall`.
-  get: true
-  create: true

@@ -5,7 +5,8 @@ model:
   entity_name: Root
   package: root
   description: root object.
-  get: true
+  get:
+    description: Retrieves the object with the given ID.
   extends:
   - '@identifiable-nopk-nostored'
   root: true
@@ -13,435 +14,363 @@ model:
 # Relations
 relations:
 - rest_name: account
-  descriptions:
-    create: Creates a new Account.
-    get: |-
+  get:
+    description: |-
       Retrieves all accounts. This is a private API that can only be done by the
       system.
-  get: true
-  create: true
+  create:
+    description: Creates a new Account.
 
 - rest_name: accountcheck
-  descriptions:
-    get: Verifies an account credentials.
-  get: true
+  get:
+    description: Verifies an account credentials.
 
 - rest_name: activate
-  descriptions:
-    get: Activates a pending account.
-  get: true
+  get:
+    description: Activates a pending account.
 
 - rest_name: activity
-  descriptions:
-    get: Retrieves the list of activity logs.
-  get: true
+  get:
+    description: Retrieves the list of activity logs.
 
 - rest_name: alarm
-  descriptions:
-    create: Creates a new alarm.
-    get: Retrieves all the alarms.
-  get: true
-  create: true
+  get:
+    description: Retrieves all the alarms.
+  create:
+    description: Creates a new alarm.
 
 - rest_name: apiauthorizationpolicy
-  descriptions:
-    create: Creates a new API authorization policies.
-    get: Retrieves the list of API authorization policies.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of API authorization policies.
+  create:
+    description: Creates a new API authorization policies.
 
 - rest_name: apicheck
-  descriptions:
-    create: Verfies the authorizations on various identities for a given token.
-  create: true
+  create:
+    description: Verifies the authorizations on various identities for a given token.
 
 - rest_name: restapispec
-  descriptions:
-    create: Creates a new REST API specification.
-    get: Retrieves the list of REST API specifications.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of REST API specifications.
+  create:
+    description: Creates a new REST API specification.
 
 - rest_name: service
-  descriptions:
-    create: Creates a new Service.
-    get: Retrieves the list of Services.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of Services.
+  create:
+    description: Creates a new Service.
 
 - rest_name: auditprofile
-  descriptions:
-    create: Creates a new audit profile.
-    get: Retrieves the list of audit profiles.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of audit profiles.
+  create:
+    description: Creates a new audit profile.
 
 - rest_name: auth
-  descriptions:
-    get: Verify the validity of a token.
-  get: true
+  get:
+    description: Verify the validity of a token.
 
 - rest_name: authority
-  descriptions:
-    create: Creates a new certificate authority.
-  create: true
+  create:
+    description: Creates a new certificate authority.
 
 - rest_name: automation
-  descriptions:
-    create: Creates a new Automation.
-    get: Retrieves the list of Automations.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of Automations.
+  create:
+    description: Creates a new Automation.
 
 - rest_name: automationtemplate
-  descriptions:
-    get: Retrieves the list of automation templates.
-  get: true
+  get:
+    description: Retrieves the list of automation templates.
 
 - rest_name: app
-  descriptions:
-    get: Retrieves the list of apps.
-  get: true
+  get:
+    description: Retrieves the list of apps.
 
 - rest_name: awsaccount
-  descriptions:
-    create: Creates a new aws account binding.
-    get: Retrieves the list of aws account bindings.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of aws account bindings.
+  create:
+    description: Creates a new aws account binding.
 
 - rest_name: awsregister
-  descriptions:
-    create: Creates a new aws registration for billing.
-  create: true
+  create:
+    description: Creates a new aws registration for billing.
 
 - rest_name: awsapigateway
-  descriptions:
-    create: Manages the AWS API Gateway.
-    get: create an AWS API Gateway.
-  get: true
-  create: true
+  get:
+    description: create an AWS API Gateway.
+  create:
+    description: Manages the AWS API Gateway.
 
 - rest_name: certificate
-  descriptions:
-    create: Creates a new user certificate.
-    get: Retrieves the list of existing user certificates.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of existing user certificates.
+  create:
+    description: Creates a new user certificate.
 
 - rest_name: dependencymap
-  descriptions:
-    get: Retrieves the dependencymap of a namespace.
-  get: true
+  get:
+    description: Retrieves the dependencymap of a namespace.
 
 - rest_name: email
-  descriptions:
-    create: Sends an email.
-  create: true
+  create:
+    description: Sends an email.
 
 - rest_name: enforcer
-  descriptions:
-    create: Creates a new enforcer.
-    get: Retrieves the list of enforcers.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of enforcers.
+  create:
+    description: Creates a new enforcer.
 
 - rest_name: enforcerprofile
-  descriptions:
-    create: Creates a new enforcer profile.
-    get: Retrieves the list of enforcer profiles.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of enforcer profiles.
+  create:
+    description: Creates a new enforcer profile.
 
 - rest_name: enforcerprofilemappingpolicy
-  descriptions:
-    create: Creates a new enforcer profile mapping policies.
-    get: Retrieves the list of enforcer profile mapping policies.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of enforcer profile mapping policies.
+  create:
+    description: Creates a new enforcer profile mapping policies.
 
 - rest_name: eventlog
-  descriptions:
-    create: Creates a new eventlog for a particular entity.
-    get: Retrieves the eventlogs for one or multiple entities.
-  get: true
-  create: true
+  get:
+    description: Retrieves the eventlogs for one or multiple entities.
+  create:
+    description: Creates a new eventlog for a particular entity.
 
 - rest_name: export
-  descriptions:
-    create: Exports all policies and related object of a namespace.
-  create: true
+  create:
+    description: Exports all policies and related object of a namespace.
 
 - rest_name: externalaccess
-  descriptions:
-    get: Retrieves the list of external access according to parameters.
-  get: true
+  get:
+    description: Retrieves the list of external access according to parameters.
 
 - rest_name: externalservice
-  descriptions:
-    create: Creates a new external service.
-    get: Retrieves the list of external services.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of external services.
+  create:
+    description: Creates a new external service.
 
 - rest_name: externalnetwork
-  descriptions:
-    create: Creates a new external network.
-    get: Retrieves the list of external network.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of external network.
+  create:
+    description: Creates a new external network.
 
 - rest_name: fileaccess
-  descriptions:
-    get: Retrieves the list of file access according to parameters.
-  get: true
+  get:
+    description: Retrieves the list of file access according to parameters.
 
 - rest_name: fileaccesspolicy
-  descriptions:
-    create: Creates a new file access policies.
-    get: Retrieves the list of file access policies.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of file access policies.
+  create:
+    description: Creates a new file access policies.
 
 - rest_name: filepath
-  descriptions:
-    create: Create a new file path.
-    get: Retrieves the list of file path.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of file path.
+  create:
+    description: Create a new file path.
 
 - rest_name: flowstatistic
-  descriptions:
-    get: Retrieves the flow statistics according to parameters.
-  get: true
+  get:
+    description: Retrieves the flow statistics according to parameters.
 
 - rest_name: hookpolicy
-  descriptions:
-    create: Creates a new hook policy.
-    get: Retrieves the list of hook policies.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of hook policies.
+  create:
+    description: Creates a new hook policy.
 
 - rest_name: import
-  descriptions:
-    create: Imports data from a previous export.
-  create: true
+  create:
+    description: Imports data from a previous export.
 
 - rest_name: installation
-  descriptions:
-    create: Creates a new installation.
-    get: Retrieves the list of installations.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of installations.
+  create:
+    description: Creates a new installation.
 
 - rest_name: isolationprofile
-  descriptions:
-    create: Creates a new isolation profile.
-    get: Retrieves the list of isolation profiles.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of isolation profiles.
+  create:
+    description: Creates a new isolation profile.
 
 - rest_name: issue
-  descriptions:
-    create: Issues a new token.
-  create: true
+  create:
+    description: Issues a new token.
 
 - rest_name: jaegerbatch
-  descriptions:
-    create: Sends a jaeger tracing batch.
-  create: true
+  create:
+    description: Sends a jaeger tracing batch.
 
 - rest_name: kubernetescluster
-  descriptions:
-    create: Creates a new kubernetes cluster.
-    get: Retrieves the list of kubernetes clusters.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of kubernetes clusters.
+  create:
+    description: Creates a new kubernetes cluster.
 
 - rest_name: k8scluster
-  descriptions:
-    create: Creates a new kubernetes cluster.
-    get: Retrieves the list of kubernetes clusters.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of kubernetes clusters.
+  create:
+    description: Creates a new kubernetes cluster.
 
 - rest_name: message
-  descriptions:
-    create: Creates a new message.
-    get: Retrieves the list of messages.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of messages.
+  create:
+    description: Creates a new message.
 
 - rest_name: namespace
-  descriptions:
-    create: Creates a new namespace.
-    get: Retrieves the list of namespaces.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of namespaces.
+  create:
+    description: Creates a new namespace.
 
 - rest_name: namespacemappingpolicy
-  descriptions:
-    create: Creates a new namespace mapping policy.
-    get: Retrieves the list namespace mapping policies.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list namespace mapping policies.
+  create:
+    description: Creates a new namespace mapping policy.
 
 - rest_name: networkaccesspolicy
-  descriptions:
-    create: Creates a new network access policy.
-    get: Retrieves the list of network access policies.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of network access policies.
+  create:
+    description: Creates a new network access policy.
 
 - rest_name: passwordreset
-  descriptions:
-    create: Resets the password for an account using the provided link.
-    get: Sends a link to the account email to reset the password.
-  get: true
-  create: true
+  get:
+    description: Sends a link to the account email to reset the password.
+  create:
+    description: Resets the password for an account using the provided link.
 
 - rest_name: plan
-  descriptions:
-    get: Retrieves the list of plans.
-  get: true
+  get:
+    description: Retrieves the list of plans.
 
 - rest_name: policy
-  descriptions:
-    get: Retrieves the list of policy primitives.
-  get: true
+  get:
+    description: Retrieves the list of policy primitives.
 
 - rest_name: policyrenderer
-  descriptions:
-    create: Render a policy of a given type for a given set of tags.
-  create: true
+  create:
+    description: Render a policy of a given type for a given set of tags.
 
 - rest_name: processingunit
-  descriptions:
-    create: Creates a new processing unit.
-    get: Retrieves the list of processing units.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of processing units.
+  create:
+    description: Creates a new processing unit.
 
 - rest_name: processingunitpolicy
-  descriptions:
-    create: Creates a new processing unit policy.
-    get: Retrieves the list of processing unit policies.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of processing unit policies.
+  create:
+    description: Creates a new processing unit policy.
 
 - rest_name: quotacheck
-  descriptions:
-    create: Verifies if the quota is exceeded for a particular object.
-  create: true
+  create:
+    description: Verifies if the quota is exceeded for a particular object.
 
 - rest_name: quotapolicy
-  descriptions:
-    create: Creates a new quota policy.
-    get: Retrieves the list of quota policies.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of quota policies.
+  create:
+    description: Creates a new quota policy.
 
 - rest_name: remoteprocessor
-  descriptions:
-    create: This should be be here.
-  create: true
+  create:
+    description: This should be be here.
 
 - rest_name: renderedpolicy
-  descriptions:
-    create: Render a policy for a processing unit.
-  create: true
+  create:
+    description: Render a policy for a processing unit.
 
 - rest_name: report
-  descriptions:
-    create: Create a statistics report.
-  create: true
+  create:
+    description: Create a statistics report.
 
 - rest_name: flowreport
-  descriptions:
-    create: Create a flow statistics report.
-  create: true
+  create:
+    description: Create a flow statistics report.
 
 - rest_name: revocation
-  descriptions:
-    get: Verify the revocation of a certificate according to parameters.
-  get: true
+  get:
+    description: Verify the revocation of a certificate according to parameters.
 
 - rest_name: role
-  descriptions:
-    get: Retrieves the list of existing roles.
-  get: true
+  get:
+    description: Retrieves the list of existing roles.
 
 - rest_name: installedapp
-  descriptions:
-    create: Installs a new app.
-    get: Retrieves the list of installed apps.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of installed apps.
+  create:
+    description: Installs a new app.
 
 - rest_name: statsquery
-  descriptions:
-    get: Retrieves statistics information based on parameters.
-  get: true
+  get:
+    description: Retrieves statistics information based on parameters.
 
 - rest_name: servicedependency
-  descriptions:
-    create: Creates a new service dependency.
-    get: Retrieves the list of service dependencies.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of service dependencies.
+  create:
+    description: Creates a new service dependency.
 
 - rest_name: suggestedpolicy
-  descriptions:
-    get: Retrieves a list of network policy suggestion.
-  get: true
+  get:
+    description: Retrieves a list of network policy suggestion.
 
 - rest_name: tabulation
-  descriptions:
-    get: Retrieves tabulated informations based on parameters.
-  get: true
+  get:
+    description: Retrieves tabulated informations based on parameters.
 
 - rest_name: tag
-  descriptions:
-    get: Retrieves the list of existing tags in the system.
-  get: true
+  get:
+    description: Retrieves the list of existing tags in the system.
 
 - rest_name: taginject
-  descriptions:
-    create: Internal api to inject tags.
-  create: true
+  create:
+    description: Internal api to inject tags.
 
 - rest_name: token
-  descriptions:
-    create: Creates a new token.
-  create: true
+  create:
+    description: Creates a new token.
 
 - rest_name: tokenscopepolicy
-  descriptions:
-    create: Creates a new token scope policy.
-    get: Retrieves the list of token scope policies.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of token scope policies.
+  create:
+    description: Creates a new token scope policy.
 
 - rest_name: vulnerability
-  descriptions:
-    create: Creates a new vulnerability.
-    get: Retrieves the list of vulnerabilities.
-  get: true
-  create: true
+  get:
+    description: Retrieves the list of vulnerabilities.
+  create:
+    description: Creates a new vulnerability.
 
 - rest_name: x509certificate
-  descriptions:
-    create: Creates a new x509 certificate.
-    get: Retrieves a X509 certificates.
-  get: true
-  create: true
+  get:
+    description: Retrieves a X509 certificates.
+  create:
+    description: Creates a new x509 certificate.
 
 - rest_name: x509certificatecheck
-  descriptions:
-    get: Verifies if a x509 certificate is valid.
-  get: true
+  get:
+    description: Verifies if a x509 certificate is valid.
 
 - rest_name: squalltag
-  descriptions:
-    get: Retrieves a computed list of tags from squall for caching.
-  get: true
+  get:
+    description: Retrieves a computed list of tags from squall for caching.

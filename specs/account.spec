@@ -7,9 +7,12 @@ model:
   description: |-
     This api allows to view and manage basic information about your account like
     your name, password, enable 2 factor authentication.
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
   extends:
   - '@identifiable-pk-stored'
   - '@timeable'

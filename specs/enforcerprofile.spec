@@ -12,10 +12,12 @@ model:
   aliases:
   - profile
   - profiles
-  create: true
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
   extends:
   - '@base'
   - '@described'
@@ -322,6 +324,5 @@ attributes:
 # Relations
 relations:
 - rest_name: auditprofile
-  descriptions:
-    get: Returns the list of AuditProfiles used by an enforcer profile.
-  get: true
+  get:
+    description: Returns the list of AuditProfiles used by an enforcer profile.

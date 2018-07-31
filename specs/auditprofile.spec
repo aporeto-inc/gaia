@@ -9,10 +9,12 @@ model:
     policy will determine that types of events that must be captured in the kernel.
   aliases:
   - ap
-  create: true
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
   extends:
   - '@base'
   - '@described'

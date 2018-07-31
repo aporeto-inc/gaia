@@ -5,8 +5,10 @@ model:
   entity_name: Policy
   package: squall
   description: Policy represents the policy primitive used by all aporeto policies.
-  get: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
   extends:
   - '@base'
   - '@described'

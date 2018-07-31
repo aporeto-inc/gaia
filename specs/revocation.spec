@@ -6,7 +6,8 @@ model:
   package: barret
   description: Used to revoke a certificate.
   private: true
-  update: true
+  update:
+    description: Updates the object with the given ID.
 
 # Attributes
 attributes:

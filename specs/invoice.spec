@@ -5,9 +5,12 @@ model:
   entity_name: Invoice
   package: bill
   description: This api allows to view invoices for Aporeto customers.
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
   extends:
   - '@identifiable-pk-stored'
   - '@timeable'

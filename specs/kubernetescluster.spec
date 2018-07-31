@@ -5,9 +5,12 @@ model:
   entity_name: KubernetesCluster
   package: vince
   description: Create a remote Kubernetes Cluster integration.
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
   extends:
   - '@identifiable-pk-stored'
   - '@timeable'

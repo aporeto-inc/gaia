@@ -97,10 +97,10 @@ your name, password, enable 2 factor authentication.
 | -:       | -           | -           |
 | `GET`    | `/accounts` | Retrieves all accounts. This is a private API that can only be done by the
 system.    |
-| `POST`   | `/accounts`     | Creates a new Account.                       |
-| `DELETE` | `/accounts/:id` | Deletes the `account` with the given `:id`.  |
-| `GET`    | `/accounts/:id` | Retrieve the `account` with the given `:id`. |
-| `PUT`    | `/accounts/:id` | Updates the `account` with the given `:id`.  |
+| `POST`   | `/accounts`     | Creates a new Account.                  |
+| `DELETE` | `/accounts/:id` | Deletes the object with the given ID.   |
+| `GET`    | `/accounts/:id` | Retrieves the object with the given ID. |
+| `PUT`    | `/accounts/:id` | Updates the object with the given ID.   |
 
 ### Attributes
 
@@ -393,10 +393,10 @@ the user who triggered the actiions. This log is capped and only keeps the last
 
 ### Relations
 
-| Method | URL               | Description                                   |
-| -:     | -                 | -                                             |
-| `GET`  | `/activities`     | Retrieves the list of activity logs.          |
-| `GET`  | `/activities/:id` | Retrieve the `activity` with the given `:id`. |
+| Method | URL               | Description                             |
+| -:     | -                 | -                                       |
+| `GET`  | `/activities`     | Retrieves the list of activity logs.    |
+| `GET`  | `/activities/:id` | Retrieves the object with the given ID. |
 
 ### Attributes
 
@@ -535,13 +535,13 @@ An alarm represents an event requiring attention.
 
 ### Relations
 
-| Method   | URL           | Description                                |
-| -:       | -             | -                                          |
-| `GET`    | `/alarms`     | Retrieves all the alarms.                  |
-| `POST`   | `/alarms`     | Creates a new alarm.                       |
-| `DELETE` | `/alarms/:id` | Deletes the `alarm` with the given `:id`.  |
-| `GET`    | `/alarms/:id` | Retrieve the `alarm` with the given `:id`. |
-| `PUT`    | `/alarms/:id` | Updates the `alarm` with the given `:id`.  |
+| Method   | URL           | Description                             |
+| -:       | -             | -                                       |
+| `GET`    | `/alarms`     | Retrieves all the alarms.               |
+| `POST`   | `/alarms`     | Creates a new alarm.                    |
+| `DELETE` | `/alarms/:id` | Deletes the object with the given ID.   |
+| `GET`    | `/alarms/:id` | Retrieves the object with the given ID. |
+| `PUT`    | `/alarms/:id` | Updates the object with the given ID.   |
 
 ### Attributes
 
@@ -704,13 +704,13 @@ identities.
 
 ### Relations
 
-| Method   | URL                             | Description                                                 |
-| -:       | -                               | -                                                           |
-| `GET`    | `/apiauthorizationpolicies`     | Retrieves the list of API authorization policies.           |
-| `POST`   | `/apiauthorizationpolicies`     | Creates a new API authorization policies.                   |
-| `DELETE` | `/apiauthorizationpolicies/:id` | Deletes the `apiauthorizationpolicy` with the given `:id`.  |
-| `GET`    | `/apiauthorizationpolicies/:id` | Retrieve the `apiauthorizationpolicy` with the given `:id`. |
-| `PUT`    | `/apiauthorizationpolicies/:id` | Updates the `apiauthorizationpolicy` with the given `:id`.  |
+| Method   | URL                             | Description                                       |
+| -:       | -                               | -                                                 |
+| `GET`    | `/apiauthorizationpolicies`     | Retrieves the list of API authorization policies. |
+| `POST`   | `/apiauthorizationpolicies`     | Creates a new API authorization policies.         |
+| `DELETE` | `/apiauthorizationpolicies/:id` | Deletes the object with the given ID.             |
+| `GET`    | `/apiauthorizationpolicies/:id` | Retrieves the object with the given ID.           |
+| `PUT`    | `/apiauthorizationpolicies/:id` | Updates the object with the given ID.             |
 
 ### Attributes
 
@@ -913,9 +913,9 @@ impersonate a user and ensure a proxfied request should be allowed.
 
 ### Relations
 
-| Method | URL          | Description                                                         |
-| -:     | -            | -                                                                   |
-| `POST` | `/apichecks` | Verfies the authorizations on various identities for a given token. |
+| Method | URL          | Description                                                          |
+| -:     | -            | -                                                                    |
+| `POST` | `/apichecks` | Verifies the authorizations on various identities for a given token. |
 
 ### Attributes
 
@@ -1067,9 +1067,9 @@ policy will determine that types of events that must be captured in the kernel.
 | -:       | -                                     | -                                                              |
 | `GET`    | `/auditprofiles`                      | Retrieves the list of audit profiles.                          |
 | `POST`   | `/auditprofiles`                      | Creates a new audit profile.                                   |
-| `DELETE` | `/auditprofiles/:id`                  | Deletes the `auditprofile` with the given `:id`.               |
-| `GET`    | `/auditprofiles/:id`                  | Retrieve the `auditprofile` with the given `:id`.              |
-| `PUT`    | `/auditprofiles/:id`                  | Updates the `auditprofile` with the given `:id`.               |
+| `DELETE` | `/auditprofiles/:id`                  | Deletes the object with the given ID.                          |
+| `GET`    | `/auditprofiles/:id`                  | Retrieves the object with the given ID.                        |
+| `PUT`    | `/auditprofiles/:id`                  | Updates the object with the given ID.                          |
 | `GET`    | `/enforcerprofiles/:id/auditprofiles` | Returns the list of AuditProfiles used by an enforcer profile. |
 
 ### Attributes
@@ -1222,13 +1222,13 @@ An automation needs documentation.
 
 ### Relations
 
-| Method         | URL                         | Description                                     |
-| -:             | -                           | -                                               |
-| `GET`          | `/automations`              | Retrieves the list of Automations.              |
-| `POST`         | `/automations`              | Creates a new Automation.                       |
-| `DELETE`       | `/automations/:id`          | Deletes the `automation` with the given `:id`.  |
-| `GET`          | `/automations/:id`          | Retrieve the `automation` with the given `:id`. |
-| `PUT`          | `/automations/:id`          | Updates the `automation` with the given `:id`.  |
+| Method         | URL                         | Description                             |
+| -:             | -                           | -                                       |
+| `GET`          | `/automations`              | Retrieves the list of Automations.      |
+| `POST`         | `/automations`              | Creates a new Automation.               |
+| `DELETE`       | `/automations/:id`          | Deletes the object with the given ID.   |
+| `GET`          | `/automations/:id`          | Retrieves the object with the given ID. |
+| `PUT`          | `/automations/:id`          | Updates the object with the given ID.   |
 | `GET`          | `/automations/:id/triggers` | Allows a system to trigger the automation if its `triggerType` property is set
 to `RemoteCall`. |
 | `POST`         | `/automations/:id/triggers` | Allows a system to trigger the automation if its `triggerType` property is set
@@ -1432,10 +1432,10 @@ Templates that ca be used in automations.
 
 ### Relations
 
-| Method | URL                        | Description                                             |
-| -:     | -                          | -                                                       |
-| `GET`  | `/automationtemplates`     | Retrieves the list of automation templates.             |
-| `GET`  | `/automationtemplates/:id` | Retrieve the `automationtemplate` with the given `:id`. |
+| Method | URL                        | Description                                 |
+| -:     | -                          | -                                           |
+| `GET`  | `/automationtemplates`     | Retrieves the list of automation templates. |
+| `GET`  | `/automationtemplates/:id` | Retrieves the object with the given ID.     |
 
 ### Attributes
 
@@ -1501,12 +1501,12 @@ of enforcers running on EC2.
 
 ### Relations
 
-| Method   | URL                | Description                                     |
-| -:       | -                  | -                                               |
-| `GET`    | `/awsaccounts`     | Retrieves the list of aws account bindings.     |
-| `POST`   | `/awsaccounts`     | Creates a new aws account binding.              |
-| `DELETE` | `/awsaccounts/:id` | Deletes the `awsaccount` with the given `:id`.  |
-| `GET`    | `/awsaccounts/:id` | Retrieve the `awsaccount` with the given `:id`. |
+| Method   | URL                | Description                                 |
+| -:       | -                  | -                                           |
+| `GET`    | `/awsaccounts`     | Retrieves the list of aws account bindings. |
+| `POST`   | `/awsaccounts`     | Creates a new aws account binding.          |
+| `DELETE` | `/awsaccounts/:id` | Deletes the object with the given ID.       |
+| `GET`    | `/awsaccounts/:id` | Retrieves the object with the given ID.     |
 
 ### Attributes
 
@@ -1629,13 +1629,13 @@ managed API decisions for the AWS API Gateway.
 
 ### Relations
 
-| Method   | URL                   | Description                                        |
-| -:       | -                     | -                                                  |
-| `GET`    | `/awsapigateways`     | create an AWS API Gateway.                         |
-| `POST`   | `/awsapigateways`     | Manages the AWS API Gateway.                       |
-| `DELETE` | `/awsapigateways/:id` | Deletes the `awsapigateway` with the given `:id`.  |
-| `GET`    | `/awsapigateways/:id` | Retrieve the `awsapigateway` with the given `:id`. |
-| `PUT`    | `/awsapigateways/:id` | Updates the `awsapigateway` with the given `:id`.  |
+| Method   | URL                   | Description                             |
+| -:       | -                     | -                                       |
+| `GET`    | `/awsapigateways`     | create an AWS API Gateway.              |
+| `POST`   | `/awsapigateways`     | Manages the AWS API Gateway.            |
+| `DELETE` | `/awsapigateways/:id` | Deletes the object with the given ID.   |
+| `GET`    | `/awsapigateways/:id` | Retrieves the object with the given ID. |
+| `PUT`    | `/awsapigateways/:id` | Updates the object with the given ID.   |
 
 ### Attributes
 
@@ -1896,9 +1896,9 @@ A User represents the owner of some certificates.
 | -:       | -                   | -                                                 |
 | `GET`    | `/certificates`     | Retrieves the list of existing user certificates. |
 | `POST`   | `/certificates`     | Creates a new user certificate.                   |
-| `DELETE` | `/certificates/:id` | Deletes the `certificate` with the given `:id`.   |
-| `GET`    | `/certificates/:id` | Retrieve the `certificate` with the given `:id`.  |
-| `PUT`    | `/certificates/:id` | Updates the `certificate` with the given `:id`.   |
+| `DELETE` | `/certificates/:id` | Deletes the object with the given ID.             |
+| `GET`    | `/certificates/:id` | Retrieves the object with the given ID.           |
+| `PUT`    | `/certificates/:id` | Updates the object with the given ID.             |
 
 ### Attributes
 
@@ -2155,9 +2155,9 @@ directly to a running agent, some will need to restart it.
 | -:       | -                                               | -                                                                                |
 | `GET`    | `/enforcers`                                    | Retrieves the list of enforcers.                                                 |
 | `POST`   | `/enforcers`                                    | Creates a new enforcer.                                                          |
-| `DELETE` | `/enforcers/:id`                                | Deletes the `enforcer` with the given `:id`.                                     |
-| `GET`    | `/enforcers/:id`                                | Retrieve the `enforcer` with the given `:id`.                                    |
-| `PUT`    | `/enforcers/:id`                                | Updates the `enforcer` with the given `:id`.                                     |
+| `DELETE` | `/enforcers/:id`                                | Deletes the object with the given ID.                                            |
+| `GET`    | `/enforcers/:id`                                | Retrieves the object with the given ID.                                          |
+| `PUT`    | `/enforcers/:id`                                | Updates the object with the given ID.                                            |
 | `GET`    | `/enforcerprofilemappingpolicies/:id/enforcers` | Returns the list of enforcers affected by an enforcer profile mapping policy.    |
 | `GET`    | `/enforcers/:id/enforcerprofiles`               | Returns the enforcer profile that must be used by an enforcer.                   |
 | `GET`    | `/enforcers/:id/poke`                           | Sends a poke empty object. This is used to ensure an enforcer is up and running. |
@@ -2427,13 +2427,13 @@ Mapping Policy.
 
 ### Relations
 
-| Method   | URL                                                    | Description                                          |
-| -:       | -                                                      | -                                                    |
-| `GET`    | `/enforcerprofiles`                                    | Retrieves the list of enforcer profiles.             |
-| `POST`   | `/enforcerprofiles`                                    | Creates a new enforcer profile.                      |
-| `DELETE` | `/enforcerprofiles/:id`                                | Deletes the `enforcerprofile` with the given `:id`.  |
-| `GET`    | `/enforcerprofiles/:id`                                | Retrieve the `enforcerprofile` with the given `:id`. |
-| `PUT`    | `/enforcerprofiles/:id`                                | Updates the `enforcerprofile` with the given `:id`.  |
+| Method   | URL                                                    | Description                              |
+| -:       | -                                                      | -                                        |
+| `GET`    | `/enforcerprofiles`                                    | Retrieves the list of enforcer profiles. |
+| `POST`   | `/enforcerprofiles`                                    | Creates a new enforcer profile.          |
+| `DELETE` | `/enforcerprofiles/:id`                                | Deletes the object with the given ID.    |
+| `GET`    | `/enforcerprofiles/:id`                                | Retrieves the object with the given ID.  |
+| `PUT`    | `/enforcerprofiles/:id`                                | Updates the object with the given ID.    |
 | `GET`    | `/enforcerprofilemappingpolicies/:id/enforcerprofiles` | Returns the list of enforcer profiles that an enforcer profile mapping policy
 matches.   |
 | `GET`    | `/enforcers/:id/enforcerprofiles`     | Returns the enforcer profile that must be used by an enforcer. |
@@ -2841,13 +2841,13 @@ registration. The policy can also be propagated down to the child namespace.
 
 ### Relations
 
-| Method   | URL                                                    | Description                                                       |
-| -:       | -                                                      | -                                                                 |
-| `GET`    | `/enforcerprofilemappingpolicies`                      | Retrieves the list of enforcer profile mapping policies.          |
-| `POST`   | `/enforcerprofilemappingpolicies`                      | Creates a new enforcer profile mapping policies.                  |
-| `DELETE` | `/enforcerprofilemappingpolicies/:id`                  | Deletes the `enforcerprofilemappingpolicy` with the given `:id`.  |
-| `GET`    | `/enforcerprofilemappingpolicies/:id`                  | Retrieve the `enforcerprofilemappingpolicy` with the given `:id`. |
-| `PUT`    | `/enforcerprofilemappingpolicies/:id`                  | Updates the `enforcerprofilemappingpolicy` with the given `:id`.  |
+| Method   | URL                                                    | Description                                              |
+| -:       | -                                                      | -                                                        |
+| `GET`    | `/enforcerprofilemappingpolicies`                      | Retrieves the list of enforcer profile mapping policies. |
+| `POST`   | `/enforcerprofilemappingpolicies`                      | Creates a new enforcer profile mapping policies.         |
+| `DELETE` | `/enforcerprofilemappingpolicies/:id`                  | Deletes the object with the given ID.                    |
+| `GET`    | `/enforcerprofilemappingpolicies/:id`                  | Retrieves the object with the given ID.                  |
+| `PUT`    | `/enforcerprofilemappingpolicies/:id`                  | Updates the object with the given ID.                    |
 | `GET`    | `/enforcerprofilemappingpolicies/:id/enforcerprofiles` | Returns the list of enforcer profiles that an enforcer profile mapping policy
 matches.   |
 | `GET`    | `/enforcerprofilemappingpolicies/:id/enforcers` | Returns the list of enforcers affected by an enforcer profile mapping policy. |
@@ -3196,13 +3196,13 @@ Services tags to set some policies.
 
 ### Relations
 
-| Method   | URL                     | Description                                          |
-| -:       | -                       | -                                                    |
-| `GET`    | `/externalnetworks`     | Retrieves the list of external network.              |
-| `POST`   | `/externalnetworks`     | Creates a new external network.                      |
-| `DELETE` | `/externalnetworks/:id` | Deletes the `externalnetwork` with the given `:id`.  |
-| `GET`    | `/externalnetworks/:id` | Retrieve the `externalnetwork` with the given `:id`. |
-| `PUT`    | `/externalnetworks/:id` | Updates the `externalnetwork` with the given `:id`.  |
+| Method   | URL                     | Description                             |
+| -:       | -                       | -                                       |
+| `GET`    | `/externalnetworks`     | Retrieves the list of external network. |
+| `POST`   | `/externalnetworks`     | Creates a new external network.         |
+| `DELETE` | `/externalnetworks/:id` | Deletes the object with the given ID.   |
+| `GET`    | `/externalnetworks/:id` | Retrieves the object with the given ID. |
+| `PUT`    | `/externalnetworks/:id` | Updates the object with the given ID.   |
 
 ### Attributes
 
@@ -3351,9 +3351,9 @@ This API is deprecated in favor of externalnetworks.
 | -:       | -                                             | -                                                                          |
 | `GET`    | `/externalservices`                           | Retrieves the list of external services.                                   |
 | `POST`   | `/externalservices`                           | Creates a new external service.                                            |
-| `DELETE` | `/externalservices/:id`                       | Deletes the `externalservice` with the given `:id`.                        |
-| `GET`    | `/externalservices/:id`                       | Retrieve the `externalservice` with the given `:id`.                       |
-| `PUT`    | `/externalservices/:id`                       | Updates the `externalservice` with the given `:id`.                        |
+| `DELETE` | `/externalservices/:id`                       | Deletes the object with the given ID.                                      |
+| `GET`    | `/externalservices/:id`                       | Retrieves the object with the given ID.                                    |
+| `PUT`    | `/externalservices/:id`                       | Updates the object with the given ID.                                      |
 | `GET`    | `/networkaccesspolicies/:id/externalservices` | Returns the list of external services affected by a network access policy. |
 
 ### Attributes
@@ -3577,13 +3577,13 @@ File path are not supported yet for standard Linux processes.
 
 ### Relations
 
-| Method   | URL                       | Description                                           |
-| -:       | -                         | -                                                     |
-| `GET`    | `/fileaccesspolicies`     | Retrieves the list of file access policies.           |
-| `POST`   | `/fileaccesspolicies`     | Creates a new file access policies.                   |
-| `DELETE` | `/fileaccesspolicies/:id` | Deletes the `fileaccesspolicy` with the given `:id`.  |
-| `GET`    | `/fileaccesspolicies/:id` | Retrieve the `fileaccesspolicy` with the given `:id`. |
-| `PUT`    | `/fileaccesspolicies/:id` | Updates the `fileaccesspolicy` with the given `:id`.  |
+| Method   | URL                       | Description                                 |
+| -:       | -                         | -                                           |
+| `GET`    | `/fileaccesspolicies`     | Retrieves the list of file access policies. |
+| `POST`   | `/fileaccesspolicies`     | Creates a new file access policies.         |
+| `DELETE` | `/fileaccesspolicies/:id` | Deletes the object with the given ID.       |
+| `GET`    | `/fileaccesspolicies/:id` | Retrieves the object with the given ID.     |
+| `PUT`    | `/fileaccesspolicies/:id` | Updates the object with the given ID.       |
 
 ### Attributes
 
@@ -3819,13 +3819,13 @@ to set some policies. A good example would bevolume=web or file=/etc/passwd.
 
 ### Relations
 
-| Method   | URL              | Description                                   |
-| -:       | -                | -                                             |
-| `GET`    | `/filepaths`     | Retrieves the list of file path.              |
-| `POST`   | `/filepaths`     | Create a new file path.                       |
-| `DELETE` | `/filepaths/:id` | Deletes the `filepath` with the given `:id`.  |
-| `GET`    | `/filepaths/:id` | Retrieve the `filepath` with the given `:id`. |
-| `PUT`    | `/filepaths/:id` | Updates the `filepath` with the given `:id`.  |
+| Method   | URL              | Description                             |
+| -:       | -                | -                                       |
+| `GET`    | `/filepaths`     | Retrieves the list of file path.        |
+| `POST`   | `/filepaths`     | Create a new file path.                 |
+| `DELETE` | `/filepaths/:id` | Deletes the object with the given ID.   |
+| `GET`    | `/filepaths/:id` | Retrieves the object with the given ID. |
+| `PUT`    | `/filepaths/:id` | Updates the object with the given ID.   |
 
 ### Attributes
 
@@ -4308,13 +4308,13 @@ F9eXFkofGX3UgRtsHe123456789xQ1naSw==
 
 ### Relations
 
-| Method   | URL                 | Description                                     |
-| -:       | -                   | -                                               |
-| `GET`    | `/hookpolicies`     | Retrieves the list of hook policies.            |
-| `POST`   | `/hookpolicies`     | Creates a new hook policy.                      |
-| `DELETE` | `/hookpolicies/:id` | Deletes the `hookpolicy` with the given `:id`.  |
-| `GET`    | `/hookpolicies/:id` | Retrieve the `hookpolicy` with the given `:id`. |
-| `PUT`    | `/hookpolicies/:id` | Updates the `hookpolicy` with the given `:id`.  |
+| Method   | URL                 | Description                             |
+| -:       | -                   | -                                       |
+| `GET`    | `/hookpolicies`     | Retrieves the list of hook policies.    |
+| `POST`   | `/hookpolicies`     | Creates a new hook policy.              |
+| `DELETE` | `/hookpolicies/:id` | Deletes the object with the given ID.   |
+| `GET`    | `/hookpolicies/:id` | Retrieves the object with the given ID. |
+| `PUT`    | `/hookpolicies/:id` | Updates the object with the given ID.   |
 
 ### Attributes
 
@@ -4559,13 +4559,13 @@ Installation represents an installation for a given account.
 
 ### Relations
 
-| Method   | URL                  | Description                                       |
-| -:       | -                    | -                                                 |
-| `GET`    | `/installations`     | Retrieves the list of installations.              |
-| `POST`   | `/installations`     | Creates a new installation.                       |
-| `DELETE` | `/installations/:id` | Deletes the `installation` with the given `:id`.  |
-| `GET`    | `/installations/:id` | Retrieve the `installation` with the given `:id`. |
-| `PUT`    | `/installations/:id` | Updates the `installation` with the given `:id`.  |
+| Method   | URL                  | Description                             |
+| -:       | -                    | -                                       |
+| `GET`    | `/installations`     | Retrieves the list of installations.    |
+| `POST`   | `/installations`     | Creates a new installation.             |
+| `DELETE` | `/installations/:id` | Deletes the object with the given ID.   |
+| `GET`    | `/installations/:id` | Retrieves the object with the given ID. |
+| `PUT`    | `/installations/:id` | Updates the object with the given ID.   |
 
 ### Attributes
 
@@ -4594,14 +4594,14 @@ InstalledApps represents an installed application.
 
 ### Relations
 
-| Method   | URL                       | Description                                       |
-| -:       | -                         | -                                                 |
-| `GET`    | `/installedapps`          | Retrieves the list of installed apps.             |
-| `POST`   | `/installedapps`          | Installs a new app.                               |
-| `DELETE` | `/installedapps/:id`      | Deletes the `installedapp` with the given `:id`.  |
-| `GET`    | `/installedapps/:id`      | Retrieve the `installedapp` with the given `:id`. |
-| `PUT`    | `/installedapps/:id`      | Updates the `installedapp` with the given `:id`.  |
-| `GET`    | `/installedapps/:id/logs` | Returns the logs for a app.                       |
+| Method   | URL                       | Description                             |
+| -:       | -                         | -                                       |
+| `GET`    | `/installedapps`          | Retrieves the list of installed apps.   |
+| `POST`   | `/installedapps`          | Installs a new app.                     |
+| `DELETE` | `/installedapps/:id`      | Deletes the object with the given ID.   |
+| `GET`    | `/installedapps/:id`      | Retrieves the object with the given ID. |
+| `PUT`    | `/installedapps/:id`      | Updates the object with the given ID.   |
+| `GET`    | `/installedapps/:id/logs` | Returns the logs for a app.             |
 
 ### Attributes
 
@@ -4679,11 +4679,11 @@ This api allows to view invoices for Aporeto customers.
 
 ### Relations
 
-| Method   | URL             | Description                                  |
-| -:       | -               | -                                            |
-| `DELETE` | `/invoices/:id` | Deletes the `invoice` with the given `:id`.  |
-| `GET`    | `/invoices/:id` | Retrieve the `invoice` with the given `:id`. |
-| `PUT`    | `/invoices/:id` | Updates the `invoice` with the given `:id`.  |
+| Method   | URL             | Description                             |
+| -:       | -               | -                                       |
+| `DELETE` | `/invoices/:id` | Deletes the object with the given ID.   |
+| `GET`    | `/invoices/:id` | Retrieves the object with the given ID. |
+| `PUT`    | `/invoices/:id` | Updates the object with the given ID.   |
 
 ### Attributes
 
@@ -4760,11 +4760,11 @@ This api allows to view detailed records of invoices for Aporeto customers.
 
 ### Relations
 
-| Method   | URL                   | Description                                        |
-| -:       | -                     | -                                                  |
-| `DELETE` | `/invoicerecords/:id` | Deletes the `invoicerecord` with the given `:id`.  |
-| `GET`    | `/invoicerecords/:id` | Retrieve the `invoicerecord` with the given `:id`. |
-| `PUT`    | `/invoicerecords/:id` | Updates the `invoicerecord` with the given `:id`.  |
+| Method   | URL                   | Description                             |
+| -:       | -                     | -                                       |
+| `DELETE` | `/invoicerecords/:id` | Deletes the object with the given ID.   |
+| `GET`    | `/invoicerecords/:id` | Retrieves the object with the given ID. |
+| `PUT`    | `/invoicerecords/:id` | Updates the object with the given ID.   |
 
 ### Attributes
 
@@ -4832,13 +4832,13 @@ An IsolationProfile needs documentation.
 
 ### Relations
 
-| Method   | URL                      | Description                                           |
-| -:       | -                        | -                                                     |
-| `GET`    | `/isolationprofiles`     | Retrieves the list of isolation profiles.             |
-| `POST`   | `/isolationprofiles`     | Creates a new isolation profile.                      |
-| `DELETE` | `/isolationprofiles/:id` | Deletes the `isolationprofile` with the given `:id`.  |
-| `GET`    | `/isolationprofiles/:id` | Retrieve the `isolationprofile` with the given `:id`. |
-| `PUT`    | `/isolationprofiles/:id` | Updates the `isolationprofile` with the given `:id`.  |
+| Method   | URL                      | Description                               |
+| -:       | -                        | -                                         |
+| `GET`    | `/isolationprofiles`     | Retrieves the list of isolation profiles. |
+| `POST`   | `/isolationprofiles`     | Creates a new isolation profile.          |
+| `DELETE` | `/isolationprofiles/:id` | Deletes the object with the given ID.     |
+| `GET`    | `/isolationprofiles/:id` | Retrieves the object with the given ID.   |
+| `PUT`    | `/isolationprofiles/:id` | Updates the object with the given ID.     |
 
 ### Attributes
 
@@ -5079,13 +5079,13 @@ Create a remote Kubernetes Cluster integration.
 
 ### Relations
 
-| Method   | URL                | Description                                     |
-| -:       | -                  | -                                               |
-| `GET`    | `/k8sclusters`     | Retrieves the list of kubernetes clusters.      |
-| `POST`   | `/k8sclusters`     | Creates a new kubernetes cluster.               |
-| `DELETE` | `/k8sclusters/:id` | Deletes the `k8scluster` with the given `:id`.  |
-| `GET`    | `/k8sclusters/:id` | Retrieve the `k8scluster` with the given `:id`. |
-| `PUT`    | `/k8sclusters/:id` | Updates the `k8scluster` with the given `:id`.  |
+| Method   | URL                | Description                                |
+| -:       | -                  | -                                          |
+| `GET`    | `/k8sclusters`     | Retrieves the list of kubernetes clusters. |
+| `POST`   | `/k8sclusters`     | Creates a new kubernetes cluster.          |
+| `DELETE` | `/k8sclusters/:id` | Deletes the object with the given ID.      |
+| `GET`    | `/k8sclusters/:id` | Retrieves the object with the given ID.    |
+| `PUT`    | `/k8sclusters/:id` | Updates the object with the given ID.      |
 
 ### Attributes
 
@@ -5253,13 +5253,13 @@ Create a remote Kubernetes Cluster integration.
 
 ### Relations
 
-| Method   | URL                       | Description                                            |
-| -:       | -                         | -                                                      |
-| `GET`    | `/kubernetesclusters`     | Retrieves the list of kubernetes clusters.             |
-| `POST`   | `/kubernetesclusters`     | Creates a new kubernetes cluster.                      |
-| `DELETE` | `/kubernetesclusters/:id` | Deletes the `kubernetescluster` with the given `:id`.  |
-| `GET`    | `/kubernetesclusters/:id` | Retrieve the `kubernetescluster` with the given `:id`. |
-| `PUT`    | `/kubernetesclusters/:id` | Updates the `kubernetescluster` with the given `:id`.  |
+| Method   | URL                       | Description                                |
+| -:       | -                         | -                                          |
+| `GET`    | `/kubernetesclusters`     | Retrieves the list of kubernetes clusters. |
+| `POST`   | `/kubernetesclusters`     | Creates a new kubernetes cluster.          |
+| `DELETE` | `/kubernetesclusters/:id` | Deletes the object with the given ID.      |
+| `GET`    | `/kubernetesclusters/:id` | Retrieves the object with the given ID.    |
+| `PUT`    | `/kubernetesclusters/:id` | Updates the object with the given ID.      |
 
 ### Attributes
 
@@ -5399,13 +5399,13 @@ children namespaces.
 
 ### Relations
 
-| Method   | URL             | Description                                  |
-| -:       | -               | -                                            |
-| `GET`    | `/messages`     | Retrieves the list of messages.              |
-| `POST`   | `/messages`     | Creates a new message.                       |
-| `DELETE` | `/messages/:id` | Deletes the `message` with the given `:id`.  |
-| `GET`    | `/messages/:id` | Retrieve the `message` with the given `:id`. |
-| `PUT`    | `/messages/:id` | Updates the `message` with the given `:id`.  |
+| Method   | URL             | Description                             |
+| -:       | -               | -                                       |
+| `GET`    | `/messages`     | Retrieves the list of messages.         |
+| `POST`   | `/messages`     | Creates a new message.                  |
+| `DELETE` | `/messages/:id` | Deletes the object with the given ID.   |
+| `GET`    | `/messages/:id` | Retrieves the object with the given ID. |
+| `PUT`    | `/messages/:id` | Updates the object with the given ID.   |
 
 ### Attributes
 
@@ -5564,13 +5564,13 @@ applications, services or any combination you like.
 
 ### Relations
 
-| Method   | URL               | Description                                    |
-| -:       | -                 | -                                              |
-| `GET`    | `/namespaces`     | Retrieves the list of namespaces.              |
-| `POST`   | `/namespaces`     | Creates a new namespace.                       |
-| `DELETE` | `/namespaces/:id` | Deletes the `namespace` with the given `:id`.  |
-| `GET`    | `/namespaces/:id` | Retrieve the `namespace` with the given `:id`. |
-| `PUT`    | `/namespaces/:id` | Updates the `namespace` with the given `:id`.  |
+| Method   | URL               | Description                             |
+| -:       | -                 | -                                       |
+| `GET`    | `/namespaces`     | Retrieves the list of namespaces.       |
+| `POST`   | `/namespaces`     | Creates a new namespace.                |
+| `DELETE` | `/namespaces/:id` | Deletes the object with the given ID.   |
+| `GET`    | `/namespaces/:id` | Retrieves the object with the given ID. |
+| `PUT`    | `/namespaces/:id` | Updates the object with the given ID.   |
 
 ### Attributes
 
@@ -5733,13 +5733,13 @@ with too much vulnerabilities for instances.
 
 ### Relations
 
-| Method   | URL                             | Description                                                 |
-| -:       | -                               | -                                                           |
-| `GET`    | `/namespacemappingpolicies`     | Retrieves the list namespace mapping policies.              |
-| `POST`   | `/namespacemappingpolicies`     | Creates a new namespace mapping policy.                     |
-| `DELETE` | `/namespacemappingpolicies/:id` | Deletes the `namespacemappingpolicy` with the given `:id`.  |
-| `GET`    | `/namespacemappingpolicies/:id` | Retrieve the `namespacemappingpolicy` with the given `:id`. |
-| `PUT`    | `/namespacemappingpolicies/:id` | Updates the `namespacemappingpolicy` with the given `:id`.  |
+| Method   | URL                             | Description                                    |
+| -:       | -                               | -                                              |
+| `GET`    | `/namespacemappingpolicies`     | Retrieves the list namespace mapping policies. |
+| `POST`   | `/namespacemappingpolicies`     | Creates a new namespace mapping policy.        |
+| `DELETE` | `/namespacemappingpolicies/:id` | Deletes the object with the given ID.          |
+| `GET`    | `/namespacemappingpolicies/:id` | Retrieves the object with the given ID.        |
+| `PUT`    | `/namespacemappingpolicies/:id` | Updates the object with the given ID.          |
 
 ### Attributes
 
@@ -5891,9 +5891,9 @@ identitied by their tags to talk to other processing units or external services
 | -:       | -                                             | -                                                                          |
 | `GET`    | `/networkaccesspolicies`                      | Retrieves the list of network access policies.                             |
 | `POST`   | `/networkaccesspolicies`                      | Creates a new network access policy.                                       |
-| `DELETE` | `/networkaccesspolicies/:id`                  | Deletes the `networkaccesspolicy` with the given `:id`.                    |
-| `GET`    | `/networkaccesspolicies/:id`                  | Retrieve the `networkaccesspolicy` with the given `:id`.                   |
-| `PUT`    | `/networkaccesspolicies/:id`                  | Updates the `networkaccesspolicy` with the given `:id`.                    |
+| `DELETE` | `/networkaccesspolicies/:id`                  | Deletes the object with the given ID.                                      |
+| `GET`    | `/networkaccesspolicies/:id`                  | Retrieves the object with the given ID.                                    |
+| `PUT`    | `/networkaccesspolicies/:id`                  | Updates the object with the given ID.                                      |
 | `GET`    | `/networkaccesspolicies/:id/externalservices` | Returns the list of external services affected by a network access policy. |
 | `GET`    | `/networkaccesspolicies/:id/processingunits`  | Returns the list of Processing Units affected by a network access policy.  |
 
@@ -6179,10 +6179,10 @@ Plan contains the various billing plans available.
 
 ### Relations
 
-| Method | URL          | Description                               |
-| -:     | -            | -                                         |
-| `GET`  | `/plans`     | Retrieves the list of plans.              |
-| `GET`  | `/plans/:id` | Retrieve the `plan` with the given `:id`. |
+| Method | URL          | Description                             |
+| -:     | -            | -                                       |
+| `GET`  | `/plans`     | Retrieves the list of plans.            |
+| `GET`  | `/plans/:id` | Retrieves the object with the given ID. |
 
 ### Attributes
 
@@ -6267,11 +6267,11 @@ Policy represents the policy primitive used by all aporeto policies.
 
 ### Relations
 
-| Method   | URL             | Description                                 |
-| -:       | -               | -                                           |
-| `GET`    | `/policies`     | Retrieves the list of policy primitives.    |
-| `DELETE` | `/policies/:id` | Deletes the `policy` with the given `:id`.  |
-| `GET`    | `/policies/:id` | Retrieve the `policy` with the given `:id`. |
+| Method   | URL             | Description                              |
+| -:       | -               | -                                        |
+| `GET`    | `/policies`     | Retrieves the list of policy primitives. |
+| `DELETE` | `/policies/:id` | Deletes the object with the given ID.    |
+| `GET`    | `/policies/:id` | Retrieves the object with the given ID.  |
 
 ### Attributes
 
@@ -6498,9 +6498,9 @@ retrieve a policy resolution.
 
 ### Relations
 
-| Method | URL                | Description                                     |
-| -:     | -                  | -                                               |
-| `GET`  | `/policyrules/:id` | Retrieve the `policyrule` with the given `:id`. |
+| Method | URL                | Description                             |
+| -:     | -                  | -                                       |
+| `GET`  | `/policyrules/:id` | Retrieves the object with the given ID. |
 
 ### Attributes
 
@@ -6602,9 +6602,9 @@ Paths they can use.
 | -:       | -                                            | -                                                                         |
 | `GET`    | `/processingunits`                           | Retrieves the list of processing units.                                   |
 | `POST`   | `/processingunits`                           | Creates a new processing unit.                                            |
-| `DELETE` | `/processingunits/:id`                       | Deletes the `processingunit` with the given `:id`.                        |
-| `GET`    | `/processingunits/:id`                       | Retrieve the `processingunit` with the given `:id`.                       |
-| `PUT`    | `/processingunits/:id`                       | Updates the `processingunit` with the given `:id`.                        |
+| `DELETE` | `/processingunits/:id`                       | Deletes the object with the given ID.                                     |
+| `GET`    | `/processingunits/:id`                       | Retrieves the object with the given ID.                                   |
+| `PUT`    | `/processingunits/:id`                       | Updates the object with the given ID.                                     |
 | `GET`    | `/networkaccesspolicies/:id/processingunits` | Returns the list of Processing Units affected by a network access policy. |
 | `GET`    | `/servicedependencies/:id/processingunits`   | Returns the list of Processing Units that depend on an service.           |
 | `GET`    | `/services/:id/processingunits`              | Retrieves the Processing Units that implement this service.               |
@@ -6789,13 +6789,13 @@ A ProcessingUnitPolicies needs a better description.
 
 ### Relations
 
-| Method   | URL                           | Description                                               |
-| -:       | -                             | -                                                         |
-| `GET`    | `/processingunitpolicies`     | Retrieves the list of processing unit policies.           |
-| `POST`   | `/processingunitpolicies`     | Creates a new processing unit policy.                     |
-| `DELETE` | `/processingunitpolicies/:id` | Deletes the `processingunitpolicy` with the given `:id`.  |
-| `GET`    | `/processingunitpolicies/:id` | Retrieve the `processingunitpolicy` with the given `:id`. |
-| `PUT`    | `/processingunitpolicies/:id` | Updates the `processingunitpolicy` with the given `:id`.  |
+| Method   | URL                           | Description                                     |
+| -:       | -                             | -                                               |
+| `GET`    | `/processingunitpolicies`     | Retrieves the list of processing unit policies. |
+| `POST`   | `/processingunitpolicies`     | Creates a new processing unit policy.           |
+| `DELETE` | `/processingunitpolicies/:id` | Deletes the object with the given ID.           |
+| `GET`    | `/processingunitpolicies/:id` | Retrieves the object with the given ID.         |
+| `PUT`    | `/processingunitpolicies/:id` | Updates the object with the given ID.           |
 
 ### Attributes
 
@@ -6992,13 +6992,13 @@ created in a namespace.
 
 ### Relations
 
-| Method   | URL                  | Description                                      |
-| -:       | -                    | -                                                |
-| `GET`    | `/quotapolicies`     | Retrieves the list of quota policies.            |
-| `POST`   | `/quotapolicies`     | Creates a new quota policy.                      |
-| `DELETE` | `/quotapolicies/:id` | Deletes the `quotapolicy` with the given `:id`.  |
-| `GET`    | `/quotapolicies/:id` | Retrieve the `quotapolicy` with the given `:id`. |
-| `PUT`    | `/quotapolicies/:id` | Updates the `quotapolicy` with the given `:id`.  |
+| Method   | URL                  | Description                             |
+| -:       | -                    | -                                       |
+| `GET`    | `/quotapolicies`     | Retrieves the list of quota policies.   |
+| `POST`   | `/quotapolicies`     | Creates a new quota policy.             |
+| `DELETE` | `/quotapolicies/:id` | Deletes the object with the given ID.   |
+| `GET`    | `/quotapolicies/:id` | Retrieves the object with the given ID. |
+| `PUT`    | `/quotapolicies/:id` | Updates the object with the given ID.   |
 
 ### Attributes
 
@@ -7422,9 +7422,9 @@ can be associated with one or more services.
 | -:       | -                            | -                                                |
 | `GET`    | `/restapispecs`              | Retrieves the list of REST API specifications.   |
 | `POST`   | `/restapispecs`              | Creates a new REST API specification.            |
-| `DELETE` | `/restapispecs/:id`          | Deletes the `restapispec` with the given `:id`.  |
-| `GET`    | `/restapispecs/:id`          | Retrieve the `restapispec` with the given `:id`. |
-| `PUT`    | `/restapispecs/:id`          | Updates the `restapispec` with the given `:id`.  |
+| `DELETE` | `/restapispecs/:id`          | Deletes the object with the given ID.            |
+| `GET`    | `/restapispecs/:id`          | Retrieves the object with the given ID.          |
+| `PUT`    | `/restapispecs/:id`          | Updates the object with the given ID.            |
 | `GET`    | `/services/:id/restapispecs` | Retrieves the REST APIs exposed by this service. |
 
 ### Attributes
@@ -7634,9 +7634,9 @@ units.
 | -:       | -                                   | -                                                                             |
 | `GET`    | `/services`                         | Retrieves the list of Services.                                               |
 | `POST`   | `/services`                         | Creates a new Service.                                                        |
-| `DELETE` | `/services/:id`                     | Deletes the `service` with the given `:id`.                                   |
-| `GET`    | `/services/:id`                     | Retrieve the `service` with the given `:id`.                                  |
-| `PUT`    | `/services/:id`                     | Updates the `service` with the given `:id`.                                   |
+| `DELETE` | `/services/:id`                     | Deletes the object with the given ID.                                         |
+| `GET`    | `/services/:id`                     | Retrieves the object with the given ID.                                       |
+| `PUT`    | `/services/:id`                     | Updates the object with the given ID.                                         |
 | `GET`    | `/processingunits/:id/services`     | Retrieves the services used by a processing unit.                             |
 | `GET`    | `/servicedependencies/:id/services` | Returns the list of external services that are targets of service dependency. |
 | `GET`    | `/services/:id/processingunits`     | Retrieves the Processing Units that implement this service.                   |
@@ -7909,9 +7909,9 @@ by their tags require access to specific services.
 | -:       | -                                          | -                                                                             |
 | `GET`    | `/servicedependencies`                     | Retrieves the list of service dependencies.                                   |
 | `POST`   | `/servicedependencies`                     | Creates a new service dependency.                                             |
-| `DELETE` | `/servicedependencies/:id`                 | Deletes the `servicedependency` with the given `:id`.                         |
-| `GET`    | `/servicedependencies/:id`                 | Retrieve the `servicedependency` with the given `:id`.                        |
-| `PUT`    | `/servicedependencies/:id`                 | Updates the `servicedependency` with the given `:id`.                         |
+| `DELETE` | `/servicedependencies/:id`                 | Deletes the object with the given ID.                                         |
+| `GET`    | `/servicedependencies/:id`                 | Retrieves the object with the given ID.                                       |
+| `PUT`    | `/servicedependencies/:id`                 | Updates the object with the given ID.                                         |
 | `GET`    | `/servicedependencies/:id/processingunits` | Returns the list of Processing Units that depend on an service.               |
 | `GET`    | `/servicedependencies/:id/services`        | Returns the list of external services that are targets of service dependency. |
 
@@ -8251,13 +8251,13 @@ generated tokens to be used by external applications.
 
 ### Relations
 
-| Method   | URL                       | Description                                           |
-| -:       | -                         | -                                                     |
-| `GET`    | `/tokenscopepolicies`     | Retrieves the list of token scope policies.           |
-| `POST`   | `/tokenscopepolicies`     | Creates a new token scope policy.                     |
-| `DELETE` | `/tokenscopepolicies/:id` | Deletes the `tokenscopepolicy` with the given `:id`.  |
-| `GET`    | `/tokenscopepolicies/:id` | Retrieve the `tokenscopepolicy` with the given `:id`. |
-| `PUT`    | `/tokenscopepolicies/:id` | Updates the `tokenscopepolicy` with the given `:id`.  |
+| Method   | URL                       | Description                                 |
+| -:       | -                         | -                                           |
+| `GET`    | `/tokenscopepolicies`     | Retrieves the list of token scope policies. |
+| `POST`   | `/tokenscopepolicies`     | Creates a new token scope policy.           |
+| `DELETE` | `/tokenscopepolicies/:id` | Deletes the object with the given ID.       |
+| `GET`    | `/tokenscopepolicies/:id` | Retrieves the object with the given ID.     |
+| `PUT`    | `/tokenscopepolicies/:id` | Updates the object with the given ID.       |
 
 ### Attributes
 
@@ -8467,7 +8467,7 @@ A vulnerabily represents a particular CVE.
 | -:     | -                                      | -                                                             |
 | `GET`  | `/vulnerabilities`                     | Retrieves the list of vulnerabilities.                        |
 | `POST` | `/vulnerabilities`                     | Creates a new vulnerability.                                  |
-| `GET`  | `/vulnerabilities/:id`                 | Retrieve the `vulnerability` with the given `:id`.            |
+| `GET`  | `/vulnerabilities/:id`                 | Retrieves the object with the given ID.                       |
 | `GET`  | `/processingunits/:id/vulnerabilities` | Retrieves the vulnerabilities affecting the processing unit.  |
 | `GET`  | `/vulnerabilities/:id/processingunits` | Retrieves the processing units affected by the a vulnerabily. |
 

@@ -14,10 +14,12 @@ model:
   aliases:
   - pu
   - pus
-  create: true
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
   extends:
   - '@archivable'
   - '@base'
@@ -99,28 +101,32 @@ attributes:
 # Relations
 relations:
 - rest_name: service
-  descriptions:
-    get: Retrieves the services used by a processing unit.
-  get: true
+  get:
+    description: Retrieves the services used by a processing unit.
 
 - rest_name: fileaccess
-  descriptions:
-    get: Retrieves the file accesses done by the processing unit.
-  get: true
+  get:
+    description: Retrieves the file accesses done by the processing unit.
 
 - rest_name: renderedpolicy
-  descriptions:
-    get: Retrieves the policies for the processing unit.
-  get: true
+  get:
+    description: Retrieves the policies for the processing unit.
 
 - rest_name: vulnerability
-  descriptions:
-    get: Retrieves the vulnerabilities affecting the processing unit.
-  get: true
+  get:
+    description: Retrieves the vulnerabilities affecting the processing unit.
 
 - rest_name: poke
-  descriptions:
-    get: |-
+  get:
+    description: |-
       Sends a poke empty object. This will send a snaphot of the pu to time series
       database.
-  get: true
+    parameters:
+    - name: status
+      description: If set, changes the status of the processing unit alongside with
+        the poke.
+      type: enum
+      allowed_choices:
+      - Paused
+      - Running
+      - Stopped

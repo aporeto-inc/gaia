@@ -8,7 +8,8 @@ model:
   aliases:
   - ca
   private: true
-  delete: true
+  delete:
+    description: Deletes the object with the given ID.
 
 # Attributes
 attributes:

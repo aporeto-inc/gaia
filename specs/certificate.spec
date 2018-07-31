@@ -5,9 +5,12 @@ model:
   entity_name: Certificate
   package: vince
   description: A User represents the owner of some certificates.
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
   extends:
   - '@identifiable-pk-stored'
   - '@timeable'

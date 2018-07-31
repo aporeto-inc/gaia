@@ -13,9 +13,12 @@ model:
     Enforcer's tags what profile to use. If an Enforcer tags are matching more than
     a single policy, it will refuse to start. Some parameters will be applied
     directly to a running agent, some will need to restart it.
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
   extends:
   - '@base'
   - '@described'
@@ -193,11 +196,10 @@ attributes:
 # Relations
 relations:
 - rest_name: enforcerprofile
-  descriptions:
-    get: Returns the enforcer profile that must be used by an enforcer.
-  get: true
+  get:
+    description: Returns the enforcer profile that must be used by an enforcer.
 
 - rest_name: poke
-  descriptions:
-    get: Sends a poke empty object. This is used to ensure an enforcer is up and running.
-  get: true
+  get:
+    description: Sends a poke empty object. This is used to ensure an enforcer is
+      up and running.

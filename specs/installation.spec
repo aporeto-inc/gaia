@@ -5,9 +5,12 @@ model:
   entity_name: Installation
   package: highwind
   description: Installation represents an installation for a given account.
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
 
 # Attributes
 attributes:

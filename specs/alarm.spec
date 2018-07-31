@@ -5,9 +5,12 @@ model:
   entity_name: Alarm
   package: sephiroth
   description: An alarm represents an event requiring attention.
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
   extends:
   - '@base'
   - '@described'
