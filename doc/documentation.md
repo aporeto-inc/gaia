@@ -788,7 +788,6 @@ Disabled defines if the propert is disabled.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `fallback (boolean)`
 
@@ -1286,7 +1285,6 @@ Disabled defines if the propert is disabled.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `entitlements (external:automation_entitlements)`
 
@@ -2861,7 +2859,6 @@ Disabled defines if the propert is disabled.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `fallback (boolean)`
 
@@ -3623,7 +3620,6 @@ Disabled defines if the propert is disabled.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `encryptionEnabled (boolean)`
 
@@ -4337,7 +4333,6 @@ Disabled defines if the propert is disabled.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `endpoint (string)`
 
@@ -5703,7 +5698,6 @@ Disabled defines if the propert is disabled.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `mappedNamespace (string)`
 
@@ -5891,7 +5885,6 @@ Disabled defines if the propert is disabled.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `encryptionEnabled (boolean)`
 
@@ -6246,7 +6239,6 @@ Disabled defines if the propert is disabled.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `fallback (boolean)`
 
@@ -6769,7 +6761,6 @@ Disabled defines if the propert is disabled.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `fallback (boolean)`
 
@@ -6947,7 +6938,6 @@ Disabled defines if the propert is disabled.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `fallback (boolean)`
 
@@ -7871,7 +7861,6 @@ Disabled defines if the propert is disabled.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `fallback (boolean)`
 
@@ -8221,7 +8210,6 @@ Disabled defines if the propert is disabled.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `fallback (boolean)`
 
