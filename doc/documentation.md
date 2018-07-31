@@ -860,7 +860,6 @@ namespace, but still used for policy resolution.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `protected (boolean)`
 
@@ -2942,7 +2941,6 @@ namespace, but still used for policy resolution.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `protected (boolean)`
 
@@ -3721,7 +3719,6 @@ namespace, but still used for policy resolution.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `protected (boolean)`
 
@@ -4431,7 +4428,6 @@ namespace, but still used for policy resolution.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `protected (boolean)`
 
@@ -6018,7 +6014,6 @@ namespace, but still used for policy resolution.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `protected (boolean)`
 
@@ -6328,7 +6323,6 @@ namespace, but still used for policy resolution.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `protected (boolean)`
 
@@ -6852,7 +6846,6 @@ namespace, but still used for policy resolution.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `protected (boolean)`
 
@@ -7034,7 +7027,6 @@ namespace, but still used for policy resolution.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `protected (boolean)`
 
@@ -7436,7 +7428,6 @@ namespace, but still used for policy resolution.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `protected (boolean)`
 
@@ -7960,7 +7951,6 @@ namespace, but still used for policy resolution.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `protected (boolean)`
 
@@ -8303,7 +8293,6 @@ namespace, but still used for policy resolution.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `protected (boolean)`
 
