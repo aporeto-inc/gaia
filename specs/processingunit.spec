@@ -130,3 +130,4 @@ relations:
       - Paused
       - Running
       - Stopped
+      example_value: Running
