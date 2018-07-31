@@ -656,7 +656,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `status (enum)`
 
@@ -867,7 +866,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `subject (external:policies_list)`
 
@@ -1160,7 +1158,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `rules (external:audit_profile_rule_list)`
 
@@ -1356,7 +1353,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `schedule (string)`
 
@@ -1740,7 +1736,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `resource (string)`
 
@@ -2351,7 +2346,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `publicToken (string)`
 
@@ -2652,7 +2646,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `proxyListenAddress (string)`
 
@@ -2946,7 +2939,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `subject (external:policies_list)`
 
@@ -3265,7 +3257,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `protocol (string)`
 
@@ -3415,7 +3406,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `protocol (string)`
 
@@ -3723,7 +3713,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `subject (external:policies_list)`
 
@@ -3867,7 +3856,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `server (string)`
 
@@ -4431,7 +4419,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `subject (external:policies_list)`
 
@@ -4866,7 +4853,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `syscallRules (external:syscall_rules)`
 
@@ -5145,7 +5131,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `regenerate (boolean)`
 
@@ -5436,7 +5421,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `updateTime (time)`
 
@@ -5596,7 +5580,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `updateTime (time)`
 
@@ -5758,7 +5741,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `subject (external:policies_list)`
 
@@ -6015,7 +5997,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `subject (external:policies_list)`
 
@@ -6323,7 +6304,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `relation (external:relations_list)`
 
@@ -6644,7 +6624,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `type (enum)`
 
@@ -6845,7 +6824,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `subject (external:policies_list)`
 
@@ -7025,7 +7003,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `quota (integer)`
 
@@ -7426,7 +7403,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `updateTime (time)`
 
@@ -7713,7 +7689,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `redirectOnFail (boolean)`
 
@@ -7948,7 +7923,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `subject (external:policies_list)`
 
@@ -8289,7 +8263,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `subject (external:policies_list)`
 
@@ -8447,7 +8420,6 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `severity (external:vulnerability_level)`
 
