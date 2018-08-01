@@ -1658,7 +1658,7 @@ func init() {
 					elemental.ParameterDefinition{
 						Name:         "metric",
 						Type:         "enum",
-						DefaultValue: "applied",
+						DefaultValue: "Flows",
 						AllowedChoices: []string{
 							"Flows",
 							"Ports",
@@ -1761,7 +1761,7 @@ func init() {
 					elemental.ParameterDefinition{
 						Name:         "metric",
 						Type:         "enum",
-						DefaultValue: "applied",
+						DefaultValue: "Flows",
 						AllowedChoices: []string{
 							"Flows",
 							"Ports",

@@ -392,7 +392,7 @@ relations:
         allowed_choices:
         - Flows
         - Ports
-        default_value: applied
+        default_value: Flows
 
       - name: sourceID
         description: IDs of the sources.
