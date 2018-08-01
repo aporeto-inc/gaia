@@ -3512,6 +3512,10 @@ Deletes the object with the given ID.
 
 Retrieves the object with the given ID.
 
+##### Parameters
+
+- `archived` (boolean): Also retrieve the objects that have been archived.
+
 #### `PUT /externalnetworks/:id`
 
 Updates the object with the given ID.
@@ -3680,6 +3684,10 @@ Deletes the object with the given ID.
 #### `GET /externalservices/:id`
 
 Retrieves the object with the given ID.
+
+##### Parameters
+
+- `archived` (boolean): Also retrieve the objects that have been archived.
 
 #### `PUT /externalservices/:id`
 
@@ -7261,6 +7269,10 @@ Deletes the object with the given ID.
 
 Retrieves the object with the given ID.
 
+##### Parameters
+
+- `archived` (boolean): Also retrieve the objects that have been archived.
+
 #### `PUT /processingunits/:id`
 
 Updates the object with the given ID.
@@ -8191,6 +8203,10 @@ Deletes the object with the given ID.
 
 Retrieves the object with the given ID.
 
+##### Parameters
+
+- `archived` (boolean): Also retrieve the objects that have been archived.
+
 #### `PUT /restapispecs/:id`
 
 Updates the object with the given ID.
@@ -8423,6 +8439,10 @@ Deletes the object with the given ID.
 #### `GET /services/:id`
 
 Retrieves the object with the given ID.
+
+##### Parameters
+
+- `archived` (boolean): Also retrieve the objects that have been archived.
 
 #### `PUT /services/:id`
 

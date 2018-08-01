@@ -16,6 +16,8 @@ model:
   - pus
   get:
     description: Retrieves the object with the given ID.
+    global_parameters:
+    - $archivable
   update:
     description: Updates the object with the given ID.
   delete:
@@ -141,6 +143,7 @@ relations:
         - Running
         - Stopped
         example_value: Running
+
       - name: ts
         description: time of report. If not set, local server time will be used.
         type: time
