@@ -18,7 +18,7 @@ relations:
     description: |-
       Retrieves all accounts. This is a private API that can only be done by the
       system.
-    globalParameters:
+    global_parameters:
     - $filtering
     parameters:
       entries:
@@ -57,13 +57,13 @@ relations:
 - rest_name: activity
   get:
     description: Retrieves the list of activity logs.
-    globalParameters:
+    global_parameters:
     - $filtering
 
 - rest_name: alarm
   get:
     description: Retrieves all the alarms.
-    globalParameters:
+    global_parameters:
     - $filtering
   create:
     description: Creates a new alarm.
@@ -71,7 +71,7 @@ relations:
 - rest_name: apiauthorizationpolicy
   get:
     description: Retrieves the list of API authorization policies.
-    globalParameters:
+    global_parameters:
     - $filtering
     - $propagatable
   create:
@@ -84,7 +84,7 @@ relations:
 - rest_name: restapispec
   get:
     description: Retrieves the list of REST API specifications.
-    globalParameters:
+    global_parameters:
     - $filtering
     - $propagatable
     - $archivable
@@ -94,7 +94,7 @@ relations:
 - rest_name: service
   get:
     description: Retrieves the list of Services.
-    globalParameters:
+    global_parameters:
     - $filtering
     - $archivable
   create:
@@ -103,7 +103,7 @@ relations:
 - rest_name: auditprofile
   get:
     description: Retrieves the list of audit profiles.
-    globalParameters:
+    global_parameters:
     - $filtering
   create:
     description: Creates a new audit profile.
@@ -115,13 +115,13 @@ relations:
 - rest_name: authority
   create:
     description: Creates a new certificate authority.
-    globalParameters:
+    global_parameters:
     - $filtering
 
 - rest_name: automation
   get:
     description: Retrieves the list of Automations.
-    globalParameters:
+    global_parameters:
     - $filtering
   create:
     description: Creates a new Automation.
@@ -133,13 +133,13 @@ relations:
 - rest_name: app
   get:
     description: Retrieves the list of apps.
-    globalParameters:
+    global_parameters:
     - $filtering
 
 - rest_name: awsaccount
   get:
     description: Retrieves the list of aws account bindings.
-    globalParameters:
+    global_parameters:
     - $filtering
     parameters:
       entries:
@@ -157,7 +157,7 @@ relations:
 - rest_name: awsapigateway
   get:
     description: create an AWS API Gateway.
-    globalParameters:
+    global_parameters:
     - $filtering
   create:
     description: Manages the AWS API Gateway.
@@ -165,7 +165,7 @@ relations:
 - rest_name: certificate
   get:
     description: Retrieves the list of existing user certificates.
-    globalParameters:
+    global_parameters:
     - $filtering
   create:
     description: Creates a new user certificate.
@@ -173,7 +173,7 @@ relations:
 - rest_name: dependencymap
   get:
     description: Retrieves the dependencymap of a namespace.
-    globalParameters:
+    global_parameters:
     - $timewindow
     parameters:
       entries:
@@ -199,7 +199,7 @@ relations:
 - rest_name: enforcer
   get:
     description: Retrieves the list of enforcers.
-    globalParameters:
+    global_parameters:
     - $filtering
   create:
     description: Creates a new enforcer.
@@ -207,7 +207,7 @@ relations:
 - rest_name: enforcerprofile
   get:
     description: Retrieves the list of enforcer profiles.
-    globalParameters:
+    global_parameters:
     - $filtering
   create:
     description: Creates a new enforcer profile.
@@ -215,7 +215,7 @@ relations:
 - rest_name: enforcerprofilemappingpolicy
   get:
     description: Retrieves the list of enforcer profile mapping policies.
-    globalParameters:
+    global_parameters:
     - $filtering
     - $propagatable
   create:
@@ -262,7 +262,7 @@ relations:
 - rest_name: externalaccess
   get:
     description: Retrieves the list of external access according to parameters.
-    globalParameters:
+    global_parameters:
     - $timewindow
     parameters:
       entries:
@@ -303,7 +303,7 @@ relations:
 - rest_name: externalservice
   get:
     description: Retrieves the list of external services.
-    globalParameters:
+    global_parameters:
     - $filtering
     - $archivable
   create:
@@ -312,7 +312,7 @@ relations:
 - rest_name: externalnetwork
   get:
     description: Retrieves the list of external network.
-    globalParameters:
+    global_parameters:
     - $filtering
     - $archivable
   create:
@@ -321,7 +321,7 @@ relations:
 - rest_name: fileaccess
   get:
     description: Retrieves the list of file access according to parameters.
-    globalParameters:
+    global_parameters:
     - $timewindow
     parameters:
       required:
@@ -335,7 +335,7 @@ relations:
 - rest_name: fileaccesspolicy
   get:
     description: Retrieves the list of file access policies.
-    globalParameters:
+    global_parameters:
     - $filtering
     - $propagatable
   create:
@@ -344,7 +344,7 @@ relations:
 - rest_name: filepath
   get:
     description: Retrieves the list of file path.
-    globalParameters:
+    global_parameters:
     - $filtering
   create:
     description: Create a new file path.
@@ -353,7 +353,7 @@ relations:
   get:
     description: Retrieves the flow statistics according to parameters.
     deprecated: true
-    globalParameters:
+    global_parameters:
     - $timewindow
     parameters:
       entries:
@@ -408,7 +408,7 @@ relations:
 - rest_name: hookpolicy
   get:
     description: Retrieves the list of hook policies.
-    globalParameters:
+    global_parameters:
     - $filtering
     - $propagatable
   create:
@@ -427,7 +427,7 @@ relations:
 - rest_name: isolationprofile
   get:
     description: Retrieves the list of isolation profiles.
-    globalParameters:
+    global_parameters:
     - $filtering
   create:
     description: Creates a new isolation profile.
@@ -449,7 +449,7 @@ relations:
 - rest_name: kubernetescluster
   get:
     description: Retrieves the list of kubernetes clusters.
-    globalParameters:
+    global_parameters:
     - $filtering
   create:
     description: Creates a new kubernetes cluster.
@@ -458,7 +458,7 @@ relations:
   get:
     description: Retrieves the list of kubernetes clusters.
     deprecated: true
-    globalParameters:
+    global_parameters:
     - $filtering
   create:
     description: Creates a new kubernetes cluster.
@@ -467,7 +467,7 @@ relations:
 - rest_name: message
   get:
     description: Retrieves the list of messages.
-    globalParameters:
+    global_parameters:
     - $filtering
   create:
     description: Creates a new message.
@@ -475,7 +475,7 @@ relations:
 - rest_name: namespace
   get:
     description: Retrieves the list of namespaces.
-    globalParameters:
+    global_parameters:
     - $filtering
   create:
     description: Creates a new namespace.
@@ -483,7 +483,7 @@ relations:
 - rest_name: namespacemappingpolicy
   get:
     description: Retrieves the list namespace mapping policies.
-    globalParameters:
+    global_parameters:
     - $filtering
   create:
     description: Creates a new namespace mapping policy.
@@ -491,7 +491,7 @@ relations:
 - rest_name: networkaccesspolicy
   get:
     description: Retrieves the list of network access policies.
-    globalParameters:
+    global_parameters:
     - $filtering
     - $propagatable
   create:
@@ -518,7 +518,7 @@ relations:
 - rest_name: policy
   get:
     description: Retrieves the list of policy primitives.
-    globalParameters:
+    global_parameters:
     - $filtering
     - $propagatable
 
@@ -529,7 +529,7 @@ relations:
 - rest_name: processingunit
   get:
     description: Retrieves the list of processing units.
-    globalParameters:
+    global_parameters:
     - $filtering
     - $archivable
   create:
@@ -538,7 +538,7 @@ relations:
 - rest_name: processingunitpolicy
   get:
     description: Retrieves the list of processing unit policies.
-    globalParameters:
+    global_parameters:
     - $filtering
     - $propagatable
   create:
@@ -551,7 +551,7 @@ relations:
 - rest_name: quotapolicy
   get:
     description: Retrieves the list of quota policies.
-    globalParameters:
+    global_parameters:
     - $filtering
     - $propagatable
   create:
@@ -585,7 +585,7 @@ relations:
 - rest_name: revocation
   get:
     description: Verify the revocation of a certificate according to parameters.
-    globalParameters:
+    global_parameters:
     - $filtering
 
 - rest_name: role
@@ -595,7 +595,7 @@ relations:
 - rest_name: installedapp
   get:
     description: Retrieves the list of installed apps.
-    globalParameters:
+    global_parameters:
     - $filtering
   create:
     description: Installs a new app.
@@ -603,7 +603,7 @@ relations:
 - rest_name: statsquery
   get:
     description: Retrieves statistics information based on parameters.
-    globalParameters:
+    global_parameters:
     - $timewindow
     parameters:
       entries:
@@ -661,7 +661,7 @@ relations:
 - rest_name: servicedependency
   get:
     description: Retrieves the list of service dependencies.
-    globalParameters:
+    global_parameters:
     - $filtering
     - $propagatable
   create:
@@ -711,7 +711,7 @@ relations:
 - rest_name: tokenscopepolicy
   get:
     description: Retrieves the list of token scope policies.
-    globalParameters:
+    global_parameters:
     - $filtering
     - $propagatable
   create:
@@ -720,7 +720,7 @@ relations:
 - rest_name: vulnerability
   get:
     description: Retrieves the list of vulnerabilities.
-    globalParameters:
+    global_parameters:
     - $filtering
   create:
     description: Creates a new vulnerability.
@@ -728,7 +728,7 @@ relations:
 - rest_name: x509certificate
   get:
     description: Retrieves a X509 certificates.
-    globalParameters:
+    global_parameters:
     - $filtering
   create:
     description: Creates a new x509 certificate.
@@ -736,7 +736,7 @@ relations:
 - rest_name: x509certificatecheck
   get:
     description: Verifies if a x509 certificate is valid.
-    globalParameters:
+    global_parameters:
     - $filtering
 
 - rest_name: squalltag
