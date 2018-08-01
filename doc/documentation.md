@@ -121,7 +121,6 @@ Retrieves the object with the given ID.
 
 Updates the object with the given ID.
 
-
 ### Attributes
 
 #### `ID (string)`
@@ -399,7 +398,7 @@ Activates a pending account.
 - `noRedirect` (boolean): If set, do not redirect the request to the UI.
 - `token` (string): Activation token.
 
-##### Mandatory parameters
+##### Mandatory Parameters
 
 `token`
 
@@ -434,7 +433,6 @@ Retrieves the list of activity logs.
 #### `GET /activities/:id`
 
 Retrieves the object with the given ID.
-
 
 ### Attributes
 
@@ -597,7 +595,6 @@ Retrieves the object with the given ID.
 #### `PUT /alarms/:id`
 
 Updates the object with the given ID.
-
 
 ### Attributes
 
@@ -785,7 +782,6 @@ Retrieves the object with the given ID.
 #### `PUT /apiauthorizationpolicies/:id`
 
 Updates the object with the given ID.
-
 
 ### Attributes
 
@@ -992,7 +988,6 @@ impersonate a user and ensure a proxfied request should be allowed.
 
 Verifies the authorizations on various identities for a given token.
 
-
 ### Attributes
 
 #### `authorized (external:authorized_identities)`
@@ -1173,7 +1168,6 @@ Updates the object with the given ID.
 
 Returns the list of AuditProfiles used by an enforcer profile.
 
-
 ### Attributes
 
 #### `ID (string)`
@@ -1298,7 +1292,6 @@ This API verifies if the given token is valid or not.
 
 Verify the validity of a token.
 
-
 ### Attributes
 
 #### `claims (external:claims)`
@@ -1359,7 +1352,6 @@ to `RemoteCall`.
 
 Allows a system to trigger the automation if its `triggerType` property is set
 to `RemoteCall`.
-
 
 ### Attributes
 
@@ -1567,7 +1559,6 @@ Retrieves the list of automation templates.
 
 Retrieves the object with the given ID.
 
-
 ### Attributes
 
 #### `description (string)`
@@ -1653,7 +1644,6 @@ Deletes the object with the given ID.
 #### `GET /awsaccounts/:id`
 
 Retrieves the object with the given ID.
-
 
 ### Attributes
 
@@ -1800,7 +1790,6 @@ Retrieves the object with the given ID.
 #### `PUT /awsapigateways/:id`
 
 Updates the object with the given ID.
-
 
 ### Attributes
 
@@ -1955,7 +1944,6 @@ This api allows AWS customer to register with Aporeto SaaS for billing.
 
 Creates a new aws registration for billing.
 
-
 ### Attributes
 
 #### `ID (string)`
@@ -2082,7 +2070,6 @@ Retrieves the object with the given ID.
 #### `PUT /certificates/:id`
 
 Updates the object with the given ID.
-
 
 ### Attributes
 
@@ -2270,7 +2257,7 @@ Retrieves the dependencymap of a namespace.
 - `startAbsolute` (time): Set the absolute start of the time window.
 - `startRelative` (duration): Set the relative start of the time window.
 
-##### Mandatory parameters
+##### Mandatory Parameters
 
 (`endRelative`) or (`startRelative`) or (`startRelative` and `endRelative`) or (`startRelative` and `endAbsolute`) or (`startAbsolute` and `endRelative`) or (`startAbsolute` and `endAbsolute`)
 
@@ -2386,7 +2373,6 @@ Returns the enforcer profile that must be used by an enforcer.
 #### `GET /enforcers/:id/poke`
 
 Sends a poke empty object. This is used to ensure an enforcer is up and running.
-
 
 ### Attributes
 
@@ -2690,7 +2676,6 @@ Returns the enforcer profile that must be used by an enforcer.
 #### `GET /enforcerprofiles/:id/auditprofiles`
 
 Returns the list of AuditProfiles used by an enforcer profile.
-
 
 ### Attributes
 
@@ -3129,7 +3114,6 @@ matches.
 
 Returns the list of enforcers affected by an enforcer profile mapping policy.
 
-
 ### Attributes
 
 #### `ID (string)`
@@ -3320,7 +3304,6 @@ Retrieves the eventlogs for one or multiple entities.
 
 Creates a new eventlog for a particular entity.
 
-
 ### Attributes
 
 #### `category (string)`
@@ -3472,7 +3455,7 @@ Retrieves the list of external access according to parameters.
 - `startAbsolute` (time): Set the absolute start of the time window.
 - `startRelative` (duration): Set the relative start of the time window.
 
-##### Mandatory parameters
+##### Mandatory Parameters
 
 (`endRelative`) or (`startRelative`) or (`startRelative` and `endRelative`) or (`startRelative` and `endAbsolute`) or (`startAbsolute` and `endRelative`) or (`startAbsolute` and `endAbsolute`)
 
@@ -3532,7 +3515,6 @@ Retrieves the object with the given ID.
 #### `PUT /externalnetworks/:id`
 
 Updates the object with the given ID.
-
 
 ### Attributes
 
@@ -3861,14 +3843,13 @@ Retrieves the list of file access according to parameters.
 - `startAbsolute` (time): Set the absolute start of the time window.
 - `startRelative` (duration): Set the relative start of the time window.
 
-##### Mandatory parameters
+##### Mandatory Parameters
 
 (`puID`) and ((`endRelative`) or (`startRelative`) or (`startRelative` and `endRelative`) or (`startRelative` and `endAbsolute`) or (`startAbsolute` and `endRelative`) or (`startAbsolute` and `endAbsolute`))
 
 #### `GET /processingunits/:id/fileaccesses`
 
 Retrieves the file accesses done by the processing unit.
-
 
 ### Attributes
 
@@ -3974,7 +3955,6 @@ Retrieves the object with the given ID.
 #### `PUT /fileaccesspolicies/:id`
 
 Updates the object with the given ID.
-
 
 ### Attributes
 
@@ -4235,7 +4215,6 @@ Retrieves the object with the given ID.
 
 Updates the object with the given ID.
 
-
 ### Attributes
 
 #### `ID (string)`
@@ -4387,7 +4366,6 @@ Post a new flow statistics report.
 #### `POST /flowreports`
 
 Create a flow statistics report.
-
 
 ### Attributes
 
@@ -4583,7 +4561,7 @@ Retrieves the flow statistics according to parameters.
 - `startAbsolute` (time): Set the absolute start of the time window.
 - `startRelative` (duration): Set the relative start of the time window.
 
-##### Mandatory parameters
+##### Mandatory Parameters
 
 (`endRelative`) or (`startRelative`) or (`startRelative` and `endRelative`) or (`startRelative` and `endAbsolute`) or (`startAbsolute` and `endRelative`) or (`startAbsolute` and `endAbsolute`)
 
@@ -4762,7 +4740,6 @@ Retrieves the object with the given ID.
 #### `PUT /hookpolicies/:id`
 
 Updates the object with the given ID.
-
 
 ### Attributes
 
@@ -4983,7 +4960,6 @@ Imports an export of policies and related objects into the namespace.
 
 Imports data from a previous export.
 
-
 ### Attributes
 
 #### `data (external:exported_data)`
@@ -5027,7 +5003,6 @@ Retrieves the object with the given ID.
 #### `PUT /installations/:id`
 
 Updates the object with the given ID.
-
 
 ### Attributes
 
@@ -5084,7 +5059,6 @@ Updates the object with the given ID.
 #### `GET /installedapps/:id/logs`
 
 Returns the logs for a app.
-
 
 ### Attributes
 
@@ -5174,7 +5148,6 @@ Retrieves the object with the given ID.
 
 Updates the object with the given ID.
 
-
 ### Attributes
 
 #### `ID (string)`
@@ -5261,7 +5234,6 @@ Retrieves the object with the given ID.
 #### `PUT /invoicerecords/:id`
 
 Updates the object with the given ID.
-
 
 ### Attributes
 
@@ -5353,7 +5325,6 @@ Retrieves the object with the given ID.
 #### `PUT /isolationprofiles/:id`
 
 Updates the object with the given ID.
-
 
 ### Attributes
 
@@ -5574,7 +5545,6 @@ post jaeger span in our private jaeger services.
 
 Sends a jaeger tracing batch.
 
-
 ### Attributes
 
 #### `batch (external:jaeger_batch)`
@@ -5623,7 +5593,6 @@ Retrieves the object with the given ID.
 #### `PUT /k8sclusters/:id`
 
 Updates the object with the given ID.
-
 
 ### Attributes
 
@@ -5816,7 +5785,6 @@ Retrieves the object with the given ID.
 
 Updates the object with the given ID.
 
-
 ### Attributes
 
 #### `ID (string)`
@@ -5929,7 +5897,6 @@ Retrieves the log of a deployed app.
 
 Returns the logs for a app.
 
-
 ### Attributes
 
 #### `data (external:logs)`
@@ -5980,7 +5947,6 @@ Retrieves the object with the given ID.
 #### `PUT /messages/:id`
 
 Updates the object with the given ID.
-
 
 ### Attributes
 
@@ -6163,7 +6129,6 @@ Retrieves the object with the given ID.
 #### `PUT /namespaces/:id`
 
 Updates the object with the given ID.
-
 
 ### Attributes
 
@@ -6350,7 +6315,6 @@ Retrieves the object with the given ID.
 #### `PUT /namespacemappingpolicies/:id`
 
 Updates the object with the given ID.
-
 
 ### Attributes
 
@@ -6801,14 +6765,13 @@ Sends a link to the account email to reset the password.
 
 - `email` (string): Email associated to the account.
 
-##### Mandatory parameters
+##### Mandatory Parameters
 
 `email`
 
 #### `POST /passwordreset`
 
 Resets the password for an account using the provided link.
-
 
 ### Attributes
 
@@ -6841,7 +6804,6 @@ Retrieves the list of plans.
 #### `GET /plans/:id`
 
 Retrieves the object with the given ID.
-
 
 ### Attributes
 
@@ -6951,7 +6913,6 @@ Deletes the object with the given ID.
 #### `GET /policies/:id`
 
 Retrieves the object with the given ID.
-
 
 ### Attributes
 
@@ -7182,7 +7143,6 @@ retrieve a policy resolution.
 
 Retrieves the object with the given ID.
 
-
 ### Attributes
 
 #### `ID (string)`
@@ -7358,7 +7318,6 @@ Retrieves the services used by a processing unit.
 #### `GET /processingunits/:id/vulnerabilities`
 
 Retrieves the vulnerabilities affecting the processing unit.
-
 
 ### Attributes
 
@@ -7558,7 +7517,6 @@ Retrieves the object with the given ID.
 #### `PUT /processingunitpolicies/:id`
 
 Updates the object with the given ID.
-
 
 ### Attributes
 
@@ -7781,7 +7739,6 @@ Retrieves the object with the given ID.
 
 Updates the object with the given ID.
 
-
 ### Attributes
 
 #### `ID (string)`
@@ -7973,7 +7930,6 @@ Hook to integrate an Aporeto service.
 #### `POST /remoteprocessors`
 
 This should be be here.
-
 
 ### Attributes
 
@@ -8171,7 +8127,6 @@ Post a new statistics report.
 
 Create a statistics report.
 
-
 ### Attributes
 
 #### `fields (external:tsdb_fields)`
@@ -8243,7 +8198,6 @@ Updates the object with the given ID.
 #### `GET /services/:id/restapispecs`
 
 Retrieves the REST APIs exposed by this service.
-
 
 ### Attributes
 
@@ -8381,7 +8335,6 @@ Policies.
 
 Retrieves the list of existing roles.
 
-
 ### Attributes
 
 #### `authorizations (external:authorization_map)`
@@ -8494,7 +8447,6 @@ Retrieves the Processing Units that implement this service.
 #### `GET /services/:id/restapispecs`
 
 Retrieves the REST APIs exposed by this service.
-
 
 ### Attributes
 
@@ -8793,7 +8745,6 @@ Returns the list of Processing Units that depend on an service.
 
 Returns the list of external services that are targets of service dependency.
 
-
 ### Attributes
 
 #### `ID (string)`
@@ -8992,7 +8943,7 @@ Retrieves statistics information based on parameters.
 - `startAbsolute` (time): Set the absolute start of the time window.
 - `startRelative` (duration): Set the relative start of the time window.
 
-##### Mandatory parameters
+##### Mandatory Parameters
 
 (`endRelative`) or (`startRelative`) or (`startRelative` and `endRelative`) or (`startRelative` and `endAbsolute`) or (`startAbsolute` and `endRelative`) or (`startAbsolute` and `endAbsolute`)
 
@@ -9048,7 +8999,7 @@ Retrieves tabulated informations based on parameters.
 - `column` (string): Columns you want to see.
 - `identity` (string): Identity you want to tabulate.
 
-##### Mandatory parameters
+##### Mandatory Parameters
 
 `identity`
 
@@ -9103,7 +9054,6 @@ system.
 #### `GET /tags`
 
 Retrieves the list of existing tags in the system.
-
 
 ### Attributes
 
@@ -9188,7 +9138,6 @@ Retrieves the object with the given ID.
 #### `PUT /tokenscopepolicies/:id`
 
 Updates the object with the given ID.
-
 
 ### Attributes
 
@@ -9380,7 +9329,6 @@ to `RemoteCall`.
 Allows a system to trigger the automation if its `triggerType` property is set
 to `RemoteCall`.
 
-
 ## Vulnerability
 
 A vulnerabily represents a particular CVE.
@@ -9422,7 +9370,6 @@ Retrieves the vulnerabilities affecting the processing unit.
 #### `GET /vulnerabilities/:id/processingunits`
 
 Retrieves the processing units affected by the a vulnerabily.
-
 
 ### Attributes
 
