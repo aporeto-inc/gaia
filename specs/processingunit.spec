@@ -111,6 +111,15 @@ relations:
 - rest_name: renderedpolicy
   get:
     description: Retrieves the policies for the processing unit.
+    parameters:
+      entries:
+      - name: csr
+        description: CSR to sign.
+        type: string
+        example_value: |-
+          --- BEGIN CSR ---
+          xxx-xxx-xxx-xxx
+          --- END CSR ---
 
 - rest_name: vulnerability
   get:
@@ -132,3 +141,6 @@ relations:
         - Running
         - Stopped
         example_value: Running
+      - name: ts
+        description: time of report. If not set, local server time will be used.
+        type: time

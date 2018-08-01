@@ -240,3 +240,12 @@ relations:
 - rest_name: processingunit
   get:
     description: Retrieves the Processing Units that implement this service.
+    parameters:
+      entries:
+      - name: mode
+        description: Matching mode.
+        type: enum
+        allowed_choices:
+        - subjects
+        - object
+        default_value: objects

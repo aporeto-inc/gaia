@@ -27,10 +27,44 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 	}
 
@@ -57,10 +91,36 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -75,10 +135,44 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "accountid",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "accountid",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -105,10 +199,52 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "name",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "status",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "name",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "status",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -123,10 +259,50 @@ func init() {
 
 	relationshipsRegistry[ActivateIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"token",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "noRedirect",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name: "token",
+						Type: "string",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"token",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "noRedirect",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name: "token",
+						Type: "string",
+					},
+				},
+			},
 		},
 	}
 
@@ -135,10 +311,36 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -159,19 +361,71 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
 	relationshipsRegistry[AppIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -193,11 +447,37 @@ func init() {
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"enforcerprofile": &elemental.RelationshipInfo{},
-			"root":            &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
 			"enforcerprofile": &elemental.RelationshipInfo{},
-			"root":            &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -212,7 +492,20 @@ func init() {
 
 	relationshipsRegistry[AuthorityIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Delete: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
@@ -236,10 +529,36 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -274,10 +593,36 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -298,10 +643,158 @@ func init() {
 
 	relationshipsRegistry[DependencyMapIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "view",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "viewSuggestions",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "view",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "viewSuggestions",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+				},
+			},
 		},
 	}
 
@@ -329,11 +822,37 @@ func init() {
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"enforcerprofilemappingpolicy": &elemental.RelationshipInfo{},
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
 			"enforcerprofilemappingpolicy": &elemental.RelationshipInfo{},
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -356,12 +875,38 @@ func init() {
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"enforcer":                     &elemental.RelationshipInfo{},
 			"enforcerprofilemappingpolicy": &elemental.RelationshipInfo{},
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
 			"enforcer":                     &elemental.RelationshipInfo{},
 			"enforcerprofilemappingpolicy": &elemental.RelationshipInfo{},
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -382,10 +927,44 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 	}
 
@@ -394,25 +973,261 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "category",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "id",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "identity",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "level",
+						Type: "string",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "category",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "id",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "identity",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "level",
+						Type: "string",
+					},
+				},
+			},
 		},
 	}
 
 	relationshipsRegistry[ExportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "ignoredTags",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
 	relationshipsRegistry[ExternalAccessIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "destinationID",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "destinationType",
+						Type: "enum",
+						AllowedChoices: []string{
+							"ext",
+							"pu",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name: "geoloc",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name: "resolve",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name:     "sourceID",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "sourceType",
+						Type: "enum",
+						AllowedChoices: []string{
+							"ext",
+							"pu",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "destinationID",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "destinationType",
+						Type: "enum",
+						AllowedChoices: []string{
+							"ext",
+							"pu",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name: "geoloc",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name: "resolve",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name:     "sourceID",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "sourceType",
+						Type: "enum",
+						AllowedChoices: []string{
+							"ext",
+							"pu",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+				},
+			},
 		},
 	}
 
@@ -433,10 +1248,44 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 	}
 
@@ -457,23 +1306,221 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"networkaccesspolicy": &elemental.RelationshipInfo{},
-			"root":                &elemental.RelationshipInfo{},
+			"networkaccesspolicy": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "objects",
+						AllowedChoices: []string{
+							"subjects",
+							"object",
+						},
+					},
+				},
+			},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"networkaccesspolicy": &elemental.RelationshipInfo{},
-			"root":                &elemental.RelationshipInfo{},
+			"networkaccesspolicy": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "objects",
+						AllowedChoices: []string{
+							"subjects",
+							"object",
+						},
+					},
+				},
+			},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 	}
 
 	relationshipsRegistry[FileAccessIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"processingunit": &elemental.RelationshipInfo{},
-			"root":           &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"puID",
+							},
+						},
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "puID",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
 			"processingunit": &elemental.RelationshipInfo{},
-			"root":           &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"puID",
+							},
+						},
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "puID",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+				},
+			},
 		},
 	}
 
@@ -494,10 +1541,44 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 	}
 
@@ -518,10 +1599,36 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -533,10 +1640,230 @@ func init() {
 
 	relationshipsRegistry[FlowStatisticIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Deprecated: true,
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "action",
+						Type:         "enum",
+						DefaultValue: "any",
+						AllowedChoices: []string{
+							"accept",
+							"reject",
+							"any",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name:         "averageInterval",
+						Type:         "duration",
+						DefaultValue: "1h",
+					},
+					elemental.ParameterDefinition{
+						Name:     "destinationID",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:         "flowMode",
+						Type:         "enum",
+						DefaultValue: "applied",
+						AllowedChoices: []string{
+							"observed",
+							"applied",
+							"all",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name:         "metric",
+						Type:         "enum",
+						DefaultValue: "applied",
+						AllowedChoices: []string{
+							"Flows",
+							"Ports",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name:     "sourceID",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "userIdentifier",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Deprecated: true,
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "action",
+						Type:         "enum",
+						DefaultValue: "any",
+						AllowedChoices: []string{
+							"accept",
+							"reject",
+							"any",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name:         "averageInterval",
+						Type:         "duration",
+						DefaultValue: "1h",
+					},
+					elemental.ParameterDefinition{
+						Name:     "destinationID",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:         "flowMode",
+						Type:         "enum",
+						DefaultValue: "applied",
+						AllowedChoices: []string{
+							"observed",
+							"applied",
+							"all",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name:         "metric",
+						Type:         "enum",
+						DefaultValue: "applied",
+						AllowedChoices: []string{
+							"Flows",
+							"Ports",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name:     "sourceID",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "userIdentifier",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+				},
+			},
 		},
 	}
 
@@ -557,10 +1884,44 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 	}
 
@@ -611,10 +1972,36 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -665,16 +2052,58 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
 	relationshipsRegistry[IssueIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"token",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "token",
+						Type: "string",
+					},
+				},
+			},
 		},
 	}
 
@@ -686,7 +2115,9 @@ func init() {
 
 	relationshipsRegistry[K8SClusterIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Deprecated: true,
+			},
 		},
 		Update: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
@@ -701,10 +2132,38 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Deprecated: true,
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Deprecated: true,
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -725,10 +2184,36 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -758,10 +2243,36 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -782,10 +2293,36 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -806,10 +2343,36 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -830,10 +2393,44 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 	}
 
@@ -842,10 +2439,42 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"email",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "email",
+						Type: "string",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"email",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "email",
+						Type: "string",
+					},
+				},
+			},
 		},
 	}
 
@@ -875,6 +2504,10 @@ func init() {
 							"Stopped",
 						},
 					},
+					elemental.ParameterDefinition{
+						Name: "ts",
+						Type: "time",
+					},
 				},
 			},
 		},
@@ -891,6 +2524,10 @@ func init() {
 							"Stopped",
 						},
 					},
+					elemental.ParameterDefinition{
+						Name: "ts",
+						Type: "time",
+					},
 				},
 			},
 		},
@@ -904,10 +2541,44 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 	}
 
@@ -957,18 +2628,100 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"networkaccesspolicy": &elemental.RelationshipInfo{},
-			"root":                &elemental.RelationshipInfo{},
-			"service":             &elemental.RelationshipInfo{},
-			"servicedependency":   &elemental.RelationshipInfo{},
-			"vulnerability":       &elemental.RelationshipInfo{},
+			"networkaccesspolicy": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "objects",
+						AllowedChoices: []string{
+							"subjects",
+							"object",
+						},
+					},
+				},
+			},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+				},
+			},
+			"service": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "objects",
+						AllowedChoices: []string{
+							"subjects",
+							"object",
+						},
+					},
+				},
+			},
+			"servicedependency": &elemental.RelationshipInfo{},
+			"vulnerability":     &elemental.RelationshipInfo{},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"networkaccesspolicy": &elemental.RelationshipInfo{},
-			"root":                &elemental.RelationshipInfo{},
-			"service":             &elemental.RelationshipInfo{},
-			"servicedependency":   &elemental.RelationshipInfo{},
-			"vulnerability":       &elemental.RelationshipInfo{},
+			"networkaccesspolicy": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "objects",
+						AllowedChoices: []string{
+							"subjects",
+							"object",
+						},
+					},
+				},
+			},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+				},
+			},
+			"service": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "objects",
+						AllowedChoices: []string{
+							"subjects",
+							"object",
+						},
+					},
+				},
+			},
+			"servicedependency": &elemental.RelationshipInfo{},
+			"vulnerability":     &elemental.RelationshipInfo{},
 		},
 	}
 
@@ -989,10 +2742,44 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 	}
 
@@ -1019,10 +2806,44 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 	}
 
@@ -1043,11 +2864,53 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root":    &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+				},
+			},
 			"service": &elemental.RelationshipInfo{},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root":    &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+				},
+			},
 			"service": &elemental.RelationshipInfo{},
 		},
 	}
@@ -1060,13 +2923,34 @@ func init() {
 
 	relationshipsRegistry[RenderedPolicyIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "csr",
+						Type: "string",
+					},
+				},
+			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"processingunit": &elemental.RelationshipInfo{},
+			"processingunit": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "csr",
+						Type: "string",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"processingunit": &elemental.RelationshipInfo{},
+			"processingunit": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "csr",
+						Type: "string",
+					},
+				},
+			},
 		},
 	}
 
@@ -1084,10 +2968,36 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -1119,13 +3029,47 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"processingunit":    &elemental.RelationshipInfo{},
-			"root":              &elemental.RelationshipInfo{},
+			"processingunit": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+				},
+			},
 			"servicedependency": &elemental.RelationshipInfo{},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"processingunit":    &elemental.RelationshipInfo{},
-			"root":              &elemental.RelationshipInfo{},
+			"processingunit": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+				},
+			},
 			"servicedependency": &elemental.RelationshipInfo{},
 		},
 	}
@@ -1147,46 +3091,390 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 	}
 
 	relationshipsRegistry[SquallTagIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"identity",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "identity",
+						Type: "string",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"identity",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "identity",
+						Type: "string",
+					},
+				},
+			},
 		},
 	}
 
 	relationshipsRegistry[StatsQueryIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "field",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "function",
+						Type: "enum",
+						AllowedChoices: []string{
+							"count",
+							"mean",
+							"median",
+							"sum",
+							"first",
+							"last",
+							"max",
+							"min",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name:     "groupBy",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "interval",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name:         "measurement",
+						Type:         "enum",
+						DefaultValue: "flows",
+						AllowedChoices: []string{
+							"flows",
+							"audit",
+							"enforcers",
+							"files",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "where",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+						},
+						[][]string{
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "field",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "function",
+						Type: "enum",
+						AllowedChoices: []string{
+							"count",
+							"mean",
+							"median",
+							"sum",
+							"first",
+							"last",
+							"max",
+							"min",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name:     "groupBy",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "interval",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name:         "measurement",
+						Type:         "enum",
+						DefaultValue: "flows",
+						AllowedChoices: []string{
+							"flows",
+							"audit",
+							"enforcers",
+							"files",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "where",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+				},
+			},
 		},
 	}
 
 	relationshipsRegistry[SuggestedPolicyIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "excludeTagPrefix",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "excludeTagPrefix",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
 	relationshipsRegistry[TabulationIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"identity",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "column",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "identity",
+						Type: "string",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"identity",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "column",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "identity",
+						Type: "string",
+					},
+				},
+			},
 		},
 	}
 
@@ -1228,10 +3516,44 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 	}
 
@@ -1256,11 +3578,37 @@ func init() {
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"processingunit": &elemental.RelationshipInfo{},
-			"root":           &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
 			"processingunit": &elemental.RelationshipInfo{},
-			"root":           &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -1269,10 +3617,36 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
@@ -1281,10 +3655,36 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
 		},
 	}
 
