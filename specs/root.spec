@@ -436,8 +436,6 @@ relations:
   create:
     description: Issues a new token.
     parameters:
-      required:
-      - - - token
       entries:
       - name: token
         description: Token to verify.

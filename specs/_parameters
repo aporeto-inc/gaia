@@ -1,11 +1,13 @@
 $timewindow:
   required:
-    - - [ endRelative ]
-    - - [ startRelative ]
-    - - [startRelative, endRelative]
-    - - [startRelative, endAbsolute]
-    - - [startAbsolute, endRelative]
-    - - [startAbsolute, endAbsolute]
+    - [
+        [ endRelative ],
+        [ startRelative ],
+        [ startRelative, endRelative ],
+        [ startRelative, endAbsolute ],
+        [ startAbsolute, endRelative ],
+        [ startAbsolute, endAbsolute ],
+      ]
   entries:
     - name: endAbsolute
       description: Set the absolute end of the time window.
