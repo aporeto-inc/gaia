@@ -11,9 +11,12 @@ model:
   aliases:
   - enfpols
   - enfpol
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
   extends:
   - '@base'
   - '@described'
@@ -54,13 +57,12 @@ attributes:
 # Relations
 relations:
 - rest_name: enforcerprofile
-  descriptions:
-    get: |-
+  get:
+    description: |-
       Returns the list of enforcer profiles that an enforcer profile mapping policy
       matches.
-  get: true
 
 - rest_name: enforcer
-  descriptions:
-    get: Returns the list of enforcers affected by an enforcer profile mapping policy.
-  get: true
+  get:
+    description: Returns the list of enforcers affected by an enforcer profile mapping
+      policy.

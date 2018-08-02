@@ -8,9 +8,12 @@ model:
   aliases:
   - iapps
   - iapp
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
 
 # Attributes
 attributes:
@@ -107,6 +110,5 @@ attributes:
 # Relations
 relations:
 - rest_name: log
-  descriptions:
-    get: Returns the logs for a app.
-  get: true
+  get:
+    description: Returns the logs for a app.

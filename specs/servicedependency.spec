@@ -10,9 +10,12 @@ model:
   aliases:
   - srvdep
   - srvdeps
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
   extends:
   - '@base'
   - '@described'
@@ -44,11 +47,10 @@ attributes:
 # Relations
 relations:
 - rest_name: service
-  descriptions:
-    get: Returns the list of external services that are targets of service dependency.
-  get: true
+  get:
+    description: Returns the list of external services that are targets of service
+      dependency.
 
 - rest_name: processingunit
-  descriptions:
-    get: Returns the list of Processing Units that depend on an service.
-  get: true
+  get:
+    description: Returns the list of Processing Units that depend on an service.

@@ -7,10 +7,12 @@ model:
   description: An IsolationProfile needs documentation.
   aliases:
   - ip
-  create: true
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
   extends:
   - '@base'
   - '@described'

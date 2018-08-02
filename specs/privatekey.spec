@@ -6,9 +6,12 @@ model:
   package: barret
   description: Internal representation of an private key.
   private: true
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
 
 # Attributes
 attributes:

@@ -5,7 +5,8 @@ model:
   entity_name: Plan
   package: vince
   description: Plan contains the various billing plans available.
-  get: true
+  get:
+    description: Retrieves the object with the given ID.
 
 # Attributes
 attributes:

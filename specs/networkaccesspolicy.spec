@@ -11,9 +11,12 @@ model:
   aliases:
   - netpol
   - netpols
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
   extends:
   - '@base'
   - '@described'
@@ -95,11 +98,29 @@ attributes:
 # Relations
 relations:
 - rest_name: externalservice
-  descriptions:
-    get: Returns the list of external services affected by a network access policy.
-  get: true
+  get:
+    description: Returns the list of external services affected by a network access
+      policy.
+    parameters:
+      entries:
+      - name: mode
+        description: Matching mode.
+        type: enum
+        allowed_choices:
+        - subjects
+        - object
+        default_value: objects
 
 - rest_name: processingunit
-  descriptions:
-    get: Returns the list of Processing Units affected by a network access policy.
-  get: true
+  get:
+    description: Returns the list of Processing Units affected by a network access
+      policy.
+    parameters:
+      entries:
+      - name: mode
+        description: Matching mode.
+        type: enum
+        allowed_choices:
+        - subjects
+        - object
+        default_value: objects

@@ -7,9 +7,14 @@ model:
   description: |-
     RESTAPISpec descibes the REST APIs exposed by a service. These APIs
     can be associated with one or more services.
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+    global_parameters:
+    - $archivable
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
   extends:
   - '@archivable'
   - '@base'

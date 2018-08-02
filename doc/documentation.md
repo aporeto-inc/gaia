@@ -93,14 +93,33 @@ your name, password, enable 2 factor authentication.
 
 ### Relations
 
-| Method   | URL         | Description |
-| -:       | -           | -           |
-| `GET`    | `/accounts` | Retrieves all accounts. This is a private API that can only be done by the
-system.    |
-| `POST`   | `/accounts`     | Creates a new Account.                       |
-| `DELETE` | `/accounts/:id` | Deletes the `account` with the given `:id`.  |
-| `GET`    | `/accounts/:id` | Retrieve the `account` with the given `:id`. |
-| `PUT`    | `/accounts/:id` | Updates the `account` with the given `:id`.  |
+#### `GET /accounts`
+
+Retrieves all accounts. This is a private API that can only be done by the
+system.
+
+##### Parameters
+
+- `name` (string): internal parameters.
+- `status` (string): internal parameters.
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /accounts`
+
+Creates a new Account.
+
+#### `DELETE /accounts/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /accounts/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /accounts/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -370,9 +389,18 @@ Used to activate a pending account.
 
 ### Relations
 
-| Method | URL         | Description                  |
-| -:     | -           | -                            |
-| `GET`  | `/activate` | Activates a pending account. |
+#### `GET /activate`
+
+Activates a pending account.
+
+##### Parameters
+
+- `noRedirect` (boolean): If set, do not redirect the request to the UI.
+- `token` (string): Activation token.
+
+##### Mandatory Parameters
+
+`token`
 
 ### Attributes
 
@@ -393,10 +421,18 @@ the user who triggered the actiions. This log is capped and only keeps the last
 
 ### Relations
 
-| Method | URL               | Description                                   |
-| -:     | -                 | -                                             |
-| `GET`  | `/activities`     | Retrieves the list of activity logs.          |
-| `GET`  | `/activities/:id` | Retrieve the `activity` with the given `:id`. |
+#### `GET /activities`
+
+Retrieves the list of activity logs.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `GET /activities/:id`
+
+Retrieves the object with the given ID.
 
 ### Attributes
 
@@ -535,13 +571,30 @@ An alarm represents an event requiring attention.
 
 ### Relations
 
-| Method   | URL           | Description                                |
-| -:       | -             | -                                          |
-| `GET`    | `/alarms`     | Retrieves all the alarms.                  |
-| `POST`   | `/alarms`     | Creates a new alarm.                       |
-| `DELETE` | `/alarms/:id` | Deletes the `alarm` with the given `:id`.  |
-| `GET`    | `/alarms/:id` | Retrieve the `alarm` with the given `:id`. |
-| `PUT`    | `/alarms/:id` | Updates the `alarm` with the given `:id`.  |
+#### `GET /alarms`
+
+Retrieves all the alarms.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /alarms`
+
+Creates a new alarm.
+
+#### `DELETE /alarms/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /alarms/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /alarms/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -701,13 +754,31 @@ identities.
 
 ### Relations
 
-| Method   | URL                             | Description                                                 |
-| -:       | -                               | -                                                           |
-| `GET`    | `/apiauthorizationpolicies`     | Retrieves the list of API authorization policies.           |
-| `POST`   | `/apiauthorizationpolicies`     | Creates a new API authorization policies.                   |
-| `DELETE` | `/apiauthorizationpolicies/:id` | Deletes the `apiauthorizationpolicy` with the given `:id`.  |
-| `GET`    | `/apiauthorizationpolicies/:id` | Retrieve the `apiauthorizationpolicy` with the given `:id`. |
-| `PUT`    | `/apiauthorizationpolicies/:id` | Updates the `apiauthorizationpolicy` with the given `:id`.  |
+#### `GET /apiauthorizationpolicies`
+
+Retrieves the list of API authorization policies.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `propagated` (boolean): Also retrieve the objects that propagate down.
+
+#### `POST /apiauthorizationpolicies`
+
+Creates a new API authorization policies.
+
+#### `DELETE /apiauthorizationpolicies/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /apiauthorizationpolicies/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /apiauthorizationpolicies/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -906,9 +977,9 @@ impersonate a user and ensure a proxfied request should be allowed.
 
 ### Relations
 
-| Method | URL          | Description                                                         |
-| -:     | -            | -                                                                   |
-| `POST` | `/apichecks` | Verfies the authorizations on various identities for a given token. |
+#### `POST /apichecks`
+
+Verifies the authorizations on various identities for a given token.
 
 ### Attributes
 
@@ -978,9 +1049,14 @@ App represents an application that can be installed.
 
 ### Relations
 
-| Method | URL     | Description                 |
-| -:     | -       | -                           |
-| `GET`  | `/apps` | Retrieves the list of apps. |
+#### `GET /apps`
+
+Retrieves the list of apps.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 ### Attributes
 
@@ -1055,14 +1131,34 @@ policy will determine that types of events that must be captured in the kernel.
 
 ### Relations
 
-| Method   | URL                                   | Description                                                    |
-| -:       | -                                     | -                                                              |
-| `GET`    | `/auditprofiles`                      | Retrieves the list of audit profiles.                          |
-| `POST`   | `/auditprofiles`                      | Creates a new audit profile.                                   |
-| `DELETE` | `/auditprofiles/:id`                  | Deletes the `auditprofile` with the given `:id`.               |
-| `GET`    | `/auditprofiles/:id`                  | Retrieve the `auditprofile` with the given `:id`.              |
-| `PUT`    | `/auditprofiles/:id`                  | Updates the `auditprofile` with the given `:id`.               |
-| `GET`    | `/enforcerprofiles/:id/auditprofiles` | Returns the list of AuditProfiles used by an enforcer profile. |
+#### `GET /auditprofiles`
+
+Retrieves the list of audit profiles.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /auditprofiles`
+
+Creates a new audit profile.
+
+#### `DELETE /auditprofiles/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /auditprofiles/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /auditprofiles/:id`
+
+Updates the object with the given ID.
+
+#### `GET /enforcerprofiles/:id/auditprofiles`
+
+Returns the list of AuditProfiles used by an enforcer profile.
 
 ### Attributes
 
@@ -1179,9 +1275,9 @@ This API verifies if the given token is valid or not.
 
 ### Relations
 
-| Method | URL     | Description                     |
-| -:     | -       | -                               |
-| `GET`  | `/auth` | Verify the validity of a token. |
+#### `GET /auth`
+
+Verify the validity of a token.
 
 ### Attributes
 
@@ -1209,17 +1305,40 @@ An automation needs documentation.
 
 ### Relations
 
-| Method         | URL                         | Description                                     |
-| -:             | -                           | -                                               |
-| `GET`          | `/automations`              | Retrieves the list of Automations.              |
-| `POST`         | `/automations`              | Creates a new Automation.                       |
-| `DELETE`       | `/automations/:id`          | Deletes the `automation` with the given `:id`.  |
-| `GET`          | `/automations/:id`          | Retrieve the `automation` with the given `:id`. |
-| `PUT`          | `/automations/:id`          | Updates the `automation` with the given `:id`.  |
-| `GET`          | `/automations/:id/triggers` | Allows a system to trigger the automation if its `triggerType` property is set
-to `RemoteCall`. |
-| `POST`         | `/automations/:id/triggers` | Allows a system to trigger the automation if its `triggerType` property is set
-to `RemoteCall`. |
+#### `GET /automations`
+
+Retrieves the list of Automations.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /automations`
+
+Creates a new Automation.
+
+#### `DELETE /automations/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /automations/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /automations/:id`
+
+Updates the object with the given ID.
+
+#### `GET /automations/:id/triggers`
+
+Allows a system to trigger the automation if its `triggerType` property is set
+to `RemoteCall`.
+
+#### `POST /automations/:id/triggers`
+
+Allows a system to trigger the automation if its `triggerType` property is set
+to `RemoteCall`.
 
 ### Attributes
 
@@ -1416,10 +1535,13 @@ Templates that ca be used in automations.
 
 ### Relations
 
-| Method | URL                        | Description                                             |
-| -:     | -                          | -                                                       |
-| `GET`  | `/automationtemplates`     | Retrieves the list of automation templates.             |
-| `GET`  | `/automationtemplates/:id` | Retrieve the `automationtemplate` with the given `:id`. |
+#### `GET /automationtemplates`
+
+Retrieves the list of automation templates.
+
+#### `GET /automationtemplates/:id`
+
+Retrieves the object with the given ID.
 
 ### Attributes
 
@@ -1485,12 +1607,27 @@ of enforcers running on EC2.
 
 ### Relations
 
-| Method   | URL                | Description                                     |
-| -:       | -                  | -                                               |
-| `GET`    | `/awsaccounts`     | Retrieves the list of aws account bindings.     |
-| `POST`   | `/awsaccounts`     | Creates a new aws account binding.              |
-| `DELETE` | `/awsaccounts/:id` | Deletes the `awsaccount` with the given `:id`.  |
-| `GET`    | `/awsaccounts/:id` | Retrieve the `awsaccount` with the given `:id`. |
+#### `GET /awsaccounts`
+
+Retrieves the list of aws account bindings.
+
+##### Parameters
+
+- `accountid` (string): Id of the account.
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /awsaccounts`
+
+Creates a new aws account binding.
+
+#### `DELETE /awsaccounts/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /awsaccounts/:id`
+
+Retrieves the object with the given ID.
 
 ### Attributes
 
@@ -1613,13 +1750,30 @@ managed API decisions for the AWS API Gateway.
 
 ### Relations
 
-| Method   | URL                   | Description                                        |
-| -:       | -                     | -                                                  |
-| `GET`    | `/awsapigateways`     | create an AWS API Gateway.                         |
-| `POST`   | `/awsapigateways`     | Manages the AWS API Gateway.                       |
-| `DELETE` | `/awsapigateways/:id` | Deletes the `awsapigateway` with the given `:id`.  |
-| `GET`    | `/awsapigateways/:id` | Retrieve the `awsapigateway` with the given `:id`. |
-| `PUT`    | `/awsapigateways/:id` | Updates the `awsapigateway` with the given `:id`.  |
+#### `GET /awsapigateways`
+
+create an AWS API Gateway.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /awsapigateways`
+
+Manages the AWS API Gateway.
+
+#### `DELETE /awsapigateways/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /awsapigateways/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /awsapigateways/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -1769,9 +1923,9 @@ This api allows AWS customer to register with Aporeto SaaS for billing.
 
 ### Relations
 
-| Method | URL            | Description                                 |
-| -:     | -              | -                                           |
-| `POST` | `/awsregister` | Creates a new aws registration for billing. |
+#### `POST /awsregister`
+
+Creates a new aws registration for billing.
 
 ### Attributes
 
@@ -1875,13 +2029,30 @@ A User represents the owner of some certificates.
 
 ### Relations
 
-| Method   | URL                 | Description                                       |
-| -:       | -                   | -                                                 |
-| `GET`    | `/certificates`     | Retrieves the list of existing user certificates. |
-| `POST`   | `/certificates`     | Creates a new user certificate.                   |
-| `DELETE` | `/certificates/:id` | Deletes the `certificate` with the given `:id`.   |
-| `GET`    | `/certificates/:id` | Retrieve the `certificate` with the given `:id`.  |
-| `PUT`    | `/certificates/:id` | Updates the `certificate` with the given `:id`.   |
+#### `GET /certificates`
+
+Retrieves the list of existing user certificates.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /certificates`
+
+Creates a new user certificate.
+
+#### `DELETE /certificates/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /certificates/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /certificates/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -2054,9 +2225,24 @@ For example
 
 ### Relations
 
-| Method | URL               | Description                                 |
-| -:     | -                 | -                                           |
-| `GET`  | `/dependencymaps` | Retrieves the dependencymap of a namespace. |
+#### `GET /dependencymaps`
+
+Retrieves the dependencymap of a namespace.
+
+##### Parameters
+
+- `tag` (string): Only show objects with the given tags in the dependency map.
+- `view` (string): Set the view query for grouping the dependency map.
+- `viewSuggestions` (boolean): Also return the view suggestions.
+- `endAbsolute` (time): Set the absolute end of the time window.
+- `endRelative` (duration): Set the relative end of the time window.
+- `flowOffset` (duration): Apply an offset to the time window for flows.
+- `startAbsolute` (time): Set the absolute start of the time window.
+- `startRelative` (duration): Set the relative start of the time window.
+
+##### Mandatory Parameters
+
+(`endRelative`) or (`startRelative`) or (`startRelative` and `endRelative`) or (`startRelative` and `endAbsolute`) or (`startAbsolute` and `endRelative`) or (`startAbsolute` and `endAbsolute`)
 
 ### Attributes
 
@@ -2134,16 +2320,47 @@ directly to a running agent, some will need to restart it.
 
 ### Relations
 
-| Method   | URL                                             | Description                                                                      |
-| -:       | -                                               | -                                                                                |
-| `GET`    | `/enforcers`                                    | Retrieves the list of enforcers.                                                 |
-| `POST`   | `/enforcers`                                    | Creates a new enforcer.                                                          |
-| `DELETE` | `/enforcers/:id`                                | Deletes the `enforcer` with the given `:id`.                                     |
-| `GET`    | `/enforcers/:id`                                | Retrieve the `enforcer` with the given `:id`.                                    |
-| `PUT`    | `/enforcers/:id`                                | Updates the `enforcer` with the given `:id`.                                     |
-| `GET`    | `/enforcerprofilemappingpolicies/:id/enforcers` | Returns the list of enforcers affected by an enforcer profile mapping policy.    |
-| `GET`    | `/enforcers/:id/enforcerprofiles`               | Returns the enforcer profile that must be used by an enforcer.                   |
-| `GET`    | `/enforcers/:id/poke`                           | Sends a poke empty object. This is used to ensure an enforcer is up and running. |
+#### `GET /enforcers`
+
+Retrieves the list of enforcers.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /enforcers`
+
+Creates a new enforcer.
+
+#### `DELETE /enforcers/:id`
+
+Deletes the object with the given ID.
+
+##### Parameters
+
+- `q` (string): Backward compat for enforcer <=v2.2.1. does not have any effect.
+- `tag` (string): Backward compat for enforcer <=v2.2.1. does not have any effect.
+
+#### `GET /enforcers/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /enforcers/:id`
+
+Updates the object with the given ID.
+
+#### `GET /enforcerprofilemappingpolicies/:id/enforcers`
+
+Returns the list of enforcers affected by an enforcer profile mapping policy.
+
+#### `GET /enforcers/:id/enforcerprofiles`
+
+Returns the enforcer profile that must be used by an enforcer.
+
+#### `GET /enforcers/:id/poke`
+
+Sends a poke empty object. This is used to ensure an enforcer is up and running.
 
 ### Attributes
 
@@ -2401,17 +2618,43 @@ Mapping Policy.
 
 ### Relations
 
-| Method   | URL                                                    | Description                                          |
-| -:       | -                                                      | -                                                    |
-| `GET`    | `/enforcerprofiles`                                    | Retrieves the list of enforcer profiles.             |
-| `POST`   | `/enforcerprofiles`                                    | Creates a new enforcer profile.                      |
-| `DELETE` | `/enforcerprofiles/:id`                                | Deletes the `enforcerprofile` with the given `:id`.  |
-| `GET`    | `/enforcerprofiles/:id`                                | Retrieve the `enforcerprofile` with the given `:id`. |
-| `PUT`    | `/enforcerprofiles/:id`                                | Updates the `enforcerprofile` with the given `:id`.  |
-| `GET`    | `/enforcerprofilemappingpolicies/:id/enforcerprofiles` | Returns the list of enforcer profiles that an enforcer profile mapping policy
-matches.   |
-| `GET`    | `/enforcers/:id/enforcerprofiles`     | Returns the enforcer profile that must be used by an enforcer. |
-| `GET`    | `/enforcerprofiles/:id/auditprofiles` | Returns the list of AuditProfiles used by an enforcer profile. |
+#### `GET /enforcerprofiles`
+
+Retrieves the list of enforcer profiles.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /enforcerprofiles`
+
+Creates a new enforcer profile.
+
+#### `DELETE /enforcerprofiles/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /enforcerprofiles/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /enforcerprofiles/:id`
+
+Updates the object with the given ID.
+
+#### `GET /enforcerprofilemappingpolicies/:id/enforcerprofiles`
+
+Returns the list of enforcer profiles that an enforcer profile mapping policy
+matches.
+
+#### `GET /enforcers/:id/enforcerprofiles`
+
+Returns the enforcer profile that must be used by an enforcer.
+
+#### `GET /enforcerprofiles/:id/auditprofiles`
+
+Returns the list of AuditProfiles used by an enforcer profile.
 
 ### Attributes
 
@@ -2793,16 +3036,40 @@ registration. The policy can also be propagated down to the child namespace.
 
 ### Relations
 
-| Method   | URL                                                    | Description                                                       |
-| -:       | -                                                      | -                                                                 |
-| `GET`    | `/enforcerprofilemappingpolicies`                      | Retrieves the list of enforcer profile mapping policies.          |
-| `POST`   | `/enforcerprofilemappingpolicies`                      | Creates a new enforcer profile mapping policies.                  |
-| `DELETE` | `/enforcerprofilemappingpolicies/:id`                  | Deletes the `enforcerprofilemappingpolicy` with the given `:id`.  |
-| `GET`    | `/enforcerprofilemappingpolicies/:id`                  | Retrieve the `enforcerprofilemappingpolicy` with the given `:id`. |
-| `PUT`    | `/enforcerprofilemappingpolicies/:id`                  | Updates the `enforcerprofilemappingpolicy` with the given `:id`.  |
-| `GET`    | `/enforcerprofilemappingpolicies/:id/enforcerprofiles` | Returns the list of enforcer profiles that an enforcer profile mapping policy
-matches.   |
-| `GET`    | `/enforcerprofilemappingpolicies/:id/enforcers` | Returns the list of enforcers affected by an enforcer profile mapping policy. |
+#### `GET /enforcerprofilemappingpolicies`
+
+Retrieves the list of enforcer profile mapping policies.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `propagated` (boolean): Also retrieve the objects that propagate down.
+
+#### `POST /enforcerprofilemappingpolicies`
+
+Creates a new enforcer profile mapping policies.
+
+#### `DELETE /enforcerprofilemappingpolicies/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /enforcerprofilemappingpolicies/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /enforcerprofilemappingpolicies/:id`
+
+Updates the object with the given ID.
+
+#### `GET /enforcerprofilemappingpolicies/:id/enforcerprofiles`
+
+Returns the list of enforcer profiles that an enforcer profile mapping policy
+matches.
+
+#### `GET /enforcerprofilemappingpolicies/:id/enforcers`
+
+Returns the list of enforcers affected by an enforcer profile mapping policy.
 
 ### Attributes
 
@@ -2976,10 +3243,20 @@ This api allows to report various event on any objects.
 
 ### Relations
 
-| Method | URL          | Description                                           |
-| -:     | -            | -                                                     |
-| `GET`  | `/eventlogs` | Retrieves the eventlogs for one or multiple entities. |
-| `POST` | `/eventlogs` | Creates a new eventlog for a particular entity.       |
+#### `GET /eventlogs`
+
+Retrieves the eventlogs for one or multiple entities.
+
+##### Parameters
+
+- `category` (string): Show event logs of the given category.
+- `id` (string): Show event logs on given ID.
+- `identity` (string): Show event logs on given identity.
+- `level` (string): Show event logs of the given level.
+
+#### `POST /eventlogs`
+
+Creates a new eventlog for a particular entity.
 
 ### Attributes
 
@@ -3066,9 +3343,13 @@ Export the policies and related objects in a given namespace.
 
 ### Relations
 
-| Method | URL       | Description                                             |
-| -:     | -         | -                                                       |
-| `POST` | `/export` | Exports all policies and related object of a namespace. |
+#### `POST /export`
+
+Exports all policies and related object of a namespace.
+
+##### Parameters
+
+- `ignoredTags` (string): List of tags to ignore from the export.
 
 ### Attributes
 
@@ -3110,9 +3391,27 @@ ExternalAccess allows to retrieve connection from or to an external service.
 
 ### Relations
 
-| Method | URL                 | Description                                                    |
-| -:     | -                   | -                                                              |
-| `GET`  | `/externalaccesses` | Retrieves the list of external access according to parameters. |
+#### `GET /externalaccesses`
+
+Retrieves the list of external access according to parameters.
+
+##### Parameters
+
+- `destinationID` (string): IDs of the destinations.
+- `destinationType` (enum): Type of the destination.
+- `geoloc` (boolean): Geolocalize the the flow.
+- `resolve` (boolean): Resolve the IPs to dns.
+- `sourceID` (string): IDs of the sources.
+- `sourceType` (enum): Type of the source.
+- `endAbsolute` (time): Set the absolute end of the time window.
+- `endRelative` (duration): Set the relative end of the time window.
+- `flowOffset` (duration): Apply an offset to the time window for flows.
+- `startAbsolute` (time): Set the absolute start of the time window.
+- `startRelative` (duration): Set the relative start of the time window.
+
+##### Mandatory Parameters
+
+(`endRelative`) or (`startRelative`) or (`startRelative` and `endRelative`) or (`startRelative` and `endAbsolute`) or (`startAbsolute` and `endRelative`) or (`startAbsolute` and `endAbsolute`)
 
 ### Attributes
 
@@ -3145,13 +3444,35 @@ Services tags to set some policies.
 
 ### Relations
 
-| Method   | URL                     | Description                                          |
-| -:       | -                       | -                                                    |
-| `GET`    | `/externalnetworks`     | Retrieves the list of external network.              |
-| `POST`   | `/externalnetworks`     | Creates a new external network.                      |
-| `DELETE` | `/externalnetworks/:id` | Deletes the `externalnetwork` with the given `:id`.  |
-| `GET`    | `/externalnetworks/:id` | Retrieve the `externalnetwork` with the given `:id`. |
-| `PUT`    | `/externalnetworks/:id` | Updates the `externalnetwork` with the given `:id`.  |
+#### `GET /externalnetworks`
+
+Retrieves the list of external network.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `archived` (boolean): Also retrieve the objects that have been archived.
+
+#### `POST /externalnetworks`
+
+Creates a new external network.
+
+#### `DELETE /externalnetworks/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /externalnetworks/:id`
+
+Retrieves the object with the given ID.
+
+##### Parameters
+
+- `archived` (boolean): Also retrieve the objects that have been archived.
+
+#### `PUT /externalnetworks/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -3293,14 +3614,43 @@ This API is deprecated in favor of externalnetworks.
 
 ### Relations
 
-| Method   | URL                                           | Description                                                                |
-| -:       | -                                             | -                                                                          |
-| `GET`    | `/externalservices`                           | Retrieves the list of external services.                                   |
-| `POST`   | `/externalservices`                           | Creates a new external service.                                            |
-| `DELETE` | `/externalservices/:id`                       | Deletes the `externalservice` with the given `:id`.                        |
-| `GET`    | `/externalservices/:id`                       | Retrieve the `externalservice` with the given `:id`.                       |
-| `PUT`    | `/externalservices/:id`                       | Updates the `externalservice` with the given `:id`.                        |
-| `GET`    | `/networkaccesspolicies/:id/externalservices` | Returns the list of external services affected by a network access policy. |
+#### `GET /externalservices`
+
+Retrieves the list of external services.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `archived` (boolean): Also retrieve the objects that have been archived.
+
+#### `POST /externalservices`
+
+Creates a new external service.
+
+#### `DELETE /externalservices/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /externalservices/:id`
+
+Retrieves the object with the given ID.
+
+##### Parameters
+
+- `archived` (boolean): Also retrieve the objects that have been archived.
+
+#### `PUT /externalservices/:id`
+
+Updates the object with the given ID.
+
+#### `GET /networkaccesspolicies/:id/externalservices`
+
+Returns the list of external services affected by a network access policy.
+
+##### Parameters
+
+- `mode` (enum): Matching mode.
 
 ### Attributes
 
@@ -3432,10 +3782,26 @@ Returns file access statistics on a particular processing unit.
 
 ### Relations
 
-| Method | URL                                 | Description                                                |
-| -:     | -                                   | -                                                          |
-| `GET`  | `/fileaccesses`                     | Retrieves the list of file access according to parameters. |
-| `GET`  | `/processingunits/:id/fileaccesses` | Retrieves the file accesses done by the processing unit.   |
+#### `GET /fileaccesses`
+
+Retrieves the list of file access according to parameters.
+
+##### Parameters
+
+- `puID` (string): ID of the processing unit.
+- `endAbsolute` (time): Set the absolute end of the time window.
+- `endRelative` (duration): Set the relative end of the time window.
+- `flowOffset` (duration): Apply an offset to the time window for flows.
+- `startAbsolute` (time): Set the absolute start of the time window.
+- `startRelative` (duration): Set the relative start of the time window.
+
+##### Mandatory Parameters
+
+(`puID`) and ((`endRelative`) or (`startRelative`) or (`startRelative` and `endRelative`) or (`startRelative` and `endAbsolute`) or (`startAbsolute` and `endRelative`) or (`startAbsolute` and `endAbsolute`))
+
+#### `GET /processingunits/:id/fileaccesses`
+
+Retrieves the file accesses done by the processing unit.
 
 ### Attributes
 
@@ -3516,13 +3882,31 @@ File path are not supported yet for standard Linux processes.
 
 ### Relations
 
-| Method   | URL                       | Description                                           |
-| -:       | -                         | -                                                     |
-| `GET`    | `/fileaccesspolicies`     | Retrieves the list of file access policies.           |
-| `POST`   | `/fileaccesspolicies`     | Creates a new file access policies.                   |
-| `DELETE` | `/fileaccesspolicies/:id` | Deletes the `fileaccesspolicy` with the given `:id`.  |
-| `GET`    | `/fileaccesspolicies/:id` | Retrieve the `fileaccesspolicy` with the given `:id`. |
-| `PUT`    | `/fileaccesspolicies/:id` | Updates the `fileaccesspolicy` with the given `:id`.  |
+#### `GET /fileaccesspolicies`
+
+Retrieves the list of file access policies.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `propagated` (boolean): Also retrieve the objects that propagate down.
+
+#### `POST /fileaccesspolicies`
+
+Creates a new file access policies.
+
+#### `DELETE /fileaccesspolicies/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /fileaccesspolicies/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /fileaccesspolicies/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -3750,13 +4134,30 @@ to set some policies. A good example would bevolume=web or file=/etc/passwd.
 
 ### Relations
 
-| Method   | URL              | Description                                   |
-| -:       | -                | -                                             |
-| `GET`    | `/filepaths`     | Retrieves the list of file path.              |
-| `POST`   | `/filepaths`     | Create a new file path.                       |
-| `DELETE` | `/filepaths/:id` | Deletes the `filepath` with the given `:id`.  |
-| `GET`    | `/filepaths/:id` | Retrieve the `filepath` with the given `:id`. |
-| `PUT`    | `/filepaths/:id` | Updates the `filepath` with the given `:id`.  |
+#### `GET /filepaths`
+
+Retrieves the list of file path.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /filepaths`
+
+Create a new file path.
+
+#### `DELETE /filepaths/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /filepaths/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /filepaths/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -3903,9 +4304,9 @@ Post a new flow statistics report.
 
 ### Relations
 
-| Method | URL            | Description                      |
-| -:     | -              | -                                |
-| `POST` | `/flowreports` | Create a flow statistics report. |
+#### `POST /flowreports`
+
+Create a flow statistics report.
 
 ### Attributes
 
@@ -4082,9 +4483,28 @@ processing units based on their tags.
 
 ### Relations
 
-| Method | URL               | Description                                            |
-| -:     | -                 | -                                                      |
-| `GET`  | `/flowstatistics` | Retrieves the flow statistics according to parameters. |
+#### `GET /flowstatistics`
+
+Retrieves the flow statistics according to parameters.
+
+##### Parameters
+
+- `action` (enum): Only show certain types of flows.
+- `averageInterval` (duration): Resolution of the data points.
+- `destinationID` (string): IDs of the destinations.
+- `flowMode` (enum): Choose if observed, applied to all flows.
+- `metric` (enum): Choose if you want to see ports or flows.
+- `sourceID` (string): IDs of the sources.
+- `userIdentifier` (string): User string that will be returned with the query.
+- `endAbsolute` (time): Set the absolute end of the time window.
+- `endRelative` (duration): Set the relative end of the time window.
+- `flowOffset` (duration): Apply an offset to the time window for flows.
+- `startAbsolute` (time): Set the absolute start of the time window.
+- `startRelative` (duration): Set the relative start of the time window.
+
+##### Mandatory Parameters
+
+(`endRelative`) or (`startRelative`) or (`startRelative` and `endRelative`) or (`startRelative` and `endAbsolute`) or (`startAbsolute` and `endRelative`) or (`startAbsolute` and `endAbsolute`)
 
 ### Attributes
 
@@ -4236,13 +4656,31 @@ F9eXFkofGX3UgRtsHe123456789xQ1naSw==
 
 ### Relations
 
-| Method   | URL                 | Description                                     |
-| -:       | -                   | -                                               |
-| `GET`    | `/hookpolicies`     | Retrieves the list of hook policies.            |
-| `POST`   | `/hookpolicies`     | Creates a new hook policy.                      |
-| `DELETE` | `/hookpolicies/:id` | Deletes the `hookpolicy` with the given `:id`.  |
-| `GET`    | `/hookpolicies/:id` | Retrieve the `hookpolicy` with the given `:id`. |
-| `PUT`    | `/hookpolicies/:id` | Updates the `hookpolicy` with the given `:id`.  |
+#### `GET /hookpolicies`
+
+Retrieves the list of hook policies.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `propagated` (boolean): Also retrieve the objects that propagate down.
+
+#### `POST /hookpolicies`
+
+Creates a new hook policy.
+
+#### `DELETE /hookpolicies/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /hookpolicies/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /hookpolicies/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -4454,9 +4892,9 @@ Imports an export of policies and related objects into the namespace.
 
 ### Relations
 
-| Method | URL       | Description                          |
-| -:     | -         | -                                    |
-| `POST` | `/import` | Imports data from a previous export. |
+#### `POST /import`
+
+Imports data from a previous export.
 
 ### Attributes
 
@@ -4482,13 +4920,25 @@ Installation represents an installation for a given account.
 
 ### Relations
 
-| Method   | URL                  | Description                                       |
-| -:       | -                    | -                                                 |
-| `GET`    | `/installations`     | Retrieves the list of installations.              |
-| `POST`   | `/installations`     | Creates a new installation.                       |
-| `DELETE` | `/installations/:id` | Deletes the `installation` with the given `:id`.  |
-| `GET`    | `/installations/:id` | Retrieve the `installation` with the given `:id`. |
-| `PUT`    | `/installations/:id` | Updates the `installation` with the given `:id`.  |
+#### `GET /installations`
+
+Retrieves the list of installations.
+
+#### `POST /installations`
+
+Creates a new installation.
+
+#### `DELETE /installations/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /installations/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /installations/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -4515,14 +4965,34 @@ InstalledApps represents an installed application.
 
 ### Relations
 
-| Method   | URL                       | Description                                       |
-| -:       | -                         | -                                                 |
-| `GET`    | `/installedapps`          | Retrieves the list of installed apps.             |
-| `POST`   | `/installedapps`          | Installs a new app.                               |
-| `DELETE` | `/installedapps/:id`      | Deletes the `installedapp` with the given `:id`.  |
-| `GET`    | `/installedapps/:id`      | Retrieve the `installedapp` with the given `:id`. |
-| `PUT`    | `/installedapps/:id`      | Updates the `installedapp` with the given `:id`.  |
-| `GET`    | `/installedapps/:id/logs` | Returns the logs for a app.                       |
+#### `GET /installedapps`
+
+Retrieves the list of installed apps.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /installedapps`
+
+Installs a new app.
+
+#### `DELETE /installedapps/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /installedapps/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /installedapps/:id`
+
+Updates the object with the given ID.
+
+#### `GET /installedapps/:id/logs`
+
+Returns the logs for a app.
 
 ### Attributes
 
@@ -4595,11 +5065,17 @@ This api allows to view invoices for Aporeto customers.
 
 ### Relations
 
-| Method   | URL             | Description                                  |
-| -:       | -               | -                                            |
-| `DELETE` | `/invoices/:id` | Deletes the `invoice` with the given `:id`.  |
-| `GET`    | `/invoices/:id` | Retrieve the `invoice` with the given `:id`. |
-| `PUT`    | `/invoices/:id` | Updates the `invoice` with the given `:id`.  |
+#### `DELETE /invoices/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /invoices/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /invoices/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -4672,11 +5148,17 @@ This api allows to view detailed records of invoices for Aporeto customers.
 
 ### Relations
 
-| Method   | URL                   | Description                                        |
-| -:       | -                     | -                                                  |
-| `DELETE` | `/invoicerecords/:id` | Deletes the `invoicerecord` with the given `:id`.  |
-| `GET`    | `/invoicerecords/:id` | Retrieve the `invoicerecord` with the given `:id`. |
-| `PUT`    | `/invoicerecords/:id` | Updates the `invoicerecord` with the given `:id`.  |
+#### `DELETE /invoicerecords/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /invoicerecords/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /invoicerecords/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -4741,13 +5223,30 @@ An IsolationProfile needs documentation.
 
 ### Relations
 
-| Method   | URL                      | Description                                           |
-| -:       | -                        | -                                                     |
-| `GET`    | `/isolationprofiles`     | Retrieves the list of isolation profiles.             |
-| `POST`   | `/isolationprofiles`     | Creates a new isolation profile.                      |
-| `DELETE` | `/isolationprofiles/:id` | Deletes the `isolationprofile` with the given `:id`.  |
-| `GET`    | `/isolationprofiles/:id` | Retrieve the `isolationprofile` with the given `:id`. |
-| `PUT`    | `/isolationprofiles/:id` | Updates the `isolationprofile` with the given `:id`.  |
+#### `GET /isolationprofiles`
+
+Retrieves the list of isolation profiles.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /isolationprofiles`
+
+Creates a new isolation profile.
+
+#### `DELETE /isolationprofiles/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /isolationprofiles/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /isolationprofiles/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -4896,9 +5395,13 @@ This API issues a new token according to given data.
 
 ### Relations
 
-| Method | URL      | Description         |
-| -:     | -        | -                   |
-| `POST` | `/issue` | Issues a new token. |
+#### `POST /issue`
+
+Issues a new token.
+
+##### Parameters
+
+- `token` (string): Token to verify.
 
 ### Attributes
 
@@ -4954,9 +5457,9 @@ post jaeger span in our private jaeger services.
 
 ### Relations
 
-| Method | URL             | Description                   |
-| -:     | -               | -                             |
-| `POST` | `/jaegerbatchs` | Sends a jaeger tracing batch. |
+#### `POST /jaegerbatchs`
+
+Sends a jaeger tracing batch.
 
 ### Attributes
 
@@ -4982,13 +5485,30 @@ Create a remote Kubernetes Cluster integration.
 
 ### Relations
 
-| Method   | URL                | Description                                     |
-| -:       | -                  | -                                               |
-| `GET`    | `/k8sclusters`     | Retrieves the list of kubernetes clusters.      |
-| `POST`   | `/k8sclusters`     | Creates a new kubernetes cluster.               |
-| `DELETE` | `/k8sclusters/:id` | Deletes the `k8scluster` with the given `:id`.  |
-| `GET`    | `/k8sclusters/:id` | Retrieve the `k8scluster` with the given `:id`. |
-| `PUT`    | `/k8sclusters/:id` | Updates the `k8scluster` with the given `:id`.  |
+#### `GET /k8sclusters`
+
+Retrieves the list of kubernetes clusters.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /k8sclusters`
+
+Creates a new kubernetes cluster.
+
+#### `DELETE /k8sclusters/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /k8sclusters/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /k8sclusters/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -5152,13 +5672,30 @@ Create a remote Kubernetes Cluster integration.
 
 ### Relations
 
-| Method   | URL                       | Description                                            |
-| -:       | -                         | -                                                      |
-| `GET`    | `/kubernetesclusters`     | Retrieves the list of kubernetes clusters.             |
-| `POST`   | `/kubernetesclusters`     | Creates a new kubernetes cluster.                      |
-| `DELETE` | `/kubernetesclusters/:id` | Deletes the `kubernetescluster` with the given `:id`.  |
-| `GET`    | `/kubernetesclusters/:id` | Retrieve the `kubernetescluster` with the given `:id`. |
-| `PUT`    | `/kubernetesclusters/:id` | Updates the `kubernetescluster` with the given `:id`.  |
+#### `GET /kubernetesclusters`
+
+Retrieves the list of kubernetes clusters.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /kubernetesclusters`
+
+Creates a new kubernetes cluster.
+
+#### `DELETE /kubernetesclusters/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /kubernetesclusters/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /kubernetesclusters/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -5268,9 +5805,9 @@ Retrieves the log of a deployed app.
 
 ### Relations
 
-| Method | URL                       | Description                 |
-| -:     | -                         | -                           |
-| `GET`  | `/installedapps/:id/logs` | Returns the logs for a app. |
+#### `GET /installedapps/:id/logs`
+
+Returns the logs for a app.
 
 ### Attributes
 
@@ -5298,13 +5835,30 @@ children namespaces.
 
 ### Relations
 
-| Method   | URL             | Description                                  |
-| -:       | -               | -                                            |
-| `GET`    | `/messages`     | Retrieves the list of messages.              |
-| `POST`   | `/messages`     | Creates a new message.                       |
-| `DELETE` | `/messages/:id` | Deletes the `message` with the given `:id`.  |
-| `GET`    | `/messages/:id` | Retrieve the `message` with the given `:id`. |
-| `PUT`    | `/messages/:id` | Updates the `message` with the given `:id`.  |
+#### `GET /messages`
+
+Retrieves the list of messages.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /messages`
+
+Creates a new message.
+
+#### `DELETE /messages/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /messages/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /messages/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -5458,13 +6012,30 @@ applications, services or any combination you like.
 
 ### Relations
 
-| Method   | URL               | Description                                    |
-| -:       | -                 | -                                              |
-| `GET`    | `/namespaces`     | Retrieves the list of namespaces.              |
-| `POST`   | `/namespaces`     | Creates a new namespace.                       |
-| `DELETE` | `/namespaces/:id` | Deletes the `namespace` with the given `:id`.  |
-| `GET`    | `/namespaces/:id` | Retrieve the `namespace` with the given `:id`. |
-| `PUT`    | `/namespaces/:id` | Updates the `namespace` with the given `:id`.  |
+#### `GET /namespaces`
+
+Retrieves the list of namespaces.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /namespaces`
+
+Creates a new namespace.
+
+#### `DELETE /namespaces/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /namespaces/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /namespaces/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -5625,13 +6196,30 @@ with too much vulnerabilities for instances.
 
 ### Relations
 
-| Method   | URL                             | Description                                                 |
-| -:       | -                               | -                                                           |
-| `GET`    | `/namespacemappingpolicies`     | Retrieves the list namespace mapping policies.              |
-| `POST`   | `/namespacemappingpolicies`     | Creates a new namespace mapping policy.                     |
-| `DELETE` | `/namespacemappingpolicies/:id` | Deletes the `namespacemappingpolicy` with the given `:id`.  |
-| `GET`    | `/namespacemappingpolicies/:id` | Retrieve the `namespacemappingpolicy` with the given `:id`. |
-| `PUT`    | `/namespacemappingpolicies/:id` | Updates the `namespacemappingpolicy` with the given `:id`.  |
+#### `GET /namespacemappingpolicies`
+
+Retrieves the list namespace mapping policies.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /namespacemappingpolicies`
+
+Creates a new namespace mapping policy.
+
+#### `DELETE /namespacemappingpolicies/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /namespacemappingpolicies/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /namespacemappingpolicies/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -5777,15 +6365,47 @@ identitied by their tags to talk to other processing units or external services
 
 ### Relations
 
-| Method   | URL                                           | Description                                                                |
-| -:       | -                                             | -                                                                          |
-| `GET`    | `/networkaccesspolicies`                      | Retrieves the list of network access policies.                             |
-| `POST`   | `/networkaccesspolicies`                      | Creates a new network access policy.                                       |
-| `DELETE` | `/networkaccesspolicies/:id`                  | Deletes the `networkaccesspolicy` with the given `:id`.                    |
-| `GET`    | `/networkaccesspolicies/:id`                  | Retrieve the `networkaccesspolicy` with the given `:id`.                   |
-| `PUT`    | `/networkaccesspolicies/:id`                  | Updates the `networkaccesspolicy` with the given `:id`.                    |
-| `GET`    | `/networkaccesspolicies/:id/externalservices` | Returns the list of external services affected by a network access policy. |
-| `GET`    | `/networkaccesspolicies/:id/processingunits`  | Returns the list of Processing Units affected by a network access policy.  |
+#### `GET /networkaccesspolicies`
+
+Retrieves the list of network access policies.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `propagated` (boolean): Also retrieve the objects that propagate down.
+
+#### `POST /networkaccesspolicies`
+
+Creates a new network access policy.
+
+#### `DELETE /networkaccesspolicies/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /networkaccesspolicies/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /networkaccesspolicies/:id`
+
+Updates the object with the given ID.
+
+#### `GET /networkaccesspolicies/:id/externalservices`
+
+Returns the list of external services affected by a network access policy.
+
+##### Parameters
+
+- `mode` (enum): Matching mode.
+
+#### `GET /networkaccesspolicies/:id/processingunits`
+
+Returns the list of Processing Units affected by a network access policy.
+
+##### Parameters
+
+- `mode` (enum): Matching mode.
 
 ### Attributes
 
@@ -6031,10 +6651,21 @@ Used to reset an account password.
 
 ### Relations
 
-| Method | URL              | Description                                                 |
-| -:     | -                | -                                                           |
-| `GET`  | `/passwordreset` | Sends a link to the account email to reset the password.    |
-| `POST` | `/passwordreset` | Resets the password for an account using the provided link. |
+#### `GET /passwordreset`
+
+Sends a link to the account email to reset the password.
+
+##### Parameters
+
+- `email` (string): Email associated to the account.
+
+##### Mandatory Parameters
+
+`email`
+
+#### `POST /passwordreset`
+
+Resets the password for an account using the provided link.
 
 ### Attributes
 
@@ -6060,10 +6691,13 @@ Plan contains the various billing plans available.
 
 ### Relations
 
-| Method | URL          | Description                               |
-| -:     | -            | -                                         |
-| `GET`  | `/plans`     | Retrieves the list of plans.              |
-| `GET`  | `/plans/:id` | Retrieve the `plan` with the given `:id`. |
+#### `GET /plans`
+
+Retrieves the list of plans.
+
+#### `GET /plans/:id`
+
+Retrieves the object with the given ID.
 
 ### Attributes
 
@@ -6128,11 +6762,19 @@ For instance, for enforcers, poke will be use as the heartbeat.
 
 ### Relations
 
-| Method  | URL                         | Description                                                                      |
-| -:      | -                           | -                                                                                |
-| `GET`   | `/enforcers/:id/poke`       | Sends a poke empty object. This is used to ensure an enforcer is up and running. |
-| `GET`   | `/processingunits/:id/poke` | Sends a poke empty object. This will send a snaphot of the pu to time series
-database. |
+#### `GET /enforcers/:id/poke`
+
+Sends a poke empty object. This is used to ensure an enforcer is up and running.
+
+#### `GET /processingunits/:id/poke`
+
+Sends a poke empty object. This will send a snaphot of the pu to time series
+database.
+
+##### Parameters
+
+- `status` (enum): If set, changes the status of the processing unit alongside with the poke.
+- `ts` (time): time of report. If not set, local server time will be used.
 
 ## Policy
 
@@ -6148,11 +6790,23 @@ Policy represents the policy primitive used by all aporeto policies.
 
 ### Relations
 
-| Method   | URL             | Description                                 |
-| -:       | -               | -                                           |
-| `GET`    | `/policies`     | Retrieves the list of policy primitives.    |
-| `DELETE` | `/policies/:id` | Deletes the `policy` with the given `:id`.  |
-| `GET`    | `/policies/:id` | Retrieve the `policy` with the given `:id`. |
+#### `GET /policies`
+
+Retrieves the list of policy primitives.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `propagated` (boolean): Also retrieve the objects that propagate down.
+
+#### `DELETE /policies/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /policies/:id`
+
+Retrieves the object with the given ID.
 
 ### Attributes
 
@@ -6375,9 +7029,9 @@ retrieve a policy resolution.
 
 ### Relations
 
-| Method | URL                | Description                                     |
-| -:     | -                  | -                                               |
-| `GET`  | `/policyrules/:id` | Retrieve the `policyrule` with the given `:id`. |
+#### `GET /policyrules/:id`
+
+Retrieves the object with the given ID.
 
 ### Attributes
 
@@ -6475,23 +7129,89 @@ Paths they can use.
 
 ### Relations
 
-| Method   | URL                                          | Description                                                               |
-| -:       | -                                            | -                                                                         |
-| `GET`    | `/processingunits`                           | Retrieves the list of processing units.                                   |
-| `POST`   | `/processingunits`                           | Creates a new processing unit.                                            |
-| `DELETE` | `/processingunits/:id`                       | Deletes the `processingunit` with the given `:id`.                        |
-| `GET`    | `/processingunits/:id`                       | Retrieve the `processingunit` with the given `:id`.                       |
-| `PUT`    | `/processingunits/:id`                       | Updates the `processingunit` with the given `:id`.                        |
-| `GET`    | `/networkaccesspolicies/:id/processingunits` | Returns the list of Processing Units affected by a network access policy. |
-| `GET`    | `/servicedependencies/:id/processingunits`   | Returns the list of Processing Units that depend on an service.           |
-| `GET`    | `/services/:id/processingunits`              | Retrieves the Processing Units that implement this service.               |
-| `GET`    | `/vulnerabilities/:id/processingunits`       | Retrieves the processing units affected by the a vulnerabily.             |
-| `GET`    | `/processingunits/:id/fileaccesses`          | Retrieves the file accesses done by the processing unit.                  |
-| `GET`    | `/processingunits/:id/poke`                  | Sends a poke empty object. This will send a snaphot of the pu to time series
-database.  |
-| `GET`    | `/processingunits/:id/renderedpolicies` | Retrieves the policies for the processing unit.              |
-| `GET`    | `/processingunits/:id/services`         | Retrieves the services used by a processing unit.            |
-| `GET`    | `/processingunits/:id/vulnerabilities`  | Retrieves the vulnerabilities affecting the processing unit. |
+#### `GET /processingunits`
+
+Retrieves the list of processing units.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `archived` (boolean): Also retrieve the objects that have been archived.
+
+#### `POST /processingunits`
+
+Creates a new processing unit.
+
+#### `DELETE /processingunits/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /processingunits/:id`
+
+Retrieves the object with the given ID.
+
+##### Parameters
+
+- `archived` (boolean): Also retrieve the objects that have been archived.
+
+#### `PUT /processingunits/:id`
+
+Updates the object with the given ID.
+
+#### `GET /networkaccesspolicies/:id/processingunits`
+
+Returns the list of Processing Units affected by a network access policy.
+
+##### Parameters
+
+- `mode` (enum): Matching mode.
+
+#### `GET /servicedependencies/:id/processingunits`
+
+Returns the list of Processing Units that depend on an service.
+
+#### `GET /services/:id/processingunits`
+
+Retrieves the Processing Units that implement this service.
+
+##### Parameters
+
+- `mode` (enum): Matching mode.
+
+#### `GET /vulnerabilities/:id/processingunits`
+
+Retrieves the processing units affected by the a vulnerabily.
+
+#### `GET /processingunits/:id/fileaccesses`
+
+Retrieves the file accesses done by the processing unit.
+
+#### `GET /processingunits/:id/poke`
+
+Sends a poke empty object. This will send a snaphot of the pu to time series
+database.
+
+##### Parameters
+
+- `status` (enum): If set, changes the status of the processing unit alongside with the poke.
+- `ts` (time): time of report. If not set, local server time will be used.
+
+#### `GET /processingunits/:id/renderedpolicies`
+
+Retrieves the policies for the processing unit.
+
+##### Parameters
+
+- `csr` (string): CSR to sign.
+
+#### `GET /processingunits/:id/services`
+
+Retrieves the services used by a processing unit.
+
+#### `GET /processingunits/:id/vulnerabilities`
+
+Retrieves the vulnerabilities affecting the processing unit.
 
 ### Attributes
 
@@ -6660,13 +7380,31 @@ A ProcessingUnitPolicies needs a better description.
 
 ### Relations
 
-| Method   | URL                           | Description                                               |
-| -:       | -                             | -                                                         |
-| `GET`    | `/processingunitpolicies`     | Retrieves the list of processing unit policies.           |
-| `POST`   | `/processingunitpolicies`     | Creates a new processing unit policy.                     |
-| `DELETE` | `/processingunitpolicies/:id` | Deletes the `processingunitpolicy` with the given `:id`.  |
-| `GET`    | `/processingunitpolicies/:id` | Retrieve the `processingunitpolicy` with the given `:id`. |
-| `PUT`    | `/processingunitpolicies/:id` | Updates the `processingunitpolicy` with the given `:id`.  |
+#### `GET /processingunitpolicies`
+
+Retrieves the list of processing unit policies.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `propagated` (boolean): Also retrieve the objects that propagate down.
+
+#### `POST /processingunitpolicies`
+
+Creates a new processing unit policy.
+
+#### `DELETE /processingunitpolicies/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /processingunitpolicies/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /processingunitpolicies/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -6860,13 +7598,31 @@ created in a namespace.
 
 ### Relations
 
-| Method   | URL                  | Description                                      |
-| -:       | -                    | -                                                |
-| `GET`    | `/quotapolicies`     | Retrieves the list of quota policies.            |
-| `POST`   | `/quotapolicies`     | Creates a new quota policy.                      |
-| `DELETE` | `/quotapolicies/:id` | Deletes the `quotapolicy` with the given `:id`.  |
-| `GET`    | `/quotapolicies/:id` | Retrieve the `quotapolicy` with the given `:id`. |
-| `PUT`    | `/quotapolicies/:id` | Updates the `quotapolicy` with the given `:id`.  |
+#### `GET /quotapolicies`
+
+Retrieves the list of quota policies.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `propagated` (boolean): Also retrieve the objects that propagate down.
+
+#### `POST /quotapolicies`
+
+Creates a new quota policy.
+
+#### `DELETE /quotapolicies/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /quotapolicies/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /quotapolicies/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -7053,9 +7809,9 @@ Hook to integrate an Aporeto service.
 
 ### Relations
 
-| Method | URL                 | Description             |
-| -:     | -                   | -                       |
-| `POST` | `/remoteprocessors` | This should be be here. |
+#### `POST /remoteprocessors`
+
+This should be be here.
 
 ### Attributes
 
@@ -7145,10 +7901,21 @@ Retrieve the aggregated policies applied to a particular processing unit.
 
 ### Relations
 
-| Method | URL                                     | Description                                     |
-| -:     | -                                       | -                                               |
-| `POST` | `/renderedpolicies`                     | Render a policy for a processing unit.          |
-| `GET`  | `/processingunits/:id/renderedpolicies` | Retrieves the policies for the processing unit. |
+#### `POST /renderedpolicies`
+
+Render a policy for a processing unit.
+
+##### Parameters
+
+- `csr` (string): CSR to sign.
+
+#### `GET /processingunits/:id/renderedpolicies`
+
+Retrieves the policies for the processing unit.
+
+##### Parameters
+
+- `csr` (string): CSR to sign.
 
 ### Attributes
 
@@ -7237,9 +8004,9 @@ Post a new statistics report.
 
 ### Relations
 
-| Method | URL        | Description                 |
-| -:     | -          | -                           |
-| `POST` | `/reports` | Create a statistics report. |
+#### `POST /reports`
+
+Create a statistics report.
 
 ### Attributes
 
@@ -7282,14 +8049,40 @@ can be associated with one or more services.
 
 ### Relations
 
-| Method   | URL                          | Description                                      |
-| -:       | -                            | -                                                |
-| `GET`    | `/restapispecs`              | Retrieves the list of REST API specifications.   |
-| `POST`   | `/restapispecs`              | Creates a new REST API specification.            |
-| `DELETE` | `/restapispecs/:id`          | Deletes the `restapispec` with the given `:id`.  |
-| `GET`    | `/restapispecs/:id`          | Retrieve the `restapispec` with the given `:id`. |
-| `PUT`    | `/restapispecs/:id`          | Updates the `restapispec` with the given `:id`.  |
-| `GET`    | `/services/:id/restapispecs` | Retrieves the REST APIs exposed by this service. |
+#### `GET /restapispecs`
+
+Retrieves the list of REST API specifications.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `propagated` (boolean): Also retrieve the objects that propagate down.
+- `archived` (boolean): Also retrieve the objects that have been archived.
+
+#### `POST /restapispecs`
+
+Creates a new REST API specification.
+
+#### `DELETE /restapispecs/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /restapispecs/:id`
+
+Retrieves the object with the given ID.
+
+##### Parameters
+
+- `archived` (boolean): Also retrieve the objects that have been archived.
+
+#### `PUT /restapispecs/:id`
+
+Updates the object with the given ID.
+
+#### `GET /services/:id/restapispecs`
+
+Retrieves the REST APIs exposed by this service.
 
 ### Attributes
 
@@ -7421,9 +8214,9 @@ Policies.
 
 ### Relations
 
-| Method | URL      | Description                           |
-| -:     | -        | -                                     |
-| `GET`  | `/roles` | Retrieves the list of existing roles. |
+#### `GET /roles`
+
+Retrieves the list of existing roles.
 
 ### Attributes
 
@@ -7492,17 +8285,55 @@ units.
 
 ### Relations
 
-| Method   | URL                                 | Description                                                                   |
-| -:       | -                                   | -                                                                             |
-| `GET`    | `/services`                         | Retrieves the list of Services.                                               |
-| `POST`   | `/services`                         | Creates a new Service.                                                        |
-| `DELETE` | `/services/:id`                     | Deletes the `service` with the given `:id`.                                   |
-| `GET`    | `/services/:id`                     | Retrieve the `service` with the given `:id`.                                  |
-| `PUT`    | `/services/:id`                     | Updates the `service` with the given `:id`.                                   |
-| `GET`    | `/processingunits/:id/services`     | Retrieves the services used by a processing unit.                             |
-| `GET`    | `/servicedependencies/:id/services` | Returns the list of external services that are targets of service dependency. |
-| `GET`    | `/services/:id/processingunits`     | Retrieves the Processing Units that implement this service.                   |
-| `GET`    | `/services/:id/restapispecs`        | Retrieves the REST APIs exposed by this service.                              |
+#### `GET /services`
+
+Retrieves the list of Services.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `archived` (boolean): Also retrieve the objects that have been archived.
+
+#### `POST /services`
+
+Creates a new Service.
+
+#### `DELETE /services/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /services/:id`
+
+Retrieves the object with the given ID.
+
+##### Parameters
+
+- `archived` (boolean): Also retrieve the objects that have been archived.
+
+#### `PUT /services/:id`
+
+Updates the object with the given ID.
+
+#### `GET /processingunits/:id/services`
+
+Retrieves the services used by a processing unit.
+
+#### `GET /servicedependencies/:id/services`
+
+Returns the list of external services that are targets of service dependency.
+
+#### `GET /services/:id/processingunits`
+
+Retrieves the Processing Units that implement this service.
+
+##### Parameters
+
+- `mode` (enum): Matching mode.
+
+#### `GET /services/:id/restapispecs`
+
+Retrieves the REST APIs exposed by this service.
 
 ### Attributes
 
@@ -7764,15 +8595,39 @@ by their tags require access to specific services.
 
 ### Relations
 
-| Method   | URL                                        | Description                                                                   |
-| -:       | -                                          | -                                                                             |
-| `GET`    | `/servicedependencies`                     | Retrieves the list of service dependencies.                                   |
-| `POST`   | `/servicedependencies`                     | Creates a new service dependency.                                             |
-| `DELETE` | `/servicedependencies/:id`                 | Deletes the `servicedependency` with the given `:id`.                         |
-| `GET`    | `/servicedependencies/:id`                 | Retrieve the `servicedependency` with the given `:id`.                        |
-| `PUT`    | `/servicedependencies/:id`                 | Updates the `servicedependency` with the given `:id`.                         |
-| `GET`    | `/servicedependencies/:id/processingunits` | Returns the list of Processing Units that depend on an service.               |
-| `GET`    | `/servicedependencies/:id/services`        | Returns the list of external services that are targets of service dependency. |
+#### `GET /servicedependencies`
+
+Retrieves the list of service dependencies.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `propagated` (boolean): Also retrieve the objects that propagate down.
+
+#### `POST /servicedependencies`
+
+Creates a new service dependency.
+
+#### `DELETE /servicedependencies/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /servicedependencies/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /servicedependencies/:id`
+
+Updates the object with the given ID.
+
+#### `GET /servicedependencies/:id/processingunits`
+
+Returns the list of Processing Units that depend on an service.
+
+#### `GET /servicedependencies/:id/services`
+
+Returns the list of external services that are targets of service dependency.
 
 ### Attributes
 
@@ -7950,9 +8805,28 @@ the namespace of the user.
 
 ### Relations
 
-| Method | URL             | Description                                           |
-| -:     | -               | -                                                     |
-| `GET`  | `/statsqueries` | Retrieves statistics information based on parameters. |
+#### `GET /statsqueries`
+
+Retrieves statistics information based on parameters.
+
+##### Parameters
+
+- `field` (string): list of fields to query.
+- `function` (enum): function to use.
+- `groupBy` (string): list of groupBy clauses.
+- `interval` (duration): list of groupBy clauses.
+- `measurement` (enum): Name of the measurement to query.
+- `tag` (string): list of tags to query.
+- `where` (string): list of where clauses.
+- `endAbsolute` (time): Set the absolute end of the time window.
+- `endRelative` (duration): Set the relative end of the time window.
+- `flowOffset` (duration): Apply an offset to the time window for flows.
+- `startAbsolute` (time): Set the absolute start of the time window.
+- `startRelative` (duration): Set the relative start of the time window.
+
+##### Mandatory Parameters
+
+(`endRelative`) or (`startRelative`) or (`startRelative` and `endRelative`) or (`startRelative` and `endAbsolute`) or (`startAbsolute` and `endRelative`) or (`startAbsolute` and `endAbsolute`)
 
 ### Attributes
 
@@ -7971,9 +8845,13 @@ Allows to get policy suggestions.
 
 ### Relations
 
-| Method | URL                  | Description                                    |
-| -:     | -                    | -                                              |
-| `GET`  | `/suggestedpolicies` | Retrieves a list of network policy suggestion. |
+#### `GET /suggestedpolicies`
+
+Retrieves a list of network policy suggestion.
+
+##### Parameters
+
+- `excludeTagPrefix` (string): Tags to exclude from the suggestions.
 
 ### Attributes
 
@@ -7992,9 +8870,18 @@ any tags you like as columns.
 
 ### Relations
 
-| Method | URL            | Description                                           |
-| -:     | -              | -                                                     |
-| `GET`  | `/tabulations` | Retrieves tabulated informations based on parameters. |
+#### `GET /tabulations`
+
+Retrieves tabulated informations based on parameters.
+
+##### Parameters
+
+- `column` (string): Columns you want to see.
+- `identity` (string): Identity you want to tabulate.
+
+##### Mandatory Parameters
+
+`identity`
 
 ### Attributes
 
@@ -8044,9 +8931,9 @@ system.
 
 ### Relations
 
-| Method | URL     | Description                                        |
-| -:     | -       | -                                                  |
-| `GET`  | `/tags` | Retrieves the list of existing tags in the system. |
+#### `GET /tags`
+
+Retrieves the list of existing tags in the system.
 
 ### Attributes
 
@@ -8106,13 +8993,31 @@ generated tokens to be used by external applications.
 
 ### Relations
 
-| Method   | URL                       | Description                                           |
-| -:       | -                         | -                                                     |
-| `GET`    | `/tokenscopepolicies`     | Retrieves the list of token scope policies.           |
-| `POST`   | `/tokenscopepolicies`     | Creates a new token scope policy.                     |
-| `DELETE` | `/tokenscopepolicies/:id` | Deletes the `tokenscopepolicy` with the given `:id`.  |
-| `GET`    | `/tokenscopepolicies/:id` | Retrieve the `tokenscopepolicy` with the given `:id`. |
-| `PUT`    | `/tokenscopepolicies/:id` | Updates the `tokenscopepolicy` with the given `:id`.  |
+#### `GET /tokenscopepolicies`
+
+Retrieves the list of token scope policies.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `propagated` (boolean): Also retrieve the objects that propagate down.
+
+#### `POST /tokenscopepolicies`
+
+Creates a new token scope policy.
+
+#### `DELETE /tokenscopepolicies/:id`
+
+Deletes the object with the given ID.
+
+#### `GET /tokenscopepolicies/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /tokenscopepolicies/:id`
+
+Updates the object with the given ID.
 
 ### Attributes
 
@@ -8289,12 +9194,15 @@ Trigger can be used to remotely trigger an automation.
 
 ### Relations
 
-| Method         | URL                         | Description |
-| -:             | -                           | -           |
-| `GET`          | `/automations/:id/triggers` | Allows a system to trigger the automation if its `triggerType` property is set
-to `RemoteCall`. |
-| `POST`         | `/automations/:id/triggers` | Allows a system to trigger the automation if its `triggerType` property is set
-to `RemoteCall`. |
+#### `GET /automations/:id/triggers`
+
+Allows a system to trigger the automation if its `triggerType` property is set
+to `RemoteCall`.
+
+#### `POST /automations/:id/triggers`
+
+Allows a system to trigger the automation if its `triggerType` property is set
+to `RemoteCall`.
 
 ## Vulnerability
 
@@ -8313,13 +9221,30 @@ A vulnerabily represents a particular CVE.
 
 ### Relations
 
-| Method | URL                                    | Description                                                   |
-| -:     | -                                      | -                                                             |
-| `GET`  | `/vulnerabilities`                     | Retrieves the list of vulnerabilities.                        |
-| `POST` | `/vulnerabilities`                     | Creates a new vulnerability.                                  |
-| `GET`  | `/vulnerabilities/:id`                 | Retrieve the `vulnerability` with the given `:id`.            |
-| `GET`  | `/processingunits/:id/vulnerabilities` | Retrieves the vulnerabilities affecting the processing unit.  |
-| `GET`  | `/vulnerabilities/:id/processingunits` | Retrieves the processing units affected by the a vulnerabily. |
+#### `GET /vulnerabilities`
+
+Retrieves the list of vulnerabilities.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `POST /vulnerabilities`
+
+Creates a new vulnerability.
+
+#### `GET /vulnerabilities/:id`
+
+Retrieves the object with the given ID.
+
+#### `GET /processingunits/:id/vulnerabilities`
+
+Retrieves the vulnerabilities affecting the processing unit.
+
+#### `GET /vulnerabilities/:id/processingunits`
+
+Retrieves the processing units affected by the a vulnerabily.
 
 ### Attributes
 
