@@ -8851,7 +8851,17 @@ Retrieves a list of network policy suggestion.
 
 ##### Parameters
 
-- `excludeTagPrefix` (string): Tags to exclude from the suggestions.
+- `filterAction` (enum): Action to take with the filter tags.
+- `filterTags` (string): Tags to filter in the policy suggestions.
+- `endAbsolute` (time): Set the absolute end of the time window.
+- `endRelative` (duration): Set the relative end of the time window.
+- `flowOffset` (duration): Apply an offset to the time window for flows.
+- `startAbsolute` (time): Set the absolute start of the time window.
+- `startRelative` (duration): Set the relative start of the time window.
+
+##### Mandatory Parameters
+
+(`endRelative`) or (`startRelative`) or (`startRelative` and `endRelative`) or (`startRelative` and `endAbsolute`) or (`startAbsolute` and `endRelative`) or (`startAbsolute` and `endAbsolute`)
 
 ### Attributes
 

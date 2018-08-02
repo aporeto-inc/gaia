@@ -3343,22 +3343,134 @@ func init() {
 	relationshipsRegistry[SuggestedPolicyIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+							},
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
-						Name:     "excludeTagPrefix",
+						Name: "filterAction",
+						Type: "enum",
+						AllowedChoices: []string{
+							"include",
+							"exclude",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name:     "filterTags",
 						Type:     "string",
 						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
 					},
 				},
 			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+							},
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
-						Name:     "excludeTagPrefix",
+						Name: "filterAction",
+						Type: "enum",
+						AllowedChoices: []string{
+							"include",
+							"exclude",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name:     "filterTags",
 						Type:     "string",
 						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
 					},
 				},
 			},

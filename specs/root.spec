@@ -670,10 +670,19 @@ relations:
 - rest_name: suggestedpolicy
   get:
     description: Retrieves a list of network policy suggestion.
+    global_parameters:
+    - $timewindow
     parameters:
       entries:
-      - name: excludeTagPrefix
-        description: Tags to exclude from the suggestions.
+      - name: filterAction
+        description: Action to take with the filter tags.
+        type: enum
+        allowed_choices:
+        - include
+        - exclude
+
+      - name: filterTags
+        description: Tags to filter in the policy suggestions.
         type: string
         multiple: true
         example_value: a=a
