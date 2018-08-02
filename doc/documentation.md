@@ -2354,6 +2354,11 @@ Creates a new enforcer.
 
 Deletes the object with the given ID.
 
+##### Parameters
+
+- `q` (string): Backward compat for enforcer <=v2.2.1. does not have any effect.
+- `tag` (string): Backward compat for enforcer <=v2.2.1. does not have any effect.
+
 #### `GET /enforcers/:id`
 
 Retrieves the object with the given ID.
