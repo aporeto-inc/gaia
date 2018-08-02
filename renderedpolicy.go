@@ -8,6 +8,9 @@ import (
 	"go.aporeto.io/gaia/constants"
 )
 
+// RenderedPolicyIndexes lists the attribute compound indexes.
+var RenderedPolicyIndexes = [][]string{}
+
 // RenderedPolicyIdentity represents the Identity of the object.
 var RenderedPolicyIdentity = elemental.Identity{
 	Name:     "renderedpolicy",
@@ -213,7 +216,6 @@ var RenderedPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Description: `Certificate is the certificate associated with this PU. It will identify the PU
 to any internal or external services.`,
 		Exposed:  true,
-		Format:   "free",
 		Name:     "certificate",
 		ReadOnly: true,
 		Type:     "string",
@@ -288,7 +290,6 @@ has not been created yet.`,
 		ConvertedName:  "ProcessingUnitID",
 		Description:    `Identifier of the processing unit.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "processingUnitID",
 		ReadOnly:       true,
 		Type:           "string",
@@ -326,7 +327,6 @@ var RenderedPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Description: `Certificate is the certificate associated with this PU. It will identify the PU
 to any internal or external services.`,
 		Exposed:  true,
-		Format:   "free",
 		Name:     "certificate",
 		ReadOnly: true,
 		Type:     "string",
@@ -401,7 +401,6 @@ has not been created yet.`,
 		ConvertedName:  "ProcessingUnitID",
 		Description:    `Identifier of the processing unit.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "processingUnitID",
 		ReadOnly:       true,
 		Type:           "string",

@@ -24,7 +24,6 @@ attributes:
     exposed: true
     stored: true
     filterable: true
-    format: free
     orderable: true
 
   - name: accountID
@@ -34,7 +33,6 @@ attributes:
     exposed: true
     stored: true
     filterable: true
-    format: free
     orderable: true
 
   - name: billedToProvider
@@ -54,7 +52,6 @@ attributes:
     exposed: true
     stored: true
     filterable: true
-    format: free
     orderable: true
 
   - name: startDate
@@ -63,5 +60,4 @@ attributes:
     exposed: true
     stored: true
     filterable: true
-    format: free
     orderable: true

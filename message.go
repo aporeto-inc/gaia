@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// MessageIndexes lists the attribute compound indexes.
+var MessageIndexes = [][]string{}
+
 // MessageLevelValue represents the possible values for attribute "level".
 type MessageLevelValue string
 
@@ -344,7 +347,6 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -396,7 +398,6 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -444,7 +445,6 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -462,9 +462,7 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -532,7 +530,6 @@ annotations.`,
 		Description: `Validity set using golang time duration, when the message will be automatically
 deleted.`,
 		Exposed: true,
-		Format:  "free",
 		Name:    "validity",
 		Stored:  true,
 		Type:    "string",
@@ -548,7 +545,6 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -600,7 +596,6 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -648,7 +643,6 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -666,9 +660,7 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -736,7 +728,6 @@ annotations.`,
 		Description: `Validity set using golang time duration, when the message will be automatically
 deleted.`,
 		Exposed: true,
-		Format:  "free",
 		Name:    "validity",
 		Stored:  true,
 		Type:    "string",

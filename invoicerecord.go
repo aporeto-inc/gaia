@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// InvoiceRecordIndexes lists the attribute compound indexes.
+var InvoiceRecordIndexes = [][]string{}
+
 // InvoiceRecordIdentity represents the Identity of the object.
 var InvoiceRecordIdentity = elemental.Identity{
 	Name:     "invoicerecord",
@@ -179,7 +182,6 @@ var InvoiceRecordAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the id of this invoice record.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "ID",
 		Orderable:      true,
 		Stored:         true,
@@ -205,7 +207,6 @@ var InvoiceRecordAttributesMap = map[string]elemental.AttributeSpecification{
 details for.`,
 		Exposed:    true,
 		Filterable: true,
-		Format:     "free",
 		Name:       "invoiceID",
 		Orderable:  true,
 		Stored:     true,
@@ -217,7 +218,6 @@ details for.`,
 		Description:    `InvoiceRecords provides details about billing units.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "invoiceRecords",
 		Orderable:      true,
 		Stored:         true,
@@ -247,7 +247,6 @@ var InvoiceRecordLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Description:    `ID is the id of this invoice record.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "ID",
 		Orderable:      true,
 		Stored:         true,
@@ -273,7 +272,6 @@ var InvoiceRecordLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 details for.`,
 		Exposed:    true,
 		Filterable: true,
-		Format:     "free",
 		Name:       "invoiceID",
 		Orderable:  true,
 		Stored:     true,
@@ -285,7 +283,6 @@ details for.`,
 		Description:    `InvoiceRecords provides details about billing units.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "invoiceRecords",
 		Orderable:      true,
 		Stored:         true,

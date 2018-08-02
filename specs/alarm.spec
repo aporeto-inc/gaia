@@ -28,7 +28,6 @@ attributes:
     required: true
     creation_only: true
     example_value: This is an alarm
-    format: free
 
   - name: data
     description: Data represent user data related to the alams.
@@ -48,7 +47,6 @@ attributes:
     creation_only: true
     example_value: aporeto.alarm.kind
     filterable: true
-    format: free
     orderable: true
 
   - name: occurrences

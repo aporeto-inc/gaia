@@ -24,26 +24,22 @@ attributes:
     exposed: true
     read_only: true
     filterable: true
-    format: free
 
   - name: icon
     description: Icon contains a base64 image for the app.
     type: string
     exposed: true
     read_only: true
-    format: free
 
   - name: longDescription
     description: LongDescription contains a more detailed description of the app.
     type: string
     exposed: true
-    format: free
 
   - name: title
     description: Title represents the title of the app.
     type: string
     exposed: true
-    format: free
 
   - name: versionParameters
     description: VersionParameters contains parameters for each available version.

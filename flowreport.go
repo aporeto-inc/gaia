@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// FlowReportIndexes lists the attribute compound indexes.
+var FlowReportIndexes = [][]string{}
+
 // FlowReportActionValue represents the possible values for attribute "action".
 type FlowReportActionValue string
 

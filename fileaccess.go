@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// FileAccessIndexes lists the attribute compound indexes.
+var FileAccessIndexes = [][]string{}
+
 // FileAccessModeValue represents the possible values for attribute "mode".
 type FileAccessModeValue string
 
@@ -196,7 +199,6 @@ var FileAccessAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Action",
 		Description:    `Action tells if the access has been allowed or not.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "action",
 		ReadOnly:       true,
 		Type:           "string",
@@ -217,7 +219,6 @@ var FileAccessAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Host",
 		Description:    `Host is the host that served the accessed file.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "host",
 		ReadOnly:       true,
 		Type:           "string",
@@ -238,7 +239,6 @@ var FileAccessAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Path",
 		Description:    `Path is the path of the accessed file.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "path",
 		ReadOnly:       true,
 		Type:           "string",
@@ -249,7 +249,6 @@ var FileAccessAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Protocol",
 		Description:    `Protocol is the protocol used to access the file.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "protocol",
 		ReadOnly:       true,
 		Type:           "string",
@@ -264,7 +263,6 @@ var FileAccessLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		ConvertedName:  "Action",
 		Description:    `Action tells if the access has been allowed or not.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "action",
 		ReadOnly:       true,
 		Type:           "string",
@@ -285,7 +283,6 @@ var FileAccessLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		ConvertedName:  "Host",
 		Description:    `Host is the host that served the accessed file.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "host",
 		ReadOnly:       true,
 		Type:           "string",
@@ -306,7 +303,6 @@ var FileAccessLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		ConvertedName:  "Path",
 		Description:    `Path is the path of the accessed file.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "path",
 		ReadOnly:       true,
 		Type:           "string",
@@ -317,7 +313,6 @@ var FileAccessLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		ConvertedName:  "Protocol",
 		Description:    `Protocol is the protocol used to access the file.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "protocol",
 		ReadOnly:       true,
 		Type:           "string",

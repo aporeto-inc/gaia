@@ -39,7 +39,6 @@ attributes:
     exposed: true
     subtype: string
     stored: true
-    format: free
 
   - name: ports
     description: List of single ports or range (xx:yy).

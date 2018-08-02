@@ -59,4 +59,3 @@ attributes:
     required: true
     example_value: /my/namespace
     filterable: true
-    format: free

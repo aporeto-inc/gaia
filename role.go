@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// RoleIndexes lists the attribute compound indexes.
+var RoleIndexes = [][]string{}
+
 // RoleIdentity represents the Identity of the object.
 var RoleIdentity = elemental.Identity{
 	Name:     "role",
@@ -185,7 +188,6 @@ var RoleAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the role.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "description",
 		ReadOnly:       true,
 		Type:           "string",
@@ -196,7 +198,6 @@ var RoleAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Key",
 		Description:    `Key is the of the role.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "key",
 		ReadOnly:       true,
 		Type:           "string",
@@ -207,7 +208,6 @@ var RoleAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Name",
 		Description:    `Name of the role.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "name",
 		ReadOnly:       true,
 		Type:           "string",
@@ -233,7 +233,6 @@ var RoleLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the role.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "description",
 		ReadOnly:       true,
 		Type:           "string",
@@ -244,7 +243,6 @@ var RoleLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Key",
 		Description:    `Key is the of the role.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "key",
 		ReadOnly:       true,
 		Type:           "string",
@@ -255,7 +253,6 @@ var RoleLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Name",
 		Description:    `Name of the role.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "name",
 		ReadOnly:       true,
 		Type:           "string",

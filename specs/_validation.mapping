@@ -1,0 +1,7 @@
+$cidr:
+  elemental:
+    name: ValidateCIDR
+
+$cidrs:
+  elemental:
+    name: ValidateCIDRList

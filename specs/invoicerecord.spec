@@ -24,7 +24,6 @@ attributes:
     exposed: true
     stored: true
     filterable: true
-    format: free
     orderable: true
 
   - name: invoiceID
@@ -35,7 +34,6 @@ attributes:
     exposed: true
     stored: true
     filterable: true
-    format: free
     orderable: true
 
   - name: invoiceRecords
@@ -45,5 +43,4 @@ attributes:
     subtype: invoicerecord_list
     stored: true
     filterable: true
-    format: free
     orderable: true

@@ -8,6 +8,9 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
+// AppIndexes lists the attribute compound indexes.
+var AppIndexes = [][]string{}
+
 // AppIdentity represents the Identity of the object.
 var AppIdentity = elemental.Identity{
 	Name:     "app",
@@ -223,7 +226,6 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `CategoryID of the app.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "categoryID",
 		ReadOnly:       true,
 		Type:           "string",
@@ -233,7 +235,6 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -245,7 +246,6 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Icon",
 		Description:    `Icon contains a base64 image for the app.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "icon",
 		ReadOnly:       true,
 		Type:           "string",
@@ -255,7 +255,6 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "LongDescription",
 		Description:    `LongDescription contains a more detailed description of the app.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "longDescription",
 		Type:           "string",
 	},
@@ -266,7 +265,6 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -281,7 +279,6 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Title",
 		Description:    `Title represents the title of the app.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "title",
 		Type:           "string",
 	},
@@ -313,7 +310,6 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `CategoryID of the app.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "categoryID",
 		ReadOnly:       true,
 		Type:           "string",
@@ -323,7 +319,6 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -335,7 +330,6 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Icon",
 		Description:    `Icon contains a base64 image for the app.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "icon",
 		ReadOnly:       true,
 		Type:           "string",
@@ -345,7 +339,6 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "LongDescription",
 		Description:    `LongDescription contains a more detailed description of the app.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "longDescription",
 		Type:           "string",
 	},
@@ -356,7 +349,6 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -371,7 +363,6 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Title",
 		Description:    `Title represents the title of the app.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "title",
 		Type:           "string",
 	},

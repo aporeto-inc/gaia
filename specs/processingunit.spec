@@ -40,7 +40,6 @@ attributes:
     exposed: true
     stored: true
     filterable: true
-    format: free
 
   - name: lastSyncTime
     description: LastSyncTime is the time when the policy was last resolved.
@@ -56,7 +55,6 @@ attributes:
     exposed: true
     stored: true
     filterable: true
-    format: free
 
   - name: networkServices
     description: |-

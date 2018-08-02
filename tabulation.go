@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// TabulationIndexes lists the attribute compound indexes.
+var TabulationIndexes = [][]string{}
+
 // TabulationIdentity represents the Identity of the object.
 var TabulationIdentity = elemental.Identity{
 	Name:     "tabulation",
@@ -193,7 +196,6 @@ var TabulationAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "TargetIdentity",
 		Description:    `TargetIdentity contains the requested target identity.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "targetIdentity",
 		ReadOnly:       true,
 		Type:           "string",
@@ -230,7 +232,6 @@ var TabulationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		ConvertedName:  "TargetIdentity",
 		Description:    `TargetIdentity contains the requested target identity.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "targetIdentity",
 		ReadOnly:       true,
 		Type:           "string",

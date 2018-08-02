@@ -8,6 +8,9 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
+// AutomationTemplateIndexes lists the attribute compound indexes.
+var AutomationTemplateIndexes = [][]string{}
+
 // AutomationTemplateKindValue represents the possible values for attribute "kind".
 type AutomationTemplateKindValue string
 
@@ -227,7 +230,6 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -248,7 +250,6 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 		ConvertedName:  "Function",
 		Description:    `Function contains the code.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "function",
 		Type:           "string",
 	},
@@ -257,7 +258,6 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 		ConvertedName:  "Key",
 		Description:    `Key contains the unique identifier key for the template.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "key",
 		Type:           "string",
 	},
@@ -277,7 +277,6 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -305,7 +304,6 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -326,7 +324,6 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		ConvertedName:  "Function",
 		Description:    `Function contains the code.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "function",
 		Type:           "string",
 	},
@@ -335,7 +332,6 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		ConvertedName:  "Key",
 		Description:    `Key contains the unique identifier key for the template.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "key",
 		Type:           "string",
 	},
@@ -355,7 +351,6 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",

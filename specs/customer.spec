@@ -39,7 +39,6 @@ attributes:
     exposed: true
     stored: true
     filterable: true
-    format: free
     orderable: true
 
   - name: state

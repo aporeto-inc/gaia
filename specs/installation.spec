@@ -21,7 +21,6 @@ attributes:
     exposed: true
     stored: true
     filterable: true
-    format: free
     identifier: true
     orderable: true
     primary_key: true
@@ -32,5 +31,4 @@ attributes:
     exposed: true
     stored: true
     filterable: true
-    format: free
     orderable: true

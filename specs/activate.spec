@@ -14,4 +14,3 @@ attributes:
     type: string
     exposed: true
     creation_only: true
-    format: free

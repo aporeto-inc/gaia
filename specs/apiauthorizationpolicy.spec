@@ -52,7 +52,6 @@ attributes:
     required: true
     example_value: /namespace
     filterable: true
-    format: free
 
   - name: subject
     description: Subject is the subject.

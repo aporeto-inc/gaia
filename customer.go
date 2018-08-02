@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// CustomerIndexes lists the attribute compound indexes.
+var CustomerIndexes = [][]string{}
+
 // CustomerProviderValue represents the possible values for attribute "provider".
 type CustomerProviderValue string
 
@@ -225,7 +228,6 @@ var CustomerAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -264,7 +266,6 @@ var CustomerAttributesMap = map[string]elemental.AttributeSpecification{
 customer to enable provider billing.`,
 		Exposed:    true,
 		Filterable: true,
-		Format:     "free",
 		Name:       "providerCustomerID",
 		Orderable:  true,
 		Stored:     true,
@@ -305,7 +306,6 @@ var CustomerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -344,7 +344,6 @@ var CustomerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 customer to enable provider billing.`,
 		Exposed:    true,
 		Filterable: true,
-		Format:     "free",
 		Name:       "providerCustomerID",
 		Orderable:  true,
 		Stored:     true,

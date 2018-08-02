@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// InstallationIndexes lists the attribute compound indexes.
+var InstallationIndexes = [][]string{}
+
 // InstallationIdentity represents the Identity of the object.
 var InstallationIdentity = elemental.Identity{
 	Name:     "installation",
@@ -167,7 +170,6 @@ var InstallationAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -181,7 +183,6 @@ var InstallationAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `AccountName that should be installed.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "accountName",
 		Orderable:      true,
 		Stored:         true,
@@ -197,7 +198,6 @@ var InstallationLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -211,7 +211,6 @@ var InstallationLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Description:    `AccountName that should be installed.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "accountName",
 		Orderable:      true,
 		Stored:         true,

@@ -49,7 +49,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    format: free
 
   - name: allAPITags
     description: This is a set of all API tags for matching in the DB.
@@ -152,7 +151,6 @@ attributes:
     exposed: true
     subtype: string
     stored: true
-    format: free
     orderable: true
 
   - name: port
@@ -200,7 +198,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    format: free
 
   - name: selectors
     description: |-
@@ -221,7 +218,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    format: free
 
   - name: type
     description: Type is the type of the service.

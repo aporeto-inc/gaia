@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// InvoiceIndexes lists the attribute compound indexes.
+var InvoiceIndexes = [][]string{}
+
 // InvoiceBilledToProviderValue represents the possible values for attribute "billedToProvider".
 type InvoiceBilledToProviderValue string
 
@@ -199,7 +202,6 @@ var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the id of the invoice.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "ID",
 		Orderable:      true,
 		Stored:         true,
@@ -211,7 +213,6 @@ var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `AccountID references the id of the customer that this invoice belongs to.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "accountID",
 		Orderable:      true,
 		Stored:         true,
@@ -246,7 +247,6 @@ var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `EndDate holds the end date for this invoice.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "endDate",
 		Orderable:      true,
 		Stored:         true,
@@ -258,7 +258,6 @@ var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `StartDate holds the start date for this invoice.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "startDate",
 		Orderable:      true,
 		Stored:         true,
@@ -287,7 +286,6 @@ var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the id of the invoice.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "ID",
 		Orderable:      true,
 		Stored:         true,
@@ -299,7 +297,6 @@ var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `AccountID references the id of the customer that this invoice belongs to.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "accountID",
 		Orderable:      true,
 		Stored:         true,
@@ -334,7 +331,6 @@ var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `EndDate holds the end date for this invoice.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "endDate",
 		Orderable:      true,
 		Stored:         true,
@@ -346,7 +342,6 @@ var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `StartDate holds the start date for this invoice.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "startDate",
 		Orderable:      true,
 		Stored:         true,

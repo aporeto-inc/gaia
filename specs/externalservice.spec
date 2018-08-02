@@ -34,7 +34,6 @@ attributes:
     stored: true
     example_value: 0.0.0.0/0
     filterable: true
-    format: free
 
   - name: port
     description: |-

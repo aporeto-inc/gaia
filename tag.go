@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// TagIndexes lists the attribute compound indexes.
+var TagIndexes = [][]string{}
+
 // TagIdentity represents the Identity of the object.
 var TagIdentity = elemental.Identity{
 	Name:     "tag",
@@ -187,7 +190,6 @@ var TagAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -212,7 +214,6 @@ var TagAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Namespace",
 		Description:    `Namespace represents the namespace of the counted tag.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "namespace",
 		PrimaryKey:     true,
 		ReadOnly:       true,
@@ -226,7 +227,6 @@ var TagAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description:    `Value represents the value of the tag.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "value",
 		PrimaryKey:     true,
 		Required:       true,
@@ -244,7 +244,6 @@ var TagLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -269,7 +268,6 @@ var TagLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Namespace",
 		Description:    `Namespace represents the namespace of the counted tag.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "namespace",
 		PrimaryKey:     true,
 		ReadOnly:       true,
@@ -283,7 +281,6 @@ var TagLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description:    `Value represents the value of the tag.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "value",
 		PrimaryKey:     true,
 		Required:       true,

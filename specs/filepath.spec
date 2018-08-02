@@ -36,7 +36,6 @@ attributes:
     required: true
     example_value: /etc/passwd
     filterable: true
-    format: free
 
   - name: server
     description: server is the server name/ID/IP associated with the file path.
@@ -45,4 +44,3 @@ attributes:
     stored: true
     creation_only: true
     filterable: true
-    format: free

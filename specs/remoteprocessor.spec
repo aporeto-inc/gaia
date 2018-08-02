@@ -49,7 +49,6 @@ attributes:
     exposed: true
     required: true
     example_value: /my/namespace
-    format: free
 
   - name: operation
     description: Define the operation that is currently handled by the service.
@@ -73,7 +72,6 @@ attributes:
     exposed: true
     stored: true
     filterable: true
-    format: free
     orderable: true
 
   - name: targetIdentity
@@ -82,4 +80,3 @@ attributes:
     exposed: true
     required: true
     example_value: processingunit
-    format: free
