@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// EventLogIndexes lists the attribute compound indexes.
+var EventLogIndexes = [][]string{}
+
 // EventLogLevelValue represents the possible values for attribute "level".
 type EventLogLevelValue string
 
@@ -290,9 +293,7 @@ var EventLogAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -391,9 +392,7 @@ var EventLogLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		CreationOnly:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,

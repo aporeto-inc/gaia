@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// PlanIndexes lists the attribute compound indexes.
+var PlanIndexes = [][]string{}
+
 // PlanIdentity represents the Identity of the object.
 var PlanIdentity = elemental.Identity{
 	Name:     "plan",
@@ -178,7 +181,6 @@ var PlanAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description contains the description of the Plan.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "description",
 		ReadOnly:       true,
 		Stored:         true,
@@ -201,7 +203,6 @@ var PlanAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Key",
 		Description:    `Key contains the key identifier of the Plan.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "key",
 		ReadOnly:       true,
 		Stored:         true,
@@ -213,7 +214,6 @@ var PlanAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Name",
 		Description:    `Name contains the name of the Plan.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "name",
 		ReadOnly:       true,
 		Stored:         true,
@@ -251,7 +251,6 @@ var PlanLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description contains the description of the Plan.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "description",
 		ReadOnly:       true,
 		Stored:         true,
@@ -274,7 +273,6 @@ var PlanLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Key",
 		Description:    `Key contains the key identifier of the Plan.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "key",
 		ReadOnly:       true,
 		Stored:         true,
@@ -286,7 +284,6 @@ var PlanLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Name",
 		Description:    `Name contains the name of the Plan.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "name",
 		ReadOnly:       true,
 		Stored:         true,

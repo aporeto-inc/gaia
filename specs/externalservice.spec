@@ -33,7 +33,6 @@ attributes:
     exposed: true
     stored: true
     example_value: 0.0.0.0/0
-    format: free
 
   - name: port
     description: |-

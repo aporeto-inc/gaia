@@ -43,7 +43,6 @@ attributes:
     stored: true
     allowed_chars: ^[0-9]+[smh]$
     default_value: 15m
-    format: free
     orderable: true
 
   - name: PUHeartbeatInterval
@@ -53,7 +52,6 @@ attributes:
     stored: true
     allowed_chars: ^[0-9]+[smh]$
     default_value: 5s
-    format: free
     orderable: true
 
   - name: applicationProxyPort
@@ -103,7 +101,6 @@ attributes:
     stored: true
     allowed_chars: ^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$
     default_value: unix:///var/run/docker.sock
-    format: free
     orderable: true
 
   - name: excludedInterfaces
@@ -193,7 +190,6 @@ attributes:
     stored: true
     allowed_chars: ^[0-9]+[smh]$
     default_value: 10m
-    format: free
     orderable: true
 
   - name: proxyListenAddress
@@ -207,7 +203,11 @@ attributes:
     stored: true
     allowed_chars: ^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$
     default_value: unix:///var/run/aporeto.sock
+<<<<<<< HEAD
     format: free
+=======
+    filterable: true
+>>>>>>> master
     orderable: true
 
   - name: receiverNumberOfQueues

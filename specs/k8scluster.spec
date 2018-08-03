@@ -24,7 +24,6 @@ attributes:
     description: Link to the API authorization policy.
     type: string
     stored: true
-    format: free
 
   - name: activationType
     description: Defines the mode of activation on the KubernetesCluster.
@@ -45,7 +44,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    format: free
     orderable: true
 
   - name: certificate
@@ -55,13 +53,11 @@ attributes:
     exposed: true
     stored: true
     read_only: true
-    format: free
 
   - name: certificateSN
     description: Link to the certificate created for this cluster.
     type: string
     stored: true
-    format: free
 
   - name: kubernetesDefinitions
     description: |-
@@ -70,7 +66,6 @@ attributes:
     type: string
     exposed: true
     read_only: true
-    format: free
     orderable: true
 
   - name: name
@@ -83,7 +78,6 @@ attributes:
     default_order: true
     example_value: the name
     filterable: true
-    format: free
     getter: true
     setter: true
     max_length: 256
@@ -93,7 +87,6 @@ attributes:
     description: Link to the cluster namespace.
     type: string
     stored: true
-    format: free
 
   - name: networkPolicyType
     description: |-

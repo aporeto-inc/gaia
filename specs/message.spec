@@ -67,4 +67,3 @@ attributes:
     exposed: true
     stored: true
     allowed_chars: ^[0-9]+[smh]$
-    format: free

@@ -32,7 +32,6 @@ attributes:
     description: Content of the email to send.
     type: string
     exposed: true
-    format: free
 
   - name: from
     description: From represents the sender of the email.
@@ -45,7 +44,6 @@ attributes:
     description: Subject represents the subject of the email.
     type: string
     exposed: true
-    format: free
 
   - name: to
     description: To represents receivers of the email.

@@ -18,5 +18,4 @@ attributes:
     exposed: true
     required: true
     example_value: c155b59c-c04b-430f-b11f-8355a6b7dc48
-    format: free
     identifier: true

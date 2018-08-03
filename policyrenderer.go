@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// PolicyRendererIndexes lists the attribute compound indexes.
+var PolicyRendererIndexes = [][]string{}
+
 // PolicyRendererTypeValue represents the possible values for attribute "type".
 type PolicyRendererTypeValue string
 

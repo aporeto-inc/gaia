@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// IssueIndexes lists the attribute compound indexes.
+var IssueIndexes = [][]string{}
+
 // IssueRealmValue represents the possible values for attribute "realm".
 type IssueRealmValue string
 
@@ -214,7 +217,7 @@ var IssueAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Data",
 		Description:    `Data contains additional data. The value depends on the issuer type.`,
 		Exposed:        true,
-		Format:         "free",
+		Filterable:     true,
 		Name:           "data",
 		Orderable:      true,
 		Stored:         true,
@@ -245,7 +248,6 @@ var IssueAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Token",
 		Description:    `Token is the token to use for the registration.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "token",
 		ReadOnly:       true,
 		Type:           "string",
@@ -257,12 +259,12 @@ var IssueAttributesMap = map[string]elemental.AttributeSpecification{
 		DefaultValue:   "24h",
 		Description: `Validity configures the max validity time for a token. If it is bigger than the
 configured max validity, it will be capped.`,
-		Exposed:   true,
-		Format:    "free",
-		Name:      "validity",
-		Orderable: true,
-		Stored:    true,
-		Type:      "string",
+		Exposed:    true,
+		Filterable: true,
+		Name:       "validity",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 }
 
@@ -273,7 +275,7 @@ var IssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Data",
 		Description:    `Data contains additional data. The value depends on the issuer type.`,
 		Exposed:        true,
-		Format:         "free",
+		Filterable:     true,
 		Name:           "data",
 		Orderable:      true,
 		Stored:         true,
@@ -304,7 +306,6 @@ var IssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Token",
 		Description:    `Token is the token to use for the registration.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "token",
 		ReadOnly:       true,
 		Type:           "string",
@@ -316,11 +317,11 @@ var IssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		DefaultValue:   "24h",
 		Description: `Validity configures the max validity time for a token. If it is bigger than the
 configured max validity, it will be capped.`,
-		Exposed:   true,
-		Format:    "free",
-		Name:      "validity",
-		Orderable: true,
-		Stored:    true,
-		Type:      "string",
+		Exposed:    true,
+		Filterable: true,
+		Name:       "validity",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "string",
 	},
 }

@@ -8,6 +8,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// JaegerbatchIndexes lists the attribute compound indexes.
+var JaegerbatchIndexes = [][]string{}
+
 // JaegerbatchIdentity represents the Identity of the object.
 var JaegerbatchIdentity = elemental.Identity{
 	Name:     "jaegerbatch",

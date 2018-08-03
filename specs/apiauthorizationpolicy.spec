@@ -51,7 +51,6 @@ attributes:
     exposed: true
     required: true
     example_value: /namespace
-    format: free
 
   - name: subject
     description: Subject is the subject.

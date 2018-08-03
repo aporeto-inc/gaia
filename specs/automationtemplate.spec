@@ -26,13 +26,11 @@ attributes:
     description: Function contains the code.
     type: string
     exposed: true
-    format: free
 
   - name: key
     description: Key contains the unique identifier key for the template.
     type: string
     exposed: true
-    format: free
 
   - name: kind
     description: Kind represents the kind of template.

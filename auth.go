@@ -8,6 +8,9 @@ import (
 	"go.aporeto.io/midgard-lib/claims"
 )
 
+// AuthIndexes lists the attribute compound indexes.
+var AuthIndexes = [][]string{}
+
 // AuthIdentity represents the Identity of the object.
 var AuthIdentity = elemental.Identity{
 	Name:     "auth",

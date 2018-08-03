@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// PasswordResetIndexes lists the attribute compound indexes.
+var PasswordResetIndexes = [][]string{}
+
 // PasswordResetIdentity represents the Identity of the object.
 var PasswordResetIdentity = elemental.Identity{
 	Name:     "passwordreset",
@@ -173,7 +176,6 @@ var PasswordResetAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Password",
 		Description:    `Password contains the new password.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "password",
 		Required:       true,
 		Type:           "string",
@@ -183,7 +185,6 @@ var PasswordResetAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Token",
 		Description:    `Token contains the reset password token.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "token",
 		Required:       true,
 		Type:           "string",
@@ -197,7 +198,6 @@ var PasswordResetLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		ConvertedName:  "Password",
 		Description:    `Password contains the new password.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "password",
 		Required:       true,
 		Type:           "string",
@@ -207,7 +207,6 @@ var PasswordResetLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		ConvertedName:  "Token",
 		Description:    `Token contains the reset password token.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "token",
 		Required:       true,
 		Type:           "string",

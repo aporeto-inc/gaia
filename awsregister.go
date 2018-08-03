@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// AWSRegisterIndexes lists the attribute compound indexes.
+var AWSRegisterIndexes = [][]string{}
+
 // AWSRegisterIdentity represents the Identity of the object.
 var AWSRegisterIdentity = elemental.Identity{
 	Name:     "awsregister",
@@ -176,7 +179,6 @@ var AWSRegisterAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -230,7 +232,6 @@ var AWSRegisterLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
