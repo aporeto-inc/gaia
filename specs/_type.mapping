@@ -201,6 +201,11 @@ graphnodes_map:
     init: types.GraphNodeMap{}
     import: go.aporeto.io/gaia/types
 
+hashed_tags:
+  elemental:
+    type: map[string]string
+    init: map[string]string{}
+
 host_services_list:
   elemental:
     type: types.HostServicesList
