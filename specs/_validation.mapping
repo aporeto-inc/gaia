@@ -1,7 +1,23 @@
-$cidr:
+$network:
   elemental:
-    name: ValidateCIDR
+    name: ValidateNetwork
 
-$cidrs:
+$networks:
   elemental:
-    name: ValidateCIDRList
+    name: ValidateNetworkList
+
+$port:
+  elemental:
+    name: ValidatePortString
+
+$ports:
+  elemental:
+    name: ValidatePortStringList
+
+$protocol:
+  elemental:
+    name: ValidateProtocol
+
+$protocols:
+  elemental:
+    name: ValidateProtocolList

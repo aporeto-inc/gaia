@@ -313,11 +313,23 @@ func (o *ExternalNetwork) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := ValidateNetworkList("entries", o.Entries); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidatePortStringList("ports", o.Ports); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateProtocolList("protocols", o.Protocols); err != nil {
 		errors = append(errors, err)
 	}
 
