@@ -234,19 +234,19 @@ func NewService() *Service {
 
 	return &Service{
 		ModelVersion:      1,
+		AssociatedTags:    []string{},
 		AllAPITags:        []string{},
 		AllServiceTags:    []string{},
 		Annotations:       map[string][]string{},
-		AssociatedTags:    []string{},
-		AuthorizationType: "None",
+		AuthorizationType: ServiceAuthorizationTypeNone,
 		Endpoints:         types.ExposedAPIList{},
 		External:          false,
-		IPs:               types.IPList{},
-		Metadata:          []string{},
-		NormalizedTags:    []string{},
 		RedirectOnFail:    false,
+		IPs:               types.IPList{},
+		NormalizedTags:    []string{},
+		Metadata:          []string{},
 		RedirectOnNoToken: false,
-		Type:              "HTTP",
+		Type:              ServiceTypeHTTP,
 	}
 }
 

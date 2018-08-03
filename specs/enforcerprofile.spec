@@ -94,7 +94,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "16384"
+    default_value: 16384
     filterable: true
     max_value: 262144
     orderable: true
@@ -167,7 +167,7 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    default_value: "false"
+    default_value: false
     filterable: true
     orderable: true
 
@@ -176,7 +176,7 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    default_value: "true"
+    default_value: true
 
   - name: metadataExtractor
     description: Select which metadata extractor to use to process new processing
@@ -225,7 +225,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "4"
+    default_value: 4
     filterable: true
     max_value: 16
     min_value: 1
@@ -236,7 +236,6 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "0"
     filterable: true
     max_value: 1000
     orderable: true
@@ -246,7 +245,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "500"
+    default_value: 500
     filterable: true
     max_value: 5000
     min_value: 1
@@ -259,7 +258,7 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    default_value: "true"
+    default_value: true
     filterable: true
     orderable: true
 
@@ -279,7 +278,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "4"
+    default_value: 4
     filterable: true
     max_value: 16
     min_value: 1
@@ -292,7 +291,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "4"
+    default_value: 4
     filterable: true
     max_value: 1000
     min_value: 1
@@ -303,7 +302,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "500"
+    default_value: 500
     filterable: true
     max_value: 1000
     min_value: 1

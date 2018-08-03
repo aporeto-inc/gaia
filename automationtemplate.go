@@ -115,7 +115,7 @@ func NewAutomationTemplate() *AutomationTemplate {
 	return &AutomationTemplate{
 		ModelVersion: 1,
 		Entitlements: map[string][]elemental.Operation{},
-		Kind:         "Condition",
+		Kind:         AutomationTemplateKindCondition,
 		Parameters:   map[string]types.AutomationTemplateParameter{},
 	}
 }

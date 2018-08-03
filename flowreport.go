@@ -229,7 +229,7 @@ func NewFlowReport() *FlowReport {
 
 	return &FlowReport{
 		ModelVersion:   1,
-		ObservedAction: "NotApplicable",
+		ObservedAction: FlowReportObservedActionNotApplicable,
 	}
 }
 

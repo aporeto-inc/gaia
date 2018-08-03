@@ -132,8 +132,8 @@ func NewRESTAPISpec() *RESTAPISpec {
 	return &RESTAPISpec{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
 		Endpoints:      types.ExposedAPIList{},
+		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
 	}

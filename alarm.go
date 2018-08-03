@@ -148,7 +148,7 @@ func NewAlarm() *Alarm {
 		Data:           []map[string]string{},
 		NormalizedTags: []string{},
 		Occurrences:    []time.Time{},
-		Status:         "Open",
+		Status:         AlarmStatusOpen,
 	}
 }
 

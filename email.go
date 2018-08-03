@@ -114,7 +114,7 @@ func NewEmail() *Email {
 
 	return &Email{
 		ModelVersion: 1,
-		Type:         "Plain",
+		Type:         EmailTypePlain,
 	}
 }
 

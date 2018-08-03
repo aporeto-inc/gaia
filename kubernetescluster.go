@@ -136,7 +136,7 @@ func NewKubernetesCluster() *KubernetesCluster {
 
 	return &KubernetesCluster{
 		ModelVersion:   1,
-		ActivationType: "KubeSquall",
+		ActivationType: KubernetesClusterActivationTypeKubeSquall,
 	}
 }
 

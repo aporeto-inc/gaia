@@ -222,14 +222,14 @@ func NewAccount() *Account {
 
 	return &Account{
 		ModelVersion:             1,
-		AssociatedAWSPolicies:    map[string]string{},
 		AssociatedPlanKey:        "aporeto.plan.free",
 		AssociatedQuotaPolicies:  map[string]string{},
-		LDAPBindSearchFilter:     "uid={USERNAME}",
-		LDAPConnSecurityProtocol: "InbandTLS",
-		LDAPIgnoredKeys:          []string{},
+		AssociatedAWSPolicies:    map[string]string{},
 		LDAPSubjectKey:           "uid",
-		Status:                   "Pending",
+		LDAPIgnoredKeys:          []string{},
+		LDAPConnSecurityProtocol: AccountLDAPConnSecurityProtocolInbandTLS,
+		LDAPBindSearchFilter:     "uid={USERNAME}",
+		Status:                   AccountStatusPending,
 	}
 }
 

@@ -149,10 +149,10 @@ func NewFlowStatistic() *FlowStatistic {
 		ModelVersion:   1,
 		DataPoints:     []map[string]interface{}{},
 		DestinationIDs: []string{},
-		Metric:         "Flows",
-		Mode:           "Accepted",
+		Metric:         FlowStatisticMetricFlows,
+		Mode:           FlowStatisticModeAccepted,
 		SourceIDs:      []string{},
-		Type:           "Serie",
+		Type:           FlowStatisticTypeSerie,
 	}
 }
 

@@ -186,7 +186,7 @@ func NewProcessingUnit() *ProcessingUnit {
 		Metadata:          []string{},
 		NetworkServices:   types.ProcessingUnitServicesList{},
 		NormalizedTags:    []string{},
-		OperationalStatus: "Initialized",
+		OperationalStatus: ProcessingUnitOperationalStatusInitialized,
 	}
 }
 

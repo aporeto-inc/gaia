@@ -172,11 +172,11 @@ func NewAutomation() *Automation {
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		Entitlements:   map[string][]elemental.Operation{},
 		Events:         map[string][]elemental.EventType{},
+		Entitlements:   map[string][]elemental.Operation{},
 		NormalizedTags: []string{},
 		Parameters:     map[string]interface{}{},
-		Trigger:        "Time",
+		Trigger:        AutomationTriggerTime,
 	}
 }
 

@@ -139,7 +139,7 @@ func NewCertificate() *Certificate {
 
 	return &Certificate{
 		ModelVersion: 1,
-		Status:       "Valid",
+		Status:       CertificateStatusValid,
 	}
 }
 

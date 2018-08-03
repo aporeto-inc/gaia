@@ -206,9 +206,9 @@ func NewPolicy() *Policy {
 
 	return &Policy{
 		ModelVersion:   1,
+		Annotations:    map[string][]string{},
 		AllObjectTags:  []string{},
 		AllSubjectTags: []string{},
-		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},

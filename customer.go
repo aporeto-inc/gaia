@@ -131,8 +131,8 @@ func NewCustomer() *Customer {
 
 	return &Customer{
 		ModelVersion: 1,
-		Provider:     "Aporeto",
-		State:        "SubscribePending",
+		Provider:     CustomerProviderAporeto,
+		State:        CustomerStateSubscribePending,
 	}
 }
 

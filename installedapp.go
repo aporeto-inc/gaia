@@ -130,7 +130,7 @@ func NewInstalledApp() *InstalledApp {
 		Data:           nil,
 		Parameters:     []*types.AppParameter{},
 		RelatedObjects: []*types.AppRelatedObject{},
-		Status:         "Pending",
+		Status:         InstalledAppStatusPending,
 	}
 }
 

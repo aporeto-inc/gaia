@@ -170,7 +170,7 @@ func NewHookPolicy() *HookPolicy {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Metadata:       []string{},
-		Mode:           "Pre",
+		Mode:           HookPolicyModePre,
 		NormalizedTags: []string{},
 	}
 }

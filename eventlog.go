@@ -126,7 +126,7 @@ func NewEventLog() *EventLog {
 
 	return &EventLog{
 		ModelVersion: 1,
-		Level:        "Info",
+		Level:        EventLogLevelInfo,
 	}
 }
 

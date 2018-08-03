@@ -113,7 +113,7 @@ func NewInvoice() *Invoice {
 
 	return &Invoice{
 		ModelVersion:     1,
-		BilledToProvider: "Aporeto",
+		BilledToProvider: InvoiceBilledToProviderAporeto,
 	}
 }
 

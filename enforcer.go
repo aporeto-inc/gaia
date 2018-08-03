@@ -199,9 +199,9 @@ func NewEnforcer() *Enforcer {
 		ModelVersion:      1,
 		Annotations:       map[string][]string{},
 		AssociatedTags:    []string{},
-		Metadata:          []string{},
 		NormalizedTags:    []string{},
-		OperationalStatus: "Registered",
+		Metadata:          []string{},
+		OperationalStatus: EnforcerOperationalStatusRegistered,
 	}
 }
 

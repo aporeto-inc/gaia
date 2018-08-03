@@ -124,10 +124,10 @@ func NewPolicyRule() *PolicyRule {
 
 	return &PolicyRule{
 		ModelVersion:      1,
+		FilePaths:         FilePathsList{},
 		EnforcerProfiles:  EnforcerProfilesList{},
 		ExternalNetworks:  ExternalNetworksList{},
 		ExternalServices:  ExternalServicesList{},
-		FilePaths:         FilePathsList{},
 		IsolationProfiles: IsolationProfilesList{},
 		Namespaces:        NamespacesList{},
 		Services:          ServicesList{},

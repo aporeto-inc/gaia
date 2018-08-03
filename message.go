@@ -146,7 +146,7 @@ func NewMessage() *Message {
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		Level:          "Info",
+		Level:          MessageLevelInfo,
 		NormalizedTags: []string{},
 	}
 }
