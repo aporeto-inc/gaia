@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// EventLogIndexes lists the attribute compound indexes.
+var EventLogIndexes = [][]string{}
+
 // EventLogLevelValue represents the possible values for attribute "level".
 type EventLogLevelValue string
 
@@ -123,7 +126,7 @@ func NewEventLog() *EventLog {
 
 	return &EventLog{
 		ModelVersion: 1,
-		Level:        "Info",
+		Level:        EventLogLevelInfo,
 	}
 }
 

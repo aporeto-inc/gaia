@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// EnforcerIndexes lists the attribute compound indexes.
+var EnforcerIndexes = [][]string{}
+
 // EnforcerOperationalStatusValue represents the possible values for attribute "operationalStatus".
 type EnforcerOperationalStatusValue string
 
@@ -196,9 +199,9 @@ func NewEnforcer() *Enforcer {
 		ModelVersion:      1,
 		Annotations:       map[string][]string{},
 		AssociatedTags:    []string{},
-		Metadata:          []string{},
 		NormalizedTags:    []string{},
-		OperationalStatus: "Registered",
+		Metadata:          []string{},
+		OperationalStatus: EnforcerOperationalStatusRegistered,
 	}
 }
 

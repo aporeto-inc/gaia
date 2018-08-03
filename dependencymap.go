@@ -8,6 +8,9 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
+// DependencyMapIndexes lists the attribute compound indexes.
+var DependencyMapIndexes = [][]string{}
+
 // DependencyMapIdentity represents the Identity of the object.
 var DependencyMapIdentity = elemental.Identity{
 	Name:     "dependencymap",

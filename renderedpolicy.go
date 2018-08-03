@@ -8,6 +8,9 @@ import (
 	"go.aporeto.io/gaia/constants"
 )
 
+// RenderedPolicyIndexes lists the attribute compound indexes.
+var RenderedPolicyIndexes = [][]string{}
+
 // RenderedPolicyIdentity represents the Identity of the object.
 var RenderedPolicyIdentity = elemental.Identity{
 	Name:     "renderedpolicy",

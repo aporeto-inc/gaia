@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// HookPolicyIndexes lists the attribute compound indexes.
+var HookPolicyIndexes = [][]string{}
+
 // HookPolicyModeValue represents the possible values for attribute "mode".
 type HookPolicyModeValue string
 
@@ -167,7 +170,7 @@ func NewHookPolicy() *HookPolicy {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Metadata:       []string{},
-		Mode:           "Pre",
+		Mode:           HookPolicyModePre,
 		NormalizedTags: []string{},
 	}
 }

@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// APIAuthorizationPolicyIndexes lists the attribute compound indexes.
+var APIAuthorizationPolicyIndexes = [][]string{}
+
 // APIAuthorizationPolicyIdentity represents the Identity of the object.
 var APIAuthorizationPolicyIdentity = elemental.Identity{
 	Name:     "apiauthorizationpolicy",

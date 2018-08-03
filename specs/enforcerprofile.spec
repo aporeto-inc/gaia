@@ -90,7 +90,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "16384"
+    default_value: 16384
     max_value: 262144
     orderable: true
 
@@ -158,7 +158,7 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    default_value: "false"
+    default_value: false
     orderable: true
 
   - name: linuxProcessesSupportEnabled
@@ -166,7 +166,7 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    default_value: "true"
+    default_value: true
 
   - name: metadataExtractor
     description: Select which metadata extractor to use to process new processing
@@ -212,7 +212,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "4"
+    default_value: 4
     max_value: 16
     min_value: 1
     orderable: true
@@ -222,7 +222,6 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "0"
     max_value: 1000
     orderable: true
 
@@ -231,7 +230,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "500"
+    default_value: 500
     max_value: 5000
     min_value: 1
     orderable: true
@@ -243,7 +242,7 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    default_value: "true"
+    default_value: true
     orderable: true
 
   - name: targetNetworks
@@ -261,7 +260,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "4"
+    default_value: 4
     max_value: 16
     min_value: 1
     orderable: true
@@ -273,7 +272,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "4"
+    default_value: 4
     max_value: 1000
     min_value: 1
     orderable: true
@@ -283,7 +282,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "500"
+    default_value: 500
     max_value: 1000
     min_value: 1
     orderable: true

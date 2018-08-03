@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// AWSRegisterIndexes lists the attribute compound indexes.
+var AWSRegisterIndexes = [][]string{}
+
 // AWSRegisterIdentity represents the Identity of the object.
 var AWSRegisterIdentity = elemental.Identity{
 	Name:     "awsregister",

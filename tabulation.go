@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// TabulationIndexes lists the attribute compound indexes.
+var TabulationIndexes = [][]string{}
+
 // TabulationIdentity represents the Identity of the object.
 var TabulationIdentity = elemental.Identity{
 	Name:     "tabulation",

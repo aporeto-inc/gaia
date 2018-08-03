@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// AuthorityIndexes lists the attribute compound indexes.
+var AuthorityIndexes = [][]string{}
+
 // AuthorityIdentity represents the Identity of the object.
 var AuthorityIdentity = elemental.Identity{
 	Name:     "authority",

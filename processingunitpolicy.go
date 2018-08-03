@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// ProcessingUnitPolicyIndexes lists the attribute compound indexes.
+var ProcessingUnitPolicyIndexes = [][]string{}
+
 // ProcessingUnitPolicyActionValue represents the possible values for attribute "action".
 type ProcessingUnitPolicyActionValue string
 

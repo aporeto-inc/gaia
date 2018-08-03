@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// PolicyIndexes lists the attribute compound indexes.
+var PolicyIndexes = [][]string{}
+
 // PolicyTypeValue represents the possible values for attribute "type".
 type PolicyTypeValue string
 
@@ -203,9 +206,9 @@ func NewPolicy() *Policy {
 
 	return &Policy{
 		ModelVersion:   1,
+		Annotations:    map[string][]string{},
 		AllObjectTags:  []string{},
 		AllSubjectTags: []string{},
-		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},

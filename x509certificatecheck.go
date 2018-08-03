@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// X509CertificateCheckIndexes lists the attribute compound indexes.
+var X509CertificateCheckIndexes = [][]string{}
+
 // X509CertificateCheckIdentity represents the Identity of the object.
 var X509CertificateCheckIdentity = elemental.Identity{
 	Name:     "x509certificatecheck",

@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// CategoryIndexes lists the attribute compound indexes.
+var CategoryIndexes = [][]string{}
+
 // CategoryIdentity represents the Identity of the object.
 var CategoryIdentity = elemental.Identity{
 	Name:     "category",

@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// NetworkAccessPolicyIndexes lists the attribute compound indexes.
+var NetworkAccessPolicyIndexes = [][]string{}
+
 // NetworkAccessPolicyActionValue represents the possible values for attribute "action".
 type NetworkAccessPolicyActionValue string
 
@@ -193,13 +196,13 @@ func NewNetworkAccessPolicy() *NetworkAccessPolicy {
 
 	return &NetworkAccessPolicy{
 		ModelVersion:          1,
-		Action:                "Allow",
+		Action:                NetworkAccessPolicyActionAllow,
 		Annotations:           map[string][]string{},
 		AssociatedTags:        []string{},
 		DestinationPorts:      []string{},
 		Metadata:              []string{},
 		NormalizedTags:        []string{},
-		ObservedTrafficAction: "Continue",
+		ObservedTrafficAction: NetworkAccessPolicyObservedTrafficActionContinue,
 	}
 }
 

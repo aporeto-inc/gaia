@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// PrivateKeyIndexes lists the attribute compound indexes.
+var PrivateKeyIndexes = [][]string{}
+
 // PrivateKeyIdentity represents the Identity of the object.
 var PrivateKeyIdentity = elemental.Identity{
 	Name:     "privatekey",

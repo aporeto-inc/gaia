@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// CertificateIndexes lists the attribute compound indexes.
+var CertificateIndexes = [][]string{}
+
 // CertificateStatusValue represents the possible values for attribute "status".
 type CertificateStatusValue string
 
@@ -136,7 +139,7 @@ func NewCertificate() *Certificate {
 
 	return &Certificate{
 		ModelVersion: 1,
-		Status:       "Valid",
+		Status:       CertificateStatusValid,
 	}
 }
 

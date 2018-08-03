@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// K8SClusterIndexes lists the attribute compound indexes.
+var K8SClusterIndexes = [][]string{}
+
 // K8SClusterActivationTypeValue represents the possible values for attribute "activationType".
 type K8SClusterActivationTypeValue string
 
@@ -171,11 +174,11 @@ func NewK8SCluster() *K8SCluster {
 
 	return &K8SCluster{
 		ModelVersion:      1,
-		ActivationType:    "KubeSquall",
+		ActivationType:    K8SClusterActivationTypeKubeSquall,
 		Annotations:       map[string][]string{},
 		AssociatedTags:    []string{},
 		Metadata:          []string{},
-		NetworkPolicyType: "Kubernetes",
+		NetworkPolicyType: K8SClusterNetworkPolicyTypeKubernetes,
 		NormalizedTags:    []string{},
 	}
 }

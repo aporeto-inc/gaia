@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// MessageIndexes lists the attribute compound indexes.
+var MessageIndexes = [][]string{}
+
 // MessageLevelValue represents the possible values for attribute "level".
 type MessageLevelValue string
 
@@ -143,7 +146,7 @@ func NewMessage() *Message {
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		Level:          "Info",
+		Level:          MessageLevelInfo,
 		NormalizedTags: []string{},
 	}
 }

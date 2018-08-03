@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// AWSAccountIndexes lists the attribute compound indexes.
+var AWSAccountIndexes = [][]string{}
+
 // AWSAccountIdentity represents the Identity of the object.
 var AWSAccountIdentity = elemental.Identity{
 	Name:     "awsaccount",

@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// PolicyRuleIndexes lists the attribute compound indexes.
+var PolicyRuleIndexes = [][]string{}
+
 // PolicyRuleIdentity represents the Identity of the object.
 var PolicyRuleIdentity = elemental.Identity{
 	Name:     "policyrule",
@@ -121,10 +124,10 @@ func NewPolicyRule() *PolicyRule {
 
 	return &PolicyRule{
 		ModelVersion:      1,
+		FilePaths:         FilePathsList{},
 		EnforcerProfiles:  EnforcerProfilesList{},
 		ExternalNetworks:  ExternalNetworksList{},
 		ExternalServices:  ExternalServicesList{},
-		FilePaths:         FilePathsList{},
 		IsolationProfiles: IsolationProfilesList{},
 		Namespaces:        NamespacesList{},
 		Services:          ServicesList{},

@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// AlarmIndexes lists the attribute compound indexes.
+var AlarmIndexes = [][]string{}
+
 // AlarmStatusValue represents the possible values for attribute "status".
 type AlarmStatusValue string
 
@@ -145,7 +148,7 @@ func NewAlarm() *Alarm {
 		Data:           []map[string]string{},
 		NormalizedTags: []string{},
 		Occurrences:    []time.Time{},
-		Status:         "Open",
+		Status:         AlarmStatusOpen,
 	}
 }
 

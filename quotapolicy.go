@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// QuotaPolicyIndexes lists the attribute compound indexes.
+var QuotaPolicyIndexes = [][]string{}
+
 // QuotaPolicyIdentity represents the Identity of the object.
 var QuotaPolicyIdentity = elemental.Identity{
 	Name:     "quotapolicy",

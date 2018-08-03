@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// RevocationIndexes lists the attribute compound indexes.
+var RevocationIndexes = [][]string{}
+
 // RevocationIdentity represents the Identity of the object.
 var RevocationIdentity = elemental.Identity{
 	Name:     "revocation",

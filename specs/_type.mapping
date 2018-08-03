@@ -1,219 +1,55 @@
-
 actions_list:
   elemental:
     type: map[string]map[string]interface{}
+
+alarm_data:
+  elemental:
+    type: '[]map[string]string'
+    init: '[]map[string]string{}'
+
+alarm_occurrences:
+  elemental:
+    type: '[]time.Time'
+    init: '[]time.Time{}'
 
 annotations:
   elemental:
     type: map[string][]string
     init: map[string][]string{}
 
-authorized_identities:
+api_services_entities:
   elemental:
-    type: map[string]bool
-    init: map[string]bool{}
+    type: ServicesList
+    init: ServicesList{}
 
-selectors_list:
+app_parameters:
+  elemental:
+    type: '[]*types.AppParameter'
+    init: '[]*types.AppParameter{}'
+    import: go.aporeto.io/gaia/types
+
+app_relatedobjects:
+  elemental:
+    type: '[]*types.AppRelatedObject'
+    init: '[]*types.AppRelatedObject{}'
+    import: go.aporeto.io/gaia/types
+
+app_versionparameters:
+  elemental:
+    type: map[string][]*types.AppParameter
+    init: map[string][]*types.AppParameter{}
+    import: go.aporeto.io/gaia/types
+
+arch_list:
+  elemental:
+    type: types.ArchitecturesTypeList
+    init: types.ArchitecturesTypeList{}
+    import: go.aporeto.io/gaia/types
+
+associated_policies:
   elemental:
     type: map[string]string
-
-datapoints_list:
-  elemental:
-    type: '[]map[string]interface{}'
-    init: '[]map[string]interface{}{}'
-
-processingunit_transient_tags_map:
-  elemental:
-    type: map[string][]string
-
-file_entities:
-  elemental:
-    type: FilePathsList
-    init: FilePathsList{}
-
-identity_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
-ignore_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
-invoicerecord_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
-metadata_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
-namespace_entities:
-  elemental:
-    type:  NamespacesList
-    init: NamespacesList{}
-
-deprecated_network_entities:
-  elemental:
-    type: ExternalServicesList
-    init: ExternalServicesList{}
-
-network_entities:
-  elemental:
-    type: ExternalNetworksList
-    init: ExternalNetworksList{}
-
-policies_list:
-  elemental:
-    type: '[][]string'
-
-network_access_policies_list:
-  elemental:
-    type: '[]*NetworkAccessPolicy'
-
-raw_data:
-  elemental:
-    type: interface{}
-
-relations_list:
-  elemental:
-    type: '[]string'
-
-policy_rules_list:
-  elemental:
-    type: PolicyRulesList
-    init: PolicyRulesList{}
-
-rendered_policy:
-  elemental:
-    type: map[string]PolicyRulesList
-    init: |-
-      map[string]PolicyRulesList{
-        string(constants.RenderedPolicyTypeNetwork): PolicyRulesList{},
-        string(constants.RenderedPolicyTypeFile): PolicyRulesList{},
-        string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
-      }
-    import: go.aporeto.io/gaia/constants
-
-enforcerprofiles_list:
-  elemental:
-    type: EnforcerProfilesList
-    init: EnforcerProfilesList{}
-
-tags_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
-target_networks_list:
-  elemental:
-    type: '[]string'
-
-excluded_networks_list:
-  elemental:
-    type: '[]string'
-
-excluded_interfaces_list:
-  elemental:
-    type: '[]string'
-
-target_tags:
-  elemental:
-    type: '[][]string'
-
-trust_profile:
-  elemental:
-    type: map[string]string
-
-collected_info:
-  elemental:
-    type: map[string]string
-
-ports_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
-vulnerabilities:
-  elemental:
-    type: '[]*Vulnerability'
-
-vulnerability_level:
-  elemental:
-    type: constants.Vulnerability
-    init: constants.VulnerabilityUnknown
-    import: go.aporeto.io/gaia/constants
-
-graphedges_map:
-  elemental:
-    type: types.GraphEdgeMap
-    init: types.GraphEdgeMap{}
-    import: go.aporeto.io/gaia/types
-
-graphnodes_map:
-  elemental:
-    type: types.GraphNodeMap
-    init: types.GraphNodeMap{}
-    import: go.aporeto.io/gaia/types
-
-graphgroups_map:
-  elemental:
-    type: types.GraphGroupMap
-    init: types.GraphGroupMap{}
-    import: go.aporeto.io/gaia/types
-
-graphclaims_map:
-  elemental:
-    type: map[string][]string
-    init: map[string][]string{}
-
-view_suggestions:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
-flowstatistic_origin_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
-authorization_map:
-  elemental:
-    type: map[string][]string
-    init: map[string][]string{}
-
-tabulated_data:
-  elemental:
-    type: '[][]interface{}'
-    init: '[][]interface{}{}'
-
-ip_records:
-  elemental:
-    type: '[]*types.IPRecord'
-    init: '[]*types.IPRecord{}'
-    import: go.aporeto.io/gaia/types
-
-cron_expression:
-  elemental:
-    type: string
-
-processingunit:
-  elemental:
-    type: '*ProcessingUnit'
-
-trusted_cas_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
-system_call_list:
-  elemental:
-    type: '[]types.AuditSystemCallType'
-    init: '[]types.AuditSystemCallType{}'
-    import: go.aporeto.io/gaia/types
+    init: map[string]string{}
 
 audit_profile_rule_list:
   elemental:
@@ -229,16 +65,35 @@ audit_profiles:
   elemental:
     type: AuditProfilesList
 
-time_series_results:
+authorization_map:
   elemental:
-    type: '[]*types.TimeSeriesQueryResults'
-    init: '[]*types.TimeSeriesQueryResults{}'
-    import: go.aporeto.io/gaia/types
+    type: map[string][]string
+    init: map[string][]string{}
 
-syscall_rules:
+authorized_identities:
   elemental:
-    type: types.SyscallEnforcementRulesMap
-    init: types.SyscallEnforcementRulesMap{}
+    type: map[string]bool
+    init: map[string]bool{}
+
+automation_entitlements:
+  elemental:
+    type: map[string][]elemental.Operation
+    init: map[string][]elemental.Operation{}
+
+automation_events:
+  elemental:
+    type: map[string][]elemental.EventType
+    init: map[string][]elemental.EventType{}
+
+automation_parameters:
+  elemental:
+    type: map[string]interface{}
+    init: map[string]interface{}{}
+
+automation_template_parameters:
+  elemental:
+    type: map[string]types.AutomationTemplateParameter
+    init: map[string]types.AutomationTemplateParameter{}
     import: go.aporeto.io/gaia/types
 
 cap_map:
@@ -247,21 +102,50 @@ cap_map:
     init: types.CapabilitiesTypeMap{}
     import: go.aporeto.io/gaia/types
 
-arch_list:
+claims:
   elemental:
-    type: types.ArchitecturesTypeList
-    init: types.ArchitecturesTypeList{}
-    import: go.aporeto.io/gaia/types
+    type: '*claims.MidgardClaims'
+    init: claims.NewMidgardClaims()
+    import: go.aporeto.io/midgard-lib/claims
 
-isolation_profile_entities:
+collected_info:
   elemental:
-    type: IsolationProfilesList
-    init: IsolationProfilesList{}
+    type: map[string]string
 
-syscall_action:
+cron_expression:
   elemental:
-    type: types.SyscallEnforcementAction
-    import: go.aporeto.io/gaia/types
+    type: string
+
+datapoints_list:
+  elemental:
+    type: '[]map[string]interface{}'
+    init: '[]map[string]interface{}{}'
+
+deprecated_network_entities:
+  elemental:
+    type: ExternalServicesList
+    init: ExternalServicesList{}
+
+elemental_identitifable:
+  elemental:
+    type: elemental.Identifiable
+
+elemental_operation:
+  elemental:
+    type: elemental.Operation
+
+enforcerprofiles_list:
+  elemental:
+    type: EnforcerProfilesList
+    init: EnforcerProfilesList{}
+
+excluded_interfaces_list:
+  elemental:
+    type: '[]string'
+
+excluded_networks_list:
+  elemental:
+    type: '[]string'
 
 exported_data:
   elemental:
@@ -270,13 +154,51 @@ exported_data:
 
 exported_data_content:
   elemental:
-    type: 'map[string][]map[string]interface{}'
-    init: 'map[string][]map[string]interface{}{}'
+    type: map[string][]map[string]interface{}
+    init: map[string][]map[string]interface{}{}
 
-processing_unit_services_list:
+exposed_api_list:
   elemental:
-    type: types.ProcessingUnitServicesList
-    init: types.ProcessingUnitServicesList{}
+    type: types.ExposedAPIList
+    init: types.ExposedAPIList{}
+    import: go.aporeto.io/gaia/types
+
+extensions_list:
+  elemental:
+    type: '[]string'
+    init: '[]string{}'
+
+file_entities:
+  elemental:
+    type: FilePathsList
+    init: FilePathsList{}
+
+flowstatistic_origin_list:
+  elemental:
+    type: '[]string'
+    init: '[]string{}'
+
+graphclaims_map:
+  elemental:
+    type: map[string][]string
+    init: map[string][]string{}
+
+graphedges_map:
+  elemental:
+    type: types.GraphEdgeMap
+    init: types.GraphEdgeMap{}
+    import: go.aporeto.io/gaia/types
+
+graphgroups_map:
+  elemental:
+    type: types.GraphGroupMap
+    init: types.GraphGroupMap{}
+    import: go.aporeto.io/gaia/types
+
+graphnodes_map:
+  elemental:
+    type: types.GraphNodeMap
+    init: types.GraphNodeMap{}
     import: go.aporeto.io/gaia/types
 
 host_services_list:
@@ -285,73 +207,24 @@ host_services_list:
     init: types.HostServicesList{}
     import: go.aporeto.io/gaia/types
 
-app_parameters:
-  elemental:
-    type: '[]*types.AppParameter'
-    init: '[]*types.AppParameter{}'
-    import: go.aporeto.io/gaia/types
-
-app_relatedobjects:
-  elemental:
-    type: '[]*types.AppRelatedObject'
-    init: '[]*types.AppRelatedObject{}'
-    import: go.aporeto.io/gaia/types
-
-logs:
-  elemental:
-    type: map[string]string
-    init: map[string]string{}
-
-claims:
-  elemental:
-    type: '*claims.MidgardClaims'
-    init: claims.NewMidgardClaims()
-    import: go.aporeto.io/midgard-lib/claims
-
-metadata:
-  elemental:
-    type: map[string]interface{}
-    init: map[string]interface{}{}
-
-raw_json:
-  elemental:
-    type: json.RawMessage
-    import: encoding/json
-
-elemental_identitifable:
-  elemental:
-    type:  elemental.Identifiable
-
-elemental_operation:
-  elemental:
-    type: elemental.Operation
-
-associated_policies:
-  elemental:
-    type: map[string]string
-    init: map[string]string{}
-
-list_emails:
+identity_list:
   elemental:
     type: '[]string'
+    init: '[]string{}'
 
-list_attachments:
+ignore_list:
   elemental:
-    type: map[string]string
-
-tags_map:
-  elemental:
-    type: map[string]string
-    init: map[string]string{}
+    type: '[]string'
+    init: '[]string{}'
 
 int64:
   elemental:
     type: int64
 
-tsdb_fields:
+invoicerecord_list:
   elemental:
-    type: map[string]interface{}
-    init: map[string]interface{}{}
+    type: '[]string'
+    init: '[]string{}'
 
 ip_list:
   elemental:
@@ -359,16 +232,16 @@ ip_list:
     init: types.IPList{}
     import: go.aporeto.io/gaia/types
 
-exposed_api_list:
+ip_records:
   elemental:
-    type: types.ExposedAPIList
-    init: types.ExposedAPIList{}
+    type: '[]*types.IPRecord'
+    init: '[]*types.IPRecord{}'
     import: go.aporeto.io/gaia/types
 
-api_services_entities:
+isolation_profile_entities:
   elemental:
-    type: ServicesList
-    init: ServicesList{}
+    type: IsolationProfilesList
+    init: IsolationProfilesList{}
 
 jaeger_batch:
   elemental:
@@ -376,54 +249,180 @@ jaeger_batch:
     init: '&jaeger.Batch{}'
     import: github.com/uber/jaeger-client-go/thrift-gen/jaeger
 
-automation_parameters:
+list_attachments:
+  elemental:
+    type: map[string]string
+
+list_emails:
+  elemental:
+    type: '[]string'
+
+logs:
+  elemental:
+    type: map[string]string
+    init: map[string]string{}
+
+metadata:
   elemental:
     type: map[string]interface{}
     init: map[string]interface{}{}
 
-automation_events:
+metadata_list:
   elemental:
-    type: map[string][]elemental.EventType
-    init: map[string][]elemental.EventType{}
+    type: '[]string'
+    init: '[]string{}'
 
-automation_entitlements:
+namespace_entities:
   elemental:
-    type: map[string][]elemental.Operation
-    init: map[string][]elemental.Operation{}
+    type: NamespacesList
+    init: NamespacesList{}
 
-automation_template_parameters:
+network_access_policies_list:
   elemental:
-    type: map[string]types.AutomationTemplateParameter
-    init: map[string]types.AutomationTemplateParameter{}
+    type: '[]*NetworkAccessPolicy'
+
+network_entities:
+  elemental:
+    type: ExternalNetworksList
+    init: ExternalNetworksList{}
+
+policies_list:
+  elemental:
+    type: '[][]string'
+
+policy_rules_list:
+  elemental:
+    type: PolicyRulesList
+    init: PolicyRulesList{}
+
+ports_list:
+  elemental:
+    type: '[]string'
+    init: '[]string{}'
+
+processing_unit_services_list:
+  elemental:
+    type: types.ProcessingUnitServicesList
+    init: types.ProcessingUnitServicesList{}
     import: go.aporeto.io/gaia/types
 
-alarm_data:
+processingunit:
   elemental:
-    type: '[]map[string]string'
-    init: '[]map[string]string{}'
+    type: '*ProcessingUnit'
 
-alarm_occurrences:
+processingunit_transient_tags_map:
   elemental:
-    type: '[]time.Time'
-    init: '[]time.Time{}'
+    type: map[string][]string
+
+raw_data:
+  elemental:
+    type: interface{}
+
+raw_json:
+  elemental:
+    type: json.RawMessage
+    import: encoding/json
+
+relations_list:
+  elemental:
+    type: '[]string'
+
+rendered_policy:
+  elemental:
+    type: map[string]PolicyRulesList
+    init: |-
+      map[string]PolicyRulesList{
+        string(constants.RenderedPolicyTypeNetwork): PolicyRulesList{},
+        string(constants.RenderedPolicyTypeFile): PolicyRulesList{},
+        string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
+      }
+    import: go.aporeto.io/gaia/constants
 
 scopes_list:
   elemental:
     type: '[]string'
     init: '[]string{}'
 
-extensions_list:
+selectors_list:
+  elemental:
+    type: map[string]string
+
+service_data:
+  elemental:
+    type: interface{}
+    init: nil
+
+syscall_action:
+  elemental:
+    type: types.SyscallEnforcementAction
+    import: go.aporeto.io/gaia/types
+
+syscall_rules:
+  elemental:
+    type: types.SyscallEnforcementRulesMap
+    init: types.SyscallEnforcementRulesMap{}
+    import: go.aporeto.io/gaia/types
+
+system_call_list:
+  elemental:
+    type: '[]types.AuditSystemCallType'
+    init: '[]types.AuditSystemCallType{}'
+    import: go.aporeto.io/gaia/types
+
+tabulated_data:
+  elemental:
+    type: '[][]interface{}'
+    init: '[][]interface{}{}'
+
+tags_list:
   elemental:
     type: '[]string'
     init: '[]string{}'
 
-app_versionparameters:
+tags_map:
   elemental:
-    type: 'map[string][]*types.AppParameter'
-    init: 'map[string][]*types.AppParameter{}'
+    type: map[string]string
+    init: map[string]string{}
+
+target_networks_list:
+  elemental:
+    type: '[]string'
+
+target_tags:
+  elemental:
+    type: '[][]string'
+
+time_series_results:
+  elemental:
+    type: '[]*types.TimeSeriesQueryResults'
+    init: '[]*types.TimeSeriesQueryResults{}'
     import: go.aporeto.io/gaia/types
 
-service_data:
+trust_profile:
   elemental:
-    type: 'interface{}'
-    init: 'nil'
+    type: map[string]string
+
+trusted_cas_list:
+  elemental:
+    type: '[]string'
+    init: '[]string{}'
+
+tsdb_fields:
+  elemental:
+    type: map[string]interface{}
+    init: map[string]interface{}{}
+
+view_suggestions:
+  elemental:
+    type: '[]string'
+    init: '[]string{}'
+
+vulnerabilities:
+  elemental:
+    type: '[]*Vulnerability'
+
+vulnerability_level:
+  elemental:
+    type: constants.Vulnerability
+    init: constants.VulnerabilityUnknown
+    import: go.aporeto.io/gaia/constants

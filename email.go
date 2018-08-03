@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// EmailIndexes lists the attribute compound indexes.
+var EmailIndexes = [][]string{}
+
 // EmailTypeValue represents the possible values for attribute "type".
 type EmailTypeValue string
 
@@ -111,7 +114,7 @@ func NewEmail() *Email {
 
 	return &Email{
 		ModelVersion: 1,
-		Type:         "Plain",
+		Type:         EmailTypePlain,
 	}
 }
 

@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// CustomerIndexes lists the attribute compound indexes.
+var CustomerIndexes = [][]string{}
+
 // CustomerProviderValue represents the possible values for attribute "provider".
 type CustomerProviderValue string
 
@@ -128,8 +131,8 @@ func NewCustomer() *Customer {
 
 	return &Customer{
 		ModelVersion: 1,
-		Provider:     "Aporeto",
-		State:        "SubscribePending",
+		Provider:     CustomerProviderAporeto,
+		State:        CustomerStateSubscribePending,
 	}
 }
 

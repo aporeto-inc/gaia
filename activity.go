@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// ActivityIndexes lists the attribute compound indexes.
+var ActivityIndexes = [][]string{}
+
 // ActivityIdentity represents the Identity of the object.
 var ActivityIdentity = elemental.Identity{
 	Name:     "activity",

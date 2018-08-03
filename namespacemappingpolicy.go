@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// NamespaceMappingPolicyIndexes lists the attribute compound indexes.
+var NamespaceMappingPolicyIndexes = [][]string{}
+
 // NamespaceMappingPolicyIdentity represents the Identity of the object.
 var NamespaceMappingPolicyIdentity = elemental.Identity{
 	Name:     "namespacemappingpolicy",

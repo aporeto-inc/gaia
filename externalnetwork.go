@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// ExternalNetworkIndexes lists the attribute compound indexes.
+var ExternalNetworkIndexes = [][]string{}
+
 // ExternalNetworkIdentity represents the Identity of the object.
 var ExternalNetworkIdentity = elemental.Identity{
 	Name:     "externalnetwork",
@@ -104,15 +107,14 @@ type ExternalNetwork struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Port refers to network port which could be a single number or 100:2000 to
-	// represent a range of ports.
-	Port string `json:"port" bson:"port" mapstructure:"port,omitempty"`
+	// List of single ports or range (xx:yy).
+	Ports []string `json:"ports" bson:"ports" mapstructure:"ports,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Protocol refers to network protocol like TCP/UDP or the number of the protocol.
-	Protocol string `json:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
+	// List of protocols (tcp, udp, or protocol number).
+	Protocols []string `json:"protocols" bson:"protocols" mapstructure:"protocols,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -131,7 +133,12 @@ func NewExternalNetwork() *ExternalNetwork {
 		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
-		Port:           "1:65535",
+		Ports: []string{
+			"1:65535",
+		},
+		Protocols: []string{
+			"tcp",
+		},
 	}
 }
 
@@ -314,18 +321,6 @@ func (o *ExternalNetwork) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("port", o.Port, `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("protocol", o.Protocol); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidatePattern("protocol", o.Protocol, `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`, true); err != nil {
-		errors = append(errors, err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -503,17 +498,19 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "external",
 	},
-	"Port": elemental.AttributeSpecification{
-		AllowedChars:   `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`,
+	"Ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Port",
-		DefaultValue:   "1:65535",
-		Description: `Port refers to network port which could be a single number or 100:2000 to
-represent a range of ports.`,
-		Exposed: true,
-		Name:    "port",
-		Stored:  true,
-		Type:    "string",
+		ConvertedName:  "Ports",
+		DefaultValue: []string{
+			"1:65535",
+		},
+		Description: `List of single ports or range (xx:yy).`,
+		Exposed:     true,
+		Name:        "ports",
+		Required:    true,
+		Stored:      true,
+		SubType:     "string",
+		Type:        "list",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -526,16 +523,19 @@ represent a range of ports.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"Protocol": elemental.AttributeSpecification{
-		AllowedChars:   `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`,
+	"Protocols": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Protocol",
-		Description:    `Protocol refers to network protocol like TCP/UDP or the number of the protocol.`,
-		Exposed:        true,
-		Name:           "protocol",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		ConvertedName:  "Protocols",
+		DefaultValue: []string{
+			"tcp",
+		},
+		Description: `List of protocols (tcp, udp, or protocol number).`,
+		Exposed:     true,
+		Name:        "protocols",
+		Required:    true,
+		Stored:      true,
+		SubType:     "string",
+		Type:        "list",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -702,17 +702,19 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "external",
 	},
-	"port": elemental.AttributeSpecification{
-		AllowedChars:   `^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$`,
+	"ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Port",
-		DefaultValue:   "1:65535",
-		Description: `Port refers to network port which could be a single number or 100:2000 to
-represent a range of ports.`,
-		Exposed: true,
-		Name:    "port",
-		Stored:  true,
-		Type:    "string",
+		ConvertedName:  "Ports",
+		DefaultValue: []string{
+			"1:65535",
+		},
+		Description: `List of single ports or range (xx:yy).`,
+		Exposed:     true,
+		Name:        "ports",
+		Required:    true,
+		Stored:      true,
+		SubType:     "string",
+		Type:        "list",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -725,16 +727,19 @@ represent a range of ports.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"protocol": elemental.AttributeSpecification{
-		AllowedChars:   `^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`,
+	"protocols": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Protocol",
-		Description:    `Protocol refers to network protocol like TCP/UDP or the number of the protocol.`,
-		Exposed:        true,
-		Name:           "protocol",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		ConvertedName:  "Protocols",
+		DefaultValue: []string{
+			"tcp",
+		},
+		Description: `List of protocols (tcp, udp, or protocol number).`,
+		Exposed:     true,
+		Name:        "protocols",
+		Required:    true,
+		Stored:      true,
+		SubType:     "string",
+		Type:        "list",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

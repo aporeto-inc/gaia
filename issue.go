@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// IssueIndexes lists the attribute compound indexes.
+var IssueIndexes = [][]string{}
+
 // IssueRealmValue represents the possible values for attribute "realm".
 type IssueRealmValue string
 

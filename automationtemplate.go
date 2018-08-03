@@ -8,6 +8,9 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
+// AutomationTemplateIndexes lists the attribute compound indexes.
+var AutomationTemplateIndexes = [][]string{}
+
 // AutomationTemplateKindValue represents the possible values for attribute "kind".
 type AutomationTemplateKindValue string
 
@@ -112,7 +115,7 @@ func NewAutomationTemplate() *AutomationTemplate {
 	return &AutomationTemplate{
 		ModelVersion: 1,
 		Entitlements: map[string][]elemental.Operation{},
-		Kind:         "Condition",
+		Kind:         AutomationTemplateKindCondition,
 		Parameters:   map[string]types.AutomationTemplateParameter{},
 	}
 }

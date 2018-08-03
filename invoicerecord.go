@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// InvoiceRecordIndexes lists the attribute compound indexes.
+var InvoiceRecordIndexes = [][]string{}
+
 // InvoiceRecordIdentity represents the Identity of the object.
 var InvoiceRecordIdentity = elemental.Identity{
 	Name:     "invoicerecord",

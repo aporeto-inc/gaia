@@ -10,6 +10,9 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
+// EnforcerProfileIndexes lists the attribute compound indexes.
+var EnforcerProfileIndexes = [][]string{}
+
 // EnforcerProfileKubernetesMetadataExtractorValue represents the possible values for attribute "kubernetesMetadataExtractor".
 type EnforcerProfileKubernetesMetadataExtractorValue string
 
@@ -234,30 +237,29 @@ func NewEnforcerProfile() *EnforcerProfile {
 
 	return &EnforcerProfile{
 		ModelVersion:                  1,
-		Annotations:                   map[string][]string{},
-		ApplicationProxyPort:          20992,
 		AssociatedTags:                []string{},
+		Annotations:                   map[string][]string{},
 		AuditSocketBufferSize:         16384,
+		ApplicationProxyPort:          20992,
 		DockerSocketAddress:           "unix:///var/run/docker.sock",
 		HostServices:                  types.HostServicesList{},
-		IPTablesMarkValue:             1000,
-		KubernetesMetadataExtractor:   "KubeSquall",
 		KubernetesSupportEnabled:      false,
-		LinuxProcessesSupportEnabled:  true,
-		MetadataExtractor:             "Docker",
-		NormalizedTags:                []string{},
-		PUBookkeepingInterval:         "15m",
 		PUHeartbeatInterval:           "5s",
-		PolicySynchronizationInterval: "10m",
 		ProxyListenAddress:            "unix:///var/run/aporeto.sock",
+		IPTablesMarkValue:             1000,
 		ReceiverNumberOfQueues:        4,
-		ReceiverQueue:                 0,
+		KubernetesMetadataExtractor:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
+		LinuxProcessesSupportEnabled:  true,
 		ReceiverQueueSize:             500,
 		RemoteEnforcerEnabled:         true,
 		TransmitterNumberOfQueues:     4,
-		TransmitterQueue:              4,
 		TransmitterQueueSize:          500,
+		MetadataExtractor:             EnforcerProfileMetadataExtractorDocker,
+		TransmitterQueue:              4,
+		PUBookkeepingInterval:         "15m",
 		TrustedCAs:                    []string{},
+		PolicySynchronizationInterval: "10m",
+		NormalizedTags:                []string{},
 	}
 }
 
@@ -753,7 +755,6 @@ Kubernetes.`,
 	"KubernetesSupportEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "KubernetesSupportEnabled",
-		DefaultValue:   false,
 		Description:    `KubernetesSupportEnabled enables kubernetes mode for the enforcer.`,
 		Exposed:        true,
 		Name:           "kubernetesSupportEnabled",
@@ -886,7 +887,6 @@ receiver starting at the ReceiverQueue.`,
 	"ReceiverQueue": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ReceiverQueue",
-		DefaultValue:   0,
 		Description:    `ReceiverQueue is the base queue number for traffic from the network.`,
 		Exposed:        true,
 		MaxValue:       1000,
@@ -1220,7 +1220,6 @@ Kubernetes.`,
 	"kubernetessupportenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "KubernetesSupportEnabled",
-		DefaultValue:   false,
 		Description:    `KubernetesSupportEnabled enables kubernetes mode for the enforcer.`,
 		Exposed:        true,
 		Name:           "kubernetesSupportEnabled",
@@ -1353,7 +1352,6 @@ receiver starting at the ReceiverQueue.`,
 	"receiverqueue": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ReceiverQueue",
-		DefaultValue:   0,
 		Description:    `ReceiverQueue is the base queue number for traffic from the network.`,
 		Exposed:        true,
 		MaxValue:       1000,

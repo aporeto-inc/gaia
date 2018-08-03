@@ -10,6 +10,9 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
+// RESTAPISpecIndexes lists the attribute compound indexes.
+var RESTAPISpecIndexes = [][]string{}
+
 // RESTAPISpecIdentity represents the Identity of the object.
 var RESTAPISpecIdentity = elemental.Identity{
 	Name:     "restapispec",
@@ -129,8 +132,8 @@ func NewRESTAPISpec() *RESTAPISpec {
 	return &RESTAPISpec{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
 		Endpoints:      types.ExposedAPIList{},
+		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
 	}

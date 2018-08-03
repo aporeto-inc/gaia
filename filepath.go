@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// FilePathIndexes lists the attribute compound indexes.
+var FilePathIndexes = [][]string{}
+
 // FilePathIdentity represents the Identity of the object.
 var FilePathIdentity = elemental.Identity{
 	Name:     "filepath",

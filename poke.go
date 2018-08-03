@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// PokeIndexes lists the attribute compound indexes.
+var PokeIndexes = [][]string{}
+
 // PokeIdentity represents the Identity of the object.
 var PokeIdentity = elemental.Identity{
 	Name:     "poke",

@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// ActivateIndexes lists the attribute compound indexes.
+var ActivateIndexes = [][]string{}
+
 // ActivateIdentity represents the Identity of the object.
 var ActivateIdentity = elemental.Identity{
 	Name:     "activate",
