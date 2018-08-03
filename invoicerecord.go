@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// InvoiceRecordIndexes lists the attribute compound indexes.
-var InvoiceRecordIndexes = [][]string{}
-
 // InvoiceRecordIdentity represents the Identity of the object.
 var InvoiceRecordIdentity = elemental.Identity{
 	Name:     "invoicerecord",
@@ -181,7 +178,6 @@ var InvoiceRecordAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "ID",
 		Description:    `ID is the id of this invoice record.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "ID",
 		Orderable:      true,
 		Stored:         true,
@@ -205,19 +201,17 @@ var InvoiceRecordAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "InvoiceID",
 		Description: `InvoiceID references the id of the invoice that this invoice record provides
 details for.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "invoiceID",
-		Orderable:  true,
-		Stored:     true,
-		Type:       "string",
+		Exposed:   true,
+		Name:      "invoiceID",
+		Orderable: true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"InvoiceRecords": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "InvoiceRecords",
 		Description:    `InvoiceRecords provides details about billing units.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "invoiceRecords",
 		Orderable:      true,
 		Stored:         true,
@@ -246,7 +240,6 @@ var InvoiceRecordLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		ConvertedName:  "ID",
 		Description:    `ID is the id of this invoice record.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "ID",
 		Orderable:      true,
 		Stored:         true,
@@ -270,19 +263,17 @@ var InvoiceRecordLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		ConvertedName:  "InvoiceID",
 		Description: `InvoiceID references the id of the invoice that this invoice record provides
 details for.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "invoiceID",
-		Orderable:  true,
-		Stored:     true,
-		Type:       "string",
+		Exposed:   true,
+		Name:      "invoiceID",
+		Orderable: true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"invoicerecords": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "InvoiceRecords",
 		Description:    `InvoiceRecords provides details about billing units.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "invoiceRecords",
 		Orderable:      true,
 		Stored:         true,

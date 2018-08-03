@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// AutomationIndexes lists the attribute compound indexes.
-var AutomationIndexes = [][]string{}
-
 // AutomationTriggerValue represents the possible values for attribute "trigger".
 type AutomationTriggerValue string
 

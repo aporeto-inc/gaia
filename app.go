@@ -8,9 +8,6 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
-// AppIndexes lists the attribute compound indexes.
-var AppIndexes = [][]string{}
-
 // AppIdentity represents the Identity of the object.
 var AppIdentity = elemental.Identity{
 	Name:     "app",
@@ -225,7 +222,6 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "CategoryID",
 		Description:    `CategoryID of the app.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "categoryID",
 		ReadOnly:       true,
 		Type:           "string",
@@ -309,7 +305,6 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "CategoryID",
 		Description:    `CategoryID of the app.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "categoryID",
 		ReadOnly:       true,
 		Type:           "string",

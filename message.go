@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// MessageIndexes lists the attribute compound indexes.
-var MessageIndexes = [][]string{}
-
 // MessageLevelValue represents the possible values for attribute "level".
 type MessageLevelValue string
 

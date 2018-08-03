@@ -8,9 +8,6 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
-// AutomationTemplateIndexes lists the attribute compound indexes.
-var AutomationTemplateIndexes = [][]string{}
-
 // AutomationTemplateKindValue represents the possible values for attribute "kind".
 type AutomationTemplateKindValue string
 

@@ -7,9 +7,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// PasswordResetIndexes lists the attribute compound indexes.
-var PasswordResetIndexes = [][]string{}
-
 // PasswordResetIdentity represents the Identity of the object.
 var PasswordResetIdentity = elemental.Identity{
 	Name:     "passwordreset",

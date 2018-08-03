@@ -10,9 +10,6 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
-// IsolationProfileIndexes lists the attribute compound indexes.
-var IsolationProfileIndexes = [][]string{}
-
 // IsolationProfileIdentity represents the Identity of the object.
 var IsolationProfileIdentity = elemental.Identity{
 	Name:     "isolationprofile",

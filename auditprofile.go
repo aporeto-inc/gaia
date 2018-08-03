@@ -10,9 +10,6 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
-// AuditProfileIndexes lists the attribute compound indexes.
-var AuditProfileIndexes = [][]string{}
-
 // AuditProfileIdentity represents the Identity of the object.
 var AuditProfileIdentity = elemental.Identity{
 	Name:     "auditprofile",

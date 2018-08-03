@@ -7,9 +7,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// APICheckIndexes lists the attribute compound indexes.
-var APICheckIndexes = [][]string{}
-
 // APICheckOperationValue represents the possible values for attribute "operation".
 type APICheckOperationValue string
 

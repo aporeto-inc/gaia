@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// NetworkAccessPolicyIndexes lists the attribute compound indexes.
-var NetworkAccessPolicyIndexes = [][]string{}
-
 // NetworkAccessPolicyActionValue represents the possible values for attribute "action".
 type NetworkAccessPolicyActionValue string
 

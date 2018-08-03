@@ -7,9 +7,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// TagIndexes lists the attribute compound indexes.
-var TagIndexes = [][]string{}
-
 // TagIdentity represents the Identity of the object.
 var TagIdentity = elemental.Identity{
 	Name:     "tag",

@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// AlarmIndexes lists the attribute compound indexes.
-var AlarmIndexes = [][]string{}
-
 // AlarmStatusValue represents the possible values for attribute "status".
 type AlarmStatusValue string
 
@@ -435,13 +432,12 @@ var AlarmAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description: `Kind identifies the kind of alarms. If two alarms are created with the same
 identifier, then only the occurrence will be incremented.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "kind",
-		Orderable:  true,
-		Required:   true,
-		Stored:     true,
-		Type:       "string",
+		Exposed:   true,
+		Name:      "kind",
+		Orderable: true,
+		Required:  true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -508,7 +504,6 @@ identifier, then only the occurrence will be incremented.`,
 		ConvertedName:  "Protected",
 		Description:    `Protected defines if the object is protected.`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
@@ -521,7 +516,6 @@ identifier, then only the occurrence will be incremented.`,
 		DefaultValue:   AlarmStatusOpen,
 		Description:    `Status of the alarm.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "status",
 		Orderable:      true,
 		Stored:         true,
@@ -636,13 +630,12 @@ var AlarmLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description: `Kind identifies the kind of alarms. If two alarms are created with the same
 identifier, then only the occurrence will be incremented.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "kind",
-		Orderable:  true,
-		Required:   true,
-		Stored:     true,
-		Type:       "string",
+		Exposed:   true,
+		Name:      "kind",
+		Orderable: true,
+		Required:  true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -709,7 +702,6 @@ identifier, then only the occurrence will be incremented.`,
 		ConvertedName:  "Protected",
 		Description:    `Protected defines if the object is protected.`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
@@ -722,7 +714,6 @@ identifier, then only the occurrence will be incremented.`,
 		DefaultValue:   AlarmStatusOpen,
 		Description:    `Status of the alarm.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "status",
 		Orderable:      true,
 		Stored:         true,

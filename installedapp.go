@@ -8,9 +8,6 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
-// InstalledAppIndexes lists the attribute compound indexes.
-var InstalledAppIndexes = [][]string{}
-
 // InstalledAppStatusValue represents the possible values for attribute "status".
 type InstalledAppStatusValue string
 
@@ -220,7 +217,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "ID",
 		Description:    `ID of the installed app.`,
 		Exposed:        true,
-		Filterable:     true,
 		Identifier:     true,
 		Name:           "ID",
 		PrimaryKey:     true,
@@ -243,7 +239,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "CategoryID",
 		Description:    `CategoryID of the app.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "categoryID",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -282,7 +277,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description:    `Name of the installed app.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "name",
 		Orderable:      true,
 		Stored:         true,
@@ -293,7 +287,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Namespace",
 		Description:    `Namespace in which the app is running.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "namespace",
 		Orderable:      true,
 		Stored:         true,
@@ -324,7 +317,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		DefaultValue:   InstalledAppStatusPending,
 		Description:    `Status of the app.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "status",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -341,7 +333,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ConvertedName:  "ID",
 		Description:    `ID of the installed app.`,
 		Exposed:        true,
-		Filterable:     true,
 		Identifier:     true,
 		Name:           "ID",
 		PrimaryKey:     true,
@@ -364,7 +355,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ConvertedName:  "CategoryID",
 		Description:    `CategoryID of the app.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "categoryID",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -403,7 +393,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		CreationOnly:   true,
 		Description:    `Name of the installed app.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "name",
 		Orderable:      true,
 		Stored:         true,
@@ -414,7 +403,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ConvertedName:  "Namespace",
 		Description:    `Namespace in which the app is running.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "namespace",
 		Orderable:      true,
 		Stored:         true,
@@ -445,7 +433,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		DefaultValue:   InstalledAppStatusPending,
 		Description:    `Status of the app.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "status",
 		Orderable:      true,
 		ReadOnly:       true,

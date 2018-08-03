@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// KubernetesClusterIndexes lists the attribute compound indexes.
-var KubernetesClusterIndexes = [][]string{}
-
 // KubernetesClusterActivationTypeValue represents the possible values for attribute "activationType".
 type KubernetesClusterActivationTypeValue string
 

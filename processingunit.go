@@ -10,9 +10,6 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
-// ProcessingUnitIndexes lists the attribute compound indexes.
-var ProcessingUnitIndexes = [][]string{}
-
 // ProcessingUnitOperationalStatusValue represents the possible values for attribute "operationalStatus".
 type ProcessingUnitOperationalStatusValue string
 
@@ -555,7 +552,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "NativeContextID",
 		Description:    `NativeContextID is the Docker UUID or service PID.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "nativeContextID",
 		Stored:         true,
 		Type:           "string",
@@ -566,13 +562,12 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description: `NetworkServices is the list of services that this processing unit has declared
 that it will be listening to. This can happen either with an activation command
 or by exposing the ports in a container manifest.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "networkServices",
-		Orderable:  true,
-		Stored:     true,
-		SubType:    "processing_unit_services_list",
-		Type:       "external",
+		Exposed:   true,
+		Name:      "networkServices",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "processing_unit_services_list",
+		Type:      "external",
 	},
 	"NormalizedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -605,7 +600,6 @@ or by exposing the ports in a container manifest.`,
 		ConvertedName:  "Protected",
 		Description:    `Protected defines if the object is protected.`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
@@ -790,7 +784,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "NativeContextID",
 		Description:    `NativeContextID is the Docker UUID or service PID.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "nativeContextID",
 		Stored:         true,
 		Type:           "string",
@@ -801,13 +794,12 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description: `NetworkServices is the list of services that this processing unit has declared
 that it will be listening to. This can happen either with an activation command
 or by exposing the ports in a container manifest.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "networkServices",
-		Orderable:  true,
-		Stored:     true,
-		SubType:    "processing_unit_services_list",
-		Type:       "external",
+		Exposed:   true,
+		Name:      "networkServices",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "processing_unit_services_list",
+		Type:      "external",
 	},
 	"normalizedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -840,7 +832,6 @@ or by exposing the ports in a container manifest.`,
 		ConvertedName:  "Protected",
 		Description:    `Protected defines if the object is protected.`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,

@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// NamespaceIndexes lists the attribute compound indexes.
-var NamespaceIndexes = [][]string{}
-
 // NamespaceIdentity represents the Identity of the object.
 var NamespaceIdentity = elemental.Identity{
 	Name:     "namespace",

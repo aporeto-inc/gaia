@@ -7,9 +7,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// AccountCheckIndexes lists the attribute compound indexes.
-var AccountCheckIndexes = [][]string{}
-
 // AccountCheckIdentity represents the Identity of the object.
 var AccountCheckIdentity = elemental.Identity{
 	Name:     "accountcheck",

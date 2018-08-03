@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// ServiceDependencyIndexes lists the attribute compound indexes.
-var ServiceDependencyIndexes = [][]string{}
-
 // ServiceDependencyIdentity represents the Identity of the object.
 var ServiceDependencyIdentity = elemental.Identity{
 	Name:     "servicedependency",

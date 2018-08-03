@@ -7,9 +7,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// PolicyRefreshIndexes lists the attribute compound indexes.
-var PolicyRefreshIndexes = [][]string{}
-
 // PolicyRefreshIdentity represents the Identity of the object.
 var PolicyRefreshIdentity = elemental.Identity{
 	Name:     "policyrefresh",

@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// K8SClusterIndexes lists the attribute compound indexes.
-var K8SClusterIndexes = [][]string{}
-
 // K8SClusterActivationTypeValue represents the possible values for attribute "activationType".
 type K8SClusterActivationTypeValue string
 
@@ -412,7 +409,6 @@ var K8SClusterAttributesMap = map[string]elemental.AttributeSpecification{
 		DefaultValue:   K8SClusterActivationTypeKubeSquall,
 		Description:    `Defines the mode of activation on the KubernetesCluster.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "activationType",
 		Orderable:      true,
 		Stored:         true,
@@ -423,12 +419,11 @@ var K8SClusterAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "AdminEmail",
 		Description: `The email address that will receive a copy of the Kubernetes cluster YAMLs
 definition.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "adminEmail",
-		Orderable:  true,
-		Stored:     true,
-		Type:       "string",
+		Exposed:   true,
+		Name:      "adminEmail",
+		Orderable: true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -573,12 +568,11 @@ with the '@' prefix, and should only be used by external systems.`,
 Kubernetes means that All the Kubernetes policies will be synced to Squall.
 No Policies means that policies are not synced and it's up to the user to create
 consistent policies in Squall.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "networkPolicyType",
-		Orderable:  true,
-		Stored:     true,
-		Type:       "enum",
+		Exposed:   true,
+		Name:      "networkPolicyType",
+		Orderable: true,
+		Stored:    true,
+		Type:      "enum",
 	},
 	"NormalizedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -600,7 +594,6 @@ consistent policies in Squall.`,
 		ConvertedName:  "Protected",
 		Description:    `Protected defines if the object is protected.`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
@@ -662,7 +655,6 @@ var K8SClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		DefaultValue:   K8SClusterActivationTypeKubeSquall,
 		Description:    `Defines the mode of activation on the KubernetesCluster.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "activationType",
 		Orderable:      true,
 		Stored:         true,
@@ -673,12 +665,11 @@ var K8SClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		ConvertedName:  "AdminEmail",
 		Description: `The email address that will receive a copy of the Kubernetes cluster YAMLs
 definition.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "adminEmail",
-		Orderable:  true,
-		Stored:     true,
-		Type:       "string",
+		Exposed:   true,
+		Name:      "adminEmail",
+		Orderable: true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -823,12 +814,11 @@ with the '@' prefix, and should only be used by external systems.`,
 Kubernetes means that All the Kubernetes policies will be synced to Squall.
 No Policies means that policies are not synced and it's up to the user to create
 consistent policies in Squall.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "networkPolicyType",
-		Orderable:  true,
-		Stored:     true,
-		Type:       "enum",
+		Exposed:   true,
+		Name:      "networkPolicyType",
+		Orderable: true,
+		Stored:    true,
+		Type:      "enum",
 	},
 	"normalizedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -850,7 +840,6 @@ consistent policies in Squall.`,
 		ConvertedName:  "Protected",
 		Description:    `Protected defines if the object is protected.`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,

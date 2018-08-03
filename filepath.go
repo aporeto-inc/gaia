@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// FilePathIndexes lists the attribute compound indexes.
-var FilePathIndexes = [][]string{}
-
 // FilePathIdentity represents the Identity of the object.
 var FilePathIdentity = elemental.Identity{
 	Name:     "filepath",
@@ -398,7 +395,6 @@ var FilePathAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Filepath",
 		Description:    `FilePath refer to the file mount path.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "filepath",
 		Required:       true,
 		Stored:         true,
@@ -472,7 +468,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "Protected",
 		Description:    `Protected defines if the object is protected.`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
@@ -485,7 +480,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		CreationOnly:   true,
 		Description:    `server is the server name/ID/IP associated with the file path.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "server",
 		Stored:         true,
 		Type:           "string",
@@ -577,7 +571,6 @@ var FilePathLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		ConvertedName:  "Filepath",
 		Description:    `FilePath refer to the file mount path.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "filepath",
 		Required:       true,
 		Stored:         true,
@@ -651,7 +644,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "Protected",
 		Description:    `Protected defines if the object is protected.`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
@@ -664,7 +656,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		CreationOnly:   true,
 		Description:    `server is the server name/ID/IP associated with the file path.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "server",
 		Stored:         true,
 		Type:           "string",

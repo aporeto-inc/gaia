@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// TokenScopePolicyIndexes lists the attribute compound indexes.
-var TokenScopePolicyIndexes = [][]string{}
-
 // TokenScopePolicyIdentity represents the Identity of the object.
 var TokenScopePolicyIdentity = elemental.Identity{
 	Name:     "tokenscopepolicy",

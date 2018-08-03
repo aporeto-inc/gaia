@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// ExternalNetworkIndexes lists the attribute compound indexes.
-var ExternalNetworkIndexes = [][]string{}
-
 // ExternalNetworkIdentity represents the Identity of the object.
 var ExternalNetworkIdentity = elemental.Identity{
 	Name:     "externalnetwork",

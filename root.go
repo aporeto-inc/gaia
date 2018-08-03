@@ -7,9 +7,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// RootIndexes lists the attribute compound indexes.
-var RootIndexes = [][]string{}
-
 // RootIdentity represents the Identity of the object.
 var RootIdentity = elemental.Identity{
 	Name:     "root",

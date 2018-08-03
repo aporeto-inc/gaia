@@ -7,9 +7,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// TriggerIndexes lists the attribute compound indexes.
-var TriggerIndexes = [][]string{}
-
 // TriggerIdentity represents the Identity of the object.
 var TriggerIdentity = elemental.Identity{
 	Name:     "trigger",

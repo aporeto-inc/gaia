@@ -8,9 +8,6 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
-// ExternalAccessIndexes lists the attribute compound indexes.
-var ExternalAccessIndexes = [][]string{}
-
 // ExternalAccessIdentity represents the Identity of the object.
 var ExternalAccessIdentity = elemental.Identity{
 	Name:     "externalaccess",

@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// RemoteProcessorIndexes lists the attribute compound indexes.
-var RemoteProcessorIndexes = [][]string{}
-
 // RemoteProcessorModeValue represents the possible values for attribute "mode".
 type RemoteProcessorModeValue string
 
@@ -277,7 +274,6 @@ var RemoteProcessorAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "RequestID",
 		Description:    `RequestID gives the id of the request coming from the main server.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "requestID",
 		Orderable:      true,
 		Stored:         true,
@@ -359,7 +355,6 @@ var RemoteProcessorLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		ConvertedName:  "RequestID",
 		Description:    `RequestID gives the id of the request coming from the main server.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "requestID",
 		Orderable:      true,
 		Stored:         true,

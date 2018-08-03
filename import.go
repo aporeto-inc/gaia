@@ -7,9 +7,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// ImportIndexes lists the attribute compound indexes.
-var ImportIndexes = [][]string{}
-
 // ImportModeValue represents the possible values for attribute "mode".
 type ImportModeValue string
 
