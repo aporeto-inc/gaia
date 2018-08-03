@@ -47,10 +47,8 @@ attributes:
     subtype: string
     stored: true
     required: true
-    example_value:
-    - tcp
-    - udp
-    - 42
+    default_value:
+    - 1:65535
 
   - name: protocols
     description: List of protocols (tcp, udp, or protocol number).
@@ -59,6 +57,5 @@ attributes:
     subtype: string
     stored: true
     required: true
-    example_value:
-    - 80
-    - 443
+    default_value:
+    - tcp
