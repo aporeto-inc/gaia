@@ -5,7 +5,6 @@ import (
 	"sync"
 
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/types"
 )
 
 // DependencyMapIndexes lists the attribute compound indexes.
@@ -77,13 +76,13 @@ type DependencyMap struct {
 	Claims map[string][]string `json:"claims" bson:"-" mapstructure:"claims,omitempty"`
 
 	// edges are the edges of the map.
-	Edges types.GraphEdgeMap `json:"edges" bson:"-" mapstructure:"edges,omitempty"`
+	Edges map[string]*GraphEdge `json:"edges" bson:"-" mapstructure:"edges,omitempty"`
 
 	// Groups provide information about the group values.
-	Groups types.GraphGroupMap `json:"groups" bson:"-" mapstructure:"groups,omitempty"`
+	Groups map[string]*GraphGroup `json:"groups" bson:"-" mapstructure:"groups,omitempty"`
 
 	// nodes refers to the nodes of the map.
-	Nodes types.GraphNodeMap `json:"nodes" bson:"-" mapstructure:"nodes,omitempty"`
+	Nodes map[string]*GraphNode `json:"nodes" bson:"-" mapstructure:"nodes,omitempty"`
 
 	// viewSuggestions provides suggestion of views based on relevant tags.
 	ViewSuggestions []string `json:"viewSuggestions" bson:"-" mapstructure:"viewSuggestions,omitempty"`
@@ -99,9 +98,6 @@ func NewDependencyMap() *DependencyMap {
 	return &DependencyMap{
 		ModelVersion:    1,
 		Claims:          map[string][]string{},
-		Edges:           types.GraphEdgeMap{},
-		Groups:          types.GraphGroupMap{},
-		Nodes:           types.GraphNodeMap{},
 		ViewSuggestions: []string{},
 	}
 }
@@ -157,6 +153,24 @@ func (o *DependencyMap) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	for _, sub := range o.Edges {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	for _, sub := range o.Groups {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	for _, sub := range o.Nodes {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
 
 	if len(requiredErrors) > 0 {
 		return requiredErrors
@@ -218,8 +232,8 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "edges",
 		ReadOnly:       true,
-		SubType:        "graphedges_map",
-		Type:           "external",
+		SubType:        "graphedge",
+		Type:           "refMap",
 	},
 	"Groups": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -228,8 +242,8 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "groups",
 		ReadOnly:       true,
-		SubType:        "graphgroups_map",
-		Type:           "external",
+		SubType:        "graphgroup",
+		Type:           "refMap",
 	},
 	"Nodes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -238,8 +252,8 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "nodes",
 		ReadOnly:       true,
-		SubType:        "graphnodes_map",
-		Type:           "external",
+		SubType:        "graphnode",
+		Type:           "refMap",
 	},
 	"ViewSuggestions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -285,8 +299,8 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Exposed:        true,
 		Name:           "edges",
 		ReadOnly:       true,
-		SubType:        "graphedges_map",
-		Type:           "external",
+		SubType:        "graphedge",
+		Type:           "refMap",
 	},
 	"groups": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -295,8 +309,8 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Exposed:        true,
 		Name:           "groups",
 		ReadOnly:       true,
-		SubType:        "graphgroups_map",
-		Type:           "external",
+		SubType:        "graphgroup",
+		Type:           "refMap",
 	},
 	"nodes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -305,8 +319,8 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Exposed:        true,
 		Name:           "nodes",
 		ReadOnly:       true,
-		SubType:        "graphnodes_map",
-		Type:           "external",
+		SubType:        "graphnode",
+		Type:           "refMap",
 	},
 	"viewsuggestions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

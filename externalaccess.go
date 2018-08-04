@@ -5,7 +5,6 @@ import (
 	"sync"
 
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/types"
 )
 
 // ExternalAccessIndexes lists the attribute compound indexes.
@@ -71,7 +70,7 @@ func (o ExternalAccessList) Version() int {
 // ExternalAccess represents the model of a externalaccess
 type ExternalAccess struct {
 	// IPRecords refers to a list of IPRecord that contains the IP information.
-	IPRecords []*types.IPRecord `json:"IPRecords" bson:"-" mapstructure:"IPRecords,omitempty"`
+	IPRecords []*IPRecord `json:"IPRecords" bson:"-" mapstructure:"IPRecords,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -83,7 +82,6 @@ func NewExternalAccess() *ExternalAccess {
 
 	return &ExternalAccess{
 		ModelVersion: 1,
-		IPRecords:    []*types.IPRecord{},
 	}
 }
 
@@ -132,6 +130,12 @@ func (o *ExternalAccess) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	for _, sub := range o.IPRecords {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -170,8 +174,8 @@ var ExternalAccessAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "IPRecords",
 		ReadOnly:       true,
-		SubType:        "ip_records",
-		Type:           "external",
+		SubType:        "iprecord",
+		Type:           "refList",
 	},
 }
 
@@ -185,7 +189,7 @@ var ExternalAccessLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Exposed:        true,
 		Name:           "IPRecords",
 		ReadOnly:       true,
-		SubType:        "ip_records",
-		Type:           "external",
+		SubType:        "iprecord",
+		Type:           "refList",
 	},
 }

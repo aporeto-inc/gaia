@@ -183,24 +183,6 @@ graphclaims_map:
     type: map[string][]string
     init: map[string][]string{}
 
-graphedges_map:
-  elemental:
-    type: types.GraphEdgeMap
-    init: types.GraphEdgeMap{}
-    import: go.aporeto.io/gaia/types
-
-graphgroups_map:
-  elemental:
-    type: types.GraphGroupMap
-    init: types.GraphGroupMap{}
-    import: go.aporeto.io/gaia/types
-
-graphnodes_map:
-  elemental:
-    type: types.GraphNodeMap
-    init: types.GraphNodeMap{}
-    import: go.aporeto.io/gaia/types
-
 hashed_tags:
   elemental:
     type: map[string]string
@@ -237,12 +219,6 @@ ip_list:
     init: types.IPList{}
     import: go.aporeto.io/gaia/types
 
-ip_records:
-  elemental:
-    type: '[]*types.IPRecord'
-    init: '[]*types.IPRecord{}'
-    import: go.aporeto.io/gaia/types
-
 isolation_profile_entities:
   elemental:
     type: IsolationProfilesList
@@ -262,10 +238,20 @@ list_emails:
   elemental:
     type: '[]string'
 
+list_list_string:
+  elemental:
+    type: '[][]string'
+    init: '[][]string{}'
+
 logs:
   elemental:
     type: map[string]string
     init: map[string]string{}
+
+map_string_int:
+  elemental:
+    type: map[string]int
+    init: map[string]int{}
 
 metadata:
   elemental:
