@@ -91,6 +91,8 @@ func NewGraphEdge() *GraphEdge {
 	return &GraphEdge{
 		ModelVersion:       1,
 		ObservedServiceIDs: map[string]int{},
+		ObservedPolicyIDs:  map[string]*GraphPolicyInfo{},
+		PolicyIDs:          map[string]*GraphPolicyInfo{},
 		ServiceIDs:         map[string]int{},
 	}
 }

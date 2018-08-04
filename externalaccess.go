@@ -82,6 +82,7 @@ func NewExternalAccess() *ExternalAccess {
 
 	return &ExternalAccess{
 		ModelVersion: 1,
+		IPRecords:    []*IPRecord{},
 	}
 }
 

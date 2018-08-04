@@ -98,6 +98,9 @@ func NewDependencyMap() *DependencyMap {
 	return &DependencyMap{
 		ModelVersion:    1,
 		Claims:          map[string][]string{},
+		Edges:           map[string]*GraphEdge{},
+		Groups:          map[string]*GraphGroup{},
+		Nodes:           map[string]*GraphNode{},
 		ViewSuggestions: []string{},
 	}
 }
