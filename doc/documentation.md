@@ -4724,7 +4724,7 @@ Description of object represented by the node.
 
 #### `groupID (string)`
 
-ID of the group the node is eventualy part of.
+ID of the group the node is eventually part of.
 
 #### `name (string)`
 

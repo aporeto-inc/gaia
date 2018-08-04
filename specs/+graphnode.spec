@@ -21,7 +21,7 @@ attributes:
     exposed: true
 
   - name: groupID
-    description: ID of the group the node is eventualy part of.
+    description: ID of the group the node is eventually part of.
     type: string
     exposed: true
 

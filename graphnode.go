@@ -31,7 +31,7 @@ type GraphNode struct {
 	// Description of object represented by the node.
 	Description string `json:"description" bson:"-" mapstructure:"description,omitempty"`
 
-	// ID of the group the node is eventualy part of.
+	// ID of the group the node is eventually part of.
 	GroupID string `json:"groupID" bson:"-" mapstructure:"groupID,omitempty"`
 
 	// Name of object represented by the node.
