@@ -18,6 +18,13 @@ $filtering:
     multiple: true
     example_value: a=a
 
+$flowoffset:
+  entries:
+  - name: flowOffset
+    description: Apply an offset to the time window for flows.
+    type: duration
+    example_value: -3s
+
 $propagatable:
   entries:
   - name: propagated
@@ -46,11 +53,6 @@ $timewindow:
     description: Set the relative end of the time window.
     type: duration
     example_value: -1h
-
-  - name: flowOffset
-    description: Apply an offset to the time window for flows.
-    type: duration
-    example_value: -3s
 
   - name: startAbsolute
     description: Set the absolute start of the time window.

@@ -2241,9 +2241,9 @@ Retrieves the dependencymap of a namespace.
 - `viewSuggestions` (boolean): Also return the view suggestions.
 - `endAbsolute` (time): Set the absolute end of the time window.
 - `endRelative` (duration): Set the relative end of the time window.
-- `flowOffset` (duration): Apply an offset to the time window for flows.
 - `startAbsolute` (time): Set the absolute start of the time window.
 - `startRelative` (duration): Set the relative start of the time window.
+- `flowOffset` (duration): Apply an offset to the time window for flows.
 
 ##### Mandatory Parameters
 
@@ -3404,15 +3404,16 @@ Retrieves the list of external access according to parameters.
 
 - `destinationID` (string): IDs of the destinations.
 - `destinationType` (enum): Type of the destination.
+- `flowMode` (enum): Choose if observed, applied to all flows.
 - `geoloc` (boolean): Geolocalize the the flow.
 - `resolve` (boolean): Resolve the IPs to dns.
 - `sourceID` (string): IDs of the sources.
 - `sourceType` (enum): Type of the source.
 - `endAbsolute` (time): Set the absolute end of the time window.
 - `endRelative` (duration): Set the relative end of the time window.
-- `flowOffset` (duration): Apply an offset to the time window for flows.
 - `startAbsolute` (time): Set the absolute start of the time window.
 - `startRelative` (duration): Set the relative start of the time window.
+- `flowOffset` (duration): Apply an offset to the time window for flows.
 
 ##### Mandatory Parameters
 
@@ -3794,7 +3795,6 @@ Retrieves the list of file access according to parameters.
 - `puID` (string): ID of the processing unit.
 - `endAbsolute` (time): Set the absolute end of the time window.
 - `endRelative` (duration): Set the relative end of the time window.
-- `flowOffset` (duration): Apply an offset to the time window for flows.
 - `startAbsolute` (time): Set the absolute start of the time window.
 - `startRelative` (duration): Set the relative start of the time window.
 
@@ -4348,7 +4348,7 @@ Type of the source.
 
 | Characteristics | Value                                     |
 | -               | -:                                        |
-| Allowed Value   | `ProcessingUnit, ExternalService, Claims` |
+| Allowed Value   | `ProcessingUnit, ExternalNetwork, Claims` |
 | Required        | `true`                                    |
 
 #### `dropReason (string)`
@@ -4460,7 +4460,7 @@ Type of the source.
 
 | Characteristics | Value                                     |
 | -               | -:                                        |
-| Allowed Value   | `ProcessingUnit, ExternalService, Claims` |
+| Allowed Value   | `ProcessingUnit, ExternalNetwork, Claims` |
 | Required        | `true`                                    |
 
 #### `timestamp (time)`
@@ -4501,9 +4501,9 @@ Retrieves the flow statistics according to parameters.
 - `userIdentifier` (string): User string that will be returned with the query.
 - `endAbsolute` (time): Set the absolute end of the time window.
 - `endRelative` (duration): Set the relative end of the time window.
-- `flowOffset` (duration): Apply an offset to the time window for flows.
 - `startAbsolute` (time): Set the absolute start of the time window.
 - `startRelative` (duration): Set the relative start of the time window.
+- `flowOffset` (duration): Apply an offset to the time window for flows.
 
 ##### Mandatory Parameters
 
@@ -9030,7 +9030,6 @@ Retrieves statistics information based on parameters.
 - `where` (string): list of where clauses.
 - `endAbsolute` (time): Set the absolute end of the time window.
 - `endRelative` (duration): Set the relative end of the time window.
-- `flowOffset` (duration): Apply an offset to the time window for flows.
 - `startAbsolute` (time): Set the absolute start of the time window.
 - `startRelative` (duration): Set the relative start of the time window.
 
@@ -9065,7 +9064,6 @@ Retrieves a list of network policy suggestion.
 - `filterTags` (string): Tags to filter in the policy suggestions.
 - `endAbsolute` (time): Set the absolute end of the time window.
 - `endRelative` (duration): Set the relative end of the time window.
-- `flowOffset` (duration): Apply an offset to the time window for flows.
 - `startAbsolute` (time): Set the absolute start of the time window.
 - `startRelative` (duration): Set the relative start of the time window.
 

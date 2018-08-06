@@ -30,8 +30,8 @@ const (
 	// FlowReportDestinationTypeClaims represents the value Claims.
 	FlowReportDestinationTypeClaims FlowReportDestinationTypeValue = "Claims"
 
-	// FlowReportDestinationTypeExternalService represents the value ExternalService.
-	FlowReportDestinationTypeExternalService FlowReportDestinationTypeValue = "ExternalService"
+	// FlowReportDestinationTypeExternalNetwork represents the value ExternalNetwork.
+	FlowReportDestinationTypeExternalNetwork FlowReportDestinationTypeValue = "ExternalNetwork"
 
 	// FlowReportDestinationTypeProcessingUnit represents the value ProcessingUnit.
 	FlowReportDestinationTypeProcessingUnit FlowReportDestinationTypeValue = "ProcessingUnit"
@@ -72,8 +72,8 @@ const (
 	// FlowReportSourceTypeClaims represents the value Claims.
 	FlowReportSourceTypeClaims FlowReportSourceTypeValue = "Claims"
 
-	// FlowReportSourceTypeExternalService represents the value ExternalService.
-	FlowReportSourceTypeExternalService FlowReportSourceTypeValue = "ExternalService"
+	// FlowReportSourceTypeExternalNetwork represents the value ExternalNetwork.
+	FlowReportSourceTypeExternalNetwork FlowReportSourceTypeValue = "ExternalNetwork"
 
 	// FlowReportSourceTypeProcessingUnit represents the value ProcessingUnit.
 	FlowReportSourceTypeProcessingUnit FlowReportSourceTypeValue = "ProcessingUnit"
@@ -286,7 +286,7 @@ func (o *FlowReport) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateStringInList("destinationType", string(o.DestinationType), []string{"ProcessingUnit", "ExternalService", "Claims"}, false); err != nil {
+	if err := elemental.ValidateStringInList("destinationType", string(o.DestinationType), []string{"ProcessingUnit", "ExternalNetwork", "Claims"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -318,7 +318,7 @@ func (o *FlowReport) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateStringInList("sourceType", string(o.SourceType), []string{"ProcessingUnit", "ExternalService", "Claims"}, false); err != nil {
+	if err := elemental.ValidateStringInList("sourceType", string(o.SourceType), []string{"ProcessingUnit", "ExternalNetwork", "Claims"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -403,7 +403,7 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "integer",
 	},
 	"DestinationType": elemental.AttributeSpecification{
-		AllowedChoices: []string{"ProcessingUnit", "ExternalService", "Claims"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
 		ConvertedName:  "DestinationType",
 		Description:    `Type of the source.`,
 		Exposed:        true,
@@ -563,7 +563,7 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"SourceType": elemental.AttributeSpecification{
-		AllowedChoices: []string{"ProcessingUnit", "ExternalService", "Claims"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
 		ConvertedName:  "SourceType",
 		Description:    `Type of the source.`,
 		Exposed:        true,
@@ -636,7 +636,7 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Type:           "integer",
 	},
 	"destinationtype": elemental.AttributeSpecification{
-		AllowedChoices: []string{"ProcessingUnit", "ExternalService", "Claims"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
 		ConvertedName:  "DestinationType",
 		Description:    `Type of the source.`,
 		Exposed:        true,
@@ -796,7 +796,7 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Type:           "string",
 	},
 	"sourcetype": elemental.AttributeSpecification{
-		AllowedChoices: []string{"ProcessingUnit", "ExternalService", "Claims"},
+		AllowedChoices: []string{"ProcessingUnit", "ExternalNetwork", "Claims"},
 		ConvertedName:  "SourceType",
 		Description:    `Type of the source.`,
 		Exposed:        true,
