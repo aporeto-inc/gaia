@@ -2227,10 +2227,10 @@ Represents a mapping from a claim name to an HTTP header.
 
 ```json
 {
-  "ClaimName": [
+  "claimName": [
     "email"
   ],
-  "TargetHTTPHeader": [
+  "targetHTTPHeader": [
     "X-UserName"
   ]
 }
@@ -2238,23 +2238,23 @@ Represents a mapping from a claim name to an HTTP header.
 
 ### Attributes
 
-#### `ClaimName (string)`
+#### `claimName (string)`
 
 Claim name is the name of the claim that must be mapped to an HTTP header.
 
-| Characteristics | Value                          |
-| -               | -:                             |
-| Format          | `/^[a-zA-Z0-9-_/*#&@\+\$~]+$/` |
-| Required        | `true`                         |
+| Characteristics | Value                           |
+| -               | -:                              |
+| Format          | `/^[a-zA-Z0-9-_/*#&@\+\$~:]+$/` |
+| Required        | `true`                          |
 
-#### `TargetHTTPHeader (string)`
+#### `targetHTTPHeader (string)`
 
 The target HTTP header where this claim name must be mapped.
 
-| Characteristics | Value                          |
-| -               | -:                             |
-| Format          | `/^[a-zA-Z0-9-_/*#&@\+\$~]+$/` |
-| Required        | `true`                         |
+| Characteristics | Value                           |
+| -               | -:                              |
+| Format          | `/^[a-zA-Z0-9-_/*#&@\+\$~:]+$/` |
+| Required        | `true`                          |
 
 ## DependencyMap
 
@@ -8618,7 +8618,7 @@ Annotation stores additional information about an entity.
 
 AssociatedTags are the list of tags attached to an entity.
 
-#### `authorizationClaimMappings (list)`
+#### `authorizationClaimMappings (refList)`
 
 authorizationClaimMappings defines a list of mappings between incoming and
 HTTP headers. When these mappings are defined, the enforcer will copy the

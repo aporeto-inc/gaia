@@ -69,10 +69,12 @@ attributes:
       authorizationClaimMappings defines a list of mappings between incoming and
       HTTP headers. When these mappings are defined, the enforcer will copy the
       values of the claims to the corresponding HTTP headers.
-    type: list
+    type: refList
     exposed: true
-    subtype: ClaimMappings
+    subtype: claimmapping
     stored: true
+    extensions:
+      refMode: pointer
 
   - name: authorizationID
     description: |-
