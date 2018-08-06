@@ -4622,14 +4622,6 @@ Represents an edge from the dependency map.
 
 Identifier of the edge.
 
-#### `ObservedEncrypted (integer)`
-
-Number of encrypted observed flows.
-
-#### `ObservedServiceIDs (external:map_string_int)`
-
-Map of ints...
-
 #### `acceptedFlows (integer)`
 
 Number of accepted flows in the edge.
@@ -4658,9 +4650,27 @@ Name of the edge.
 
 Number of accepted observed flows.
 
+#### `observedEncrypted (integer)`
+
+Number of encrypted observed flows.
+
+#### `observedPolicyIDs (refMap)`
+
+Information about the observation policies that was hit in the flows
+represented by that edge.
+
 #### `observedRejectedFlows (integer)`
 
 Number of rejected observed flows.
+
+#### `observedServiceIDs (external:map_string_int)`
+
+Map of ints...
+
+#### `policyIDs (refMap)`
+
+Information about the policies that was hit in the flows represented by that
+edge.
 
 #### `rejectedFlows (integer)`
 
@@ -6587,6 +6597,10 @@ Deletes the object with the given ID.
 #### `GET /networkaccesspolicies/:id`
 
 Retrieves the object with the given ID.
+
+##### Parameters
+
+- `propagated` (boolean): Also retrieve the objects that propagate down.
 
 #### `PUT /networkaccesspolicies/:id`
 
