@@ -128,6 +128,11 @@ type Service struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// authorizationClaimMappings defines a list of mappings between incoming and
+	// HTTP headers. When these mappings are defined, the enforcer will copy the
+	// values of the claims to the corresponding HTTP headers.
+	AuthorizationClaimMappings []ClaimMappings `json:"authorizationClaimMappings" bson:"authorizationclaimmappings" mapstructure:"authorizationClaimMappings,omitempty"`
+
 	// authorizationID is only valid for OIDC authorization and defines the
 	// issuer ID of the OAUTH token.
 	AuthorizationID string `json:"authorizationID" bson:"authorizationid" mapstructure:"authorizationID,omitempty"`
@@ -574,6 +579,18 @@ required for this service. The certificate must be in PEM format.`,
 		SubType:        "tags_list",
 		Type:           "external",
 	},
+	"AuthorizationClaimMappings": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizationClaimMappings",
+		Description: `authorizationClaimMappings defines a list of mappings between incoming and
+HTTP headers. When these mappings are defined, the enforcer will copy the
+values of the claims to the corresponding HTTP headers.`,
+		Exposed: true,
+		Name:    "authorizationClaimMappings",
+		Stored:  true,
+		SubType: "ClaimMappings",
+		Type:    "list",
+	},
 	"AuthorizationID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AuthorizationID",
@@ -965,6 +982,18 @@ required for this service. The certificate must be in PEM format.`,
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
+	},
+	"authorizationclaimmappings": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizationClaimMappings",
+		Description: `authorizationClaimMappings defines a list of mappings between incoming and
+HTTP headers. When these mappings are defined, the enforcer will copy the
+values of the claims to the corresponding HTTP headers.`,
+		Exposed: true,
+		Name:    "authorizationClaimMappings",
+		Stored:  true,
+		SubType: "ClaimMappings",
+		Type:    "list",
 	},
 	"authorizationid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
