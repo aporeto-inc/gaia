@@ -695,15 +695,15 @@ func init() {
 						Type: "duration",
 					},
 					elemental.ParameterDefinition{
-						Name: "flowOffset",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
 						Name: "startAbsolute",
 						Type: "time",
 					},
 					elemental.ParameterDefinition{
 						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
 						Type: "duration",
 					},
 				},
@@ -762,15 +762,15 @@ func init() {
 						Type: "duration",
 					},
 					elemental.ParameterDefinition{
-						Name: "flowOffset",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
 						Name: "startAbsolute",
 						Type: "time",
 					},
 					elemental.ParameterDefinition{
 						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
 						Type: "duration",
 					},
 				},
@@ -1065,8 +1065,18 @@ func init() {
 						Name: "destinationType",
 						Type: "enum",
 						AllowedChoices: []string{
-							"ext",
-							"pu",
+							"ExternalNetwork",
+							"ProcessingUnit",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name:         "flowMode",
+						Type:         "enum",
+						DefaultValue: "applied",
+						AllowedChoices: []string{
+							"observed",
+							"applied",
+							"all",
 						},
 					},
 					elemental.ParameterDefinition{
@@ -1086,8 +1096,8 @@ func init() {
 						Name: "sourceType",
 						Type: "enum",
 						AllowedChoices: []string{
-							"ext",
-							"pu",
+							"ExternalNetwork",
+							"ProcessingUnit",
 						},
 					},
 					elemental.ParameterDefinition{
@@ -1099,15 +1109,15 @@ func init() {
 						Type: "duration",
 					},
 					elemental.ParameterDefinition{
-						Name: "flowOffset",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
 						Name: "startAbsolute",
 						Type: "time",
 					},
 					elemental.ParameterDefinition{
 						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
 						Type: "duration",
 					},
 				},
@@ -1153,8 +1163,18 @@ func init() {
 						Name: "destinationType",
 						Type: "enum",
 						AllowedChoices: []string{
-							"ext",
-							"pu",
+							"ExternalNetwork",
+							"ProcessingUnit",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name:         "flowMode",
+						Type:         "enum",
+						DefaultValue: "applied",
+						AllowedChoices: []string{
+							"observed",
+							"applied",
+							"all",
 						},
 					},
 					elemental.ParameterDefinition{
@@ -1174,8 +1194,8 @@ func init() {
 						Name: "sourceType",
 						Type: "enum",
 						AllowedChoices: []string{
-							"ext",
-							"pu",
+							"ExternalNetwork",
+							"ProcessingUnit",
 						},
 					},
 					elemental.ParameterDefinition{
@@ -1187,15 +1207,15 @@ func init() {
 						Type: "duration",
 					},
 					elemental.ParameterDefinition{
-						Name: "flowOffset",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
 						Name: "startAbsolute",
 						Type: "time",
 					},
 					elemental.ParameterDefinition{
 						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
 						Type: "duration",
 					},
 				},
@@ -1410,10 +1430,6 @@ func init() {
 						Type: "duration",
 					},
 					elemental.ParameterDefinition{
-						Name: "flowOffset",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
 						Name: "startAbsolute",
 						Type: "time",
 					},
@@ -1471,10 +1487,6 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name: "endRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "flowOffset",
 						Type: "duration",
 					},
 					elemental.ParameterDefinition{
@@ -1694,15 +1706,15 @@ func init() {
 						Type: "duration",
 					},
 					elemental.ParameterDefinition{
-						Name: "flowOffset",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
 						Name: "startAbsolute",
 						Type: "time",
 					},
 					elemental.ParameterDefinition{
 						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
 						Type: "duration",
 					},
 				},
@@ -1797,15 +1809,15 @@ func init() {
 						Type: "duration",
 					},
 					elemental.ParameterDefinition{
-						Name: "flowOffset",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
 						Name: "startAbsolute",
 						Type: "time",
 					},
 					elemental.ParameterDefinition{
 						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
 						Type: "duration",
 					},
 				},
@@ -2327,7 +2339,14 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		Retrieve: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
@@ -3221,10 +3240,6 @@ func init() {
 						Type: "duration",
 					},
 					elemental.ParameterDefinition{
-						Name: "flowOffset",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
 						Name: "startAbsolute",
 						Type: "time",
 					},
@@ -3324,10 +3339,6 @@ func init() {
 						Type: "duration",
 					},
 					elemental.ParameterDefinition{
-						Name: "flowOffset",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
 						Name: "startAbsolute",
 						Type: "time",
 					},
@@ -3394,10 +3405,6 @@ func init() {
 						Type: "duration",
 					},
 					elemental.ParameterDefinition{
-						Name: "flowOffset",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
 						Name: "startAbsolute",
 						Type: "time",
 					},
@@ -3458,10 +3465,6 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name: "endRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "flowOffset",
 						Type: "duration",
 					},
 					elemental.ParameterDefinition{

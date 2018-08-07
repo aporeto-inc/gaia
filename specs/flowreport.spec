@@ -49,7 +49,7 @@ attributes:
     required: true
     allowed_choices:
     - ProcessingUnit
-    - ExternalService
+    - ExternalNetwork
     - Claims
     example_value: ProcessingUnit
 
@@ -173,7 +173,7 @@ attributes:
     required: true
     allowed_choices:
     - ProcessingUnit
-    - ExternalService
+    - ExternalNetwork
     - Claims
     example_value: ProcessingUnit
 

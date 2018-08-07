@@ -15,17 +15,6 @@ attributes:
     type: string
     exposed: true
 
-  - name: ObservedEncrypted
-    description: Number of encrypted observed flows.
-    type: integer
-    exposed: true
-
-  - name: ObservedServiceIDs
-    description: Map of ints...
-    type: external
-    exposed: true
-    subtype: map_string_int
-
   - name: acceptedFlows
     description: Number of accepted flows in the edge.
     type: integer
@@ -59,11 +48,17 @@ attributes:
     type: integer
     exposed: true
 
+  - name: observedEncrypted
+    description: Number of encrypted observed flows.
+    type: integer
+    exposed: true
+
   - name: observedPolicyIDs
     description: |-
       Information about the observation policies that was hit in the flows
       represented by that edge.
     type: refMap
+    exposed: true
     subtype: graphpolicyinfo
     extensions:
       refMode: pointer
@@ -73,11 +68,18 @@ attributes:
     type: integer
     exposed: true
 
+  - name: observedServiceIDs
+    description: Map of ints...
+    type: external
+    exposed: true
+    subtype: map_string_int
+
   - name: policyIDs
     description: |-
       Information about the policies that was hit in the flows represented by that
       edge.
     type: refMap
+    exposed: true
     subtype: graphpolicyinfo
     extensions:
       refMode: pointer

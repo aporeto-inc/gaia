@@ -175,6 +175,7 @@ relations:
     description: Retrieves the dependencymap of a namespace.
     global_parameters:
     - $timewindow
+    - $flowoffset
     parameters:
       entries:
       - name: tag
@@ -264,6 +265,7 @@ relations:
     description: Retrieves the list of external access according to parameters.
     global_parameters:
     - $timewindow
+    - $flowoffset
     parameters:
       entries:
       - name: destinationID
@@ -276,8 +278,17 @@ relations:
         description: Type of the destination.
         type: enum
         allowed_choices:
-        - ext
-        - pu
+        - ExternalNetwork
+        - ProcessingUnit
+
+      - name: flowMode
+        description: Choose if observed, applied to all flows.
+        type: enum
+        allowed_choices:
+        - observed
+        - applied
+        - all
+        default_value: applied
 
       - name: geoloc
         description: Geolocalize the the flow.
@@ -297,8 +308,8 @@ relations:
         description: Type of the source.
         type: enum
         allowed_choices:
-        - ext
-        - pu
+        - ExternalNetwork
+        - ProcessingUnit
 
 - rest_name: externalservice
   get:
@@ -355,6 +366,7 @@ relations:
     deprecated: true
     global_parameters:
     - $timewindow
+    - $flowoffset
     parameters:
       entries:
       - name: action

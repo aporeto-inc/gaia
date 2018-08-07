@@ -175,8 +175,8 @@ const (
 	// StatsTagKeyFlowTypeProcessingUnit represents the pu type value.
 	StatsTagKeyFlowTypeProcessingUnit = "pu"
 
-	// StatsTagKeyFlowTypeExternalService represents the ext value.
-	StatsTagKeyFlowTypeExternalService = "ext"
+	// StatsTagKeyFlowTypeExternalNetwork represents the ext value.
+	StatsTagKeyFlowTypeExternalNetwork = "ext"
 
 	// StatsTagKeyL4Protocol represents the L4 protocol for the flow
 	StatsTagKeyL4Protocol = "@l4proto"
