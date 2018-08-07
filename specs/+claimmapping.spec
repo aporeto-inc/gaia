@@ -18,8 +18,7 @@ attributes:
     stored: true
     required: true
     allowed_chars: ^[a-zA-Z0-9-_/*#&@\+\$~:]+$
-    example_value:
-    - email
+    example_value: email
 
   - name: targetHTTPHeader
     description: The target HTTP header where this claim name must be mapped.
@@ -28,5 +27,4 @@ attributes:
     stored: true
     required: true
     allowed_chars: ^[a-zA-Z0-9-_/*#&@\+\$~:]+$
-    example_value:
-    - X-UserName
+    example_value: X-Username

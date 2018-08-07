@@ -2227,12 +2227,8 @@ Represents a mapping from a claim name to an HTTP header.
 
 ```json
 {
-  "claimName": [
-    "email"
-  ],
-  "targetHTTPHeader": [
-    "X-UserName"
-  ]
+  "claimName": "email",
+  "targetHTTPHeader": "X-Username"
 }
 ```
 
