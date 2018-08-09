@@ -26,6 +26,20 @@ const (
 	NetworkAccessPolicyActionReject NetworkAccessPolicyActionValue = "Reject"
 )
 
+// NetworkAccessPolicyApplyPolicyModeValue represents the possible values for attribute "applyPolicyMode".
+type NetworkAccessPolicyApplyPolicyModeValue string
+
+const (
+	// NetworkAccessPolicyApplyPolicyModeBidirectional represents the value Bidirectional.
+	NetworkAccessPolicyApplyPolicyModeBidirectional NetworkAccessPolicyApplyPolicyModeValue = "Bidirectional"
+
+	// NetworkAccessPolicyApplyPolicyModeIncomingTraffic represents the value IncomingTraffic.
+	NetworkAccessPolicyApplyPolicyModeIncomingTraffic NetworkAccessPolicyApplyPolicyModeValue = "IncomingTraffic"
+
+	// NetworkAccessPolicyApplyPolicyModeOutgoingTraffic represents the value OutgoingTraffic.
+	NetworkAccessPolicyApplyPolicyModeOutgoingTraffic NetworkAccessPolicyApplyPolicyModeValue = "OutgoingTraffic"
+)
+
 // NetworkAccessPolicyObservedTrafficActionValue represents the possible values for attribute "observedTrafficAction".
 type NetworkAccessPolicyObservedTrafficActionValue string
 
@@ -35,20 +49,6 @@ const (
 
 	// NetworkAccessPolicyObservedTrafficActionContinue represents the value Continue.
 	NetworkAccessPolicyObservedTrafficActionContinue NetworkAccessPolicyObservedTrafficActionValue = "Continue"
-)
-
-// NetworkAccessPolicyRestrictDirectionValue represents the possible values for attribute "restrictDirection".
-type NetworkAccessPolicyRestrictDirectionValue string
-
-const (
-	// NetworkAccessPolicyRestrictDirectionApplicationOnly represents the value ApplicationOnly.
-	NetworkAccessPolicyRestrictDirectionApplicationOnly NetworkAccessPolicyRestrictDirectionValue = "ApplicationOnly"
-
-	// NetworkAccessPolicyRestrictDirectionNetworkOnly represents the value NetworkOnly.
-	NetworkAccessPolicyRestrictDirectionNetworkOnly NetworkAccessPolicyRestrictDirectionValue = "NetworkOnly"
-
-	// NetworkAccessPolicyRestrictDirectionNone represents the value None.
-	NetworkAccessPolicyRestrictDirectionNone NetworkAccessPolicyRestrictDirectionValue = "None"
 )
 
 // NetworkAccessPolicyIdentity represents the Identity of the object.
@@ -129,6 +129,11 @@ type NetworkAccessPolicy struct {
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
+	// applyPolicyMode determines if the policy has to be applied to the
+	// outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
+	// Default is both directions.
+	ApplyPolicyMode NetworkAccessPolicyApplyPolicyModeValue `json:"applyPolicyMode" bson:"-" mapstructure:"applyPolicyMode,omitempty"`
+
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
@@ -194,10 +199,6 @@ type NetworkAccessPolicy struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Restrict direction restricts policy to application or network only
-	// traffic.
-	RestrictDirection NetworkAccessPolicyRestrictDirectionValue `json:"restrictDirection" bson:"-" mapstructure:"restrictDirection,omitempty"`
-
 	// Subject of the policy.
 	Subject [][]string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
@@ -215,13 +216,13 @@ func NewNetworkAccessPolicy() *NetworkAccessPolicy {
 	return &NetworkAccessPolicy{
 		ModelVersion:          1,
 		Action:                NetworkAccessPolicyActionAllow,
-		Annotations:           map[string][]string{},
 		AssociatedTags:        []string{},
+		Annotations:           map[string][]string{},
+		ApplyPolicyMode:       NetworkAccessPolicyApplyPolicyModeBidirectional,
 		DestinationPorts:      []string{},
-		ObservedTrafficAction: NetworkAccessPolicyObservedTrafficActionContinue,
-		NormalizedTags:        []string{},
 		Metadata:              []string{},
-		RestrictDirection:     NetworkAccessPolicyRestrictDirectionNone,
+		NormalizedTags:        []string{},
+		ObservedTrafficAction: NetworkAccessPolicyObservedTrafficActionContinue,
 	}
 }
 
@@ -481,6 +482,10 @@ func (o *NetworkAccessPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateStringInList("applyPolicyMode", string(o.ApplyPolicyMode), []string{"OutgoingTraffic", "IncomingTraffic", "Bidirectional"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -494,10 +499,6 @@ func (o *NetworkAccessPolicy) Validate() error {
 	}
 
 	if err := elemental.ValidateStringInList("observedTrafficAction", string(o.ObservedTrafficAction), []string{"Apply", "Continue"}, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateStringInList("restrictDirection", string(o.RestrictDirection), []string{"ApplicationOnly", "NetworkOnly", "None"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -591,6 +592,18 @@ The policy will be active for the given activeDuration.`,
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
+	},
+	"ApplyPolicyMode": elemental.AttributeSpecification{
+		AllowedChoices: []string{"OutgoingTraffic", "IncomingTraffic", "Bidirectional"},
+		ConvertedName:  "ApplyPolicyMode",
+		DefaultValue:   NetworkAccessPolicyApplyPolicyModeBidirectional,
+		Description: `applyPolicyMode determines if the policy has to be applied to the
+outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
+Default is both directions.`,
+		Exposed:   true,
+		Name:      "applyPolicyMode",
+		Orderable: true,
+		Type:      "enum",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -836,17 +849,6 @@ namespace, but still used for policy resolution.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"RestrictDirection": elemental.AttributeSpecification{
-		AllowedChoices: []string{"ApplicationOnly", "NetworkOnly", "None"},
-		ConvertedName:  "RestrictDirection",
-		DefaultValue:   NetworkAccessPolicyRestrictDirectionNone,
-		Description: `Restrict direction restricts policy to application or network only
-traffic.`,
-		Exposed:   true,
-		Name:      "restrictDirection",
-		Orderable: true,
-		Type:      "enum",
-	},
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
@@ -935,6 +937,18 @@ The policy will be active for the given activeDuration.`,
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
+	},
+	"applypolicymode": elemental.AttributeSpecification{
+		AllowedChoices: []string{"OutgoingTraffic", "IncomingTraffic", "Bidirectional"},
+		ConvertedName:  "ApplyPolicyMode",
+		DefaultValue:   NetworkAccessPolicyApplyPolicyModeBidirectional,
+		Description: `applyPolicyMode determines if the policy has to be applied to the
+outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
+Default is both directions.`,
+		Exposed:   true,
+		Name:      "applyPolicyMode",
+		Orderable: true,
+		Type:      "enum",
 	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1179,17 +1193,6 @@ namespace, but still used for policy resolution.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "boolean",
-	},
-	"restrictdirection": elemental.AttributeSpecification{
-		AllowedChoices: []string{"ApplicationOnly", "NetworkOnly", "None"},
-		ConvertedName:  "RestrictDirection",
-		DefaultValue:   NetworkAccessPolicyRestrictDirectionNone,
-		Description: `Restrict direction restricts policy to application or network only
-traffic.`,
-		Exposed:   true,
-		Name:      "restrictDirection",
-		Orderable: true,
-		Type:      "enum",
 	},
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
