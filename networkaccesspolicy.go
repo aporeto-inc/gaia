@@ -37,6 +37,20 @@ const (
 	NetworkAccessPolicyObservedTrafficActionContinue NetworkAccessPolicyObservedTrafficActionValue = "Continue"
 )
 
+// NetworkAccessPolicyRestrictDirectionValue represents the possible values for attribute "restrictDirection".
+type NetworkAccessPolicyRestrictDirectionValue string
+
+const (
+	// NetworkAccessPolicyRestrictDirectionApplicationOnly represents the value ApplicationOnly.
+	NetworkAccessPolicyRestrictDirectionApplicationOnly NetworkAccessPolicyRestrictDirectionValue = "ApplicationOnly"
+
+	// NetworkAccessPolicyRestrictDirectionNetworkOnly represents the value NetworkOnly.
+	NetworkAccessPolicyRestrictDirectionNetworkOnly NetworkAccessPolicyRestrictDirectionValue = "NetworkOnly"
+
+	// NetworkAccessPolicyRestrictDirectionNone represents the value None.
+	NetworkAccessPolicyRestrictDirectionNone NetworkAccessPolicyRestrictDirectionValue = "None"
+)
+
 // NetworkAccessPolicyIdentity represents the Identity of the object.
 var NetworkAccessPolicyIdentity = elemental.Identity{
 	Name:     "networkaccesspolicy",
@@ -180,6 +194,10 @@ type NetworkAccessPolicy struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
+	// Restrict direction restricts policy to application or network only
+	// traffic.
+	RestrictDirection NetworkAccessPolicyRestrictDirectionValue `json:"restrictDirection" bson:"-" mapstructure:"restrictDirection,omitempty"`
+
 	// Subject of the policy.
 	Subject [][]string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
@@ -200,9 +218,10 @@ func NewNetworkAccessPolicy() *NetworkAccessPolicy {
 		Annotations:           map[string][]string{},
 		AssociatedTags:        []string{},
 		DestinationPorts:      []string{},
-		Metadata:              []string{},
-		NormalizedTags:        []string{},
 		ObservedTrafficAction: NetworkAccessPolicyObservedTrafficActionContinue,
+		NormalizedTags:        []string{},
+		Metadata:              []string{},
+		RestrictDirection:     NetworkAccessPolicyRestrictDirectionNone,
 	}
 }
 
@@ -475,6 +494,10 @@ func (o *NetworkAccessPolicy) Validate() error {
 	}
 
 	if err := elemental.ValidateStringInList("observedTrafficAction", string(o.ObservedTrafficAction), []string{"Apply", "Continue"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("restrictDirection", string(o.RestrictDirection), []string{"ApplicationOnly", "NetworkOnly", "None"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -813,6 +836,17 @@ namespace, but still used for policy resolution.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"RestrictDirection": elemental.AttributeSpecification{
+		AllowedChoices: []string{"ApplicationOnly", "NetworkOnly", "None"},
+		ConvertedName:  "RestrictDirection",
+		DefaultValue:   NetworkAccessPolicyRestrictDirectionNone,
+		Description: `Restrict direction restricts policy to application or network only
+traffic.`,
+		Exposed:   true,
+		Name:      "restrictDirection",
+		Orderable: true,
+		Type:      "enum",
+	},
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
@@ -1145,6 +1179,17 @@ namespace, but still used for policy resolution.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"restrictdirection": elemental.AttributeSpecification{
+		AllowedChoices: []string{"ApplicationOnly", "NetworkOnly", "None"},
+		ConvertedName:  "RestrictDirection",
+		DefaultValue:   NetworkAccessPolicyRestrictDirectionNone,
+		Description: `Restrict direction restricts policy to application or network only
+traffic.`,
+		Exposed:   true,
+		Name:      "restrictDirection",
+		Orderable: true,
+		Type:      "enum",
 	},
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

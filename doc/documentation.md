@@ -6867,6 +6867,17 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
+#### `restrictDirection (enum)`
+
+Restrict direction restricts policy to application or network only
+traffic.
+
+| Characteristics | Value                                |
+| -               | -:                                   |
+| Allowed Value   | `ApplicationOnly, NetworkOnly, None` |
+| Default         | `"None"`                             |
+| Orderable       | `true`                               |
+
 #### `subject (external:policies_list)`
 
 Subject of the policy.

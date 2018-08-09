@@ -90,6 +90,19 @@ attributes:
     default_value: Continue
     orderable: true
 
+  - name: restrictDirection
+    description: |-
+      Restrict direction restricts policy to application or network only
+      traffic.
+    type: enum
+    exposed: true
+    allowed_choices:
+    - ApplicationOnly
+    - NetworkOnly
+    - None
+    default_value: None
+    orderable: true
+
   - name: subject
     description: Subject of the policy.
     type: external
