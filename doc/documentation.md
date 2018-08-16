@@ -9298,6 +9298,7 @@ Retrieves a list of network policy suggestion.
 - `endRelative` (duration): Set the relative end of the time window.
 - `startAbsolute` (time): Set the absolute start of the time window.
 - `startRelative` (duration): Set the relative start of the time window.
+- `flowOffset` (duration): Apply an offset to the time window for flows.
 
 ##### Mandatory Parameters
 

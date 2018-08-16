@@ -690,6 +690,7 @@ relations:
     description: Retrieves a list of network policy suggestion.
     global_parameters:
     - $timewindow
+    - $flowoffset
     parameters:
       entries:
       - name: filterAction

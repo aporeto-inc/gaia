@@ -3891,6 +3891,10 @@ func init() {
 						Name: "startRelative",
 						Type: "duration",
 					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
+						Type: "duration",
+					},
 				},
 			},
 		},
@@ -3952,6 +3956,10 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "flowOffset",
 						Type: "duration",
 					},
 				},
