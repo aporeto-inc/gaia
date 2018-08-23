@@ -8,9 +8,16 @@ model:
   aliases:
   - extsrv
   - extsrvs
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+    global_parameters:
+    - $archivable
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
+    global_parameters:
+    - $filtering
   extends:
   - '@archivable'
   - '@base'
@@ -28,7 +35,6 @@ attributes:
     exposed: true
     stored: true
     example_value: 0.0.0.0/0
-    format: free
 
   - name: port
     description: |-
@@ -49,4 +55,3 @@ attributes:
     required: true
     allowed_chars: ^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
     example_value: TCP
-    filterable: true

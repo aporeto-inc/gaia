@@ -7,7 +7,8 @@ model:
   description: |-
     PolicyRule is an internal policy resolution API. Services can use this API to
     retrieve a policy resolution.
-  get: true
+  get:
+    description: Retrieves the object with the given ID.
   extends:
   - '@identifiable-nopk-nostored'
   - '@named'

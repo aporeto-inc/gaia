@@ -9,9 +9,14 @@ model:
     children namespaces.
   aliases:
   - mess
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
+    global_parameters:
+    - $filtering
   extends:
   - '@base'
   - '@described'
@@ -26,7 +31,6 @@ attributes:
     type: time
     exposed: true
     stored: true
-    filterable: true
     orderable: true
 
   - name: level
@@ -39,7 +43,6 @@ attributes:
     - Info
     - Warning
     default_value: Info
-    filterable: true
     orderable: true
 
   - name: local
@@ -48,7 +51,6 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    filterable: true
     orderable: true
 
   - name: notifyByEmail
@@ -58,7 +60,6 @@ attributes:
     type: boolean
     exposed: true
     creation_only: true
-    filterable: true
 
   - name: validity
     description: |-
@@ -68,4 +69,3 @@ attributes:
     exposed: true
     stored: true
     allowed_chars: ^[0-9]+[smh]$
-    format: free

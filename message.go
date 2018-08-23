@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// MessageIndexes lists the attribute compound indexes.
+var MessageIndexes = [][]string{}
+
 // MessageLevelValue represents the possible values for attribute "level".
 type MessageLevelValue string
 
@@ -133,7 +136,7 @@ type Message struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewMessage returns a new *Message
@@ -143,7 +146,7 @@ func NewMessage() *Message {
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		Level:          "Info",
+		Level:          MessageLevelInfo,
 		NormalizedTags: []string{},
 	}
 }
@@ -344,7 +347,6 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -396,7 +398,6 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -408,7 +409,6 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "ExpirationTime",
 		Description:    `expirationTime is the time after which the message will be deleted.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "expirationTime",
 		Orderable:      true,
 		Stored:         true,
@@ -420,7 +420,6 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		DefaultValue:   MessageLevelInfo,
 		Description:    `Level defines how the message is important.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "level",
 		Orderable:      true,
 		Stored:         true,
@@ -431,7 +430,6 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Local",
 		Description:    `If local is set, the message will only be visible in the current namespace.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "local",
 		Orderable:      true,
 		Stored:         true,
@@ -444,7 +442,6 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -462,9 +459,7 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -494,10 +489,9 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description: `If enabled, the message will be sent to the email associated in namespaces
 annotations.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "notifyByEmail",
-		Type:       "boolean",
+		Exposed: true,
+		Name:    "notifyByEmail",
+		Type:    "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -531,7 +525,6 @@ annotations.`,
 		Description: `Validity set using golang time duration, when the message will be automatically
 deleted.`,
 		Exposed: true,
-		Format:  "free",
 		Name:    "validity",
 		Stored:  true,
 		Type:    "string",
@@ -547,7 +540,6 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -599,7 +591,6 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -611,7 +602,6 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "ExpirationTime",
 		Description:    `expirationTime is the time after which the message will be deleted.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "expirationTime",
 		Orderable:      true,
 		Stored:         true,
@@ -623,7 +613,6 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		DefaultValue:   MessageLevelInfo,
 		Description:    `Level defines how the message is important.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "level",
 		Orderable:      true,
 		Stored:         true,
@@ -634,7 +623,6 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Local",
 		Description:    `If local is set, the message will only be visible in the current namespace.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "local",
 		Orderable:      true,
 		Stored:         true,
@@ -647,7 +635,6 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -665,9 +652,7 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -697,10 +682,9 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description: `If enabled, the message will be sent to the email associated in namespaces
 annotations.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "notifyByEmail",
-		Type:       "boolean",
+		Exposed: true,
+		Name:    "notifyByEmail",
+		Type:    "boolean",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -734,7 +718,6 @@ annotations.`,
 		Description: `Validity set using golang time duration, when the message will be automatically
 deleted.`,
 		Exposed: true,
-		Format:  "free",
 		Name:    "validity",
 		Stored:  true,
 		Type:    "string",

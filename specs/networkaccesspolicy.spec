@@ -11,9 +11,16 @@ model:
   aliases:
   - netpol
   - netpols
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+    global_parameters:
+    - $propagatable
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
+    global_parameters:
+    - $filtering
   extends:
   - '@base'
   - '@described'
@@ -39,6 +46,20 @@ attributes:
     - Reject
     - Continue
     default_value: Allow
+    orderable: true
+
+  - name: applyPolicyMode
+    description: |-
+      applyPolicyMode determines if the policy has to be applied to the
+      outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
+      Default is both directions.
+    type: enum
+    exposed: true
+    allowed_choices:
+    - OutgoingTraffic
+    - IncomingTraffic
+    - Bidirectional
+    default_value: Bidirectional
     orderable: true
 
   - name: destinationPorts
@@ -95,11 +116,29 @@ attributes:
 # Relations
 relations:
 - rest_name: externalservice
-  descriptions:
-    get: Returns the list of external services affected by a network access policy.
-  get: true
+  get:
+    description: Returns the list of external services affected by a network access
+      policy.
+    parameters:
+      entries:
+      - name: mode
+        description: Matching mode.
+        type: enum
+        allowed_choices:
+        - subjects
+        - object
+        default_value: objects
 
 - rest_name: processingunit
-  descriptions:
-    get: Returns the list of Processing Units affected by a network access policy.
-  get: true
+  get:
+    description: Returns the list of Processing Units affected by a network access
+      policy.
+    parameters:
+      entries:
+      - name: mode
+        description: Matching mode.
+        type: enum
+        allowed_choices:
+        - subjects
+        - object
+        default_value: objects

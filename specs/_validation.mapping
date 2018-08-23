@@ -1,0 +1,23 @@
+$network:
+  elemental:
+    name: ValidateNetwork
+
+$networks:
+  elemental:
+    name: ValidateNetworkList
+
+$port:
+  elemental:
+    name: ValidatePortString
+
+$ports:
+  elemental:
+    name: ValidatePortStringList
+
+$protocol:
+  elemental:
+    name: ValidateProtocol
+
+$protocols:
+  elemental:
+    name: ValidateProtocolList

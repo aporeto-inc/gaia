@@ -25,9 +25,14 @@ model:
   - nspolicies
   - nsmap
   - nsmaps
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
+    global_parameters:
+    - $filtering
   extends:
   - '@base'
   - '@described'
@@ -46,7 +51,6 @@ attributes:
     stored: true
     required: true
     example_value: /blue/namespace
-    format: free
     orderable: true
 
   - name: subject

@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// TagInjectIndexes lists the attribute compound indexes.
+var TagInjectIndexes = [][]string{}
+
 // TagInjectIdentity represents the Identity of the object.
 var TagInjectIdentity = elemental.Identity{
 	Name:     "taginject",
@@ -77,7 +80,7 @@ type TagInject struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTagInject returns a new *TagInject

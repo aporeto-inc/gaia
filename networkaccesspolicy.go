@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// NetworkAccessPolicyIndexes lists the attribute compound indexes.
+var NetworkAccessPolicyIndexes = [][]string{}
+
 // NetworkAccessPolicyActionValue represents the possible values for attribute "action".
 type NetworkAccessPolicyActionValue string
 
@@ -21,6 +24,20 @@ const (
 
 	// NetworkAccessPolicyActionReject represents the value Reject.
 	NetworkAccessPolicyActionReject NetworkAccessPolicyActionValue = "Reject"
+)
+
+// NetworkAccessPolicyApplyPolicyModeValue represents the possible values for attribute "applyPolicyMode".
+type NetworkAccessPolicyApplyPolicyModeValue string
+
+const (
+	// NetworkAccessPolicyApplyPolicyModeBidirectional represents the value Bidirectional.
+	NetworkAccessPolicyApplyPolicyModeBidirectional NetworkAccessPolicyApplyPolicyModeValue = "Bidirectional"
+
+	// NetworkAccessPolicyApplyPolicyModeIncomingTraffic represents the value IncomingTraffic.
+	NetworkAccessPolicyApplyPolicyModeIncomingTraffic NetworkAccessPolicyApplyPolicyModeValue = "IncomingTraffic"
+
+	// NetworkAccessPolicyApplyPolicyModeOutgoingTraffic represents the value OutgoingTraffic.
+	NetworkAccessPolicyApplyPolicyModeOutgoingTraffic NetworkAccessPolicyApplyPolicyModeValue = "OutgoingTraffic"
 )
 
 // NetworkAccessPolicyObservedTrafficActionValue represents the possible values for attribute "observedTrafficAction".
@@ -112,6 +129,11 @@ type NetworkAccessPolicy struct {
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
+	// applyPolicyMode determines if the policy has to be applied to the
+	// outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
+	// Default is both directions.
+	ApplyPolicyMode NetworkAccessPolicyApplyPolicyModeValue `json:"applyPolicyMode" bson:"-" mapstructure:"applyPolicyMode,omitempty"`
+
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
@@ -185,7 +207,7 @@ type NetworkAccessPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewNetworkAccessPolicy returns a new *NetworkAccessPolicy
@@ -193,13 +215,14 @@ func NewNetworkAccessPolicy() *NetworkAccessPolicy {
 
 	return &NetworkAccessPolicy{
 		ModelVersion:          1,
-		Action:                "Allow",
-		Annotations:           map[string][]string{},
+		Action:                NetworkAccessPolicyActionAllow,
 		AssociatedTags:        []string{},
+		Annotations:           map[string][]string{},
+		ApplyPolicyMode:       NetworkAccessPolicyApplyPolicyModeBidirectional,
 		DestinationPorts:      []string{},
 		Metadata:              []string{},
 		NormalizedTags:        []string{},
-		ObservedTrafficAction: "Continue",
+		ObservedTrafficAction: NetworkAccessPolicyObservedTrafficActionContinue,
 	}
 }
 
@@ -459,6 +482,10 @@ func (o *NetworkAccessPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateStringInList("applyPolicyMode", string(o.ApplyPolicyMode), []string{"OutgoingTraffic", "IncomingTraffic", "Bidirectional"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -512,7 +539,6 @@ var NetworkAccessPolicyAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -536,7 +562,6 @@ var NetworkAccessPolicyAttributesMap = map[string]elemental.AttributeSpecificati
 		Description: `ActiveDuration defines for how long the policy will be active according to the
 activeSchedule.`,
 		Exposed: true,
-		Format:  "free",
 		Getter:  true,
 		Name:    "activeDuration",
 		Setter:  true,
@@ -567,6 +592,18 @@ The policy will be active for the given activeDuration.`,
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
+	},
+	"ApplyPolicyMode": elemental.AttributeSpecification{
+		AllowedChoices: []string{"OutgoingTraffic", "IncomingTraffic", "Bidirectional"},
+		ConvertedName:  "ApplyPolicyMode",
+		DefaultValue:   NetworkAccessPolicyApplyPolicyModeBidirectional,
+		Description: `applyPolicyMode determines if the policy has to be applied to the
+outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
+Default is both directions.`,
+		Exposed:   true,
+		Name:      "applyPolicyMode",
+		Orderable: true,
+		Type:      "enum",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -599,7 +636,6 @@ The policy will be active for the given activeDuration.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -682,7 +718,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -700,9 +735,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -849,7 +882,6 @@ var NetworkAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -873,7 +905,6 @@ var NetworkAccessPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		Description: `ActiveDuration defines for how long the policy will be active according to the
 activeSchedule.`,
 		Exposed: true,
-		Format:  "free",
 		Getter:  true,
 		Name:    "activeDuration",
 		Setter:  true,
@@ -904,6 +935,18 @@ The policy will be active for the given activeDuration.`,
 		Stored:         true,
 		SubType:        "annotations",
 		Type:           "external",
+	},
+	"applypolicymode": elemental.AttributeSpecification{
+		AllowedChoices: []string{"OutgoingTraffic", "IncomingTraffic", "Bidirectional"},
+		ConvertedName:  "ApplyPolicyMode",
+		DefaultValue:   NetworkAccessPolicyApplyPolicyModeBidirectional,
+		Description: `applyPolicyMode determines if the policy has to be applied to the
+outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
+Default is both directions.`,
+		Exposed:   true,
+		Name:      "applyPolicyMode",
+		Orderable: true,
+		Type:      "enum",
 	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -936,7 +979,6 @@ The policy will be active for the given activeDuration.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -1019,7 +1061,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -1037,9 +1078,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,

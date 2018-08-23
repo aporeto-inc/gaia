@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// TokenIndexes lists the attribute compound indexes.
+var TokenIndexes = [][]string{}
+
 // TokenIdentity represents the Identity of the object.
 var TokenIdentity = elemental.Identity{
 	Name:     "token",
@@ -80,7 +83,7 @@ type Token struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewToken returns a new *Token
@@ -176,7 +179,6 @@ var TokenAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description:    `Certificate contains the client certificate to use to create a token.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "certificate",
 		Required:       true,
 		Type:           "string",
@@ -186,7 +188,6 @@ var TokenAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "SigningKeyID",
 		Description:    `SigningKeyID holds the ID of the custom CA to use to sign the token.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "signingKeyID",
 		Stored:         true,
 		Type:           "string",
@@ -197,7 +198,6 @@ var TokenAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Token",
 		Description:    `Token contains the generated token.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "token",
 		ReadOnly:       true,
 		Type:           "string",
@@ -208,7 +208,6 @@ var TokenAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description:    `Validity contains the token validity duration.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "validity",
 		Type:           "string",
 	},
@@ -222,7 +221,6 @@ var TokenLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description:    `Certificate contains the client certificate to use to create a token.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "certificate",
 		Required:       true,
 		Type:           "string",
@@ -232,7 +230,6 @@ var TokenLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "SigningKeyID",
 		Description:    `SigningKeyID holds the ID of the custom CA to use to sign the token.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "signingKeyID",
 		Stored:         true,
 		Type:           "string",
@@ -243,7 +240,6 @@ var TokenLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Token",
 		Description:    `Token contains the generated token.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "token",
 		ReadOnly:       true,
 		Type:           "string",
@@ -254,7 +250,6 @@ var TokenLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description:    `Validity contains the token validity duration.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "validity",
 		Type:           "string",
 	},

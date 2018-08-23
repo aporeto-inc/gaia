@@ -10,6 +10,9 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
+// ProcessingUnitIndexes lists the attribute compound indexes.
+var ProcessingUnitIndexes = [][]string{}
+
 // ProcessingUnitOperationalStatusValue represents the possible values for attribute "operationalStatus".
 type ProcessingUnitOperationalStatusValue string
 
@@ -170,7 +173,7 @@ type ProcessingUnit struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewProcessingUnit returns a new *ProcessingUnit
@@ -183,7 +186,7 @@ func NewProcessingUnit() *ProcessingUnit {
 		Metadata:          []string{},
 		NetworkServices:   types.ProcessingUnitServicesList{},
 		NormalizedTags:    []string{},
-		OperationalStatus: "Initialized",
+		OperationalStatus: ProcessingUnitOperationalStatusInitialized,
 	}
 }
 
@@ -411,7 +414,6 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -473,7 +475,6 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -486,7 +487,6 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `EnforcerID is the ID of the enforcer associated with the processing unit.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "enforcerID",
 		Stored:         true,
 		Type:           "string",
@@ -524,7 +524,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -542,9 +541,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -558,8 +555,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "NativeContextID",
 		Description:    `NativeContextID is the Docker UUID or service PID.`,
 		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
 		Name:           "nativeContextID",
 		Stored:         true,
 		Type:           "string",
@@ -649,7 +644,6 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -711,7 +705,6 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -724,7 +717,6 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Description:    `EnforcerID is the ID of the enforcer associated with the processing unit.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "enforcerID",
 		Stored:         true,
 		Type:           "string",
@@ -762,7 +754,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -780,9 +771,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -796,8 +785,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "NativeContextID",
 		Description:    `NativeContextID is the Docker UUID or service PID.`,
 		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
 		Name:           "nativeContextID",
 		Stored:         true,
 		Type:           "string",

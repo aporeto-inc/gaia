@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// SuggestedPolicyIndexes lists the attribute compound indexes.
+var SuggestedPolicyIndexes = [][]string{}
+
 // SuggestedPolicyIdentity represents the Identity of the object.
 var SuggestedPolicyIdentity = elemental.Identity{
 	Name:     "suggestedpolicy",
@@ -71,7 +74,7 @@ type SuggestedPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSuggestedPolicy returns a new *SuggestedPolicy

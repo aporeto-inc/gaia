@@ -5,9 +5,14 @@ model:
   entity_name: Installation
   package: highwind
   description: Installation represents an installation for a given account.
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
+    global_parameters:
+    - $filtering
 
 # Attributes
 attributes:
@@ -17,8 +22,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    filterable: true
-    format: free
     identifier: true
     orderable: true
     primary_key: true
@@ -28,6 +31,4 @@ attributes:
     type: string
     exposed: true
     stored: true
-    filterable: true
-    format: free
     orderable: true

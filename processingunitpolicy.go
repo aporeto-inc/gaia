@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// ProcessingUnitPolicyIndexes lists the attribute compound indexes.
+var ProcessingUnitPolicyIndexes = [][]string{}
+
 // ProcessingUnitPolicyActionValue represents the possible values for attribute "action".
 type ProcessingUnitPolicyActionValue string
 
@@ -163,7 +166,7 @@ type ProcessingUnitPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewProcessingUnitPolicy returns a new *ProcessingUnitPolicy
@@ -457,7 +460,6 @@ var ProcessingUnitPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -481,7 +483,6 @@ var ProcessingUnitPolicyAttributesMap = map[string]elemental.AttributeSpecificat
 		Description: `ActiveDuration defines for how long the policy will be active according to the
 activeSchedule.`,
 		Exposed: true,
-		Format:  "free",
 		Getter:  true,
 		Name:    "activeDuration",
 		Setter:  true,
@@ -544,7 +545,6 @@ The policy will be active for the given activeDuration.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -610,7 +610,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -628,9 +627,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -726,7 +723,6 @@ var ProcessingUnitPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -750,7 +746,6 @@ var ProcessingUnitPolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Description: `ActiveDuration defines for how long the policy will be active according to the
 activeSchedule.`,
 		Exposed: true,
-		Format:  "free",
 		Getter:  true,
 		Name:    "activeDuration",
 		Setter:  true,
@@ -813,7 +808,6 @@ The policy will be active for the given activeDuration.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -879,7 +873,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -897,9 +890,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,

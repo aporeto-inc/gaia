@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// KubernetesClusterIndexes lists the attribute compound indexes.
+var KubernetesClusterIndexes = [][]string{}
+
 // KubernetesClusterActivationTypeValue represents the possible values for attribute "activationType".
 type KubernetesClusterActivationTypeValue string
 
@@ -125,7 +128,7 @@ type KubernetesCluster struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewKubernetesCluster returns a new *KubernetesCluster
@@ -133,7 +136,7 @@ func NewKubernetesCluster() *KubernetesCluster {
 
 	return &KubernetesCluster{
 		ModelVersion:   1,
-		ActivationType: "KubeSquall",
+		ActivationType: KubernetesClusterActivationTypeKubeSquall,
 	}
 }
 
@@ -221,7 +224,6 @@ var KubernetesClusterAttributesMap = map[string]elemental.AttributeSpecification
 		AllowedChoices: []string{},
 		ConvertedName:  "APIAuthorizationPolicyID",
 		Description:    `Link to the API authorization policy.`,
-		Format:         "free",
 		Name:           "APIAuthorizationPolicyID",
 		Stored:         true,
 		Type:           "string",
@@ -233,7 +235,6 @@ var KubernetesClusterAttributesMap = map[string]elemental.AttributeSpecification
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -258,7 +259,6 @@ var KubernetesClusterAttributesMap = map[string]elemental.AttributeSpecification
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateID",
 		Description:    `Link to the certificate created in Vince for this cluster.`,
-		Format:         "free",
 		Name:           "certificateID",
 		Stored:         true,
 		Type:           "string",
@@ -282,7 +282,6 @@ var KubernetesClusterAttributesMap = map[string]elemental.AttributeSpecification
 the aporeto side on your kubernetes Cluster.`,
 		Exposed:    true,
 		Filterable: true,
-		Format:     "free",
 		Name:       "kubernetesDefinitions",
 		Orderable:  true,
 		ReadOnly:   true,
@@ -294,7 +293,6 @@ the aporeto side on your kubernetes Cluster.`,
 		Description:    `The name of your cluster.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "name",
 		Orderable:      true,
 		Stored:         true,
@@ -304,7 +302,6 @@ the aporeto side on your kubernetes Cluster.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "NamespaceID",
 		Description:    `Link to your namespace.`,
-		Format:         "free",
 		Name:           "namespaceID",
 		Stored:         true,
 		Type:           "string",
@@ -315,7 +312,6 @@ the aporeto side on your kubernetes Cluster.`,
 		Description:    `ID of the parent account.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "parentID",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -337,7 +333,6 @@ the aporeto side on your kubernetes Cluster.`,
 default your account namespace.`,
 		Exposed:    true,
 		Filterable: true,
-		Format:     "free",
 		Name:       "targetNamespace",
 		Orderable:  true,
 		Stored:     true,
@@ -376,7 +371,6 @@ var KubernetesClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 		AllowedChoices: []string{},
 		ConvertedName:  "APIAuthorizationPolicyID",
 		Description:    `Link to the API authorization policy.`,
-		Format:         "free",
 		Name:           "APIAuthorizationPolicyID",
 		Stored:         true,
 		Type:           "string",
@@ -388,7 +382,6 @@ var KubernetesClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -413,7 +406,6 @@ var KubernetesClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateID",
 		Description:    `Link to the certificate created in Vince for this cluster.`,
-		Format:         "free",
 		Name:           "certificateID",
 		Stored:         true,
 		Type:           "string",
@@ -437,7 +429,6 @@ var KubernetesClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpec
 the aporeto side on your kubernetes Cluster.`,
 		Exposed:    true,
 		Filterable: true,
-		Format:     "free",
 		Name:       "kubernetesDefinitions",
 		Orderable:  true,
 		ReadOnly:   true,
@@ -449,7 +440,6 @@ the aporeto side on your kubernetes Cluster.`,
 		Description:    `The name of your cluster.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "name",
 		Orderable:      true,
 		Stored:         true,
@@ -459,7 +449,6 @@ the aporeto side on your kubernetes Cluster.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "NamespaceID",
 		Description:    `Link to your namespace.`,
-		Format:         "free",
 		Name:           "namespaceID",
 		Stored:         true,
 		Type:           "string",
@@ -470,7 +459,6 @@ the aporeto side on your kubernetes Cluster.`,
 		Description:    `ID of the parent account.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "parentID",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -492,7 +480,6 @@ the aporeto side on your kubernetes Cluster.`,
 default your account namespace.`,
 		Exposed:    true,
 		Filterable: true,
-		Format:     "free",
 		Name:       "targetNamespace",
 		Orderable:  true,
 		Stored:     true,

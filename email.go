@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// EmailIndexes lists the attribute compound indexes.
+var EmailIndexes = [][]string{}
+
 // EmailTypeValue represents the possible values for attribute "type".
 type EmailTypeValue string
 
@@ -103,7 +106,7 @@ type Email struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewEmail returns a new *Email
@@ -111,7 +114,7 @@ func NewEmail() *Email {
 
 	return &Email{
 		ModelVersion: 1,
-		Type:         "Plain",
+		Type:         EmailTypePlain,
 	}
 }
 
@@ -230,7 +233,6 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Content",
 		Description:    `Content of the email to send.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "content",
 		Type:           "string",
 	},
@@ -248,7 +250,6 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Subject",
 		Description:    `Subject represents the subject of the email.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "subject",
 		Type:           "string",
 	},
@@ -306,7 +307,6 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Content",
 		Description:    `Content of the email to send.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "content",
 		Type:           "string",
 	},
@@ -324,7 +324,6 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Subject",
 		Description:    `Subject represents the subject of the email.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "subject",
 		Type:           "string",
 	},

@@ -17,7 +17,6 @@ attributes:
     exposed: true
     stored: true
     filterable: true
-    format: free
     orderable: true
 
   - name: type
@@ -26,5 +25,4 @@ attributes:
     exposed: true
     stored: true
     filterable: true
-    format: free
     orderable: true

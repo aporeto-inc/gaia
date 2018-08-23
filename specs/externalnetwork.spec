@@ -14,9 +14,16 @@ model:
   aliases:
   - extnet
   - extnets
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+    global_parameters:
+    - $archivable
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
+    global_parameters:
+    - $filtering
   extends:
   - '@archivable'
   - '@base'
@@ -34,26 +41,29 @@ attributes:
     exposed: true
     subtype: string
     stored: true
-    format: free
+    validations:
+    - $networks
 
-  - name: port
-    description: |-
-      Port refers to network port which could be a single number or 100:2000 to
-      represent a range of ports.
-    type: string
+  - name: ports
+    description: List of single ports or range (xx:yy).
+    type: list
     exposed: true
-    stored: true
-    allowed_chars: ^([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$
-    default_value: 1:65535
-    filterable: true
-
-  - name: protocol
-    description: Protocol refers to network protocol like TCP/UDP or the number of
-      the protocol.
-    type: string
-    exposed: true
+    subtype: string
     stored: true
     required: true
-    allowed_chars: ^(TCP|UDP|tcp|udp|[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
-    example_value: TCP
-    filterable: true
+    default_value:
+    - 1:65535
+    validations:
+    - $ports
+
+  - name: protocols
+    description: List of protocols (tcp, udp, or protocol number).
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    required: true
+    default_value:
+    - tcp
+    validations:
+    - $protocols

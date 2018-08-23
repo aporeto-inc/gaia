@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// FlowStatisticIndexes lists the attribute compound indexes.
+var FlowStatisticIndexes = [][]string{}
+
 // FlowStatisticMetricValue represents the possible values for attribute "metric".
 type FlowStatisticMetricValue string
 
@@ -136,7 +139,7 @@ type FlowStatistic struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewFlowStatistic returns a new *FlowStatistic
@@ -146,10 +149,10 @@ func NewFlowStatistic() *FlowStatistic {
 		ModelVersion:   1,
 		DataPoints:     []map[string]interface{}{},
 		DestinationIDs: []string{},
-		Metric:         "Flows",
-		Mode:           "Accepted",
+		Metric:         FlowStatisticMetricFlows,
+		Mode:           FlowStatisticModeAccepted,
 		SourceIDs:      []string{},
-		Type:           "Serie",
+		Type:           FlowStatisticTypeSerie,
 	}
 }
 
@@ -249,7 +252,6 @@ var FlowStatisticAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -274,7 +276,6 @@ time.`,
 		ConvertedName:  "DestinationIDs",
 		Description:    `DestinationIDs is the IDs of the destination.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "destinationIDs",
 		ReadOnly:       true,
 		SubType:        "flowstatistic_origin_list",
@@ -319,7 +320,6 @@ time.`,
 		ConvertedName:  "SourceIDs",
 		Description:    `SourceIDs is the sources of the stats.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "sourceIDs",
 		ReadOnly:       true,
 		SubType:        "flowstatistic_origin_list",
@@ -354,7 +354,6 @@ time.`,
 		Description: `UserIdentifier can be set by the user as a query parameter. It will be returned
 in the FlowStatistic object.`,
 		Exposed:   true,
-		Format:    "free",
 		Name:      "userIdentifier",
 		Orderable: true,
 		Type:      "string",
@@ -370,7 +369,6 @@ var FlowStatisticLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -395,7 +393,6 @@ time.`,
 		ConvertedName:  "DestinationIDs",
 		Description:    `DestinationIDs is the IDs of the destination.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "destinationIDs",
 		ReadOnly:       true,
 		SubType:        "flowstatistic_origin_list",
@@ -440,7 +437,6 @@ time.`,
 		ConvertedName:  "SourceIDs",
 		Description:    `SourceIDs is the sources of the stats.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "sourceIDs",
 		ReadOnly:       true,
 		SubType:        "flowstatistic_origin_list",
@@ -475,7 +471,6 @@ time.`,
 		Description: `UserIdentifier can be set by the user as a query parameter. It will be returned
 in the FlowStatistic object.`,
 		Exposed:   true,
-		Format:    "free",
 		Name:      "userIdentifier",
 		Orderable: true,
 		Type:      "string",

@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// PrivateKeyIndexes lists the attribute compound indexes.
+var PrivateKeyIndexes = [][]string{}
+
 // PrivateKeyIdentity represents the Identity of the object.
 var PrivateKeyIdentity = elemental.Identity{
 	Name:     "privatekey",
@@ -78,7 +81,7 @@ type PrivateKey struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPrivateKey returns a new *PrivateKey
@@ -169,7 +172,6 @@ var PrivateKeyAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
 		Description:    `ID is the internal ID of the key.`,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		PrimaryKey:     true,
@@ -181,7 +183,6 @@ var PrivateKeyAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "CertificateSerialNumber",
 		Description: `CertificateSerialNumber represents the certificate serial number associated to
 this key.`,
-		Format: "free",
 		Name:   "certificateSerialNumber",
 		Stored: true,
 		Type:   "string",
@@ -191,7 +192,6 @@ this key.`,
 		ConvertedName:  "Data",
 		CreationOnly:   true,
 		Description:    `Data contains the privateKey data.`,
-		Format:         "free",
 		Name:           "data",
 		Stored:         true,
 		Type:           "string",
@@ -204,7 +204,6 @@ var PrivateKeyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
 		Description:    `ID is the internal ID of the key.`,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		PrimaryKey:     true,
@@ -216,7 +215,6 @@ var PrivateKeyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		ConvertedName:  "CertificateSerialNumber",
 		Description: `CertificateSerialNumber represents the certificate serial number associated to
 this key.`,
-		Format: "free",
 		Name:   "certificateSerialNumber",
 		Stored: true,
 		Type:   "string",
@@ -226,7 +224,6 @@ this key.`,
 		ConvertedName:  "Data",
 		CreationOnly:   true,
 		Description:    `Data contains the privateKey data.`,
-		Format:         "free",
 		Name:           "data",
 		Stored:         true,
 		Type:           "string",

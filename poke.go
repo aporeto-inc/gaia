@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// PokeIndexes lists the attribute compound indexes.
+var PokeIndexes = [][]string{}
+
 // PokeIdentity represents the Identity of the object.
 var PokeIdentity = elemental.Identity{
 	Name:     "poke",
@@ -68,7 +71,7 @@ func (o PokesList) Version() int {
 type Poke struct {
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPoke returns a new *Poke

@@ -8,6 +8,9 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
+// StatsQueryIndexes lists the attribute compound indexes.
+var StatsQueryIndexes = [][]string{}
+
 // StatsQueryIdentity represents the Identity of the object.
 var StatsQueryIdentity = elemental.Identity{
 	Name:     "statsquery",
@@ -72,7 +75,7 @@ type StatsQuery struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewStatsQuery returns a new *StatsQuery

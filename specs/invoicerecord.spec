@@ -5,9 +5,14 @@ model:
   entity_name: InvoiceRecord
   package: bill
   description: This api allows to view detailed records of invoices for Aporeto customers.
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
+    global_parameters:
+    - $filtering
   extends:
   - '@identifiable-pk-stored'
   - '@timeable'
@@ -20,7 +25,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    format: free
     orderable: true
 
   - name: invoiceID
@@ -30,7 +34,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    format: free
     orderable: true
 
   - name: invoiceRecords
@@ -39,5 +42,4 @@ attributes:
     exposed: true
     subtype: invoicerecord_list
     stored: true
-    format: free
     orderable: true

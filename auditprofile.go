@@ -10,6 +10,9 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
+// AuditProfileIndexes lists the attribute compound indexes.
+var AuditProfileIndexes = [][]string{}
+
 // AuditProfileIdentity represents the Identity of the object.
 var AuditProfileIdentity = elemental.Identity{
 	Name:     "auditprofile",
@@ -113,7 +116,7 @@ type AuditProfile struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAuditProfile returns a new *AuditProfile
@@ -329,7 +332,6 @@ var AuditProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -381,7 +383,6 @@ var AuditProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -410,7 +411,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -428,9 +428,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -459,7 +457,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "Propagated",
 		Description:    `Propagated indicates if the audit profile is propagated.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "propagated",
 		Stored:         true,
 		Type:           "boolean",
@@ -510,7 +507,6 @@ var AuditProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -562,7 +558,6 @@ var AuditProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -591,7 +586,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -609,9 +603,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -640,7 +632,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "Propagated",
 		Description:    `Propagated indicates if the audit profile is propagated.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "propagated",
 		Stored:         true,
 		Type:           "boolean",

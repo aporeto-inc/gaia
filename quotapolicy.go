@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// QuotaPolicyIndexes lists the attribute compound indexes.
+var QuotaPolicyIndexes = [][]string{}
+
 // QuotaPolicyIdentity represents the Identity of the object.
 var QuotaPolicyIdentity = elemental.Identity{
 	Name:     "quotapolicy",
@@ -131,7 +134,7 @@ type QuotaPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewQuotaPolicy returns a new *QuotaPolicy
@@ -398,7 +401,6 @@ var QuotaPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -448,7 +450,6 @@ var QuotaPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -514,7 +515,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -532,9 +532,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -608,7 +606,6 @@ be created.`,
 		ConvertedName:  "TargetNamespace",
 		Description:    `TargetNamespace contains the base namespace from where the count will be done.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "targetNamespace",
 		Required:       true,
 		Stored:         true,
@@ -639,7 +636,6 @@ var QuotaPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -689,7 +685,6 @@ var QuotaPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -755,7 +750,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -773,9 +767,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -849,7 +841,6 @@ be created.`,
 		ConvertedName:  "TargetNamespace",
 		Description:    `TargetNamespace contains the base namespace from where the count will be done.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "targetNamespace",
 		Required:       true,
 		Stored:         true,

@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// NamespaceIndexes lists the attribute compound indexes.
+var NamespaceIndexes = [][]string{}
+
 // NamespaceIdentity represents the Identity of the object.
 var NamespaceIdentity = elemental.Identity{
 	Name:     "namespace",
@@ -118,7 +121,7 @@ type Namespace struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewNamespace returns a new *Namespace
@@ -328,7 +331,6 @@ var NamespaceAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -352,7 +354,6 @@ var NamespaceAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedLocalCAID",
 		Description:    `AssociatedLocalCAID holds the remote ID of the certificate authority to use.`,
-		Format:         "free",
 		Name:           "associatedLocalCAID",
 		ReadOnly:       true,
 		Stored:         true,
@@ -389,7 +390,6 @@ var NamespaceAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -402,7 +402,6 @@ var NamespaceAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "LocalCA",
 		Description:    `LocalCA holds the eventual certificate authority used by this namespace.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "localCA",
 		ReadOnly:       true,
 		Stored:         true,
@@ -442,9 +441,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the namespace.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "name",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -460,9 +457,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -533,7 +528,6 @@ var NamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -557,7 +551,6 @@ var NamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedLocalCAID",
 		Description:    `AssociatedLocalCAID holds the remote ID of the certificate authority to use.`,
-		Format:         "free",
 		Name:           "associatedLocalCAID",
 		ReadOnly:       true,
 		Stored:         true,
@@ -594,7 +587,6 @@ var NamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -607,7 +599,6 @@ var NamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		ConvertedName:  "LocalCA",
 		Description:    `LocalCA holds the eventual certificate authority used by this namespace.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "localCA",
 		ReadOnly:       true,
 		Stored:         true,
@@ -647,9 +638,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the namespace.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "name",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -665,9 +654,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,

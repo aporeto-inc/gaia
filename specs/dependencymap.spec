@@ -30,24 +30,30 @@ attributes:
 
   - name: edges
     description: edges are the edges of the map.
-    type: external
+    type: refMap
     exposed: true
-    subtype: graphedges_map
+    subtype: graphedge
     read_only: true
+    extensions:
+      refMode: pointer
 
   - name: groups
     description: Groups provide information about the group values.
-    type: external
+    type: refMap
     exposed: true
-    subtype: graphgroups_map
+    subtype: graphgroup
     read_only: true
+    extensions:
+      refMode: pointer
 
   - name: nodes
     description: nodes refers to the nodes of the map.
-    type: external
+    type: refMap
     exposed: true
-    subtype: graphnodes_map
+    subtype: graphnode
     read_only: true
+    extensions:
+      refMode: pointer
 
   - name: viewSuggestions
     description: viewSuggestions provides suggestion of views based on relevant tags.

@@ -12,9 +12,14 @@ model:
   aliases:
   - fp
   - fps
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
+    global_parameters:
+    - $filtering
   extends:
   - '@base'
   - '@described'
@@ -32,8 +37,6 @@ attributes:
     stored: true
     required: true
     example_value: /etc/passwd
-    filterable: true
-    format: free
 
   - name: server
     description: server is the server name/ID/IP associated with the file path.
@@ -41,5 +44,3 @@ attributes:
     exposed: true
     stored: true
     creation_only: true
-    filterable: true
-    format: free

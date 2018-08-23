@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// EnforcerProfileMappingPolicyIndexes lists the attribute compound indexes.
+var EnforcerProfileMappingPolicyIndexes = [][]string{}
+
 // EnforcerProfileMappingPolicyIdentity represents the Identity of the object.
 var EnforcerProfileMappingPolicyIdentity = elemental.Identity{
 	Name:     "enforcerprofilemappingpolicy",
@@ -127,7 +130,7 @@ type EnforcerProfileMappingPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewEnforcerProfileMappingPolicy returns a new *EnforcerProfileMappingPolicy
@@ -399,7 +402,6 @@ var EnforcerProfileMappingPolicyAttributesMap = map[string]elemental.AttributeSp
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -449,7 +451,6 @@ var EnforcerProfileMappingPolicyAttributesMap = map[string]elemental.AttributeSp
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -504,7 +505,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -522,9 +522,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -631,7 +629,6 @@ var EnforcerProfileMappingPolicyLowerCaseAttributesMap = map[string]elemental.At
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -681,7 +678,6 @@ var EnforcerProfileMappingPolicyLowerCaseAttributesMap = map[string]elemental.At
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -736,7 +732,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -754,9 +749,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,

@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// X509CertificateIndexes lists the attribute compound indexes.
+var X509CertificateIndexes = [][]string{}
+
 // X509CertificateSignerValue represents the possible values for attribute "signer".
 type X509CertificateSignerValue string
 
@@ -117,7 +120,7 @@ type X509Certificate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewX509Certificate returns a new *X509Certificate
@@ -126,8 +129,8 @@ func NewX509Certificate() *X509Certificate {
 	return &X509Certificate{
 		ModelVersion: 1,
 		Extensions:   []string{},
-		Signer:       "Public",
-		Usage:        "Client",
+		Signer:       X509CertificateSignerPublic,
+		Usage:        X509CertificateUsageClient,
 	}
 }
 
@@ -225,7 +228,6 @@ var X509CertificateAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description:    `CSR contains the Certificate Signing Request as a PEM encoded string.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "CSR",
 		Required:       true,
 		Type:           "string",
@@ -237,7 +239,6 @@ var X509CertificateAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID contains the identifier of the certificate.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		ReadOnly:       true,
@@ -249,7 +250,6 @@ var X509CertificateAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Certificate",
 		Description:    `Certificate contains the certificate data in PEM format.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "certificate",
 		ReadOnly:       true,
 		Type:           "string",
@@ -305,7 +305,6 @@ var X509CertificateLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		CreationOnly:   true,
 		Description:    `CSR contains the Certificate Signing Request as a PEM encoded string.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "CSR",
 		Required:       true,
 		Type:           "string",
@@ -317,7 +316,6 @@ var X509CertificateLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Description:    `ID contains the identifier of the certificate.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		ReadOnly:       true,
@@ -329,7 +327,6 @@ var X509CertificateLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		ConvertedName:  "Certificate",
 		Description:    `Certificate contains the certificate data in PEM format.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "certificate",
 		ReadOnly:       true,
 		Type:           "string",

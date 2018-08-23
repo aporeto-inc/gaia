@@ -5,9 +5,14 @@ model:
   entity_name: Alarm
   package: sephiroth
   description: An alarm represents an event requiring attention.
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
+    global_parameters:
+    - $filtering
   extends:
   - '@base'
   - '@described'
@@ -25,7 +30,6 @@ attributes:
     required: true
     creation_only: true
     example_value: This is an alarm
-    format: free
 
   - name: data
     description: Data represent user data related to the alams.
@@ -44,8 +48,6 @@ attributes:
     required: true
     creation_only: true
     example_value: aporeto.alarm.kind
-    filterable: true
-    format: free
     orderable: true
 
   - name: occurrences
@@ -67,5 +69,4 @@ attributes:
     - Open
     - Resolved
     default_value: Open
-    filterable: true
     orderable: true

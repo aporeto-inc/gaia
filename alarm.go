@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// AlarmIndexes lists the attribute compound indexes.
+var AlarmIndexes = [][]string{}
+
 // AlarmStatusValue represents the possible values for attribute "status".
 type AlarmStatusValue string
 
@@ -132,7 +135,7 @@ type Alarm struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAlarm returns a new *Alarm
@@ -145,7 +148,7 @@ func NewAlarm() *Alarm {
 		Data:           []map[string]string{},
 		NormalizedTags: []string{},
 		Occurrences:    []time.Time{},
-		Status:         "Open",
+		Status:         AlarmStatusOpen,
 	}
 }
 
@@ -348,7 +351,6 @@ var AlarmAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -387,7 +389,6 @@ var AlarmAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description:    `Content of the alarm.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "content",
 		Required:       true,
 		Stored:         true,
@@ -422,7 +423,6 @@ var AlarmAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -435,14 +435,12 @@ var AlarmAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description: `Kind identifies the kind of alarms. If two alarms are created with the same
 identifier, then only the occurrence will be incremented.`,
-		Exposed:    true,
-		Filterable: true,
-		Format:     "free",
-		Name:       "kind",
-		Orderable:  true,
-		Required:   true,
-		Stored:     true,
-		Type:       "string",
+		Exposed:   true,
+		Name:      "kind",
+		Orderable: true,
+		Required:  true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -451,7 +449,6 @@ identifier, then only the occurrence will be incremented.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -469,9 +466,7 @@ identifier, then only the occurrence will be incremented.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -524,7 +519,6 @@ identifier, then only the occurrence will be incremented.`,
 		DefaultValue:   AlarmStatusOpen,
 		Description:    `Status of the alarm.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "status",
 		Orderable:      true,
 		Stored:         true,
@@ -555,7 +549,6 @@ var AlarmLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -594,7 +587,6 @@ var AlarmLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description:    `Content of the alarm.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "content",
 		Required:       true,
 		Stored:         true,
@@ -629,7 +621,6 @@ var AlarmLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -642,14 +633,12 @@ var AlarmLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description: `Kind identifies the kind of alarms. If two alarms are created with the same
 identifier, then only the occurrence will be incremented.`,
-		Exposed:    true,
-		Filterable: true,
-		Format:     "free",
-		Name:       "kind",
-		Orderable:  true,
-		Required:   true,
-		Stored:     true,
-		Type:       "string",
+		Exposed:   true,
+		Name:      "kind",
+		Orderable: true,
+		Required:  true,
+		Stored:    true,
+		Type:      "string",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -658,7 +647,6 @@ identifier, then only the occurrence will be incremented.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -676,9 +664,7 @@ identifier, then only the occurrence will be incremented.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -731,7 +717,6 @@ identifier, then only the occurrence will be incremented.`,
 		DefaultValue:   AlarmStatusOpen,
 		Description:    `Status of the alarm.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "status",
 		Orderable:      true,
 		Stored:         true,

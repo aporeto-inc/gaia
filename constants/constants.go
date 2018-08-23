@@ -175,8 +175,8 @@ const (
 	// StatsTagKeyFlowTypeProcessingUnit represents the pu type value.
 	StatsTagKeyFlowTypeProcessingUnit = "pu"
 
-	// StatsTagKeyFlowTypeExternalService represents the ext value.
-	StatsTagKeyFlowTypeExternalService = "ext"
+	// StatsTagKeyFlowTypeExternalNetwork represents the ext value.
+	StatsTagKeyFlowTypeExternalNetwork = "ext"
 
 	// StatsTagKeyL4Protocol represents the L4 protocol for the flow
 	StatsTagKeyL4Protocol = "@l4proto"
@@ -201,6 +201,12 @@ const (
 
 	// RelationNegateObjectTagString is the system create relation=negate-object tag.
 	RelationNegateObjectTagString = "relation=negate-object"
+
+	// RelationApplySubject is the system create relation=apply-subject
+	RelationApplySubjectOnly = "relation=apply-subject"
+
+	// RelationApplyObject is the system create relation-apply-object
+	RelationApplyObjectOnly = "relation-apply=object"
 
 	// ActionAllowTagString is the system created action=allow tag.
 	ActionAllowTagString = "action=allow"

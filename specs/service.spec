@@ -11,9 +11,16 @@ model:
     units.
   aliases:
   - srv
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+    global_parameters:
+    - $archivable
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
+    global_parameters:
+    - $filtering
   extends:
   - '@archivable'
   - '@base'
@@ -44,7 +51,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    format: free
 
   - name: allAPITags
     description: This is a set of all API tags for matching in the DB.
@@ -59,6 +65,18 @@ attributes:
     subtype: tags_list
     stored: true
     read_only: true
+
+  - name: authorizationClaimMappings
+    description: |-
+      authorizationClaimMappings defines a list of mappings between incoming and
+      HTTP headers. When these mappings are defined, the enforcer will copy the
+      values of the claims to the corresponding HTTP headers.
+    type: refList
+    exposed: true
+    subtype: claimmapping
+    stored: true
+    extensions:
+      refMode: pointer
 
   - name: authorizationID
     description: |-
@@ -147,7 +165,6 @@ attributes:
     exposed: true
     subtype: string
     stored: true
-    format: free
     orderable: true
 
   - name: port
@@ -188,12 +205,10 @@ attributes:
     description: |-
       RedirectURL is the URL that will be send back to the user to
       redirect for authentication if there is no user authorization information in
-      the API request. If the redirect flag is not set, this field has no meaning.The
-      template is a Go Lang template where specific functions are supported.
+      the API request. URL can be defined if a redirection is requested only.
     type: string
     exposed: true
     stored: true
-    format: free
 
   - name: selectors
     description: |-
@@ -214,7 +229,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    format: free
 
   - name: type
     description: Type is the type of the service.
@@ -229,11 +243,18 @@ attributes:
 # Relations
 relations:
 - rest_name: restapispec
-  descriptions:
-    get: Retrieves the REST APIs exposed by this service.
-  get: true
+  get:
+    description: Retrieves the REST APIs exposed by this service.
 
 - rest_name: processingunit
-  descriptions:
-    get: Retrieves the Processing Units that implement this service.
-  get: true
+  get:
+    description: Retrieves the Processing Units that implement this service.
+    parameters:
+      entries:
+      - name: mode
+        description: Matching mode.
+        type: enum
+        allowed_choices:
+        - subjects
+        - object
+        default_value: objects

@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// RemoteProcessorIndexes lists the attribute compound indexes.
+var RemoteProcessorIndexes = [][]string{}
+
 // RemoteProcessorModeValue represents the possible values for attribute "mode".
 type RemoteProcessorModeValue string
 
@@ -105,7 +108,7 @@ type RemoteProcessor struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewRemoteProcessor returns a new *RemoteProcessor
@@ -244,7 +247,6 @@ var RemoteProcessorAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Namespace",
 		Description:    `Represents the current namespace.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "namespace",
 		Required:       true,
 		Type:           "string",
@@ -275,7 +277,6 @@ var RemoteProcessorAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "RequestID",
 		Description:    `RequestID gives the id of the request coming from the main server.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "requestID",
 		Orderable:      true,
 		Stored:         true,
@@ -286,7 +287,6 @@ var RemoteProcessorAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "TargetIdentity",
 		Description:    `Represents the Identity name of the managed object.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "targetIdentity",
 		Required:       true,
 		Type:           "string",
@@ -328,7 +328,6 @@ var RemoteProcessorLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		ConvertedName:  "Namespace",
 		Description:    `Represents the current namespace.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "namespace",
 		Required:       true,
 		Type:           "string",
@@ -359,7 +358,6 @@ var RemoteProcessorLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		ConvertedName:  "RequestID",
 		Description:    `RequestID gives the id of the request coming from the main server.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "requestID",
 		Orderable:      true,
 		Stored:         true,
@@ -370,7 +368,6 @@ var RemoteProcessorLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		ConvertedName:  "TargetIdentity",
 		Description:    `Represents the Identity name of the managed object.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "targetIdentity",
 		Required:       true,
 		Type:           "string",

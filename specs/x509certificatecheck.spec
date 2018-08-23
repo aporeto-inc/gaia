@@ -6,7 +6,8 @@ model:
   package: barret
   description: Verifies a certificate has not been revoked.
   private: true
-  get: true
+  get:
+    description: Retrieves the object with the given ID.
 
 # Attributes
 attributes:
@@ -17,5 +18,4 @@ attributes:
     exposed: true
     required: true
     example_value: c155b59c-c04b-430f-b11f-8355a6b7dc48
-    format: free
     identifier: true

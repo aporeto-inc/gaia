@@ -8,9 +8,14 @@ model:
     This api allows to view and manage basic information about customer profile for
     billing purposes.
   private: true
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
+    global_parameters:
+    - $filtering
   extends:
   - '@identifiable-pk-stored'
   - '@timeable'
@@ -36,7 +41,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    format: free
     orderable: true
 
   - name: state

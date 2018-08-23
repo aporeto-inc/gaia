@@ -10,7 +10,6 @@ model:
     the namespace of the user.
   aliases:
   - sq
-  create: true
 
 # Attributes
 attributes:

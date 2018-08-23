@@ -5,9 +5,14 @@ model:
   entity_name: KubernetesCluster
   package: vince
   description: Create a remote Kubernetes Cluster integration.
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
+    global_parameters:
+    - $filtering
   extends:
   - '@identifiable-pk-stored'
   - '@timeable'
@@ -19,7 +24,6 @@ attributes:
     description: Link to the API authorization policy.
     type: string
     stored: true
-    format: free
 
   - name: activationType
     description: Defines the mode of activation on the KubernetesCluster.
@@ -38,7 +42,6 @@ attributes:
     description: Link to the certificate created in Vince for this cluster.
     type: string
     stored: true
-    format: free
 
   - name: kubernetesDefinitions
     description: |-
@@ -48,7 +51,6 @@ attributes:
     exposed: true
     read_only: true
     filterable: true
-    format: free
     orderable: true
 
   - name: name
@@ -57,14 +59,12 @@ attributes:
     exposed: true
     stored: true
     filterable: true
-    format: free
     orderable: true
 
   - name: namespaceID
     description: Link to your namespace.
     type: string
     stored: true
-    format: free
 
   - name: parentID
     description: ID of the parent account.
@@ -73,7 +73,6 @@ attributes:
     stored: true
     read_only: true
     filterable: true
-    format: free
     orderable: true
 
   - name: regenerate
@@ -89,7 +88,6 @@ attributes:
     exposed: true
     stored: true
     filterable: true
-    format: free
     orderable: true
 
   - name: targetNetworks

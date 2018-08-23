@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// NamespaceMappingPolicyIndexes lists the attribute compound indexes.
+var NamespaceMappingPolicyIndexes = [][]string{}
+
 // NamespaceMappingPolicyIdentity represents the Identity of the object.
 var NamespaceMappingPolicyIdentity = elemental.Identity{
 	Name:     "namespacemappingpolicy",
@@ -115,7 +118,7 @@ type NamespaceMappingPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewNamespaceMappingPolicy returns a new *NamespaceMappingPolicy
@@ -363,7 +366,6 @@ var NamespaceMappingPolicyAttributesMap = map[string]elemental.AttributeSpecific
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -413,7 +415,6 @@ var NamespaceMappingPolicyAttributesMap = map[string]elemental.AttributeSpecific
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -437,7 +438,6 @@ var NamespaceMappingPolicyAttributesMap = map[string]elemental.AttributeSpecific
 		ConvertedName:  "MappedNamespace",
 		Description:    `mappedNamespace is the mapped namespace.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "mappedNamespace",
 		Orderable:      true,
 		Required:       true,
@@ -466,7 +466,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -484,9 +483,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -557,7 +554,6 @@ var NamespaceMappingPolicyLowerCaseAttributesMap = map[string]elemental.Attribut
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -607,7 +603,6 @@ var NamespaceMappingPolicyLowerCaseAttributesMap = map[string]elemental.Attribut
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -631,7 +626,6 @@ var NamespaceMappingPolicyLowerCaseAttributesMap = map[string]elemental.Attribut
 		ConvertedName:  "MappedNamespace",
 		Description:    `mappedNamespace is the mapped namespace.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "mappedNamespace",
 		Orderable:      true,
 		Required:       true,
@@ -660,7 +654,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -678,9 +671,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,

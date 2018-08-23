@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// PolicyRefreshIndexes lists the attribute compound indexes.
+var PolicyRefreshIndexes = [][]string{}
+
 // PolicyRefreshIdentity represents the Identity of the object.
 var PolicyRefreshIdentity = elemental.Identity{
 	Name:     "policyrefresh",
@@ -74,7 +77,7 @@ type PolicyRefresh struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPolicyRefresh returns a new *PolicyRefresh
@@ -167,7 +170,6 @@ var PolicyRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `SourceNamespace contains the original namespace of the updated object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "sourceNamespace",
 		Orderable:      true,
 		Stored:         true,
@@ -179,7 +181,6 @@ var PolicyRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Type contains the policy type that is affected.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "type",
 		Orderable:      true,
 		Stored:         true,
@@ -195,7 +196,6 @@ var PolicyRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Description:    `SourceNamespace contains the original namespace of the updated object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "sourceNamespace",
 		Orderable:      true,
 		Stored:         true,
@@ -207,7 +207,6 @@ var PolicyRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Description:    `Type contains the policy type that is affected.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "type",
 		Orderable:      true,
 		Stored:         true,

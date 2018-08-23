@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// APICheckIndexes lists the attribute compound indexes.
+var APICheckIndexes = [][]string{}
+
 // APICheckOperationValue represents the possible values for attribute "operation".
 type APICheckOperationValue string
 
@@ -113,7 +116,7 @@ type APICheck struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAPICheck returns a new *APICheck

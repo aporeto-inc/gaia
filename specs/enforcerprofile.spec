@@ -12,10 +12,14 @@ model:
   aliases:
   - profile
   - profiles
-  create: true
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
+    global_parameters:
+    - $filtering
   extends:
   - '@base'
   - '@described'
@@ -41,7 +45,6 @@ attributes:
     stored: true
     allowed_chars: ^[0-9]+[smh]$
     default_value: 15m
-    format: free
     orderable: true
 
   - name: PUHeartbeatInterval
@@ -51,7 +54,6 @@ attributes:
     stored: true
     allowed_chars: ^[0-9]+[smh]$
     default_value: 5s
-    format: free
     orderable: true
 
   - name: applicationProxyPort
@@ -90,7 +92,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "16384"
+    default_value: 16384
     max_value: 262144
     orderable: true
 
@@ -101,7 +103,6 @@ attributes:
     stored: true
     allowed_chars: ^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$
     default_value: unix:///var/run/docker.sock
-    format: free
     orderable: true
 
   - name: excludedInterfaces
@@ -159,7 +160,7 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    default_value: "false"
+    default_value: false
     orderable: true
 
   - name: linuxProcessesSupportEnabled
@@ -167,7 +168,7 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    default_value: "true"
+    default_value: true
 
   - name: metadataExtractor
     description: Select which metadata extractor to use to process new processing
@@ -191,7 +192,6 @@ attributes:
     stored: true
     allowed_chars: ^[0-9]+[smh]$
     default_value: 10m
-    format: free
     orderable: true
 
   - name: proxyListenAddress
@@ -205,7 +205,6 @@ attributes:
     stored: true
     allowed_chars: ^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$
     default_value: unix:///var/run/aporeto.sock
-    format: free
     orderable: true
 
   - name: receiverNumberOfQueues
@@ -215,7 +214,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "4"
+    default_value: 4
     max_value: 16
     min_value: 1
     orderable: true
@@ -225,7 +224,6 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "0"
     max_value: 1000
     orderable: true
 
@@ -234,7 +232,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "500"
+    default_value: 500
     max_value: 5000
     min_value: 1
     orderable: true
@@ -246,7 +244,7 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    default_value: "true"
+    default_value: true
     orderable: true
 
   - name: targetNetworks
@@ -264,7 +262,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "4"
+    default_value: 4
     max_value: 16
     min_value: 1
     orderable: true
@@ -276,7 +274,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "4"
+    default_value: 4
     max_value: 1000
     min_value: 1
     orderable: true
@@ -286,7 +284,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    default_value: "500"
+    default_value: 500
     max_value: 1000
     min_value: 1
     orderable: true
@@ -301,6 +299,5 @@ attributes:
 # Relations
 relations:
 - rest_name: auditprofile
-  descriptions:
-    get: Returns the list of AuditProfiles used by an enforcer profile.
-  get: true
+  get:
+    description: Returns the list of AuditProfiles used by an enforcer profile.

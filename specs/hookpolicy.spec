@@ -13,9 +13,14 @@ model:
   - hooks
   - hookpol
   - hookpols
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
+    global_parameters:
+    - $filtering
   extends:
   - '@base'
   - '@described'
@@ -48,7 +53,6 @@ attributes:
       KoZIzj0EAwIDSAAwRQIhALwAZh2KLFFC1qfb5CqFHExlXS0PUltax9PvQCN9P0vl
       AiBl7/st9u/JpERjJgirxJxOgKNlV6pq9ti75EfQtZZcQA==
       -----END CERTIFICATE-----
-    format: free
     orderable: true
 
   - name: clientCertificate
@@ -70,7 +74,6 @@ attributes:
       MAoGCCqGSM49BAMCA0kAMEYCIQCjAAmkQpTua0HR4q6jnePaFBp/JMXwTXTxzbV6
       peGbBQIhAP+1OR8GFnn2PlacwHqWXHwkvy6CLPVikvgtwEdB6jH8
       -----END CERTIFICATE-----
-    format: free
     orderable: true
 
   - name: clientCertificateKey
@@ -85,7 +88,6 @@ attributes:
       AwEHoUQDQgAE6bM8mP123456789AfmBWtnucfByQXk568lDcKNIQx6yNn+7txbwg
       F9eXFkofGX3UgRtsHe123456789xQ1naSw==
       -----END EC PRIVATE KEY-----
-    format: free
     orderable: true
     secret: true
 
@@ -96,7 +98,6 @@ attributes:
     stored: true
     required: true
     example_value: https://hooks.hookserver.com/remoteprocessors
-    format: free
     orderable: true
 
   - name: mode

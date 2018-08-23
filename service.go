@@ -10,6 +10,9 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
+// ServiceIndexes lists the attribute compound indexes.
+var ServiceIndexes = [][]string{}
+
 // ServiceAuthorizationTypeValue represents the possible values for attribute "authorizationType".
 type ServiceAuthorizationTypeValue string
 
@@ -125,6 +128,11 @@ type Service struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// authorizationClaimMappings defines a list of mappings between incoming and
+	// HTTP headers. When these mappings are defined, the enforcer will copy the
+	// values of the claims to the corresponding HTTP headers.
+	AuthorizationClaimMappings []*ClaimMapping `json:"authorizationClaimMappings" bson:"authorizationclaimmappings" mapstructure:"authorizationClaimMappings,omitempty"`
+
 	// authorizationID is only valid for OIDC authorization and defines the
 	// issuer ID of the OAUTH token.
 	AuthorizationID string `json:"authorizationID" bson:"authorizationid" mapstructure:"authorizationID,omitempty"`
@@ -202,8 +210,7 @@ type Service struct {
 
 	// RedirectURL is the URL that will be send back to the user to
 	// redirect for authentication if there is no user authorization information in
-	// the API request. If the redirect flag is not set, this field has no meaning.The
-	// template is a Go Lang template where specific functions are supported.
+	// the API request. URL can be defined if a redirection is requested only.
 	RedirectURL string `json:"redirectURL" bson:"redirecturl" mapstructure:"redirectURL,omitempty"`
 
 	// Selectors contains the tag expression that an a processing unit
@@ -223,27 +230,28 @@ type Service struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewService returns a new *Service
 func NewService() *Service {
 
 	return &Service{
-		ModelVersion:      1,
-		AllAPITags:        []string{},
-		AllServiceTags:    []string{},
-		Annotations:       map[string][]string{},
-		AssociatedTags:    []string{},
-		AuthorizationType: "None",
-		Endpoints:         types.ExposedAPIList{},
-		External:          false,
-		IPs:               types.IPList{},
-		Metadata:          []string{},
-		NormalizedTags:    []string{},
-		RedirectOnFail:    false,
-		RedirectOnNoToken: false,
-		Type:              "HTTP",
+		ModelVersion:               1,
+		AssociatedTags:             []string{},
+		AllAPITags:                 []string{},
+		AuthorizationClaimMappings: []*ClaimMapping{},
+		AllServiceTags:             []string{},
+		Annotations:                map[string][]string{},
+		AuthorizationType:          ServiceAuthorizationTypeNone,
+		Endpoints:                  types.ExposedAPIList{},
+		External:                   false,
+		RedirectOnFail:             false,
+		IPs:                        types.IPList{},
+		NormalizedTags:             []string{},
+		Metadata:                   []string{},
+		RedirectOnNoToken:          false,
+		Type:                       ServiceTypeHTTP,
 	}
 }
 
@@ -412,6 +420,12 @@ func (o *Service) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	for _, sub := range o.AuthorizationClaimMappings {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
 	if err := elemental.ValidateStringInList("authorizationType", string(o.AuthorizationType), []string{"PKI", "OIDC", "None"}, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -485,7 +499,6 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -514,7 +527,6 @@ The system will automatically resolve IP addresses from  host names otherwise.`,
 HTTP requests. This is an optional field, needed only if user JWT validation is
 required for this service. The certificate must be in PEM format.`,
 		Exposed: true,
-		Format:  "free",
 		Name:    "JWTSigningCertificate",
 		Stored:  true,
 		Type:    "string",
@@ -572,6 +584,18 @@ required for this service. The certificate must be in PEM format.`,
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
+	},
+	"AuthorizationClaimMappings": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizationClaimMappings",
+		Description: `authorizationClaimMappings defines a list of mappings between incoming and
+HTTP headers. When these mappings are defined, the enforcer will copy the
+values of the claims to the corresponding HTTP headers.`,
+		Exposed: true,
+		Name:    "authorizationClaimMappings",
+		Stored:  true,
+		SubType: "claimmapping",
+		Type:    "refList",
 	},
 	"AuthorizationID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -633,7 +657,6 @@ Currently supporting PKI, and OIDC.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -694,7 +717,6 @@ whereas the port that the implementation is listening can be different.`,
 		ConvertedName:  "Hosts",
 		Description:    `Hosts are the names that the service can be accessed with.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "hosts",
 		Orderable:      true,
 		Stored:         true,
@@ -723,7 +745,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -741,9 +762,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -820,10 +839,8 @@ HTTP services and it is only send for APIs that are not public.`,
 		ConvertedName:  "RedirectURL",
 		Description: `RedirectURL is the URL that will be send back to the user to
 redirect for authentication if there is no user authorization information in
-the API request. If the redirect flag is not set, this field has no meaning.The
-template is a Go Lang template where specific functions are supported.`,
+the API request. URL can be defined if a redirection is requested only.`,
 		Exposed: true,
-		Format:  "free",
 		Name:    "redirectURL",
 		Stored:  true,
 		Type:    "string",
@@ -846,7 +863,6 @@ must match in order to implement this particular service.`,
 is needed for external services with private certificate authorities. The
 field is optional. If provided, this must be a valid PEM CA file.`,
 		Exposed: true,
-		Format:  "free",
 		Name:    "serviceCA",
 		Stored:  true,
 		Type:    "string",
@@ -886,7 +902,6 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -915,7 +930,6 @@ The system will automatically resolve IP addresses from  host names otherwise.`,
 HTTP requests. This is an optional field, needed only if user JWT validation is
 required for this service. The certificate must be in PEM format.`,
 		Exposed: true,
-		Format:  "free",
 		Name:    "JWTSigningCertificate",
 		Stored:  true,
 		Type:    "string",
@@ -973,6 +987,18 @@ required for this service. The certificate must be in PEM format.`,
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
+	},
+	"authorizationclaimmappings": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizationClaimMappings",
+		Description: `authorizationClaimMappings defines a list of mappings between incoming and
+HTTP headers. When these mappings are defined, the enforcer will copy the
+values of the claims to the corresponding HTTP headers.`,
+		Exposed: true,
+		Name:    "authorizationClaimMappings",
+		Stored:  true,
+		SubType: "claimmapping",
+		Type:    "refList",
 	},
 	"authorizationid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1034,7 +1060,6 @@ Currently supporting PKI, and OIDC.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Format:         "free",
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
@@ -1095,7 +1120,6 @@ whereas the port that the implementation is listening can be different.`,
 		ConvertedName:  "Hosts",
 		Description:    `Hosts are the names that the service can be accessed with.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "hosts",
 		Orderable:      true,
 		Stored:         true,
@@ -1124,7 +1148,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -1142,9 +1165,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
-		Index:          true,
 		Name:           "namespace",
 		Orderable:      true,
 		PrimaryKey:     true,
@@ -1221,10 +1242,8 @@ HTTP services and it is only send for APIs that are not public.`,
 		ConvertedName:  "RedirectURL",
 		Description: `RedirectURL is the URL that will be send back to the user to
 redirect for authentication if there is no user authorization information in
-the API request. If the redirect flag is not set, this field has no meaning.The
-template is a Go Lang template where specific functions are supported.`,
+the API request. URL can be defined if a redirection is requested only.`,
 		Exposed: true,
-		Format:  "free",
 		Name:    "redirectURL",
 		Stored:  true,
 		Type:    "string",
@@ -1247,7 +1266,6 @@ must match in order to implement this particular service.`,
 is needed for external services with private certificate authorities. The
 field is optional. If provided, this must be a valid PEM CA file.`,
 		Exposed: true,
-		Format:  "free",
 		Name:    "serviceCA",
 		Stored:  true,
 		Type:    "string",

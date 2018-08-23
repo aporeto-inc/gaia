@@ -13,7 +13,11 @@ init:
 .PHONY:codegen
 codegen:
 	elegen folder -d specs -o codegen || exit 1
+	mv custom_validations.go custom_validations.go.keep
+	mv custom_validations_test.go custom_validations_test.go.keep
 	rm -rf ./*.go
+	mv custom_validations.go.keep custom_validations.go
+	mv custom_validations_test.go.keep custom_validations_test.go
 	mv codegen/elemental/*.go ./
 	rm -rf codegen
 

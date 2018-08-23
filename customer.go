@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// CustomerIndexes lists the attribute compound indexes.
+var CustomerIndexes = [][]string{}
+
 // CustomerProviderValue represents the possible values for attribute "provider".
 type CustomerProviderValue string
 
@@ -120,7 +123,7 @@ type Customer struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewCustomer returns a new *Customer
@@ -128,8 +131,8 @@ func NewCustomer() *Customer {
 
 	return &Customer{
 		ModelVersion: 1,
-		Provider:     "Aporeto",
-		State:        "SubscribePending",
+		Provider:     CustomerProviderAporeto,
+		State:        CustomerStateSubscribePending,
 	}
 }
 
@@ -225,7 +228,6 @@ var CustomerAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -263,7 +265,6 @@ var CustomerAttributesMap = map[string]elemental.AttributeSpecification{
 		Description: `ProviderCustomerID holds the customer id as used by the provider for this
 customer to enable provider billing.`,
 		Exposed:   true,
-		Format:    "free",
 		Name:      "providerCustomerID",
 		Orderable: true,
 		Stored:    true,
@@ -303,7 +304,6 @@ var CustomerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -341,7 +341,6 @@ var CustomerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Description: `ProviderCustomerID holds the customer id as used by the provider for this
 customer to enable provider billing.`,
 		Exposed:   true,
-		Format:    "free",
 		Name:      "providerCustomerID",
 		Orderable: true,
 		Stored:    true,

@@ -5,9 +5,14 @@ model:
   entity_name: K8SCluster
   package: cactuar
   description: Create a remote Kubernetes Cluster integration.
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
+    global_parameters:
+    - $filtering
   extends:
   - '@base'
   - '@described'
@@ -21,7 +26,6 @@ attributes:
     description: Link to the API authorization policy.
     type: string
     stored: true
-    format: free
 
   - name: activationType
     description: Defines the mode of activation on the KubernetesCluster.
@@ -42,7 +46,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    format: free
     orderable: true
 
   - name: certificate
@@ -52,13 +55,11 @@ attributes:
     exposed: true
     stored: true
     read_only: true
-    format: free
 
   - name: certificateSN
     description: Link to the certificate created for this cluster.
     type: string
     stored: true
-    format: free
 
   - name: kubernetesDefinitions
     description: |-
@@ -67,7 +68,6 @@ attributes:
     type: string
     exposed: true
     read_only: true
-    format: free
     orderable: true
 
   - name: name
@@ -80,7 +80,6 @@ attributes:
     default_order: true
     example_value: the name
     filterable: true
-    format: free
     getter: true
     setter: true
     max_length: 256
@@ -90,7 +89,6 @@ attributes:
     description: Link to the cluster namespace.
     type: string
     stored: true
-    format: free
 
   - name: networkPolicyType
     description: |-

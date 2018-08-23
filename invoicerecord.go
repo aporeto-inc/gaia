@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// InvoiceRecordIndexes lists the attribute compound indexes.
+var InvoiceRecordIndexes = [][]string{}
+
 // InvoiceRecordIdentity represents the Identity of the object.
 var InvoiceRecordIdentity = elemental.Identity{
 	Name:     "invoicerecord",
@@ -86,7 +89,7 @@ type InvoiceRecord struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewInvoiceRecord returns a new *InvoiceRecord
@@ -178,7 +181,6 @@ var InvoiceRecordAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "ID",
 		Description:    `ID is the id of this invoice record.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "ID",
 		Orderable:      true,
 		Stored:         true,
@@ -202,7 +204,6 @@ var InvoiceRecordAttributesMap = map[string]elemental.AttributeSpecification{
 		Description: `InvoiceID references the id of the invoice that this invoice record provides
 details for.`,
 		Exposed:   true,
-		Format:    "free",
 		Name:      "invoiceID",
 		Orderable: true,
 		Stored:    true,
@@ -213,7 +214,6 @@ details for.`,
 		ConvertedName:  "InvoiceRecords",
 		Description:    `InvoiceRecords provides details about billing units.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "invoiceRecords",
 		Orderable:      true,
 		Stored:         true,
@@ -241,7 +241,6 @@ var InvoiceRecordLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		ConvertedName:  "ID",
 		Description:    `ID is the id of this invoice record.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "ID",
 		Orderable:      true,
 		Stored:         true,
@@ -265,7 +264,6 @@ var InvoiceRecordLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Description: `InvoiceID references the id of the invoice that this invoice record provides
 details for.`,
 		Exposed:   true,
-		Format:    "free",
 		Name:      "invoiceID",
 		Orderable: true,
 		Stored:    true,
@@ -276,7 +274,6 @@ details for.`,
 		ConvertedName:  "InvoiceRecords",
 		Description:    `InvoiceRecords provides details about billing units.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "invoiceRecords",
 		Orderable:      true,
 		Stored:         true,

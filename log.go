@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// LogIndexes lists the attribute compound indexes.
+var LogIndexes = [][]string{}
+
 // LogIdentity represents the Identity of the object.
 var LogIdentity = elemental.Identity{
 	Name:     "log",
@@ -71,7 +74,7 @@ type Log struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewLog returns a new *Log

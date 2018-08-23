@@ -8,6 +8,9 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
+// InstalledAppIndexes lists the attribute compound indexes.
+var InstalledAppIndexes = [][]string{}
+
 // InstalledAppStatusValue represents the possible values for attribute "status".
 type InstalledAppStatusValue string
 
@@ -116,7 +119,7 @@ type InstalledApp struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewInstalledApp returns a new *InstalledApp
@@ -127,7 +130,7 @@ func NewInstalledApp() *InstalledApp {
 		Data:           nil,
 		Parameters:     []*types.AppParameter{},
 		RelatedObjects: []*types.AppRelatedObject{},
-		Status:         "Pending",
+		Status:         InstalledAppStatusPending,
 	}
 }
 
@@ -217,8 +220,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "ID",
 		Description:    `ID of the installed app.`,
 		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		PrimaryKey:     true,
@@ -232,7 +233,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description:    `AccountName represents the vince account name.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "accountName",
 		Stored:         true,
 		Type:           "string",
@@ -242,7 +242,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "CategoryID",
 		Description:    `CategoryID of the app.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "categoryID",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -271,7 +270,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "K8sIdentifier",
 		Description:    `K8SIdentifier retains the identifier for kubernetes.`,
-		Format:         "free",
 		Name:           "k8sIdentifier",
 		Stored:         true,
 		Type:           "string",
@@ -282,8 +280,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		CreationOnly:   true,
 		Description:    `Name of the installed app.`,
 		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
 		Name:           "name",
 		Orderable:      true,
 		Stored:         true,
@@ -294,8 +290,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Namespace",
 		Description:    `Namespace in which the app is running.`,
 		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
 		Name:           "namespace",
 		Orderable:      true,
 		Stored:         true,
@@ -342,8 +336,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ConvertedName:  "ID",
 		Description:    `ID of the installed app.`,
 		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		PrimaryKey:     true,
@@ -357,7 +349,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		CreationOnly:   true,
 		Description:    `AccountName represents the vince account name.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "accountName",
 		Stored:         true,
 		Type:           "string",
@@ -367,7 +358,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ConvertedName:  "CategoryID",
 		Description:    `CategoryID of the app.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "categoryID",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -396,7 +386,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		AllowedChoices: []string{},
 		ConvertedName:  "K8sIdentifier",
 		Description:    `K8SIdentifier retains the identifier for kubernetes.`,
-		Format:         "free",
 		Name:           "k8sIdentifier",
 		Stored:         true,
 		Type:           "string",
@@ -407,8 +396,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		CreationOnly:   true,
 		Description:    `Name of the installed app.`,
 		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
 		Name:           "name",
 		Orderable:      true,
 		Stored:         true,
@@ -419,8 +406,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ConvertedName:  "Namespace",
 		Description:    `Namespace in which the app is running.`,
 		Exposed:        true,
-		Filterable:     true,
-		Format:         "free",
 		Name:           "namespace",
 		Orderable:      true,
 		Stored:         true,

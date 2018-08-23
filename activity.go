@@ -9,6 +9,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// ActivityIndexes lists the attribute compound indexes.
+var ActivityIndexes = [][]string{}
+
 // ActivityIdentity represents the Identity of the object.
 var ActivityIdentity = elemental.Identity{
 	Name:     "activity",
@@ -104,7 +107,7 @@ type Activity struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewActivity returns a new *Activity
@@ -201,7 +204,6 @@ var ActivityAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -266,7 +268,6 @@ var ActivityAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Message",
 		Description:    `Message of the notification.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "message",
 		Orderable:      true,
 		Stored:         true,
@@ -279,7 +280,6 @@ var ActivityAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Namespace of the notification.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "namespace",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -293,7 +293,6 @@ var ActivityAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Operation describe what kind of operation the notification represents.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "operation",
 		ReadOnly:       true,
 		Stored:         true,
@@ -320,7 +319,6 @@ modified.`,
 		Description:    `Source contains meta information about the source.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "source",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -334,7 +332,6 @@ modified.`,
 		Description:    `TargetIdentity is the Identity of the related object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "targetIdentity",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -352,7 +349,6 @@ var ActivityLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -417,7 +413,6 @@ var ActivityLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		ConvertedName:  "Message",
 		Description:    `Message of the notification.`,
 		Exposed:        true,
-		Format:         "free",
 		Name:           "message",
 		Orderable:      true,
 		Stored:         true,
@@ -430,7 +425,6 @@ var ActivityLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Description:    `Namespace of the notification.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "namespace",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -444,7 +438,6 @@ var ActivityLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Description:    `Operation describe what kind of operation the notification represents.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "operation",
 		ReadOnly:       true,
 		Stored:         true,
@@ -471,7 +464,6 @@ modified.`,
 		Description:    `Source contains meta information about the source.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "source",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -485,7 +477,6 @@ modified.`,
 		Description:    `TargetIdentity is the Identity of the related object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Name:           "targetIdentity",
 		Orderable:      true,
 		ReadOnly:       true,

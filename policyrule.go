@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// PolicyRuleIndexes lists the attribute compound indexes.
+var PolicyRuleIndexes = [][]string{}
+
 // PolicyRuleIdentity represents the Identity of the object.
 var PolicyRuleIdentity = elemental.Identity{
 	Name:     "policyrule",
@@ -113,7 +116,7 @@ type PolicyRule struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPolicyRule returns a new *PolicyRule
@@ -121,10 +124,10 @@ func NewPolicyRule() *PolicyRule {
 
 	return &PolicyRule{
 		ModelVersion:      1,
+		FilePaths:         FilePathsList{},
 		EnforcerProfiles:  EnforcerProfilesList{},
 		ExternalNetworks:  ExternalNetworksList{},
 		ExternalServices:  ExternalServicesList{},
-		FilePaths:         FilePathsList{},
 		IsolationProfiles: IsolationProfilesList{},
 		Namespaces:        NamespacesList{},
 		Services:          ServicesList{},
@@ -237,7 +240,6 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -306,7 +308,6 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",
@@ -380,7 +381,6 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
@@ -449,7 +449,6 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
 		Filterable:     true,
-		Format:         "free",
 		Getter:         true,
 		MaxLength:      256,
 		Name:           "name",

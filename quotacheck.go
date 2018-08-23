@@ -7,6 +7,9 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// QuotaCheckIndexes lists the attribute compound indexes.
+var QuotaCheckIndexes = [][]string{}
+
 // QuotaCheckIdentity represents the Identity of the object.
 var QuotaCheckIdentity = elemental.Identity{
 	Name:     "quotacheck",
@@ -77,7 +80,7 @@ type QuotaCheck struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewQuotaCheck returns a new *QuotaCheck

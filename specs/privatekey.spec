@@ -6,9 +6,14 @@ model:
   package: barret
   description: Internal representation of an private key.
   private: true
-  get: true
-  update: true
-  delete: true
+  get:
+    description: Retrieves the object with the given ID.
+  update:
+    description: Updates the object with the given ID.
+  delete:
+    description: Deletes the object with the given ID.
+    global_parameters:
+    - $filtering
 
 # Attributes
 attributes:
@@ -17,7 +22,6 @@ attributes:
     description: ID is the internal ID of the key.
     type: string
     stored: true
-    format: free
     identifier: true
     primary_key: true
 
@@ -27,11 +31,9 @@ attributes:
       this key.
     type: string
     stored: true
-    format: free
 
   - name: data
     description: Data contains the privateKey data.
     type: string
     stored: true
     creation_only: true
-    format: free
