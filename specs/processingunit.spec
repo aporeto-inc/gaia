@@ -80,6 +80,7 @@ attributes:
     - Stopped
     - Terminated
     default_value: Initialized
+    filterable: true
 
   - name: type
     description: Type of the container ecosystem.
@@ -95,6 +96,7 @@ attributes:
     - User
     - APIGateway
     example_value: Docker
+    filterable: true
 
 # Relations
 relations:

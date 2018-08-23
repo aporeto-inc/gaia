@@ -7690,6 +7690,7 @@ OperationalStatus of the processing unit.
 | -               | -:                                                  |
 | Allowed Value   | `Initialized, Paused, Running, Stopped, Terminated` |
 | Default         | `"Initialized"`                                     |
+| Filterable      | `true`                                              |
 
 #### `protected (boolean)`
 
@@ -7708,6 +7709,7 @@ Type of the container ecosystem.
 | Allowed Value   | `Docker, LinuxService, RKT, User, APIGateway` |
 | Required        | `true`                                        |
 | Creation only   | `true`                                        |
+| Filterable      | `true`                                        |
 
 #### `updateTime (time)`
 
