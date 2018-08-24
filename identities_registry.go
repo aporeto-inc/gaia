@@ -39,6 +39,7 @@ var (
 		"filepath":                     FilePathIdentity,
 		"flowreport":                   FlowReportIdentity,
 		"flowstatistic":                FlowStatisticIdentity,
+		"gcpaccount":                   GCPAccountIdentity,
 
 		"hookpolicy":    HookPolicyIdentity,
 		"import":        ImportIdentity,
@@ -128,6 +129,7 @@ var (
 		"filepaths":                      FilePathIdentity,
 		"flowreports":                    FlowReportIdentity,
 		"flowstatistics":                 FlowStatisticIdentity,
+		"gcpaccounts":                    GCPAccountIdentity,
 
 		"hookpolicies":   HookPolicyIdentity,
 		"import":         ImportIdentity,
@@ -208,6 +210,9 @@ var (
 		"fps":        FilePathIdentity,
 		"flowstat":   FlowStatisticIdentity,
 		"flowstats":  FlowStatisticIdentity,
+		"gcp":        GCPAccountIdentity,
+		"gcpaccs":    GCPAccountIdentity,
+		"gcpacc":     GCPAccountIdentity,
 		"hook":       HookPolicyIdentity,
 		"hooks":      HookPolicyIdentity,
 		"hookpol":    HookPolicyIdentity,
@@ -360,6 +365,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewFlowReport()
 	case FlowStatisticIdentity:
 		return NewFlowStatistic()
+	case GCPAccountIdentity:
+		return NewGCPAccount()
 	case HookPolicyIdentity:
 		return NewHookPolicy()
 	case ImportIdentity:
@@ -540,6 +547,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &FlowReportsList{}
 	case FlowStatisticIdentity:
 		return &FlowStatisticsList{}
+	case GCPAccountIdentity:
+		return &GCPAccountsList{}
 	case HookPolicyIdentity:
 		return &HookPoliciesList{}
 	case ImportIdentity:
@@ -694,6 +703,7 @@ func AllIdentities() []elemental.Identity {
 		FilePathIdentity,
 		FlowReportIdentity,
 		FlowStatisticIdentity,
+		GCPAccountIdentity,
 		HookPolicyIdentity,
 		ImportIdentity,
 		InstallationIdentity,
@@ -857,6 +867,12 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"flowstat",
 			"flowstats",
+		}
+	case GCPAccountIdentity:
+		return []string{
+			"gcp",
+			"gcpaccs",
+			"gcpacc",
 		}
 	case HookPolicyIdentity:
 		return []string{

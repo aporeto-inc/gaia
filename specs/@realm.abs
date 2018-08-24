@@ -15,4 +15,6 @@ attributes:
     - LDAP
     - Twitter
     - Vince
+    - GCPIdentityDocument
+    - AzureIdentityDocument
     example_value: Certificate

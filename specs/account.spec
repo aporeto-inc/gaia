@@ -185,6 +185,13 @@ attributes:
     exposed: true
     stored: true
 
+  - name: associatedGCPPolicies
+    description: associatedGCPPolicies contains a map of associated GCP Enforcerd
+      Policies.
+    type: external
+    subtype: associated_policies
+    stored: true
+
   - name: associatedNamespaceID
     description: AssociatedNamespaceID contains the ID of the associated namespace.
     type: string

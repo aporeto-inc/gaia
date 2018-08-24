@@ -167,6 +167,9 @@ type Account struct {
 	// associatedBillingID holds the ID of the associated billing customer.
 	AssociatedBillingID string `json:"associatedBillingID" bson:"associatedbillingid" mapstructure:"associatedBillingID,omitempty"`
 
+	// associatedGCPPolicies contains a map of associated GCP Enforcerd Policies.
+	AssociatedGCPPolicies map[string]string `json:"-" bson:"associatedgcppolicies" mapstructure:"-,omitempty"`
+
 	// AssociatedNamespaceID contains the ID of the associated namespace.
 	AssociatedNamespaceID string `json:"-" bson:"associatednamespaceid" mapstructure:"-,omitempty"`
 
@@ -222,8 +225,9 @@ func NewAccount() *Account {
 
 	return &Account{
 		ModelVersion:             1,
-		AssociatedPlanKey:        "aporeto.plan.free",
 		AssociatedQuotaPolicies:  map[string]string{},
+		AssociatedPlanKey:        "aporeto.plan.free",
+		AssociatedGCPPolicies:    map[string]string{},
 		AssociatedAWSPolicies:    map[string]string{},
 		LDAPSubjectKey:           "uid",
 		LDAPIgnoredKeys:          []string{},
@@ -550,6 +554,15 @@ also use any alternate key.`,
 		Name:           "associatedBillingID",
 		Stored:         true,
 		Type:           "string",
+	},
+	"AssociatedGCPPolicies": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssociatedGCPPolicies",
+		Description:    `associatedGCPPolicies contains a map of associated GCP Enforcerd Policies.`,
+		Name:           "associatedGCPPolicies",
+		Stored:         true,
+		SubType:        "associated_policies",
+		Type:           "external",
 	},
 	"AssociatedNamespaceID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -941,6 +954,15 @@ also use any alternate key.`,
 		Name:           "associatedBillingID",
 		Stored:         true,
 		Type:           "string",
+	},
+	"associatedgcppolicies": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssociatedGCPPolicies",
+		Description:    `associatedGCPPolicies contains a map of associated GCP Enforcerd Policies.`,
+		Name:           "associatedGCPPolicies",
+		Stored:         true,
+		SubType:        "associated_policies",
+		Type:           "external",
 	},
 	"associatednamespaceid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
