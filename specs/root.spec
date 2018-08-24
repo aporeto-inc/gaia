@@ -156,20 +156,6 @@ relations:
   create:
     description: Creates a new aws account binding.
 
-- rest_name: gcpaccount
-  get:
-    description: Retrieves the list of gcp account bindings.
-    global_parameters:
-    - $filtering
-    parameters:
-      entries:
-      - name: projectid
-        description: Id of the project.
-        type: string
-        example_value: aporetodev
-  create:
-    description: Creates a new aws account binding.
-
 - rest_name: awsregister
   create:
     description: Creates a new aws registration for billing.
