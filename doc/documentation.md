@@ -5732,10 +5732,10 @@ Metadata contains various additional information. Meaning depends on the realm.
 
 Realm is the authentication realm.
 
-| Characteristics | Value                                                                              |
-| -               | -:                                                                                 |
-| Allowed Value   | `AWSIdentityDocument, Certificate, Facebook, Github, Google, LDAP, Twitter, Vince` |
-| Required        | `true`                                                                             |
+| Characteristics | Value                                                                                                                          |
+| -               | -:                                                                                                                             |
+| Allowed Value   | `AWSIdentityDocument, Certificate, Facebook, Github, Google, LDAP, Twitter, Vince, GCPIdentityDocument, AzureIdentityDocument` |
+| Required        | `true`                                                                                                                         |
 
 #### `token (string)`
 
