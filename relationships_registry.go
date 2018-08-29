@@ -1146,6 +1146,34 @@ func init() {
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+							},
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name: "category",
@@ -1162,12 +1190,56 @@ func init() {
 					elemental.ParameterDefinition{
 						Name: "level",
 						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
 					},
 				},
 			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+							},
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name: "category",
@@ -1184,6 +1256,22 @@ func init() {
 					elemental.ParameterDefinition{
 						Name: "level",
 						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
 					},
 				},
 			},
@@ -2594,6 +2682,10 @@ func init() {
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
+						Name: "authorized",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
@@ -2609,6 +2701,10 @@ func init() {
 		Info: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "authorized",
+						Type: "boolean",
+					},
 					elemental.ParameterDefinition{
 						Name:     "q",
 						Type:     "string",
