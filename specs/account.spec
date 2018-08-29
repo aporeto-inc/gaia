@@ -121,6 +121,7 @@ attributes:
   - name: OTPEnabled
     description: Set to enable or disable two factor authentication.
     type: boolean
+    exposed: true
     stored: true
 
   - name: OTPQRCode

@@ -141,7 +141,7 @@ type Account struct {
 	LDAPSubjectKey string `json:"LDAPSubjectKey" bson:"ldapsubjectkey" mapstructure:"LDAPSubjectKey,omitempty"`
 
 	// Set to enable or disable two factor authentication.
-	OTPEnabled bool `json:"-" bson:"otpenabled" mapstructure:"-,omitempty"`
+	OTPEnabled bool `json:"OTPEnabled" bson:"otpenabled" mapstructure:"OTPEnabled,omitempty"`
 
 	// Returns the base64 encoded QRCode for setting up 2 factor auth.
 	OTPQRCode string `json:"OTPQRCode" bson:"-" mapstructure:"OTPQRCode,omitempty"`
@@ -470,6 +470,7 @@ also use any alternate key.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "OTPEnabled",
 		Description:    `Set to enable or disable two factor authentication.`,
+		Exposed:        true,
 		Name:           "OTPEnabled",
 		Stored:         true,
 		Type:           "boolean",
@@ -860,6 +861,7 @@ also use any alternate key.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "OTPEnabled",
 		Description:    `Set to enable or disable two factor authentication.`,
+		Exposed:        true,
 		Name:           "OTPEnabled",
 		Stored:         true,
 		Type:           "boolean",

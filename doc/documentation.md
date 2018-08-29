@@ -243,6 +243,10 @@ also use any alternate key.
 | Default         | `"uid"` |
 | Orderable       | `true`  |
 
+#### `OTPEnabled (boolean)`
+
+Set to enable or disable two factor authentication.
+
 #### `OTPQRCode (string)`
 
 Returns the base64 encoded QRCode for setting up 2 factor auth.
