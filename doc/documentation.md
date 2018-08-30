@@ -9215,6 +9215,7 @@ Retrieves statistics information based on parameters.
 - `groupBy` (string): list of groupBy clauses.
 - `interval` (duration): list of groupBy clauses.
 - `measurement` (enum): Name of the measurement to query.
+- `query` (string): Raw InfluxDB query. This query will be applied to an immutable subquery that will bound the data to your namespace. You must pass the measurement parameter and use `from _dataset_` in your query. The dataset will be bound to the timing parameter you pass.
 - `tag` (string): list of tags to query.
 - `where` (string): list of where clauses.
 - `endAbsolute` (time): Set the absolute end of the time window.

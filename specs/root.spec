@@ -672,6 +672,14 @@ relations:
         - files
         default_value: flows
 
+      - name: query
+        description: Raw InfluxDB query. This query will be applied to an immutable
+          subquery that will bound the data to your namespace. You must pass the measurement
+          parameter and use `from _dataset_` in your query. The dataset will be bound
+          to the timing parameter you pass.
+        type: string
+        example_value: select a,b from _dataset_ where a=a group by b limit 10
+
       - name: tag
         description: list of tags to query.
         type: string

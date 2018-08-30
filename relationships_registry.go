@@ -3797,6 +3797,10 @@ func init() {
 						},
 					},
 					elemental.ParameterDefinition{
+						Name: "query",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
 						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
@@ -3894,6 +3898,10 @@ func init() {
 							"enforcers",
 							"files",
 						},
+					},
+					elemental.ParameterDefinition{
+						Name: "query",
+						Type: "string",
 					},
 					elemental.ParameterDefinition{
 						Name:     "tag",
