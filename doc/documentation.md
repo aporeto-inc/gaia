@@ -2791,6 +2791,15 @@ PUHeartbeatInterval configures the heart beat interval.
 | Default         | `"5s"`            |
 | Orderable       | `true`            |
 
+#### `TargetUDPNetworks (external:target_networks_list)`
+
+TargetUDPNetworks is the list of UDP networks that authorization should be
+applied.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
 #### `annotations (external:annotations)`
 
 Annotation stores additional information about an entity.

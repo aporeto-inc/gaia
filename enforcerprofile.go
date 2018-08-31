@@ -114,6 +114,10 @@ type EnforcerProfile struct {
 	// PUHeartbeatInterval configures the heart beat interval.
 	PUHeartbeatInterval string `json:"PUHeartbeatInterval" bson:"puheartbeatinterval" mapstructure:"PUHeartbeatInterval,omitempty"`
 
+	// TargetUDPNetworks is the list of UDP networks that authorization should be
+	// applied.
+	TargetUDPNetworks []string `json:"TargetUDPNetworks" bson:"targetudpnetworks" mapstructure:"TargetUDPNetworks,omitempty"`
+
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
@@ -237,13 +241,14 @@ func NewEnforcerProfile() *EnforcerProfile {
 
 	return &EnforcerProfile{
 		ModelVersion:                  1,
+		ApplicationProxyPort:          20992,
 		AssociatedTags:                []string{},
 		Annotations:                   map[string][]string{},
 		AuditSocketBufferSize:         16384,
-		ApplicationProxyPort:          20992,
-		DockerSocketAddress:           "unix:///var/run/docker.sock",
 		HostServices:                  types.HostServicesList{},
+		DockerSocketAddress:           "unix:///var/run/docker.sock",
 		KubernetesSupportEnabled:      false,
+		PolicySynchronizationInterval: "10m",
 		PUHeartbeatInterval:           "5s",
 		ProxyListenAddress:            "unix:///var/run/aporeto.sock",
 		IPTablesMarkValue:             1000,
@@ -251,15 +256,14 @@ func NewEnforcerProfile() *EnforcerProfile {
 		KubernetesMetadataExtractor:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
 		LinuxProcessesSupportEnabled:  true,
 		ReceiverQueueSize:             500,
+		TransmitterQueue:              4,
 		RemoteEnforcerEnabled:         true,
+		TrustedCAs:                    []string{},
 		TransmitterNumberOfQueues:     4,
 		TransmitterQueueSize:          500,
 		MetadataExtractor:             EnforcerProfileMetadataExtractorDocker,
-		TransmitterQueue:              4,
-		PUBookkeepingInterval:         "15m",
-		TrustedCAs:                    []string{},
-		PolicySynchronizationInterval: "10m",
 		NormalizedTags:                []string{},
+		PUBookkeepingInterval:         "15m",
 	}
 }
 
@@ -584,6 +588,18 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"TargetUDPNetworks": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TargetUDPNetworks",
+		Description: `TargetUDPNetworks is the list of UDP networks that authorization should be
+applied.`,
+		Exposed:   true,
+		Name:      "TargetUDPNetworks",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "target_networks_list",
+		Type:      "external",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1049,6 +1065,18 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"targetudpnetworks": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TargetUDPNetworks",
+		Description: `TargetUDPNetworks is the list of UDP networks that authorization should be
+applied.`,
+		Exposed:   true,
+		Name:      "TargetUDPNetworks",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "target_networks_list",
+		Type:      "external",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
