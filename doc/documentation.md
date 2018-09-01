@@ -2791,15 +2791,6 @@ PUHeartbeatInterval configures the heart beat interval.
 | Default         | `"5s"`            |
 | Orderable       | `true`            |
 
-#### `TargetUDPNetworks (external:target_networks_list)`
-
-TargetUDPNetworks is the list of UDP networks that authorization should be
-applied.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-
 #### `annotations (external:annotations)`
 
 Annotation stores additional information about an entity.
@@ -3048,6 +3039,15 @@ distributed enforcer. True means distributed.
 #### `targetNetworks (external:target_networks_list)`
 
 TargetNetworks is the list of networks that authorization should be applied.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `targetUDPNetworks (external:target_networks_list)`
+
+TargetUDPNetworks is the list of UDP networks that authorization should be
+applied.
 
 | Characteristics | Value  |
 | -               | -:     |

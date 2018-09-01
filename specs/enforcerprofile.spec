@@ -56,16 +56,6 @@ attributes:
     default_value: 5s
     orderable: true
 
-  - name: TargetUDPNetworks
-    description: |-
-      TargetUDPNetworks is the list of UDP networks that authorization should be
-      applied.
-    type: external
-    exposed: true
-    subtype: target_networks_list
-    stored: true
-    orderable: true
-
   - name: applicationProxyPort
     description: Port used by aporeto application proxy.
     type: integer
@@ -260,6 +250,16 @@ attributes:
   - name: targetNetworks
     description: TargetNetworks is the list of networks that authorization should
       be applied.
+    type: external
+    exposed: true
+    subtype: target_networks_list
+    stored: true
+    orderable: true
+
+  - name: targetUDPNetworks
+    description: |-
+      TargetUDPNetworks is the list of UDP networks that authorization should be
+      applied.
     type: external
     exposed: true
     subtype: target_networks_list
