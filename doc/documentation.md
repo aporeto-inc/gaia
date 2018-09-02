@@ -3044,6 +3044,15 @@ TargetNetworks is the list of networks that authorization should be applied.
 | -               | -:     |
 | Orderable       | `true` |
 
+#### `targetUDPNetworks (external:target_networks_list)`
+
+TargetUDPNetworks is the list of UDP networks that authorization should be
+applied.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
 #### `transmitterNumberOfQueues (integer)`
 
 TransmitterNumberOfQueues is the number of queues for application traffic.
