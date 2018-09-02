@@ -256,6 +256,16 @@ attributes:
     stored: true
     orderable: true
 
+  - name: targetUDPNetworks
+    description: |-
+      TargetUDPNetworks is the list of UDP networks that authorization should be
+      applied.
+    type: external
+    exposed: true
+    subtype: target_networks_list
+    stored: true
+    orderable: true
+
   - name: transmitterNumberOfQueues
     description: TransmitterNumberOfQueues is the number of queues for application
       traffic.
