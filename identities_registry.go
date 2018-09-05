@@ -51,7 +51,6 @@ var (
 		"issue":                  IssueIdentity,
 		"jaegerbatch":            JaegerbatchIdentity,
 		"k8scluster":             K8SClusterIdentity,
-		"kubernetescluster":      KubernetesClusterIdentity,
 		"log":                    LogIdentity,
 		"message":                MessageIdentity,
 		"namespace":              NamespaceIdentity,
@@ -140,7 +139,6 @@ var (
 		"issue":                    IssueIdentity,
 		"jaegerbatchs":             JaegerbatchIdentity,
 		"k8sclusters":              K8SClusterIdentity,
-		"kubernetesclusters":       KubernetesClusterIdentity,
 		"logs":                     LogIdentity,
 		"messages":                 MessageIdentity,
 		"namespaces":               NamespaceIdentity,
@@ -380,8 +378,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewJaegerbatch()
 	case K8SClusterIdentity:
 		return NewK8SCluster()
-	case KubernetesClusterIdentity:
-		return NewKubernetesCluster()
 	case LogIdentity:
 		return NewLog()
 	case MessageIdentity:
@@ -560,8 +556,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &JaegerbatchsList{}
 	case K8SClusterIdentity:
 		return &K8SClustersList{}
-	case KubernetesClusterIdentity:
-		return &KubernetesClustersList{}
 	case LogIdentity:
 		return &LogsList{}
 	case MessageIdentity:
@@ -704,7 +698,6 @@ func AllIdentities() []elemental.Identity {
 		IssueIdentity,
 		JaegerbatchIdentity,
 		K8SClusterIdentity,
-		KubernetesClusterIdentity,
 		LogIdentity,
 		MessageIdentity,
 		NamespaceIdentity,
@@ -889,8 +882,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"sp",
 		}
 	case K8SClusterIdentity:
-		return []string{}
-	case KubernetesClusterIdentity:
 		return []string{}
 	case LogIdentity:
 		return []string{}
