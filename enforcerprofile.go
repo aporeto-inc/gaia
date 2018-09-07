@@ -211,6 +211,10 @@ type EnforcerProfile struct {
 	// TargetNetworks is the list of networks that authorization should be applied.
 	TargetNetworks []string `json:"targetNetworks" bson:"targetnetworks" mapstructure:"targetNetworks,omitempty"`
 
+	// TargetUDPNetworks is the list of UDP networks that authorization should be
+	// applied.
+	TargetUDPNetworks []string `json:"targetUDPNetworks" bson:"targetudpnetworks" mapstructure:"targetUDPNetworks,omitempty"`
+
 	// TransmitterNumberOfQueues is the number of queues for application traffic.
 	TransmitterNumberOfQueues int `json:"transmitterNumberOfQueues" bson:"transmitternumberofqueues" mapstructure:"transmitterNumberOfQueues,omitempty"`
 
@@ -243,22 +247,22 @@ func NewEnforcerProfile() *EnforcerProfile {
 		ApplicationProxyPort:          20992,
 		DockerSocketAddress:           "unix:///var/run/docker.sock",
 		HostServices:                  types.HostServicesList{},
-		KubernetesSupportEnabled:      false,
-		PUHeartbeatInterval:           "5s",
-		ProxyListenAddress:            "unix:///var/run/aporeto.sock",
-		IPTablesMarkValue:             1000,
-		ReceiverNumberOfQueues:        4,
-		KubernetesMetadataExtractor:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
 		LinuxProcessesSupportEnabled:  true,
-		ReceiverQueueSize:             500,
-		RemoteEnforcerEnabled:         true,
-		TransmitterNumberOfQueues:     4,
-		TransmitterQueueSize:          500,
-		MetadataExtractor:             EnforcerProfileMetadataExtractorDocker,
-		TransmitterQueue:              4,
+		ProxyListenAddress:            "unix:///var/run/aporeto.sock",
 		PUBookkeepingInterval:         "15m",
+		ReceiverNumberOfQueues:        4,
+		KubernetesSupportEnabled:      false,
+		ReceiverQueueSize:             500,
+		MetadataExtractor:             EnforcerProfileMetadataExtractorDocker,
+		RemoteEnforcerEnabled:         true,
+		TransmitterQueue:              4,
 		TrustedCAs:                    []string{},
+		KubernetesMetadataExtractor:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
+		TransmitterNumberOfQueues:     4,
+		PUHeartbeatInterval:           "5s",
+		TransmitterQueueSize:          500,
 		PolicySynchronizationInterval: "10m",
+		IPTablesMarkValue:             1000,
 		NormalizedTags:                []string{},
 	}
 }
@@ -931,6 +935,18 @@ distributed enforcer. True means distributed.`,
 		SubType:        "target_networks_list",
 		Type:           "external",
 	},
+	"TargetUDPNetworks": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TargetUDPNetworks",
+		Description: `TargetUDPNetworks is the list of UDP networks that authorization should be
+applied.`,
+		Exposed:   true,
+		Name:      "targetUDPNetworks",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "target_networks_list",
+		Type:      "external",
+	},
 	"TransmitterNumberOfQueues": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TransmitterNumberOfQueues",
@@ -1395,6 +1411,18 @@ distributed enforcer. True means distributed.`,
 		Stored:         true,
 		SubType:        "target_networks_list",
 		Type:           "external",
+	},
+	"targetudpnetworks": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TargetUDPNetworks",
+		Description: `TargetUDPNetworks is the list of UDP networks that authorization should be
+applied.`,
+		Exposed:   true,
+		Name:      "targetUDPNetworks",
+		Orderable: true,
+		Stored:    true,
+		SubType:   "target_networks_list",
+		Type:      "external",
 	},
 	"transmitternumberofqueues": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
