@@ -368,63 +368,6 @@ relations:
   create:
     description: Create a new file path.
 
-- rest_name: flowstatistic
-  get:
-    description: Retrieves the flow statistics according to parameters.
-    deprecated: true
-    global_parameters:
-    - $timewindow
-    - $flowoffset
-    parameters:
-      entries:
-      - name: action
-        description: Only show certain types of flows.
-        type: enum
-        allowed_choices:
-        - accept
-        - reject
-        - any
-        default_value: any
-
-      - name: averageInterval
-        description: Resolution of the data points.
-        type: duration
-        default_value: 1h
-
-      - name: destinationID
-        description: IDs of the destinations.
-        type: string
-        multiple: true
-        example_value: yyy-yyy-yyy-yyy
-
-      - name: flowMode
-        description: Choose if observed, applied to all flows.
-        type: enum
-        allowed_choices:
-        - observed
-        - applied
-        - all
-        default_value: applied
-
-      - name: metric
-        description: Choose if you want to see ports or flows.
-        type: enum
-        allowed_choices:
-        - Flows
-        - Ports
-        default_value: Flows
-
-      - name: sourceID
-        description: IDs of the sources.
-        type: string
-        multiple: true
-        example_value: xxx-xxx-xxx-xxx
-
-      - name: userIdentifier
-        description: User string that will be returned with the query.
-        type: string
-        example_value: mything
-
 - rest_name: hookpolicy
   get:
     description: Retrieves the list of hook policies.
@@ -600,6 +543,10 @@ relations:
   create:
     description: Create a flow statistics report.
 
+- rest_name: pureport
+  create:
+    description: Create a pu statistics report.
+
 - rest_name: revocation
   get:
     description: Verify the revocation of a certificate according to parameters.
@@ -643,6 +590,7 @@ relations:
         - last
         - max
         - min
+        - distinct
 
       - name: groupBy
         description: list of groupBy clauses.

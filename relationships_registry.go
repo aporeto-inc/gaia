@@ -1936,215 +1936,6 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[FlowStatisticIdentity] = &elemental.Relationship{
-		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				Deprecated: true,
-				RequiredParameters: elemental.NewParametersRequirement(
-					[][][]string{
-						[][]string{
-							[]string{
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-							},
-							[]string{
-								"startRelative",
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-								"endAbsolute",
-							},
-							[]string{
-								"startAbsolute",
-								"endRelative",
-							},
-							[]string{
-								"startAbsolute",
-								"endAbsolute",
-							},
-						},
-					},
-				),
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:         "action",
-						Type:         "enum",
-						DefaultValue: "any",
-						AllowedChoices: []string{
-							"accept",
-							"reject",
-							"any",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name:         "averageInterval",
-						Type:         "duration",
-						DefaultValue: "1h",
-					},
-					elemental.ParameterDefinition{
-						Name:     "destinationID",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:         "flowMode",
-						Type:         "enum",
-						DefaultValue: "applied",
-						AllowedChoices: []string{
-							"observed",
-							"applied",
-							"all",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name:         "metric",
-						Type:         "enum",
-						DefaultValue: "Flows",
-						AllowedChoices: []string{
-							"Flows",
-							"Ports",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name:     "sourceID",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "userIdentifier",
-						Type: "string",
-					},
-					elemental.ParameterDefinition{
-						Name: "endAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "endRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "startAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "startRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "flowOffset",
-						Type: "duration",
-					},
-				},
-			},
-		},
-		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				Deprecated: true,
-				RequiredParameters: elemental.NewParametersRequirement(
-					[][][]string{
-						[][]string{
-							[]string{
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-							},
-							[]string{
-								"startRelative",
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-								"endAbsolute",
-							},
-							[]string{
-								"startAbsolute",
-								"endRelative",
-							},
-							[]string{
-								"startAbsolute",
-								"endAbsolute",
-							},
-						},
-					},
-				),
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:         "action",
-						Type:         "enum",
-						DefaultValue: "any",
-						AllowedChoices: []string{
-							"accept",
-							"reject",
-							"any",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name:         "averageInterval",
-						Type:         "duration",
-						DefaultValue: "1h",
-					},
-					elemental.ParameterDefinition{
-						Name:     "destinationID",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:         "flowMode",
-						Type:         "enum",
-						DefaultValue: "applied",
-						AllowedChoices: []string{
-							"observed",
-							"applied",
-							"all",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name:         "metric",
-						Type:         "enum",
-						DefaultValue: "Flows",
-						AllowedChoices: []string{
-							"Flows",
-							"Ports",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name:     "sourceID",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "userIdentifier",
-						Type: "string",
-					},
-					elemental.ParameterDefinition{
-						Name: "endAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "endRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "startAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "startRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "flowOffset",
-						Type: "duration",
-					},
-				},
-			},
-		},
-	}
-
 	relationshipsRegistry[HookPolicyIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
@@ -2795,6 +2586,12 @@ func init() {
 					},
 				},
 			},
+		},
+	}
+
+	relationshipsRegistry[PUReportIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
 		},
 	}
 
@@ -3711,6 +3508,7 @@ func init() {
 							"last",
 							"max",
 							"min",
+							"distinct",
 						},
 					},
 					elemental.ParameterDefinition{
@@ -3814,6 +3612,7 @@ func init() {
 							"last",
 							"max",
 							"min",
+							"distinct",
 						},
 					},
 					elemental.ParameterDefinition{

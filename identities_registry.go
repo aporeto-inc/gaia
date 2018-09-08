@@ -38,7 +38,6 @@ var (
 		"fileaccesspolicy":             FileAccessPolicyIdentity,
 		"filepath":                     FilePathIdentity,
 		"flowreport":                   FlowReportIdentity,
-		"flowstatistic":                FlowStatisticIdentity,
 
 		"hookpolicy":    HookPolicyIdentity,
 		"import":        ImportIdentity,
@@ -66,6 +65,7 @@ var (
 		"privatekey":             PrivateKeyIdentity,
 		"processingunit":         ProcessingUnitIdentity,
 		"processingunitpolicy":   ProcessingUnitPolicyIdentity,
+		"pureport":               PUReportIdentity,
 		"quotacheck":             QuotaCheckIdentity,
 		"quotapolicy":            QuotaPolicyIdentity,
 		"remoteprocessor":        RemoteProcessorIdentity,
@@ -126,7 +126,6 @@ var (
 		"fileaccesspolicies":             FileAccessPolicyIdentity,
 		"filepaths":                      FilePathIdentity,
 		"flowreports":                    FlowReportIdentity,
-		"flowstatistics":                 FlowStatisticIdentity,
 
 		"hookpolicies":   HookPolicyIdentity,
 		"import":         ImportIdentity,
@@ -154,6 +153,7 @@ var (
 		"privatekeys":              PrivateKeyIdentity,
 		"processingunits":          ProcessingUnitIdentity,
 		"processingunitpolicies":   ProcessingUnitPolicyIdentity,
+		"pureports":                PUReportIdentity,
 		"quotacheck":               QuotaCheckIdentity,
 		"quotapolicies":            QuotaPolicyIdentity,
 		"remoteprocessors":         RemoteProcessorIdentity,
@@ -204,8 +204,6 @@ var (
 		"extsrvs":    ExternalServiceIdentity,
 		"fp":         FilePathIdentity,
 		"fps":        FilePathIdentity,
-		"flowstat":   FlowStatisticIdentity,
-		"flowstats":  FlowStatisticIdentity,
 		"hook":       HookPolicyIdentity,
 		"hooks":      HookPolicyIdentity,
 		"hookpol":    HookPolicyIdentity,
@@ -356,8 +354,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewFilePath()
 	case FlowReportIdentity:
 		return NewFlowReport()
-	case FlowStatisticIdentity:
-		return NewFlowStatistic()
 	case HookPolicyIdentity:
 		return NewHookPolicy()
 	case ImportIdentity:
@@ -408,6 +404,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
 		return NewProcessingUnitPolicy()
+	case PUReportIdentity:
+		return NewPUReport()
 	case QuotaCheckIdentity:
 		return NewQuotaCheck()
 	case QuotaPolicyIdentity:
@@ -534,8 +532,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &FilePathsList{}
 	case FlowReportIdentity:
 		return &FlowReportsList{}
-	case FlowStatisticIdentity:
-		return &FlowStatisticsList{}
 	case HookPolicyIdentity:
 		return &HookPoliciesList{}
 	case ImportIdentity:
@@ -586,6 +582,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
 		return &ProcessingUnitPoliciesList{}
+	case PUReportIdentity:
+		return &PUReportsList{}
 	case QuotaCheckIdentity:
 		return &QuotaChecksList{}
 	case QuotaPolicyIdentity:
@@ -687,7 +685,6 @@ func AllIdentities() []elemental.Identity {
 		FileAccessPolicyIdentity,
 		FilePathIdentity,
 		FlowReportIdentity,
-		FlowStatisticIdentity,
 		HookPolicyIdentity,
 		ImportIdentity,
 		InstallationIdentity,
@@ -713,6 +710,7 @@ func AllIdentities() []elemental.Identity {
 		PrivateKeyIdentity,
 		ProcessingUnitIdentity,
 		ProcessingUnitPolicyIdentity,
+		PUReportIdentity,
 		QuotaCheckIdentity,
 		QuotaPolicyIdentity,
 		RemoteProcessorIdentity,
@@ -846,11 +844,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case FlowReportIdentity:
 		return []string{}
-	case FlowStatisticIdentity:
-		return []string{
-			"flowstat",
-			"flowstats",
-		}
 	case HookPolicyIdentity:
 		return []string{
 			"hook",
@@ -930,6 +923,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"pup",
 		}
+	case PUReportIdentity:
+		return []string{}
 	case QuotaCheckIdentity:
 		return []string{}
 	case QuotaPolicyIdentity:
