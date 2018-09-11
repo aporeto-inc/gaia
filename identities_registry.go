@@ -29,6 +29,7 @@ var (
 		"enforcer":                     EnforcerIdentity,
 		"enforcerprofile":              EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicy": EnforcerProfileMappingPolicyIdentity,
+		"enforcerreport":               EnforcerReportIdentity,
 		"eventlog":                     EventLogIdentity,
 		"export":                       ExportIdentity,
 		"externalnetwork":              ExternalNetworkIdentity,
@@ -115,6 +116,7 @@ var (
 		"enforcers":                      EnforcerIdentity,
 		"enforcerprofiles":               EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicies": EnforcerProfileMappingPolicyIdentity,
+		"enforcerreports":                EnforcerReportIdentity,
 		"eventlogs":                      EventLogIdentity,
 		"export":                         ExportIdentity,
 		"externalnetworks":               ExternalNetworkIdentity,
@@ -330,6 +332,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewEnforcerProfile()
 	case EnforcerProfileMappingPolicyIdentity:
 		return NewEnforcerProfileMappingPolicy()
+	case EnforcerReportIdentity:
+		return NewEnforcerReport()
 	case EventLogIdentity:
 		return NewEventLog()
 	case ExportIdentity:
@@ -506,6 +510,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &EnforcerProfilesList{}
 	case EnforcerProfileMappingPolicyIdentity:
 		return &EnforcerProfileMappingPoliciesList{}
+	case EnforcerReportIdentity:
+		return &EnforcerReportsList{}
 	case EventLogIdentity:
 		return &EventLogsList{}
 	case ExportIdentity:
@@ -666,6 +672,7 @@ func AllIdentities() []elemental.Identity {
 		EnforcerIdentity,
 		EnforcerProfileIdentity,
 		EnforcerProfileMappingPolicyIdentity,
+		EnforcerReportIdentity,
 		EventLogIdentity,
 		ExportIdentity,
 		ExternalNetworkIdentity,
@@ -803,6 +810,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"enfpols",
 			"enfpol",
 		}
+	case EnforcerReportIdentity:
+		return []string{}
 	case EventLogIdentity:
 		return []string{}
 	case ExportIdentity:

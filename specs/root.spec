@@ -496,6 +496,10 @@ relations:
   create:
     description: Create a pu statistics report.
 
+- rest_name: enforcerreport
+  create:
+    description: Create a enforcer statistics report.
+
 - rest_name: revocation
   get:
     description: Verify the revocation of a certificate according to parameters.
