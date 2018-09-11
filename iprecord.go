@@ -16,6 +16,9 @@ type IPRecord struct {
 	// Protocol used.
 	Protocol int `json:"protocol" bson:"-" mapstructure:"protocol,omitempty"`
 
+	// List of accessing IPs.
+	Sources map[string]int `json:"sources" bson:"-" mapstructure:"sources,omitempty"`
+
 	// Date of the last access on that port.
 	Timestamp time.Time `json:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
@@ -29,6 +32,7 @@ func NewIPRecord() *IPRecord {
 
 	return &IPRecord{
 		ModelVersion: 1,
+		Sources:      map[string]int{},
 	}
 }
 

@@ -4574,6 +4574,10 @@ Represents an edge from the dependency map.
 
 Identifier of the edge.
 
+#### `IPRecords (refMap)`
+
+Networking information for the flow.
+
 #### `acceptedFlows (integer)`
 
 Number of accepted flows in the edge.
@@ -4581,10 +4585,6 @@ Number of accepted flows in the edge.
 #### `destinationID (string)`
 
 ID of the destination GraphNode of the edge.
-
-#### `destinationRecord (refMap)`
-
-List of IP destination IPs.
 
 #### `destinationType (enum)`
 
@@ -4639,10 +4639,6 @@ Map of ints...
 #### `sourceID (string)`
 
 ID of the source GraphNode of the edge.
-
-#### `sourceRecord (refMap)`
-
-List of IP originating the flow.
 
 #### `sourceType (enum)`
 
@@ -5372,6 +5368,10 @@ Number of time the port was accessed.
 #### `protocol (integer)`
 
 Protocol used.
+
+#### `sources (external:map_string_int)`
+
+List of accessing IPs.
 
 #### `timestamp (time)`
 

@@ -33,14 +33,14 @@ type GraphEdge struct {
 	// Identifier of the edge.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
+	// Networking information for the flow.
+	IPRecords map[string]*IPRecord `json:"IPRecords" bson:"-" mapstructure:"IPRecords,omitempty"`
+
 	// Number of accepted flows in the edge.
 	AcceptedFlows int `json:"acceptedFlows" bson:"-" mapstructure:"acceptedFlows,omitempty"`
 
 	// ID of the destination GraphNode of the edge.
 	DestinationID string `json:"destinationID" bson:"-" mapstructure:"destinationID,omitempty"`
-
-	// List of IP destination IPs.
-	DestinationRecord map[string]*IPRecord `json:"destinationRecord" bson:"-" mapstructure:"destinationRecord,omitempty"`
 
 	// Type of the destination GraphNode of the edge.
 	DestinationType GraphEdgeDestinationTypeValue `json:"destinationType" bson:"-" mapstructure:"destinationType,omitempty"`
@@ -80,9 +80,6 @@ type GraphEdge struct {
 	// ID of the source GraphNode of the edge.
 	SourceID string `json:"sourceID" bson:"-" mapstructure:"sourceID,omitempty"`
 
-	// List of IP originating the flow.
-	SourceRecord map[string]*IPRecord `json:"sourceRecord" bson:"-" mapstructure:"sourceRecord,omitempty"`
-
 	// Type of the source GraphNode of the edge.
 	SourceType GraphEdgeSourceTypeValue `json:"sourceType" bson:"-" mapstructure:"sourceType,omitempty"`
 
@@ -96,12 +93,11 @@ func NewGraphEdge() *GraphEdge {
 
 	return &GraphEdge{
 		ModelVersion:       1,
-		DestinationRecord:  map[string]*IPRecord{},
+		IPRecords:          map[string]*IPRecord{},
 		ObservedPolicyIDs:  map[string]*GraphPolicyInfo{},
 		ObservedServiceIDs: map[string]int{},
 		PolicyIDs:          map[string]*GraphPolicyInfo{},
 		ServiceIDs:         map[string]int{},
-		SourceRecord:       map[string]*IPRecord{},
 	}
 }
 
@@ -111,7 +107,7 @@ func (o *GraphEdge) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	for _, sub := range o.DestinationRecord {
+	for _, sub := range o.IPRecords {
 		if err := sub.Validate(); err != nil {
 			errors = append(errors, err)
 		}
@@ -128,12 +124,6 @@ func (o *GraphEdge) Validate() error {
 	}
 
 	for _, sub := range o.PolicyIDs {
-		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
-		}
-	}
-
-	for _, sub := range o.SourceRecord {
 		if err := sub.Validate(); err != nil {
 			errors = append(errors, err)
 		}

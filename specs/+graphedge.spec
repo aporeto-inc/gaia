@@ -15,6 +15,14 @@ attributes:
     type: string
     exposed: true
 
+  - name: IPRecords
+    description: Networking information for the flow.
+    type: refMap
+    exposed: true
+    subtype: iprecord
+    extensions:
+      refMode: pointer
+
   - name: acceptedFlows
     description: Number of accepted flows in the edge.
     type: integer
@@ -24,14 +32,6 @@ attributes:
     description: ID of the destination GraphNode of the edge.
     type: string
     exposed: true
-
-  - name: destinationRecord
-    description: List of IP destination IPs.
-    type: refMap
-    exposed: true
-    subtype: iprecord
-    extensions:
-      refMode: pointer
 
   - name: destinationType
     description: Type of the destination GraphNode of the edge.
@@ -107,14 +107,6 @@ attributes:
     description: ID of the source GraphNode of the edge.
     type: string
     exposed: true
-
-  - name: sourceRecord
-    description: List of IP originating the flow.
-    type: refMap
-    exposed: true
-    subtype: iprecord
-    extensions:
-      refMode: pointer
 
   - name: sourceType
     description: Type of the source GraphNode of the edge.

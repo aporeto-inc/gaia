@@ -20,6 +20,12 @@ attributes:
     type: integer
     exposed: true
 
+  - name: sources
+    description: List of accessing IPs.
+    type: external
+    exposed: true
+    subtype: map_string_int
+
   - name: timestamp
     description: Date of the last access on that port.
     type: time
