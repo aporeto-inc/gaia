@@ -33,9 +33,6 @@ type GraphEdge struct {
 	// Identifier of the edge.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Networking information for the flow.
-	IPRecords map[string]*IPRecord `json:"IPRecords" bson:"-" mapstructure:"IPRecords,omitempty"`
-
 	// Number of accepted flows in the edge.
 	AcceptedFlows int `json:"acceptedFlows" bson:"-" mapstructure:"acceptedFlows,omitempty"`
 
@@ -47,9 +44,6 @@ type GraphEdge struct {
 
 	// Tells the number of encrypted flows in the edge.
 	Encrypted int `json:"encrypted" bson:"-" mapstructure:"encrypted,omitempty"`
-
-	// Name of the edge.
-	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
 
 	// Number of accepted observed flows.
 	ObservedAcceptedFlows int `json:"observedAcceptedFlows" bson:"-" mapstructure:"observedAcceptedFlows,omitempty"`
@@ -93,7 +87,6 @@ func NewGraphEdge() *GraphEdge {
 
 	return &GraphEdge{
 		ModelVersion:       1,
-		IPRecords:          map[string]*IPRecord{},
 		ObservedPolicyIDs:  map[string]*GraphPolicyInfo{},
 		ObservedServiceIDs: map[string]int{},
 		PolicyIDs:          map[string]*GraphPolicyInfo{},
@@ -106,12 +99,6 @@ func (o *GraphEdge) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
-
-	for _, sub := range o.IPRecords {
-		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
-		}
-	}
 
 	if err := elemental.ValidateStringInList("destinationType", string(o.DestinationType), []string{"ProcessingUnit", "ExternalNetwork"}, false); err != nil {
 		errors = append(errors, err)

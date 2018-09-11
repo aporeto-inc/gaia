@@ -15,14 +15,6 @@ attributes:
     type: string
     exposed: true
 
-  - name: IPRecords
-    description: Networking information for the flow.
-    type: refMap
-    exposed: true
-    subtype: iprecord
-    extensions:
-      refMode: pointer
-
   - name: acceptedFlows
     description: Number of accepted flows in the edge.
     type: integer
@@ -44,11 +36,6 @@ attributes:
   - name: encrypted
     description: Tells the number of encrypted flows in the edge.
     type: integer
-    exposed: true
-
-  - name: name
-    description: Name of the edge.
-    type: string
     exposed: true
 
   - name: observedAcceptedFlows
