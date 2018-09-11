@@ -31,7 +31,6 @@ var (
 		"enforcerprofilemappingpolicy": EnforcerProfileMappingPolicyIdentity,
 		"eventlog":                     EventLogIdentity,
 		"export":                       ExportIdentity,
-		"externalaccess":               ExternalAccessIdentity,
 		"externalnetwork":              ExternalNetworkIdentity,
 		"externalservice":              ExternalServiceIdentity,
 		"fileaccess":                   FileAccessIdentity,
@@ -119,7 +118,6 @@ var (
 		"enforcerprofilemappingpolicies": EnforcerProfileMappingPolicyIdentity,
 		"eventlogs":                      EventLogIdentity,
 		"export":                         ExportIdentity,
-		"externalaccesses":               ExternalAccessIdentity,
 		"externalnetworks":               ExternalNetworkIdentity,
 		"externalservices":               ExternalServiceIdentity,
 		"fileaccesses":                   FileAccessIdentity,
@@ -196,8 +194,6 @@ var (
 		"profiles":   EnforcerProfileIdentity,
 		"enfpols":    EnforcerProfileMappingPolicyIdentity,
 		"enfpol":     EnforcerProfileMappingPolicyIdentity,
-		"extacs":     ExternalAccessIdentity,
-		"extac":      ExternalAccessIdentity,
 		"extnet":     ExternalNetworkIdentity,
 		"extnets":    ExternalNetworkIdentity,
 		"extsrv":     ExternalServiceIdentity,
@@ -340,8 +336,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewEventLog()
 	case ExportIdentity:
 		return NewExport()
-	case ExternalAccessIdentity:
-		return NewExternalAccess()
 	case ExternalNetworkIdentity:
 		return NewExternalNetwork()
 	case ExternalServiceIdentity:
@@ -518,8 +512,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &EventLogsList{}
 	case ExportIdentity:
 		return &ExportsList{}
-	case ExternalAccessIdentity:
-		return &ExternalAccessList{}
 	case ExternalNetworkIdentity:
 		return &ExternalNetworksList{}
 	case ExternalServiceIdentity:
@@ -678,7 +670,6 @@ func AllIdentities() []elemental.Identity {
 		EnforcerProfileMappingPolicyIdentity,
 		EventLogIdentity,
 		ExportIdentity,
-		ExternalAccessIdentity,
 		ExternalNetworkIdentity,
 		ExternalServiceIdentity,
 		FileAccessIdentity,
@@ -818,11 +809,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case ExportIdentity:
 		return []string{}
-	case ExternalAccessIdentity:
-		return []string{
-			"extacs",
-			"extac",
-		}
 	case ExternalNetworkIdentity:
 		return []string{
 			"extnet",

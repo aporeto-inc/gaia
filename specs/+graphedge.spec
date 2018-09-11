@@ -25,6 +25,14 @@ attributes:
     type: string
     exposed: true
 
+  - name: destinationRecord
+    description: List of IP destination IPs.
+    type: refMap
+    exposed: true
+    subtype: iprecord
+    extensions:
+      refMode: pointer
+
   - name: destinationType
     description: Type of the destination GraphNode of the edge.
     type: enum
@@ -99,6 +107,14 @@ attributes:
     description: ID of the source GraphNode of the edge.
     type: string
     exposed: true
+
+  - name: sourceRecord
+    description: List of IP originating the flow.
+    type: refMap
+    exposed: true
+    subtype: iprecord
+    extensions:
+      refMode: pointer
 
   - name: sourceType
     description: Type of the source GraphNode of the edge.

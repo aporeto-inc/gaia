@@ -268,57 +268,6 @@ relations:
         multiple: true
         example_value: a=a
 
-- rest_name: externalaccess
-  get:
-    description: Retrieves the list of external access according to parameters.
-    global_parameters:
-    - $timewindow
-    - $flowoffset
-    parameters:
-      entries:
-      - name: destinationID
-        description: IDs of the destinations.
-        type: string
-        multiple: true
-        example_value: yyy-yyy-yyy-yyy
-
-      - name: destinationType
-        description: Type of the destination.
-        type: enum
-        allowed_choices:
-        - ExternalNetwork
-        - ProcessingUnit
-
-      - name: flowMode
-        description: Choose if observed, applied to all flows.
-        type: enum
-        allowed_choices:
-        - observed
-        - applied
-        - all
-        default_value: applied
-
-      - name: geoloc
-        description: Geolocalize the the flow.
-        type: boolean
-
-      - name: resolve
-        description: Resolve the IPs to dns.
-        type: boolean
-
-      - name: sourceID
-        description: IDs of the sources.
-        type: string
-        multiple: true
-        example_value: xxx-xxx-xxx-xxx
-
-      - name: sourceType
-        description: Type of the source.
-        type: enum
-        allowed_choices:
-        - ExternalNetwork
-        - ProcessingUnit
-
 - rest_name: externalservice
   get:
     description: Retrieves the list of external services.

@@ -10,55 +10,17 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: IP
-    description: Actual IP Address.
-    type: string
-    exposed: true
-
-  - name: actions
-    description: List of actions applied from that IP.
-    type: list
-    exposed: true
-    subtype: string
-
-  - name: city
-    description: City of the IP.
-    type: string
-    exposed: true
-
-  - name: country
-    description: Country of the IP.
-    type: string
-    exposed: true
-
-  - name: destinationPorts
-    description: List of ports applied used.
-    type: list
-    exposed: true
-    subtype: string
-
   - name: hits
-    description: Number of hits.
+    description: Number of time the port was accessed.
     type: integer
     exposed: true
 
-  - name: hostnames
-    description: Eventual list of hostnames associated to the IP.
-    type: list
-    exposed: true
-    subtype: string
-
-  - name: l4Protocol
+  - name: protocol
     description: Protocol used.
-    type: string
+    type: integer
     exposed: true
 
-  - name: latitude
-    description: Latitude of the IP.
-    type: float
-    exposed: true
-
-  - name: longitude
-    description: Longitude of the IP.
-    type: float
+  - name: timestamp
+    description: Date of the last access on that port.
+    type: time
     exposed: true
