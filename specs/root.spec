@@ -500,6 +500,14 @@ relations:
   create:
     description: Create a enforcer statistics report.
 
+- rest_name: fileaccessreport
+  create:
+    description: Create a file access statistics report.
+
+- rest_name: auditreport
+  create:
+    description: Create a audit statistics report.
+
 - rest_name: revocation
   get:
     description: Verify the revocation of a certificate according to parameters.

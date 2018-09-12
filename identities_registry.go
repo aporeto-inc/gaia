@@ -13,6 +13,7 @@ var (
 		"apicheck":               APICheckIdentity,
 		"app":                    AppIdentity,
 		"auditprofile":           AuditProfileIdentity,
+		"auditreport":            AuditReportIdentity,
 		"auth":                   AuthIdentity,
 		"authority":              AuthorityIdentity,
 		"automation":             AutomationIdentity,
@@ -36,6 +37,7 @@ var (
 		"externalservice":              ExternalServiceIdentity,
 		"fileaccess":                   FileAccessIdentity,
 		"fileaccesspolicy":             FileAccessPolicyIdentity,
+		"fileaccessreport":             FileAccessReportIdentity,
 		"filepath":                     FilePathIdentity,
 		"flowreport":                   FlowReportIdentity,
 
@@ -100,6 +102,7 @@ var (
 		"apichecks":                APICheckIdentity,
 		"apps":                     AppIdentity,
 		"auditprofiles":            AuditProfileIdentity,
+		"auditreports":             AuditReportIdentity,
 		"auth":                     AuthIdentity,
 		"authorities":              AuthorityIdentity,
 		"automations":              AutomationIdentity,
@@ -123,6 +126,7 @@ var (
 		"externalservices":               ExternalServiceIdentity,
 		"fileaccesses":                   FileAccessIdentity,
 		"fileaccesspolicies":             FileAccessPolicyIdentity,
+		"fileaccessreports":              FileAccessReportIdentity,
 		"filepaths":                      FilePathIdentity,
 		"flowreports":                    FlowReportIdentity,
 
@@ -302,6 +306,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewApp()
 	case AuditProfileIdentity:
 		return NewAuditProfile()
+	case AuditReportIdentity:
+		return NewAuditReport()
 	case AuthIdentity:
 		return NewAuth()
 	case AuthorityIdentity:
@@ -346,6 +352,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewFileAccess()
 	case FileAccessPolicyIdentity:
 		return NewFileAccessPolicy()
+	case FileAccessReportIdentity:
+		return NewFileAccessReport()
 	case FilePathIdentity:
 		return NewFilePath()
 	case FlowReportIdentity:
@@ -480,6 +488,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &AppsList{}
 	case AuditProfileIdentity:
 		return &AuditProfilesList{}
+	case AuditReportIdentity:
+		return &AuditReportsList{}
 	case AuthIdentity:
 		return &AuthsList{}
 	case AuthorityIdentity:
@@ -524,6 +534,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &FileAccessList{}
 	case FileAccessPolicyIdentity:
 		return &FileAccessPoliciesList{}
+	case FileAccessReportIdentity:
+		return &FileAccessReportsList{}
 	case FilePathIdentity:
 		return &FilePathsList{}
 	case FlowReportIdentity:
@@ -657,6 +669,7 @@ func AllIdentities() []elemental.Identity {
 		APICheckIdentity,
 		AppIdentity,
 		AuditProfileIdentity,
+		AuditReportIdentity,
 		AuthIdentity,
 		AuthorityIdentity,
 		AutomationIdentity,
@@ -679,6 +692,7 @@ func AllIdentities() []elemental.Identity {
 		ExternalServiceIdentity,
 		FileAccessIdentity,
 		FileAccessPolicyIdentity,
+		FileAccessReportIdentity,
 		FilePathIdentity,
 		FlowReportIdentity,
 		HookPolicyIdentity,
@@ -760,6 +774,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"ap",
 		}
+	case AuditReportIdentity:
+		return []string{}
 	case AuthIdentity:
 		return []string{}
 	case AuthorityIdentity:
@@ -829,6 +845,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case FileAccessIdentity:
 		return []string{}
 	case FileAccessPolicyIdentity:
+		return []string{}
+	case FileAccessReportIdentity:
 		return []string{}
 	case FilePathIdentity:
 		return []string{
