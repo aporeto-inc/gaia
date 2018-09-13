@@ -1528,6 +1528,19 @@ func init() {
 			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"networkaccesspolicy": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "objects",
+						AllowedChoices: []string{
+							"subjects",
+							"object",
+						},
+					},
+				},
+			},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -1548,6 +1561,19 @@ func init() {
 			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
+			"networkaccesspolicy": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "objects",
+						AllowedChoices: []string{
+							"subjects",
+							"object",
+						},
+					},
+				},
+			},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -3505,6 +3531,19 @@ func init() {
 			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"networkaccesspolicy": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "objects",
+						AllowedChoices: []string{
+							"subjects",
+							"object",
+						},
+					},
+				},
+			},
 			"processingunit": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
@@ -3527,6 +3566,19 @@ func init() {
 			"servicedependency": &elemental.RelationshipInfo{},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
+			"networkaccesspolicy": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "objects",
+						AllowedChoices: []string{
+							"subjects",
+							"object",
+						},
+					},
+				},
+			},
 			"processingunit": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{

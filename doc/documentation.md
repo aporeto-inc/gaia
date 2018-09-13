@@ -3590,6 +3590,14 @@ Retrieves the object with the given ID.
 
 Updates the object with the given ID.
 
+#### `GET /networkaccesspolicies/:id/externalnetworks`
+
+Returns the list of external networks affected by a network access policy.
+
+##### Parameters
+
+- `mode` (enum): Matching mode.
+
 ### Attributes
 
 #### `ID (string)`
@@ -6650,6 +6658,14 @@ Retrieves the object with the given ID.
 
 Updates the object with the given ID.
 
+#### `GET /networkaccesspolicies/:id/externalnetworks`
+
+Returns the list of external networks affected by a network access policy.
+
+##### Parameters
+
+- `mode` (enum): Matching mode.
+
 #### `GET /networkaccesspolicies/:id/externalservices`
 
 Returns the list of external services affected by a network access policy.
@@ -6661,6 +6677,14 @@ Returns the list of external services affected by a network access policy.
 #### `GET /networkaccesspolicies/:id/processingunits`
 
 Returns the list of Processing Units affected by a network access policy.
+
+##### Parameters
+
+- `mode` (enum): Matching mode.
+
+#### `GET /networkaccesspolicies/:id/services`
+
+Returns the list of services affected by a network access policy.
 
 ##### Parameters
 
@@ -8624,6 +8648,14 @@ Retrieves the object with the given ID.
 #### `PUT /services/:id`
 
 Updates the object with the given ID.
+
+#### `GET /networkaccesspolicies/:id/services`
+
+Returns the list of services affected by a network access policy.
+
+##### Parameters
+
+- `mode` (enum): Matching mode.
 
 #### `GET /processingunits/:id/services`
 
