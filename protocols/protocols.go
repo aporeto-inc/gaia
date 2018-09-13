@@ -5,6 +5,7 @@ import (
 )
 
 // All L4 Protocols
+// (Ref https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers)
 const (
 	L4ProtocolHOPOPT         = "HOPOPT"
 	L4ProtocolICMP           = "ICMP"
@@ -146,9 +147,10 @@ const (
 	L4ProtocolROHC           = "ROHC"
 )
 
-// L4ProtocolNumbers contains the list of all IANA protocols
-// (Ref https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers)
+// L4ProtocolNumbers contains the list of all IANA protocols organized by numbers
 var L4ProtocolNumbers = make([]string, 150)
+
+// L4ProtocolNames contains the list of all IANA protocols organized by names
 var L4ProtocolNames = map[string]int{}
 
 // init initializes variables
