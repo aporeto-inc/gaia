@@ -43,6 +43,13 @@ attributes:
     stored: true
     filterable: true
 
+  - name: image
+    description: Docker image, or path to executable.
+    type: string
+    exposed: true
+    stored: true
+    filterable: true
+
   - name: lastSyncTime
     description: LastSyncTime is the time when the policy was last resolved.
     type: time

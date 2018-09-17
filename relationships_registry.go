@@ -2408,12 +2408,6 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[PUReportIdentity] = &elemental.Relationship{
-		Create: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
-		},
-	}
-
 	relationshipsRegistry[PasswordResetIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},

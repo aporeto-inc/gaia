@@ -492,10 +492,6 @@ relations:
   create:
     description: Create a flow statistics report.
 
-- rest_name: pureport
-  create:
-    description: Create a pu statistics report.
-
 - rest_name: enforcerreport
   create:
     description: Create a enforcer statistics report.

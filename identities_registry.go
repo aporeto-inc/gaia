@@ -66,7 +66,6 @@ var (
 		"privatekey":             PrivateKeyIdentity,
 		"processingunit":         ProcessingUnitIdentity,
 		"processingunitpolicy":   ProcessingUnitPolicyIdentity,
-		"pureport":               PUReportIdentity,
 		"quotacheck":             QuotaCheckIdentity,
 		"quotapolicy":            QuotaPolicyIdentity,
 		"remoteprocessor":        RemoteProcessorIdentity,
@@ -155,7 +154,6 @@ var (
 		"privatekeys":              PrivateKeyIdentity,
 		"processingunits":          ProcessingUnitIdentity,
 		"processingunitpolicies":   ProcessingUnitPolicyIdentity,
-		"pureports":                PUReportIdentity,
 		"quotacheck":               QuotaCheckIdentity,
 		"quotapolicies":            QuotaPolicyIdentity,
 		"remoteprocessors":         RemoteProcessorIdentity,
@@ -408,8 +406,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
 		return NewProcessingUnitPolicy()
-	case PUReportIdentity:
-		return NewPUReport()
 	case QuotaCheckIdentity:
 		return NewQuotaCheck()
 	case QuotaPolicyIdentity:
@@ -590,8 +586,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
 		return &ProcessingUnitPoliciesList{}
-	case PUReportIdentity:
-		return &PUReportsList{}
 	case QuotaCheckIdentity:
 		return &QuotaChecksList{}
 	case QuotaPolicyIdentity:
@@ -720,7 +714,6 @@ func AllIdentities() []elemental.Identity {
 		PrivateKeyIdentity,
 		ProcessingUnitIdentity,
 		ProcessingUnitPolicyIdentity,
-		PUReportIdentity,
 		QuotaCheckIdentity,
 		QuotaPolicyIdentity,
 		RemoteProcessorIdentity,
@@ -934,8 +927,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"pup",
 		}
-	case PUReportIdentity:
-		return []string{}
 	case QuotaCheckIdentity:
 		return []string{}
 	case QuotaPolicyIdentity:
