@@ -53,6 +53,8 @@ attributes:
     exposed: true
     subtype: policies_list
     stored: true
+    getter: true
+    setter: true
 
   - name: relation
     description: |-
@@ -72,6 +74,8 @@ attributes:
     exposed: true
     subtype: policies_list
     stored: true
+    getter: true
+    setter: true
 
   - name: type
     description: Type of the policy.

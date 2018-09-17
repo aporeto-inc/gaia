@@ -60,4 +60,3 @@ attributes:
     stored: true
     required: true
     example_value: /my/namespace
-    filterable: true

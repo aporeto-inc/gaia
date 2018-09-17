@@ -129,10 +129,37 @@ relations:
         - object
         default_value: objects
 
+- rest_name: externalnetwork
+  get:
+    description: Returns the list of external networks affected by a network access
+      policy.
+    parameters:
+      entries:
+      - name: mode
+        description: Matching mode.
+        type: enum
+        allowed_choices:
+        - subjects
+        - object
+        default_value: objects
+
 - rest_name: processingunit
   get:
     description: Returns the list of Processing Units affected by a network access
       policy.
+    parameters:
+      entries:
+      - name: mode
+        description: Matching mode.
+        type: enum
+        allowed_choices:
+        - subjects
+        - object
+        default_value: objects
+
+- rest_name: service
+  get:
+    description: Returns the list of services affected by a network access policy.
     parameters:
       entries:
       - name: mode

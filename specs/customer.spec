@@ -32,6 +32,7 @@ attributes:
     - Aporeto
     - AWS
     default_value: Aporeto
+    filterable: true
 
   - name: providerCustomerID
     description: |-
