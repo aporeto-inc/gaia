@@ -199,6 +199,13 @@ relations:
         description: Also return the view suggestions.
         type: boolean
 
+- rest_name: punode
+  get:
+    description: Retrieves the pu nodes.
+    global_parameters:
+    - $timewindow
+    - $archivable
+
 - rest_name: email
   create:
     description: Sends an email.
