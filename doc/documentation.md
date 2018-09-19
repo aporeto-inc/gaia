@@ -1319,41 +1319,21 @@ Create a audit statistics report.
 
 Needs documentation.
 
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
-
 #### `a1 (string)`
 
 Needs documentation.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
 
 #### `a2 (string)`
 
 Needs documentation.
 
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
-
 #### `a3 (string)`
 
 Needs documentation.
 
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
-
 #### `arch (string)`
 
 Architecture of the system where the syscall happened.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
 
 #### `auditProfileID (string)`
 
@@ -1375,25 +1355,13 @@ Namespace the audit profile that triggered the report.
 
 Needs documentation.
 
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
-
 #### `command (string)`
 
 Command issued.
 
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
-
 #### `cwd (string)`
 
 Command working directory.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
 
 #### `egid (integer)`
 
@@ -1422,10 +1390,6 @@ Needs documentation.
 #### `exe (string)`
 
 Path to the executable.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
 
 #### `exit (integer)`
 

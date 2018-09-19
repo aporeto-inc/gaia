@@ -13,35 +13,30 @@ attributes:
     description: Needs documentation.
     type: string
     exposed: true
-    required: true
     example_value: xxx-xxx
 
   - name: a1
     description: Needs documentation.
     type: string
     exposed: true
-    required: true
     example_value: xxx-xxx
 
   - name: a2
     description: Needs documentation.
     type: string
     exposed: true
-    required: true
     example_value: xxx-xxx
 
   - name: a3
     description: Needs documentation.
     type: string
     exposed: true
-    required: true
     example_value: xxx-xxx
 
   - name: arch
     description: Architecture of the system where the syscall happened.
     type: string
     exposed: true
-    required: true
     example_value: x86_64
 
   - name: auditProfileID
@@ -62,21 +57,18 @@ attributes:
     description: Needs documentation.
     type: string
     exposed: true
-    required: true
     example_value: xxx-xxx
 
   - name: command
     description: Command issued.
     type: string
     exposed: true
-    required: true
     example_value: ls
 
   - name: cwd
     description: Command working directory.
     type: string
     exposed: true
-    required: true
     example_value: /etc
 
   - name: egid
@@ -107,7 +99,6 @@ attributes:
     description: Path to the executable.
     type: string
     exposed: true
-    required: true
     example_value: /bin/ls
 
   - name: exit

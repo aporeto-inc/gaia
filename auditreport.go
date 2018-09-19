@@ -226,26 +226,6 @@ func (o *AuditReport) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredString("a0", o.A0); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("a1", o.A1); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("a2", o.A2); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("a3", o.A3); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("arch", o.Arch); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("auditProfileID", o.AuditProfileID); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -254,27 +234,11 @@ func (o *AuditReport) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("auid", o.Auid); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("command", o.Command); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("cwd", o.Cwd); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("enforcerID", o.EnforcerID); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("enforcerNamespace", o.EnforcerNamespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredString("exe", o.Exe); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
@@ -334,7 +298,6 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Needs documentation.`,
 		Exposed:        true,
 		Name:           "a0",
-		Required:       true,
 		Type:           "string",
 	},
 	"A1": elemental.AttributeSpecification{
@@ -343,7 +306,6 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Needs documentation.`,
 		Exposed:        true,
 		Name:           "a1",
-		Required:       true,
 		Type:           "string",
 	},
 	"A2": elemental.AttributeSpecification{
@@ -352,7 +314,6 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Needs documentation.`,
 		Exposed:        true,
 		Name:           "a2",
-		Required:       true,
 		Type:           "string",
 	},
 	"A3": elemental.AttributeSpecification{
@@ -361,7 +322,6 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Needs documentation.`,
 		Exposed:        true,
 		Name:           "a3",
-		Required:       true,
 		Type:           "string",
 	},
 	"Arch": elemental.AttributeSpecification{
@@ -370,7 +330,6 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Architecture of the system where the syscall happened.`,
 		Exposed:        true,
 		Name:           "arch",
-		Required:       true,
 		Type:           "string",
 	},
 	"AuditProfileID": elemental.AttributeSpecification{
@@ -397,7 +356,6 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Needs documentation.`,
 		Exposed:        true,
 		Name:           "auid",
-		Required:       true,
 		Type:           "string",
 	},
 	"Command": elemental.AttributeSpecification{
@@ -406,7 +364,6 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Command issued.`,
 		Exposed:        true,
 		Name:           "command",
-		Required:       true,
 		Type:           "string",
 	},
 	"Cwd": elemental.AttributeSpecification{
@@ -415,7 +372,6 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Command working directory.`,
 		Exposed:        true,
 		Name:           "cwd",
-		Required:       true,
 		Type:           "string",
 	},
 	"Egid": elemental.AttributeSpecification{
@@ -458,7 +414,6 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Path to the executable.`,
 		Exposed:        true,
 		Name:           "exe",
-		Required:       true,
 		Type:           "string",
 	},
 	"Exit": elemental.AttributeSpecification{
@@ -613,7 +568,6 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `Needs documentation.`,
 		Exposed:        true,
 		Name:           "a0",
-		Required:       true,
 		Type:           "string",
 	},
 	"a1": elemental.AttributeSpecification{
@@ -622,7 +576,6 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `Needs documentation.`,
 		Exposed:        true,
 		Name:           "a1",
-		Required:       true,
 		Type:           "string",
 	},
 	"a2": elemental.AttributeSpecification{
@@ -631,7 +584,6 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `Needs documentation.`,
 		Exposed:        true,
 		Name:           "a2",
-		Required:       true,
 		Type:           "string",
 	},
 	"a3": elemental.AttributeSpecification{
@@ -640,7 +592,6 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `Needs documentation.`,
 		Exposed:        true,
 		Name:           "a3",
-		Required:       true,
 		Type:           "string",
 	},
 	"arch": elemental.AttributeSpecification{
@@ -649,7 +600,6 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `Architecture of the system where the syscall happened.`,
 		Exposed:        true,
 		Name:           "arch",
-		Required:       true,
 		Type:           "string",
 	},
 	"auditprofileid": elemental.AttributeSpecification{
@@ -676,7 +626,6 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `Needs documentation.`,
 		Exposed:        true,
 		Name:           "auid",
-		Required:       true,
 		Type:           "string",
 	},
 	"command": elemental.AttributeSpecification{
@@ -685,7 +634,6 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `Command issued.`,
 		Exposed:        true,
 		Name:           "command",
-		Required:       true,
 		Type:           "string",
 	},
 	"cwd": elemental.AttributeSpecification{
@@ -694,7 +642,6 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `Command working directory.`,
 		Exposed:        true,
 		Name:           "cwd",
-		Required:       true,
 		Type:           "string",
 	},
 	"egid": elemental.AttributeSpecification{
@@ -737,7 +684,6 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `Path to the executable.`,
 		Exposed:        true,
 		Name:           "exe",
-		Required:       true,
 		Type:           "string",
 	},
 	"exit": elemental.AttributeSpecification{
