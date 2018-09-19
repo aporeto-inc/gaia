@@ -179,6 +179,21 @@ attributes:
     example_value: 443
     max_value: 65535
 
+  - name: publicApplicationPort
+    description: |-
+      PublicApplicationPort is a new virtual port that the service can
+      be accessed, using HTTPs. Since the enforcer transparently inserts TLS in the
+      application path, you might want to declare a new port where the enforcer
+      listens for TLS. However, the application does not need to be modified and
+      the enforcer will map the traffic to the correct application port. This useful
+      when an application is being accessed from a public network.
+    type: integer
+    exposed: true
+    stored: true
+    required: true
+    example_value: 443
+    max_value: 65535
+
   - name: redirectOnFail
     description: |-
       RedirectOnFail is a boolean that forces a redirect response if an API request

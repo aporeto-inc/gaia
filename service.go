@@ -198,6 +198,14 @@ type Service struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
+	// PublicApplicationPort is a new virtual port that the service can
+	// be accessed, using HTTPs. Since the enforcer transparently inserts TLS in the
+	// application path, you might want to declare a new port where the enforcer
+	// listens for TLS. However, the application does not need to be modified and
+	// the enforcer will map the traffic to the correct application port. This useful
+	// when an application is being accessed from a public network.
+	PublicApplicationPort int `json:"publicApplicationPort" bson:"publicapplicationport" mapstructure:"publicApplicationPort,omitempty"`
+
 	// RedirectOnFail is a boolean that forces a redirect response if an API request
 	// arrives and the user authorization information is not valid. This only applies
 	// to HTTP services and it is only send for APIs that are not public.
@@ -247,9 +255,9 @@ func NewService() *Service {
 		Endpoints:                  types.ExposedAPIList{},
 		External:                   false,
 		RedirectOnFail:             false,
-		IPs:                        types.IPList{},
-		NormalizedTags:             []string{},
 		Metadata:                   []string{},
+		NormalizedTags:             []string{},
+		IPs:                        types.IPList{},
 		RedirectOnNoToken:          false,
 		Type:                       ServiceTypeHTTP,
 	}
@@ -455,6 +463,14 @@ func (o *Service) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumInt("port", o.Port, int(65535), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredInt("publicApplicationPort", o.PublicApplicationPort); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumInt("publicApplicationPort", o.PublicApplicationPort, int(65535), false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -809,6 +825,22 @@ for port mapping use cases where there is private and public ports.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"PublicApplicationPort": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PublicApplicationPort",
+		Description: `PublicApplicationPort is a new virtual port that the service can
+be accessed, using HTTPs. Since the enforcer transparently inserts TLS in the
+application path, you might want to declare a new port where the enforcer
+listens for TLS. However, the application does not need to be modified and
+the enforcer will map the traffic to the correct application port. This useful
+when an application is being accessed from a public network.`,
+		Exposed:  true,
+		MaxValue: 65535,
+		Name:     "publicApplicationPort",
+		Required: true,
+		Stored:   true,
+		Type:     "integer",
 	},
 	"RedirectOnFail": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1212,6 +1244,22 @@ for port mapping use cases where there is private and public ports.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"publicapplicationport": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PublicApplicationPort",
+		Description: `PublicApplicationPort is a new virtual port that the service can
+be accessed, using HTTPs. Since the enforcer transparently inserts TLS in the
+application path, you might want to declare a new port where the enforcer
+listens for TLS. However, the application does not need to be modified and
+the enforcer will map the traffic to the correct application port. This useful
+when an application is being accessed from a public network.`,
+		Exposed:  true,
+		MaxValue: 65535,
+		Name:     "publicApplicationPort",
+		Required: true,
+		Stored:   true,
+		Type:     "integer",
 	},
 	"redirectonfail": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
