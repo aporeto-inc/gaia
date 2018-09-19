@@ -72,6 +72,48 @@ func (o AuditReportsList) Version() int {
 // AuditReport represents the model of a auditreport
 type AuditReport struct {
 	// Needs documentation.
+	AUID string `json:"AUID" bson:"-" mapstructure:"AUID,omitempty"`
+
+	// Command working directory.
+	CWD string `json:"CWD" bson:"-" mapstructure:"CWD,omitempty"`
+
+	// Needs documentation.
+	EGID int `json:"EGID" bson:"-" mapstructure:"EGID,omitempty"`
+
+	// Needs documentation.
+	EUID int `json:"EUID" bson:"-" mapstructure:"EUID,omitempty"`
+
+	// Path to the executable.
+	EXE string `json:"EXE" bson:"-" mapstructure:"EXE,omitempty"`
+
+	// Needs documentation.
+	FSGID int `json:"FSGID" bson:"-" mapstructure:"FSGID,omitempty"`
+
+	// Needs documentation.
+	FSUID int `json:"FSUID" bson:"-" mapstructure:"FSUID,omitempty"`
+
+	// Needs documentation.
+	GID int `json:"GID" bson:"-" mapstructure:"GID,omitempty"`
+
+	// Needs documentation.
+	PER int `json:"PER" bson:"-" mapstructure:"PER,omitempty"`
+
+	// PID of the executable.
+	PID int `json:"PID" bson:"-" mapstructure:"PID,omitempty"`
+
+	// PID of the parent executable.
+	PPID int `json:"PPID" bson:"-" mapstructure:"PPID,omitempty"`
+
+	// Needs documentation.
+	SGID int `json:"SGID" bson:"-" mapstructure:"SGID,omitempty"`
+
+	// Needs documentation.
+	SUID int `json:"SUID" bson:"-" mapstructure:"SUID,omitempty"`
+
+	// Needs documentation.
+	UID int `json:"UID" bson:"-" mapstructure:"UID,omitempty"`
+
+	// Needs documentation.
 	A0 string `json:"a0" bson:"-" mapstructure:"a0,omitempty"`
 
 	// Needs documentation.
@@ -92,17 +134,8 @@ type AuditReport struct {
 	// Namespace the audit profile that triggered the report.
 	AuditProfileNamespace string `json:"auditProfileNamespace" bson:"-" mapstructure:"auditProfileNamespace,omitempty"`
 
-	// Needs documentation.
-	Auid string `json:"auid" bson:"-" mapstructure:"auid,omitempty"`
-
 	// Command issued.
 	Command string `json:"command" bson:"-" mapstructure:"command,omitempty"`
-
-	// Command working directory.
-	Cwd string `json:"cwd" bson:"-" mapstructure:"cwd,omitempty"`
-
-	// Needs documentation.
-	Egid int `json:"egid" bson:"-" mapstructure:"egid,omitempty"`
 
 	// ID of the enforcer reporting.
 	EnforcerID string `json:"enforcerID" bson:"-" mapstructure:"enforcerID,omitempty"`
@@ -110,32 +143,8 @@ type AuditReport struct {
 	// Namespace of the enforcer reporting.
 	EnforcerNamespace string `json:"enforcerNamespace" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
 
-	// Needs documentation.
-	Euid int `json:"euid" bson:"-" mapstructure:"euid,omitempty"`
-
-	// Path to the executable.
-	Exe string `json:"exe" bson:"-" mapstructure:"exe,omitempty"`
-
 	// Exit code of the executable.
 	Exit int `json:"exit" bson:"-" mapstructure:"exit,omitempty"`
-
-	// Needs documentation.
-	Fsgid int `json:"fsgid" bson:"-" mapstructure:"fsgid,omitempty"`
-
-	// Needs documentation.
-	Fsuid int `json:"fsuid" bson:"-" mapstructure:"fsuid,omitempty"`
-
-	// Needs documentation.
-	Gid int `json:"gid" bson:"-" mapstructure:"gid,omitempty"`
-
-	// Needs documentation.
-	Per int `json:"per" bson:"-" mapstructure:"per,omitempty"`
-
-	// PID of the executable.
-	Pid int `json:"pid" bson:"-" mapstructure:"pid,omitempty"`
-
-	// PID of the parent executable.
-	Ppid int `json:"ppid" bson:"-" mapstructure:"ppid,omitempty"`
 
 	// ID of the processing unit originating the report.
 	ProcessingUnitID string `json:"processingUnitID" bson:"-" mapstructure:"processingUnitID,omitempty"`
@@ -149,23 +158,14 @@ type AuditReport struct {
 	// Needs documentation.
 	Sequence int `json:"sequence" bson:"-" mapstructure:"sequence,omitempty"`
 
-	// Needs documentation.
-	Sgid int `json:"sgid" bson:"-" mapstructure:"sgid,omitempty"`
-
 	// Tells if the operation has been a success of a failure.
 	Success bool `json:"success" bson:"-" mapstructure:"success,omitempty"`
-
-	// Needs documentation.
-	Suid int `json:"suid" bson:"-" mapstructure:"suid,omitempty"`
 
 	// Syscall name.
 	Syscall string `json:"syscall" bson:"-" mapstructure:"syscall,omitempty"`
 
 	// Date of the report.
 	Timestamp time.Time `json:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
-
-	// Needs documentation.
-	Uid int `json:"uid" bson:"-" mapstructure:"uid,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -292,6 +292,118 @@ func (*AuditReport) AttributeSpecifications() map[string]elemental.AttributeSpec
 
 // AuditReportAttributesMap represents the map of attribute for AuditReport.
 var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
+	"AUID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AUID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "AUID",
+		Type:           "string",
+	},
+	"CWD": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CWD",
+		Description:    `Command working directory.`,
+		Exposed:        true,
+		Name:           "CWD",
+		Type:           "string",
+	},
+	"EGID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EGID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "EGID",
+		Type:           "integer",
+	},
+	"EUID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EUID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "EUID",
+		Type:           "integer",
+	},
+	"EXE": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EXE",
+		Description:    `Path to the executable.`,
+		Exposed:        true,
+		Name:           "EXE",
+		Type:           "string",
+	},
+	"FSGID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "FSGID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "FSGID",
+		Type:           "integer",
+	},
+	"FSUID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "FSUID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "FSUID",
+		Type:           "integer",
+	},
+	"GID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "GID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "GID",
+		Type:           "integer",
+	},
+	"PER": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PER",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "PER",
+		Type:           "integer",
+	},
+	"PID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PID",
+		Description:    `PID of the executable.`,
+		Exposed:        true,
+		Name:           "PID",
+		Type:           "integer",
+	},
+	"PPID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PPID",
+		Description:    `PID of the parent executable.`,
+		Exposed:        true,
+		Name:           "PPID",
+		Type:           "integer",
+	},
+	"SGID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SGID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "SGID",
+		Type:           "integer",
+	},
+	"SUID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SUID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "SUID",
+		Type:           "integer",
+	},
+	"UID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "UID",
+		Type:           "integer",
+	},
 	"A0": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "A0",
@@ -350,14 +462,6 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
-	"Auid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Auid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "auid",
-		Type:           "string",
-	},
 	"Command": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Command",
@@ -365,22 +469,6 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "command",
 		Type:           "string",
-	},
-	"Cwd": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Cwd",
-		Description:    `Command working directory.`,
-		Exposed:        true,
-		Name:           "cwd",
-		Type:           "string",
-	},
-	"Egid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Egid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "egid",
-		Type:           "integer",
 	},
 	"EnforcerID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -400,76 +488,12 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
-	"Euid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Euid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "euid",
-		Type:           "integer",
-	},
-	"Exe": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Exe",
-		Description:    `Path to the executable.`,
-		Exposed:        true,
-		Name:           "exe",
-		Type:           "string",
-	},
 	"Exit": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Exit",
 		Description:    `Exit code of the executable.`,
 		Exposed:        true,
 		Name:           "exit",
-		Type:           "integer",
-	},
-	"Fsgid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Fsgid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "fsgid",
-		Type:           "integer",
-	},
-	"Fsuid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Fsuid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "fsuid",
-		Type:           "integer",
-	},
-	"Gid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Gid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "gid",
-		Type:           "integer",
-	},
-	"Per": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Per",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "per",
-		Type:           "integer",
-	},
-	"Pid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Pid",
-		Description:    `PID of the executable.`,
-		Exposed:        true,
-		Name:           "pid",
-		Type:           "integer",
-	},
-	"Ppid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Ppid",
-		Description:    `PID of the parent executable.`,
-		Exposed:        true,
-		Name:           "ppid",
 		Type:           "integer",
 	},
 	"ProcessingUnitID": elemental.AttributeSpecification{
@@ -507,14 +531,6 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "sequence",
 		Type:           "integer",
 	},
-	"Sgid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Sgid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "sgid",
-		Type:           "integer",
-	},
 	"Success": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Success",
@@ -523,14 +539,6 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "success",
 		Required:       true,
 		Type:           "boolean",
-	},
-	"Suid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Suid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "suid",
-		Type:           "integer",
 	},
 	"Syscall": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -550,18 +558,122 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "time",
 	},
-	"Uid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Uid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "uid",
-		Type:           "integer",
-	},
 }
 
 // AuditReportLowerCaseAttributesMap represents the map of attribute for AuditReport.
 var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"auid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AUID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "AUID",
+		Type:           "string",
+	},
+	"cwd": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CWD",
+		Description:    `Command working directory.`,
+		Exposed:        true,
+		Name:           "CWD",
+		Type:           "string",
+	},
+	"egid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EGID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "EGID",
+		Type:           "integer",
+	},
+	"euid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EUID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "EUID",
+		Type:           "integer",
+	},
+	"exe": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EXE",
+		Description:    `Path to the executable.`,
+		Exposed:        true,
+		Name:           "EXE",
+		Type:           "string",
+	},
+	"fsgid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "FSGID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "FSGID",
+		Type:           "integer",
+	},
+	"fsuid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "FSUID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "FSUID",
+		Type:           "integer",
+	},
+	"gid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "GID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "GID",
+		Type:           "integer",
+	},
+	"per": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PER",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "PER",
+		Type:           "integer",
+	},
+	"pid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PID",
+		Description:    `PID of the executable.`,
+		Exposed:        true,
+		Name:           "PID",
+		Type:           "integer",
+	},
+	"ppid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PPID",
+		Description:    `PID of the parent executable.`,
+		Exposed:        true,
+		Name:           "PPID",
+		Type:           "integer",
+	},
+	"sgid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SGID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "SGID",
+		Type:           "integer",
+	},
+	"suid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SUID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "SUID",
+		Type:           "integer",
+	},
+	"uid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "UID",
+		Description:    `Needs documentation.`,
+		Exposed:        true,
+		Name:           "UID",
+		Type:           "integer",
+	},
 	"a0": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "A0",
@@ -620,14 +732,6 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Required:       true,
 		Type:           "string",
 	},
-	"auid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Auid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "auid",
-		Type:           "string",
-	},
 	"command": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Command",
@@ -635,22 +739,6 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Exposed:        true,
 		Name:           "command",
 		Type:           "string",
-	},
-	"cwd": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Cwd",
-		Description:    `Command working directory.`,
-		Exposed:        true,
-		Name:           "cwd",
-		Type:           "string",
-	},
-	"egid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Egid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "egid",
-		Type:           "integer",
 	},
 	"enforcerid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -670,76 +758,12 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Required:       true,
 		Type:           "string",
 	},
-	"euid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Euid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "euid",
-		Type:           "integer",
-	},
-	"exe": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Exe",
-		Description:    `Path to the executable.`,
-		Exposed:        true,
-		Name:           "exe",
-		Type:           "string",
-	},
 	"exit": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Exit",
 		Description:    `Exit code of the executable.`,
 		Exposed:        true,
 		Name:           "exit",
-		Type:           "integer",
-	},
-	"fsgid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Fsgid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "fsgid",
-		Type:           "integer",
-	},
-	"fsuid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Fsuid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "fsuid",
-		Type:           "integer",
-	},
-	"gid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Gid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "gid",
-		Type:           "integer",
-	},
-	"per": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Per",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "per",
-		Type:           "integer",
-	},
-	"pid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Pid",
-		Description:    `PID of the executable.`,
-		Exposed:        true,
-		Name:           "pid",
-		Type:           "integer",
-	},
-	"ppid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Ppid",
-		Description:    `PID of the parent executable.`,
-		Exposed:        true,
-		Name:           "ppid",
 		Type:           "integer",
 	},
 	"processingunitid": elemental.AttributeSpecification{
@@ -777,14 +801,6 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Name:           "sequence",
 		Type:           "integer",
 	},
-	"sgid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Sgid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "sgid",
-		Type:           "integer",
-	},
 	"success": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Success",
@@ -793,14 +809,6 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Name:           "success",
 		Required:       true,
 		Type:           "boolean",
-	},
-	"suid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Suid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "suid",
-		Type:           "integer",
 	},
 	"syscall": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -819,13 +827,5 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Name:           "timestamp",
 		Required:       true,
 		Type:           "time",
-	},
-	"uid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Uid",
-		Description:    `Needs documentation.`,
-		Exposed:        true,
-		Name:           "uid",
-		Type:           "integer",
 	},
 }

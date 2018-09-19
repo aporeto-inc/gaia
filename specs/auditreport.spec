@@ -9,6 +9,79 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: AUID
+    description: Needs documentation.
+    type: string
+    exposed: true
+    example_value: xxx-xxx
+
+  - name: CWD
+    description: Command working directory.
+    type: string
+    exposed: true
+    example_value: /etc
+
+  - name: EGID
+    description: Needs documentation.
+    type: integer
+    exposed: true
+
+  - name: EUID
+    description: Needs documentation.
+    type: integer
+    exposed: true
+
+  - name: EXE
+    description: Path to the executable.
+    type: string
+    exposed: true
+    example_value: /bin/ls
+
+  - name: FSGID
+    description: Needs documentation.
+    type: integer
+    exposed: true
+
+  - name: FSUID
+    description: Needs documentation.
+    type: integer
+    exposed: true
+
+  - name: GID
+    description: Needs documentation.
+    type: integer
+    exposed: true
+
+  - name: PER
+    description: Needs documentation.
+    type: integer
+    exposed: true
+
+  - name: PID
+    description: PID of the executable.
+    type: integer
+    exposed: true
+
+  - name: PPID
+    description: PID of the parent executable.
+    type: integer
+    exposed: true
+
+  - name: SGID
+    description: Needs documentation.
+    type: integer
+    exposed: true
+
+  - name: SUID
+    description: Needs documentation.
+    type: integer
+    exposed: true
+
+  - name: UID
+    description: Needs documentation.
+    type: integer
+    exposed: true
+
   - name: a0
     description: Needs documentation.
     type: string
@@ -53,28 +126,11 @@ attributes:
     required: true
     example_value: /my/ns
 
-  - name: auid
-    description: Needs documentation.
-    type: string
-    exposed: true
-    example_value: xxx-xxx
-
   - name: command
     description: Command issued.
     type: string
     exposed: true
     example_value: ls
-
-  - name: cwd
-    description: Command working directory.
-    type: string
-    exposed: true
-    example_value: /etc
-
-  - name: egid
-    description: Needs documentation.
-    type: integer
-    exposed: true
 
   - name: enforcerID
     description: ID of the enforcer reporting.
@@ -90,49 +146,8 @@ attributes:
     required: true
     example_value: /my/ns
 
-  - name: euid
-    description: Needs documentation.
-    type: integer
-    exposed: true
-
-  - name: exe
-    description: Path to the executable.
-    type: string
-    exposed: true
-    example_value: /bin/ls
-
   - name: exit
     description: Exit code of the executable.
-    type: integer
-    exposed: true
-
-  - name: fsgid
-    description: Needs documentation.
-    type: integer
-    exposed: true
-
-  - name: fsuid
-    description: Needs documentation.
-    type: integer
-    exposed: true
-
-  - name: gid
-    description: Needs documentation.
-    type: integer
-    exposed: true
-
-  - name: per
-    description: Needs documentation.
-    type: integer
-    exposed: true
-
-  - name: pid
-    description: PID of the executable.
-    type: integer
-    exposed: true
-
-  - name: ppid
-    description: PID of the parent executable.
     type: integer
     exposed: true
 
@@ -162,22 +177,12 @@ attributes:
     type: integer
     exposed: true
 
-  - name: sgid
-    description: Needs documentation.
-    type: integer
-    exposed: true
-
   - name: success
     description: Tells if the operation has been a success of a failure.
     type: boolean
     exposed: true
     required: true
     default_value: false
-
-  - name: suid
-    description: Needs documentation.
-    type: integer
-    exposed: true
 
   - name: syscall
     description: Syscall name.
@@ -192,8 +197,3 @@ attributes:
     exposed: true
     required: true
     example_value: "2018-06-14T23:10:46.420397985Z"
-
-  - name: uid
-    description: Needs documentation.
-    type: integer
-    exposed: true

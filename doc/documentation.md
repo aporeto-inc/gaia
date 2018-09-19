@@ -1286,6 +1286,9 @@ Post a new audit statistics report.
 
 ```json
 {
+  "AUID": "xxx-xxx",
+  "CWD": "/etc",
+  "EXE": "/bin/ls",
   "a0": "xxx-xxx",
   "a1": "xxx-xxx",
   "a2": "xxx-xxx",
@@ -1293,12 +1296,9 @@ Post a new audit statistics report.
   "arch": "x86_64",
   "auditProfileID": "xxx-xxx-xxx-xxx",
   "auditProfileNamespace": "/my/ns",
-  "auid": "xxx-xxx",
   "command": "ls",
-  "cwd": "/etc",
   "enforcerID": "xxx-xxx-xxx-xxx",
   "enforcerNamespace": "/my/ns",
-  "exe": "/bin/ls",
   "processingUnitID": "xxx-xxx-xxx-xxx",
   "processingUnitNamespace": "/my/ns",
   "recordType": "Syscall",
@@ -1314,6 +1314,62 @@ Post a new audit statistics report.
 Create a audit statistics report.
 
 ### Attributes
+
+#### `AUID (string)`
+
+Needs documentation.
+
+#### `CWD (string)`
+
+Command working directory.
+
+#### `EGID (integer)`
+
+Needs documentation.
+
+#### `EUID (integer)`
+
+Needs documentation.
+
+#### `EXE (string)`
+
+Path to the executable.
+
+#### `FSGID (integer)`
+
+Needs documentation.
+
+#### `FSUID (integer)`
+
+Needs documentation.
+
+#### `GID (integer)`
+
+Needs documentation.
+
+#### `PER (integer)`
+
+Needs documentation.
+
+#### `PID (integer)`
+
+PID of the executable.
+
+#### `PPID (integer)`
+
+PID of the parent executable.
+
+#### `SGID (integer)`
+
+Needs documentation.
+
+#### `SUID (integer)`
+
+Needs documentation.
+
+#### `UID (integer)`
+
+Needs documentation.
 
 #### `a0 (string)`
 
@@ -1351,21 +1407,9 @@ Namespace the audit profile that triggered the report.
 | -               | -:     |
 | Required        | `true` |
 
-#### `auid (string)`
-
-Needs documentation.
-
 #### `command (string)`
 
 Command issued.
-
-#### `cwd (string)`
-
-Command working directory.
-
-#### `egid (integer)`
-
-Needs documentation.
 
 #### `enforcerID (string)`
 
@@ -1383,41 +1427,9 @@ Namespace of the enforcer reporting.
 | -               | -:     |
 | Required        | `true` |
 
-#### `euid (integer)`
-
-Needs documentation.
-
-#### `exe (string)`
-
-Path to the executable.
-
 #### `exit (integer)`
 
 Exit code of the executable.
-
-#### `fsgid (integer)`
-
-Needs documentation.
-
-#### `fsuid (integer)`
-
-Needs documentation.
-
-#### `gid (integer)`
-
-Needs documentation.
-
-#### `per (integer)`
-
-Needs documentation.
-
-#### `pid (integer)`
-
-PID of the executable.
-
-#### `ppid (integer)`
-
-PID of the parent executable.
 
 #### `processingUnitID (string)`
 
@@ -1447,10 +1459,6 @@ Type of record.
 
 Needs documentation.
 
-#### `sgid (integer)`
-
-Needs documentation.
-
 #### `success (boolean)`
 
 Tells if the operation has been a success of a failure.
@@ -1459,10 +1467,6 @@ Tells if the operation has been a success of a failure.
 | -               | -:      |
 | Default         | `false` |
 | Required        | `true`  |
-
-#### `suid (integer)`
-
-Needs documentation.
 
 #### `syscall (string)`
 
@@ -1479,10 +1483,6 @@ Date of the report.
 | Characteristics | Value  |
 | -               | -:     |
 | Required        | `true` |
-
-#### `uid (integer)`
-
-Needs documentation.
 
 ## Auth
 
