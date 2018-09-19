@@ -8,9 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"go.aporeto.io/gaia/protocols"
-
 	"go.aporeto.io/elemental"
+	"go.aporeto.io/gaia/protocols"
 )
 
 // ValidatePortString validates a string represents a port or a range of port.
