@@ -53,7 +53,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    filterable: true
     orderable: true
 
   - name: LDAPBindSearchFilter
@@ -65,7 +64,6 @@ attributes:
     exposed: true
     stored: true
     default_value: uid={USERNAME}
-    filterable: true
     orderable: true
 
   - name: LDAPCertificateAuthority
@@ -76,7 +74,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    filterable: true
     orderable: true
 
   - name: LDAPConnSecurityProtocol
@@ -107,7 +104,6 @@ attributes:
     exposed: true
     subtype: ignore_list
     stored: true
-    filterable: true
     orderable: true
 
   - name: LDAPSubjectKey
@@ -120,7 +116,6 @@ attributes:
     exposed: true
     stored: true
     default_value: uid
-    filterable: true
     orderable: true
 
   - name: OTPEnabled
@@ -148,7 +143,6 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    filterable: true
     orderable: true
 
   - name: activationExpiration
@@ -265,7 +259,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    filterable: true
     orderable: true
 
   - name: reCAPTCHAKey

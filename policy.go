@@ -389,6 +389,18 @@ func (o *Policy) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = normalizedTags
 }
 
+// GetObject returns the Object of the receiver.
+func (o *Policy) GetObject() [][]string {
+
+	return o.Object
+}
+
+// SetObject sets the given Object of the receiver.
+func (o *Policy) SetObject(object [][]string) {
+
+	o.Object = object
+}
+
 // GetPropagate returns the Propagate of the receiver.
 func (o *Policy) GetPropagate() bool {
 
@@ -417,6 +429,18 @@ func (o *Policy) SetPropagationHidden(propagationHidden bool) {
 func (o *Policy) GetProtected() bool {
 
 	return o.Protected
+}
+
+// GetSubject returns the Subject of the receiver.
+func (o *Policy) GetSubject() [][]string {
+
+	return o.Subject
+}
+
+// SetSubject sets the given Subject of the receiver.
+func (o *Policy) SetSubject(subject [][]string) {
+
+	o.Subject = subject
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
@@ -623,14 +647,13 @@ The policy will be active for the given activeDuration.`,
 		Description: `Fallback indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "fallback",
-		Orderable:  true,
-		Setter:     true,
-		Stored:     true,
-		Type:       "boolean",
+		Exposed:   true,
+		Getter:    true,
+		Name:      "fallback",
+		Orderable: true,
+		Setter:    true,
+		Stored:    true,
+		Type:      "boolean",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -701,7 +724,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description: `Object represents set of entities that another entity depends on. As subjects,
 objects are identified as logical operations on tags when a policy is defined.`,
 		Exposed: true,
+		Getter:  true,
 		Name:    "object",
+		Setter:  true,
 		Stored:  true,
 		SubType: "policies_list",
 		Type:    "external",
@@ -711,7 +736,6 @@ objects are identified as logical operations on tags when a policy is defined.`,
 		ConvertedName:  "Propagate",
 		Description:    `Propagate will propagate the policy to all of its children.`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
 		Name:           "propagate",
 		Orderable:      true,
@@ -761,7 +785,9 @@ objects.`,
 Subjects are defined as logical operations on tags. Logical operations can
 includes AND/OR.`,
 		Exposed: true,
+		Getter:  true,
 		Name:    "subject",
+		Setter:  true,
 		Stored:  true,
 		SubType: "policies_list",
 		Type:    "external",
@@ -931,14 +957,13 @@ The policy will be active for the given activeDuration.`,
 		Description: `Fallback indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "fallback",
-		Orderable:  true,
-		Setter:     true,
-		Stored:     true,
-		Type:       "boolean",
+		Exposed:   true,
+		Getter:    true,
+		Name:      "fallback",
+		Orderable: true,
+		Setter:    true,
+		Stored:    true,
+		Type:      "boolean",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1009,7 +1034,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description: `Object represents set of entities that another entity depends on. As subjects,
 objects are identified as logical operations on tags when a policy is defined.`,
 		Exposed: true,
+		Getter:  true,
 		Name:    "object",
+		Setter:  true,
 		Stored:  true,
 		SubType: "policies_list",
 		Type:    "external",
@@ -1019,7 +1046,6 @@ objects are identified as logical operations on tags when a policy is defined.`,
 		ConvertedName:  "Propagate",
 		Description:    `Propagate will propagate the policy to all of its children.`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
 		Name:           "propagate",
 		Orderable:      true,
@@ -1069,7 +1095,9 @@ objects.`,
 Subjects are defined as logical operations on tags. Logical operations can
 includes AND/OR.`,
 		Exposed: true,
+		Getter:  true,
 		Name:    "subject",
+		Setter:  true,
 		Stored:  true,
 		SubType: "policies_list",
 		Type:    "external",

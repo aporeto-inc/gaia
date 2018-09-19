@@ -51,7 +51,6 @@ attributes:
     stored: true
     required: true
     example_value: /blue/namespace
-    filterable: true
     orderable: true
 
   - name: subject
