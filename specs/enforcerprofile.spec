@@ -12,6 +12,10 @@ model:
   aliases:
   - profile
   - profiles
+  indexes:
+  - - namespace
+  - - namespace
+    - normalizedTags
   get:
     description: Retrieves the object with the given ID.
   update:

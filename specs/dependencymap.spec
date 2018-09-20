@@ -15,8 +15,6 @@ model:
   aliases:
   - depmaps
   - depmap
-  extends:
-  - '@identifiable-nopk-nostored'
 
 # Attributes
 attributes:

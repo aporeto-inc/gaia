@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// EventLogIndexes lists the attribute compound indexes.
-var EventLogIndexes = [][]string{}
-
 // EventLogLevelValue represents the possible values for attribute "level".
 type EventLogLevelValue string
 

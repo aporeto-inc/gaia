@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// AlarmIndexes lists the attribute compound indexes.
-var AlarmIndexes = [][]string{}
-
 // AlarmStatusValue represents the possible values for attribute "status".
 type AlarmStatusValue string
 

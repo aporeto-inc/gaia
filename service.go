@@ -10,9 +10,6 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
-// ServiceIndexes lists the attribute compound indexes.
-var ServiceIndexes = [][]string{}
-
 // ServiceAuthorizationTypeValue represents the possible values for attribute "authorizationType".
 type ServiceAuthorizationTypeValue string
 

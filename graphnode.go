@@ -3,6 +3,8 @@ package gaia
 import (
 	"sync"
 
+	"time"
+
 	"go.aporeto.io/elemental"
 )
 
@@ -33,6 +35,9 @@ type GraphNode struct {
 
 	// ID of the group the node is eventually part of.
 	GroupID string `json:"groupID" bson:"-" mapstructure:"groupID,omitempty"`
+
+	// Last update of the node.
+	LastUpdate time.Time `json:"lastUpdate" bson:"-" mapstructure:"lastUpdate,omitempty"`
 
 	// Name of object represented by the node.
 	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`

@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// ActivityIndexes lists the attribute compound indexes.
-var ActivityIndexes = [][]string{}
-
 // ActivityIdentity represents the Identity of the object.
 var ActivityIdentity = elemental.Identity{
 	Name:     "activity",
@@ -218,7 +215,6 @@ var ActivityAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Claims",
 		Description:    `Claims of the user who performed the operation.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "claims",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -232,7 +228,6 @@ var ActivityAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Data",
 		Description:    `Data of the notification.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "data",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -246,7 +241,6 @@ var ActivityAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Date",
 		Description:    `Date of the notification.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "date",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -271,7 +265,6 @@ var ActivityAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Message",
 		Description:    `Message of the notification.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "message",
 		Orderable:      true,
 		Stored:         true,
@@ -308,14 +301,13 @@ var ActivityAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "OriginalData",
 		Description: `OriginalData contains the eventual original data of the object that has been
 modified.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "originalData",
-		Orderable:  true,
-		ReadOnly:   true,
-		Stored:     true,
-		SubType:    "raw_data",
-		Type:       "external",
+		Exposed:   true,
+		Name:      "originalData",
+		Orderable: true,
+		ReadOnly:  true,
+		Stored:    true,
+		SubType:   "raw_data",
+		Type:      "external",
 	},
 	"Source": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -368,7 +360,6 @@ var ActivityLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		ConvertedName:  "Claims",
 		Description:    `Claims of the user who performed the operation.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "claims",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -382,7 +373,6 @@ var ActivityLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		ConvertedName:  "Data",
 		Description:    `Data of the notification.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "data",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -396,7 +386,6 @@ var ActivityLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		ConvertedName:  "Date",
 		Description:    `Date of the notification.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "date",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -421,7 +410,6 @@ var ActivityLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		ConvertedName:  "Message",
 		Description:    `Message of the notification.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "message",
 		Orderable:      true,
 		Stored:         true,
@@ -458,14 +446,13 @@ var ActivityLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		ConvertedName:  "OriginalData",
 		Description: `OriginalData contains the eventual original data of the object that has been
 modified.`,
-		Exposed:    true,
-		Filterable: true,
-		Name:       "originalData",
-		Orderable:  true,
-		ReadOnly:   true,
-		Stored:     true,
-		SubType:    "raw_data",
-		Type:       "external",
+		Exposed:   true,
+		Name:      "originalData",
+		Orderable: true,
+		ReadOnly:  true,
+		Stored:    true,
+		SubType:   "raw_data",
+		Type:      "external",
 	},
 	"source": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

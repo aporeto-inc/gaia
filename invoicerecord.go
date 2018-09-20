@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// InvoiceRecordIndexes lists the attribute compound indexes.
-var InvoiceRecordIndexes = [][]string{}
-
 // InvoiceRecordIdentity represents the Identity of the object.
 var InvoiceRecordIdentity = elemental.Identity{
 	Name:     "invoicerecord",
@@ -192,7 +189,6 @@ var InvoiceRecordAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -227,7 +223,6 @@ details for.`,
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -254,7 +249,6 @@ var InvoiceRecordLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -289,7 +283,6 @@ details for.`,
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,

@@ -14,6 +14,7 @@
 | [APICheck](#apicheck)                                         | This API allows to verify is a client identitied by his token is allowed to do      |
 | [App](#app)                                                   | App represents an application that can be installed.                                |
 | [AuditProfile](#auditprofile)                                 | AuditProfile is an audit policy that consists of a set of audit rules. An audit     |
+| [AuditReport](#auditreport)                                   | Post a new audit statistics report.                                                 |
 | [Auth](#auth)                                                 | This API verifies if the given token is valid or not.                               |
 | [Automation](#automation)                                     | An automation needs documentation.                                                  |
 | [AutomationTemplate](#automationtemplate)                     | Templates that ca be used in automations.                                           |
@@ -27,16 +28,16 @@
 | [Enforcer](#enforcer)                                         | An Enforcer Profile contains a configuration for a Enforcer. It contains various... |
 | [EnforcerProfile](#enforcerprofile)                           | Allows to create reusable configuration profile for your enforcers. Enforcer        |
 | [EnforcerProfileMappingPolicy](#enforcerprofilemappingpolicy) | A Enforcer Profile Mapping Policy will tell what Enforcer Profile should be used... |
+| [EnforcerReport](#enforcerreport)                             | Post a new enforcer statistics report.                                              |
 | [EventLog](#eventlog)                                         | This api allows to report various event on any objects.                             |
 | [Export](#export)                                             | Export the policies and related objects in a given namespace.                       |
-| [ExternalAccess](#externalaccess)                             | ExternalAccess allows to retrieve connection from or to an external service.        |
 | [ExternalNetwork](#externalnetwork)                           | An External Network represents a random network or ip that is not managed by the... |
 | [ExternalService](#externalservice)                           | This API is deprecated in favor of externalnetworks.                                |
 | [FileAccess](#fileaccess)                                     | Returns file access statistics on a particular processing unit.                     |
 | [FileAccessPolicy](#fileaccesspolicy)                         | A File Access Policy allows Processing Units to access various folder and files.... |
+| [FileAccessReport](#fileaccessreport)                         | Post a new file access statistics report.                                           |
 | [FilePath](#filepath)                                         | A File Path represents a random path to a file or a folder. They can be used in     |
 | [FlowReport](#flowreport)                                     | Post a new flow statistics report.                                                  |
-| [FlowStatistic](#flowstatistic)                               | Returns network access statistics on a particular processing unit or group of       |
 | [GraphEdge](#graphedge)                                       | Represents an edge from the dependency map.                                         |
 | [GraphGroup](#graphgroup)                                     | Represents an group of nodes from the dependency map.                               |
 | [GraphNode](#graphnode)                                       | Represents an node from the dependency map.                                         |
@@ -47,7 +48,6 @@
 | [InstalledApp](#installedapp)                                 | InstalledApps represents an installed application.                                  |
 | [Invoice](#invoice)                                           | This api allows to view invoices for Aporeto customers.                             |
 | [InvoiceRecord](#invoicerecord)                               | This api allows to view detailed records of invoices for Aporeto customers.         |
-| [IPRecord](#iprecord)                                         | Represents an IP access.                                                            |
 | [IsolationProfile](#isolationprofile)                         | An IsolationProfile needs documentation.                                            |
 | [Issue](#issue)                                               | This API issues a new token according to given data.                                |
 | [Jaegerbatch](#jaegerbatch)                                   | A jaegerbatch is a batch of jaeger spans. This is used by external service to       |
@@ -179,7 +179,6 @@ LDAPBindPassword holds the password to the LDAPBindDN.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `LDAPBindSearchFilter (string)`
 
@@ -191,7 +190,6 @@ other systems, value may be 'uid={USERNAME}'.
 | -               | -:                 |
 | Default         | `"uid={USERNAME}"` |
 | Orderable       | `true`             |
-| Filterable      | `true`             |
 
 #### `LDAPCertificateAuthority (string)`
 
@@ -202,7 +200,6 @@ of the LDAP is issued from a public truster CA.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `LDAPConnSecurityProtocol (enum)`
 
@@ -232,7 +229,6 @@ authorization system.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `LDAPSubjectKey (string)`
 
@@ -245,7 +241,6 @@ also use any alternate key.
 | -               | -:      |
 | Default         | `"uid"` |
 | Orderable       | `true`  |
-| Filterable      | `true`  |
 
 #### `OTPEnabled (boolean)`
 
@@ -267,7 +262,6 @@ AccessEnabled defines if the account holder should have access to the systems.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `activationToken (string)`
 
@@ -310,7 +304,6 @@ Creation date of the object.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `email (string)`
 
@@ -359,7 +352,6 @@ Password for the account.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `reCAPTCHAKey (string)`
 
@@ -391,7 +383,6 @@ Last update date of the object.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 ## Activate
 
@@ -467,7 +458,6 @@ Claims of the user who performed the operation.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `data (external:raw_data)`
 
@@ -478,7 +468,6 @@ Data of the notification.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `date (time)`
 
@@ -489,7 +478,6 @@ Date of the notification.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `error (external:raw_data)`
 
@@ -508,7 +496,6 @@ Message of the notification.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `namespace (string)`
 
@@ -541,7 +528,6 @@ modified.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `source (string)`
 
@@ -888,7 +874,6 @@ propagated it will become a fallback for children namespaces.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `metadata (external:metadata_list)`
 
@@ -939,7 +924,6 @@ Propagate will propagate the policy to all of its children.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `propagationHidden (boolean)`
 
@@ -1293,6 +1277,212 @@ UpdateTime is the time at which an entity was updated.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
+
+## AuditReport
+
+Post a new audit statistics report.
+
+### Example
+
+```json
+{
+  "AUID": "xxx-xxx",
+  "CWD": "/etc",
+  "EXE": "/bin/ls",
+  "a0": "xxx-xxx",
+  "a1": "xxx-xxx",
+  "a2": "xxx-xxx",
+  "a3": "xxx-xxx",
+  "arch": "x86_64",
+  "auditProfileID": "xxx-xxx-xxx-xxx",
+  "auditProfileNamespace": "/my/ns",
+  "command": "ls",
+  "enforcerID": "xxx-xxx-xxx-xxx",
+  "enforcerNamespace": "/my/ns",
+  "processingUnitID": "xxx-xxx-xxx-xxx",
+  "processingUnitNamespace": "/my/ns",
+  "recordType": "Syscall",
+  "syscall": "execve",
+  "timestamp": "2018-06-14T23:10:46.420397985Z"
+}
+```
+
+### Relations
+
+#### `POST /auditreports`
+
+Create a audit statistics report.
+
+### Attributes
+
+#### `AUID (string)`
+
+Needs documentation.
+
+#### `CWD (string)`
+
+Command working directory.
+
+#### `EGID (integer)`
+
+Needs documentation.
+
+#### `EUID (integer)`
+
+Needs documentation.
+
+#### `EXE (string)`
+
+Path to the executable.
+
+#### `FSGID (integer)`
+
+Needs documentation.
+
+#### `FSUID (integer)`
+
+Needs documentation.
+
+#### `GID (integer)`
+
+Needs documentation.
+
+#### `PER (integer)`
+
+Needs documentation.
+
+#### `PID (integer)`
+
+PID of the executable.
+
+#### `PPID (integer)`
+
+PID of the parent executable.
+
+#### `SGID (integer)`
+
+Needs documentation.
+
+#### `SUID (integer)`
+
+Needs documentation.
+
+#### `UID (integer)`
+
+Needs documentation.
+
+#### `a0 (string)`
+
+Needs documentation.
+
+#### `a1 (string)`
+
+Needs documentation.
+
+#### `a2 (string)`
+
+Needs documentation.
+
+#### `a3 (string)`
+
+Needs documentation.
+
+#### `arch (string)`
+
+Architecture of the system where the syscall happened.
+
+#### `auditProfileID (string)`
+
+ID the audit profile that triggered the report.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `auditProfileNamespace (string)`
+
+Namespace the audit profile that triggered the report.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `command (string)`
+
+Command issued.
+
+#### `enforcerID (string)`
+
+ID of the enforcer reporting.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `enforcerNamespace (string)`
+
+Namespace of the enforcer reporting.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `exit (integer)`
+
+Exit code of the executable.
+
+#### `processingUnitID (string)`
+
+ID of the processing unit originating the report.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `processingUnitNamespace (string)`
+
+Namespace of the processing unit originating the report.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `recordType (string)`
+
+Type of record.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `sequence (integer)`
+
+Needs documentation.
+
+#### `success (boolean)`
+
+Tells if the operation has been a success of a failure.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Default         | `false` |
+| Required        | `true`  |
+
+#### `syscall (string)`
+
+Syscall name.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `timestamp (time)`
+
+Date of the report.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
 
 ## Auth
 
@@ -1721,7 +1911,6 @@ Creation date of the object.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `parentID (string)`
 
@@ -1773,7 +1962,6 @@ Last update date of the object.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 ## AWSAPIGateway
 
@@ -1994,7 +2182,6 @@ Creation date of the object.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `provider (string)`
 
@@ -2009,7 +2196,6 @@ Last update date of the object.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 ## Category
 
@@ -2147,7 +2333,6 @@ Creation date of the object.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `data (string)`
 
@@ -2177,7 +2362,6 @@ CertificateExpirationDate indicates the expiration day for the certificate.
 | -               | -:     |
 | Creation only   | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `key (string)`
 
@@ -2226,7 +2410,6 @@ Passphrase to use for the generated p12.
 | -               | -:     |
 | Creation only   | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `serialNumber (string)`
 
@@ -2237,7 +2420,6 @@ SerialNumber of the certificate.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `status (enum)`
 
@@ -2260,7 +2442,6 @@ Last update date of the object.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 ## ClaimMapping
 
@@ -2327,18 +2508,6 @@ Retrieves the dependencymap of a namespace.
 (`endRelative`) or (`startRelative`) or (`startRelative` and `endRelative`) or (`startRelative` and `endAbsolute`) or (`startAbsolute` and `endRelative`) or (`startAbsolute` and `endAbsolute`)
 
 ### Attributes
-
-#### `ID (string)`
-
-ID is the identifier of the object.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Identifier      | `true` |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-| Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `claims (external:graphclaims_map)`
 
@@ -3232,7 +3401,6 @@ propagated it will become a fallback for children namespaces.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `metadata (external:metadata_list)`
 
@@ -3291,7 +3459,6 @@ Propagate will propagate the policy to all of its children.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `propagationHidden (boolean)`
 
@@ -3327,6 +3494,61 @@ UpdateTime is the time at which an entity was updated.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
+
+## EnforcerReport
+
+Post a new enforcer statistics report.
+
+### Example
+
+```json
+{
+  "ID": "xxx-xxx-xxx-xxx",
+  "name": "aporeto-enforcerd-xxx",
+  "namespace": "/my/ns",
+  "timestamp": "2018-06-14T23:10:46.420397985Z"
+}
+```
+
+### Relations
+
+#### `POST /enforcerreports`
+
+Create a enforcer statistics report.
+
+### Attributes
+
+#### `ID (string)`
+
+ID of the enforcer to report.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `name (string)`
+
+Name of the enforcer to report.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `namespace (string)`
+
+Namespace of the enforcer to report.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `timestamp (time)`
+
+Date of the report.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
 
 ## EventLog
 
@@ -3490,46 +3712,6 @@ The list of identities to export.
 Label allows to define a unique label for this export. When importing the
 content of the export, this label will be added as a tag that will be used to
 recognize imported object in a later import.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-
-## ExternalAccess
-
-ExternalAccess allows to retrieve connection from or to an external service.
-
-### Relations
-
-#### `GET /externalaccesses`
-
-Retrieves the list of external access according to parameters.
-
-##### Parameters
-
-- `destinationID` (string): IDs of the destinations.
-- `destinationType` (enum): Type of the destination.
-- `flowMode` (enum): Choose if observed, applied to all flows.
-- `geoloc` (boolean): Geolocalize the the flow.
-- `resolve` (boolean): Resolve the IPs to dns.
-- `sourceID` (string): IDs of the sources.
-- `sourceType` (enum): Type of the source.
-- `endAbsolute` (time): Set the absolute end of the time window.
-- `endRelative` (duration): Set the relative end of the time window.
-- `startAbsolute` (time): Set the absolute start of the time window.
-- `startRelative` (duration): Set the relative start of the time window.
-- `flowOffset` (duration): Apply an offset to the time window for flows.
-
-##### Mandatory Parameters
-
-(`endRelative`) or (`startRelative`) or (`startRelative` and `endRelative`) or (`startRelative` and `endAbsolute`) or (`startAbsolute` and `endRelative`) or (`startAbsolute` and `endAbsolute`)
-
-### Attributes
-
-#### `IPRecords (refList)`
-
-IPRecords refers to a list of IPRecord that contains the IP information.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4144,7 +4326,6 @@ propagated it will become a fallback for children namespaces.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `logsEnabled (boolean)`
 
@@ -4211,7 +4392,6 @@ Propagate will propagate the policy to all of its children.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `propagationHidden (boolean)`
 
@@ -4247,6 +4427,89 @@ UpdateTime is the time at which an entity was updated.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
+
+## FileAccessReport
+
+Post a new file access statistics report.
+
+### Example
+
+```json
+{
+  "action": "Accepted",
+  "processingUnitID": "xxx-xxx-xxx-xxx",
+  "processingUnitNamespace": "/my/ns",
+  "timestamp": "2018-06-14T23:10:46.420397985Z"
+}
+```
+
+### Relations
+
+#### `POST /fileaccessreports`
+
+Create a file access statistics report.
+
+### Attributes
+
+#### `action (enum)`
+
+Action taken.
+
+| Characteristics | Value            |
+| -               | -:               |
+| Allowed Value   | `Accept, Reject` |
+| Required        | `true`           |
+
+#### `host (string)`
+
+Host of the file.
+
+| Characteristics | Value         |
+| -               | -:            |
+| Default         | `"localhost"` |
+| Required        | `true`        |
+
+#### `mode (string)`
+
+Mode of the file access.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Default         | `"rxw"` |
+| Required        | `true`  |
+
+#### `path (string)`
+
+Path of the file.
+
+| Characteristics | Value           |
+| -               | -:              |
+| Default         | `"/etc/passwd"` |
+| Required        | `true`          |
+
+#### `processingUnitID (string)`
+
+ID of the processing unit.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `processingUnitNamespace (string)`
+
+Namespace of the processing unit.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `timestamp (time)`
+
+Date of the report.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
 
 ## FilePath
 
@@ -4613,139 +4876,6 @@ Number of flows in the report.
 | -               | -:     |
 | Required        | `true` |
 
-## FlowStatistic
-
-Returns network access statistics on a particular processing unit or group of
-processing units based on their tags.
-
-### Relations
-
-#### `GET /flowstatistics`
-
-Retrieves the flow statistics according to parameters.
-
-##### Parameters
-
-- `action` (enum): Only show certain types of flows.
-- `averageInterval` (duration): Resolution of the data points.
-- `destinationID` (string): IDs of the destinations.
-- `flowMode` (enum): Choose if observed, applied to all flows.
-- `metric` (enum): Choose if you want to see ports or flows.
-- `sourceID` (string): IDs of the sources.
-- `userIdentifier` (string): User string that will be returned with the query.
-- `endAbsolute` (time): Set the absolute end of the time window.
-- `endRelative` (duration): Set the relative end of the time window.
-- `startAbsolute` (time): Set the absolute start of the time window.
-- `startRelative` (duration): Set the relative start of the time window.
-- `flowOffset` (duration): Apply an offset to the time window for flows.
-
-##### Mandatory Parameters
-
-(`endRelative`) or (`startRelative`) or (`startRelative` and `endRelative`) or (`startRelative` and `endAbsolute`) or (`startAbsolute` and `endRelative`) or (`startAbsolute` and `endAbsolute`)
-
-### Attributes
-
-#### `ID (string)`
-
-ID is the identifier of the object.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Identifier      | `true` |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
-#### `dataPoints (external:datapoints_list)`
-
-DataPoints is a list of time/value pairs that represent the flow events over
-time.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-
-#### `destinationIDs (external:flowstatistic_origin_list)`
-
-DestinationIDs is the IDs of the destination.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-
-#### `destinationTags (external:selectors_list)`
-
-DestinationTags contains the tags used to identify destination.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-
-#### `metric (enum)`
-
-Metric is the kind of metric the statistic represents.
-
-| Characteristics | Value          |
-| -               | -:             |
-| Allowed Value   | `Flows, Ports` |
-| Default         | `"Flows"`      |
-| Autogenerated   | `true`         |
-| Read only       | `true`         |
-
-#### `mode (enum)`
-
-Mode defines if the metric is for accepted or rejected flows.
-
-| Characteristics | Value                     |
-| -               | -:                        |
-| Allowed Value   | `Accepted, Any, Rejected` |
-| Default         | `"Accepted"`              |
-| Autogenerated   | `true`                    |
-| Read only       | `true`                    |
-
-#### `sourceIDs (external:flowstatistic_origin_list)`
-
-SourceIDs is the sources of the stats.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-
-#### `sourceTags (external:selectors_list)`
-
-SourceTags contains the tags used to identify the source.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-
-#### `type (enum)`
-
-Type is the type of representation.
-
-| Characteristics | Value                |
-| -               | -:                   |
-| Allowed Value   | `Repartition, Serie` |
-| Default         | `"Serie"`            |
-| Autogenerated   | `true`               |
-| Read only       | `true`               |
-
-#### `userIdentifier (string)`
-
-UserIdentifier can be set by the user as a query parameter. It will be returned
-in the FlowStatistic object.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Orderable       | `true` |
-
 ## GraphEdge
 
 Represents an edge from the dependency map.
@@ -4775,10 +4905,6 @@ Type of the destination GraphNode of the edge.
 #### `encrypted (integer)`
 
 Tells the number of encrypted flows in the edge.
-
-#### `name (string)`
-
-Name of the edge.
 
 #### `observedAcceptedFlows (integer)`
 
@@ -4869,6 +4995,10 @@ Description of object represented by the node.
 #### `groupID (string)`
 
 ID of the group the node is eventually part of.
+
+#### `lastUpdate (time)`
+
+Last update of the node.
 
 #### `name (string)`
 
@@ -5082,7 +5212,6 @@ propagated it will become a fallback for children namespaces.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `metadata (external:metadata_list)`
 
@@ -5143,7 +5272,6 @@ Propagate will propagate the policy to all of its children.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `propagationHidden (boolean)`
 
@@ -5432,7 +5560,6 @@ Creation date of the object.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `endDate (time)`
 
@@ -5459,7 +5586,6 @@ Last update date of the object.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 ## InvoiceRecord
 
@@ -5503,7 +5629,6 @@ Creation date of the object.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `invoiceID (string)`
 
@@ -5531,53 +5656,6 @@ Last update date of the object.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
-
-## IPRecord
-
-Represents an IP access.
-
-### Attributes
-
-#### `IP (string)`
-
-Actual IP Address.
-
-#### `actions (list)`
-
-List of actions applied from that IP.
-
-#### `city (string)`
-
-City of the IP.
-
-#### `country (string)`
-
-Country of the IP.
-
-#### `destinationPorts (list)`
-
-List of ports applied used.
-
-#### `hits (integer)`
-
-Number of hits.
-
-#### `hostnames (list)`
-
-Eventual list of hostnames associated to the IP.
-
-#### `l4Protocol (string)`
-
-Protocol used.
-
-#### `latitude (float)`
-
-Latitude of the IP.
-
-#### `longitude (float)`
-
-Longitude of the IP.
 
 ## IsolationProfile
 
@@ -6536,7 +6614,6 @@ mappedNamespace is the mapped namespace.
 | -               | -:     |
 | Required        | `true` |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `metadata (external:metadata_list)`
 
@@ -6800,7 +6877,6 @@ propagated it will become a fallback for children namespaces.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `logsEnabled (boolean)`
 
@@ -6894,7 +6970,6 @@ Propagate will propagate the policy to all of its children.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `propagationHidden (boolean)`
 
@@ -7184,7 +7259,6 @@ propagated it will become a fallback for children namespaces.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `metadata (external:metadata_list)`
 
@@ -7240,7 +7314,6 @@ Propagate will propagate the policy to all of its children.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `propagationHidden (boolean)`
 
@@ -7567,6 +7640,15 @@ EnforcerID is the ID of the enforcer associated with the processing unit.
 | -               | -:     |
 | Filterable      | `true` |
 
+#### `image (string)`
+
+Docker image, or path to executable.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Creation only   | `true` |
+| Filterable      | `true` |
+
 #### `lastSyncTime (time)`
 
 LastSyncTime is the time when the policy was last resolved.
@@ -7738,7 +7820,6 @@ Action determines the action to take while enforcing the isolation profile.
 | -               | -:                                                       |
 | Allowed Value   | `Delete, Enforce, LogCompliance, Reject, Snapshot, Stop` |
 | Orderable       | `true`                                                   |
-| Filterable      | `true`                                                   |
 
 #### `activeDuration (string)`
 
@@ -7798,7 +7879,6 @@ propagated it will become a fallback for children namespaces.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `isolationProfileSelector (external:policies_list)`
 
@@ -7854,7 +7934,6 @@ Propagate will propagate the policy to all of its children.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `propagationHidden (boolean)`
 
@@ -7997,7 +8076,6 @@ propagated it will become a fallback for children namespaces.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `identities (list)`
 
@@ -8056,7 +8134,6 @@ Propagate will propagate the policy to all of its children.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `propagationHidden (boolean)`
 
@@ -8087,7 +8164,6 @@ TargetNamespace contains the base namespace from where the count will be done.
 | Characteristics | Value  |
 | -               | -:     |
 | Required        | `true` |
-| Filterable      | `true` |
 
 #### `updateTime (time)`
 
@@ -8507,7 +8583,6 @@ Propagate will propagate the policy to all of its children.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `propagationHidden (boolean)`
 
@@ -9068,7 +9143,6 @@ propagated it will become a fallback for children namespaces.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `metadata (external:metadata_list)`
 
@@ -9127,7 +9201,6 @@ Propagate will propagate the policy to all of its children.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `propagationHidden (boolean)`
 
@@ -9481,7 +9554,6 @@ propagated it will become a fallback for children namespaces.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `metadata (external:metadata_list)`
 
@@ -9532,7 +9604,6 @@ Propagate will propagate the policy to all of its children.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-| Filterable      | `true` |
 
 #### `propagationHidden (boolean)`
 

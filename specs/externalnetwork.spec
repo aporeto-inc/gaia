@@ -14,6 +14,12 @@ model:
   aliases:
   - extnet
   - extnets
+  indexes:
+  - - namespace
+  - - namespace
+    - normalizedTags
+  - - namespace
+    - archived
   get:
     description: Retrieves the object with the given ID.
     global_parameters:

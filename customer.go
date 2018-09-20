@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// CustomerIndexes lists the attribute compound indexes.
-var CustomerIndexes = [][]string{}
-
 // CustomerProviderValue represents the possible values for attribute "provider".
 type CustomerProviderValue string
 
@@ -242,7 +239,6 @@ var CustomerAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -255,6 +251,7 @@ var CustomerAttributesMap = map[string]elemental.AttributeSpecification{
 		DefaultValue:   CustomerProviderAporeto,
 		Description:    `Provider holds the name of the provider to be billed for this service.`,
 		Exposed:        true,
+		Filterable:     true,
 		Name:           "provider",
 		Stored:         true,
 		Type:           "enum",
@@ -287,7 +284,6 @@ customer to enable provider billing.`,
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -319,7 +315,6 @@ var CustomerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -332,6 +327,7 @@ var CustomerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		DefaultValue:   CustomerProviderAporeto,
 		Description:    `Provider holds the name of the provider to be billed for this service.`,
 		Exposed:        true,
+		Filterable:     true,
 		Name:           "provider",
 		Stored:         true,
 		Type:           "enum",
@@ -364,7 +360,6 @@ customer to enable provider billing.`,
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,

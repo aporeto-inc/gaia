@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// InvoiceIndexes lists the attribute compound indexes.
-var InvoiceIndexes = [][]string{}
-
 // InvoiceBilledToProviderValue represents the possible values for attribute "billedToProvider".
 type InvoiceBilledToProviderValue string
 
@@ -232,7 +229,6 @@ var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -265,7 +261,6 @@ var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -312,7 +307,6 @@ var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -345,7 +339,6 @@ var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,

@@ -7,6 +7,8 @@ model:
   description: |-
     This api allows to view and manage basic information about your account like
     your name, password, enable 2 factor authentication.
+  indexes:
+  - - name
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -53,7 +55,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    filterable: true
     orderable: true
 
   - name: LDAPBindSearchFilter
@@ -65,7 +66,6 @@ attributes:
     exposed: true
     stored: true
     default_value: uid={USERNAME}
-    filterable: true
     orderable: true
 
   - name: LDAPCertificateAuthority
@@ -76,7 +76,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    filterable: true
     orderable: true
 
   - name: LDAPConnSecurityProtocol
@@ -107,7 +106,6 @@ attributes:
     exposed: true
     subtype: ignore_list
     stored: true
-    filterable: true
     orderable: true
 
   - name: LDAPSubjectKey
@@ -120,7 +118,6 @@ attributes:
     exposed: true
     stored: true
     default_value: uid
-    filterable: true
     orderable: true
 
   - name: OTPEnabled
@@ -148,7 +145,6 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    filterable: true
     orderable: true
 
   - name: activationExpiration
@@ -265,7 +261,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    filterable: true
     orderable: true
 
   - name: reCAPTCHAKey

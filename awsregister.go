@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// AWSRegisterIndexes lists the attribute compound indexes.
-var AWSRegisterIndexes = [][]string{}
-
 // AWSRegisterIdentity represents the Identity of the object.
 var AWSRegisterIdentity = elemental.Identity{
 	Name:     "awsregister",
@@ -193,7 +190,6 @@ var AWSRegisterAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -214,7 +210,6 @@ var AWSRegisterAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -246,7 +241,6 @@ var AWSRegisterLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -267,7 +261,6 @@ var AWSRegisterLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,

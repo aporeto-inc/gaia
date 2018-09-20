@@ -13,6 +13,7 @@ var (
 		"apicheck":               APICheckIdentity,
 		"app":                    AppIdentity,
 		"auditprofile":           AuditProfileIdentity,
+		"auditreport":            AuditReportIdentity,
 		"auth":                   AuthIdentity,
 		"authority":              AuthorityIdentity,
 		"automation":             AutomationIdentity,
@@ -29,24 +30,23 @@ var (
 		"enforcer":                     EnforcerIdentity,
 		"enforcerprofile":              EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicy": EnforcerProfileMappingPolicyIdentity,
+		"enforcerreport":               EnforcerReportIdentity,
 		"eventlog":                     EventLogIdentity,
 		"export":                       ExportIdentity,
-		"externalaccess":               ExternalAccessIdentity,
 		"externalnetwork":              ExternalNetworkIdentity,
 		"externalservice":              ExternalServiceIdentity,
 		"fileaccess":                   FileAccessIdentity,
 		"fileaccesspolicy":             FileAccessPolicyIdentity,
+		"fileaccessreport":             FileAccessReportIdentity,
 		"filepath":                     FilePathIdentity,
 		"flowreport":                   FlowReportIdentity,
-		"flowstatistic":                FlowStatisticIdentity,
 
-		"hookpolicy":    HookPolicyIdentity,
-		"import":        ImportIdentity,
-		"installation":  InstallationIdentity,
-		"installedapp":  InstalledAppIdentity,
-		"invoice":       InvoiceIdentity,
-		"invoicerecord": InvoiceRecordIdentity,
-
+		"hookpolicy":             HookPolicyIdentity,
+		"import":                 ImportIdentity,
+		"installation":           InstallationIdentity,
+		"installedapp":           InstalledAppIdentity,
+		"invoice":                InvoiceIdentity,
+		"invoicerecord":          InvoiceRecordIdentity,
 		"isolationprofile":       IsolationProfileIdentity,
 		"issue":                  IssueIdentity,
 		"jaegerbatch":            JaegerbatchIdentity,
@@ -66,6 +66,7 @@ var (
 		"privatekey":             PrivateKeyIdentity,
 		"processingunit":         ProcessingUnitIdentity,
 		"processingunitpolicy":   ProcessingUnitPolicyIdentity,
+		"punode":                 PUNodeIdentity,
 		"quotacheck":             QuotaCheckIdentity,
 		"quotapolicy":            QuotaPolicyIdentity,
 		"remoteprocessor":        RemoteProcessorIdentity,
@@ -101,6 +102,7 @@ var (
 		"apichecks":                APICheckIdentity,
 		"apps":                     AppIdentity,
 		"auditprofiles":            AuditProfileIdentity,
+		"auditreports":             AuditReportIdentity,
 		"auth":                     AuthIdentity,
 		"authorities":              AuthorityIdentity,
 		"automations":              AutomationIdentity,
@@ -117,24 +119,23 @@ var (
 		"enforcers":                      EnforcerIdentity,
 		"enforcerprofiles":               EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicies": EnforcerProfileMappingPolicyIdentity,
+		"enforcerreports":                EnforcerReportIdentity,
 		"eventlogs":                      EventLogIdentity,
 		"export":                         ExportIdentity,
-		"externalaccesses":               ExternalAccessIdentity,
 		"externalnetworks":               ExternalNetworkIdentity,
 		"externalservices":               ExternalServiceIdentity,
 		"fileaccesses":                   FileAccessIdentity,
 		"fileaccesspolicies":             FileAccessPolicyIdentity,
+		"fileaccessreports":              FileAccessReportIdentity,
 		"filepaths":                      FilePathIdentity,
 		"flowreports":                    FlowReportIdentity,
-		"flowstatistics":                 FlowStatisticIdentity,
 
-		"hookpolicies":   HookPolicyIdentity,
-		"import":         ImportIdentity,
-		"installations":  InstallationIdentity,
-		"installedapps":  InstalledAppIdentity,
-		"invoices":       InvoiceIdentity,
-		"invoicerecords": InvoiceRecordIdentity,
-
+		"hookpolicies":             HookPolicyIdentity,
+		"import":                   ImportIdentity,
+		"installations":            InstallationIdentity,
+		"installedapps":            InstalledAppIdentity,
+		"invoices":                 InvoiceIdentity,
+		"invoicerecords":           InvoiceRecordIdentity,
 		"isolationprofiles":        IsolationProfileIdentity,
 		"issue":                    IssueIdentity,
 		"jaegerbatchs":             JaegerbatchIdentity,
@@ -154,6 +155,7 @@ var (
 		"privatekeys":              PrivateKeyIdentity,
 		"processingunits":          ProcessingUnitIdentity,
 		"processingunitpolicies":   ProcessingUnitPolicyIdentity,
+		"punodes":                  PUNodeIdentity,
 		"quotacheck":               QuotaCheckIdentity,
 		"quotapolicies":            QuotaPolicyIdentity,
 		"remoteprocessors":         RemoteProcessorIdentity,
@@ -196,16 +198,12 @@ var (
 		"profiles":   EnforcerProfileIdentity,
 		"enfpols":    EnforcerProfileMappingPolicyIdentity,
 		"enfpol":     EnforcerProfileMappingPolicyIdentity,
-		"extacs":     ExternalAccessIdentity,
-		"extac":      ExternalAccessIdentity,
 		"extnet":     ExternalNetworkIdentity,
 		"extnets":    ExternalNetworkIdentity,
 		"extsrv":     ExternalServiceIdentity,
 		"extsrvs":    ExternalServiceIdentity,
 		"fp":         FilePathIdentity,
 		"fps":        FilePathIdentity,
-		"flowstat":   FlowStatisticIdentity,
-		"flowstats":  FlowStatisticIdentity,
 		"hook":       HookPolicyIdentity,
 		"hooks":      HookPolicyIdentity,
 		"hookpol":    HookPolicyIdentity,
@@ -250,6 +248,165 @@ var (
 		"vul":        VulnerabilityIdentity,
 		"vuln":       VulnerabilityIdentity,
 		"vuls":       VulnerabilityIdentity,
+	}
+
+	indexesMap = map[string][][]string{
+		"account": [][]string{
+			[]string{"name"},
+		},
+		"accountcheck": nil,
+		"activate":     nil,
+		"activity": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "date"},
+			[]string{"namespace", "operation"},
+		},
+		"alarm": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "kind"},
+		},
+		"apiauthorizationpolicy": nil,
+		"apicheck":               nil,
+		"app":                    nil,
+		"auditprofile": [][]string{
+			[]string{"namespace"},
+		},
+		"auditreport": nil,
+		"auth":        nil,
+		"authority": [][]string{
+			[]string{"commonName"},
+			[]string{"serialNumber"},
+		},
+		"automation": [][]string{
+			[]string{"namespace"},
+		},
+		"automationtemplate": nil,
+		"awsaccount":         nil,
+		"awsapigateway":      nil,
+		"awsregister":        nil,
+		"category":           nil,
+		"certificate": [][]string{
+			[]string{"commonName"},
+			[]string{"parentID"},
+		},
+		"customer":      nil,
+		"dependencymap": nil,
+		"email":         nil,
+		"enforcer": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+		},
+		"enforcerprofile": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+		},
+		"enforcerprofilemappingpolicy": nil,
+		"enforcerreport":               nil,
+		"eventlog":                     nil,
+		"export":                       nil,
+		"externalnetwork": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "archived"},
+		},
+		"externalservice":  nil,
+		"fileaccess":       nil,
+		"fileaccesspolicy": nil,
+		"fileaccessreport": nil,
+		"filepath": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"archived"},
+		},
+		"flowreport":    nil,
+		"hookpolicy":    nil,
+		"import":        nil,
+		"installation":  nil,
+		"installedapp":  nil,
+		"invoice":       nil,
+		"invoicerecord": nil,
+		"isolationprofile": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+		},
+		"issue":       nil,
+		"jaegerbatch": nil,
+		"k8scluster": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+		},
+		"log":     nil,
+		"message": nil,
+		"namespace": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "name"},
+		},
+		"namespacemappingpolicy": nil,
+		"networkaccesspolicy":    nil,
+		"passwordreset":          nil,
+		"plan":                   nil,
+		"poke":                   nil,
+		"policy": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "type"},
+			[]string{"namespace", "normalizedtags"},
+			[]string{"namespace", "type", "allobjecttags"},
+			[]string{"namespace", "type", "allsubjecttags"},
+			[]string{"namespace", "type", "allobjecttags", "disabled"},
+			[]string{"namespace", "type", "allsubjecttags", "disabled"},
+			[]string{"namespace", "type", "allobjecttags", "propagated"},
+			[]string{"namespace", "type", "allsubjecttags", "propagated"},
+			[]string{"namespace", "fallback"},
+		},
+		"policyrefresh":  nil,
+		"policyrenderer": nil,
+		"policyrule":     nil,
+		"privatekey":     nil,
+		"processingunit": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "archived"},
+			[]string{"namespace", "status"},
+		},
+		"processingunitpolicy": nil,
+		"punode":               nil,
+		"quotacheck":           nil,
+		"quotapolicy":          nil,
+		"remoteprocessor":      nil,
+		"renderedpolicy":       nil,
+		"report":               nil,
+		"restapispec": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "archived"},
+			[]string{"namespace", "normalizedtags"},
+		},
+		"revocation": nil,
+		"role":       nil,
+		"root":       nil,
+		"service": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "archived"},
+			[]string{"namespace", "normalizedtags"},
+		},
+		"servicedependency": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "archived"},
+			[]string{"namespace", "normalizedtags"},
+		},
+		"squalltag":        nil,
+		"statsquery":       nil,
+		"suggestedpolicy":  nil,
+		"tabulation":       nil,
+		"tag":              nil,
+		"taginject":        nil,
+		"token":            nil,
+		"tokenscopepolicy": nil,
+		"trigger":          nil,
+		"vulnerability": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "name"},
+		},
+		"x509certificate":      nil,
+		"x509certificatecheck": nil,
 	}
 )
 
@@ -308,6 +465,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewApp()
 	case AuditProfileIdentity:
 		return NewAuditProfile()
+	case AuditReportIdentity:
+		return NewAuditReport()
 	case AuthIdentity:
 		return NewAuth()
 	case AuthorityIdentity:
@@ -338,12 +497,12 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewEnforcerProfile()
 	case EnforcerProfileMappingPolicyIdentity:
 		return NewEnforcerProfileMappingPolicy()
+	case EnforcerReportIdentity:
+		return NewEnforcerReport()
 	case EventLogIdentity:
 		return NewEventLog()
 	case ExportIdentity:
 		return NewExport()
-	case ExternalAccessIdentity:
-		return NewExternalAccess()
 	case ExternalNetworkIdentity:
 		return NewExternalNetwork()
 	case ExternalServiceIdentity:
@@ -352,12 +511,12 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewFileAccess()
 	case FileAccessPolicyIdentity:
 		return NewFileAccessPolicy()
+	case FileAccessReportIdentity:
+		return NewFileAccessReport()
 	case FilePathIdentity:
 		return NewFilePath()
 	case FlowReportIdentity:
 		return NewFlowReport()
-	case FlowStatisticIdentity:
-		return NewFlowStatistic()
 	case HookPolicyIdentity:
 		return NewHookPolicy()
 	case ImportIdentity:
@@ -408,6 +567,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
 		return NewProcessingUnitPolicy()
+	case PUNodeIdentity:
+		return NewPUNode()
 	case QuotaCheckIdentity:
 		return NewQuotaCheck()
 	case QuotaPolicyIdentity:
@@ -459,6 +620,11 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 	}
 }
 
+func (f modelManager) Indexes(identity elemental.Identity) [][]string {
+
+	return indexesMap[identity.Name]
+}
+
 func (f modelManager) IdentifiableFromString(any string) elemental.Identifiable {
 
 	return f.Identifiable(f.IdentityFromAny(any))
@@ -486,6 +652,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &AppsList{}
 	case AuditProfileIdentity:
 		return &AuditProfilesList{}
+	case AuditReportIdentity:
+		return &AuditReportsList{}
 	case AuthIdentity:
 		return &AuthsList{}
 	case AuthorityIdentity:
@@ -516,12 +684,12 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &EnforcerProfilesList{}
 	case EnforcerProfileMappingPolicyIdentity:
 		return &EnforcerProfileMappingPoliciesList{}
+	case EnforcerReportIdentity:
+		return &EnforcerReportsList{}
 	case EventLogIdentity:
 		return &EventLogsList{}
 	case ExportIdentity:
 		return &ExportsList{}
-	case ExternalAccessIdentity:
-		return &ExternalAccessList{}
 	case ExternalNetworkIdentity:
 		return &ExternalNetworksList{}
 	case ExternalServiceIdentity:
@@ -530,12 +698,12 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &FileAccessList{}
 	case FileAccessPolicyIdentity:
 		return &FileAccessPoliciesList{}
+	case FileAccessReportIdentity:
+		return &FileAccessReportsList{}
 	case FilePathIdentity:
 		return &FilePathsList{}
 	case FlowReportIdentity:
 		return &FlowReportsList{}
-	case FlowStatisticIdentity:
-		return &FlowStatisticsList{}
 	case HookPolicyIdentity:
 		return &HookPoliciesList{}
 	case ImportIdentity:
@@ -586,6 +754,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
 		return &ProcessingUnitPoliciesList{}
+	case PUNodeIdentity:
+		return &PUNodesList{}
 	case QuotaCheckIdentity:
 		return &QuotaChecksList{}
 	case QuotaPolicyIdentity:
@@ -663,6 +833,7 @@ func AllIdentities() []elemental.Identity {
 		APICheckIdentity,
 		AppIdentity,
 		AuditProfileIdentity,
+		AuditReportIdentity,
 		AuthIdentity,
 		AuthorityIdentity,
 		AutomationIdentity,
@@ -678,16 +849,16 @@ func AllIdentities() []elemental.Identity {
 		EnforcerIdentity,
 		EnforcerProfileIdentity,
 		EnforcerProfileMappingPolicyIdentity,
+		EnforcerReportIdentity,
 		EventLogIdentity,
 		ExportIdentity,
-		ExternalAccessIdentity,
 		ExternalNetworkIdentity,
 		ExternalServiceIdentity,
 		FileAccessIdentity,
 		FileAccessPolicyIdentity,
+		FileAccessReportIdentity,
 		FilePathIdentity,
 		FlowReportIdentity,
-		FlowStatisticIdentity,
 		HookPolicyIdentity,
 		ImportIdentity,
 		InstallationIdentity,
@@ -713,6 +884,7 @@ func AllIdentities() []elemental.Identity {
 		PrivateKeyIdentity,
 		ProcessingUnitIdentity,
 		ProcessingUnitPolicyIdentity,
+		PUNodeIdentity,
 		QuotaCheckIdentity,
 		QuotaPolicyIdentity,
 		RemoteProcessorIdentity,
@@ -766,6 +938,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"ap",
 		}
+	case AuditReportIdentity:
+		return []string{}
 	case AuthIdentity:
 		return []string{}
 	case AuthorityIdentity:
@@ -816,15 +990,12 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"enfpols",
 			"enfpol",
 		}
+	case EnforcerReportIdentity:
+		return []string{}
 	case EventLogIdentity:
 		return []string{}
 	case ExportIdentity:
 		return []string{}
-	case ExternalAccessIdentity:
-		return []string{
-			"extacs",
-			"extac",
-		}
 	case ExternalNetworkIdentity:
 		return []string{
 			"extnet",
@@ -839,6 +1010,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case FileAccessPolicyIdentity:
 		return []string{}
+	case FileAccessReportIdentity:
+		return []string{}
 	case FilePathIdentity:
 		return []string{
 			"fp",
@@ -846,11 +1019,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case FlowReportIdentity:
 		return []string{}
-	case FlowStatisticIdentity:
-		return []string{
-			"flowstat",
-			"flowstats",
-		}
 	case HookPolicyIdentity:
 		return []string{
 			"hook",
@@ -930,6 +1098,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"pup",
 		}
+	case PUNodeIdentity:
+		return []string{}
 	case QuotaCheckIdentity:
 		return []string{}
 	case QuotaPolicyIdentity:

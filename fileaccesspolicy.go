@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// FileAccessPolicyIndexes lists the attribute compound indexes.
-var FileAccessPolicyIndexes = [][]string{}
-
 // FileAccessPolicyIdentity represents the Identity of the object.
 var FileAccessPolicyIdentity = elemental.Identity{
 	Name:     "fileaccesspolicy",
@@ -586,14 +583,13 @@ The policy will be active for the given activeDuration.`,
 		Description: `Fallback indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "fallback",
-		Orderable:  true,
-		Setter:     true,
-		Stored:     true,
-		Type:       "boolean",
+		Exposed:   true,
+		Getter:    true,
+		Name:      "fallback",
+		Orderable: true,
+		Setter:    true,
+		Stored:    true,
+		Type:      "boolean",
 	},
 	"LogsEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -682,7 +678,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "Propagate",
 		Description:    `Propagate will propagate the policy to all of its children.`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
 		Name:           "propagate",
 		Orderable:      true,
@@ -884,14 +879,13 @@ The policy will be active for the given activeDuration.`,
 		Description: `Fallback indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "fallback",
-		Orderable:  true,
-		Setter:     true,
-		Stored:     true,
-		Type:       "boolean",
+		Exposed:   true,
+		Getter:    true,
+		Name:      "fallback",
+		Orderable: true,
+		Setter:    true,
+		Stored:    true,
+		Type:      "boolean",
 	},
 	"logsenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -980,7 +974,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "Propagate",
 		Description:    `Propagate will propagate the policy to all of its children.`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
 		Name:           "propagate",
 		Orderable:      true,

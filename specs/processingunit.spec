@@ -14,6 +14,12 @@ model:
   aliases:
   - pu
   - pus
+  indexes:
+  - - namespace
+  - - namespace
+    - archived
+  - - namespace
+    - status
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
@@ -41,6 +47,14 @@ attributes:
     type: string
     exposed: true
     stored: true
+    filterable: true
+
+  - name: image
+    description: Docker image, or path to executable.
+    type: string
+    exposed: true
+    stored: true
+    creation_only: true
     filterable: true
 
   - name: lastSyncTime

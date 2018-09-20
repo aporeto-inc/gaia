@@ -7,6 +7,12 @@ model:
   description: |-
     RESTAPISpec descibes the REST APIs exposed by a service. These APIs
     can be associated with one or more services.
+  indexes:
+  - - namespace
+  - - namespace
+    - archived
+  - - namespace
+    - normalizedtags
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
