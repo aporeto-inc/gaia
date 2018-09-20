@@ -10,9 +10,6 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
-// ProcessingUnitIndexes lists the attribute compound indexes.
-var ProcessingUnitIndexes = [][]string{}
-
 // ProcessingUnitOperationalStatusValue represents the possible values for attribute "operationalStatus".
 type ProcessingUnitOperationalStatusValue string
 

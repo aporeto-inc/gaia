@@ -7,9 +7,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// SquallTagIndexes lists the attribute compound indexes.
-var SquallTagIndexes = [][]string{}
-
 // SquallTagIdentity represents the Identity of the object.
 var SquallTagIdentity = elemental.Identity{
 	Name:     "squalltag",

@@ -7,9 +7,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// InstallationIndexes lists the attribute compound indexes.
-var InstallationIndexes = [][]string{}
-
 // InstallationIdentity represents the Identity of the object.
 var InstallationIdentity = elemental.Identity{
 	Name:     "installation",

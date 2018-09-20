@@ -7,9 +7,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// TokenIndexes lists the attribute compound indexes.
-var TokenIndexes = [][]string{}
-
 // TokenIdentity represents the Identity of the object.
 var TokenIdentity = elemental.Identity{
 	Name:     "token",

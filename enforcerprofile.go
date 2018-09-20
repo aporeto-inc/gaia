@@ -10,9 +10,6 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
-// EnforcerProfileIndexes lists the attribute compound indexes.
-var EnforcerProfileIndexes = [][]string{}
-
 // EnforcerProfileKubernetesMetadataExtractorValue represents the possible values for attribute "kubernetesMetadataExtractor".
 type EnforcerProfileKubernetesMetadataExtractorValue string
 

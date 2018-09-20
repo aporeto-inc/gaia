@@ -249,6 +249,91 @@ var (
 		"vuln":       VulnerabilityIdentity,
 		"vuls":       VulnerabilityIdentity,
 	}
+
+	indexesMap = map[string][][]string{
+		"account":                      nil,
+		"accountcheck":                 nil,
+		"activate":                     nil,
+		"activity":                     nil,
+		"alarm":                        nil,
+		"apiauthorizationpolicy":       nil,
+		"apicheck":                     nil,
+		"app":                          nil,
+		"auditprofile":                 nil,
+		"auth":                         nil,
+		"authority":                    nil,
+		"automation":                   nil,
+		"automationtemplate":           nil,
+		"awsaccount":                   nil,
+		"awsapigateway":                nil,
+		"awsregister":                  nil,
+		"category":                     nil,
+		"certificate":                  nil,
+		"customer":                     nil,
+		"dependencymap":                nil,
+		"email":                        nil,
+		"enforcer":                     nil,
+		"enforcerprofile":              nil,
+		"enforcerprofilemappingpolicy": nil,
+		"eventlog":                     nil,
+		"export":                       nil,
+		"externalaccess":               nil,
+		"externalnetwork":              nil,
+		"externalservice":              nil,
+		"fileaccess":                   nil,
+		"fileaccesspolicy":             nil,
+		"filepath":                     nil,
+		"flowreport":                   nil,
+		"flowstatistic":                nil,
+		"hookpolicy":                   nil,
+		"import":                       nil,
+		"installation":                 nil,
+		"installedapp":                 nil,
+		"invoice":                      nil,
+		"invoicerecord":                nil,
+		"isolationprofile":             nil,
+		"issue":                        nil,
+		"jaegerbatch":                  nil,
+		"k8scluster":                   nil,
+		"log":                          nil,
+		"message":                      nil,
+		"namespace":                    nil,
+		"namespacemappingpolicy":       nil,
+		"networkaccesspolicy":          nil,
+		"passwordreset":                nil,
+		"plan":                         nil,
+		"poke":                         nil,
+		"policy":                       nil,
+		"policyrefresh":                nil,
+		"policyrenderer":               nil,
+		"policyrule":                   nil,
+		"privatekey":                   nil,
+		"processingunit":               nil,
+		"processingunitpolicy":         nil,
+		"quotacheck":                   nil,
+		"quotapolicy":                  nil,
+		"remoteprocessor":              nil,
+		"renderedpolicy":               nil,
+		"report":                       nil,
+		"restapispec":                  nil,
+		"revocation":                   nil,
+		"role":                         nil,
+		"root":                         nil,
+		"service":                      nil,
+		"servicedependency":            nil,
+		"squalltag":                    nil,
+		"statsquery":                   nil,
+		"suggestedpolicy":              nil,
+		"tabulation":                   nil,
+		"tag":                          nil,
+		"taginject":                    nil,
+		"token":                        nil,
+		"tokenscopepolicy":             nil,
+		"trigger":                      nil,
+		"vulnerability":                nil,
+		"x509certificate":              nil,
+		"x509certificatecheck":         nil,
+	}
 )
 
 // ModelVersion returns the current version of the model.
@@ -459,6 +544,11 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 	default:
 		return nil
 	}
+}
+
+func (f modelManager) Indexes(identity elemental.Identity) [][]string {
+
+	return indexesMap[identity.Name]
 }
 
 func (f modelManager) IdentifiableFromString(any string) elemental.Identifiable {
