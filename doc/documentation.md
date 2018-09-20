@@ -7646,6 +7646,7 @@ Docker image, or path to executable.
 
 | Characteristics | Value  |
 | -               | -:     |
+| Creation only   | `true` |
 | Filterable      | `true` |
 
 #### `lastSyncTime (time)`
