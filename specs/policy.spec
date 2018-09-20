@@ -5,6 +5,36 @@ model:
   entity_name: Policy
   package: squall
   description: Policy represents the policy primitive used by all aporeto policies.
+  indexes:
+  - - namespace
+  - - namespace
+    - type
+  - - namespace
+    - normalizedtags
+  - - namespace
+    - type
+    - allobjecttags
+  - - namespace
+    - type
+    - allsubjecttags
+  - - namespace
+    - type
+    - allobjecttags
+    - disabled
+  - - namespace
+    - type
+    - allsubjecttags
+    - disabled
+  - - namespace
+    - type
+    - allobjecttags
+    - propagated
+  - - namespace
+    - type
+    - allsubjecttags
+    - propagated
+  - - namespace
+    - fallback
   get:
     description: Retrieves the object with the given ID.
   delete:

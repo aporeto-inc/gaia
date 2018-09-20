@@ -11,6 +11,12 @@ model:
     units.
   aliases:
   - srv
+  indexes:
+  - - namespace
+  - - namespace
+    - archived
+  - - namespace
+    - normalizedtags
   get:
     description: Retrieves the object with the given ID.
     global_parameters:

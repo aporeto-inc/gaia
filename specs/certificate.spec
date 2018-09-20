@@ -5,6 +5,9 @@ model:
   entity_name: Certificate
   package: vince
   description: A User represents the owner of some certificates.
+  indexes:
+  - - commonName
+  - - parentID
   get:
     description: Retrieves the object with the given ID.
   update:

@@ -14,6 +14,12 @@ model:
   aliases:
   - pu
   - pus
+  indexes:
+  - - namespace
+  - - namespace
+    - archived
+  - - namespace
+    - status
   get:
     description: Retrieves the object with the given ID.
     global_parameters:

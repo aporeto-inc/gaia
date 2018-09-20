@@ -8,6 +8,9 @@ model:
   aliases:
   - ca
   private: true
+  indexes:
+  - - commonName
+  - - serialNumber
   delete:
     description: Deletes the object with the given ID.
     global_parameters:

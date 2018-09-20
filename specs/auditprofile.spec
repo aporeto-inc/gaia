@@ -9,6 +9,8 @@ model:
     policy will determine that types of events that must be captured in the kernel.
   aliases:
   - ap
+  indexes:
+  - - namespace
   get:
     description: Retrieves the object with the given ID.
   update:
