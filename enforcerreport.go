@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// EnforcerReportIndexes lists the attribute compound indexes.
-var EnforcerReportIndexes = [][]string{}
-
 // EnforcerReportIdentity represents the Identity of the object.
 var EnforcerReportIdentity = elemental.Identity{
 	Name:     "enforcerreport",

@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// FileAccessReportIndexes lists the attribute compound indexes.
-var FileAccessReportIndexes = [][]string{}
-
 // FileAccessReportActionValue represents the possible values for attribute "action".
 type FileAccessReportActionValue string
 

@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// PUNodeIndexes lists the attribute compound indexes.
-var PUNodeIndexes = [][]string{}
-
 // PUNodeIdentity represents the Identity of the object.
 var PUNodeIdentity = elemental.Identity{
 	Name:     "punode",

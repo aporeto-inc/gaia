@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// AuditReportIndexes lists the attribute compound indexes.
-var AuditReportIndexes = [][]string{}
-
 // AuditReportIdentity represents the Identity of the object.
 var AuditReportIdentity = elemental.Identity{
 	Name:     "auditreport",
