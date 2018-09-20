@@ -7,9 +7,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// RoleIndexes lists the attribute compound indexes.
-var RoleIndexes = [][]string{}
-
 // RoleIdentity represents the Identity of the object.
 var RoleIdentity = elemental.Identity{
 	Name:     "role",

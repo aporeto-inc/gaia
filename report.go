@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// ReportIndexes lists the attribute compound indexes.
-var ReportIndexes = [][]string{}
-
 // ReportKindValue represents the possible values for attribute "kind".
 type ReportKindValue string
 

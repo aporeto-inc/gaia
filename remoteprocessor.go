@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// RemoteProcessorIndexes lists the attribute compound indexes.
-var RemoteProcessorIndexes = [][]string{}
-
 // RemoteProcessorModeValue represents the possible values for attribute "mode".
 type RemoteProcessorModeValue string
 

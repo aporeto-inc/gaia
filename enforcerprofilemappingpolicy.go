@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// EnforcerProfileMappingPolicyIndexes lists the attribute compound indexes.
-var EnforcerProfileMappingPolicyIndexes = [][]string{}
-
 // EnforcerProfileMappingPolicyIdentity represents the Identity of the object.
 var EnforcerProfileMappingPolicyIdentity = elemental.Identity{
 	Name:     "enforcerprofilemappingpolicy",

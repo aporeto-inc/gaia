@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// InvoiceIndexes lists the attribute compound indexes.
-var InvoiceIndexes = [][]string{}
-
 // InvoiceBilledToProviderValue represents the possible values for attribute "billedToProvider".
 type InvoiceBilledToProviderValue string
 
