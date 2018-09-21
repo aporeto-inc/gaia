@@ -31,3 +31,13 @@ func (h HostServicesList) Validate() error {
 	}
 	return nil
 }
+
+// IsHostMode will provide a boolean value which tells us if host mode is set or not.
+func (h HostServicesList) IsHostMode() bool {
+	for _, s := range h {
+		if !s.NetworkOnly {
+			return true
+		}
+	}
+	return false
+}
