@@ -142,6 +142,8 @@ attributes:
     - L3
     - HTTP
     - TCP
+    - NotApplicable
+    default_value: NotApplicable
 
   - name: serviceURL
     description: Service URL accessed.

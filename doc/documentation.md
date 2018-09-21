@@ -4827,9 +4827,10 @@ Service URL accessed.
 
 ID of the service.
 
-| Characteristics | Value           |
-| -               | -:              |
-| Allowed Value   | `L3, HTTP, TCP` |
+| Characteristics | Value                          |
+| -               | -:                             |
+| Allowed Value   | `L3, HTTP, TCP, NotApplicable` |
+| Default         | `"NotApplicable"`              |
 
 #### `serviceURL (string)`
 

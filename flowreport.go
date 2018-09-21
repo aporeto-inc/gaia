@@ -58,6 +58,9 @@ const (
 	// FlowReportServiceTypeL3 represents the value L3.
 	FlowReportServiceTypeL3 FlowReportServiceTypeValue = "L3"
 
+	// FlowReportServiceTypeNotApplicable represents the value NotApplicable.
+	FlowReportServiceTypeNotApplicable FlowReportServiceTypeValue = "NotApplicable"
+
 	// FlowReportServiceTypeTCP represents the value TCP.
 	FlowReportServiceTypeTCP FlowReportServiceTypeValue = "TCP"
 )
@@ -226,6 +229,7 @@ func NewFlowReport() *FlowReport {
 
 	return &FlowReport{
 		ModelVersion:   1,
+		ServiceType:    FlowReportServiceTypeNotApplicable,
 		ObservedAction: FlowReportObservedActionNotApplicable,
 	}
 }
@@ -307,7 +311,7 @@ func (o *FlowReport) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateStringInList("serviceType", string(o.ServiceType), []string{"L3", "HTTP", "TCP"}, false); err != nil {
+	if err := elemental.ValidateStringInList("serviceType", string(o.ServiceType), []string{"L3", "HTTP", "TCP", "NotApplicable"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -519,8 +523,9 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"ServiceType": elemental.AttributeSpecification{
-		AllowedChoices: []string{"L3", "HTTP", "TCP"},
+		AllowedChoices: []string{"L3", "HTTP", "TCP", "NotApplicable"},
 		ConvertedName:  "ServiceType",
+		DefaultValue:   FlowReportServiceTypeNotApplicable,
 		Description:    `ID of the service.`,
 		Exposed:        true,
 		Name:           "serviceType",
@@ -752,8 +757,9 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Type:           "string",
 	},
 	"servicetype": elemental.AttributeSpecification{
-		AllowedChoices: []string{"L3", "HTTP", "TCP"},
+		AllowedChoices: []string{"L3", "HTTP", "TCP", "NotApplicable"},
 		ConvertedName:  "ServiceType",
+		DefaultValue:   FlowReportServiceTypeNotApplicable,
 		Description:    `ID of the service.`,
 		Exposed:        true,
 		Name:           "serviceType",
