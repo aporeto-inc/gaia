@@ -8680,7 +8680,6 @@ units.
   "exposedPort": 443,
   "name": "the name",
   "port": 443,
-  "publicApplicationPort": 443,
   "selectors": [
     [
       "$identity=processingunit"
@@ -8957,8 +8956,8 @@ when an application is being accessed from a public network.
 
 | Characteristics | Value   |
 | -               | -:      |
+| Default         | `0`     |
 | Max length      | `65535` |
-| Required        | `true`  |
 
 #### `redirectOnFail (boolean)`
 

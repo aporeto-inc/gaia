@@ -251,6 +251,7 @@ func NewService() *Service {
 		AuthorizationType:          ServiceAuthorizationTypeNone,
 		Endpoints:                  types.ExposedAPIList{},
 		External:                   false,
+		PublicApplicationPort:      0,
 		RedirectOnFail:             false,
 		Metadata:                   []string{},
 		NormalizedTags:             []string{},
@@ -461,10 +462,6 @@ func (o *Service) Validate() error {
 
 	if err := elemental.ValidateMaximumInt("port", o.Port, int(65535), false); err != nil {
 		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredInt("publicApplicationPort", o.PublicApplicationPort); err != nil {
-		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateMaximumInt("publicApplicationPort", o.PublicApplicationPort, int(65535), false); err != nil {
@@ -835,7 +832,6 @@ when an application is being accessed from a public network.`,
 		Exposed:  true,
 		MaxValue: 65535,
 		Name:     "publicApplicationPort",
-		Required: true,
 		Stored:   true,
 		Type:     "integer",
 	},
@@ -1254,7 +1250,6 @@ when an application is being accessed from a public network.`,
 		Exposed:  true,
 		MaxValue: 65535,
 		Name:     "publicApplicationPort",
-		Required: true,
 		Stored:   true,
 		Type:     "integer",
 	},

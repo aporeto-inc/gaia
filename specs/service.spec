@@ -196,7 +196,7 @@ attributes:
     type: integer
     exposed: true
     stored: true
-    required: true
+    default_value: 0
     example_value: 443
     max_value: 65535
 
