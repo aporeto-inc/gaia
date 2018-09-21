@@ -148,6 +148,11 @@ type EnforcerProfile struct {
 	// enforcer.
 	ExcludedNetworks []string `json:"excludedNetworks" bson:"excludednetworks" mapstructure:"excludedNetworks,omitempty"`
 
+	// hostModeEnabled enables protection of the complete host. When this option is
+	// turned on, all incoming and outgoing flows will be monitored. Flows will
+	// be allowed if and only if a network policy has been created to allow the flow.
+	HostModeEnabled bool `json:"hostModeEnabled" bson:"hostmodeenabled" mapstructure:"hostModeEnabled,omitempty"`
+
 	// HostServices is a list of services that must be activated by default to all
 	// enforcers matching this profile.
 	HostServices types.HostServicesList `json:"hostServices" bson:"hostservices" mapstructure:"hostServices,omitempty"`
@@ -238,21 +243,22 @@ func NewEnforcerProfile() *EnforcerProfile {
 
 	return &EnforcerProfile{
 		ModelVersion:                  1,
-		AssociatedTags:                []string{},
-		Annotations:                   map[string][]string{},
-		AuditSocketBufferSize:         16384,
 		ApplicationProxyPort:          20992,
+		Annotations:                   map[string][]string{},
+		AssociatedTags:                []string{},
 		DockerSocketAddress:           "unix:///var/run/docker.sock",
+		AuditSocketBufferSize:         16384,
+		HostModeEnabled:               false,
 		HostServices:                  types.HostServicesList{},
-		LinuxProcessesSupportEnabled:  true,
+		KubernetesSupportEnabled:      false,
 		ProxyListenAddress:            "unix:///var/run/aporeto.sock",
 		PUBookkeepingInterval:         "15m",
 		ReceiverNumberOfQueues:        4,
-		KubernetesSupportEnabled:      false,
 		ReceiverQueueSize:             500,
 		MetadataExtractor:             EnforcerProfileMetadataExtractorDocker,
 		RemoteEnforcerEnabled:         true,
 		TransmitterQueue:              4,
+		LinuxProcessesSupportEnabled:  true,
 		TrustedCAs:                    []string{},
 		KubernetesMetadataExtractor:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
 		TransmitterNumberOfQueues:     4,
@@ -718,6 +724,18 @@ enforcer.`,
 		Stored:    true,
 		SubType:   "excluded_networks_list",
 		Type:      "external",
+	},
+	"HostModeEnabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "HostModeEnabled",
+		Description: `hostModeEnabled enables protection of the complete host. When this option is
+turned on, all incoming and outgoing flows will be monitored. Flows will
+be allowed if and only if a network policy has been created to allow the flow.`,
+		Exposed:   true,
+		Name:      "hostModeEnabled",
+		Orderable: true,
+		Stored:    true,
+		Type:      "boolean",
 	},
 	"HostServices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1195,6 +1213,18 @@ enforcer.`,
 		Stored:    true,
 		SubType:   "excluded_networks_list",
 		Type:      "external",
+	},
+	"hostmodeenabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "HostModeEnabled",
+		Description: `hostModeEnabled enables protection of the complete host. When this option is
+turned on, all incoming and outgoing flows will be monitored. Flows will
+be allowed if and only if a network policy has been created to allow the flow.`,
+		Exposed:   true,
+		Name:      "hostModeEnabled",
+		Orderable: true,
+		Stored:    true,
+		Type:      "boolean",
 	},
 	"hostservices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

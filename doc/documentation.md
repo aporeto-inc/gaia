@@ -3050,6 +3050,17 @@ enforcer.
 | -               | -:     |
 | Orderable       | `true` |
 
+#### `hostModeEnabled (boolean)`
+
+hostModeEnabled enables protection of the complete host. When this option is
+turned on, all incoming and outgoing flows will be monitored. Flows will
+be allowed if and only if a network policy has been created to allow the flow.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Default         | `false` |
+| Orderable       | `true`  |
+
 #### `hostServices (external:host_services_list)`
 
 HostServices is a list of services that must be activated by default to all
