@@ -251,7 +251,6 @@ func NewService() *Service {
 		AuthorizationType:          ServiceAuthorizationTypeNone,
 		Endpoints:                  types.ExposedAPIList{},
 		External:                   false,
-		PublicApplicationPort:      0,
 		RedirectOnFail:             false,
 		Metadata:                   []string{},
 		NormalizedTags:             []string{},
