@@ -145,6 +145,15 @@ attributes:
     subtype: policies_list
     stored: true
 
+  - name: killContainersOnFailure
+    description: |-
+      KillContainersOnFailure will configure the enforcers to kill any containers if
+      there are policy failures.
+    type: boolean
+    exposed: true
+    stored: true
+    default_value: false
+
   - name: kubernetesMetadataExtractor
     description: |-
       Select which metadata extractor to use to process new processing units from
