@@ -4750,7 +4750,8 @@ Type of the source.
 
 #### `dropReason (string)`
 
-Reason for the rejection.
+This field is only set if 'action' is set to 'Reject' and specifies the reason
+for the rejection.
 
 #### `encrypted (boolean)`
 
@@ -4778,6 +4779,11 @@ Action observed on the flow.
 | -               | -:                              |
 | Allowed Value   | `Accept, Reject, NotApplicable` |
 | Default         | `"NotApplicable"`               |
+
+#### `observedDropReason (string)`
+
+This field is only set if 'observedAction' is set to 'Reject' and specifies the
+reason for the rejection.
 
 #### `observedEncrypted (boolean)`
 
