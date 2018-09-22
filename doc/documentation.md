@@ -7148,7 +7148,7 @@ database.
 
 ##### Parameters
 
-- `enforcement` (enum): If set, changes the enforcement status of the processing unit alongside with the poke.
+- `enforcementStatus` (enum): If set, changes the enforcement status of the processing unit alongside with the poke.
 - `status` (enum): If set, changes the status of the processing unit alongside with the poke.
 - `ts` (time): time of report. If not set, local server time will be used.
 
@@ -7578,7 +7578,7 @@ database.
 
 ##### Parameters
 
-- `enforcement` (enum): If set, changes the enforcement status of the processing unit alongside with the poke.
+- `enforcementStatus` (enum): If set, changes the enforcement status of the processing unit alongside with the poke.
 - `status` (enum): If set, changes the status of the processing unit alongside with the poke.
 - `ts` (time): time of report. If not set, local server time will be used.
 

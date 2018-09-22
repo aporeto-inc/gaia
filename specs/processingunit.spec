@@ -155,10 +155,10 @@ relations:
   get:
     description: |-
       Sends a poke empty object. This will send a snaphot of the pu to time series
-      database.
+      database. 
     parameters:
       entries:
-      - name: enforcement
+      - name: enforcementStatus
         description: If set, changes the enforcement status of the processing unit
           alongside with the poke.
         type: enum
