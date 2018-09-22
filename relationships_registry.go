@@ -2607,6 +2607,15 @@ func init() {
 			"processingunit": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
+						Name: "enforcement",
+						Type: "enum",
+						AllowedChoices: []string{
+							"Failed",
+							"Inactive",
+							"Protected",
+						},
+					},
+					elemental.ParameterDefinition{
 						Name: "status",
 						Type: "enum",
 						AllowedChoices: []string{
@@ -2626,6 +2635,15 @@ func init() {
 			"enforcer": &elemental.RelationshipInfo{},
 			"processingunit": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "enforcement",
+						Type: "enum",
+						AllowedChoices: []string{
+							"Failed",
+							"Inactive",
+							"Protected",
+						},
+					},
 					elemental.ParameterDefinition{
 						Name: "status",
 						Type: "enum",

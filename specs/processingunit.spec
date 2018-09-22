@@ -41,6 +41,19 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: enforcementStatus
+    description: EnforcementStatus communicates the state of the enforcer for that
+      PU.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Protected
+    - Failed
+    - Inactive
+    default_value: Inactive
+    filterable: true
+
   - name: enforcerID
     description: EnforcerID is the ID of the enforcer associated with the processing
       unit.
@@ -146,6 +159,15 @@ relations:
       database.
     parameters:
       entries:
+      - name: enforcement
+        description: If set, changes the enforcement status of the processing unit
+          alongside with the poke.
+        type: enum
+        allowed_choices:
+        - Failed
+        - Inactive
+        - Protected
+
       - name: status
         description: If set, changes the status of the processing unit alongside with
           the poke.

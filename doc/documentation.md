@@ -7144,6 +7144,7 @@ database.
 
 ##### Parameters
 
+- `enforcement` (enum): If set, changes the enforcement status of the processing unit alongside with the poke.
 - `status` (enum): If set, changes the status of the processing unit alongside with the poke.
 - `ts` (time): time of report. If not set, local server time will be used.
 
@@ -7573,6 +7574,7 @@ database.
 
 ##### Parameters
 
+- `enforcement` (enum): If set, changes the enforcement status of the processing unit alongside with the poke.
 - `status` (enum): If set, changes the status of the processing unit alongside with the poke.
 - `ts` (time): time of report. If not set, local server time will be used.
 
@@ -7632,6 +7634,16 @@ Description is the description of the object.
 | -               | -:     |
 | Max length      | `1024` |
 | Orderable       | `true` |
+
+#### `enforcementStatus (enum)`
+
+EnforcementStatus communicates the state of the enforcer for that PU.
+
+| Characteristics | Value                         |
+| -               | -:                            |
+| Allowed Value   | `Protected, Failed, Inactive` |
+| Default         | `"Inactive"`                  |
+| Filterable      | `true`                        |
 
 #### `enforcerID (string)`
 
