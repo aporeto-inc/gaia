@@ -86,6 +86,11 @@ attributes:
     - NotApplicable
     default_value: NotApplicable
 
+  - name: observedEncrypted
+    description: Value of the encryption of the network policy that observed the flow.
+    type: boolean
+    exposed: true
+
   - name: observedPolicyID
     description: ID of the network policy that observed the flow.
     type: string

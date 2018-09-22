@@ -171,6 +171,9 @@ type FlowReport struct {
 	// Action observed on the flow.
 	ObservedAction FlowReportObservedActionValue `json:"observedAction" bson:"-" mapstructure:"observedAction,omitempty"`
 
+	// Value of the encryption of the network policy that observed the flow.
+	ObservedEncrypted bool `json:"observedEncrypted" bson:"-" mapstructure:"observedEncrypted,omitempty"`
+
 	// ID of the network policy that observed the flow.
 	ObservedPolicyID string `json:"observedPolicyID" bson:"-" mapstructure:"observedPolicyID,omitempty"`
 
@@ -455,6 +458,14 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "observedAction",
 		Type:           "enum",
 	},
+	"ObservedEncrypted": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ObservedEncrypted",
+		Description:    `Value of the encryption of the network policy that observed the flow.`,
+		Exposed:        true,
+		Name:           "observedEncrypted",
+		Type:           "boolean",
+	},
 	"ObservedPolicyID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ObservedPolicyID",
@@ -688,6 +699,14 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Exposed:        true,
 		Name:           "observedAction",
 		Type:           "enum",
+	},
+	"observedencrypted": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ObservedEncrypted",
+		Description:    `Value of the encryption of the network policy that observed the flow.`,
+		Exposed:        true,
+		Name:           "observedEncrypted",
+		Type:           "boolean",
 	},
 	"observedpolicyid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

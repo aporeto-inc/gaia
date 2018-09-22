@@ -527,7 +527,6 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 	"Image": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Image",
-		CreationOnly:   true,
 		Description:    `Docker image, or path to executable.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -781,7 +780,6 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"image": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Image",
-		CreationOnly:   true,
 		Description:    `Docker image, or path to executable.`,
 		Exposed:        true,
 		Filterable:     true,
