@@ -2615,6 +2615,13 @@ Returns the enforcer profile that must be used by an enforcer.
 
 Sends a poke empty object. This is used to ensure an enforcer is up and running.
 
+##### Parameters
+
+- `cpu` (float): If set, provides the total cpu usage.
+- `memory` (integer): If set, provides the total memory used.
+- `processes` (integer): If set, defines the number of current processes.
+- `ts` (time): time of report. If not set, local server time will be used.
+
 ### Attributes
 
 #### `FQDN (string)`
@@ -3513,8 +3520,11 @@ Post a new enforcer statistics report.
 ```json
 {
   "ID": "xxx-xxx-xxx-xxx",
+  "cpu": 10,
+  "memory": 10000,
   "name": "aporeto-enforcerd-xxx",
   "namespace": "/my/ns",
+  "processes": 10,
   "timestamp": "2018-06-14T23:10:46.420397985Z"
 }
 ```
@@ -3535,6 +3545,14 @@ ID of the enforcer to report.
 | -               | -:     |
 | Required        | `true` |
 
+#### `cpu (float)`
+
+Total CPU utilization of the enforcer as a percentage of vCPUs.
+
+#### `memory (integer)`
+
+Total resident memory used by the enforcer in bytes.
+
 #### `name (string)`
 
 Name of the enforcer to report.
@@ -3550,6 +3568,10 @@ Namespace of the enforcer to report.
 | Characteristics | Value  |
 | -               | -:     |
 | Required        | `true` |
+
+#### `processes (integer)`
+
+Number of active processes of the enforcer.
 
 #### `timestamp (time)`
 
@@ -7149,6 +7171,13 @@ For instance, for enforcers, poke will be use as the heartbeat.
 #### `GET /enforcers/:id/poke`
 
 Sends a poke empty object. This is used to ensure an enforcer is up and running.
+
+##### Parameters
+
+- `cpu` (float): If set, provides the total cpu usage.
+- `memory` (integer): If set, provides the total memory used.
+- `processes` (integer): If set, defines the number of current processes.
+- `ts` (time): time of report. If not set, local server time will be used.
 
 #### `GET /processingunits/:id/poke`
 

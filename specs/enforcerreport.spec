@@ -16,6 +16,18 @@ attributes:
     required: true
     example_value: xxx-xxx-xxx-xxx
 
+  - name: cpu
+    description: Total CPU utilization of the enforcer as a percentage of vCPUs.
+    type: float
+    exposed: true
+    example_value: 10
+
+  - name: memory
+    description: Total resident memory used by the enforcer in bytes.
+    type: integer
+    exposed: true
+    example_value: 10000
+
   - name: name
     description: Name of the enforcer to report.
     type: string
@@ -29,6 +41,12 @@ attributes:
     exposed: true
     required: true
     example_value: /my/ns
+
+  - name: processes
+    description: Number of active processes of the enforcer.
+    type: integer
+    exposed: true
+    example_value: 10
 
   - name: timestamp
     description: Date of the report.

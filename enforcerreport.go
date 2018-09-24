@@ -71,11 +71,20 @@ type EnforcerReport struct {
 	// ID of the enforcer to report.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
+	// Total CPU utilization of the enforcer as a percentage of vCPUs.
+	Cpu float64 `json:"cpu" bson:"-" mapstructure:"cpu,omitempty"`
+
+	// Total resident memory used by the enforcer in bytes.
+	Memory int `json:"memory" bson:"-" mapstructure:"memory,omitempty"`
+
 	// Name of the enforcer to report.
 	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
 
 	// Namespace of the enforcer to report.
 	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
+
+	// Number of active processes of the enforcer.
+	Processes int `json:"processes" bson:"-" mapstructure:"processes,omitempty"`
 
 	// Date of the report.
 	Timestamp time.Time `json:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
@@ -193,6 +202,22 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
+	"Cpu": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Cpu",
+		Description:    `Total CPU utilization of the enforcer as a percentage of vCPUs.`,
+		Exposed:        true,
+		Name:           "cpu",
+		Type:           "float",
+	},
+	"Memory": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Memory",
+		Description:    `Total resident memory used by the enforcer in bytes.`,
+		Exposed:        true,
+		Name:           "memory",
+		Type:           "integer",
+	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -210,6 +235,14 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "namespace",
 		Required:       true,
 		Type:           "string",
+	},
+	"Processes": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Processes",
+		Description:    `Number of active processes of the enforcer.`,
+		Exposed:        true,
+		Name:           "processes",
+		Type:           "integer",
 	},
 	"Timestamp": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -233,6 +266,22 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Required:       true,
 		Type:           "string",
 	},
+	"cpu": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Cpu",
+		Description:    `Total CPU utilization of the enforcer as a percentage of vCPUs.`,
+		Exposed:        true,
+		Name:           "cpu",
+		Type:           "float",
+	},
+	"memory": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Memory",
+		Description:    `Total resident memory used by the enforcer in bytes.`,
+		Exposed:        true,
+		Name:           "memory",
+		Type:           "integer",
+	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -250,6 +299,14 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Name:           "namespace",
 		Required:       true,
 		Type:           "string",
+	},
+	"processes": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Processes",
+		Description:    `Number of active processes of the enforcer.`,
+		Exposed:        true,
+		Name:           "processes",
+		Type:           "integer",
 	},
 	"timestamp": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
