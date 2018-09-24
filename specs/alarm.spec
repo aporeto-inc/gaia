@@ -5,6 +5,10 @@ model:
   entity_name: Alarm
   package: sephiroth
   description: An alarm represents an event requiring attention.
+  indexes:
+  - - namespace
+  - - namespace
+    - kind
   get:
     description: Retrieves the object with the given ID.
   update:

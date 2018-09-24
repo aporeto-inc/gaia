@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// NetworkAccessPolicyIndexes lists the attribute compound indexes.
-var NetworkAccessPolicyIndexes = [][]string{}
-
 // NetworkAccessPolicyActionValue represents the possible values for attribute "action".
 type NetworkAccessPolicyActionValue string
 
@@ -679,14 +676,13 @@ Default is both directions.`,
 		Description: `Fallback indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "fallback",
-		Orderable:  true,
-		Setter:     true,
-		Stored:     true,
-		Type:       "boolean",
+		Exposed:   true,
+		Getter:    true,
+		Name:      "fallback",
+		Orderable: true,
+		Setter:    true,
+		Stored:    true,
+		Type:      "boolean",
 	},
 	"LogsEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -817,7 +813,6 @@ packets.`,
 		ConvertedName:  "Propagate",
 		Description:    `Propagate will propagate the policy to all of its children.`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
 		Name:           "propagate",
 		Orderable:      true,
@@ -1024,14 +1019,13 @@ Default is both directions.`,
 		Description: `Fallback indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "fallback",
-		Orderable:  true,
-		Setter:     true,
-		Stored:     true,
-		Type:       "boolean",
+		Exposed:   true,
+		Getter:    true,
+		Name:      "fallback",
+		Orderable: true,
+		Setter:    true,
+		Stored:    true,
+		Type:      "boolean",
 	},
 	"logsenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1162,7 +1156,6 @@ packets.`,
 		ConvertedName:  "Propagate",
 		Description:    `Propagate will propagate the policy to all of its children.`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
 		Name:           "propagate",
 		Orderable:      true,

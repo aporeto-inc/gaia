@@ -11,6 +11,10 @@ model:
     applications, services or any combination you like.
   aliases:
   - ns
+  indexes:
+  - - namespace
+  - - namespace
+    - name
   get:
     description: Retrieves the object with the given ID.
   update:

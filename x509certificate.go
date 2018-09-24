@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// X509CertificateIndexes lists the attribute compound indexes.
-var X509CertificateIndexes = [][]string{}
-
 // X509CertificateSignerValue represents the possible values for attribute "signer".
 type X509CertificateSignerValue string
 
@@ -290,7 +287,6 @@ certificate.`,
 		DefaultValue:   X509CertificateUsageClient,
 		Description:    `Usage defines the requested key usage.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "usage",
 		Orderable:      true,
 		Stored:         true,
@@ -368,7 +364,6 @@ certificate.`,
 		DefaultValue:   X509CertificateUsageClient,
 		Description:    `Usage defines the requested key usage.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "usage",
 		Orderable:      true,
 		Stored:         true,

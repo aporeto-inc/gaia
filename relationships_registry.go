@@ -559,6 +559,12 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[AuditReportIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+	}
+
 	relationshipsRegistry[AuthIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
@@ -1140,6 +1146,12 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[EnforcerReportIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+	}
+
 	relationshipsRegistry[EventLogIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
@@ -1292,205 +1304,6 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[ExternalAccessIdentity] = &elemental.Relationship{
-		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				RequiredParameters: elemental.NewParametersRequirement(
-					[][][]string{
-						[][]string{
-							[]string{
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-							},
-							[]string{
-								"startRelative",
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-								"endAbsolute",
-							},
-							[]string{
-								"startAbsolute",
-								"endRelative",
-							},
-							[]string{
-								"startAbsolute",
-								"endAbsolute",
-							},
-						},
-					},
-				),
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:     "destinationID",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "destinationType",
-						Type: "enum",
-						AllowedChoices: []string{
-							"ExternalNetwork",
-							"ProcessingUnit",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name:         "flowMode",
-						Type:         "enum",
-						DefaultValue: "applied",
-						AllowedChoices: []string{
-							"observed",
-							"applied",
-							"all",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name: "geoloc",
-						Type: "boolean",
-					},
-					elemental.ParameterDefinition{
-						Name: "resolve",
-						Type: "boolean",
-					},
-					elemental.ParameterDefinition{
-						Name:     "sourceID",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "sourceType",
-						Type: "enum",
-						AllowedChoices: []string{
-							"ExternalNetwork",
-							"ProcessingUnit",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name: "endAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "endRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "startAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "startRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "flowOffset",
-						Type: "duration",
-					},
-				},
-			},
-		},
-		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				RequiredParameters: elemental.NewParametersRequirement(
-					[][][]string{
-						[][]string{
-							[]string{
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-							},
-							[]string{
-								"startRelative",
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-								"endAbsolute",
-							},
-							[]string{
-								"startAbsolute",
-								"endRelative",
-							},
-							[]string{
-								"startAbsolute",
-								"endAbsolute",
-							},
-						},
-					},
-				),
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:     "destinationID",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "destinationType",
-						Type: "enum",
-						AllowedChoices: []string{
-							"ExternalNetwork",
-							"ProcessingUnit",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name:         "flowMode",
-						Type:         "enum",
-						DefaultValue: "applied",
-						AllowedChoices: []string{
-							"observed",
-							"applied",
-							"all",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name: "geoloc",
-						Type: "boolean",
-					},
-					elemental.ParameterDefinition{
-						Name: "resolve",
-						Type: "boolean",
-					},
-					elemental.ParameterDefinition{
-						Name:     "sourceID",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "sourceType",
-						Type: "enum",
-						AllowedChoices: []string{
-							"ExternalNetwork",
-							"ProcessingUnit",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name: "endAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "endRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "startAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "startRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "flowOffset",
-						Type: "duration",
-					},
-				},
-			},
-		},
-	}
-
 	relationshipsRegistry[ExternalNetworkIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
@@ -1528,6 +1341,19 @@ func init() {
 			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"networkaccesspolicy": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "objects",
+						AllowedChoices: []string{
+							"subjects",
+							"object",
+						},
+					},
+				},
+			},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -1548,6 +1374,19 @@ func init() {
 			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
+			"networkaccesspolicy": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "objects",
+						AllowedChoices: []string{
+							"subjects",
+							"object",
+						},
+					},
+				},
+			},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -1867,6 +1706,12 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[FileAccessReportIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+	}
+
 	relationshipsRegistry[FilePathIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
@@ -1933,215 +1778,6 @@ func init() {
 	relationshipsRegistry[FlowReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
-		},
-	}
-
-	relationshipsRegistry[FlowStatisticIdentity] = &elemental.Relationship{
-		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				Deprecated: true,
-				RequiredParameters: elemental.NewParametersRequirement(
-					[][][]string{
-						[][]string{
-							[]string{
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-							},
-							[]string{
-								"startRelative",
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-								"endAbsolute",
-							},
-							[]string{
-								"startAbsolute",
-								"endRelative",
-							},
-							[]string{
-								"startAbsolute",
-								"endAbsolute",
-							},
-						},
-					},
-				),
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:         "action",
-						Type:         "enum",
-						DefaultValue: "any",
-						AllowedChoices: []string{
-							"accept",
-							"reject",
-							"any",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name:         "averageInterval",
-						Type:         "duration",
-						DefaultValue: "1h",
-					},
-					elemental.ParameterDefinition{
-						Name:     "destinationID",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:         "flowMode",
-						Type:         "enum",
-						DefaultValue: "applied",
-						AllowedChoices: []string{
-							"observed",
-							"applied",
-							"all",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name:         "metric",
-						Type:         "enum",
-						DefaultValue: "Flows",
-						AllowedChoices: []string{
-							"Flows",
-							"Ports",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name:     "sourceID",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "userIdentifier",
-						Type: "string",
-					},
-					elemental.ParameterDefinition{
-						Name: "endAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "endRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "startAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "startRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "flowOffset",
-						Type: "duration",
-					},
-				},
-			},
-		},
-		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				Deprecated: true,
-				RequiredParameters: elemental.NewParametersRequirement(
-					[][][]string{
-						[][]string{
-							[]string{
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-							},
-							[]string{
-								"startRelative",
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-								"endAbsolute",
-							},
-							[]string{
-								"startAbsolute",
-								"endRelative",
-							},
-							[]string{
-								"startAbsolute",
-								"endAbsolute",
-							},
-						},
-					},
-				),
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:         "action",
-						Type:         "enum",
-						DefaultValue: "any",
-						AllowedChoices: []string{
-							"accept",
-							"reject",
-							"any",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name:         "averageInterval",
-						Type:         "duration",
-						DefaultValue: "1h",
-					},
-					elemental.ParameterDefinition{
-						Name:     "destinationID",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:         "flowMode",
-						Type:         "enum",
-						DefaultValue: "applied",
-						AllowedChoices: []string{
-							"observed",
-							"applied",
-							"all",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name:         "metric",
-						Type:         "enum",
-						DefaultValue: "Flows",
-						AllowedChoices: []string{
-							"Flows",
-							"Ports",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name:     "sourceID",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "userIdentifier",
-						Type: "string",
-					},
-					elemental.ParameterDefinition{
-						Name: "endAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "endRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "startAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "startRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "flowOffset",
-						Type: "duration",
-					},
-				},
-			},
 		},
 	}
 
@@ -2791,6 +2427,117 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
+		},
+	}
+
+	relationshipsRegistry[PUNodeIdentity] = &elemental.Relationship{
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+							},
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+							},
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "archived",
 						Type: "boolean",
 					},
 				},
@@ -3505,6 +3252,19 @@ func init() {
 			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"networkaccesspolicy": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "objects",
+						AllowedChoices: []string{
+							"subjects",
+							"object",
+						},
+					},
+				},
+			},
 			"processingunit": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
@@ -3527,6 +3287,19 @@ func init() {
 			"servicedependency": &elemental.RelationshipInfo{},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
+			"networkaccesspolicy": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:         "mode",
+						Type:         "enum",
+						DefaultValue: "objects",
+						AllowedChoices: []string{
+							"subjects",
+							"object",
+						},
+					},
+				},
+			},
 			"processingunit": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
@@ -3711,6 +3484,7 @@ func init() {
 							"last",
 							"max",
 							"min",
+							"distinct",
 						},
 					},
 					elemental.ParameterDefinition{
@@ -3814,6 +3588,7 @@ func init() {
 							"last",
 							"max",
 							"min",
+							"distinct",
 						},
 					},
 					elemental.ParameterDefinition{

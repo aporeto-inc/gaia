@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// K8SClusterIndexes lists the attribute compound indexes.
-var K8SClusterIndexes = [][]string{}
-
 // K8SClusterActivationTypeValue represents the possible values for attribute "activationType".
 type K8SClusterActivationTypeValue string
 

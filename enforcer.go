@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// EnforcerIndexes lists the attribute compound indexes.
-var EnforcerIndexes = [][]string{}
-
 // EnforcerOperationalStatusValue represents the possible values for attribute "operationalStatus".
 type EnforcerOperationalStatusValue string
 

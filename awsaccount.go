@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// AWSAccountIndexes lists the attribute compound indexes.
-var AWSAccountIndexes = [][]string{}
-
 // AWSAccountIdentity represents the Identity of the object.
 var AWSAccountIdentity = elemental.Identity{
 	Name:     "awsaccount",
@@ -261,7 +258,6 @@ id, and it not stored.`,
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -322,7 +318,6 @@ and it is not stored.`,
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -388,7 +383,6 @@ id, and it not stored.`,
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
@@ -449,7 +443,6 @@ and it is not stored.`,
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,

@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// EnforcerProfileMappingPolicyIndexes lists the attribute compound indexes.
-var EnforcerProfileMappingPolicyIndexes = [][]string{}
-
 // EnforcerProfileMappingPolicyIdentity represents the Identity of the object.
 var EnforcerProfileMappingPolicyIdentity = elemental.Identity{
 	Name:     "enforcerprofilemappingpolicy",
@@ -475,14 +472,13 @@ var EnforcerProfileMappingPolicyAttributesMap = map[string]elemental.AttributeSp
 		Description: `Fallback indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "fallback",
-		Orderable:  true,
-		Setter:     true,
-		Stored:     true,
-		Type:       "boolean",
+		Exposed:   true,
+		Getter:    true,
+		Name:      "fallback",
+		Orderable: true,
+		Setter:    true,
+		Stored:    true,
+		Type:      "boolean",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -563,7 +559,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "Propagate",
 		Description:    `Propagate will propagate the policy to all of its children.`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
 		Name:           "propagate",
 		Orderable:      true,
@@ -704,14 +699,13 @@ var EnforcerProfileMappingPolicyLowerCaseAttributesMap = map[string]elemental.At
 		Description: `Fallback indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.`,
-		Exposed:    true,
-		Filterable: true,
-		Getter:     true,
-		Name:       "fallback",
-		Orderable:  true,
-		Setter:     true,
-		Stored:     true,
-		Type:       "boolean",
+		Exposed:   true,
+		Getter:    true,
+		Name:      "fallback",
+		Orderable: true,
+		Setter:    true,
+		Stored:    true,
+		Type:      "boolean",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -792,7 +786,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		ConvertedName:  "Propagate",
 		Description:    `Propagate will propagate the policy to all of its children.`,
 		Exposed:        true,
-		Filterable:     true,
 		Getter:         true,
 		Name:           "propagate",
 		Orderable:      true,

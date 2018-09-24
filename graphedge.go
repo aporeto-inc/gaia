@@ -45,9 +45,6 @@ type GraphEdge struct {
 	// Tells the number of encrypted flows in the edge.
 	Encrypted int `json:"encrypted" bson:"-" mapstructure:"encrypted,omitempty"`
 
-	// Name of the edge.
-	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
-
 	// Number of accepted observed flows.
 	ObservedAcceptedFlows int `json:"observedAcceptedFlows" bson:"-" mapstructure:"observedAcceptedFlows,omitempty"`
 

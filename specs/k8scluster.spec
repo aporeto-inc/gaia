@@ -5,6 +5,10 @@ model:
   entity_name: K8SCluster
   package: cactuar
   description: Create a remote Kubernetes Cluster integration.
+  indexes:
+  - - namespace
+  - - namespace
+    - normalizedTags
   get:
     description: Retrieves the object with the given ID.
   update:

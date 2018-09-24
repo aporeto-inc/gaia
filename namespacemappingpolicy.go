@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// NamespaceMappingPolicyIndexes lists the attribute compound indexes.
-var NamespaceMappingPolicyIndexes = [][]string{}
-
 // NamespaceMappingPolicyIdentity represents the Identity of the object.
 var NamespaceMappingPolicyIdentity = elemental.Identity{
 	Name:     "namespacemappingpolicy",
@@ -438,7 +435,6 @@ var NamespaceMappingPolicyAttributesMap = map[string]elemental.AttributeSpecific
 		ConvertedName:  "MappedNamespace",
 		Description:    `mappedNamespace is the mapped namespace.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "mappedNamespace",
 		Orderable:      true,
 		Required:       true,
@@ -627,7 +623,6 @@ var NamespaceMappingPolicyLowerCaseAttributesMap = map[string]elemental.Attribut
 		ConvertedName:  "MappedNamespace",
 		Description:    `mappedNamespace is the mapped namespace.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "mappedNamespace",
 		Orderable:      true,
 		Required:       true,
