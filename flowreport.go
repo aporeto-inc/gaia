@@ -156,7 +156,8 @@ type FlowReport struct {
 	// Type of the source.
 	DestinationType FlowReportDestinationTypeValue `json:"destinationType" bson:"-" mapstructure:"destinationType,omitempty"`
 
-	// Reason for the rejection.
+	// This field is only set if 'action' is set to 'Reject' and specifies the reason
+	// for the rejection.
 	DropReason string `json:"dropReason" bson:"-" mapstructure:"dropReason,omitempty"`
 
 	// Tells is the flow has been encrypted.
@@ -170,6 +171,10 @@ type FlowReport struct {
 
 	// Action observed on the flow.
 	ObservedAction FlowReportObservedActionValue `json:"observedAction" bson:"-" mapstructure:"observedAction,omitempty"`
+
+	// This field is only set if 'observedAction' is set to 'Reject' and specifies the
+	// reason for the rejection.
+	ObservedDropReason string `json:"observedDropReason" bson:"-" mapstructure:"observedDropReason,omitempty"`
 
 	// Value of the encryption of the network policy that observed the flow.
 	ObservedEncrypted bool `json:"observedEncrypted" bson:"-" mapstructure:"observedEncrypted,omitempty"`
@@ -418,10 +423,11 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"DropReason": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DropReason",
-		Description:    `Reason for the rejection.`,
-		Exposed:        true,
-		Name:           "dropReason",
-		Type:           "string",
+		Description: `This field is only set if 'action' is set to 'Reject' and specifies the reason
+for the rejection.`,
+		Exposed: true,
+		Name:    "dropReason",
+		Type:    "string",
 	},
 	"Encrypted": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -457,6 +463,15 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "observedAction",
 		Type:           "enum",
+	},
+	"ObservedDropReason": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ObservedDropReason",
+		Description: `This field is only set if 'observedAction' is set to 'Reject' and specifies the
+reason for the rejection.`,
+		Exposed: true,
+		Name:    "observedDropReason",
+		Type:    "string",
 	},
 	"ObservedEncrypted": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -660,10 +675,11 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"dropreason": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DropReason",
-		Description:    `Reason for the rejection.`,
-		Exposed:        true,
-		Name:           "dropReason",
-		Type:           "string",
+		Description: `This field is only set if 'action' is set to 'Reject' and specifies the reason
+for the rejection.`,
+		Exposed: true,
+		Name:    "dropReason",
+		Type:    "string",
 	},
 	"encrypted": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -699,6 +715,15 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Exposed:        true,
 		Name:           "observedAction",
 		Type:           "enum",
+	},
+	"observeddropreason": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ObservedDropReason",
+		Description: `This field is only set if 'observedAction' is set to 'Reject' and specifies the
+reason for the rejection.`,
+		Exposed: true,
+		Name:    "observedDropReason",
+		Type:    "string",
 	},
 	"observedencrypted": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

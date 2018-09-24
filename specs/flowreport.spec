@@ -54,7 +54,9 @@ attributes:
     example_value: ProcessingUnit
 
   - name: dropReason
-    description: Reason for the rejection.
+    description: |-
+      This field is only set if 'action' is set to 'Reject' and specifies the reason
+      for the rejection.
     type: string
     exposed: true
 
@@ -85,6 +87,13 @@ attributes:
     - Reject
     - NotApplicable
     default_value: NotApplicable
+
+  - name: observedDropReason
+    description: |-
+      This field is only set if 'observedAction' is set to 'Reject' and specifies the
+      reason for the rejection.
+    type: string
+    exposed: true
 
   - name: observedEncrypted
     description: Value of the encryption of the network policy that observed the flow.
