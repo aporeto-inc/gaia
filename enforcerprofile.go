@@ -253,7 +253,6 @@ func NewEnforcerProfile() *EnforcerProfile {
 		ProxyListenAddress:            "unix:///var/run/aporeto.sock",
 		IPTablesMarkValue:             1000,
 		ReceiverNumberOfQueues:        4,
-		KillContainersOnFailure:       false,
 		ReceiverQueueSize:             500,
 		MetadataExtractor:             EnforcerProfileMetadataExtractorDocker,
 		RemoteEnforcerEnabled:         true,

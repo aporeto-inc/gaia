@@ -152,7 +152,6 @@ attributes:
     type: boolean
     exposed: true
     stored: true
-    default_value: false
 
   - name: kubernetesMetadataExtractor
     description: |-

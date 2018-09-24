@@ -3065,10 +3065,6 @@ docker container started with labels matching the rule.
 KillContainersOnFailure will configure the enforcers to kill any containers if
 there are policy failures.
 
-| Characteristics | Value   |
-| -               | -:      |
-| Default         | `false` |
-
 #### `kubernetesMetadataExtractor (enum)`
 
 Select which metadata extractor to use to process new processing units from
