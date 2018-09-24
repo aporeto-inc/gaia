@@ -7,9 +7,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// PlanIndexes lists the attribute compound indexes.
-var PlanIndexes = [][]string{}
-
 // PlanIdentity represents the Identity of the object.
 var PlanIdentity = elemental.Identity{
 	Name:     "plan",

@@ -7,6 +7,10 @@ model:
   description: An IsolationProfile needs documentation.
   aliases:
   - ip
+  indexes:
+  - - namespace
+  - - namespace
+    - normalizedTags
   get:
     description: Retrieves the object with the given ID.
   update:

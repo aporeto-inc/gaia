@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// ExternalServiceIndexes lists the attribute compound indexes.
-var ExternalServiceIndexes = [][]string{}
-
 // ExternalServiceIdentity represents the Identity of the object.
 var ExternalServiceIdentity = elemental.Identity{
 	Name:     "externalservice",

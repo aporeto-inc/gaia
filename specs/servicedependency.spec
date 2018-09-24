@@ -10,6 +10,12 @@ model:
   aliases:
   - srvdep
   - srvdeps
+  indexes:
+  - - namespace
+  - - namespace
+    - archived
+  - - namespace
+    - normalizedtags
   get:
     description: Retrieves the object with the given ID.
   update:

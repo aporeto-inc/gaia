@@ -7,9 +7,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// FileAccessIndexes lists the attribute compound indexes.
-var FileAccessIndexes = [][]string{}
-
 // FileAccessModeValue represents the possible values for attribute "mode".
 type FileAccessModeValue string
 

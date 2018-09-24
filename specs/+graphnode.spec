@@ -25,6 +25,11 @@ attributes:
     type: string
     exposed: true
 
+  - name: lastUpdate
+    description: Last update of the node.
+    type: time
+    exposed: true
+
   - name: name
     description: Name of object represented by the node.
     type: string

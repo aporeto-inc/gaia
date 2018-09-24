@@ -14,6 +14,12 @@ model:
   aliases:
   - pu
   - pus
+  indexes:
+  - - namespace
+  - - namespace
+    - archived
+  - - namespace
+    - status
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
@@ -38,6 +44,13 @@ attributes:
   - name: enforcerID
     description: EnforcerID is the ID of the enforcer associated with the processing
       unit.
+    type: string
+    exposed: true
+    stored: true
+    filterable: true
+
+  - name: image
+    description: Docker image, or path to executable.
     type: string
     exposed: true
     stored: true

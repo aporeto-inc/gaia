@@ -9,9 +9,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// FlowReportIndexes lists the attribute compound indexes.
-var FlowReportIndexes = [][]string{}
-
 // FlowReportActionValue represents the possible values for attribute "action".
 type FlowReportActionValue string
 
@@ -60,6 +57,9 @@ const (
 
 	// FlowReportServiceTypeL3 represents the value L3.
 	FlowReportServiceTypeL3 FlowReportServiceTypeValue = "L3"
+
+	// FlowReportServiceTypeNotApplicable represents the value NotApplicable.
+	FlowReportServiceTypeNotApplicable FlowReportServiceTypeValue = "NotApplicable"
 
 	// FlowReportServiceTypeTCP represents the value TCP.
 	FlowReportServiceTypeTCP FlowReportServiceTypeValue = "TCP"
@@ -156,7 +156,8 @@ type FlowReport struct {
 	// Type of the source.
 	DestinationType FlowReportDestinationTypeValue `json:"destinationType" bson:"-" mapstructure:"destinationType,omitempty"`
 
-	// Reason for the rejection.
+	// This field is only set if 'action' is set to 'Reject' and specifies the reason
+	// for the rejection.
 	DropReason string `json:"dropReason" bson:"-" mapstructure:"dropReason,omitempty"`
 
 	// Tells is the flow has been encrypted.
@@ -170,6 +171,13 @@ type FlowReport struct {
 
 	// Action observed on the flow.
 	ObservedAction FlowReportObservedActionValue `json:"observedAction" bson:"-" mapstructure:"observedAction,omitempty"`
+
+	// This field is only set if 'observedAction' is set to 'Reject' and specifies the
+	// reason for the rejection.
+	ObservedDropReason string `json:"observedDropReason" bson:"-" mapstructure:"observedDropReason,omitempty"`
+
+	// Value of the encryption of the network policy that observed the flow.
+	ObservedEncrypted bool `json:"observedEncrypted" bson:"-" mapstructure:"observedEncrypted,omitempty"`
 
 	// ID of the network policy that observed the flow.
 	ObservedPolicyID string `json:"observedPolicyID" bson:"-" mapstructure:"observedPolicyID,omitempty"`
@@ -229,6 +237,7 @@ func NewFlowReport() *FlowReport {
 
 	return &FlowReport{
 		ModelVersion:   1,
+		ServiceType:    FlowReportServiceTypeNotApplicable,
 		ObservedAction: FlowReportObservedActionNotApplicable,
 	}
 }
@@ -310,7 +319,7 @@ func (o *FlowReport) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateStringInList("serviceType", string(o.ServiceType), []string{"L3", "HTTP", "TCP"}, false); err != nil {
+	if err := elemental.ValidateStringInList("serviceType", string(o.ServiceType), []string{"L3", "HTTP", "TCP", "NotApplicable"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -414,10 +423,11 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"DropReason": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DropReason",
-		Description:    `Reason for the rejection.`,
-		Exposed:        true,
-		Name:           "dropReason",
-		Type:           "string",
+		Description: `This field is only set if 'action' is set to 'Reject' and specifies the reason
+for the rejection.`,
+		Exposed: true,
+		Name:    "dropReason",
+		Type:    "string",
 	},
 	"Encrypted": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -453,6 +463,23 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "observedAction",
 		Type:           "enum",
+	},
+	"ObservedDropReason": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ObservedDropReason",
+		Description: `This field is only set if 'observedAction' is set to 'Reject' and specifies the
+reason for the rejection.`,
+		Exposed: true,
+		Name:    "observedDropReason",
+		Type:    "string",
+	},
+	"ObservedEncrypted": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ObservedEncrypted",
+		Description:    `Value of the encryption of the network policy that observed the flow.`,
+		Exposed:        true,
+		Name:           "observedEncrypted",
+		Type:           "boolean",
 	},
 	"ObservedPolicyID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -522,8 +549,9 @@ var FlowReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"ServiceType": elemental.AttributeSpecification{
-		AllowedChoices: []string{"L3", "HTTP", "TCP"},
+		AllowedChoices: []string{"L3", "HTTP", "TCP", "NotApplicable"},
 		ConvertedName:  "ServiceType",
+		DefaultValue:   FlowReportServiceTypeNotApplicable,
 		Description:    `ID of the service.`,
 		Exposed:        true,
 		Name:           "serviceType",
@@ -647,10 +675,11 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"dropreason": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DropReason",
-		Description:    `Reason for the rejection.`,
-		Exposed:        true,
-		Name:           "dropReason",
-		Type:           "string",
+		Description: `This field is only set if 'action' is set to 'Reject' and specifies the reason
+for the rejection.`,
+		Exposed: true,
+		Name:    "dropReason",
+		Type:    "string",
 	},
 	"encrypted": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -686,6 +715,23 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Exposed:        true,
 		Name:           "observedAction",
 		Type:           "enum",
+	},
+	"observeddropreason": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ObservedDropReason",
+		Description: `This field is only set if 'observedAction' is set to 'Reject' and specifies the
+reason for the rejection.`,
+		Exposed: true,
+		Name:    "observedDropReason",
+		Type:    "string",
+	},
+	"observedencrypted": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ObservedEncrypted",
+		Description:    `Value of the encryption of the network policy that observed the flow.`,
+		Exposed:        true,
+		Name:           "observedEncrypted",
+		Type:           "boolean",
 	},
 	"observedpolicyid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -755,8 +801,9 @@ var FlowReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Type:           "string",
 	},
 	"servicetype": elemental.AttributeSpecification{
-		AllowedChoices: []string{"L3", "HTTP", "TCP"},
+		AllowedChoices: []string{"L3", "HTTP", "TCP", "NotApplicable"},
 		ConvertedName:  "ServiceType",
+		DefaultValue:   FlowReportServiceTypeNotApplicable,
 		Description:    `ID of the service.`,
 		Exposed:        true,
 		Name:           "serviceType",

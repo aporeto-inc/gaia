@@ -199,6 +199,13 @@ relations:
         description: Also return the view suggestions.
         type: boolean
 
+- rest_name: punode
+  get:
+    description: Retrieves the pu nodes.
+    global_parameters:
+    - $timewindow
+    - $archivable
+
 - rest_name: email
   create:
     description: Sends an email.
@@ -268,57 +275,6 @@ relations:
         multiple: true
         example_value: a=a
 
-- rest_name: externalaccess
-  get:
-    description: Retrieves the list of external access according to parameters.
-    global_parameters:
-    - $timewindow
-    - $flowoffset
-    parameters:
-      entries:
-      - name: destinationID
-        description: IDs of the destinations.
-        type: string
-        multiple: true
-        example_value: yyy-yyy-yyy-yyy
-
-      - name: destinationType
-        description: Type of the destination.
-        type: enum
-        allowed_choices:
-        - ExternalNetwork
-        - ProcessingUnit
-
-      - name: flowMode
-        description: Choose if observed, applied to all flows.
-        type: enum
-        allowed_choices:
-        - observed
-        - applied
-        - all
-        default_value: applied
-
-      - name: geoloc
-        description: Geolocalize the the flow.
-        type: boolean
-
-      - name: resolve
-        description: Resolve the IPs to dns.
-        type: boolean
-
-      - name: sourceID
-        description: IDs of the sources.
-        type: string
-        multiple: true
-        example_value: xxx-xxx-xxx-xxx
-
-      - name: sourceType
-        description: Type of the source.
-        type: enum
-        allowed_choices:
-        - ExternalNetwork
-        - ProcessingUnit
-
 - rest_name: externalservice
   get:
     description: Retrieves the list of external services.
@@ -367,63 +323,6 @@ relations:
     - $filtering
   create:
     description: Create a new file path.
-
-- rest_name: flowstatistic
-  get:
-    description: Retrieves the flow statistics according to parameters.
-    deprecated: true
-    global_parameters:
-    - $timewindow
-    - $flowoffset
-    parameters:
-      entries:
-      - name: action
-        description: Only show certain types of flows.
-        type: enum
-        allowed_choices:
-        - accept
-        - reject
-        - any
-        default_value: any
-
-      - name: averageInterval
-        description: Resolution of the data points.
-        type: duration
-        default_value: 1h
-
-      - name: destinationID
-        description: IDs of the destinations.
-        type: string
-        multiple: true
-        example_value: yyy-yyy-yyy-yyy
-
-      - name: flowMode
-        description: Choose if observed, applied to all flows.
-        type: enum
-        allowed_choices:
-        - observed
-        - applied
-        - all
-        default_value: applied
-
-      - name: metric
-        description: Choose if you want to see ports or flows.
-        type: enum
-        allowed_choices:
-        - Flows
-        - Ports
-        default_value: Flows
-
-      - name: sourceID
-        description: IDs of the sources.
-        type: string
-        multiple: true
-        example_value: xxx-xxx-xxx-xxx
-
-      - name: userIdentifier
-        description: User string that will be returned with the query.
-        type: string
-        example_value: mything
 
 - rest_name: hookpolicy
   get:
@@ -600,6 +499,18 @@ relations:
   create:
     description: Create a flow statistics report.
 
+- rest_name: enforcerreport
+  create:
+    description: Create a enforcer statistics report.
+
+- rest_name: fileaccessreport
+  create:
+    description: Create a file access statistics report.
+
+- rest_name: auditreport
+  create:
+    description: Create a audit statistics report.
+
 - rest_name: revocation
   get:
     description: Verify the revocation of a certificate according to parameters.
@@ -643,6 +554,7 @@ relations:
         - last
         - max
         - min
+        - distinct
 
       - name: groupBy
         description: list of groupBy clauses.

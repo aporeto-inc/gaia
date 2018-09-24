@@ -7,9 +7,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// ExportIndexes lists the attribute compound indexes.
-var ExportIndexes = [][]string{}
-
 // ExportIdentity represents the Identity of the object.
 var ExportIdentity = elemental.Identity{
 	Name:     "export",

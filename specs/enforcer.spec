@@ -13,6 +13,10 @@ model:
     Enforcer's tags what profile to use. If an Enforcer tags are matching more than
     a single policy, it will refuse to start. Some parameters will be applied
     directly to a running agent, some will need to restart it.
+  indexes:
+  - - namespace
+  - - namespace
+    - normalizedTags
   get:
     description: Retrieves the object with the given ID.
   update:

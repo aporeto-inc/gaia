@@ -8,6 +8,8 @@ model:
   aliases:
   - autos
   - auto
+  indexes:
+  - - namespace
   get:
     description: Retrieves the object with the given ID.
   update:

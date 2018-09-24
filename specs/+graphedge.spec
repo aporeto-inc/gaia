@@ -38,11 +38,6 @@ attributes:
     type: integer
     exposed: true
 
-  - name: name
-    description: Name of the edge.
-    type: string
-    exposed: true
-
   - name: observedAcceptedFlows
     description: Number of accepted observed flows.
     type: integer

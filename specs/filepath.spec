@@ -12,6 +12,11 @@ model:
   aliases:
   - fp
   - fps
+  indexes:
+  - - namespace
+  - - namespace
+    - normalizedTags
+  - - archived
   get:
     description: Retrieves the object with the given ID.
   update:
