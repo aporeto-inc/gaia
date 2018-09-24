@@ -2617,8 +2617,8 @@ Sends a poke empty object. This is used to ensure an enforcer is up and running.
 
 ##### Parameters
 
-- `cpu` (float): If set, provides the total cpu usage.
-- `memory` (integer): If set, provides the total memory used.
+- `cpu` (float): If set, provides the total cpu usage in percentage of vCPUs.
+- `memory` (integer): If set, provides the total resident memory used in bytes.
 - `processes` (integer): If set, defines the number of current processes.
 - `ts` (time): time of report. If not set, local server time will be used.
 
@@ -7180,8 +7180,8 @@ Sends a poke empty object. This is used to ensure an enforcer is up and running.
 
 ##### Parameters
 
-- `cpu` (float): If set, provides the total cpu usage.
-- `memory` (integer): If set, provides the total memory used.
+- `cpu` (float): If set, provides the total cpu usage in percentage of vCPUs.
+- `memory` (integer): If set, provides the total resident memory used in bytes.
 - `processes` (integer): If set, defines the number of current processes.
 - `ts` (time): time of report. If not set, local server time will be used.
 

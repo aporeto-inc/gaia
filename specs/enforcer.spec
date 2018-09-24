@@ -209,12 +209,12 @@ relations:
     parameters:
       entries:
       - name: cpu
-        description: If set, provides the total cpu usage.
+        description: If set, provides the total cpu usage in percentage of vCPUs.
         type: float
         example_value: 1000
 
       - name: memory
-        description: If set, provides the total memory used.
+        description: If set, provides the total resident memory used in bytes.
         type: integer
         example_value: 1000
 
