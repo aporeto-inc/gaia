@@ -13,8 +13,11 @@ model:
   - ns
   indexes:
   - - namespace
-  - - namespace
+  - - :unique
+    - namespace
     - name
+  - - namespace
+    - normalizedTags
   get:
     description: Retrieves the object with the given ID.
   update:

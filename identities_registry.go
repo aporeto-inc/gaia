@@ -252,7 +252,10 @@ var (
 
 	indexesMap = map[string][][]string{
 		"account": [][]string{
-			[]string{"name"},
+			[]string{":unique", "name"},
+			[]string{":unique", "email"},
+			[]string{"activationtoken"},
+			[]string{"resetpasswordtoken"},
 		},
 		"accountcheck": nil,
 		"activate":     nil,
@@ -287,7 +290,8 @@ var (
 		"category":           nil,
 		"certificate": [][]string{
 			[]string{"commonName"},
-			[]string{"parentID"},
+			[]string{":unique", "parentID", "accountID"},
+			[]string{"parentID", "commonName"},
 		},
 		"customer":      nil,
 		"dependencymap": nil,
@@ -318,11 +322,13 @@ var (
 			[]string{"namespace", "normalizedTags"},
 			[]string{"archived"},
 		},
-		"flowreport":    nil,
-		"hookpolicy":    nil,
-		"import":        nil,
-		"installation":  nil,
-		"installedapp":  nil,
+		"flowreport":   nil,
+		"hookpolicy":   nil,
+		"import":       nil,
+		"installation": nil,
+		"installedapp": [][]string{
+			[]string{"accountname", "name"},
+		},
 		"invoice":       nil,
 		"invoicerecord": nil,
 		"isolationprofile": [][]string{
@@ -339,7 +345,8 @@ var (
 		"message": nil,
 		"namespace": [][]string{
 			[]string{"namespace"},
-			[]string{"namespace", "name"},
+			[]string{":unique", "namespace", "name"},
+			[]string{"namespace", "normalizedTags"},
 		},
 		"namespacemappingpolicy": nil,
 		"networkaccesspolicy":    nil,
@@ -379,9 +386,11 @@ var (
 			[]string{"namespace", "archived"},
 			[]string{"namespace", "normalizedtags"},
 		},
-		"revocation": nil,
-		"role":       nil,
-		"root":       nil,
+		"revocation": [][]string{
+			[]string{":unique", "serialNumber"},
+		},
+		"role": nil,
+		"root": nil,
 		"service": [][]string{
 			[]string{"namespace"},
 			[]string{"namespace", "archived"},
