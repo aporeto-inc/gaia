@@ -27,6 +27,7 @@ const (
 var AutomationIdentity = elemental.Identity{
 	Name:     "automation",
 	Category: "automations",
+	Package:  "sephiroth",
 	Private:  false,
 }
 

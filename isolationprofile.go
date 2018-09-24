@@ -14,6 +14,7 @@ import (
 var IsolationProfileIdentity = elemental.Identity{
 	Name:     "isolationprofile",
 	Category: "isolationprofiles",
+	Package:  "squall",
 	Private:  false,
 }
 

@@ -11,6 +11,7 @@ import (
 var TagIdentity = elemental.Identity{
 	Name:     "tag",
 	Category: "tags",
+	Package:  "tagle",
 	Private:  false,
 }
 

@@ -13,6 +13,7 @@ import (
 var FileAccessPolicyIdentity = elemental.Identity{
 	Name:     "fileaccesspolicy",
 	Category: "fileaccesspolicies",
+	Package:  "squall",
 	Private:  false,
 }
 

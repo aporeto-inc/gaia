@@ -13,6 +13,7 @@ import (
 var AuthorityIdentity = elemental.Identity{
 	Name:     "authority",
 	Category: "authorities",
+	Package:  "barret",
 	Private:  true,
 }
 

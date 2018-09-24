@@ -13,6 +13,7 @@ import (
 var AWSRegisterIdentity = elemental.Identity{
 	Name:     "awsregister",
 	Category: "awsregister",
+	Package:  "bill",
 	Private:  false,
 }
 

@@ -23,6 +23,7 @@ const (
 var AutomationTemplateIdentity = elemental.Identity{
 	Name:     "automationtemplate",
 	Category: "automationtemplates",
+	Package:  "sephiroth",
 	Private:  false,
 }
 

@@ -14,6 +14,7 @@ import (
 var AuditProfileIdentity = elemental.Identity{
 	Name:     "auditprofile",
 	Category: "auditprofiles",
+	Package:  "squall",
 	Private:  false,
 }
 

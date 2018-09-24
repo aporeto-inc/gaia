@@ -11,6 +11,7 @@ import (
 var PokeIdentity = elemental.Identity{
 	Name:     "poke",
 	Category: "poke",
+	Package:  "squall",
 	Private:  false,
 }
 

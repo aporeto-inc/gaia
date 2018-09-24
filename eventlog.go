@@ -33,6 +33,7 @@ const (
 var EventLogIdentity = elemental.Identity{
 	Name:     "eventlog",
 	Category: "eventlogs",
+	Package:  "leon",
 	Private:  false,
 }
 

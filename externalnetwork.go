@@ -13,6 +13,7 @@ import (
 var ExternalNetworkIdentity = elemental.Identity{
 	Name:     "externalnetwork",
 	Category: "externalnetworks",
+	Package:  "squall",
 	Private:  false,
 }
 

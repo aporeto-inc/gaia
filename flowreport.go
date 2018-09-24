@@ -83,6 +83,7 @@ const (
 var FlowReportIdentity = elemental.Identity{
 	Name:     "flowreport",
 	Category: "flowreports",
+	Package:  "zack",
 	Private:  false,
 }
 

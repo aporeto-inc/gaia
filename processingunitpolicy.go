@@ -36,6 +36,7 @@ const (
 var ProcessingUnitPolicyIdentity = elemental.Identity{
 	Name:     "processingunitpolicy",
 	Category: "processingunitpolicies",
+	Package:  "squall",
 	Private:  false,
 }
 

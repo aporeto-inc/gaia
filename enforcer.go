@@ -33,6 +33,7 @@ const (
 var EnforcerIdentity = elemental.Identity{
 	Name:     "enforcer",
 	Category: "enforcers",
+	Package:  "squall",
 	Private:  false,
 }
 

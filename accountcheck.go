@@ -11,6 +11,7 @@ import (
 var AccountCheckIdentity = elemental.Identity{
 	Name:     "accountcheck",
 	Category: "accountchecks",
+	Package:  "vince",
 	Private:  true,
 }
 

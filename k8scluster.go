@@ -38,6 +38,7 @@ const (
 var K8SClusterIdentity = elemental.Identity{
 	Name:     "k8scluster",
 	Category: "k8sclusters",
+	Package:  "cactuar",
 	Private:  false,
 }
 

@@ -13,6 +13,7 @@ import (
 var ExternalServiceIdentity = elemental.Identity{
 	Name:     "externalservice",
 	Category: "externalservices",
+	Package:  "squall",
 	Private:  false,
 }
 

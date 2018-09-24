@@ -38,6 +38,7 @@ const (
 var X509CertificateIdentity = elemental.Identity{
 	Name:     "x509certificate",
 	Category: "x509certificates",
+	Package:  "barret",
 	Private:  true,
 }
 

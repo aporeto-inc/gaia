@@ -25,6 +25,7 @@ const (
 var FileAccessIdentity = elemental.Identity{
 	Name:     "fileaccess",
 	Category: "fileaccesses",
+	Package:  "jenova",
 	Private:  false,
 }
 

@@ -11,6 +11,7 @@ import (
 var ExportIdentity = elemental.Identity{
 	Name:     "export",
 	Category: "export",
+	Package:  "yuna",
 	Private:  false,
 }
 

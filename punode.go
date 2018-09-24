@@ -13,6 +13,7 @@ import (
 var PUNodeIdentity = elemental.Identity{
 	Name:     "punode",
 	Category: "punodes",
+	Package:  "squall",
 	Private:  true,
 }
 

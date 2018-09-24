@@ -12,6 +12,7 @@ import (
 var StatsQueryIdentity = elemental.Identity{
 	Name:     "statsquery",
 	Category: "statsqueries",
+	Package:  "jenova",
 	Private:  false,
 }
 

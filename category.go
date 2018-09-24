@@ -11,6 +11,7 @@ import (
 var CategoryIdentity = elemental.Identity{
 	Name:     "category",
 	Category: "categories",
+	Package:  "highwind",
 	Private:  false,
 }
 

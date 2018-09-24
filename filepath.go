@@ -13,6 +13,7 @@ import (
 var FilePathIdentity = elemental.Identity{
 	Name:     "filepath",
 	Category: "filepaths",
+	Package:  "squall",
 	Private:  false,
 }
 

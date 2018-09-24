@@ -13,6 +13,7 @@ import (
 var NamespaceIdentity = elemental.Identity{
 	Name:     "namespace",
 	Category: "namespaces",
+	Package:  "squall",
 	Private:  false,
 }
 

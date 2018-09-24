@@ -46,6 +46,7 @@ const (
 var PolicyRendererIdentity = elemental.Identity{
 	Name:     "policyrenderer",
 	Category: "policyrenderers",
+	Package:  "squall",
 	Private:  true,
 }
 
