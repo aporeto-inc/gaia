@@ -12,6 +12,7 @@ import (
 var AppIdentity = elemental.Identity{
 	Name:     "app",
 	Category: "apps",
+	Package:  "highwind",
 	Private:  false,
 }
 

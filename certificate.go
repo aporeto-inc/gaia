@@ -24,6 +24,7 @@ const (
 var CertificateIdentity = elemental.Identity{
 	Name:     "certificate",
 	Category: "certificates",
+	Package:  "vince",
 	Private:  false,
 }
 

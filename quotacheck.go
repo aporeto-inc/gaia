@@ -11,6 +11,7 @@ import (
 var QuotaCheckIdentity = elemental.Identity{
 	Name:     "quotacheck",
 	Category: "quotacheck",
+	Package:  "squall",
 	Private:  true,
 }
 

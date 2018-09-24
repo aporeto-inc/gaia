@@ -11,6 +11,7 @@ import (
 var TokenIdentity = elemental.Identity{
 	Name:     "token",
 	Category: "tokens",
+	Package:  "barret",
 	Private:  true,
 }
 

@@ -42,6 +42,7 @@ const (
 var EnforcerProfileIdentity = elemental.Identity{
 	Name:     "enforcerprofile",
 	Category: "enforcerprofiles",
+	Package:  "squall",
 	Private:  false,
 }
 

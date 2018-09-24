@@ -11,6 +11,7 @@ import (
 var TriggerIdentity = elemental.Identity{
 	Name:     "trigger",
 	Category: "triggers",
+	Package:  "sephiroth",
 	Private:  false,
 }
 

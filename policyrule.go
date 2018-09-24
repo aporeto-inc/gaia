@@ -11,6 +11,7 @@ import (
 var PolicyRuleIdentity = elemental.Identity{
 	Name:     "policyrule",
 	Category: "policyrules",
+	Package:  "squall",
 	Private:  false,
 }
 

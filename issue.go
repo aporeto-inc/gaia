@@ -46,6 +46,7 @@ const (
 var IssueIdentity = elemental.Identity{
 	Name:     "issue",
 	Category: "issue",
+	Package:  "midgard",
 	Private:  false,
 }
 

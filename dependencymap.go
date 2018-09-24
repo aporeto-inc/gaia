@@ -11,6 +11,7 @@ import (
 var DependencyMapIdentity = elemental.Identity{
 	Name:     "dependencymap",
 	Category: "dependencymaps",
+	Package:  "jenova",
 	Private:  false,
 }
 

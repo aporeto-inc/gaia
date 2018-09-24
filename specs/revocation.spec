@@ -6,6 +6,9 @@ model:
   package: barret
   description: Used to revoke a certificate.
   private: true
+  indexes:
+  - - :unique
+    - serialNumber
   update:
     description: Updates the object with the given ID.
 

@@ -13,6 +13,7 @@ import (
 var APIAuthorizationPolicyIdentity = elemental.Identity{
 	Name:     "apiauthorizationpolicy",
 	Category: "apiauthorizationpolicies",
+	Package:  "squall",
 	Private:  false,
 }
 

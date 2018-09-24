@@ -41,6 +41,7 @@ const (
 var AccountIdentity = elemental.Identity{
 	Name:     "account",
 	Category: "accounts",
+	Package:  "vince",
 	Private:  false,
 }
 

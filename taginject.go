@@ -11,6 +11,7 @@ import (
 var TagInjectIdentity = elemental.Identity{
 	Name:     "taginject",
 	Category: "taginjects",
+	Package:  "tagle",
 	Private:  true,
 }
 

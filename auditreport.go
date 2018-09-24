@@ -13,6 +13,7 @@ import (
 var AuditReportIdentity = elemental.Identity{
 	Name:     "auditreport",
 	Category: "auditreports",
+	Package:  "zack",
 	Private:  false,
 }
 

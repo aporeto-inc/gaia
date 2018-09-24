@@ -54,6 +54,7 @@ const (
 var ProcessingUnitIdentity = elemental.Identity{
 	Name:     "processingunit",
 	Category: "processingunits",
+	Package:  "squall",
 	Private:  false,
 }
 

@@ -11,6 +11,7 @@ import (
 var PrivateKeyIdentity = elemental.Identity{
 	Name:     "privatekey",
 	Category: "privatekeys",
+	Package:  "barret",
 	Private:  true,
 }
 

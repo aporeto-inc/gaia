@@ -13,6 +13,7 @@ import (
 var EnforcerReportIdentity = elemental.Identity{
 	Name:     "enforcerreport",
 	Category: "enforcerreports",
+	Package:  "zack",
 	Private:  false,
 }
 

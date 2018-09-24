@@ -14,6 +14,7 @@ import (
 var RESTAPISpecIdentity = elemental.Identity{
 	Name:     "restapispec",
 	Category: "restapispecs",
+	Package:  "squall",
 	Private:  false,
 }
 

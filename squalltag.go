@@ -11,6 +11,7 @@ import (
 var SquallTagIdentity = elemental.Identity{
 	Name:     "squalltag",
 	Category: "squalltags",
+	Package:  "squall",
 	Private:  true,
 }
 

@@ -13,6 +13,7 @@ import (
 var EnforcerProfileMappingPolicyIdentity = elemental.Identity{
 	Name:     "enforcerprofilemappingpolicy",
 	Category: "enforcerprofilemappingpolicies",
+	Package:  "squall",
 	Private:  false,
 }
 

@@ -24,6 +24,7 @@ const (
 var RemoteProcessorIdentity = elemental.Identity{
 	Name:     "remoteprocessor",
 	Category: "remoteprocessors",
+	Package:  "rufus",
 	Private:  false,
 }
 

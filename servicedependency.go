@@ -13,6 +13,7 @@ import (
 var ServiceDependencyIdentity = elemental.Identity{
 	Name:     "servicedependency",
 	Category: "servicedependencies",
+	Package:  "squall",
 	Private:  false,
 }
 

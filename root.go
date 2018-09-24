@@ -11,6 +11,7 @@ import (
 var RootIdentity = elemental.Identity{
 	Name:     "root",
 	Category: "root",
+	Package:  "root",
 	Private:  false,
 }
 

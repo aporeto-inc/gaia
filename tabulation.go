@@ -11,6 +11,7 @@ import (
 var TabulationIdentity = elemental.Identity{
 	Name:     "tabulation",
 	Category: "tabulations",
+	Package:  "elena",
 	Private:  false,
 }
 

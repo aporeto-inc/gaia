@@ -39,6 +39,7 @@ const (
 var ServiceIdentity = elemental.Identity{
 	Name:     "service",
 	Category: "services",
+	Package:  "squall",
 	Private:  false,
 }
 

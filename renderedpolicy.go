@@ -12,6 +12,7 @@ import (
 var RenderedPolicyIdentity = elemental.Identity{
 	Name:     "renderedpolicy",
 	Category: "renderedpolicies",
+	Package:  "squall",
 	Private:  false,
 }
 

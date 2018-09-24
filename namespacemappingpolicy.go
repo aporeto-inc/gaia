@@ -13,6 +13,7 @@ import (
 var NamespaceMappingPolicyIdentity = elemental.Identity{
 	Name:     "namespacemappingpolicy",
 	Category: "namespacemappingpolicies",
+	Package:  "squall",
 	Private:  false,
 }
 

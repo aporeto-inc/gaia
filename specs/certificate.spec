@@ -7,7 +7,11 @@ model:
   description: A User represents the owner of some certificates.
   indexes:
   - - commonName
+  - - :unique
+    - parentID
+    - accountID
   - - parentID
+    - commonName
   get:
     description: Retrieves the object with the given ID.
   update:

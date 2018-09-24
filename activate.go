@@ -11,6 +11,7 @@ import (
 var ActivateIdentity = elemental.Identity{
 	Name:     "activate",
 	Category: "activate",
+	Package:  "vince",
 	Private:  false,
 }
 
