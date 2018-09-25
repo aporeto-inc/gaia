@@ -33,6 +33,9 @@ type GraphNode struct {
 	// Description of object represented by the node.
 	Description string `json:"description" bson:"-" mapstructure:"description,omitempty"`
 
+	// Enforcement status of processing unit represented by the node.
+	EnforcementStatus string `json:"enforcementStatus" bson:"-" mapstructure:"enforcementStatus,omitempty"`
+
 	// ID of the group the node is eventually part of.
 	GroupID string `json:"groupID" bson:"-" mapstructure:"groupID,omitempty"`
 

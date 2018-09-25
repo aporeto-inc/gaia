@@ -72,6 +72,9 @@ type PUNode struct {
 	// Identifier of the pu.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
+	// Enforcement status of the pu.
+	EnforcementStatus string `json:"enforcementStatus" bson:"-" mapstructure:"enforcementStatus,omitempty"`
+
 	// Image of the pu.
 	Image string `json:"image" bson:"-" mapstructure:"image,omitempty"`
 
@@ -190,6 +193,14 @@ var PUNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "ID",
 		Type:           "string",
 	},
+	"EnforcementStatus": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EnforcementStatus",
+		Description:    `Enforcement status of the pu.`,
+		Exposed:        true,
+		Name:           "enforcementStatus",
+		Type:           "string",
+	},
 	"Image": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Image",
@@ -257,6 +268,14 @@ var PUNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Identifier of the pu.`,
 		Exposed:        true,
 		Name:           "ID",
+		Type:           "string",
+	},
+	"enforcementstatus": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EnforcementStatus",
+		Description:    `Enforcement status of the pu.`,
+		Exposed:        true,
+		Name:           "enforcementStatus",
 		Type:           "string",
 	},
 	"image": elemental.AttributeSpecification{

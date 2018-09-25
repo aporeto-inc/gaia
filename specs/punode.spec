@@ -15,6 +15,11 @@ attributes:
     type: string
     exposed: true
 
+  - name: enforcementStatus
+    description: Enforcement status of the pu.
+    type: string
+    exposed: true
+
   - name: image
     description: Image of the pu.
     type: string

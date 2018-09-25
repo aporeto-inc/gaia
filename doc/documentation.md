@@ -5008,6 +5008,10 @@ Identifier of object represented by the node.
 
 Description of object represented by the node.
 
+#### `enforcementStatus (string)`
+
+Enforcement status of processing unit represented by the node.
+
 #### `groupID (string)`
 
 ID of the group the node is eventually part of.
