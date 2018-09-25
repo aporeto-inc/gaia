@@ -2617,7 +2617,7 @@ Sends a poke empty object. This is used to ensure an enforcer is up and running.
 
 ##### Parameters
 
-- `cpu` (float): If set, provides the total cpu usage in percentage of vCPUs.
+- `cpuload` (float): If set, provides the total cpu usage in percentage of vCPUs.
 - `memory` (integer): If set, provides the total resident memory used in bytes.
 - `processes` (integer): If set, defines the number of current processes.
 - `ts` (time): time of report. If not set, local server time will be used.
@@ -3515,8 +3515,8 @@ Post a new enforcer statistics report.
 
 ```json
 {
+  "CPULoad": 10,
   "ID": "xxx-xxx-xxx-xxx",
-  "cpu": 10,
   "memory": 10000,
   "name": "aporeto-enforcerd-xxx",
   "namespace": "/my/ns",
@@ -3533,6 +3533,10 @@ Create a enforcer statistics report.
 
 ### Attributes
 
+#### `CPULoad (float)`
+
+Total CPU utilization of the enforcer as a percentage of vCPUs.
+
 #### `ID (string)`
 
 ID of the enforcer to report.
@@ -3540,10 +3544,6 @@ ID of the enforcer to report.
 | Characteristics | Value  |
 | -               | -:     |
 | Required        | `true` |
-
-#### `cpu (float)`
-
-Total CPU utilization of the enforcer as a percentage of vCPUs.
 
 #### `memory (integer)`
 
@@ -7176,7 +7176,7 @@ Sends a poke empty object. This is used to ensure an enforcer is up and running.
 
 ##### Parameters
 
-- `cpu` (float): If set, provides the total cpu usage in percentage of vCPUs.
+- `cpuload` (float): If set, provides the total cpu usage in percentage of vCPUs.
 - `memory` (integer): If set, provides the total resident memory used in bytes.
 - `processes` (integer): If set, defines the number of current processes.
 - `ts` (time): time of report. If not set, local server time will be used.

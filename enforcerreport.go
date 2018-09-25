@@ -69,11 +69,11 @@ func (o EnforcerReportsList) Version() int {
 
 // EnforcerReport represents the model of a enforcerreport
 type EnforcerReport struct {
+	// Total CPU utilization of the enforcer as a percentage of vCPUs.
+	CPULoad float64 `json:"CPULoad" bson:"-" mapstructure:"CPULoad,omitempty"`
+
 	// ID of the enforcer to report.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
-
-	// Total CPU utilization of the enforcer as a percentage of vCPUs.
-	Cpu float64 `json:"cpu" bson:"-" mapstructure:"cpu,omitempty"`
 
 	// Total resident memory used by the enforcer in bytes.
 	Memory int `json:"memory" bson:"-" mapstructure:"memory,omitempty"`
@@ -194,6 +194,14 @@ func (*EnforcerReport) AttributeSpecifications() map[string]elemental.AttributeS
 
 // EnforcerReportAttributesMap represents the map of attribute for EnforcerReport.
 var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
+	"CPULoad": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CPULoad",
+		Description:    `Total CPU utilization of the enforcer as a percentage of vCPUs.`,
+		Exposed:        true,
+		Name:           "CPULoad",
+		Type:           "float",
+	},
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
@@ -202,14 +210,6 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "ID",
 		Required:       true,
 		Type:           "string",
-	},
-	"Cpu": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Cpu",
-		Description:    `Total CPU utilization of the enforcer as a percentage of vCPUs.`,
-		Exposed:        true,
-		Name:           "cpu",
-		Type:           "float",
 	},
 	"Memory": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -258,6 +258,14 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 
 // EnforcerReportLowerCaseAttributesMap represents the map of attribute for EnforcerReport.
 var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"cpuload": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CPULoad",
+		Description:    `Total CPU utilization of the enforcer as a percentage of vCPUs.`,
+		Exposed:        true,
+		Name:           "CPULoad",
+		Type:           "float",
+	},
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
@@ -266,14 +274,6 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Name:           "ID",
 		Required:       true,
 		Type:           "string",
-	},
-	"cpu": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Cpu",
-		Description:    `Total CPU utilization of the enforcer as a percentage of vCPUs.`,
-		Exposed:        true,
-		Name:           "cpu",
-		Type:           "float",
 	},
 	"memory": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

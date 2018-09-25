@@ -9,18 +9,18 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: CPULoad
+    description: Total CPU utilization of the enforcer as a percentage of vCPUs.
+    type: float
+    exposed: true
+    example_value: 10
+
   - name: ID
     description: ID of the enforcer to report.
     type: string
     exposed: true
     required: true
     example_value: xxx-xxx-xxx-xxx
-
-  - name: cpu
-    description: Total CPU utilization of the enforcer as a percentage of vCPUs.
-    type: float
-    exposed: true
-    example_value: 10
 
   - name: memory
     description: Total resident memory used by the enforcer in bytes.

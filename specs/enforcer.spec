@@ -208,7 +208,7 @@ relations:
       up and running.
     parameters:
       entries:
-      - name: cpu
+      - name: cpuload
         description: If set, provides the total cpu usage in percentage of vCPUs.
         type: float
         example_value: 1000

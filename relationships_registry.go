@@ -2606,7 +2606,7 @@ func init() {
 			"enforcer": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
-						Name: "cpu",
+						Name: "cpuload",
 						Type: "float",
 					},
 					elemental.ParameterDefinition{
@@ -2654,7 +2654,7 @@ func init() {
 			"enforcer": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
-						Name: "cpu",
+						Name: "cpuload",
 						Type: "float",
 					},
 					elemental.ParameterDefinition{
