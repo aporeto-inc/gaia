@@ -20,6 +20,11 @@ attributes:
     type: string
     exposed: true
 
+  - name: enforcementStatus
+    description: Enforcement status of processing unit represented by the node.
+    type: string
+    exposed: true
+
   - name: groupID
     description: ID of the group the node is eventually part of.
     type: string

@@ -2603,9 +2603,37 @@ func init() {
 
 	relationshipsRegistry[PokeIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"enforcer": &elemental.RelationshipInfo{},
+			"enforcer": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "cpuload",
+						Type: "float",
+					},
+					elemental.ParameterDefinition{
+						Name: "memory",
+						Type: "integer",
+					},
+					elemental.ParameterDefinition{
+						Name: "processes",
+						Type: "integer",
+					},
+					elemental.ParameterDefinition{
+						Name: "ts",
+						Type: "time",
+					},
+				},
+			},
 			"processingunit": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "enforcementStatus",
+						Type: "enum",
+						AllowedChoices: []string{
+							"Failed",
+							"Inactive",
+							"Protected",
+						},
+					},
 					elemental.ParameterDefinition{
 						Name: "status",
 						Type: "enum",
@@ -2623,9 +2651,37 @@ func init() {
 			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"enforcer": &elemental.RelationshipInfo{},
+			"enforcer": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "cpuload",
+						Type: "float",
+					},
+					elemental.ParameterDefinition{
+						Name: "memory",
+						Type: "integer",
+					},
+					elemental.ParameterDefinition{
+						Name: "processes",
+						Type: "integer",
+					},
+					elemental.ParameterDefinition{
+						Name: "ts",
+						Type: "time",
+					},
+				},
+			},
 			"processingunit": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "enforcementStatus",
+						Type: "enum",
+						AllowedChoices: []string{
+							"Failed",
+							"Inactive",
+							"Protected",
+						},
+					},
 					elemental.ParameterDefinition{
 						Name: "status",
 						Type: "enum",
