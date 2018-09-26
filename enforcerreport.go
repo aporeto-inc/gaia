@@ -69,14 +69,23 @@ func (o EnforcerReportsList) Version() int {
 
 // EnforcerReport represents the model of a enforcerreport
 type EnforcerReport struct {
+	// Total CPU utilization of the enforcer as a percentage of vCPUs.
+	CPULoad float64 `json:"CPULoad" bson:"-" mapstructure:"CPULoad,omitempty"`
+
 	// ID of the enforcer to report.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
+	// Total resident memory used by the enforcer in bytes.
+	Memory int `json:"memory" bson:"-" mapstructure:"memory,omitempty"`
 
 	// Name of the enforcer to report.
 	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
 
 	// Namespace of the enforcer to report.
 	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
+
+	// Number of active processes of the enforcer.
+	Processes int `json:"processes" bson:"-" mapstructure:"processes,omitempty"`
 
 	// Date of the report.
 	Timestamp time.Time `json:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
@@ -185,6 +194,14 @@ func (*EnforcerReport) AttributeSpecifications() map[string]elemental.AttributeS
 
 // EnforcerReportAttributesMap represents the map of attribute for EnforcerReport.
 var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
+	"CPULoad": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CPULoad",
+		Description:    `Total CPU utilization of the enforcer as a percentage of vCPUs.`,
+		Exposed:        true,
+		Name:           "CPULoad",
+		Type:           "float",
+	},
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
@@ -193,6 +210,14 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "ID",
 		Required:       true,
 		Type:           "string",
+	},
+	"Memory": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Memory",
+		Description:    `Total resident memory used by the enforcer in bytes.`,
+		Exposed:        true,
+		Name:           "memory",
+		Type:           "integer",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -212,6 +237,14 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
+	"Processes": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Processes",
+		Description:    `Number of active processes of the enforcer.`,
+		Exposed:        true,
+		Name:           "processes",
+		Type:           "integer",
+	},
 	"Timestamp": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
@@ -225,6 +258,14 @@ var EnforcerReportAttributesMap = map[string]elemental.AttributeSpecification{
 
 // EnforcerReportLowerCaseAttributesMap represents the map of attribute for EnforcerReport.
 var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"cpuload": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CPULoad",
+		Description:    `Total CPU utilization of the enforcer as a percentage of vCPUs.`,
+		Exposed:        true,
+		Name:           "CPULoad",
+		Type:           "float",
+	},
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ID",
@@ -233,6 +274,14 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Name:           "ID",
 		Required:       true,
 		Type:           "string",
+	},
+	"memory": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Memory",
+		Description:    `Total resident memory used by the enforcer in bytes.`,
+		Exposed:        true,
+		Name:           "memory",
+		Type:           "integer",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -251,6 +300,14 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Name:           "namespace",
 		Required:       true,
 		Type:           "string",
+	},
+	"processes": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Processes",
+		Description:    `Number of active processes of the enforcer.`,
+		Exposed:        true,
+		Name:           "processes",
+		Type:           "integer",
 	},
 	"timestamp": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

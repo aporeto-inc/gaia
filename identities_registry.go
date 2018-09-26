@@ -322,11 +322,13 @@ var (
 			[]string{"namespace", "normalizedTags"},
 			[]string{"archived"},
 		},
-		"flowreport":    nil,
-		"hookpolicy":    nil,
-		"import":        nil,
-		"installation":  nil,
-		"installedapp":  nil,
+		"flowreport":   nil,
+		"hookpolicy":   nil,
+		"import":       nil,
+		"installation": nil,
+		"installedapp": [][]string{
+			[]string{"accountname", "name"},
+		},
 		"invoice":       nil,
 		"invoicerecord": nil,
 		"isolationprofile": [][]string{
@@ -370,7 +372,8 @@ var (
 		"processingunit": [][]string{
 			[]string{"namespace"},
 			[]string{"namespace", "archived"},
-			[]string{"namespace", "status"},
+			[]string{"namespace", "operationalStatus", "archived"},
+			[]string{"namespace", "normalizedTags", "archived"},
 		},
 		"processingunitpolicy": nil,
 		"punode":               nil,

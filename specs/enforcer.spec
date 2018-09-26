@@ -206,3 +206,23 @@ relations:
   get:
     description: Sends a poke empty object. This is used to ensure an enforcer is
       up and running.
+    parameters:
+      entries:
+      - name: cpuload
+        description: If set, provides the total cpu usage in percentage of vCPUs.
+        type: float
+        example_value: 1000
+
+      - name: memory
+        description: If set, provides the total resident memory used in bytes.
+        type: integer
+        example_value: 1000
+
+      - name: processes
+        description: If set, defines the number of current processes.
+        type: integer
+        example_value: 10
+
+      - name: ts
+        description: time of report. If not set, local server time will be used.
+        type: time
