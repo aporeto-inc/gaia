@@ -4,6 +4,9 @@ import (
 	"strconv"
 )
 
+// AllProtocols defines all protocols
+const ALL = "ALL"
+
 // All L4 Protocols
 // (Ref https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers)
 const (

@@ -101,7 +101,8 @@ func ValidateNetworkList(attribute string, networks []string) error {
 // ValidateProtocol validates a string represents netwotk a protocol.
 func ValidateProtocol(attribute string, proto string) error {
 
-	if protocols.L4ProtocolNumberFromName(strings.ToUpper(proto)) != -1 {
+	upperProto := strings.ToUpper(proto)
+	if upperProto == protocols.ALL || protocols.L4ProtocolNumberFromName(upperProto) != -1 {
 		return nil
 	}
 
