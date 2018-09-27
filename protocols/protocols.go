@@ -4,7 +4,7 @@ import (
 	"strconv"
 )
 
-// AllProtocols defines all protocols
+// ALL defines all protocols
 const ALL = "ALL"
 
 // All L4 Protocols
