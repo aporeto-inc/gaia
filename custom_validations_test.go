@@ -402,6 +402,14 @@ func TestValidateProtocol(t *testing.T) {
 			},
 			true,
 		},
+		{
+			"valid but unsupported protocol",
+			args{
+				"proto",
+				"CRTP",
+			},
+			true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

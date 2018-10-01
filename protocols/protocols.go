@@ -156,6 +156,9 @@ var L4ProtocolNumbers = make([]string, 150)
 // L4ProtocolNames contains the list of all IANA protocols organized by names
 var L4ProtocolNames = map[string]int{}
 
+// SupportedL4Protocols contains the list of all IANA protocols supported by the enforcer.
+var SupportedL4Protocols = map[string]int{}
+
 // init initializes variables
 func init() {
 	L4ProtocolNumbers[0] = L4ProtocolHOPOPT
@@ -437,6 +440,15 @@ func init() {
 		L4ProtocolWESP:           141,
 		L4ProtocolROHC:           142,
 	}
+
+	SupportedL4Protocols = map[string]int{
+		L4ProtocolICMP:   1,
+		L4ProtocolIGMP:   2,
+		L4ProtocolIPinIP: 4,
+		L4ProtocolTCP:    6,
+		L4ProtocolUDP:    17,
+		L4ProtocolGREs:   47,
+	}
 }
 
 // L4ProtocolNameFromNumber returns the IANA name for the given protocol number.
@@ -460,6 +472,15 @@ func L4ProtocolNameFromNumber(n int64) string {
 // L4ProtocolNumberFromName returns the protocol number given a protocol name.
 func L4ProtocolNumberFromName(name string) int {
 	if n, ok := L4ProtocolNames[name]; ok {
+		return n
+	}
+
+	return -1
+}
+
+// SupportedL4ProtocolNumberFromName returns the protocol number for a given protocol name if supported by the enforcer.
+func SupportedL4ProtocolNumberFromName(name string) int {
+	if n, ok := SupportedL4Protocols[name]; ok {
 		return n
 	}
 
