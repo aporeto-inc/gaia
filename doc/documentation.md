@@ -9061,10 +9061,10 @@ field is optional. If provided, this must be a valid PEM CA file.
 
 Type is the type of the service.
 
-| Characteristics | Value       |
-| -               | -:          |
-| Allowed Value   | `HTTP, TCP` |
-| Default         | `"HTTP"`    |
+| Characteristics | Value                                        |
+| -               | -:                                           |
+| Allowed Value   | `HTTP, TCP, KubernetesSecrets, VaultSecrets` |
+| Default         | `"HTTP"`                                     |
 
 #### `updateTime (time)`
 
