@@ -11,6 +11,7 @@ import (
 var PolicyRefreshIdentity = elemental.Identity{
 	Name:     "policyrefresh",
 	Category: "policyrefreshs",
+	Package:  "squall",
 	Private:  false,
 }
 

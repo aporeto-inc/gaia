@@ -13,6 +13,7 @@ import (
 var ActivityIdentity = elemental.Identity{
 	Name:     "activity",
 	Category: "activities",
+	Package:  "hojo",
 	Private:  false,
 }
 

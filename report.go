@@ -39,6 +39,7 @@ const (
 var ReportIdentity = elemental.Identity{
 	Name:     "report",
 	Category: "reports",
+	Package:  "zack",
 	Private:  false,
 }
 

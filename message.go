@@ -27,6 +27,7 @@ const (
 var MessageIdentity = elemental.Identity{
 	Name:     "message",
 	Category: "messages",
+	Package:  "squall",
 	Private:  false,
 }
 

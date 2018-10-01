@@ -19,7 +19,11 @@ model:
   - - namespace
     - archived
   - - namespace
-    - status
+    - operationalStatus
+    - archived
+  - - namespace
+    - normalizedTags
+    - archived
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
@@ -41,6 +45,19 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: enforcementStatus
+    description: EnforcementStatus communicates the state of the enforcer for that
+      PU.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Protected
+    - Failed
+    - Inactive
+    default_value: Inactive
+    filterable: true
+
   - name: enforcerID
     description: EnforcerID is the ID of the enforcer associated with the processing
       unit.
@@ -54,7 +71,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    creation_only: true
     filterable: true
 
   - name: lastSyncTime
@@ -146,6 +162,15 @@ relations:
       database.
     parameters:
       entries:
+      - name: enforcementStatus
+        description: If set, changes the enforcement status of the processing unit
+          alongside with the poke.
+        type: enum
+        allowed_choices:
+        - Failed
+        - Inactive
+        - Protected
+
       - name: status
         description: If set, changes the status of the processing unit alongside with
           the poke.

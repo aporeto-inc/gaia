@@ -54,6 +54,7 @@ const (
 var PolicyIdentity = elemental.Identity{
 	Name:     "policy",
 	Category: "policies",
+	Package:  "squall",
 	Private:  false,
 }
 

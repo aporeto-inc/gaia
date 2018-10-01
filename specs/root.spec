@@ -574,6 +574,7 @@ relations:
         - audit
         - enforcers
         - files
+        - eventlogs
         default_value: flows
 
       - name: query

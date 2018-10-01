@@ -12,6 +12,7 @@ import (
 var AuthIdentity = elemental.Identity{
 	Name:     "auth",
 	Category: "auth",
+	Package:  "midgard",
 	Private:  false,
 }
 

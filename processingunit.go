@@ -10,6 +10,20 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
+// ProcessingUnitEnforcementStatusValue represents the possible values for attribute "enforcementStatus".
+type ProcessingUnitEnforcementStatusValue string
+
+const (
+	// ProcessingUnitEnforcementStatusFailed represents the value Failed.
+	ProcessingUnitEnforcementStatusFailed ProcessingUnitEnforcementStatusValue = "Failed"
+
+	// ProcessingUnitEnforcementStatusInactive represents the value Inactive.
+	ProcessingUnitEnforcementStatusInactive ProcessingUnitEnforcementStatusValue = "Inactive"
+
+	// ProcessingUnitEnforcementStatusProtected represents the value Protected.
+	ProcessingUnitEnforcementStatusProtected ProcessingUnitEnforcementStatusValue = "Protected"
+)
+
 // ProcessingUnitOperationalStatusValue represents the possible values for attribute "operationalStatus".
 type ProcessingUnitOperationalStatusValue string
 
@@ -54,6 +68,7 @@ const (
 var ProcessingUnitIdentity = elemental.Identity{
 	Name:     "processingunit",
 	Category: "processingunits",
+	Package:  "squall",
 	Private:  false,
 }
 
@@ -129,6 +144,9 @@ type ProcessingUnit struct {
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
+	// EnforcementStatus communicates the state of the enforcer for that PU.
+	EnforcementStatus ProcessingUnitEnforcementStatusValue `json:"enforcementStatus" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
+
 	// EnforcerID is the ID of the enforcer associated with the processing unit.
 	EnforcerID string `json:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
 
@@ -182,6 +200,7 @@ func NewProcessingUnit() *ProcessingUnit {
 	return &ProcessingUnit{
 		ModelVersion:      1,
 		Annotations:       map[string][]string{},
+		EnforcementStatus: ProcessingUnitEnforcementStatusInactive,
 		AssociatedTags:    []string{},
 		Metadata:          []string{},
 		NetworkServices:   types.ProcessingUnitServicesList{},
@@ -361,6 +380,10 @@ func (o *ProcessingUnit) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateStringInList("enforcementStatus", string(o.EnforcementStatus), []string{"Protected", "Failed", "Inactive"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -481,6 +504,17 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"EnforcementStatus": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Protected", "Failed", "Inactive"},
+		ConvertedName:  "EnforcementStatus",
+		DefaultValue:   ProcessingUnitEnforcementStatusInactive,
+		Description:    `EnforcementStatus communicates the state of the enforcer for that PU.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "enforcementStatus",
+		Stored:         true,
+		Type:           "enum",
+	},
 	"EnforcerID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
@@ -494,7 +528,6 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 	"Image": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Image",
-		CreationOnly:   true,
 		Description:    `Docker image, or path to executable.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -724,6 +757,17 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Stored:         true,
 		Type:           "string",
 	},
+	"enforcementstatus": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Protected", "Failed", "Inactive"},
+		ConvertedName:  "EnforcementStatus",
+		DefaultValue:   ProcessingUnitEnforcementStatusInactive,
+		Description:    `EnforcementStatus communicates the state of the enforcer for that PU.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "enforcementStatus",
+		Stored:         true,
+		Type:           "enum",
+	},
 	"enforcerid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerID",
@@ -737,7 +781,6 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 	"image": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Image",
-		CreationOnly:   true,
 		Description:    `Docker image, or path to executable.`,
 		Exposed:        true,
 		Filterable:     true,

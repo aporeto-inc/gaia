@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"go.aporeto.io/elemental"
+	"go.aporeto.io/gaia/protocols"
 )
 
 // ValidatePortString validates a string represents a port or a range of port.
@@ -98,16 +99,16 @@ func ValidateNetworkList(attribute string, networks []string) error {
 }
 
 // ValidateProtocol validates a string represents netwotk a protocol.
-// valid: 'tcp', 'TCP', 'udp', 'UDP', '0' to '255'.
 func ValidateProtocol(attribute string, proto string) error {
 
-	if proto == "TCP" || proto == "tcp" || proto == "UDP" || proto == "udp" {
+	upperProto := strings.ToUpper(proto)
+	if upperProto == protocols.ALL || protocols.L4ProtocolNumberFromName(upperProto) != -1 {
 		return nil
 	}
 
 	p, err := strconv.Atoi(proto)
 	if err != nil {
-		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' udp, tcp or a valid protocol number", attribute))
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' valid protocol name or number", attribute))
 	}
 
 	if p < 0 || p > 255 {

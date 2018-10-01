@@ -13,6 +13,7 @@ import (
 var AWSAPIGatewayIdentity = elemental.Identity{
 	Name:     "awsapigateway",
 	Category: "awsapigateways",
+	Package:  "goldrush",
 	Private:  false,
 }
 

@@ -11,6 +11,7 @@ import (
 var PasswordResetIdentity = elemental.Identity{
 	Name:     "passwordreset",
 	Category: "passwordreset",
+	Package:  "vince",
 	Private:  false,
 }
 

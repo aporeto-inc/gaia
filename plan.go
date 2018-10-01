@@ -11,6 +11,7 @@ import (
 var PlanIdentity = elemental.Identity{
 	Name:     "plan",
 	Category: "plans",
+	Package:  "vince",
 	Private:  false,
 }
 

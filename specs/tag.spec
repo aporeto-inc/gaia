@@ -3,7 +3,7 @@ model:
   rest_name: tag
   resource_name: tags
   entity_name: Tag
-  package: squall
+  package: tagle
   description: |-
     A tag is a string in the form of "key=value" that can applied to all objects in
     the system. They are used for policy resolution. Tags starting by a "$" are

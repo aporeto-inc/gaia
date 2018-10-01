@@ -44,6 +44,7 @@ const (
 var CustomerIdentity = elemental.Identity{
 	Name:     "customer",
 	Category: "customers",
+	Package:  "bill",
 	Private:  true,
 }
 

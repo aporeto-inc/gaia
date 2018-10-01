@@ -24,6 +24,7 @@ const (
 var FileAccessReportIdentity = elemental.Identity{
 	Name:     "fileaccessreport",
 	Category: "fileaccessreports",
+	Package:  "zack",
 	Private:  false,
 }
 

@@ -39,6 +39,7 @@ const (
 var ServiceIdentity = elemental.Identity{
 	Name:     "service",
 	Category: "services",
+	Package:  "squall",
 	Private:  false,
 }
 
@@ -251,7 +252,6 @@ func NewService() *Service {
 		AuthorizationType:          ServiceAuthorizationTypeNone,
 		Endpoints:                  types.ExposedAPIList{},
 		External:                   false,
-		PublicApplicationPort:      0,
 		RedirectOnFail:             false,
 		Metadata:                   []string{},
 		NormalizedTags:             []string{},

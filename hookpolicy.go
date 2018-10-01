@@ -27,6 +27,7 @@ const (
 var HookPolicyIdentity = elemental.Identity{
 	Name:     "hookpolicy",
 	Category: "hookpolicies",
+	Package:  "squall",
 	Private:  false,
 }
 

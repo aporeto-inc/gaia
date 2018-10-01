@@ -11,6 +11,7 @@ import (
 var X509CertificateCheckIdentity = elemental.Identity{
 	Name:     "x509certificatecheck",
 	Category: "x509certificatechecks",
+	Package:  "barret",
 	Private:  true,
 }
 

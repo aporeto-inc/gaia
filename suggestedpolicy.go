@@ -11,6 +11,7 @@ import (
 var SuggestedPolicyIdentity = elemental.Identity{
 	Name:     "suggestedpolicy",
 	Category: "suggestedpolicies",
+	Package:  "jenova",
 	Private:  false,
 }
 

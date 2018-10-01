@@ -12,6 +12,7 @@ import (
 var JaegerbatchIdentity = elemental.Identity{
 	Name:     "jaegerbatch",
 	Category: "jaegerbatchs",
+	Package:  "meister",
 	Private:  false,
 }
 

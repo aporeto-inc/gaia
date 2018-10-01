@@ -13,6 +13,7 @@ import (
 var TokenScopePolicyIdentity = elemental.Identity{
 	Name:     "tokenscopepolicy",
 	Category: "tokenscopepolicies",
+	Package:  "squall",
 	Private:  false,
 }
 

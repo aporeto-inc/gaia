@@ -13,6 +13,7 @@ import (
 var InvoiceRecordIdentity = elemental.Identity{
 	Name:     "invoicerecord",
 	Category: "invoicerecords",
+	Package:  "bill",
 	Private:  false,
 }
 

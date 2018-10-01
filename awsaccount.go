@@ -13,6 +13,7 @@ import (
 var AWSAccountIdentity = elemental.Identity{
 	Name:     "awsaccount",
 	Category: "awsaccounts",
+	Package:  "vince",
 	Private:  false,
 }
 

@@ -52,6 +52,7 @@ const (
 var NetworkAccessPolicyIdentity = elemental.Identity{
 	Name:     "networkaccesspolicy",
 	Category: "networkaccesspolicies",
+	Package:  "squall",
 	Private:  false,
 }
 

@@ -2615,6 +2615,13 @@ Returns the enforcer profile that must be used by an enforcer.
 
 Sends a poke empty object. This is used to ensure an enforcer is up and running.
 
+##### Parameters
+
+- `cpuload` (float): If set, provides the total cpu usage in percentage of vCPUs.
+- `memory` (integer): If set, provides the total resident memory used in bytes.
+- `processes` (integer): If set, defines the number of current processes.
+- `ts` (time): time of report. If not set, local server time will be used.
+
 ### Attributes
 
 #### `FQDN (string)`
@@ -3071,6 +3078,11 @@ enforcers matching this profile.
 IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
 docker container started with labels matching the rule.
 
+#### `killContainersOnFailure (boolean)`
+
+KillContainersOnFailure will configure the enforcers to kill any containers if
+there are policy failures.
+
 #### `kubernetesMetadataExtractor (enum)`
 
 Select which metadata extractor to use to process new processing units from
@@ -3514,9 +3526,12 @@ Post a new enforcer statistics report.
 
 ```json
 {
+  "CPULoad": 10,
   "ID": "xxx-xxx-xxx-xxx",
+  "memory": 10000,
   "name": "aporeto-enforcerd-xxx",
   "namespace": "/my/ns",
+  "processes": 10,
   "timestamp": "2018-06-14T23:10:46.420397985Z"
 }
 ```
@@ -3529,6 +3544,10 @@ Create a enforcer statistics report.
 
 ### Attributes
 
+#### `CPULoad (float)`
+
+Total CPU utilization of the enforcer as a percentage of vCPUs.
+
 #### `ID (string)`
 
 ID of the enforcer to report.
@@ -3536,6 +3555,10 @@ ID of the enforcer to report.
 | Characteristics | Value  |
 | -               | -:     |
 | Required        | `true` |
+
+#### `memory (integer)`
+
+Total resident memory used by the enforcer in bytes.
 
 #### `name (string)`
 
@@ -3552,6 +3575,10 @@ Namespace of the enforcer to report.
 | Characteristics | Value  |
 | -               | -:     |
 | Required        | `true` |
+
+#### `processes (integer)`
+
+Number of active processes of the enforcer.
 
 #### `timestamp (time)`
 
@@ -4761,7 +4788,8 @@ Type of the source.
 
 #### `dropReason (string)`
 
-Reason for the rejection.
+This field is only set if 'action' is set to 'Reject' and specifies the reason
+for the rejection.
 
 #### `encrypted (boolean)`
 
@@ -4789,6 +4817,15 @@ Action observed on the flow.
 | -               | -:                              |
 | Allowed Value   | `Accept, Reject, NotApplicable` |
 | Default         | `"NotApplicable"`               |
+
+#### `observedDropReason (string)`
+
+This field is only set if 'observedAction' is set to 'Reject' and specifies the
+reason for the rejection.
+
+#### `observedEncrypted (boolean)`
+
+Value of the encryption of the network policy that observed the flow.
 
 #### `observedPolicyID (string)`
 
@@ -5003,6 +5040,10 @@ Identifier of object represented by the node.
 #### `description (string)`
 
 Description of object represented by the node.
+
+#### `enforcementStatus (string)`
+
+Enforcement status of processing unit represented by the node.
 
 #### `groupID (string)`
 
@@ -7148,6 +7189,13 @@ For instance, for enforcers, poke will be use as the heartbeat.
 
 Sends a poke empty object. This is used to ensure an enforcer is up and running.
 
+##### Parameters
+
+- `cpuload` (float): If set, provides the total cpu usage in percentage of vCPUs.
+- `memory` (integer): If set, provides the total resident memory used in bytes.
+- `processes` (integer): If set, defines the number of current processes.
+- `ts` (time): time of report. If not set, local server time will be used.
+
 #### `GET /processingunits/:id/poke`
 
 Sends a poke empty object. This will send a snaphot of the pu to time series
@@ -7155,6 +7203,7 @@ database.
 
 ##### Parameters
 
+- `enforcementStatus` (enum): If set, changes the enforcement status of the processing unit alongside with the poke.
 - `status` (enum): If set, changes the status of the processing unit alongside with the poke.
 - `ts` (time): time of report. If not set, local server time will be used.
 
@@ -7584,6 +7633,7 @@ database.
 
 ##### Parameters
 
+- `enforcementStatus` (enum): If set, changes the enforcement status of the processing unit alongside with the poke.
 - `status` (enum): If set, changes the status of the processing unit alongside with the poke.
 - `ts` (time): time of report. If not set, local server time will be used.
 
@@ -7644,6 +7694,16 @@ Description is the description of the object.
 | Max length      | `1024` |
 | Orderable       | `true` |
 
+#### `enforcementStatus (enum)`
+
+EnforcementStatus communicates the state of the enforcer for that PU.
+
+| Characteristics | Value                         |
+| -               | -:                            |
+| Allowed Value   | `Protected, Failed, Inactive` |
+| Default         | `"Inactive"`                  |
+| Filterable      | `true`                        |
+
 #### `enforcerID (string)`
 
 EnforcerID is the ID of the enforcer associated with the processing unit.
@@ -7658,7 +7718,6 @@ Docker image, or path to executable.
 
 | Characteristics | Value  |
 | -               | -:     |
-| Creation only   | `true` |
 | Filterable      | `true` |
 
 #### `lastSyncTime (time)`
@@ -8691,6 +8750,7 @@ units.
   "exposedPort": 443,
   "name": "the name",
   "port": 443,
+  "publicApplicationPort": 443,
   "selectors": [
     [
       "$identity=processingunit"
@@ -8967,7 +9027,6 @@ when an application is being accessed from a public network.
 
 | Characteristics | Value   |
 | -               | -:      |
-| Default         | `0`     |
 | Max length      | `65535` |
 
 #### `redirectOnFail (boolean)`

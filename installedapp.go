@@ -26,6 +26,7 @@ const (
 var InstalledAppIdentity = elemental.Identity{
 	Name:     "installedapp",
 	Category: "installedapps",
+	Package:  "highwind",
 	Private:  false,
 }
 

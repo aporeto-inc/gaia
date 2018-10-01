@@ -8,6 +8,9 @@ model:
   aliases:
   - iapps
   - iapp
+  indexes:
+  - - accountname
+    - name
   get:
     description: Retrieves the object with the given ID.
   update:

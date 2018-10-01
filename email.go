@@ -22,6 +22,7 @@ const (
 var EmailIdentity = elemental.Identity{
 	Name:     "email",
 	Category: "emails",
+	Package:  "yuffie",
 	Private:  true,
 }
 

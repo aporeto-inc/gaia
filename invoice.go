@@ -24,6 +24,7 @@ const (
 var InvoiceIdentity = elemental.Identity{
 	Name:     "invoice",
 	Category: "invoices",
+	Package:  "bill",
 	Private:  false,
 }
 

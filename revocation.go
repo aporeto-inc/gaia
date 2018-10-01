@@ -13,6 +13,7 @@ import (
 var RevocationIdentity = elemental.Identity{
 	Name:     "revocation",
 	Category: "revocations",
+	Package:  "barret",
 	Private:  true,
 }
 

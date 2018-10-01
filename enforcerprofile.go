@@ -42,6 +42,7 @@ const (
 var EnforcerProfileIdentity = elemental.Identity{
 	Name:     "enforcerprofile",
 	Category: "enforcerprofiles",
+	Package:  "squall",
 	Private:  false,
 }
 
@@ -161,6 +162,10 @@ type EnforcerProfile struct {
 	// docker container started with labels matching the rule.
 	IgnoreExpression [][]string `json:"ignoreExpression" bson:"ignoreexpression" mapstructure:"ignoreExpression,omitempty"`
 
+	// KillContainersOnFailure will configure the enforcers to kill any containers if
+	// there are policy failures.
+	KillContainersOnFailure bool `json:"killContainersOnFailure" bson:"killcontainersonfailure" mapstructure:"killContainersOnFailure,omitempty"`
+
 	// Select which metadata extractor to use to process new processing units from
 	// Kubernetes.
 	KubernetesMetadataExtractor EnforcerProfileKubernetesMetadataExtractorValue `json:"kubernetesMetadataExtractor" bson:"kubernetesmetadataextractor" mapstructure:"kubernetesMetadataExtractor,omitempty"`
@@ -251,22 +256,22 @@ func NewEnforcerProfile() *EnforcerProfile {
 		HostModeEnabled:               false,
 		HostServices:                  types.HostServicesList{},
 		KubernetesSupportEnabled:      false,
+		PUHeartbeatInterval:           "5s",
 		ProxyListenAddress:            "unix:///var/run/aporeto.sock",
-		PUBookkeepingInterval:         "15m",
+		IPTablesMarkValue:             1000,
 		ReceiverNumberOfQueues:        4,
 		ReceiverQueueSize:             500,
 		MetadataExtractor:             EnforcerProfileMetadataExtractorDocker,
 		RemoteEnforcerEnabled:         true,
-		TransmitterQueue:              4,
-		LinuxProcessesSupportEnabled:  true,
-		TrustedCAs:                    []string{},
-		KubernetesMetadataExtractor:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
 		TransmitterNumberOfQueues:     4,
-		PUHeartbeatInterval:           "5s",
+		KubernetesMetadataExtractor:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
 		TransmitterQueueSize:          500,
 		PolicySynchronizationInterval: "10m",
-		IPTablesMarkValue:             1000,
+		TransmitterQueue:              4,
+		LinuxProcessesSupportEnabled:  true,
 		NormalizedTags:                []string{},
+		TrustedCAs:                    []string{},
+		PUBookkeepingInterval:         "15m",
 	}
 }
 
@@ -759,6 +764,16 @@ docker container started with labels matching the rule.`,
 		SubType: "policies_list",
 		Type:    "external",
 	},
+	"KillContainersOnFailure": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "KillContainersOnFailure",
+		Description: `KillContainersOnFailure will configure the enforcers to kill any containers if
+there are policy failures.`,
+		Exposed: true,
+		Name:    "killContainersOnFailure",
+		Stored:  true,
+		Type:    "boolean",
+	},
 	"KubernetesMetadataExtractor": elemental.AttributeSpecification{
 		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
 		ConvertedName:  "KubernetesMetadataExtractor",
@@ -1247,6 +1262,16 @@ docker container started with labels matching the rule.`,
 		Stored:  true,
 		SubType: "policies_list",
 		Type:    "external",
+	},
+	"killcontainersonfailure": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "KillContainersOnFailure",
+		Description: `KillContainersOnFailure will configure the enforcers to kill any containers if
+there are policy failures.`,
+		Exposed: true,
+		Name:    "killContainersOnFailure",
+		Stored:  true,
+		Type:    "boolean",
 	},
 	"kubernetesmetadataextractor": elemental.AttributeSpecification{
 		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},

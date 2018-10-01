@@ -3,7 +3,7 @@ model:
   rest_name: activity
   resource_name: activities
   entity_name: Activity
-  package: squall
+  package: hojo
   description: |-
     Contains all the activity log that happened in a namespace. All successful or
     failed actions will be available, and eventual errors as well as the claims of

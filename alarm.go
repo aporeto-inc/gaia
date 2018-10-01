@@ -27,6 +27,7 @@ const (
 var AlarmIdentity = elemental.Identity{
 	Name:     "alarm",
 	Category: "alarms",
+	Package:  "sephiroth",
 	Private:  false,
 }
 

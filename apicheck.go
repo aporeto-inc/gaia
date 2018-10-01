@@ -37,6 +37,7 @@ const (
 var APICheckIdentity = elemental.Identity{
 	Name:     "apicheck",
 	Category: "apichecks",
+	Package:  "squall",
 	Private:  false,
 }
 

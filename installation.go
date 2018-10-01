@@ -11,6 +11,7 @@ import (
 var InstallationIdentity = elemental.Identity{
 	Name:     "installation",
 	Category: "installations",
+	Package:  "highwind",
 	Private:  false,
 }
 

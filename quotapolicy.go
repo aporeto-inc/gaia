@@ -13,6 +13,7 @@ import (
 var QuotaPolicyIdentity = elemental.Identity{
 	Name:     "quotapolicy",
 	Category: "quotapolicies",
+	Package:  "squall",
 	Private:  false,
 }
 

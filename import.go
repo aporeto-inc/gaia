@@ -25,6 +25,7 @@ const (
 var ImportIdentity = elemental.Identity{
 	Name:     "import",
 	Category: "import",
+	Package:  "squall",
 	Private:  false,
 }
 
