@@ -1,3 +1,11 @@
+$enforcerprofile:
+  elemental:
+    name: ValidateEnforcerProfile
+
+$host_services_list:
+  elemental:
+    name: ValidateHostServicesList
+
 $network:
   elemental:
     name: ValidateNetwork

@@ -2,6 +2,8 @@ package gaia
 
 import (
 	"testing"
+
+	"go.aporeto.io/gaia/types"
 )
 
 func TestValidatePortString(t *testing.T) {
@@ -451,6 +453,201 @@ func TestValidateProtocolList(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := ValidateProtocolList(tt.args.attribute, tt.args.protocols); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateProtocolList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateHostServicesList(t *testing.T) {
+	type args struct {
+		attribute    string
+		hostservices types.HostServicesList
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"empty name",
+			args{
+				"hostservices",
+				types.HostServicesList{
+					&types.HostService{
+						Name: "",
+					},
+				},
+			},
+			true,
+		},
+		{
+			"name with space",
+			args{
+				"hostservices",
+				types.HostServicesList{
+					&types.HostService{
+						Name: "Host Service",
+					},
+				},
+			},
+			true,
+		},
+		{
+			"valid name",
+			args{
+				"hostservices",
+				types.HostServicesList{
+					&types.HostService{
+						Name: "HostService1",
+					},
+				},
+			},
+			false,
+		},
+		{
+			"name contains hyphen",
+			args{
+				"hostservices",
+				types.HostServicesList{
+					&types.HostService{
+						Name: "ansible-proxy",
+					},
+				},
+			},
+			false,
+		},
+		{
+			"name length above 64 characters",
+			args{
+				"hostservices",
+				types.HostServicesList{
+					&types.HostService{
+						Name: "abcabcabcdabcabcabcdabcabcabcdabcabcabcdabcabcabcdabcabcabcd12345678910",
+					},
+				},
+			},
+			true,
+		},
+		{
+			"invalid name",
+			args{
+				"hostservices",
+				types.HostServicesList{
+					&types.HostService{
+						Name: "###InvalidName!",
+					},
+				},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateHostServicesList(tt.args.attribute, tt.args.hostservices); (err != nil) != tt.wantErr {
+				t.Errorf("TestValidateHostServicesList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateEnforcerProfile(t *testing.T) {
+	tests := []struct {
+		name            string
+		enforcerprofile *EnforcerProfile
+		wantErr         bool
+	}{
+		// Host mode
+		{
+			"Host mode enabled",
+			&EnforcerProfile{
+				Name:            "Host mode enabled without host services",
+				HostModeEnabled: true,
+			},
+			false,
+		},
+		{
+			"Host mode enabled with host services",
+			&EnforcerProfile{
+				Name:            "Host mode enabled with host services",
+				HostModeEnabled: true,
+				HostServices: types.HostServicesList{
+					&types.HostService{
+						Name: "bla",
+					},
+				},
+			},
+			true,
+		},
+		{
+			"Host mode disabled",
+			&EnforcerProfile{
+				Name:            "Host mode disabled with host services",
+				HostModeEnabled: false,
+			},
+			false,
+		},
+		{
+			"Host mode disabled with host services",
+			&EnforcerProfile{
+				Name:            "Host mode disabled with host services",
+				HostModeEnabled: false,
+				HostServices: types.HostServicesList{
+					&types.HostService{
+						Name: "bla",
+					},
+				},
+			},
+			false,
+		},
+
+		// Invalid CIDR
+		{
+			"valid target network",
+			&EnforcerProfile{
+				Name:           "Valid target network",
+				TargetNetworks: []string{"0.0.0.0/0"},
+			},
+			false,
+		},
+		{
+			"invalid target network",
+			&EnforcerProfile{
+				Name:           "Invalid target network",
+				TargetNetworks: []string{"invalid"},
+			},
+			true,
+		},
+
+		// Trusted CAs
+		{
+			"valid trusted CA",
+			&EnforcerProfile{
+				Name: "Valid CAs",
+				TrustedCAs: []string{`-----BEGIN CERTIFICATE-----
+MIIBPzCB5aADAgECAhB8oW2KA1BfhUmp6B1TkvcRMAoGCCqGSM49BAMCMA8xDTAL
+BgNVBAMTBHRlc3QwHhcNMTgxMDAyMjI1MjUwWhcNMjgwODEwMjI1MjUwWjAPMQ0w
+CwYDVQQDEwR0ZXN0MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEsHxO39rdxGtD
+8bP5AW2gqTMxgq4w9nyVbbpetS0rtjxwZ5bMgdS4GmqaifjqNGGt+VkK7gFNEyqG
+Hq/uTgtJ56MjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wCgYI
+KoZIzj0EAwIDSQAwRgIhAKRcwnrREJ6EnHOsiUnDfuNFxxALw4kV/ZyRxl1CJcS+
+AiEA0epxATHNzheAa8ZuiPeNQL6DhoKYz3B+41J2vgVlGZY=
+-----END CERTIFICATE-----`},
+			},
+			false,
+		},
+		{
+			"invalid trusted CA",
+			&EnforcerProfile{
+				Name:       "Invalid CAs",
+				TrustedCAs: []string{"invalid ca"},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateEnforcerProfile(tt.enforcerprofile); (err != nil) != tt.wantErr {
+				t.Errorf("TestVValidateEnforcerProfile() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

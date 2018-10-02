@@ -448,6 +448,10 @@ func (o *EnforcerProfile) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := ValidateHostServicesList("hostServices", o.HostServices); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateStringInList("kubernetesMetadataExtractor", string(o.KubernetesMetadataExtractor), []string{"KubeSquall", "PodAtomic", "PodContainers"}, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -513,6 +517,11 @@ func (o *EnforcerProfile) Validate() error {
 	}
 
 	if err := elemental.ValidateMinimumInt("transmitterQueueSize", o.TransmitterQueueSize, int(1), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	// Custom object validation.
+	if err := ValidateEnforcerProfile(o); err != nil {
 		errors = append(errors, err)
 	}
 

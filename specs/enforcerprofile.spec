@@ -29,6 +29,8 @@ model:
   - '@described'
   - '@identifiable-pk-stored'
   - '@named'
+  validations:
+  - $enforcerprofile
 
 # Attributes
 attributes:
@@ -146,6 +148,8 @@ attributes:
     exposed: true
     subtype: host_services_list
     stored: true
+    validations:
+    - $host_services_list
 
   - name: ignoreExpression
     description: |-

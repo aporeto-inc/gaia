@@ -1,6 +1,8 @@
 package gaia
 
 import (
+	"crypto/x509"
+	"encoding/pem"
 	"fmt"
 	"net"
 	"net/http"
@@ -10,6 +12,7 @@ import (
 
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/protocols"
+	"go.aporeto.io/gaia/types"
 )
 
 // ValidatePortString validates a string represents a port or a range of port.
@@ -145,4 +148,67 @@ func makeValidationError(attribute string, message string) error {
 	err.Data = map[string]interface{}{"attribute": attribute}
 
 	return err
+}
+
+var regHostServiceName = regexp.MustCompile(`^[a-zA-Z0-9_:.$%/-]{0,64}$`)
+
+// ValidateHostServicesList validates a list of host services.
+func ValidateHostServicesList(attribute string, hostServices types.HostServicesList) error {
+	for _, hs := range hostServices {
+		if len(hs.Name) == 0 {
+			return fmt.Errorf("Host service names must be specified")
+		}
+
+		if !regHostServiceName.MatchString(hs.Name) {
+			return fmt.Errorf(`Host service name must be less than 64 characters and contains only alphanumeric and the following characters: _, :, ., %%, / and -`)
+		}
+
+		if hs.Services != nil {
+			if err := hs.Services.Validate(); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+// ValidateEnforcerProfile validates a an enforcer profile.
+func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
+
+	// Validate host mode & host services
+	if enforcerProfile.HostModeEnabled && len(enforcerProfile.HostServices) > 0 {
+		return fmt.Errorf("Can not specify host services if host mode is enabled")
+	}
+
+	// Validate Target Networks
+	for _, tn := range enforcerProfile.TargetNetworks {
+		_, _, err := net.ParseCIDR(tn)
+		if err != nil {
+			return fmt.Errorf("%s is not a valid target network CIDR: %s", tn, err.Error())
+		}
+	}
+
+	// Validate trusted CAs
+	for i, ca := range enforcerProfile.TrustedCAs {
+		rest := []byte(ca)
+		var block *pem.Block
+
+		for {
+			block, rest = pem.Decode(rest)
+
+			if block == nil || block.Type != "CERTIFICATE" {
+				return fmt.Errorf("The CA %d is not a valid CA", i)
+			}
+
+			if _, err := x509.ParseCertificate(block.Bytes); err != nil {
+				return fmt.Errorf("Unable to parse Trusted CA: %s", err.Error())
+			}
+
+			if len(rest) == 0 {
+				break
+			}
+		}
+	}
+
+	return nil
 }
