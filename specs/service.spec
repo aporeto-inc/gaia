@@ -258,6 +258,8 @@ attributes:
     allowed_choices:
     - HTTP
     - TCP
+    - KubernetesSecrets
+    - VaultSecrets
     default_value: HTTP
 
 # Relations

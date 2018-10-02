@@ -31,8 +31,14 @@ const (
 	// ServiceTypeHTTP represents the value HTTP.
 	ServiceTypeHTTP ServiceTypeValue = "HTTP"
 
+	// ServiceTypeKubernetesSecrets represents the value KubernetesSecrets.
+	ServiceTypeKubernetesSecrets ServiceTypeValue = "KubernetesSecrets"
+
 	// ServiceTypeTCP represents the value TCP.
 	ServiceTypeTCP ServiceTypeValue = "TCP"
+
+	// ServiceTypeVaultSecrets represents the value VaultSecrets.
+	ServiceTypeVaultSecrets ServiceTypeValue = "VaultSecrets"
 )
 
 // ServiceIdentity represents the Identity of the object.
@@ -468,7 +474,7 @@ func (o *Service) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"HTTP", "TCP"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"HTTP", "TCP", "KubernetesSecrets", "VaultSecrets"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -893,7 +899,7 @@ field is optional. If provided, this must be a valid PEM CA file.`,
 		Type:    "string",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"HTTP", "TCP"},
+		AllowedChoices: []string{"HTTP", "TCP", "KubernetesSecrets", "VaultSecrets"},
 		ConvertedName:  "Type",
 		DefaultValue:   ServiceTypeHTTP,
 		Description:    `Type is the type of the service.`,
@@ -1311,7 +1317,7 @@ field is optional. If provided, this must be a valid PEM CA file.`,
 		Type:    "string",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"HTTP", "TCP"},
+		AllowedChoices: []string{"HTTP", "TCP", "KubernetesSecrets", "VaultSecrets"},
 		ConvertedName:  "Type",
 		DefaultValue:   ServiceTypeHTTP,
 		Description:    `Type is the type of the service.`,
