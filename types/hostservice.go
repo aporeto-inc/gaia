@@ -39,12 +39,14 @@ func (h HostServicesList) Validate() error {
 	return nil
 }
 
-// IsHostMode will provide a boolean value which tells us if host mode is set or not.
-func (h HostServicesList) IsHostMode() bool {
+// ShouldEnableHostMode returns true if the enforcer profile HostModeEnabled should be set.
+func (h HostServicesList) ShouldEnableHostMode() bool {
+
 	for _, s := range h {
 		if !s.NetworkOnly {
 			return true
 		}
 	}
+
 	return false
 }
