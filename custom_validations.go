@@ -150,7 +150,7 @@ func makeValidationError(attribute string, message string) error {
 	return err
 }
 
-var regHostServiceName = regexp.MustCompile(`^[a-zA-Z0-9_:.$%/-]{0,64}$`)
+var regHostServiceName = regexp.MustCompile(`^[a-zA-Z0-9_]{0,11}$`)
 
 // ValidateHostServicesList validates a list of host services.
 func ValidateHostServicesList(attribute string, hostServices types.HostServicesList) error {
@@ -160,7 +160,7 @@ func ValidateHostServicesList(attribute string, hostServices types.HostServicesL
 		}
 
 		if !regHostServiceName.MatchString(hs.Name) {
-			return fmt.Errorf(`Host service name must be less than 64 characters and contains only alphanumeric and the following characters: _, :, ., %%, / and -`)
+			return fmt.Errorf(`Host service name must be less than 12 characters and contains only alphanumeric or _`)
 		}
 
 		if hs.Services != nil {

@@ -469,6 +469,30 @@ func TestValidateHostServicesList(t *testing.T) {
 		wantErr bool
 	}{
 		{
+			"alphanumeric name",
+			args{
+				"hostservices",
+				types.HostServicesList{
+					&types.HostService{
+						Name: "ssh22",
+					},
+				},
+			},
+			false,
+		},
+		{
+			"name with underscore",
+			args{
+				"hostservices",
+				types.HostServicesList{
+					&types.HostService{
+						Name: "proxy_ssh",
+					},
+				},
+			},
+			false,
+		},
+		{
 			"empty name",
 			args{
 				"hostservices",
@@ -493,36 +517,24 @@ func TestValidateHostServicesList(t *testing.T) {
 			true,
 		},
 		{
-			"valid name",
-			args{
-				"hostservices",
-				types.HostServicesList{
-					&types.HostService{
-						Name: "HostService1",
-					},
-				},
-			},
-			false,
-		},
-		{
 			"name contains hyphen",
 			args{
 				"hostservices",
 				types.HostServicesList{
 					&types.HostService{
-						Name: "ansible-proxy",
+						Name: "proxy-ssh",
 					},
 				},
 			},
-			false,
+			true,
 		},
 		{
-			"name length above 64 characters",
+			"name with 12 characters",
 			args{
 				"hostservices",
 				types.HostServicesList{
 					&types.HostService{
-						Name: "abcabcabcdabcabcabcdabcabcabcdabcabcabcdabcabcabcdabcabcabcd12345678910",
+						Name: "ansible_proxy_ssh",
 					},
 				},
 			},
