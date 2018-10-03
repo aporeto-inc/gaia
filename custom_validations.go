@@ -156,16 +156,16 @@ var regHostServiceName = regexp.MustCompile(`^[a-zA-Z0-9_]{0,11}$`)
 func ValidateHostServicesList(attribute string, hostServices types.HostServicesList) error {
 	for _, hs := range hostServices {
 		if len(hs.Name) == 0 {
-			return fmt.Errorf("Host service names must be specified")
+			return makeValidationError("name", "Host service names must be specified")
 		}
 
 		if !regHostServiceName.MatchString(hs.Name) {
-			return fmt.Errorf(`Host service name must be less than 12 characters and contains only alphanumeric or _`)
+			return makeValidationError("name", "Host service name must be less than 12 characters and contains only alphanumeric or _")
 		}
 
 		if hs.Services != nil {
 			if err := hs.Services.Validate(); err != nil {
-				return err
+				return makeValidationError("hostServices", err.Error())
 			}
 		}
 	}
@@ -177,14 +177,14 @@ func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
 
 	// Validate host mode & host services
 	if enforcerProfile.HostModeEnabled && len(enforcerProfile.HostServices) > 0 {
-		return fmt.Errorf("Can not specify host services if host mode is enabled")
+		return makeValidationError("hostModeEnabled", "Can not specify host services if host mode is enabled")
 	}
 
 	// Validate Target Networks
 	for _, tn := range enforcerProfile.TargetNetworks {
 		_, _, err := net.ParseCIDR(tn)
 		if err != nil {
-			return fmt.Errorf("%s is not a valid target network CIDR: %s", tn, err.Error())
+			return makeValidationError("targetNetworks", fmt.Sprintf("%s is not a valid target network CIDR", tn))
 		}
 	}
 
@@ -197,11 +197,11 @@ func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
 			block, rest = pem.Decode(rest)
 
 			if block == nil || block.Type != "CERTIFICATE" {
-				return fmt.Errorf("The CA %d is not a valid CA", i)
+				return makeValidationError("trustedCAs", fmt.Sprintf("The CA %d is not a valid CA", i))
 			}
 
 			if _, err := x509.ParseCertificate(block.Bytes); err != nil {
-				return fmt.Errorf("Unable to parse Trusted CA: %s", err.Error())
+				return makeValidationError("trustedCAs", err.Error())
 			}
 
 			if len(rest) == 0 {
