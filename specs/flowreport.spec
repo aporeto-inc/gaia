@@ -197,8 +197,6 @@ attributes:
     description: Date of the report.
     type: time
     exposed: true
-    required: true
-    example_value: "2018-06-14T23:10:46.420397985Z"
 
   - name: value
     description: Number of flows in the report.

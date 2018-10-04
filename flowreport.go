@@ -332,10 +332,6 @@ func (o *FlowReport) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredTime("timestamp", o.Timestamp); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if err := elemental.ValidateRequiredInt("value", o.Value); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -606,7 +602,6 @@ reason for the rejection.`,
 		Description:    `Date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
-		Required:       true,
 		Type:           "time",
 	},
 	"Value": elemental.AttributeSpecification{
@@ -858,7 +853,6 @@ reason for the rejection.`,
 		Description:    `Date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
-		Required:       true,
 		Type:           "time",
 	},
 	"value": elemental.AttributeSpecification{

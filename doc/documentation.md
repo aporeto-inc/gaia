@@ -4735,7 +4735,6 @@ Post a new flow statistics report.
   "sourceID": "xxx-xxx-xxx",
   "sourceNamespace": "/my/namespace",
   "sourceType": "ProcessingUnit",
-  "timestamp": "2018-06-14T23:10:46.420397985Z",
   "value": 1
 }
 ```
@@ -4912,10 +4911,6 @@ Type of the source.
 #### `timestamp (time)`
 
 Date of the report.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
 
 #### `value (integer)`
 
