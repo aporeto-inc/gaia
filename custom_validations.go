@@ -184,7 +184,7 @@ func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
 	for _, tn := range enforcerProfile.TargetNetworks {
 		_, _, err := net.ParseCIDR(tn)
 		if err != nil {
-			return makeValidationError("targetNetworks", fmt.Sprintf("%s is not a valid target network CIDR", tn))
+			return makeValidationError("targetNetworks", fmt.Sprintf("%s is not a valid CIDR", tn))
 		}
 	}
 
