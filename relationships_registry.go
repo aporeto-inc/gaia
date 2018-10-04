@@ -1349,7 +1349,7 @@ func init() {
 						DefaultValue: "objects",
 						AllowedChoices: []string{
 							"subjects",
-							"object",
+							"objects",
 						},
 					},
 				},
@@ -1382,7 +1382,7 @@ func init() {
 						DefaultValue: "objects",
 						AllowedChoices: []string{
 							"subjects",
-							"object",
+							"objects",
 						},
 					},
 				},
@@ -1453,7 +1453,7 @@ func init() {
 						DefaultValue: "objects",
 						AllowedChoices: []string{
 							"subjects",
-							"object",
+							"objects",
 						},
 					},
 				},
@@ -1486,7 +1486,7 @@ func init() {
 						DefaultValue: "objects",
 						AllowedChoices: []string{
 							"subjects",
-							"object",
+							"objects",
 						},
 					},
 				},
@@ -2849,7 +2849,7 @@ func init() {
 						DefaultValue: "objects",
 						AllowedChoices: []string{
 							"subjects",
-							"object",
+							"objects",
 						},
 					},
 				},
@@ -2897,7 +2897,7 @@ func init() {
 						DefaultValue: "objects",
 						AllowedChoices: []string{
 							"subjects",
-							"object",
+							"objects",
 						},
 					},
 				},

@@ -126,7 +126,7 @@ relations:
         type: enum
         allowed_choices:
         - subjects
-        - object
+        - objects
         default_value: objects
 
 - rest_name: externalnetwork
@@ -140,7 +140,7 @@ relations:
         type: enum
         allowed_choices:
         - subjects
-        - object
+        - objects
         default_value: objects
 
 - rest_name: processingunit
@@ -154,7 +154,7 @@ relations:
         type: enum
         allowed_choices:
         - subjects
-        - object
+        - objects
         default_value: objects
 
 - rest_name: service
