@@ -2,11 +2,9 @@ package types
 
 import (
 	"fmt"
-	"regexp"
-)
+	"strings"
 
-var (
-	reg = regexp.MustCompile("^([0-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535)(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))?$")
+	"go.aporeto.io/gaia/portutils"
 )
 
 // ProcessingUnitService is a network service that the processing unit listens to.
@@ -18,14 +16,60 @@ type ProcessingUnitService struct {
 // ProcessingUnitServicesList is a list of ProcessingUnitServices
 type ProcessingUnitServicesList []*ProcessingUnitService
 
-// Validate will validate the types in the ProcessingUnitService. Uses the same
-// regular expression as the main API in external services. Do not touch unless
-// you know what you are doing.
+// Validate validates a list of processing unit services.
 func (p ProcessingUnitServicesList) Validate() error {
+
+	_, _, err := p.ValidateWithoutOverlap(&portutils.PortsList{}, []*portutils.PortsRange{})
+	return err
+}
+
+// ValidateWithoutOverlap validates a list of processing unit services has no overlap with any given parameter.
+func (p ProcessingUnitServicesList) ValidateWithoutOverlap(cachePortsList *portutils.PortsList, cacheRanges []*portutils.PortsRange) (*portutils.PortsList, []*portutils.PortsRange, error) {
+
 	for _, pu := range p {
-		if !reg.Match([]byte(pu.Ports)) {
-			return fmt.Errorf("Invalid port or port pair: %s", pu.Ports)
+
+		ports := pu.Ports
+
+		// Range port
+		if strings.Contains(ports, ":") {
+
+			pr, err := portutils.ConvertToPortsRange(ports)
+			if err != nil {
+				return nil, nil, err
+			}
+
+			if pr.HasOverlapWithPortsRanges(cacheRanges) {
+				return nil, nil, fmt.Errorf("Port range overlaps with another range")
+			}
+
+			if pr.HasOverlapWithPortsList(cachePortsList) {
+				return nil, nil, fmt.Errorf("Port range overlaps with another port")
+			}
+
+			cacheRanges = append(cacheRanges, pr)
+			for _, c := range cacheRanges {
+				fmt.Println(c.FromPort, c.ToPort)
+			}
+
+			continue
 		}
+
+		// Single & Multiple ports
+		pl, err := portutils.ConvertToPortsList(ports)
+		if err != nil {
+			return nil, nil, err
+		}
+
+		if pl.HasOverlapWithPortsList(cachePortsList) {
+			return nil, nil, fmt.Errorf("Port overlaps with another port")
+		}
+
+		if pl.HasOverlapWithPortsRanges(cacheRanges) {
+			return nil, nil, fmt.Errorf("Port overlaps with another port range")
+		}
+
+		*cachePortsList = append(*cachePortsList, *pl...)
 	}
-	return nil
+
+	return cachePortsList, cacheRanges, nil
 }

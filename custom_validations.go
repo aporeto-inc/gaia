@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"go.aporeto.io/elemental"
+	"go.aporeto.io/gaia/portutils"
 	"go.aporeto.io/gaia/protocols"
 	"go.aporeto.io/gaia/types"
 )
@@ -18,6 +19,8 @@ import (
 // ValidatePortString validates a string represents a port or a range of port.
 // valid: 443, 443:555
 func ValidatePortString(attribute string, portExp string) error {
+
+	// TODO: Use portutils to validate a port
 
 	ports := strings.Split(portExp, ":")
 	if len(ports) == 0 || len(ports) > 2 {
@@ -153,18 +156,33 @@ func makeValidationError(attribute string, message string) error {
 var regHostServiceName = regexp.MustCompile(`^[a-zA-Z0-9_]{0,11}$`)
 
 // ValidateHostServicesList validates a list of host services.
+// CS: 10/6/2018 - Keep the constraint on the regex for now. Will need to create an API for HostServices
 func ValidateHostServicesList(attribute string, hostServices types.HostServicesList) error {
+
+	cacheNames := map[string]struct{}{}
+	cachePortsList := &portutils.PortsList{}
+	cacheRanges := []*portutils.PortsRange{}
+
 	for _, hs := range hostServices {
 		if len(hs.Name) == 0 {
 			return makeValidationError("name", "Host service names must be specified")
 		}
 
+		// Constraint on regex is used because the enforcer is using the name as nativeContextID.
 		if !regHostServiceName.MatchString(hs.Name) {
 			return makeValidationError("name", "Host service name must be less than 12 characters and contains only alphanumeric or _")
 		}
 
+		// Name should be unique
+		if _, ok := cacheNames[hs.Name]; ok {
+			return makeValidationError("name", "Name must be unique.")
+		}
+
+		cacheNames[hs.Name] = struct{}{}
+
 		if hs.Services != nil {
-			if err := hs.Services.Validate(); err != nil {
+			var err error
+			if cachePortsList, cacheRanges, err = hs.Services.ValidateWithoutOverlap(cachePortsList, cacheRanges); err != nil {
 				return makeValidationError("hostServices", err.Error())
 			}
 		}
