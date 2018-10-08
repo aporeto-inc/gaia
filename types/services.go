@@ -19,14 +19,28 @@ type ProcessingUnitServicesList []*ProcessingUnitService
 // Validate validates a list of processing unit services.
 func (p ProcessingUnitServicesList) Validate() error {
 
-	_, _, err := p.ValidateWithoutOverlap(&portutils.PortsList{}, []*portutils.PortsRange{})
+	_, _, err := p.ValidateWithoutOverlap(map[uint8]*portutils.PortsList{}, map[uint8]*portutils.PortsRangeList{})
 	return err
 }
 
 // ValidateWithoutOverlap validates a list of processing unit services has no overlap with any given parameter.
-func (p ProcessingUnitServicesList) ValidateWithoutOverlap(cachePortsList *portutils.PortsList, cacheRanges []*portutils.PortsRange) (*portutils.PortsList, []*portutils.PortsRange, error) {
+func (p ProcessingUnitServicesList) ValidateWithoutOverlap(cachePortsList map[uint8]*portutils.PortsList, cacheRanges map[uint8]*portutils.PortsRangeList) (map[uint8]*portutils.PortsList, map[uint8]*portutils.PortsRangeList, error) {
 
 	for _, pu := range p {
+
+		var cpl *portutils.PortsList
+		var cpr *portutils.PortsRangeList
+		var ok bool
+
+		if cpl, ok = cachePortsList[pu.Protocol]; !ok {
+			cpl = &portutils.PortsList{}
+			cachePortsList[pu.Protocol] = cpl
+		}
+
+		if cpr, ok = cacheRanges[pu.Protocol]; !ok {
+			cpr = &portutils.PortsRangeList{}
+			cacheRanges[pu.Protocol] = cpr
+		}
 
 		ports := pu.Ports
 
@@ -38,18 +52,16 @@ func (p ProcessingUnitServicesList) ValidateWithoutOverlap(cachePortsList *portu
 				return nil, nil, err
 			}
 
-			if pr.HasOverlapWithPortsRanges(cacheRanges) {
+			if pr.HasOverlapWithPortsRanges(cpr) {
 				return nil, nil, fmt.Errorf("Port range overlaps with another range")
 			}
 
-			if pr.HasOverlapWithPortsList(cachePortsList) {
+			if pr.HasOverlapWithPortsList(cpl) {
 				return nil, nil, fmt.Errorf("Port range overlaps with another port")
 			}
 
-			cacheRanges = append(cacheRanges, pr)
-			for _, c := range cacheRanges {
-				fmt.Println(c.FromPort, c.ToPort)
-			}
+			*cpr = append(*cpr, pr)
+			cacheRanges[pu.Protocol] = cpr
 
 			continue
 		}
@@ -60,15 +72,16 @@ func (p ProcessingUnitServicesList) ValidateWithoutOverlap(cachePortsList *portu
 			return nil, nil, err
 		}
 
-		if pl.HasOverlapWithPortsList(cachePortsList) {
+		if pl.HasOverlapWithPortsList(cpl) {
 			return nil, nil, fmt.Errorf("Port overlaps with another port")
 		}
 
-		if pl.HasOverlapWithPortsRanges(cacheRanges) {
+		if pl.HasOverlapWithPortsRanges(cpr) {
 			return nil, nil, fmt.Errorf("Port overlaps with another port range")
 		}
 
-		*cachePortsList = append(*cachePortsList, *pl...)
+		*cpl = append(*cpl, *pl...)
+		cachePortsList[pu.Protocol] = cpl
 	}
 
 	return cachePortsList, cacheRanges, nil

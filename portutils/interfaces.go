@@ -6,6 +6,9 @@ type PortsRange struct {
 	ToPort   int64
 }
 
+// PortsRangeList holds a list of port range
+type PortsRangeList []*PortsRange
+
 func (p *PortsRange) HasOverlapWithPort(port int64) bool {
 	return port >= p.FromPort && port <= p.ToPort
 }
@@ -30,9 +33,9 @@ func (p *PortsRange) HasOverlapWithPortsRange(otherRange *PortsRange) bool {
 		p.ToPort >= otherRange.FromPort && p.ToPort <= otherRange.ToPort
 }
 
-func (p *PortsRange) HasOverlapWithPortsRanges(otherRanges []*PortsRange) bool {
+func (p *PortsRange) HasOverlapWithPortsRanges(otherRanges *PortsRangeList) bool {
 
-	for _, pr := range otherRanges {
+	for _, pr := range *otherRanges {
 		if p.HasOverlapWithPortsRange(pr) {
 			return true
 		}
@@ -64,9 +67,9 @@ func (p *PortsList) HasOverlapWithPortsList(ports *PortsList) bool {
 	return false
 }
 
-func (p *PortsList) HasOverlapWithPortsRanges(portRanges []*PortsRange) bool {
+func (p *PortsList) HasOverlapWithPortsRanges(portRanges *PortsRangeList) bool {
 
-	for _, pr := range portRanges {
+	for _, pr := range *portRanges {
 		if pr.HasOverlapWithPortsList(p) {
 			return true
 		}

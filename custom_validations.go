@@ -160,8 +160,8 @@ var regHostServiceName = regexp.MustCompile(`^[a-zA-Z0-9_]{0,11}$`)
 func ValidateHostServicesList(attribute string, hostServices types.HostServicesList) error {
 
 	cacheNames := map[string]struct{}{}
-	cachePortsList := &portutils.PortsList{}
-	cacheRanges := []*portutils.PortsRange{}
+	cachePortsList := map[uint8]*portutils.PortsList{}
+	cacheRanges := map[uint8]*portutils.PortsRangeList{}
 
 	for _, hs := range hostServices {
 		if len(hs.Name) == 0 {
