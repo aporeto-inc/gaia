@@ -1346,9 +1346,9 @@ func init() {
 					elemental.ParameterDefinition{
 						Name:         "mode",
 						Type:         "enum",
-						DefaultValue: "objects",
+						DefaultValue: "object",
 						AllowedChoices: []string{
-							"subjects",
+							"subject",
 							"object",
 						},
 					},
@@ -1379,9 +1379,9 @@ func init() {
 					elemental.ParameterDefinition{
 						Name:         "mode",
 						Type:         "enum",
-						DefaultValue: "objects",
+						DefaultValue: "object",
 						AllowedChoices: []string{
-							"subjects",
+							"subject",
 							"object",
 						},
 					},
@@ -1450,9 +1450,9 @@ func init() {
 					elemental.ParameterDefinition{
 						Name:         "mode",
 						Type:         "enum",
-						DefaultValue: "objects",
+						DefaultValue: "object",
 						AllowedChoices: []string{
-							"subjects",
+							"subject",
 							"object",
 						},
 					},
@@ -1483,9 +1483,9 @@ func init() {
 					elemental.ParameterDefinition{
 						Name:         "mode",
 						Type:         "enum",
-						DefaultValue: "objects",
+						DefaultValue: "object",
 						AllowedChoices: []string{
-							"subjects",
+							"subject",
 							"object",
 						},
 					},
@@ -2846,9 +2846,9 @@ func init() {
 					elemental.ParameterDefinition{
 						Name:         "mode",
 						Type:         "enum",
-						DefaultValue: "objects",
+						DefaultValue: "object",
 						AllowedChoices: []string{
-							"subjects",
+							"subject",
 							"object",
 						},
 					},
@@ -2894,9 +2894,9 @@ func init() {
 					elemental.ParameterDefinition{
 						Name:         "mode",
 						Type:         "enum",
-						DefaultValue: "objects",
+						DefaultValue: "object",
 						AllowedChoices: []string{
-							"subjects",
+							"subject",
 							"object",
 						},
 					},
@@ -3313,9 +3313,9 @@ func init() {
 					elemental.ParameterDefinition{
 						Name:         "mode",
 						Type:         "enum",
-						DefaultValue: "objects",
+						DefaultValue: "object",
 						AllowedChoices: []string{
-							"subjects",
+							"subject",
 							"object",
 						},
 					},
@@ -3348,9 +3348,9 @@ func init() {
 					elemental.ParameterDefinition{
 						Name:         "mode",
 						Type:         "enum",
-						DefaultValue: "objects",
+						DefaultValue: "object",
 						AllowedChoices: []string{
-							"subjects",
+							"subject",
 							"object",
 						},
 					},

@@ -293,7 +293,9 @@ var (
 			[]string{":unique", "parentID", "accountID"},
 			[]string{"parentID", "commonName"},
 		},
-		"customer":      nil,
+		"customer": [][]string{
+			[]string{"providerCustomerID"},
+		},
 		"dependencymap": nil,
 		"email":         nil,
 		"enforcer": [][]string{
