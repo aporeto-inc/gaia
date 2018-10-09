@@ -165,17 +165,17 @@ func ValidateHostServicesList(attribute string, hostServices types.HostServicesL
 
 	for _, hs := range hostServices {
 		if len(hs.Name) == 0 {
-			return makeValidationError("name", "Host service names must be specified")
+			return makeValidationError("hostServices", "Host service names must be specified")
 		}
 
 		// Constraint on regex is used because the enforcer is using the name as nativeContextID.
 		if !regHostServiceName.MatchString(hs.Name) {
-			return makeValidationError("name", "Host service name must be less than 12 characters and contains only alphanumeric or _")
+			return makeValidationError("hostServices", "Host service name must be less than 12 characters and contains only alphanumeric or _")
 		}
 
 		// Name should be unique
 		if _, ok := cacheNames[hs.Name]; ok {
-			return makeValidationError("name", "Name must be unique.")
+			return makeValidationError("hostServices", "Name must be unique.")
 		}
 
 		cacheNames[hs.Name] = struct{}{}
@@ -192,11 +192,6 @@ func ValidateHostServicesList(attribute string, hostServices types.HostServicesL
 
 // ValidateEnforcerProfile validates a an enforcer profile.
 func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
-
-	// Validate host mode & host services
-	if enforcerProfile.HostModeEnabled && len(enforcerProfile.HostServices) > 0 {
-		return makeValidationError("hostModeEnabled", "Can not specify host services if host mode is enabled")
-	}
 
 	// Validate Target Networks
 	for _, tn := range enforcerProfile.TargetNetworks {
