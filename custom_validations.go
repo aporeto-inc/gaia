@@ -13,7 +13,6 @@ import (
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/portutils"
 	"go.aporeto.io/gaia/protocols"
-	"go.aporeto.io/gaia/types"
 )
 
 // ValidatePortString validates a string represents a port or a range of port.
@@ -157,7 +156,7 @@ var regHostServiceName = regexp.MustCompile(`^[a-zA-Z0-9_]{0,11}$`)
 
 // ValidateHostServicesList validates a list of host services.
 // CS: 10/6/2018 - Keep the constraint on the regex for now. Will need to create an API for HostServices
-func ValidateHostServicesList(attribute string, hostServices types.HostServicesList) error {
+func ValidateHostServicesList(attribute string, hostServices []*HostService) error {
 
 	cacheNames := map[string]struct{}{}
 	cachePortsList := map[uint8]*portutils.PortsList{}

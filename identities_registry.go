@@ -41,7 +41,8 @@ var (
 		"filepath":                     FilePathIdentity,
 		"flowreport":                   FlowReportIdentity,
 
-		"hookpolicy":             HookPolicyIdentity,
+		"hookpolicy": HookPolicyIdentity,
+
 		"import":                 ImportIdentity,
 		"installation":           InstallationIdentity,
 		"installedapp":           InstalledAppIdentity,
@@ -130,7 +131,8 @@ var (
 		"filepaths":                      FilePathIdentity,
 		"flowreports":                    FlowReportIdentity,
 
-		"hookpolicies":             HookPolicyIdentity,
+		"hookpolicies": HookPolicyIdentity,
+
 		"import":                   ImportIdentity,
 		"installations":            InstallationIdentity,
 		"installedapps":            InstalledAppIdentity,

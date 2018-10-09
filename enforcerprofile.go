@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/types"
 )
 
 // EnforcerProfileKubernetesMetadataExtractorValue represents the possible values for attribute "kubernetesMetadataExtractor".
@@ -156,7 +155,7 @@ type EnforcerProfile struct {
 
 	// HostServices is a list of services that must be activated by default to all
 	// enforcers matching this profile.
-	HostServices types.HostServicesList `json:"hostServices" bson:"hostservices" mapstructure:"hostServices,omitempty"`
+	HostServices []*HostService `json:"hostServices" bson:"hostservices" mapstructure:"hostServices,omitempty"`
 
 	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
 	// docker container started with labels matching the rule.
@@ -254,7 +253,7 @@ func NewEnforcerProfile() *EnforcerProfile {
 		DockerSocketAddress:           "unix:///var/run/docker.sock",
 		AuditSocketBufferSize:         16384,
 		HostModeEnabled:               false,
-		HostServices:                  types.HostServicesList{},
+		HostServices:                  []*HostService{},
 		KubernetesSupportEnabled:      false,
 		PUHeartbeatInterval:           "5s",
 		ProxyListenAddress:            "unix:///var/run/aporeto.sock",
@@ -446,6 +445,12 @@ func (o *EnforcerProfile) Validate() error {
 
 	if err := elemental.ValidatePattern("dockerSocketAddress", o.DockerSocketAddress, `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	for _, sub := range o.HostServices {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
 	}
 
 	if err := ValidateHostServicesList("hostServices", o.HostServices); err != nil {
@@ -759,8 +764,8 @@ enforcers matching this profile.`,
 		Exposed: true,
 		Name:    "hostServices",
 		Stored:  true,
-		SubType: "host_services_list",
-		Type:    "external",
+		SubType: "hostservice",
+		Type:    "refList",
 	},
 	"IgnoreExpression": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1258,8 +1263,8 @@ enforcers matching this profile.`,
 		Exposed: true,
 		Name:    "hostServices",
 		Stored:  true,
-		SubType: "host_services_list",
-		Type:    "external",
+		SubType: "hostservice",
+		Type:    "refList",
 	},
 	"ignoreexpression": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

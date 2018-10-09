@@ -24,13 +24,13 @@ func Test_PortsList(t *testing.T) {
 func Test_PortsRange(t *testing.T) {
 
 	Convey("Given a list of PortsRange", t, func() {
-		prs := []*PortsRange{}
+		prs := &PortsRangeList{}
 
 		Convey("I should be able to add a value", func() {
-			prs = append(prs, &PortsRange{FromPort: 80, ToPort: 443})
-			So(len(prs), ShouldEqual, 1)
-			So(prs[0].FromPort, ShouldEqual, 80)
-			So(prs[0].ToPort, ShouldEqual, 443)
+			*prs = append(*prs, &PortsRange{FromPort: 80, ToPort: 443})
+			So(len(*prs), ShouldEqual, 1)
+			So((*prs)[0].FromPort, ShouldEqual, 80)
+			So((*prs)[0].ToPort, ShouldEqual, 443)
 
 		})
 	})
@@ -227,7 +227,7 @@ func Test_PortsRange_HasOverlapWithPortsRanges(t *testing.T) {
 
 	type args struct {
 		pr  *PortsRange
-		prs []*PortsRange
+		prs *PortsRangeList
 	}
 
 	tests := []struct {
@@ -242,7 +242,7 @@ func Test_PortsRange_HasOverlapWithPortsRanges(t *testing.T) {
 					FromPort: 80,
 					ToPort:   443,
 				},
-				prs: []*PortsRange{
+				prs: &PortsRangeList{
 					&PortsRange{
 						FromPort: 50,
 						ToPort:   79,
@@ -262,7 +262,7 @@ func Test_PortsRange_HasOverlapWithPortsRanges(t *testing.T) {
 					FromPort: 80,
 					ToPort:   443,
 				},
-				prs: []*PortsRange{
+				prs: &PortsRangeList{
 					&PortsRange{
 						FromPort: 50,
 						ToPort:   79,
@@ -282,7 +282,7 @@ func Test_PortsRange_HasOverlapWithPortsRanges(t *testing.T) {
 					FromPort: 80,
 					ToPort:   443,
 				},
-				prs: []*PortsRange{
+				prs: &PortsRangeList{
 					&PortsRange{
 						FromPort: 50,
 						ToPort:   79,
@@ -406,7 +406,7 @@ func Test_PortsList_HasOverlapWithPortsRanges(t *testing.T) {
 
 	type args struct {
 		pl  *PortsList
-		prs []*PortsRange
+		prs *PortsRangeList
 	}
 
 	tests := []struct {
@@ -421,7 +421,7 @@ func Test_PortsList_HasOverlapWithPortsRanges(t *testing.T) {
 					80,
 					443,
 				},
-				prs: []*PortsRange{
+				prs: &PortsRangeList{
 					&PortsRange{
 						FromPort: 80,
 						ToPort:   100,
@@ -437,7 +437,7 @@ func Test_PortsList_HasOverlapWithPortsRanges(t *testing.T) {
 					80,
 					443,
 				},
-				prs: []*PortsRange{
+				prs: &PortsRangeList{
 					&PortsRange{
 						FromPort: 440,
 						ToPort:   500,
@@ -453,7 +453,7 @@ func Test_PortsList_HasOverlapWithPortsRanges(t *testing.T) {
 					80,
 					443,
 				},
-				prs: []*PortsRange{
+				prs: &PortsRangeList{
 					&PortsRange{
 						FromPort: 450,
 						ToPort:   500,

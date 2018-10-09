@@ -2,8 +2,6 @@ package gaia
 
 import (
 	"testing"
-
-	"go.aporeto.io/gaia/types"
 )
 
 func TestValidatePortString(t *testing.T) {
@@ -461,7 +459,7 @@ func TestValidateProtocolList(t *testing.T) {
 func TestValidateHostServicesList(t *testing.T) {
 	type args struct {
 		attribute    string
-		hostservices types.HostServicesList
+		hostservices []*HostService
 	}
 	tests := []struct {
 		name    string
@@ -472,8 +470,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"alphanumeric name",
 			args{
 				"hostservices",
-				types.HostServicesList{
-					&types.HostService{
+				[]*HostService{
+					&HostService{
 						Name: "ssh22",
 					},
 				},
@@ -484,8 +482,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"name with underscore",
 			args{
 				"hostservices",
-				types.HostServicesList{
-					&types.HostService{
+				[]*HostService{
+					&HostService{
 						Name: "proxy_ssh",
 					},
 				},
@@ -496,8 +494,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"empty name",
 			args{
 				"hostservices",
-				types.HostServicesList{
-					&types.HostService{
+				[]*HostService{
+					&HostService{
 						Name: "",
 					},
 				},
@@ -508,8 +506,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"name with space",
 			args{
 				"hostservices",
-				types.HostServicesList{
-					&types.HostService{
+				[]*HostService{
+					&HostService{
 						Name: "Host Service",
 					},
 				},
@@ -520,8 +518,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"name contains hyphen",
 			args{
 				"hostservices",
-				types.HostServicesList{
-					&types.HostService{
+				[]*HostService{
+					&HostService{
 						Name: "proxy-ssh",
 					},
 				},
@@ -532,8 +530,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"name with 12 characters",
 			args{
 				"hostservices",
-				types.HostServicesList{
-					&types.HostService{
+				[]*HostService{
+					&HostService{
 						Name: "ansible_proxy_ssh",
 					},
 				},
@@ -544,8 +542,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"invalid name",
 			args{
 				"hostservices",
-				types.HostServicesList{
-					&types.HostService{
+				[]*HostService{
+					&HostService{
 						Name: "###InvalidName!",
 					},
 				},
@@ -568,50 +566,6 @@ func TestValidateEnforcerProfile(t *testing.T) {
 		enforcerprofile *EnforcerProfile
 		wantErr         bool
 	}{
-		// Host mode
-		{
-			"Host mode enabled",
-			&EnforcerProfile{
-				Name:            "Host mode enabled without host services",
-				HostModeEnabled: true,
-			},
-			false,
-		},
-		{
-			"Host mode enabled with host services",
-			&EnforcerProfile{
-				Name:            "Host mode enabled with host services",
-				HostModeEnabled: true,
-				HostServices: types.HostServicesList{
-					&types.HostService{
-						Name: "bla",
-					},
-				},
-			},
-			true,
-		},
-		{
-			"Host mode disabled",
-			&EnforcerProfile{
-				Name:            "Host mode disabled with host services",
-				HostModeEnabled: false,
-			},
-			false,
-		},
-		{
-			"Host mode disabled with host services",
-			&EnforcerProfile{
-				Name:            "Host mode disabled with host services",
-				HostModeEnabled: false,
-				HostServices: types.HostServicesList{
-					&types.HostService{
-						Name: "bla",
-					},
-				},
-			},
-			false,
-		},
-
 		// Invalid CIDR
 		{
 			"valid target network",

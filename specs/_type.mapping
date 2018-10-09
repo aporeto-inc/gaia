@@ -188,12 +188,6 @@ hashed_tags:
     type: map[string]string
     init: map[string]string{}
 
-host_services_list:
-  elemental:
-    type: types.HostServicesList
-    init: types.HostServicesList{}
-    import: go.aporeto.io/gaia/types
-
 identity_list:
   elemental:
     type: '[]string'
