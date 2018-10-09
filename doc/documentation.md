@@ -5372,6 +5372,10 @@ AssociatedTags are the list of tags attached to an entity.
 
 Name of the service.
 
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
 #### `services (external:processing_unit_services_list)`
 
 Services lists all protocols and ports a service is running.

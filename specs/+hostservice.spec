@@ -23,6 +23,8 @@ attributes:
     description: Name of the service.
     type: string
     exposed: true
+    stored: true
+    orderable: true
 
   - name: services
     description: Services lists all protocols and ports a service is running.

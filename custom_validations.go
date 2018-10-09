@@ -163,6 +163,7 @@ func ValidateHostServicesList(attribute string, hostServices []*HostService) err
 	cacheRanges := map[uint8]*portutils.PortsRangeList{}
 
 	for _, hs := range hostServices {
+
 		if len(hs.Name) == 0 {
 			return makeValidationError("hostServices", "Host service names must be specified")
 		}

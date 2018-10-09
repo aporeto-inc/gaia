@@ -13,7 +13,7 @@ type HostService struct {
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// Name of the service.
-	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Services lists all protocols and ports a service is running.
 	Services types.ProcessingUnitServicesList `json:"services" bson:"services" mapstructure:"services,omitempty"`
