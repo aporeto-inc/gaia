@@ -63,9 +63,9 @@ func ConvertToPortsList(ports string) (*PortsList, error) {
 
 		if _, ok := cache[p]; ok {
 			return nil, fmt.Errorf("Port %s already defined", s)
-		} else {
-			cache[p] = struct{}{}
 		}
+
+		cache[p] = struct{}{}
 	}
 
 	for port := range cache {
