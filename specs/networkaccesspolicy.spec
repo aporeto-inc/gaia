@@ -125,9 +125,9 @@ relations:
         description: Matching mode.
         type: enum
         allowed_choices:
-        - subjects
+        - subject
         - object
-        default_value: objects
+        default_value: object
 
 - rest_name: externalnetwork
   get:
@@ -139,9 +139,9 @@ relations:
         description: Matching mode.
         type: enum
         allowed_choices:
-        - subjects
+        - subject
         - object
-        default_value: objects
+        default_value: object
 
 - rest_name: processingunit
   get:
@@ -153,9 +153,9 @@ relations:
         description: Matching mode.
         type: enum
         allowed_choices:
-        - subjects
+        - subject
         - object
-        default_value: objects
+        default_value: object
 
 - rest_name: service
   get:
@@ -166,6 +166,6 @@ relations:
         description: Matching mode.
         type: enum
         allowed_choices:
-        - subjects
+        - subject
         - object
-        default_value: objects
+        default_value: object

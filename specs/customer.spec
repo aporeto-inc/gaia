@@ -8,6 +8,8 @@ model:
     This api allows to view and manage basic information about customer profile for
     billing purposes.
   private: true
+  indexes:
+  - - providerCustomerID
   get:
     description: Retrieves the object with the given ID.
   update:
