@@ -129,6 +129,7 @@ func NewPolicyRule() *PolicyRule {
 		IsolationProfiles: IsolationProfilesList{},
 		Namespaces:        NamespacesList{},
 		Services:          ServicesList{},
+		TagClauses:        [][]string{},
 	}
 }
 

@@ -60,10 +60,12 @@ audit_profile_rule_list:
 audit_profile_selector:
   elemental:
     type: '[]string'
+    init: '[]string{}'
 
 audit_profiles:
   elemental:
     type: AuditProfilesList
+    init: AuditProfilesList{}
 
 authorization_map:
   elemental:
@@ -372,10 +374,12 @@ tags_map:
 target_networks_list:
   elemental:
     type: '[]string'
+    init: '[]string{}'
 
 target_tags:
   elemental:
     type: '[][]string'
+    init: '[][]string{}'
 
 time_series_results:
   elemental:
