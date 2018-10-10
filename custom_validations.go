@@ -20,7 +20,6 @@ import (
 func ValidatePortString(attribute string, portExp string) error {
 
 	// TODO: Use portutils to validate a port
-
 	ports := strings.Split(portExp, ":")
 	if len(ports) == 0 || len(ports) > 2 {
 		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a port (xxx) or port range (xxx:yyy)", attribute))
@@ -159,8 +158,8 @@ var regHostServiceName = regexp.MustCompile(`^[a-zA-Z0-9_]{0,11}$`)
 func ValidateHostServicesList(attribute string, hostServices []*HostService) error {
 
 	cacheNames := map[string]struct{}{}
-	cachePortsList := map[uint8]*portutils.PortsList{}
-	cacheRanges := map[uint8]*portutils.PortsRangeList{}
+	cachePortsList := map[int]*portutils.PortsList{}
+	cacheRanges := map[int]*portutils.PortsRangeList{}
 
 	for _, hs := range hostServices {
 
@@ -182,7 +181,7 @@ func ValidateHostServicesList(attribute string, hostServices []*HostService) err
 
 		if hs.Services != nil {
 			var err error
-			if cachePortsList, cacheRanges, err = hs.Services.ValidateWithoutOverlap(cachePortsList, cacheRanges); err != nil {
+			if cachePortsList, cacheRanges, err = ValidateProcessingUnitServicesListWithoutOverlap(hs.Services, cachePortsList, cacheRanges); err != nil {
 				return makeValidationError("hostServices", err.Error())
 			}
 		}
@@ -224,4 +223,77 @@ func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
 	}
 
 	return nil
+}
+
+// ValidateProcessingUnitServicesList validates a list of processing unit services.
+func ValidateProcessingUnitServicesList(attribute string, svcs []*ProcessingUnitService) error {
+
+	if _, _, err := ValidateProcessingUnitServicesListWithoutOverlap(svcs, map[int]*portutils.PortsList{}, map[int]*portutils.PortsRangeList{}); err != nil {
+		return makeValidationError(attribute, err.Error())
+	}
+	return nil
+}
+
+// ValidateProcessingUnitServicesListWithoutOverlap validates a list of processing unit services has no overlap with any given parameter.
+func ValidateProcessingUnitServicesListWithoutOverlap(svcs []*ProcessingUnitService, cachePortsList map[int]*portutils.PortsList, cacheRanges map[int]*portutils.PortsRangeList) (map[int]*portutils.PortsList, map[int]*portutils.PortsRangeList, error) {
+
+	for _, svc := range svcs {
+
+		var cpl *portutils.PortsList
+		var cpr *portutils.PortsRangeList
+		var ok bool
+
+		if cpl, ok = cachePortsList[svc.Protocol]; !ok {
+			cpl = &portutils.PortsList{}
+			cachePortsList[svc.Protocol] = cpl
+		}
+
+		if cpr, ok = cacheRanges[svc.Protocol]; !ok {
+			cpr = &portutils.PortsRangeList{}
+			cacheRanges[svc.Protocol] = cpr
+		}
+
+		ports := svc.Ports
+
+		// Range port
+		if strings.Contains(ports, ":") {
+
+			pr, err := portutils.ConvertToPortsRange(ports)
+			if err != nil {
+				return nil, nil, err
+			}
+
+			if pr.HasOverlapWithPortsRanges(cpr) {
+				return nil, nil, fmt.Errorf("Port range overlaps with another range")
+			}
+
+			if pr.HasOverlapWithPortsList(cpl) {
+				return nil, nil, fmt.Errorf("Port range overlaps with another port")
+			}
+
+			*cpr = append(*cpr, pr)
+			cacheRanges[svc.Protocol] = cpr
+
+			continue
+		}
+
+		// Single & Multiple ports
+		pl, err := portutils.ConvertToPortsList(ports)
+		if err != nil {
+			return nil, nil, err
+		}
+
+		if pl.HasOverlapWithPortsList(cpl) {
+			return nil, nil, fmt.Errorf("Port overlaps with another port")
+		}
+
+		if pl.HasOverlapWithPortsRanges(cpr) {
+			return nil, nil, fmt.Errorf("Port overlaps with another port range")
+		}
+
+		*cpl = append(*cpl, *pl...)
+		cachePortsList[svc.Protocol] = cpl
+	}
+
+	return cachePortsList, cacheRanges, nil
 }

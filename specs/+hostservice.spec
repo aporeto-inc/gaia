@@ -28,8 +28,10 @@ attributes:
 
   - name: services
     description: Services lists all protocols and ports a service is running.
-    type: external
+    type: refList
     exposed: true
-    subtype: processing_unit_services_list
+    subtype: processingunitservice
     stored: true
     orderable: true
+    extensions:
+      refMode: pointer

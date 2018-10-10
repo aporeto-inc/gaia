@@ -287,12 +287,6 @@ ports_list:
     type: '[]string'
     init: '[]string{}'
 
-processing_unit_services_list:
-  elemental:
-    type: types.ProcessingUnitServicesList
-    init: types.ProcessingUnitServicesList{}
-    import: go.aporeto.io/gaia/types
-
 processingunit:
   elemental:
     type: '*ProcessingUnit'

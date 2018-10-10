@@ -4,7 +4,6 @@ import (
 	"sync"
 
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/types"
 )
 
 // HostService represents the model of a hostservice
@@ -16,7 +15,7 @@ type HostService struct {
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Services lists all protocols and ports a service is running.
-	Services types.ProcessingUnitServicesList `json:"services" bson:"services" mapstructure:"services,omitempty"`
+	Services []*ProcessingUnitService `json:"services" bson:"services" mapstructure:"services,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -29,7 +28,7 @@ func NewHostService() *HostService {
 	return &HostService{
 		ModelVersion:   1,
 		AssociatedTags: []string{},
-		Services:       types.ProcessingUnitServicesList{},
+		Services:       []*ProcessingUnitService{},
 	}
 }
 
@@ -50,6 +49,12 @@ func (o *HostService) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	for _, sub := range o.Services {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
 
 	if len(requiredErrors) > 0 {
 		return requiredErrors

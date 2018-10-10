@@ -22,6 +22,10 @@ $ports:
   elemental:
     name: ValidatePortStringList
 
+$processingunitservices:
+  elemental:
+    name: ValidateProcessingUnitServicesList
+
 $protocol:
   elemental:
     name: ValidateProtocol

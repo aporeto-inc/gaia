@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/types"
 )
 
 // ProcessingUnitEnforcementStatusValue represents the possible values for attribute "enforcementStatus".
@@ -172,7 +171,7 @@ type ProcessingUnit struct {
 	// NetworkServices is the list of services that this processing unit has declared
 	// that it will be listening to. This can happen either with an activation command
 	// or by exposing the ports in a container manifest.
-	NetworkServices types.ProcessingUnitServicesList `json:"networkServices" bson:"networkservices" mapstructure:"networkServices,omitempty"`
+	NetworkServices []*ProcessingUnitService `json:"networkServices" bson:"networkservices" mapstructure:"networkServices,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
@@ -203,7 +202,7 @@ func NewProcessingUnit() *ProcessingUnit {
 		EnforcementStatus: ProcessingUnitEnforcementStatusInactive,
 		AssociatedTags:    []string{},
 		Metadata:          []string{},
-		NetworkServices:   types.ProcessingUnitServicesList{},
+		NetworkServices:   []*ProcessingUnitService{},
 		NormalizedTags:    []string{},
 		OperationalStatus: ProcessingUnitOperationalStatusInitialized,
 	}
@@ -389,6 +388,16 @@ func (o *ProcessingUnit) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	for _, sub := range o.NetworkServices {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	if err := ValidateProcessingUnitServicesList("networkServices", o.NetworkServices); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -613,8 +622,8 @@ or by exposing the ports in a container manifest.`,
 		Name:      "networkServices",
 		Orderable: true,
 		Stored:    true,
-		SubType:   "processing_unit_services_list",
-		Type:      "external",
+		SubType:   "processingunitservice",
+		Type:      "refList",
 	},
 	"NormalizedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -866,8 +875,8 @@ or by exposing the ports in a container manifest.`,
 		Name:      "networkServices",
 		Orderable: true,
 		Stored:    true,
-		SubType:   "processing_unit_services_list",
-		Type:      "external",
+		SubType:   "processingunitservice",
+		Type:      "refList",
 	},
 	"normalizedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
