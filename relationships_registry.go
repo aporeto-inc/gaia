@@ -3863,6 +3863,16 @@ func init() {
 						Name: "identity",
 						Type: "string",
 					},
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
 				},
 			},
 		},
@@ -3886,6 +3896,16 @@ func init() {
 					elemental.ParameterDefinition{
 						Name: "identity",
 						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
 					},
 				},
 			},
