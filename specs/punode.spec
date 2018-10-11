@@ -25,8 +25,8 @@ attributes:
     type: string
     exposed: true
 
-  - name: lastUpdate
-    description: Last update of the pu.
+  - name: lastPokeTime
+    description: Last poke time of the pu.
     type: time
     exposed: true
 
