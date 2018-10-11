@@ -9439,6 +9439,8 @@ Retrieves tabulated informations based on parameters.
 
 - `column` (string): Columns you want to see.
 - `identity` (string): Identity you want to tabulate.
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 ##### Mandatory Parameters
 

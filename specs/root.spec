@@ -630,6 +630,8 @@ relations:
 - rest_name: tabulation
   get:
     description: Retrieves tabulated informations based on parameters.
+    global_parameters:
+    - $filtering
     parameters:
       required:
       - - - identity
