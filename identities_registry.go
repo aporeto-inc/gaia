@@ -56,6 +56,7 @@ var (
 		"namespace":              NamespaceIdentity,
 		"namespacemappingpolicy": NamespaceMappingPolicyIdentity,
 		"networkaccesspolicy":    NetworkAccessPolicyIdentity,
+		"oidcprovider":           OIDCProviderIdentity,
 		"passwordreset":          PasswordResetIdentity,
 		"plan":                   PlanIdentity,
 		"poke":                   PokeIdentity,
@@ -145,6 +146,7 @@ var (
 		"namespaces":               NamespaceIdentity,
 		"namespacemappingpolicies": NamespaceMappingPolicyIdentity,
 		"networkaccesspolicies":    NetworkAccessPolicyIdentity,
+		"oidcproviders":            OIDCProviderIdentity,
 		"passwordreset":            PasswordResetIdentity,
 		"plans":                    PlanIdentity,
 		"poke":                     PokeIdentity,
@@ -352,9 +354,12 @@ var (
 		},
 		"namespacemappingpolicy": nil,
 		"networkaccesspolicy":    nil,
-		"passwordreset":          nil,
-		"plan":                   nil,
-		"poke":                   nil,
+		"oidcprovider": [][]string{
+			[]string{":unique", "parentid", "name"},
+		},
+		"passwordreset": nil,
+		"plan":          nil,
+		"poke":          nil,
 		"policy": [][]string{
 			[]string{"namespace"},
 			[]string{"namespace", "type"},
@@ -559,6 +564,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewNamespaceMappingPolicy()
 	case NetworkAccessPolicyIdentity:
 		return NewNetworkAccessPolicy()
+	case OIDCProviderIdentity:
+		return NewOIDCProvider()
 	case PasswordResetIdentity:
 		return NewPasswordReset()
 	case PlanIdentity:
@@ -746,6 +753,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &NamespaceMappingPoliciesList{}
 	case NetworkAccessPolicyIdentity:
 		return &NetworkAccessPoliciesList{}
+	case OIDCProviderIdentity:
+		return &OIDCProvidersList{}
 	case PasswordResetIdentity:
 		return &PasswordResetsList{}
 	case PlanIdentity:
@@ -886,6 +895,7 @@ func AllIdentities() []elemental.Identity {
 		NamespaceIdentity,
 		NamespaceMappingPolicyIdentity,
 		NetworkAccessPolicyIdentity,
+		OIDCProviderIdentity,
 		PasswordResetIdentity,
 		PlanIdentity,
 		PokeIdentity,
@@ -1085,6 +1095,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"netpol",
 			"netpols",
 		}
+	case OIDCProviderIdentity:
+		return []string{}
 	case PasswordResetIdentity:
 		return []string{}
 	case PlanIdentity:

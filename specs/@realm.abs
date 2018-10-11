@@ -9,12 +9,10 @@ attributes:
     allowed_choices:
     - AWSIdentityDocument
     - Certificate
-    - Facebook
-    - Github
     - Google
     - LDAP
-    - Twitter
     - Vince
     - GCPIdentityDocument
     - AzureIdentityDocument
+    - OIDC
     example_value: Certificate
