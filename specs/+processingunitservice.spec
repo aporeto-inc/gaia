@@ -14,6 +14,7 @@ attributes:
     description: porst contains the list of allowed ports and ranges.
     type: string
     exposed: true
+    stored: true
     orderable: true
 
   - name: protocol

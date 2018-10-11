@@ -9,7 +9,7 @@ import (
 // ProcessingUnitService represents the model of a processingunitservice
 type ProcessingUnitService struct {
 	// porst contains the list of allowed ports and ranges.
-	Ports string `json:"ports" bson:"-" mapstructure:"ports,omitempty"`
+	Ports string `json:"ports" bson:"ports" mapstructure:"ports,omitempty"`
 
 	// Protocol used by the service.
 	Protocol int `json:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
