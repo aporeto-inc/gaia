@@ -52,7 +52,7 @@ attributes:
     exposed: true
     stored: true
     allowed_choices:
-    - Protected
+    - Active
     - Failed
     - Inactive
     default_value: Inactive

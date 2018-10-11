@@ -14,14 +14,14 @@ import (
 type ProcessingUnitEnforcementStatusValue string
 
 const (
+	// ProcessingUnitEnforcementStatusActive represents the value Active.
+	ProcessingUnitEnforcementStatusActive ProcessingUnitEnforcementStatusValue = "Active"
+
 	// ProcessingUnitEnforcementStatusFailed represents the value Failed.
 	ProcessingUnitEnforcementStatusFailed ProcessingUnitEnforcementStatusValue = "Failed"
 
 	// ProcessingUnitEnforcementStatusInactive represents the value Inactive.
 	ProcessingUnitEnforcementStatusInactive ProcessingUnitEnforcementStatusValue = "Inactive"
-
-	// ProcessingUnitEnforcementStatusProtected represents the value Protected.
-	ProcessingUnitEnforcementStatusProtected ProcessingUnitEnforcementStatusValue = "Protected"
 )
 
 // ProcessingUnitOperationalStatusValue represents the possible values for attribute "operationalStatus".
@@ -383,7 +383,7 @@ func (o *ProcessingUnit) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("enforcementStatus", string(o.EnforcementStatus), []string{"Protected", "Failed", "Inactive"}, false); err != nil {
+	if err := elemental.ValidateStringInList("enforcementStatus", string(o.EnforcementStatus), []string{"Active", "Failed", "Inactive"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -508,7 +508,7 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"EnforcementStatus": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Protected", "Failed", "Inactive"},
+		AllowedChoices: []string{"Active", "Failed", "Inactive"},
 		ConvertedName:  "EnforcementStatus",
 		DefaultValue:   ProcessingUnitEnforcementStatusInactive,
 		Description:    `EnforcementStatus communicates the state of the enforcer for that PU.`,
@@ -769,7 +769,7 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Type:           "string",
 	},
 	"enforcementstatus": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Protected", "Failed", "Inactive"},
+		AllowedChoices: []string{"Active", "Failed", "Inactive"},
 		ConvertedName:  "EnforcementStatus",
 		DefaultValue:   ProcessingUnitEnforcementStatusInactive,
 		Description:    `EnforcementStatus communicates the state of the enforcer for that PU.`,

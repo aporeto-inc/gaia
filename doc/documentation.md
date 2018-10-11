@@ -7832,11 +7832,11 @@ Description is the description of the object.
 
 EnforcementStatus communicates the state of the enforcer for that PU.
 
-| Characteristics | Value                         |
-| -               | -:                            |
-| Allowed Value   | `Protected, Failed, Inactive` |
-| Default         | `"Inactive"`                  |
-| Filterable      | `true`                        |
+| Characteristics | Value                      |
+| -               | -:                         |
+| Allowed Value   | `Active, Failed, Inactive` |
+| Default         | `"Inactive"`               |
+| Filterable      | `true`                     |
 
 #### `enforcerID (string)`
 
