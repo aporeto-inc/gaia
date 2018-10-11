@@ -11,7 +11,7 @@ model:
 attributes:
   v1:
   - name: ports
-    description: porst contains the list of allowed ports and ranges.
+    description: ports contains the list of allowed ports and ranges.
     type: string
     exposed: true
     stored: true

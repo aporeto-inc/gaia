@@ -8219,7 +8219,7 @@ Represents a service attached to a processing unit.
 
 #### `ports (string)`
 
-porst contains the list of allowed ports and ranges.
+ports contains the list of allowed ports and ranges.
 
 | Characteristics | Value  |
 | -               | -:     |
