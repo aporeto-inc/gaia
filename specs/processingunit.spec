@@ -174,7 +174,7 @@ relations:
         allowed_choices:
         - Failed
         - Inactive
-        - Protected
+        - Active
 
       - name: status
         description: If set, changes the status of the processing unit alongside with
