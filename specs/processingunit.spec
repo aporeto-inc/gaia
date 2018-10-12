@@ -73,6 +73,11 @@ attributes:
     stored: true
     filterable: true
 
+  - name: lastPokeTime
+    description: Last poke is the time when the pu got last poked.
+    type: time
+    stored: true
+
   - name: lastSyncTime
     description: LastSyncTime is the time when the policy was last resolved.
     type: time

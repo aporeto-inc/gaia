@@ -78,8 +78,8 @@ type PUNode struct {
 	// Image of the pu.
 	Image string `json:"image" bson:"-" mapstructure:"image,omitempty"`
 
-	// Last update of the pu.
-	LastUpdate time.Time `json:"lastUpdate" bson:"-" mapstructure:"lastUpdate,omitempty"`
+	// Last poke time of the pu.
+	LastPokeTime time.Time `json:"lastPokeTime" bson:"-" mapstructure:"lastPokeTime,omitempty"`
 
 	// Name of the pu.
 	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
@@ -209,12 +209,12 @@ var PUNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "image",
 		Type:           "string",
 	},
-	"LastUpdate": elemental.AttributeSpecification{
+	"LastPokeTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "LastUpdate",
-		Description:    `Last update of the pu.`,
+		ConvertedName:  "LastPokeTime",
+		Description:    `Last poke time of the pu.`,
 		Exposed:        true,
-		Name:           "lastUpdate",
+		Name:           "lastPokeTime",
 		Type:           "time",
 	},
 	"Name": elemental.AttributeSpecification{
@@ -286,12 +286,12 @@ var PUNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "image",
 		Type:           "string",
 	},
-	"lastupdate": elemental.AttributeSpecification{
+	"lastpoketime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "LastUpdate",
-		Description:    `Last update of the pu.`,
+		ConvertedName:  "LastPokeTime",
+		Description:    `Last poke time of the pu.`,
 		Exposed:        true,
-		Name:           "lastUpdate",
+		Name:           "lastPokeTime",
 		Type:           "time",
 	},
 	"name": elemental.AttributeSpecification{
