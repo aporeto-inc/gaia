@@ -38,6 +38,7 @@ func (p *PortsRange) HasOverlapWithPortsRange(otherRange *PortsRange) bool {
 		otherRange.ToPort >= p.FromPort && otherRange.ToPort <= p.ToPort
 }
 
+// HasOverlapWithPortsRanges returns true if the range has overlaps with the given ports.
 func (p *PortsRange) HasOverlapWithPortsRanges(otherRanges *PortsRangeList) bool {
 
 	for _, pr := range *otherRanges {
