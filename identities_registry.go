@@ -51,6 +51,7 @@ var (
 		"issue":                  IssueIdentity,
 		"jaegerbatch":            JaegerbatchIdentity,
 		"k8scluster":             K8SClusterIdentity,
+		"k8scredential":          K8SCredentialIdentity,
 		"log":                    LogIdentity,
 		"message":                MessageIdentity,
 		"namespace":              NamespaceIdentity,
@@ -141,6 +142,7 @@ var (
 		"issue":                    IssueIdentity,
 		"jaegerbatchs":             JaegerbatchIdentity,
 		"k8sclusters":              K8SClusterIdentity,
+		"k8scredentials":           K8SCredentialIdentity,
 		"logs":                     LogIdentity,
 		"messages":                 MessageIdentity,
 		"namespaces":               NamespaceIdentity,
@@ -214,6 +216,8 @@ var (
 		"iapp":       InstalledAppIdentity,
 		"ip":         IsolationProfileIdentity,
 		"sp":         JaegerbatchIdentity,
+		"k8scred":    K8SCredentialIdentity,
+		"k8screds":   K8SCredentialIdentity,
 		"mess":       MessageIdentity,
 		"ns":         NamespaceIdentity,
 		"nspolicy":   NamespaceMappingPolicyIdentity,
@@ -342,6 +346,10 @@ var (
 		"issue":       nil,
 		"jaegerbatch": nil,
 		"k8scluster": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+		},
+		"k8scredential": [][]string{
 			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
 		},
@@ -554,6 +562,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewJaegerbatch()
 	case K8SClusterIdentity:
 		return NewK8SCluster()
+	case K8SCredentialIdentity:
+		return NewK8SCredential()
 	case LogIdentity:
 		return NewLog()
 	case MessageIdentity:
@@ -743,6 +753,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &JaegerbatchsList{}
 	case K8SClusterIdentity:
 		return &K8SClustersList{}
+	case K8SCredentialIdentity:
+		return &K8SCredentialsList{}
 	case LogIdentity:
 		return &LogsList{}
 	case MessageIdentity:
@@ -890,6 +902,7 @@ func AllIdentities() []elemental.Identity {
 		IssueIdentity,
 		JaegerbatchIdentity,
 		K8SClusterIdentity,
+		K8SCredentialIdentity,
 		LogIdentity,
 		MessageIdentity,
 		NamespaceIdentity,
@@ -1073,6 +1086,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case K8SClusterIdentity:
 		return []string{}
+	case K8SCredentialIdentity:
+		return []string{
+			"k8scred",
+			"k8screds",
+		}
 	case LogIdentity:
 		return []string{}
 	case MessageIdentity:

@@ -375,6 +375,16 @@ relations:
     description: Creates a new kubernetes cluster.
     deprecated: true
 
+- rest_name: k8scredential
+  get:
+    description: Retrieves the list of kubernetes credentials.
+    deprecated: true
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new kubernetes credential.
+    deprecated: true
+
 - rest_name: message
   get:
     description: Retrieves the list of messages.
