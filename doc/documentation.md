@@ -8219,15 +8219,22 @@ Represents a service attached to a processing unit.
 
 #### `ports (string)`
 
+> This attribute is deprecated
+
 ports contains the list of allowed ports and ranges.
 
 | Characteristics | Value  |
 | -               | -:     |
+| Read only       | `true` |
 | Orderable       | `true` |
 
 #### `protocol (integer)`
 
 Protocol used by the service.
+
+#### `targetPorts (list)`
+
+List of single ports or range (xx:yy).
 
 ## QuotaPolicy
 

@@ -253,46 +253,49 @@ func ValidateProcessingUnitServicesListWithoutOverlap(svcs []*ProcessingUnitServ
 			cacheRanges[svc.Protocol] = cpr
 		}
 
-		ports := svc.Ports
+		targetPorts := svc.TargetPorts
 
-		// Range port
-		if strings.Contains(ports, ":") {
+		for _, ports := range targetPorts {
+			// Range port
+			if strings.Contains(ports, ":") {
 
-			pr, err := portutils.ConvertToPortsRange(ports)
+				pr, err := portutils.ConvertToPortsRange(ports)
+				if err != nil {
+					return nil, nil, err
+				}
+
+				if pr.HasOverlapWithPortsRanges(cpr) {
+					return nil, nil, fmt.Errorf("Port range overlaps with another range")
+				}
+
+				if pr.HasOverlapWithPortsList(cpl) {
+					return nil, nil, fmt.Errorf("Port range overlaps with another port")
+				}
+
+				*cpr = append(*cpr, pr)
+				cacheRanges[svc.Protocol] = cpr
+
+				continue
+			}
+
+			// Single & Multiple ports
+			pl, err := portutils.ConvertToPortsList(ports)
 			if err != nil {
 				return nil, nil, err
 			}
 
-			if pr.HasOverlapWithPortsRanges(cpr) {
-				return nil, nil, fmt.Errorf("Port range overlaps with another range")
+			if pl.HasOverlapWithPortsList(cpl) {
+				return nil, nil, fmt.Errorf("Port overlaps with another port")
 			}
 
-			if pr.HasOverlapWithPortsList(cpl) {
-				return nil, nil, fmt.Errorf("Port range overlaps with another port")
+			if pl.HasOverlapWithPortsRanges(cpr) {
+				return nil, nil, fmt.Errorf("Port overlaps with another port range")
 			}
 
-			*cpr = append(*cpr, pr)
-			cacheRanges[svc.Protocol] = cpr
-
-			continue
+			*cpl = append(*cpl, *pl...)
+			cachePortsList[svc.Protocol] = cpl
 		}
 
-		// Single & Multiple ports
-		pl, err := portutils.ConvertToPortsList(ports)
-		if err != nil {
-			return nil, nil, err
-		}
-
-		if pl.HasOverlapWithPortsList(cpl) {
-			return nil, nil, fmt.Errorf("Port overlaps with another port")
-		}
-
-		if pl.HasOverlapWithPortsRanges(cpr) {
-			return nil, nil, fmt.Errorf("Port overlaps with another port range")
-		}
-
-		*cpl = append(*cpl, *pl...)
-		cachePortsList[svc.Protocol] = cpl
 	}
 
 	return cachePortsList, cacheRanges, nil

@@ -14,6 +14,9 @@ type ProcessingUnitService struct {
 	// Protocol used by the service.
 	Protocol int `json:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
 
+	// List of single ports or range (xx:yy).
+	TargetPorts []string `json:"targetPorts" bson:"targetports" mapstructure:"targetPorts,omitempty"`
+
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
 	sync.Mutex `json:"-" bson:"-"`
@@ -32,6 +35,10 @@ func (o *ProcessingUnitService) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := ValidatePortStringList("targetPorts", o.TargetPorts); err != nil {
+		errors = append(errors, err)
+	}
 
 	if len(requiredErrors) > 0 {
 		return requiredErrors

@@ -15,6 +15,8 @@ attributes:
     type: string
     exposed: true
     stored: true
+    read_only: true
+    deprecated: true
     orderable: true
 
   - name: protocol
@@ -22,3 +24,12 @@ attributes:
     type: integer
     exposed: true
     stored: true
+
+  - name: targetPorts
+    description: List of single ports or range (xx:yy).
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    validations:
+    - $ports

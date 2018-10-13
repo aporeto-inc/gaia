@@ -84,12 +84,8 @@ func Test_ConvertToPortsList(t *testing.T) {
 		{
 			"mutliple ports",
 			args{"80,443,1200"},
-			&PortsList{
-				80,
-				443,
-				1200,
-			},
-			false,
+			nil,
+			true,
 		},
 		{
 			"empty ports",

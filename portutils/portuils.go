@@ -37,42 +37,14 @@ func ConvertToPortsList(ports string) (*PortsList, error) {
 
 	results := PortsList{}
 
-	if !strings.Contains(ports, ",") {
-		p, err := ConvertToSinglePort(ports)
-		if err != nil {
-			return nil, err
-		}
-
-		results = append(results, p)
-		return &results, nil
+	p, err := ConvertToSinglePort(ports)
+	if err != nil {
+		return nil, err
 	}
 
-	cache := map[int64]struct{}{}
-
-	sp := strings.Split(ports, ",")
-	if len(sp) < 2 {
-		return nil, fmt.Errorf("%s format is invalid. Should be port1,port2,port3", ports)
-	}
-
-	for _, s := range sp {
-
-		p, err := ConvertToSinglePort(s)
-		if err != nil {
-			return nil, err
-		}
-
-		if _, ok := cache[p]; ok {
-			return nil, fmt.Errorf("Port %s already defined", s)
-		}
-
-		cache[p] = struct{}{}
-	}
-
-	for port := range cache {
-		results = append(results, port)
-	}
-
+	results = append(results, p)
 	return &results, nil
+
 }
 
 // ConvertToSinglePort converts a string to port.
