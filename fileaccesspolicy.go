@@ -390,6 +390,118 @@ func (o *FileAccessPolicy) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *FileAccessPolicy) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseFileAccessPolicy{
+		ID:                &o.ID,
+		ActiveDuration:    &o.ActiveDuration,
+		ActiveSchedule:    &o.ActiveSchedule,
+		AllowsExecute:     &o.AllowsExecute,
+		AllowsRead:        &o.AllowsRead,
+		AllowsWrite:       &o.AllowsWrite,
+		Annotations:       &o.Annotations,
+		AssociatedTags:    &o.AssociatedTags,
+		CreateTime:        &o.CreateTime,
+		Description:       &o.Description,
+		Disabled:          &o.Disabled,
+		EncryptionEnabled: &o.EncryptionEnabled,
+		Fallback:          &o.Fallback,
+		LogsEnabled:       &o.LogsEnabled,
+		Metadata:          &o.Metadata,
+		Name:              &o.Name,
+		Namespace:         &o.Namespace,
+		NormalizedTags:    &o.NormalizedTags,
+		Object:            &o.Object,
+		Propagate:         &o.Propagate,
+		PropagationHidden: &o.PropagationHidden,
+		Protected:         &o.Protected,
+		Subject:           &o.Subject,
+		UpdateTime:        &o.UpdateTime,
+	}
+}
+
+// Patch apply the non nil value of a *SparseFileAccessPolicy to the object.
+func (o *FileAccessPolicy) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseFileAccessPolicy)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.ActiveDuration != nil {
+		o.ActiveDuration = *so.ActiveDuration
+	}
+	if so.ActiveSchedule != nil {
+		o.ActiveSchedule = *so.ActiveSchedule
+	}
+	if so.AllowsExecute != nil {
+		o.AllowsExecute = *so.AllowsExecute
+	}
+	if so.AllowsRead != nil {
+		o.AllowsRead = *so.AllowsRead
+	}
+	if so.AllowsWrite != nil {
+		o.AllowsWrite = *so.AllowsWrite
+	}
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.Disabled != nil {
+		o.Disabled = *so.Disabled
+	}
+	if so.EncryptionEnabled != nil {
+		o.EncryptionEnabled = *so.EncryptionEnabled
+	}
+	if so.Fallback != nil {
+		o.Fallback = *so.Fallback
+	}
+	if so.LogsEnabled != nil {
+		o.LogsEnabled = *so.LogsEnabled
+	}
+	if so.Metadata != nil {
+		o.Metadata = *so.Metadata
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Object != nil {
+		o.Object = *so.Object
+	}
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
+	}
+	if so.PropagationHidden != nil {
+		o.PropagationHidden = *so.PropagationHidden
+	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
+	}
+	if so.Subject != nil {
+		o.Subject = *so.Subject
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *FileAccessPolicy) Validate() error {
 
@@ -1030,4 +1142,250 @@ namespace, but still used for policy resolution.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseFileAccessPoliciesList represents a list of SparseFileAccessPolicies
+type SparseFileAccessPoliciesList []*SparseFileAccessPolicy
+
+// Identity returns the identity of the objects in the list.
+func (o SparseFileAccessPoliciesList) Identity() elemental.Identity {
+
+	return FileAccessPolicyIdentity
+}
+
+// Copy returns a pointer to a copy the SparseFileAccessPoliciesList.
+func (o SparseFileAccessPoliciesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseFileAccessPoliciesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseFileAccessPoliciesList.
+func (o SparseFileAccessPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseFileAccessPoliciesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseFileAccessPolicy))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseFileAccessPoliciesList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseFileAccessPoliciesList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// Version returns the version of the content.
+func (o SparseFileAccessPoliciesList) Version() int {
+
+	return 1
+}
+
+// SparseFileAccessPolicy represents the sparse version of a fileaccesspolicy.
+type SparseFileAccessPolicy struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
+	// ActiveDuration defines for how long the policy will be active according to the
+	// activeSchedule.
+	ActiveDuration *string `json:"activeDuration,omitempty" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
+
+	// ActiveSchedule defines when the policy should be active using the cron notation.
+	// The policy will be active for the given activeDuration.
+	ActiveSchedule *string `json:"activeSchedule,omitempty" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
+
+	// AllowsExecute allows to execute the files.
+	AllowsExecute *bool `json:"allowsExecute,omitempty" bson:"-" mapstructure:"allowsExecute,omitempty"`
+
+	// AllowsRead allows to read the files.
+	AllowsRead *bool `json:"allowsRead,omitempty" bson:"-" mapstructure:"allowsRead,omitempty"`
+
+	// AllowsWrite allows to write the files.
+	AllowsWrite *bool `json:"allowsWrite,omitempty" bson:"-" mapstructure:"allowsWrite,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// Disabled defines if the propert is disabled.
+	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
+
+	// EncryptionEnabled will enable the automatic encryption.
+	EncryptionEnabled *bool `json:"encryptionEnabled,omitempty" bson:"-" mapstructure:"encryptionEnabled,omitempty"`
+
+	// Fallback indicates that this is fallback policy. It will only be
+	// applied if no other policies have been resolved. If the policy is also
+	// propagated it will become a fallback for children namespaces.
+	Fallback *bool `json:"fallback,omitempty" bson:"fallback" mapstructure:"fallback,omitempty"`
+
+	// LogsEnabled will enable logging when this policy is used.
+	LogsEnabled *bool `json:"logsEnabled,omitempty" bson:"-" mapstructure:"logsEnabled,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Object is the object of the policy.
+	Object *[][]string `json:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
+
+	// Propagate will propagate the policy to all of its children.
+	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
+
+	// If set to true while the policy is propagating, it won't be visible to children
+	// namespace, but still used for policy resolution.
+	PropagationHidden *bool `json:"propagationHidden,omitempty" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// Subject is the subject of the policy.
+	Subject *[][]string `json:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseFileAccessPolicy returns a new  SparseFileAccessPolicy.
+func NewSparseFileAccessPolicy() *SparseFileAccessPolicy {
+	return &SparseFileAccessPolicy{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseFileAccessPolicy) Identity() elemental.Identity {
+
+	return FileAccessPolicyIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseFileAccessPolicy) Identifier() string {
+
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseFileAccessPolicy) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseFileAccessPolicy) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseFileAccessPolicy) ToFull() elemental.FullIdentifiable {
+
+	out := NewFileAccessPolicy()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.ActiveDuration != nil {
+		out.ActiveDuration = *o.ActiveDuration
+	}
+	if o.ActiveSchedule != nil {
+		out.ActiveSchedule = *o.ActiveSchedule
+	}
+	if o.AllowsExecute != nil {
+		out.AllowsExecute = *o.AllowsExecute
+	}
+	if o.AllowsRead != nil {
+		out.AllowsRead = *o.AllowsRead
+	}
+	if o.AllowsWrite != nil {
+		out.AllowsWrite = *o.AllowsWrite
+	}
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.Disabled != nil {
+		out.Disabled = *o.Disabled
+	}
+	if o.EncryptionEnabled != nil {
+		out.EncryptionEnabled = *o.EncryptionEnabled
+	}
+	if o.Fallback != nil {
+		out.Fallback = *o.Fallback
+	}
+	if o.LogsEnabled != nil {
+		out.LogsEnabled = *o.LogsEnabled
+	}
+	if o.Metadata != nil {
+		out.Metadata = *o.Metadata
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Object != nil {
+		out.Object = *o.Object
+	}
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
+	}
+	if o.PropagationHidden != nil {
+		out.PropagationHidden = *o.PropagationHidden
+	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
+	}
+	if o.Subject != nil {
+		out.Subject = *o.Subject
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

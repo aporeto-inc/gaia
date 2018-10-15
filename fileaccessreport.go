@@ -156,6 +156,50 @@ func (o *FileAccessReport) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *FileAccessReport) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseFileAccessReport{
+		Action:                  &o.Action,
+		Host:                    &o.Host,
+		Mode:                    &o.Mode,
+		Path:                    &o.Path,
+		ProcessingUnitID:        &o.ProcessingUnitID,
+		ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
+		Timestamp:               &o.Timestamp,
+	}
+}
+
+// Patch apply the non nil value of a *SparseFileAccessReport to the object.
+func (o *FileAccessReport) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseFileAccessReport)
+	if so.Action != nil {
+		o.Action = *so.Action
+	}
+	if so.Host != nil {
+		o.Host = *so.Host
+	}
+	if so.Mode != nil {
+		o.Mode = *so.Mode
+	}
+	if so.Path != nil {
+		o.Path = *so.Path
+	}
+	if so.ProcessingUnitID != nil {
+		o.ProcessingUnitID = *so.ProcessingUnitID
+	}
+	if so.ProcessingUnitNamespace != nil {
+		o.ProcessingUnitNamespace = *so.ProcessingUnitNamespace
+	}
+	if so.Timestamp != nil {
+		o.Timestamp = *so.Timestamp
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *FileAccessReport) Validate() error {
 
@@ -356,4 +400,139 @@ var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Required:       true,
 		Type:           "time",
 	},
+}
+
+// SparseFileAccessReportsList represents a list of SparseFileAccessReports
+type SparseFileAccessReportsList []*SparseFileAccessReport
+
+// Identity returns the identity of the objects in the list.
+func (o SparseFileAccessReportsList) Identity() elemental.Identity {
+
+	return FileAccessReportIdentity
+}
+
+// Copy returns a pointer to a copy the SparseFileAccessReportsList.
+func (o SparseFileAccessReportsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseFileAccessReportsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseFileAccessReportsList.
+func (o SparseFileAccessReportsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseFileAccessReportsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseFileAccessReport))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseFileAccessReportsList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseFileAccessReportsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseFileAccessReportsList) Version() int {
+
+	return 1
+}
+
+// SparseFileAccessReport represents the sparse version of a fileaccessreport.
+type SparseFileAccessReport struct {
+	// Action taken.
+	Action *FileAccessReportActionValue `json:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
+
+	// Host of the file.
+	Host *string `json:"host,omitempty" bson:"-" mapstructure:"host,omitempty"`
+
+	// Mode of the file access.
+	Mode *string `json:"mode,omitempty" bson:"-" mapstructure:"mode,omitempty"`
+
+	// Path of the file.
+	Path *string `json:"path,omitempty" bson:"-" mapstructure:"path,omitempty"`
+
+	// ID of the processing unit.
+	ProcessingUnitID *string `json:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
+
+	// Namespace of the processing unit.
+	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
+
+	// Date of the report.
+	Timestamp *time.Time `json:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseFileAccessReport returns a new  SparseFileAccessReport.
+func NewSparseFileAccessReport() *SparseFileAccessReport {
+	return &SparseFileAccessReport{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseFileAccessReport) Identity() elemental.Identity {
+
+	return FileAccessReportIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseFileAccessReport) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseFileAccessReport) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseFileAccessReport) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseFileAccessReport) ToFull() elemental.FullIdentifiable {
+
+	out := NewFileAccessReport()
+	if o.Action != nil {
+		out.Action = *o.Action
+	}
+	if o.Host != nil {
+		out.Host = *o.Host
+	}
+	if o.Mode != nil {
+		out.Mode = *o.Mode
+	}
+	if o.Path != nil {
+		out.Path = *o.Path
+	}
+	if o.ProcessingUnitID != nil {
+		out.ProcessingUnitID = *o.ProcessingUnitID
+	}
+	if o.ProcessingUnitNamespace != nil {
+		out.ProcessingUnitNamespace = *o.ProcessingUnitNamespace
+	}
+	if o.Timestamp != nil {
+		out.Timestamp = *o.Timestamp
+	}
+
+	return out
 }

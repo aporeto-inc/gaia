@@ -138,6 +138,42 @@ func (o *InvoiceRecord) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *InvoiceRecord) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseInvoiceRecord{
+		ID:             &o.ID,
+		CreateTime:     &o.CreateTime,
+		InvoiceID:      &o.InvoiceID,
+		InvoiceRecords: &o.InvoiceRecords,
+		UpdateTime:     &o.UpdateTime,
+	}
+}
+
+// Patch apply the non nil value of a *SparseInvoiceRecord to the object.
+func (o *InvoiceRecord) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseInvoiceRecord)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.InvoiceID != nil {
+		o.InvoiceID = *so.InvoiceID
+	}
+	if so.InvoiceRecords != nil {
+		o.InvoiceRecords = *so.InvoiceRecords
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *InvoiceRecord) Validate() error {
 
@@ -290,4 +326,128 @@ details for.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseInvoiceRecordsList represents a list of SparseInvoiceRecords
+type SparseInvoiceRecordsList []*SparseInvoiceRecord
+
+// Identity returns the identity of the objects in the list.
+func (o SparseInvoiceRecordsList) Identity() elemental.Identity {
+
+	return InvoiceRecordIdentity
+}
+
+// Copy returns a pointer to a copy the SparseInvoiceRecordsList.
+func (o SparseInvoiceRecordsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseInvoiceRecordsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseInvoiceRecordsList.
+func (o SparseInvoiceRecordsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseInvoiceRecordsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseInvoiceRecord))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseInvoiceRecordsList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseInvoiceRecordsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseInvoiceRecordsList) Version() int {
+
+	return 1
+}
+
+// SparseInvoiceRecord represents the sparse version of a invoicerecord.
+type SparseInvoiceRecord struct {
+	// ID is the id of this invoice record.
+	ID *string `json:"ID,omitempty" bson:"id" mapstructure:"ID,omitempty"`
+
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// InvoiceID references the id of the invoice that this invoice record provides
+	// details for.
+	InvoiceID *string `json:"invoiceID,omitempty" bson:"invoiceid" mapstructure:"invoiceID,omitempty"`
+
+	// InvoiceRecords provides details about billing units.
+	InvoiceRecords *[]string `json:"invoiceRecords,omitempty" bson:"invoicerecords" mapstructure:"invoiceRecords,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseInvoiceRecord returns a new  SparseInvoiceRecord.
+func NewSparseInvoiceRecord() *SparseInvoiceRecord {
+	return &SparseInvoiceRecord{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseInvoiceRecord) Identity() elemental.Identity {
+
+	return InvoiceRecordIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseInvoiceRecord) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseInvoiceRecord) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseInvoiceRecord) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseInvoiceRecord) ToFull() elemental.FullIdentifiable {
+
+	out := NewInvoiceRecord()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.InvoiceID != nil {
+		out.InvoiceID = *o.InvoiceID
+	}
+	if o.InvoiceRecords != nil {
+		out.InvoiceRecords = *o.InvoiceRecords
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

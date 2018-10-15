@@ -168,6 +168,46 @@ func (o *APICheck) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *APICheck) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseAPICheck{
+		Authorized:       &o.Authorized,
+		Claims:           &o.Claims,
+		Namespace:        &o.Namespace,
+		Operation:        &o.Operation,
+		TargetIdentities: &o.TargetIdentities,
+		Token:            &o.Token,
+	}
+}
+
+// Patch apply the non nil value of a *SparseAPICheck to the object.
+func (o *APICheck) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseAPICheck)
+	if so.Authorized != nil {
+		o.Authorized = *so.Authorized
+	}
+	if so.Claims != nil {
+		o.Claims = *so.Claims
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.Operation != nil {
+		o.Operation = *so.Operation
+	}
+	if so.TargetIdentities != nil {
+		o.TargetIdentities = *so.TargetIdentities
+	}
+	if so.Token != nil {
+		o.Token = *so.Token
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *APICheck) Validate() error {
 
@@ -346,4 +386,134 @@ authorization.`,
 		Required:       true,
 		Type:           "string",
 	},
+}
+
+// SparseAPIChecksList represents a list of SparseAPIChecks
+type SparseAPIChecksList []*SparseAPICheck
+
+// Identity returns the identity of the objects in the list.
+func (o SparseAPIChecksList) Identity() elemental.Identity {
+
+	return APICheckIdentity
+}
+
+// Copy returns a pointer to a copy the SparseAPIChecksList.
+func (o SparseAPIChecksList) Copy() elemental.Identifiables {
+
+	copy := append(SparseAPIChecksList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseAPIChecksList.
+func (o SparseAPIChecksList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseAPIChecksList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseAPICheck))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseAPIChecksList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseAPIChecksList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseAPIChecksList) Version() int {
+
+	return 1
+}
+
+// SparseAPICheck represents the sparse version of a apicheck.
+type SparseAPICheck struct {
+	// Authorized contains the results of the check.
+	Authorized *map[string]bool `json:"authorized,omitempty" bson:"-" mapstructure:"authorized,omitempty"`
+
+	// Claims contains the decoded claims used.
+	Claims *[]string `json:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
+
+	// Namespace is the namespace to use to check the api authentication.
+	Namespace *string `json:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
+
+	// Operation is the operation you want to check.
+	Operation *APICheckOperationValue `json:"operation,omitempty" bson:"operation" mapstructure:"operation,omitempty"`
+
+	// TargetIdentities contains the list of identities you want to check the
+	// authorization.
+	TargetIdentities *[]string `json:"targetIdentities,omitempty" bson:"-" mapstructure:"targetIdentities,omitempty"`
+
+	// Token is the token to use to check api authentication.
+	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseAPICheck returns a new  SparseAPICheck.
+func NewSparseAPICheck() *SparseAPICheck {
+	return &SparseAPICheck{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseAPICheck) Identity() elemental.Identity {
+
+	return APICheckIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseAPICheck) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseAPICheck) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseAPICheck) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseAPICheck) ToFull() elemental.FullIdentifiable {
+
+	out := NewAPICheck()
+	if o.Authorized != nil {
+		out.Authorized = *o.Authorized
+	}
+	if o.Claims != nil {
+		out.Claims = *o.Claims
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.Operation != nil {
+		out.Operation = *o.Operation
+	}
+	if o.TargetIdentities != nil {
+		out.TargetIdentities = *o.TargetIdentities
+	}
+	if o.Token != nil {
+		out.Token = *o.Token
+	}
+
+	return out
 }

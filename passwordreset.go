@@ -125,6 +125,30 @@ func (o *PasswordReset) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *PasswordReset) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparsePasswordReset{
+		Password: &o.Password,
+		Token:    &o.Token,
+	}
+}
+
+// Patch apply the non nil value of a *SparsePasswordReset to the object.
+func (o *PasswordReset) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparsePasswordReset)
+	if so.Password != nil {
+		o.Password = *so.Password
+	}
+	if so.Token != nil {
+		o.Token = *so.Token
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *PasswordReset) Validate() error {
 
@@ -209,4 +233,109 @@ var PasswordResetLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Required:       true,
 		Type:           "string",
 	},
+}
+
+// SparsePasswordResetsList represents a list of SparsePasswordResets
+type SparsePasswordResetsList []*SparsePasswordReset
+
+// Identity returns the identity of the objects in the list.
+func (o SparsePasswordResetsList) Identity() elemental.Identity {
+
+	return PasswordResetIdentity
+}
+
+// Copy returns a pointer to a copy the SparsePasswordResetsList.
+func (o SparsePasswordResetsList) Copy() elemental.Identifiables {
+
+	copy := append(SparsePasswordResetsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparsePasswordResetsList.
+func (o SparsePasswordResetsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparsePasswordResetsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparsePasswordReset))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparsePasswordResetsList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparsePasswordResetsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparsePasswordResetsList) Version() int {
+
+	return 1
+}
+
+// SparsePasswordReset represents the sparse version of a passwordreset.
+type SparsePasswordReset struct {
+	// Password contains the new password.
+	Password *string `json:"password,omitempty" bson:"-" mapstructure:"password,omitempty"`
+
+	// Token contains the reset password token.
+	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparsePasswordReset returns a new  SparsePasswordReset.
+func NewSparsePasswordReset() *SparsePasswordReset {
+	return &SparsePasswordReset{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparsePasswordReset) Identity() elemental.Identity {
+
+	return PasswordResetIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparsePasswordReset) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparsePasswordReset) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparsePasswordReset) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparsePasswordReset) ToFull() elemental.FullIdentifiable {
+
+	out := NewPasswordReset()
+	if o.Password != nil {
+		out.Password = *o.Password
+	}
+	if o.Token != nil {
+		out.Token = *o.Token
+	}
+
+	return out
 }

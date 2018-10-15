@@ -373,6 +373,106 @@ func (o *ProcessingUnit) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *ProcessingUnit) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseProcessingUnit{
+		ID:                &o.ID,
+		Annotations:       &o.Annotations,
+		Archived:          &o.Archived,
+		AssociatedTags:    &o.AssociatedTags,
+		CreateTime:        &o.CreateTime,
+		Description:       &o.Description,
+		EnforcementStatus: &o.EnforcementStatus,
+		EnforcerID:        &o.EnforcerID,
+		Image:             &o.Image,
+		LastPokeTime:      &o.LastPokeTime,
+		LastSyncTime:      &o.LastSyncTime,
+		Metadata:          &o.Metadata,
+		Name:              &o.Name,
+		Namespace:         &o.Namespace,
+		NativeContextID:   &o.NativeContextID,
+		NetworkServices:   &o.NetworkServices,
+		NormalizedTags:    &o.NormalizedTags,
+		OperationalStatus: &o.OperationalStatus,
+		Protected:         &o.Protected,
+		Type:              &o.Type,
+		UpdateTime:        &o.UpdateTime,
+	}
+}
+
+// Patch apply the non nil value of a *SparseProcessingUnit to the object.
+func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseProcessingUnit)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
+	}
+	if so.Archived != nil {
+		o.Archived = *so.Archived
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.EnforcementStatus != nil {
+		o.EnforcementStatus = *so.EnforcementStatus
+	}
+	if so.EnforcerID != nil {
+		o.EnforcerID = *so.EnforcerID
+	}
+	if so.Image != nil {
+		o.Image = *so.Image
+	}
+	if so.LastPokeTime != nil {
+		o.LastPokeTime = *so.LastPokeTime
+	}
+	if so.LastSyncTime != nil {
+		o.LastSyncTime = *so.LastSyncTime
+	}
+	if so.Metadata != nil {
+		o.Metadata = *so.Metadata
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.NativeContextID != nil {
+		o.NativeContextID = *so.NativeContextID
+	}
+	if so.NetworkServices != nil {
+		o.NetworkServices = *so.NetworkServices
+	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.OperationalStatus != nil {
+		o.OperationalStatus = *so.OperationalStatus
+	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
+	}
+	if so.Type != nil {
+		o.Type = *so.Type
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *ProcessingUnit) Validate() error {
 
@@ -951,4 +1051,229 @@ or by exposing the ports in a container manifest.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseProcessingUnitsList represents a list of SparseProcessingUnits
+type SparseProcessingUnitsList []*SparseProcessingUnit
+
+// Identity returns the identity of the objects in the list.
+func (o SparseProcessingUnitsList) Identity() elemental.Identity {
+
+	return ProcessingUnitIdentity
+}
+
+// Copy returns a pointer to a copy the SparseProcessingUnitsList.
+func (o SparseProcessingUnitsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseProcessingUnitsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseProcessingUnitsList.
+func (o SparseProcessingUnitsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseProcessingUnitsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseProcessingUnit))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseProcessingUnitsList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseProcessingUnitsList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// Version returns the version of the content.
+func (o SparseProcessingUnitsList) Version() int {
+
+	return 1
+}
+
+// SparseProcessingUnit represents the sparse version of a processingunit.
+type SparseProcessingUnit struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// Archived defines if the object is archived.
+	Archived *bool `json:"-,omitempty" bson:"archived" mapstructure:"-,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// EnforcementStatus communicates the state of the enforcer for that PU.
+	EnforcementStatus *ProcessingUnitEnforcementStatusValue `json:"enforcementStatus,omitempty" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
+
+	// EnforcerID is the ID of the enforcer associated with the processing unit.
+	EnforcerID *string `json:"enforcerID,omitempty" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
+
+	// Docker image, or path to executable.
+	Image *string `json:"image,omitempty" bson:"image" mapstructure:"image,omitempty"`
+
+	// Last poke is the time when the pu got last poked.
+	LastPokeTime *time.Time `json:"-,omitempty" bson:"lastpoketime" mapstructure:"-,omitempty"`
+
+	// LastSyncTime is the time when the policy was last resolved.
+	LastSyncTime *time.Time `json:"lastSyncTime,omitempty" bson:"lastsynctime" mapstructure:"lastSyncTime,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NativeContextID is the Docker UUID or service PID.
+	NativeContextID *string `json:"nativeContextID,omitempty" bson:"nativecontextid" mapstructure:"nativeContextID,omitempty"`
+
+	// NetworkServices is the list of services that this processing unit has declared
+	// that it will be listening to. This can happen either with an activation command
+	// or by exposing the ports in a container manifest.
+	NetworkServices *types.ProcessingUnitServicesList `json:"networkServices,omitempty" bson:"networkservices" mapstructure:"networkServices,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// OperationalStatus of the processing unit.
+	OperationalStatus *ProcessingUnitOperationalStatusValue `json:"operationalStatus,omitempty" bson:"operationalstatus" mapstructure:"operationalStatus,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// Type of the container ecosystem.
+	Type *ProcessingUnitTypeValue `json:"type,omitempty" bson:"type" mapstructure:"type,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseProcessingUnit returns a new  SparseProcessingUnit.
+func NewSparseProcessingUnit() *SparseProcessingUnit {
+	return &SparseProcessingUnit{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseProcessingUnit) Identity() elemental.Identity {
+
+	return ProcessingUnitIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseProcessingUnit) Identifier() string {
+
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseProcessingUnit) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseProcessingUnit) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseProcessingUnit) ToFull() elemental.FullIdentifiable {
+
+	out := NewProcessingUnit()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
+	}
+	if o.Archived != nil {
+		out.Archived = *o.Archived
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.EnforcementStatus != nil {
+		out.EnforcementStatus = *o.EnforcementStatus
+	}
+	if o.EnforcerID != nil {
+		out.EnforcerID = *o.EnforcerID
+	}
+	if o.Image != nil {
+		out.Image = *o.Image
+	}
+	if o.LastPokeTime != nil {
+		out.LastPokeTime = *o.LastPokeTime
+	}
+	if o.LastSyncTime != nil {
+		out.LastSyncTime = *o.LastSyncTime
+	}
+	if o.Metadata != nil {
+		out.Metadata = *o.Metadata
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.NativeContextID != nil {
+		out.NativeContextID = *o.NativeContextID
+	}
+	if o.NetworkServices != nil {
+		out.NetworkServices = *o.NetworkServices
+	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.OperationalStatus != nil {
+		out.OperationalStatus = *o.OperationalStatus
+	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
+	}
+	if o.Type != nil {
+		out.Type = *o.Type
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

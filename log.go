@@ -123,6 +123,26 @@ func (o *Log) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *Log) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseLog{
+		Data: &o.Data,
+	}
+}
+
+// Patch apply the non nil value of a *SparseLog to the object.
+func (o *Log) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseLog)
+	if so.Data != nil {
+		o.Data = *so.Data
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *Log) Validate() error {
 
@@ -185,4 +205,103 @@ var LogLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "logs",
 		Type:           "external",
 	},
+}
+
+// SparseLogsList represents a list of SparseLogs
+type SparseLogsList []*SparseLog
+
+// Identity returns the identity of the objects in the list.
+func (o SparseLogsList) Identity() elemental.Identity {
+
+	return LogIdentity
+}
+
+// Copy returns a pointer to a copy the SparseLogsList.
+func (o SparseLogsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseLogsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseLogsList.
+func (o SparseLogsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseLogsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseLog))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseLogsList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseLogsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseLogsList) Version() int {
+
+	return 1
+}
+
+// SparseLog represents the sparse version of a log.
+type SparseLog struct {
+	// Data contains all logs data.
+	Data *map[string]string `json:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseLog returns a new  SparseLog.
+func NewSparseLog() *SparseLog {
+	return &SparseLog{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseLog) Identity() elemental.Identity {
+
+	return LogIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseLog) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseLog) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseLog) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseLog) ToFull() elemental.FullIdentifiable {
+
+	out := NewLog()
+	if o.Data != nil {
+		out.Data = *o.Data
+	}
+
+	return out
 }

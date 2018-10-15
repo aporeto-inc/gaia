@@ -159,6 +159,66 @@ func (o *Activity) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *Activity) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseActivity{
+		ID:             &o.ID,
+		Claims:         &o.Claims,
+		Data:           &o.Data,
+		Date:           &o.Date,
+		Error:          &o.Error,
+		Message:        &o.Message,
+		Namespace:      &o.Namespace,
+		Operation:      &o.Operation,
+		OriginalData:   &o.OriginalData,
+		Source:         &o.Source,
+		TargetIdentity: &o.TargetIdentity,
+	}
+}
+
+// Patch apply the non nil value of a *SparseActivity to the object.
+func (o *Activity) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseActivity)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Claims != nil {
+		o.Claims = *so.Claims
+	}
+	if so.Data != nil {
+		o.Data = *so.Data
+	}
+	if so.Date != nil {
+		o.Date = *so.Date
+	}
+	if so.Error != nil {
+		o.Error = *so.Error
+	}
+	if so.Message != nil {
+		o.Message = *so.Message
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.Operation != nil {
+		o.Operation = *so.Operation
+	}
+	if so.OriginalData != nil {
+		o.OriginalData = *so.OriginalData
+	}
+	if so.Source != nil {
+		o.Source = *so.Source
+	}
+	if so.TargetIdentity != nil {
+		o.TargetIdentity = *so.TargetIdentity
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *Activity) Validate() error {
 
@@ -481,4 +541,165 @@ modified.`,
 		Stored:         true,
 		Type:           "string",
 	},
+}
+
+// SparseActivitiesList represents a list of SparseActivities
+type SparseActivitiesList []*SparseActivity
+
+// Identity returns the identity of the objects in the list.
+func (o SparseActivitiesList) Identity() elemental.Identity {
+
+	return ActivityIdentity
+}
+
+// Copy returns a pointer to a copy the SparseActivitiesList.
+func (o SparseActivitiesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseActivitiesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseActivitiesList.
+func (o SparseActivitiesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseActivitiesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseActivity))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseActivitiesList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseActivitiesList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseActivitiesList) Version() int {
+
+	return 1
+}
+
+// SparseActivity represents the sparse version of a activity.
+type SparseActivity struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Claims of the user who performed the operation.
+	Claims *interface{} `json:"claims,omitempty" bson:"claims" mapstructure:"claims,omitempty"`
+
+	// Data of the notification.
+	Data *interface{} `json:"data,omitempty" bson:"data" mapstructure:"data,omitempty"`
+
+	// Date of the notification.
+	Date *time.Time `json:"date,omitempty" bson:"date" mapstructure:"date,omitempty"`
+
+	// Error contains the eventual error.
+	Error *interface{} `json:"error,omitempty" bson:"error" mapstructure:"error,omitempty"`
+
+	// Message of the notification.
+	Message *string `json:"message,omitempty" bson:"message" mapstructure:"message,omitempty"`
+
+	// Namespace of the notification.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// Operation describe what kind of operation the notification represents.
+	Operation *string `json:"operation,omitempty" bson:"operation" mapstructure:"operation,omitempty"`
+
+	// OriginalData contains the eventual original data of the object that has been
+	// modified.
+	OriginalData *interface{} `json:"originalData,omitempty" bson:"originaldata" mapstructure:"originalData,omitempty"`
+
+	// Source contains meta information about the source.
+	Source *string `json:"source,omitempty" bson:"source" mapstructure:"source,omitempty"`
+
+	// TargetIdentity is the Identity of the related object.
+	TargetIdentity *string `json:"targetIdentity,omitempty" bson:"targetidentity" mapstructure:"targetIdentity,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseActivity returns a new  SparseActivity.
+func NewSparseActivity() *SparseActivity {
+	return &SparseActivity{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseActivity) Identity() elemental.Identity {
+
+	return ActivityIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseActivity) Identifier() string {
+
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseActivity) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseActivity) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseActivity) ToFull() elemental.FullIdentifiable {
+
+	out := NewActivity()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Claims != nil {
+		out.Claims = *o.Claims
+	}
+	if o.Data != nil {
+		out.Data = *o.Data
+	}
+	if o.Date != nil {
+		out.Date = *o.Date
+	}
+	if o.Error != nil {
+		out.Error = *o.Error
+	}
+	if o.Message != nil {
+		out.Message = *o.Message
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.Operation != nil {
+		out.Operation = *o.Operation
+	}
+	if o.OriginalData != nil {
+		out.OriginalData = *o.OriginalData
+	}
+	if o.Source != nil {
+		out.Source = *o.Source
+	}
+	if o.TargetIdentity != nil {
+		out.TargetIdentity = *o.TargetIdentity
+	}
+
+	return out
 }

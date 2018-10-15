@@ -164,6 +164,34 @@ func (o *PolicyRenderer) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *PolicyRenderer) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparsePolicyRenderer{
+		Policies: &o.Policies,
+		Tags:     &o.Tags,
+		Type:     &o.Type,
+	}
+}
+
+// Patch apply the non nil value of a *SparsePolicyRenderer to the object.
+func (o *PolicyRenderer) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparsePolicyRenderer)
+	if so.Policies != nil {
+		o.Policies = *so.Policies
+	}
+	if so.Tags != nil {
+		o.Tags = *so.Tags
+	}
+	if so.Type != nil {
+		o.Type = *so.Type
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *PolicyRenderer) Validate() error {
 
@@ -268,4 +296,115 @@ var PolicyRendererLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Required:       true,
 		Type:           "enum",
 	},
+}
+
+// SparsePolicyRenderersList represents a list of SparsePolicyRenderers
+type SparsePolicyRenderersList []*SparsePolicyRenderer
+
+// Identity returns the identity of the objects in the list.
+func (o SparsePolicyRenderersList) Identity() elemental.Identity {
+
+	return PolicyRendererIdentity
+}
+
+// Copy returns a pointer to a copy the SparsePolicyRenderersList.
+func (o SparsePolicyRenderersList) Copy() elemental.Identifiables {
+
+	copy := append(SparsePolicyRenderersList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparsePolicyRenderersList.
+func (o SparsePolicyRenderersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparsePolicyRenderersList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparsePolicyRenderer))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparsePolicyRenderersList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparsePolicyRenderersList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparsePolicyRenderersList) Version() int {
+
+	return 1
+}
+
+// SparsePolicyRenderer represents the sparse version of a policyrenderer.
+type SparsePolicyRenderer struct {
+	// List of policies rendered for the given set of tags.
+	Policies *PolicyRulesList `json:"policies,omitempty" bson:"-" mapstructure:"policies,omitempty"`
+
+	// List of tags of the object to render the hook policy for.
+	Tags *[]string `json:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
+
+	// Type of the policy to render.
+	Type *PolicyRendererTypeValue `json:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparsePolicyRenderer returns a new  SparsePolicyRenderer.
+func NewSparsePolicyRenderer() *SparsePolicyRenderer {
+	return &SparsePolicyRenderer{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparsePolicyRenderer) Identity() elemental.Identity {
+
+	return PolicyRendererIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparsePolicyRenderer) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparsePolicyRenderer) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparsePolicyRenderer) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparsePolicyRenderer) ToFull() elemental.FullIdentifiable {
+
+	out := NewPolicyRenderer()
+	if o.Policies != nil {
+		out.Policies = *o.Policies
+	}
+	if o.Tags != nil {
+		out.Tags = *o.Tags
+	}
+	if o.Type != nil {
+		out.Type = *o.Type
+	}
+
+	return out
 }

@@ -292,6 +292,82 @@ func (o *ExternalService) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *ExternalService) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseExternalService{
+		ID:             &o.ID,
+		Annotations:    &o.Annotations,
+		Archived:       &o.Archived,
+		AssociatedTags: &o.AssociatedTags,
+		CreateTime:     &o.CreateTime,
+		Description:    &o.Description,
+		Metadata:       &o.Metadata,
+		Name:           &o.Name,
+		Namespace:      &o.Namespace,
+		Network:        &o.Network,
+		NormalizedTags: &o.NormalizedTags,
+		Port:           &o.Port,
+		Protected:      &o.Protected,
+		Protocol:       &o.Protocol,
+		UpdateTime:     &o.UpdateTime,
+	}
+}
+
+// Patch apply the non nil value of a *SparseExternalService to the object.
+func (o *ExternalService) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseExternalService)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
+	}
+	if so.Archived != nil {
+		o.Archived = *so.Archived
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.Metadata != nil {
+		o.Metadata = *so.Metadata
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.Network != nil {
+		o.Network = *so.Network
+	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Port != nil {
+		o.Port = *so.Port
+	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
+	}
+	if so.Protocol != nil {
+		o.Protocol = *so.Protocol
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *ExternalService) Validate() error {
 
@@ -744,4 +820,192 @@ represent a range of ports.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseExternalServicesList represents a list of SparseExternalServices
+type SparseExternalServicesList []*SparseExternalService
+
+// Identity returns the identity of the objects in the list.
+func (o SparseExternalServicesList) Identity() elemental.Identity {
+
+	return ExternalServiceIdentity
+}
+
+// Copy returns a pointer to a copy the SparseExternalServicesList.
+func (o SparseExternalServicesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseExternalServicesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseExternalServicesList.
+func (o SparseExternalServicesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseExternalServicesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseExternalService))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseExternalServicesList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseExternalServicesList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// Version returns the version of the content.
+func (o SparseExternalServicesList) Version() int {
+
+	return 1
+}
+
+// SparseExternalService represents the sparse version of a externalservice.
+type SparseExternalService struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// Archived defines if the object is archived.
+	Archived *bool `json:"-,omitempty" bson:"archived" mapstructure:"-,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// Network refers to either CIDR or domain name.
+	Network *string `json:"network,omitempty" bson:"network" mapstructure:"network,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Port refers to network port which could be a single number or 100:2000 to
+	// represent a range of ports.
+	Port *string `json:"port,omitempty" bson:"port" mapstructure:"port,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// Protocol refers to network protocol like TCP/UDP or the number of the protocol.
+	Protocol *string `json:"protocol,omitempty" bson:"protocol" mapstructure:"protocol,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseExternalService returns a new  SparseExternalService.
+func NewSparseExternalService() *SparseExternalService {
+	return &SparseExternalService{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseExternalService) Identity() elemental.Identity {
+
+	return ExternalServiceIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseExternalService) Identifier() string {
+
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseExternalService) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseExternalService) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseExternalService) ToFull() elemental.FullIdentifiable {
+
+	out := NewExternalService()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
+	}
+	if o.Archived != nil {
+		out.Archived = *o.Archived
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.Metadata != nil {
+		out.Metadata = *o.Metadata
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.Network != nil {
+		out.Network = *o.Network
+	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Port != nil {
+		out.Port = *o.Port
+	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
+	}
+	if o.Protocol != nil {
+		out.Protocol = *o.Protocol
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

@@ -145,6 +145,34 @@ func (o *Category) SetName(name string) {
 	o.Name = name
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *Category) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseCategory{
+		ID:          &o.ID,
+		Description: &o.Description,
+		Name:        &o.Name,
+	}
+}
+
+// Patch apply the non nil value of a *SparseCategory to the object.
+func (o *Category) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseCategory)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *Category) Validate() error {
 
@@ -281,4 +309,118 @@ var CategoryLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Stored:         true,
 		Type:           "string",
 	},
+}
+
+// SparseCategoriesList represents a list of SparseCategories
+type SparseCategoriesList []*SparseCategory
+
+// Identity returns the identity of the objects in the list.
+func (o SparseCategoriesList) Identity() elemental.Identity {
+
+	return CategoryIdentity
+}
+
+// Copy returns a pointer to a copy the SparseCategoriesList.
+func (o SparseCategoriesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseCategoriesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseCategoriesList.
+func (o SparseCategoriesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseCategoriesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseCategory))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseCategoriesList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseCategoriesList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// Version returns the version of the content.
+func (o SparseCategoriesList) Version() int {
+
+	return 1
+}
+
+// SparseCategory represents the sparse version of a category.
+type SparseCategory struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseCategory returns a new  SparseCategory.
+func NewSparseCategory() *SparseCategory {
+	return &SparseCategory{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseCategory) Identity() elemental.Identity {
+
+	return CategoryIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseCategory) Identifier() string {
+
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseCategory) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseCategory) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseCategory) ToFull() elemental.FullIdentifiable {
+
+	out := NewCategory()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+
+	return out
 }

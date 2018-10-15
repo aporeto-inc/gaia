@@ -154,6 +154,50 @@ func (o *Invoice) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *Invoice) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseInvoice{
+		ID:               &o.ID,
+		AccountID:        &o.AccountID,
+		BilledToProvider: &o.BilledToProvider,
+		CreateTime:       &o.CreateTime,
+		EndDate:          &o.EndDate,
+		StartDate:        &o.StartDate,
+		UpdateTime:       &o.UpdateTime,
+	}
+}
+
+// Patch apply the non nil value of a *SparseInvoice to the object.
+func (o *Invoice) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseInvoice)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.AccountID != nil {
+		o.AccountID = *so.AccountID
+	}
+	if so.BilledToProvider != nil {
+		o.BilledToProvider = *so.BilledToProvider
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.EndDate != nil {
+		o.EndDate = *so.EndDate
+	}
+	if so.StartDate != nil {
+		o.StartDate = *so.StartDate
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *Invoice) Validate() error {
 
@@ -346,4 +390,139 @@ var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseInvoicesList represents a list of SparseInvoices
+type SparseInvoicesList []*SparseInvoice
+
+// Identity returns the identity of the objects in the list.
+func (o SparseInvoicesList) Identity() elemental.Identity {
+
+	return InvoiceIdentity
+}
+
+// Copy returns a pointer to a copy the SparseInvoicesList.
+func (o SparseInvoicesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseInvoicesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseInvoicesList.
+func (o SparseInvoicesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseInvoicesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseInvoice))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseInvoicesList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseInvoicesList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseInvoicesList) Version() int {
+
+	return 1
+}
+
+// SparseInvoice represents the sparse version of a invoice.
+type SparseInvoice struct {
+	// ID is the id of the invoice.
+	ID *string `json:"ID,omitempty" bson:"id" mapstructure:"ID,omitempty"`
+
+	// AccountID references the id of the customer that this invoice belongs to.
+	AccountID *string `json:"accountID,omitempty" bson:"accountid" mapstructure:"accountID,omitempty"`
+
+	// BilledToProvider holds the name of the provider that this invoice was billed to.
+	BilledToProvider *InvoiceBilledToProviderValue `json:"billedToProvider,omitempty" bson:"billedtoprovider" mapstructure:"billedToProvider,omitempty"`
+
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// EndDate holds the end date for this invoice.
+	EndDate *time.Time `json:"endDate,omitempty" bson:"enddate" mapstructure:"endDate,omitempty"`
+
+	// StartDate holds the start date for this invoice.
+	StartDate *time.Time `json:"startDate,omitempty" bson:"startdate" mapstructure:"startDate,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseInvoice returns a new  SparseInvoice.
+func NewSparseInvoice() *SparseInvoice {
+	return &SparseInvoice{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseInvoice) Identity() elemental.Identity {
+
+	return InvoiceIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseInvoice) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseInvoice) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseInvoice) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseInvoice) ToFull() elemental.FullIdentifiable {
+
+	out := NewInvoice()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.AccountID != nil {
+		out.AccountID = *o.AccountID
+	}
+	if o.BilledToProvider != nil {
+		out.BilledToProvider = *o.BilledToProvider
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.EndDate != nil {
+		out.EndDate = *o.EndDate
+	}
+	if o.StartDate != nil {
+		out.StartDate = *o.StartDate
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

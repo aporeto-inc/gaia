@@ -129,6 +129,34 @@ func (o *QuotaCheck) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *QuotaCheck) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseQuotaCheck{
+		Quota:           &o.Quota,
+		TargetIdentity:  &o.TargetIdentity,
+		TargetNamespace: &o.TargetNamespace,
+	}
+}
+
+// Patch apply the non nil value of a *SparseQuotaCheck to the object.
+func (o *QuotaCheck) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseQuotaCheck)
+	if so.Quota != nil {
+		o.Quota = *so.Quota
+	}
+	if so.TargetIdentity != nil {
+		o.TargetIdentity = *so.TargetIdentity
+	}
+	if so.TargetNamespace != nil {
+		o.TargetNamespace = *so.TargetNamespace
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *QuotaCheck) Validate() error {
 
@@ -233,4 +261,115 @@ var QuotaCheckLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Required:       true,
 		Type:           "string",
 	},
+}
+
+// SparseQuotaChecksList represents a list of SparseQuotaChecks
+type SparseQuotaChecksList []*SparseQuotaCheck
+
+// Identity returns the identity of the objects in the list.
+func (o SparseQuotaChecksList) Identity() elemental.Identity {
+
+	return QuotaCheckIdentity
+}
+
+// Copy returns a pointer to a copy the SparseQuotaChecksList.
+func (o SparseQuotaChecksList) Copy() elemental.Identifiables {
+
+	copy := append(SparseQuotaChecksList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseQuotaChecksList.
+func (o SparseQuotaChecksList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseQuotaChecksList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseQuotaCheck))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseQuotaChecksList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseQuotaChecksList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseQuotaChecksList) Version() int {
+
+	return 1
+}
+
+// SparseQuotaCheck represents the sparse version of a quotacheck.
+type SparseQuotaCheck struct {
+	// Contains the maximum number of matching entities that can be created.
+	Quota *int `json:"quota,omitempty" bson:"-" mapstructure:"quota,omitempty"`
+
+	// The identity name of the object you want to check the quota on.
+	TargetIdentity *string `json:"targetIdentity,omitempty" bson:"-" mapstructure:"targetIdentity,omitempty"`
+
+	// The namespace from which you want to check the quota on.
+	TargetNamespace *string `json:"targetNamespace,omitempty" bson:"-" mapstructure:"targetNamespace,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseQuotaCheck returns a new  SparseQuotaCheck.
+func NewSparseQuotaCheck() *SparseQuotaCheck {
+	return &SparseQuotaCheck{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseQuotaCheck) Identity() elemental.Identity {
+
+	return QuotaCheckIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseQuotaCheck) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseQuotaCheck) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseQuotaCheck) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseQuotaCheck) ToFull() elemental.FullIdentifiable {
+
+	out := NewQuotaCheck()
+	if o.Quota != nil {
+		out.Quota = *o.Quota
+	}
+	if o.TargetIdentity != nil {
+		out.TargetIdentity = *o.TargetIdentity
+	}
+	if o.TargetNamespace != nil {
+		out.TargetNamespace = *o.TargetNamespace
+	}
+
+	return out
 }

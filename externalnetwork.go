@@ -301,6 +301,82 @@ func (o *ExternalNetwork) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *ExternalNetwork) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseExternalNetwork{
+		ID:             &o.ID,
+		Annotations:    &o.Annotations,
+		Archived:       &o.Archived,
+		AssociatedTags: &o.AssociatedTags,
+		CreateTime:     &o.CreateTime,
+		Description:    &o.Description,
+		Entries:        &o.Entries,
+		Metadata:       &o.Metadata,
+		Name:           &o.Name,
+		Namespace:      &o.Namespace,
+		NormalizedTags: &o.NormalizedTags,
+		Ports:          &o.Ports,
+		Protected:      &o.Protected,
+		Protocols:      &o.Protocols,
+		UpdateTime:     &o.UpdateTime,
+	}
+}
+
+// Patch apply the non nil value of a *SparseExternalNetwork to the object.
+func (o *ExternalNetwork) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseExternalNetwork)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
+	}
+	if so.Archived != nil {
+		o.Archived = *so.Archived
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.Entries != nil {
+		o.Entries = *so.Entries
+	}
+	if so.Metadata != nil {
+		o.Metadata = *so.Metadata
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Ports != nil {
+		o.Ports = *so.Ports
+	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
+	}
+	if so.Protocols != nil {
+		o.Protocols = *so.Protocols
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *ExternalNetwork) Validate() error {
 
@@ -765,4 +841,191 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseExternalNetworksList represents a list of SparseExternalNetworks
+type SparseExternalNetworksList []*SparseExternalNetwork
+
+// Identity returns the identity of the objects in the list.
+func (o SparseExternalNetworksList) Identity() elemental.Identity {
+
+	return ExternalNetworkIdentity
+}
+
+// Copy returns a pointer to a copy the SparseExternalNetworksList.
+func (o SparseExternalNetworksList) Copy() elemental.Identifiables {
+
+	copy := append(SparseExternalNetworksList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseExternalNetworksList.
+func (o SparseExternalNetworksList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseExternalNetworksList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseExternalNetwork))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseExternalNetworksList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseExternalNetworksList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// Version returns the version of the content.
+func (o SparseExternalNetworksList) Version() int {
+
+	return 1
+}
+
+// SparseExternalNetwork represents the sparse version of a externalnetwork.
+type SparseExternalNetwork struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// Archived defines if the object is archived.
+	Archived *bool `json:"-,omitempty" bson:"archived" mapstructure:"-,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// List of CIDRs or domain name.
+	Entries *[]string `json:"entries,omitempty" bson:"entries" mapstructure:"entries,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// List of single ports or range (xx:yy).
+	Ports *[]string `json:"ports,omitempty" bson:"ports" mapstructure:"ports,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// List of protocols (tcp, udp, or protocol number).
+	Protocols *[]string `json:"protocols,omitempty" bson:"protocols" mapstructure:"protocols,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseExternalNetwork returns a new  SparseExternalNetwork.
+func NewSparseExternalNetwork() *SparseExternalNetwork {
+	return &SparseExternalNetwork{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseExternalNetwork) Identity() elemental.Identity {
+
+	return ExternalNetworkIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseExternalNetwork) Identifier() string {
+
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseExternalNetwork) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseExternalNetwork) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseExternalNetwork) ToFull() elemental.FullIdentifiable {
+
+	out := NewExternalNetwork()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
+	}
+	if o.Archived != nil {
+		out.Archived = *o.Archived
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.Entries != nil {
+		out.Entries = *o.Entries
+	}
+	if o.Metadata != nil {
+		out.Metadata = *o.Metadata
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Ports != nil {
+		out.Ports = *o.Ports
+	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
+	}
+	if o.Protocols != nil {
+		out.Protocols = *o.Protocols
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

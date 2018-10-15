@@ -134,6 +134,38 @@ func (o *AWSRegister) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *AWSRegister) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseAWSRegister{
+		ID:         &o.ID,
+		CreateTime: &o.CreateTime,
+		Provider:   &o.Provider,
+		UpdateTime: &o.UpdateTime,
+	}
+}
+
+// Patch apply the non nil value of a *SparseAWSRegister to the object.
+func (o *AWSRegister) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseAWSRegister)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Provider != nil {
+		o.Provider = *so.Provider
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *AWSRegister) Validate() error {
 
@@ -268,4 +300,122 @@ var AWSRegisterLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseAWSRegistersList represents a list of SparseAWSRegisters
+type SparseAWSRegistersList []*SparseAWSRegister
+
+// Identity returns the identity of the objects in the list.
+func (o SparseAWSRegistersList) Identity() elemental.Identity {
+
+	return AWSRegisterIdentity
+}
+
+// Copy returns a pointer to a copy the SparseAWSRegistersList.
+func (o SparseAWSRegistersList) Copy() elemental.Identifiables {
+
+	copy := append(SparseAWSRegistersList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseAWSRegistersList.
+func (o SparseAWSRegistersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseAWSRegistersList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseAWSRegister))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseAWSRegistersList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseAWSRegistersList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseAWSRegistersList) Version() int {
+
+	return 1
+}
+
+// SparseAWSRegister represents the sparse version of a awsregister.
+type SparseAWSRegister struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Token Provided by AWS.
+	Provider *string `json:"provider,omitempty" bson:"-" mapstructure:"provider,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseAWSRegister returns a new  SparseAWSRegister.
+func NewSparseAWSRegister() *SparseAWSRegister {
+	return &SparseAWSRegister{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseAWSRegister) Identity() elemental.Identity {
+
+	return AWSRegisterIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseAWSRegister) Identifier() string {
+
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseAWSRegister) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseAWSRegister) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseAWSRegister) ToFull() elemental.FullIdentifiable {
+
+	out := NewAWSRegister()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Provider != nil {
+		out.Provider = *o.Provider
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

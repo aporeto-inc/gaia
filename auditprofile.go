@@ -275,6 +275,74 @@ func (o *AuditProfile) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *AuditProfile) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseAuditProfile{
+		ID:             &o.ID,
+		Annotations:    &o.Annotations,
+		AssociatedTags: &o.AssociatedTags,
+		CreateTime:     &o.CreateTime,
+		Description:    &o.Description,
+		Metadata:       &o.Metadata,
+		Name:           &o.Name,
+		Namespace:      &o.Namespace,
+		NormalizedTags: &o.NormalizedTags,
+		Propagated:     &o.Propagated,
+		Protected:      &o.Protected,
+		Rules:          &o.Rules,
+		UpdateTime:     &o.UpdateTime,
+	}
+}
+
+// Patch apply the non nil value of a *SparseAuditProfile to the object.
+func (o *AuditProfile) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseAuditProfile)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.Metadata != nil {
+		o.Metadata = *so.Metadata
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Propagated != nil {
+		o.Propagated = *so.Propagated
+	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
+	}
+	if so.Rules != nil {
+		o.Rules = *so.Rules
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *AuditProfile) Validate() error {
 
@@ -669,4 +737,179 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseAuditProfilesList represents a list of SparseAuditProfiles
+type SparseAuditProfilesList []*SparseAuditProfile
+
+// Identity returns the identity of the objects in the list.
+func (o SparseAuditProfilesList) Identity() elemental.Identity {
+
+	return AuditProfileIdentity
+}
+
+// Copy returns a pointer to a copy the SparseAuditProfilesList.
+func (o SparseAuditProfilesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseAuditProfilesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseAuditProfilesList.
+func (o SparseAuditProfilesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseAuditProfilesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseAuditProfile))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseAuditProfilesList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseAuditProfilesList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// Version returns the version of the content.
+func (o SparseAuditProfilesList) Version() int {
+
+	return 1
+}
+
+// SparseAuditProfile represents the sparse version of a auditprofile.
+type SparseAuditProfile struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Propagated indicates if the audit profile is propagated.
+	Propagated *bool `json:"propagated,omitempty" bson:"propagated" mapstructure:"propagated,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// Rules is the list of audit policy rules associated with this policy.
+	Rules *types.AuditProfileRuleList `json:"rules,omitempty" bson:"rules" mapstructure:"rules,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseAuditProfile returns a new  SparseAuditProfile.
+func NewSparseAuditProfile() *SparseAuditProfile {
+	return &SparseAuditProfile{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseAuditProfile) Identity() elemental.Identity {
+
+	return AuditProfileIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseAuditProfile) Identifier() string {
+
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseAuditProfile) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseAuditProfile) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseAuditProfile) ToFull() elemental.FullIdentifiable {
+
+	out := NewAuditProfile()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.Metadata != nil {
+		out.Metadata = *o.Metadata
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Propagated != nil {
+		out.Propagated = *o.Propagated
+	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
+	}
+	if o.Rules != nil {
+		out.Rules = *o.Rules
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

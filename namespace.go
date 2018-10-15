@@ -274,6 +274,82 @@ func (o *Namespace) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *Namespace) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseNamespace{
+		ID:                      &o.ID,
+		Annotations:             &o.Annotations,
+		AssociatedLocalCAID:     &o.AssociatedLocalCAID,
+		AssociatedTags:          &o.AssociatedTags,
+		CreateTime:              &o.CreateTime,
+		Description:             &o.Description,
+		LocalCA:                 &o.LocalCA,
+		LocalCAEnabled:          &o.LocalCAEnabled,
+		Metadata:                &o.Metadata,
+		Name:                    &o.Name,
+		Namespace:               &o.Namespace,
+		NetworkAccessPolicyTags: &o.NetworkAccessPolicyTags,
+		NormalizedTags:          &o.NormalizedTags,
+		Protected:               &o.Protected,
+		UpdateTime:              &o.UpdateTime,
+	}
+}
+
+// Patch apply the non nil value of a *SparseNamespace to the object.
+func (o *Namespace) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseNamespace)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
+	}
+	if so.AssociatedLocalCAID != nil {
+		o.AssociatedLocalCAID = *so.AssociatedLocalCAID
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.LocalCA != nil {
+		o.LocalCA = *so.LocalCA
+	}
+	if so.LocalCAEnabled != nil {
+		o.LocalCAEnabled = *so.LocalCAEnabled
+	}
+	if so.Metadata != nil {
+		o.Metadata = *so.Metadata
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.NetworkAccessPolicyTags != nil {
+		o.NetworkAccessPolicyTags = *so.NetworkAccessPolicyTags
+	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *Namespace) Validate() error {
 
@@ -712,4 +788,191 @@ policies in the namespace and its children.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseNamespacesList represents a list of SparseNamespaces
+type SparseNamespacesList []*SparseNamespace
+
+// Identity returns the identity of the objects in the list.
+func (o SparseNamespacesList) Identity() elemental.Identity {
+
+	return NamespaceIdentity
+}
+
+// Copy returns a pointer to a copy the SparseNamespacesList.
+func (o SparseNamespacesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseNamespacesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseNamespacesList.
+func (o SparseNamespacesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseNamespacesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseNamespace))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseNamespacesList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseNamespacesList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseNamespacesList) Version() int {
+
+	return 1
+}
+
+// SparseNamespace represents the sparse version of a namespace.
+type SparseNamespace struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedLocalCAID holds the remote ID of the certificate authority to use.
+	AssociatedLocalCAID *string `json:"-,omitempty" bson:"associatedlocalcaid" mapstructure:"-,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// LocalCA holds the eventual certificate authority used by this namespace.
+	LocalCA *string `json:"localCA,omitempty" bson:"localca" mapstructure:"localCA,omitempty"`
+
+	// LocalCAEnabled defines if the namespace should use a local Certificate
+	// Authority. Switching it off and on again will regenerate a new CA.
+	LocalCAEnabled *bool `json:"localCAEnabled,omitempty" bson:"localcaenabled" mapstructure:"localCAEnabled,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Name is the name of the namespace.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// List of tags that will be added to every `+"`"+`or`+"`"+` clause of all network access
+	// policies in the namespace and its children.
+	NetworkAccessPolicyTags *[]string `json:"networkAccessPolicyTags,omitempty" bson:"networkaccesspolicytags" mapstructure:"networkAccessPolicyTags,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseNamespace returns a new  SparseNamespace.
+func NewSparseNamespace() *SparseNamespace {
+	return &SparseNamespace{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseNamespace) Identity() elemental.Identity {
+
+	return NamespaceIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseNamespace) Identifier() string {
+
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseNamespace) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseNamespace) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseNamespace) ToFull() elemental.FullIdentifiable {
+
+	out := NewNamespace()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
+	}
+	if o.AssociatedLocalCAID != nil {
+		out.AssociatedLocalCAID = *o.AssociatedLocalCAID
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.LocalCA != nil {
+		out.LocalCA = *o.LocalCA
+	}
+	if o.LocalCAEnabled != nil {
+		out.LocalCAEnabled = *o.LocalCAEnabled
+	}
+	if o.Metadata != nil {
+		out.Metadata = *o.Metadata
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.NetworkAccessPolicyTags != nil {
+		out.NetworkAccessPolicyTags = *o.NetworkAccessPolicyTags
+	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

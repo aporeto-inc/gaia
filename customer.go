@@ -175,6 +175,46 @@ func (o *Customer) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *Customer) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseCustomer{
+		ID:                 &o.ID,
+		CreateTime:         &o.CreateTime,
+		Provider:           &o.Provider,
+		ProviderCustomerID: &o.ProviderCustomerID,
+		State:              &o.State,
+		UpdateTime:         &o.UpdateTime,
+	}
+}
+
+// Patch apply the non nil value of a *SparseCustomer to the object.
+func (o *Customer) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseCustomer)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Provider != nil {
+		o.Provider = *so.Provider
+	}
+	if so.ProviderCustomerID != nil {
+		o.ProviderCustomerID = *so.ProviderCustomerID
+	}
+	if so.State != nil {
+		o.State = *so.State
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *Customer) Validate() error {
 
@@ -367,4 +407,135 @@ customer to enable provider billing.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseCustomersList represents a list of SparseCustomers
+type SparseCustomersList []*SparseCustomer
+
+// Identity returns the identity of the objects in the list.
+func (o SparseCustomersList) Identity() elemental.Identity {
+
+	return CustomerIdentity
+}
+
+// Copy returns a pointer to a copy the SparseCustomersList.
+func (o SparseCustomersList) Copy() elemental.Identifiables {
+
+	copy := append(SparseCustomersList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseCustomersList.
+func (o SparseCustomersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseCustomersList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseCustomer))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseCustomersList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseCustomersList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseCustomersList) Version() int {
+
+	return 1
+}
+
+// SparseCustomer represents the sparse version of a customer.
+type SparseCustomer struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Provider holds the name of the provider to be billed for this service.
+	Provider *CustomerProviderValue `json:"provider,omitempty" bson:"provider" mapstructure:"provider,omitempty"`
+
+	// ProviderCustomerID holds the customer id as used by the provider for this
+	// customer to enable provider billing.
+	ProviderCustomerID *string `json:"providerCustomerID,omitempty" bson:"providercustomerid" mapstructure:"providerCustomerID,omitempty"`
+
+	// State holds the status of the customer with the provider.
+	State *CustomerStateValue `json:"state,omitempty" bson:"state" mapstructure:"state,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseCustomer returns a new  SparseCustomer.
+func NewSparseCustomer() *SparseCustomer {
+	return &SparseCustomer{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseCustomer) Identity() elemental.Identity {
+
+	return CustomerIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseCustomer) Identifier() string {
+
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseCustomer) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseCustomer) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseCustomer) ToFull() elemental.FullIdentifiable {
+
+	out := NewCustomer()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Provider != nil {
+		out.Provider = *o.Provider
+	}
+	if o.ProviderCustomerID != nil {
+		out.ProviderCustomerID = *o.ProviderCustomerID
+	}
+	if o.State != nil {
+		out.State = *o.State
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

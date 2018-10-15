@@ -172,6 +172,50 @@ func (o *X509Certificate) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *X509Certificate) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseX509Certificate{
+		CSR:            &o.CSR,
+		ID:             &o.ID,
+		Certificate:    &o.Certificate,
+		ExpirationDate: &o.ExpirationDate,
+		Extensions:     &o.Extensions,
+		Signer:         &o.Signer,
+		Usage:          &o.Usage,
+	}
+}
+
+// Patch apply the non nil value of a *SparseX509Certificate to the object.
+func (o *X509Certificate) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseX509Certificate)
+	if so.CSR != nil {
+		o.CSR = *so.CSR
+	}
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Certificate != nil {
+		o.Certificate = *so.Certificate
+	}
+	if so.ExpirationDate != nil {
+		o.ExpirationDate = *so.ExpirationDate
+	}
+	if so.Extensions != nil {
+		o.Extensions = *so.Extensions
+	}
+	if so.Signer != nil {
+		o.Signer = *so.Signer
+	}
+	if so.Usage != nil {
+		o.Usage = *so.Usage
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *X509Certificate) Validate() error {
 
@@ -370,4 +414,141 @@ certificate.`,
 		Stored:         true,
 		Type:           "enum",
 	},
+}
+
+// SparseX509CertificatesList represents a list of SparseX509Certificates
+type SparseX509CertificatesList []*SparseX509Certificate
+
+// Identity returns the identity of the objects in the list.
+func (o SparseX509CertificatesList) Identity() elemental.Identity {
+
+	return X509CertificateIdentity
+}
+
+// Copy returns a pointer to a copy the SparseX509CertificatesList.
+func (o SparseX509CertificatesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseX509CertificatesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseX509CertificatesList.
+func (o SparseX509CertificatesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseX509CertificatesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseX509Certificate))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseX509CertificatesList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseX509CertificatesList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseX509CertificatesList) Version() int {
+
+	return 1
+}
+
+// SparseX509Certificate represents the sparse version of a x509certificate.
+type SparseX509Certificate struct {
+	// CSR contains the Certificate Signing Request as a PEM encoded string.
+	CSR *string `json:"CSR,omitempty" bson:"-" mapstructure:"CSR,omitempty"`
+
+	// ID contains the identifier of the certificate.
+	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
+	// Certificate contains the certificate data in PEM format.
+	Certificate *string `json:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
+
+	// ExpirationDate contains the requested expiration date.
+	ExpirationDate *time.Time `json:"expirationDate,omitempty" bson:"-" mapstructure:"expirationDate,omitempty"`
+
+	// Extensions is a list of extensions that can be added as SAN extensions to the
+	// certificate.
+	Extensions *[]string `json:"extensions,omitempty" bson:"-" mapstructure:"extensions,omitempty"`
+
+	// Selects what CA should sign the certificate.
+	Signer *X509CertificateSignerValue `json:"signer,omitempty" bson:"-" mapstructure:"signer,omitempty"`
+
+	// Usage defines the requested key usage.
+	Usage *X509CertificateUsageValue `json:"usage,omitempty" bson:"usage" mapstructure:"usage,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseX509Certificate returns a new  SparseX509Certificate.
+func NewSparseX509Certificate() *SparseX509Certificate {
+	return &SparseX509Certificate{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseX509Certificate) Identity() elemental.Identity {
+
+	return X509CertificateIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseX509Certificate) Identifier() string {
+
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseX509Certificate) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseX509Certificate) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseX509Certificate) ToFull() elemental.FullIdentifiable {
+
+	out := NewX509Certificate()
+	if o.CSR != nil {
+		out.CSR = *o.CSR
+	}
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Certificate != nil {
+		out.Certificate = *o.Certificate
+	}
+	if o.ExpirationDate != nil {
+		out.ExpirationDate = *o.ExpirationDate
+	}
+	if o.Extensions != nil {
+		out.Extensions = *o.Extensions
+	}
+	if o.Signer != nil {
+		out.Signer = *o.Signer
+	}
+	if o.Usage != nil {
+		out.Usage = *o.Usage
+	}
+
+	return out
 }

@@ -172,6 +172,66 @@ func (o *InstalledApp) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *InstalledApp) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseInstalledApp{
+		ID:             &o.ID,
+		AccountName:    &o.AccountName,
+		CategoryID:     &o.CategoryID,
+		CurrentVersion: &o.CurrentVersion,
+		Data:           &o.Data,
+		K8sIdentifier:  &o.K8sIdentifier,
+		Name:           &o.Name,
+		Namespace:      &o.Namespace,
+		Parameters:     &o.Parameters,
+		RelatedObjects: &o.RelatedObjects,
+		Status:         &o.Status,
+	}
+}
+
+// Patch apply the non nil value of a *SparseInstalledApp to the object.
+func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseInstalledApp)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.AccountName != nil {
+		o.AccountName = *so.AccountName
+	}
+	if so.CategoryID != nil {
+		o.CategoryID = *so.CategoryID
+	}
+	if so.CurrentVersion != nil {
+		o.CurrentVersion = *so.CurrentVersion
+	}
+	if so.Data != nil {
+		o.Data = *so.Data
+	}
+	if so.K8sIdentifier != nil {
+		o.K8sIdentifier = *so.K8sIdentifier
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.Parameters != nil {
+		o.Parameters = *so.Parameters
+	}
+	if so.RelatedObjects != nil {
+		o.RelatedObjects = *so.RelatedObjects
+	}
+	if so.Status != nil {
+		o.Status = *so.Status
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *InstalledApp) Validate() error {
 
@@ -440,4 +500,164 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "enum",
 	},
+}
+
+// SparseInstalledAppsList represents a list of SparseInstalledApps
+type SparseInstalledAppsList []*SparseInstalledApp
+
+// Identity returns the identity of the objects in the list.
+func (o SparseInstalledAppsList) Identity() elemental.Identity {
+
+	return InstalledAppIdentity
+}
+
+// Copy returns a pointer to a copy the SparseInstalledAppsList.
+func (o SparseInstalledAppsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseInstalledAppsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseInstalledAppsList.
+func (o SparseInstalledAppsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseInstalledAppsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseInstalledApp))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseInstalledAppsList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseInstalledAppsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseInstalledAppsList) Version() int {
+
+	return 1
+}
+
+// SparseInstalledApp represents the sparse version of a installedapp.
+type SparseInstalledApp struct {
+	// ID of the installed app.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// AccountName represents the vince account name.
+	AccountName *string `json:"accountName,omitempty" bson:"accountname" mapstructure:"accountName,omitempty"`
+
+	// CategoryID of the app.
+	CategoryID *string `json:"categoryID,omitempty" bson:"categoryid" mapstructure:"categoryID,omitempty"`
+
+	// Version of the installed app.
+	CurrentVersion *string `json:"currentVersion,omitempty" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
+
+	// Data retains all data created to use this service.
+	Data *interface{} `json:"-,omitempty" bson:"data" mapstructure:"-,omitempty"`
+
+	// K8SIdentifier retains the identifier for kubernetes.
+	K8sIdentifier *string `json:"-,omitempty" bson:"k8sidentifier" mapstructure:"-,omitempty"`
+
+	// Name of the installed app.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace in which the app is running.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// Parameters is a list of parameters to start the app.
+	Parameters *[]*types.AppParameter `json:"parameters,omitempty" bson:"parameters" mapstructure:"parameters,omitempty"`
+
+	// RelatedObjects retains all objects created to use this app.
+	RelatedObjects *[]*types.AppRelatedObject `json:"-,omitempty" bson:"relatedobjects" mapstructure:"-,omitempty"`
+
+	// Status of the app.
+	Status *InstalledAppStatusValue `json:"status,omitempty" bson:"status" mapstructure:"status,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseInstalledApp returns a new  SparseInstalledApp.
+func NewSparseInstalledApp() *SparseInstalledApp {
+	return &SparseInstalledApp{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseInstalledApp) Identity() elemental.Identity {
+
+	return InstalledAppIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseInstalledApp) Identifier() string {
+
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseInstalledApp) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseInstalledApp) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseInstalledApp) ToFull() elemental.FullIdentifiable {
+
+	out := NewInstalledApp()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.AccountName != nil {
+		out.AccountName = *o.AccountName
+	}
+	if o.CategoryID != nil {
+		out.CategoryID = *o.CategoryID
+	}
+	if o.CurrentVersion != nil {
+		out.CurrentVersion = *o.CurrentVersion
+	}
+	if o.Data != nil {
+		out.Data = *o.Data
+	}
+	if o.K8sIdentifier != nil {
+		out.K8sIdentifier = *o.K8sIdentifier
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.Parameters != nil {
+		out.Parameters = *o.Parameters
+	}
+	if o.RelatedObjects != nil {
+		out.RelatedObjects = *o.RelatedObjects
+	}
+	if o.Status != nil {
+		out.Status = *o.Status
+	}
+
+	return out
 }

@@ -120,6 +120,16 @@ func (o *Poke) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *Poke) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparsePoke{}
+}
+
+// Patch apply the non nil value of a *SparsePoke to the object.
+func (o *Poke) Patch(sparse elemental.SparseIdentifiable) {
+}
+
 // Validate valides the current information stored into the structure.
 func (o *Poke) Validate() error {
 
@@ -159,3 +169,96 @@ var PokeAttributesMap = map[string]elemental.AttributeSpecification{}
 
 // PokeLowerCaseAttributesMap represents the map of attribute for Poke.
 var PokeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{}
+
+// SparsePokesList represents a list of SparsePokes
+type SparsePokesList []*SparsePoke
+
+// Identity returns the identity of the objects in the list.
+func (o SparsePokesList) Identity() elemental.Identity {
+
+	return PokeIdentity
+}
+
+// Copy returns a pointer to a copy the SparsePokesList.
+func (o SparsePokesList) Copy() elemental.Identifiables {
+
+	copy := append(SparsePokesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparsePokesList.
+func (o SparsePokesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparsePokesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparsePoke))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparsePokesList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparsePokesList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparsePokesList) Version() int {
+
+	return 1
+}
+
+// SparsePoke represents the sparse version of a poke.
+type SparsePoke struct {
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparsePoke returns a new  SparsePoke.
+func NewSparsePoke() *SparsePoke {
+	return &SparsePoke{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparsePoke) Identity() elemental.Identity {
+
+	return PokeIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparsePoke) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparsePoke) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparsePoke) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparsePoke) ToFull() elemental.FullIdentifiable {
+
+	out := NewPoke()
+
+	return out
+}

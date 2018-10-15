@@ -282,6 +282,82 @@ func (o *Message) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *Message) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseMessage{
+		ID:             &o.ID,
+		Annotations:    &o.Annotations,
+		AssociatedTags: &o.AssociatedTags,
+		CreateTime:     &o.CreateTime,
+		Description:    &o.Description,
+		ExpirationTime: &o.ExpirationTime,
+		Level:          &o.Level,
+		Local:          &o.Local,
+		Name:           &o.Name,
+		Namespace:      &o.Namespace,
+		NormalizedTags: &o.NormalizedTags,
+		NotifyByEmail:  &o.NotifyByEmail,
+		Protected:      &o.Protected,
+		UpdateTime:     &o.UpdateTime,
+		Validity:       &o.Validity,
+	}
+}
+
+// Patch apply the non nil value of a *SparseMessage to the object.
+func (o *Message) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseMessage)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.ExpirationTime != nil {
+		o.ExpirationTime = *so.ExpirationTime
+	}
+	if so.Level != nil {
+		o.Level = *so.Level
+	}
+	if so.Local != nil {
+		o.Local = *so.Local
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.NotifyByEmail != nil {
+		o.NotifyByEmail = *so.NotifyByEmail
+	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
+	if so.Validity != nil {
+		o.Validity = *so.Validity
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *Message) Validate() error {
 
@@ -720,4 +796,192 @@ deleted.`,
 		Stored:  true,
 		Type:    "string",
 	},
+}
+
+// SparseMessagesList represents a list of SparseMessages
+type SparseMessagesList []*SparseMessage
+
+// Identity returns the identity of the objects in the list.
+func (o SparseMessagesList) Identity() elemental.Identity {
+
+	return MessageIdentity
+}
+
+// Copy returns a pointer to a copy the SparseMessagesList.
+func (o SparseMessagesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseMessagesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseMessagesList.
+func (o SparseMessagesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseMessagesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseMessage))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseMessagesList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseMessagesList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// Version returns the version of the content.
+func (o SparseMessagesList) Version() int {
+
+	return 1
+}
+
+// SparseMessage represents the sparse version of a message.
+type SparseMessage struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// expirationTime is the time after which the message will be deleted.
+	ExpirationTime *time.Time `json:"expirationTime,omitempty" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
+
+	// Level defines how the message is important.
+	Level *MessageLevelValue `json:"level,omitempty" bson:"level" mapstructure:"level,omitempty"`
+
+	// If local is set, the message will only be visible in the current namespace.
+	Local *bool `json:"local,omitempty" bson:"local" mapstructure:"local,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// If enabled, the message will be sent to the email associated in namespaces
+	// annotations.
+	NotifyByEmail *bool `json:"notifyByEmail,omitempty" bson:"-" mapstructure:"notifyByEmail,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	// Validity set using golang time duration, when the message will be automatically
+	// deleted.
+	Validity *string `json:"validity,omitempty" bson:"validity" mapstructure:"validity,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseMessage returns a new  SparseMessage.
+func NewSparseMessage() *SparseMessage {
+	return &SparseMessage{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseMessage) Identity() elemental.Identity {
+
+	return MessageIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseMessage) Identifier() string {
+
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseMessage) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseMessage) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseMessage) ToFull() elemental.FullIdentifiable {
+
+	out := NewMessage()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.ExpirationTime != nil {
+		out.ExpirationTime = *o.ExpirationTime
+	}
+	if o.Level != nil {
+		out.Level = *o.Level
+	}
+	if o.Local != nil {
+		out.Local = *o.Local
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.NotifyByEmail != nil {
+		out.NotifyByEmail = *o.NotifyByEmail
+	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+	if o.Validity != nil {
+		out.Validity = *o.Validity
+	}
+
+	return out
 }

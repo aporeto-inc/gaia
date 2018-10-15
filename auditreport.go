@@ -218,6 +218,150 @@ func (o *AuditReport) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *AuditReport) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseAuditReport{
+		AUID:                    &o.AUID,
+		CWD:                     &o.CWD,
+		EGID:                    &o.EGID,
+		EUID:                    &o.EUID,
+		EXE:                     &o.EXE,
+		FSGID:                   &o.FSGID,
+		FSUID:                   &o.FSUID,
+		GID:                     &o.GID,
+		PER:                     &o.PER,
+		PID:                     &o.PID,
+		PPID:                    &o.PPID,
+		SGID:                    &o.SGID,
+		SUID:                    &o.SUID,
+		UID:                     &o.UID,
+		A0:                      &o.A0,
+		A1:                      &o.A1,
+		A2:                      &o.A2,
+		A3:                      &o.A3,
+		Arch:                    &o.Arch,
+		AuditProfileID:          &o.AuditProfileID,
+		AuditProfileNamespace:   &o.AuditProfileNamespace,
+		Command:                 &o.Command,
+		EnforcerID:              &o.EnforcerID,
+		EnforcerNamespace:       &o.EnforcerNamespace,
+		Exit:                    &o.Exit,
+		ProcessingUnitID:        &o.ProcessingUnitID,
+		ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
+		RecordType:              &o.RecordType,
+		Sequence:                &o.Sequence,
+		Success:                 &o.Success,
+		Syscall:                 &o.Syscall,
+		Timestamp:               &o.Timestamp,
+	}
+}
+
+// Patch apply the non nil value of a *SparseAuditReport to the object.
+func (o *AuditReport) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseAuditReport)
+	if so.AUID != nil {
+		o.AUID = *so.AUID
+	}
+	if so.CWD != nil {
+		o.CWD = *so.CWD
+	}
+	if so.EGID != nil {
+		o.EGID = *so.EGID
+	}
+	if so.EUID != nil {
+		o.EUID = *so.EUID
+	}
+	if so.EXE != nil {
+		o.EXE = *so.EXE
+	}
+	if so.FSGID != nil {
+		o.FSGID = *so.FSGID
+	}
+	if so.FSUID != nil {
+		o.FSUID = *so.FSUID
+	}
+	if so.GID != nil {
+		o.GID = *so.GID
+	}
+	if so.PER != nil {
+		o.PER = *so.PER
+	}
+	if so.PID != nil {
+		o.PID = *so.PID
+	}
+	if so.PPID != nil {
+		o.PPID = *so.PPID
+	}
+	if so.SGID != nil {
+		o.SGID = *so.SGID
+	}
+	if so.SUID != nil {
+		o.SUID = *so.SUID
+	}
+	if so.UID != nil {
+		o.UID = *so.UID
+	}
+	if so.A0 != nil {
+		o.A0 = *so.A0
+	}
+	if so.A1 != nil {
+		o.A1 = *so.A1
+	}
+	if so.A2 != nil {
+		o.A2 = *so.A2
+	}
+	if so.A3 != nil {
+		o.A3 = *so.A3
+	}
+	if so.Arch != nil {
+		o.Arch = *so.Arch
+	}
+	if so.AuditProfileID != nil {
+		o.AuditProfileID = *so.AuditProfileID
+	}
+	if so.AuditProfileNamespace != nil {
+		o.AuditProfileNamespace = *so.AuditProfileNamespace
+	}
+	if so.Command != nil {
+		o.Command = *so.Command
+	}
+	if so.EnforcerID != nil {
+		o.EnforcerID = *so.EnforcerID
+	}
+	if so.EnforcerNamespace != nil {
+		o.EnforcerNamespace = *so.EnforcerNamespace
+	}
+	if so.Exit != nil {
+		o.Exit = *so.Exit
+	}
+	if so.ProcessingUnitID != nil {
+		o.ProcessingUnitID = *so.ProcessingUnitID
+	}
+	if so.ProcessingUnitNamespace != nil {
+		o.ProcessingUnitNamespace = *so.ProcessingUnitNamespace
+	}
+	if so.RecordType != nil {
+		o.RecordType = *so.RecordType
+	}
+	if so.Sequence != nil {
+		o.Sequence = *so.Sequence
+	}
+	if so.Success != nil {
+		o.Success = *so.Success
+	}
+	if so.Syscall != nil {
+		o.Syscall = *so.Syscall
+	}
+	if so.Timestamp != nil {
+		o.Timestamp = *so.Timestamp
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *AuditReport) Validate() error {
 
@@ -826,4 +970,289 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Required:       true,
 		Type:           "time",
 	},
+}
+
+// SparseAuditReportsList represents a list of SparseAuditReports
+type SparseAuditReportsList []*SparseAuditReport
+
+// Identity returns the identity of the objects in the list.
+func (o SparseAuditReportsList) Identity() elemental.Identity {
+
+	return AuditReportIdentity
+}
+
+// Copy returns a pointer to a copy the SparseAuditReportsList.
+func (o SparseAuditReportsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseAuditReportsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseAuditReportsList.
+func (o SparseAuditReportsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseAuditReportsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseAuditReport))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseAuditReportsList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseAuditReportsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseAuditReportsList) Version() int {
+
+	return 1
+}
+
+// SparseAuditReport represents the sparse version of a auditreport.
+type SparseAuditReport struct {
+	// Needs documentation.
+	AUID *string `json:"AUID,omitempty" bson:"-" mapstructure:"AUID,omitempty"`
+
+	// Command working directory.
+	CWD *string `json:"CWD,omitempty" bson:"-" mapstructure:"CWD,omitempty"`
+
+	// Needs documentation.
+	EGID *int `json:"EGID,omitempty" bson:"-" mapstructure:"EGID,omitempty"`
+
+	// Needs documentation.
+	EUID *int `json:"EUID,omitempty" bson:"-" mapstructure:"EUID,omitempty"`
+
+	// Path to the executable.
+	EXE *string `json:"EXE,omitempty" bson:"-" mapstructure:"EXE,omitempty"`
+
+	// Needs documentation.
+	FSGID *int `json:"FSGID,omitempty" bson:"-" mapstructure:"FSGID,omitempty"`
+
+	// Needs documentation.
+	FSUID *int `json:"FSUID,omitempty" bson:"-" mapstructure:"FSUID,omitempty"`
+
+	// Needs documentation.
+	GID *int `json:"GID,omitempty" bson:"-" mapstructure:"GID,omitempty"`
+
+	// Needs documentation.
+	PER *int `json:"PER,omitempty" bson:"-" mapstructure:"PER,omitempty"`
+
+	// PID of the executable.
+	PID *int `json:"PID,omitempty" bson:"-" mapstructure:"PID,omitempty"`
+
+	// PID of the parent executable.
+	PPID *int `json:"PPID,omitempty" bson:"-" mapstructure:"PPID,omitempty"`
+
+	// Needs documentation.
+	SGID *int `json:"SGID,omitempty" bson:"-" mapstructure:"SGID,omitempty"`
+
+	// Needs documentation.
+	SUID *int `json:"SUID,omitempty" bson:"-" mapstructure:"SUID,omitempty"`
+
+	// Needs documentation.
+	UID *int `json:"UID,omitempty" bson:"-" mapstructure:"UID,omitempty"`
+
+	// Needs documentation.
+	A0 *string `json:"a0,omitempty" bson:"-" mapstructure:"a0,omitempty"`
+
+	// Needs documentation.
+	A1 *string `json:"a1,omitempty" bson:"-" mapstructure:"a1,omitempty"`
+
+	// Needs documentation.
+	A2 *string `json:"a2,omitempty" bson:"-" mapstructure:"a2,omitempty"`
+
+	// Needs documentation.
+	A3 *string `json:"a3,omitempty" bson:"-" mapstructure:"a3,omitempty"`
+
+	// Architecture of the system where the syscall happened.
+	Arch *string `json:"arch,omitempty" bson:"-" mapstructure:"arch,omitempty"`
+
+	// ID the audit profile that triggered the report.
+	AuditProfileID *string `json:"auditProfileID,omitempty" bson:"-" mapstructure:"auditProfileID,omitempty"`
+
+	// Namespace the audit profile that triggered the report.
+	AuditProfileNamespace *string `json:"auditProfileNamespace,omitempty" bson:"-" mapstructure:"auditProfileNamespace,omitempty"`
+
+	// Command issued.
+	Command *string `json:"command,omitempty" bson:"-" mapstructure:"command,omitempty"`
+
+	// ID of the enforcer reporting.
+	EnforcerID *string `json:"enforcerID,omitempty" bson:"-" mapstructure:"enforcerID,omitempty"`
+
+	// Namespace of the enforcer reporting.
+	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
+
+	// Exit code of the executable.
+	Exit *int `json:"exit,omitempty" bson:"-" mapstructure:"exit,omitempty"`
+
+	// ID of the processing unit originating the report.
+	ProcessingUnitID *string `json:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
+
+	// Namespace of the processing unit originating the report.
+	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
+
+	// Type of record.
+	RecordType *string `json:"recordType,omitempty" bson:"-" mapstructure:"recordType,omitempty"`
+
+	// Needs documentation.
+	Sequence *int `json:"sequence,omitempty" bson:"-" mapstructure:"sequence,omitempty"`
+
+	// Tells if the operation has been a success of a failure.
+	Success *bool `json:"success,omitempty" bson:"-" mapstructure:"success,omitempty"`
+
+	// Syscall name.
+	Syscall *string `json:"syscall,omitempty" bson:"-" mapstructure:"syscall,omitempty"`
+
+	// Date of the report.
+	Timestamp *time.Time `json:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseAuditReport returns a new  SparseAuditReport.
+func NewSparseAuditReport() *SparseAuditReport {
+	return &SparseAuditReport{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseAuditReport) Identity() elemental.Identity {
+
+	return AuditReportIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseAuditReport) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseAuditReport) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseAuditReport) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseAuditReport) ToFull() elemental.FullIdentifiable {
+
+	out := NewAuditReport()
+	if o.AUID != nil {
+		out.AUID = *o.AUID
+	}
+	if o.CWD != nil {
+		out.CWD = *o.CWD
+	}
+	if o.EGID != nil {
+		out.EGID = *o.EGID
+	}
+	if o.EUID != nil {
+		out.EUID = *o.EUID
+	}
+	if o.EXE != nil {
+		out.EXE = *o.EXE
+	}
+	if o.FSGID != nil {
+		out.FSGID = *o.FSGID
+	}
+	if o.FSUID != nil {
+		out.FSUID = *o.FSUID
+	}
+	if o.GID != nil {
+		out.GID = *o.GID
+	}
+	if o.PER != nil {
+		out.PER = *o.PER
+	}
+	if o.PID != nil {
+		out.PID = *o.PID
+	}
+	if o.PPID != nil {
+		out.PPID = *o.PPID
+	}
+	if o.SGID != nil {
+		out.SGID = *o.SGID
+	}
+	if o.SUID != nil {
+		out.SUID = *o.SUID
+	}
+	if o.UID != nil {
+		out.UID = *o.UID
+	}
+	if o.A0 != nil {
+		out.A0 = *o.A0
+	}
+	if o.A1 != nil {
+		out.A1 = *o.A1
+	}
+	if o.A2 != nil {
+		out.A2 = *o.A2
+	}
+	if o.A3 != nil {
+		out.A3 = *o.A3
+	}
+	if o.Arch != nil {
+		out.Arch = *o.Arch
+	}
+	if o.AuditProfileID != nil {
+		out.AuditProfileID = *o.AuditProfileID
+	}
+	if o.AuditProfileNamespace != nil {
+		out.AuditProfileNamespace = *o.AuditProfileNamespace
+	}
+	if o.Command != nil {
+		out.Command = *o.Command
+	}
+	if o.EnforcerID != nil {
+		out.EnforcerID = *o.EnforcerID
+	}
+	if o.EnforcerNamespace != nil {
+		out.EnforcerNamespace = *o.EnforcerNamespace
+	}
+	if o.Exit != nil {
+		out.Exit = *o.Exit
+	}
+	if o.ProcessingUnitID != nil {
+		out.ProcessingUnitID = *o.ProcessingUnitID
+	}
+	if o.ProcessingUnitNamespace != nil {
+		out.ProcessingUnitNamespace = *o.ProcessingUnitNamespace
+	}
+	if o.RecordType != nil {
+		out.RecordType = *o.RecordType
+	}
+	if o.Sequence != nil {
+		out.Sequence = *o.Sequence
+	}
+	if o.Success != nil {
+		out.Success = *o.Success
+	}
+	if o.Syscall != nil {
+		out.Syscall = *o.Syscall
+	}
+	if o.Timestamp != nil {
+		out.Timestamp = *o.Timestamp
+	}
+
+	return out
 }

@@ -122,6 +122,26 @@ func (o *Trigger) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *Trigger) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseTrigger{
+		Payload: &o.Payload,
+	}
+}
+
+// Patch apply the non nil value of a *SparseTrigger to the object.
+func (o *Trigger) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseTrigger)
+	if so.Payload != nil {
+		o.Payload = *so.Payload
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *Trigger) Validate() error {
 
@@ -178,4 +198,103 @@ var TriggerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "payload",
 		Type:           "string",
 	},
+}
+
+// SparseTriggersList represents a list of SparseTriggers
+type SparseTriggersList []*SparseTrigger
+
+// Identity returns the identity of the objects in the list.
+func (o SparseTriggersList) Identity() elemental.Identity {
+
+	return TriggerIdentity
+}
+
+// Copy returns a pointer to a copy the SparseTriggersList.
+func (o SparseTriggersList) Copy() elemental.Identifiables {
+
+	copy := append(SparseTriggersList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseTriggersList.
+func (o SparseTriggersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseTriggersList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseTrigger))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseTriggersList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseTriggersList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseTriggersList) Version() int {
+
+	return 1
+}
+
+// SparseTrigger represents the sparse version of a trigger.
+type SparseTrigger struct {
+	// Payload contains the eventual remote POST payload.
+	Payload *string `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseTrigger returns a new  SparseTrigger.
+func NewSparseTrigger() *SparseTrigger {
+	return &SparseTrigger{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseTrigger) Identity() elemental.Identity {
+
+	return TriggerIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseTrigger) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseTrigger) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseTrigger) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseTrigger) ToFull() elemental.FullIdentifiable {
+
+	out := NewTrigger()
+	if o.Payload != nil {
+		out.Payload = *o.Payload
+	}
+
+	return out
 }

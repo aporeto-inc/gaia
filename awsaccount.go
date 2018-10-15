@@ -156,6 +156,62 @@ func (o *AWSAccount) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *AWSAccount) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseAWSAccount{
+		ID:              &o.ID,
+		AccessKeyID:     &o.AccessKeyID,
+		AccessToken:     &o.AccessToken,
+		AccountID:       &o.AccountID,
+		CreateTime:      &o.CreateTime,
+		ParentID:        &o.ParentID,
+		ParentName:      &o.ParentName,
+		Region:          &o.Region,
+		SecretAccessKey: &o.SecretAccessKey,
+		UpdateTime:      &o.UpdateTime,
+	}
+}
+
+// Patch apply the non nil value of a *SparseAWSAccount to the object.
+func (o *AWSAccount) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseAWSAccount)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.AccessKeyID != nil {
+		o.AccessKeyID = *so.AccessKeyID
+	}
+	if so.AccessToken != nil {
+		o.AccessToken = *so.AccessToken
+	}
+	if so.AccountID != nil {
+		o.AccountID = *so.AccountID
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.ParentID != nil {
+		o.ParentID = *so.ParentID
+	}
+	if so.ParentName != nil {
+		o.ParentName = *so.ParentName
+	}
+	if so.Region != nil {
+		o.Region = *so.Region
+	}
+	if so.SecretAccessKey != nil {
+		o.SecretAccessKey = *so.SecretAccessKey
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *AWSAccount) Validate() error {
 
@@ -450,4 +506,161 @@ and it is not stored.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseAWSAccountsList represents a list of SparseAWSAccounts
+type SparseAWSAccountsList []*SparseAWSAccount
+
+// Identity returns the identity of the objects in the list.
+func (o SparseAWSAccountsList) Identity() elemental.Identity {
+
+	return AWSAccountIdentity
+}
+
+// Copy returns a pointer to a copy the SparseAWSAccountsList.
+func (o SparseAWSAccountsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseAWSAccountsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseAWSAccountsList.
+func (o SparseAWSAccountsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseAWSAccountsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseAWSAccount))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseAWSAccountsList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseAWSAccountsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseAWSAccountsList) Version() int {
+
+	return 1
+}
+
+// SparseAWSAccount represents the sparse version of a awsaccount.
+type SparseAWSAccount struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// AccessKeyID contains the aws access key ID. This is used to retrieve your
+	// account id, and it is not stored.
+	AccessKeyID *string `json:"accessKeyID,omitempty" bson:"-" mapstructure:"accessKeyID,omitempty"`
+
+	// AccessToken contains your aws access token. It is used to retrieve your account
+	// id, and it not stored.
+	AccessToken *string `json:"accessToken,omitempty" bson:"-" mapstructure:"accessToken,omitempty"`
+
+	// accountID contains your verified accound id.
+	AccountID *string `json:"accountID,omitempty" bson:"accountid" mapstructure:"accountID,omitempty"`
+
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// ParentID contains the parent Vince account ID.
+	ParentID *string `json:"parentID,omitempty" bson:"parentid" mapstructure:"parentID,omitempty"`
+
+	// ParentName contains the name of the Vince parent Account.
+	ParentName *string `json:"parentName,omitempty" bson:"parentname" mapstructure:"parentName,omitempty"`
+
+	// Region contains your the region where your AWS account is located.
+	Region *string `json:"region,omitempty" bson:"region" mapstructure:"region,omitempty"`
+
+	// secretAccessKey contains the secret key. It is used to retrieve your account id,
+	// and it is not stored.
+	SecretAccessKey *string `json:"secretAccessKey,omitempty" bson:"-" mapstructure:"secretAccessKey,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseAWSAccount returns a new  SparseAWSAccount.
+func NewSparseAWSAccount() *SparseAWSAccount {
+	return &SparseAWSAccount{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseAWSAccount) Identity() elemental.Identity {
+
+	return AWSAccountIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseAWSAccount) Identifier() string {
+
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseAWSAccount) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseAWSAccount) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseAWSAccount) ToFull() elemental.FullIdentifiable {
+
+	out := NewAWSAccount()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.AccessKeyID != nil {
+		out.AccessKeyID = *o.AccessKeyID
+	}
+	if o.AccessToken != nil {
+		out.AccessToken = *o.AccessToken
+	}
+	if o.AccountID != nil {
+		out.AccountID = *o.AccountID
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.ParentID != nil {
+		out.ParentID = *o.ParentID
+	}
+	if o.ParentName != nil {
+		out.ParentName = *o.ParentName
+	}
+	if o.Region != nil {
+		out.Region = *o.Region
+	}
+	if o.SecretAccessKey != nil {
+		out.SecretAccessKey = *o.SecretAccessKey
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

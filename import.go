@@ -140,6 +140,30 @@ func (o *Import) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *Import) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseImport{
+		Data: &o.Data,
+		Mode: &o.Mode,
+	}
+}
+
+// Patch apply the non nil value of a *SparseImport to the object.
+func (o *Import) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseImport)
+	if so.Data != nil {
+		o.Data = *so.Data
+	}
+	if so.Mode != nil {
+		o.Mode = *so.Mode
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *Import) Validate() error {
 
@@ -224,4 +248,109 @@ var ImportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "mode",
 		Type:           "enum",
 	},
+}
+
+// SparseImportsList represents a list of SparseImports
+type SparseImportsList []*SparseImport
+
+// Identity returns the identity of the objects in the list.
+func (o SparseImportsList) Identity() elemental.Identity {
+
+	return ImportIdentity
+}
+
+// Copy returns a pointer to a copy the SparseImportsList.
+func (o SparseImportsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseImportsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseImportsList.
+func (o SparseImportsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseImportsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseImport))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseImportsList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseImportsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseImportsList) Version() int {
+
+	return 1
+}
+
+// SparseImport represents the sparse version of a import.
+type SparseImport struct {
+	// The data to import.
+	Data **Export `json:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
+
+	// How to import the data.
+	Mode *ImportModeValue `json:"mode,omitempty" bson:"-" mapstructure:"mode,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseImport returns a new  SparseImport.
+func NewSparseImport() *SparseImport {
+	return &SparseImport{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseImport) Identity() elemental.Identity {
+
+	return ImportIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseImport) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseImport) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseImport) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseImport) ToFull() elemental.FullIdentifiable {
+
+	out := NewImport()
+	if o.Data != nil {
+		out.Data = *o.Data
+	}
+	if o.Mode != nil {
+		out.Mode = *o.Mode
+	}
+
+	return out
 }

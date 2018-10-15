@@ -137,6 +137,38 @@ func (o *Tag) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *Tag) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseTag{
+		ID:        &o.ID,
+		Count:     &o.Count,
+		Namespace: &o.Namespace,
+		Value:     &o.Value,
+	}
+}
+
+// Patch apply the non nil value of a *SparseTag to the object.
+func (o *Tag) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseTag)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Count != nil {
+		o.Count = *so.Count
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.Value != nil {
+		o.Value = *so.Value
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *Tag) Validate() error {
 
@@ -285,4 +317,122 @@ var TagLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+}
+
+// SparseTagsList represents a list of SparseTags
+type SparseTagsList []*SparseTag
+
+// Identity returns the identity of the objects in the list.
+func (o SparseTagsList) Identity() elemental.Identity {
+
+	return TagIdentity
+}
+
+// Copy returns a pointer to a copy the SparseTagsList.
+func (o SparseTagsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseTagsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseTagsList.
+func (o SparseTagsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseTagsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseTag))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseTagsList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseTagsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseTagsList) Version() int {
+
+	return 1
+}
+
+// SparseTag represents the sparse version of a tag.
+type SparseTag struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Count represents the number of time the tag is used.
+	Count *int `json:"count,omitempty" bson:"count" mapstructure:"count,omitempty"`
+
+	// Namespace represents the namespace of the counted tag.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// Value represents the value of the tag.
+	Value *string `json:"value,omitempty" bson:"value" mapstructure:"value,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseTag returns a new  SparseTag.
+func NewSparseTag() *SparseTag {
+	return &SparseTag{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseTag) Identity() elemental.Identity {
+
+	return TagIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseTag) Identifier() string {
+
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseTag) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseTag) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseTag) ToFull() elemental.FullIdentifiable {
+
+	out := NewTag()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Count != nil {
+		out.Count = *o.Count
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.Value != nil {
+		out.Value = *o.Value
+	}
+
+	return out
 }

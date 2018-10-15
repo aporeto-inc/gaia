@@ -125,6 +125,26 @@ func (o *Jaegerbatch) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *Jaegerbatch) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseJaegerbatch{
+		Batch: &o.Batch,
+	}
+}
+
+// Patch apply the non nil value of a *SparseJaegerbatch to the object.
+func (o *Jaegerbatch) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseJaegerbatch)
+	if so.Batch != nil {
+		o.Batch = *so.Batch
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *Jaegerbatch) Validate() error {
 
@@ -187,4 +207,103 @@ var JaegerbatchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		SubType:        "jaeger_batch",
 		Type:           "external",
 	},
+}
+
+// SparseJaegerbatchsList represents a list of SparseJaegerbatchs
+type SparseJaegerbatchsList []*SparseJaegerbatch
+
+// Identity returns the identity of the objects in the list.
+func (o SparseJaegerbatchsList) Identity() elemental.Identity {
+
+	return JaegerbatchIdentity
+}
+
+// Copy returns a pointer to a copy the SparseJaegerbatchsList.
+func (o SparseJaegerbatchsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseJaegerbatchsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseJaegerbatchsList.
+func (o SparseJaegerbatchsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseJaegerbatchsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseJaegerbatch))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseJaegerbatchsList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseJaegerbatchsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseJaegerbatchsList) Version() int {
+
+	return 1
+}
+
+// SparseJaegerbatch represents the sparse version of a jaegerbatch.
+type SparseJaegerbatch struct {
+	// Represents a jaeger batch.
+	Batch **jaeger.Batch `json:"batch,omitempty" bson:"batch" mapstructure:"batch,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseJaegerbatch returns a new  SparseJaegerbatch.
+func NewSparseJaegerbatch() *SparseJaegerbatch {
+	return &SparseJaegerbatch{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseJaegerbatch) Identity() elemental.Identity {
+
+	return JaegerbatchIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseJaegerbatch) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseJaegerbatch) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseJaegerbatch) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseJaegerbatch) ToFull() elemental.FullIdentifiable {
+
+	out := NewJaegerbatch()
+	if o.Batch != nil {
+		out.Batch = *o.Batch
+	}
+
+	return out
 }

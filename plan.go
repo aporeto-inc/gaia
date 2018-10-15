@@ -137,6 +137,46 @@ func (o *Plan) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *Plan) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparsePlan{
+		Description:          &o.Description,
+		EnforcersQuota:       &o.EnforcersQuota,
+		Key:                  &o.Key,
+		Name:                 &o.Name,
+		PoliciesQuota:        &o.PoliciesQuota,
+		ProcessingUnitsQuota: &o.ProcessingUnitsQuota,
+	}
+}
+
+// Patch apply the non nil value of a *SparsePlan to the object.
+func (o *Plan) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparsePlan)
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.EnforcersQuota != nil {
+		o.EnforcersQuota = *so.EnforcersQuota
+	}
+	if so.Key != nil {
+		o.Key = *so.Key
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.PoliciesQuota != nil {
+		o.PoliciesQuota = *so.PoliciesQuota
+	}
+	if so.ProcessingUnitsQuota != nil {
+		o.ProcessingUnitsQuota = *so.ProcessingUnitsQuota
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *Plan) Validate() error {
 
@@ -309,4 +349,133 @@ var PlanLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "integer",
 	},
+}
+
+// SparsePlansList represents a list of SparsePlans
+type SparsePlansList []*SparsePlan
+
+// Identity returns the identity of the objects in the list.
+func (o SparsePlansList) Identity() elemental.Identity {
+
+	return PlanIdentity
+}
+
+// Copy returns a pointer to a copy the SparsePlansList.
+func (o SparsePlansList) Copy() elemental.Identifiables {
+
+	copy := append(SparsePlansList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparsePlansList.
+func (o SparsePlansList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparsePlansList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparsePlan))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparsePlansList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparsePlansList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparsePlansList) Version() int {
+
+	return 1
+}
+
+// SparsePlan represents the sparse version of a plan.
+type SparsePlan struct {
+	// Description contains the description of the Plan.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// EnforcerQuota contains the maximum number of enforcers available in the Plan.
+	EnforcersQuota *int `json:"enforcersQuota,omitempty" bson:"enforcersquota" mapstructure:"enforcersQuota,omitempty"`
+
+	// Key contains the key identifier of the Plan.
+	Key *string `json:"key,omitempty" bson:"key" mapstructure:"key,omitempty"`
+
+	// Name contains the name of the Plan.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// PoliciesQuota contains the maximum number of policies available in the Plan.
+	PoliciesQuota *int `json:"policiesQuota,omitempty" bson:"policiesquota" mapstructure:"policiesQuota,omitempty"`
+
+	// ProcessingUnitsQuota contains the maximum PUs available in the Plan.
+	ProcessingUnitsQuota *int `json:"processingUnitsQuota,omitempty" bson:"processingunitsquota" mapstructure:"processingUnitsQuota,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparsePlan returns a new  SparsePlan.
+func NewSparsePlan() *SparsePlan {
+	return &SparsePlan{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparsePlan) Identity() elemental.Identity {
+
+	return PlanIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparsePlan) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparsePlan) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparsePlan) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparsePlan) ToFull() elemental.FullIdentifiable {
+
+	out := NewPlan()
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.EnforcersQuota != nil {
+		out.EnforcersQuota = *o.EnforcersQuota
+	}
+	if o.Key != nil {
+		out.Key = *o.Key
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.PoliciesQuota != nil {
+		out.PoliciesQuota = *o.PoliciesQuota
+	}
+	if o.ProcessingUnitsQuota != nil {
+		out.ProcessingUnitsQuota = *o.ProcessingUnitsQuota
+	}
+
+	return out
 }

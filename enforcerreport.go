@@ -142,6 +142,50 @@ func (o *EnforcerReport) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *EnforcerReport) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseEnforcerReport{
+		CPULoad:   &o.CPULoad,
+		ID:        &o.ID,
+		Memory:    &o.Memory,
+		Name:      &o.Name,
+		Namespace: &o.Namespace,
+		Processes: &o.Processes,
+		Timestamp: &o.Timestamp,
+	}
+}
+
+// Patch apply the non nil value of a *SparseEnforcerReport to the object.
+func (o *EnforcerReport) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseEnforcerReport)
+	if so.CPULoad != nil {
+		o.CPULoad = *so.CPULoad
+	}
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Memory != nil {
+		o.Memory = *so.Memory
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.Processes != nil {
+		o.Processes = *so.Processes
+	}
+	if so.Timestamp != nil {
+		o.Timestamp = *so.Timestamp
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *EnforcerReport) Validate() error {
 
@@ -318,4 +362,139 @@ var EnforcerReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Required:       true,
 		Type:           "time",
 	},
+}
+
+// SparseEnforcerReportsList represents a list of SparseEnforcerReports
+type SparseEnforcerReportsList []*SparseEnforcerReport
+
+// Identity returns the identity of the objects in the list.
+func (o SparseEnforcerReportsList) Identity() elemental.Identity {
+
+	return EnforcerReportIdentity
+}
+
+// Copy returns a pointer to a copy the SparseEnforcerReportsList.
+func (o SparseEnforcerReportsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseEnforcerReportsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseEnforcerReportsList.
+func (o SparseEnforcerReportsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseEnforcerReportsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseEnforcerReport))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseEnforcerReportsList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseEnforcerReportsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseEnforcerReportsList) Version() int {
+
+	return 1
+}
+
+// SparseEnforcerReport represents the sparse version of a enforcerreport.
+type SparseEnforcerReport struct {
+	// Total CPU utilization of the enforcer as a percentage of vCPUs.
+	CPULoad *float64 `json:"CPULoad,omitempty" bson:"-" mapstructure:"CPULoad,omitempty"`
+
+	// ID of the enforcer to report.
+	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
+	// Total resident memory used by the enforcer in bytes.
+	Memory *int `json:"memory,omitempty" bson:"-" mapstructure:"memory,omitempty"`
+
+	// Name of the enforcer to report.
+	Name *string `json:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
+
+	// Namespace of the enforcer to report.
+	Namespace *string `json:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
+
+	// Number of active processes of the enforcer.
+	Processes *int `json:"processes,omitempty" bson:"-" mapstructure:"processes,omitempty"`
+
+	// Date of the report.
+	Timestamp *time.Time `json:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseEnforcerReport returns a new  SparseEnforcerReport.
+func NewSparseEnforcerReport() *SparseEnforcerReport {
+	return &SparseEnforcerReport{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseEnforcerReport) Identity() elemental.Identity {
+
+	return EnforcerReportIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseEnforcerReport) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseEnforcerReport) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseEnforcerReport) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseEnforcerReport) ToFull() elemental.FullIdentifiable {
+
+	out := NewEnforcerReport()
+	if o.CPULoad != nil {
+		out.CPULoad = *o.CPULoad
+	}
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Memory != nil {
+		out.Memory = *o.Memory
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.Processes != nil {
+		out.Processes = *o.Processes
+	}
+	if o.Timestamp != nil {
+		out.Timestamp = *o.Timestamp
+	}
+
+	return out
 }

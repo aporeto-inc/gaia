@@ -156,6 +156,54 @@ func (o *RemoteProcessor) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *RemoteProcessor) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseRemoteProcessor{
+		Claims:         &o.Claims,
+		Input:          &o.Input,
+		Mode:           &o.Mode,
+		Namespace:      &o.Namespace,
+		Operation:      &o.Operation,
+		Output:         &o.Output,
+		RequestID:      &o.RequestID,
+		TargetIdentity: &o.TargetIdentity,
+	}
+}
+
+// Patch apply the non nil value of a *SparseRemoteProcessor to the object.
+func (o *RemoteProcessor) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseRemoteProcessor)
+	if so.Claims != nil {
+		o.Claims = *so.Claims
+	}
+	if so.Input != nil {
+		o.Input = *so.Input
+	}
+	if so.Mode != nil {
+		o.Mode = *so.Mode
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.Operation != nil {
+		o.Operation = *so.Operation
+	}
+	if so.Output != nil {
+		o.Output = *so.Output
+	}
+	if so.RequestID != nil {
+		o.RequestID = *so.RequestID
+	}
+	if so.TargetIdentity != nil {
+		o.TargetIdentity = *so.TargetIdentity
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *RemoteProcessor) Validate() error {
 
@@ -370,4 +418,145 @@ var RemoteProcessorLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Required:       true,
 		Type:           "string",
 	},
+}
+
+// SparseRemoteProcessorsList represents a list of SparseRemoteProcessors
+type SparseRemoteProcessorsList []*SparseRemoteProcessor
+
+// Identity returns the identity of the objects in the list.
+func (o SparseRemoteProcessorsList) Identity() elemental.Identity {
+
+	return RemoteProcessorIdentity
+}
+
+// Copy returns a pointer to a copy the SparseRemoteProcessorsList.
+func (o SparseRemoteProcessorsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseRemoteProcessorsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseRemoteProcessorsList.
+func (o SparseRemoteProcessorsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseRemoteProcessorsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseRemoteProcessor))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseRemoteProcessorsList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseRemoteProcessorsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseRemoteProcessorsList) Version() int {
+
+	return 1
+}
+
+// SparseRemoteProcessor represents the sparse version of a remoteprocessor.
+type SparseRemoteProcessor struct {
+	// Represents the claims of the currently managed object.
+	Claims *[]string `json:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
+
+	// Represents data received from the service.
+	Input *json.RawMessage `json:"input,omitempty" bson:"-" mapstructure:"input,omitempty"`
+
+	// Node defines the type of the hook.
+	Mode *RemoteProcessorModeValue `json:"mode,omitempty" bson:"-" mapstructure:"mode,omitempty"`
+
+	// Represents the current namespace.
+	Namespace *string `json:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
+
+	// Define the operation that is currently handled by the service.
+	Operation *elemental.Operation `json:"operation,omitempty" bson:"-" mapstructure:"operation,omitempty"`
+
+	// Returns the OutputData filled with the processor information.
+	Output *elemental.Identifiable `json:"output,omitempty" bson:"-" mapstructure:"output,omitempty"`
+
+	// RequestID gives the id of the request coming from the main server.
+	RequestID *string `json:"requestID,omitempty" bson:"requestid" mapstructure:"requestID,omitempty"`
+
+	// Represents the Identity name of the managed object.
+	TargetIdentity *string `json:"targetIdentity,omitempty" bson:"-" mapstructure:"targetIdentity,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseRemoteProcessor returns a new  SparseRemoteProcessor.
+func NewSparseRemoteProcessor() *SparseRemoteProcessor {
+	return &SparseRemoteProcessor{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseRemoteProcessor) Identity() elemental.Identity {
+
+	return RemoteProcessorIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseRemoteProcessor) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseRemoteProcessor) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseRemoteProcessor) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseRemoteProcessor) ToFull() elemental.FullIdentifiable {
+
+	out := NewRemoteProcessor()
+	if o.Claims != nil {
+		out.Claims = *o.Claims
+	}
+	if o.Input != nil {
+		out.Input = *o.Input
+	}
+	if o.Mode != nil {
+		out.Mode = *o.Mode
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.Operation != nil {
+		out.Operation = *o.Operation
+	}
+	if o.Output != nil {
+		out.Output = *o.Output
+	}
+	if o.RequestID != nil {
+		out.RequestID = *o.RequestID
+	}
+	if o.TargetIdentity != nil {
+		out.TargetIdentity = *o.TargetIdentity
+	}
+
+	return out
 }

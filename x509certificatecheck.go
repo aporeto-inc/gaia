@@ -123,6 +123,26 @@ func (o *X509CertificateCheck) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *X509CertificateCheck) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseX509CertificateCheck{
+		ID: &o.ID,
+	}
+}
+
+// Patch apply the non nil value of a *SparseX509CertificateCheck to the object.
+func (o *X509CertificateCheck) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseX509CertificateCheck)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *X509CertificateCheck) Validate() error {
 
@@ -187,4 +207,104 @@ var X509CertificateCheckLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Required:       true,
 		Type:           "string",
 	},
+}
+
+// SparseX509CertificateChecksList represents a list of SparseX509CertificateChecks
+type SparseX509CertificateChecksList []*SparseX509CertificateCheck
+
+// Identity returns the identity of the objects in the list.
+func (o SparseX509CertificateChecksList) Identity() elemental.Identity {
+
+	return X509CertificateCheckIdentity
+}
+
+// Copy returns a pointer to a copy the SparseX509CertificateChecksList.
+func (o SparseX509CertificateChecksList) Copy() elemental.Identifiables {
+
+	copy := append(SparseX509CertificateChecksList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseX509CertificateChecksList.
+func (o SparseX509CertificateChecksList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseX509CertificateChecksList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseX509CertificateCheck))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseX509CertificateChecksList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseX509CertificateChecksList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseX509CertificateChecksList) Version() int {
+
+	return 1
+}
+
+// SparseX509CertificateCheck represents the sparse version of a x509certificatecheck.
+type SparseX509CertificateCheck struct {
+	// ID contains the certificate serialNumber.
+	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseX509CertificateCheck returns a new  SparseX509CertificateCheck.
+func NewSparseX509CertificateCheck() *SparseX509CertificateCheck {
+	return &SparseX509CertificateCheck{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseX509CertificateCheck) Identity() elemental.Identity {
+
+	return X509CertificateCheckIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseX509CertificateCheck) Identifier() string {
+
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseX509CertificateCheck) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseX509CertificateCheck) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseX509CertificateCheck) ToFull() elemental.FullIdentifiable {
+
+	out := NewX509CertificateCheck()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+
+	return out
 }

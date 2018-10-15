@@ -130,6 +130,34 @@ func (o *PrivateKey) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *PrivateKey) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparsePrivateKey{
+		ID:                      &o.ID,
+		CertificateSerialNumber: &o.CertificateSerialNumber,
+		Data:                    &o.Data,
+	}
+}
+
+// Patch apply the non nil value of a *SparsePrivateKey to the object.
+func (o *PrivateKey) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparsePrivateKey)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.CertificateSerialNumber != nil {
+		o.CertificateSerialNumber = *so.CertificateSerialNumber
+	}
+	if so.Data != nil {
+		o.Data = *so.Data
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *PrivateKey) Validate() error {
 
@@ -226,4 +254,117 @@ this key.`,
 		Stored:         true,
 		Type:           "string",
 	},
+}
+
+// SparsePrivateKeysList represents a list of SparsePrivateKeys
+type SparsePrivateKeysList []*SparsePrivateKey
+
+// Identity returns the identity of the objects in the list.
+func (o SparsePrivateKeysList) Identity() elemental.Identity {
+
+	return PrivateKeyIdentity
+}
+
+// Copy returns a pointer to a copy the SparsePrivateKeysList.
+func (o SparsePrivateKeysList) Copy() elemental.Identifiables {
+
+	copy := append(SparsePrivateKeysList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparsePrivateKeysList.
+func (o SparsePrivateKeysList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparsePrivateKeysList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparsePrivateKey))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparsePrivateKeysList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparsePrivateKeysList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparsePrivateKeysList) Version() int {
+
+	return 1
+}
+
+// SparsePrivateKey represents the sparse version of a privatekey.
+type SparsePrivateKey struct {
+	// ID is the internal ID of the key.
+	ID *string `json:"-,omitempty" bson:"_id" mapstructure:"-,omitempty"`
+
+	// CertificateSerialNumber represents the certificate serial number associated to
+	// this key.
+	CertificateSerialNumber *string `json:"-,omitempty" bson:"certificateserialnumber" mapstructure:"-,omitempty"`
+
+	// Data contains the privateKey data.
+	Data *string `json:"-,omitempty" bson:"data" mapstructure:"-,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparsePrivateKey returns a new  SparsePrivateKey.
+func NewSparsePrivateKey() *SparsePrivateKey {
+	return &SparsePrivateKey{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparsePrivateKey) Identity() elemental.Identity {
+
+	return PrivateKeyIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparsePrivateKey) Identifier() string {
+
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparsePrivateKey) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparsePrivateKey) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparsePrivateKey) ToFull() elemental.FullIdentifiable {
+
+	out := NewPrivateKey()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.CertificateSerialNumber != nil {
+		out.CertificateSerialNumber = *o.CertificateSerialNumber
+	}
+	if o.Data != nil {
+		out.Data = *o.Data
+	}
+
+	return out
 }

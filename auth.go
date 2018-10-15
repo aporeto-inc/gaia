@@ -124,6 +124,26 @@ func (o *Auth) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+func (o *Auth) ToSparse() elemental.SparseIdentifiable {
+
+	return &SparseAuth{
+		Claims: &o.Claims,
+	}
+}
+
+// Patch apply the non nil value of a *SparseAuth to the object.
+func (o *Auth) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseAuth)
+	if so.Claims != nil {
+		o.Claims = *so.Claims
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *Auth) Validate() error {
 
@@ -186,4 +206,103 @@ var AuthLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "claims",
 		Type:           "external",
 	},
+}
+
+// SparseAuthsList represents a list of SparseAuths
+type SparseAuthsList []*SparseAuth
+
+// Identity returns the identity of the objects in the list.
+func (o SparseAuthsList) Identity() elemental.Identity {
+
+	return AuthIdentity
+}
+
+// Copy returns a pointer to a copy the SparseAuthsList.
+func (o SparseAuthsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseAuthsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseAuthsList.
+func (o SparseAuthsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseAuthsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseAuth))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseAuthsList) List() elemental.IdentifiablesList {
+
+	out := elemental.IdentifiablesList{}
+	for _, item := range o {
+		out = append(out, item)
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseAuthsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// Version returns the version of the content.
+func (o SparseAuthsList) Version() int {
+
+	return 1
+}
+
+// SparseAuth represents the sparse version of a auth.
+type SparseAuth struct {
+	// Claims are the claims.
+	Claims **claims.MidgardClaims `json:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseAuth returns a new  SparseAuth.
+func NewSparseAuth() *SparseAuth {
+	return &SparseAuth{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseAuth) Identity() elemental.Identity {
+
+	return AuthIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseAuth) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseAuth) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseAuth) Version() int {
+
+	return 1
+}
+
+// ToFull returns a full version of the sparse model.
+func (o *SparseAuth) ToFull() elemental.FullIdentifiable {
+
+	out := NewAuth()
+	if o.Claims != nil {
+		out.Claims = *o.Claims
+	}
+
+	return out
 }
