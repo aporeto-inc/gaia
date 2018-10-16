@@ -447,6 +447,7 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			DockerSocketAddress:           &o.DockerSocketAddress,
 			ExcludedInterfaces:            &o.ExcludedInterfaces,
 			ExcludedNetworks:              &o.ExcludedNetworks,
+			HostModeEnabled:               &o.HostModeEnabled,
 			HostServices:                  &o.HostServices,
 			IgnoreExpression:              &o.IgnoreExpression,
 			KillContainersOnFailure:       &o.KillContainersOnFailure,
@@ -507,6 +508,8 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.ExcludedInterfaces = &(o.ExcludedInterfaces)
 		case "excludedNetworks":
 			sp.ExcludedNetworks = &(o.ExcludedNetworks)
+		case "hostModeEnabled":
+			sp.HostModeEnabled = &(o.HostModeEnabled)
 		case "hostServices":
 			sp.HostServices = &(o.HostServices)
 		case "ignoreExpression":
@@ -612,6 +615,9 @@ func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ExcludedNetworks != nil {
 		o.ExcludedNetworks = *so.ExcludedNetworks
+	}
+	if so.HostModeEnabled != nil {
+		o.HostModeEnabled = *so.HostModeEnabled
 	}
 	if so.HostServices != nil {
 		o.HostServices = *so.HostServices
@@ -1948,9 +1954,14 @@ type SparseEnforcerProfile struct {
 	// enforcer.
 	ExcludedNetworks *[]string `json:"excludedNetworks,omitempty" bson:"excludednetworks" mapstructure:"excludedNetworks,omitempty"`
 
+	// hostModeEnabled enables protection of the complete host. When this option is
+	// turned on, all incoming and outgoing flows will be monitored. Flows will
+	// be allowed if and only if a network policy has been created to allow the flow.
+	HostModeEnabled *bool `json:"hostModeEnabled,omitempty" bson:"hostmodeenabled" mapstructure:"hostModeEnabled,omitempty"`
+
 	// HostServices is a list of services that must be activated by default to all
 	// enforcers matching this profile.
-	HostServices *types.HostServicesList `json:"hostServices,omitempty" bson:"hostservices" mapstructure:"hostServices,omitempty"`
+	HostServices *[]*HostService `json:"hostServices,omitempty" bson:"hostservices" mapstructure:"hostServices,omitempty"`
 
 	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
 	// docker container started with labels matching the rule.
@@ -2117,6 +2128,9 @@ func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ExcludedNetworks != nil {
 		out.ExcludedNetworks = *o.ExcludedNetworks
+	}
+	if o.HostModeEnabled != nil {
+		out.HostModeEnabled = *o.HostModeEnabled
 	}
 	if o.HostServices != nil {
 		out.HostServices = *o.HostServices

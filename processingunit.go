@@ -1242,7 +1242,7 @@ type SparseProcessingUnit struct {
 	// NetworkServices is the list of services that this processing unit has declared
 	// that it will be listening to. This can happen either with an activation command
 	// or by exposing the ports in a container manifest.
-	NetworkServices *types.ProcessingUnitServicesList `json:"networkServices,omitempty" bson:"networkservices" mapstructure:"networkServices,omitempty"`
+	NetworkServices *[]*ProcessingUnitService `json:"networkServices,omitempty" bson:"networkservices" mapstructure:"networkServices,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
