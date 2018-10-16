@@ -1131,7 +1131,11 @@ Create a credential for an application.
 
 ```json
 {
-  "name": "my cluster"
+  "name": "the name",
+  "roles": [
+    "@auth:role=enforcer",
+    "@auth:role=kubesquall"
+  ]
 }
 ```
 
@@ -1252,7 +1256,6 @@ Name is the name of the entity.
 | -               | -:     |
 | Max length      | `256`  |
 | Required        | `true` |
-| Creation only   | `true` |
 | Orderable       | `true` |
 | Filterable      | `true` |
 
@@ -1288,6 +1291,14 @@ Protected defines if the object is protected.
 #### `regenerate (boolean)`
 
 Regenerates the credentials files and certificates.
+
+#### `roles (list)`
+
+List of roles to give the credentials.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
 
 #### `updateTime (time)`
 

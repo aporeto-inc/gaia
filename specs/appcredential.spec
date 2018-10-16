@@ -25,6 +25,8 @@ model:
   - '@described'
   - '@identifiable-pk-stored'
   - '@metadatable'
+  - '@timeable'
+  - '@named'
 
 # Attributes
 attributes:
@@ -60,22 +62,19 @@ attributes:
     stored: true
     orderable: true
 
-  - name: name
-    description: Name is the name of the entity.
-    type: string
-    exposed: true
-    stored: true
-    required: true
-    creation_only: true
-    default_order: true
-    example_value: my cluster
-    filterable: true
-    getter: true
-    setter: true
-    max_length: 256
-    orderable: true
-
   - name: regenerate
     description: Regenerates the credentials files and certificates.
     type: boolean
     exposed: true
+
+  - name: roles
+    description: List of roles to give the credentials.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    required: true
+    default_order: true
+    example_value:
+    - '@auth:role=enforcer'
+    - '@auth:role=kubesquall'
