@@ -12,6 +12,7 @@ var (
 		"apiauthorizationpolicy": APIAuthorizationPolicyIdentity,
 		"apicheck":               APICheckIdentity,
 		"app":                    AppIdentity,
+		"appcredential":          AppCredentialIdentity,
 		"auditprofile":           AuditProfileIdentity,
 		"auditreport":            AuditReportIdentity,
 		"auth":                   AuthIdentity,
@@ -51,7 +52,6 @@ var (
 		"issue":                  IssueIdentity,
 		"jaegerbatch":            JaegerbatchIdentity,
 		"k8scluster":             K8SClusterIdentity,
-		"k8scredential":          K8SCredentialIdentity,
 		"log":                    LogIdentity,
 		"message":                MessageIdentity,
 		"namespace":              NamespaceIdentity,
@@ -103,6 +103,7 @@ var (
 		"apiauthorizationpolicies": APIAuthorizationPolicyIdentity,
 		"apichecks":                APICheckIdentity,
 		"apps":                     AppIdentity,
+		"appcredentials":           AppCredentialIdentity,
 		"auditprofiles":            AuditProfileIdentity,
 		"auditreports":             AuditReportIdentity,
 		"auth":                     AuthIdentity,
@@ -142,7 +143,6 @@ var (
 		"issue":                    IssueIdentity,
 		"jaegerbatchs":             JaegerbatchIdentity,
 		"k8sclusters":              K8SClusterIdentity,
-		"k8scredentials":           K8SCredentialIdentity,
 		"logs":                     LogIdentity,
 		"messages":                 MessageIdentity,
 		"namespaces":               NamespaceIdentity,
@@ -188,6 +188,8 @@ var (
 	aliasesMap = map[string]elemental.Identity{
 		"apiauth":    APIAuthorizationPolicyIdentity,
 		"apiauths":   APIAuthorizationPolicyIdentity,
+		"appcred":    AppCredentialIdentity,
+		"appcreds":   AppCredentialIdentity,
 		"ap":         AuditProfileIdentity,
 		"ca":         AuthorityIdentity,
 		"autos":      AutomationIdentity,
@@ -216,8 +218,6 @@ var (
 		"iapp":       InstalledAppIdentity,
 		"ip":         IsolationProfileIdentity,
 		"sp":         JaegerbatchIdentity,
-		"k8scred":    K8SCredentialIdentity,
-		"k8screds":   K8SCredentialIdentity,
 		"mess":       MessageIdentity,
 		"ns":         NamespaceIdentity,
 		"nspolicy":   NamespaceMappingPolicyIdentity,
@@ -277,6 +277,10 @@ var (
 		"apiauthorizationpolicy": nil,
 		"apicheck":               nil,
 		"app":                    nil,
+		"appcredential": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+		},
 		"auditprofile": [][]string{
 			[]string{"namespace"},
 		},
@@ -346,10 +350,6 @@ var (
 		"issue":       nil,
 		"jaegerbatch": nil,
 		"k8scluster": [][]string{
-			[]string{"namespace"},
-			[]string{"namespace", "normalizedTags"},
-		},
-		"k8scredential": [][]string{
 			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
 		},
@@ -488,6 +488,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAPICheck()
 	case AppIdentity:
 		return NewApp()
+	case AppCredentialIdentity:
+		return NewAppCredential()
 	case AuditProfileIdentity:
 		return NewAuditProfile()
 	case AuditReportIdentity:
@@ -562,8 +564,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewJaegerbatch()
 	case K8SClusterIdentity:
 		return NewK8SCluster()
-	case K8SCredentialIdentity:
-		return NewK8SCredential()
 	case LogIdentity:
 		return NewLog()
 	case MessageIdentity:
@@ -669,6 +669,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAPICheck()
 	case AppIdentity:
 		return NewSparseApp()
+	case AppCredentialIdentity:
+		return NewSparseAppCredential()
 	case AuditProfileIdentity:
 		return NewSparseAuditProfile()
 	case AuditReportIdentity:
@@ -856,6 +858,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &APIChecksList{}
 	case AppIdentity:
 		return &AppsList{}
+	case AppCredentialIdentity:
+		return &AppCredentialsList{}
 	case AuditProfileIdentity:
 		return &AuditProfilesList{}
 	case AuditReportIdentity:
@@ -930,8 +934,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &JaegerbatchsList{}
 	case K8SClusterIdentity:
 		return &K8SClustersList{}
-	case K8SCredentialIdentity:
-		return &K8SCredentialsList{}
 	case LogIdentity:
 		return &LogsList{}
 	case MessageIdentity:
@@ -1035,6 +1037,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAPIChecksList{}
 	case AppIdentity:
 		return &SparseAppsList{}
+	case AppCredentialIdentity:
+		return &SparseAppCredentialsList{}
 	case AuditProfileIdentity:
 		return &SparseAuditProfilesList{}
 	case AuditReportIdentity:
@@ -1219,6 +1223,7 @@ func AllIdentities() []elemental.Identity {
 		APIAuthorizationPolicyIdentity,
 		APICheckIdentity,
 		AppIdentity,
+		AppCredentialIdentity,
 		AuditProfileIdentity,
 		AuditReportIdentity,
 		AuthIdentity,
@@ -1256,7 +1261,6 @@ func AllIdentities() []elemental.Identity {
 		IssueIdentity,
 		JaegerbatchIdentity,
 		K8SClusterIdentity,
-		K8SCredentialIdentity,
 		LogIdentity,
 		MessageIdentity,
 		NamespaceIdentity,
@@ -1323,6 +1327,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case AppIdentity:
 		return []string{}
+	case AppCredentialIdentity:
+		return []string{
+			"appcred",
+			"appcreds",
+		}
 	case AuditProfileIdentity:
 		return []string{
 			"ap",
@@ -1440,11 +1449,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case K8SClusterIdentity:
 		return []string{}
-	case K8SCredentialIdentity:
-		return []string{
-			"k8scred",
-			"k8screds",
-		}
 	case LogIdentity:
 		return []string{}
 	case MessageIdentity:
