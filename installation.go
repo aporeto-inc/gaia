@@ -45,9 +45,9 @@ func (o InstallationsList) Append(objects ...elemental.Identifiable) elemental.I
 // List converts the object to an elemental.IdentifiablesList.
 func (o InstallationsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o InstallationsList) List() elemental.IdentifiablesList {
 func (o InstallationsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the InstallationsList converted to SparseInstallationsList.
+func (o InstallationsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -127,12 +138,26 @@ func (o *Installation) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Installation) ToSparse() elemental.SparseIdentifiable {
+func (o *Installation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseInstallation{
-		ID:          &o.ID,
-		AccountName: &o.AccountName,
+	if len(fields) == 0 {
+		return &SparseInstallation{
+			ID:          &o.ID,
+			AccountName: &o.AccountName,
+		}
 	}
+
+	sp := &SparseInstallation{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "accountName":
+			sp.AccountName = &(o.AccountName)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseInstallation to the object.
@@ -266,9 +291,9 @@ func (o SparseInstallationsList) Append(objects ...elemental.Identifiable) eleme
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseInstallationsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -278,6 +303,17 @@ func (o SparseInstallationsList) List() elemental.IdentifiablesList {
 func (o SparseInstallationsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseInstallationsList converted to InstallationsList.
+func (o SparseInstallationsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -313,6 +349,9 @@ func (o *SparseInstallation) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseInstallation) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

@@ -46,9 +46,9 @@ func (o JaegerbatchsList) Append(objects ...elemental.Identifiable) elemental.Id
 // List converts the object to an elemental.IdentifiablesList.
 func (o JaegerbatchsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -58,6 +58,17 @@ func (o JaegerbatchsList) List() elemental.IdentifiablesList {
 func (o JaegerbatchsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the JaegerbatchsList converted to SparseJaegerbatchsList.
+func (o JaegerbatchsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -126,11 +137,23 @@ func (o *Jaegerbatch) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Jaegerbatch) ToSparse() elemental.SparseIdentifiable {
+func (o *Jaegerbatch) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseJaegerbatch{
-		Batch: &o.Batch,
+	if len(fields) == 0 {
+		return &SparseJaegerbatch{
+			Batch: &o.Batch,
+		}
 	}
+
+	sp := &SparseJaegerbatch{}
+	for _, f := range fields {
+		switch f {
+		case "batch":
+			sp.Batch = &(o.Batch)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseJaegerbatch to the object.
@@ -239,9 +262,9 @@ func (o SparseJaegerbatchsList) Append(objects ...elemental.Identifiable) elemen
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseJaegerbatchsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -251,6 +274,17 @@ func (o SparseJaegerbatchsList) List() elemental.IdentifiablesList {
 func (o SparseJaegerbatchsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseJaegerbatchsList converted to JaegerbatchsList.
+func (o SparseJaegerbatchsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

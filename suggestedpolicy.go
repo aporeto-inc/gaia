@@ -45,9 +45,9 @@ func (o SuggestedPoliciesList) Append(objects ...elemental.Identifiable) element
 // List converts the object to an elemental.IdentifiablesList.
 func (o SuggestedPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o SuggestedPoliciesList) List() elemental.IdentifiablesList {
 func (o SuggestedPoliciesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SuggestedPoliciesList converted to SparseSuggestedPoliciesList.
+func (o SuggestedPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -123,11 +134,23 @@ func (o *SuggestedPolicy) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *SuggestedPolicy) ToSparse() elemental.SparseIdentifiable {
+func (o *SuggestedPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseSuggestedPolicy{
-		NetworkAccessPolicies: &o.NetworkAccessPolicies,
+	if len(fields) == 0 {
+		return &SparseSuggestedPolicy{
+			NetworkAccessPolicies: &o.NetworkAccessPolicies,
+		}
 	}
+
+	sp := &SparseSuggestedPolicy{}
+	for _, f := range fields {
+		switch f {
+		case "networkAccessPolicies":
+			sp.NetworkAccessPolicies = &(o.NetworkAccessPolicies)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseSuggestedPolicy to the object.
@@ -236,9 +259,9 @@ func (o SparseSuggestedPoliciesList) Append(objects ...elemental.Identifiable) e
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseSuggestedPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -248,6 +271,17 @@ func (o SparseSuggestedPoliciesList) List() elemental.IdentifiablesList {
 func (o SparseSuggestedPoliciesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseSuggestedPoliciesList converted to SuggestedPoliciesList.
+func (o SparseSuggestedPoliciesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

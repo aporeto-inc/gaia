@@ -76,9 +76,9 @@ func (o EnforcerProfilesList) Append(objects ...elemental.Identifiable) elementa
 // List converts the object to an elemental.IdentifiablesList.
 func (o EnforcerProfilesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -90,6 +90,17 @@ func (o EnforcerProfilesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the EnforcerProfilesList converted to SparseEnforcerProfilesList.
+func (o EnforcerProfilesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -405,49 +416,137 @@ func (o *EnforcerProfile) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *EnforcerProfile) ToSparse() elemental.SparseIdentifiable {
+func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseEnforcerProfile{
-		ID:                            &o.ID,
-		IPTablesMarkValue:             &o.IPTablesMarkValue,
-		PUBookkeepingInterval:         &o.PUBookkeepingInterval,
-		PUHeartbeatInterval:           &o.PUHeartbeatInterval,
-		Annotations:                   &o.Annotations,
-		ApplicationProxyPort:          &o.ApplicationProxyPort,
-		AssociatedTags:                &o.AssociatedTags,
-		AuditProfileSelectors:         &o.AuditProfileSelectors,
-		AuditProfiles:                 &o.AuditProfiles,
-		AuditSocketBufferSize:         &o.AuditSocketBufferSize,
-		CreateTime:                    &o.CreateTime,
-		Description:                   &o.Description,
-		DockerSocketAddress:           &o.DockerSocketAddress,
-		ExcludedInterfaces:            &o.ExcludedInterfaces,
-		ExcludedNetworks:              &o.ExcludedNetworks,
-		HostServices:                  &o.HostServices,
-		IgnoreExpression:              &o.IgnoreExpression,
-		KillContainersOnFailure:       &o.KillContainersOnFailure,
-		KubernetesMetadataExtractor:   &o.KubernetesMetadataExtractor,
-		KubernetesSupportEnabled:      &o.KubernetesSupportEnabled,
-		LinuxProcessesSupportEnabled:  &o.LinuxProcessesSupportEnabled,
-		MetadataExtractor:             &o.MetadataExtractor,
-		Name:                          &o.Name,
-		Namespace:                     &o.Namespace,
-		NormalizedTags:                &o.NormalizedTags,
-		PolicySynchronizationInterval: &o.PolicySynchronizationInterval,
-		Protected:                     &o.Protected,
-		ProxyListenAddress:            &o.ProxyListenAddress,
-		ReceiverNumberOfQueues:        &o.ReceiverNumberOfQueues,
-		ReceiverQueue:                 &o.ReceiverQueue,
-		ReceiverQueueSize:             &o.ReceiverQueueSize,
-		RemoteEnforcerEnabled:         &o.RemoteEnforcerEnabled,
-		TargetNetworks:                &o.TargetNetworks,
-		TargetUDPNetworks:             &o.TargetUDPNetworks,
-		TransmitterNumberOfQueues:     &o.TransmitterNumberOfQueues,
-		TransmitterQueue:              &o.TransmitterQueue,
-		TransmitterQueueSize:          &o.TransmitterQueueSize,
-		TrustedCAs:                    &o.TrustedCAs,
-		UpdateTime:                    &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseEnforcerProfile{
+			ID:                            &o.ID,
+			IPTablesMarkValue:             &o.IPTablesMarkValue,
+			PUBookkeepingInterval:         &o.PUBookkeepingInterval,
+			PUHeartbeatInterval:           &o.PUHeartbeatInterval,
+			Annotations:                   &o.Annotations,
+			ApplicationProxyPort:          &o.ApplicationProxyPort,
+			AssociatedTags:                &o.AssociatedTags,
+			AuditProfileSelectors:         &o.AuditProfileSelectors,
+			AuditProfiles:                 &o.AuditProfiles,
+			AuditSocketBufferSize:         &o.AuditSocketBufferSize,
+			CreateTime:                    &o.CreateTime,
+			Description:                   &o.Description,
+			DockerSocketAddress:           &o.DockerSocketAddress,
+			ExcludedInterfaces:            &o.ExcludedInterfaces,
+			ExcludedNetworks:              &o.ExcludedNetworks,
+			HostServices:                  &o.HostServices,
+			IgnoreExpression:              &o.IgnoreExpression,
+			KillContainersOnFailure:       &o.KillContainersOnFailure,
+			KubernetesMetadataExtractor:   &o.KubernetesMetadataExtractor,
+			KubernetesSupportEnabled:      &o.KubernetesSupportEnabled,
+			LinuxProcessesSupportEnabled:  &o.LinuxProcessesSupportEnabled,
+			MetadataExtractor:             &o.MetadataExtractor,
+			Name:                          &o.Name,
+			Namespace:                     &o.Namespace,
+			NormalizedTags:                &o.NormalizedTags,
+			PolicySynchronizationInterval: &o.PolicySynchronizationInterval,
+			Protected:                     &o.Protected,
+			ProxyListenAddress:            &o.ProxyListenAddress,
+			ReceiverNumberOfQueues:        &o.ReceiverNumberOfQueues,
+			ReceiverQueue:                 &o.ReceiverQueue,
+			ReceiverQueueSize:             &o.ReceiverQueueSize,
+			RemoteEnforcerEnabled:         &o.RemoteEnforcerEnabled,
+			TargetNetworks:                &o.TargetNetworks,
+			TargetUDPNetworks:             &o.TargetUDPNetworks,
+			TransmitterNumberOfQueues:     &o.TransmitterNumberOfQueues,
+			TransmitterQueue:              &o.TransmitterQueue,
+			TransmitterQueueSize:          &o.TransmitterQueueSize,
+			TrustedCAs:                    &o.TrustedCAs,
+			UpdateTime:                    &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseEnforcerProfile{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "IPTablesMarkValue":
+			sp.IPTablesMarkValue = &(o.IPTablesMarkValue)
+		case "PUBookkeepingInterval":
+			sp.PUBookkeepingInterval = &(o.PUBookkeepingInterval)
+		case "PUHeartbeatInterval":
+			sp.PUHeartbeatInterval = &(o.PUHeartbeatInterval)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "applicationProxyPort":
+			sp.ApplicationProxyPort = &(o.ApplicationProxyPort)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "auditProfileSelectors":
+			sp.AuditProfileSelectors = &(o.AuditProfileSelectors)
+		case "auditProfiles":
+			sp.AuditProfiles = &(o.AuditProfiles)
+		case "auditSocketBufferSize":
+			sp.AuditSocketBufferSize = &(o.AuditSocketBufferSize)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "dockerSocketAddress":
+			sp.DockerSocketAddress = &(o.DockerSocketAddress)
+		case "excludedInterfaces":
+			sp.ExcludedInterfaces = &(o.ExcludedInterfaces)
+		case "excludedNetworks":
+			sp.ExcludedNetworks = &(o.ExcludedNetworks)
+		case "hostServices":
+			sp.HostServices = &(o.HostServices)
+		case "ignoreExpression":
+			sp.IgnoreExpression = &(o.IgnoreExpression)
+		case "killContainersOnFailure":
+			sp.KillContainersOnFailure = &(o.KillContainersOnFailure)
+		case "kubernetesMetadataExtractor":
+			sp.KubernetesMetadataExtractor = &(o.KubernetesMetadataExtractor)
+		case "kubernetesSupportEnabled":
+			sp.KubernetesSupportEnabled = &(o.KubernetesSupportEnabled)
+		case "linuxProcessesSupportEnabled":
+			sp.LinuxProcessesSupportEnabled = &(o.LinuxProcessesSupportEnabled)
+		case "metadataExtractor":
+			sp.MetadataExtractor = &(o.MetadataExtractor)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "policySynchronizationInterval":
+			sp.PolicySynchronizationInterval = &(o.PolicySynchronizationInterval)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "proxyListenAddress":
+			sp.ProxyListenAddress = &(o.ProxyListenAddress)
+		case "receiverNumberOfQueues":
+			sp.ReceiverNumberOfQueues = &(o.ReceiverNumberOfQueues)
+		case "receiverQueue":
+			sp.ReceiverQueue = &(o.ReceiverQueue)
+		case "receiverQueueSize":
+			sp.ReceiverQueueSize = &(o.ReceiverQueueSize)
+		case "remoteEnforcerEnabled":
+			sp.RemoteEnforcerEnabled = &(o.RemoteEnforcerEnabled)
+		case "targetNetworks":
+			sp.TargetNetworks = &(o.TargetNetworks)
+		case "targetUDPNetworks":
+			sp.TargetUDPNetworks = &(o.TargetUDPNetworks)
+		case "transmitterNumberOfQueues":
+			sp.TransmitterNumberOfQueues = &(o.TransmitterNumberOfQueues)
+		case "transmitterQueue":
+			sp.TransmitterQueue = &(o.TransmitterQueue)
+		case "transmitterQueueSize":
+			sp.TransmitterQueueSize = &(o.TransmitterQueueSize)
+		case "trustedCAs":
+			sp.TrustedCAs = &(o.TrustedCAs)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseEnforcerProfile to the object.
@@ -1714,9 +1813,9 @@ func (o SparseEnforcerProfilesList) Append(objects ...elemental.Identifiable) el
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseEnforcerProfilesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -1728,6 +1827,17 @@ func (o SparseEnforcerProfilesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparseEnforcerProfilesList converted to EnforcerProfilesList.
+func (o SparseEnforcerProfilesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -1890,6 +2000,9 @@ func (o *SparseEnforcerProfile) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseEnforcerProfile) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

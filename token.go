@@ -45,9 +45,9 @@ func (o TokensList) Append(objects ...elemental.Identifiable) elemental.Identifi
 // List converts the object to an elemental.IdentifiablesList.
 func (o TokensList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o TokensList) List() elemental.IdentifiablesList {
 func (o TokensList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the TokensList converted to SparseTokensList.
+func (o TokensList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -132,14 +143,32 @@ func (o *Token) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Token) ToSparse() elemental.SparseIdentifiable {
+func (o *Token) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseToken{
-		Certificate:  &o.Certificate,
-		SigningKeyID: &o.SigningKeyID,
-		Token:        &o.Token,
-		Validity:     &o.Validity,
+	if len(fields) == 0 {
+		return &SparseToken{
+			Certificate:  &o.Certificate,
+			SigningKeyID: &o.SigningKeyID,
+			Token:        &o.Token,
+			Validity:     &o.Validity,
+		}
 	}
+
+	sp := &SparseToken{}
+	for _, f := range fields {
+		switch f {
+		case "certificate":
+			sp.Certificate = &(o.Certificate)
+		case "signingKeyID":
+			sp.SigningKeyID = &(o.SigningKeyID)
+		case "token":
+			sp.Token = &(o.Token)
+		case "validity":
+			sp.Validity = &(o.Validity)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseToken to the object.
@@ -315,9 +344,9 @@ func (o SparseTokensList) Append(objects ...elemental.Identifiable) elemental.Id
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseTokensList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -327,6 +356,17 @@ func (o SparseTokensList) List() elemental.IdentifiablesList {
 func (o SparseTokensList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseTokensList converted to TokensList.
+func (o SparseTokensList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

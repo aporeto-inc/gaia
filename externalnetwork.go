@@ -47,9 +47,9 @@ func (o ExternalNetworksList) Append(objects ...elemental.Identifiable) elementa
 // List converts the object to an elemental.IdentifiablesList.
 func (o ExternalNetworksList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -61,6 +61,17 @@ func (o ExternalNetworksList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the ExternalNetworksList converted to SparseExternalNetworksList.
+func (o ExternalNetworksList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -302,25 +313,65 @@ func (o *ExternalNetwork) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *ExternalNetwork) ToSparse() elemental.SparseIdentifiable {
+func (o *ExternalNetwork) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseExternalNetwork{
-		ID:             &o.ID,
-		Annotations:    &o.Annotations,
-		Archived:       &o.Archived,
-		AssociatedTags: &o.AssociatedTags,
-		CreateTime:     &o.CreateTime,
-		Description:    &o.Description,
-		Entries:        &o.Entries,
-		Metadata:       &o.Metadata,
-		Name:           &o.Name,
-		Namespace:      &o.Namespace,
-		NormalizedTags: &o.NormalizedTags,
-		Ports:          &o.Ports,
-		Protected:      &o.Protected,
-		Protocols:      &o.Protocols,
-		UpdateTime:     &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseExternalNetwork{
+			ID:             &o.ID,
+			Annotations:    &o.Annotations,
+			Archived:       &o.Archived,
+			AssociatedTags: &o.AssociatedTags,
+			CreateTime:     &o.CreateTime,
+			Description:    &o.Description,
+			Entries:        &o.Entries,
+			Metadata:       &o.Metadata,
+			Name:           &o.Name,
+			Namespace:      &o.Namespace,
+			NormalizedTags: &o.NormalizedTags,
+			Ports:          &o.Ports,
+			Protected:      &o.Protected,
+			Protocols:      &o.Protocols,
+			UpdateTime:     &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseExternalNetwork{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "archived":
+			sp.Archived = &(o.Archived)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "entries":
+			sp.Entries = &(o.Entries)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "ports":
+			sp.Ports = &(o.Ports)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "protocols":
+			sp.Protocols = &(o.Protocols)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseExternalNetwork to the object.
@@ -873,9 +924,9 @@ func (o SparseExternalNetworksList) Append(objects ...elemental.Identifiable) el
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseExternalNetworksList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -887,6 +938,17 @@ func (o SparseExternalNetworksList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparseExternalNetworksList converted to ExternalNetworksList.
+func (o SparseExternalNetworksList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -962,6 +1024,9 @@ func (o *SparseExternalNetwork) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseExternalNetwork) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

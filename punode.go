@@ -47,9 +47,9 @@ func (o PUNodesList) Append(objects ...elemental.Identifiable) elemental.Identif
 // List converts the object to an elemental.IdentifiablesList.
 func (o PUNodesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -59,6 +59,17 @@ func (o PUNodesList) List() elemental.IdentifiablesList {
 func (o PUNodesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the PUNodesList converted to SparsePUNodesList.
+func (o PUNodesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -150,19 +161,47 @@ func (o *PUNode) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *PUNode) ToSparse() elemental.SparseIdentifiable {
+func (o *PUNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparsePUNode{
-		ID:                &o.ID,
-		EnforcementStatus: &o.EnforcementStatus,
-		Image:             &o.Image,
-		LastPokeTime:      &o.LastPokeTime,
-		Name:              &o.Name,
-		Namespace:         &o.Namespace,
-		Status:            &o.Status,
-		Tags:              &o.Tags,
-		Type:              &o.Type,
+	if len(fields) == 0 {
+		return &SparsePUNode{
+			ID:                &o.ID,
+			EnforcementStatus: &o.EnforcementStatus,
+			Image:             &o.Image,
+			LastPokeTime:      &o.LastPokeTime,
+			Name:              &o.Name,
+			Namespace:         &o.Namespace,
+			Status:            &o.Status,
+			Tags:              &o.Tags,
+			Type:              &o.Type,
+		}
 	}
+
+	sp := &SparsePUNode{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "enforcementStatus":
+			sp.EnforcementStatus = &(o.EnforcementStatus)
+		case "image":
+			sp.Image = &(o.Image)
+		case "lastPokeTime":
+			sp.LastPokeTime = &(o.LastPokeTime)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "status":
+			sp.Status = &(o.Status)
+		case "tags":
+			sp.Tags = &(o.Tags)
+		case "type":
+			sp.Type = &(o.Type)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparsePUNode to the object.
@@ -419,9 +458,9 @@ func (o SparsePUNodesList) Append(objects ...elemental.Identifiable) elemental.I
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparsePUNodesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -431,6 +470,17 @@ func (o SparsePUNodesList) List() elemental.IdentifiablesList {
 func (o SparsePUNodesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparsePUNodesList converted to PUNodesList.
+func (o SparsePUNodesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

@@ -57,9 +57,9 @@ func (o AutomationTemplatesList) Append(objects ...elemental.Identifiable) eleme
 // List converts the object to an elemental.IdentifiablesList.
 func (o AutomationTemplatesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -71,6 +71,17 @@ func (o AutomationTemplatesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the AutomationTemplatesList converted to SparseAutomationTemplatesList.
+func (o AutomationTemplatesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -172,17 +183,41 @@ func (o *AutomationTemplate) SetName(name string) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *AutomationTemplate) ToSparse() elemental.SparseIdentifiable {
+func (o *AutomationTemplate) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseAutomationTemplate{
-		Description:  &o.Description,
-		Entitlements: &o.Entitlements,
-		Function:     &o.Function,
-		Key:          &o.Key,
-		Kind:         &o.Kind,
-		Name:         &o.Name,
-		Parameters:   &o.Parameters,
+	if len(fields) == 0 {
+		return &SparseAutomationTemplate{
+			Description:  &o.Description,
+			Entitlements: &o.Entitlements,
+			Function:     &o.Function,
+			Key:          &o.Key,
+			Kind:         &o.Kind,
+			Name:         &o.Name,
+			Parameters:   &o.Parameters,
+		}
 	}
+
+	sp := &SparseAutomationTemplate{}
+	for _, f := range fields {
+		switch f {
+		case "description":
+			sp.Description = &(o.Description)
+		case "entitlements":
+			sp.Entitlements = &(o.Entitlements)
+		case "function":
+			sp.Function = &(o.Function)
+		case "key":
+			sp.Key = &(o.Key)
+		case "kind":
+			sp.Kind = &(o.Kind)
+		case "name":
+			sp.Name = &(o.Name)
+		case "parameters":
+			sp.Parameters = &(o.Parameters)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseAutomationTemplate to the object.
@@ -443,9 +478,9 @@ func (o SparseAutomationTemplatesList) Append(objects ...elemental.Identifiable)
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseAutomationTemplatesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -457,6 +492,17 @@ func (o SparseAutomationTemplatesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparseAutomationTemplatesList converted to AutomationTemplatesList.
+func (o SparseAutomationTemplatesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

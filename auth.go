@@ -46,9 +46,9 @@ func (o AuthsList) Append(objects ...elemental.Identifiable) elemental.Identifia
 // List converts the object to an elemental.IdentifiablesList.
 func (o AuthsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -58,6 +58,17 @@ func (o AuthsList) List() elemental.IdentifiablesList {
 func (o AuthsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the AuthsList converted to SparseAuthsList.
+func (o AuthsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -125,11 +136,23 @@ func (o *Auth) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Auth) ToSparse() elemental.SparseIdentifiable {
+func (o *Auth) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseAuth{
-		Claims: &o.Claims,
+	if len(fields) == 0 {
+		return &SparseAuth{
+			Claims: &o.Claims,
+		}
 	}
+
+	sp := &SparseAuth{}
+	for _, f := range fields {
+		switch f {
+		case "claims":
+			sp.Claims = &(o.Claims)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseAuth to the object.
@@ -238,9 +261,9 @@ func (o SparseAuthsList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseAuthsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -250,6 +273,17 @@ func (o SparseAuthsList) List() elemental.IdentifiablesList {
 func (o SparseAuthsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseAuthsList converted to AuthsList.
+func (o SparseAuthsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

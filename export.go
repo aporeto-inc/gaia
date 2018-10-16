@@ -45,9 +45,9 @@ func (o ExportsList) Append(objects ...elemental.Identifiable) elemental.Identif
 // List converts the object to an elemental.IdentifiablesList.
 func (o ExportsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o ExportsList) List() elemental.IdentifiablesList {
 func (o ExportsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the ExportsList converted to SparseExportsList.
+func (o ExportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -135,14 +146,32 @@ func (o *Export) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Export) ToSparse() elemental.SparseIdentifiable {
+func (o *Export) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseExport{
-		APIVersion: &o.APIVersion,
-		Data:       &o.Data,
-		Identities: &o.Identities,
-		Label:      &o.Label,
+	if len(fields) == 0 {
+		return &SparseExport{
+			APIVersion: &o.APIVersion,
+			Data:       &o.Data,
+			Identities: &o.Identities,
+			Label:      &o.Label,
+		}
 	}
+
+	sp := &SparseExport{}
+	for _, f := range fields {
+		switch f {
+		case "APIVersion":
+			sp.APIVersion = &(o.APIVersion)
+		case "data":
+			sp.Data = &(o.Data)
+		case "identities":
+			sp.Identities = &(o.Identities)
+		case "label":
+			sp.Label = &(o.Label)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseExport to the object.
@@ -322,9 +351,9 @@ func (o SparseExportsList) Append(objects ...elemental.Identifiable) elemental.I
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseExportsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -334,6 +363,17 @@ func (o SparseExportsList) List() elemental.IdentifiablesList {
 func (o SparseExportsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseExportsList converted to ExportsList.
+func (o SparseExportsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

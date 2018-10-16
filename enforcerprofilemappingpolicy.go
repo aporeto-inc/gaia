@@ -47,9 +47,9 @@ func (o EnforcerProfileMappingPoliciesList) Append(objects ...elemental.Identifi
 // List converts the object to an elemental.IdentifiablesList.
 func (o EnforcerProfileMappingPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -61,6 +61,17 @@ func (o EnforcerProfileMappingPoliciesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the EnforcerProfileMappingPoliciesList converted to SparseEnforcerProfileMappingPoliciesList.
+func (o EnforcerProfileMappingPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -338,27 +349,71 @@ func (o *EnforcerProfileMappingPolicy) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *EnforcerProfileMappingPolicy) ToSparse() elemental.SparseIdentifiable {
+func (o *EnforcerProfileMappingPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseEnforcerProfileMappingPolicy{
-		ID:                &o.ID,
-		Annotations:       &o.Annotations,
-		AssociatedTags:    &o.AssociatedTags,
-		CreateTime:        &o.CreateTime,
-		Description:       &o.Description,
-		Disabled:          &o.Disabled,
-		Fallback:          &o.Fallback,
-		Metadata:          &o.Metadata,
-		Name:              &o.Name,
-		Namespace:         &o.Namespace,
-		NormalizedTags:    &o.NormalizedTags,
-		Object:            &o.Object,
-		Propagate:         &o.Propagate,
-		PropagationHidden: &o.PropagationHidden,
-		Protected:         &o.Protected,
-		Subject:           &o.Subject,
-		UpdateTime:        &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseEnforcerProfileMappingPolicy{
+			ID:                &o.ID,
+			Annotations:       &o.Annotations,
+			AssociatedTags:    &o.AssociatedTags,
+			CreateTime:        &o.CreateTime,
+			Description:       &o.Description,
+			Disabled:          &o.Disabled,
+			Fallback:          &o.Fallback,
+			Metadata:          &o.Metadata,
+			Name:              &o.Name,
+			Namespace:         &o.Namespace,
+			NormalizedTags:    &o.NormalizedTags,
+			Object:            &o.Object,
+			Propagate:         &o.Propagate,
+			PropagationHidden: &o.PropagationHidden,
+			Protected:         &o.Protected,
+			Subject:           &o.Subject,
+			UpdateTime:        &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseEnforcerProfileMappingPolicy{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "disabled":
+			sp.Disabled = &(o.Disabled)
+		case "fallback":
+			sp.Fallback = &(o.Fallback)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "object":
+			sp.Object = &(o.Object)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
+		case "propagationHidden":
+			sp.PropagationHidden = &(o.PropagationHidden)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "subject":
+			sp.Subject = &(o.Subject)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseEnforcerProfileMappingPolicy to the object.
@@ -959,9 +1014,9 @@ func (o SparseEnforcerProfileMappingPoliciesList) Append(objects ...elemental.Id
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseEnforcerProfileMappingPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -973,6 +1028,17 @@ func (o SparseEnforcerProfileMappingPoliciesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparseEnforcerProfileMappingPoliciesList converted to EnforcerProfileMappingPoliciesList.
+func (o SparseEnforcerProfileMappingPoliciesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -1057,6 +1123,9 @@ func (o *SparseEnforcerProfileMappingPolicy) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseEnforcerProfileMappingPolicy) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

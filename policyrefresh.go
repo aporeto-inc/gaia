@@ -45,9 +45,9 @@ func (o PolicyRefreshsList) Append(objects ...elemental.Identifiable) elemental.
 // List converts the object to an elemental.IdentifiablesList.
 func (o PolicyRefreshsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o PolicyRefreshsList) List() elemental.IdentifiablesList {
 func (o PolicyRefreshsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the PolicyRefreshsList converted to SparsePolicyRefreshsList.
+func (o PolicyRefreshsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -127,12 +138,26 @@ func (o *PolicyRefresh) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *PolicyRefresh) ToSparse() elemental.SparseIdentifiable {
+func (o *PolicyRefresh) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparsePolicyRefresh{
-		SourceNamespace: &o.SourceNamespace,
-		Type:            &o.Type,
+	if len(fields) == 0 {
+		return &SparsePolicyRefresh{
+			SourceNamespace: &o.SourceNamespace,
+			Type:            &o.Type,
+		}
 	}
+
+	sp := &SparsePolicyRefresh{}
+	for _, f := range fields {
+		switch f {
+		case "sourceNamespace":
+			sp.SourceNamespace = &(o.SourceNamespace)
+		case "type":
+			sp.Type = &(o.Type)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparsePolicyRefresh to the object.
@@ -266,9 +291,9 @@ func (o SparsePolicyRefreshsList) Append(objects ...elemental.Identifiable) elem
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparsePolicyRefreshsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -278,6 +303,17 @@ func (o SparsePolicyRefreshsList) List() elemental.IdentifiablesList {
 func (o SparsePolicyRefreshsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparsePolicyRefreshsList converted to PolicyRefreshsList.
+func (o SparsePolicyRefreshsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

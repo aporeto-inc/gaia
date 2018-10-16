@@ -58,9 +58,9 @@ func (o FileAccessReportsList) Append(objects ...elemental.Identifiable) element
 // List converts the object to an elemental.IdentifiablesList.
 func (o FileAccessReportsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -70,6 +70,17 @@ func (o FileAccessReportsList) List() elemental.IdentifiablesList {
 func (o FileAccessReportsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the FileAccessReportsList converted to SparseFileAccessReportsList.
+func (o FileAccessReportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -157,17 +168,41 @@ func (o *FileAccessReport) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *FileAccessReport) ToSparse() elemental.SparseIdentifiable {
+func (o *FileAccessReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseFileAccessReport{
-		Action:                  &o.Action,
-		Host:                    &o.Host,
-		Mode:                    &o.Mode,
-		Path:                    &o.Path,
-		ProcessingUnitID:        &o.ProcessingUnitID,
-		ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
-		Timestamp:               &o.Timestamp,
+	if len(fields) == 0 {
+		return &SparseFileAccessReport{
+			Action:                  &o.Action,
+			Host:                    &o.Host,
+			Mode:                    &o.Mode,
+			Path:                    &o.Path,
+			ProcessingUnitID:        &o.ProcessingUnitID,
+			ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
+			Timestamp:               &o.Timestamp,
+		}
 	}
+
+	sp := &SparseFileAccessReport{}
+	for _, f := range fields {
+		switch f {
+		case "action":
+			sp.Action = &(o.Action)
+		case "host":
+			sp.Host = &(o.Host)
+		case "mode":
+			sp.Mode = &(o.Mode)
+		case "path":
+			sp.Path = &(o.Path)
+		case "processingUnitID":
+			sp.ProcessingUnitID = &(o.ProcessingUnitID)
+		case "processingUnitNamespace":
+			sp.ProcessingUnitNamespace = &(o.ProcessingUnitNamespace)
+		case "timestamp":
+			sp.Timestamp = &(o.Timestamp)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseFileAccessReport to the object.
@@ -432,9 +467,9 @@ func (o SparseFileAccessReportsList) Append(objects ...elemental.Identifiable) e
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseFileAccessReportsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -444,6 +479,17 @@ func (o SparseFileAccessReportsList) List() elemental.IdentifiablesList {
 func (o SparseFileAccessReportsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseFileAccessReportsList converted to FileAccessReportsList.
+func (o SparseFileAccessReportsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

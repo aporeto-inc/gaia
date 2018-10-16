@@ -59,9 +59,9 @@ func (o FileAccessList) Append(objects ...elemental.Identifiable) elemental.Iden
 // List converts the object to an elemental.IdentifiablesList.
 func (o FileAccessList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -71,6 +71,17 @@ func (o FileAccessList) List() elemental.IdentifiablesList {
 func (o FileAccessList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the FileAccessList converted to SparseFileAccessList.
+func (o FileAccessList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -152,16 +163,38 @@ func (o *FileAccess) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *FileAccess) ToSparse() elemental.SparseIdentifiable {
+func (o *FileAccess) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseFileAccess{
-		Action:   &o.Action,
-		Count:    &o.Count,
-		Host:     &o.Host,
-		Mode:     &o.Mode,
-		Path:     &o.Path,
-		Protocol: &o.Protocol,
+	if len(fields) == 0 {
+		return &SparseFileAccess{
+			Action:   &o.Action,
+			Count:    &o.Count,
+			Host:     &o.Host,
+			Mode:     &o.Mode,
+			Path:     &o.Path,
+			Protocol: &o.Protocol,
+		}
 	}
+
+	sp := &SparseFileAccess{}
+	for _, f := range fields {
+		switch f {
+		case "action":
+			sp.Action = &(o.Action)
+		case "count":
+			sp.Count = &(o.Count)
+		case "host":
+			sp.Host = &(o.Host)
+		case "mode":
+			sp.Mode = &(o.Mode)
+		case "path":
+			sp.Path = &(o.Path)
+		case "protocol":
+			sp.Protocol = &(o.Protocol)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseFileAccess to the object.
@@ -387,9 +420,9 @@ func (o SparseFileAccessList) Append(objects ...elemental.Identifiable) elementa
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseFileAccessList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -399,6 +432,17 @@ func (o SparseFileAccessList) List() elemental.IdentifiablesList {
 func (o SparseFileAccessList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseFileAccessList converted to FileAccessList.
+func (o SparseFileAccessList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

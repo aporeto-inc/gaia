@@ -88,9 +88,9 @@ func (o PoliciesList) Append(objects ...elemental.Identifiable) elemental.Identi
 // List converts the object to an elemental.IdentifiablesList.
 func (o PoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -102,6 +102,17 @@ func (o PoliciesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the PoliciesList converted to SparsePoliciesList.
+func (o PoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -454,34 +465,92 @@ func (o *Policy) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Policy) ToSparse() elemental.SparseIdentifiable {
+func (o *Policy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparsePolicy{
-		ID:                &o.ID,
-		Action:            &o.Action,
-		ActiveDuration:    &o.ActiveDuration,
-		ActiveSchedule:    &o.ActiveSchedule,
-		AllObjectTags:     &o.AllObjectTags,
-		AllSubjectTags:    &o.AllSubjectTags,
-		Annotations:       &o.Annotations,
-		AssociatedTags:    &o.AssociatedTags,
-		CreateTime:        &o.CreateTime,
-		Description:       &o.Description,
-		Disabled:          &o.Disabled,
-		Fallback:          &o.Fallback,
-		Metadata:          &o.Metadata,
-		Name:              &o.Name,
-		Namespace:         &o.Namespace,
-		NormalizedTags:    &o.NormalizedTags,
-		Object:            &o.Object,
-		Propagate:         &o.Propagate,
-		PropagationHidden: &o.PropagationHidden,
-		Protected:         &o.Protected,
-		Relation:          &o.Relation,
-		Subject:           &o.Subject,
-		Type:              &o.Type,
-		UpdateTime:        &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparsePolicy{
+			ID:                &o.ID,
+			Action:            &o.Action,
+			ActiveDuration:    &o.ActiveDuration,
+			ActiveSchedule:    &o.ActiveSchedule,
+			AllObjectTags:     &o.AllObjectTags,
+			AllSubjectTags:    &o.AllSubjectTags,
+			Annotations:       &o.Annotations,
+			AssociatedTags:    &o.AssociatedTags,
+			CreateTime:        &o.CreateTime,
+			Description:       &o.Description,
+			Disabled:          &o.Disabled,
+			Fallback:          &o.Fallback,
+			Metadata:          &o.Metadata,
+			Name:              &o.Name,
+			Namespace:         &o.Namespace,
+			NormalizedTags:    &o.NormalizedTags,
+			Object:            &o.Object,
+			Propagate:         &o.Propagate,
+			PropagationHidden: &o.PropagationHidden,
+			Protected:         &o.Protected,
+			Relation:          &o.Relation,
+			Subject:           &o.Subject,
+			Type:              &o.Type,
+			UpdateTime:        &o.UpdateTime,
+		}
 	}
+
+	sp := &SparsePolicy{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "action":
+			sp.Action = &(o.Action)
+		case "activeDuration":
+			sp.ActiveDuration = &(o.ActiveDuration)
+		case "activeSchedule":
+			sp.ActiveSchedule = &(o.ActiveSchedule)
+		case "allObjectTags":
+			sp.AllObjectTags = &(o.AllObjectTags)
+		case "allSubjectTags":
+			sp.AllSubjectTags = &(o.AllSubjectTags)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "disabled":
+			sp.Disabled = &(o.Disabled)
+		case "fallback":
+			sp.Fallback = &(o.Fallback)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "object":
+			sp.Object = &(o.Object)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
+		case "propagationHidden":
+			sp.PropagationHidden = &(o.PropagationHidden)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "relation":
+			sp.Relation = &(o.Relation)
+		case "subject":
+			sp.Subject = &(o.Subject)
+		case "type":
+			sp.Type = &(o.Type)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparsePolicy to the object.
@@ -1269,9 +1338,9 @@ func (o SparsePoliciesList) Append(objects ...elemental.Identifiable) elemental.
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparsePoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -1283,6 +1352,17 @@ func (o SparsePoliciesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparsePoliciesList converted to PoliciesList.
+func (o SparsePoliciesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -1394,6 +1474,9 @@ func (o *SparsePolicy) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparsePolicy) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

@@ -45,9 +45,9 @@ func (o PokesList) Append(objects ...elemental.Identifiable) elemental.Identifia
 // List converts the object to an elemental.IdentifiablesList.
 func (o PokesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o PokesList) List() elemental.IdentifiablesList {
 func (o PokesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the PokesList converted to SparsePokesList.
+func (o PokesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -121,9 +132,19 @@ func (o *Poke) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Poke) ToSparse() elemental.SparseIdentifiable {
+func (o *Poke) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparsePoke{}
+	if len(fields) == 0 {
+		return &SparsePoke{}
+	}
+
+	sp := &SparsePoke{}
+	for _, f := range fields {
+		switch f {
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparsePoke to the object.
@@ -200,9 +221,9 @@ func (o SparsePokesList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparsePokesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -212,6 +233,17 @@ func (o SparsePokesList) List() elemental.IdentifiablesList {
 func (o SparsePokesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparsePokesList converted to PokesList.
+func (o SparsePokesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

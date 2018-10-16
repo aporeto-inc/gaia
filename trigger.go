@@ -45,9 +45,9 @@ func (o TriggersList) Append(objects ...elemental.Identifiable) elemental.Identi
 // List converts the object to an elemental.IdentifiablesList.
 func (o TriggersList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o TriggersList) List() elemental.IdentifiablesList {
 func (o TriggersList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the TriggersList converted to SparseTriggersList.
+func (o TriggersList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -123,11 +134,23 @@ func (o *Trigger) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Trigger) ToSparse() elemental.SparseIdentifiable {
+func (o *Trigger) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseTrigger{
-		Payload: &o.Payload,
+	if len(fields) == 0 {
+		return &SparseTrigger{
+			Payload: &o.Payload,
+		}
 	}
+
+	sp := &SparseTrigger{}
+	for _, f := range fields {
+		switch f {
+		case "payload":
+			sp.Payload = &(o.Payload)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseTrigger to the object.
@@ -230,9 +253,9 @@ func (o SparseTriggersList) Append(objects ...elemental.Identifiable) elemental.
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseTriggersList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -242,6 +265,17 @@ func (o SparseTriggersList) List() elemental.IdentifiablesList {
 func (o SparseTriggersList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseTriggersList converted to TriggersList.
+func (o SparseTriggersList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

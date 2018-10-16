@@ -45,9 +45,9 @@ func (o TabulationsList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o TabulationsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o TabulationsList) List() elemental.IdentifiablesList {
 func (o TabulationsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the TabulationsList converted to SparseTabulationsList.
+func (o TabulationsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -131,13 +142,29 @@ func (o *Tabulation) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Tabulation) ToSparse() elemental.SparseIdentifiable {
+func (o *Tabulation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseTabulation{
-		Headers:        &o.Headers,
-		Rows:           &o.Rows,
-		TargetIdentity: &o.TargetIdentity,
+	if len(fields) == 0 {
+		return &SparseTabulation{
+			Headers:        &o.Headers,
+			Rows:           &o.Rows,
+			TargetIdentity: &o.TargetIdentity,
+		}
 	}
+
+	sp := &SparseTabulation{}
+	for _, f := range fields {
+		switch f {
+		case "headers":
+			sp.Headers = &(o.Headers)
+		case "rows":
+			sp.Rows = &(o.Rows)
+		case "targetIdentity":
+			sp.TargetIdentity = &(o.TargetIdentity)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseTabulation to the object.
@@ -294,9 +321,9 @@ func (o SparseTabulationsList) Append(objects ...elemental.Identifiable) element
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseTabulationsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -306,6 +333,17 @@ func (o SparseTabulationsList) List() elemental.IdentifiablesList {
 func (o SparseTabulationsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseTabulationsList converted to TabulationsList.
+func (o SparseTabulationsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

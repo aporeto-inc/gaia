@@ -45,9 +45,9 @@ func (o LogsList) Append(objects ...elemental.Identifiable) elemental.Identifiab
 // List converts the object to an elemental.IdentifiablesList.
 func (o LogsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o LogsList) List() elemental.IdentifiablesList {
 func (o LogsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the LogsList converted to SparseLogsList.
+func (o LogsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -124,11 +135,23 @@ func (o *Log) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Log) ToSparse() elemental.SparseIdentifiable {
+func (o *Log) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseLog{
-		Data: &o.Data,
+	if len(fields) == 0 {
+		return &SparseLog{
+			Data: &o.Data,
+		}
 	}
+
+	sp := &SparseLog{}
+	for _, f := range fields {
+		switch f {
+		case "data":
+			sp.Data = &(o.Data)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseLog to the object.
@@ -237,9 +260,9 @@ func (o SparseLogsList) Append(objects ...elemental.Identifiable) elemental.Iden
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseLogsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -249,6 +272,17 @@ func (o SparseLogsList) List() elemental.IdentifiablesList {
 func (o SparseLogsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseLogsList converted to LogsList.
+func (o SparseLogsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

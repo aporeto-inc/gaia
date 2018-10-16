@@ -47,9 +47,9 @@ func (o AWSAPIGatewaysList) Append(objects ...elemental.Identifiable) elemental.
 // List converts the object to an elemental.IdentifiablesList.
 func (o AWSAPIGatewaysList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -61,6 +61,17 @@ func (o AWSAPIGatewaysList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the AWSAPIGatewaysList converted to SparseAWSAPIGatewaysList.
+func (o AWSAPIGatewaysList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -294,30 +305,80 @@ func (o *AWSAPIGateway) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *AWSAPIGateway) ToSparse() elemental.SparseIdentifiable {
+func (o *AWSAPIGateway) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseAWSAPIGateway{
-		APIID:          &o.APIID,
-		ID:             &o.ID,
-		AccountID:      &o.AccountID,
-		Annotations:    &o.Annotations,
-		AssociatedTags: &o.AssociatedTags,
-		Authorized:     &o.Authorized,
-		CreateTime:     &o.CreateTime,
-		Description:    &o.Description,
-		Metadata:       &o.Metadata,
-		Method:         &o.Method,
-		Name:           &o.Name,
-		Namespace:      &o.Namespace,
-		NamespaceID:    &o.NamespaceID,
-		NormalizedTags: &o.NormalizedTags,
-		Protected:      &o.Protected,
-		Resource:       &o.Resource,
-		SourceIP:       &o.SourceIP,
-		Stage:          &o.Stage,
-		Token:          &o.Token,
-		UpdateTime:     &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseAWSAPIGateway{
+			APIID:          &o.APIID,
+			ID:             &o.ID,
+			AccountID:      &o.AccountID,
+			Annotations:    &o.Annotations,
+			AssociatedTags: &o.AssociatedTags,
+			Authorized:     &o.Authorized,
+			CreateTime:     &o.CreateTime,
+			Description:    &o.Description,
+			Metadata:       &o.Metadata,
+			Method:         &o.Method,
+			Name:           &o.Name,
+			Namespace:      &o.Namespace,
+			NamespaceID:    &o.NamespaceID,
+			NormalizedTags: &o.NormalizedTags,
+			Protected:      &o.Protected,
+			Resource:       &o.Resource,
+			SourceIP:       &o.SourceIP,
+			Stage:          &o.Stage,
+			Token:          &o.Token,
+			UpdateTime:     &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseAWSAPIGateway{}
+	for _, f := range fields {
+		switch f {
+		case "APIID":
+			sp.APIID = &(o.APIID)
+		case "ID":
+			sp.ID = &(o.ID)
+		case "accountID":
+			sp.AccountID = &(o.AccountID)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "authorized":
+			sp.Authorized = &(o.Authorized)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "method":
+			sp.Method = &(o.Method)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "namespaceID":
+			sp.NamespaceID = &(o.NamespaceID)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "resource":
+			sp.Resource = &(o.Resource)
+		case "sourceIP":
+			sp.SourceIP = &(o.SourceIP)
+		case "stage":
+			sp.Stage = &(o.Stage)
+		case "token":
+			sp.Token = &(o.Token)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseAWSAPIGateway to the object.
@@ -925,9 +986,9 @@ func (o SparseAWSAPIGatewaysList) Append(objects ...elemental.Identifiable) elem
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseAWSAPIGatewaysList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -939,6 +1000,17 @@ func (o SparseAWSAPIGatewaysList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparseAWSAPIGatewaysList converted to AWSAPIGatewaysList.
+func (o SparseAWSAPIGatewaysList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -1029,6 +1101,9 @@ func (o *SparseAWSAPIGateway) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseAWSAPIGateway) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

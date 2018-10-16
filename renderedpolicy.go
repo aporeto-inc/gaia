@@ -46,9 +46,9 @@ func (o RenderedPoliciesList) Append(objects ...elemental.Identifiable) elementa
 // List converts the object to an elemental.IdentifiablesList.
 func (o RenderedPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -58,6 +58,17 @@ func (o RenderedPoliciesList) List() elemental.IdentifiablesList {
 func (o RenderedPoliciesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the RenderedPoliciesList converted to SparseRenderedPoliciesList.
+func (o RenderedPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -173,21 +184,53 @@ func (o *RenderedPolicy) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *RenderedPolicy) ToSparse() elemental.SparseIdentifiable {
+func (o *RenderedPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseRenderedPolicy{
-		Certificate:       &o.Certificate,
-		DependendServices: &o.DependendServices,
-		EgressPolicies:    &o.EgressPolicies,
-		ExposedServices:   &o.ExposedServices,
-		HashedTags:        &o.HashedTags,
-		IngressPolicies:   &o.IngressPolicies,
-		MatchingTags:      &o.MatchingTags,
-		ProcessingUnit:    &o.ProcessingUnit,
-		ProcessingUnitID:  &o.ProcessingUnitID,
-		Profile:           &o.Profile,
-		Scopes:            &o.Scopes,
+	if len(fields) == 0 {
+		return &SparseRenderedPolicy{
+			Certificate:       &o.Certificate,
+			DependendServices: &o.DependendServices,
+			EgressPolicies:    &o.EgressPolicies,
+			ExposedServices:   &o.ExposedServices,
+			HashedTags:        &o.HashedTags,
+			IngressPolicies:   &o.IngressPolicies,
+			MatchingTags:      &o.MatchingTags,
+			ProcessingUnit:    &o.ProcessingUnit,
+			ProcessingUnitID:  &o.ProcessingUnitID,
+			Profile:           &o.Profile,
+			Scopes:            &o.Scopes,
+		}
 	}
+
+	sp := &SparseRenderedPolicy{}
+	for _, f := range fields {
+		switch f {
+		case "certificate":
+			sp.Certificate = &(o.Certificate)
+		case "dependendServices":
+			sp.DependendServices = &(o.DependendServices)
+		case "egressPolicies":
+			sp.EgressPolicies = &(o.EgressPolicies)
+		case "exposedServices":
+			sp.ExposedServices = &(o.ExposedServices)
+		case "hashedTags":
+			sp.HashedTags = &(o.HashedTags)
+		case "ingressPolicies":
+			sp.IngressPolicies = &(o.IngressPolicies)
+		case "matchingTags":
+			sp.MatchingTags = &(o.MatchingTags)
+		case "processingUnit":
+			sp.ProcessingUnit = &(o.ProcessingUnit)
+		case "processingUnitID":
+			sp.ProcessingUnitID = &(o.ProcessingUnitID)
+		case "profile":
+			sp.Profile = &(o.Profile)
+		case "scopes":
+			sp.Scopes = &(o.Scopes)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseRenderedPolicy to the object.
@@ -544,9 +587,9 @@ func (o SparseRenderedPoliciesList) Append(objects ...elemental.Identifiable) el
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseRenderedPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -556,6 +599,17 @@ func (o SparseRenderedPoliciesList) List() elemental.IdentifiablesList {
 func (o SparseRenderedPoliciesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseRenderedPoliciesList converted to RenderedPoliciesList.
+func (o SparseRenderedPoliciesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

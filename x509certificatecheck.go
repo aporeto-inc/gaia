@@ -45,9 +45,9 @@ func (o X509CertificateChecksList) Append(objects ...elemental.Identifiable) ele
 // List converts the object to an elemental.IdentifiablesList.
 func (o X509CertificateChecksList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o X509CertificateChecksList) List() elemental.IdentifiablesList {
 func (o X509CertificateChecksList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the X509CertificateChecksList converted to SparseX509CertificateChecksList.
+func (o X509CertificateChecksList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -124,11 +135,23 @@ func (o *X509CertificateCheck) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *X509CertificateCheck) ToSparse() elemental.SparseIdentifiable {
+func (o *X509CertificateCheck) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseX509CertificateCheck{
-		ID: &o.ID,
+	if len(fields) == 0 {
+		return &SparseX509CertificateCheck{
+			ID: &o.ID,
+		}
 	}
+
+	sp := &SparseX509CertificateCheck{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseX509CertificateCheck to the object.
@@ -239,9 +262,9 @@ func (o SparseX509CertificateChecksList) Append(objects ...elemental.Identifiabl
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseX509CertificateChecksList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -251,6 +274,17 @@ func (o SparseX509CertificateChecksList) List() elemental.IdentifiablesList {
 func (o SparseX509CertificateChecksList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseX509CertificateChecksList converted to X509CertificateChecksList.
+func (o SparseX509CertificateChecksList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -283,6 +317,9 @@ func (o *SparseX509CertificateCheck) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseX509CertificateCheck) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

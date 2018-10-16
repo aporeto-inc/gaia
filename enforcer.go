@@ -67,9 +67,9 @@ func (o EnforcersList) Append(objects ...elemental.Identifiable) elemental.Ident
 // List converts the object to an elemental.IdentifiablesList.
 func (o EnforcersList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -81,6 +81,17 @@ func (o EnforcersList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the EnforcersList converted to SparseEnforcersList.
+func (o EnforcersList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -355,38 +366,104 @@ func (o *Enforcer) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Enforcer) ToSparse() elemental.SparseIdentifiable {
+func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseEnforcer{
-		FQDN:                      &o.FQDN,
-		ID:                        &o.ID,
-		Annotations:               &o.Annotations,
-		AssociatedTags:            &o.AssociatedTags,
-		Certificate:               &o.Certificate,
-		CertificateExpirationDate: &o.CertificateExpirationDate,
-		CertificateKey:            &o.CertificateKey,
-		CertificateRequest:        &o.CertificateRequest,
-		CertificateRequestEnabled: &o.CertificateRequestEnabled,
-		CollectInfo:               &o.CollectInfo,
-		CollectedInfo:             &o.CollectedInfo,
-		CreateTime:                &o.CreateTime,
-		CurrentVersion:            &o.CurrentVersion,
-		Description:               &o.Description,
-		EnforcerProfileID:         &o.EnforcerProfileID,
-		LastCollectionTime:        &o.LastCollectionTime,
-		LastSyncTime:              &o.LastSyncTime,
-		LocalCA:                   &o.LocalCA,
-		Metadata:                  &o.Metadata,
-		Name:                      &o.Name,
-		Namespace:                 &o.Namespace,
-		NormalizedTags:            &o.NormalizedTags,
-		OperationalStatus:         &o.OperationalStatus,
-		Protected:                 &o.Protected,
-		PublicToken:               &o.PublicToken,
-		StartTime:                 &o.StartTime,
-		UpdateAvailable:           &o.UpdateAvailable,
-		UpdateTime:                &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseEnforcer{
+			FQDN:                      &o.FQDN,
+			ID:                        &o.ID,
+			Annotations:               &o.Annotations,
+			AssociatedTags:            &o.AssociatedTags,
+			Certificate:               &o.Certificate,
+			CertificateExpirationDate: &o.CertificateExpirationDate,
+			CertificateKey:            &o.CertificateKey,
+			CertificateRequest:        &o.CertificateRequest,
+			CertificateRequestEnabled: &o.CertificateRequestEnabled,
+			CollectInfo:               &o.CollectInfo,
+			CollectedInfo:             &o.CollectedInfo,
+			CreateTime:                &o.CreateTime,
+			CurrentVersion:            &o.CurrentVersion,
+			Description:               &o.Description,
+			EnforcerProfileID:         &o.EnforcerProfileID,
+			LastCollectionTime:        &o.LastCollectionTime,
+			LastSyncTime:              &o.LastSyncTime,
+			LocalCA:                   &o.LocalCA,
+			Metadata:                  &o.Metadata,
+			Name:                      &o.Name,
+			Namespace:                 &o.Namespace,
+			NormalizedTags:            &o.NormalizedTags,
+			OperationalStatus:         &o.OperationalStatus,
+			Protected:                 &o.Protected,
+			PublicToken:               &o.PublicToken,
+			StartTime:                 &o.StartTime,
+			UpdateAvailable:           &o.UpdateAvailable,
+			UpdateTime:                &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseEnforcer{}
+	for _, f := range fields {
+		switch f {
+		case "FQDN":
+			sp.FQDN = &(o.FQDN)
+		case "ID":
+			sp.ID = &(o.ID)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "certificate":
+			sp.Certificate = &(o.Certificate)
+		case "certificateExpirationDate":
+			sp.CertificateExpirationDate = &(o.CertificateExpirationDate)
+		case "certificateKey":
+			sp.CertificateKey = &(o.CertificateKey)
+		case "certificateRequest":
+			sp.CertificateRequest = &(o.CertificateRequest)
+		case "certificateRequestEnabled":
+			sp.CertificateRequestEnabled = &(o.CertificateRequestEnabled)
+		case "collectInfo":
+			sp.CollectInfo = &(o.CollectInfo)
+		case "collectedInfo":
+			sp.CollectedInfo = &(o.CollectedInfo)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "currentVersion":
+			sp.CurrentVersion = &(o.CurrentVersion)
+		case "description":
+			sp.Description = &(o.Description)
+		case "enforcerProfileID":
+			sp.EnforcerProfileID = &(o.EnforcerProfileID)
+		case "lastCollectionTime":
+			sp.LastCollectionTime = &(o.LastCollectionTime)
+		case "lastSyncTime":
+			sp.LastSyncTime = &(o.LastSyncTime)
+		case "localCA":
+			sp.LocalCA = &(o.LocalCA)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "operationalStatus":
+			sp.OperationalStatus = &(o.OperationalStatus)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "publicToken":
+			sp.PublicToken = &(o.PublicToken)
+		case "startTime":
+			sp.StartTime = &(o.StartTime)
+		case "updateAvailable":
+			sp.UpdateAvailable = &(o.UpdateAvailable)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseEnforcer to the object.
@@ -1244,9 +1321,9 @@ func (o SparseEnforcersList) Append(objects ...elemental.Identifiable) elemental
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseEnforcersList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -1258,6 +1335,17 @@ func (o SparseEnforcersList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparseEnforcersList converted to EnforcersList.
+func (o SparseEnforcersList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -1381,6 +1469,9 @@ func (o *SparseEnforcer) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseEnforcer) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

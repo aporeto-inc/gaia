@@ -72,9 +72,9 @@ func (o X509CertificatesList) Append(objects ...elemental.Identifiable) elementa
 // List converts the object to an elemental.IdentifiablesList.
 func (o X509CertificatesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -84,6 +84,17 @@ func (o X509CertificatesList) List() elemental.IdentifiablesList {
 func (o X509CertificatesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the X509CertificatesList converted to SparseX509CertificatesList.
+func (o X509CertificatesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -173,17 +184,41 @@ func (o *X509Certificate) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *X509Certificate) ToSparse() elemental.SparseIdentifiable {
+func (o *X509Certificate) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseX509Certificate{
-		CSR:            &o.CSR,
-		ID:             &o.ID,
-		Certificate:    &o.Certificate,
-		ExpirationDate: &o.ExpirationDate,
-		Extensions:     &o.Extensions,
-		Signer:         &o.Signer,
-		Usage:          &o.Usage,
+	if len(fields) == 0 {
+		return &SparseX509Certificate{
+			CSR:            &o.CSR,
+			ID:             &o.ID,
+			Certificate:    &o.Certificate,
+			ExpirationDate: &o.ExpirationDate,
+			Extensions:     &o.Extensions,
+			Signer:         &o.Signer,
+			Usage:          &o.Usage,
+		}
 	}
+
+	sp := &SparseX509Certificate{}
+	for _, f := range fields {
+		switch f {
+		case "CSR":
+			sp.CSR = &(o.CSR)
+		case "ID":
+			sp.ID = &(o.ID)
+		case "certificate":
+			sp.Certificate = &(o.Certificate)
+		case "expirationDate":
+			sp.ExpirationDate = &(o.ExpirationDate)
+		case "extensions":
+			sp.Extensions = &(o.Extensions)
+		case "signer":
+			sp.Signer = &(o.Signer)
+		case "usage":
+			sp.Usage = &(o.Usage)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseX509Certificate to the object.
@@ -446,9 +481,9 @@ func (o SparseX509CertificatesList) Append(objects ...elemental.Identifiable) el
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseX509CertificatesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -458,6 +493,17 @@ func (o SparseX509CertificatesList) List() elemental.IdentifiablesList {
 func (o SparseX509CertificatesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseX509CertificatesList converted to X509CertificatesList.
+func (o SparseX509CertificatesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -509,6 +555,9 @@ func (o *SparseX509Certificate) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseX509Certificate) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

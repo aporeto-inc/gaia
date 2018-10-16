@@ -78,9 +78,9 @@ func (o CustomersList) Append(objects ...elemental.Identifiable) elemental.Ident
 // List converts the object to an elemental.IdentifiablesList.
 func (o CustomersList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -90,6 +90,17 @@ func (o CustomersList) List() elemental.IdentifiablesList {
 func (o CustomersList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the CustomersList converted to SparseCustomersList.
+func (o CustomersList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -176,16 +187,38 @@ func (o *Customer) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Customer) ToSparse() elemental.SparseIdentifiable {
+func (o *Customer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseCustomer{
-		ID:                 &o.ID,
-		CreateTime:         &o.CreateTime,
-		Provider:           &o.Provider,
-		ProviderCustomerID: &o.ProviderCustomerID,
-		State:              &o.State,
-		UpdateTime:         &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseCustomer{
+			ID:                 &o.ID,
+			CreateTime:         &o.CreateTime,
+			Provider:           &o.Provider,
+			ProviderCustomerID: &o.ProviderCustomerID,
+			State:              &o.State,
+			UpdateTime:         &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseCustomer{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "provider":
+			sp.Provider = &(o.Provider)
+		case "providerCustomerID":
+			sp.ProviderCustomerID = &(o.ProviderCustomerID)
+		case "state":
+			sp.State = &(o.State)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseCustomer to the object.
@@ -439,9 +472,9 @@ func (o SparseCustomersList) Append(objects ...elemental.Identifiable) elemental
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseCustomersList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -451,6 +484,17 @@ func (o SparseCustomersList) List() elemental.IdentifiablesList {
 func (o SparseCustomersList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseCustomersList converted to CustomersList.
+func (o SparseCustomersList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -499,6 +543,9 @@ func (o *SparseCustomer) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseCustomer) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

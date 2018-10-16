@@ -48,9 +48,9 @@ func (o RESTAPISpecsList) Append(objects ...elemental.Identifiable) elemental.Id
 // List converts the object to an elemental.IdentifiablesList.
 func (o RESTAPISpecsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -62,6 +62,17 @@ func (o RESTAPISpecsList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the RESTAPISpecsList converted to SparseRESTAPISpecsList.
+func (o RESTAPISpecsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -319,25 +330,65 @@ func (o *RESTAPISpec) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *RESTAPISpec) ToSparse() elemental.SparseIdentifiable {
+func (o *RESTAPISpec) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseRESTAPISpec{
-		ID:                &o.ID,
-		Annotations:       &o.Annotations,
-		Archived:          &o.Archived,
-		AssociatedTags:    &o.AssociatedTags,
-		CreateTime:        &o.CreateTime,
-		Description:       &o.Description,
-		Endpoints:         &o.Endpoints,
-		Metadata:          &o.Metadata,
-		Name:              &o.Name,
-		Namespace:         &o.Namespace,
-		NormalizedTags:    &o.NormalizedTags,
-		Propagate:         &o.Propagate,
-		PropagationHidden: &o.PropagationHidden,
-		Protected:         &o.Protected,
-		UpdateTime:        &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseRESTAPISpec{
+			ID:                &o.ID,
+			Annotations:       &o.Annotations,
+			Archived:          &o.Archived,
+			AssociatedTags:    &o.AssociatedTags,
+			CreateTime:        &o.CreateTime,
+			Description:       &o.Description,
+			Endpoints:         &o.Endpoints,
+			Metadata:          &o.Metadata,
+			Name:              &o.Name,
+			Namespace:         &o.Namespace,
+			NormalizedTags:    &o.NormalizedTags,
+			Propagate:         &o.Propagate,
+			PropagationHidden: &o.PropagationHidden,
+			Protected:         &o.Protected,
+			UpdateTime:        &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseRESTAPISpec{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "archived":
+			sp.Archived = &(o.Archived)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "endpoints":
+			sp.Endpoints = &(o.Endpoints)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
+		case "propagationHidden":
+			sp.PropagationHidden = &(o.PropagationHidden)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseRESTAPISpec to the object.
@@ -872,9 +923,9 @@ func (o SparseRESTAPISpecsList) Append(objects ...elemental.Identifiable) elemen
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseRESTAPISpecsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -886,6 +937,17 @@ func (o SparseRESTAPISpecsList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparseRESTAPISpecsList converted to RESTAPISpecsList.
+func (o SparseRESTAPISpecsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -962,6 +1024,9 @@ func (o *SparseRESTAPISpec) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseRESTAPISpec) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

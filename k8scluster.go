@@ -72,9 +72,9 @@ func (o K8SClustersList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o K8SClustersList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -86,6 +86,17 @@ func (o K8SClustersList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the K8SClustersList converted to SparseK8SClustersList.
+func (o K8SClustersList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -326,30 +337,80 @@ func (o *K8SCluster) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *K8SCluster) ToSparse() elemental.SparseIdentifiable {
+func (o *K8SCluster) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseK8SCluster{
-		APIAuthorizationPolicyID: &o.APIAuthorizationPolicyID,
-		ID:                       &o.ID,
-		ActivationType:           &o.ActivationType,
-		AdminEmail:               &o.AdminEmail,
-		Annotations:              &o.Annotations,
-		AssociatedTags:           &o.AssociatedTags,
-		Certificate:              &o.Certificate,
-		CertificateSN:            &o.CertificateSN,
-		CreateTime:               &o.CreateTime,
-		Description:              &o.Description,
-		KubernetesDefinitions:    &o.KubernetesDefinitions,
-		Metadata:                 &o.Metadata,
-		Name:                     &o.Name,
-		Namespace:                &o.Namespace,
-		NamespaceID:              &o.NamespaceID,
-		NetworkPolicyType:        &o.NetworkPolicyType,
-		NormalizedTags:           &o.NormalizedTags,
-		Protected:                &o.Protected,
-		Regenerate:               &o.Regenerate,
-		UpdateTime:               &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseK8SCluster{
+			APIAuthorizationPolicyID: &o.APIAuthorizationPolicyID,
+			ID:                       &o.ID,
+			ActivationType:           &o.ActivationType,
+			AdminEmail:               &o.AdminEmail,
+			Annotations:              &o.Annotations,
+			AssociatedTags:           &o.AssociatedTags,
+			Certificate:              &o.Certificate,
+			CertificateSN:            &o.CertificateSN,
+			CreateTime:               &o.CreateTime,
+			Description:              &o.Description,
+			KubernetesDefinitions:    &o.KubernetesDefinitions,
+			Metadata:                 &o.Metadata,
+			Name:                     &o.Name,
+			Namespace:                &o.Namespace,
+			NamespaceID:              &o.NamespaceID,
+			NetworkPolicyType:        &o.NetworkPolicyType,
+			NormalizedTags:           &o.NormalizedTags,
+			Protected:                &o.Protected,
+			Regenerate:               &o.Regenerate,
+			UpdateTime:               &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseK8SCluster{}
+	for _, f := range fields {
+		switch f {
+		case "APIAuthorizationPolicyID":
+			sp.APIAuthorizationPolicyID = &(o.APIAuthorizationPolicyID)
+		case "ID":
+			sp.ID = &(o.ID)
+		case "activationType":
+			sp.ActivationType = &(o.ActivationType)
+		case "adminEmail":
+			sp.AdminEmail = &(o.AdminEmail)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "certificate":
+			sp.Certificate = &(o.Certificate)
+		case "certificateSN":
+			sp.CertificateSN = &(o.CertificateSN)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "kubernetesDefinitions":
+			sp.KubernetesDefinitions = &(o.KubernetesDefinitions)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "namespaceID":
+			sp.NamespaceID = &(o.NamespaceID)
+		case "networkPolicyType":
+			sp.NetworkPolicyType = &(o.NetworkPolicyType)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "regenerate":
+			sp.Regenerate = &(o.Regenerate)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseK8SCluster to the object.
@@ -997,9 +1058,9 @@ func (o SparseK8SClustersList) Append(objects ...elemental.Identifiable) element
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseK8SClustersList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -1011,6 +1072,17 @@ func (o SparseK8SClustersList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparseK8SClustersList converted to K8SClustersList.
+func (o SparseK8SClustersList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -1106,6 +1178,9 @@ func (o *SparseK8SCluster) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseK8SCluster) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

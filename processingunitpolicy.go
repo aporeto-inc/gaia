@@ -70,9 +70,9 @@ func (o ProcessingUnitPoliciesList) Append(objects ...elemental.Identifiable) el
 // List converts the object to an elemental.IdentifiablesList.
 func (o ProcessingUnitPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -84,6 +84,17 @@ func (o ProcessingUnitPoliciesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the ProcessingUnitPoliciesList converted to SparseProcessingUnitPoliciesList.
+func (o ProcessingUnitPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -396,30 +407,80 @@ func (o *ProcessingUnitPolicy) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *ProcessingUnitPolicy) ToSparse() elemental.SparseIdentifiable {
+func (o *ProcessingUnitPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseProcessingUnitPolicy{
-		ID:                       &o.ID,
-		Action:                   &o.Action,
-		ActiveDuration:           &o.ActiveDuration,
-		ActiveSchedule:           &o.ActiveSchedule,
-		Annotations:              &o.Annotations,
-		AssociatedTags:           &o.AssociatedTags,
-		CreateTime:               &o.CreateTime,
-		Description:              &o.Description,
-		Disabled:                 &o.Disabled,
-		Fallback:                 &o.Fallback,
-		IsolationProfileSelector: &o.IsolationProfileSelector,
-		Metadata:                 &o.Metadata,
-		Name:                     &o.Name,
-		Namespace:                &o.Namespace,
-		NormalizedTags:           &o.NormalizedTags,
-		Propagate:                &o.Propagate,
-		PropagationHidden:        &o.PropagationHidden,
-		Protected:                &o.Protected,
-		Subject:                  &o.Subject,
-		UpdateTime:               &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseProcessingUnitPolicy{
+			ID:                       &o.ID,
+			Action:                   &o.Action,
+			ActiveDuration:           &o.ActiveDuration,
+			ActiveSchedule:           &o.ActiveSchedule,
+			Annotations:              &o.Annotations,
+			AssociatedTags:           &o.AssociatedTags,
+			CreateTime:               &o.CreateTime,
+			Description:              &o.Description,
+			Disabled:                 &o.Disabled,
+			Fallback:                 &o.Fallback,
+			IsolationProfileSelector: &o.IsolationProfileSelector,
+			Metadata:                 &o.Metadata,
+			Name:                     &o.Name,
+			Namespace:                &o.Namespace,
+			NormalizedTags:           &o.NormalizedTags,
+			Propagate:                &o.Propagate,
+			PropagationHidden:        &o.PropagationHidden,
+			Protected:                &o.Protected,
+			Subject:                  &o.Subject,
+			UpdateTime:               &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseProcessingUnitPolicy{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "action":
+			sp.Action = &(o.Action)
+		case "activeDuration":
+			sp.ActiveDuration = &(o.ActiveDuration)
+		case "activeSchedule":
+			sp.ActiveSchedule = &(o.ActiveSchedule)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "disabled":
+			sp.Disabled = &(o.Disabled)
+		case "fallback":
+			sp.Fallback = &(o.Fallback)
+		case "isolationProfileSelector":
+			sp.IsolationProfileSelector = &(o.IsolationProfileSelector)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
+		case "propagationHidden":
+			sp.PropagationHidden = &(o.PropagationHidden)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "subject":
+			sp.Subject = &(o.Subject)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseProcessingUnitPolicy to the object.
@@ -1101,9 +1162,9 @@ func (o SparseProcessingUnitPoliciesList) Append(objects ...elemental.Identifiab
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseProcessingUnitPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -1115,6 +1176,17 @@ func (o SparseProcessingUnitPoliciesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparseProcessingUnitPoliciesList converted to ProcessingUnitPoliciesList.
+func (o SparseProcessingUnitPoliciesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -1212,6 +1284,9 @@ func (o *SparseProcessingUnitPolicy) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseProcessingUnitPolicy) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

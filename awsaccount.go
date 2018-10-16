@@ -47,9 +47,9 @@ func (o AWSAccountsList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o AWSAccountsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -59,6 +59,17 @@ func (o AWSAccountsList) List() elemental.IdentifiablesList {
 func (o AWSAccountsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the AWSAccountsList converted to SparseAWSAccountsList.
+func (o AWSAccountsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -157,20 +168,50 @@ func (o *AWSAccount) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *AWSAccount) ToSparse() elemental.SparseIdentifiable {
+func (o *AWSAccount) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseAWSAccount{
-		ID:              &o.ID,
-		AccessKeyID:     &o.AccessKeyID,
-		AccessToken:     &o.AccessToken,
-		AccountID:       &o.AccountID,
-		CreateTime:      &o.CreateTime,
-		ParentID:        &o.ParentID,
-		ParentName:      &o.ParentName,
-		Region:          &o.Region,
-		SecretAccessKey: &o.SecretAccessKey,
-		UpdateTime:      &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseAWSAccount{
+			ID:              &o.ID,
+			AccessKeyID:     &o.AccessKeyID,
+			AccessToken:     &o.AccessToken,
+			AccountID:       &o.AccountID,
+			CreateTime:      &o.CreateTime,
+			ParentID:        &o.ParentID,
+			ParentName:      &o.ParentName,
+			Region:          &o.Region,
+			SecretAccessKey: &o.SecretAccessKey,
+			UpdateTime:      &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseAWSAccount{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "accessKeyID":
+			sp.AccessKeyID = &(o.AccessKeyID)
+		case "accessToken":
+			sp.AccessToken = &(o.AccessToken)
+		case "accountID":
+			sp.AccountID = &(o.AccountID)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "parentID":
+			sp.ParentID = &(o.ParentID)
+		case "parentName":
+			sp.ParentName = &(o.ParentName)
+		case "region":
+			sp.Region = &(o.Region)
+		case "secretAccessKey":
+			sp.SecretAccessKey = &(o.SecretAccessKey)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseAWSAccount to the object.
@@ -538,9 +579,9 @@ func (o SparseAWSAccountsList) Append(objects ...elemental.Identifiable) element
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseAWSAccountsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -550,6 +591,17 @@ func (o SparseAWSAccountsList) List() elemental.IdentifiablesList {
 func (o SparseAWSAccountsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseAWSAccountsList converted to AWSAccountsList.
+func (o SparseAWSAccountsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -612,6 +664,9 @@ func (o *SparseAWSAccount) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseAWSAccount) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

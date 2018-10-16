@@ -74,9 +74,9 @@ func (o IssuesList) Append(objects ...elemental.Identifiable) elemental.Identifi
 // List converts the object to an elemental.IdentifiablesList.
 func (o IssuesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -86,6 +86,17 @@ func (o IssuesList) List() elemental.IdentifiablesList {
 func (o IssuesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the IssuesList converted to SparseIssuesList.
+func (o IssuesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -167,15 +178,35 @@ func (o *Issue) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Issue) ToSparse() elemental.SparseIdentifiable {
+func (o *Issue) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseIssue{
-		Data:     &o.Data,
-		Metadata: &o.Metadata,
-		Realm:    &o.Realm,
-		Token:    &o.Token,
-		Validity: &o.Validity,
+	if len(fields) == 0 {
+		return &SparseIssue{
+			Data:     &o.Data,
+			Metadata: &o.Metadata,
+			Realm:    &o.Realm,
+			Token:    &o.Token,
+			Validity: &o.Validity,
+		}
 	}
+
+	sp := &SparseIssue{}
+	for _, f := range fields {
+		switch f {
+		case "data":
+			sp.Data = &(o.Data)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "realm":
+			sp.Realm = &(o.Realm)
+		case "token":
+			sp.Token = &(o.Token)
+		case "validity":
+			sp.Validity = &(o.Validity)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseIssue to the object.
@@ -386,9 +417,9 @@ func (o SparseIssuesList) Append(objects ...elemental.Identifiable) elemental.Id
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseIssuesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -398,6 +429,17 @@ func (o SparseIssuesList) List() elemental.IdentifiablesList {
 func (o SparseIssuesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseIssuesList converted to IssuesList.
+func (o SparseIssuesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

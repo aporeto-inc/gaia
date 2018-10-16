@@ -47,9 +47,9 @@ func (o AuthoritiesList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o AuthoritiesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -59,6 +59,17 @@ func (o AuthoritiesList) List() elemental.IdentifiablesList {
 func (o AuthoritiesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the AuthoritiesList converted to SparseAuthoritiesList.
+func (o AuthoritiesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -141,16 +152,38 @@ func (o *Authority) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Authority) ToSparse() elemental.SparseIdentifiable {
+func (o *Authority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseAuthority{
-		ID:             &o.ID,
-		Certificate:    &o.Certificate,
-		CommonName:     &o.CommonName,
-		ExpirationDate: &o.ExpirationDate,
-		Key:            &o.Key,
-		SerialNumber:   &o.SerialNumber,
+	if len(fields) == 0 {
+		return &SparseAuthority{
+			ID:             &o.ID,
+			Certificate:    &o.Certificate,
+			CommonName:     &o.CommonName,
+			ExpirationDate: &o.ExpirationDate,
+			Key:            &o.Key,
+			SerialNumber:   &o.SerialNumber,
+		}
 	}
+
+	sp := &SparseAuthority{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "certificate":
+			sp.Certificate = &(o.Certificate)
+		case "commonName":
+			sp.CommonName = &(o.CommonName)
+		case "expirationDate":
+			sp.ExpirationDate = &(o.ExpirationDate)
+		case "key":
+			sp.Key = &(o.Key)
+		case "serialNumber":
+			sp.SerialNumber = &(o.SerialNumber)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseAuthority to the object.
@@ -384,9 +417,9 @@ func (o SparseAuthoritiesList) Append(objects ...elemental.Identifiable) element
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseAuthoritiesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -396,6 +429,17 @@ func (o SparseAuthoritiesList) List() elemental.IdentifiablesList {
 func (o SparseAuthoritiesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseAuthoritiesList converted to AuthoritiesList.
+func (o SparseAuthoritiesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -443,6 +487,9 @@ func (o *SparseAuthority) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseAuthority) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

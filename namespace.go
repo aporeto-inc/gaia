@@ -47,9 +47,9 @@ func (o NamespacesList) Append(objects ...elemental.Identifiable) elemental.Iden
 // List converts the object to an elemental.IdentifiablesList.
 func (o NamespacesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -59,6 +59,17 @@ func (o NamespacesList) List() elemental.IdentifiablesList {
 func (o NamespacesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the NamespacesList converted to SparseNamespacesList.
+func (o NamespacesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -275,25 +286,65 @@ func (o *Namespace) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Namespace) ToSparse() elemental.SparseIdentifiable {
+func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseNamespace{
-		ID:                      &o.ID,
-		Annotations:             &o.Annotations,
-		AssociatedLocalCAID:     &o.AssociatedLocalCAID,
-		AssociatedTags:          &o.AssociatedTags,
-		CreateTime:              &o.CreateTime,
-		Description:             &o.Description,
-		LocalCA:                 &o.LocalCA,
-		LocalCAEnabled:          &o.LocalCAEnabled,
-		Metadata:                &o.Metadata,
-		Name:                    &o.Name,
-		Namespace:               &o.Namespace,
-		NetworkAccessPolicyTags: &o.NetworkAccessPolicyTags,
-		NormalizedTags:          &o.NormalizedTags,
-		Protected:               &o.Protected,
-		UpdateTime:              &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseNamespace{
+			ID:                      &o.ID,
+			Annotations:             &o.Annotations,
+			AssociatedLocalCAID:     &o.AssociatedLocalCAID,
+			AssociatedTags:          &o.AssociatedTags,
+			CreateTime:              &o.CreateTime,
+			Description:             &o.Description,
+			LocalCA:                 &o.LocalCA,
+			LocalCAEnabled:          &o.LocalCAEnabled,
+			Metadata:                &o.Metadata,
+			Name:                    &o.Name,
+			Namespace:               &o.Namespace,
+			NetworkAccessPolicyTags: &o.NetworkAccessPolicyTags,
+			NormalizedTags:          &o.NormalizedTags,
+			Protected:               &o.Protected,
+			UpdateTime:              &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseNamespace{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedLocalCAID":
+			sp.AssociatedLocalCAID = &(o.AssociatedLocalCAID)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "localCA":
+			sp.LocalCA = &(o.LocalCA)
+		case "localCAEnabled":
+			sp.LocalCAEnabled = &(o.LocalCAEnabled)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "networkAccessPolicyTags":
+			sp.NetworkAccessPolicyTags = &(o.NetworkAccessPolicyTags)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseNamespace to the object.
@@ -820,9 +871,9 @@ func (o SparseNamespacesList) Append(objects ...elemental.Identifiable) elementa
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseNamespacesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -832,6 +883,17 @@ func (o SparseNamespacesList) List() elemental.IdentifiablesList {
 func (o SparseNamespacesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseNamespacesList converted to NamespacesList.
+func (o SparseNamespacesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -909,6 +971,9 @@ func (o *SparseNamespace) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseNamespace) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

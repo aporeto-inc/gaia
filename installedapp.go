@@ -60,9 +60,9 @@ func (o InstalledAppsList) Append(objects ...elemental.Identifiable) elemental.I
 // List converts the object to an elemental.IdentifiablesList.
 func (o InstalledAppsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -72,6 +72,17 @@ func (o InstalledAppsList) List() elemental.IdentifiablesList {
 func (o InstalledAppsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the InstalledAppsList converted to SparseInstalledAppsList.
+func (o InstalledAppsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -173,21 +184,53 @@ func (o *InstalledApp) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *InstalledApp) ToSparse() elemental.SparseIdentifiable {
+func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseInstalledApp{
-		ID:             &o.ID,
-		AccountName:    &o.AccountName,
-		CategoryID:     &o.CategoryID,
-		CurrentVersion: &o.CurrentVersion,
-		Data:           &o.Data,
-		K8sIdentifier:  &o.K8sIdentifier,
-		Name:           &o.Name,
-		Namespace:      &o.Namespace,
-		Parameters:     &o.Parameters,
-		RelatedObjects: &o.RelatedObjects,
-		Status:         &o.Status,
+	if len(fields) == 0 {
+		return &SparseInstalledApp{
+			ID:             &o.ID,
+			AccountName:    &o.AccountName,
+			CategoryID:     &o.CategoryID,
+			CurrentVersion: &o.CurrentVersion,
+			Data:           &o.Data,
+			K8sIdentifier:  &o.K8sIdentifier,
+			Name:           &o.Name,
+			Namespace:      &o.Namespace,
+			Parameters:     &o.Parameters,
+			RelatedObjects: &o.RelatedObjects,
+			Status:         &o.Status,
+		}
 	}
+
+	sp := &SparseInstalledApp{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "accountName":
+			sp.AccountName = &(o.AccountName)
+		case "categoryID":
+			sp.CategoryID = &(o.CategoryID)
+		case "currentVersion":
+			sp.CurrentVersion = &(o.CurrentVersion)
+		case "data":
+			sp.Data = &(o.Data)
+		case "k8sIdentifier":
+			sp.K8sIdentifier = &(o.K8sIdentifier)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "parameters":
+			sp.Parameters = &(o.Parameters)
+		case "relatedObjects":
+			sp.RelatedObjects = &(o.RelatedObjects)
+		case "status":
+			sp.Status = &(o.Status)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseInstalledApp to the object.
@@ -532,9 +575,9 @@ func (o SparseInstalledAppsList) Append(objects ...elemental.Identifiable) eleme
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseInstalledAppsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -544,6 +587,17 @@ func (o SparseInstalledAppsList) List() elemental.IdentifiablesList {
 func (o SparseInstalledAppsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseInstalledAppsList converted to InstalledAppsList.
+func (o SparseInstalledAppsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -606,6 +660,9 @@ func (o *SparseInstalledApp) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseInstalledApp) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

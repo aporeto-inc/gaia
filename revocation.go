@@ -47,9 +47,9 @@ func (o RevocationsList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o RevocationsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -59,6 +59,17 @@ func (o RevocationsList) List() elemental.IdentifiablesList {
 func (o RevocationsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the RevocationsList converted to SparseRevocationsList.
+func (o RevocationsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -139,15 +150,35 @@ func (o *Revocation) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Revocation) ToSparse() elemental.SparseIdentifiable {
+func (o *Revocation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseRevocation{
-		ID:             &o.ID,
-		ExpirationDate: &o.ExpirationDate,
-		RevokeDate:     &o.RevokeDate,
-		SerialNumber:   &o.SerialNumber,
-		Subject:        &o.Subject,
+	if len(fields) == 0 {
+		return &SparseRevocation{
+			ID:             &o.ID,
+			ExpirationDate: &o.ExpirationDate,
+			RevokeDate:     &o.RevokeDate,
+			SerialNumber:   &o.SerialNumber,
+			Subject:        &o.Subject,
+		}
 	}
+
+	sp := &SparseRevocation{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "expirationDate":
+			sp.ExpirationDate = &(o.ExpirationDate)
+		case "revokeDate":
+			sp.RevokeDate = &(o.RevokeDate)
+		case "serialNumber":
+			sp.SerialNumber = &(o.SerialNumber)
+		case "subject":
+			sp.Subject = &(o.Subject)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseRevocation to the object.
@@ -350,9 +381,9 @@ func (o SparseRevocationsList) Append(objects ...elemental.Identifiable) element
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseRevocationsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -362,6 +393,17 @@ func (o SparseRevocationsList) List() elemental.IdentifiablesList {
 func (o SparseRevocationsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseRevocationsList converted to RevocationsList.
+func (o SparseRevocationsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -407,6 +449,9 @@ func (o *SparseRevocation) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseRevocation) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

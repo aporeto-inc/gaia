@@ -61,9 +61,9 @@ func (o MessagesList) Append(objects ...elemental.Identifiable) elemental.Identi
 // List converts the object to an elemental.IdentifiablesList.
 func (o MessagesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -75,6 +75,17 @@ func (o MessagesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the MessagesList converted to SparseMessagesList.
+func (o MessagesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -283,25 +294,65 @@ func (o *Message) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Message) ToSparse() elemental.SparseIdentifiable {
+func (o *Message) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseMessage{
-		ID:             &o.ID,
-		Annotations:    &o.Annotations,
-		AssociatedTags: &o.AssociatedTags,
-		CreateTime:     &o.CreateTime,
-		Description:    &o.Description,
-		ExpirationTime: &o.ExpirationTime,
-		Level:          &o.Level,
-		Local:          &o.Local,
-		Name:           &o.Name,
-		Namespace:      &o.Namespace,
-		NormalizedTags: &o.NormalizedTags,
-		NotifyByEmail:  &o.NotifyByEmail,
-		Protected:      &o.Protected,
-		UpdateTime:     &o.UpdateTime,
-		Validity:       &o.Validity,
+	if len(fields) == 0 {
+		return &SparseMessage{
+			ID:             &o.ID,
+			Annotations:    &o.Annotations,
+			AssociatedTags: &o.AssociatedTags,
+			CreateTime:     &o.CreateTime,
+			Description:    &o.Description,
+			ExpirationTime: &o.ExpirationTime,
+			Level:          &o.Level,
+			Local:          &o.Local,
+			Name:           &o.Name,
+			Namespace:      &o.Namespace,
+			NormalizedTags: &o.NormalizedTags,
+			NotifyByEmail:  &o.NotifyByEmail,
+			Protected:      &o.Protected,
+			UpdateTime:     &o.UpdateTime,
+			Validity:       &o.Validity,
+		}
 	}
+
+	sp := &SparseMessage{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "expirationTime":
+			sp.ExpirationTime = &(o.ExpirationTime)
+		case "level":
+			sp.Level = &(o.Level)
+		case "local":
+			sp.Local = &(o.Local)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "notifyByEmail":
+			sp.NotifyByEmail = &(o.NotifyByEmail)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		case "validity":
+			sp.Validity = &(o.Validity)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseMessage to the object.
@@ -828,9 +879,9 @@ func (o SparseMessagesList) Append(objects ...elemental.Identifiable) elemental.
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseMessagesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -842,6 +893,17 @@ func (o SparseMessagesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparseMessagesList converted to MessagesList.
+func (o SparseMessagesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -918,6 +980,9 @@ func (o *SparseMessage) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseMessage) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

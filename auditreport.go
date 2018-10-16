@@ -47,9 +47,9 @@ func (o AuditReportsList) Append(objects ...elemental.Identifiable) elemental.Id
 // List converts the object to an elemental.IdentifiablesList.
 func (o AuditReportsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -59,6 +59,17 @@ func (o AuditReportsList) List() elemental.IdentifiablesList {
 func (o AuditReportsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the AuditReportsList converted to SparseAuditReportsList.
+func (o AuditReportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -219,42 +230,116 @@ func (o *AuditReport) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *AuditReport) ToSparse() elemental.SparseIdentifiable {
+func (o *AuditReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseAuditReport{
-		AUID:                    &o.AUID,
-		CWD:                     &o.CWD,
-		EGID:                    &o.EGID,
-		EUID:                    &o.EUID,
-		EXE:                     &o.EXE,
-		FSGID:                   &o.FSGID,
-		FSUID:                   &o.FSUID,
-		GID:                     &o.GID,
-		PER:                     &o.PER,
-		PID:                     &o.PID,
-		PPID:                    &o.PPID,
-		SGID:                    &o.SGID,
-		SUID:                    &o.SUID,
-		UID:                     &o.UID,
-		A0:                      &o.A0,
-		A1:                      &o.A1,
-		A2:                      &o.A2,
-		A3:                      &o.A3,
-		Arch:                    &o.Arch,
-		AuditProfileID:          &o.AuditProfileID,
-		AuditProfileNamespace:   &o.AuditProfileNamespace,
-		Command:                 &o.Command,
-		EnforcerID:              &o.EnforcerID,
-		EnforcerNamespace:       &o.EnforcerNamespace,
-		Exit:                    &o.Exit,
-		ProcessingUnitID:        &o.ProcessingUnitID,
-		ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
-		RecordType:              &o.RecordType,
-		Sequence:                &o.Sequence,
-		Success:                 &o.Success,
-		Syscall:                 &o.Syscall,
-		Timestamp:               &o.Timestamp,
+	if len(fields) == 0 {
+		return &SparseAuditReport{
+			AUID:                    &o.AUID,
+			CWD:                     &o.CWD,
+			EGID:                    &o.EGID,
+			EUID:                    &o.EUID,
+			EXE:                     &o.EXE,
+			FSGID:                   &o.FSGID,
+			FSUID:                   &o.FSUID,
+			GID:                     &o.GID,
+			PER:                     &o.PER,
+			PID:                     &o.PID,
+			PPID:                    &o.PPID,
+			SGID:                    &o.SGID,
+			SUID:                    &o.SUID,
+			UID:                     &o.UID,
+			A0:                      &o.A0,
+			A1:                      &o.A1,
+			A2:                      &o.A2,
+			A3:                      &o.A3,
+			Arch:                    &o.Arch,
+			AuditProfileID:          &o.AuditProfileID,
+			AuditProfileNamespace:   &o.AuditProfileNamespace,
+			Command:                 &o.Command,
+			EnforcerID:              &o.EnforcerID,
+			EnforcerNamespace:       &o.EnforcerNamespace,
+			Exit:                    &o.Exit,
+			ProcessingUnitID:        &o.ProcessingUnitID,
+			ProcessingUnitNamespace: &o.ProcessingUnitNamespace,
+			RecordType:              &o.RecordType,
+			Sequence:                &o.Sequence,
+			Success:                 &o.Success,
+			Syscall:                 &o.Syscall,
+			Timestamp:               &o.Timestamp,
+		}
 	}
+
+	sp := &SparseAuditReport{}
+	for _, f := range fields {
+		switch f {
+		case "AUID":
+			sp.AUID = &(o.AUID)
+		case "CWD":
+			sp.CWD = &(o.CWD)
+		case "EGID":
+			sp.EGID = &(o.EGID)
+		case "EUID":
+			sp.EUID = &(o.EUID)
+		case "EXE":
+			sp.EXE = &(o.EXE)
+		case "FSGID":
+			sp.FSGID = &(o.FSGID)
+		case "FSUID":
+			sp.FSUID = &(o.FSUID)
+		case "GID":
+			sp.GID = &(o.GID)
+		case "PER":
+			sp.PER = &(o.PER)
+		case "PID":
+			sp.PID = &(o.PID)
+		case "PPID":
+			sp.PPID = &(o.PPID)
+		case "SGID":
+			sp.SGID = &(o.SGID)
+		case "SUID":
+			sp.SUID = &(o.SUID)
+		case "UID":
+			sp.UID = &(o.UID)
+		case "a0":
+			sp.A0 = &(o.A0)
+		case "a1":
+			sp.A1 = &(o.A1)
+		case "a2":
+			sp.A2 = &(o.A2)
+		case "a3":
+			sp.A3 = &(o.A3)
+		case "arch":
+			sp.Arch = &(o.Arch)
+		case "auditProfileID":
+			sp.AuditProfileID = &(o.AuditProfileID)
+		case "auditProfileNamespace":
+			sp.AuditProfileNamespace = &(o.AuditProfileNamespace)
+		case "command":
+			sp.Command = &(o.Command)
+		case "enforcerID":
+			sp.EnforcerID = &(o.EnforcerID)
+		case "enforcerNamespace":
+			sp.EnforcerNamespace = &(o.EnforcerNamespace)
+		case "exit":
+			sp.Exit = &(o.Exit)
+		case "processingUnitID":
+			sp.ProcessingUnitID = &(o.ProcessingUnitID)
+		case "processingUnitNamespace":
+			sp.ProcessingUnitNamespace = &(o.ProcessingUnitNamespace)
+		case "recordType":
+			sp.RecordType = &(o.RecordType)
+		case "sequence":
+			sp.Sequence = &(o.Sequence)
+		case "success":
+			sp.Success = &(o.Success)
+		case "syscall":
+			sp.Syscall = &(o.Syscall)
+		case "timestamp":
+			sp.Timestamp = &(o.Timestamp)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseAuditReport to the object.
@@ -1002,9 +1087,9 @@ func (o SparseAuditReportsList) Append(objects ...elemental.Identifiable) elemen
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseAuditReportsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -1014,6 +1099,17 @@ func (o SparseAuditReportsList) List() elemental.IdentifiablesList {
 func (o SparseAuditReportsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseAuditReportsList converted to AuditReportsList.
+func (o SparseAuditReportsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

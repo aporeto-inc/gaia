@@ -45,9 +45,9 @@ func (o TagInjectsList) Append(objects ...elemental.Identifiable) elemental.Iden
 // List converts the object to an elemental.IdentifiablesList.
 func (o TagInjectsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o TagInjectsList) List() elemental.IdentifiablesList {
 func (o TagInjectsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the TagInjectsList converted to SparseTagInjectsList.
+func (o TagInjectsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -129,13 +140,29 @@ func (o *TagInject) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *TagInject) ToSparse() elemental.SparseIdentifiable {
+func (o *TagInject) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseTagInject{
-		AddedTags:       &o.AddedTags,
-		RemovedTags:     &o.RemovedTags,
-		TargetNamespace: &o.TargetNamespace,
+	if len(fields) == 0 {
+		return &SparseTagInject{
+			AddedTags:       &o.AddedTags,
+			RemovedTags:     &o.RemovedTags,
+			TargetNamespace: &o.TargetNamespace,
+		}
 	}
+
+	sp := &SparseTagInject{}
+	for _, f := range fields {
+		switch f {
+		case "addedTags":
+			sp.AddedTags = &(o.AddedTags)
+		case "removedTags":
+			sp.RemovedTags = &(o.RemovedTags)
+		case "targetNamespace":
+			sp.TargetNamespace = &(o.TargetNamespace)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseTagInject to the object.
@@ -286,9 +313,9 @@ func (o SparseTagInjectsList) Append(objects ...elemental.Identifiable) elementa
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseTagInjectsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -298,6 +325,17 @@ func (o SparseTagInjectsList) List() elemental.IdentifiablesList {
 func (o SparseTagInjectsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseTagInjectsList converted to TagInjectsList.
+func (o SparseTagInjectsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

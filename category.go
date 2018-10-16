@@ -45,9 +45,9 @@ func (o CategoriesList) Append(objects ...elemental.Identifiable) elemental.Iden
 // List converts the object to an elemental.IdentifiablesList.
 func (o CategoriesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -59,6 +59,17 @@ func (o CategoriesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the CategoriesList converted to SparseCategoriesList.
+func (o CategoriesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -146,13 +157,29 @@ func (o *Category) SetName(name string) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Category) ToSparse() elemental.SparseIdentifiable {
+func (o *Category) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseCategory{
-		ID:          &o.ID,
-		Description: &o.Description,
-		Name:        &o.Name,
+	if len(fields) == 0 {
+		return &SparseCategory{
+			ID:          &o.ID,
+			Description: &o.Description,
+			Name:        &o.Name,
+		}
 	}
+
+	sp := &SparseCategory{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "description":
+			sp.Description = &(o.Description)
+		case "name":
+			sp.Name = &(o.Name)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseCategory to the object.
@@ -341,9 +368,9 @@ func (o SparseCategoriesList) Append(objects ...elemental.Identifiable) elementa
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseCategoriesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -355,6 +382,17 @@ func (o SparseCategoriesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparseCategoriesList converted to CategoriesList.
+func (o SparseCategoriesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -393,6 +431,9 @@ func (o *SparseCategory) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseCategory) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

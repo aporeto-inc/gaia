@@ -86,9 +86,9 @@ func (o NetworkAccessPoliciesList) Append(objects ...elemental.Identifiable) ele
 // List converts the object to an elemental.IdentifiablesList.
 func (o NetworkAccessPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -100,6 +100,17 @@ func (o NetworkAccessPoliciesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the NetworkAccessPoliciesList converted to SparseNetworkAccessPoliciesList.
+func (o NetworkAccessPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -467,38 +478,104 @@ func (o *NetworkAccessPolicy) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *NetworkAccessPolicy) ToSparse() elemental.SparseIdentifiable {
+func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseNetworkAccessPolicy{
-		ID:                    &o.ID,
-		Action:                &o.Action,
-		ActiveDuration:        &o.ActiveDuration,
-		ActiveSchedule:        &o.ActiveSchedule,
-		Annotations:           &o.Annotations,
-		ApplyPolicyMode:       &o.ApplyPolicyMode,
-		AssociatedTags:        &o.AssociatedTags,
-		CreateTime:            &o.CreateTime,
-		Description:           &o.Description,
-		DestinationPorts:      &o.DestinationPorts,
-		Disabled:              &o.Disabled,
-		EncryptionEnabled:     &o.EncryptionEnabled,
-		Fallback:              &o.Fallback,
-		LogsEnabled:           &o.LogsEnabled,
-		Metadata:              &o.Metadata,
-		Name:                  &o.Name,
-		Namespace:             &o.Namespace,
-		NegateObject:          &o.NegateObject,
-		NegateSubject:         &o.NegateSubject,
-		NormalizedTags:        &o.NormalizedTags,
-		Object:                &o.Object,
-		ObservationEnabled:    &o.ObservationEnabled,
-		ObservedTrafficAction: &o.ObservedTrafficAction,
-		Propagate:             &o.Propagate,
-		PropagationHidden:     &o.PropagationHidden,
-		Protected:             &o.Protected,
-		Subject:               &o.Subject,
-		UpdateTime:            &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseNetworkAccessPolicy{
+			ID:                    &o.ID,
+			Action:                &o.Action,
+			ActiveDuration:        &o.ActiveDuration,
+			ActiveSchedule:        &o.ActiveSchedule,
+			Annotations:           &o.Annotations,
+			ApplyPolicyMode:       &o.ApplyPolicyMode,
+			AssociatedTags:        &o.AssociatedTags,
+			CreateTime:            &o.CreateTime,
+			Description:           &o.Description,
+			DestinationPorts:      &o.DestinationPorts,
+			Disabled:              &o.Disabled,
+			EncryptionEnabled:     &o.EncryptionEnabled,
+			Fallback:              &o.Fallback,
+			LogsEnabled:           &o.LogsEnabled,
+			Metadata:              &o.Metadata,
+			Name:                  &o.Name,
+			Namespace:             &o.Namespace,
+			NegateObject:          &o.NegateObject,
+			NegateSubject:         &o.NegateSubject,
+			NormalizedTags:        &o.NormalizedTags,
+			Object:                &o.Object,
+			ObservationEnabled:    &o.ObservationEnabled,
+			ObservedTrafficAction: &o.ObservedTrafficAction,
+			Propagate:             &o.Propagate,
+			PropagationHidden:     &o.PropagationHidden,
+			Protected:             &o.Protected,
+			Subject:               &o.Subject,
+			UpdateTime:            &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseNetworkAccessPolicy{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "action":
+			sp.Action = &(o.Action)
+		case "activeDuration":
+			sp.ActiveDuration = &(o.ActiveDuration)
+		case "activeSchedule":
+			sp.ActiveSchedule = &(o.ActiveSchedule)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "applyPolicyMode":
+			sp.ApplyPolicyMode = &(o.ApplyPolicyMode)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "destinationPorts":
+			sp.DestinationPorts = &(o.DestinationPorts)
+		case "disabled":
+			sp.Disabled = &(o.Disabled)
+		case "encryptionEnabled":
+			sp.EncryptionEnabled = &(o.EncryptionEnabled)
+		case "fallback":
+			sp.Fallback = &(o.Fallback)
+		case "logsEnabled":
+			sp.LogsEnabled = &(o.LogsEnabled)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "negateObject":
+			sp.NegateObject = &(o.NegateObject)
+		case "negateSubject":
+			sp.NegateSubject = &(o.NegateSubject)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "object":
+			sp.Object = &(o.Object)
+		case "observationEnabled":
+			sp.ObservationEnabled = &(o.ObservationEnabled)
+		case "observedTrafficAction":
+			sp.ObservedTrafficAction = &(o.ObservedTrafficAction)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
+		case "propagationHidden":
+			sp.PropagationHidden = &(o.PropagationHidden)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "subject":
+			sp.Subject = &(o.Subject)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseNetworkAccessPolicy to the object.
@@ -1372,9 +1449,9 @@ func (o SparseNetworkAccessPoliciesList) Append(objects ...elemental.Identifiabl
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseNetworkAccessPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -1386,6 +1463,17 @@ func (o SparseNetworkAccessPoliciesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparseNetworkAccessPoliciesList converted to NetworkAccessPoliciesList.
+func (o SparseNetworkAccessPoliciesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -1508,6 +1596,9 @@ func (o *SparseNetworkAccessPolicy) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseNetworkAccessPolicy) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

@@ -71,9 +71,9 @@ func (o APIChecksList) Append(objects ...elemental.Identifiable) elemental.Ident
 // List converts the object to an elemental.IdentifiablesList.
 func (o APIChecksList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -83,6 +83,17 @@ func (o APIChecksList) List() elemental.IdentifiablesList {
 func (o APIChecksList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the APIChecksList converted to SparseAPIChecksList.
+func (o APIChecksList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -169,16 +180,38 @@ func (o *APICheck) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *APICheck) ToSparse() elemental.SparseIdentifiable {
+func (o *APICheck) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseAPICheck{
-		Authorized:       &o.Authorized,
-		Claims:           &o.Claims,
-		Namespace:        &o.Namespace,
-		Operation:        &o.Operation,
-		TargetIdentities: &o.TargetIdentities,
-		Token:            &o.Token,
+	if len(fields) == 0 {
+		return &SparseAPICheck{
+			Authorized:       &o.Authorized,
+			Claims:           &o.Claims,
+			Namespace:        &o.Namespace,
+			Operation:        &o.Operation,
+			TargetIdentities: &o.TargetIdentities,
+			Token:            &o.Token,
+		}
 	}
+
+	sp := &SparseAPICheck{}
+	for _, f := range fields {
+		switch f {
+		case "authorized":
+			sp.Authorized = &(o.Authorized)
+		case "claims":
+			sp.Claims = &(o.Claims)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "operation":
+			sp.Operation = &(o.Operation)
+		case "targetIdentities":
+			sp.TargetIdentities = &(o.TargetIdentities)
+		case "token":
+			sp.Token = &(o.Token)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseAPICheck to the object.
@@ -418,9 +451,9 @@ func (o SparseAPIChecksList) Append(objects ...elemental.Identifiable) elemental
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseAPIChecksList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -430,6 +463,17 @@ func (o SparseAPIChecksList) List() elemental.IdentifiablesList {
 func (o SparseAPIChecksList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseAPIChecksList converted to APIChecksList.
+func (o SparseAPIChecksList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

@@ -80,9 +80,9 @@ func (o PolicyRenderersList) Append(objects ...elemental.Identifiable) elemental
 // List converts the object to an elemental.IdentifiablesList.
 func (o PolicyRenderersList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -92,6 +92,17 @@ func (o PolicyRenderersList) List() elemental.IdentifiablesList {
 func (o PolicyRenderersList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the PolicyRenderersList converted to SparsePolicyRenderersList.
+func (o PolicyRenderersList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -165,13 +176,29 @@ func (o *PolicyRenderer) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *PolicyRenderer) ToSparse() elemental.SparseIdentifiable {
+func (o *PolicyRenderer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparsePolicyRenderer{
-		Policies: &o.Policies,
-		Tags:     &o.Tags,
-		Type:     &o.Type,
+	if len(fields) == 0 {
+		return &SparsePolicyRenderer{
+			Policies: &o.Policies,
+			Tags:     &o.Tags,
+			Type:     &o.Type,
+		}
 	}
+
+	sp := &SparsePolicyRenderer{}
+	for _, f := range fields {
+		switch f {
+		case "policies":
+			sp.Policies = &(o.Policies)
+		case "tags":
+			sp.Tags = &(o.Tags)
+		case "type":
+			sp.Type = &(o.Type)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparsePolicyRenderer to the object.
@@ -328,9 +355,9 @@ func (o SparsePolicyRenderersList) Append(objects ...elemental.Identifiable) ele
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparsePolicyRenderersList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -340,6 +367,17 @@ func (o SparsePolicyRenderersList) List() elemental.IdentifiablesList {
 func (o SparsePolicyRenderersList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparsePolicyRenderersList converted to PolicyRenderersList.
+func (o SparsePolicyRenderersList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

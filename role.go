@@ -45,9 +45,9 @@ func (o RolesList) Append(objects ...elemental.Identifiable) elemental.Identifia
 // List converts the object to an elemental.IdentifiablesList.
 func (o RolesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o RolesList) List() elemental.IdentifiablesList {
 func (o RolesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the RolesList converted to SparseRolesList.
+func (o RolesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -134,14 +145,32 @@ func (o *Role) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Role) ToSparse() elemental.SparseIdentifiable {
+func (o *Role) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseRole{
-		Authorizations: &o.Authorizations,
-		Description:    &o.Description,
-		Key:            &o.Key,
-		Name:           &o.Name,
+	if len(fields) == 0 {
+		return &SparseRole{
+			Authorizations: &o.Authorizations,
+			Description:    &o.Description,
+			Key:            &o.Key,
+			Name:           &o.Name,
+		}
 	}
+
+	sp := &SparseRole{}
+	for _, f := range fields {
+		switch f {
+		case "authorizations":
+			sp.Authorizations = &(o.Authorizations)
+		case "description":
+			sp.Description = &(o.Description)
+		case "key":
+			sp.Key = &(o.Key)
+		case "name":
+			sp.Name = &(o.Name)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseRole to the object.
@@ -319,9 +348,9 @@ func (o SparseRolesList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseRolesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -331,6 +360,17 @@ func (o SparseRolesList) List() elemental.IdentifiablesList {
 func (o SparseRolesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseRolesList converted to RolesList.
+func (o SparseRolesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

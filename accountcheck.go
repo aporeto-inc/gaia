@@ -45,9 +45,9 @@ func (o AccountChecksList) Append(objects ...elemental.Identifiable) elemental.I
 // List converts the object to an elemental.IdentifiablesList.
 func (o AccountChecksList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o AccountChecksList) List() elemental.IdentifiablesList {
 func (o AccountChecksList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the AccountChecksList converted to SparseAccountChecksList.
+func (o AccountChecksList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -120,9 +131,19 @@ func (o *AccountCheck) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *AccountCheck) ToSparse() elemental.SparseIdentifiable {
+func (o *AccountCheck) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseAccountCheck{}
+	if len(fields) == 0 {
+		return &SparseAccountCheck{}
+	}
+
+	sp := &SparseAccountCheck{}
+	for _, f := range fields {
+		switch f {
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseAccountCheck to the object.
@@ -199,9 +220,9 @@ func (o SparseAccountChecksList) Append(objects ...elemental.Identifiable) eleme
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseAccountChecksList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -211,6 +232,17 @@ func (o SparseAccountChecksList) List() elemental.IdentifiablesList {
 func (o SparseAccountChecksList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseAccountChecksList converted to AccountChecksList.
+func (o SparseAccountChecksList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

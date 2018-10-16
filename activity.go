@@ -47,9 +47,9 @@ func (o ActivitiesList) Append(objects ...elemental.Identifiable) elemental.Iden
 // List converts the object to an elemental.IdentifiablesList.
 func (o ActivitiesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -59,6 +59,17 @@ func (o ActivitiesList) List() elemental.IdentifiablesList {
 func (o ActivitiesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the ActivitiesList converted to SparseActivitiesList.
+func (o ActivitiesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -160,21 +171,53 @@ func (o *Activity) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Activity) ToSparse() elemental.SparseIdentifiable {
+func (o *Activity) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseActivity{
-		ID:             &o.ID,
-		Claims:         &o.Claims,
-		Data:           &o.Data,
-		Date:           &o.Date,
-		Error:          &o.Error,
-		Message:        &o.Message,
-		Namespace:      &o.Namespace,
-		Operation:      &o.Operation,
-		OriginalData:   &o.OriginalData,
-		Source:         &o.Source,
-		TargetIdentity: &o.TargetIdentity,
+	if len(fields) == 0 {
+		return &SparseActivity{
+			ID:             &o.ID,
+			Claims:         &o.Claims,
+			Data:           &o.Data,
+			Date:           &o.Date,
+			Error:          &o.Error,
+			Message:        &o.Message,
+			Namespace:      &o.Namespace,
+			Operation:      &o.Operation,
+			OriginalData:   &o.OriginalData,
+			Source:         &o.Source,
+			TargetIdentity: &o.TargetIdentity,
+		}
 	}
+
+	sp := &SparseActivity{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "claims":
+			sp.Claims = &(o.Claims)
+		case "data":
+			sp.Data = &(o.Data)
+		case "date":
+			sp.Date = &(o.Date)
+		case "error":
+			sp.Error = &(o.Error)
+		case "message":
+			sp.Message = &(o.Message)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "operation":
+			sp.Operation = &(o.Operation)
+		case "originalData":
+			sp.OriginalData = &(o.OriginalData)
+		case "source":
+			sp.Source = &(o.Source)
+		case "targetIdentity":
+			sp.TargetIdentity = &(o.TargetIdentity)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseActivity to the object.
@@ -573,9 +616,9 @@ func (o SparseActivitiesList) Append(objects ...elemental.Identifiable) elementa
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseActivitiesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -585,6 +628,17 @@ func (o SparseActivitiesList) List() elemental.IdentifiablesList {
 func (o SparseActivitiesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseActivitiesList converted to ActivitiesList.
+func (o SparseActivitiesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -648,6 +702,9 @@ func (o *SparseActivity) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseActivity) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

@@ -45,9 +45,9 @@ func (o TagsList) Append(objects ...elemental.Identifiable) elemental.Identifiab
 // List converts the object to an elemental.IdentifiablesList.
 func (o TagsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o TagsList) List() elemental.IdentifiablesList {
 func (o TagsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the TagsList converted to SparseTagsList.
+func (o TagsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -138,14 +149,32 @@ func (o *Tag) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Tag) ToSparse() elemental.SparseIdentifiable {
+func (o *Tag) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseTag{
-		ID:        &o.ID,
-		Count:     &o.Count,
-		Namespace: &o.Namespace,
-		Value:     &o.Value,
+	if len(fields) == 0 {
+		return &SparseTag{
+			ID:        &o.ID,
+			Count:     &o.Count,
+			Namespace: &o.Namespace,
+			Value:     &o.Value,
+		}
 	}
+
+	sp := &SparseTag{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "count":
+			sp.Count = &(o.Count)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "value":
+			sp.Value = &(o.Value)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseTag to the object.
@@ -349,9 +378,9 @@ func (o SparseTagsList) Append(objects ...elemental.Identifiable) elemental.Iden
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseTagsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -361,6 +390,17 @@ func (o SparseTagsList) List() elemental.IdentifiablesList {
 func (o SparseTagsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseTagsList converted to TagsList.
+func (o SparseTagsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -402,6 +442,9 @@ func (o *SparseTag) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseTag) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

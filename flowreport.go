@@ -117,9 +117,9 @@ func (o FlowReportsList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o FlowReportsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -129,6 +129,17 @@ func (o FlowReportsList) List() elemental.IdentifiablesList {
 func (o FlowReportsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the FlowReportsList converted to SparseFlowReportsList.
+func (o FlowReportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -283,39 +294,107 @@ func (o *FlowReport) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *FlowReport) ToSparse() elemental.SparseIdentifiable {
+func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseFlowReport{
-		Action:                  &o.Action,
-		DestinationID:           &o.DestinationID,
-		DestinationIP:           &o.DestinationIP,
-		DestinationNamespace:    &o.DestinationNamespace,
-		DestinationPort:         &o.DestinationPort,
-		DestinationType:         &o.DestinationType,
-		DropReason:              &o.DropReason,
-		Encrypted:               &o.Encrypted,
-		Namespace:               &o.Namespace,
-		Observed:                &o.Observed,
-		ObservedAction:          &o.ObservedAction,
-		ObservedDropReason:      &o.ObservedDropReason,
-		ObservedEncrypted:       &o.ObservedEncrypted,
-		ObservedPolicyID:        &o.ObservedPolicyID,
-		ObservedPolicyNamespace: &o.ObservedPolicyNamespace,
-		PolicyID:                &o.PolicyID,
-		PolicyNamespace:         &o.PolicyNamespace,
-		Protocol:                &o.Protocol,
-		ServiceClaimHash:        &o.ServiceClaimHash,
-		ServiceID:               &o.ServiceID,
-		ServiceNamespace:        &o.ServiceNamespace,
-		ServiceType:             &o.ServiceType,
-		ServiceURL:              &o.ServiceURL,
-		SourceID:                &o.SourceID,
-		SourceIP:                &o.SourceIP,
-		SourceNamespace:         &o.SourceNamespace,
-		SourceType:              &o.SourceType,
-		Timestamp:               &o.Timestamp,
-		Value:                   &o.Value,
+	if len(fields) == 0 {
+		return &SparseFlowReport{
+			Action:                  &o.Action,
+			DestinationID:           &o.DestinationID,
+			DestinationIP:           &o.DestinationIP,
+			DestinationNamespace:    &o.DestinationNamespace,
+			DestinationPort:         &o.DestinationPort,
+			DestinationType:         &o.DestinationType,
+			DropReason:              &o.DropReason,
+			Encrypted:               &o.Encrypted,
+			Namespace:               &o.Namespace,
+			Observed:                &o.Observed,
+			ObservedAction:          &o.ObservedAction,
+			ObservedDropReason:      &o.ObservedDropReason,
+			ObservedEncrypted:       &o.ObservedEncrypted,
+			ObservedPolicyID:        &o.ObservedPolicyID,
+			ObservedPolicyNamespace: &o.ObservedPolicyNamespace,
+			PolicyID:                &o.PolicyID,
+			PolicyNamespace:         &o.PolicyNamespace,
+			Protocol:                &o.Protocol,
+			ServiceClaimHash:        &o.ServiceClaimHash,
+			ServiceID:               &o.ServiceID,
+			ServiceNamespace:        &o.ServiceNamespace,
+			ServiceType:             &o.ServiceType,
+			ServiceURL:              &o.ServiceURL,
+			SourceID:                &o.SourceID,
+			SourceIP:                &o.SourceIP,
+			SourceNamespace:         &o.SourceNamespace,
+			SourceType:              &o.SourceType,
+			Timestamp:               &o.Timestamp,
+			Value:                   &o.Value,
+		}
 	}
+
+	sp := &SparseFlowReport{}
+	for _, f := range fields {
+		switch f {
+		case "action":
+			sp.Action = &(o.Action)
+		case "destinationID":
+			sp.DestinationID = &(o.DestinationID)
+		case "destinationIP":
+			sp.DestinationIP = &(o.DestinationIP)
+		case "destinationNamespace":
+			sp.DestinationNamespace = &(o.DestinationNamespace)
+		case "destinationPort":
+			sp.DestinationPort = &(o.DestinationPort)
+		case "destinationType":
+			sp.DestinationType = &(o.DestinationType)
+		case "dropReason":
+			sp.DropReason = &(o.DropReason)
+		case "encrypted":
+			sp.Encrypted = &(o.Encrypted)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "observed":
+			sp.Observed = &(o.Observed)
+		case "observedAction":
+			sp.ObservedAction = &(o.ObservedAction)
+		case "observedDropReason":
+			sp.ObservedDropReason = &(o.ObservedDropReason)
+		case "observedEncrypted":
+			sp.ObservedEncrypted = &(o.ObservedEncrypted)
+		case "observedPolicyID":
+			sp.ObservedPolicyID = &(o.ObservedPolicyID)
+		case "observedPolicyNamespace":
+			sp.ObservedPolicyNamespace = &(o.ObservedPolicyNamespace)
+		case "policyID":
+			sp.PolicyID = &(o.PolicyID)
+		case "policyNamespace":
+			sp.PolicyNamespace = &(o.PolicyNamespace)
+		case "protocol":
+			sp.Protocol = &(o.Protocol)
+		case "serviceClaimHash":
+			sp.ServiceClaimHash = &(o.ServiceClaimHash)
+		case "serviceID":
+			sp.ServiceID = &(o.ServiceID)
+		case "serviceNamespace":
+			sp.ServiceNamespace = &(o.ServiceNamespace)
+		case "serviceType":
+			sp.ServiceType = &(o.ServiceType)
+		case "serviceURL":
+			sp.ServiceURL = &(o.ServiceURL)
+		case "sourceID":
+			sp.SourceID = &(o.SourceID)
+		case "sourceIP":
+			sp.SourceIP = &(o.SourceIP)
+		case "sourceNamespace":
+			sp.SourceNamespace = &(o.SourceNamespace)
+		case "sourceType":
+			sp.SourceType = &(o.SourceType)
+		case "timestamp":
+			sp.Timestamp = &(o.Timestamp)
+		case "value":
+			sp.Value = &(o.Value)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseFlowReport to the object.
@@ -1028,9 +1107,9 @@ func (o SparseFlowReportsList) Append(objects ...elemental.Identifiable) element
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseFlowReportsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -1040,6 +1119,17 @@ func (o SparseFlowReportsList) List() elemental.IdentifiablesList {
 func (o SparseFlowReportsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseFlowReportsList converted to FlowReportsList.
+func (o SparseFlowReportsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

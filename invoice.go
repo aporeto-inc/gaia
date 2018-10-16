@@ -58,9 +58,9 @@ func (o InvoicesList) Append(objects ...elemental.Identifiable) elemental.Identi
 // List converts the object to an elemental.IdentifiablesList.
 func (o InvoicesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -70,6 +70,17 @@ func (o InvoicesList) List() elemental.IdentifiablesList {
 func (o InvoicesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the InvoicesList converted to SparseInvoicesList.
+func (o InvoicesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -155,17 +166,41 @@ func (o *Invoice) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Invoice) ToSparse() elemental.SparseIdentifiable {
+func (o *Invoice) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseInvoice{
-		ID:               &o.ID,
-		AccountID:        &o.AccountID,
-		BilledToProvider: &o.BilledToProvider,
-		CreateTime:       &o.CreateTime,
-		EndDate:          &o.EndDate,
-		StartDate:        &o.StartDate,
-		UpdateTime:       &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseInvoice{
+			ID:               &o.ID,
+			AccountID:        &o.AccountID,
+			BilledToProvider: &o.BilledToProvider,
+			CreateTime:       &o.CreateTime,
+			EndDate:          &o.EndDate,
+			StartDate:        &o.StartDate,
+			UpdateTime:       &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseInvoice{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "accountID":
+			sp.AccountID = &(o.AccountID)
+		case "billedToProvider":
+			sp.BilledToProvider = &(o.BilledToProvider)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "endDate":
+			sp.EndDate = &(o.EndDate)
+		case "startDate":
+			sp.StartDate = &(o.StartDate)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseInvoice to the object.
@@ -422,9 +457,9 @@ func (o SparseInvoicesList) Append(objects ...elemental.Identifiable) elemental.
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseInvoicesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -434,6 +469,17 @@ func (o SparseInvoicesList) List() elemental.IdentifiablesList {
 func (o SparseInvoicesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseInvoicesList converted to InvoicesList.
+func (o SparseInvoicesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

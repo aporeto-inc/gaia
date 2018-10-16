@@ -75,9 +75,9 @@ func (o AccountsList) Append(objects ...elemental.Identifiable) elemental.Identi
 // List converts the object to an elemental.IdentifiablesList.
 func (o AccountsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -87,6 +87,17 @@ func (o AccountsList) List() elemental.IdentifiablesList {
 func (o AccountsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the AccountsList converted to SparseAccountsList.
+func (o AccountsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -277,46 +288,128 @@ func (o *Account) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Account) ToSparse() elemental.SparseIdentifiable {
+func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseAccount{
-		ID:                        &o.ID,
-		LDAPAddress:               &o.LDAPAddress,
-		LDAPBaseDN:                &o.LDAPBaseDN,
-		LDAPBindDN:                &o.LDAPBindDN,
-		LDAPBindPassword:          &o.LDAPBindPassword,
-		LDAPBindSearchFilter:      &o.LDAPBindSearchFilter,
-		LDAPCertificateAuthority:  &o.LDAPCertificateAuthority,
-		LDAPConnSecurityProtocol:  &o.LDAPConnSecurityProtocol,
-		LDAPEnabled:               &o.LDAPEnabled,
-		LDAPIgnoredKeys:           &o.LDAPIgnoredKeys,
-		LDAPSubjectKey:            &o.LDAPSubjectKey,
-		OTPEnabled:                &o.OTPEnabled,
-		OTPQRCode:                 &o.OTPQRCode,
-		OTPSecret:                 &o.OTPSecret,
-		AccessEnabled:             &o.AccessEnabled,
-		ActivationExpiration:      &o.ActivationExpiration,
-		ActivationToken:           &o.ActivationToken,
-		AssociatedAPIAuthPolicyID: &o.AssociatedAPIAuthPolicyID,
-		AssociatedAWSPolicies:     &o.AssociatedAWSPolicies,
-		AssociatedBillingID:       &o.AssociatedBillingID,
-		AssociatedGCPPolicies:     &o.AssociatedGCPPolicies,
-		AssociatedNamespaceID:     &o.AssociatedNamespaceID,
-		AssociatedPlanKey:         &o.AssociatedPlanKey,
-		AssociatedQuotaPolicies:   &o.AssociatedQuotaPolicies,
-		Company:                   &o.Company,
-		CreateTime:                &o.CreateTime,
-		Email:                     &o.Email,
-		FirstName:                 &o.FirstName,
-		LastName:                  &o.LastName,
-		Name:                      &o.Name,
-		Password:                  &o.Password,
-		ReCAPTCHAKey:              &o.ReCAPTCHAKey,
-		ResetPasswordExpiration:   &o.ResetPasswordExpiration,
-		ResetPasswordToken:        &o.ResetPasswordToken,
-		Status:                    &o.Status,
-		UpdateTime:                &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseAccount{
+			ID:                        &o.ID,
+			LDAPAddress:               &o.LDAPAddress,
+			LDAPBaseDN:                &o.LDAPBaseDN,
+			LDAPBindDN:                &o.LDAPBindDN,
+			LDAPBindPassword:          &o.LDAPBindPassword,
+			LDAPBindSearchFilter:      &o.LDAPBindSearchFilter,
+			LDAPCertificateAuthority:  &o.LDAPCertificateAuthority,
+			LDAPConnSecurityProtocol:  &o.LDAPConnSecurityProtocol,
+			LDAPEnabled:               &o.LDAPEnabled,
+			LDAPIgnoredKeys:           &o.LDAPIgnoredKeys,
+			LDAPSubjectKey:            &o.LDAPSubjectKey,
+			OTPEnabled:                &o.OTPEnabled,
+			OTPQRCode:                 &o.OTPQRCode,
+			OTPSecret:                 &o.OTPSecret,
+			AccessEnabled:             &o.AccessEnabled,
+			ActivationExpiration:      &o.ActivationExpiration,
+			ActivationToken:           &o.ActivationToken,
+			AssociatedAPIAuthPolicyID: &o.AssociatedAPIAuthPolicyID,
+			AssociatedAWSPolicies:     &o.AssociatedAWSPolicies,
+			AssociatedBillingID:       &o.AssociatedBillingID,
+			AssociatedGCPPolicies:     &o.AssociatedGCPPolicies,
+			AssociatedNamespaceID:     &o.AssociatedNamespaceID,
+			AssociatedPlanKey:         &o.AssociatedPlanKey,
+			AssociatedQuotaPolicies:   &o.AssociatedQuotaPolicies,
+			Company:                   &o.Company,
+			CreateTime:                &o.CreateTime,
+			Email:                     &o.Email,
+			FirstName:                 &o.FirstName,
+			LastName:                  &o.LastName,
+			Name:                      &o.Name,
+			Password:                  &o.Password,
+			ReCAPTCHAKey:              &o.ReCAPTCHAKey,
+			ResetPasswordExpiration:   &o.ResetPasswordExpiration,
+			ResetPasswordToken:        &o.ResetPasswordToken,
+			Status:                    &o.Status,
+			UpdateTime:                &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseAccount{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "LDAPAddress":
+			sp.LDAPAddress = &(o.LDAPAddress)
+		case "LDAPBaseDN":
+			sp.LDAPBaseDN = &(o.LDAPBaseDN)
+		case "LDAPBindDN":
+			sp.LDAPBindDN = &(o.LDAPBindDN)
+		case "LDAPBindPassword":
+			sp.LDAPBindPassword = &(o.LDAPBindPassword)
+		case "LDAPBindSearchFilter":
+			sp.LDAPBindSearchFilter = &(o.LDAPBindSearchFilter)
+		case "LDAPCertificateAuthority":
+			sp.LDAPCertificateAuthority = &(o.LDAPCertificateAuthority)
+		case "LDAPConnSecurityProtocol":
+			sp.LDAPConnSecurityProtocol = &(o.LDAPConnSecurityProtocol)
+		case "LDAPEnabled":
+			sp.LDAPEnabled = &(o.LDAPEnabled)
+		case "LDAPIgnoredKeys":
+			sp.LDAPIgnoredKeys = &(o.LDAPIgnoredKeys)
+		case "LDAPSubjectKey":
+			sp.LDAPSubjectKey = &(o.LDAPSubjectKey)
+		case "OTPEnabled":
+			sp.OTPEnabled = &(o.OTPEnabled)
+		case "OTPQRCode":
+			sp.OTPQRCode = &(o.OTPQRCode)
+		case "OTPSecret":
+			sp.OTPSecret = &(o.OTPSecret)
+		case "accessEnabled":
+			sp.AccessEnabled = &(o.AccessEnabled)
+		case "activationExpiration":
+			sp.ActivationExpiration = &(o.ActivationExpiration)
+		case "activationToken":
+			sp.ActivationToken = &(o.ActivationToken)
+		case "associatedAPIAuthPolicyID":
+			sp.AssociatedAPIAuthPolicyID = &(o.AssociatedAPIAuthPolicyID)
+		case "associatedAWSPolicies":
+			sp.AssociatedAWSPolicies = &(o.AssociatedAWSPolicies)
+		case "associatedBillingID":
+			sp.AssociatedBillingID = &(o.AssociatedBillingID)
+		case "associatedGCPPolicies":
+			sp.AssociatedGCPPolicies = &(o.AssociatedGCPPolicies)
+		case "associatedNamespaceID":
+			sp.AssociatedNamespaceID = &(o.AssociatedNamespaceID)
+		case "associatedPlanKey":
+			sp.AssociatedPlanKey = &(o.AssociatedPlanKey)
+		case "associatedQuotaPolicies":
+			sp.AssociatedQuotaPolicies = &(o.AssociatedQuotaPolicies)
+		case "company":
+			sp.Company = &(o.Company)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "email":
+			sp.Email = &(o.Email)
+		case "firstName":
+			sp.FirstName = &(o.FirstName)
+		case "lastName":
+			sp.LastName = &(o.LastName)
+		case "name":
+			sp.Name = &(o.Name)
+		case "password":
+			sp.Password = &(o.Password)
+		case "reCAPTCHAKey":
+			sp.ReCAPTCHAKey = &(o.ReCAPTCHAKey)
+		case "resetPasswordExpiration":
+			sp.ResetPasswordExpiration = &(o.ResetPasswordExpiration)
+		case "resetPasswordToken":
+			sp.ResetPasswordToken = &(o.ResetPasswordToken)
+		case "status":
+			sp.Status = &(o.Status)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseAccount to the object.
@@ -1302,9 +1395,9 @@ func (o SparseAccountsList) Append(objects ...elemental.Identifiable) elemental.
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseAccountsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -1314,6 +1407,17 @@ func (o SparseAccountsList) List() elemental.IdentifiablesList {
 func (o SparseAccountsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseAccountsList converted to AccountsList.
+func (o SparseAccountsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -1459,6 +1563,9 @@ func (o *SparseAccount) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseAccount) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

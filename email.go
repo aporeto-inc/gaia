@@ -56,9 +56,9 @@ func (o EmailsList) Append(objects ...elemental.Identifiable) elemental.Identifi
 // List converts the object to an elemental.IdentifiablesList.
 func (o EmailsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -68,6 +68,17 @@ func (o EmailsList) List() elemental.IdentifiablesList {
 func (o EmailsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the EmailsList converted to SparseEmailsList.
+func (o EmailsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -156,18 +167,44 @@ func (o *Email) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Email) ToSparse() elemental.SparseIdentifiable {
+func (o *Email) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseEmail{
-		Attachments: &o.Attachments,
-		Bcc:         &o.Bcc,
-		Cc:          &o.Cc,
-		Content:     &o.Content,
-		From:        &o.From,
-		Subject:     &o.Subject,
-		To:          &o.To,
-		Type:        &o.Type,
+	if len(fields) == 0 {
+		return &SparseEmail{
+			Attachments: &o.Attachments,
+			Bcc:         &o.Bcc,
+			Cc:          &o.Cc,
+			Content:     &o.Content,
+			From:        &o.From,
+			Subject:     &o.Subject,
+			To:          &o.To,
+			Type:        &o.Type,
+		}
 	}
+
+	sp := &SparseEmail{}
+	for _, f := range fields {
+		switch f {
+		case "attachments":
+			sp.Attachments = &(o.Attachments)
+		case "bcc":
+			sp.Bcc = &(o.Bcc)
+		case "cc":
+			sp.Cc = &(o.Cc)
+		case "content":
+			sp.Content = &(o.Content)
+		case "from":
+			sp.From = &(o.From)
+		case "subject":
+			sp.Subject = &(o.Subject)
+		case "to":
+			sp.To = &(o.To)
+		case "type":
+			sp.Type = &(o.Type)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseEmail to the object.
@@ -423,9 +460,9 @@ func (o SparseEmailsList) Append(objects ...elemental.Identifiable) elemental.Id
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseEmailsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -435,6 +472,17 @@ func (o SparseEmailsList) List() elemental.IdentifiablesList {
 func (o SparseEmailsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseEmailsList converted to EmailsList.
+func (o SparseEmailsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

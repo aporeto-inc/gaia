@@ -58,9 +58,9 @@ func (o RemoteProcessorsList) Append(objects ...elemental.Identifiable) elementa
 // List converts the object to an elemental.IdentifiablesList.
 func (o RemoteProcessorsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -70,6 +70,17 @@ func (o RemoteProcessorsList) List() elemental.IdentifiablesList {
 func (o RemoteProcessorsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the RemoteProcessorsList converted to SparseRemoteProcessorsList.
+func (o RemoteProcessorsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -157,18 +168,44 @@ func (o *RemoteProcessor) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *RemoteProcessor) ToSparse() elemental.SparseIdentifiable {
+func (o *RemoteProcessor) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseRemoteProcessor{
-		Claims:         &o.Claims,
-		Input:          &o.Input,
-		Mode:           &o.Mode,
-		Namespace:      &o.Namespace,
-		Operation:      &o.Operation,
-		Output:         &o.Output,
-		RequestID:      &o.RequestID,
-		TargetIdentity: &o.TargetIdentity,
+	if len(fields) == 0 {
+		return &SparseRemoteProcessor{
+			Claims:         &o.Claims,
+			Input:          &o.Input,
+			Mode:           &o.Mode,
+			Namespace:      &o.Namespace,
+			Operation:      &o.Operation,
+			Output:         &o.Output,
+			RequestID:      &o.RequestID,
+			TargetIdentity: &o.TargetIdentity,
+		}
 	}
+
+	sp := &SparseRemoteProcessor{}
+	for _, f := range fields {
+		switch f {
+		case "claims":
+			sp.Claims = &(o.Claims)
+		case "input":
+			sp.Input = &(o.Input)
+		case "mode":
+			sp.Mode = &(o.Mode)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "operation":
+			sp.Operation = &(o.Operation)
+		case "output":
+			sp.Output = &(o.Output)
+		case "requestID":
+			sp.RequestID = &(o.RequestID)
+		case "targetIdentity":
+			sp.TargetIdentity = &(o.TargetIdentity)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseRemoteProcessor to the object.
@@ -450,9 +487,9 @@ func (o SparseRemoteProcessorsList) Append(objects ...elemental.Identifiable) el
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseRemoteProcessorsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -462,6 +499,17 @@ func (o SparseRemoteProcessorsList) List() elemental.IdentifiablesList {
 func (o SparseRemoteProcessorsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseRemoteProcessorsList converted to RemoteProcessorsList.
+func (o SparseRemoteProcessorsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

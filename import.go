@@ -59,9 +59,9 @@ func (o ImportsList) Append(objects ...elemental.Identifiable) elemental.Identif
 // List converts the object to an elemental.IdentifiablesList.
 func (o ImportsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -71,6 +71,17 @@ func (o ImportsList) List() elemental.IdentifiablesList {
 func (o ImportsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the ImportsList converted to SparseImportsList.
+func (o ImportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -141,12 +152,26 @@ func (o *Import) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Import) ToSparse() elemental.SparseIdentifiable {
+func (o *Import) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseImport{
-		Data: &o.Data,
-		Mode: &o.Mode,
+	if len(fields) == 0 {
+		return &SparseImport{
+			Data: &o.Data,
+			Mode: &o.Mode,
+		}
 	}
+
+	sp := &SparseImport{}
+	for _, f := range fields {
+		switch f {
+		case "data":
+			sp.Data = &(o.Data)
+		case "mode":
+			sp.Mode = &(o.Mode)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseImport to the object.
@@ -280,9 +305,9 @@ func (o SparseImportsList) Append(objects ...elemental.Identifiable) elemental.I
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseImportsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -292,6 +317,17 @@ func (o SparseImportsList) List() elemental.IdentifiablesList {
 func (o SparseImportsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseImportsList converted to ImportsList.
+func (o SparseImportsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

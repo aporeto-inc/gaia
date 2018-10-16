@@ -48,9 +48,9 @@ func (o IsolationProfilesList) Append(objects ...elemental.Identifiable) element
 // List converts the object to an elemental.IdentifiablesList.
 func (o IsolationProfilesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -62,6 +62,17 @@ func (o IsolationProfilesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the IsolationProfilesList converted to SparseIsolationProfilesList.
+func (o IsolationProfilesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -287,25 +298,65 @@ func (o *IsolationProfile) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *IsolationProfile) ToSparse() elemental.SparseIdentifiable {
+func (o *IsolationProfile) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseIsolationProfile{
-		ID:                   &o.ID,
-		Annotations:          &o.Annotations,
-		AssociatedTags:       &o.AssociatedTags,
-		CapabilitiesActions:  &o.CapabilitiesActions,
-		CreateTime:           &o.CreateTime,
-		DefaultSyscallAction: &o.DefaultSyscallAction,
-		Description:          &o.Description,
-		Metadata:             &o.Metadata,
-		Name:                 &o.Name,
-		Namespace:            &o.Namespace,
-		NormalizedTags:       &o.NormalizedTags,
-		Protected:            &o.Protected,
-		SyscallRules:         &o.SyscallRules,
-		TargetArchitectures:  &o.TargetArchitectures,
-		UpdateTime:           &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseIsolationProfile{
+			ID:                   &o.ID,
+			Annotations:          &o.Annotations,
+			AssociatedTags:       &o.AssociatedTags,
+			CapabilitiesActions:  &o.CapabilitiesActions,
+			CreateTime:           &o.CreateTime,
+			DefaultSyscallAction: &o.DefaultSyscallAction,
+			Description:          &o.Description,
+			Metadata:             &o.Metadata,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NormalizedTags:       &o.NormalizedTags,
+			Protected:            &o.Protected,
+			SyscallRules:         &o.SyscallRules,
+			TargetArchitectures:  &o.TargetArchitectures,
+			UpdateTime:           &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseIsolationProfile{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "capabilitiesActions":
+			sp.CapabilitiesActions = &(o.CapabilitiesActions)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "defaultSyscallAction":
+			sp.DefaultSyscallAction = &(o.DefaultSyscallAction)
+		case "description":
+			sp.Description = &(o.Description)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "syscallRules":
+			sp.SyscallRules = &(o.SyscallRules)
+		case "targetArchitectures":
+			sp.TargetArchitectures = &(o.TargetArchitectures)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseIsolationProfile to the object.
@@ -844,9 +895,9 @@ func (o SparseIsolationProfilesList) Append(objects ...elemental.Identifiable) e
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseIsolationProfilesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -858,6 +909,17 @@ func (o SparseIsolationProfilesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparseIsolationProfilesList converted to IsolationProfilesList.
+func (o SparseIsolationProfilesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -937,6 +999,9 @@ func (o *SparseIsolationProfile) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseIsolationProfile) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

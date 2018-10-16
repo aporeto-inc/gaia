@@ -73,9 +73,9 @@ func (o ReportsList) Append(objects ...elemental.Identifiable) elemental.Identif
 // List converts the object to an elemental.IdentifiablesList.
 func (o ReportsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -85,6 +85,17 @@ func (o ReportsList) List() elemental.IdentifiablesList {
 func (o ReportsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the ReportsList converted to SparseReportsList.
+func (o ReportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -165,15 +176,35 @@ func (o *Report) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Report) ToSparse() elemental.SparseIdentifiable {
+func (o *Report) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseReport{
-		Fields:    &o.Fields,
-		Kind:      &o.Kind,
-		Tags:      &o.Tags,
-		Timestamp: &o.Timestamp,
-		Value:     &o.Value,
+	if len(fields) == 0 {
+		return &SparseReport{
+			Fields:    &o.Fields,
+			Kind:      &o.Kind,
+			Tags:      &o.Tags,
+			Timestamp: &o.Timestamp,
+			Value:     &o.Value,
+		}
 	}
+
+	sp := &SparseReport{}
+	for _, f := range fields {
+		switch f {
+		case "fields":
+			sp.Fields = &(o.Fields)
+		case "kind":
+			sp.Kind = &(o.Kind)
+		case "tags":
+			sp.Tags = &(o.Tags)
+		case "timestamp":
+			sp.Timestamp = &(o.Timestamp)
+		case "value":
+			sp.Value = &(o.Value)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseReport to the object.
@@ -360,9 +391,9 @@ func (o SparseReportsList) Append(objects ...elemental.Identifiable) elemental.I
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseReportsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -372,6 +403,17 @@ func (o SparseReportsList) List() elemental.IdentifiablesList {
 func (o SparseReportsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseReportsList converted to ReportsList.
+func (o SparseReportsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

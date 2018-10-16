@@ -47,9 +47,9 @@ func (o OIDCProvidersList) Append(objects ...elemental.Identifiable) elemental.I
 // List converts the object to an elemental.IdentifiablesList.
 func (o OIDCProvidersList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -59,6 +59,17 @@ func (o OIDCProvidersList) List() elemental.IdentifiablesList {
 func (o OIDCProvidersList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the OIDCProvidersList converted to SparseOIDCProvidersList.
+func (o OIDCProvidersList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -154,20 +165,50 @@ func (o *OIDCProvider) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *OIDCProvider) ToSparse() elemental.SparseIdentifiable {
+func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseOIDCProvider{
-		ID:           &o.ID,
-		ClientID:     &o.ClientID,
-		ClientSecret: &o.ClientSecret,
-		CreateTime:   &o.CreateTime,
-		Endpoint:     &o.Endpoint,
-		Name:         &o.Name,
-		ParentID:     &o.ParentID,
-		ParentName:   &o.ParentName,
-		Scopes:       &o.Scopes,
-		UpdateTime:   &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseOIDCProvider{
+			ID:           &o.ID,
+			ClientID:     &o.ClientID,
+			ClientSecret: &o.ClientSecret,
+			CreateTime:   &o.CreateTime,
+			Endpoint:     &o.Endpoint,
+			Name:         &o.Name,
+			ParentID:     &o.ParentID,
+			ParentName:   &o.ParentName,
+			Scopes:       &o.Scopes,
+			UpdateTime:   &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseOIDCProvider{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "clientID":
+			sp.ClientID = &(o.ClientID)
+		case "clientSecret":
+			sp.ClientSecret = &(o.ClientSecret)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "endpoint":
+			sp.Endpoint = &(o.Endpoint)
+		case "name":
+			sp.Name = &(o.Name)
+		case "parentID":
+			sp.ParentID = &(o.ParentID)
+		case "parentName":
+			sp.ParentName = &(o.ParentName)
+		case "scopes":
+			sp.Scopes = &(o.Scopes)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseOIDCProvider to the object.
@@ -527,9 +568,9 @@ func (o SparseOIDCProvidersList) Append(objects ...elemental.Identifiable) eleme
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseOIDCProvidersList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -539,6 +580,17 @@ func (o SparseOIDCProvidersList) List() elemental.IdentifiablesList {
 func (o SparseOIDCProvidersList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseOIDCProvidersList converted to OIDCProvidersList.
+func (o SparseOIDCProvidersList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -598,6 +650,9 @@ func (o *SparseOIDCProvider) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseOIDCProvider) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

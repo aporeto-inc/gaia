@@ -47,9 +47,9 @@ func (o APIAuthorizationPoliciesList) Append(objects ...elemental.Identifiable) 
 // List converts the object to an elemental.IdentifiablesList.
 func (o APIAuthorizationPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -61,6 +61,17 @@ func (o APIAuthorizationPoliciesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the APIAuthorizationPoliciesList converted to SparseAPIAuthorizationPoliciesList.
+func (o APIAuthorizationPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -378,30 +389,80 @@ func (o *APIAuthorizationPolicy) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *APIAuthorizationPolicy) ToSparse() elemental.SparseIdentifiable {
+func (o *APIAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseAPIAuthorizationPolicy{
-		ID:                   &o.ID,
-		ActiveDuration:       &o.ActiveDuration,
-		ActiveSchedule:       &o.ActiveSchedule,
-		Annotations:          &o.Annotations,
-		AssociatedTags:       &o.AssociatedTags,
-		AuthorizedIdentities: &o.AuthorizedIdentities,
-		AuthorizedNamespace:  &o.AuthorizedNamespace,
-		CreateTime:           &o.CreateTime,
-		Description:          &o.Description,
-		Disabled:             &o.Disabled,
-		Fallback:             &o.Fallback,
-		Metadata:             &o.Metadata,
-		Name:                 &o.Name,
-		Namespace:            &o.Namespace,
-		NormalizedTags:       &o.NormalizedTags,
-		Propagate:            &o.Propagate,
-		PropagationHidden:    &o.PropagationHidden,
-		Protected:            &o.Protected,
-		Subject:              &o.Subject,
-		UpdateTime:           &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseAPIAuthorizationPolicy{
+			ID:                   &o.ID,
+			ActiveDuration:       &o.ActiveDuration,
+			ActiveSchedule:       &o.ActiveSchedule,
+			Annotations:          &o.Annotations,
+			AssociatedTags:       &o.AssociatedTags,
+			AuthorizedIdentities: &o.AuthorizedIdentities,
+			AuthorizedNamespace:  &o.AuthorizedNamespace,
+			CreateTime:           &o.CreateTime,
+			Description:          &o.Description,
+			Disabled:             &o.Disabled,
+			Fallback:             &o.Fallback,
+			Metadata:             &o.Metadata,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NormalizedTags:       &o.NormalizedTags,
+			Propagate:            &o.Propagate,
+			PropagationHidden:    &o.PropagationHidden,
+			Protected:            &o.Protected,
+			Subject:              &o.Subject,
+			UpdateTime:           &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseAPIAuthorizationPolicy{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "activeDuration":
+			sp.ActiveDuration = &(o.ActiveDuration)
+		case "activeSchedule":
+			sp.ActiveSchedule = &(o.ActiveSchedule)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "authorizedIdentities":
+			sp.AuthorizedIdentities = &(o.AuthorizedIdentities)
+		case "authorizedNamespace":
+			sp.AuthorizedNamespace = &(o.AuthorizedNamespace)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "disabled":
+			sp.Disabled = &(o.Disabled)
+		case "fallback":
+			sp.Fallback = &(o.Fallback)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
+		case "propagationHidden":
+			sp.PropagationHidden = &(o.PropagationHidden)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "subject":
+			sp.Subject = &(o.Subject)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseAPIAuthorizationPolicy to the object.
@@ -1081,9 +1142,9 @@ func (o SparseAPIAuthorizationPoliciesList) Append(objects ...elemental.Identifi
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseAPIAuthorizationPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -1095,6 +1156,17 @@ func (o SparseAPIAuthorizationPoliciesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparseAPIAuthorizationPoliciesList converted to APIAuthorizationPoliciesList.
+func (o SparseAPIAuthorizationPoliciesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -1190,6 +1262,9 @@ func (o *SparseAPIAuthorizationPolicy) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseAPIAuthorizationPolicy) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

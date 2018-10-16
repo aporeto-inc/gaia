@@ -61,9 +61,9 @@ func (o AutomationsList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o AutomationsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -75,6 +75,17 @@ func (o AutomationsList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the AutomationsList converted to SparseAutomationsList.
+func (o AutomationsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -323,33 +334,89 @@ func (o *Automation) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Automation) ToSparse() elemental.SparseIdentifiable {
+func (o *Automation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseAutomation{
-		ID:             &o.ID,
-		Actions:        &o.Actions,
-		Annotations:    &o.Annotations,
-		AssociatedTags: &o.AssociatedTags,
-		Condition:      &o.Condition,
-		CreateTime:     &o.CreateTime,
-		Description:    &o.Description,
-		Disabled:       &o.Disabled,
-		Entitlements:   &o.Entitlements,
-		Errors:         &o.Errors,
-		Events:         &o.Events,
-		LastExecTime:   &o.LastExecTime,
-		Name:           &o.Name,
-		Namespace:      &o.Namespace,
-		NormalizedTags: &o.NormalizedTags,
-		Parameters:     &o.Parameters,
-		Protected:      &o.Protected,
-		Schedule:       &o.Schedule,
-		Stdout:         &o.Stdout,
-		Token:          &o.Token,
-		TokenRenew:     &o.TokenRenew,
-		Trigger:        &o.Trigger,
-		UpdateTime:     &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseAutomation{
+			ID:             &o.ID,
+			Actions:        &o.Actions,
+			Annotations:    &o.Annotations,
+			AssociatedTags: &o.AssociatedTags,
+			Condition:      &o.Condition,
+			CreateTime:     &o.CreateTime,
+			Description:    &o.Description,
+			Disabled:       &o.Disabled,
+			Entitlements:   &o.Entitlements,
+			Errors:         &o.Errors,
+			Events:         &o.Events,
+			LastExecTime:   &o.LastExecTime,
+			Name:           &o.Name,
+			Namespace:      &o.Namespace,
+			NormalizedTags: &o.NormalizedTags,
+			Parameters:     &o.Parameters,
+			Protected:      &o.Protected,
+			Schedule:       &o.Schedule,
+			Stdout:         &o.Stdout,
+			Token:          &o.Token,
+			TokenRenew:     &o.TokenRenew,
+			Trigger:        &o.Trigger,
+			UpdateTime:     &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseAutomation{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "actions":
+			sp.Actions = &(o.Actions)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "condition":
+			sp.Condition = &(o.Condition)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "disabled":
+			sp.Disabled = &(o.Disabled)
+		case "entitlements":
+			sp.Entitlements = &(o.Entitlements)
+		case "errors":
+			sp.Errors = &(o.Errors)
+		case "events":
+			sp.Events = &(o.Events)
+		case "lastExecTime":
+			sp.LastExecTime = &(o.LastExecTime)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "parameters":
+			sp.Parameters = &(o.Parameters)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "schedule":
+			sp.Schedule = &(o.Schedule)
+		case "stdout":
+			sp.Stdout = &(o.Stdout)
+		case "token":
+			sp.Token = &(o.Token)
+		case "tokenRenew":
+			sp.TokenRenew = &(o.TokenRenew)
+		case "trigger":
+			sp.Trigger = &(o.Trigger)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseAutomation to the object.
@@ -1074,9 +1141,9 @@ func (o SparseAutomationsList) Append(objects ...elemental.Identifiable) element
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseAutomationsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -1088,6 +1155,17 @@ func (o SparseAutomationsList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparseAutomationsList converted to AutomationsList.
+func (o SparseAutomationsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -1190,6 +1268,9 @@ func (o *SparseAutomation) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseAutomation) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

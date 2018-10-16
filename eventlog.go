@@ -67,9 +67,9 @@ func (o EventLogsList) Append(objects ...elemental.Identifiable) elemental.Ident
 // List converts the object to an elemental.IdentifiablesList.
 func (o EventLogsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -79,6 +79,17 @@ func (o EventLogsList) List() elemental.IdentifiablesList {
 func (o EventLogsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the EventLogsList converted to SparseEventLogsList.
+func (o EventLogsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -180,18 +191,44 @@ func (o *EventLog) SetNamespace(namespace string) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *EventLog) ToSparse() elemental.SparseIdentifiable {
+func (o *EventLog) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseEventLog{
-		Category:       &o.Category,
-		Content:        &o.Content,
-		Date:           &o.Date,
-		Level:          &o.Level,
-		Namespace:      &o.Namespace,
-		TargetID:       &o.TargetID,
-		TargetIdentity: &o.TargetIdentity,
-		Title:          &o.Title,
+	if len(fields) == 0 {
+		return &SparseEventLog{
+			Category:       &o.Category,
+			Content:        &o.Content,
+			Date:           &o.Date,
+			Level:          &o.Level,
+			Namespace:      &o.Namespace,
+			TargetID:       &o.TargetID,
+			TargetIdentity: &o.TargetIdentity,
+			Title:          &o.Title,
+		}
 	}
+
+	sp := &SparseEventLog{}
+	for _, f := range fields {
+		switch f {
+		case "category":
+			sp.Category = &(o.Category)
+		case "content":
+			sp.Content = &(o.Content)
+		case "date":
+			sp.Date = &(o.Date)
+		case "level":
+			sp.Level = &(o.Level)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "targetID":
+			sp.TargetID = &(o.TargetID)
+		case "targetIdentity":
+			sp.TargetIdentity = &(o.TargetIdentity)
+		case "title":
+			sp.Title = &(o.Title)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseEventLog to the object.
@@ -513,9 +550,9 @@ func (o SparseEventLogsList) Append(objects ...elemental.Identifiable) elemental
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseEventLogsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -525,6 +562,17 @@ func (o SparseEventLogsList) List() elemental.IdentifiablesList {
 func (o SparseEventLogsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseEventLogsList converted to EventLogsList.
+func (o SparseEventLogsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

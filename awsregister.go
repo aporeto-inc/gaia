@@ -47,9 +47,9 @@ func (o AWSRegistersList) Append(objects ...elemental.Identifiable) elemental.Id
 // List converts the object to an elemental.IdentifiablesList.
 func (o AWSRegistersList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -59,6 +59,17 @@ func (o AWSRegistersList) List() elemental.IdentifiablesList {
 func (o AWSRegistersList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the AWSRegistersList converted to SparseAWSRegistersList.
+func (o AWSRegistersList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -135,14 +146,32 @@ func (o *AWSRegister) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *AWSRegister) ToSparse() elemental.SparseIdentifiable {
+func (o *AWSRegister) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseAWSRegister{
-		ID:         &o.ID,
-		CreateTime: &o.CreateTime,
-		Provider:   &o.Provider,
-		UpdateTime: &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseAWSRegister{
+			ID:         &o.ID,
+			CreateTime: &o.CreateTime,
+			Provider:   &o.Provider,
+			UpdateTime: &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseAWSRegister{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "provider":
+			sp.Provider = &(o.Provider)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseAWSRegister to the object.
@@ -332,9 +361,9 @@ func (o SparseAWSRegistersList) Append(objects ...elemental.Identifiable) elemen
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseAWSRegistersList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -344,6 +373,17 @@ func (o SparseAWSRegistersList) List() elemental.IdentifiablesList {
 func (o SparseAWSRegistersList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseAWSRegistersList converted to AWSRegistersList.
+func (o SparseAWSRegistersList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -385,6 +425,9 @@ func (o *SparseAWSRegister) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseAWSRegister) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

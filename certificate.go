@@ -58,9 +58,9 @@ func (o CertificatesList) Append(objects ...elemental.Identifiable) elemental.Id
 // List converts the object to an elemental.IdentifiablesList.
 func (o CertificatesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -70,6 +70,17 @@ func (o CertificatesList) List() elemental.IdentifiablesList {
 func (o CertificatesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the CertificatesList converted to SparseCertificatesList.
+func (o CertificatesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -182,25 +193,65 @@ func (o *Certificate) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Certificate) ToSparse() elemental.SparseIdentifiable {
+func (o *Certificate) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseCertificate{
-		ID:                  &o.ID,
-		Admin:               &o.Admin,
-		CommonName:          &o.CommonName,
-		CreateTime:          &o.CreateTime,
-		Data:                &o.Data,
-		Email:               &o.Email,
-		ExpirationDate:      &o.ExpirationDate,
-		Key:                 &o.Key,
-		Name:                &o.Name,
-		OrganizationalUnits: &o.OrganizationalUnits,
-		ParentID:            &o.ParentID,
-		Passphrase:          &o.Passphrase,
-		SerialNumber:        &o.SerialNumber,
-		Status:              &o.Status,
-		UpdateTime:          &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseCertificate{
+			ID:                  &o.ID,
+			Admin:               &o.Admin,
+			CommonName:          &o.CommonName,
+			CreateTime:          &o.CreateTime,
+			Data:                &o.Data,
+			Email:               &o.Email,
+			ExpirationDate:      &o.ExpirationDate,
+			Key:                 &o.Key,
+			Name:                &o.Name,
+			OrganizationalUnits: &o.OrganizationalUnits,
+			ParentID:            &o.ParentID,
+			Passphrase:          &o.Passphrase,
+			SerialNumber:        &o.SerialNumber,
+			Status:              &o.Status,
+			UpdateTime:          &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseCertificate{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "admin":
+			sp.Admin = &(o.Admin)
+		case "commonName":
+			sp.CommonName = &(o.CommonName)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "data":
+			sp.Data = &(o.Data)
+		case "email":
+			sp.Email = &(o.Email)
+		case "expirationDate":
+			sp.ExpirationDate = &(o.ExpirationDate)
+		case "key":
+			sp.Key = &(o.Key)
+		case "name":
+			sp.Name = &(o.Name)
+		case "organizationalUnits":
+			sp.OrganizationalUnits = &(o.OrganizationalUnits)
+		case "parentID":
+			sp.ParentID = &(o.ParentID)
+		case "passphrase":
+			sp.Passphrase = &(o.Passphrase)
+		case "serialNumber":
+			sp.SerialNumber = &(o.SerialNumber)
+		case "status":
+			sp.Status = &(o.Status)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseCertificate to the object.
@@ -711,9 +762,9 @@ func (o SparseCertificatesList) Append(objects ...elemental.Identifiable) elemen
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseCertificatesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -723,6 +774,17 @@ func (o SparseCertificatesList) List() elemental.IdentifiablesList {
 func (o SparseCertificatesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseCertificatesList converted to CertificatesList.
+func (o SparseCertificatesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -799,6 +861,9 @@ func (o *SparseCertificate) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseCertificate) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

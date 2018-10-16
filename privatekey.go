@@ -45,9 +45,9 @@ func (o PrivateKeysList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o PrivateKeysList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o PrivateKeysList) List() elemental.IdentifiablesList {
 func (o PrivateKeysList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the PrivateKeysList converted to SparsePrivateKeysList.
+func (o PrivateKeysList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -131,13 +142,29 @@ func (o *PrivateKey) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *PrivateKey) ToSparse() elemental.SparseIdentifiable {
+func (o *PrivateKey) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparsePrivateKey{
-		ID:                      &o.ID,
-		CertificateSerialNumber: &o.CertificateSerialNumber,
-		Data:                    &o.Data,
+	if len(fields) == 0 {
+		return &SparsePrivateKey{
+			ID:                      &o.ID,
+			CertificateSerialNumber: &o.CertificateSerialNumber,
+			Data:                    &o.Data,
+		}
 	}
+
+	sp := &SparsePrivateKey{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "certificateSerialNumber":
+			sp.CertificateSerialNumber = &(o.CertificateSerialNumber)
+		case "data":
+			sp.Data = &(o.Data)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparsePrivateKey to the object.
@@ -286,9 +313,9 @@ func (o SparsePrivateKeysList) Append(objects ...elemental.Identifiable) element
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparsePrivateKeysList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -298,6 +325,17 @@ func (o SparsePrivateKeysList) List() elemental.IdentifiablesList {
 func (o SparsePrivateKeysList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparsePrivateKeysList converted to PrivateKeysList.
+func (o SparsePrivateKeysList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -337,6 +375,9 @@ func (o *SparsePrivateKey) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparsePrivateKey) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

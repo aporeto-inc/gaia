@@ -45,9 +45,9 @@ func (o PlansList) Append(objects ...elemental.Identifiable) elemental.Identifia
 // List converts the object to an elemental.IdentifiablesList.
 func (o PlansList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o PlansList) List() elemental.IdentifiablesList {
 func (o PlansList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the PlansList converted to SparsePlansList.
+func (o PlansList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -138,16 +149,38 @@ func (o *Plan) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Plan) ToSparse() elemental.SparseIdentifiable {
+func (o *Plan) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparsePlan{
-		Description:          &o.Description,
-		EnforcersQuota:       &o.EnforcersQuota,
-		Key:                  &o.Key,
-		Name:                 &o.Name,
-		PoliciesQuota:        &o.PoliciesQuota,
-		ProcessingUnitsQuota: &o.ProcessingUnitsQuota,
+	if len(fields) == 0 {
+		return &SparsePlan{
+			Description:          &o.Description,
+			EnforcersQuota:       &o.EnforcersQuota,
+			Key:                  &o.Key,
+			Name:                 &o.Name,
+			PoliciesQuota:        &o.PoliciesQuota,
+			ProcessingUnitsQuota: &o.ProcessingUnitsQuota,
+		}
 	}
+
+	sp := &SparsePlan{}
+	for _, f := range fields {
+		switch f {
+		case "description":
+			sp.Description = &(o.Description)
+		case "enforcersQuota":
+			sp.EnforcersQuota = &(o.EnforcersQuota)
+		case "key":
+			sp.Key = &(o.Key)
+		case "name":
+			sp.Name = &(o.Name)
+		case "policiesQuota":
+			sp.PoliciesQuota = &(o.PoliciesQuota)
+		case "processingUnitsQuota":
+			sp.ProcessingUnitsQuota = &(o.ProcessingUnitsQuota)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparsePlan to the object.
@@ -381,9 +414,9 @@ func (o SparsePlansList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparsePlansList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -393,6 +426,17 @@ func (o SparsePlansList) List() elemental.IdentifiablesList {
 func (o SparsePlansList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparsePlansList converted to PlansList.
+func (o SparsePlansList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

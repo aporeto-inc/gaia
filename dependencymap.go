@@ -45,9 +45,9 @@ func (o DependencyMapsList) Append(objects ...elemental.Identifiable) elemental.
 // List converts the object to an elemental.IdentifiablesList.
 func (o DependencyMapsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o DependencyMapsList) List() elemental.IdentifiablesList {
 func (o DependencyMapsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the DependencyMapsList converted to SparseDependencyMapsList.
+func (o DependencyMapsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -146,15 +157,35 @@ func (o *DependencyMap) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *DependencyMap) ToSparse() elemental.SparseIdentifiable {
+func (o *DependencyMap) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseDependencyMap{
-		Claims:          &o.Claims,
-		Edges:           &o.Edges,
-		Groups:          &o.Groups,
-		Nodes:           &o.Nodes,
-		ViewSuggestions: &o.ViewSuggestions,
+	if len(fields) == 0 {
+		return &SparseDependencyMap{
+			Claims:          &o.Claims,
+			Edges:           &o.Edges,
+			Groups:          &o.Groups,
+			Nodes:           &o.Nodes,
+			ViewSuggestions: &o.ViewSuggestions,
+		}
 	}
+
+	sp := &SparseDependencyMap{}
+	for _, f := range fields {
+		switch f {
+		case "claims":
+			sp.Claims = &(o.Claims)
+		case "edges":
+			sp.Edges = &(o.Edges)
+		case "groups":
+			sp.Groups = &(o.Groups)
+		case "nodes":
+			sp.Nodes = &(o.Nodes)
+		case "viewSuggestions":
+			sp.ViewSuggestions = &(o.ViewSuggestions)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseDependencyMap to the object.
@@ -371,9 +402,9 @@ func (o SparseDependencyMapsList) Append(objects ...elemental.Identifiable) elem
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseDependencyMapsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -383,6 +414,17 @@ func (o SparseDependencyMapsList) List() elemental.IdentifiablesList {
 func (o SparseDependencyMapsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseDependencyMapsList converted to DependencyMapsList.
+func (o SparseDependencyMapsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

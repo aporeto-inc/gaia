@@ -45,9 +45,9 @@ func (o PolicyRulesList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o PolicyRulesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -59,6 +59,17 @@ func (o PolicyRulesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the PolicyRulesList converted to SparsePolicyRulesList.
+func (o PolicyRulesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -188,24 +199,62 @@ func (o *PolicyRule) SetName(name string) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *PolicyRule) ToSparse() elemental.SparseIdentifiable {
+func (o *PolicyRule) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparsePolicyRule{
-		ID:                &o.ID,
-		Action:            &o.Action,
-		EnforcerProfiles:  &o.EnforcerProfiles,
-		ExternalNetworks:  &o.ExternalNetworks,
-		ExternalServices:  &o.ExternalServices,
-		FilePaths:         &o.FilePaths,
-		IsolationProfiles: &o.IsolationProfiles,
-		Name:              &o.Name,
-		Namespaces:        &o.Namespaces,
-		PolicyNamespace:   &o.PolicyNamespace,
-		Propagated:        &o.Propagated,
-		Relation:          &o.Relation,
-		Services:          &o.Services,
-		TagClauses:        &o.TagClauses,
+	if len(fields) == 0 {
+		return &SparsePolicyRule{
+			ID:                &o.ID,
+			Action:            &o.Action,
+			EnforcerProfiles:  &o.EnforcerProfiles,
+			ExternalNetworks:  &o.ExternalNetworks,
+			ExternalServices:  &o.ExternalServices,
+			FilePaths:         &o.FilePaths,
+			IsolationProfiles: &o.IsolationProfiles,
+			Name:              &o.Name,
+			Namespaces:        &o.Namespaces,
+			PolicyNamespace:   &o.PolicyNamespace,
+			Propagated:        &o.Propagated,
+			Relation:          &o.Relation,
+			Services:          &o.Services,
+			TagClauses:        &o.TagClauses,
+		}
 	}
+
+	sp := &SparsePolicyRule{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "action":
+			sp.Action = &(o.Action)
+		case "enforcerProfiles":
+			sp.EnforcerProfiles = &(o.EnforcerProfiles)
+		case "externalNetworks":
+			sp.ExternalNetworks = &(o.ExternalNetworks)
+		case "externalServices":
+			sp.ExternalServices = &(o.ExternalServices)
+		case "filePaths":
+			sp.FilePaths = &(o.FilePaths)
+		case "isolationProfiles":
+			sp.IsolationProfiles = &(o.IsolationProfiles)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespaces":
+			sp.Namespaces = &(o.Namespaces)
+		case "policyNamespace":
+			sp.PolicyNamespace = &(o.PolicyNamespace)
+		case "propagated":
+			sp.Propagated = &(o.Propagated)
+		case "relation":
+			sp.Relation = &(o.Relation)
+		case "services":
+			sp.Services = &(o.Services)
+		case "tagClauses":
+			sp.TagClauses = &(o.TagClauses)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparsePolicyRule to the object.
@@ -613,9 +662,9 @@ func (o SparsePolicyRulesList) Append(objects ...elemental.Identifiable) element
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparsePolicyRulesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -627,6 +676,17 @@ func (o SparsePolicyRulesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparsePolicyRulesList converted to PolicyRulesList.
+func (o SparsePolicyRulesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -699,6 +759,9 @@ func (o *SparsePolicyRule) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparsePolicyRule) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

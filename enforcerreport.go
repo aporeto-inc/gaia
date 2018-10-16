@@ -47,9 +47,9 @@ func (o EnforcerReportsList) Append(objects ...elemental.Identifiable) elemental
 // List converts the object to an elemental.IdentifiablesList.
 func (o EnforcerReportsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -59,6 +59,17 @@ func (o EnforcerReportsList) List() elemental.IdentifiablesList {
 func (o EnforcerReportsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the EnforcerReportsList converted to SparseEnforcerReportsList.
+func (o EnforcerReportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -143,17 +154,41 @@ func (o *EnforcerReport) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *EnforcerReport) ToSparse() elemental.SparseIdentifiable {
+func (o *EnforcerReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseEnforcerReport{
-		CPULoad:   &o.CPULoad,
-		ID:        &o.ID,
-		Memory:    &o.Memory,
-		Name:      &o.Name,
-		Namespace: &o.Namespace,
-		Processes: &o.Processes,
-		Timestamp: &o.Timestamp,
+	if len(fields) == 0 {
+		return &SparseEnforcerReport{
+			CPULoad:   &o.CPULoad,
+			ID:        &o.ID,
+			Memory:    &o.Memory,
+			Name:      &o.Name,
+			Namespace: &o.Namespace,
+			Processes: &o.Processes,
+			Timestamp: &o.Timestamp,
+		}
 	}
+
+	sp := &SparseEnforcerReport{}
+	for _, f := range fields {
+		switch f {
+		case "CPULoad":
+			sp.CPULoad = &(o.CPULoad)
+		case "ID":
+			sp.ID = &(o.ID)
+		case "memory":
+			sp.Memory = &(o.Memory)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "processes":
+			sp.Processes = &(o.Processes)
+		case "timestamp":
+			sp.Timestamp = &(o.Timestamp)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseEnforcerReport to the object.
@@ -394,9 +429,9 @@ func (o SparseEnforcerReportsList) Append(objects ...elemental.Identifiable) ele
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseEnforcerReportsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -406,6 +441,17 @@ func (o SparseEnforcerReportsList) List() elemental.IdentifiablesList {
 func (o SparseEnforcerReportsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseEnforcerReportsList converted to EnforcerReportsList.
+func (o SparseEnforcerReportsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

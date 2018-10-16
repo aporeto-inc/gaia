@@ -46,9 +46,9 @@ func (o AppsList) Append(objects ...elemental.Identifiable) elemental.Identifiab
 // List converts the object to an elemental.IdentifiablesList.
 func (o AppsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -60,6 +60,17 @@ func (o AppsList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the AppsList converted to SparseAppsList.
+func (o AppsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -162,18 +173,44 @@ func (o *App) SetName(name string) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *App) ToSparse() elemental.SparseIdentifiable {
+func (o *App) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseApp{
-		Beta:              &o.Beta,
-		CategoryID:        &o.CategoryID,
-		Description:       &o.Description,
-		Icon:              &o.Icon,
-		LongDescription:   &o.LongDescription,
-		Name:              &o.Name,
-		Title:             &o.Title,
-		VersionParameters: &o.VersionParameters,
+	if len(fields) == 0 {
+		return &SparseApp{
+			Beta:              &o.Beta,
+			CategoryID:        &o.CategoryID,
+			Description:       &o.Description,
+			Icon:              &o.Icon,
+			LongDescription:   &o.LongDescription,
+			Name:              &o.Name,
+			Title:             &o.Title,
+			VersionParameters: &o.VersionParameters,
+		}
 	}
+
+	sp := &SparseApp{}
+	for _, f := range fields {
+		switch f {
+		case "beta":
+			sp.Beta = &(o.Beta)
+		case "categoryID":
+			sp.CategoryID = &(o.CategoryID)
+		case "description":
+			sp.Description = &(o.Description)
+		case "icon":
+			sp.Icon = &(o.Icon)
+		case "longDescription":
+			sp.LongDescription = &(o.LongDescription)
+		case "name":
+			sp.Name = &(o.Name)
+		case "title":
+			sp.Title = &(o.Title)
+		case "versionParameters":
+			sp.VersionParameters = &(o.VersionParameters)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseApp to the object.
@@ -451,9 +488,9 @@ func (o SparseAppsList) Append(objects ...elemental.Identifiable) elemental.Iden
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseAppsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -465,6 +502,17 @@ func (o SparseAppsList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparseAppsList converted to AppsList.
+func (o SparseAppsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

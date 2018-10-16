@@ -61,9 +61,9 @@ func (o HookPoliciesList) Append(objects ...elemental.Identifiable) elemental.Id
 // List converts the object to an elemental.IdentifiablesList.
 func (o HookPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -75,6 +75,17 @@ func (o HookPoliciesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the HookPoliciesList converted to SparseHookPoliciesList.
+func (o HookPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -368,31 +379,83 @@ func (o *HookPolicy) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *HookPolicy) ToSparse() elemental.SparseIdentifiable {
+func (o *HookPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseHookPolicy{
-		ID:                   &o.ID,
-		Annotations:          &o.Annotations,
-		AssociatedTags:       &o.AssociatedTags,
-		CertificateAuthority: &o.CertificateAuthority,
-		ClientCertificate:    &o.ClientCertificate,
-		ClientCertificateKey: &o.ClientCertificateKey,
-		CreateTime:           &o.CreateTime,
-		Description:          &o.Description,
-		Disabled:             &o.Disabled,
-		Endpoint:             &o.Endpoint,
-		Fallback:             &o.Fallback,
-		Metadata:             &o.Metadata,
-		Mode:                 &o.Mode,
-		Name:                 &o.Name,
-		Namespace:            &o.Namespace,
-		NormalizedTags:       &o.NormalizedTags,
-		Propagate:            &o.Propagate,
-		PropagationHidden:    &o.PropagationHidden,
-		Protected:            &o.Protected,
-		Subject:              &o.Subject,
-		UpdateTime:           &o.UpdateTime,
+	if len(fields) == 0 {
+		return &SparseHookPolicy{
+			ID:                   &o.ID,
+			Annotations:          &o.Annotations,
+			AssociatedTags:       &o.AssociatedTags,
+			CertificateAuthority: &o.CertificateAuthority,
+			ClientCertificate:    &o.ClientCertificate,
+			ClientCertificateKey: &o.ClientCertificateKey,
+			CreateTime:           &o.CreateTime,
+			Description:          &o.Description,
+			Disabled:             &o.Disabled,
+			Endpoint:             &o.Endpoint,
+			Fallback:             &o.Fallback,
+			Metadata:             &o.Metadata,
+			Mode:                 &o.Mode,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NormalizedTags:       &o.NormalizedTags,
+			Propagate:            &o.Propagate,
+			PropagationHidden:    &o.PropagationHidden,
+			Protected:            &o.Protected,
+			Subject:              &o.Subject,
+			UpdateTime:           &o.UpdateTime,
+		}
 	}
+
+	sp := &SparseHookPolicy{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "certificateAuthority":
+			sp.CertificateAuthority = &(o.CertificateAuthority)
+		case "clientCertificate":
+			sp.ClientCertificate = &(o.ClientCertificate)
+		case "clientCertificateKey":
+			sp.ClientCertificateKey = &(o.ClientCertificateKey)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "disabled":
+			sp.Disabled = &(o.Disabled)
+		case "endpoint":
+			sp.Endpoint = &(o.Endpoint)
+		case "fallback":
+			sp.Fallback = &(o.Fallback)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "mode":
+			sp.Mode = &(o.Mode)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
+		case "propagationHidden":
+			sp.PropagationHidden = &(o.PropagationHidden)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "subject":
+			sp.Subject = &(o.Subject)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseHookPolicy to the object.
@@ -1115,9 +1178,9 @@ func (o SparseHookPoliciesList) Append(objects ...elemental.Identifiable) elemen
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseHookPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -1129,6 +1192,17 @@ func (o SparseHookPoliciesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToFull returns the SparseHookPoliciesList converted to HookPoliciesList.
+func (o SparseHookPoliciesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -1228,6 +1302,9 @@ func (o *SparseHookPolicy) Identity() elemental.Identity {
 // Identifier returns the value of the sparse object's unique identifier.
 func (o *SparseHookPolicy) Identifier() string {
 
+	if o.ID == nil {
+		return ""
+	}
 	return *o.ID
 }
 

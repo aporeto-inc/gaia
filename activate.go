@@ -45,9 +45,9 @@ func (o ActivatesList) Append(objects ...elemental.Identifiable) elemental.Ident
 // List converts the object to an elemental.IdentifiablesList.
 func (o ActivatesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o ActivatesList) List() elemental.IdentifiablesList {
 func (o ActivatesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the ActivatesList converted to SparseActivatesList.
+func (o ActivatesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -123,11 +134,23 @@ func (o *Activate) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *Activate) ToSparse() elemental.SparseIdentifiable {
+func (o *Activate) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseActivate{
-		Token: &o.Token,
+	if len(fields) == 0 {
+		return &SparseActivate{
+			Token: &o.Token,
+		}
 	}
+
+	sp := &SparseActivate{}
+	for _, f := range fields {
+		switch f {
+		case "token":
+			sp.Token = &(o.Token)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseActivate to the object.
@@ -232,9 +255,9 @@ func (o SparseActivatesList) Append(objects ...elemental.Identifiable) elemental
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseActivatesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -244,6 +267,17 @@ func (o SparseActivatesList) List() elemental.IdentifiablesList {
 func (o SparseActivatesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseActivatesList converted to ActivatesList.
+func (o SparseActivatesList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

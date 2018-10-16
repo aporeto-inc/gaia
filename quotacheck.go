@@ -45,9 +45,9 @@ func (o QuotaChecksList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o QuotaChecksList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o QuotaChecksList) List() elemental.IdentifiablesList {
 func (o QuotaChecksList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the QuotaChecksList converted to SparseQuotaChecksList.
+func (o QuotaChecksList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -130,13 +141,29 @@ func (o *QuotaCheck) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *QuotaCheck) ToSparse() elemental.SparseIdentifiable {
+func (o *QuotaCheck) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseQuotaCheck{
-		Quota:           &o.Quota,
-		TargetIdentity:  &o.TargetIdentity,
-		TargetNamespace: &o.TargetNamespace,
+	if len(fields) == 0 {
+		return &SparseQuotaCheck{
+			Quota:           &o.Quota,
+			TargetIdentity:  &o.TargetIdentity,
+			TargetNamespace: &o.TargetNamespace,
+		}
 	}
+
+	sp := &SparseQuotaCheck{}
+	for _, f := range fields {
+		switch f {
+		case "quota":
+			sp.Quota = &(o.Quota)
+		case "targetIdentity":
+			sp.TargetIdentity = &(o.TargetIdentity)
+		case "targetNamespace":
+			sp.TargetNamespace = &(o.TargetNamespace)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseQuotaCheck to the object.
@@ -293,9 +320,9 @@ func (o SparseQuotaChecksList) Append(objects ...elemental.Identifiable) element
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseQuotaChecksList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -305,6 +332,17 @@ func (o SparseQuotaChecksList) List() elemental.IdentifiablesList {
 func (o SparseQuotaChecksList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseQuotaChecksList converted to QuotaChecksList.
+func (o SparseQuotaChecksList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.

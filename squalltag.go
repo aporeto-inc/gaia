@@ -45,9 +45,9 @@ func (o SquallTagsList) Append(objects ...elemental.Identifiable) elemental.Iden
 // List converts the object to an elemental.IdentifiablesList.
 func (o SquallTagsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,17 @@ func (o SquallTagsList) List() elemental.IdentifiablesList {
 func (o SquallTagsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SquallTagsList converted to SparseSquallTagsList.
+func (o SquallTagsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -130,13 +141,29 @@ func (o *SquallTag) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
-func (o *SquallTag) ToSparse() elemental.SparseIdentifiable {
+func (o *SquallTag) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
-	return &SparseSquallTag{
-		Count:     &o.Count,
-		Namespace: &o.Namespace,
-		Value:     &o.Value,
+	if len(fields) == 0 {
+		return &SparseSquallTag{
+			Count:     &o.Count,
+			Namespace: &o.Namespace,
+			Value:     &o.Value,
+		}
 	}
+
+	sp := &SparseSquallTag{}
+	for _, f := range fields {
+		switch f {
+		case "count":
+			sp.Count = &(o.Count)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "value":
+			sp.Value = &(o.Value)
+		}
+	}
+
+	return sp
 }
 
 // Patch apply the non nil value of a *SparseSquallTag to the object.
@@ -283,9 +310,9 @@ func (o SparseSquallTagsList) Append(objects ...elemental.Identifiable) elementa
 // List converts the object to an elemental.IdentifiablesList.
 func (o SparseSquallTagsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -295,6 +322,17 @@ func (o SparseSquallTagsList) List() elemental.IdentifiablesList {
 func (o SparseSquallTagsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToFull returns the SparseSquallTagsList converted to SquallTagsList.
+func (o SparseSquallTagsList) ToFull() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToFull()
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
