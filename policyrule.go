@@ -45,9 +45,9 @@ func (o PolicyRulesList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o PolicyRulesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -59,6 +59,18 @@ func (o PolicyRulesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToSparse returns the PolicyRulesList converted to SparsePolicyRulesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o PolicyRulesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -185,6 +197,118 @@ func (o *PolicyRule) GetName() string {
 func (o *PolicyRule) SetName(name string) {
 
 	o.Name = name
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *PolicyRule) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparsePolicyRule{
+			ID:                &o.ID,
+			Action:            &o.Action,
+			EnforcerProfiles:  &o.EnforcerProfiles,
+			ExternalNetworks:  &o.ExternalNetworks,
+			ExternalServices:  &o.ExternalServices,
+			FilePaths:         &o.FilePaths,
+			IsolationProfiles: &o.IsolationProfiles,
+			Name:              &o.Name,
+			Namespaces:        &o.Namespaces,
+			PolicyNamespace:   &o.PolicyNamespace,
+			Propagated:        &o.Propagated,
+			Relation:          &o.Relation,
+			Services:          &o.Services,
+			TagClauses:        &o.TagClauses,
+		}
+	}
+
+	sp := &SparsePolicyRule{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "action":
+			sp.Action = &(o.Action)
+		case "enforcerProfiles":
+			sp.EnforcerProfiles = &(o.EnforcerProfiles)
+		case "externalNetworks":
+			sp.ExternalNetworks = &(o.ExternalNetworks)
+		case "externalServices":
+			sp.ExternalServices = &(o.ExternalServices)
+		case "filePaths":
+			sp.FilePaths = &(o.FilePaths)
+		case "isolationProfiles":
+			sp.IsolationProfiles = &(o.IsolationProfiles)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespaces":
+			sp.Namespaces = &(o.Namespaces)
+		case "policyNamespace":
+			sp.PolicyNamespace = &(o.PolicyNamespace)
+		case "propagated":
+			sp.Propagated = &(o.Propagated)
+		case "relation":
+			sp.Relation = &(o.Relation)
+		case "services":
+			sp.Services = &(o.Services)
+		case "tagClauses":
+			sp.TagClauses = &(o.TagClauses)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparsePolicyRule to the object.
+func (o *PolicyRule) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparsePolicyRule)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Action != nil {
+		o.Action = *so.Action
+	}
+	if so.EnforcerProfiles != nil {
+		o.EnforcerProfiles = *so.EnforcerProfiles
+	}
+	if so.ExternalNetworks != nil {
+		o.ExternalNetworks = *so.ExternalNetworks
+	}
+	if so.ExternalServices != nil {
+		o.ExternalServices = *so.ExternalServices
+	}
+	if so.FilePaths != nil {
+		o.FilePaths = *so.FilePaths
+	}
+	if so.IsolationProfiles != nil {
+		o.IsolationProfiles = *so.IsolationProfiles
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespaces != nil {
+		o.Namespaces = *so.Namespaces
+	}
+	if so.PolicyNamespace != nil {
+		o.PolicyNamespace = *so.PolicyNamespace
+	}
+	if so.Propagated != nil {
+		o.Propagated = *so.Propagated
+	}
+	if so.Relation != nil {
+		o.Relation = *so.Relation
+	}
+	if so.Services != nil {
+		o.Services = *so.Services
+	}
+	if so.TagClauses != nil {
+		o.TagClauses = *so.TagClauses
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -509,4 +633,199 @@ objects.`,
 		SubType:        "target_tags",
 		Type:           "external",
 	},
+}
+
+// SparsePolicyRulesList represents a list of SparsePolicyRules
+type SparsePolicyRulesList []*SparsePolicyRule
+
+// Identity returns the identity of the objects in the list.
+func (o SparsePolicyRulesList) Identity() elemental.Identity {
+
+	return PolicyRuleIdentity
+}
+
+// Copy returns a pointer to a copy the SparsePolicyRulesList.
+func (o SparsePolicyRulesList) Copy() elemental.Identifiables {
+
+	copy := append(SparsePolicyRulesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparsePolicyRulesList.
+func (o SparsePolicyRulesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparsePolicyRulesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparsePolicyRule))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparsePolicyRulesList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparsePolicyRulesList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// ToPlain returns the SparsePolicyRulesList converted to PolicyRulesList.
+func (o SparsePolicyRulesList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparsePolicyRulesList) Version() int {
+
+	return 1
+}
+
+// SparsePolicyRule represents the sparse version of a policyrule.
+type SparsePolicyRule struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
+	// Action defines set of actions that must be enforced when a dependency is met.
+	Action *map[string]map[string]interface{} `json:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
+
+	// EnforcerProfiles provides the information about the server profile.
+	EnforcerProfiles *EnforcerProfilesList `json:"enforcerProfiles,omitempty" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
+
+	// Policy target networks.
+	ExternalNetworks *ExternalNetworksList `json:"externalNetworks,omitempty" bson:"-" mapstructure:"externalNetworks,omitempty"`
+
+	// Policy target networks.
+	ExternalServices *ExternalServicesList `json:"externalServices,omitempty" bson:"-" mapstructure:"externalServices,omitempty"`
+
+	// Policy target file paths.
+	FilePaths *FilePathsList `json:"filePaths,omitempty" bson:"-" mapstructure:"filePaths,omitempty"`
+
+	// IsolationProfiles are the isolation profiles of the rule.
+	IsolationProfiles *IsolationProfilesList `json:"isolationProfiles,omitempty" bson:"-" mapstructure:"isolationProfiles,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Policy target namespaces.
+	Namespaces *NamespacesList `json:"namespaces,omitempty" bson:"-" mapstructure:"namespaces,omitempty"`
+
+	// PolicyNamespace is the namespace of the policy that created this rule.
+	PolicyNamespace *string `json:"policyNamespace,omitempty" bson:"-" mapstructure:"policyNamespace,omitempty"`
+
+	// Propagated indicates if the policy is propagated.
+	Propagated *bool `json:"propagated,omitempty" bson:"-" mapstructure:"propagated,omitempty"`
+
+	// Relation describes the required operation to be performed between subjects and
+	// objects.
+	Relation *[]string `json:"relation,omitempty" bson:"-" mapstructure:"relation,omitempty"`
+
+	// Services provides the services of this policy rule.
+	Services *ServicesList `json:"services,omitempty" bson:"-" mapstructure:"services,omitempty"`
+
+	// Policy target tags.
+	TagClauses *[][]string `json:"tagClauses,omitempty" bson:"-" mapstructure:"tagClauses,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparsePolicyRule returns a new  SparsePolicyRule.
+func NewSparsePolicyRule() *SparsePolicyRule {
+	return &SparsePolicyRule{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparsePolicyRule) Identity() elemental.Identity {
+
+	return PolicyRuleIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparsePolicyRule) Identifier() string {
+
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparsePolicyRule) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparsePolicyRule) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparsePolicyRule) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewPolicyRule()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Action != nil {
+		out.Action = *o.Action
+	}
+	if o.EnforcerProfiles != nil {
+		out.EnforcerProfiles = *o.EnforcerProfiles
+	}
+	if o.ExternalNetworks != nil {
+		out.ExternalNetworks = *o.ExternalNetworks
+	}
+	if o.ExternalServices != nil {
+		out.ExternalServices = *o.ExternalServices
+	}
+	if o.FilePaths != nil {
+		out.FilePaths = *o.FilePaths
+	}
+	if o.IsolationProfiles != nil {
+		out.IsolationProfiles = *o.IsolationProfiles
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespaces != nil {
+		out.Namespaces = *o.Namespaces
+	}
+	if o.PolicyNamespace != nil {
+		out.PolicyNamespace = *o.PolicyNamespace
+	}
+	if o.Propagated != nil {
+		out.Propagated = *o.Propagated
+	}
+	if o.Relation != nil {
+		out.Relation = *o.Relation
+	}
+	if o.Services != nil {
+		out.Services = *o.Services
+	}
+	if o.TagClauses != nil {
+		out.TagClauses = *o.TagClauses
+	}
+
+	return out
 }

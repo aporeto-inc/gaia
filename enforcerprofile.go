@@ -76,9 +76,9 @@ func (o EnforcerProfilesList) Append(objects ...elemental.Identifiable) elementa
 // List converts the object to an elemental.IdentifiablesList.
 func (o EnforcerProfilesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -90,6 +90,18 @@ func (o EnforcerProfilesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToSparse returns the EnforcerProfilesList converted to SparseEnforcerProfilesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o EnforcerProfilesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -402,6 +414,268 @@ func (o *EnforcerProfile) GetUpdateTime() time.Time {
 func (o *EnforcerProfile) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseEnforcerProfile{
+			ID:                            &o.ID,
+			IPTablesMarkValue:             &o.IPTablesMarkValue,
+			PUBookkeepingInterval:         &o.PUBookkeepingInterval,
+			PUHeartbeatInterval:           &o.PUHeartbeatInterval,
+			Annotations:                   &o.Annotations,
+			ApplicationProxyPort:          &o.ApplicationProxyPort,
+			AssociatedTags:                &o.AssociatedTags,
+			AuditProfileSelectors:         &o.AuditProfileSelectors,
+			AuditProfiles:                 &o.AuditProfiles,
+			AuditSocketBufferSize:         &o.AuditSocketBufferSize,
+			CreateTime:                    &o.CreateTime,
+			Description:                   &o.Description,
+			DockerSocketAddress:           &o.DockerSocketAddress,
+			ExcludedInterfaces:            &o.ExcludedInterfaces,
+			ExcludedNetworks:              &o.ExcludedNetworks,
+			HostServices:                  &o.HostServices,
+			IgnoreExpression:              &o.IgnoreExpression,
+			KillContainersOnFailure:       &o.KillContainersOnFailure,
+			KubernetesMetadataExtractor:   &o.KubernetesMetadataExtractor,
+			KubernetesSupportEnabled:      &o.KubernetesSupportEnabled,
+			LinuxProcessesSupportEnabled:  &o.LinuxProcessesSupportEnabled,
+			MetadataExtractor:             &o.MetadataExtractor,
+			Name:                          &o.Name,
+			Namespace:                     &o.Namespace,
+			NormalizedTags:                &o.NormalizedTags,
+			PolicySynchronizationInterval: &o.PolicySynchronizationInterval,
+			Protected:                     &o.Protected,
+			ProxyListenAddress:            &o.ProxyListenAddress,
+			ReceiverNumberOfQueues:        &o.ReceiverNumberOfQueues,
+			ReceiverQueue:                 &o.ReceiverQueue,
+			ReceiverQueueSize:             &o.ReceiverQueueSize,
+			RemoteEnforcerEnabled:         &o.RemoteEnforcerEnabled,
+			TargetNetworks:                &o.TargetNetworks,
+			TargetUDPNetworks:             &o.TargetUDPNetworks,
+			TransmitterNumberOfQueues:     &o.TransmitterNumberOfQueues,
+			TransmitterQueue:              &o.TransmitterQueue,
+			TransmitterQueueSize:          &o.TransmitterQueueSize,
+			TrustedCAs:                    &o.TrustedCAs,
+			UpdateTime:                    &o.UpdateTime,
+		}
+	}
+
+	sp := &SparseEnforcerProfile{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "IPTablesMarkValue":
+			sp.IPTablesMarkValue = &(o.IPTablesMarkValue)
+		case "PUBookkeepingInterval":
+			sp.PUBookkeepingInterval = &(o.PUBookkeepingInterval)
+		case "PUHeartbeatInterval":
+			sp.PUHeartbeatInterval = &(o.PUHeartbeatInterval)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "applicationProxyPort":
+			sp.ApplicationProxyPort = &(o.ApplicationProxyPort)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "auditProfileSelectors":
+			sp.AuditProfileSelectors = &(o.AuditProfileSelectors)
+		case "auditProfiles":
+			sp.AuditProfiles = &(o.AuditProfiles)
+		case "auditSocketBufferSize":
+			sp.AuditSocketBufferSize = &(o.AuditSocketBufferSize)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "dockerSocketAddress":
+			sp.DockerSocketAddress = &(o.DockerSocketAddress)
+		case "excludedInterfaces":
+			sp.ExcludedInterfaces = &(o.ExcludedInterfaces)
+		case "excludedNetworks":
+			sp.ExcludedNetworks = &(o.ExcludedNetworks)
+		case "hostServices":
+			sp.HostServices = &(o.HostServices)
+		case "ignoreExpression":
+			sp.IgnoreExpression = &(o.IgnoreExpression)
+		case "killContainersOnFailure":
+			sp.KillContainersOnFailure = &(o.KillContainersOnFailure)
+		case "kubernetesMetadataExtractor":
+			sp.KubernetesMetadataExtractor = &(o.KubernetesMetadataExtractor)
+		case "kubernetesSupportEnabled":
+			sp.KubernetesSupportEnabled = &(o.KubernetesSupportEnabled)
+		case "linuxProcessesSupportEnabled":
+			sp.LinuxProcessesSupportEnabled = &(o.LinuxProcessesSupportEnabled)
+		case "metadataExtractor":
+			sp.MetadataExtractor = &(o.MetadataExtractor)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "policySynchronizationInterval":
+			sp.PolicySynchronizationInterval = &(o.PolicySynchronizationInterval)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "proxyListenAddress":
+			sp.ProxyListenAddress = &(o.ProxyListenAddress)
+		case "receiverNumberOfQueues":
+			sp.ReceiverNumberOfQueues = &(o.ReceiverNumberOfQueues)
+		case "receiverQueue":
+			sp.ReceiverQueue = &(o.ReceiverQueue)
+		case "receiverQueueSize":
+			sp.ReceiverQueueSize = &(o.ReceiverQueueSize)
+		case "remoteEnforcerEnabled":
+			sp.RemoteEnforcerEnabled = &(o.RemoteEnforcerEnabled)
+		case "targetNetworks":
+			sp.TargetNetworks = &(o.TargetNetworks)
+		case "targetUDPNetworks":
+			sp.TargetUDPNetworks = &(o.TargetUDPNetworks)
+		case "transmitterNumberOfQueues":
+			sp.TransmitterNumberOfQueues = &(o.TransmitterNumberOfQueues)
+		case "transmitterQueue":
+			sp.TransmitterQueue = &(o.TransmitterQueue)
+		case "transmitterQueueSize":
+			sp.TransmitterQueueSize = &(o.TransmitterQueueSize)
+		case "trustedCAs":
+			sp.TrustedCAs = &(o.TrustedCAs)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseEnforcerProfile to the object.
+func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseEnforcerProfile)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.IPTablesMarkValue != nil {
+		o.IPTablesMarkValue = *so.IPTablesMarkValue
+	}
+	if so.PUBookkeepingInterval != nil {
+		o.PUBookkeepingInterval = *so.PUBookkeepingInterval
+	}
+	if so.PUHeartbeatInterval != nil {
+		o.PUHeartbeatInterval = *so.PUHeartbeatInterval
+	}
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
+	}
+	if so.ApplicationProxyPort != nil {
+		o.ApplicationProxyPort = *so.ApplicationProxyPort
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.AuditProfileSelectors != nil {
+		o.AuditProfileSelectors = *so.AuditProfileSelectors
+	}
+	if so.AuditProfiles != nil {
+		o.AuditProfiles = *so.AuditProfiles
+	}
+	if so.AuditSocketBufferSize != nil {
+		o.AuditSocketBufferSize = *so.AuditSocketBufferSize
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.DockerSocketAddress != nil {
+		o.DockerSocketAddress = *so.DockerSocketAddress
+	}
+	if so.ExcludedInterfaces != nil {
+		o.ExcludedInterfaces = *so.ExcludedInterfaces
+	}
+	if so.ExcludedNetworks != nil {
+		o.ExcludedNetworks = *so.ExcludedNetworks
+	}
+	if so.HostServices != nil {
+		o.HostServices = *so.HostServices
+	}
+	if so.IgnoreExpression != nil {
+		o.IgnoreExpression = *so.IgnoreExpression
+	}
+	if so.KillContainersOnFailure != nil {
+		o.KillContainersOnFailure = *so.KillContainersOnFailure
+	}
+	if so.KubernetesMetadataExtractor != nil {
+		o.KubernetesMetadataExtractor = *so.KubernetesMetadataExtractor
+	}
+	if so.KubernetesSupportEnabled != nil {
+		o.KubernetesSupportEnabled = *so.KubernetesSupportEnabled
+	}
+	if so.LinuxProcessesSupportEnabled != nil {
+		o.LinuxProcessesSupportEnabled = *so.LinuxProcessesSupportEnabled
+	}
+	if so.MetadataExtractor != nil {
+		o.MetadataExtractor = *so.MetadataExtractor
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.PolicySynchronizationInterval != nil {
+		o.PolicySynchronizationInterval = *so.PolicySynchronizationInterval
+	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
+	}
+	if so.ProxyListenAddress != nil {
+		o.ProxyListenAddress = *so.ProxyListenAddress
+	}
+	if so.ReceiverNumberOfQueues != nil {
+		o.ReceiverNumberOfQueues = *so.ReceiverNumberOfQueues
+	}
+	if so.ReceiverQueue != nil {
+		o.ReceiverQueue = *so.ReceiverQueue
+	}
+	if so.ReceiverQueueSize != nil {
+		o.ReceiverQueueSize = *so.ReceiverQueueSize
+	}
+	if so.RemoteEnforcerEnabled != nil {
+		o.RemoteEnforcerEnabled = *so.RemoteEnforcerEnabled
+	}
+	if so.TargetNetworks != nil {
+		o.TargetNetworks = *so.TargetNetworks
+	}
+	if so.TargetUDPNetworks != nil {
+		o.TargetUDPNetworks = *so.TargetUDPNetworks
+	}
+	if so.TransmitterNumberOfQueues != nil {
+		o.TransmitterNumberOfQueues = *so.TransmitterNumberOfQueues
+	}
+	if so.TransmitterQueue != nil {
+		o.TransmitterQueue = *so.TransmitterQueue
+	}
+	if so.TransmitterQueueSize != nil {
+		o.TransmitterQueueSize = *so.TransmitterQueueSize
+	}
+	if so.TrustedCAs != nil {
+		o.TrustedCAs = *so.TrustedCAs
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -1510,4 +1784,364 @@ at the transmitterQueue.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseEnforcerProfilesList represents a list of SparseEnforcerProfiles
+type SparseEnforcerProfilesList []*SparseEnforcerProfile
+
+// Identity returns the identity of the objects in the list.
+func (o SparseEnforcerProfilesList) Identity() elemental.Identity {
+
+	return EnforcerProfileIdentity
+}
+
+// Copy returns a pointer to a copy the SparseEnforcerProfilesList.
+func (o SparseEnforcerProfilesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseEnforcerProfilesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseEnforcerProfilesList.
+func (o SparseEnforcerProfilesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseEnforcerProfilesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseEnforcerProfile))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseEnforcerProfilesList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseEnforcerProfilesList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// ToPlain returns the SparseEnforcerProfilesList converted to EnforcerProfilesList.
+func (o SparseEnforcerProfilesList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseEnforcerProfilesList) Version() int {
+
+	return 1
+}
+
+// SparseEnforcerProfile represents the sparse version of a enforcerprofile.
+type SparseEnforcerProfile struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// IptablesMarkValue is the mark value to be used in an iptables implementation.
+	IPTablesMarkValue *int `json:"IPTablesMarkValue,omitempty" bson:"iptablesmarkvalue" mapstructure:"IPTablesMarkValue,omitempty"`
+
+	// PUBookkeepingInterval configures how often the PU will be synchronized.
+	PUBookkeepingInterval *string `json:"PUBookkeepingInterval,omitempty" bson:"pubookkeepinginterval" mapstructure:"PUBookkeepingInterval,omitempty"`
+
+	// PUHeartbeatInterval configures the heart beat interval.
+	PUHeartbeatInterval *string `json:"PUHeartbeatInterval,omitempty" bson:"puheartbeatinterval" mapstructure:"PUHeartbeatInterval,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// Port used by aporeto application proxy.
+	ApplicationProxyPort *int `json:"applicationProxyPort,omitempty" bson:"applicationproxyport" mapstructure:"applicationProxyPort,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// AuditProfileSelectors is the list of tags (key/value pairs) that define the
+	// audit policies that must be implemented by this enforcer. The enforcer will
+	// implement all policies that match any of these tags.
+	AuditProfileSelectors *[]string `json:"auditProfileSelectors,omitempty" bson:"auditprofileselectors" mapstructure:"auditProfileSelectors,omitempty"`
+
+	// AuditProfiles returns the audit rules associated with the enforcer profile. This
+	// is a read only attribute when an enforcer profile is resolved for an enforcer.
+	AuditProfiles *AuditProfilesList `json:"auditProfiles,omitempty" bson:"-" mapstructure:"auditProfiles,omitempty"`
+
+	// AuditSocketBufferSize is the size of the audit socket buffer. Default 16384.
+	AuditSocketBufferSize *int `json:"auditSocketBufferSize,omitempty" bson:"auditsocketbuffersize" mapstructure:"auditSocketBufferSize,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// DockerSocketAddress is the address of the docker daemon.
+	DockerSocketAddress *string `json:"dockerSocketAddress,omitempty" bson:"dockersocketaddress" mapstructure:"dockerSocketAddress,omitempty"`
+
+	// ExcludedInterfaces is a list of interfaces that must be excluded.
+	ExcludedInterfaces *[]string `json:"excludedInterfaces,omitempty" bson:"excludedinterfaces" mapstructure:"excludedInterfaces,omitempty"`
+
+	// ExcludedNetworks is the list of networks that must be excluded for this
+	// enforcer.
+	ExcludedNetworks *[]string `json:"excludedNetworks,omitempty" bson:"excludednetworks" mapstructure:"excludedNetworks,omitempty"`
+
+	// HostServices is a list of services that must be activated by default to all
+	// enforcers matching this profile.
+	HostServices *types.HostServicesList `json:"hostServices,omitempty" bson:"hostservices" mapstructure:"hostServices,omitempty"`
+
+	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
+	// docker container started with labels matching the rule.
+	IgnoreExpression *[][]string `json:"ignoreExpression,omitempty" bson:"ignoreexpression" mapstructure:"ignoreExpression,omitempty"`
+
+	// KillContainersOnFailure will configure the enforcers to kill any containers if
+	// there are policy failures.
+	KillContainersOnFailure *bool `json:"killContainersOnFailure,omitempty" bson:"killcontainersonfailure" mapstructure:"killContainersOnFailure,omitempty"`
+
+	// Select which metadata extractor to use to process new processing units from
+	// Kubernetes.
+	KubernetesMetadataExtractor *EnforcerProfileKubernetesMetadataExtractorValue `json:"kubernetesMetadataExtractor,omitempty" bson:"kubernetesmetadataextractor" mapstructure:"kubernetesMetadataExtractor,omitempty"`
+
+	// KubernetesSupportEnabled enables kubernetes mode for the enforcer.
+	KubernetesSupportEnabled *bool `json:"kubernetesSupportEnabled,omitempty" bson:"kubernetessupportenabled" mapstructure:"kubernetesSupportEnabled,omitempty"`
+
+	// LinuxProcessesSupportEnabled configures support for Linux processes.
+	LinuxProcessesSupportEnabled *bool `json:"linuxProcessesSupportEnabled,omitempty" bson:"linuxprocessessupportenabled" mapstructure:"linuxProcessesSupportEnabled,omitempty"`
+
+	// Select which metadata extractor to use to process new processing units.
+	MetadataExtractor *EnforcerProfileMetadataExtractorValue `json:"metadataExtractor,omitempty" bson:"metadataextractor" mapstructure:"metadataExtractor,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// PolicySynchronizationInterval configures how often the policy will be
+	// resynchronized.
+	PolicySynchronizationInterval *string `json:"policySynchronizationInterval,omitempty" bson:"policysynchronizationinterval" mapstructure:"policySynchronizationInterval,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// ProxyListenAddress is the address the enforcer should use to listen for API
+	// calls. It can be a port (example :9443) or socket path
+	// example:
+	//   unix:///var/run/aporeto.sock.
+	ProxyListenAddress *string `json:"proxyListenAddress,omitempty" bson:"proxylistenaddress" mapstructure:"proxyListenAddress,omitempty"`
+
+	// ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network
+	// receiver starting at the ReceiverQueue.
+	ReceiverNumberOfQueues *int `json:"receiverNumberOfQueues,omitempty" bson:"receivernumberofqueues" mapstructure:"receiverNumberOfQueues,omitempty"`
+
+	// ReceiverQueue is the base queue number for traffic from the network.
+	ReceiverQueue *int `json:"receiverQueue,omitempty" bson:"receiverqueue" mapstructure:"receiverQueue,omitempty"`
+
+	// ReceiverQueueSize is the queue size of the receiver.
+	ReceiverQueueSize *int `json:"receiverQueueSize,omitempty" bson:"receiverqueuesize" mapstructure:"receiverQueueSize,omitempty"`
+
+	// RemoteEnforcerEnabled inidicates whether a single enforcer should be used or a
+	// distributed enforcer. True means distributed.
+	RemoteEnforcerEnabled *bool `json:"remoteEnforcerEnabled,omitempty" bson:"remoteenforcerenabled" mapstructure:"remoteEnforcerEnabled,omitempty"`
+
+	// TargetNetworks is the list of networks that authorization should be applied.
+	TargetNetworks *[]string `json:"targetNetworks,omitempty" bson:"targetnetworks" mapstructure:"targetNetworks,omitempty"`
+
+	// TargetUDPNetworks is the list of UDP networks that authorization should be
+	// applied.
+	TargetUDPNetworks *[]string `json:"targetUDPNetworks,omitempty" bson:"targetudpnetworks" mapstructure:"targetUDPNetworks,omitempty"`
+
+	// TransmitterNumberOfQueues is the number of queues for application traffic.
+	TransmitterNumberOfQueues *int `json:"transmitterNumberOfQueues,omitempty" bson:"transmitternumberofqueues" mapstructure:"transmitterNumberOfQueues,omitempty"`
+
+	// TransmitterQueue is the queue number for traffic from the applications starting
+	// at the transmitterQueue.
+	TransmitterQueue *int `json:"transmitterQueue,omitempty" bson:"transmitterqueue" mapstructure:"transmitterQueue,omitempty"`
+
+	// TransmitterQueueSize is the size of the queue for application traffic.
+	TransmitterQueueSize *int `json:"transmitterQueueSize,omitempty" bson:"transmitterqueuesize" mapstructure:"transmitterQueueSize,omitempty"`
+
+	// List of trusted CA. If empty the main chain of trust will be used.
+	TrustedCAs *[]string `json:"trustedCAs,omitempty" bson:"trustedcas" mapstructure:"trustedCAs,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseEnforcerProfile returns a new  SparseEnforcerProfile.
+func NewSparseEnforcerProfile() *SparseEnforcerProfile {
+	return &SparseEnforcerProfile{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseEnforcerProfile) Identity() elemental.Identity {
+
+	return EnforcerProfileIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseEnforcerProfile) Identifier() string {
+
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseEnforcerProfile) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseEnforcerProfile) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewEnforcerProfile()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.IPTablesMarkValue != nil {
+		out.IPTablesMarkValue = *o.IPTablesMarkValue
+	}
+	if o.PUBookkeepingInterval != nil {
+		out.PUBookkeepingInterval = *o.PUBookkeepingInterval
+	}
+	if o.PUHeartbeatInterval != nil {
+		out.PUHeartbeatInterval = *o.PUHeartbeatInterval
+	}
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
+	}
+	if o.ApplicationProxyPort != nil {
+		out.ApplicationProxyPort = *o.ApplicationProxyPort
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.AuditProfileSelectors != nil {
+		out.AuditProfileSelectors = *o.AuditProfileSelectors
+	}
+	if o.AuditProfiles != nil {
+		out.AuditProfiles = *o.AuditProfiles
+	}
+	if o.AuditSocketBufferSize != nil {
+		out.AuditSocketBufferSize = *o.AuditSocketBufferSize
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.DockerSocketAddress != nil {
+		out.DockerSocketAddress = *o.DockerSocketAddress
+	}
+	if o.ExcludedInterfaces != nil {
+		out.ExcludedInterfaces = *o.ExcludedInterfaces
+	}
+	if o.ExcludedNetworks != nil {
+		out.ExcludedNetworks = *o.ExcludedNetworks
+	}
+	if o.HostServices != nil {
+		out.HostServices = *o.HostServices
+	}
+	if o.IgnoreExpression != nil {
+		out.IgnoreExpression = *o.IgnoreExpression
+	}
+	if o.KillContainersOnFailure != nil {
+		out.KillContainersOnFailure = *o.KillContainersOnFailure
+	}
+	if o.KubernetesMetadataExtractor != nil {
+		out.KubernetesMetadataExtractor = *o.KubernetesMetadataExtractor
+	}
+	if o.KubernetesSupportEnabled != nil {
+		out.KubernetesSupportEnabled = *o.KubernetesSupportEnabled
+	}
+	if o.LinuxProcessesSupportEnabled != nil {
+		out.LinuxProcessesSupportEnabled = *o.LinuxProcessesSupportEnabled
+	}
+	if o.MetadataExtractor != nil {
+		out.MetadataExtractor = *o.MetadataExtractor
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.PolicySynchronizationInterval != nil {
+		out.PolicySynchronizationInterval = *o.PolicySynchronizationInterval
+	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
+	}
+	if o.ProxyListenAddress != nil {
+		out.ProxyListenAddress = *o.ProxyListenAddress
+	}
+	if o.ReceiverNumberOfQueues != nil {
+		out.ReceiverNumberOfQueues = *o.ReceiverNumberOfQueues
+	}
+	if o.ReceiverQueue != nil {
+		out.ReceiverQueue = *o.ReceiverQueue
+	}
+	if o.ReceiverQueueSize != nil {
+		out.ReceiverQueueSize = *o.ReceiverQueueSize
+	}
+	if o.RemoteEnforcerEnabled != nil {
+		out.RemoteEnforcerEnabled = *o.RemoteEnforcerEnabled
+	}
+	if o.TargetNetworks != nil {
+		out.TargetNetworks = *o.TargetNetworks
+	}
+	if o.TargetUDPNetworks != nil {
+		out.TargetUDPNetworks = *o.TargetUDPNetworks
+	}
+	if o.TransmitterNumberOfQueues != nil {
+		out.TransmitterNumberOfQueues = *o.TransmitterNumberOfQueues
+	}
+	if o.TransmitterQueue != nil {
+		out.TransmitterQueue = *o.TransmitterQueue
+	}
+	if o.TransmitterQueueSize != nil {
+		out.TransmitterQueueSize = *o.TransmitterQueueSize
+	}
+	if o.TrustedCAs != nil {
+		out.TrustedCAs = *o.TrustedCAs
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

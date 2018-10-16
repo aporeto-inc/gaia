@@ -61,9 +61,9 @@ func (o AutomationsList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o AutomationsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -75,6 +75,18 @@ func (o AutomationsList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToSparse returns the AutomationsList converted to SparseAutomationsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o AutomationsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -320,6 +332,172 @@ func (o *Automation) GetUpdateTime() time.Time {
 func (o *Automation) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *Automation) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseAutomation{
+			ID:             &o.ID,
+			Actions:        &o.Actions,
+			Annotations:    &o.Annotations,
+			AssociatedTags: &o.AssociatedTags,
+			Condition:      &o.Condition,
+			CreateTime:     &o.CreateTime,
+			Description:    &o.Description,
+			Disabled:       &o.Disabled,
+			Entitlements:   &o.Entitlements,
+			Errors:         &o.Errors,
+			Events:         &o.Events,
+			LastExecTime:   &o.LastExecTime,
+			Name:           &o.Name,
+			Namespace:      &o.Namespace,
+			NormalizedTags: &o.NormalizedTags,
+			Parameters:     &o.Parameters,
+			Protected:      &o.Protected,
+			Schedule:       &o.Schedule,
+			Stdout:         &o.Stdout,
+			Token:          &o.Token,
+			TokenRenew:     &o.TokenRenew,
+			Trigger:        &o.Trigger,
+			UpdateTime:     &o.UpdateTime,
+		}
+	}
+
+	sp := &SparseAutomation{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "actions":
+			sp.Actions = &(o.Actions)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "condition":
+			sp.Condition = &(o.Condition)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "disabled":
+			sp.Disabled = &(o.Disabled)
+		case "entitlements":
+			sp.Entitlements = &(o.Entitlements)
+		case "errors":
+			sp.Errors = &(o.Errors)
+		case "events":
+			sp.Events = &(o.Events)
+		case "lastExecTime":
+			sp.LastExecTime = &(o.LastExecTime)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "parameters":
+			sp.Parameters = &(o.Parameters)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "schedule":
+			sp.Schedule = &(o.Schedule)
+		case "stdout":
+			sp.Stdout = &(o.Stdout)
+		case "token":
+			sp.Token = &(o.Token)
+		case "tokenRenew":
+			sp.TokenRenew = &(o.TokenRenew)
+		case "trigger":
+			sp.Trigger = &(o.Trigger)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseAutomation to the object.
+func (o *Automation) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseAutomation)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Actions != nil {
+		o.Actions = *so.Actions
+	}
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.Condition != nil {
+		o.Condition = *so.Condition
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.Disabled != nil {
+		o.Disabled = *so.Disabled
+	}
+	if so.Entitlements != nil {
+		o.Entitlements = *so.Entitlements
+	}
+	if so.Errors != nil {
+		o.Errors = *so.Errors
+	}
+	if so.Events != nil {
+		o.Events = *so.Events
+	}
+	if so.LastExecTime != nil {
+		o.LastExecTime = *so.LastExecTime
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Parameters != nil {
+		o.Parameters = *so.Parameters
+	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
+	}
+	if so.Schedule != nil {
+		o.Schedule = *so.Schedule
+	}
+	if so.Stdout != nil {
+		o.Stdout = *so.Stdout
+	}
+	if so.Token != nil {
+		o.Token = *so.Token
+	}
+	if so.TokenRenew != nil {
+		o.TokenRenew = *so.TokenRenew
+	}
+	if so.Trigger != nil {
+		o.Trigger = *so.Trigger
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -934,4 +1112,256 @@ authentication. It will be visible only after creation.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseAutomationsList represents a list of SparseAutomations
+type SparseAutomationsList []*SparseAutomation
+
+// Identity returns the identity of the objects in the list.
+func (o SparseAutomationsList) Identity() elemental.Identity {
+
+	return AutomationIdentity
+}
+
+// Copy returns a pointer to a copy the SparseAutomationsList.
+func (o SparseAutomationsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseAutomationsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseAutomationsList.
+func (o SparseAutomationsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseAutomationsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseAutomation))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseAutomationsList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseAutomationsList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// ToPlain returns the SparseAutomationsList converted to AutomationsList.
+func (o SparseAutomationsList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseAutomationsList) Version() int {
+
+	return 1
+}
+
+// SparseAutomation represents the sparse version of a automation.
+type SparseAutomation struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Action contains the code that will be executed if the condition is met.
+	Actions *[]string `json:"actions,omitempty" bson:"actions" mapstructure:"actions,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// Condition contains the code that will be executed to decide if any action should
+	// be taken.
+	Condition *string `json:"condition,omitempty" bson:"condition" mapstructure:"condition,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// Disabled defines if the propert is disabled.
+	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
+
+	// Entitlements declares which operations are allowed on which identities.
+	Entitlements *map[string][]elemental.Operation `json:"entitlements,omitempty" bson:"entitlements" mapstructure:"entitlements,omitempty"`
+
+	// Error contains the eventual error of the last run.
+	Errors *[]string `json:"errors,omitempty" bson:"errors" mapstructure:"errors,omitempty"`
+
+	// Events contains the identity and operation an event must have to trigger the
+	// automation.
+	Events *map[string][]elemental.EventType `json:"events,omitempty" bson:"events" mapstructure:"events,omitempty"`
+
+	// LastExecTime holds the last successful execution tine.
+	LastExecTime *time.Time `json:"lastExecTime,omitempty" bson:"lastexectime" mapstructure:"lastExecTime,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Parameters are passed to the functions.
+	Parameters *map[string]interface{} `json:"parameters,omitempty" bson:"parameters" mapstructure:"parameters,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// Schedule tells when to run the automation. Must be a valid CRON format. This
+	// only applies if the trigger is set to Time.
+	Schedule *string `json:"schedule,omitempty" bson:"schedule" mapstructure:"schedule,omitempty"`
+
+	// Stdout contains the last run standard output.
+	Stdout *string `json:"stdout,omitempty" bson:"stdout" mapstructure:"stdout,omitempty"`
+
+	// Token holds the unique access token used as a password to trigger the
+	// authentication. It will be visible only after creation.
+	Token *string `json:"token,omitempty" bson:"token" mapstructure:"token,omitempty"`
+
+	// If set to true a new token will be issued, and the previous one invalidated.
+	TokenRenew *bool `json:"tokenRenew,omitempty" bson:"-" mapstructure:"tokenRenew,omitempty"`
+
+	// Trigger controls when the automation should be triggered.
+	Trigger *AutomationTriggerValue `json:"trigger,omitempty" bson:"trigger" mapstructure:"trigger,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseAutomation returns a new  SparseAutomation.
+func NewSparseAutomation() *SparseAutomation {
+	return &SparseAutomation{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseAutomation) Identity() elemental.Identity {
+
+	return AutomationIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseAutomation) Identifier() string {
+
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseAutomation) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseAutomation) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseAutomation) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewAutomation()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Actions != nil {
+		out.Actions = *o.Actions
+	}
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.Condition != nil {
+		out.Condition = *o.Condition
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.Disabled != nil {
+		out.Disabled = *o.Disabled
+	}
+	if o.Entitlements != nil {
+		out.Entitlements = *o.Entitlements
+	}
+	if o.Errors != nil {
+		out.Errors = *o.Errors
+	}
+	if o.Events != nil {
+		out.Events = *o.Events
+	}
+	if o.LastExecTime != nil {
+		out.LastExecTime = *o.LastExecTime
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Parameters != nil {
+		out.Parameters = *o.Parameters
+	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
+	}
+	if o.Schedule != nil {
+		out.Schedule = *o.Schedule
+	}
+	if o.Stdout != nil {
+		out.Stdout = *o.Stdout
+	}
+	if o.Token != nil {
+		out.Token = *o.Token
+	}
+	if o.TokenRenew != nil {
+		out.TokenRenew = *o.TokenRenew
+	}
+	if o.Trigger != nil {
+		out.Trigger = *o.Trigger
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

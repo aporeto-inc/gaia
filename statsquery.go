@@ -46,9 +46,9 @@ func (o StatsQueriesList) Append(objects ...elemental.Identifiable) elemental.Id
 // List converts the object to an elemental.IdentifiablesList.
 func (o StatsQueriesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -58,6 +58,18 @@ func (o StatsQueriesList) List() elemental.IdentifiablesList {
 func (o StatsQueriesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToSparse returns the StatsQueriesList converted to SparseStatsQueriesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o StatsQueriesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -126,6 +138,40 @@ func (o *StatsQuery) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *StatsQuery) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseStatsQuery{
+			Results: &o.Results,
+		}
+	}
+
+	sp := &SparseStatsQuery{}
+	for _, f := range fields {
+		switch f {
+		case "results":
+			sp.Results = &(o.Results)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseStatsQuery to the object.
+func (o *StatsQuery) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseStatsQuery)
+	if so.Results != nil {
+		o.Results = *so.Results
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *StatsQuery) Validate() error {
 
@@ -188,4 +234,114 @@ var StatsQueryLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		SubType:        "time_series_results",
 		Type:           "external",
 	},
+}
+
+// SparseStatsQueriesList represents a list of SparseStatsQueries
+type SparseStatsQueriesList []*SparseStatsQuery
+
+// Identity returns the identity of the objects in the list.
+func (o SparseStatsQueriesList) Identity() elemental.Identity {
+
+	return StatsQueryIdentity
+}
+
+// Copy returns a pointer to a copy the SparseStatsQueriesList.
+func (o SparseStatsQueriesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseStatsQueriesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseStatsQueriesList.
+func (o SparseStatsQueriesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseStatsQueriesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseStatsQuery))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseStatsQueriesList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseStatsQueriesList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// ToPlain returns the SparseStatsQueriesList converted to StatsQueriesList.
+func (o SparseStatsQueriesList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseStatsQueriesList) Version() int {
+
+	return 1
+}
+
+// SparseStatsQuery represents the sparse version of a statsquery.
+type SparseStatsQuery struct {
+	// Results contains the result of the query.
+	Results *[]*types.TimeSeriesQueryResults `json:"results,omitempty" bson:"-" mapstructure:"results,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseStatsQuery returns a new  SparseStatsQuery.
+func NewSparseStatsQuery() *SparseStatsQuery {
+	return &SparseStatsQuery{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseStatsQuery) Identity() elemental.Identity {
+
+	return StatsQueryIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseStatsQuery) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseStatsQuery) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseStatsQuery) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseStatsQuery) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewStatsQuery()
+	if o.Results != nil {
+		out.Results = *o.Results
+	}
+
+	return out
 }

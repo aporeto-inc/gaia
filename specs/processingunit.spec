@@ -52,7 +52,7 @@ attributes:
     exposed: true
     stored: true
     allowed_choices:
-    - Protected
+    - Active
     - Failed
     - Inactive
     default_value: Inactive
@@ -174,7 +174,7 @@ relations:
         allowed_choices:
         - Failed
         - Inactive
-        - Protected
+        - Active
 
       - name: status
         description: If set, changes the status of the processing unit alongside with

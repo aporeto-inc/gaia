@@ -75,9 +75,9 @@ func (o AccountsList) Append(objects ...elemental.Identifiable) elemental.Identi
 // List converts the object to an elemental.IdentifiablesList.
 func (o AccountsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -87,6 +87,18 @@ func (o AccountsList) List() elemental.IdentifiablesList {
 func (o AccountsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToSparse returns the AccountsList converted to SparseAccountsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o AccountsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -154,7 +166,7 @@ type Account struct {
 	ActivationExpiration time.Time `json:"-" bson:"activationexpiration" mapstructure:"-,omitempty"`
 
 	// ActivationToken contains the activation token.
-	ActivationToken string `json:"activationToken,omitempty" bson:"activationtoken" mapstructure:"activationToken,omitempty,omitempty"`
+	ActivationToken string `json:"activationToken,omitempty" bson:"activationtoken" mapstructure:"activationToken,omitempty"`
 
 	// AssociatedAPIAuthPolicyID holds the ID of the associated API auth policy.
 	AssociatedAPIAuthPolicyID string `json:"-" bson:"associatedapiauthpolicyid" mapstructure:"-,omitempty"`
@@ -274,6 +286,250 @@ your name, password, enable 2 factor authentication.`
 func (o *Account) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseAccount{
+			ID:                        &o.ID,
+			LDAPAddress:               &o.LDAPAddress,
+			LDAPBaseDN:                &o.LDAPBaseDN,
+			LDAPBindDN:                &o.LDAPBindDN,
+			LDAPBindPassword:          &o.LDAPBindPassword,
+			LDAPBindSearchFilter:      &o.LDAPBindSearchFilter,
+			LDAPCertificateAuthority:  &o.LDAPCertificateAuthority,
+			LDAPConnSecurityProtocol:  &o.LDAPConnSecurityProtocol,
+			LDAPEnabled:               &o.LDAPEnabled,
+			LDAPIgnoredKeys:           &o.LDAPIgnoredKeys,
+			LDAPSubjectKey:            &o.LDAPSubjectKey,
+			OTPEnabled:                &o.OTPEnabled,
+			OTPQRCode:                 &o.OTPQRCode,
+			OTPSecret:                 &o.OTPSecret,
+			AccessEnabled:             &o.AccessEnabled,
+			ActivationExpiration:      &o.ActivationExpiration,
+			ActivationToken:           &o.ActivationToken,
+			AssociatedAPIAuthPolicyID: &o.AssociatedAPIAuthPolicyID,
+			AssociatedAWSPolicies:     &o.AssociatedAWSPolicies,
+			AssociatedBillingID:       &o.AssociatedBillingID,
+			AssociatedGCPPolicies:     &o.AssociatedGCPPolicies,
+			AssociatedNamespaceID:     &o.AssociatedNamespaceID,
+			AssociatedPlanKey:         &o.AssociatedPlanKey,
+			AssociatedQuotaPolicies:   &o.AssociatedQuotaPolicies,
+			Company:                   &o.Company,
+			CreateTime:                &o.CreateTime,
+			Email:                     &o.Email,
+			FirstName:                 &o.FirstName,
+			LastName:                  &o.LastName,
+			Name:                      &o.Name,
+			Password:                  &o.Password,
+			ReCAPTCHAKey:              &o.ReCAPTCHAKey,
+			ResetPasswordExpiration:   &o.ResetPasswordExpiration,
+			ResetPasswordToken:        &o.ResetPasswordToken,
+			Status:                    &o.Status,
+			UpdateTime:                &o.UpdateTime,
+		}
+	}
+
+	sp := &SparseAccount{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "LDAPAddress":
+			sp.LDAPAddress = &(o.LDAPAddress)
+		case "LDAPBaseDN":
+			sp.LDAPBaseDN = &(o.LDAPBaseDN)
+		case "LDAPBindDN":
+			sp.LDAPBindDN = &(o.LDAPBindDN)
+		case "LDAPBindPassword":
+			sp.LDAPBindPassword = &(o.LDAPBindPassword)
+		case "LDAPBindSearchFilter":
+			sp.LDAPBindSearchFilter = &(o.LDAPBindSearchFilter)
+		case "LDAPCertificateAuthority":
+			sp.LDAPCertificateAuthority = &(o.LDAPCertificateAuthority)
+		case "LDAPConnSecurityProtocol":
+			sp.LDAPConnSecurityProtocol = &(o.LDAPConnSecurityProtocol)
+		case "LDAPEnabled":
+			sp.LDAPEnabled = &(o.LDAPEnabled)
+		case "LDAPIgnoredKeys":
+			sp.LDAPIgnoredKeys = &(o.LDAPIgnoredKeys)
+		case "LDAPSubjectKey":
+			sp.LDAPSubjectKey = &(o.LDAPSubjectKey)
+		case "OTPEnabled":
+			sp.OTPEnabled = &(o.OTPEnabled)
+		case "OTPQRCode":
+			sp.OTPQRCode = &(o.OTPQRCode)
+		case "OTPSecret":
+			sp.OTPSecret = &(o.OTPSecret)
+		case "accessEnabled":
+			sp.AccessEnabled = &(o.AccessEnabled)
+		case "activationExpiration":
+			sp.ActivationExpiration = &(o.ActivationExpiration)
+		case "activationToken":
+			sp.ActivationToken = &(o.ActivationToken)
+		case "associatedAPIAuthPolicyID":
+			sp.AssociatedAPIAuthPolicyID = &(o.AssociatedAPIAuthPolicyID)
+		case "associatedAWSPolicies":
+			sp.AssociatedAWSPolicies = &(o.AssociatedAWSPolicies)
+		case "associatedBillingID":
+			sp.AssociatedBillingID = &(o.AssociatedBillingID)
+		case "associatedGCPPolicies":
+			sp.AssociatedGCPPolicies = &(o.AssociatedGCPPolicies)
+		case "associatedNamespaceID":
+			sp.AssociatedNamespaceID = &(o.AssociatedNamespaceID)
+		case "associatedPlanKey":
+			sp.AssociatedPlanKey = &(o.AssociatedPlanKey)
+		case "associatedQuotaPolicies":
+			sp.AssociatedQuotaPolicies = &(o.AssociatedQuotaPolicies)
+		case "company":
+			sp.Company = &(o.Company)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "email":
+			sp.Email = &(o.Email)
+		case "firstName":
+			sp.FirstName = &(o.FirstName)
+		case "lastName":
+			sp.LastName = &(o.LastName)
+		case "name":
+			sp.Name = &(o.Name)
+		case "password":
+			sp.Password = &(o.Password)
+		case "reCAPTCHAKey":
+			sp.ReCAPTCHAKey = &(o.ReCAPTCHAKey)
+		case "resetPasswordExpiration":
+			sp.ResetPasswordExpiration = &(o.ResetPasswordExpiration)
+		case "resetPasswordToken":
+			sp.ResetPasswordToken = &(o.ResetPasswordToken)
+		case "status":
+			sp.Status = &(o.Status)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseAccount to the object.
+func (o *Account) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseAccount)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.LDAPAddress != nil {
+		o.LDAPAddress = *so.LDAPAddress
+	}
+	if so.LDAPBaseDN != nil {
+		o.LDAPBaseDN = *so.LDAPBaseDN
+	}
+	if so.LDAPBindDN != nil {
+		o.LDAPBindDN = *so.LDAPBindDN
+	}
+	if so.LDAPBindPassword != nil {
+		o.LDAPBindPassword = *so.LDAPBindPassword
+	}
+	if so.LDAPBindSearchFilter != nil {
+		o.LDAPBindSearchFilter = *so.LDAPBindSearchFilter
+	}
+	if so.LDAPCertificateAuthority != nil {
+		o.LDAPCertificateAuthority = *so.LDAPCertificateAuthority
+	}
+	if so.LDAPConnSecurityProtocol != nil {
+		o.LDAPConnSecurityProtocol = *so.LDAPConnSecurityProtocol
+	}
+	if so.LDAPEnabled != nil {
+		o.LDAPEnabled = *so.LDAPEnabled
+	}
+	if so.LDAPIgnoredKeys != nil {
+		o.LDAPIgnoredKeys = *so.LDAPIgnoredKeys
+	}
+	if so.LDAPSubjectKey != nil {
+		o.LDAPSubjectKey = *so.LDAPSubjectKey
+	}
+	if so.OTPEnabled != nil {
+		o.OTPEnabled = *so.OTPEnabled
+	}
+	if so.OTPQRCode != nil {
+		o.OTPQRCode = *so.OTPQRCode
+	}
+	if so.OTPSecret != nil {
+		o.OTPSecret = *so.OTPSecret
+	}
+	if so.AccessEnabled != nil {
+		o.AccessEnabled = *so.AccessEnabled
+	}
+	if so.ActivationExpiration != nil {
+		o.ActivationExpiration = *so.ActivationExpiration
+	}
+	if so.ActivationToken != nil {
+		o.ActivationToken = *so.ActivationToken
+	}
+	if so.AssociatedAPIAuthPolicyID != nil {
+		o.AssociatedAPIAuthPolicyID = *so.AssociatedAPIAuthPolicyID
+	}
+	if so.AssociatedAWSPolicies != nil {
+		o.AssociatedAWSPolicies = *so.AssociatedAWSPolicies
+	}
+	if so.AssociatedBillingID != nil {
+		o.AssociatedBillingID = *so.AssociatedBillingID
+	}
+	if so.AssociatedGCPPolicies != nil {
+		o.AssociatedGCPPolicies = *so.AssociatedGCPPolicies
+	}
+	if so.AssociatedNamespaceID != nil {
+		o.AssociatedNamespaceID = *so.AssociatedNamespaceID
+	}
+	if so.AssociatedPlanKey != nil {
+		o.AssociatedPlanKey = *so.AssociatedPlanKey
+	}
+	if so.AssociatedQuotaPolicies != nil {
+		o.AssociatedQuotaPolicies = *so.AssociatedQuotaPolicies
+	}
+	if so.Company != nil {
+		o.Company = *so.Company
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Email != nil {
+		o.Email = *so.Email
+	}
+	if so.FirstName != nil {
+		o.FirstName = *so.FirstName
+	}
+	if so.LastName != nil {
+		o.LastName = *so.LastName
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Password != nil {
+		o.Password = *so.Password
+	}
+	if so.ReCAPTCHAKey != nil {
+		o.ReCAPTCHAKey = *so.ReCAPTCHAKey
+	}
+	if so.ResetPasswordExpiration != nil {
+		o.ResetPasswordExpiration = *so.ResetPasswordExpiration
+	}
+	if so.ResetPasswordToken != nil {
+		o.ResetPasswordToken = *so.ResetPasswordToken
+	}
+	if so.Status != nil {
+		o.Status = *so.Status
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -1110,4 +1366,336 @@ also use any alternate key.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseAccountsList represents a list of SparseAccounts
+type SparseAccountsList []*SparseAccount
+
+// Identity returns the identity of the objects in the list.
+func (o SparseAccountsList) Identity() elemental.Identity {
+
+	return AccountIdentity
+}
+
+// Copy returns a pointer to a copy the SparseAccountsList.
+func (o SparseAccountsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseAccountsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseAccountsList.
+func (o SparseAccountsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseAccountsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseAccount))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseAccountsList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseAccountsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// ToPlain returns the SparseAccountsList converted to AccountsList.
+func (o SparseAccountsList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseAccountsList) Version() int {
+
+	return 1
+}
+
+// SparseAccount represents the sparse version of a account.
+type SparseAccount struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// LDAPAddress holds the account authentication account's private ldap server.
+	LDAPAddress *string `json:"LDAPAddress,omitempty" bson:"ldapaddress" mapstructure:"LDAPAddress,omitempty"`
+
+	// LDAPBaseDN holds the base DN to use to ldap queries.
+	LDAPBaseDN *string `json:"LDAPBaseDN,omitempty" bson:"ldapbasedn" mapstructure:"LDAPBaseDN,omitempty"`
+
+	// LDAPBindDN holds the account's internal LDAP bind dn for querying auth.
+	LDAPBindDN *string `json:"LDAPBindDN,omitempty" bson:"ldapbinddn" mapstructure:"LDAPBindDN,omitempty"`
+
+	// LDAPBindPassword holds the password to the LDAPBindDN.
+	LDAPBindPassword *string `json:"LDAPBindPassword,omitempty" bson:"ldapbindpassword" mapstructure:"LDAPBindPassword,omitempty"`
+
+	// LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
+	// Windows based systems, value may be 'sAMAccountName={USERNAME}'. For Linux and
+	// other systems, value may be 'uid={USERNAME}'.
+	LDAPBindSearchFilter *string `json:"LDAPBindSearchFilter,omitempty" bson:"ldapbindsearchfilter" mapstructure:"LDAPBindSearchFilter,omitempty"`
+
+	// LDAPCertificateAuthority contains the optional certificate author ity that will
+	// be used to connect to the LDAP server. It is not needed if the TLS certificate
+	// of the LDAP is issued from a public truster CA.
+	LDAPCertificateAuthority *string `json:"LDAPCertificateAuthority,omitempty" bson:"ldapcertificateauthority" mapstructure:"LDAPCertificateAuthority,omitempty"`
+
+	// LDAPConnProtocol holds the connection type for the LDAP provider.
+	LDAPConnSecurityProtocol *AccountLDAPConnSecurityProtocolValue `json:"LDAPConnSecurityProtocol,omitempty" bson:"ldapconnsecurityprotocol" mapstructure:"LDAPConnSecurityProtocol,omitempty"`
+
+	// LDAPEnabled triggers if the account uses it's own LDAP for authentication.
+	LDAPEnabled *bool `json:"LDAPEnabled,omitempty" bson:"ldapenabled" mapstructure:"LDAPEnabled,omitempty"`
+
+	// LDAPIgnoredKeys holds a list of keys that must not be imported into Aporeto
+	// authorization system.
+	LDAPIgnoredKeys *[]string `json:"LDAPIgnoredKeys,omitempty" bson:"ldapignoredkeys" mapstructure:"LDAPIgnoredKeys,omitempty"`
+
+	// LDAPSubjectKey holds key to be used to populate the subject. If you want to
+	// use the user as a subject, for Windows based systems you may use
+	// 'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
+	// also use any alternate key.
+	LDAPSubjectKey *string `json:"LDAPSubjectKey,omitempty" bson:"ldapsubjectkey" mapstructure:"LDAPSubjectKey,omitempty"`
+
+	// Set to enable or disable two factor authentication.
+	OTPEnabled *bool `json:"OTPEnabled,omitempty" bson:"otpenabled" mapstructure:"OTPEnabled,omitempty"`
+
+	// Returns the base64 encoded QRCode for setting up 2 factor auth.
+	OTPQRCode *string `json:"OTPQRCode,omitempty" bson:"-" mapstructure:"OTPQRCode,omitempty"`
+
+	// Stores the 2 factor secret.
+	OTPSecret *string `json:"-,omitempty" bson:"otpsecret" mapstructure:"-,omitempty"`
+
+	// AccessEnabled defines if the account holder should have access to the systems.
+	AccessEnabled *bool `json:"accessEnabled,omitempty" bson:"accessenabled" mapstructure:"accessEnabled,omitempty"`
+
+	// ActivationExpiration contains the expiration date of the activation token.
+	ActivationExpiration *time.Time `json:"-,omitempty" bson:"activationexpiration" mapstructure:"-,omitempty"`
+
+	// ActivationToken contains the activation token.
+	ActivationToken *string `json:"activationToken,omitempty" bson:"activationtoken" mapstructure:"activationToken,omitempty"`
+
+	// AssociatedAPIAuthPolicyID holds the ID of the associated API auth policy.
+	AssociatedAPIAuthPolicyID *string `json:"-,omitempty" bson:"associatedapiauthpolicyid" mapstructure:"-,omitempty"`
+
+	// AssociatedAWSPolicies contains a map of associated AWS Enforcerd Policies.
+	AssociatedAWSPolicies *map[string]string `json:"-,omitempty" bson:"associatedawspolicies" mapstructure:"-,omitempty"`
+
+	// associatedBillingID holds the ID of the associated billing customer.
+	AssociatedBillingID *string `json:"associatedBillingID,omitempty" bson:"associatedbillingid" mapstructure:"associatedBillingID,omitempty"`
+
+	// associatedGCPPolicies contains a map of associated GCP Enforcerd Policies.
+	AssociatedGCPPolicies *map[string]string `json:"-,omitempty" bson:"associatedgcppolicies" mapstructure:"-,omitempty"`
+
+	// AssociatedNamespaceID contains the ID of the associated namespace.
+	AssociatedNamespaceID *string `json:"-,omitempty" bson:"associatednamespaceid" mapstructure:"-,omitempty"`
+
+	// AssociatedPlanKey contains the plan key that is associated to this account.
+	AssociatedPlanKey *string `json:"associatedPlanKey,omitempty" bson:"associatedplankey" mapstructure:"associatedPlanKey,omitempty"`
+
+	// AssociatedQuotaPolicies contains a mapping to the associated quota pollicies.
+	AssociatedQuotaPolicies *map[string]string `json:"-,omitempty" bson:"associatedquotapolicies" mapstructure:"-,omitempty"`
+
+	// Company of the account user.
+	Company *string `json:"company,omitempty" bson:"company" mapstructure:"company,omitempty"`
+
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Email of the account holder.
+	Email *string `json:"email,omitempty" bson:"email" mapstructure:"email,omitempty"`
+
+	// First Name of the account user.
+	FirstName *string `json:"firstName,omitempty" bson:"firstname" mapstructure:"firstName,omitempty"`
+
+	// Last Name of the account user.
+	LastName *string `json:"lastName,omitempty" bson:"lastname" mapstructure:"lastName,omitempty"`
+
+	// Name of the account.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Password for the account.
+	Password *string `json:"password,omitempty" bson:"password" mapstructure:"password,omitempty"`
+
+	// ReCAPTCHAKey contains the capcha validation if reCAPTCH is enabled.
+	ReCAPTCHAKey *string `json:"reCAPTCHAKey,omitempty" bson:"-" mapstructure:"reCAPTCHAKey,omitempty"`
+
+	// ResetPasswordExpiration contains the expiration time for reseting the password.
+	ResetPasswordExpiration *time.Time `json:"-,omitempty" bson:"resetpasswordexpiration" mapstructure:"-,omitempty"`
+
+	// ResetPasswordToken contains the token to use for resetting password.
+	ResetPasswordToken *string `json:"-,omitempty" bson:"resetpasswordtoken" mapstructure:"-,omitempty"`
+
+	// Status of the account.
+	Status *AccountStatusValue `json:"status,omitempty" bson:"status" mapstructure:"status,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseAccount returns a new  SparseAccount.
+func NewSparseAccount() *SparseAccount {
+	return &SparseAccount{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseAccount) Identity() elemental.Identity {
+
+	return AccountIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseAccount) Identifier() string {
+
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseAccount) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseAccount) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseAccount) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewAccount()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.LDAPAddress != nil {
+		out.LDAPAddress = *o.LDAPAddress
+	}
+	if o.LDAPBaseDN != nil {
+		out.LDAPBaseDN = *o.LDAPBaseDN
+	}
+	if o.LDAPBindDN != nil {
+		out.LDAPBindDN = *o.LDAPBindDN
+	}
+	if o.LDAPBindPassword != nil {
+		out.LDAPBindPassword = *o.LDAPBindPassword
+	}
+	if o.LDAPBindSearchFilter != nil {
+		out.LDAPBindSearchFilter = *o.LDAPBindSearchFilter
+	}
+	if o.LDAPCertificateAuthority != nil {
+		out.LDAPCertificateAuthority = *o.LDAPCertificateAuthority
+	}
+	if o.LDAPConnSecurityProtocol != nil {
+		out.LDAPConnSecurityProtocol = *o.LDAPConnSecurityProtocol
+	}
+	if o.LDAPEnabled != nil {
+		out.LDAPEnabled = *o.LDAPEnabled
+	}
+	if o.LDAPIgnoredKeys != nil {
+		out.LDAPIgnoredKeys = *o.LDAPIgnoredKeys
+	}
+	if o.LDAPSubjectKey != nil {
+		out.LDAPSubjectKey = *o.LDAPSubjectKey
+	}
+	if o.OTPEnabled != nil {
+		out.OTPEnabled = *o.OTPEnabled
+	}
+	if o.OTPQRCode != nil {
+		out.OTPQRCode = *o.OTPQRCode
+	}
+	if o.OTPSecret != nil {
+		out.OTPSecret = *o.OTPSecret
+	}
+	if o.AccessEnabled != nil {
+		out.AccessEnabled = *o.AccessEnabled
+	}
+	if o.ActivationExpiration != nil {
+		out.ActivationExpiration = *o.ActivationExpiration
+	}
+	if o.ActivationToken != nil {
+		out.ActivationToken = *o.ActivationToken
+	}
+	if o.AssociatedAPIAuthPolicyID != nil {
+		out.AssociatedAPIAuthPolicyID = *o.AssociatedAPIAuthPolicyID
+	}
+	if o.AssociatedAWSPolicies != nil {
+		out.AssociatedAWSPolicies = *o.AssociatedAWSPolicies
+	}
+	if o.AssociatedBillingID != nil {
+		out.AssociatedBillingID = *o.AssociatedBillingID
+	}
+	if o.AssociatedGCPPolicies != nil {
+		out.AssociatedGCPPolicies = *o.AssociatedGCPPolicies
+	}
+	if o.AssociatedNamespaceID != nil {
+		out.AssociatedNamespaceID = *o.AssociatedNamespaceID
+	}
+	if o.AssociatedPlanKey != nil {
+		out.AssociatedPlanKey = *o.AssociatedPlanKey
+	}
+	if o.AssociatedQuotaPolicies != nil {
+		out.AssociatedQuotaPolicies = *o.AssociatedQuotaPolicies
+	}
+	if o.Company != nil {
+		out.Company = *o.Company
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Email != nil {
+		out.Email = *o.Email
+	}
+	if o.FirstName != nil {
+		out.FirstName = *o.FirstName
+	}
+	if o.LastName != nil {
+		out.LastName = *o.LastName
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Password != nil {
+		out.Password = *o.Password
+	}
+	if o.ReCAPTCHAKey != nil {
+		out.ReCAPTCHAKey = *o.ReCAPTCHAKey
+	}
+	if o.ResetPasswordExpiration != nil {
+		out.ResetPasswordExpiration = *o.ResetPasswordExpiration
+	}
+	if o.ResetPasswordToken != nil {
+		out.ResetPasswordToken = *o.ResetPasswordToken
+	}
+	if o.Status != nil {
+		out.Status = *o.Status
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

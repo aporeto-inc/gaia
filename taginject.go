@@ -45,9 +45,9 @@ func (o TagInjectsList) Append(objects ...elemental.Identifiable) elemental.Iden
 // List converts the object to an elemental.IdentifiablesList.
 func (o TagInjectsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,18 @@ func (o TagInjectsList) List() elemental.IdentifiablesList {
 func (o TagInjectsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToSparse returns the TagInjectsList converted to SparseTagInjectsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o TagInjectsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -126,6 +138,52 @@ func (o *TagInject) Doc() string {
 func (o *TagInject) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *TagInject) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseTagInject{
+			AddedTags:       &o.AddedTags,
+			RemovedTags:     &o.RemovedTags,
+			TargetNamespace: &o.TargetNamespace,
+		}
+	}
+
+	sp := &SparseTagInject{}
+	for _, f := range fields {
+		switch f {
+		case "addedTags":
+			sp.AddedTags = &(o.AddedTags)
+		case "removedTags":
+			sp.RemovedTags = &(o.RemovedTags)
+		case "targetNamespace":
+			sp.TargetNamespace = &(o.TargetNamespace)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseTagInject to the object.
+func (o *TagInject) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseTagInject)
+	if so.AddedTags != nil {
+		o.AddedTags = *so.AddedTags
+	}
+	if so.RemovedTags != nil {
+		o.RemovedTags = *so.RemovedTags
+	}
+	if so.TargetNamespace != nil {
+		o.TargetNamespace = *so.TargetNamespace
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -226,4 +284,126 @@ var TagInjectLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Required:       true,
 		Type:           "string",
 	},
+}
+
+// SparseTagInjectsList represents a list of SparseTagInjects
+type SparseTagInjectsList []*SparseTagInject
+
+// Identity returns the identity of the objects in the list.
+func (o SparseTagInjectsList) Identity() elemental.Identity {
+
+	return TagInjectIdentity
+}
+
+// Copy returns a pointer to a copy the SparseTagInjectsList.
+func (o SparseTagInjectsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseTagInjectsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseTagInjectsList.
+func (o SparseTagInjectsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseTagInjectsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseTagInject))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseTagInjectsList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseTagInjectsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// ToPlain returns the SparseTagInjectsList converted to TagInjectsList.
+func (o SparseTagInjectsList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseTagInjectsList) Version() int {
+
+	return 1
+}
+
+// SparseTagInject represents the sparse version of a taginject.
+type SparseTagInject struct {
+	// List of tags to be added.
+	AddedTags *[]string `json:"addedTags,omitempty" bson:"-" mapstructure:"addedTags,omitempty"`
+
+	// List of tags to be removed.
+	RemovedTags *[]string `json:"removedTags,omitempty" bson:"-" mapstructure:"removedTags,omitempty"`
+
+	// List of tags to inject.
+	TargetNamespace *string `json:"targetNamespace,omitempty" bson:"-" mapstructure:"targetNamespace,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseTagInject returns a new  SparseTagInject.
+func NewSparseTagInject() *SparseTagInject {
+	return &SparseTagInject{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseTagInject) Identity() elemental.Identity {
+
+	return TagInjectIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseTagInject) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseTagInject) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseTagInject) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseTagInject) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewTagInject()
+	if o.AddedTags != nil {
+		out.AddedTags = *o.AddedTags
+	}
+	if o.RemovedTags != nil {
+		out.RemovedTags = *o.RemovedTags
+	}
+	if o.TargetNamespace != nil {
+		out.TargetNamespace = *o.TargetNamespace
+	}
+
+	return out
 }

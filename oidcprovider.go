@@ -47,9 +47,9 @@ func (o OIDCProvidersList) Append(objects ...elemental.Identifiable) elemental.I
 // List converts the object to an elemental.IdentifiablesList.
 func (o OIDCProvidersList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -59,6 +59,18 @@ func (o OIDCProvidersList) List() elemental.IdentifiablesList {
 func (o OIDCProvidersList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToSparse returns the OIDCProvidersList converted to SparseOIDCProvidersList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o OIDCProvidersList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -151,6 +163,94 @@ for a Midgard token.`
 func (o *OIDCProvider) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseOIDCProvider{
+			ID:           &o.ID,
+			ClientID:     &o.ClientID,
+			ClientSecret: &o.ClientSecret,
+			CreateTime:   &o.CreateTime,
+			Endpoint:     &o.Endpoint,
+			Name:         &o.Name,
+			ParentID:     &o.ParentID,
+			ParentName:   &o.ParentName,
+			Scopes:       &o.Scopes,
+			UpdateTime:   &o.UpdateTime,
+		}
+	}
+
+	sp := &SparseOIDCProvider{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "clientID":
+			sp.ClientID = &(o.ClientID)
+		case "clientSecret":
+			sp.ClientSecret = &(o.ClientSecret)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "endpoint":
+			sp.Endpoint = &(o.Endpoint)
+		case "name":
+			sp.Name = &(o.Name)
+		case "parentID":
+			sp.ParentID = &(o.ParentID)
+		case "parentName":
+			sp.ParentName = &(o.ParentName)
+		case "scopes":
+			sp.Scopes = &(o.Scopes)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseOIDCProvider to the object.
+func (o *OIDCProvider) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseOIDCProvider)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.ClientID != nil {
+		o.ClientID = *so.ClientID
+	}
+	if so.ClientSecret != nil {
+		o.ClientSecret = *so.ClientSecret
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Endpoint != nil {
+		o.Endpoint = *so.Endpoint
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.ParentID != nil {
+		o.ParentID = *so.ParentID
+	}
+	if so.ParentName != nil {
+		o.ParentName = *so.ParentName
+	}
+	if so.Scopes != nil {
+		o.Scopes = *so.Scopes
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -439,4 +539,172 @@ var OIDCProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseOIDCProvidersList represents a list of SparseOIDCProviders
+type SparseOIDCProvidersList []*SparseOIDCProvider
+
+// Identity returns the identity of the objects in the list.
+func (o SparseOIDCProvidersList) Identity() elemental.Identity {
+
+	return OIDCProviderIdentity
+}
+
+// Copy returns a pointer to a copy the SparseOIDCProvidersList.
+func (o SparseOIDCProvidersList) Copy() elemental.Identifiables {
+
+	copy := append(SparseOIDCProvidersList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseOIDCProvidersList.
+func (o SparseOIDCProvidersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseOIDCProvidersList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseOIDCProvider))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseOIDCProvidersList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseOIDCProvidersList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// ToPlain returns the SparseOIDCProvidersList converted to OIDCProvidersList.
+func (o SparseOIDCProvidersList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseOIDCProvidersList) Version() int {
+
+	return 1
+}
+
+// SparseOIDCProvider represents the sparse version of a oidcprovider.
+type SparseOIDCProvider struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Unique client ID.
+	ClientID *string `json:"clientID,omitempty" bson:"clientid" mapstructure:"clientID,omitempty"`
+
+	// Client secret associated with the client ID.
+	ClientSecret *string `json:"clientSecret,omitempty" bson:"clientsecret" mapstructure:"clientSecret,omitempty"`
+
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// OIDC information endpoint.
+	Endpoint *string `json:"endpoint,omitempty" bson:"endpoint" mapstructure:"endpoint,omitempty"`
+
+	// Name of the provider.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// ParentID contains the parent Vince account ID.
+	ParentID *string `json:"parentID,omitempty" bson:"parentid" mapstructure:"parentID,omitempty"`
+
+	// ParentName contains the name of the Vince parent Account.
+	ParentName *string `json:"parentName,omitempty" bson:"parentname" mapstructure:"parentName,omitempty"`
+
+	// List of scopes to allow.
+	Scopes *[]string `json:"scopes,omitempty" bson:"scopes" mapstructure:"scopes,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseOIDCProvider returns a new  SparseOIDCProvider.
+func NewSparseOIDCProvider() *SparseOIDCProvider {
+	return &SparseOIDCProvider{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseOIDCProvider) Identity() elemental.Identity {
+
+	return OIDCProviderIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseOIDCProvider) Identifier() string {
+
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseOIDCProvider) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseOIDCProvider) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseOIDCProvider) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewOIDCProvider()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.ClientID != nil {
+		out.ClientID = *o.ClientID
+	}
+	if o.ClientSecret != nil {
+		out.ClientSecret = *o.ClientSecret
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Endpoint != nil {
+		out.Endpoint = *o.Endpoint
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.ParentID != nil {
+		out.ParentID = *o.ParentID
+	}
+	if o.ParentName != nil {
+		out.ParentName = *o.ParentName
+	}
+	if o.Scopes != nil {
+		out.Scopes = *o.Scopes
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

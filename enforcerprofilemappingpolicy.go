@@ -47,9 +47,9 @@ func (o EnforcerProfileMappingPoliciesList) Append(objects ...elemental.Identifi
 // List converts the object to an elemental.IdentifiablesList.
 func (o EnforcerProfileMappingPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -61,6 +61,18 @@ func (o EnforcerProfileMappingPoliciesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToSparse returns the EnforcerProfileMappingPoliciesList converted to SparseEnforcerProfileMappingPoliciesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o EnforcerProfileMappingPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -335,6 +347,136 @@ func (o *EnforcerProfileMappingPolicy) GetUpdateTime() time.Time {
 func (o *EnforcerProfileMappingPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *EnforcerProfileMappingPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseEnforcerProfileMappingPolicy{
+			ID:                &o.ID,
+			Annotations:       &o.Annotations,
+			AssociatedTags:    &o.AssociatedTags,
+			CreateTime:        &o.CreateTime,
+			Description:       &o.Description,
+			Disabled:          &o.Disabled,
+			Fallback:          &o.Fallback,
+			Metadata:          &o.Metadata,
+			Name:              &o.Name,
+			Namespace:         &o.Namespace,
+			NormalizedTags:    &o.NormalizedTags,
+			Object:            &o.Object,
+			Propagate:         &o.Propagate,
+			PropagationHidden: &o.PropagationHidden,
+			Protected:         &o.Protected,
+			Subject:           &o.Subject,
+			UpdateTime:        &o.UpdateTime,
+		}
+	}
+
+	sp := &SparseEnforcerProfileMappingPolicy{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "disabled":
+			sp.Disabled = &(o.Disabled)
+		case "fallback":
+			sp.Fallback = &(o.Fallback)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "object":
+			sp.Object = &(o.Object)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
+		case "propagationHidden":
+			sp.PropagationHidden = &(o.PropagationHidden)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "subject":
+			sp.Subject = &(o.Subject)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseEnforcerProfileMappingPolicy to the object.
+func (o *EnforcerProfileMappingPolicy) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseEnforcerProfileMappingPolicy)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.Disabled != nil {
+		o.Disabled = *so.Disabled
+	}
+	if so.Fallback != nil {
+		o.Fallback = *so.Fallback
+	}
+	if so.Metadata != nil {
+		o.Metadata = *so.Metadata
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Object != nil {
+		o.Object = *so.Object
+	}
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
+	}
+	if so.PropagationHidden != nil {
+		o.PropagationHidden = *so.PropagationHidden
+	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
+	}
+	if so.Subject != nil {
+		o.Subject = *so.Subject
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -843,4 +985,220 @@ namespace, but still used for policy resolution.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseEnforcerProfileMappingPoliciesList represents a list of SparseEnforcerProfileMappingPolicies
+type SparseEnforcerProfileMappingPoliciesList []*SparseEnforcerProfileMappingPolicy
+
+// Identity returns the identity of the objects in the list.
+func (o SparseEnforcerProfileMappingPoliciesList) Identity() elemental.Identity {
+
+	return EnforcerProfileMappingPolicyIdentity
+}
+
+// Copy returns a pointer to a copy the SparseEnforcerProfileMappingPoliciesList.
+func (o SparseEnforcerProfileMappingPoliciesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseEnforcerProfileMappingPoliciesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseEnforcerProfileMappingPoliciesList.
+func (o SparseEnforcerProfileMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseEnforcerProfileMappingPoliciesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseEnforcerProfileMappingPolicy))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseEnforcerProfileMappingPoliciesList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseEnforcerProfileMappingPoliciesList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// ToPlain returns the SparseEnforcerProfileMappingPoliciesList converted to EnforcerProfileMappingPoliciesList.
+func (o SparseEnforcerProfileMappingPoliciesList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseEnforcerProfileMappingPoliciesList) Version() int {
+
+	return 1
+}
+
+// SparseEnforcerProfileMappingPolicy represents the sparse version of a enforcerprofilemappingpolicy.
+type SparseEnforcerProfileMappingPolicy struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// Disabled defines if the propert is disabled.
+	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
+
+	// Fallback indicates that this is fallback policy. It will only be
+	// applied if no other policies have been resolved. If the policy is also
+	// propagated it will become a fallback for children namespaces.
+	Fallback *bool `json:"fallback,omitempty" bson:"fallback" mapstructure:"fallback,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Object is the list of tags to use to find a enforcer profile.
+	Object *[][]string `json:"object,omitempty" bson:"object" mapstructure:"object,omitempty"`
+
+	// Propagate will propagate the policy to all of its children.
+	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
+
+	// If set to true while the policy is propagating, it won't be visible to children
+	// namespace, but still used for policy resolution.
+	PropagationHidden *bool `json:"propagationHidden,omitempty" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// Subject is the subject of the policy.
+	Subject *[][]string `json:"subject,omitempty" bson:"subject" mapstructure:"subject,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseEnforcerProfileMappingPolicy returns a new  SparseEnforcerProfileMappingPolicy.
+func NewSparseEnforcerProfileMappingPolicy() *SparseEnforcerProfileMappingPolicy {
+	return &SparseEnforcerProfileMappingPolicy{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseEnforcerProfileMappingPolicy) Identity() elemental.Identity {
+
+	return EnforcerProfileMappingPolicyIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseEnforcerProfileMappingPolicy) Identifier() string {
+
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseEnforcerProfileMappingPolicy) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseEnforcerProfileMappingPolicy) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseEnforcerProfileMappingPolicy) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewEnforcerProfileMappingPolicy()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.Disabled != nil {
+		out.Disabled = *o.Disabled
+	}
+	if o.Fallback != nil {
+		out.Fallback = *o.Fallback
+	}
+	if o.Metadata != nil {
+		out.Metadata = *o.Metadata
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Object != nil {
+		out.Object = *o.Object
+	}
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
+	}
+	if o.PropagationHidden != nil {
+		out.PropagationHidden = *o.PropagationHidden
+	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
+	}
+	if o.Subject != nil {
+		out.Subject = *o.Subject
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

@@ -48,9 +48,9 @@ func (o RESTAPISpecsList) Append(objects ...elemental.Identifiable) elemental.Id
 // List converts the object to an elemental.IdentifiablesList.
 func (o RESTAPISpecsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -62,6 +62,18 @@ func (o RESTAPISpecsList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToSparse returns the RESTAPISpecsList converted to SparseRESTAPISpecsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o RESTAPISpecsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -316,6 +328,124 @@ func (o *RESTAPISpec) GetUpdateTime() time.Time {
 func (o *RESTAPISpec) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *RESTAPISpec) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseRESTAPISpec{
+			ID:                &o.ID,
+			Annotations:       &o.Annotations,
+			Archived:          &o.Archived,
+			AssociatedTags:    &o.AssociatedTags,
+			CreateTime:        &o.CreateTime,
+			Description:       &o.Description,
+			Endpoints:         &o.Endpoints,
+			Metadata:          &o.Metadata,
+			Name:              &o.Name,
+			Namespace:         &o.Namespace,
+			NormalizedTags:    &o.NormalizedTags,
+			Propagate:         &o.Propagate,
+			PropagationHidden: &o.PropagationHidden,
+			Protected:         &o.Protected,
+			UpdateTime:        &o.UpdateTime,
+		}
+	}
+
+	sp := &SparseRESTAPISpec{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "archived":
+			sp.Archived = &(o.Archived)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "endpoints":
+			sp.Endpoints = &(o.Endpoints)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
+		case "propagationHidden":
+			sp.PropagationHidden = &(o.PropagationHidden)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseRESTAPISpec to the object.
+func (o *RESTAPISpec) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseRESTAPISpec)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
+	}
+	if so.Archived != nil {
+		o.Archived = *so.Archived
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.Endpoints != nil {
+		o.Endpoints = *so.Endpoints
+	}
+	if so.Metadata != nil {
+		o.Metadata = *so.Metadata
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
+	}
+	if so.PropagationHidden != nil {
+		o.PropagationHidden = *so.PropagationHidden
+	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -764,4 +894,206 @@ namespace, but still used for policy resolution.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseRESTAPISpecsList represents a list of SparseRESTAPISpecs
+type SparseRESTAPISpecsList []*SparseRESTAPISpec
+
+// Identity returns the identity of the objects in the list.
+func (o SparseRESTAPISpecsList) Identity() elemental.Identity {
+
+	return RESTAPISpecIdentity
+}
+
+// Copy returns a pointer to a copy the SparseRESTAPISpecsList.
+func (o SparseRESTAPISpecsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseRESTAPISpecsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseRESTAPISpecsList.
+func (o SparseRESTAPISpecsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseRESTAPISpecsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseRESTAPISpec))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseRESTAPISpecsList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseRESTAPISpecsList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// ToPlain returns the SparseRESTAPISpecsList converted to RESTAPISpecsList.
+func (o SparseRESTAPISpecsList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseRESTAPISpecsList) Version() int {
+
+	return 1
+}
+
+// SparseRESTAPISpec represents the sparse version of a restapispec.
+type SparseRESTAPISpec struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// Archived defines if the object is archived.
+	Archived *bool `json:"-,omitempty" bson:"archived" mapstructure:"-,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// EndPoints is a list of API endpoints that are exposed for the service.
+	Endpoints *types.ExposedAPIList `json:"endpoints,omitempty" bson:"endpoints" mapstructure:"endpoints,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Propagate will propagate the policy to all of its children.
+	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
+
+	// If set to true while the policy is propagating, it won't be visible to children
+	// namespace, but still used for policy resolution.
+	PropagationHidden *bool `json:"propagationHidden,omitempty" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseRESTAPISpec returns a new  SparseRESTAPISpec.
+func NewSparseRESTAPISpec() *SparseRESTAPISpec {
+	return &SparseRESTAPISpec{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseRESTAPISpec) Identity() elemental.Identity {
+
+	return RESTAPISpecIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseRESTAPISpec) Identifier() string {
+
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseRESTAPISpec) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseRESTAPISpec) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseRESTAPISpec) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewRESTAPISpec()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
+	}
+	if o.Archived != nil {
+		out.Archived = *o.Archived
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.Endpoints != nil {
+		out.Endpoints = *o.Endpoints
+	}
+	if o.Metadata != nil {
+		out.Metadata = *o.Metadata
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
+	}
+	if o.PropagationHidden != nil {
+		out.PropagationHidden = *o.PropagationHidden
+	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

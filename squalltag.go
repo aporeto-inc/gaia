@@ -45,9 +45,9 @@ func (o SquallTagsList) Append(objects ...elemental.Identifiable) elemental.Iden
 // List converts the object to an elemental.IdentifiablesList.
 func (o SquallTagsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,18 @@ func (o SquallTagsList) List() elemental.IdentifiablesList {
 func (o SquallTagsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToSparse returns the SquallTagsList converted to SparseSquallTagsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o SquallTagsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -127,6 +139,52 @@ func (o *SquallTag) Doc() string {
 func (o *SquallTag) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *SquallTag) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseSquallTag{
+			Count:     &o.Count,
+			Namespace: &o.Namespace,
+			Value:     &o.Value,
+		}
+	}
+
+	sp := &SparseSquallTag{}
+	for _, f := range fields {
+		switch f {
+		case "count":
+			sp.Count = &(o.Count)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "value":
+			sp.Value = &(o.Value)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseSquallTag to the object.
+func (o *SquallTag) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseSquallTag)
+	if so.Count != nil {
+		o.Count = *so.Count
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.Value != nil {
+		o.Value = *so.Value
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -223,4 +281,126 @@ var SquallTagLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Stored:         true,
 		Type:           "string",
 	},
+}
+
+// SparseSquallTagsList represents a list of SparseSquallTags
+type SparseSquallTagsList []*SparseSquallTag
+
+// Identity returns the identity of the objects in the list.
+func (o SparseSquallTagsList) Identity() elemental.Identity {
+
+	return SquallTagIdentity
+}
+
+// Copy returns a pointer to a copy the SparseSquallTagsList.
+func (o SparseSquallTagsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseSquallTagsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseSquallTagsList.
+func (o SparseSquallTagsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseSquallTagsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseSquallTag))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseSquallTagsList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseSquallTagsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// ToPlain returns the SparseSquallTagsList converted to SquallTagsList.
+func (o SparseSquallTagsList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseSquallTagsList) Version() int {
+
+	return 1
+}
+
+// SparseSquallTag represents the sparse version of a squalltag.
+type SparseSquallTag struct {
+	// Number of time this tag is used.
+	Count *int `json:"count,omitempty" bson:"count" mapstructure:"count,omitempty"`
+
+	// namespace containing these tags.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// Value of the tag.
+	Value *string `json:"value,omitempty" bson:"value" mapstructure:"value,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseSquallTag returns a new  SparseSquallTag.
+func NewSparseSquallTag() *SparseSquallTag {
+	return &SparseSquallTag{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseSquallTag) Identity() elemental.Identity {
+
+	return SquallTagIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseSquallTag) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseSquallTag) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseSquallTag) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseSquallTag) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewSquallTag()
+	if o.Count != nil {
+		out.Count = *o.Count
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.Value != nil {
+		out.Value = *o.Value
+	}
+
+	return out
 }

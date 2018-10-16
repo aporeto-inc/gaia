@@ -47,9 +47,9 @@ func (o RevocationsList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o RevocationsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -59,6 +59,18 @@ func (o RevocationsList) List() elemental.IdentifiablesList {
 func (o RevocationsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToSparse returns the RevocationsList converted to SparseRevocationsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o RevocationsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -136,6 +148,64 @@ func (o *Revocation) Doc() string {
 func (o *Revocation) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *Revocation) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseRevocation{
+			ID:             &o.ID,
+			ExpirationDate: &o.ExpirationDate,
+			RevokeDate:     &o.RevokeDate,
+			SerialNumber:   &o.SerialNumber,
+			Subject:        &o.Subject,
+		}
+	}
+
+	sp := &SparseRevocation{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "expirationDate":
+			sp.ExpirationDate = &(o.ExpirationDate)
+		case "revokeDate":
+			sp.RevokeDate = &(o.RevokeDate)
+		case "serialNumber":
+			sp.SerialNumber = &(o.SerialNumber)
+		case "subject":
+			sp.Subject = &(o.Subject)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseRevocation to the object.
+func (o *Revocation) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseRevocation)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.ExpirationDate != nil {
+		o.ExpirationDate = *so.ExpirationDate
+	}
+	if so.RevokeDate != nil {
+		o.RevokeDate = *so.RevokeDate
+	}
+	if so.SerialNumber != nil {
+		o.SerialNumber = *so.SerialNumber
+	}
+	if so.Subject != nil {
+		o.Subject = *so.Subject
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -282,4 +352,143 @@ certificates that have expired.`,
 		Stored:         true,
 		Type:           "string",
 	},
+}
+
+// SparseRevocationsList represents a list of SparseRevocations
+type SparseRevocationsList []*SparseRevocation
+
+// Identity returns the identity of the objects in the list.
+func (o SparseRevocationsList) Identity() elemental.Identity {
+
+	return RevocationIdentity
+}
+
+// Copy returns a pointer to a copy the SparseRevocationsList.
+func (o SparseRevocationsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseRevocationsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseRevocationsList.
+func (o SparseRevocationsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseRevocationsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseRevocation))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseRevocationsList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseRevocationsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// ToPlain returns the SparseRevocationsList converted to RevocationsList.
+func (o SparseRevocationsList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseRevocationsList) Version() int {
+
+	return 1
+}
+
+// SparseRevocation represents the sparse version of a revocation.
+type SparseRevocation struct {
+	// ID contains the ID of the revocation.
+	ID *string `json:"-,omitempty" bson:"_id" mapstructure:"-,omitempty"`
+
+	// Contains the certificate expiration date. This will be used to clean up revoked
+	// certificates that have expired.
+	ExpirationDate *time.Time `json:"expirationDate,omitempty" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
+
+	// Set time from when the certificate will be revoked.
+	RevokeDate *time.Time `json:"revokeDate,omitempty" bson:"revokedate" mapstructure:"revokeDate,omitempty"`
+
+	// SerialNumber of the revoked certificate.
+	SerialNumber *string `json:"serialNumber,omitempty" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
+
+	// Subject of the certificate related to the revocation.
+	Subject *string `json:"subject,omitempty" bson:"subject" mapstructure:"subject,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseRevocation returns a new  SparseRevocation.
+func NewSparseRevocation() *SparseRevocation {
+	return &SparseRevocation{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseRevocation) Identity() elemental.Identity {
+
+	return RevocationIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseRevocation) Identifier() string {
+
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseRevocation) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseRevocation) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseRevocation) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewRevocation()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.ExpirationDate != nil {
+		out.ExpirationDate = *o.ExpirationDate
+	}
+	if o.RevokeDate != nil {
+		out.RevokeDate = *o.RevokeDate
+	}
+	if o.SerialNumber != nil {
+		out.SerialNumber = *o.SerialNumber
+	}
+	if o.Subject != nil {
+		out.Subject = *o.Subject
+	}
+
+	return out
 }

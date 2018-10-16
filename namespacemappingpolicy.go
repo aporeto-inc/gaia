@@ -47,9 +47,9 @@ func (o NamespaceMappingPoliciesList) Append(objects ...elemental.Identifiable) 
 // List converts the object to an elemental.IdentifiablesList.
 func (o NamespaceMappingPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -61,6 +61,18 @@ func (o NamespaceMappingPoliciesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToSparse returns the NamespaceMappingPoliciesList converted to SparseNamespaceMappingPoliciesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o NamespaceMappingPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -299,6 +311,118 @@ func (o *NamespaceMappingPolicy) GetUpdateTime() time.Time {
 func (o *NamespaceMappingPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *NamespaceMappingPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseNamespaceMappingPolicy{
+			ID:              &o.ID,
+			Annotations:     &o.Annotations,
+			AssociatedTags:  &o.AssociatedTags,
+			CreateTime:      &o.CreateTime,
+			Description:     &o.Description,
+			Disabled:        &o.Disabled,
+			MappedNamespace: &o.MappedNamespace,
+			Metadata:        &o.Metadata,
+			Name:            &o.Name,
+			Namespace:       &o.Namespace,
+			NormalizedTags:  &o.NormalizedTags,
+			Protected:       &o.Protected,
+			Subject:         &o.Subject,
+			UpdateTime:      &o.UpdateTime,
+		}
+	}
+
+	sp := &SparseNamespaceMappingPolicy{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "disabled":
+			sp.Disabled = &(o.Disabled)
+		case "mappedNamespace":
+			sp.MappedNamespace = &(o.MappedNamespace)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "subject":
+			sp.Subject = &(o.Subject)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseNamespaceMappingPolicy to the object.
+func (o *NamespaceMappingPolicy) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseNamespaceMappingPolicy)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.Disabled != nil {
+		o.Disabled = *so.Disabled
+	}
+	if so.MappedNamespace != nil {
+		o.MappedNamespace = *so.MappedNamespace
+	}
+	if so.Metadata != nil {
+		o.Metadata = *so.Metadata
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
+	}
+	if so.Subject != nil {
+		o.Subject = *so.Subject
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -729,4 +853,199 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseNamespaceMappingPoliciesList represents a list of SparseNamespaceMappingPolicies
+type SparseNamespaceMappingPoliciesList []*SparseNamespaceMappingPolicy
+
+// Identity returns the identity of the objects in the list.
+func (o SparseNamespaceMappingPoliciesList) Identity() elemental.Identity {
+
+	return NamespaceMappingPolicyIdentity
+}
+
+// Copy returns a pointer to a copy the SparseNamespaceMappingPoliciesList.
+func (o SparseNamespaceMappingPoliciesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseNamespaceMappingPoliciesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseNamespaceMappingPoliciesList.
+func (o SparseNamespaceMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseNamespaceMappingPoliciesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseNamespaceMappingPolicy))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseNamespaceMappingPoliciesList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseNamespaceMappingPoliciesList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// ToPlain returns the SparseNamespaceMappingPoliciesList converted to NamespaceMappingPoliciesList.
+func (o SparseNamespaceMappingPoliciesList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseNamespaceMappingPoliciesList) Version() int {
+
+	return 1
+}
+
+// SparseNamespaceMappingPolicy represents the sparse version of a namespacemappingpolicy.
+type SparseNamespaceMappingPolicy struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// Disabled defines if the propert is disabled.
+	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
+
+	// mappedNamespace is the mapped namespace.
+	MappedNamespace *string `json:"mappedNamespace,omitempty" bson:"mappednamespace" mapstructure:"mappedNamespace,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// Subject is the subject.
+	Subject *[][]string `json:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseNamespaceMappingPolicy returns a new  SparseNamespaceMappingPolicy.
+func NewSparseNamespaceMappingPolicy() *SparseNamespaceMappingPolicy {
+	return &SparseNamespaceMappingPolicy{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseNamespaceMappingPolicy) Identity() elemental.Identity {
+
+	return NamespaceMappingPolicyIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseNamespaceMappingPolicy) Identifier() string {
+
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseNamespaceMappingPolicy) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseNamespaceMappingPolicy) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseNamespaceMappingPolicy) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewNamespaceMappingPolicy()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.Disabled != nil {
+		out.Disabled = *o.Disabled
+	}
+	if o.MappedNamespace != nil {
+		out.MappedNamespace = *o.MappedNamespace
+	}
+	if o.Metadata != nil {
+		out.Metadata = *o.Metadata
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
+	}
+	if o.Subject != nil {
+		out.Subject = *o.Subject
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

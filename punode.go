@@ -47,9 +47,9 @@ func (o PUNodesList) Append(objects ...elemental.Identifiable) elemental.Identif
 // List converts the object to an elemental.IdentifiablesList.
 func (o PUNodesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -59,6 +59,18 @@ func (o PUNodesList) List() elemental.IdentifiablesList {
 func (o PUNodesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToSparse returns the PUNodesList converted to SparsePUNodesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o PUNodesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -147,6 +159,88 @@ func (o *PUNode) Doc() string {
 func (o *PUNode) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *PUNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparsePUNode{
+			ID:                &o.ID,
+			EnforcementStatus: &o.EnforcementStatus,
+			Image:             &o.Image,
+			LastPokeTime:      &o.LastPokeTime,
+			Name:              &o.Name,
+			Namespace:         &o.Namespace,
+			Status:            &o.Status,
+			Tags:              &o.Tags,
+			Type:              &o.Type,
+		}
+	}
+
+	sp := &SparsePUNode{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "enforcementStatus":
+			sp.EnforcementStatus = &(o.EnforcementStatus)
+		case "image":
+			sp.Image = &(o.Image)
+		case "lastPokeTime":
+			sp.LastPokeTime = &(o.LastPokeTime)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "status":
+			sp.Status = &(o.Status)
+		case "tags":
+			sp.Tags = &(o.Tags)
+		case "type":
+			sp.Type = &(o.Type)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparsePUNode to the object.
+func (o *PUNode) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparsePUNode)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.EnforcementStatus != nil {
+		o.EnforcementStatus = *so.EnforcementStatus
+	}
+	if so.Image != nil {
+		o.Image = *so.Image
+	}
+	if so.LastPokeTime != nil {
+		o.LastPokeTime = *so.LastPokeTime
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.Status != nil {
+		o.Status = *so.Status
+	}
+	if so.Tags != nil {
+		o.Tags = *so.Tags
+	}
+	if so.Type != nil {
+		o.Type = *so.Type
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -335,4 +429,162 @@ var PUNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "type",
 		Type:           "string",
 	},
+}
+
+// SparsePUNodesList represents a list of SparsePUNodes
+type SparsePUNodesList []*SparsePUNode
+
+// Identity returns the identity of the objects in the list.
+func (o SparsePUNodesList) Identity() elemental.Identity {
+
+	return PUNodeIdentity
+}
+
+// Copy returns a pointer to a copy the SparsePUNodesList.
+func (o SparsePUNodesList) Copy() elemental.Identifiables {
+
+	copy := append(SparsePUNodesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparsePUNodesList.
+func (o SparsePUNodesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparsePUNodesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparsePUNode))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparsePUNodesList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparsePUNodesList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// ToPlain returns the SparsePUNodesList converted to PUNodesList.
+func (o SparsePUNodesList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparsePUNodesList) Version() int {
+
+	return 1
+}
+
+// SparsePUNode represents the sparse version of a punode.
+type SparsePUNode struct {
+	// Identifier of the pu.
+	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
+	// Enforcement status of the pu.
+	EnforcementStatus *string `json:"enforcementStatus,omitempty" bson:"-" mapstructure:"enforcementStatus,omitempty"`
+
+	// Image of the pu.
+	Image *string `json:"image,omitempty" bson:"-" mapstructure:"image,omitempty"`
+
+	// Last poke time of the pu.
+	LastPokeTime *time.Time `json:"lastPokeTime,omitempty" bson:"-" mapstructure:"lastPokeTime,omitempty"`
+
+	// Name of the pu.
+	Name *string `json:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
+
+	// Namespace of the pu.
+	Namespace *string `json:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
+
+	// Status of the pu.
+	Status *string `json:"status,omitempty" bson:"-" mapstructure:"status,omitempty"`
+
+	// Tags of the pu.
+	Tags *map[string]string `json:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
+
+	// Type of the pu.
+	Type *string `json:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparsePUNode returns a new  SparsePUNode.
+func NewSparsePUNode() *SparsePUNode {
+	return &SparsePUNode{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparsePUNode) Identity() elemental.Identity {
+
+	return PUNodeIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparsePUNode) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparsePUNode) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparsePUNode) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparsePUNode) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewPUNode()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.EnforcementStatus != nil {
+		out.EnforcementStatus = *o.EnforcementStatus
+	}
+	if o.Image != nil {
+		out.Image = *o.Image
+	}
+	if o.LastPokeTime != nil {
+		out.LastPokeTime = *o.LastPokeTime
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.Status != nil {
+		out.Status = *o.Status
+	}
+	if o.Tags != nil {
+		out.Tags = *o.Tags
+	}
+	if o.Type != nil {
+		out.Type = *o.Type
+	}
+
+	return out
 }

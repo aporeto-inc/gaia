@@ -73,9 +73,9 @@ func (o ReportsList) Append(objects ...elemental.Identifiable) elemental.Identif
 // List converts the object to an elemental.IdentifiablesList.
 func (o ReportsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -85,6 +85,18 @@ func (o ReportsList) List() elemental.IdentifiablesList {
 func (o ReportsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToSparse returns the ReportsList converted to SparseReportsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o ReportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -162,6 +174,64 @@ func (o *Report) Doc() string {
 func (o *Report) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *Report) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseReport{
+			Fields:    &o.Fields,
+			Kind:      &o.Kind,
+			Tags:      &o.Tags,
+			Timestamp: &o.Timestamp,
+			Value:     &o.Value,
+		}
+	}
+
+	sp := &SparseReport{}
+	for _, f := range fields {
+		switch f {
+		case "fields":
+			sp.Fields = &(o.Fields)
+		case "kind":
+			sp.Kind = &(o.Kind)
+		case "tags":
+			sp.Tags = &(o.Tags)
+		case "timestamp":
+			sp.Timestamp = &(o.Timestamp)
+		case "value":
+			sp.Value = &(o.Value)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseReport to the object.
+func (o *Report) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseReport)
+	if so.Fields != nil {
+		o.Fields = *so.Fields
+	}
+	if so.Kind != nil {
+		o.Kind = *so.Kind
+	}
+	if so.Tags != nil {
+		o.Tags = *so.Tags
+	}
+	if so.Timestamp != nil {
+		o.Timestamp = *so.Timestamp
+	}
+	if so.Value != nil {
+		o.Value = *so.Value
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -292,4 +362,138 @@ var ReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "value",
 		Type:           "float",
 	},
+}
+
+// SparseReportsList represents a list of SparseReports
+type SparseReportsList []*SparseReport
+
+// Identity returns the identity of the objects in the list.
+func (o SparseReportsList) Identity() elemental.Identity {
+
+	return ReportIdentity
+}
+
+// Copy returns a pointer to a copy the SparseReportsList.
+func (o SparseReportsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseReportsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseReportsList.
+func (o SparseReportsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseReportsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseReport))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseReportsList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseReportsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// ToPlain returns the SparseReportsList converted to ReportsList.
+func (o SparseReportsList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseReportsList) Version() int {
+
+	return 1
+}
+
+// SparseReport represents the sparse version of a report.
+type SparseReport struct {
+	// TSDB Fields to set for the report.
+	Fields *map[string]interface{} `json:"fields,omitempty" bson:"-" mapstructure:"fields,omitempty"`
+
+	// Kind contains the kind of report.
+	Kind *ReportKindValue `json:"kind,omitempty" bson:"-" mapstructure:"kind,omitempty"`
+
+	// Tags contains the tags associated to the data point.
+	Tags *map[string]string `json:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
+
+	// Timestamp contains the time for the report.
+	Timestamp *time.Time `json:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
+
+	// Value contains the value for the report.
+	Value *float64 `json:"value,omitempty" bson:"-" mapstructure:"value,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseReport returns a new  SparseReport.
+func NewSparseReport() *SparseReport {
+	return &SparseReport{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseReport) Identity() elemental.Identity {
+
+	return ReportIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseReport) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseReport) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseReport) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseReport) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewReport()
+	if o.Fields != nil {
+		out.Fields = *o.Fields
+	}
+	if o.Kind != nil {
+		out.Kind = *o.Kind
+	}
+	if o.Tags != nil {
+		out.Tags = *o.Tags
+	}
+	if o.Timestamp != nil {
+		out.Timestamp = *o.Timestamp
+	}
+	if o.Value != nil {
+		out.Value = *o.Value
+	}
+
+	return out
 }
