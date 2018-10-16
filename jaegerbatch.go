@@ -142,6 +142,7 @@ func (o *Jaegerbatch) String() string {
 func (o *Jaegerbatch) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseJaegerbatch{
 			Batch: &o.Batch,
 		}

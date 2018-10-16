@@ -310,6 +310,7 @@ func (o *AWSAPIGateway) SetUpdateTime(updateTime time.Time) {
 func (o *AWSAPIGateway) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseAWSAPIGateway{
 			APIID:          &o.APIID,
 			ID:             &o.ID,

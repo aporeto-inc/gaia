@@ -159,6 +159,7 @@ func (o *EnforcerReport) String() string {
 func (o *EnforcerReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseEnforcerReport{
 			CPULoad:   &o.CPULoad,
 			ID:        &o.ID,

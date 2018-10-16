@@ -143,6 +143,7 @@ func (o *StatsQuery) String() string {
 func (o *StatsQuery) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseStatsQuery{
 			Results: &o.Results,
 		}

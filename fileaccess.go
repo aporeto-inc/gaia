@@ -168,6 +168,7 @@ func (o *FileAccess) String() string {
 func (o *FileAccess) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseFileAccess{
 			Action:   &o.Action,
 			Count:    &o.Count,

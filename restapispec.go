@@ -335,6 +335,7 @@ func (o *RESTAPISpec) SetUpdateTime(updateTime time.Time) {
 func (o *RESTAPISpec) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseRESTAPISpec{
 			ID:                &o.ID,
 			Annotations:       &o.Annotations,

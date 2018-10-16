@@ -189,6 +189,7 @@ func (o *InstalledApp) String() string {
 func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseInstalledApp{
 			ID:             &o.ID,
 			AccountName:    &o.AccountName,

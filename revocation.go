@@ -155,6 +155,7 @@ func (o *Revocation) String() string {
 func (o *Revocation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseRevocation{
 			ID:             &o.ID,
 			ExpirationDate: &o.ExpirationDate,

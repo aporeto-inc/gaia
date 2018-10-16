@@ -293,6 +293,7 @@ func (o *Account) String() string {
 func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseAccount{
 			ID:                        &o.ID,
 			LDAPAddress:               &o.LDAPAddress,

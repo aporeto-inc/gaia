@@ -176,6 +176,7 @@ func (o *Activity) String() string {
 func (o *Activity) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseActivity{
 			ID:             &o.ID,
 			Claims:         &o.Claims,

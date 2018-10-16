@@ -137,6 +137,7 @@ func (o *Poke) String() string {
 func (o *Poke) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparsePoke{}
 	}
 

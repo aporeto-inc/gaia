@@ -148,6 +148,7 @@ func (o *Token) String() string {
 func (o *Token) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseToken{
 			Certificate:  &o.Certificate,
 			SigningKeyID: &o.SigningKeyID,

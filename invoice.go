@@ -171,6 +171,7 @@ func (o *Invoice) String() string {
 func (o *Invoice) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseInvoice{
 			ID:               &o.ID,
 			AccountID:        &o.AccountID,

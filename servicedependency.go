@@ -385,6 +385,7 @@ func (o *ServiceDependency) SetUpdateTime(updateTime time.Time) {
 func (o *ServiceDependency) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseServiceDependency{
 			ID:                &o.ID,
 			ActiveDuration:    &o.ActiveDuration,

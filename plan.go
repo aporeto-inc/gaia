@@ -154,6 +154,7 @@ func (o *Plan) String() string {
 func (o *Plan) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparsePlan{
 			Description:          &o.Description,
 			EnforcersQuota:       &o.EnforcersQuota,

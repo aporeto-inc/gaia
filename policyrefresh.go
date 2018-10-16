@@ -143,6 +143,7 @@ func (o *PolicyRefresh) String() string {
 func (o *PolicyRefresh) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparsePolicyRefresh{
 			SourceNamespace: &o.SourceNamespace,
 			Type:            &o.Type,

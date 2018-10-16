@@ -147,6 +147,7 @@ func (o *PrivateKey) String() string {
 func (o *PrivateKey) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparsePrivateKey{
 			ID:                      &o.ID,
 			CertificateSerialNumber: &o.CertificateSerialNumber,

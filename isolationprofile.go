@@ -303,6 +303,7 @@ func (o *IsolationProfile) SetUpdateTime(updateTime time.Time) {
 func (o *IsolationProfile) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseIsolationProfile{
 			ID:                   &o.ID,
 			Annotations:          &o.Annotations,

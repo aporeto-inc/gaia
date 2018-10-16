@@ -139,6 +139,7 @@ func (o *Trigger) String() string {
 func (o *Trigger) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseTrigger{
 			Payload: &o.Payload,
 		}

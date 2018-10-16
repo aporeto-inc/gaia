@@ -292,6 +292,7 @@ func (o *FilePath) SetUpdateTime(updateTime time.Time) {
 func (o *FilePath) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseFilePath{
 			ID:             &o.ID,
 			Annotations:    &o.Annotations,

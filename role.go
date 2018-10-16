@@ -150,6 +150,7 @@ func (o *Role) String() string {
 func (o *Role) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseRole{
 			Authorizations: &o.Authorizations,
 			Description:    &o.Description,

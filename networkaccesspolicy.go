@@ -483,6 +483,7 @@ func (o *NetworkAccessPolicy) SetUpdateTime(updateTime time.Time) {
 func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseNetworkAccessPolicy{
 			ID:                    &o.ID,
 			Action:                &o.Action,

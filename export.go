@@ -151,6 +151,7 @@ func (o *Export) String() string {
 func (o *Export) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseExport{
 			APIVersion: &o.APIVersion,
 			Data:       &o.Data,

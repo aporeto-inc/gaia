@@ -146,6 +146,7 @@ func (o *SquallTag) String() string {
 func (o *SquallTag) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
+		// nolint: goimport
 		return &SparseSquallTag{
 			Count:     &o.Count,
 			Namespace: &o.Namespace,
