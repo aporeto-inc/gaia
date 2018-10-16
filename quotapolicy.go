@@ -357,7 +357,7 @@ func (o *QuotaPolicy) SetUpdateTime(updateTime time.Time) {
 func (o *QuotaPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseQuotaPolicy{
 			ID:                &o.ID,
 			Annotations:       &o.Annotations,

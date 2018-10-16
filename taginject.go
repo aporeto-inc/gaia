@@ -145,7 +145,7 @@ func (o *TagInject) String() string {
 func (o *TagInject) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseTagInject{
 			AddedTags:       &o.AddedTags,
 			RemovedTags:     &o.RemovedTags,

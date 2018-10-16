@@ -141,7 +141,7 @@ func (o *Auth) String() string {
 func (o *Auth) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseAuth{
 			Claims: &o.Claims,
 		}

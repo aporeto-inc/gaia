@@ -235,7 +235,7 @@ func (o *AuditReport) String() string {
 func (o *AuditReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseAuditReport{
 			AUID:                    &o.AUID,
 			CWD:                     &o.CWD,

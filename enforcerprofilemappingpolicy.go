@@ -354,7 +354,7 @@ func (o *EnforcerProfileMappingPolicy) SetUpdateTime(updateTime time.Time) {
 func (o *EnforcerProfileMappingPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseEnforcerProfileMappingPolicy{
 			ID:                &o.ID,
 			Annotations:       &o.Annotations,

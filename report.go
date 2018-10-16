@@ -181,7 +181,7 @@ func (o *Report) String() string {
 func (o *Report) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseReport{
 			Fields:    &o.Fields,
 			Kind:      &o.Kind,

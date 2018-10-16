@@ -178,7 +178,7 @@ func (o *App) SetName(name string) {
 func (o *App) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseApp{
 			Beta:              &o.Beta,
 			CategoryID:        &o.CategoryID,

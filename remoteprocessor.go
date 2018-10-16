@@ -173,7 +173,7 @@ func (o *RemoteProcessor) String() string {
 func (o *RemoteProcessor) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseRemoteProcessor{
 			Claims:         &o.Claims,
 			Input:          &o.Input,

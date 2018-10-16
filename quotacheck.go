@@ -146,7 +146,7 @@ func (o *QuotaCheck) String() string {
 func (o *QuotaCheck) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseQuotaCheck{
 			Quota:           &o.Quota,
 			TargetIdentity:  &o.TargetIdentity,

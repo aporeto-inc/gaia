@@ -188,7 +188,7 @@ func (o *AutomationTemplate) SetName(name string) {
 func (o *AutomationTemplate) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseAutomationTemplate{
 			Description:  &o.Description,
 			Entitlements: &o.Entitlements,

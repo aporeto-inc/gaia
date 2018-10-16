@@ -412,7 +412,7 @@ func (o *ProcessingUnitPolicy) SetUpdateTime(updateTime time.Time) {
 func (o *ProcessingUnitPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseProcessingUnitPolicy{
 			ID:                       &o.ID,
 			Action:                   &o.Action,

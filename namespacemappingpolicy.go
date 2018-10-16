@@ -318,7 +318,7 @@ func (o *NamespaceMappingPolicy) SetUpdateTime(updateTime time.Time) {
 func (o *NamespaceMappingPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseNamespaceMappingPolicy{
 			ID:              &o.ID,
 			Annotations:     &o.Annotations,

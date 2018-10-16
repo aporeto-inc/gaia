@@ -342,7 +342,7 @@ func (o *K8SCluster) SetUpdateTime(updateTime time.Time) {
 func (o *K8SCluster) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseK8SCluster{
 			APIAuthorizationPolicyID: &o.APIAuthorizationPolicyID,
 			ID:                       &o.ID,

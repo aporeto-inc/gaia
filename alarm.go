@@ -299,7 +299,7 @@ func (o *Alarm) SetUpdateTime(updateTime time.Time) {
 func (o *Alarm) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseAlarm{
 			ID:             &o.ID,
 			Annotations:    &o.Annotations,

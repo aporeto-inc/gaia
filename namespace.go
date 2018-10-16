@@ -291,7 +291,7 @@ func (o *Namespace) SetUpdateTime(updateTime time.Time) {
 func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseNamespace{
 			ID:                      &o.ID,
 			Annotations:             &o.Annotations,

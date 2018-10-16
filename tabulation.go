@@ -147,7 +147,7 @@ func (o *Tabulation) String() string {
 func (o *Tabulation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseTabulation{
 			Headers:        &o.Headers,
 			Rows:           &o.Rows,

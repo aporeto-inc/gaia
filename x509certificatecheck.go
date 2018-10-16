@@ -140,7 +140,7 @@ func (o *X509CertificateCheck) String() string {
 func (o *X509CertificateCheck) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseX509CertificateCheck{
 			ID: &o.ID,
 		}

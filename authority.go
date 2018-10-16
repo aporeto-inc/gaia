@@ -157,7 +157,7 @@ func (o *Authority) String() string {
 func (o *Authority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseAuthority{
 			ID:             &o.ID,
 			Certificate:    &o.Certificate,

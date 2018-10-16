@@ -421,7 +421,7 @@ func (o *EnforcerProfile) SetUpdateTime(updateTime time.Time) {
 func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseEnforcerProfile{
 			ID:                            &o.ID,
 			IPTablesMarkValue:             &o.IPTablesMarkValue,

@@ -388,7 +388,7 @@ func (o *TokenScopePolicy) SetUpdateTime(updateTime time.Time) {
 func (o *TokenScopePolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseTokenScopePolicy{
 			ID:                &o.ID,
 			ActiveDuration:    &o.ActiveDuration,

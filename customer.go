@@ -192,7 +192,7 @@ func (o *Customer) String() string {
 func (o *Customer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseCustomer{
 			ID:                 &o.ID,
 			CreateTime:         &o.CreateTime,

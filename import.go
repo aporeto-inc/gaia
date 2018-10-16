@@ -157,7 +157,7 @@ func (o *Import) String() string {
 func (o *Import) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseImport{
 			Data: &o.Data,
 			Mode: &o.Mode,

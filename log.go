@@ -140,7 +140,7 @@ func (o *Log) String() string {
 func (o *Log) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseLog{
 			Data: &o.Data,
 		}

@@ -384,7 +384,7 @@ func (o *HookPolicy) SetUpdateTime(updateTime time.Time) {
 func (o *HookPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseHookPolicy{
 			ID:                   &o.ID,
 			Annotations:          &o.Annotations,

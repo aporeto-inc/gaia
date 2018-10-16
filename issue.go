@@ -183,7 +183,7 @@ func (o *Issue) String() string {
 func (o *Issue) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseIssue{
 			Data:     &o.Data,
 			Metadata: &o.Metadata,

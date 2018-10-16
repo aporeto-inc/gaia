@@ -166,7 +166,7 @@ func (o *PUNode) String() string {
 func (o *PUNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparsePUNode{
 			ID:                &o.ID,
 			EnforcementStatus: &o.EnforcementStatus,

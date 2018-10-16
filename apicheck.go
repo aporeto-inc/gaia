@@ -185,7 +185,7 @@ func (o *APICheck) String() string {
 func (o *APICheck) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseAPICheck{
 			Authorized:       &o.Authorized,
 			Claims:           &o.Claims,

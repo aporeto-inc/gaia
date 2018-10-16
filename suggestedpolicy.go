@@ -139,7 +139,7 @@ func (o *SuggestedPolicy) String() string {
 func (o *SuggestedPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseSuggestedPolicy{
 			NetworkAccessPolicies: &o.NetworkAccessPolicies,
 		}

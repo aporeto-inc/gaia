@@ -189,7 +189,7 @@ func (o *RenderedPolicy) String() string {
 func (o *RenderedPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
-		// nolint: goimport
+		// nolint: goimports
 		return &SparseRenderedPolicy{
 			Certificate:       &o.Certificate,
 			DependendServices: &o.DependendServices,
