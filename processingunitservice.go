@@ -27,6 +27,7 @@ func NewProcessingUnitService() *ProcessingUnitService {
 
 	return &ProcessingUnitService{
 		ModelVersion: 1,
+		TargetPorts:  []string{},
 	}
 }
 

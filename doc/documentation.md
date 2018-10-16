@@ -8232,7 +8232,7 @@ ports contains the list of allowed ports and ranges.
 
 Protocol used by the service.
 
-#### `targetPorts (list)`
+#### `targetPorts (external:ports_list)`
 
 List of single ports or range (xx:yy).
 
