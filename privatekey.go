@@ -330,12 +330,12 @@ func (o SparsePrivateKeysList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparsePrivateKeysList converted to PrivateKeysList.
-func (o SparsePrivateKeysList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparsePrivateKeysList converted to PrivateKeysList.
+func (o SparsePrivateKeysList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -396,8 +396,8 @@ func (o *SparsePrivateKey) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparsePrivateKey) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparsePrivateKey) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewPrivateKey()
 	if o.ID != nil {

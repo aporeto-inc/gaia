@@ -434,12 +434,12 @@ func (o SparseAuthoritiesList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseAuthoritiesList converted to AuthoritiesList.
-func (o SparseAuthoritiesList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseAuthoritiesList converted to AuthoritiesList.
+func (o SparseAuthoritiesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -508,8 +508,8 @@ func (o *SparseAuthority) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseAuthority) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseAuthority) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewAuthority()
 	if o.ID != nil {

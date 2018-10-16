@@ -398,12 +398,12 @@ func (o SparseRevocationsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseRevocationsList converted to RevocationsList.
-func (o SparseRevocationsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseRevocationsList converted to RevocationsList.
+func (o SparseRevocationsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -470,8 +470,8 @@ func (o *SparseRevocation) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseRevocation) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseRevocation) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewRevocation()
 	if o.ID != nil {

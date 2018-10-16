@@ -406,12 +406,12 @@ func (o SparseInvoiceRecordsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseInvoiceRecordsList converted to InvoiceRecordsList.
-func (o SparseInvoiceRecordsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseInvoiceRecordsList converted to InvoiceRecordsList.
+func (o SparseInvoiceRecordsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -474,8 +474,8 @@ func (o *SparseInvoiceRecord) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseInvoiceRecord) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseInvoiceRecord) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewInvoiceRecord()
 	if o.ID != nil {

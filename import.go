@@ -322,12 +322,12 @@ func (o SparseImportsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseImportsList converted to ImportsList.
-func (o SparseImportsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseImportsList converted to ImportsList.
+func (o SparseImportsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -380,8 +380,8 @@ func (o *SparseImport) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseImport) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseImport) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewImport()
 	if o.Data != nil {

@@ -279,12 +279,12 @@ func (o SparseX509CertificateChecksList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseX509CertificateChecksList converted to X509CertificateChecksList.
-func (o SparseX509CertificateChecksList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseX509CertificateChecksList converted to X509CertificateChecksList.
+func (o SparseX509CertificateChecksList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -338,8 +338,8 @@ func (o *SparseX509CertificateCheck) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseX509CertificateCheck) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseX509CertificateCheck) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewX509CertificateCheck()
 	if o.ID != nil {

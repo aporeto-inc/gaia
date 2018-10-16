@@ -338,12 +338,12 @@ func (o SparseTabulationsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseTabulationsList converted to TabulationsList.
-func (o SparseTabulationsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseTabulationsList converted to TabulationsList.
+func (o SparseTabulationsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -399,8 +399,8 @@ func (o *SparseTabulation) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseTabulation) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseTabulation) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewTabulation()
 	if o.Headers != nil {

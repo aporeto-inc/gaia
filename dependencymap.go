@@ -419,12 +419,12 @@ func (o SparseDependencyMapsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseDependencyMapsList converted to DependencyMapsList.
-func (o SparseDependencyMapsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseDependencyMapsList converted to DependencyMapsList.
+func (o SparseDependencyMapsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -486,8 +486,8 @@ func (o *SparseDependencyMap) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseDependencyMap) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseDependencyMap) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewDependencyMap()
 	if o.Claims != nil {

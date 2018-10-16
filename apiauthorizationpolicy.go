@@ -1161,12 +1161,12 @@ func (o SparseAPIAuthorizationPoliciesList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the SparseAPIAuthorizationPoliciesList converted to APIAuthorizationPoliciesList.
-func (o SparseAPIAuthorizationPoliciesList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseAPIAuthorizationPoliciesList converted to APIAuthorizationPoliciesList.
+func (o SparseAPIAuthorizationPoliciesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -1283,8 +1283,8 @@ func (o *SparseAPIAuthorizationPolicy) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseAPIAuthorizationPolicy) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseAPIAuthorizationPolicy) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewAPIAuthorizationPolicy()
 	if o.ID != nil {

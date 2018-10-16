@@ -898,12 +898,12 @@ func (o SparseMessagesList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the SparseMessagesList converted to MessagesList.
-func (o SparseMessagesList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseMessagesList converted to MessagesList.
+func (o SparseMessagesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -1001,8 +1001,8 @@ func (o *SparseMessage) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseMessage) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseMessage) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewMessage()
 	if o.ID != nil {

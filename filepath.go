@@ -841,12 +841,12 @@ func (o SparseFilePathsList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the SparseFilePathsList converted to FilePathsList.
-func (o SparseFilePathsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseFilePathsList converted to FilePathsList.
+func (o SparseFilePathsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -937,8 +937,8 @@ func (o *SparseFilePath) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseFilePath) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseFilePath) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewFilePath()
 	if o.ID != nil {

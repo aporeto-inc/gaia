@@ -279,12 +279,12 @@ func (o SparseJaegerbatchsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseJaegerbatchsList converted to JaegerbatchsList.
-func (o SparseJaegerbatchsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseJaegerbatchsList converted to JaegerbatchsList.
+func (o SparseJaegerbatchsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -334,8 +334,8 @@ func (o *SparseJaegerbatch) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseJaegerbatch) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseJaegerbatch) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewJaegerbatch()
 	if o.Batch != nil {

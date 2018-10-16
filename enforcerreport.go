@@ -446,12 +446,12 @@ func (o SparseEnforcerReportsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseEnforcerReportsList converted to EnforcerReportsList.
-func (o SparseEnforcerReportsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseEnforcerReportsList converted to EnforcerReportsList.
+func (o SparseEnforcerReportsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -519,8 +519,8 @@ func (o *SparseEnforcerReport) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseEnforcerReport) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseEnforcerReport) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewEnforcerReport()
 	if o.CPULoad != nil {

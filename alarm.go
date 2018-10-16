@@ -912,12 +912,12 @@ func (o SparseAlarmsList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the SparseAlarmsList converted to AlarmsList.
-func (o SparseAlarmsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseAlarmsList converted to AlarmsList.
+func (o SparseAlarmsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -1014,8 +1014,8 @@ func (o *SparseAlarm) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseAlarm) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseAlarm) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewAlarm()
 	if o.ID != nil {

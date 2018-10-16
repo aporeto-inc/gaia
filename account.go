@@ -1412,12 +1412,12 @@ func (o SparseAccountsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseAccountsList converted to AccountsList.
-func (o SparseAccountsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseAccountsList converted to AccountsList.
+func (o SparseAccountsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -1584,8 +1584,8 @@ func (o *SparseAccount) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseAccount) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseAccount) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewAccount()
 	if o.ID != nil {

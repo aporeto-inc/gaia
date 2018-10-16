@@ -372,12 +372,12 @@ func (o SparsePolicyRenderersList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparsePolicyRenderersList converted to PolicyRenderersList.
-func (o SparsePolicyRenderersList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparsePolicyRenderersList converted to PolicyRenderersList.
+func (o SparsePolicyRenderersList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -433,8 +433,8 @@ func (o *SparsePolicyRenderer) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparsePolicyRenderer) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparsePolicyRenderer) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewPolicyRenderer()
 	if o.Policies != nil {

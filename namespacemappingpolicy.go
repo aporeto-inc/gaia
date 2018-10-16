@@ -901,12 +901,12 @@ func (o SparseNamespaceMappingPoliciesList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the SparseNamespaceMappingPoliciesList converted to NamespaceMappingPoliciesList.
-func (o SparseNamespaceMappingPoliciesList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseNamespaceMappingPoliciesList converted to NamespaceMappingPoliciesList.
+func (o SparseNamespaceMappingPoliciesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -1000,8 +1000,8 @@ func (o *SparseNamespaceMappingPolicy) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseNamespaceMappingPolicy) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseNamespaceMappingPolicy) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewNamespaceMappingPolicy()
 	if o.ID != nil {

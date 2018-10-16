@@ -681,12 +681,12 @@ func (o SparsePolicyRulesList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the SparsePolicyRulesList converted to PolicyRulesList.
-func (o SparsePolicyRulesList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparsePolicyRulesList converted to PolicyRulesList.
+func (o SparsePolicyRulesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -780,8 +780,8 @@ func (o *SparsePolicyRule) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparsePolicyRule) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparsePolicyRule) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewPolicyRule()
 	if o.ID != nil {

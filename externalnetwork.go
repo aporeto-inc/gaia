@@ -943,12 +943,12 @@ func (o SparseExternalNetworksList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the SparseExternalNetworksList converted to ExternalNetworksList.
-func (o SparseExternalNetworksList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseExternalNetworksList converted to ExternalNetworksList.
+func (o SparseExternalNetworksList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -1045,8 +1045,8 @@ func (o *SparseExternalNetwork) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseExternalNetwork) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseExternalNetwork) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewExternalNetwork()
 	if o.ID != nil {

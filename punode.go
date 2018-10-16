@@ -475,12 +475,12 @@ func (o SparsePUNodesList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparsePUNodesList converted to PUNodesList.
-func (o SparsePUNodesList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparsePUNodesList converted to PUNodesList.
+func (o SparsePUNodesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -554,8 +554,8 @@ func (o *SparsePUNode) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparsePUNode) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparsePUNode) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewPUNode()
 	if o.ID != nil {

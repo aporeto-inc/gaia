@@ -567,12 +567,12 @@ func (o SparseEventLogsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseEventLogsList converted to EventLogsList.
-func (o SparseEventLogsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseEventLogsList converted to EventLogsList.
+func (o SparseEventLogsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -644,8 +644,8 @@ func (o *SparseEventLog) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseEventLog) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseEventLog) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewEventLog()
 	if o.Category != nil {

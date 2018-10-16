@@ -1468,12 +1468,12 @@ func (o SparseNetworkAccessPoliciesList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the SparseNetworkAccessPoliciesList converted to NetworkAccessPoliciesList.
-func (o SparseNetworkAccessPoliciesList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseNetworkAccessPoliciesList converted to NetworkAccessPoliciesList.
+func (o SparseNetworkAccessPoliciesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -1617,8 +1617,8 @@ func (o *SparseNetworkAccessPolicy) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseNetworkAccessPolicy) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseNetworkAccessPolicy) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewNetworkAccessPolicy()
 	if o.ID != nil {

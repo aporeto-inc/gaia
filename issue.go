@@ -434,12 +434,12 @@ func (o SparseIssuesList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseIssuesList converted to IssuesList.
-func (o SparseIssuesList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseIssuesList converted to IssuesList.
+func (o SparseIssuesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -502,8 +502,8 @@ func (o *SparseIssue) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseIssue) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseIssue) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewIssue()
 	if o.Data != nil {

@@ -1124,12 +1124,12 @@ func (o SparseFlowReportsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseFlowReportsList converted to FlowReportsList.
-func (o SparseFlowReportsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseFlowReportsList converted to FlowReportsList.
+func (o SparseFlowReportsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -1265,8 +1265,8 @@ func (o *SparseFlowReport) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseFlowReport) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseFlowReport) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewFlowReport()
 	if o.Action != nil {

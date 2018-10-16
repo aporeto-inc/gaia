@@ -596,12 +596,12 @@ func (o SparseAWSAccountsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseAWSAccountsList converted to AWSAccountsList.
-func (o SparseAWSAccountsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseAWSAccountsList converted to AWSAccountsList.
+func (o SparseAWSAccountsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -685,8 +685,8 @@ func (o *SparseAWSAccount) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseAWSAccount) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseAWSAccount) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewAWSAccount()
 	if o.ID != nil {

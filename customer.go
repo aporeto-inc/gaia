@@ -489,12 +489,12 @@ func (o SparseCustomersList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseCustomersList converted to CustomersList.
-func (o SparseCustomersList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseCustomersList converted to CustomersList.
+func (o SparseCustomersList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -564,8 +564,8 @@ func (o *SparseCustomer) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseCustomer) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseCustomer) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewCustomer()
 	if o.ID != nil {

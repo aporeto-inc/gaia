@@ -914,12 +914,12 @@ func (o SparseIsolationProfilesList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the SparseIsolationProfilesList converted to IsolationProfilesList.
-func (o SparseIsolationProfilesList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseIsolationProfilesList converted to IsolationProfilesList.
+func (o SparseIsolationProfilesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -1020,8 +1020,8 @@ func (o *SparseIsolationProfile) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseIsolationProfile) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseIsolationProfile) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewIsolationProfile()
 	if o.ID != nil {

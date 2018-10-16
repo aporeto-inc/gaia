@@ -280,12 +280,12 @@ func (o SparseStatsQueriesList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseStatsQueriesList converted to StatsQueriesList.
-func (o SparseStatsQueriesList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseStatsQueriesList converted to StatsQueriesList.
+func (o SparseStatsQueriesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -335,8 +335,8 @@ func (o *SparseStatsQuery) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseStatsQuery) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseStatsQuery) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewStatsQuery()
 	if o.Results != nil {

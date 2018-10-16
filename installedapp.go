@@ -592,12 +592,12 @@ func (o SparseInstalledAppsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseInstalledAppsList converted to InstalledAppsList.
-func (o SparseInstalledAppsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseInstalledAppsList converted to InstalledAppsList.
+func (o SparseInstalledAppsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -681,8 +681,8 @@ func (o *SparseInstalledApp) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseInstalledApp) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewInstalledApp()
 	if o.ID != nil {

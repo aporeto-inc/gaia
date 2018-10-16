@@ -361,12 +361,12 @@ func (o SparseTokensList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseTokensList converted to TokensList.
-func (o SparseTokensList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseTokensList converted to TokensList.
+func (o SparseTokensList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -425,8 +425,8 @@ func (o *SparseToken) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseToken) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseToken) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewToken()
 	if o.Certificate != nil {

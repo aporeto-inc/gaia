@@ -779,12 +779,12 @@ func (o SparseCertificatesList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseCertificatesList converted to CertificatesList.
-func (o SparseCertificatesList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseCertificatesList converted to CertificatesList.
+func (o SparseCertificatesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -882,8 +882,8 @@ func (o *SparseCertificate) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseCertificate) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseCertificate) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewCertificate()
 	if o.ID != nil {

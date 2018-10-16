@@ -308,12 +308,12 @@ func (o SparseInstallationsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseInstallationsList converted to InstallationsList.
-func (o SparseInstallationsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseInstallationsList converted to InstallationsList.
+func (o SparseInstallationsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -370,8 +370,8 @@ func (o *SparseInstallation) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseInstallation) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseInstallation) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewInstallation()
 	if o.ID != nil {

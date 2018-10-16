@@ -1165,12 +1165,12 @@ func (o SparseProcessingUnitsList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the SparseProcessingUnitsList converted to ProcessingUnitsList.
-func (o SparseProcessingUnitsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseProcessingUnitsList converted to ProcessingUnitsList.
+func (o SparseProcessingUnitsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -1287,8 +1287,8 @@ func (o *SparseProcessingUnit) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseProcessingUnit) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewProcessingUnit()
 	if o.ID != nil {

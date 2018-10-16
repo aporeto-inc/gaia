@@ -468,12 +468,12 @@ func (o SparseAPIChecksList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseAPIChecksList converted to APIChecksList.
-func (o SparseAPIChecksList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseAPIChecksList converted to APIChecksList.
+func (o SparseAPIChecksList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -539,8 +539,8 @@ func (o *SparseAPICheck) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseAPICheck) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseAPICheck) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewAPICheck()
 	if o.Authorized != nil {

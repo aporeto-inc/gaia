@@ -1077,12 +1077,12 @@ func (o SparseK8SClustersList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the SparseK8SClustersList converted to K8SClustersList.
-func (o SparseK8SClustersList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseK8SClustersList converted to K8SClustersList.
+func (o SparseK8SClustersList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -1199,8 +1199,8 @@ func (o *SparseK8SCluster) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseK8SCluster) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseK8SCluster) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewK8SCluster()
 	if o.APIAuthorizationPolicyID != nil {

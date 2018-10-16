@@ -1129,12 +1129,12 @@ func (o SparseTokenScopePoliciesList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the SparseTokenScopePoliciesList converted to TokenScopePoliciesList.
-func (o SparseTokenScopePoliciesList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseTokenScopePoliciesList converted to TokenScopePoliciesList.
+func (o SparseTokenScopePoliciesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -1249,8 +1249,8 @@ func (o *SparseTokenScopePolicy) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseTokenScopePolicy) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseTokenScopePolicy) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewTokenScopePolicy()
 	if o.ID != nil {

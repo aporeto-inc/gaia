@@ -278,12 +278,12 @@ func (o SparseAuthsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseAuthsList converted to AuthsList.
-func (o SparseAuthsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseAuthsList converted to AuthsList.
+func (o SparseAuthsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -333,8 +333,8 @@ func (o *SparseAuth) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseAuth) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseAuth) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewAuth()
 	if o.Claims != nil {

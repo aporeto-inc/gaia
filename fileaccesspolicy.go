@@ -1262,12 +1262,12 @@ func (o SparseFileAccessPoliciesList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the SparseFileAccessPoliciesList converted to FileAccessPoliciesList.
-func (o SparseFileAccessPoliciesList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseFileAccessPoliciesList converted to FileAccessPoliciesList.
+func (o SparseFileAccessPoliciesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -1396,8 +1396,8 @@ func (o *SparseFileAccessPolicy) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseFileAccessPolicy) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseFileAccessPolicy) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewFileAccessPolicy()
 	if o.ID != nil {

@@ -835,12 +835,12 @@ func (o SparseAuditProfilesList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the SparseAuditProfilesList converted to AuditProfilesList.
-func (o SparseAuditProfilesList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseAuditProfilesList converted to AuditProfilesList.
+func (o SparseAuditProfilesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -931,8 +931,8 @@ func (o *SparseAuditProfile) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseAuditProfile) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseAuditProfile) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewAuditProfile()
 	if o.ID != nil {

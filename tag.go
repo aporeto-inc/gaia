@@ -395,12 +395,12 @@ func (o SparseTagsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseTagsList converted to TagsList.
-func (o SparseTagsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseTagsList converted to TagsList.
+func (o SparseTagsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -463,8 +463,8 @@ func (o *SparseTag) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseTag) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseTag) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewTag()
 	if o.ID != nil {

@@ -585,12 +585,12 @@ func (o SparseOIDCProvidersList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseOIDCProvidersList converted to OIDCProvidersList.
-func (o SparseOIDCProvidersList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseOIDCProvidersList converted to OIDCProvidersList.
+func (o SparseOIDCProvidersList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -671,8 +671,8 @@ func (o *SparseOIDCProvider) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseOIDCProvider) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseOIDCProvider) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewOIDCProvider()
 	if o.ID != nil {

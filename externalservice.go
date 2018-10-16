@@ -922,12 +922,12 @@ func (o SparseExternalServicesList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the SparseExternalServicesList converted to ExternalServicesList.
-func (o SparseExternalServicesList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseExternalServicesList converted to ExternalServicesList.
+func (o SparseExternalServicesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -1025,8 +1025,8 @@ func (o *SparseExternalService) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseExternalService) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseExternalService) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewExternalService()
 	if o.ID != nil {

@@ -633,12 +633,12 @@ func (o SparseActivitiesList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseActivitiesList converted to ActivitiesList.
-func (o SparseActivitiesList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseActivitiesList converted to ActivitiesList.
+func (o SparseActivitiesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -723,8 +723,8 @@ func (o *SparseActivity) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseActivity) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseActivity) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewActivity()
 	if o.ID != nil {

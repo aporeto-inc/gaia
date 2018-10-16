@@ -431,12 +431,12 @@ func (o SparsePlansList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparsePlansList converted to PlansList.
-func (o SparsePlansList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparsePlansList converted to PlansList.
+func (o SparsePlansList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -501,8 +501,8 @@ func (o *SparsePlan) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparsePlan) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparsePlan) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewPlan()
 	if o.Description != nil {

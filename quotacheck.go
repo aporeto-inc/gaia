@@ -337,12 +337,12 @@ func (o SparseQuotaChecksList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseQuotaChecksList converted to QuotaChecksList.
-func (o SparseQuotaChecksList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseQuotaChecksList converted to QuotaChecksList.
+func (o SparseQuotaChecksList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -398,8 +398,8 @@ func (o *SparseQuotaCheck) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseQuotaCheck) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseQuotaCheck) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewQuotaCheck()
 	if o.Quota != nil {

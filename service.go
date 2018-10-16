@@ -1632,12 +1632,12 @@ func (o SparseServicesList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the SparseServicesList converted to ServicesList.
-func (o SparseServicesList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseServicesList converted to ServicesList.
+func (o SparseServicesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -1825,8 +1825,8 @@ func (o *SparseService) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseService) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewService()
 	if o.ID != nil {

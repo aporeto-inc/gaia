@@ -437,12 +437,12 @@ func (o SparseFileAccessList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseFileAccessList converted to FileAccessList.
-func (o SparseFileAccessList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseFileAccessList converted to FileAccessList.
+func (o SparseFileAccessList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -507,8 +507,8 @@ func (o *SparseFileAccess) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseFileAccess) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseFileAccess) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewFileAccess()
 	if o.Action != nil {

@@ -504,12 +504,12 @@ func (o SparseRemoteProcessorsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the SparseRemoteProcessorsList converted to RemoteProcessorsList.
-func (o SparseRemoteProcessorsList) ToFull() elemental.IdentifiablesList {
+// ToPlain returns the SparseRemoteProcessorsList converted to RemoteProcessorsList.
+func (o SparseRemoteProcessorsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToFull()
+		out[i] = o[i].ToPlain()
 	}
 
 	return out
@@ -580,8 +580,8 @@ func (o *SparseRemoteProcessor) Version() int {
 	return 1
 }
 
-// ToFull returns a full version of the sparse model.
-func (o *SparseRemoteProcessor) ToFull() elemental.FullIdentifiable {
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseRemoteProcessor) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewRemoteProcessor()
 	if o.Claims != nil {
