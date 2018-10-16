@@ -2672,6 +2672,10 @@ Represents an application credential data.
 
 ### Attributes
 
+#### `ID (string)`
+
+The ID of app credential.
+
 #### `certificate (string)`
 
 The certificate data encoded in base64.
@@ -2683,6 +2687,14 @@ The certificate authority data encoded in base64.
 #### `certificateKey (string)`
 
 The certificate key data encoded in base64.
+
+#### `name (string)`
+
+The name of app credential.
+
+#### `namespace (string)`
+
+The namespace of app credential.
 
 ## DependencyMap
 

@@ -10,6 +10,11 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: ID
+    description: The ID of app credential.
+    type: string
+    exposed: true
+
   - name: certificate
     description: The certificate data encoded in base64.
     type: string
@@ -22,5 +27,15 @@ attributes:
 
   - name: certificateKey
     description: The certificate key data encoded in base64.
+    type: string
+    exposed: true
+
+  - name: name
+    description: The name of app credential.
+    type: string
+    exposed: true
+
+  - name: namespace
+    description: The namespace of app credential.
     type: string
     exposed: true
