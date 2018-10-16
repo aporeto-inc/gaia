@@ -61,7 +61,8 @@ func (o EnforcerReportsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the EnforcerReportsList converted to SparseEnforcerReportsList.
+// ToSparse returns the EnforcerReportsList converted to SparseEnforcerReportsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o EnforcerReportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -154,6 +155,7 @@ func (o *EnforcerReport) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *EnforcerReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

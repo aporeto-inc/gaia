@@ -131,7 +131,8 @@ func (o FlowReportsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the FlowReportsList converted to SparseFlowReportsList.
+// ToSparse returns the FlowReportsList converted to SparseFlowReportsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o FlowReportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -294,6 +295,7 @@ func (o *FlowReport) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *FlowReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

@@ -81,7 +81,8 @@ func (o EventLogsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the EventLogsList converted to SparseEventLogsList.
+// ToSparse returns the EventLogsList converted to SparseEventLogsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o EventLogsList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -191,6 +192,7 @@ func (o *EventLog) SetNamespace(namespace string) {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *EventLog) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

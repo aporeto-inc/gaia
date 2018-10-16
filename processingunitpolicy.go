@@ -86,7 +86,8 @@ func (o ProcessingUnitPoliciesList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the ProcessingUnitPoliciesList converted to SparseProcessingUnitPoliciesList.
+// ToSparse returns the ProcessingUnitPoliciesList converted to SparseProcessingUnitPoliciesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o ProcessingUnitPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -407,6 +408,7 @@ func (o *ProcessingUnitPolicy) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *ProcessingUnitPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

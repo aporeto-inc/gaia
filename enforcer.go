@@ -83,7 +83,8 @@ func (o EnforcersList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the EnforcersList converted to SparseEnforcersList.
+// ToSparse returns the EnforcersList converted to SparseEnforcersList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o EnforcersList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -366,6 +367,7 @@ func (o *Enforcer) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

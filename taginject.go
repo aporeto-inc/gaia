@@ -59,7 +59,8 @@ func (o TagInjectsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the TagInjectsList converted to SparseTagInjectsList.
+// ToSparse returns the TagInjectsList converted to SparseTagInjectsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o TagInjectsList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -140,6 +141,7 @@ func (o *TagInject) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *TagInject) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

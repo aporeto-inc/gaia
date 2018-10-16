@@ -63,7 +63,8 @@ func (o AWSAPIGatewaysList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the AWSAPIGatewaysList converted to SparseAWSAPIGatewaysList.
+// ToSparse returns the AWSAPIGatewaysList converted to SparseAWSAPIGatewaysList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o AWSAPIGatewaysList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -305,6 +306,7 @@ func (o *AWSAPIGateway) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *AWSAPIGateway) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

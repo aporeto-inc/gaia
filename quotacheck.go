@@ -59,7 +59,8 @@ func (o QuotaChecksList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the QuotaChecksList converted to SparseQuotaChecksList.
+// ToSparse returns the QuotaChecksList converted to SparseQuotaChecksList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o QuotaChecksList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -141,6 +142,7 @@ func (o *QuotaCheck) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *QuotaCheck) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

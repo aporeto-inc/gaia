@@ -63,7 +63,8 @@ func (o TokenScopePoliciesList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the TokenScopePoliciesList converted to SparseTokenScopePoliciesList.
+// ToSparse returns the TokenScopePoliciesList converted to SparseTokenScopePoliciesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o TokenScopePoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -383,6 +384,7 @@ func (o *TokenScopePolicy) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *TokenScopePolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

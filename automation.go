@@ -77,7 +77,8 @@ func (o AutomationsList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the AutomationsList converted to SparseAutomationsList.
+// ToSparse returns the AutomationsList converted to SparseAutomationsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o AutomationsList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -334,6 +335,7 @@ func (o *Automation) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *Automation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

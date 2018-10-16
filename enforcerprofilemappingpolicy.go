@@ -63,7 +63,8 @@ func (o EnforcerProfileMappingPoliciesList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the EnforcerProfileMappingPoliciesList converted to SparseEnforcerProfileMappingPoliciesList.
+// ToSparse returns the EnforcerProfileMappingPoliciesList converted to SparseEnforcerProfileMappingPoliciesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o EnforcerProfileMappingPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -349,6 +350,7 @@ func (o *EnforcerProfileMappingPolicy) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *EnforcerProfileMappingPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

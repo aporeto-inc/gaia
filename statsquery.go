@@ -60,7 +60,8 @@ func (o StatsQueriesList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the StatsQueriesList converted to SparseStatsQueriesList.
+// ToSparse returns the StatsQueriesList converted to SparseStatsQueriesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o StatsQueriesList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -138,6 +139,7 @@ func (o *StatsQuery) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *StatsQuery) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

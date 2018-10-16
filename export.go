@@ -59,7 +59,8 @@ func (o ExportsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the ExportsList converted to SparseExportsList.
+// ToSparse returns the ExportsList converted to SparseExportsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o ExportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -146,6 +147,7 @@ func (o *Export) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *Export) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

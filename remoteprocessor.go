@@ -72,7 +72,8 @@ func (o RemoteProcessorsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the RemoteProcessorsList converted to SparseRemoteProcessorsList.
+// ToSparse returns the RemoteProcessorsList converted to SparseRemoteProcessorsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o RemoteProcessorsList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -168,6 +169,7 @@ func (o *RemoteProcessor) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *RemoteProcessor) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

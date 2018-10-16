@@ -74,7 +74,8 @@ func (o InstalledAppsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the InstalledAppsList converted to SparseInstalledAppsList.
+// ToSparse returns the InstalledAppsList converted to SparseInstalledAppsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o InstalledAppsList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -184,6 +185,7 @@ func (o *InstalledApp) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

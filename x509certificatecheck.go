@@ -59,7 +59,8 @@ func (o X509CertificateChecksList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the X509CertificateChecksList converted to SparseX509CertificateChecksList.
+// ToSparse returns the X509CertificateChecksList converted to SparseX509CertificateChecksList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o X509CertificateChecksList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -135,6 +136,7 @@ func (o *X509CertificateCheck) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *X509CertificateCheck) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

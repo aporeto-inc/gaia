@@ -61,7 +61,8 @@ func (o PolicyRulesList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the PolicyRulesList converted to SparsePolicyRulesList.
+// ToSparse returns the PolicyRulesList converted to SparsePolicyRulesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o PolicyRulesList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -199,6 +200,7 @@ func (o *PolicyRule) SetName(name string) {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *PolicyRule) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

@@ -87,7 +87,8 @@ func (o ReportsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the ReportsList converted to SparseReportsList.
+// ToSparse returns the ReportsList converted to SparseReportsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o ReportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -176,6 +177,7 @@ func (o *Report) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *Report) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

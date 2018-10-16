@@ -59,7 +59,8 @@ func (o PokesList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the PokesList converted to SparsePokesList.
+// ToSparse returns the PokesList converted to SparsePokesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o PokesList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -132,6 +133,7 @@ func (o *Poke) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *Poke) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

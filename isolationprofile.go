@@ -64,7 +64,8 @@ func (o IsolationProfilesList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the IsolationProfilesList converted to SparseIsolationProfilesList.
+// ToSparse returns the IsolationProfilesList converted to SparseIsolationProfilesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o IsolationProfilesList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -298,6 +299,7 @@ func (o *IsolationProfile) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *IsolationProfile) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

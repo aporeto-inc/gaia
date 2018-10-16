@@ -61,7 +61,8 @@ func (o AuthoritiesList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the AuthoritiesList converted to SparseAuthoritiesList.
+// ToSparse returns the AuthoritiesList converted to SparseAuthoritiesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o AuthoritiesList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -152,6 +153,7 @@ func (o *Authority) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *Authority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

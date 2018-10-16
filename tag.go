@@ -59,7 +59,8 @@ func (o TagsList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the TagsList converted to SparseTagsList.
+// ToSparse returns the TagsList converted to SparseTagsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o TagsList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -149,6 +150,7 @@ func (o *Tag) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *Tag) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

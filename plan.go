@@ -59,7 +59,8 @@ func (o PlansList) DefaultOrder() []string {
 	return []string{}
 }
 
-// ToFull returns the PlansList converted to SparsePlansList.
+// ToSparse returns the PlansList converted to SparsePlansList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o PlansList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -149,6 +150,7 @@ func (o *Plan) String() string {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *Plan) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {

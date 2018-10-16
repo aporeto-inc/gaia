@@ -63,7 +63,8 @@ func (o ServiceDependenciesList) DefaultOrder() []string {
 	}
 }
 
-// ToFull returns the ServiceDependenciesList converted to SparseServiceDependenciesList.
+// ToSparse returns the ServiceDependenciesList converted to SparseServiceDependenciesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
 func (o ServiceDependenciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
@@ -380,6 +381,7 @@ func (o *ServiceDependency) SetUpdateTime(updateTime time.Time) {
 }
 
 // ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
 func (o *ServiceDependency) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
