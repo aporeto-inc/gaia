@@ -45,9 +45,9 @@ func (o TabulationsList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o TabulationsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,18 @@ func (o TabulationsList) List() elemental.IdentifiablesList {
 func (o TabulationsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToSparse returns the TabulationsList converted to SparseTabulationsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o TabulationsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -128,6 +140,52 @@ any tags you like as columns.`
 func (o *Tabulation) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *Tabulation) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseTabulation{
+			Headers:        &o.Headers,
+			Rows:           &o.Rows,
+			TargetIdentity: &o.TargetIdentity,
+		}
+	}
+
+	sp := &SparseTabulation{}
+	for _, f := range fields {
+		switch f {
+		case "headers":
+			sp.Headers = &(o.Headers)
+		case "rows":
+			sp.Rows = &(o.Rows)
+		case "targetIdentity":
+			sp.TargetIdentity = &(o.TargetIdentity)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseTabulation to the object.
+func (o *Tabulation) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseTabulation)
+	if so.Headers != nil {
+		o.Headers = *so.Headers
+	}
+	if so.Rows != nil {
+		o.Rows = *so.Rows
+	}
+	if so.TargetIdentity != nil {
+		o.TargetIdentity = *so.TargetIdentity
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -234,4 +292,126 @@ var TabulationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		ReadOnly:       true,
 		Type:           "string",
 	},
+}
+
+// SparseTabulationsList represents a list of SparseTabulations
+type SparseTabulationsList []*SparseTabulation
+
+// Identity returns the identity of the objects in the list.
+func (o SparseTabulationsList) Identity() elemental.Identity {
+
+	return TabulationIdentity
+}
+
+// Copy returns a pointer to a copy the SparseTabulationsList.
+func (o SparseTabulationsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseTabulationsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseTabulationsList.
+func (o SparseTabulationsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseTabulationsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseTabulation))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseTabulationsList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseTabulationsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// ToPlain returns the SparseTabulationsList converted to TabulationsList.
+func (o SparseTabulationsList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseTabulationsList) Version() int {
+
+	return 1
+}
+
+// SparseTabulation represents the sparse version of a tabulation.
+type SparseTabulation struct {
+	// Headers contains the requests headers that matched.
+	Headers *[]string `json:"headers,omitempty" bson:"-" mapstructure:"headers,omitempty"`
+
+	// Rows contains the tabulated data.
+	Rows *[][]interface{} `json:"rows,omitempty" bson:"-" mapstructure:"rows,omitempty"`
+
+	// TargetIdentity contains the requested target identity.
+	TargetIdentity *string `json:"targetIdentity,omitempty" bson:"-" mapstructure:"targetIdentity,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseTabulation returns a new  SparseTabulation.
+func NewSparseTabulation() *SparseTabulation {
+	return &SparseTabulation{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseTabulation) Identity() elemental.Identity {
+
+	return TabulationIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseTabulation) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseTabulation) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseTabulation) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseTabulation) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewTabulation()
+	if o.Headers != nil {
+		out.Headers = *o.Headers
+	}
+	if o.Rows != nil {
+		out.Rows = *o.Rows
+	}
+	if o.TargetIdentity != nil {
+		out.TargetIdentity = *o.TargetIdentity
+	}
+
+	return out
 }

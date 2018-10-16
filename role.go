@@ -45,9 +45,9 @@ func (o RolesList) Append(objects ...elemental.Identifiable) elemental.Identifia
 // List converts the object to an elemental.IdentifiablesList.
 func (o RolesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,18 @@ func (o RolesList) List() elemental.IdentifiablesList {
 func (o RolesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToSparse returns the RolesList converted to SparseRolesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o RolesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -131,6 +143,58 @@ Policies.`
 func (o *Role) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *Role) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseRole{
+			Authorizations: &o.Authorizations,
+			Description:    &o.Description,
+			Key:            &o.Key,
+			Name:           &o.Name,
+		}
+	}
+
+	sp := &SparseRole{}
+	for _, f := range fields {
+		switch f {
+		case "authorizations":
+			sp.Authorizations = &(o.Authorizations)
+		case "description":
+			sp.Description = &(o.Description)
+		case "key":
+			sp.Key = &(o.Key)
+		case "name":
+			sp.Name = &(o.Name)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseRole to the object.
+func (o *Role) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseRole)
+	if so.Authorizations != nil {
+		o.Authorizations = *so.Authorizations
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.Key != nil {
+		o.Key = *so.Key
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -255,4 +319,132 @@ var RoleLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 	},
+}
+
+// SparseRolesList represents a list of SparseRoles
+type SparseRolesList []*SparseRole
+
+// Identity returns the identity of the objects in the list.
+func (o SparseRolesList) Identity() elemental.Identity {
+
+	return RoleIdentity
+}
+
+// Copy returns a pointer to a copy the SparseRolesList.
+func (o SparseRolesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseRolesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseRolesList.
+func (o SparseRolesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseRolesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseRole))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseRolesList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseRolesList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// ToPlain returns the SparseRolesList converted to RolesList.
+func (o SparseRolesList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseRolesList) Version() int {
+
+	return 1
+}
+
+// SparseRole represents the sparse version of a role.
+type SparseRole struct {
+	// Authorizations of the role.
+	Authorizations *map[string][]string `json:"authorizations,omitempty" bson:"-" mapstructure:"authorizations,omitempty"`
+
+	// Description is the description of the role.
+	Description *string `json:"description,omitempty" bson:"-" mapstructure:"description,omitempty"`
+
+	// Key is the of the role.
+	Key *string `json:"key,omitempty" bson:"-" mapstructure:"key,omitempty"`
+
+	// Name of the role.
+	Name *string `json:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseRole returns a new  SparseRole.
+func NewSparseRole() *SparseRole {
+	return &SparseRole{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseRole) Identity() elemental.Identity {
+
+	return RoleIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseRole) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseRole) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseRole) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseRole) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewRole()
+	if o.Authorizations != nil {
+		out.Authorizations = *o.Authorizations
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.Key != nil {
+		out.Key = *o.Key
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+
+	return out
 }

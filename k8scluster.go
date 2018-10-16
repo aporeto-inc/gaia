@@ -72,9 +72,9 @@ func (o K8SClustersList) Append(objects ...elemental.Identifiable) elemental.Ide
 // List converts the object to an elemental.IdentifiablesList.
 func (o K8SClustersList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -86,6 +86,18 @@ func (o K8SClustersList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToSparse returns the K8SClustersList converted to SparseK8SClustersList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o K8SClustersList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -323,6 +335,154 @@ func (o *K8SCluster) GetUpdateTime() time.Time {
 func (o *K8SCluster) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *K8SCluster) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseK8SCluster{
+			APIAuthorizationPolicyID: &o.APIAuthorizationPolicyID,
+			ID:                       &o.ID,
+			ActivationType:           &o.ActivationType,
+			AdminEmail:               &o.AdminEmail,
+			Annotations:              &o.Annotations,
+			AssociatedTags:           &o.AssociatedTags,
+			Certificate:              &o.Certificate,
+			CertificateSN:            &o.CertificateSN,
+			CreateTime:               &o.CreateTime,
+			Description:              &o.Description,
+			KubernetesDefinitions:    &o.KubernetesDefinitions,
+			Metadata:                 &o.Metadata,
+			Name:                     &o.Name,
+			Namespace:                &o.Namespace,
+			NamespaceID:              &o.NamespaceID,
+			NetworkPolicyType:        &o.NetworkPolicyType,
+			NormalizedTags:           &o.NormalizedTags,
+			Protected:                &o.Protected,
+			Regenerate:               &o.Regenerate,
+			UpdateTime:               &o.UpdateTime,
+		}
+	}
+
+	sp := &SparseK8SCluster{}
+	for _, f := range fields {
+		switch f {
+		case "APIAuthorizationPolicyID":
+			sp.APIAuthorizationPolicyID = &(o.APIAuthorizationPolicyID)
+		case "ID":
+			sp.ID = &(o.ID)
+		case "activationType":
+			sp.ActivationType = &(o.ActivationType)
+		case "adminEmail":
+			sp.AdminEmail = &(o.AdminEmail)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "certificate":
+			sp.Certificate = &(o.Certificate)
+		case "certificateSN":
+			sp.CertificateSN = &(o.CertificateSN)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "kubernetesDefinitions":
+			sp.KubernetesDefinitions = &(o.KubernetesDefinitions)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "namespaceID":
+			sp.NamespaceID = &(o.NamespaceID)
+		case "networkPolicyType":
+			sp.NetworkPolicyType = &(o.NetworkPolicyType)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "regenerate":
+			sp.Regenerate = &(o.Regenerate)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseK8SCluster to the object.
+func (o *K8SCluster) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseK8SCluster)
+	if so.APIAuthorizationPolicyID != nil {
+		o.APIAuthorizationPolicyID = *so.APIAuthorizationPolicyID
+	}
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.ActivationType != nil {
+		o.ActivationType = *so.ActivationType
+	}
+	if so.AdminEmail != nil {
+		o.AdminEmail = *so.AdminEmail
+	}
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.Certificate != nil {
+		o.Certificate = *so.Certificate
+	}
+	if so.CertificateSN != nil {
+		o.CertificateSN = *so.CertificateSN
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.KubernetesDefinitions != nil {
+		o.KubernetesDefinitions = *so.KubernetesDefinitions
+	}
+	if so.Metadata != nil {
+		o.Metadata = *so.Metadata
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.NamespaceID != nil {
+		o.NamespaceID = *so.NamespaceID
+	}
+	if so.NetworkPolicyType != nil {
+		o.NetworkPolicyType = *so.NetworkPolicyType
+	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
+	}
+	if so.Regenerate != nil {
+		o.Regenerate = *so.Regenerate
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -869,4 +1029,240 @@ consistent policies in Squall.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseK8SClustersList represents a list of SparseK8SClusters
+type SparseK8SClustersList []*SparseK8SCluster
+
+// Identity returns the identity of the objects in the list.
+func (o SparseK8SClustersList) Identity() elemental.Identity {
+
+	return K8SClusterIdentity
+}
+
+// Copy returns a pointer to a copy the SparseK8SClustersList.
+func (o SparseK8SClustersList) Copy() elemental.Identifiables {
+
+	copy := append(SparseK8SClustersList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseK8SClustersList.
+func (o SparseK8SClustersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseK8SClustersList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseK8SCluster))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseK8SClustersList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseK8SClustersList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// ToPlain returns the SparseK8SClustersList converted to K8SClustersList.
+func (o SparseK8SClustersList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseK8SClustersList) Version() int {
+
+	return 1
+}
+
+// SparseK8SCluster represents the sparse version of a k8scluster.
+type SparseK8SCluster struct {
+	// Link to the API authorization policy.
+	APIAuthorizationPolicyID *string `json:"-,omitempty" bson:"apiauthorizationpolicyid" mapstructure:"-,omitempty"`
+
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Defines the mode of activation on the KubernetesCluster.
+	ActivationType *K8SClusterActivationTypeValue `json:"activationType,omitempty" bson:"activationtype" mapstructure:"activationType,omitempty"`
+
+	// The email address that will receive a copy of the Kubernetes cluster YAMLs
+	// definition.
+	AdminEmail *string `json:"adminEmail,omitempty" bson:"adminemail" mapstructure:"adminEmail,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// The string representation of the Certificate used by the Kubernetes cluster.
+	Certificate *string `json:"certificate,omitempty" bson:"certificate" mapstructure:"certificate,omitempty"`
+
+	// Link to the certificate created for this cluster.
+	CertificateSN *string `json:"-,omitempty" bson:"certificatesn" mapstructure:"-,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// base64 of the .tar.gz file that contains all the .YAMLs files needed to create
+	// the aporeto side on your kubernetes Cluster.
+	KubernetesDefinitions *string `json:"kubernetesDefinitions,omitempty" bson:"-" mapstructure:"kubernetesDefinitions,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// Link to the cluster namespace.
+	NamespaceID *string `json:"-,omitempty" bson:"namespaceid" mapstructure:"-,omitempty"`
+
+	// Defines what type of network policy will be applied on your cluster.
+	// Kubernetes means that All the Kubernetes policies will be synced to Squall.
+	// No Policies means that policies are not synced and it's up to the user to create
+	// consistent policies in Squall.
+	NetworkPolicyType *K8SClusterNetworkPolicyTypeValue `json:"networkPolicyType,omitempty" bson:"networkpolicytype" mapstructure:"networkPolicyType,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// Regenerates the k8s files and certificates.
+	Regenerate *bool `json:"regenerate,omitempty" bson:"-" mapstructure:"regenerate,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseK8SCluster returns a new  SparseK8SCluster.
+func NewSparseK8SCluster() *SparseK8SCluster {
+	return &SparseK8SCluster{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseK8SCluster) Identity() elemental.Identity {
+
+	return K8SClusterIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseK8SCluster) Identifier() string {
+
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseK8SCluster) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseK8SCluster) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseK8SCluster) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewK8SCluster()
+	if o.APIAuthorizationPolicyID != nil {
+		out.APIAuthorizationPolicyID = *o.APIAuthorizationPolicyID
+	}
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.ActivationType != nil {
+		out.ActivationType = *o.ActivationType
+	}
+	if o.AdminEmail != nil {
+		out.AdminEmail = *o.AdminEmail
+	}
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.Certificate != nil {
+		out.Certificate = *o.Certificate
+	}
+	if o.CertificateSN != nil {
+		out.CertificateSN = *o.CertificateSN
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.KubernetesDefinitions != nil {
+		out.KubernetesDefinitions = *o.KubernetesDefinitions
+	}
+	if o.Metadata != nil {
+		out.Metadata = *o.Metadata
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.NamespaceID != nil {
+		out.NamespaceID = *o.NamespaceID
+	}
+	if o.NetworkPolicyType != nil {
+		out.NetworkPolicyType = *o.NetworkPolicyType
+	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
+	}
+	if o.Regenerate != nil {
+		out.Regenerate = *o.Regenerate
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

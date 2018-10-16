@@ -58,9 +58,9 @@ func (o CertificatesList) Append(objects ...elemental.Identifiable) elemental.Id
 // List converts the object to an elemental.IdentifiablesList.
 func (o CertificatesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -70,6 +70,18 @@ func (o CertificatesList) List() elemental.IdentifiablesList {
 func (o CertificatesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToSparse returns the CertificatesList converted to SparseCertificatesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o CertificatesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -179,6 +191,124 @@ func (o *Certificate) Doc() string {
 func (o *Certificate) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *Certificate) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseCertificate{
+			ID:                  &o.ID,
+			Admin:               &o.Admin,
+			CommonName:          &o.CommonName,
+			CreateTime:          &o.CreateTime,
+			Data:                &o.Data,
+			Email:               &o.Email,
+			ExpirationDate:      &o.ExpirationDate,
+			Key:                 &o.Key,
+			Name:                &o.Name,
+			OrganizationalUnits: &o.OrganizationalUnits,
+			ParentID:            &o.ParentID,
+			Passphrase:          &o.Passphrase,
+			SerialNumber:        &o.SerialNumber,
+			Status:              &o.Status,
+			UpdateTime:          &o.UpdateTime,
+		}
+	}
+
+	sp := &SparseCertificate{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "admin":
+			sp.Admin = &(o.Admin)
+		case "commonName":
+			sp.CommonName = &(o.CommonName)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "data":
+			sp.Data = &(o.Data)
+		case "email":
+			sp.Email = &(o.Email)
+		case "expirationDate":
+			sp.ExpirationDate = &(o.ExpirationDate)
+		case "key":
+			sp.Key = &(o.Key)
+		case "name":
+			sp.Name = &(o.Name)
+		case "organizationalUnits":
+			sp.OrganizationalUnits = &(o.OrganizationalUnits)
+		case "parentID":
+			sp.ParentID = &(o.ParentID)
+		case "passphrase":
+			sp.Passphrase = &(o.Passphrase)
+		case "serialNumber":
+			sp.SerialNumber = &(o.SerialNumber)
+		case "status":
+			sp.Status = &(o.Status)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseCertificate to the object.
+func (o *Certificate) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseCertificate)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Admin != nil {
+		o.Admin = *so.Admin
+	}
+	if so.CommonName != nil {
+		o.CommonName = *so.CommonName
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Data != nil {
+		o.Data = *so.Data
+	}
+	if so.Email != nil {
+		o.Email = *so.Email
+	}
+	if so.ExpirationDate != nil {
+		o.ExpirationDate = *so.ExpirationDate
+	}
+	if so.Key != nil {
+		o.Key = *so.Key
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.OrganizationalUnits != nil {
+		o.OrganizationalUnits = *so.OrganizationalUnits
+	}
+	if so.ParentID != nil {
+		o.ParentID = *so.ParentID
+	}
+	if so.Passphrase != nil {
+		o.Passphrase = *so.Passphrase
+	}
+	if so.SerialNumber != nil {
+		o.SerialNumber = *so.SerialNumber
+	}
+	if so.Status != nil {
+		o.Status = *so.Status
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -603,4 +733,204 @@ get a new certificate.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseCertificatesList represents a list of SparseCertificates
+type SparseCertificatesList []*SparseCertificate
+
+// Identity returns the identity of the objects in the list.
+func (o SparseCertificatesList) Identity() elemental.Identity {
+
+	return CertificateIdentity
+}
+
+// Copy returns a pointer to a copy the SparseCertificatesList.
+func (o SparseCertificatesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseCertificatesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseCertificatesList.
+func (o SparseCertificatesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseCertificatesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseCertificate))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseCertificatesList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseCertificatesList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// ToPlain returns the SparseCertificatesList converted to CertificatesList.
+func (o SparseCertificatesList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseCertificatesList) Version() int {
+
+	return 1
+}
+
+// SparseCertificate represents the sparse version of a certificate.
+type SparseCertificate struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Admin determines if the certificate must be added to the admin list.
+	Admin *bool `json:"admin,omitempty" bson:"admin" mapstructure:"admin,omitempty"`
+
+	// CommonName (CN) for the user certificate.
+	CommonName *string `json:"commonName,omitempty" bson:"commonname" mapstructure:"commonName,omitempty"`
+
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Certificate provides a certificate for the user.
+	Data *string `json:"data,omitempty" bson:"data" mapstructure:"data,omitempty"`
+
+	// e-mail address of the user.
+	Email *string `json:"email,omitempty" bson:"email" mapstructure:"email,omitempty"`
+
+	// CertificateExpirationDate indicates the expiration day for the certificate.
+	ExpirationDate *time.Time `json:"expirationDate,omitempty" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
+
+	// CertificateKey provides the key for the user. Only available at create or update
+	// time.
+	Key *string `json:"key,omitempty" bson:"-" mapstructure:"key,omitempty"`
+
+	// Name of the certificate.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// OrganizationalUnits attribute for the generated certificates.
+	OrganizationalUnits *[]string `json:"organizationalUnits,omitempty" bson:"organizationalunits" mapstructure:"organizationalUnits,omitempty"`
+
+	// ParentID holds the parent account ID.
+	ParentID *string `json:"parentID,omitempty" bson:"parentid" mapstructure:"parentID,omitempty"`
+
+	// Passphrase to use for the generated p12.
+	Passphrase *string `json:"passphrase,omitempty" bson:"-" mapstructure:"passphrase,omitempty"`
+
+	// SerialNumber of the certificate.
+	SerialNumber *string `json:"serialNumber,omitempty" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
+
+	// CertificateStatus provides the status of the certificate. Update with RENEW to
+	// get a new certificate.
+	Status *CertificateStatusValue `json:"status,omitempty" bson:"status" mapstructure:"status,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseCertificate returns a new  SparseCertificate.
+func NewSparseCertificate() *SparseCertificate {
+	return &SparseCertificate{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseCertificate) Identity() elemental.Identity {
+
+	return CertificateIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseCertificate) Identifier() string {
+
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseCertificate) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseCertificate) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseCertificate) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewCertificate()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Admin != nil {
+		out.Admin = *o.Admin
+	}
+	if o.CommonName != nil {
+		out.CommonName = *o.CommonName
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Data != nil {
+		out.Data = *o.Data
+	}
+	if o.Email != nil {
+		out.Email = *o.Email
+	}
+	if o.ExpirationDate != nil {
+		out.ExpirationDate = *o.ExpirationDate
+	}
+	if o.Key != nil {
+		out.Key = *o.Key
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.OrganizationalUnits != nil {
+		out.OrganizationalUnits = *o.OrganizationalUnits
+	}
+	if o.ParentID != nil {
+		out.ParentID = *o.ParentID
+	}
+	if o.Passphrase != nil {
+		out.Passphrase = *o.Passphrase
+	}
+	if o.SerialNumber != nil {
+		out.SerialNumber = *o.SerialNumber
+	}
+	if o.Status != nil {
+		out.Status = *o.Status
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

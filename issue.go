@@ -74,9 +74,9 @@ func (o IssuesList) Append(objects ...elemental.Identifiable) elemental.Identifi
 // List converts the object to an elemental.IdentifiablesList.
 func (o IssuesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -86,6 +86,18 @@ func (o IssuesList) List() elemental.IdentifiablesList {
 func (o IssuesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToSparse returns the IssuesList converted to SparseIssuesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o IssuesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -164,6 +176,64 @@ func (o *Issue) Doc() string {
 func (o *Issue) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *Issue) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseIssue{
+			Data:     &o.Data,
+			Metadata: &o.Metadata,
+			Realm:    &o.Realm,
+			Token:    &o.Token,
+			Validity: &o.Validity,
+		}
+	}
+
+	sp := &SparseIssue{}
+	for _, f := range fields {
+		switch f {
+		case "data":
+			sp.Data = &(o.Data)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "realm":
+			sp.Realm = &(o.Realm)
+		case "token":
+			sp.Token = &(o.Token)
+		case "validity":
+			sp.Validity = &(o.Validity)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseIssue to the object.
+func (o *Issue) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseIssue)
+	if so.Data != nil {
+		o.Data = *so.Data
+	}
+	if so.Metadata != nil {
+		o.Metadata = *so.Metadata
+	}
+	if so.Realm != nil {
+		o.Realm = *so.Realm
+	}
+	if so.Token != nil {
+		o.Token = *so.Token
+	}
+	if so.Validity != nil {
+		o.Validity = *so.Validity
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -318,4 +388,139 @@ configured max validity, it will be capped.`,
 		Stored:    true,
 		Type:      "string",
 	},
+}
+
+// SparseIssuesList represents a list of SparseIssues
+type SparseIssuesList []*SparseIssue
+
+// Identity returns the identity of the objects in the list.
+func (o SparseIssuesList) Identity() elemental.Identity {
+
+	return IssueIdentity
+}
+
+// Copy returns a pointer to a copy the SparseIssuesList.
+func (o SparseIssuesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseIssuesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseIssuesList.
+func (o SparseIssuesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseIssuesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseIssue))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseIssuesList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseIssuesList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// ToPlain returns the SparseIssuesList converted to IssuesList.
+func (o SparseIssuesList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseIssuesList) Version() int {
+
+	return 1
+}
+
+// SparseIssue represents the sparse version of a issue.
+type SparseIssue struct {
+	// Data contains additional data. The value depends on the issuer type.
+	Data *string `json:"data,omitempty" bson:"data" mapstructure:"data,omitempty"`
+
+	// Metadata contains various additional information. Meaning depends on the realm.
+	Metadata *map[string]interface{} `json:"metadata,omitempty" bson:"-" mapstructure:"metadata,omitempty"`
+
+	// Realm is the authentication realm.
+	Realm *IssueRealmValue `json:"realm,omitempty" bson:"-" mapstructure:"realm,omitempty"`
+
+	// Token is the token to use for the registration.
+	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
+
+	// Validity configures the max validity time for a token. If it is bigger than the
+	// configured max validity, it will be capped.
+	Validity *string `json:"validity,omitempty" bson:"validity" mapstructure:"validity,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseIssue returns a new  SparseIssue.
+func NewSparseIssue() *SparseIssue {
+	return &SparseIssue{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseIssue) Identity() elemental.Identity {
+
+	return IssueIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseIssue) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseIssue) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseIssue) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseIssue) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewIssue()
+	if o.Data != nil {
+		out.Data = *o.Data
+	}
+	if o.Metadata != nil {
+		out.Metadata = *o.Metadata
+	}
+	if o.Realm != nil {
+		out.Realm = *o.Realm
+	}
+	if o.Token != nil {
+		out.Token = *o.Token
+	}
+	if o.Validity != nil {
+		out.Validity = *o.Validity
+	}
+
+	return out
 }

@@ -45,9 +45,9 @@ func (o TokensList) Append(objects ...elemental.Identifiable) elemental.Identifi
 // List converts the object to an elemental.IdentifiablesList.
 func (o TokensList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,18 @@ func (o TokensList) List() elemental.IdentifiablesList {
 func (o TokensList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToSparse returns the TokensList converted to SparseTokensList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o TokensList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -129,6 +141,58 @@ func (o *Token) Doc() string {
 func (o *Token) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *Token) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseToken{
+			Certificate:  &o.Certificate,
+			SigningKeyID: &o.SigningKeyID,
+			Token:        &o.Token,
+			Validity:     &o.Validity,
+		}
+	}
+
+	sp := &SparseToken{}
+	for _, f := range fields {
+		switch f {
+		case "certificate":
+			sp.Certificate = &(o.Certificate)
+		case "signingKeyID":
+			sp.SigningKeyID = &(o.SigningKeyID)
+		case "token":
+			sp.Token = &(o.Token)
+		case "validity":
+			sp.Validity = &(o.Validity)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseToken to the object.
+func (o *Token) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseToken)
+	if so.Certificate != nil {
+		o.Certificate = *so.Certificate
+	}
+	if so.SigningKeyID != nil {
+		o.SigningKeyID = *so.SigningKeyID
+	}
+	if so.Token != nil {
+		o.Token = *so.Token
+	}
+	if so.Validity != nil {
+		o.Validity = *so.Validity
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -251,4 +315,132 @@ var TokenLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "validity",
 		Type:           "string",
 	},
+}
+
+// SparseTokensList represents a list of SparseTokens
+type SparseTokensList []*SparseToken
+
+// Identity returns the identity of the objects in the list.
+func (o SparseTokensList) Identity() elemental.Identity {
+
+	return TokenIdentity
+}
+
+// Copy returns a pointer to a copy the SparseTokensList.
+func (o SparseTokensList) Copy() elemental.Identifiables {
+
+	copy := append(SparseTokensList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseTokensList.
+func (o SparseTokensList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseTokensList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseToken))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseTokensList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseTokensList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// ToPlain returns the SparseTokensList converted to TokensList.
+func (o SparseTokensList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseTokensList) Version() int {
+
+	return 1
+}
+
+// SparseToken represents the sparse version of a token.
+type SparseToken struct {
+	// Certificate contains the client certificate to use to create a token.
+	Certificate *string `json:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
+
+	// SigningKeyID holds the ID of the custom CA to use to sign the token.
+	SigningKeyID *string `json:"signingKeyID,omitempty" bson:"signingkeyid" mapstructure:"signingKeyID,omitempty"`
+
+	// Token contains the generated token.
+	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
+
+	// Validity contains the token validity duration.
+	Validity *string `json:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseToken returns a new  SparseToken.
+func NewSparseToken() *SparseToken {
+	return &SparseToken{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseToken) Identity() elemental.Identity {
+
+	return TokenIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseToken) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseToken) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseToken) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseToken) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewToken()
+	if o.Certificate != nil {
+		out.Certificate = *o.Certificate
+	}
+	if o.SigningKeyID != nil {
+		out.SigningKeyID = *o.SigningKeyID
+	}
+	if o.Token != nil {
+		out.Token = *o.Token
+	}
+	if o.Validity != nil {
+		out.Validity = *o.Validity
+	}
+
+	return out
 }

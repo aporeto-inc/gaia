@@ -61,9 +61,9 @@ func (o HookPoliciesList) Append(objects ...elemental.Identifiable) elemental.Id
 // List converts the object to an elemental.IdentifiablesList.
 func (o HookPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -75,6 +75,18 @@ func (o HookPoliciesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToSparse returns the HookPoliciesList converted to SparseHookPoliciesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o HookPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -365,6 +377,160 @@ func (o *HookPolicy) GetUpdateTime() time.Time {
 func (o *HookPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *HookPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseHookPolicy{
+			ID:                   &o.ID,
+			Annotations:          &o.Annotations,
+			AssociatedTags:       &o.AssociatedTags,
+			CertificateAuthority: &o.CertificateAuthority,
+			ClientCertificate:    &o.ClientCertificate,
+			ClientCertificateKey: &o.ClientCertificateKey,
+			CreateTime:           &o.CreateTime,
+			Description:          &o.Description,
+			Disabled:             &o.Disabled,
+			Endpoint:             &o.Endpoint,
+			Fallback:             &o.Fallback,
+			Metadata:             &o.Metadata,
+			Mode:                 &o.Mode,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NormalizedTags:       &o.NormalizedTags,
+			Propagate:            &o.Propagate,
+			PropagationHidden:    &o.PropagationHidden,
+			Protected:            &o.Protected,
+			Subject:              &o.Subject,
+			UpdateTime:           &o.UpdateTime,
+		}
+	}
+
+	sp := &SparseHookPolicy{}
+	for _, f := range fields {
+		switch f {
+		case "ID":
+			sp.ID = &(o.ID)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "certificateAuthority":
+			sp.CertificateAuthority = &(o.CertificateAuthority)
+		case "clientCertificate":
+			sp.ClientCertificate = &(o.ClientCertificate)
+		case "clientCertificateKey":
+			sp.ClientCertificateKey = &(o.ClientCertificateKey)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "disabled":
+			sp.Disabled = &(o.Disabled)
+		case "endpoint":
+			sp.Endpoint = &(o.Endpoint)
+		case "fallback":
+			sp.Fallback = &(o.Fallback)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "mode":
+			sp.Mode = &(o.Mode)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
+		case "propagationHidden":
+			sp.PropagationHidden = &(o.PropagationHidden)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "subject":
+			sp.Subject = &(o.Subject)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseHookPolicy to the object.
+func (o *HookPolicy) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseHookPolicy)
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.CertificateAuthority != nil {
+		o.CertificateAuthority = *so.CertificateAuthority
+	}
+	if so.ClientCertificate != nil {
+		o.ClientCertificate = *so.ClientCertificate
+	}
+	if so.ClientCertificateKey != nil {
+		o.ClientCertificateKey = *so.ClientCertificateKey
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.Disabled != nil {
+		o.Disabled = *so.Disabled
+	}
+	if so.Endpoint != nil {
+		o.Endpoint = *so.Endpoint
+	}
+	if so.Fallback != nil {
+		o.Fallback = *so.Fallback
+	}
+	if so.Metadata != nil {
+		o.Metadata = *so.Metadata
+	}
+	if so.Mode != nil {
+		o.Mode = *so.Mode
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
+	}
+	if so.PropagationHidden != nil {
+		o.PropagationHidden = *so.PropagationHidden
+	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
+	}
+	if so.Subject != nil {
+		o.Subject = *so.Subject
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -983,4 +1149,247 @@ trigger the hook.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseHookPoliciesList represents a list of SparseHookPolicies
+type SparseHookPoliciesList []*SparseHookPolicy
+
+// Identity returns the identity of the objects in the list.
+func (o SparseHookPoliciesList) Identity() elemental.Identity {
+
+	return HookPolicyIdentity
+}
+
+// Copy returns a pointer to a copy the SparseHookPoliciesList.
+func (o SparseHookPoliciesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseHookPoliciesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseHookPoliciesList.
+func (o SparseHookPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseHookPoliciesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseHookPolicy))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseHookPoliciesList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseHookPoliciesList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// ToPlain returns the SparseHookPoliciesList converted to HookPoliciesList.
+func (o SparseHookPoliciesList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseHookPoliciesList) Version() int {
+
+	return 1
+}
+
+// SparseHookPolicy represents the sparse version of a hookpolicy.
+type SparseHookPolicy struct {
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// CertificateAuthority contains the pem block of the certificate authority used by
+	// the remote endpoint.
+	CertificateAuthority *string `json:"certificateAuthority,omitempty" bson:"certificateauthority" mapstructure:"certificateAuthority,omitempty"`
+
+	// ClientCertificate contains the client certificate that will be used to connect
+	// to the remote endoint.
+	ClientCertificate *string `json:"clientCertificate,omitempty" bson:"clientcertificate" mapstructure:"clientCertificate,omitempty"`
+
+	// ClientCertificateKey contains the key associated to the clientCertificate.
+	ClientCertificateKey *string `json:"clientCertificateKey,omitempty" bson:"clientcertificatekey" mapstructure:"clientCertificateKey,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// Disabled defines if the propert is disabled.
+	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
+
+	// Endpoint contains the full address of the remote processor endoint.
+	Endpoint *string `json:"endpoint,omitempty" bson:"endpoint" mapstructure:"endpoint,omitempty"`
+
+	// Fallback indicates that this is fallback policy. It will only be
+	// applied if no other policies have been resolved. If the policy is also
+	// propagated it will become a fallback for children namespaces.
+	Fallback *bool `json:"fallback,omitempty" bson:"fallback" mapstructure:"fallback,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Mode define the type of the hook.
+	Mode *HookPolicyModeValue `json:"mode,omitempty" bson:"mode" mapstructure:"mode,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Propagate will propagate the policy to all of its children.
+	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
+
+	// If set to true while the policy is propagating, it won't be visible to children
+	// namespace, but still used for policy resolution.
+	PropagationHidden *bool `json:"propagationHidden,omitempty" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// Subject contains the tag expression that an object must match in order to
+	// trigger the hook.
+	Subject *[][]string `json:"subject,omitempty" bson:"subject" mapstructure:"subject,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseHookPolicy returns a new  SparseHookPolicy.
+func NewSparseHookPolicy() *SparseHookPolicy {
+	return &SparseHookPolicy{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseHookPolicy) Identity() elemental.Identity {
+
+	return HookPolicyIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseHookPolicy) Identifier() string {
+
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseHookPolicy) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseHookPolicy) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseHookPolicy) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewHookPolicy()
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.CertificateAuthority != nil {
+		out.CertificateAuthority = *o.CertificateAuthority
+	}
+	if o.ClientCertificate != nil {
+		out.ClientCertificate = *o.ClientCertificate
+	}
+	if o.ClientCertificateKey != nil {
+		out.ClientCertificateKey = *o.ClientCertificateKey
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.Disabled != nil {
+		out.Disabled = *o.Disabled
+	}
+	if o.Endpoint != nil {
+		out.Endpoint = *o.Endpoint
+	}
+	if o.Fallback != nil {
+		out.Fallback = *o.Fallback
+	}
+	if o.Metadata != nil {
+		out.Metadata = *o.Metadata
+	}
+	if o.Mode != nil {
+		out.Mode = *o.Mode
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
+	}
+	if o.PropagationHidden != nil {
+		out.PropagationHidden = *o.PropagationHidden
+	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
+	}
+	if o.Subject != nil {
+		out.Subject = *o.Subject
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

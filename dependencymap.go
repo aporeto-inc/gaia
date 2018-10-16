@@ -45,9 +45,9 @@ func (o DependencyMapsList) Append(objects ...elemental.Identifiable) elemental.
 // List converts the object to an elemental.IdentifiablesList.
 func (o DependencyMapsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,18 @@ func (o DependencyMapsList) List() elemental.IdentifiablesList {
 func (o DependencyMapsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToSparse returns the DependencyMapsList converted to SparseDependencyMapsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o DependencyMapsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -143,6 +155,64 @@ For example
 func (o *DependencyMap) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *DependencyMap) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseDependencyMap{
+			Claims:          &o.Claims,
+			Edges:           &o.Edges,
+			Groups:          &o.Groups,
+			Nodes:           &o.Nodes,
+			ViewSuggestions: &o.ViewSuggestions,
+		}
+	}
+
+	sp := &SparseDependencyMap{}
+	for _, f := range fields {
+		switch f {
+		case "claims":
+			sp.Claims = &(o.Claims)
+		case "edges":
+			sp.Edges = &(o.Edges)
+		case "groups":
+			sp.Groups = &(o.Groups)
+		case "nodes":
+			sp.Nodes = &(o.Nodes)
+		case "viewSuggestions":
+			sp.ViewSuggestions = &(o.ViewSuggestions)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseDependencyMap to the object.
+func (o *DependencyMap) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseDependencyMap)
+	if so.Claims != nil {
+		o.Claims = *so.Claims
+	}
+	if so.Edges != nil {
+		o.Edges = *so.Edges
+	}
+	if so.Groups != nil {
+		o.Groups = *so.Groups
+	}
+	if so.Nodes != nil {
+		o.Nodes = *so.Nodes
+	}
+	if so.ViewSuggestions != nil {
+		o.ViewSuggestions = *so.ViewSuggestions
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -303,4 +373,138 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		SubType:        "view_suggestions",
 		Type:           "external",
 	},
+}
+
+// SparseDependencyMapsList represents a list of SparseDependencyMaps
+type SparseDependencyMapsList []*SparseDependencyMap
+
+// Identity returns the identity of the objects in the list.
+func (o SparseDependencyMapsList) Identity() elemental.Identity {
+
+	return DependencyMapIdentity
+}
+
+// Copy returns a pointer to a copy the SparseDependencyMapsList.
+func (o SparseDependencyMapsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseDependencyMapsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseDependencyMapsList.
+func (o SparseDependencyMapsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseDependencyMapsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseDependencyMap))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseDependencyMapsList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseDependencyMapsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// ToPlain returns the SparseDependencyMapsList converted to DependencyMapsList.
+func (o SparseDependencyMapsList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseDependencyMapsList) Version() int {
+
+	return 1
+}
+
+// SparseDependencyMap represents the sparse version of a dependencymap.
+type SparseDependencyMap struct {
+	// claims represents a user or a script that have accessed an api.
+	Claims *map[string][]string `json:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
+
+	// edges are the edges of the map.
+	Edges *map[string]*GraphEdge `json:"edges,omitempty" bson:"-" mapstructure:"edges,omitempty"`
+
+	// Groups provide information about the group values.
+	Groups *map[string]*GraphGroup `json:"groups,omitempty" bson:"-" mapstructure:"groups,omitempty"`
+
+	// nodes refers to the nodes of the map.
+	Nodes *map[string]*GraphNode `json:"nodes,omitempty" bson:"-" mapstructure:"nodes,omitempty"`
+
+	// viewSuggestions provides suggestion of views based on relevant tags.
+	ViewSuggestions *[]string `json:"viewSuggestions,omitempty" bson:"-" mapstructure:"viewSuggestions,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseDependencyMap returns a new  SparseDependencyMap.
+func NewSparseDependencyMap() *SparseDependencyMap {
+	return &SparseDependencyMap{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseDependencyMap) Identity() elemental.Identity {
+
+	return DependencyMapIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseDependencyMap) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseDependencyMap) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseDependencyMap) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseDependencyMap) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewDependencyMap()
+	if o.Claims != nil {
+		out.Claims = *o.Claims
+	}
+	if o.Edges != nil {
+		out.Edges = *o.Edges
+	}
+	if o.Groups != nil {
+		out.Groups = *o.Groups
+	}
+	if o.Nodes != nil {
+		out.Nodes = *o.Nodes
+	}
+	if o.ViewSuggestions != nil {
+		out.ViewSuggestions = *o.ViewSuggestions
+	}
+
+	return out
 }

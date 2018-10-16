@@ -47,9 +47,9 @@ func (o AWSAPIGatewaysList) Append(objects ...elemental.Identifiable) elemental.
 // List converts the object to an elemental.IdentifiablesList.
 func (o AWSAPIGatewaysList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -61,6 +61,18 @@ func (o AWSAPIGatewaysList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToSparse returns the AWSAPIGatewaysList converted to SparseAWSAPIGatewaysList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o AWSAPIGatewaysList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -291,6 +303,154 @@ func (o *AWSAPIGateway) GetUpdateTime() time.Time {
 func (o *AWSAPIGateway) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *AWSAPIGateway) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseAWSAPIGateway{
+			APIID:          &o.APIID,
+			ID:             &o.ID,
+			AccountID:      &o.AccountID,
+			Annotations:    &o.Annotations,
+			AssociatedTags: &o.AssociatedTags,
+			Authorized:     &o.Authorized,
+			CreateTime:     &o.CreateTime,
+			Description:    &o.Description,
+			Metadata:       &o.Metadata,
+			Method:         &o.Method,
+			Name:           &o.Name,
+			Namespace:      &o.Namespace,
+			NamespaceID:    &o.NamespaceID,
+			NormalizedTags: &o.NormalizedTags,
+			Protected:      &o.Protected,
+			Resource:       &o.Resource,
+			SourceIP:       &o.SourceIP,
+			Stage:          &o.Stage,
+			Token:          &o.Token,
+			UpdateTime:     &o.UpdateTime,
+		}
+	}
+
+	sp := &SparseAWSAPIGateway{}
+	for _, f := range fields {
+		switch f {
+		case "APIID":
+			sp.APIID = &(o.APIID)
+		case "ID":
+			sp.ID = &(o.ID)
+		case "accountID":
+			sp.AccountID = &(o.AccountID)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "authorized":
+			sp.Authorized = &(o.Authorized)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "method":
+			sp.Method = &(o.Method)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "namespaceID":
+			sp.NamespaceID = &(o.NamespaceID)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "resource":
+			sp.Resource = &(o.Resource)
+		case "sourceIP":
+			sp.SourceIP = &(o.SourceIP)
+		case "stage":
+			sp.Stage = &(o.Stage)
+		case "token":
+			sp.Token = &(o.Token)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseAWSAPIGateway to the object.
+func (o *AWSAPIGateway) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseAWSAPIGateway)
+	if so.APIID != nil {
+		o.APIID = *so.APIID
+	}
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.AccountID != nil {
+		o.AccountID = *so.AccountID
+	}
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.Authorized != nil {
+		o.Authorized = *so.Authorized
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.Metadata != nil {
+		o.Metadata = *so.Metadata
+	}
+	if so.Method != nil {
+		o.Method = *so.Method
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.NamespaceID != nil {
+		o.NamespaceID = *so.NamespaceID
+	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
+	}
+	if so.Resource != nil {
+		o.Resource = *so.Resource
+	}
+	if so.SourceIP != nil {
+		o.SourceIP = *so.SourceIP
+	}
+	if so.Stage != nil {
+		o.Stage = *so.Stage
+	}
+	if so.Token != nil {
+		o.Token = *so.Token
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -797,4 +957,235 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseAWSAPIGatewaysList represents a list of SparseAWSAPIGateways
+type SparseAWSAPIGatewaysList []*SparseAWSAPIGateway
+
+// Identity returns the identity of the objects in the list.
+func (o SparseAWSAPIGatewaysList) Identity() elemental.Identity {
+
+	return AWSAPIGatewayIdentity
+}
+
+// Copy returns a pointer to a copy the SparseAWSAPIGatewaysList.
+func (o SparseAWSAPIGatewaysList) Copy() elemental.Identifiables {
+
+	copy := append(SparseAWSAPIGatewaysList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseAWSAPIGatewaysList.
+func (o SparseAWSAPIGatewaysList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseAWSAPIGatewaysList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseAWSAPIGateway))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseAWSAPIGatewaysList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseAWSAPIGatewaysList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// ToPlain returns the SparseAWSAPIGatewaysList converted to AWSAPIGatewaysList.
+func (o SparseAWSAPIGatewaysList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseAWSAPIGatewaysList) Version() int {
+
+	return 1
+}
+
+// SparseAWSAPIGateway represents the sparse version of a awsapigateway.
+type SparseAWSAPIGateway struct {
+	// API ID as defined on AWS for the API that handled this request.
+	APIID *string `json:"APIID,omitempty" bson:"-" mapstructure:"APIID,omitempty"`
+
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// the account ID for the gateway managing this request.
+	AccountID *string `json:"accountID,omitempty" bson:"-" mapstructure:"accountID,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// The policy decision for this API flow.
+	Authorized *bool `json:"authorized,omitempty" bson:"-" mapstructure:"authorized,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// API method that handled this request.
+	Method *string `json:"method,omitempty" bson:"-" mapstructure:"method,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// Link to the cluster namespace where the AWS API gateway is defined.
+	NamespaceID *string `json:"namespaceID,omitempty" bson:"-" mapstructure:"namespaceID,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// API resource that handled this request.
+	Resource *string `json:"resource,omitempty" bson:"-" mapstructure:"resource,omitempty"`
+
+	// the client ip for this request.
+	SourceIP *string `json:"sourceIP,omitempty" bson:"-" mapstructure:"sourceIP,omitempty"`
+
+	// the stage name as defined on AWS for the API that handled this request.
+	Stage *string `json:"stage,omitempty" bson:"-" mapstructure:"stage,omitempty"`
+
+	// the JWT token that was optionally attached to this request.
+	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseAWSAPIGateway returns a new  SparseAWSAPIGateway.
+func NewSparseAWSAPIGateway() *SparseAWSAPIGateway {
+	return &SparseAWSAPIGateway{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseAWSAPIGateway) Identity() elemental.Identity {
+
+	return AWSAPIGatewayIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseAWSAPIGateway) Identifier() string {
+
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseAWSAPIGateway) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseAWSAPIGateway) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseAWSAPIGateway) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewAWSAPIGateway()
+	if o.APIID != nil {
+		out.APIID = *o.APIID
+	}
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.AccountID != nil {
+		out.AccountID = *o.AccountID
+	}
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.Authorized != nil {
+		out.Authorized = *o.Authorized
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.Metadata != nil {
+		out.Metadata = *o.Metadata
+	}
+	if o.Method != nil {
+		out.Method = *o.Method
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.NamespaceID != nil {
+		out.NamespaceID = *o.NamespaceID
+	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
+	}
+	if o.Resource != nil {
+		out.Resource = *o.Resource
+	}
+	if o.SourceIP != nil {
+		out.SourceIP = *o.SourceIP
+	}
+	if o.Stage != nil {
+		out.Stage = *o.Stage
+	}
+	if o.Token != nil {
+		out.Token = *o.Token
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

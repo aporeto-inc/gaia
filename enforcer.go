@@ -67,9 +67,9 @@ func (o EnforcersList) Append(objects ...elemental.Identifiable) elemental.Ident
 // List converts the object to an elemental.IdentifiablesList.
 func (o EnforcersList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -81,6 +81,18 @@ func (o EnforcersList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToSparse returns the EnforcersList converted to SparseEnforcersList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o EnforcersList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -352,6 +364,202 @@ func (o *Enforcer) GetUpdateTime() time.Time {
 func (o *Enforcer) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseEnforcer{
+			FQDN:                      &o.FQDN,
+			ID:                        &o.ID,
+			Annotations:               &o.Annotations,
+			AssociatedTags:            &o.AssociatedTags,
+			Certificate:               &o.Certificate,
+			CertificateExpirationDate: &o.CertificateExpirationDate,
+			CertificateKey:            &o.CertificateKey,
+			CertificateRequest:        &o.CertificateRequest,
+			CertificateRequestEnabled: &o.CertificateRequestEnabled,
+			CollectInfo:               &o.CollectInfo,
+			CollectedInfo:             &o.CollectedInfo,
+			CreateTime:                &o.CreateTime,
+			CurrentVersion:            &o.CurrentVersion,
+			Description:               &o.Description,
+			EnforcerProfileID:         &o.EnforcerProfileID,
+			LastCollectionTime:        &o.LastCollectionTime,
+			LastSyncTime:              &o.LastSyncTime,
+			LocalCA:                   &o.LocalCA,
+			Metadata:                  &o.Metadata,
+			Name:                      &o.Name,
+			Namespace:                 &o.Namespace,
+			NormalizedTags:            &o.NormalizedTags,
+			OperationalStatus:         &o.OperationalStatus,
+			Protected:                 &o.Protected,
+			PublicToken:               &o.PublicToken,
+			StartTime:                 &o.StartTime,
+			UpdateAvailable:           &o.UpdateAvailable,
+			UpdateTime:                &o.UpdateTime,
+		}
+	}
+
+	sp := &SparseEnforcer{}
+	for _, f := range fields {
+		switch f {
+		case "FQDN":
+			sp.FQDN = &(o.FQDN)
+		case "ID":
+			sp.ID = &(o.ID)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
+		case "certificate":
+			sp.Certificate = &(o.Certificate)
+		case "certificateExpirationDate":
+			sp.CertificateExpirationDate = &(o.CertificateExpirationDate)
+		case "certificateKey":
+			sp.CertificateKey = &(o.CertificateKey)
+		case "certificateRequest":
+			sp.CertificateRequest = &(o.CertificateRequest)
+		case "certificateRequestEnabled":
+			sp.CertificateRequestEnabled = &(o.CertificateRequestEnabled)
+		case "collectInfo":
+			sp.CollectInfo = &(o.CollectInfo)
+		case "collectedInfo":
+			sp.CollectedInfo = &(o.CollectedInfo)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
+		case "currentVersion":
+			sp.CurrentVersion = &(o.CurrentVersion)
+		case "description":
+			sp.Description = &(o.Description)
+		case "enforcerProfileID":
+			sp.EnforcerProfileID = &(o.EnforcerProfileID)
+		case "lastCollectionTime":
+			sp.LastCollectionTime = &(o.LastCollectionTime)
+		case "lastSyncTime":
+			sp.LastSyncTime = &(o.LastSyncTime)
+		case "localCA":
+			sp.LocalCA = &(o.LocalCA)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
+		case "name":
+			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
+		case "operationalStatus":
+			sp.OperationalStatus = &(o.OperationalStatus)
+		case "protected":
+			sp.Protected = &(o.Protected)
+		case "publicToken":
+			sp.PublicToken = &(o.PublicToken)
+		case "startTime":
+			sp.StartTime = &(o.StartTime)
+		case "updateAvailable":
+			sp.UpdateAvailable = &(o.UpdateAvailable)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseEnforcer to the object.
+func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseEnforcer)
+	if so.FQDN != nil {
+		o.FQDN = *so.FQDN
+	}
+	if so.ID != nil {
+		o.ID = *so.ID
+	}
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.Certificate != nil {
+		o.Certificate = *so.Certificate
+	}
+	if so.CertificateExpirationDate != nil {
+		o.CertificateExpirationDate = *so.CertificateExpirationDate
+	}
+	if so.CertificateKey != nil {
+		o.CertificateKey = *so.CertificateKey
+	}
+	if so.CertificateRequest != nil {
+		o.CertificateRequest = *so.CertificateRequest
+	}
+	if so.CertificateRequestEnabled != nil {
+		o.CertificateRequestEnabled = *so.CertificateRequestEnabled
+	}
+	if so.CollectInfo != nil {
+		o.CollectInfo = *so.CollectInfo
+	}
+	if so.CollectedInfo != nil {
+		o.CollectedInfo = *so.CollectedInfo
+	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
+	if so.CurrentVersion != nil {
+		o.CurrentVersion = *so.CurrentVersion
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.EnforcerProfileID != nil {
+		o.EnforcerProfileID = *so.EnforcerProfileID
+	}
+	if so.LastCollectionTime != nil {
+		o.LastCollectionTime = *so.LastCollectionTime
+	}
+	if so.LastSyncTime != nil {
+		o.LastSyncTime = *so.LastSyncTime
+	}
+	if so.LocalCA != nil {
+		o.LocalCA = *so.LocalCA
+	}
+	if so.Metadata != nil {
+		o.Metadata = *so.Metadata
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.OperationalStatus != nil {
+		o.OperationalStatus = *so.OperationalStatus
+	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
+	}
+	if so.PublicToken != nil {
+		o.PublicToken = *so.PublicToken
+	}
+	if so.StartTime != nil {
+		o.StartTime = *so.StartTime
+	}
+	if so.UpdateAvailable != nil {
+		o.UpdateAvailable = *so.UpdateAvailable
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -1084,4 +1292,292 @@ by the enforcer and is is preserved across disconnects.`,
 		Stored:         true,
 		Type:           "time",
 	},
+}
+
+// SparseEnforcersList represents a list of SparseEnforcers
+type SparseEnforcersList []*SparseEnforcer
+
+// Identity returns the identity of the objects in the list.
+func (o SparseEnforcersList) Identity() elemental.Identity {
+
+	return EnforcerIdentity
+}
+
+// Copy returns a pointer to a copy the SparseEnforcersList.
+func (o SparseEnforcersList) Copy() elemental.Identifiables {
+
+	copy := append(SparseEnforcersList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseEnforcersList.
+func (o SparseEnforcersList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseEnforcersList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseEnforcer))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseEnforcersList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseEnforcersList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// ToPlain returns the SparseEnforcersList converted to EnforcersList.
+func (o SparseEnforcersList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseEnforcersList) Version() int {
+
+	return 1
+}
+
+// SparseEnforcer represents the sparse version of a enforcer.
+type SparseEnforcer struct {
+	// FQDN contains the fqdn of the server where the enforcer is running.
+	FQDN *string `json:"FQDN,omitempty" bson:"fqdn" mapstructure:"FQDN,omitempty"`
+
+	// ID is the identifier of the object.
+	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// Certificate is the certificate of the enforcer.
+	Certificate *string `json:"certificate,omitempty" bson:"certificate" mapstructure:"certificate,omitempty"`
+
+	// CertificateExpirationDate is the expiration date of the certificate.
+	CertificateExpirationDate *time.Time `json:"certificateExpirationDate,omitempty" bson:"certificateexpirationdate" mapstructure:"certificateExpirationDate,omitempty"`
+
+	// CertificateKey is the secret key of the enforcer. Returned only when a enforcer
+	// is created or the certificate is updated.
+	CertificateKey *string `json:"certificateKey,omitempty" bson:"-" mapstructure:"certificateKey,omitempty"`
+
+	// CertificateRequest can be used to generate a certificate from that CSR instead
+	// of letting the server generate your private key for you.
+	CertificateRequest *string `json:"certificateRequest,omitempty" bson:"-" mapstructure:"certificateRequest,omitempty"`
+
+	// If set during creation,the server will not initially generate a certificate. In
+	// that case you have to provide a valid CSR through certificateRequest during an
+	// update.
+	CertificateRequestEnabled *bool `json:"certificateRequestEnabled,omitempty" bson:"certificaterequestenabled" mapstructure:"certificateRequestEnabled,omitempty"`
+
+	// CollectInfo indicates to the enforcer it needs to collect information.
+	CollectInfo *bool `json:"collectInfo,omitempty" bson:"collectinfo" mapstructure:"collectInfo,omitempty"`
+
+	// CollectedInfo represents the latest info collected by the enforcer.
+	CollectedInfo *map[string]string `json:"collectedInfo,omitempty" bson:"collectedinfo" mapstructure:"collectedInfo,omitempty"`
+
+	// CreatedTime is the time at which the object was created.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
+	// CurrentVersion holds the enforcerd binary version that is currently associated
+	// to this object.
+	CurrentVersion *string `json:"currentVersion,omitempty" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// Contains the ID of the profile used by the instance of enforcerd.
+	EnforcerProfileID *string `json:"enforcerProfileID,omitempty" bson:"enforcerprofileid" mapstructure:"enforcerProfileID,omitempty"`
+
+	// LastCollectionTime represents the date and time when the info have been
+	// collected.
+	LastCollectionTime *time.Time `json:"lastCollectionTime,omitempty" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
+
+	// LastSyncTime holds the last heart beat time.
+	LastSyncTime *time.Time `json:"lastSyncTime,omitempty" bson:"lastsynctime" mapstructure:"lastSyncTime,omitempty"`
+
+	// LocalCA contains the initial chain of trust for the enforcer. This valud is only
+	// given when you retrieve a single enforcer.
+	LocalCA *string `json:"localCA,omitempty" bson:"-" mapstructure:"localCA,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Namespace tag attached to an entity.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// OperationalStatus tells the status of the enforcer.
+	OperationalStatus *EnforcerOperationalStatusValue `json:"operationalStatus,omitempty" bson:"-" mapstructure:"operationalStatus,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// PublicToken is the public token of the server that will be included in the
+	// datapath and its signed by the private CA.
+	PublicToken *string `json:"publicToken,omitempty" bson:"publictoken" mapstructure:"publicToken,omitempty"`
+
+	// startTime holds the time this enforcerd was started. This time-stamp is reported
+	// by the enforcer and is is preserved across disconnects.
+	StartTime *time.Time `json:"startTime,omitempty" bson:"starttime" mapstructure:"startTime,omitempty"`
+
+	// Tells if the the version of enforcerd is outdated and should be updated.
+	UpdateAvailable *bool `json:"updateAvailable,omitempty" bson:"updateavailable" mapstructure:"updateAvailable,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseEnforcer returns a new  SparseEnforcer.
+func NewSparseEnforcer() *SparseEnforcer {
+	return &SparseEnforcer{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseEnforcer) Identity() elemental.Identity {
+
+	return EnforcerIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseEnforcer) Identifier() string {
+
+	if o.ID == nil {
+		return ""
+	}
+	return *o.ID
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseEnforcer) SetIdentifier(id string) {
+
+	o.ID = &id
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseEnforcer) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewEnforcer()
+	if o.FQDN != nil {
+		out.FQDN = *o.FQDN
+	}
+	if o.ID != nil {
+		out.ID = *o.ID
+	}
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.Certificate != nil {
+		out.Certificate = *o.Certificate
+	}
+	if o.CertificateExpirationDate != nil {
+		out.CertificateExpirationDate = *o.CertificateExpirationDate
+	}
+	if o.CertificateKey != nil {
+		out.CertificateKey = *o.CertificateKey
+	}
+	if o.CertificateRequest != nil {
+		out.CertificateRequest = *o.CertificateRequest
+	}
+	if o.CertificateRequestEnabled != nil {
+		out.CertificateRequestEnabled = *o.CertificateRequestEnabled
+	}
+	if o.CollectInfo != nil {
+		out.CollectInfo = *o.CollectInfo
+	}
+	if o.CollectedInfo != nil {
+		out.CollectedInfo = *o.CollectedInfo
+	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
+	if o.CurrentVersion != nil {
+		out.CurrentVersion = *o.CurrentVersion
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.EnforcerProfileID != nil {
+		out.EnforcerProfileID = *o.EnforcerProfileID
+	}
+	if o.LastCollectionTime != nil {
+		out.LastCollectionTime = *o.LastCollectionTime
+	}
+	if o.LastSyncTime != nil {
+		out.LastSyncTime = *o.LastSyncTime
+	}
+	if o.LocalCA != nil {
+		out.LocalCA = *o.LocalCA
+	}
+	if o.Metadata != nil {
+		out.Metadata = *o.Metadata
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.OperationalStatus != nil {
+		out.OperationalStatus = *o.OperationalStatus
+	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
+	}
+	if o.PublicToken != nil {
+		out.PublicToken = *o.PublicToken
+	}
+	if o.StartTime != nil {
+		out.StartTime = *o.StartTime
+	}
+	if o.UpdateAvailable != nil {
+		out.UpdateAvailable = *o.UpdateAvailable
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
+
+	return out
 }

@@ -45,9 +45,9 @@ func (o AccountChecksList) Append(objects ...elemental.Identifiable) elemental.I
 // List converts the object to an elemental.IdentifiablesList.
 func (o AccountChecksList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,18 @@ func (o AccountChecksList) List() elemental.IdentifiablesList {
 func (o AccountChecksList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToSparse returns the AccountChecksList converted to SparseAccountChecksList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o AccountChecksList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -119,6 +131,28 @@ func (o *AccountCheck) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *AccountCheck) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseAccountCheck{}
+	}
+
+	sp := &SparseAccountCheck{}
+	for _, f := range fields {
+		switch f {
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseAccountCheck to the object.
+func (o *AccountCheck) Patch(sparse elemental.SparseIdentifiable) {
+}
+
 // Validate valides the current information stored into the structure.
 func (o *AccountCheck) Validate() error {
 
@@ -158,3 +192,107 @@ var AccountCheckAttributesMap = map[string]elemental.AttributeSpecification{}
 
 // AccountCheckLowerCaseAttributesMap represents the map of attribute for AccountCheck.
 var AccountCheckLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{}
+
+// SparseAccountChecksList represents a list of SparseAccountChecks
+type SparseAccountChecksList []*SparseAccountCheck
+
+// Identity returns the identity of the objects in the list.
+func (o SparseAccountChecksList) Identity() elemental.Identity {
+
+	return AccountCheckIdentity
+}
+
+// Copy returns a pointer to a copy the SparseAccountChecksList.
+func (o SparseAccountChecksList) Copy() elemental.Identifiables {
+
+	copy := append(SparseAccountChecksList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseAccountChecksList.
+func (o SparseAccountChecksList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseAccountChecksList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseAccountCheck))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseAccountChecksList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseAccountChecksList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// ToPlain returns the SparseAccountChecksList converted to AccountChecksList.
+func (o SparseAccountChecksList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseAccountChecksList) Version() int {
+
+	return 1
+}
+
+// SparseAccountCheck represents the sparse version of a accountcheck.
+type SparseAccountCheck struct {
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseAccountCheck returns a new  SparseAccountCheck.
+func NewSparseAccountCheck() *SparseAccountCheck {
+	return &SparseAccountCheck{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseAccountCheck) Identity() elemental.Identity {
+
+	return AccountCheckIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseAccountCheck) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseAccountCheck) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseAccountCheck) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseAccountCheck) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewAccountCheck()
+
+	return out
+}

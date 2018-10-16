@@ -2710,7 +2710,7 @@ func init() {
 						AllowedChoices: []string{
 							"Failed",
 							"Inactive",
-							"Protected",
+							"Active",
 						},
 					},
 					elemental.ParameterDefinition{
@@ -2758,7 +2758,7 @@ func init() {
 						AllowedChoices: []string{
 							"Failed",
 							"Inactive",
-							"Protected",
+							"Active",
 						},
 					},
 					elemental.ParameterDefinition{

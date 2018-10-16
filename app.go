@@ -46,9 +46,9 @@ func (o AppsList) Append(objects ...elemental.Identifiable) elemental.Identifiab
 // List converts the object to an elemental.IdentifiablesList.
 func (o AppsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -60,6 +60,18 @@ func (o AppsList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToSparse returns the AppsList converted to SparseAppsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o AppsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -159,6 +171,82 @@ func (o *App) GetName() string {
 func (o *App) SetName(name string) {
 
 	o.Name = name
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *App) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseApp{
+			Beta:              &o.Beta,
+			CategoryID:        &o.CategoryID,
+			Description:       &o.Description,
+			Icon:              &o.Icon,
+			LongDescription:   &o.LongDescription,
+			Name:              &o.Name,
+			Title:             &o.Title,
+			VersionParameters: &o.VersionParameters,
+		}
+	}
+
+	sp := &SparseApp{}
+	for _, f := range fields {
+		switch f {
+		case "beta":
+			sp.Beta = &(o.Beta)
+		case "categoryID":
+			sp.CategoryID = &(o.CategoryID)
+		case "description":
+			sp.Description = &(o.Description)
+		case "icon":
+			sp.Icon = &(o.Icon)
+		case "longDescription":
+			sp.LongDescription = &(o.LongDescription)
+		case "name":
+			sp.Name = &(o.Name)
+		case "title":
+			sp.Title = &(o.Title)
+		case "versionParameters":
+			sp.VersionParameters = &(o.VersionParameters)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseApp to the object.
+func (o *App) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseApp)
+	if so.Beta != nil {
+		o.Beta = *so.Beta
+	}
+	if so.CategoryID != nil {
+		o.CategoryID = *so.CategoryID
+	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.Icon != nil {
+		o.Icon = *so.Icon
+	}
+	if so.LongDescription != nil {
+		o.LongDescription = *so.LongDescription
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Title != nil {
+		o.Title = *so.Title
+	}
+	if so.VersionParameters != nil {
+		o.VersionParameters = *so.VersionParameters
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -371,4 +459,158 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "app_versionparameters",
 		Type:           "external",
 	},
+}
+
+// SparseAppsList represents a list of SparseApps
+type SparseAppsList []*SparseApp
+
+// Identity returns the identity of the objects in the list.
+func (o SparseAppsList) Identity() elemental.Identity {
+
+	return AppIdentity
+}
+
+// Copy returns a pointer to a copy the SparseAppsList.
+func (o SparseAppsList) Copy() elemental.Identifiables {
+
+	copy := append(SparseAppsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseAppsList.
+func (o SparseAppsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseAppsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseApp))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseAppsList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseAppsList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// ToPlain returns the SparseAppsList converted to AppsList.
+func (o SparseAppsList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseAppsList) Version() int {
+
+	return 1
+}
+
+// SparseApp represents the sparse version of a app.
+type SparseApp struct {
+	// Beta indicates if the app is in a beta version.
+	Beta *bool `json:"beta,omitempty" bson:"-" mapstructure:"beta,omitempty"`
+
+	// CategoryID of the app.
+	CategoryID *string `json:"categoryID,omitempty" bson:"-" mapstructure:"categoryID,omitempty"`
+
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// Icon contains a base64 image for the app.
+	Icon *string `json:"icon,omitempty" bson:"-" mapstructure:"icon,omitempty"`
+
+	// LongDescription contains a more detailed description of the app.
+	LongDescription *string `json:"longDescription,omitempty" bson:"-" mapstructure:"longDescription,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Title represents the title of the app.
+	Title *string `json:"title,omitempty" bson:"-" mapstructure:"title,omitempty"`
+
+	// VersionParameters contains parameters for each available version.
+	VersionParameters *map[string][]*types.AppParameter `json:"versionParameters,omitempty" bson:"-" mapstructure:"versionParameters,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseApp returns a new  SparseApp.
+func NewSparseApp() *SparseApp {
+	return &SparseApp{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseApp) Identity() elemental.Identity {
+
+	return AppIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseApp) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseApp) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseApp) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseApp) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewApp()
+	if o.Beta != nil {
+		out.Beta = *o.Beta
+	}
+	if o.CategoryID != nil {
+		out.CategoryID = *o.CategoryID
+	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.Icon != nil {
+		out.Icon = *o.Icon
+	}
+	if o.LongDescription != nil {
+		out.LongDescription = *o.LongDescription
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Title != nil {
+		out.Title = *o.Title
+	}
+	if o.VersionParameters != nil {
+		out.VersionParameters = *o.VersionParameters
+	}
+
+	return out
 }

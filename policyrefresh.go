@@ -45,9 +45,9 @@ func (o PolicyRefreshsList) Append(objects ...elemental.Identifiable) elemental.
 // List converts the object to an elemental.IdentifiablesList.
 func (o PolicyRefreshsList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,18 @@ func (o PolicyRefreshsList) List() elemental.IdentifiablesList {
 func (o PolicyRefreshsList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToSparse returns the PolicyRefreshsList converted to SparsePolicyRefreshsList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o PolicyRefreshsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -124,6 +136,46 @@ needed on their side.`
 func (o *PolicyRefresh) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *PolicyRefresh) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparsePolicyRefresh{
+			SourceNamespace: &o.SourceNamespace,
+			Type:            &o.Type,
+		}
+	}
+
+	sp := &SparsePolicyRefresh{}
+	for _, f := range fields {
+		switch f {
+		case "sourceNamespace":
+			sp.SourceNamespace = &(o.SourceNamespace)
+		case "type":
+			sp.Type = &(o.Type)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparsePolicyRefresh to the object.
+func (o *PolicyRefresh) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparsePolicyRefresh)
+	if so.SourceNamespace != nil {
+		o.SourceNamespace = *so.SourceNamespace
+	}
+	if so.Type != nil {
+		o.Type = *so.Type
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -210,4 +262,120 @@ var PolicyRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Stored:         true,
 		Type:           "string",
 	},
+}
+
+// SparsePolicyRefreshsList represents a list of SparsePolicyRefreshs
+type SparsePolicyRefreshsList []*SparsePolicyRefresh
+
+// Identity returns the identity of the objects in the list.
+func (o SparsePolicyRefreshsList) Identity() elemental.Identity {
+
+	return PolicyRefreshIdentity
+}
+
+// Copy returns a pointer to a copy the SparsePolicyRefreshsList.
+func (o SparsePolicyRefreshsList) Copy() elemental.Identifiables {
+
+	copy := append(SparsePolicyRefreshsList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparsePolicyRefreshsList.
+func (o SparsePolicyRefreshsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparsePolicyRefreshsList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparsePolicyRefresh))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparsePolicyRefreshsList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparsePolicyRefreshsList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// ToPlain returns the SparsePolicyRefreshsList converted to PolicyRefreshsList.
+func (o SparsePolicyRefreshsList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparsePolicyRefreshsList) Version() int {
+
+	return 1
+}
+
+// SparsePolicyRefresh represents the sparse version of a policyrefresh.
+type SparsePolicyRefresh struct {
+	// SourceNamespace contains the original namespace of the updated object.
+	SourceNamespace *string `json:"sourceNamespace,omitempty" bson:"sourcenamespace" mapstructure:"sourceNamespace,omitempty"`
+
+	// Type contains the policy type that is affected.
+	Type *string `json:"type,omitempty" bson:"type" mapstructure:"type,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparsePolicyRefresh returns a new  SparsePolicyRefresh.
+func NewSparsePolicyRefresh() *SparsePolicyRefresh {
+	return &SparsePolicyRefresh{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparsePolicyRefresh) Identity() elemental.Identity {
+
+	return PolicyRefreshIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparsePolicyRefresh) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparsePolicyRefresh) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparsePolicyRefresh) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparsePolicyRefresh) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewPolicyRefresh()
+	if o.SourceNamespace != nil {
+		out.SourceNamespace = *o.SourceNamespace
+	}
+	if o.Type != nil {
+		out.Type = *o.Type
+	}
+
+	return out
 }

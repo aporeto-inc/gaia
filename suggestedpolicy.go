@@ -45,9 +45,9 @@ func (o SuggestedPoliciesList) Append(objects ...elemental.Identifiable) element
 // List converts the object to an elemental.IdentifiablesList.
 func (o SuggestedPoliciesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -57,6 +57,18 @@ func (o SuggestedPoliciesList) List() elemental.IdentifiablesList {
 func (o SuggestedPoliciesList) DefaultOrder() []string {
 
 	return []string{}
+}
+
+// ToSparse returns the SuggestedPoliciesList converted to SparseSuggestedPoliciesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o SuggestedPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -122,6 +134,40 @@ func (o *SuggestedPolicy) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *SuggestedPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseSuggestedPolicy{
+			NetworkAccessPolicies: &o.NetworkAccessPolicies,
+		}
+	}
+
+	sp := &SparseSuggestedPolicy{}
+	for _, f := range fields {
+		switch f {
+		case "networkAccessPolicies":
+			sp.NetworkAccessPolicies = &(o.NetworkAccessPolicies)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseSuggestedPolicy to the object.
+func (o *SuggestedPolicy) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseSuggestedPolicy)
+	if so.NetworkAccessPolicies != nil {
+		o.NetworkAccessPolicies = *so.NetworkAccessPolicies
+	}
+}
+
 // Validate valides the current information stored into the structure.
 func (o *SuggestedPolicy) Validate() error {
 
@@ -184,4 +230,114 @@ var SuggestedPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		SubType:        "network_access_policies_list",
 		Type:           "external",
 	},
+}
+
+// SparseSuggestedPoliciesList represents a list of SparseSuggestedPolicies
+type SparseSuggestedPoliciesList []*SparseSuggestedPolicy
+
+// Identity returns the identity of the objects in the list.
+func (o SparseSuggestedPoliciesList) Identity() elemental.Identity {
+
+	return SuggestedPolicyIdentity
+}
+
+// Copy returns a pointer to a copy the SparseSuggestedPoliciesList.
+func (o SparseSuggestedPoliciesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseSuggestedPoliciesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseSuggestedPoliciesList.
+func (o SparseSuggestedPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseSuggestedPoliciesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseSuggestedPolicy))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseSuggestedPoliciesList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseSuggestedPoliciesList) DefaultOrder() []string {
+
+	return []string{}
+}
+
+// ToPlain returns the SparseSuggestedPoliciesList converted to SuggestedPoliciesList.
+func (o SparseSuggestedPoliciesList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseSuggestedPoliciesList) Version() int {
+
+	return 1
+}
+
+// SparseSuggestedPolicy represents the sparse version of a suggestedpolicy.
+type SparseSuggestedPolicy struct {
+	// List of suggested network access policies.
+	NetworkAccessPolicies *[]*NetworkAccessPolicy `json:"networkAccessPolicies,omitempty" bson:"networkaccesspolicies" mapstructure:"networkAccessPolicies,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseSuggestedPolicy returns a new  SparseSuggestedPolicy.
+func NewSparseSuggestedPolicy() *SparseSuggestedPolicy {
+	return &SparseSuggestedPolicy{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseSuggestedPolicy) Identity() elemental.Identity {
+
+	return SuggestedPolicyIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseSuggestedPolicy) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseSuggestedPolicy) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseSuggestedPolicy) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseSuggestedPolicy) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewSuggestedPolicy()
+	if o.NetworkAccessPolicies != nil {
+		out.NetworkAccessPolicies = *o.NetworkAccessPolicies
+	}
+
+	return out
 }

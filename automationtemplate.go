@@ -57,9 +57,9 @@ func (o AutomationTemplatesList) Append(objects ...elemental.Identifiable) eleme
 // List converts the object to an elemental.IdentifiablesList.
 func (o AutomationTemplatesList) List() elemental.IdentifiablesList {
 
-	out := elemental.IdentifiablesList{}
-	for _, item := range o {
-		out = append(out, item)
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
 	}
 
 	return out
@@ -71,6 +71,18 @@ func (o AutomationTemplatesList) DefaultOrder() []string {
 	return []string{
 		"name",
 	}
+}
+
+// ToSparse returns the AutomationTemplatesList converted to SparseAutomationTemplatesList.
+// Objects in the list will only contain the given fields. No field means entire field set.
+func (o AutomationTemplatesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToSparse(fields...)
+	}
+
+	return out
 }
 
 // Version returns the version of the content.
@@ -169,6 +181,76 @@ func (o *AutomationTemplate) GetName() string {
 func (o *AutomationTemplate) SetName(name string) {
 
 	o.Name = name
+}
+
+// ToSparse returns the sparse version of the model.
+// The returned object will only contain the given fields. No field means entire field set.
+func (o *AutomationTemplate) ToSparse(fields ...string) elemental.SparseIdentifiable {
+
+	if len(fields) == 0 {
+		// nolint: goimports
+		return &SparseAutomationTemplate{
+			Description:  &o.Description,
+			Entitlements: &o.Entitlements,
+			Function:     &o.Function,
+			Key:          &o.Key,
+			Kind:         &o.Kind,
+			Name:         &o.Name,
+			Parameters:   &o.Parameters,
+		}
+	}
+
+	sp := &SparseAutomationTemplate{}
+	for _, f := range fields {
+		switch f {
+		case "description":
+			sp.Description = &(o.Description)
+		case "entitlements":
+			sp.Entitlements = &(o.Entitlements)
+		case "function":
+			sp.Function = &(o.Function)
+		case "key":
+			sp.Key = &(o.Key)
+		case "kind":
+			sp.Kind = &(o.Kind)
+		case "name":
+			sp.Name = &(o.Name)
+		case "parameters":
+			sp.Parameters = &(o.Parameters)
+		}
+	}
+
+	return sp
+}
+
+// Patch apply the non nil value of a *SparseAutomationTemplate to the object.
+func (o *AutomationTemplate) Patch(sparse elemental.SparseIdentifiable) {
+	if !sparse.Identity().IsEqual(o.Identity()) {
+		panic("cannot patch from a parse with different identity")
+	}
+
+	so := sparse.(*SparseAutomationTemplate)
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.Entitlements != nil {
+		o.Entitlements = *so.Entitlements
+	}
+	if so.Function != nil {
+		o.Function = *so.Function
+	}
+	if so.Key != nil {
+		o.Key = *so.Key
+	}
+	if so.Kind != nil {
+		o.Kind = *so.Kind
+	}
+	if so.Name != nil {
+		o.Name = *so.Name
+	}
+	if so.Parameters != nil {
+		o.Parameters = *so.Parameters
+	}
 }
 
 // Validate valides the current information stored into the structure.
@@ -367,4 +449,152 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		SubType:        "automation_template_parameters",
 		Type:           "external",
 	},
+}
+
+// SparseAutomationTemplatesList represents a list of SparseAutomationTemplates
+type SparseAutomationTemplatesList []*SparseAutomationTemplate
+
+// Identity returns the identity of the objects in the list.
+func (o SparseAutomationTemplatesList) Identity() elemental.Identity {
+
+	return AutomationTemplateIdentity
+}
+
+// Copy returns a pointer to a copy the SparseAutomationTemplatesList.
+func (o SparseAutomationTemplatesList) Copy() elemental.Identifiables {
+
+	copy := append(SparseAutomationTemplatesList{}, o...)
+	return &copy
+}
+
+// Append appends the objects to the a new copy of the SparseAutomationTemplatesList.
+func (o SparseAutomationTemplatesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+
+	out := append(SparseAutomationTemplatesList{}, o...)
+	for _, obj := range objects {
+		out = append(out, obj.(*SparseAutomationTemplate))
+	}
+
+	return out
+}
+
+// List converts the object to an elemental.IdentifiablesList.
+func (o SparseAutomationTemplatesList) List() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i]
+	}
+
+	return out
+}
+
+// DefaultOrder returns the default ordering fields of the content.
+func (o SparseAutomationTemplatesList) DefaultOrder() []string {
+
+	return []string{
+		"name",
+	}
+}
+
+// ToPlain returns the SparseAutomationTemplatesList converted to AutomationTemplatesList.
+func (o SparseAutomationTemplatesList) ToPlain() elemental.IdentifiablesList {
+
+	out := make(elemental.IdentifiablesList, len(o))
+	for i := 0; i < len(o); i++ {
+		out[i] = o[i].ToPlain()
+	}
+
+	return out
+}
+
+// Version returns the version of the content.
+func (o SparseAutomationTemplatesList) Version() int {
+
+	return 1
+}
+
+// SparseAutomationTemplate represents the sparse version of a automationtemplate.
+type SparseAutomationTemplate struct {
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// Entitlements contains the entitlements needed for executing the function.
+	Entitlements *map[string][]elemental.Operation `json:"entitlements,omitempty" bson:"-" mapstructure:"entitlements,omitempty"`
+
+	// Function contains the code.
+	Function *string `json:"function,omitempty" bson:"-" mapstructure:"function,omitempty"`
+
+	// Key contains the unique identifier key for the template.
+	Key *string `json:"key,omitempty" bson:"-" mapstructure:"key,omitempty"`
+
+	// Kind represents the kind of template.
+	Kind *AutomationTemplateKindValue `json:"kind,omitempty" bson:"-" mapstructure:"kind,omitempty"`
+
+	// Name is the name of the entity.
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+
+	// Parameters contains the parameter description of the function.
+	Parameters *map[string]types.AutomationTemplateParameter `json:"parameters,omitempty" bson:"-" mapstructure:"parameters,omitempty"`
+
+	ModelVersion int `json:"-" bson:"_modelversion"`
+
+	sync.Mutex `json:"-" bson:"-"`
+}
+
+// NewSparseAutomationTemplate returns a new  SparseAutomationTemplate.
+func NewSparseAutomationTemplate() *SparseAutomationTemplate {
+	return &SparseAutomationTemplate{}
+}
+
+// Identity returns the Identity of the sparse object.
+func (o *SparseAutomationTemplate) Identity() elemental.Identity {
+
+	return AutomationTemplateIdentity
+}
+
+// Identifier returns the value of the sparse object's unique identifier.
+func (o *SparseAutomationTemplate) Identifier() string {
+
+	return ""
+}
+
+// SetIdentifier sets the value of the sparse object's unique identifier.
+func (o *SparseAutomationTemplate) SetIdentifier(id string) {
+
+}
+
+// Version returns the hardcoded version of the model.
+func (o *SparseAutomationTemplate) Version() int {
+
+	return 1
+}
+
+// ToPlain returns the plain version of the sparse model.
+func (o *SparseAutomationTemplate) ToPlain() elemental.PlainIdentifiable {
+
+	out := NewAutomationTemplate()
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.Entitlements != nil {
+		out.Entitlements = *o.Entitlements
+	}
+	if o.Function != nil {
+		out.Function = *o.Function
+	}
+	if o.Key != nil {
+		out.Key = *o.Key
+	}
+	if o.Kind != nil {
+		out.Kind = *o.Kind
+	}
+	if o.Name != nil {
+		out.Name = *o.Name
+	}
+	if o.Parameters != nil {
+		out.Parameters = *o.Parameters
+	}
+
+	return out
 }
