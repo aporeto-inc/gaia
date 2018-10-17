@@ -181,7 +181,7 @@ func TestValidatePortStringList(t *testing.T) {
 				"ports",
 				[]string{},
 			},
-			true,
+			false,
 		},
 	}
 	for _, tt := range tests {

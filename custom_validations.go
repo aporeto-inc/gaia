@@ -57,10 +57,6 @@ func ValidatePortString(attribute string, portExp string) error {
 // ValidatePortStringList validates a list of ports.
 func ValidatePortStringList(attribute string, ports []string) error {
 
-	if len(ports) == 0 {
-		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' port list must not be empty", attribute))
-	}
-
 	for _, port := range ports {
 		if err := ValidatePortString(attribute, port); err != nil {
 			return err
