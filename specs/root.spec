@@ -368,12 +368,18 @@ relations:
 - rest_name: k8scluster
   get:
     description: Retrieves the list of kubernetes clusters.
-    deprecated: true
     global_parameters:
     - $filtering
   create:
     description: Creates a new kubernetes cluster.
-    deprecated: true
+
+- rest_name: appcredential
+  get:
+    description: Retrieves the list of application credentials.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new application credential.
 
 - rest_name: message
   get:

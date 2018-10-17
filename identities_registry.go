@@ -12,6 +12,7 @@ var (
 		"apiauthorizationpolicy": APIAuthorizationPolicyIdentity,
 		"apicheck":               APICheckIdentity,
 		"app":                    AppIdentity,
+		"appcredential":          AppCredentialIdentity,
 		"auditprofile":           AuditProfileIdentity,
 		"auditreport":            AuditReportIdentity,
 		"auth":                   AuthIdentity,
@@ -104,6 +105,7 @@ var (
 		"apiauthorizationpolicies": APIAuthorizationPolicyIdentity,
 		"apichecks":                APICheckIdentity,
 		"apps":                     AppIdentity,
+		"appcredentials":           AppCredentialIdentity,
 		"auditprofiles":            AuditProfileIdentity,
 		"auditreports":             AuditReportIdentity,
 		"auth":                     AuthIdentity,
@@ -190,6 +192,8 @@ var (
 	aliasesMap = map[string]elemental.Identity{
 		"apiauth":    APIAuthorizationPolicyIdentity,
 		"apiauths":   APIAuthorizationPolicyIdentity,
+		"appcred":    AppCredentialIdentity,
+		"appcreds":   AppCredentialIdentity,
 		"ap":         AuditProfileIdentity,
 		"ca":         AuthorityIdentity,
 		"autos":      AutomationIdentity,
@@ -277,6 +281,10 @@ var (
 		"apiauthorizationpolicy": nil,
 		"apicheck":               nil,
 		"app":                    nil,
+		"appcredential": [][]string{
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+		},
 		"auditprofile": [][]string{
 			[]string{"namespace"},
 		},
@@ -484,6 +492,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAPICheck()
 	case AppIdentity:
 		return NewApp()
+	case AppCredentialIdentity:
+		return NewAppCredential()
 	case AuditProfileIdentity:
 		return NewAuditProfile()
 	case AuditReportIdentity:
@@ -663,6 +673,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAPICheck()
 	case AppIdentity:
 		return NewSparseApp()
+	case AppCredentialIdentity:
+		return NewSparseAppCredential()
 	case AuditProfileIdentity:
 		return NewSparseAuditProfile()
 	case AuditReportIdentity:
@@ -850,6 +862,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &APIChecksList{}
 	case AppIdentity:
 		return &AppsList{}
+	case AppCredentialIdentity:
+		return &AppCredentialsList{}
 	case AuditProfileIdentity:
 		return &AuditProfilesList{}
 	case AuditReportIdentity:
@@ -1027,6 +1041,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAPIChecksList{}
 	case AppIdentity:
 		return &SparseAppsList{}
+	case AppCredentialIdentity:
+		return &SparseAppCredentialsList{}
 	case AuditProfileIdentity:
 		return &SparseAuditProfilesList{}
 	case AuditReportIdentity:
@@ -1211,6 +1227,7 @@ func AllIdentities() []elemental.Identity {
 		APIAuthorizationPolicyIdentity,
 		APICheckIdentity,
 		AppIdentity,
+		AppCredentialIdentity,
 		AuditProfileIdentity,
 		AuditReportIdentity,
 		AuthIdentity,
@@ -1314,6 +1331,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case AppIdentity:
 		return []string{}
+	case AppCredentialIdentity:
+		return []string{
+			"appcred",
+			"appcreds",
+		}
 	case AuditProfileIdentity:
 		return []string{
 			"ap",
