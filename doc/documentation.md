@@ -5597,6 +5597,16 @@ Name of the service.
 | -               | -:     |
 | Orderable       | `true` |
 
+#### `networkonly (boolean)`
+
+> This attribute is deprecated
+
+networkonly indicate the host service is of type network only.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Default         | `true` |
+
 #### `services (refList)`
 
 Services lists all protocols and ports a service is running.

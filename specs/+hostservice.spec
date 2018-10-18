@@ -26,6 +26,14 @@ attributes:
     stored: true
     orderable: true
 
+  - name: networkonly
+    description: networkonly indicate the host service is of type network only.
+    type: boolean
+    exposed: true
+    stored: true
+    default_value: true
+    deprecated: true
+
   - name: services
     description: Services lists all protocols and ports a service is running.
     type: refList

@@ -14,6 +14,9 @@ type HostService struct {
 	// Name of the service.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
+	// networkonly indicate the host service is of type network only.
+	Networkonly bool `json:"networkonly" bson:"networkonly" mapstructure:"networkonly,omitempty"`
+
 	// Services lists all protocols and ports a service is running.
 	Services []*ProcessingUnitService `json:"services" bson:"services" mapstructure:"services,omitempty"`
 
@@ -28,6 +31,7 @@ func NewHostService() *HostService {
 	return &HostService{
 		ModelVersion:   1,
 		AssociatedTags: []string{},
+		Networkonly:    true,
 		Services:       []*ProcessingUnitService{},
 	}
 }
