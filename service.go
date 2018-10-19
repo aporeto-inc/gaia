@@ -204,11 +204,6 @@ type Service struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// authorizationClaimMappings defines a list of mappings between incoming and
-	// HTTP headers. When these mappings are defined, the enforcer will copy the
-	// values of the claims to the corresponding HTTP headers.
-	AuthorizationClaimMappings []*ClaimMapping `json:"authorizationClaimMappings" bson:"authorizationclaimmappings" mapstructure:"authorizationClaimMappings,omitempty"`
-
 	// AuthorizationType defines the user authorization type that should be used.
 	//
 	// * `+"`"+`None`+"`"+`: No auhtorization.
@@ -220,6 +215,11 @@ type Service struct {
 	// `+"`"+`MTLSCertificateAuthority`+"`"+` otherwise Aporeto Public Signing Certificate will be
 	// used.
 	AuthorizationType ServiceAuthorizationTypeValue `json:"authorizationType" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
+
+	// Defines a list of mappings between claims and
+	// HTTP headers. When these mappings are defined, the enforcer will copy the
+	// values of the claims to the corresponding HTTP headers.
+	ClaimsToHTTPHeaderMappings []*ClaimMapping `json:"claimsToHTTPHeaderMappings" bson:"claimstohttpheadermappings" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
@@ -313,8 +313,8 @@ func NewService() *Service {
 		Annotations:                map[string][]string{},
 		External:                   false,
 		Endpoints:                  types.ExposedAPIList{},
+		ClaimsToHTTPHeaderMappings: []*ClaimMapping{},
 		AuthorizationType:          ServiceAuthorizationTypeNone,
-		AuthorizationClaimMappings: []*ClaimMapping{},
 		AssociatedTags:             []string{},
 		AllServiceTags:             []string{},
 		Metadata:                   []string{},
@@ -508,8 +508,8 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Annotations:                       &o.Annotations,
 			Archived:                          &o.Archived,
 			AssociatedTags:                    &o.AssociatedTags,
-			AuthorizationClaimMappings:        &o.AuthorizationClaimMappings,
 			AuthorizationType:                 &o.AuthorizationType,
+			ClaimsToHTTPHeaderMappings:        &o.ClaimsToHTTPHeaderMappings,
 			CreateTime:                        &o.CreateTime,
 			Description:                       &o.Description,
 			Endpoints:                         &o.Endpoints,
@@ -569,10 +569,10 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Archived = &(o.Archived)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
-		case "authorizationClaimMappings":
-			sp.AuthorizationClaimMappings = &(o.AuthorizationClaimMappings)
 		case "authorizationType":
 			sp.AuthorizationType = &(o.AuthorizationType)
+		case "claimsToHTTPHeaderMappings":
+			sp.ClaimsToHTTPHeaderMappings = &(o.ClaimsToHTTPHeaderMappings)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -675,11 +675,11 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
 	}
-	if so.AuthorizationClaimMappings != nil {
-		o.AuthorizationClaimMappings = *so.AuthorizationClaimMappings
-	}
 	if so.AuthorizationType != nil {
 		o.AuthorizationType = *so.AuthorizationType
+	}
+	if so.ClaimsToHTTPHeaderMappings != nil {
+		o.ClaimsToHTTPHeaderMappings = *so.ClaimsToHTTPHeaderMappings
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -750,14 +750,14 @@ func (o *Service) Validate() error {
 		errors = append(errors, err)
 	}
 
-	for _, sub := range o.AuthorizationClaimMappings {
+	if err := elemental.ValidateStringInList("authorizationType", string(o.AuthorizationType), []string{"None", "JWT", "OIDC", "MTLS"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	for _, sub := range o.ClaimsToHTTPHeaderMappings {
 		if err := sub.Validate(); err != nil {
 			errors = append(errors, err)
 		}
-	}
-
-	if err := elemental.ValidateStringInList("authorizationType", string(o.AuthorizationType), []string{"None", "JWT", "OIDC", "MTLS"}, false); err != nil {
-		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
@@ -1015,18 +1015,6 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		SubType:        "tags_list",
 		Type:           "external",
 	},
-	"AuthorizationClaimMappings": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizationClaimMappings",
-		Description: `authorizationClaimMappings defines a list of mappings between incoming and
-HTTP headers. When these mappings are defined, the enforcer will copy the
-values of the claims to the corresponding HTTP headers.`,
-		Exposed: true,
-		Name:    "authorizationClaimMappings",
-		Stored:  true,
-		SubType: "claimmapping",
-		Type:    "refList",
-	},
 	"AuthorizationType": elemental.AttributeSpecification{
 		AllowedChoices: []string{"None", "JWT", "OIDC", "MTLS"},
 		ConvertedName:  "AuthorizationType",
@@ -1045,6 +1033,18 @@ used.`,
 		Name:    "authorizationType",
 		Stored:  true,
 		Type:    "enum",
+	},
+	"ClaimsToHTTPHeaderMappings": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ClaimsToHTTPHeaderMappings",
+		Description: `Defines a list of mappings between claims and
+HTTP headers. When these mappings are defined, the enforcer will copy the
+values of the claims to the corresponding HTTP headers.`,
+		Exposed: true,
+		Name:    "claimsToHTTPHeaderMappings",
+		Stored:  true,
+		SubType: "claimmapping",
+		Type:    "refList",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1484,18 +1484,6 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		SubType:        "tags_list",
 		Type:           "external",
 	},
-	"authorizationclaimmappings": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizationClaimMappings",
-		Description: `authorizationClaimMappings defines a list of mappings between incoming and
-HTTP headers. When these mappings are defined, the enforcer will copy the
-values of the claims to the corresponding HTTP headers.`,
-		Exposed: true,
-		Name:    "authorizationClaimMappings",
-		Stored:  true,
-		SubType: "claimmapping",
-		Type:    "refList",
-	},
 	"authorizationtype": elemental.AttributeSpecification{
 		AllowedChoices: []string{"None", "JWT", "OIDC", "MTLS"},
 		ConvertedName:  "AuthorizationType",
@@ -1514,6 +1502,18 @@ used.`,
 		Name:    "authorizationType",
 		Stored:  true,
 		Type:    "enum",
+	},
+	"claimstohttpheadermappings": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ClaimsToHTTPHeaderMappings",
+		Description: `Defines a list of mappings between claims and
+HTTP headers. When these mappings are defined, the enforcer will copy the
+values of the claims to the corresponding HTTP headers.`,
+		Exposed: true,
+		Name:    "claimsToHTTPHeaderMappings",
+		Stored:  true,
+		SubType: "claimmapping",
+		Type:    "refList",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1896,11 +1896,6 @@ type SparseService struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// authorizationClaimMappings defines a list of mappings between incoming and
-	// HTTP headers. When these mappings are defined, the enforcer will copy the
-	// values of the claims to the corresponding HTTP headers.
-	AuthorizationClaimMappings *[]*ClaimMapping `json:"authorizationClaimMappings,omitempty" bson:"authorizationclaimmappings" mapstructure:"authorizationClaimMappings,omitempty"`
-
 	// AuthorizationType defines the user authorization type that should be used.
 	//
 	// * `+"`"+`None`+"`"+`: No auhtorization.
@@ -1912,6 +1907,11 @@ type SparseService struct {
 	// `+"`"+`MTLSCertificateAuthority`+"`"+` otherwise Aporeto Public Signing Certificate will be
 	// used.
 	AuthorizationType *ServiceAuthorizationTypeValue `json:"authorizationType,omitempty" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
+
+	// Defines a list of mappings between claims and
+	// HTTP headers. When these mappings are defined, the enforcer will copy the
+	// values of the claims to the corresponding HTTP headers.
+	ClaimsToHTTPHeaderMappings *[]*ClaimMapping `json:"claimsToHTTPHeaderMappings,omitempty" bson:"claimstohttpheadermappings" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
@@ -2083,11 +2083,11 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
-	if o.AuthorizationClaimMappings != nil {
-		out.AuthorizationClaimMappings = *o.AuthorizationClaimMappings
-	}
 	if o.AuthorizationType != nil {
 		out.AuthorizationType = *o.AuthorizationType
+	}
+	if o.ClaimsToHTTPHeaderMappings != nil {
+		out.ClaimsToHTTPHeaderMappings = *o.ClaimsToHTTPHeaderMappings
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime

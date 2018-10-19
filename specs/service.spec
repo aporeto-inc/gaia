@@ -165,18 +165,6 @@ attributes:
     stored: true
     read_only: true
 
-  - name: authorizationClaimMappings
-    description: |-
-      authorizationClaimMappings defines a list of mappings between incoming and
-      HTTP headers. When these mappings are defined, the enforcer will copy the
-      values of the claims to the corresponding HTTP headers.
-    type: refList
-    exposed: true
-    subtype: claimmapping
-    stored: true
-    extensions:
-      refMode: pointer
-
   - name: authorizationType
     description: |-
       AuthorizationType defines the user authorization type that should be used.
@@ -198,6 +186,18 @@ attributes:
     - OIDC
     - MTLS
     default_value: None
+
+  - name: claimsToHTTPHeaderMappings
+    description: |-
+      Defines a list of mappings between claims and
+      HTTP headers. When these mappings are defined, the enforcer will copy the
+      values of the claims to the corresponding HTTP headers.
+    type: refList
+    exposed: true
+    subtype: claimmapping
+    stored: true
+    extensions:
+      refMode: pointer
 
   - name: endpoints
     description: |-

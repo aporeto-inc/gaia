@@ -9271,12 +9271,6 @@ Annotation stores additional information about an entity.
 
 AssociatedTags are the list of tags attached to an entity.
 
-#### `authorizationClaimMappings (refList)`
-
-authorizationClaimMappings defines a list of mappings between incoming and
-HTTP headers. When these mappings are defined, the enforcer will copy the
-values of the claims to the corresponding HTTP headers.
-
 #### `authorizationType (enum)`
 
 AuthorizationType defines the user authorization type that should be used.
@@ -9294,6 +9288,12 @@ used.
 | -               | -:                      |
 | Allowed Value   | `None, JWT, OIDC, MTLS` |
 | Default         | `"None"`                |
+
+#### `claimsToHTTPHeaderMappings (refList)`
+
+Defines a list of mappings between claims and
+HTTP headers. When these mappings are defined, the enforcer will copy the
+values of the claims to the corresponding HTTP headers.
 
 #### `createTime (time)`
 
