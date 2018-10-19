@@ -14,17 +14,11 @@ import (
 type ServiceMTLSTypeValue string
 
 const (
-	// ServiceMTLSTypeRequestClientCert represents the value RequestClientCert.
-	ServiceMTLSTypeRequestClientCert ServiceMTLSTypeValue = "RequestClientCert"
-
 	// ServiceMTLSTypeRequireAndVerifyClientCert represents the value RequireAndVerifyClientCert.
 	ServiceMTLSTypeRequireAndVerifyClientCert ServiceMTLSTypeValue = "RequireAndVerifyClientCert"
 
 	// ServiceMTLSTypeRequireAnyClientCert represents the value RequireAnyClientCert.
 	ServiceMTLSTypeRequireAnyClientCert ServiceMTLSTypeValue = "RequireAnyClientCert"
-
-	// ServiceMTLSTypeVerifyClientCertIfGiven represents the value VerifyClientCertIfGiven.
-	ServiceMTLSTypeVerifyClientCertIfGiven ServiceMTLSTypeValue = "VerifyClientCertIfGiven"
 )
 
 // ServiceTLSTypeValue represents the possible values for attribute "TLSType".
@@ -39,6 +33,9 @@ const (
 
 	// ServiceTLSTypeLetsEncrypt represents the value LetsEncrypt.
 	ServiceTLSTypeLetsEncrypt ServiceTLSTypeValue = "LetsEncrypt"
+
+	// ServiceTLSTypeNone represents the value None.
+	ServiceTLSTypeNone ServiceTLSTypeValue = "None"
 )
 
 // ServiceAuthorizationTypeValue represents the possible values for attribute "authorizationType".
@@ -173,11 +170,6 @@ type Service struct {
 	// `+"`"+`authorizationType`+"`"+` is set to `+"`"+`MTLS`+"`"+` otherwise this property has no effect.
 	MTLSType ServiceMTLSTypeValue `json:"MTLSType" bson:"mtlstype" mapstructure:"MTLSType,omitempty"`
 
-	// RedirectURL is the URL that will be send back to the user to
-	// redirect for authentication if there is no user authorization information in
-	// the API request. URL can be defined if a redirection is requested only.
-	OIDCCallbackURL string `json:"OIDCCallbackURL" bson:"oidccallbackurl" mapstructure:"OIDCCallbackURL,omitempty"`
-
 	// authorizationID is only valid for OIDC authorization and defines the
 	// issuer ID of the OAUTH token.
 	OIDCClientID string `json:"OIDCClientID" bson:"oidcclientid" mapstructure:"OIDCClientID,omitempty"`
@@ -189,6 +181,9 @@ type Service struct {
 	// authorizationProvider is only valid for OAUTH authorization and defines the
 	// URL to the OAUTH provider that must be used.
 	OIDCProviderURL string `json:"OIDCProviderURL" bson:"oidcproviderurl" mapstructure:"OIDCProviderURL,omitempty"`
+
+	// Configures the scopes you want to add to the OIDC provider.
+	OIDCScopes []string `json:"OIDCScopes" bson:"oidcscopes" mapstructure:"OIDCScopes,omitempty"`
 
 	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
 	// certificate to expose to the client for TLS.
@@ -292,15 +287,11 @@ type Service struct {
 	// when an application is being accessed from a public network.
 	PublicApplicationPort int `json:"publicApplicationPort" bson:"publicapplicationport" mapstructure:"publicApplicationPort,omitempty"`
 
-	// RedirectOnFail is a boolean that forces a redirect response if an API request
-	// arrives and the user authorization information is not valid. This only applies
-	// to HTTP services and it is only send for APIs that are not public.
-	RedirectOnFail bool `json:"redirectOnFail" bson:"redirectonfail" mapstructure:"redirectOnFail,omitempty"`
-
-	// RedirectOnNoToken is a boolean that forces a redirect response if an API request
-	// arrives and there is no user authorization information. This only applies to
-	// HTTP services and it is only send for APIs that are not public.
-	RedirectOnNoToken bool `json:"redirectOnNoToken" bson:"redirectonnotoken" mapstructure:"redirectOnNoToken,omitempty"`
+	// If this is set, the user will be redirected to that URL in case of any
+	// authorization failure to let you chance to provide a nice message to the user.
+	// The query parameter `+"`"+`?failure_message=<message>`+"`"+` will be added to that url
+	// explaining the possible reasons of the failure.
+	RedirectOnAuthorizationFailure string `json:"redirectOnAuthorizationFailure" bson:"redirectonauthorizationfailure" mapstructure:"redirectOnAuthorizationFailure,omitempty"`
 
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to implement this particular service.
@@ -335,14 +326,12 @@ func NewService() *Service {
 		AuthorizationClaimMappings: []*ClaimMapping{},
 		AssociatedTags:             []string{},
 		AllServiceTags:             []string{},
-		TLSType:                    ServiceTLSTypeAporeto,
-		NormalizedTags:             []string{},
-		RedirectOnNoToken:          false,
-		MTLSType:                   ServiceMTLSTypeRequireAndVerifyClientCert,
-		RedirectOnFail:             false,
-		Type:                       ServiceTypeHTTP,
 		Metadata:                   []string{},
+		NormalizedTags:             []string{},
+		MTLSType:                   ServiceMTLSTypeRequireAndVerifyClientCert,
+		TLSType:                    ServiceTLSTypeAporeto,
 		IPs:                        types.IPList{},
+		Type:                       ServiceTypeHTTP,
 	}
 }
 
@@ -512,45 +501,44 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseService{
-			ID:                         &o.ID,
-			IPs:                        &o.IPs,
-			JWTSigningCertificate:      &o.JWTSigningCertificate,
-			MTLSCertificateAuthority:   &o.MTLSCertificateAuthority,
-			MTLSType:                   &o.MTLSType,
-			OIDCCallbackURL:            &o.OIDCCallbackURL,
-			OIDCClientID:               &o.OIDCClientID,
-			OIDCClientSecret:           &o.OIDCClientSecret,
-			OIDCProviderURL:            &o.OIDCProviderURL,
-			TLSCertificate:             &o.TLSCertificate,
-			TLSCertificateKey:          &o.TLSCertificateKey,
-			TLSType:                    &o.TLSType,
-			AllAPITags:                 &o.AllAPITags,
-			AllServiceTags:             &o.AllServiceTags,
-			Annotations:                &o.Annotations,
-			Archived:                   &o.Archived,
-			AssociatedTags:             &o.AssociatedTags,
-			AuthorizationClaimMappings: &o.AuthorizationClaimMappings,
-			AuthorizationType:          &o.AuthorizationType,
-			CreateTime:                 &o.CreateTime,
-			Description:                &o.Description,
-			Endpoints:                  &o.Endpoints,
-			ExposedAPIs:                &o.ExposedAPIs,
-			ExposedPort:                &o.ExposedPort,
-			External:                   &o.External,
-			Hosts:                      &o.Hosts,
-			Metadata:                   &o.Metadata,
-			Name:                       &o.Name,
-			Namespace:                  &o.Namespace,
-			NormalizedTags:             &o.NormalizedTags,
-			Port:                       &o.Port,
-			Protected:                  &o.Protected,
-			PublicApplicationPort:      &o.PublicApplicationPort,
-			RedirectOnFail:             &o.RedirectOnFail,
-			RedirectOnNoToken:          &o.RedirectOnNoToken,
-			Selectors:                  &o.Selectors,
-			ServiceCA:                  &o.ServiceCA,
-			Type:                       &o.Type,
-			UpdateTime:                 &o.UpdateTime,
+			ID:                             &o.ID,
+			IPs:                            &o.IPs,
+			JWTSigningCertificate:          &o.JWTSigningCertificate,
+			MTLSCertificateAuthority:       &o.MTLSCertificateAuthority,
+			MTLSType:                       &o.MTLSType,
+			OIDCClientID:                   &o.OIDCClientID,
+			OIDCClientSecret:               &o.OIDCClientSecret,
+			OIDCProviderURL:                &o.OIDCProviderURL,
+			OIDCScopes:                     &o.OIDCScopes,
+			TLSCertificate:                 &o.TLSCertificate,
+			TLSCertificateKey:              &o.TLSCertificateKey,
+			TLSType:                        &o.TLSType,
+			AllAPITags:                     &o.AllAPITags,
+			AllServiceTags:                 &o.AllServiceTags,
+			Annotations:                    &o.Annotations,
+			Archived:                       &o.Archived,
+			AssociatedTags:                 &o.AssociatedTags,
+			AuthorizationClaimMappings:     &o.AuthorizationClaimMappings,
+			AuthorizationType:              &o.AuthorizationType,
+			CreateTime:                     &o.CreateTime,
+			Description:                    &o.Description,
+			Endpoints:                      &o.Endpoints,
+			ExposedAPIs:                    &o.ExposedAPIs,
+			ExposedPort:                    &o.ExposedPort,
+			External:                       &o.External,
+			Hosts:                          &o.Hosts,
+			Metadata:                       &o.Metadata,
+			Name:                           &o.Name,
+			Namespace:                      &o.Namespace,
+			NormalizedTags:                 &o.NormalizedTags,
+			Port:                           &o.Port,
+			Protected:                      &o.Protected,
+			PublicApplicationPort:          &o.PublicApplicationPort,
+			RedirectOnAuthorizationFailure: &o.RedirectOnAuthorizationFailure,
+			Selectors:                      &o.Selectors,
+			ServiceCA:                      &o.ServiceCA,
+			Type:                           &o.Type,
+			UpdateTime:                     &o.UpdateTime,
 		}
 	}
 
@@ -567,14 +555,14 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.MTLSCertificateAuthority = &(o.MTLSCertificateAuthority)
 		case "MTLSType":
 			sp.MTLSType = &(o.MTLSType)
-		case "OIDCCallbackURL":
-			sp.OIDCCallbackURL = &(o.OIDCCallbackURL)
 		case "OIDCClientID":
 			sp.OIDCClientID = &(o.OIDCClientID)
 		case "OIDCClientSecret":
 			sp.OIDCClientSecret = &(o.OIDCClientSecret)
 		case "OIDCProviderURL":
 			sp.OIDCProviderURL = &(o.OIDCProviderURL)
+		case "OIDCScopes":
+			sp.OIDCScopes = &(o.OIDCScopes)
 		case "TLSCertificate":
 			sp.TLSCertificate = &(o.TLSCertificate)
 		case "TLSCertificateKey":
@@ -623,10 +611,8 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Protected = &(o.Protected)
 		case "publicApplicationPort":
 			sp.PublicApplicationPort = &(o.PublicApplicationPort)
-		case "redirectOnFail":
-			sp.RedirectOnFail = &(o.RedirectOnFail)
-		case "redirectOnNoToken":
-			sp.RedirectOnNoToken = &(o.RedirectOnNoToken)
+		case "redirectOnAuthorizationFailure":
+			sp.RedirectOnAuthorizationFailure = &(o.RedirectOnAuthorizationFailure)
 		case "selectors":
 			sp.Selectors = &(o.Selectors)
 		case "serviceCA":
@@ -663,9 +649,6 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if so.MTLSType != nil {
 		o.MTLSType = *so.MTLSType
 	}
-	if so.OIDCCallbackURL != nil {
-		o.OIDCCallbackURL = *so.OIDCCallbackURL
-	}
 	if so.OIDCClientID != nil {
 		o.OIDCClientID = *so.OIDCClientID
 	}
@@ -674,6 +657,9 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.OIDCProviderURL != nil {
 		o.OIDCProviderURL = *so.OIDCProviderURL
+	}
+	if so.OIDCScopes != nil {
+		o.OIDCScopes = *so.OIDCScopes
 	}
 	if so.TLSCertificate != nil {
 		o.TLSCertificate = *so.TLSCertificate
@@ -747,11 +733,8 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if so.PublicApplicationPort != nil {
 		o.PublicApplicationPort = *so.PublicApplicationPort
 	}
-	if so.RedirectOnFail != nil {
-		o.RedirectOnFail = *so.RedirectOnFail
-	}
-	if so.RedirectOnNoToken != nil {
-		o.RedirectOnNoToken = *so.RedirectOnNoToken
+	if so.RedirectOnAuthorizationFailure != nil {
+		o.RedirectOnAuthorizationFailure = *so.RedirectOnAuthorizationFailure
 	}
 	if so.Selectors != nil {
 		o.Selectors = *so.Selectors
@@ -773,11 +756,11 @@ func (o *Service) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("MTLSType", string(o.MTLSType), []string{"RequestClientCert", "RequireAnyClientCert", "VerifyClientCertIfGiven", "RequireAndVerifyClientCert"}, false); err != nil {
+	if err := elemental.ValidateStringInList("MTLSType", string(o.MTLSType), []string{"RequireAnyClientCert", "RequireAndVerifyClientCert"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("TLSType", string(o.TLSType), []string{"Aporeto", "LetsEncrypt", "External"}, false); err != nil {
+	if err := elemental.ValidateStringInList("TLSType", string(o.TLSType), []string{"Aporeto", "LetsEncrypt", "External", "None"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -909,7 +892,7 @@ Aporeto own Authority will be used.`,
 		Type:    "string",
 	},
 	"MTLSType": elemental.AttributeSpecification{
-		AllowedChoices: []string{"RequestClientCert", "RequireAnyClientCert", "VerifyClientCertIfGiven", "RequireAndVerifyClientCert"},
+		AllowedChoices: []string{"RequireAnyClientCert", "RequireAndVerifyClientCert"},
 		ConvertedName:  "MTLSType",
 		DefaultValue:   ServiceMTLSTypeRequireAndVerifyClientCert,
 		Description: `Set how to perform mtls authorization. This is only applicable it
@@ -918,17 +901,6 @@ Aporeto own Authority will be used.`,
 		Name:    "MTLSType",
 		Stored:  true,
 		Type:    "enum",
-	},
-	"OIDCCallbackURL": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "OIDCCallbackURL",
-		Description: `RedirectURL is the URL that will be send back to the user to
-redirect for authentication if there is no user authorization information in
-the API request. URL can be defined if a redirection is requested only.`,
-		Exposed: true,
-		Name:    "OIDCCallbackURL",
-		Stored:  true,
-		Type:    "string",
 	},
 	"OIDCClientID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -960,6 +932,16 @@ URL to the OAUTH provider that must be used.`,
 		Stored:  true,
 		Type:    "string",
 	},
+	"OIDCScopes": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCScopes",
+		Description:    `Configures the scopes you want to add to the OIDC provider.`,
+		Exposed:        true,
+		Name:           "OIDCScopes",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"TLSCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificate",
@@ -981,7 +963,7 @@ certificate key associated to ` + "`" + `TLSCertificate` + "`" + `.`,
 		Type:    "string",
 	},
 	"TLSType": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Aporeto", "LetsEncrypt", "External"},
+		AllowedChoices: []string{"Aporeto", "LetsEncrypt", "External", "None"},
 		ConvertedName:  "TLSType",
 		DefaultValue:   ServiceTLSTypeAporeto,
 		Description: `Set how to provide a server certificate to the service.
@@ -1264,29 +1246,17 @@ when an application is being accessed from a public network.`,
 		Stored:   true,
 		Type:     "integer",
 	},
-	"RedirectOnFail": elemental.AttributeSpecification{
+	"RedirectOnAuthorizationFailure": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "RedirectOnFail",
-		Description: `RedirectOnFail is a boolean that forces a redirect response if an API request
-arrives and the user authorization information is not valid. This only applies
-to HTTP services and it is only send for APIs that are not public.`,
-		Exposed:   true,
-		Name:      "redirectOnFail",
-		Orderable: true,
-		Stored:    true,
-		Type:      "boolean",
-	},
-	"RedirectOnNoToken": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "RedirectOnNoToken",
-		Description: `RedirectOnNoToken is a boolean that forces a redirect response if an API request
-arrives and there is no user authorization information. This only applies to
-HTTP services and it is only send for APIs that are not public.`,
-		Exposed:   true,
-		Name:      "redirectOnNoToken",
-		Orderable: true,
-		Stored:    true,
-		Type:      "boolean",
+		ConvertedName:  "RedirectOnAuthorizationFailure",
+		Description: `If this is set, the user will be redirected to that URL in case of any
+authorization failure to let you chance to provide a nice message to the user.
+The query parameter ` + "`" + `?failure_message=<message>` + "`" + ` will be added to that url
+explaining the possible reasons of the failure.`,
+		Exposed: true,
+		Name:    "redirectOnAuthorizationFailure",
+		Stored:  true,
+		Type:    "string",
 	},
 	"Selectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1390,7 +1360,7 @@ Aporeto own Authority will be used.`,
 		Type:    "string",
 	},
 	"mtlstype": elemental.AttributeSpecification{
-		AllowedChoices: []string{"RequestClientCert", "RequireAnyClientCert", "VerifyClientCertIfGiven", "RequireAndVerifyClientCert"},
+		AllowedChoices: []string{"RequireAnyClientCert", "RequireAndVerifyClientCert"},
 		ConvertedName:  "MTLSType",
 		DefaultValue:   ServiceMTLSTypeRequireAndVerifyClientCert,
 		Description: `Set how to perform mtls authorization. This is only applicable it
@@ -1399,17 +1369,6 @@ Aporeto own Authority will be used.`,
 		Name:    "MTLSType",
 		Stored:  true,
 		Type:    "enum",
-	},
-	"oidccallbackurl": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "OIDCCallbackURL",
-		Description: `RedirectURL is the URL that will be send back to the user to
-redirect for authentication if there is no user authorization information in
-the API request. URL can be defined if a redirection is requested only.`,
-		Exposed: true,
-		Name:    "OIDCCallbackURL",
-		Stored:  true,
-		Type:    "string",
 	},
 	"oidcclientid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1441,6 +1400,16 @@ URL to the OAUTH provider that must be used.`,
 		Stored:  true,
 		Type:    "string",
 	},
+	"oidcscopes": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCScopes",
+		Description:    `Configures the scopes you want to add to the OIDC provider.`,
+		Exposed:        true,
+		Name:           "OIDCScopes",
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"tlscertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificate",
@@ -1462,7 +1431,7 @@ certificate key associated to ` + "`" + `TLSCertificate` + "`" + `.`,
 		Type:    "string",
 	},
 	"tlstype": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Aporeto", "LetsEncrypt", "External"},
+		AllowedChoices: []string{"Aporeto", "LetsEncrypt", "External", "None"},
 		ConvertedName:  "TLSType",
 		DefaultValue:   ServiceTLSTypeAporeto,
 		Description: `Set how to provide a server certificate to the service.
@@ -1745,29 +1714,17 @@ when an application is being accessed from a public network.`,
 		Stored:   true,
 		Type:     "integer",
 	},
-	"redirectonfail": elemental.AttributeSpecification{
+	"redirectonauthorizationfailure": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "RedirectOnFail",
-		Description: `RedirectOnFail is a boolean that forces a redirect response if an API request
-arrives and the user authorization information is not valid. This only applies
-to HTTP services and it is only send for APIs that are not public.`,
-		Exposed:   true,
-		Name:      "redirectOnFail",
-		Orderable: true,
-		Stored:    true,
-		Type:      "boolean",
-	},
-	"redirectonnotoken": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "RedirectOnNoToken",
-		Description: `RedirectOnNoToken is a boolean that forces a redirect response if an API request
-arrives and there is no user authorization information. This only applies to
-HTTP services and it is only send for APIs that are not public.`,
-		Exposed:   true,
-		Name:      "redirectOnNoToken",
-		Orderable: true,
-		Stored:    true,
-		Type:      "boolean",
+		ConvertedName:  "RedirectOnAuthorizationFailure",
+		Description: `If this is set, the user will be redirected to that URL in case of any
+authorization failure to let you chance to provide a nice message to the user.
+The query parameter ` + "`" + `?failure_message=<message>` + "`" + ` will be added to that url
+explaining the possible reasons of the failure.`,
+		Exposed: true,
+		Name:    "redirectOnAuthorizationFailure",
+		Stored:  true,
+		Type:    "string",
 	},
 	"selectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1906,11 +1863,6 @@ type SparseService struct {
 	// `+"`"+`authorizationType`+"`"+` is set to `+"`"+`MTLS`+"`"+` otherwise this property has no effect.
 	MTLSType *ServiceMTLSTypeValue `json:"MTLSType,omitempty" bson:"mtlstype" mapstructure:"MTLSType,omitempty"`
 
-	// RedirectURL is the URL that will be send back to the user to
-	// redirect for authentication if there is no user authorization information in
-	// the API request. URL can be defined if a redirection is requested only.
-	OIDCCallbackURL *string `json:"OIDCCallbackURL,omitempty" bson:"oidccallbackurl" mapstructure:"OIDCCallbackURL,omitempty"`
-
 	// authorizationID is only valid for OIDC authorization and defines the
 	// issuer ID of the OAUTH token.
 	OIDCClientID *string `json:"OIDCClientID,omitempty" bson:"oidcclientid" mapstructure:"OIDCClientID,omitempty"`
@@ -1922,6 +1874,9 @@ type SparseService struct {
 	// authorizationProvider is only valid for OAUTH authorization and defines the
 	// URL to the OAUTH provider that must be used.
 	OIDCProviderURL *string `json:"OIDCProviderURL,omitempty" bson:"oidcproviderurl" mapstructure:"OIDCProviderURL,omitempty"`
+
+	// Configures the scopes you want to add to the OIDC provider.
+	OIDCScopes *[]string `json:"OIDCScopes,omitempty" bson:"oidcscopes" mapstructure:"OIDCScopes,omitempty"`
 
 	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
 	// certificate to expose to the client for TLS.
@@ -2025,15 +1980,11 @@ type SparseService struct {
 	// when an application is being accessed from a public network.
 	PublicApplicationPort *int `json:"publicApplicationPort,omitempty" bson:"publicapplicationport" mapstructure:"publicApplicationPort,omitempty"`
 
-	// RedirectOnFail is a boolean that forces a redirect response if an API request
-	// arrives and the user authorization information is not valid. This only applies
-	// to HTTP services and it is only send for APIs that are not public.
-	RedirectOnFail *bool `json:"redirectOnFail,omitempty" bson:"redirectonfail" mapstructure:"redirectOnFail,omitempty"`
-
-	// RedirectOnNoToken is a boolean that forces a redirect response if an API request
-	// arrives and there is no user authorization information. This only applies to
-	// HTTP services and it is only send for APIs that are not public.
-	RedirectOnNoToken *bool `json:"redirectOnNoToken,omitempty" bson:"redirectonnotoken" mapstructure:"redirectOnNoToken,omitempty"`
+	// If this is set, the user will be redirected to that URL in case of any
+	// authorization failure to let you chance to provide a nice message to the user.
+	// The query parameter `+"`"+`?failure_message=<message>`+"`"+` will be added to that url
+	// explaining the possible reasons of the failure.
+	RedirectOnAuthorizationFailure *string `json:"redirectOnAuthorizationFailure,omitempty" bson:"redirectonauthorizationfailure" mapstructure:"redirectOnAuthorizationFailure,omitempty"`
 
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to implement this particular service.
@@ -2106,9 +2057,6 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.MTLSType != nil {
 		out.MTLSType = *o.MTLSType
 	}
-	if o.OIDCCallbackURL != nil {
-		out.OIDCCallbackURL = *o.OIDCCallbackURL
-	}
 	if o.OIDCClientID != nil {
 		out.OIDCClientID = *o.OIDCClientID
 	}
@@ -2117,6 +2065,9 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.OIDCProviderURL != nil {
 		out.OIDCProviderURL = *o.OIDCProviderURL
+	}
+	if o.OIDCScopes != nil {
+		out.OIDCScopes = *o.OIDCScopes
 	}
 	if o.TLSCertificate != nil {
 		out.TLSCertificate = *o.TLSCertificate
@@ -2190,11 +2141,8 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.PublicApplicationPort != nil {
 		out.PublicApplicationPort = *o.PublicApplicationPort
 	}
-	if o.RedirectOnFail != nil {
-		out.RedirectOnFail = *o.RedirectOnFail
-	}
-	if o.RedirectOnNoToken != nil {
-		out.RedirectOnNoToken = *o.RedirectOnNoToken
+	if o.RedirectOnAuthorizationFailure != nil {
+		out.RedirectOnAuthorizationFailure = *o.RedirectOnAuthorizationFailure
 	}
 	if o.Selectors != nil {
 		out.Selectors = *o.Selectors

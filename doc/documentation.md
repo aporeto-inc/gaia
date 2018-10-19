@@ -9216,16 +9216,10 @@ Aporeto own Authority will be used.
 Set how to perform mtls authorization. This is only applicable it
 `authorizationType` is set to `MTLS` otherwise this property has no effect.
 
-| Characteristics | Value                                                                                          |
-| -               | -:                                                                                             |
-| Allowed Value   | `RequestClientCert, RequireAnyClientCert, VerifyClientCertIfGiven, RequireAndVerifyClientCert` |
-| Default         | `"RequireAndVerifyClientCert"`                                                                 |
-
-#### `OIDCCallbackURL (string)`
-
-RedirectURL is the URL that will be send back to the user to
-redirect for authentication if there is no user authorization information in
-the API request. URL can be defined if a redirection is requested only.
+| Characteristics | Value                                              |
+| -               | -:                                                 |
+| Allowed Value   | `RequireAnyClientCert, RequireAndVerifyClientCert` |
+| Default         | `"RequireAndVerifyClientCert"`                     |
 
 #### `OIDCClientID (string)`
 
@@ -9241,6 +9235,10 @@ secret that should be used with the OAUTH provider to validate tokens.
 
 authorizationProvider is only valid for OAUTH authorization and defines the
 URL to the OAUTH provider that must be used.
+
+#### `OIDCScopes (list)`
+
+Configures the scopes you want to add to the OIDC provider.
 
 #### `TLSCertificate (string)`
 
@@ -9260,10 +9258,10 @@ Set how to provide a server certificate to the service.
 * `LetsEncrypt`: Issue a certificate from letsencrypt.
 * `External`: : Let you define your own certificate and key to use.
 
-| Characteristics | Value                            |
-| -               | -:                               |
-| Allowed Value   | `Aporeto, LetsEncrypt, External` |
-| Default         | `"Aporeto"`                      |
+| Characteristics | Value                                  |
+| -               | -:                                     |
+| Allowed Value   | `Aporeto, LetsEncrypt, External, None` |
+| Default         | `"Aporeto"`                            |
 
 #### `annotations (external:annotations)`
 
@@ -9434,27 +9432,12 @@ when an application is being accessed from a public network.
 | -               | -:      |
 | Max length      | `65535` |
 
-#### `redirectOnFail (boolean)`
+#### `redirectOnAuthorizationFailure (string)`
 
-RedirectOnFail is a boolean that forces a redirect response if an API request
-arrives and the user authorization information is not valid. This only applies
-to HTTP services and it is only send for APIs that are not public.
-
-| Characteristics | Value   |
-| -               | -:      |
-| Default         | `false` |
-| Orderable       | `true`  |
-
-#### `redirectOnNoToken (boolean)`
-
-RedirectOnNoToken is a boolean that forces a redirect response if an API request
-arrives and there is no user authorization information. This only applies to
-HTTP services and it is only send for APIs that are not public.
-
-| Characteristics | Value   |
-| -               | -:      |
-| Default         | `false` |
-| Orderable       | `true`  |
+If this is set, the user will be redirected to that URL in case of any
+authorization failure to let you chance to provide a nice message to the user.
+The query parameter `?failure_message=<message>` will be added to that url
+explaining the possible reasons of the failure.
 
 #### `selectors (external:policies_list)`
 

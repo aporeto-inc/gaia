@@ -82,20 +82,9 @@ attributes:
     exposed: true
     stored: true
     allowed_choices:
-    - RequestClientCert
     - RequireAnyClientCert
-    - VerifyClientCertIfGiven
     - RequireAndVerifyClientCert
     default_value: RequireAndVerifyClientCert
-
-  - name: OIDCCallbackURL
-    description: |-
-      RedirectURL is the URL that will be send back to the user to
-      redirect for authentication if there is no user authorization information in
-      the API request. URL can be defined if a redirection is requested only.
-    type: string
-    exposed: true
-    stored: true
 
   - name: OIDCClientID
     description: |-
@@ -119,6 +108,13 @@ attributes:
       URL to the OAUTH provider that must be used.
     type: string
     exposed: true
+    stored: true
+
+  - name: OIDCScopes
+    description: Configures the scopes you want to add to the OIDC provider.
+    type: list
+    exposed: true
+    subtype: string
     stored: true
 
   - name: TLSCertificate
@@ -151,6 +147,7 @@ attributes:
     - Aporeto
     - LetsEncrypt
     - External
+    - None
     default_value: Aporeto
 
   - name: allAPITags
@@ -277,27 +274,15 @@ attributes:
     example_value: 443
     max_value: 65535
 
-  - name: redirectOnFail
+  - name: redirectOnAuthorizationFailure
     description: |-
-      RedirectOnFail is a boolean that forces a redirect response if an API request
-      arrives and the user authorization information is not valid. This only applies
-      to HTTP services and it is only send for APIs that are not public.
-    type: boolean
+      If this is set, the user will be redirected to that URL in case of any
+      authorization failure to let you chance to provide a nice message to the user.
+      The query parameter `?failure_message=<message>` will be added to that url
+      explaining the possible reasons of the failure.
+    type: string
     exposed: true
     stored: true
-    default_value: false
-    orderable: true
-
-  - name: redirectOnNoToken
-    description: |-
-      RedirectOnNoToken is a boolean that forces a redirect response if an API request
-      arrives and there is no user authorization information. This only applies to
-      HTTP services and it is only send for APIs that are not public.
-    type: boolean
-    exposed: true
-    stored: true
-    default_value: false
-    orderable: true
 
   - name: selectors
     description: |-
