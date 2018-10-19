@@ -243,6 +243,15 @@ attributes:
     filterable: true
     orderable: true
 
+  - name: externalServiceCA
+    description: |-
+      externalServiceCA is the certificate authority that the service is using. This
+      is needed for external services with private certificate authorities. The
+      field is optional. If provided, this must be a valid PEM CA file.
+    type: string
+    exposed: true
+    stored: true
+
   - name: hosts
     description: Hosts are the names that the service can be accessed with.
     type: list
@@ -297,15 +306,6 @@ attributes:
     stored: true
     example_value:
     - - $identity=processingunit
-
-  - name: serviceCA
-    description: |-
-      ServiceCA  is the certificate authority that the service is using. This
-      is needed for external services with private certificate authorities. The
-      field is optional. If provided, this must be a valid PEM CA file.
-    type: string
-    exposed: true
-    stored: true
 
   - name: type
     description: Type is the type of the service.

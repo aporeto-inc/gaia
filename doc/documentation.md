@@ -9352,6 +9352,12 @@ External is a boolean that indicates if this is an external service.
 | Orderable       | `true`  |
 | Filterable      | `true`  |
 
+#### `externalServiceCA (string)`
+
+externalServiceCA is the certificate authority that the service is using. This
+is needed for external services with private certificate authorities. The
+field is optional. If provided, this must be a valid PEM CA file.
+
 #### `hosts (list)`
 
 Hosts are the names that the service can be accessed with.
@@ -9445,12 +9451,6 @@ explaining the possible reasons of the failure.
 
 Selectors contains the tag expression that an a processing unit
 must match in order to implement this particular service.
-
-#### `serviceCA (string)`
-
-ServiceCA  is the certificate authority that the service is using. This
-is needed for external services with private certificate authorities. The
-field is optional. If provided, this must be a valid PEM CA file.
 
 #### `type (enum)`
 

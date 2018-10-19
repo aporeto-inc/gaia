@@ -246,6 +246,11 @@ type Service struct {
 	// External is a boolean that indicates if this is an external service.
 	External bool `json:"external" bson:"external" mapstructure:"external,omitempty"`
 
+	// externalServiceCA is the certificate authority that the service is using. This
+	// is needed for external services with private certificate authorities. The
+	// field is optional. If provided, this must be a valid PEM CA file.
+	ExternalServiceCA string `json:"externalServiceCA" bson:"externalserviceca" mapstructure:"externalServiceCA,omitempty"`
+
 	// Hosts are the names that the service can be accessed with.
 	Hosts []string `json:"hosts" bson:"hosts" mapstructure:"hosts,omitempty"`
 
@@ -288,11 +293,6 @@ type Service struct {
 	// must match in order to implement this particular service.
 	Selectors [][]string `json:"selectors" bson:"selectors" mapstructure:"selectors,omitempty"`
 
-	// ServiceCA  is the certificate authority that the service is using. This
-	// is needed for external services with private certificate authorities. The
-	// field is optional. If provided, this must be a valid PEM CA file.
-	ServiceCA string `json:"serviceCA" bson:"serviceca" mapstructure:"serviceCA,omitempty"`
-
 	// Type is the type of the service.
 	Type ServiceTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
@@ -310,16 +310,16 @@ func NewService() *Service {
 	return &Service{
 		ModelVersion:               1,
 		AllAPITags:                 []string{},
-		Annotations:                map[string][]string{},
+		AllServiceTags:             []string{},
 		External:                   false,
-		Endpoints:                  types.ExposedAPIList{},
 		ClaimsToHTTPHeaderMappings: []*ClaimMapping{},
 		AuthorizationType:          ServiceAuthorizationTypeNone,
+		Endpoints:                  types.ExposedAPIList{},
 		AssociatedTags:             []string{},
-		AllServiceTags:             []string{},
+		Annotations:                map[string][]string{},
 		Metadata:                   []string{},
-		NormalizedTags:             []string{},
 		TLSType:                    ServiceTLSTypeAporeto,
+		NormalizedTags:             []string{},
 		IPs:                        types.IPList{},
 		Type:                       ServiceTypeHTTP,
 	}
@@ -516,6 +516,7 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ExposedAPIs:                       &o.ExposedAPIs,
 			ExposedPort:                       &o.ExposedPort,
 			External:                          &o.External,
+			ExternalServiceCA:                 &o.ExternalServiceCA,
 			Hosts:                             &o.Hosts,
 			Metadata:                          &o.Metadata,
 			Name:                              &o.Name,
@@ -526,7 +527,6 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			PublicApplicationPort:             &o.PublicApplicationPort,
 			RedirectURLOnAuthorizationFailure: &o.RedirectURLOnAuthorizationFailure,
 			Selectors:                         &o.Selectors,
-			ServiceCA:                         &o.ServiceCA,
 			Type:                              &o.Type,
 			UpdateTime:                        &o.UpdateTime,
 		}
@@ -585,6 +585,8 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ExposedPort = &(o.ExposedPort)
 		case "external":
 			sp.External = &(o.External)
+		case "externalServiceCA":
+			sp.ExternalServiceCA = &(o.ExternalServiceCA)
 		case "hosts":
 			sp.Hosts = &(o.Hosts)
 		case "metadata":
@@ -605,8 +607,6 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.RedirectURLOnAuthorizationFailure = &(o.RedirectURLOnAuthorizationFailure)
 		case "selectors":
 			sp.Selectors = &(o.Selectors)
-		case "serviceCA":
-			sp.ServiceCA = &(o.ServiceCA)
 		case "type":
 			sp.Type = &(o.Type)
 		case "updateTime":
@@ -699,6 +699,9 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if so.External != nil {
 		o.External = *so.External
 	}
+	if so.ExternalServiceCA != nil {
+		o.ExternalServiceCA = *so.ExternalServiceCA
+	}
 	if so.Hosts != nil {
 		o.Hosts = *so.Hosts
 	}
@@ -728,9 +731,6 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Selectors != nil {
 		o.Selectors = *so.Selectors
-	}
-	if so.ServiceCA != nil {
-		o.ServiceCA = *so.ServiceCA
 	}
 	if so.Type != nil {
 		o.Type = *so.Type
@@ -1120,6 +1120,17 @@ whereas the port that the implementation is listening can be different.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"ExternalServiceCA": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExternalServiceCA",
+		Description: `externalServiceCA is the certificate authority that the service is using. This
+is needed for external services with private certificate authorities. The
+field is optional. If provided, this must be a valid PEM CA file.`,
+		Exposed: true,
+		Name:    "externalServiceCA",
+		Stored:  true,
+		Type:    "string",
+	},
 	"Hosts": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Hosts",
@@ -1255,17 +1266,6 @@ must match in order to implement this particular service.`,
 		Stored:  true,
 		SubType: "policies_list",
 		Type:    "external",
-	},
-	"ServiceCA": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ServiceCA",
-		Description: `ServiceCA  is the certificate authority that the service is using. This
-is needed for external services with private certificate authorities. The
-field is optional. If provided, this must be a valid PEM CA file.`,
-		Exposed: true,
-		Name:    "serviceCA",
-		Stored:  true,
-		Type:    "string",
 	},
 	"Type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"HTTP", "TCP", "KubernetesSecrets", "VaultSecrets"},
@@ -1589,6 +1589,17 @@ whereas the port that the implementation is listening can be different.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"externalserviceca": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExternalServiceCA",
+		Description: `externalServiceCA is the certificate authority that the service is using. This
+is needed for external services with private certificate authorities. The
+field is optional. If provided, this must be a valid PEM CA file.`,
+		Exposed: true,
+		Name:    "externalServiceCA",
+		Stored:  true,
+		Type:    "string",
+	},
 	"hosts": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Hosts",
@@ -1724,17 +1735,6 @@ must match in order to implement this particular service.`,
 		Stored:  true,
 		SubType: "policies_list",
 		Type:    "external",
-	},
-	"serviceca": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ServiceCA",
-		Description: `ServiceCA  is the certificate authority that the service is using. This
-is needed for external services with private certificate authorities. The
-field is optional. If provided, this must be a valid PEM CA file.`,
-		Exposed: true,
-		Name:    "serviceCA",
-		Stored:  true,
-		Type:    "string",
 	},
 	"type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"HTTP", "TCP", "KubernetesSecrets", "VaultSecrets"},
@@ -1938,6 +1938,11 @@ type SparseService struct {
 	// External is a boolean that indicates if this is an external service.
 	External *bool `json:"external,omitempty" bson:"external" mapstructure:"external,omitempty"`
 
+	// externalServiceCA is the certificate authority that the service is using. This
+	// is needed for external services with private certificate authorities. The
+	// field is optional. If provided, this must be a valid PEM CA file.
+	ExternalServiceCA *string `json:"externalServiceCA,omitempty" bson:"externalserviceca" mapstructure:"externalServiceCA,omitempty"`
+
 	// Hosts are the names that the service can be accessed with.
 	Hosts *[]string `json:"hosts,omitempty" bson:"hosts" mapstructure:"hosts,omitempty"`
 
@@ -1979,11 +1984,6 @@ type SparseService struct {
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to implement this particular service.
 	Selectors *[][]string `json:"selectors,omitempty" bson:"selectors" mapstructure:"selectors,omitempty"`
-
-	// ServiceCA  is the certificate authority that the service is using. This
-	// is needed for external services with private certificate authorities. The
-	// field is optional. If provided, this must be a valid PEM CA file.
-	ServiceCA *string `json:"serviceCA,omitempty" bson:"serviceca" mapstructure:"serviceCA,omitempty"`
 
 	// Type is the type of the service.
 	Type *ServiceTypeValue `json:"type,omitempty" bson:"type" mapstructure:"type,omitempty"`
@@ -2107,6 +2107,9 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.External != nil {
 		out.External = *o.External
 	}
+	if o.ExternalServiceCA != nil {
+		out.ExternalServiceCA = *o.ExternalServiceCA
+	}
 	if o.Hosts != nil {
 		out.Hosts = *o.Hosts
 	}
@@ -2136,9 +2139,6 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Selectors != nil {
 		out.Selectors = *o.Selectors
-	}
-	if o.ServiceCA != nil {
-		out.ServiceCA = *o.ServiceCA
 	}
 	if o.Type != nil {
 		out.Type = *o.Type
