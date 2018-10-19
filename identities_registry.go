@@ -411,6 +411,10 @@ var (
 			[]string{"namespace"},
 			[]string{"namespace", "archived"},
 			[]string{"namespace", "normalizedtags"},
+			[]string{"allAPITags"},
+			[]string{"namespace", "allAPITags"},
+			[]string{"allServiceTags"},
+			[]string{"namespace", "allServiceTags"},
 		},
 		"servicedependency": [][]string{
 			[]string{"namespace"},

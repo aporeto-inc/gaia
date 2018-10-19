@@ -17,6 +17,12 @@ model:
     - archived
   - - namespace
     - normalizedtags
+  - - allAPITags
+  - - namespace
+    - allAPITags
+  - - allServiceTags
+  - - namespace
+    - allServiceTags
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
@@ -58,9 +64,66 @@ attributes:
     exposed: true
     stored: true
 
+  - name: MTLSCertificateAuthority
+    description: |-
+      Base64 encoded version of the Certificate Authority to use to verify client
+      certificates. This only applies if `MTLSType` is set to
+      `VerifyClientCertIfGiven` or `RequireAndVerifyClientCert`. If it is not set,
+      Aporeto own Authority will be used.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: MTLSType
+    description: |-
+      Set how to perform mtls authorization. This is only applicable it
+      `authorizationType` is set to `MTLS` otherwise this property has no effect.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - RequestClientCert
+    - RequireAnyClientCert
+    - VerifyClientCertIfGiven
+    - RequireAndVerifyClientCert
+    default_value: RequireAndVerifyClientCert
+
+  - name: OIDCCallbackURL
+    description: |-
+      RedirectURL is the URL that will be send back to the user to
+      redirect for authentication if there is no user authorization information in
+      the API request. URL can be defined if a redirection is requested only.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: OIDCClientID
+    description: |-
+      authorizationID is only valid for OIDC authorization and defines the
+      issuer ID of the OAUTH token.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: OIDCClientSecret
+    description: |-
+      authorizationSecret is only valid for OIDC authorization and defines the
+      secret that should be used with the OAUTH provider to validate tokens.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: OIDCProviderURL
+    description: |-
+      authorizationProvider is only valid for OAUTH authorization and defines the
+      URL to the OAUTH provider that must be used.
+    type: string
+    exposed: true
+    stored: true
+
   - name: TLSCertificate
     description: |-
-      If `TLSMode` is set to `External`, this property sets the base64 encoded
+      If `TLSType` is set to `External`, this property sets the base64 encoded
       certificate to expose to the client for TLS.
     type: string
     exposed: true
@@ -68,13 +131,13 @@ attributes:
 
   - name: TLSCertificateKey
     description: |-
-      If `TLSMode` is set to `External`, this property sets the base64 encoded
+      If `TLSType` is set to `External`, this property sets the base64 encoded
       certificate key associated to `TLSCertificate`.
     type: string
     exposed: true
     stored: true
 
-  - name: TLSMode
+  - name: TLSType
     description: |-
       Set how to provide a server certificate to the service.
 
@@ -116,41 +179,24 @@ attributes:
     extensions:
       refMode: pointer
 
-  - name: authorizationID
-    description: |-
-      authorizationID is only valid for OIDC authorization and defines the
-      issuer ID of the OAUTH token.
-    type: string
-    exposed: true
-    stored: true
-
-  - name: authorizationProvider
-    description: |-
-      authorizationProvider is only valid for OAUTH authorization and defines the
-      URL to the OAUTH provider that must be used.
-    type: string
-    exposed: true
-    stored: true
-
-  - name: authorizationSecret
-    description: |-
-      authorizationSecret is only valid for OIDC authorization and defines the
-      secret that should be used with the OAUTH provider to validate tokens.
-    type: string
-    exposed: true
-    stored: true
-
   - name: authorizationType
     description: |-
       AuthorizationType defines the user authorization type that should be used.
-      Currently supporting PKI, and OIDC.
+
+      * `None`: No auhtorization. The service will only provide server TLS.
+      * `JWT`:  Configures a simple JWT verification from the `Auhorization` Header
+      * `OIDC`: Configures OIDC authorization. You must then set `OIDCClientID`,
+      `OIDCClientSecret`, OIDCProviderURL`.
+      * `MTLS`: Configures Client Certificate authorization. You must then set
+      `MTLSType` and eventually `MTLSCertificateAuthority`.
     type: enum
     exposed: true
     stored: true
     allowed_choices:
-    - PKI
-    - OIDC
     - None
+    - JWT
+    - OIDC
+    - MTLS
     default_value: None
 
   - name: endpoints
@@ -205,29 +251,6 @@ attributes:
     stored: true
     orderable: true
 
-  - name: mTLSCertificateAuthority
-    description: |-
-      Base64 encoded version of the Certificate Authority to use to verify client
-      certificates. This only applies if `mTLSMode` is set to
-      `VerifyClientCertIfGiven` or `RequireAndVerifyClientCert`. If it is not set,
-      Aporeto own Authority will be used.
-    type: string
-    exposed: true
-    stored: true
-
-  - name: mTLSMode
-    description: Set this to true to enable client certificate verification.
-    type: enum
-    exposed: true
-    stored: true
-    allowed_choices:
-    - None
-    - RequestClientCert
-    - RequireAnyClientCert
-    - VerifyClientCertIfGiven
-    - RequireAndVerifyClientCert
-    default_value: None
-
   - name: port
     description: |-
       Port is the port that the implementation of the service is listening to and
@@ -275,15 +298,6 @@ attributes:
     stored: true
     default_value: false
     orderable: true
-
-  - name: redirectURL
-    description: |-
-      RedirectURL is the URL that will be send back to the user to
-      redirect for authentication if there is no user authorization information in
-      the API request. URL can be defined if a redirection is requested only.
-    type: string
-    exposed: true
-    stored: true
 
   - name: selectors
     description: |-

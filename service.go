@@ -10,52 +10,52 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
-// ServiceTLSModeValue represents the possible values for attribute "TLSMode".
-type ServiceTLSModeValue string
+// ServiceMTLSTypeValue represents the possible values for attribute "MTLSType".
+type ServiceMTLSTypeValue string
 
 const (
-	// ServiceTLSModeAporeto represents the value Aporeto.
-	ServiceTLSModeAporeto ServiceTLSModeValue = "Aporeto"
+	// ServiceMTLSTypeRequestClientCert represents the value RequestClientCert.
+	ServiceMTLSTypeRequestClientCert ServiceMTLSTypeValue = "RequestClientCert"
 
-	// ServiceTLSModeExternal represents the value External.
-	ServiceTLSModeExternal ServiceTLSModeValue = "External"
+	// ServiceMTLSTypeRequireAndVerifyClientCert represents the value RequireAndVerifyClientCert.
+	ServiceMTLSTypeRequireAndVerifyClientCert ServiceMTLSTypeValue = "RequireAndVerifyClientCert"
 
-	// ServiceTLSModeLetsEncrypt represents the value LetsEncrypt.
-	ServiceTLSModeLetsEncrypt ServiceTLSModeValue = "LetsEncrypt"
+	// ServiceMTLSTypeRequireAnyClientCert represents the value RequireAnyClientCert.
+	ServiceMTLSTypeRequireAnyClientCert ServiceMTLSTypeValue = "RequireAnyClientCert"
+
+	// ServiceMTLSTypeVerifyClientCertIfGiven represents the value VerifyClientCertIfGiven.
+	ServiceMTLSTypeVerifyClientCertIfGiven ServiceMTLSTypeValue = "VerifyClientCertIfGiven"
+)
+
+// ServiceTLSTypeValue represents the possible values for attribute "TLSType".
+type ServiceTLSTypeValue string
+
+const (
+	// ServiceTLSTypeAporeto represents the value Aporeto.
+	ServiceTLSTypeAporeto ServiceTLSTypeValue = "Aporeto"
+
+	// ServiceTLSTypeExternal represents the value External.
+	ServiceTLSTypeExternal ServiceTLSTypeValue = "External"
+
+	// ServiceTLSTypeLetsEncrypt represents the value LetsEncrypt.
+	ServiceTLSTypeLetsEncrypt ServiceTLSTypeValue = "LetsEncrypt"
 )
 
 // ServiceAuthorizationTypeValue represents the possible values for attribute "authorizationType".
 type ServiceAuthorizationTypeValue string
 
 const (
+	// ServiceAuthorizationTypeJWT represents the value JWT.
+	ServiceAuthorizationTypeJWT ServiceAuthorizationTypeValue = "JWT"
+
+	// ServiceAuthorizationTypeMTLS represents the value MTLS.
+	ServiceAuthorizationTypeMTLS ServiceAuthorizationTypeValue = "MTLS"
+
 	// ServiceAuthorizationTypeNone represents the value None.
 	ServiceAuthorizationTypeNone ServiceAuthorizationTypeValue = "None"
 
 	// ServiceAuthorizationTypeOIDC represents the value OIDC.
 	ServiceAuthorizationTypeOIDC ServiceAuthorizationTypeValue = "OIDC"
-
-	// ServiceAuthorizationTypePKI represents the value PKI.
-	ServiceAuthorizationTypePKI ServiceAuthorizationTypeValue = "PKI"
-)
-
-// ServiceMTLSModeValue represents the possible values for attribute "mTLSMode".
-type ServiceMTLSModeValue string
-
-const (
-	// ServiceMTLSModeNone represents the value None.
-	ServiceMTLSModeNone ServiceMTLSModeValue = "None"
-
-	// ServiceMTLSModeRequestClientCert represents the value RequestClientCert.
-	ServiceMTLSModeRequestClientCert ServiceMTLSModeValue = "RequestClientCert"
-
-	// ServiceMTLSModeRequireAndVerifyClientCert represents the value RequireAndVerifyClientCert.
-	ServiceMTLSModeRequireAndVerifyClientCert ServiceMTLSModeValue = "RequireAndVerifyClientCert"
-
-	// ServiceMTLSModeRequireAnyClientCert represents the value RequireAnyClientCert.
-	ServiceMTLSModeRequireAnyClientCert ServiceMTLSModeValue = "RequireAnyClientCert"
-
-	// ServiceMTLSModeVerifyClientCertIfGiven represents the value VerifyClientCertIfGiven.
-	ServiceMTLSModeVerifyClientCertIfGiven ServiceMTLSModeValue = "VerifyClientCertIfGiven"
 )
 
 // ServiceTypeValue represents the possible values for attribute "type".
@@ -163,11 +163,38 @@ type Service struct {
 	// required for this service. The certificate must be in PEM format.
 	JWTSigningCertificate string `json:"JWTSigningCertificate" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
-	// If `+"`"+`TLSMode`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
+	// Base64 encoded version of the Certificate Authority to use to verify client
+	// certificates. This only applies if `+"`"+`MTLSType`+"`"+` is set to
+	// `+"`"+`VerifyClientCertIfGiven`+"`"+` or `+"`"+`RequireAndVerifyClientCert`+"`"+`. If it is not set,
+	// Aporeto own Authority will be used.
+	MTLSCertificateAuthority string `json:"MTLSCertificateAuthority" bson:"mtlscertificateauthority" mapstructure:"MTLSCertificateAuthority,omitempty"`
+
+	// Set how to perform mtls authorization. This is only applicable it
+	// `+"`"+`authorizationType`+"`"+` is set to `+"`"+`MTLS`+"`"+` otherwise this property has no effect.
+	MTLSType ServiceMTLSTypeValue `json:"MTLSType" bson:"mtlstype" mapstructure:"MTLSType,omitempty"`
+
+	// RedirectURL is the URL that will be send back to the user to
+	// redirect for authentication if there is no user authorization information in
+	// the API request. URL can be defined if a redirection is requested only.
+	OIDCCallbackURL string `json:"OIDCCallbackURL" bson:"oidccallbackurl" mapstructure:"OIDCCallbackURL,omitempty"`
+
+	// authorizationID is only valid for OIDC authorization and defines the
+	// issuer ID of the OAUTH token.
+	OIDCClientID string `json:"OIDCClientID" bson:"oidcclientid" mapstructure:"OIDCClientID,omitempty"`
+
+	// authorizationSecret is only valid for OIDC authorization and defines the
+	// secret that should be used with the OAUTH provider to validate tokens.
+	OIDCClientSecret string `json:"OIDCClientSecret" bson:"oidcclientsecret" mapstructure:"OIDCClientSecret,omitempty"`
+
+	// authorizationProvider is only valid for OAUTH authorization and defines the
+	// URL to the OAUTH provider that must be used.
+	OIDCProviderURL string `json:"OIDCProviderURL" bson:"oidcproviderurl" mapstructure:"OIDCProviderURL,omitempty"`
+
+	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
 	// certificate to expose to the client for TLS.
 	TLSCertificate string `json:"TLSCertificate" bson:"tlscertificate" mapstructure:"TLSCertificate,omitempty"`
 
-	// If `+"`"+`TLSMode`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
+	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
 	// certificate key associated to `+"`"+`TLSCertificate`+"`"+`.
 	TLSCertificateKey string `json:"TLSCertificateKey" bson:"tlscertificatekey" mapstructure:"TLSCertificateKey,omitempty"`
 
@@ -176,7 +203,7 @@ type Service struct {
 	// * `+"`"+`Aporeto`+"`"+`: Generate a certificate issued from Aporeto public CA.
 	// * `+"`"+`LetsEncrypt`+"`"+`: Issue a certificate from letsencrypt.
 	// * `+"`"+`External`+"`"+`: : Let you define your own certificate and key to use.
-	TLSMode ServiceTLSModeValue `json:"TLSMode" bson:"tlsmode" mapstructure:"TLSMode,omitempty"`
+	TLSType ServiceTLSTypeValue `json:"TLSType" bson:"tlstype" mapstructure:"TLSType,omitempty"`
 
 	// This is a set of all API tags for matching in the DB.
 	AllAPITags []string `json:"-" bson:"allapitags" mapstructure:"-,omitempty"`
@@ -198,20 +225,14 @@ type Service struct {
 	// values of the claims to the corresponding HTTP headers.
 	AuthorizationClaimMappings []*ClaimMapping `json:"authorizationClaimMappings" bson:"authorizationclaimmappings" mapstructure:"authorizationClaimMappings,omitempty"`
 
-	// authorizationID is only valid for OIDC authorization and defines the
-	// issuer ID of the OAUTH token.
-	AuthorizationID string `json:"authorizationID" bson:"authorizationid" mapstructure:"authorizationID,omitempty"`
-
-	// authorizationProvider is only valid for OAUTH authorization and defines the
-	// URL to the OAUTH provider that must be used.
-	AuthorizationProvider string `json:"authorizationProvider" bson:"authorizationprovider" mapstructure:"authorizationProvider,omitempty"`
-
-	// authorizationSecret is only valid for OIDC authorization and defines the
-	// secret that should be used with the OAUTH provider to validate tokens.
-	AuthorizationSecret string `json:"authorizationSecret" bson:"authorizationsecret" mapstructure:"authorizationSecret,omitempty"`
-
 	// AuthorizationType defines the user authorization type that should be used.
-	// Currently supporting PKI, and OIDC.
+	//
+	// * `+"`"+`None`+"`"+`: No auhtorization. The service will only provide server TLS.
+	// * `+"`"+`JWT`+"`"+`:  Configures a simple JWT verification from the `+"`"+`Auhorization`+"`"+` Header
+	// * `+"`"+`OIDC`+"`"+`: Configures OIDC authorization. You must then set `+"`"+`OIDCClientID`+"`"+`,
+	// `+"`"+`OIDCClientSecret`+"`"+`, OIDCProviderURL`+"`"+`.
+	// * `+"`"+`MTLS`+"`"+`: Configures Client Certificate authorization. You must then set
+	// `+"`"+`MTLSType`+"`"+` and eventually `+"`"+`MTLSCertificateAuthority`+"`"+`.
 	AuthorizationType ServiceAuthorizationTypeValue `json:"authorizationType" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
@@ -241,15 +262,6 @@ type Service struct {
 
 	// Hosts are the names that the service can be accessed with.
 	Hosts []string `json:"hosts" bson:"hosts" mapstructure:"hosts,omitempty"`
-
-	// Base64 encoded version of the Certificate Authority to use to verify client
-	// certificates. This only applies if `+"`"+`mTLSMode`+"`"+` is set to
-	// `+"`"+`VerifyClientCertIfGiven`+"`"+` or `+"`"+`RequireAndVerifyClientCert`+"`"+`. If it is not set,
-	// Aporeto own Authority will be used.
-	MTLSCertificateAuthority string `json:"mTLSCertificateAuthority" bson:"mtlscertificateauthority" mapstructure:"mTLSCertificateAuthority,omitempty"`
-
-	// Set this to true to enable client certificate verification.
-	MTLSMode ServiceMTLSModeValue `json:"mTLSMode" bson:"mtlsmode" mapstructure:"mTLSMode,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -290,11 +302,6 @@ type Service struct {
 	// HTTP services and it is only send for APIs that are not public.
 	RedirectOnNoToken bool `json:"redirectOnNoToken" bson:"redirectonnotoken" mapstructure:"redirectOnNoToken,omitempty"`
 
-	// RedirectURL is the URL that will be send back to the user to
-	// redirect for authentication if there is no user authorization information in
-	// the API request. URL can be defined if a redirection is requested only.
-	RedirectURL string `json:"redirectURL" bson:"redirecturl" mapstructure:"redirectURL,omitempty"`
-
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to implement this particular service.
 	Selectors [][]string `json:"selectors" bson:"selectors" mapstructure:"selectors,omitempty"`
@@ -321,21 +328,21 @@ func NewService() *Service {
 	return &Service{
 		ModelVersion:               1,
 		AllAPITags:                 []string{},
-		AllServiceTags:             []string{},
 		Annotations:                map[string][]string{},
-		AssociatedTags:             []string{},
-		AuthorizationClaimMappings: []*ClaimMapping{},
-		AuthorizationType:          ServiceAuthorizationTypeNone,
-		Endpoints:                  types.ExposedAPIList{},
 		External:                   false,
+		Endpoints:                  types.ExposedAPIList{},
+		AuthorizationType:          ServiceAuthorizationTypeNone,
+		AuthorizationClaimMappings: []*ClaimMapping{},
+		AssociatedTags:             []string{},
+		AllServiceTags:             []string{},
+		TLSType:                    ServiceTLSTypeAporeto,
 		NormalizedTags:             []string{},
-		RedirectOnFail:             false,
-		Metadata:                   []string{},
-		TLSMode:                    ServiceTLSModeAporeto,
-		IPs:                        types.IPList{},
-		MTLSMode:                   ServiceMTLSModeNone,
 		RedirectOnNoToken:          false,
+		MTLSType:                   ServiceMTLSTypeRequireAndVerifyClientCert,
+		RedirectOnFail:             false,
 		Type:                       ServiceTypeHTTP,
+		Metadata:                   []string{},
+		IPs:                        types.IPList{},
 	}
 }
 
@@ -508,18 +515,21 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ID:                         &o.ID,
 			IPs:                        &o.IPs,
 			JWTSigningCertificate:      &o.JWTSigningCertificate,
+			MTLSCertificateAuthority:   &o.MTLSCertificateAuthority,
+			MTLSType:                   &o.MTLSType,
+			OIDCCallbackURL:            &o.OIDCCallbackURL,
+			OIDCClientID:               &o.OIDCClientID,
+			OIDCClientSecret:           &o.OIDCClientSecret,
+			OIDCProviderURL:            &o.OIDCProviderURL,
 			TLSCertificate:             &o.TLSCertificate,
 			TLSCertificateKey:          &o.TLSCertificateKey,
-			TLSMode:                    &o.TLSMode,
+			TLSType:                    &o.TLSType,
 			AllAPITags:                 &o.AllAPITags,
 			AllServiceTags:             &o.AllServiceTags,
 			Annotations:                &o.Annotations,
 			Archived:                   &o.Archived,
 			AssociatedTags:             &o.AssociatedTags,
 			AuthorizationClaimMappings: &o.AuthorizationClaimMappings,
-			AuthorizationID:            &o.AuthorizationID,
-			AuthorizationProvider:      &o.AuthorizationProvider,
-			AuthorizationSecret:        &o.AuthorizationSecret,
 			AuthorizationType:          &o.AuthorizationType,
 			CreateTime:                 &o.CreateTime,
 			Description:                &o.Description,
@@ -528,8 +538,6 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ExposedPort:                &o.ExposedPort,
 			External:                   &o.External,
 			Hosts:                      &o.Hosts,
-			MTLSCertificateAuthority:   &o.MTLSCertificateAuthority,
-			MTLSMode:                   &o.MTLSMode,
 			Metadata:                   &o.Metadata,
 			Name:                       &o.Name,
 			Namespace:                  &o.Namespace,
@@ -539,7 +547,6 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			PublicApplicationPort:      &o.PublicApplicationPort,
 			RedirectOnFail:             &o.RedirectOnFail,
 			RedirectOnNoToken:          &o.RedirectOnNoToken,
-			RedirectURL:                &o.RedirectURL,
 			Selectors:                  &o.Selectors,
 			ServiceCA:                  &o.ServiceCA,
 			Type:                       &o.Type,
@@ -556,12 +563,24 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.IPs = &(o.IPs)
 		case "JWTSigningCertificate":
 			sp.JWTSigningCertificate = &(o.JWTSigningCertificate)
+		case "MTLSCertificateAuthority":
+			sp.MTLSCertificateAuthority = &(o.MTLSCertificateAuthority)
+		case "MTLSType":
+			sp.MTLSType = &(o.MTLSType)
+		case "OIDCCallbackURL":
+			sp.OIDCCallbackURL = &(o.OIDCCallbackURL)
+		case "OIDCClientID":
+			sp.OIDCClientID = &(o.OIDCClientID)
+		case "OIDCClientSecret":
+			sp.OIDCClientSecret = &(o.OIDCClientSecret)
+		case "OIDCProviderURL":
+			sp.OIDCProviderURL = &(o.OIDCProviderURL)
 		case "TLSCertificate":
 			sp.TLSCertificate = &(o.TLSCertificate)
 		case "TLSCertificateKey":
 			sp.TLSCertificateKey = &(o.TLSCertificateKey)
-		case "TLSMode":
-			sp.TLSMode = &(o.TLSMode)
+		case "TLSType":
+			sp.TLSType = &(o.TLSType)
 		case "allAPITags":
 			sp.AllAPITags = &(o.AllAPITags)
 		case "allServiceTags":
@@ -574,12 +593,6 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "authorizationClaimMappings":
 			sp.AuthorizationClaimMappings = &(o.AuthorizationClaimMappings)
-		case "authorizationID":
-			sp.AuthorizationID = &(o.AuthorizationID)
-		case "authorizationProvider":
-			sp.AuthorizationProvider = &(o.AuthorizationProvider)
-		case "authorizationSecret":
-			sp.AuthorizationSecret = &(o.AuthorizationSecret)
 		case "authorizationType":
 			sp.AuthorizationType = &(o.AuthorizationType)
 		case "createTime":
@@ -596,10 +609,6 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.External = &(o.External)
 		case "hosts":
 			sp.Hosts = &(o.Hosts)
-		case "mTLSCertificateAuthority":
-			sp.MTLSCertificateAuthority = &(o.MTLSCertificateAuthority)
-		case "mTLSMode":
-			sp.MTLSMode = &(o.MTLSMode)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "name":
@@ -618,8 +627,6 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.RedirectOnFail = &(o.RedirectOnFail)
 		case "redirectOnNoToken":
 			sp.RedirectOnNoToken = &(o.RedirectOnNoToken)
-		case "redirectURL":
-			sp.RedirectURL = &(o.RedirectURL)
 		case "selectors":
 			sp.Selectors = &(o.Selectors)
 		case "serviceCA":
@@ -650,14 +657,32 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if so.JWTSigningCertificate != nil {
 		o.JWTSigningCertificate = *so.JWTSigningCertificate
 	}
+	if so.MTLSCertificateAuthority != nil {
+		o.MTLSCertificateAuthority = *so.MTLSCertificateAuthority
+	}
+	if so.MTLSType != nil {
+		o.MTLSType = *so.MTLSType
+	}
+	if so.OIDCCallbackURL != nil {
+		o.OIDCCallbackURL = *so.OIDCCallbackURL
+	}
+	if so.OIDCClientID != nil {
+		o.OIDCClientID = *so.OIDCClientID
+	}
+	if so.OIDCClientSecret != nil {
+		o.OIDCClientSecret = *so.OIDCClientSecret
+	}
+	if so.OIDCProviderURL != nil {
+		o.OIDCProviderURL = *so.OIDCProviderURL
+	}
 	if so.TLSCertificate != nil {
 		o.TLSCertificate = *so.TLSCertificate
 	}
 	if so.TLSCertificateKey != nil {
 		o.TLSCertificateKey = *so.TLSCertificateKey
 	}
-	if so.TLSMode != nil {
-		o.TLSMode = *so.TLSMode
+	if so.TLSType != nil {
+		o.TLSType = *so.TLSType
 	}
 	if so.AllAPITags != nil {
 		o.AllAPITags = *so.AllAPITags
@@ -676,15 +701,6 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.AuthorizationClaimMappings != nil {
 		o.AuthorizationClaimMappings = *so.AuthorizationClaimMappings
-	}
-	if so.AuthorizationID != nil {
-		o.AuthorizationID = *so.AuthorizationID
-	}
-	if so.AuthorizationProvider != nil {
-		o.AuthorizationProvider = *so.AuthorizationProvider
-	}
-	if so.AuthorizationSecret != nil {
-		o.AuthorizationSecret = *so.AuthorizationSecret
 	}
 	if so.AuthorizationType != nil {
 		o.AuthorizationType = *so.AuthorizationType
@@ -709,12 +725,6 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Hosts != nil {
 		o.Hosts = *so.Hosts
-	}
-	if so.MTLSCertificateAuthority != nil {
-		o.MTLSCertificateAuthority = *so.MTLSCertificateAuthority
-	}
-	if so.MTLSMode != nil {
-		o.MTLSMode = *so.MTLSMode
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -743,9 +753,6 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if so.RedirectOnNoToken != nil {
 		o.RedirectOnNoToken = *so.RedirectOnNoToken
 	}
-	if so.RedirectURL != nil {
-		o.RedirectURL = *so.RedirectURL
-	}
 	if so.Selectors != nil {
 		o.Selectors = *so.Selectors
 	}
@@ -766,7 +773,11 @@ func (o *Service) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("TLSMode", string(o.TLSMode), []string{"Aporeto", "LetsEncrypt", "External"}, false); err != nil {
+	if err := elemental.ValidateStringInList("MTLSType", string(o.MTLSType), []string{"RequestClientCert", "RequireAnyClientCert", "VerifyClientCertIfGiven", "RequireAndVerifyClientCert"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("TLSType", string(o.TLSType), []string{"Aporeto", "LetsEncrypt", "External"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -776,7 +787,7 @@ func (o *Service) Validate() error {
 		}
 	}
 
-	if err := elemental.ValidateStringInList("authorizationType", string(o.AuthorizationType), []string{"PKI", "OIDC", "None"}, false); err != nil {
+	if err := elemental.ValidateStringInList("authorizationType", string(o.AuthorizationType), []string{"None", "JWT", "OIDC", "MTLS"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -789,10 +800,6 @@ func (o *Service) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumInt("exposedPort", o.ExposedPort, int(65535), false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateStringInList("mTLSMode", string(o.MTLSMode), []string{"None", "RequestClientCert", "RequireAnyClientCert", "VerifyClientCertIfGiven", "RequireAndVerifyClientCert"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -889,10 +896,74 @@ required for this service. The certificate must be in PEM format.`,
 		Stored:  true,
 		Type:    "string",
 	},
+	"MTLSCertificateAuthority": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MTLSCertificateAuthority",
+		Description: `Base64 encoded version of the Certificate Authority to use to verify client
+certificates. This only applies if ` + "`" + `MTLSType` + "`" + ` is set to
+` + "`" + `VerifyClientCertIfGiven` + "`" + ` or ` + "`" + `RequireAndVerifyClientCert` + "`" + `. If it is not set,
+Aporeto own Authority will be used.`,
+		Exposed: true,
+		Name:    "MTLSCertificateAuthority",
+		Stored:  true,
+		Type:    "string",
+	},
+	"MTLSType": elemental.AttributeSpecification{
+		AllowedChoices: []string{"RequestClientCert", "RequireAnyClientCert", "VerifyClientCertIfGiven", "RequireAndVerifyClientCert"},
+		ConvertedName:  "MTLSType",
+		DefaultValue:   ServiceMTLSTypeRequireAndVerifyClientCert,
+		Description: `Set how to perform mtls authorization. This is only applicable it
+` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + ` otherwise this property has no effect.`,
+		Exposed: true,
+		Name:    "MTLSType",
+		Stored:  true,
+		Type:    "enum",
+	},
+	"OIDCCallbackURL": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCCallbackURL",
+		Description: `RedirectURL is the URL that will be send back to the user to
+redirect for authentication if there is no user authorization information in
+the API request. URL can be defined if a redirection is requested only.`,
+		Exposed: true,
+		Name:    "OIDCCallbackURL",
+		Stored:  true,
+		Type:    "string",
+	},
+	"OIDCClientID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCClientID",
+		Description: `authorizationID is only valid for OIDC authorization and defines the
+issuer ID of the OAUTH token.`,
+		Exposed: true,
+		Name:    "OIDCClientID",
+		Stored:  true,
+		Type:    "string",
+	},
+	"OIDCClientSecret": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCClientSecret",
+		Description: `authorizationSecret is only valid for OIDC authorization and defines the
+secret that should be used with the OAUTH provider to validate tokens.`,
+		Exposed: true,
+		Name:    "OIDCClientSecret",
+		Stored:  true,
+		Type:    "string",
+	},
+	"OIDCProviderURL": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCProviderURL",
+		Description: `authorizationProvider is only valid for OAUTH authorization and defines the
+URL to the OAUTH provider that must be used.`,
+		Exposed: true,
+		Name:    "OIDCProviderURL",
+		Stored:  true,
+		Type:    "string",
+	},
 	"TLSCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificate",
-		Description: `If ` + "`" + `TLSMode` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the base64 encoded
+		Description: `If ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the base64 encoded
 certificate to expose to the client for TLS.`,
 		Exposed: true,
 		Name:    "TLSCertificate",
@@ -902,24 +973,24 @@ certificate to expose to the client for TLS.`,
 	"TLSCertificateKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificateKey",
-		Description: `If ` + "`" + `TLSMode` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the base64 encoded
+		Description: `If ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the base64 encoded
 certificate key associated to ` + "`" + `TLSCertificate` + "`" + `.`,
 		Exposed: true,
 		Name:    "TLSCertificateKey",
 		Stored:  true,
 		Type:    "string",
 	},
-	"TLSMode": elemental.AttributeSpecification{
+	"TLSType": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Aporeto", "LetsEncrypt", "External"},
-		ConvertedName:  "TLSMode",
-		DefaultValue:   ServiceTLSModeAporeto,
+		ConvertedName:  "TLSType",
+		DefaultValue:   ServiceTLSTypeAporeto,
 		Description: `Set how to provide a server certificate to the service.
 
 * ` + "`" + `Aporeto` + "`" + `: Generate a certificate issued from Aporeto public CA.
 * ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from letsencrypt.
 * ` + "`" + `External` + "`" + `: : Let you define your own certificate and key to use.`,
 		Exposed: true,
-		Name:    "TLSMode",
+		Name:    "TLSType",
 		Stored:  true,
 		Type:    "enum",
 	},
@@ -989,42 +1060,18 @@ values of the claims to the corresponding HTTP headers.`,
 		SubType: "claimmapping",
 		Type:    "refList",
 	},
-	"AuthorizationID": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizationID",
-		Description: `authorizationID is only valid for OIDC authorization and defines the
-issuer ID of the OAUTH token.`,
-		Exposed: true,
-		Name:    "authorizationID",
-		Stored:  true,
-		Type:    "string",
-	},
-	"AuthorizationProvider": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizationProvider",
-		Description: `authorizationProvider is only valid for OAUTH authorization and defines the
-URL to the OAUTH provider that must be used.`,
-		Exposed: true,
-		Name:    "authorizationProvider",
-		Stored:  true,
-		Type:    "string",
-	},
-	"AuthorizationSecret": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizationSecret",
-		Description: `authorizationSecret is only valid for OIDC authorization and defines the
-secret that should be used with the OAUTH provider to validate tokens.`,
-		Exposed: true,
-		Name:    "authorizationSecret",
-		Stored:  true,
-		Type:    "string",
-	},
 	"AuthorizationType": elemental.AttributeSpecification{
-		AllowedChoices: []string{"PKI", "OIDC", "None"},
+		AllowedChoices: []string{"None", "JWT", "OIDC", "MTLS"},
 		ConvertedName:  "AuthorizationType",
 		DefaultValue:   ServiceAuthorizationTypeNone,
 		Description: `AuthorizationType defines the user authorization type that should be used.
-Currently supporting PKI, and OIDC.`,
+
+* ` + "`" + `None` + "`" + `: No auhtorization. The service will only provide server TLS.
+* ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the ` + "`" + `Auhorization` + "`" + ` Header
+* ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set ` + "`" + `OIDCClientID` + "`" + `,
+` + "`" + `OIDCClientSecret` + "`" + `, OIDCProviderURL` + "`" + `.
+* ` + "`" + `MTLS` + "`" + `: Configures Client Certificate authorization. You must then set
+` + "`" + `MTLSType` + "`" + ` and eventually ` + "`" + `MTLSCertificateAuthority` + "`" + `.`,
 		Exposed: true,
 		Name:    "authorizationType",
 		Stored:  true,
@@ -1114,28 +1161,6 @@ whereas the port that the implementation is listening can be different.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
-	},
-	"MTLSCertificateAuthority": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "MTLSCertificateAuthority",
-		Description: `Base64 encoded version of the Certificate Authority to use to verify client
-certificates. This only applies if ` + "`" + `mTLSMode` + "`" + ` is set to
-` + "`" + `VerifyClientCertIfGiven` + "`" + ` or ` + "`" + `RequireAndVerifyClientCert` + "`" + `. If it is not set,
-Aporeto own Authority will be used.`,
-		Exposed: true,
-		Name:    "mTLSCertificateAuthority",
-		Stored:  true,
-		Type:    "string",
-	},
-	"MTLSMode": elemental.AttributeSpecification{
-		AllowedChoices: []string{"None", "RequestClientCert", "RequireAnyClientCert", "VerifyClientCertIfGiven", "RequireAndVerifyClientCert"},
-		ConvertedName:  "MTLSMode",
-		DefaultValue:   ServiceMTLSModeNone,
-		Description:    `Set this to true to enable client certificate verification.`,
-		Exposed:        true,
-		Name:           "mTLSMode",
-		Stored:         true,
-		Type:           "enum",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1263,17 +1288,6 @@ HTTP services and it is only send for APIs that are not public.`,
 		Stored:    true,
 		Type:      "boolean",
 	},
-	"RedirectURL": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "RedirectURL",
-		Description: `RedirectURL is the URL that will be send back to the user to
-redirect for authentication if there is no user authorization information in
-the API request. URL can be defined if a redirection is requested only.`,
-		Exposed: true,
-		Name:    "redirectURL",
-		Stored:  true,
-		Type:    "string",
-	},
 	"Selectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Selectors",
@@ -1363,10 +1377,74 @@ required for this service. The certificate must be in PEM format.`,
 		Stored:  true,
 		Type:    "string",
 	},
+	"mtlscertificateauthority": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MTLSCertificateAuthority",
+		Description: `Base64 encoded version of the Certificate Authority to use to verify client
+certificates. This only applies if ` + "`" + `MTLSType` + "`" + ` is set to
+` + "`" + `VerifyClientCertIfGiven` + "`" + ` or ` + "`" + `RequireAndVerifyClientCert` + "`" + `. If it is not set,
+Aporeto own Authority will be used.`,
+		Exposed: true,
+		Name:    "MTLSCertificateAuthority",
+		Stored:  true,
+		Type:    "string",
+	},
+	"mtlstype": elemental.AttributeSpecification{
+		AllowedChoices: []string{"RequestClientCert", "RequireAnyClientCert", "VerifyClientCertIfGiven", "RequireAndVerifyClientCert"},
+		ConvertedName:  "MTLSType",
+		DefaultValue:   ServiceMTLSTypeRequireAndVerifyClientCert,
+		Description: `Set how to perform mtls authorization. This is only applicable it
+` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + ` otherwise this property has no effect.`,
+		Exposed: true,
+		Name:    "MTLSType",
+		Stored:  true,
+		Type:    "enum",
+	},
+	"oidccallbackurl": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCCallbackURL",
+		Description: `RedirectURL is the URL that will be send back to the user to
+redirect for authentication if there is no user authorization information in
+the API request. URL can be defined if a redirection is requested only.`,
+		Exposed: true,
+		Name:    "OIDCCallbackURL",
+		Stored:  true,
+		Type:    "string",
+	},
+	"oidcclientid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCClientID",
+		Description: `authorizationID is only valid for OIDC authorization and defines the
+issuer ID of the OAUTH token.`,
+		Exposed: true,
+		Name:    "OIDCClientID",
+		Stored:  true,
+		Type:    "string",
+	},
+	"oidcclientsecret": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCClientSecret",
+		Description: `authorizationSecret is only valid for OIDC authorization and defines the
+secret that should be used with the OAUTH provider to validate tokens.`,
+		Exposed: true,
+		Name:    "OIDCClientSecret",
+		Stored:  true,
+		Type:    "string",
+	},
+	"oidcproviderurl": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCProviderURL",
+		Description: `authorizationProvider is only valid for OAUTH authorization and defines the
+URL to the OAUTH provider that must be used.`,
+		Exposed: true,
+		Name:    "OIDCProviderURL",
+		Stored:  true,
+		Type:    "string",
+	},
 	"tlscertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificate",
-		Description: `If ` + "`" + `TLSMode` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the base64 encoded
+		Description: `If ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the base64 encoded
 certificate to expose to the client for TLS.`,
 		Exposed: true,
 		Name:    "TLSCertificate",
@@ -1376,24 +1454,24 @@ certificate to expose to the client for TLS.`,
 	"tlscertificatekey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificateKey",
-		Description: `If ` + "`" + `TLSMode` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the base64 encoded
+		Description: `If ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the base64 encoded
 certificate key associated to ` + "`" + `TLSCertificate` + "`" + `.`,
 		Exposed: true,
 		Name:    "TLSCertificateKey",
 		Stored:  true,
 		Type:    "string",
 	},
-	"tlsmode": elemental.AttributeSpecification{
+	"tlstype": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Aporeto", "LetsEncrypt", "External"},
-		ConvertedName:  "TLSMode",
-		DefaultValue:   ServiceTLSModeAporeto,
+		ConvertedName:  "TLSType",
+		DefaultValue:   ServiceTLSTypeAporeto,
 		Description: `Set how to provide a server certificate to the service.
 
 * ` + "`" + `Aporeto` + "`" + `: Generate a certificate issued from Aporeto public CA.
 * ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from letsencrypt.
 * ` + "`" + `External` + "`" + `: : Let you define your own certificate and key to use.`,
 		Exposed: true,
-		Name:    "TLSMode",
+		Name:    "TLSType",
 		Stored:  true,
 		Type:    "enum",
 	},
@@ -1463,42 +1541,18 @@ values of the claims to the corresponding HTTP headers.`,
 		SubType: "claimmapping",
 		Type:    "refList",
 	},
-	"authorizationid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizationID",
-		Description: `authorizationID is only valid for OIDC authorization and defines the
-issuer ID of the OAUTH token.`,
-		Exposed: true,
-		Name:    "authorizationID",
-		Stored:  true,
-		Type:    "string",
-	},
-	"authorizationprovider": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizationProvider",
-		Description: `authorizationProvider is only valid for OAUTH authorization and defines the
-URL to the OAUTH provider that must be used.`,
-		Exposed: true,
-		Name:    "authorizationProvider",
-		Stored:  true,
-		Type:    "string",
-	},
-	"authorizationsecret": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizationSecret",
-		Description: `authorizationSecret is only valid for OIDC authorization and defines the
-secret that should be used with the OAUTH provider to validate tokens.`,
-		Exposed: true,
-		Name:    "authorizationSecret",
-		Stored:  true,
-		Type:    "string",
-	},
 	"authorizationtype": elemental.AttributeSpecification{
-		AllowedChoices: []string{"PKI", "OIDC", "None"},
+		AllowedChoices: []string{"None", "JWT", "OIDC", "MTLS"},
 		ConvertedName:  "AuthorizationType",
 		DefaultValue:   ServiceAuthorizationTypeNone,
 		Description: `AuthorizationType defines the user authorization type that should be used.
-Currently supporting PKI, and OIDC.`,
+
+* ` + "`" + `None` + "`" + `: No auhtorization. The service will only provide server TLS.
+* ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the ` + "`" + `Auhorization` + "`" + ` Header
+* ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set ` + "`" + `OIDCClientID` + "`" + `,
+` + "`" + `OIDCClientSecret` + "`" + `, OIDCProviderURL` + "`" + `.
+* ` + "`" + `MTLS` + "`" + `: Configures Client Certificate authorization. You must then set
+` + "`" + `MTLSType` + "`" + ` and eventually ` + "`" + `MTLSCertificateAuthority` + "`" + `.`,
 		Exposed: true,
 		Name:    "authorizationType",
 		Stored:  true,
@@ -1588,28 +1642,6 @@ whereas the port that the implementation is listening can be different.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
-	},
-	"mtlscertificateauthority": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "MTLSCertificateAuthority",
-		Description: `Base64 encoded version of the Certificate Authority to use to verify client
-certificates. This only applies if ` + "`" + `mTLSMode` + "`" + ` is set to
-` + "`" + `VerifyClientCertIfGiven` + "`" + ` or ` + "`" + `RequireAndVerifyClientCert` + "`" + `. If it is not set,
-Aporeto own Authority will be used.`,
-		Exposed: true,
-		Name:    "mTLSCertificateAuthority",
-		Stored:  true,
-		Type:    "string",
-	},
-	"mtlsmode": elemental.AttributeSpecification{
-		AllowedChoices: []string{"None", "RequestClientCert", "RequireAnyClientCert", "VerifyClientCertIfGiven", "RequireAndVerifyClientCert"},
-		ConvertedName:  "MTLSMode",
-		DefaultValue:   ServiceMTLSModeNone,
-		Description:    `Set this to true to enable client certificate verification.`,
-		Exposed:        true,
-		Name:           "mTLSMode",
-		Stored:         true,
-		Type:           "enum",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1736,17 +1768,6 @@ HTTP services and it is only send for APIs that are not public.`,
 		Orderable: true,
 		Stored:    true,
 		Type:      "boolean",
-	},
-	"redirecturl": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "RedirectURL",
-		Description: `RedirectURL is the URL that will be send back to the user to
-redirect for authentication if there is no user authorization information in
-the API request. URL can be defined if a redirection is requested only.`,
-		Exposed: true,
-		Name:    "redirectURL",
-		Stored:  true,
-		Type:    "string",
 	},
 	"selectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1875,11 +1896,38 @@ type SparseService struct {
 	// required for this service. The certificate must be in PEM format.
 	JWTSigningCertificate *string `json:"JWTSigningCertificate,omitempty" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
-	// If `+"`"+`TLSMode`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
+	// Base64 encoded version of the Certificate Authority to use to verify client
+	// certificates. This only applies if `+"`"+`MTLSType`+"`"+` is set to
+	// `+"`"+`VerifyClientCertIfGiven`+"`"+` or `+"`"+`RequireAndVerifyClientCert`+"`"+`. If it is not set,
+	// Aporeto own Authority will be used.
+	MTLSCertificateAuthority *string `json:"MTLSCertificateAuthority,omitempty" bson:"mtlscertificateauthority" mapstructure:"MTLSCertificateAuthority,omitempty"`
+
+	// Set how to perform mtls authorization. This is only applicable it
+	// `+"`"+`authorizationType`+"`"+` is set to `+"`"+`MTLS`+"`"+` otherwise this property has no effect.
+	MTLSType *ServiceMTLSTypeValue `json:"MTLSType,omitempty" bson:"mtlstype" mapstructure:"MTLSType,omitempty"`
+
+	// RedirectURL is the URL that will be send back to the user to
+	// redirect for authentication if there is no user authorization information in
+	// the API request. URL can be defined if a redirection is requested only.
+	OIDCCallbackURL *string `json:"OIDCCallbackURL,omitempty" bson:"oidccallbackurl" mapstructure:"OIDCCallbackURL,omitempty"`
+
+	// authorizationID is only valid for OIDC authorization and defines the
+	// issuer ID of the OAUTH token.
+	OIDCClientID *string `json:"OIDCClientID,omitempty" bson:"oidcclientid" mapstructure:"OIDCClientID,omitempty"`
+
+	// authorizationSecret is only valid for OIDC authorization and defines the
+	// secret that should be used with the OAUTH provider to validate tokens.
+	OIDCClientSecret *string `json:"OIDCClientSecret,omitempty" bson:"oidcclientsecret" mapstructure:"OIDCClientSecret,omitempty"`
+
+	// authorizationProvider is only valid for OAUTH authorization and defines the
+	// URL to the OAUTH provider that must be used.
+	OIDCProviderURL *string `json:"OIDCProviderURL,omitempty" bson:"oidcproviderurl" mapstructure:"OIDCProviderURL,omitempty"`
+
+	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
 	// certificate to expose to the client for TLS.
 	TLSCertificate *string `json:"TLSCertificate,omitempty" bson:"tlscertificate" mapstructure:"TLSCertificate,omitempty"`
 
-	// If `+"`"+`TLSMode`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
+	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
 	// certificate key associated to `+"`"+`TLSCertificate`+"`"+`.
 	TLSCertificateKey *string `json:"TLSCertificateKey,omitempty" bson:"tlscertificatekey" mapstructure:"TLSCertificateKey,omitempty"`
 
@@ -1888,7 +1936,7 @@ type SparseService struct {
 	// * `+"`"+`Aporeto`+"`"+`: Generate a certificate issued from Aporeto public CA.
 	// * `+"`"+`LetsEncrypt`+"`"+`: Issue a certificate from letsencrypt.
 	// * `+"`"+`External`+"`"+`: : Let you define your own certificate and key to use.
-	TLSMode *ServiceTLSModeValue `json:"TLSMode,omitempty" bson:"tlsmode" mapstructure:"TLSMode,omitempty"`
+	TLSType *ServiceTLSTypeValue `json:"TLSType,omitempty" bson:"tlstype" mapstructure:"TLSType,omitempty"`
 
 	// This is a set of all API tags for matching in the DB.
 	AllAPITags *[]string `json:"-,omitempty" bson:"allapitags" mapstructure:"-,omitempty"`
@@ -1910,20 +1958,14 @@ type SparseService struct {
 	// values of the claims to the corresponding HTTP headers.
 	AuthorizationClaimMappings *[]*ClaimMapping `json:"authorizationClaimMappings,omitempty" bson:"authorizationclaimmappings" mapstructure:"authorizationClaimMappings,omitempty"`
 
-	// authorizationID is only valid for OIDC authorization and defines the
-	// issuer ID of the OAUTH token.
-	AuthorizationID *string `json:"authorizationID,omitempty" bson:"authorizationid" mapstructure:"authorizationID,omitempty"`
-
-	// authorizationProvider is only valid for OAUTH authorization and defines the
-	// URL to the OAUTH provider that must be used.
-	AuthorizationProvider *string `json:"authorizationProvider,omitempty" bson:"authorizationprovider" mapstructure:"authorizationProvider,omitempty"`
-
-	// authorizationSecret is only valid for OIDC authorization and defines the
-	// secret that should be used with the OAUTH provider to validate tokens.
-	AuthorizationSecret *string `json:"authorizationSecret,omitempty" bson:"authorizationsecret" mapstructure:"authorizationSecret,omitempty"`
-
 	// AuthorizationType defines the user authorization type that should be used.
-	// Currently supporting PKI, and OIDC.
+	//
+	// * `+"`"+`None`+"`"+`: No auhtorization. The service will only provide server TLS.
+	// * `+"`"+`JWT`+"`"+`:  Configures a simple JWT verification from the `+"`"+`Auhorization`+"`"+` Header
+	// * `+"`"+`OIDC`+"`"+`: Configures OIDC authorization. You must then set `+"`"+`OIDCClientID`+"`"+`,
+	// `+"`"+`OIDCClientSecret`+"`"+`, OIDCProviderURL`+"`"+`.
+	// * `+"`"+`MTLS`+"`"+`: Configures Client Certificate authorization. You must then set
+	// `+"`"+`MTLSType`+"`"+` and eventually `+"`"+`MTLSCertificateAuthority`+"`"+`.
 	AuthorizationType *ServiceAuthorizationTypeValue `json:"authorizationType,omitempty" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
@@ -1953,15 +1995,6 @@ type SparseService struct {
 
 	// Hosts are the names that the service can be accessed with.
 	Hosts *[]string `json:"hosts,omitempty" bson:"hosts" mapstructure:"hosts,omitempty"`
-
-	// Base64 encoded version of the Certificate Authority to use to verify client
-	// certificates. This only applies if `+"`"+`mTLSMode`+"`"+` is set to
-	// `+"`"+`VerifyClientCertIfGiven`+"`"+` or `+"`"+`RequireAndVerifyClientCert`+"`"+`. If it is not set,
-	// Aporeto own Authority will be used.
-	MTLSCertificateAuthority *string `json:"mTLSCertificateAuthority,omitempty" bson:"mtlscertificateauthority" mapstructure:"mTLSCertificateAuthority,omitempty"`
-
-	// Set this to true to enable client certificate verification.
-	MTLSMode *ServiceMTLSModeValue `json:"mTLSMode,omitempty" bson:"mtlsmode" mapstructure:"mTLSMode,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -2001,11 +2034,6 @@ type SparseService struct {
 	// arrives and there is no user authorization information. This only applies to
 	// HTTP services and it is only send for APIs that are not public.
 	RedirectOnNoToken *bool `json:"redirectOnNoToken,omitempty" bson:"redirectonnotoken" mapstructure:"redirectOnNoToken,omitempty"`
-
-	// RedirectURL is the URL that will be send back to the user to
-	// redirect for authentication if there is no user authorization information in
-	// the API request. URL can be defined if a redirection is requested only.
-	RedirectURL *string `json:"redirectURL,omitempty" bson:"redirecturl" mapstructure:"redirectURL,omitempty"`
 
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to implement this particular service.
@@ -2072,14 +2100,32 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.JWTSigningCertificate != nil {
 		out.JWTSigningCertificate = *o.JWTSigningCertificate
 	}
+	if o.MTLSCertificateAuthority != nil {
+		out.MTLSCertificateAuthority = *o.MTLSCertificateAuthority
+	}
+	if o.MTLSType != nil {
+		out.MTLSType = *o.MTLSType
+	}
+	if o.OIDCCallbackURL != nil {
+		out.OIDCCallbackURL = *o.OIDCCallbackURL
+	}
+	if o.OIDCClientID != nil {
+		out.OIDCClientID = *o.OIDCClientID
+	}
+	if o.OIDCClientSecret != nil {
+		out.OIDCClientSecret = *o.OIDCClientSecret
+	}
+	if o.OIDCProviderURL != nil {
+		out.OIDCProviderURL = *o.OIDCProviderURL
+	}
 	if o.TLSCertificate != nil {
 		out.TLSCertificate = *o.TLSCertificate
 	}
 	if o.TLSCertificateKey != nil {
 		out.TLSCertificateKey = *o.TLSCertificateKey
 	}
-	if o.TLSMode != nil {
-		out.TLSMode = *o.TLSMode
+	if o.TLSType != nil {
+		out.TLSType = *o.TLSType
 	}
 	if o.AllAPITags != nil {
 		out.AllAPITags = *o.AllAPITags
@@ -2098,15 +2144,6 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.AuthorizationClaimMappings != nil {
 		out.AuthorizationClaimMappings = *o.AuthorizationClaimMappings
-	}
-	if o.AuthorizationID != nil {
-		out.AuthorizationID = *o.AuthorizationID
-	}
-	if o.AuthorizationProvider != nil {
-		out.AuthorizationProvider = *o.AuthorizationProvider
-	}
-	if o.AuthorizationSecret != nil {
-		out.AuthorizationSecret = *o.AuthorizationSecret
 	}
 	if o.AuthorizationType != nil {
 		out.AuthorizationType = *o.AuthorizationType
@@ -2131,12 +2168,6 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Hosts != nil {
 		out.Hosts = *o.Hosts
-	}
-	if o.MTLSCertificateAuthority != nil {
-		out.MTLSCertificateAuthority = *o.MTLSCertificateAuthority
-	}
-	if o.MTLSMode != nil {
-		out.MTLSMode = *o.MTLSMode
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
@@ -2164,9 +2195,6 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.RedirectOnNoToken != nil {
 		out.RedirectOnNoToken = *o.RedirectOnNoToken
-	}
-	if o.RedirectURL != nil {
-		out.RedirectURL = *o.RedirectURL
 	}
 	if o.Selectors != nil {
 		out.Selectors = *o.Selectors

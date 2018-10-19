@@ -9204,17 +9204,55 @@ JWTSigningCertificate is a certificate that can be used to validate user JWT in
 HTTP requests. This is an optional field, needed only if user JWT validation is
 required for this service. The certificate must be in PEM format.
 
+#### `MTLSCertificateAuthority (string)`
+
+Base64 encoded version of the Certificate Authority to use to verify client
+certificates. This only applies if `MTLSType` is set to
+`VerifyClientCertIfGiven` or `RequireAndVerifyClientCert`. If it is not set,
+Aporeto own Authority will be used.
+
+#### `MTLSType (enum)`
+
+Set how to perform mtls authorization. This is only applicable it
+`authorizationType` is set to `MTLS` otherwise this property has no effect.
+
+| Characteristics | Value                                                                                          |
+| -               | -:                                                                                             |
+| Allowed Value   | `RequestClientCert, RequireAnyClientCert, VerifyClientCertIfGiven, RequireAndVerifyClientCert` |
+| Default         | `"RequireAndVerifyClientCert"`                                                                 |
+
+#### `OIDCCallbackURL (string)`
+
+RedirectURL is the URL that will be send back to the user to
+redirect for authentication if there is no user authorization information in
+the API request. URL can be defined if a redirection is requested only.
+
+#### `OIDCClientID (string)`
+
+authorizationID is only valid for OIDC authorization and defines the
+issuer ID of the OAUTH token.
+
+#### `OIDCClientSecret (string)`
+
+authorizationSecret is only valid for OIDC authorization and defines the
+secret that should be used with the OAUTH provider to validate tokens.
+
+#### `OIDCProviderURL (string)`
+
+authorizationProvider is only valid for OAUTH authorization and defines the
+URL to the OAUTH provider that must be used.
+
 #### `TLSCertificate (string)`
 
-If `TLSMode` is set to `External`, this property sets the base64 encoded
+If `TLSType` is set to `External`, this property sets the base64 encoded
 certificate to expose to the client for TLS.
 
 #### `TLSCertificateKey (string)`
 
-If `TLSMode` is set to `External`, this property sets the base64 encoded
+If `TLSType` is set to `External`, this property sets the base64 encoded
 certificate key associated to `TLSCertificate`.
 
-#### `TLSMode (enum)`
+#### `TLSType (enum)`
 
 Set how to provide a server certificate to the service.
 
@@ -9241,30 +9279,21 @@ authorizationClaimMappings defines a list of mappings between incoming and
 HTTP headers. When these mappings are defined, the enforcer will copy the
 values of the claims to the corresponding HTTP headers.
 
-#### `authorizationID (string)`
-
-authorizationID is only valid for OIDC authorization and defines the
-issuer ID of the OAUTH token.
-
-#### `authorizationProvider (string)`
-
-authorizationProvider is only valid for OAUTH authorization and defines the
-URL to the OAUTH provider that must be used.
-
-#### `authorizationSecret (string)`
-
-authorizationSecret is only valid for OIDC authorization and defines the
-secret that should be used with the OAUTH provider to validate tokens.
-
 #### `authorizationType (enum)`
 
 AuthorizationType defines the user authorization type that should be used.
-Currently supporting PKI, and OIDC.
 
-| Characteristics | Value             |
-| -               | -:                |
-| Allowed Value   | `PKI, OIDC, None` |
-| Default         | `"None"`          |
+* `None`: No auhtorization. The service will only provide server TLS.
+* `JWT`:  Configures a simple JWT verification from the `Auhorization` Header
+* `OIDC`: Configures OIDC authorization. You must then set `OIDCClientID`,
+`OIDCClientSecret`, OIDCProviderURL`.
+* `MTLS`: Configures Client Certificate authorization. You must then set
+`MTLSType` and eventually `MTLSCertificateAuthority`.
+
+| Characteristics | Value                   |
+| -               | -:                      |
+| Allowed Value   | `None, JWT, OIDC, MTLS` |
+| Default         | `"None"`                |
 
 #### `createTime (time)`
 
@@ -9330,22 +9359,6 @@ Hosts are the names that the service can be accessed with.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-
-#### `mTLSCertificateAuthority (string)`
-
-Base64 encoded version of the Certificate Authority to use to verify client
-certificates. This only applies if `mTLSMode` is set to
-`VerifyClientCertIfGiven` or `RequireAndVerifyClientCert`. If it is not set,
-Aporeto own Authority will be used.
-
-#### `mTLSMode (enum)`
-
-Set this to true to enable client certificate verification.
-
-| Characteristics | Value                                                                                                |
-| -               | -:                                                                                                   |
-| Allowed Value   | `None, RequestClientCert, RequireAnyClientCert, VerifyClientCertIfGiven, RequireAndVerifyClientCert` |
-| Default         | `"None"`                                                                                             |
 
 #### `metadata (external:metadata_list)`
 
@@ -9442,12 +9455,6 @@ HTTP services and it is only send for APIs that are not public.
 | -               | -:      |
 | Default         | `false` |
 | Orderable       | `true`  |
-
-#### `redirectURL (string)`
-
-RedirectURL is the URL that will be send back to the user to
-redirect for authentication if there is no user authorization information in
-the API request. URL can be defined if a redirection is requested only.
 
 #### `selectors (external:policies_list)`
 
