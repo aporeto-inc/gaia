@@ -243,15 +243,6 @@ attributes:
     filterable: true
     orderable: true
 
-  - name: externalServiceCA
-    description: |-
-      externalServiceCA is the certificate authority that the service is using. This
-      is needed for external services with private certificate authorities. The
-      field is optional. If provided, this must be a valid PEM CA file.
-    type: string
-    exposed: true
-    stored: true
-
   - name: hosts
     description: Hosts are the names that the service can be accessed with.
     type: list
@@ -306,6 +297,15 @@ attributes:
     stored: true
     example_value:
     - - $identity=processingunit
+
+  - name: trustedCertificateAuthorities
+    description: |-
+      PEM encoded Certificate Authorities to trust when additional hops are needed. It
+      must be set if the service must reach a Service marked as `external` or must go
+      through an additional TLS termination point like a L7 Load Balancer.
+    type: string
+    exposed: true
+    stored: true
 
   - name: type
     description: Type is the type of the service.
