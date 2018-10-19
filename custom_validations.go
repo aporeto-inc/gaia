@@ -134,6 +134,56 @@ func ValidateProtocolList(attribute string, protocols []string) error {
 	return nil
 }
 
+// ValidateServiceEntity validates a Service.
+func ValidateServiceEntity(service *Service) error {
+
+	var errs elemental.Errors
+
+	switch service.AuthorizationType {
+
+	case ServiceAuthorizationTypeOIDC:
+
+		if service.OIDCProviderURL == "" {
+			errs = append(errs, makeValidationError("OIDCProviderURL", "`OIDCProviderURL` is required when `authorizationType` is set to `OIDC`"))
+		}
+
+		if service.OIDCClientID == "" {
+			errs = append(errs, makeValidationError("OIDCClientID", "`OIDCClientID` is required when `authorizationType` is set to `OIDC`"))
+		}
+
+		if service.OIDCClientSecret == "" {
+			errs = append(errs, makeValidationError("OIDCClientSecret", "`OIDCClientSecret` is required when `authorizationType` is set to `OIDC`"))
+		}
+
+	case ServiceAuthorizationTypeJWT:
+
+		if service.JWTSigningCertificate == "" {
+			errs = append(errs, makeValidationError("JWTSigningCertificate", "`JWTSigningCertificate` is required when `authorizationType` is set to `JWT`"))
+		}
+	}
+
+	if service.TLSType == ServiceTLSTypeExternal {
+
+		if service.TLSCertificate == "" {
+			errs = append(errs, makeValidationError("TLSCertificate", "`TLSCertificate` is required when `TLSType` is set to `External`"))
+		}
+
+		if service.TLSCertificateKey == "" {
+			errs = append(errs, makeValidationError("TLSCertificateKey", "`TLSCertificateKey` is required when `TLSType` is set to `External`"))
+		}
+	}
+
+	if len(service.Hosts) == 0 && len(service.IPs) == 0 {
+		errs = append(errs, makeValidationError("", "You must set at least one value in `hosts` or `IPs`"))
+	}
+
+	if len(errs) > 0 {
+		return errs
+	}
+
+	return nil
+}
+
 func makeValidationError(attribute string, message string) error {
 
 	err := elemental.NewError(
@@ -142,7 +192,10 @@ func makeValidationError(attribute string, message string) error {
 		"gaia",
 		http.StatusUnprocessableEntity,
 	)
-	err.Data = map[string]interface{}{"attribute": attribute}
+
+	if attribute != "" {
+		err.Data = map[string]interface{}{"attribute": attribute}
+	}
 
 	return err
 }

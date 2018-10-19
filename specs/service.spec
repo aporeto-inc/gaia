@@ -40,6 +40,8 @@ model:
   - '@identifiable-pk-stored'
   - '@named'
   - '@metadatable'
+  validations:
+  - $serviceEntity
 
 # Attributes
 attributes:
