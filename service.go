@@ -798,7 +798,14 @@ func (o *Service) Validate() error {
 
 	// Custom object validation.
 	if err := ValidateServiceEntity(o); err != nil {
-		errors = append(errors, err)
+		switch e := err.(type) {
+		case elemental.Errors:
+			errors = append(errors, e...)
+		case elemental.Error:
+			errors = append(errors, e)
+		default:
+			errors = append(errors, e)
+		}
 	}
 
 	if len(requiredErrors) > 0 {
