@@ -9095,6 +9095,11 @@ units.
 
 ```json
 {
+  "OIDCProviderURL": "https://accounts.google.com",
+  "OIDCScopes": [
+    "email",
+    "profile"
+  ],
   "exposedAPIs": [
     [
       "package=p1"
@@ -9196,59 +9201,53 @@ ID is the identifier of the object.
 IPs is the list of IP addresses where the service can be accessed.
 This is an optional attribute and is only required if no host names are
 provided.
-The system will automatically resolve IP addresses from  host names otherwise.
+The system will automatically resolve IP addresses from host names otherwise.
 
 #### `JWTSigningCertificate (string)`
 
-JWTSigningCertificate is a certificate that can be used to validate user JWT in
-HTTP requests. This is an optional field, needed only if user JWT validation is
-required for this service. The certificate must be in PEM format.
+PEM encoded certificate that will be used to validate user JWT in HTTP requests.
+This is an optional field, needed only if the `authorizationType`
+is set to `JWT`.
 
 #### `MTLSCertificateAuthority (string)`
 
-PEM encoded version of the Certificate Authority to use to verify client
-certificates. This only applies if `MTLSType` is set to
-`VerifyClientCertIfGiven` or `RequireAndVerifyClientCert`. If it is not set,
-Aporeto own Authority will be used.
+PEM encoded Certificate Authority to use to verify client
+certificates. This only applies if `authorizationType` is set to
+`MTLS`. If it is not set, Aporeto's Public Signing Certificate Authority will
+be used.
 
-#### `MTLSType (enum)`
+#### `OIDCCallbackURL (string)`
 
-Set how to perform mtls authorization. This is only applicable it
-`authorizationType` is set to `MTLS` otherwise this property has no effect.
-
-| Characteristics | Value                                              |
-| -               | -:                                                 |
-| Allowed Value   | `RequireAnyClientCert, RequireAndVerifyClientCert` |
-| Default         | `"RequireAndVerifyClientCert"`                     |
+This is an advanced setting. Optional OIDC callback URL. If you don't set it,
+Aporeto will autodiscover it. It will be
+`https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback`.
 
 #### `OIDCClientID (string)`
 
-authorizationID is only valid for OIDC authorization and defines the
-issuer ID of the OAUTH token.
+OIDC Client ID. Only has effect if the `authorizationType` is set to `OIDC`.
 
 #### `OIDCClientSecret (string)`
 
-authorizationSecret is only valid for OIDC authorization and defines the
-secret that should be used with the OAUTH provider to validate tokens.
+OIDC Client Secret. Only has effect if the `authorizationType` is set to `OIDC`.
 
 #### `OIDCProviderURL (string)`
 
-authorizationProvider is only valid for OAUTH authorization and defines the
-URL to the OAUTH provider that must be used.
+OIDC Provider URL. Only has effect if the `authorizationType` is set to `OIDC`.
 
 #### `OIDCScopes (list)`
 
-Configures the scopes you want to add to the OIDC provider.
+Configures the scopes you want to add to the OIDC provider. Only has effect if
+`authorizationType` is set to `OIDC`.
 
 #### `TLSCertificate (string)`
 
-If `TLSType` is set to `External`, this property sets the PEM encoded
-certificate to expose to the client for TLS.
+PEM encoded certificate to expose to the clients for TLS. Only has effect and
+required if `TLSType` is set to `External`.
 
 #### `TLSCertificateKey (string)`
 
-If `TLSType` is set to `External`, this property sets the PEM encoded
-certificate key associated to `TLSCertificate`.
+PEM encoded certificate key associated to `TLSCertificate`. Only has effect and
+required if `TLSType` is set to `External`.
 
 #### `TLSType (enum)`
 
@@ -9257,6 +9256,7 @@ Set how to provide a server certificate to the service.
 * `Aporeto`: Generate a certificate issued from Aporeto public CA.
 * `LetsEncrypt`: Issue a certificate from letsencrypt.
 * `External`: : Let you define your own certificate and key to use.
+* `None`: : TLS is disabled (not recommended).
 
 | Characteristics | Value                                  |
 | -               | -:                                     |
@@ -9281,12 +9281,14 @@ values of the claims to the corresponding HTTP headers.
 
 AuthorizationType defines the user authorization type that should be used.
 
-* `None`: No auhtorization. The service will only provide server TLS.
-* `JWT`:  Configures a simple JWT verification from the `Auhorization` Header
+* `None`: No auhtorization.
+* `JWT`:  Configures a simple JWT verification from the HTTP `Auhorization`
+Header
 * `OIDC`: Configures OIDC authorization. You must then set `OIDCClientID`,
 `OIDCClientSecret`, OIDCProviderURL`.
-* `MTLS`: Configures Client Certificate authorization. You must then set
-`MTLSType` and eventually `MTLSCertificateAuthority`.
+* `MTLS`: Configures Client Certificate authorization. Then you can optionaly
+`MTLSCertificateAuthority` otherwise Aporeto Public Signing Certificate will be
+used.
 
 | Characteristics | Value                   |
 | -               | -:                      |

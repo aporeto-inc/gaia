@@ -49,7 +49,7 @@ attributes:
       IPs is the list of IP addresses where the service can be accessed.
       This is an optional attribute and is only required if no host names are
       provided.
-      The system will automatically resolve IP addresses from  host names otherwise.
+      The system will automatically resolve IP addresses from host names otherwise.
     type: external
     exposed: true
     subtype: ip_list
@@ -57,78 +57,78 @@ attributes:
 
   - name: JWTSigningCertificate
     description: |-
-      JWTSigningCertificate is a certificate that can be used to validate user JWT in
-      HTTP requests. This is an optional field, needed only if user JWT validation is
-      required for this service. The certificate must be in PEM format.
+      PEM encoded certificate that will be used to validate user JWT in HTTP requests.
+      This is an optional field, needed only if the `authorizationType`
+      is set to `JWT`.
     type: string
     exposed: true
     stored: true
 
   - name: MTLSCertificateAuthority
     description: |-
-      PEM encoded version of the Certificate Authority to use to verify client
-      certificates. This only applies if `MTLSType` is set to
-      `VerifyClientCertIfGiven` or `RequireAndVerifyClientCert`. If it is not set,
-      Aporeto own Authority will be used.
+      PEM encoded Certificate Authority to use to verify client
+      certificates. This only applies if `authorizationType` is set to
+      `MTLS`. If it is not set, Aporeto's Public Signing Certificate Authority will
+      be used.
     type: string
     exposed: true
     stored: true
 
-  - name: MTLSType
+  - name: OIDCCallbackURL
     description: |-
-      Set how to perform mtls authorization. This is only applicable it
-      `authorizationType` is set to `MTLS` otherwise this property has no effect.
-    type: enum
+      This is an advanced setting. Optional OIDC callback URL. If you don't set it,
+      Aporeto will autodiscover it. It will be
+      `https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback`.
+    type: string
     exposed: true
     stored: true
-    allowed_choices:
-    - RequireAnyClientCert
-    - RequireAndVerifyClientCert
-    default_value: RequireAndVerifyClientCert
 
   - name: OIDCClientID
-    description: |-
-      authorizationID is only valid for OIDC authorization and defines the
-      issuer ID of the OAUTH token.
+    description: OIDC Client ID. Only has effect if the `authorizationType` is set
+      to `OIDC`.
     type: string
     exposed: true
     stored: true
 
   - name: OIDCClientSecret
-    description: |-
-      authorizationSecret is only valid for OIDC authorization and defines the
-      secret that should be used with the OAUTH provider to validate tokens.
+    description: OIDC Client Secret. Only has effect if the `authorizationType` is
+      set to `OIDC`.
     type: string
     exposed: true
     stored: true
 
   - name: OIDCProviderURL
-    description: |-
-      authorizationProvider is only valid for OAUTH authorization and defines the
-      URL to the OAUTH provider that must be used.
+    description: OIDC Provider URL. Only has effect if the `authorizationType` is
+      set to `OIDC`.
     type: string
     exposed: true
     stored: true
+    example_value: https://accounts.google.com
 
   - name: OIDCScopes
-    description: Configures the scopes you want to add to the OIDC provider.
+    description: |-
+      Configures the scopes you want to add to the OIDC provider. Only has effect if
+      `authorizationType` is set to `OIDC`.
     type: list
     exposed: true
     subtype: string
     stored: true
+    example_value:
+    - email
+    - profile
 
   - name: TLSCertificate
     description: |-
-      If `TLSType` is set to `External`, this property sets the PEM encoded
-      certificate to expose to the client for TLS.
+      PEM encoded certificate to expose to the clients for TLS. Only has effect and
+      required if `TLSType` is set to `External`.
     type: string
     exposed: true
     stored: true
 
   - name: TLSCertificateKey
     description: |-
-      If `TLSType` is set to `External`, this property sets the PEM encoded
-      certificate key associated to `TLSCertificate`.
+      PEM encoded certificate key associated to `TLSCertificate`. Only has effect and
+      required if `TLSType` is set to `External`.
     type: string
     exposed: true
     stored: true
@@ -140,6 +140,7 @@ attributes:
       * `Aporeto`: Generate a certificate issued from Aporeto public CA.
       * `LetsEncrypt`: Issue a certificate from letsencrypt.
       * `External`: : Let you define your own certificate and key to use.
+      * `None`: : TLS is disabled (not recommended).
     type: enum
     exposed: true
     stored: true
@@ -180,12 +181,14 @@ attributes:
     description: |-
       AuthorizationType defines the user authorization type that should be used.
 
-      * `None`: No auhtorization. The service will only provide server TLS.
-      * `JWT`:  Configures a simple JWT verification from the `Auhorization` Header
+      * `None`: No auhtorization.
+      * `JWT`:  Configures a simple JWT verification from the HTTP `Auhorization`
+      Header
       * `OIDC`: Configures OIDC authorization. You must then set `OIDCClientID`,
       `OIDCClientSecret`, OIDCProviderURL`.
-      * `MTLS`: Configures Client Certificate authorization. You must then set
-      `MTLSType` and eventually `MTLSCertificateAuthority`.
+      * `MTLS`: Configures Client Certificate authorization. Then you can optionaly
+      `MTLSCertificateAuthority` otherwise Aporeto Public Signing Certificate will be
+      used.
     type: enum
     exposed: true
     stored: true

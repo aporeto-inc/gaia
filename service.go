@@ -10,17 +10,6 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
-// ServiceMTLSTypeValue represents the possible values for attribute "MTLSType".
-type ServiceMTLSTypeValue string
-
-const (
-	// ServiceMTLSTypeRequireAndVerifyClientCert represents the value RequireAndVerifyClientCert.
-	ServiceMTLSTypeRequireAndVerifyClientCert ServiceMTLSTypeValue = "RequireAndVerifyClientCert"
-
-	// ServiceMTLSTypeRequireAnyClientCert represents the value RequireAnyClientCert.
-	ServiceMTLSTypeRequireAnyClientCert ServiceMTLSTypeValue = "RequireAnyClientCert"
-)
-
 // ServiceTLSTypeValue represents the possible values for attribute "TLSType".
 type ServiceTLSTypeValue string
 
@@ -152,45 +141,44 @@ type Service struct {
 	// IPs is the list of IP addresses where the service can be accessed.
 	// This is an optional attribute and is only required if no host names are
 	// provided.
-	// The system will automatically resolve IP addresses from  host names otherwise.
+	// The system will automatically resolve IP addresses from host names otherwise.
 	IPs types.IPList `json:"IPs" bson:"ips" mapstructure:"IPs,omitempty"`
 
-	// JWTSigningCertificate is a certificate that can be used to validate user JWT in
-	// HTTP requests. This is an optional field, needed only if user JWT validation is
-	// required for this service. The certificate must be in PEM format.
+	// PEM encoded certificate that will be used to validate user JWT in HTTP requests.
+	// This is an optional field, needed only if the `+"`"+`authorizationType`+"`"+`
+	// is set to `+"`"+`JWT`+"`"+`.
 	JWTSigningCertificate string `json:"JWTSigningCertificate" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
-	// PEM encoded version of the Certificate Authority to use to verify client
-	// certificates. This only applies if `+"`"+`MTLSType`+"`"+` is set to
-	// `+"`"+`VerifyClientCertIfGiven`+"`"+` or `+"`"+`RequireAndVerifyClientCert`+"`"+`. If it is not set,
-	// Aporeto own Authority will be used.
+	// PEM encoded Certificate Authority to use to verify client
+	// certificates. This only applies if `+"`"+`authorizationType`+"`"+` is set to
+	// `+"`"+`MTLS`+"`"+`. If it is not set, Aporeto's Public Signing Certificate Authority will
+	// be used.
 	MTLSCertificateAuthority string `json:"MTLSCertificateAuthority" bson:"mtlscertificateauthority" mapstructure:"MTLSCertificateAuthority,omitempty"`
 
-	// Set how to perform mtls authorization. This is only applicable it
-	// `+"`"+`authorizationType`+"`"+` is set to `+"`"+`MTLS`+"`"+` otherwise this property has no effect.
-	MTLSType ServiceMTLSTypeValue `json:"MTLSType" bson:"mtlstype" mapstructure:"MTLSType,omitempty"`
+	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
+	// Aporeto will autodiscover it. It will be
+	// `+"`"+`https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback`+"`"+`.
+	OIDCCallbackURL string `json:"OIDCCallbackURL" bson:"oidccallbackurl" mapstructure:"OIDCCallbackURL,omitempty"`
 
-	// authorizationID is only valid for OIDC authorization and defines the
-	// issuer ID of the OAUTH token.
+	// OIDC Client ID. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
 	OIDCClientID string `json:"OIDCClientID" bson:"oidcclientid" mapstructure:"OIDCClientID,omitempty"`
 
-	// authorizationSecret is only valid for OIDC authorization and defines the
-	// secret that should be used with the OAUTH provider to validate tokens.
+	// OIDC Client Secret. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
 	OIDCClientSecret string `json:"OIDCClientSecret" bson:"oidcclientsecret" mapstructure:"OIDCClientSecret,omitempty"`
 
-	// authorizationProvider is only valid for OAUTH authorization and defines the
-	// URL to the OAUTH provider that must be used.
+	// OIDC Provider URL. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
 	OIDCProviderURL string `json:"OIDCProviderURL" bson:"oidcproviderurl" mapstructure:"OIDCProviderURL,omitempty"`
 
-	// Configures the scopes you want to add to the OIDC provider.
+	// Configures the scopes you want to add to the OIDC provider. Only has effect if
+	// `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
 	OIDCScopes []string `json:"OIDCScopes" bson:"oidcscopes" mapstructure:"OIDCScopes,omitempty"`
 
-	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the PEM encoded
-	// certificate to expose to the client for TLS.
+	// PEM encoded certificate to expose to the clients for TLS. Only has effect and
+	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
 	TLSCertificate string `json:"TLSCertificate" bson:"tlscertificate" mapstructure:"TLSCertificate,omitempty"`
 
-	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the PEM encoded
-	// certificate key associated to `+"`"+`TLSCertificate`+"`"+`.
+	// PEM encoded certificate key associated to `+"`"+`TLSCertificate`+"`"+`. Only has effect and
+	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
 	TLSCertificateKey string `json:"TLSCertificateKey" bson:"tlscertificatekey" mapstructure:"TLSCertificateKey,omitempty"`
 
 	// Set how to provide a server certificate to the service.
@@ -198,6 +186,7 @@ type Service struct {
 	// * `+"`"+`Aporeto`+"`"+`: Generate a certificate issued from Aporeto public CA.
 	// * `+"`"+`LetsEncrypt`+"`"+`: Issue a certificate from letsencrypt.
 	// * `+"`"+`External`+"`"+`: : Let you define your own certificate and key to use.
+	// * `+"`"+`None`+"`"+`: : TLS is disabled (not recommended).
 	TLSType ServiceTLSTypeValue `json:"TLSType" bson:"tlstype" mapstructure:"TLSType,omitempty"`
 
 	// This is a set of all API tags for matching in the DB.
@@ -222,12 +211,14 @@ type Service struct {
 
 	// AuthorizationType defines the user authorization type that should be used.
 	//
-	// * `+"`"+`None`+"`"+`: No auhtorization. The service will only provide server TLS.
-	// * `+"`"+`JWT`+"`"+`:  Configures a simple JWT verification from the `+"`"+`Auhorization`+"`"+` Header
+	// * `+"`"+`None`+"`"+`: No auhtorization.
+	// * `+"`"+`JWT`+"`"+`:  Configures a simple JWT verification from the HTTP `+"`"+`Auhorization`+"`"+`
+	// Header
 	// * `+"`"+`OIDC`+"`"+`: Configures OIDC authorization. You must then set `+"`"+`OIDCClientID`+"`"+`,
 	// `+"`"+`OIDCClientSecret`+"`"+`, OIDCProviderURL`+"`"+`.
-	// * `+"`"+`MTLS`+"`"+`: Configures Client Certificate authorization. You must then set
-	// `+"`"+`MTLSType`+"`"+` and eventually `+"`"+`MTLSCertificateAuthority`+"`"+`.
+	// * `+"`"+`MTLS`+"`"+`: Configures Client Certificate authorization. Then you can optionaly
+	// `+"`"+`MTLSCertificateAuthority`+"`"+` otherwise Aporeto Public Signing Certificate will be
+	// used.
 	AuthorizationType ServiceAuthorizationTypeValue `json:"authorizationType" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
@@ -328,7 +319,6 @@ func NewService() *Service {
 		AllServiceTags:             []string{},
 		Metadata:                   []string{},
 		NormalizedTags:             []string{},
-		MTLSType:                   ServiceMTLSTypeRequireAndVerifyClientCert,
 		TLSType:                    ServiceTLSTypeAporeto,
 		IPs:                        types.IPList{},
 		Type:                       ServiceTypeHTTP,
@@ -505,7 +495,7 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			IPs:                               &o.IPs,
 			JWTSigningCertificate:             &o.JWTSigningCertificate,
 			MTLSCertificateAuthority:          &o.MTLSCertificateAuthority,
-			MTLSType:                          &o.MTLSType,
+			OIDCCallbackURL:                   &o.OIDCCallbackURL,
 			OIDCClientID:                      &o.OIDCClientID,
 			OIDCClientSecret:                  &o.OIDCClientSecret,
 			OIDCProviderURL:                   &o.OIDCProviderURL,
@@ -553,8 +543,8 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.JWTSigningCertificate = &(o.JWTSigningCertificate)
 		case "MTLSCertificateAuthority":
 			sp.MTLSCertificateAuthority = &(o.MTLSCertificateAuthority)
-		case "MTLSType":
-			sp.MTLSType = &(o.MTLSType)
+		case "OIDCCallbackURL":
+			sp.OIDCCallbackURL = &(o.OIDCCallbackURL)
 		case "OIDCClientID":
 			sp.OIDCClientID = &(o.OIDCClientID)
 		case "OIDCClientSecret":
@@ -646,8 +636,8 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if so.MTLSCertificateAuthority != nil {
 		o.MTLSCertificateAuthority = *so.MTLSCertificateAuthority
 	}
-	if so.MTLSType != nil {
-		o.MTLSType = *so.MTLSType
+	if so.OIDCCallbackURL != nil {
+		o.OIDCCallbackURL = *so.OIDCCallbackURL
 	}
 	if so.OIDCClientID != nil {
 		o.OIDCClientID = *so.OIDCClientID
@@ -756,10 +746,6 @@ func (o *Service) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("MTLSType", string(o.MTLSType), []string{"RequireAnyClientCert", "RequireAndVerifyClientCert"}, false); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateStringInList("TLSType", string(o.TLSType), []string{"Aporeto", "LetsEncrypt", "External", "None"}, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -861,7 +847,7 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Description: `IPs is the list of IP addresses where the service can be accessed.
 This is an optional attribute and is only required if no host names are
 provided.
-The system will automatically resolve IP addresses from  host names otherwise.`,
+The system will automatically resolve IP addresses from host names otherwise.`,
 		Exposed: true,
 		Name:    "IPs",
 		Stored:  true,
@@ -871,9 +857,9 @@ The system will automatically resolve IP addresses from  host names otherwise.`,
 	"JWTSigningCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "JWTSigningCertificate",
-		Description: `JWTSigningCertificate is a certificate that can be used to validate user JWT in
-HTTP requests. This is an optional field, needed only if user JWT validation is
-required for this service. The certificate must be in PEM format.`,
+		Description: `PEM encoded certificate that will be used to validate user JWT in HTTP requests.
+This is an optional field, needed only if the ` + "`" + `authorizationType` + "`" + `
+is set to ` + "`" + `JWT` + "`" + `.`,
 		Exposed: true,
 		Name:    "JWTSigningCertificate",
 		Stored:  true,
@@ -882,71 +868,69 @@ required for this service. The certificate must be in PEM format.`,
 	"MTLSCertificateAuthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "MTLSCertificateAuthority",
-		Description: `PEM encoded version of the Certificate Authority to use to verify client
-certificates. This only applies if ` + "`" + `MTLSType` + "`" + ` is set to
-` + "`" + `VerifyClientCertIfGiven` + "`" + ` or ` + "`" + `RequireAndVerifyClientCert` + "`" + `. If it is not set,
-Aporeto own Authority will be used.`,
+		Description: `PEM encoded Certificate Authority to use to verify client
+certificates. This only applies if ` + "`" + `authorizationType` + "`" + ` is set to
+` + "`" + `MTLS` + "`" + `. If it is not set, Aporeto's Public Signing Certificate Authority will
+be used.`,
 		Exposed: true,
 		Name:    "MTLSCertificateAuthority",
 		Stored:  true,
 		Type:    "string",
 	},
-	"MTLSType": elemental.AttributeSpecification{
-		AllowedChoices: []string{"RequireAnyClientCert", "RequireAndVerifyClientCert"},
-		ConvertedName:  "MTLSType",
-		DefaultValue:   ServiceMTLSTypeRequireAndVerifyClientCert,
-		Description: `Set how to perform mtls authorization. This is only applicable it
-` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + ` otherwise this property has no effect.`,
+	"OIDCCallbackURL": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCCallbackURL",
+		Description: `This is an advanced setting. Optional OIDC callback URL. If you don't set it,
+Aporeto will autodiscover it. It will be
+` + "`" + `https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback` + "`" + `.`,
 		Exposed: true,
-		Name:    "MTLSType",
+		Name:    "OIDCCallbackURL",
 		Stored:  true,
-		Type:    "enum",
+		Type:    "string",
 	},
 	"OIDCClientID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "OIDCClientID",
-		Description: `authorizationID is only valid for OIDC authorization and defines the
-issuer ID of the OAUTH token.`,
-		Exposed: true,
-		Name:    "OIDCClientID",
-		Stored:  true,
-		Type:    "string",
+		Description:    `OIDC Client ID. Only has effect if the ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed:        true,
+		Name:           "OIDCClientID",
+		Stored:         true,
+		Type:           "string",
 	},
 	"OIDCClientSecret": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "OIDCClientSecret",
-		Description: `authorizationSecret is only valid for OIDC authorization and defines the
-secret that should be used with the OAUTH provider to validate tokens.`,
-		Exposed: true,
-		Name:    "OIDCClientSecret",
-		Stored:  true,
-		Type:    "string",
+		Description:    `OIDC Client Secret. Only has effect if the ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed:        true,
+		Name:           "OIDCClientSecret",
+		Stored:         true,
+		Type:           "string",
 	},
 	"OIDCProviderURL": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "OIDCProviderURL",
-		Description: `authorizationProvider is only valid for OAUTH authorization and defines the
-URL to the OAUTH provider that must be used.`,
-		Exposed: true,
-		Name:    "OIDCProviderURL",
-		Stored:  true,
-		Type:    "string",
+		Description:    `OIDC Provider URL. Only has effect if the ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed:        true,
+		Name:           "OIDCProviderURL",
+		Stored:         true,
+		Type:           "string",
 	},
 	"OIDCScopes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "OIDCScopes",
-		Description:    `Configures the scopes you want to add to the OIDC provider.`,
-		Exposed:        true,
-		Name:           "OIDCScopes",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `Configures the scopes you want to add to the OIDC provider. Only has effect if
+` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed: true,
+		Name:    "OIDCScopes",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
 	},
 	"TLSCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificate",
-		Description: `If ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the PEM encoded
-certificate to expose to the client for TLS.`,
+		Description: `PEM encoded certificate to expose to the clients for TLS. Only has effect and
+required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
 		Exposed: true,
 		Name:    "TLSCertificate",
 		Stored:  true,
@@ -955,8 +939,8 @@ certificate to expose to the client for TLS.`,
 	"TLSCertificateKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificateKey",
-		Description: `If ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the PEM encoded
-certificate key associated to ` + "`" + `TLSCertificate` + "`" + `.`,
+		Description: `PEM encoded certificate key associated to ` + "`" + `TLSCertificate` + "`" + `. Only has effect and
+required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
 		Exposed: true,
 		Name:    "TLSCertificateKey",
 		Stored:  true,
@@ -970,7 +954,8 @@ certificate key associated to ` + "`" + `TLSCertificate` + "`" + `.`,
 
 * ` + "`" + `Aporeto` + "`" + `: Generate a certificate issued from Aporeto public CA.
 * ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from letsencrypt.
-* ` + "`" + `External` + "`" + `: : Let you define your own certificate and key to use.`,
+* ` + "`" + `External` + "`" + `: : Let you define your own certificate and key to use.
+* ` + "`" + `None` + "`" + `: : TLS is disabled (not recommended).`,
 		Exposed: true,
 		Name:    "TLSType",
 		Stored:  true,
@@ -1048,12 +1033,14 @@ values of the claims to the corresponding HTTP headers.`,
 		DefaultValue:   ServiceAuthorizationTypeNone,
 		Description: `AuthorizationType defines the user authorization type that should be used.
 
-* ` + "`" + `None` + "`" + `: No auhtorization. The service will only provide server TLS.
-* ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the ` + "`" + `Auhorization` + "`" + ` Header
+* ` + "`" + `None` + "`" + `: No auhtorization.
+* ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the HTTP ` + "`" + `Auhorization` + "`" + `
+Header
 * ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set ` + "`" + `OIDCClientID` + "`" + `,
 ` + "`" + `OIDCClientSecret` + "`" + `, OIDCProviderURL` + "`" + `.
-* ` + "`" + `MTLS` + "`" + `: Configures Client Certificate authorization. You must then set
-` + "`" + `MTLSType` + "`" + ` and eventually ` + "`" + `MTLSCertificateAuthority` + "`" + `.`,
+* ` + "`" + `MTLS` + "`" + `: Configures Client Certificate authorization. Then you can optionaly
+` + "`" + `MTLSCertificateAuthority` + "`" + ` otherwise Aporeto Public Signing Certificate will be
+used.`,
 		Exposed: true,
 		Name:    "authorizationType",
 		Stored:  true,
@@ -1329,7 +1316,7 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description: `IPs is the list of IP addresses where the service can be accessed.
 This is an optional attribute and is only required if no host names are
 provided.
-The system will automatically resolve IP addresses from  host names otherwise.`,
+The system will automatically resolve IP addresses from host names otherwise.`,
 		Exposed: true,
 		Name:    "IPs",
 		Stored:  true,
@@ -1339,9 +1326,9 @@ The system will automatically resolve IP addresses from  host names otherwise.`,
 	"jwtsigningcertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "JWTSigningCertificate",
-		Description: `JWTSigningCertificate is a certificate that can be used to validate user JWT in
-HTTP requests. This is an optional field, needed only if user JWT validation is
-required for this service. The certificate must be in PEM format.`,
+		Description: `PEM encoded certificate that will be used to validate user JWT in HTTP requests.
+This is an optional field, needed only if the ` + "`" + `authorizationType` + "`" + `
+is set to ` + "`" + `JWT` + "`" + `.`,
 		Exposed: true,
 		Name:    "JWTSigningCertificate",
 		Stored:  true,
@@ -1350,71 +1337,69 @@ required for this service. The certificate must be in PEM format.`,
 	"mtlscertificateauthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "MTLSCertificateAuthority",
-		Description: `PEM encoded version of the Certificate Authority to use to verify client
-certificates. This only applies if ` + "`" + `MTLSType` + "`" + ` is set to
-` + "`" + `VerifyClientCertIfGiven` + "`" + ` or ` + "`" + `RequireAndVerifyClientCert` + "`" + `. If it is not set,
-Aporeto own Authority will be used.`,
+		Description: `PEM encoded Certificate Authority to use to verify client
+certificates. This only applies if ` + "`" + `authorizationType` + "`" + ` is set to
+` + "`" + `MTLS` + "`" + `. If it is not set, Aporeto's Public Signing Certificate Authority will
+be used.`,
 		Exposed: true,
 		Name:    "MTLSCertificateAuthority",
 		Stored:  true,
 		Type:    "string",
 	},
-	"mtlstype": elemental.AttributeSpecification{
-		AllowedChoices: []string{"RequireAnyClientCert", "RequireAndVerifyClientCert"},
-		ConvertedName:  "MTLSType",
-		DefaultValue:   ServiceMTLSTypeRequireAndVerifyClientCert,
-		Description: `Set how to perform mtls authorization. This is only applicable it
-` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `MTLS` + "`" + ` otherwise this property has no effect.`,
+	"oidccallbackurl": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCCallbackURL",
+		Description: `This is an advanced setting. Optional OIDC callback URL. If you don't set it,
+Aporeto will autodiscover it. It will be
+` + "`" + `https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback` + "`" + `.`,
 		Exposed: true,
-		Name:    "MTLSType",
+		Name:    "OIDCCallbackURL",
 		Stored:  true,
-		Type:    "enum",
+		Type:    "string",
 	},
 	"oidcclientid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "OIDCClientID",
-		Description: `authorizationID is only valid for OIDC authorization and defines the
-issuer ID of the OAUTH token.`,
-		Exposed: true,
-		Name:    "OIDCClientID",
-		Stored:  true,
-		Type:    "string",
+		Description:    `OIDC Client ID. Only has effect if the ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed:        true,
+		Name:           "OIDCClientID",
+		Stored:         true,
+		Type:           "string",
 	},
 	"oidcclientsecret": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "OIDCClientSecret",
-		Description: `authorizationSecret is only valid for OIDC authorization and defines the
-secret that should be used with the OAUTH provider to validate tokens.`,
-		Exposed: true,
-		Name:    "OIDCClientSecret",
-		Stored:  true,
-		Type:    "string",
+		Description:    `OIDC Client Secret. Only has effect if the ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed:        true,
+		Name:           "OIDCClientSecret",
+		Stored:         true,
+		Type:           "string",
 	},
 	"oidcproviderurl": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "OIDCProviderURL",
-		Description: `authorizationProvider is only valid for OAUTH authorization and defines the
-URL to the OAUTH provider that must be used.`,
-		Exposed: true,
-		Name:    "OIDCProviderURL",
-		Stored:  true,
-		Type:    "string",
+		Description:    `OIDC Provider URL. Only has effect if the ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed:        true,
+		Name:           "OIDCProviderURL",
+		Stored:         true,
+		Type:           "string",
 	},
 	"oidcscopes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "OIDCScopes",
-		Description:    `Configures the scopes you want to add to the OIDC provider.`,
-		Exposed:        true,
-		Name:           "OIDCScopes",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `Configures the scopes you want to add to the OIDC provider. Only has effect if
+` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed: true,
+		Name:    "OIDCScopes",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
 	},
 	"tlscertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificate",
-		Description: `If ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the PEM encoded
-certificate to expose to the client for TLS.`,
+		Description: `PEM encoded certificate to expose to the clients for TLS. Only has effect and
+required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
 		Exposed: true,
 		Name:    "TLSCertificate",
 		Stored:  true,
@@ -1423,8 +1408,8 @@ certificate to expose to the client for TLS.`,
 	"tlscertificatekey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificateKey",
-		Description: `If ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the PEM encoded
-certificate key associated to ` + "`" + `TLSCertificate` + "`" + `.`,
+		Description: `PEM encoded certificate key associated to ` + "`" + `TLSCertificate` + "`" + `. Only has effect and
+required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
 		Exposed: true,
 		Name:    "TLSCertificateKey",
 		Stored:  true,
@@ -1438,7 +1423,8 @@ certificate key associated to ` + "`" + `TLSCertificate` + "`" + `.`,
 
 * ` + "`" + `Aporeto` + "`" + `: Generate a certificate issued from Aporeto public CA.
 * ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from letsencrypt.
-* ` + "`" + `External` + "`" + `: : Let you define your own certificate and key to use.`,
+* ` + "`" + `External` + "`" + `: : Let you define your own certificate and key to use.
+* ` + "`" + `None` + "`" + `: : TLS is disabled (not recommended).`,
 		Exposed: true,
 		Name:    "TLSType",
 		Stored:  true,
@@ -1516,12 +1502,14 @@ values of the claims to the corresponding HTTP headers.`,
 		DefaultValue:   ServiceAuthorizationTypeNone,
 		Description: `AuthorizationType defines the user authorization type that should be used.
 
-* ` + "`" + `None` + "`" + `: No auhtorization. The service will only provide server TLS.
-* ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the ` + "`" + `Auhorization` + "`" + ` Header
+* ` + "`" + `None` + "`" + `: No auhtorization.
+* ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the HTTP ` + "`" + `Auhorization` + "`" + `
+Header
 * ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set ` + "`" + `OIDCClientID` + "`" + `,
 ` + "`" + `OIDCClientSecret` + "`" + `, OIDCProviderURL` + "`" + `.
-* ` + "`" + `MTLS` + "`" + `: Configures Client Certificate authorization. You must then set
-` + "`" + `MTLSType` + "`" + ` and eventually ` + "`" + `MTLSCertificateAuthority` + "`" + `.`,
+* ` + "`" + `MTLS` + "`" + `: Configures Client Certificate authorization. Then you can optionaly
+` + "`" + `MTLSCertificateAuthority` + "`" + ` otherwise Aporeto Public Signing Certificate will be
+used.`,
 		Exposed: true,
 		Name:    "authorizationType",
 		Stored:  true,
@@ -1845,45 +1833,44 @@ type SparseService struct {
 	// IPs is the list of IP addresses where the service can be accessed.
 	// This is an optional attribute and is only required if no host names are
 	// provided.
-	// The system will automatically resolve IP addresses from  host names otherwise.
+	// The system will automatically resolve IP addresses from host names otherwise.
 	IPs *types.IPList `json:"IPs,omitempty" bson:"ips" mapstructure:"IPs,omitempty"`
 
-	// JWTSigningCertificate is a certificate that can be used to validate user JWT in
-	// HTTP requests. This is an optional field, needed only if user JWT validation is
-	// required for this service. The certificate must be in PEM format.
+	// PEM encoded certificate that will be used to validate user JWT in HTTP requests.
+	// This is an optional field, needed only if the `+"`"+`authorizationType`+"`"+`
+	// is set to `+"`"+`JWT`+"`"+`.
 	JWTSigningCertificate *string `json:"JWTSigningCertificate,omitempty" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
-	// PEM encoded version of the Certificate Authority to use to verify client
-	// certificates. This only applies if `+"`"+`MTLSType`+"`"+` is set to
-	// `+"`"+`VerifyClientCertIfGiven`+"`"+` or `+"`"+`RequireAndVerifyClientCert`+"`"+`. If it is not set,
-	// Aporeto own Authority will be used.
+	// PEM encoded Certificate Authority to use to verify client
+	// certificates. This only applies if `+"`"+`authorizationType`+"`"+` is set to
+	// `+"`"+`MTLS`+"`"+`. If it is not set, Aporeto's Public Signing Certificate Authority will
+	// be used.
 	MTLSCertificateAuthority *string `json:"MTLSCertificateAuthority,omitempty" bson:"mtlscertificateauthority" mapstructure:"MTLSCertificateAuthority,omitempty"`
 
-	// Set how to perform mtls authorization. This is only applicable it
-	// `+"`"+`authorizationType`+"`"+` is set to `+"`"+`MTLS`+"`"+` otherwise this property has no effect.
-	MTLSType *ServiceMTLSTypeValue `json:"MTLSType,omitempty" bson:"mtlstype" mapstructure:"MTLSType,omitempty"`
+	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
+	// Aporeto will autodiscover it. It will be
+	// `+"`"+`https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback`+"`"+`.
+	OIDCCallbackURL *string `json:"OIDCCallbackURL,omitempty" bson:"oidccallbackurl" mapstructure:"OIDCCallbackURL,omitempty"`
 
-	// authorizationID is only valid for OIDC authorization and defines the
-	// issuer ID of the OAUTH token.
+	// OIDC Client ID. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
 	OIDCClientID *string `json:"OIDCClientID,omitempty" bson:"oidcclientid" mapstructure:"OIDCClientID,omitempty"`
 
-	// authorizationSecret is only valid for OIDC authorization and defines the
-	// secret that should be used with the OAUTH provider to validate tokens.
+	// OIDC Client Secret. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
 	OIDCClientSecret *string `json:"OIDCClientSecret,omitempty" bson:"oidcclientsecret" mapstructure:"OIDCClientSecret,omitempty"`
 
-	// authorizationProvider is only valid for OAUTH authorization and defines the
-	// URL to the OAUTH provider that must be used.
+	// OIDC Provider URL. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
 	OIDCProviderURL *string `json:"OIDCProviderURL,omitempty" bson:"oidcproviderurl" mapstructure:"OIDCProviderURL,omitempty"`
 
-	// Configures the scopes you want to add to the OIDC provider.
+	// Configures the scopes you want to add to the OIDC provider. Only has effect if
+	// `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
 	OIDCScopes *[]string `json:"OIDCScopes,omitempty" bson:"oidcscopes" mapstructure:"OIDCScopes,omitempty"`
 
-	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the PEM encoded
-	// certificate to expose to the client for TLS.
+	// PEM encoded certificate to expose to the clients for TLS. Only has effect and
+	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
 	TLSCertificate *string `json:"TLSCertificate,omitempty" bson:"tlscertificate" mapstructure:"TLSCertificate,omitempty"`
 
-	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the PEM encoded
-	// certificate key associated to `+"`"+`TLSCertificate`+"`"+`.
+	// PEM encoded certificate key associated to `+"`"+`TLSCertificate`+"`"+`. Only has effect and
+	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
 	TLSCertificateKey *string `json:"TLSCertificateKey,omitempty" bson:"tlscertificatekey" mapstructure:"TLSCertificateKey,omitempty"`
 
 	// Set how to provide a server certificate to the service.
@@ -1891,6 +1878,7 @@ type SparseService struct {
 	// * `+"`"+`Aporeto`+"`"+`: Generate a certificate issued from Aporeto public CA.
 	// * `+"`"+`LetsEncrypt`+"`"+`: Issue a certificate from letsencrypt.
 	// * `+"`"+`External`+"`"+`: : Let you define your own certificate and key to use.
+	// * `+"`"+`None`+"`"+`: : TLS is disabled (not recommended).
 	TLSType *ServiceTLSTypeValue `json:"TLSType,omitempty" bson:"tlstype" mapstructure:"TLSType,omitempty"`
 
 	// This is a set of all API tags for matching in the DB.
@@ -1915,12 +1903,14 @@ type SparseService struct {
 
 	// AuthorizationType defines the user authorization type that should be used.
 	//
-	// * `+"`"+`None`+"`"+`: No auhtorization. The service will only provide server TLS.
-	// * `+"`"+`JWT`+"`"+`:  Configures a simple JWT verification from the `+"`"+`Auhorization`+"`"+` Header
+	// * `+"`"+`None`+"`"+`: No auhtorization.
+	// * `+"`"+`JWT`+"`"+`:  Configures a simple JWT verification from the HTTP `+"`"+`Auhorization`+"`"+`
+	// Header
 	// * `+"`"+`OIDC`+"`"+`: Configures OIDC authorization. You must then set `+"`"+`OIDCClientID`+"`"+`,
 	// `+"`"+`OIDCClientSecret`+"`"+`, OIDCProviderURL`+"`"+`.
-	// * `+"`"+`MTLS`+"`"+`: Configures Client Certificate authorization. You must then set
-	// `+"`"+`MTLSType`+"`"+` and eventually `+"`"+`MTLSCertificateAuthority`+"`"+`.
+	// * `+"`"+`MTLS`+"`"+`: Configures Client Certificate authorization. Then you can optionaly
+	// `+"`"+`MTLSCertificateAuthority`+"`"+` otherwise Aporeto Public Signing Certificate will be
+	// used.
 	AuthorizationType *ServiceAuthorizationTypeValue `json:"authorizationType,omitempty" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
@@ -2054,8 +2044,8 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.MTLSCertificateAuthority != nil {
 		out.MTLSCertificateAuthority = *o.MTLSCertificateAuthority
 	}
-	if o.MTLSType != nil {
-		out.MTLSType = *o.MTLSType
+	if o.OIDCCallbackURL != nil {
+		out.OIDCCallbackURL = *o.OIDCCallbackURL
 	}
 	if o.OIDCClientID != nil {
 		out.OIDCClientID = *o.OIDCClientID
