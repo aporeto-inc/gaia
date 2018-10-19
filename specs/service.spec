@@ -58,6 +58,33 @@ attributes:
     exposed: true
     stored: true
 
+  - name: TLSCertificate
+    description: |-
+      If `TLSMode` is set to `UserDefined`, this property sets the base64 encoded
+      certificate to expose to the client for TLS.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: TLSCertificateKey
+    description: |-
+      If `TLSMode` is set to `UserDefined`, this property sets the base64 encoded
+      certificate key associated to `TLSCertificate`.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: TLSMode
+    description: Set how to provide a server certificate to the service.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Aporeto
+    - LetsEncrypt
+    - UserDefined
+    default_value: Aporeto
+
   - name: allAPITags
     description: This is a set of all API tags for matching in the DB.
     type: external
@@ -172,6 +199,28 @@ attributes:
     subtype: string
     stored: true
     orderable: true
+
+  - name: mTLSCertificateAuthority
+    description: |-
+      Base64 encoded version of the Certificate Authority to use to verify client
+      certificates. This only applies if `mTLSMode` is set to
+      `VerifyClientCertIfGiven` or `RequireAndVerifyClientCert`.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: mTLSMode
+    description: Set this to true to enable client certificate verification.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - None
+    - RequestClientCert
+    - RequireAnyClientCert
+    - VerifyClientCertIfGiven
+    - RequireAndVerifyClientCert
+    default_value: None
 
   - name: port
     description: |-

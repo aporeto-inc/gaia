@@ -10,6 +10,20 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
+// ServiceTLSModeValue represents the possible values for attribute "TLSMode".
+type ServiceTLSModeValue string
+
+const (
+	// ServiceTLSModeAporeto represents the value Aporeto.
+	ServiceTLSModeAporeto ServiceTLSModeValue = "Aporeto"
+
+	// ServiceTLSModeLetsEncrypt represents the value LetsEncrypt.
+	ServiceTLSModeLetsEncrypt ServiceTLSModeValue = "LetsEncrypt"
+
+	// ServiceTLSModeUserDefined represents the value UserDefined.
+	ServiceTLSModeUserDefined ServiceTLSModeValue = "UserDefined"
+)
+
 // ServiceAuthorizationTypeValue represents the possible values for attribute "authorizationType".
 type ServiceAuthorizationTypeValue string
 
@@ -22,6 +36,26 @@ const (
 
 	// ServiceAuthorizationTypePKI represents the value PKI.
 	ServiceAuthorizationTypePKI ServiceAuthorizationTypeValue = "PKI"
+)
+
+// ServiceMTLSModeValue represents the possible values for attribute "mTLSMode".
+type ServiceMTLSModeValue string
+
+const (
+	// ServiceMTLSModeNone represents the value None.
+	ServiceMTLSModeNone ServiceMTLSModeValue = "None"
+
+	// ServiceMTLSModeRequestClientCert represents the value RequestClientCert.
+	ServiceMTLSModeRequestClientCert ServiceMTLSModeValue = "RequestClientCert"
+
+	// ServiceMTLSModeRequireAndVerifyClientCert represents the value RequireAndVerifyClientCert.
+	ServiceMTLSModeRequireAndVerifyClientCert ServiceMTLSModeValue = "RequireAndVerifyClientCert"
+
+	// ServiceMTLSModeRequireAnyClientCert represents the value RequireAnyClientCert.
+	ServiceMTLSModeRequireAnyClientCert ServiceMTLSModeValue = "RequireAnyClientCert"
+
+	// ServiceMTLSModeVerifyClientCertIfGiven represents the value VerifyClientCertIfGiven.
+	ServiceMTLSModeVerifyClientCertIfGiven ServiceMTLSModeValue = "VerifyClientCertIfGiven"
 )
 
 // ServiceTypeValue represents the possible values for attribute "type".
@@ -129,6 +163,17 @@ type Service struct {
 	// required for this service. The certificate must be in PEM format.
 	JWTSigningCertificate string `json:"JWTSigningCertificate" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
+	// If `+"`"+`TLSMode`+"`"+` is set to `+"`"+`UserDefined`+"`"+`, this property sets the base64 encoded
+	// certificate to expose to the client for TLS.
+	TLSCertificate string `json:"TLSCertificate" bson:"tlscertificate" mapstructure:"TLSCertificate,omitempty"`
+
+	// If `+"`"+`TLSMode`+"`"+` is set to `+"`"+`UserDefined`+"`"+`, this property sets the base64 encoded
+	// certificate key associated to `+"`"+`TLSCertificate`+"`"+`.
+	TLSCertificateKey string `json:"TLSCertificateKey" bson:"tlscertificatekey" mapstructure:"TLSCertificateKey,omitempty"`
+
+	// Set how to provide a server certificate to the service.
+	TLSMode ServiceTLSModeValue `json:"TLSMode" bson:"tlsmode" mapstructure:"TLSMode,omitempty"`
+
 	// This is a set of all API tags for matching in the DB.
 	AllAPITags []string `json:"-" bson:"allapitags" mapstructure:"-,omitempty"`
 
@@ -192,6 +237,14 @@ type Service struct {
 
 	// Hosts are the names that the service can be accessed with.
 	Hosts []string `json:"hosts" bson:"hosts" mapstructure:"hosts,omitempty"`
+
+	// Base64 encoded version of the Certificate Authority to use to verify client
+	// certificates. This only applies if `+"`"+`mTLSMode`+"`"+` is set to
+	// `+"`"+`VerifyClientCertIfGiven`+"`"+` or `+"`"+`RequireAndVerifyClientCert`+"`"+`.
+	MTLSCertificateAuthority string `json:"mTLSCertificateAuthority" bson:"mtlscertificateauthority" mapstructure:"mTLSCertificateAuthority,omitempty"`
+
+	// Set this to true to enable client certificate verification.
+	MTLSMode ServiceMTLSModeValue `json:"mTLSMode" bson:"mtlsmode" mapstructure:"mTLSMode,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -262,18 +315,20 @@ func NewService() *Service {
 
 	return &Service{
 		ModelVersion:               1,
-		AssociatedTags:             []string{},
 		AllAPITags:                 []string{},
-		AuthorizationClaimMappings: []*ClaimMapping{},
 		AllServiceTags:             []string{},
 		Annotations:                map[string][]string{},
+		AssociatedTags:             []string{},
+		AuthorizationClaimMappings: []*ClaimMapping{},
 		AuthorizationType:          ServiceAuthorizationTypeNone,
 		Endpoints:                  types.ExposedAPIList{},
 		External:                   false,
+		NormalizedTags:             []string{},
 		RedirectOnFail:             false,
 		Metadata:                   []string{},
-		NormalizedTags:             []string{},
+		TLSMode:                    ServiceTLSModeAporeto,
 		IPs:                        types.IPList{},
+		MTLSMode:                   ServiceMTLSModeNone,
 		RedirectOnNoToken:          false,
 		Type:                       ServiceTypeHTTP,
 	}
@@ -448,6 +503,9 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ID:                         &o.ID,
 			IPs:                        &o.IPs,
 			JWTSigningCertificate:      &o.JWTSigningCertificate,
+			TLSCertificate:             &o.TLSCertificate,
+			TLSCertificateKey:          &o.TLSCertificateKey,
+			TLSMode:                    &o.TLSMode,
 			AllAPITags:                 &o.AllAPITags,
 			AllServiceTags:             &o.AllServiceTags,
 			Annotations:                &o.Annotations,
@@ -465,6 +523,8 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ExposedPort:                &o.ExposedPort,
 			External:                   &o.External,
 			Hosts:                      &o.Hosts,
+			MTLSCertificateAuthority:   &o.MTLSCertificateAuthority,
+			MTLSMode:                   &o.MTLSMode,
 			Metadata:                   &o.Metadata,
 			Name:                       &o.Name,
 			Namespace:                  &o.Namespace,
@@ -491,6 +551,12 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.IPs = &(o.IPs)
 		case "JWTSigningCertificate":
 			sp.JWTSigningCertificate = &(o.JWTSigningCertificate)
+		case "TLSCertificate":
+			sp.TLSCertificate = &(o.TLSCertificate)
+		case "TLSCertificateKey":
+			sp.TLSCertificateKey = &(o.TLSCertificateKey)
+		case "TLSMode":
+			sp.TLSMode = &(o.TLSMode)
 		case "allAPITags":
 			sp.AllAPITags = &(o.AllAPITags)
 		case "allServiceTags":
@@ -525,6 +591,10 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.External = &(o.External)
 		case "hosts":
 			sp.Hosts = &(o.Hosts)
+		case "mTLSCertificateAuthority":
+			sp.MTLSCertificateAuthority = &(o.MTLSCertificateAuthority)
+		case "mTLSMode":
+			sp.MTLSMode = &(o.MTLSMode)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "name":
@@ -574,6 +644,15 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.JWTSigningCertificate != nil {
 		o.JWTSigningCertificate = *so.JWTSigningCertificate
+	}
+	if so.TLSCertificate != nil {
+		o.TLSCertificate = *so.TLSCertificate
+	}
+	if so.TLSCertificateKey != nil {
+		o.TLSCertificateKey = *so.TLSCertificateKey
+	}
+	if so.TLSMode != nil {
+		o.TLSMode = *so.TLSMode
 	}
 	if so.AllAPITags != nil {
 		o.AllAPITags = *so.AllAPITags
@@ -626,6 +705,12 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Hosts != nil {
 		o.Hosts = *so.Hosts
 	}
+	if so.MTLSCertificateAuthority != nil {
+		o.MTLSCertificateAuthority = *so.MTLSCertificateAuthority
+	}
+	if so.MTLSMode != nil {
+		o.MTLSMode = *so.MTLSMode
+	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
 	}
@@ -676,6 +761,10 @@ func (o *Service) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateStringInList("TLSMode", string(o.TLSMode), []string{"Aporeto", "LetsEncrypt", "UserDefined"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	for _, sub := range o.AuthorizationClaimMappings {
 		if err := sub.Validate(); err != nil {
 			errors = append(errors, err)
@@ -695,6 +784,10 @@ func (o *Service) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumInt("exposedPort", o.ExposedPort, int(65535), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("mTLSMode", string(o.MTLSMode), []string{"None", "RequestClientCert", "RequireAnyClientCert", "VerifyClientCertIfGiven", "RequireAndVerifyClientCert"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -790,6 +883,36 @@ required for this service. The certificate must be in PEM format.`,
 		Name:    "JWTSigningCertificate",
 		Stored:  true,
 		Type:    "string",
+	},
+	"TLSCertificate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TLSCertificate",
+		Description: `If ` + "`" + `TLSMode` + "`" + ` is set to ` + "`" + `UserDefined` + "`" + `, this property sets the base64 encoded
+certificate to expose to the client for TLS.`,
+		Exposed: true,
+		Name:    "TLSCertificate",
+		Stored:  true,
+		Type:    "string",
+	},
+	"TLSCertificateKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TLSCertificateKey",
+		Description: `If ` + "`" + `TLSMode` + "`" + ` is set to ` + "`" + `UserDefined` + "`" + `, this property sets the base64 encoded
+certificate key associated to ` + "`" + `TLSCertificate` + "`" + `.`,
+		Exposed: true,
+		Name:    "TLSCertificateKey",
+		Stored:  true,
+		Type:    "string",
+	},
+	"TLSMode": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Aporeto", "LetsEncrypt", "UserDefined"},
+		ConvertedName:  "TLSMode",
+		DefaultValue:   ServiceTLSModeAporeto,
+		Description:    `Set how to provide a server certificate to the service.`,
+		Exposed:        true,
+		Name:           "TLSMode",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"AllAPITags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -982,6 +1105,27 @@ whereas the port that the implementation is listening can be different.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"MTLSCertificateAuthority": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MTLSCertificateAuthority",
+		Description: `Base64 encoded version of the Certificate Authority to use to verify client
+certificates. This only applies if ` + "`" + `mTLSMode` + "`" + ` is set to
+` + "`" + `VerifyClientCertIfGiven` + "`" + ` or ` + "`" + `RequireAndVerifyClientCert` + "`" + `.`,
+		Exposed: true,
+		Name:    "mTLSCertificateAuthority",
+		Stored:  true,
+		Type:    "string",
+	},
+	"MTLSMode": elemental.AttributeSpecification{
+		AllowedChoices: []string{"None", "RequestClientCert", "RequireAnyClientCert", "VerifyClientCertIfGiven", "RequireAndVerifyClientCert"},
+		ConvertedName:  "MTLSMode",
+		DefaultValue:   ServiceMTLSModeNone,
+		Description:    `Set this to true to enable client certificate verification.`,
+		Exposed:        true,
+		Name:           "mTLSMode",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1209,6 +1353,36 @@ required for this service. The certificate must be in PEM format.`,
 		Stored:  true,
 		Type:    "string",
 	},
+	"tlscertificate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TLSCertificate",
+		Description: `If ` + "`" + `TLSMode` + "`" + ` is set to ` + "`" + `UserDefined` + "`" + `, this property sets the base64 encoded
+certificate to expose to the client for TLS.`,
+		Exposed: true,
+		Name:    "TLSCertificate",
+		Stored:  true,
+		Type:    "string",
+	},
+	"tlscertificatekey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TLSCertificateKey",
+		Description: `If ` + "`" + `TLSMode` + "`" + ` is set to ` + "`" + `UserDefined` + "`" + `, this property sets the base64 encoded
+certificate key associated to ` + "`" + `TLSCertificate` + "`" + `.`,
+		Exposed: true,
+		Name:    "TLSCertificateKey",
+		Stored:  true,
+		Type:    "string",
+	},
+	"tlsmode": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Aporeto", "LetsEncrypt", "UserDefined"},
+		ConvertedName:  "TLSMode",
+		DefaultValue:   ServiceTLSModeAporeto,
+		Description:    `Set how to provide a server certificate to the service.`,
+		Exposed:        true,
+		Name:           "TLSMode",
+		Stored:         true,
+		Type:           "enum",
+	},
 	"allapitags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AllAPITags",
@@ -1400,6 +1574,27 @@ whereas the port that the implementation is listening can be different.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"mtlscertificateauthority": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MTLSCertificateAuthority",
+		Description: `Base64 encoded version of the Certificate Authority to use to verify client
+certificates. This only applies if ` + "`" + `mTLSMode` + "`" + ` is set to
+` + "`" + `VerifyClientCertIfGiven` + "`" + ` or ` + "`" + `RequireAndVerifyClientCert` + "`" + `.`,
+		Exposed: true,
+		Name:    "mTLSCertificateAuthority",
+		Stored:  true,
+		Type:    "string",
+	},
+	"mtlsmode": elemental.AttributeSpecification{
+		AllowedChoices: []string{"None", "RequestClientCert", "RequireAnyClientCert", "VerifyClientCertIfGiven", "RequireAndVerifyClientCert"},
+		ConvertedName:  "MTLSMode",
+		DefaultValue:   ServiceMTLSModeNone,
+		Description:    `Set this to true to enable client certificate verification.`,
+		Exposed:        true,
+		Name:           "mTLSMode",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1665,6 +1860,17 @@ type SparseService struct {
 	// required for this service. The certificate must be in PEM format.
 	JWTSigningCertificate *string `json:"JWTSigningCertificate,omitempty" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
+	// If `+"`"+`TLSMode`+"`"+` is set to `+"`"+`UserDefined`+"`"+`, this property sets the base64 encoded
+	// certificate to expose to the client for TLS.
+	TLSCertificate *string `json:"TLSCertificate,omitempty" bson:"tlscertificate" mapstructure:"TLSCertificate,omitempty"`
+
+	// If `+"`"+`TLSMode`+"`"+` is set to `+"`"+`UserDefined`+"`"+`, this property sets the base64 encoded
+	// certificate key associated to `+"`"+`TLSCertificate`+"`"+`.
+	TLSCertificateKey *string `json:"TLSCertificateKey,omitempty" bson:"tlscertificatekey" mapstructure:"TLSCertificateKey,omitempty"`
+
+	// Set how to provide a server certificate to the service.
+	TLSMode *ServiceTLSModeValue `json:"TLSMode,omitempty" bson:"tlsmode" mapstructure:"TLSMode,omitempty"`
+
 	// This is a set of all API tags for matching in the DB.
 	AllAPITags *[]string `json:"-,omitempty" bson:"allapitags" mapstructure:"-,omitempty"`
 
@@ -1728,6 +1934,14 @@ type SparseService struct {
 
 	// Hosts are the names that the service can be accessed with.
 	Hosts *[]string `json:"hosts,omitempty" bson:"hosts" mapstructure:"hosts,omitempty"`
+
+	// Base64 encoded version of the Certificate Authority to use to verify client
+	// certificates. This only applies if `+"`"+`mTLSMode`+"`"+` is set to
+	// `+"`"+`VerifyClientCertIfGiven`+"`"+` or `+"`"+`RequireAndVerifyClientCert`+"`"+`.
+	MTLSCertificateAuthority *string `json:"mTLSCertificateAuthority,omitempty" bson:"mtlscertificateauthority" mapstructure:"mTLSCertificateAuthority,omitempty"`
+
+	// Set this to true to enable client certificate verification.
+	MTLSMode *ServiceMTLSModeValue `json:"mTLSMode,omitempty" bson:"mtlsmode" mapstructure:"mTLSMode,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -1838,6 +2052,15 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.JWTSigningCertificate != nil {
 		out.JWTSigningCertificate = *o.JWTSigningCertificate
 	}
+	if o.TLSCertificate != nil {
+		out.TLSCertificate = *o.TLSCertificate
+	}
+	if o.TLSCertificateKey != nil {
+		out.TLSCertificateKey = *o.TLSCertificateKey
+	}
+	if o.TLSMode != nil {
+		out.TLSMode = *o.TLSMode
+	}
 	if o.AllAPITags != nil {
 		out.AllAPITags = *o.AllAPITags
 	}
@@ -1888,6 +2111,12 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Hosts != nil {
 		out.Hosts = *o.Hosts
+	}
+	if o.MTLSCertificateAuthority != nil {
+		out.MTLSCertificateAuthority = *o.MTLSCertificateAuthority
+	}
+	if o.MTLSMode != nil {
+		out.MTLSMode = *o.MTLSMode
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata

@@ -9204,6 +9204,25 @@ JWTSigningCertificate is a certificate that can be used to validate user JWT in
 HTTP requests. This is an optional field, needed only if user JWT validation is
 required for this service. The certificate must be in PEM format.
 
+#### `TLSCertificate (string)`
+
+If `TLSMode` is set to `UserDefined`, this property sets the base64 encoded
+certificate to expose to the client for TLS.
+
+#### `TLSCertificateKey (string)`
+
+If `TLSMode` is set to `UserDefined`, this property sets the base64 encoded
+certificate key associated to `TLSCertificate`.
+
+#### `TLSMode (enum)`
+
+Set how to provide a server certificate to the service.
+
+| Characteristics | Value                               |
+| -               | -:                                  |
+| Allowed Value   | `Aporeto, LetsEncrypt, UserDefined` |
+| Default         | `"Aporeto"`                         |
+
 #### `annotations (external:annotations)`
 
 Annotation stores additional information about an entity.
@@ -9307,6 +9326,21 @@ Hosts are the names that the service can be accessed with.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
+
+#### `mTLSCertificateAuthority (string)`
+
+Base64 encoded version of the Certificate Authority to use to verify client
+certificates. This only applies if `mTLSMode` is set to
+`VerifyClientCertIfGiven` or `RequireAndVerifyClientCert`.
+
+#### `mTLSMode (enum)`
+
+Set this to true to enable client certificate verification.
+
+| Characteristics | Value                                                                                                |
+| -               | -:                                                                                                   |
+| Allowed Value   | `None, RequestClientCert, RequireAnyClientCert, VerifyClientCertIfGiven, RequireAndVerifyClientCert` |
+| Default         | `"None"`                                                                                             |
 
 #### `metadata (external:metadata_list)`
 
