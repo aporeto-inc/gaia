@@ -240,7 +240,8 @@ type Service struct {
 
 	// Base64 encoded version of the Certificate Authority to use to verify client
 	// certificates. This only applies if `+"`"+`mTLSMode`+"`"+` is set to
-	// `+"`"+`VerifyClientCertIfGiven`+"`"+` or `+"`"+`RequireAndVerifyClientCert`+"`"+`.
+	// `+"`"+`VerifyClientCertIfGiven`+"`"+` or `+"`"+`RequireAndVerifyClientCert`+"`"+`. If it is not set,
+	// Aporeto own Authority will be used.
 	MTLSCertificateAuthority string `json:"mTLSCertificateAuthority" bson:"mtlscertificateauthority" mapstructure:"mTLSCertificateAuthority,omitempty"`
 
 	// Set this to true to enable client certificate verification.
@@ -1111,7 +1112,8 @@ whereas the port that the implementation is listening can be different.`,
 		ConvertedName:  "MTLSCertificateAuthority",
 		Description: `Base64 encoded version of the Certificate Authority to use to verify client
 certificates. This only applies if ` + "`" + `mTLSMode` + "`" + ` is set to
-` + "`" + `VerifyClientCertIfGiven` + "`" + ` or ` + "`" + `RequireAndVerifyClientCert` + "`" + `.`,
+` + "`" + `VerifyClientCertIfGiven` + "`" + ` or ` + "`" + `RequireAndVerifyClientCert` + "`" + `. If it is not set,
+Aporeto own Authority will be used.`,
 		Exposed: true,
 		Name:    "mTLSCertificateAuthority",
 		Stored:  true,
@@ -1580,7 +1582,8 @@ whereas the port that the implementation is listening can be different.`,
 		ConvertedName:  "MTLSCertificateAuthority",
 		Description: `Base64 encoded version of the Certificate Authority to use to verify client
 certificates. This only applies if ` + "`" + `mTLSMode` + "`" + ` is set to
-` + "`" + `VerifyClientCertIfGiven` + "`" + ` or ` + "`" + `RequireAndVerifyClientCert` + "`" + `.`,
+` + "`" + `VerifyClientCertIfGiven` + "`" + ` or ` + "`" + `RequireAndVerifyClientCert` + "`" + `. If it is not set,
+Aporeto own Authority will be used.`,
 		Exposed: true,
 		Name:    "mTLSCertificateAuthority",
 		Stored:  true,
@@ -1937,7 +1940,8 @@ type SparseService struct {
 
 	// Base64 encoded version of the Certificate Authority to use to verify client
 	// certificates. This only applies if `+"`"+`mTLSMode`+"`"+` is set to
-	// `+"`"+`VerifyClientCertIfGiven`+"`"+` or `+"`"+`RequireAndVerifyClientCert`+"`"+`.
+	// `+"`"+`VerifyClientCertIfGiven`+"`"+` or `+"`"+`RequireAndVerifyClientCert`+"`"+`. If it is not set,
+	// Aporeto own Authority will be used.
 	MTLSCertificateAuthority *string `json:"mTLSCertificateAuthority,omitempty" bson:"mtlscertificateauthority" mapstructure:"mTLSCertificateAuthority,omitempty"`
 
 	// Set this to true to enable client certificate verification.

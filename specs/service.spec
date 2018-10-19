@@ -204,7 +204,8 @@ attributes:
     description: |-
       Base64 encoded version of the Certificate Authority to use to verify client
       certificates. This only applies if `mTLSMode` is set to
-      `VerifyClientCertIfGiven` or `RequireAndVerifyClientCert`.
+      `VerifyClientCertIfGiven` or `RequireAndVerifyClientCert`. If it is not set,
+      Aporeto own Authority will be used.
     type: string
     exposed: true
     stored: true
