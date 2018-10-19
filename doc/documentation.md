@@ -9432,7 +9432,7 @@ when an application is being accessed from a public network.
 | -               | -:      |
 | Max length      | `65535` |
 
-#### `redirectOnAuthorizationFailure (string)`
+#### `redirectURLOnAuthorizationFailure (string)`
 
 If this is set, the user will be redirected to that URL in case of any
 authorization failure to let you chance to provide a nice message to the user.

@@ -274,7 +274,7 @@ attributes:
     example_value: 443
     max_value: 65535
 
-  - name: redirectOnAuthorizationFailure
+  - name: redirectURLOnAuthorizationFailure
     description: |-
       If this is set, the user will be redirected to that URL in case of any
       authorization failure to let you chance to provide a nice message to the user.

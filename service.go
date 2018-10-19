@@ -291,7 +291,7 @@ type Service struct {
 	// authorization failure to let you chance to provide a nice message to the user.
 	// The query parameter `+"`"+`?failure_message=<message>`+"`"+` will be added to that url
 	// explaining the possible reasons of the failure.
-	RedirectOnAuthorizationFailure string `json:"redirectOnAuthorizationFailure" bson:"redirectonauthorizationfailure" mapstructure:"redirectOnAuthorizationFailure,omitempty"`
+	RedirectURLOnAuthorizationFailure string `json:"redirectURLOnAuthorizationFailure" bson:"redirecturlonauthorizationfailure" mapstructure:"redirectURLOnAuthorizationFailure,omitempty"`
 
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to implement this particular service.
@@ -501,44 +501,44 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseService{
-			ID:                             &o.ID,
-			IPs:                            &o.IPs,
-			JWTSigningCertificate:          &o.JWTSigningCertificate,
-			MTLSCertificateAuthority:       &o.MTLSCertificateAuthority,
-			MTLSType:                       &o.MTLSType,
-			OIDCClientID:                   &o.OIDCClientID,
-			OIDCClientSecret:               &o.OIDCClientSecret,
-			OIDCProviderURL:                &o.OIDCProviderURL,
-			OIDCScopes:                     &o.OIDCScopes,
-			TLSCertificate:                 &o.TLSCertificate,
-			TLSCertificateKey:              &o.TLSCertificateKey,
-			TLSType:                        &o.TLSType,
-			AllAPITags:                     &o.AllAPITags,
-			AllServiceTags:                 &o.AllServiceTags,
-			Annotations:                    &o.Annotations,
-			Archived:                       &o.Archived,
-			AssociatedTags:                 &o.AssociatedTags,
-			AuthorizationClaimMappings:     &o.AuthorizationClaimMappings,
-			AuthorizationType:              &o.AuthorizationType,
-			CreateTime:                     &o.CreateTime,
-			Description:                    &o.Description,
-			Endpoints:                      &o.Endpoints,
-			ExposedAPIs:                    &o.ExposedAPIs,
-			ExposedPort:                    &o.ExposedPort,
-			External:                       &o.External,
-			Hosts:                          &o.Hosts,
-			Metadata:                       &o.Metadata,
-			Name:                           &o.Name,
-			Namespace:                      &o.Namespace,
-			NormalizedTags:                 &o.NormalizedTags,
-			Port:                           &o.Port,
-			Protected:                      &o.Protected,
-			PublicApplicationPort:          &o.PublicApplicationPort,
-			RedirectOnAuthorizationFailure: &o.RedirectOnAuthorizationFailure,
-			Selectors:                      &o.Selectors,
-			ServiceCA:                      &o.ServiceCA,
-			Type:                           &o.Type,
-			UpdateTime:                     &o.UpdateTime,
+			ID:                                &o.ID,
+			IPs:                               &o.IPs,
+			JWTSigningCertificate:             &o.JWTSigningCertificate,
+			MTLSCertificateAuthority:          &o.MTLSCertificateAuthority,
+			MTLSType:                          &o.MTLSType,
+			OIDCClientID:                      &o.OIDCClientID,
+			OIDCClientSecret:                  &o.OIDCClientSecret,
+			OIDCProviderURL:                   &o.OIDCProviderURL,
+			OIDCScopes:                        &o.OIDCScopes,
+			TLSCertificate:                    &o.TLSCertificate,
+			TLSCertificateKey:                 &o.TLSCertificateKey,
+			TLSType:                           &o.TLSType,
+			AllAPITags:                        &o.AllAPITags,
+			AllServiceTags:                    &o.AllServiceTags,
+			Annotations:                       &o.Annotations,
+			Archived:                          &o.Archived,
+			AssociatedTags:                    &o.AssociatedTags,
+			AuthorizationClaimMappings:        &o.AuthorizationClaimMappings,
+			AuthorizationType:                 &o.AuthorizationType,
+			CreateTime:                        &o.CreateTime,
+			Description:                       &o.Description,
+			Endpoints:                         &o.Endpoints,
+			ExposedAPIs:                       &o.ExposedAPIs,
+			ExposedPort:                       &o.ExposedPort,
+			External:                          &o.External,
+			Hosts:                             &o.Hosts,
+			Metadata:                          &o.Metadata,
+			Name:                              &o.Name,
+			Namespace:                         &o.Namespace,
+			NormalizedTags:                    &o.NormalizedTags,
+			Port:                              &o.Port,
+			Protected:                         &o.Protected,
+			PublicApplicationPort:             &o.PublicApplicationPort,
+			RedirectURLOnAuthorizationFailure: &o.RedirectURLOnAuthorizationFailure,
+			Selectors:                         &o.Selectors,
+			ServiceCA:                         &o.ServiceCA,
+			Type:                              &o.Type,
+			UpdateTime:                        &o.UpdateTime,
 		}
 	}
 
@@ -611,8 +611,8 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Protected = &(o.Protected)
 		case "publicApplicationPort":
 			sp.PublicApplicationPort = &(o.PublicApplicationPort)
-		case "redirectOnAuthorizationFailure":
-			sp.RedirectOnAuthorizationFailure = &(o.RedirectOnAuthorizationFailure)
+		case "redirectURLOnAuthorizationFailure":
+			sp.RedirectURLOnAuthorizationFailure = &(o.RedirectURLOnAuthorizationFailure)
 		case "selectors":
 			sp.Selectors = &(o.Selectors)
 		case "serviceCA":
@@ -733,8 +733,8 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if so.PublicApplicationPort != nil {
 		o.PublicApplicationPort = *so.PublicApplicationPort
 	}
-	if so.RedirectOnAuthorizationFailure != nil {
-		o.RedirectOnAuthorizationFailure = *so.RedirectOnAuthorizationFailure
+	if so.RedirectURLOnAuthorizationFailure != nil {
+		o.RedirectURLOnAuthorizationFailure = *so.RedirectURLOnAuthorizationFailure
 	}
 	if so.Selectors != nil {
 		o.Selectors = *so.Selectors
@@ -1246,15 +1246,15 @@ when an application is being accessed from a public network.`,
 		Stored:   true,
 		Type:     "integer",
 	},
-	"RedirectOnAuthorizationFailure": elemental.AttributeSpecification{
+	"RedirectURLOnAuthorizationFailure": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "RedirectOnAuthorizationFailure",
+		ConvertedName:  "RedirectURLOnAuthorizationFailure",
 		Description: `If this is set, the user will be redirected to that URL in case of any
 authorization failure to let you chance to provide a nice message to the user.
 The query parameter ` + "`" + `?failure_message=<message>` + "`" + ` will be added to that url
 explaining the possible reasons of the failure.`,
 		Exposed: true,
-		Name:    "redirectOnAuthorizationFailure",
+		Name:    "redirectURLOnAuthorizationFailure",
 		Stored:  true,
 		Type:    "string",
 	},
@@ -1714,15 +1714,15 @@ when an application is being accessed from a public network.`,
 		Stored:   true,
 		Type:     "integer",
 	},
-	"redirectonauthorizationfailure": elemental.AttributeSpecification{
+	"redirecturlonauthorizationfailure": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "RedirectOnAuthorizationFailure",
+		ConvertedName:  "RedirectURLOnAuthorizationFailure",
 		Description: `If this is set, the user will be redirected to that URL in case of any
 authorization failure to let you chance to provide a nice message to the user.
 The query parameter ` + "`" + `?failure_message=<message>` + "`" + ` will be added to that url
 explaining the possible reasons of the failure.`,
 		Exposed: true,
-		Name:    "redirectOnAuthorizationFailure",
+		Name:    "redirectURLOnAuthorizationFailure",
 		Stored:  true,
 		Type:    "string",
 	},
@@ -1984,7 +1984,7 @@ type SparseService struct {
 	// authorization failure to let you chance to provide a nice message to the user.
 	// The query parameter `+"`"+`?failure_message=<message>`+"`"+` will be added to that url
 	// explaining the possible reasons of the failure.
-	RedirectOnAuthorizationFailure *string `json:"redirectOnAuthorizationFailure,omitempty" bson:"redirectonauthorizationfailure" mapstructure:"redirectOnAuthorizationFailure,omitempty"`
+	RedirectURLOnAuthorizationFailure *string `json:"redirectURLOnAuthorizationFailure,omitempty" bson:"redirecturlonauthorizationfailure" mapstructure:"redirectURLOnAuthorizationFailure,omitempty"`
 
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to implement this particular service.
@@ -2141,8 +2141,8 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.PublicApplicationPort != nil {
 		out.PublicApplicationPort = *o.PublicApplicationPort
 	}
-	if o.RedirectOnAuthorizationFailure != nil {
-		out.RedirectOnAuthorizationFailure = *o.RedirectOnAuthorizationFailure
+	if o.RedirectURLOnAuthorizationFailure != nil {
+		out.RedirectURLOnAuthorizationFailure = *o.RedirectURLOnAuthorizationFailure
 	}
 	if o.Selectors != nil {
 		out.Selectors = *o.Selectors
