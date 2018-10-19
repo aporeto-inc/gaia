@@ -5606,6 +5606,7 @@ networkonly indicate the host service is of type network only.
 | Characteristics | Value  |
 | -               | -:     |
 | Default         | `true` |
+| Read only       | `true` |
 
 #### `services (refList)`
 

@@ -31,6 +31,7 @@ attributes:
     type: boolean
     exposed: true
     stored: true
+    read_only: true
     default_value: true
     deprecated: true
 
