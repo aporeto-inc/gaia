@@ -9206,22 +9206,26 @@ required for this service. The certificate must be in PEM format.
 
 #### `TLSCertificate (string)`
 
-If `TLSMode` is set to `UserDefined`, this property sets the base64 encoded
+If `TLSMode` is set to `External`, this property sets the base64 encoded
 certificate to expose to the client for TLS.
 
 #### `TLSCertificateKey (string)`
 
-If `TLSMode` is set to `UserDefined`, this property sets the base64 encoded
+If `TLSMode` is set to `External`, this property sets the base64 encoded
 certificate key associated to `TLSCertificate`.
 
 #### `TLSMode (enum)`
 
 Set how to provide a server certificate to the service.
 
-| Characteristics | Value                               |
-| -               | -:                                  |
-| Allowed Value   | `Aporeto, LetsEncrypt, UserDefined` |
-| Default         | `"Aporeto"`                         |
+* `Aporeto`: Generate a certificate issued from Aporeto public CA.
+* `LetsEncrypt`: Issue a certificate from letsencrypt.
+* `External`: : Let you define your own certificate and key to use.
+
+| Characteristics | Value                            |
+| -               | -:                               |
+| Allowed Value   | `Aporeto, LetsEncrypt, External` |
+| Default         | `"Aporeto"`                      |
 
 #### `annotations (external:annotations)`
 

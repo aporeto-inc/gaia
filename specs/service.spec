@@ -60,7 +60,7 @@ attributes:
 
   - name: TLSCertificate
     description: |-
-      If `TLSMode` is set to `UserDefined`, this property sets the base64 encoded
+      If `TLSMode` is set to `External`, this property sets the base64 encoded
       certificate to expose to the client for TLS.
     type: string
     exposed: true
@@ -68,21 +68,26 @@ attributes:
 
   - name: TLSCertificateKey
     description: |-
-      If `TLSMode` is set to `UserDefined`, this property sets the base64 encoded
+      If `TLSMode` is set to `External`, this property sets the base64 encoded
       certificate key associated to `TLSCertificate`.
     type: string
     exposed: true
     stored: true
 
   - name: TLSMode
-    description: Set how to provide a server certificate to the service.
+    description: |-
+      Set how to provide a server certificate to the service.
+
+      * `Aporeto`: Generate a certificate issued from Aporeto public CA.
+      * `LetsEncrypt`: Issue a certificate from letsencrypt.
+      * `External`: : Let you define your own certificate and key to use.
     type: enum
     exposed: true
     stored: true
     allowed_choices:
     - Aporeto
     - LetsEncrypt
-    - UserDefined
+    - External
     default_value: Aporeto
 
   - name: allAPITags

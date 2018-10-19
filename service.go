@@ -17,11 +17,11 @@ const (
 	// ServiceTLSModeAporeto represents the value Aporeto.
 	ServiceTLSModeAporeto ServiceTLSModeValue = "Aporeto"
 
+	// ServiceTLSModeExternal represents the value External.
+	ServiceTLSModeExternal ServiceTLSModeValue = "External"
+
 	// ServiceTLSModeLetsEncrypt represents the value LetsEncrypt.
 	ServiceTLSModeLetsEncrypt ServiceTLSModeValue = "LetsEncrypt"
-
-	// ServiceTLSModeUserDefined represents the value UserDefined.
-	ServiceTLSModeUserDefined ServiceTLSModeValue = "UserDefined"
 )
 
 // ServiceAuthorizationTypeValue represents the possible values for attribute "authorizationType".
@@ -163,15 +163,19 @@ type Service struct {
 	// required for this service. The certificate must be in PEM format.
 	JWTSigningCertificate string `json:"JWTSigningCertificate" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
-	// If `+"`"+`TLSMode`+"`"+` is set to `+"`"+`UserDefined`+"`"+`, this property sets the base64 encoded
+	// If `+"`"+`TLSMode`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
 	// certificate to expose to the client for TLS.
 	TLSCertificate string `json:"TLSCertificate" bson:"tlscertificate" mapstructure:"TLSCertificate,omitempty"`
 
-	// If `+"`"+`TLSMode`+"`"+` is set to `+"`"+`UserDefined`+"`"+`, this property sets the base64 encoded
+	// If `+"`"+`TLSMode`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
 	// certificate key associated to `+"`"+`TLSCertificate`+"`"+`.
 	TLSCertificateKey string `json:"TLSCertificateKey" bson:"tlscertificatekey" mapstructure:"TLSCertificateKey,omitempty"`
 
 	// Set how to provide a server certificate to the service.
+	//
+	// * `+"`"+`Aporeto`+"`"+`: Generate a certificate issued from Aporeto public CA.
+	// * `+"`"+`LetsEncrypt`+"`"+`: Issue a certificate from letsencrypt.
+	// * `+"`"+`External`+"`"+`: : Let you define your own certificate and key to use.
 	TLSMode ServiceTLSModeValue `json:"TLSMode" bson:"tlsmode" mapstructure:"TLSMode,omitempty"`
 
 	// This is a set of all API tags for matching in the DB.
@@ -762,7 +766,7 @@ func (o *Service) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("TLSMode", string(o.TLSMode), []string{"Aporeto", "LetsEncrypt", "UserDefined"}, false); err != nil {
+	if err := elemental.ValidateStringInList("TLSMode", string(o.TLSMode), []string{"Aporeto", "LetsEncrypt", "External"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -888,7 +892,7 @@ required for this service. The certificate must be in PEM format.`,
 	"TLSCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificate",
-		Description: `If ` + "`" + `TLSMode` + "`" + ` is set to ` + "`" + `UserDefined` + "`" + `, this property sets the base64 encoded
+		Description: `If ` + "`" + `TLSMode` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the base64 encoded
 certificate to expose to the client for TLS.`,
 		Exposed: true,
 		Name:    "TLSCertificate",
@@ -898,7 +902,7 @@ certificate to expose to the client for TLS.`,
 	"TLSCertificateKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificateKey",
-		Description: `If ` + "`" + `TLSMode` + "`" + ` is set to ` + "`" + `UserDefined` + "`" + `, this property sets the base64 encoded
+		Description: `If ` + "`" + `TLSMode` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the base64 encoded
 certificate key associated to ` + "`" + `TLSCertificate` + "`" + `.`,
 		Exposed: true,
 		Name:    "TLSCertificateKey",
@@ -906,14 +910,18 @@ certificate key associated to ` + "`" + `TLSCertificate` + "`" + `.`,
 		Type:    "string",
 	},
 	"TLSMode": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Aporeto", "LetsEncrypt", "UserDefined"},
+		AllowedChoices: []string{"Aporeto", "LetsEncrypt", "External"},
 		ConvertedName:  "TLSMode",
 		DefaultValue:   ServiceTLSModeAporeto,
-		Description:    `Set how to provide a server certificate to the service.`,
-		Exposed:        true,
-		Name:           "TLSMode",
-		Stored:         true,
-		Type:           "enum",
+		Description: `Set how to provide a server certificate to the service.
+
+* ` + "`" + `Aporeto` + "`" + `: Generate a certificate issued from Aporeto public CA.
+* ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from letsencrypt.
+* ` + "`" + `External` + "`" + `: : Let you define your own certificate and key to use.`,
+		Exposed: true,
+		Name:    "TLSMode",
+		Stored:  true,
+		Type:    "enum",
 	},
 	"AllAPITags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1358,7 +1366,7 @@ required for this service. The certificate must be in PEM format.`,
 	"tlscertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificate",
-		Description: `If ` + "`" + `TLSMode` + "`" + ` is set to ` + "`" + `UserDefined` + "`" + `, this property sets the base64 encoded
+		Description: `If ` + "`" + `TLSMode` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the base64 encoded
 certificate to expose to the client for TLS.`,
 		Exposed: true,
 		Name:    "TLSCertificate",
@@ -1368,7 +1376,7 @@ certificate to expose to the client for TLS.`,
 	"tlscertificatekey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificateKey",
-		Description: `If ` + "`" + `TLSMode` + "`" + ` is set to ` + "`" + `UserDefined` + "`" + `, this property sets the base64 encoded
+		Description: `If ` + "`" + `TLSMode` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the base64 encoded
 certificate key associated to ` + "`" + `TLSCertificate` + "`" + `.`,
 		Exposed: true,
 		Name:    "TLSCertificateKey",
@@ -1376,14 +1384,18 @@ certificate key associated to ` + "`" + `TLSCertificate` + "`" + `.`,
 		Type:    "string",
 	},
 	"tlsmode": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Aporeto", "LetsEncrypt", "UserDefined"},
+		AllowedChoices: []string{"Aporeto", "LetsEncrypt", "External"},
 		ConvertedName:  "TLSMode",
 		DefaultValue:   ServiceTLSModeAporeto,
-		Description:    `Set how to provide a server certificate to the service.`,
-		Exposed:        true,
-		Name:           "TLSMode",
-		Stored:         true,
-		Type:           "enum",
+		Description: `Set how to provide a server certificate to the service.
+
+* ` + "`" + `Aporeto` + "`" + `: Generate a certificate issued from Aporeto public CA.
+* ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from letsencrypt.
+* ` + "`" + `External` + "`" + `: : Let you define your own certificate and key to use.`,
+		Exposed: true,
+		Name:    "TLSMode",
+		Stored:  true,
+		Type:    "enum",
 	},
 	"allapitags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1863,15 +1875,19 @@ type SparseService struct {
 	// required for this service. The certificate must be in PEM format.
 	JWTSigningCertificate *string `json:"JWTSigningCertificate,omitempty" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
-	// If `+"`"+`TLSMode`+"`"+` is set to `+"`"+`UserDefined`+"`"+`, this property sets the base64 encoded
+	// If `+"`"+`TLSMode`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
 	// certificate to expose to the client for TLS.
 	TLSCertificate *string `json:"TLSCertificate,omitempty" bson:"tlscertificate" mapstructure:"TLSCertificate,omitempty"`
 
-	// If `+"`"+`TLSMode`+"`"+` is set to `+"`"+`UserDefined`+"`"+`, this property sets the base64 encoded
+	// If `+"`"+`TLSMode`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
 	// certificate key associated to `+"`"+`TLSCertificate`+"`"+`.
 	TLSCertificateKey *string `json:"TLSCertificateKey,omitempty" bson:"tlscertificatekey" mapstructure:"TLSCertificateKey,omitempty"`
 
 	// Set how to provide a server certificate to the service.
+	//
+	// * `+"`"+`Aporeto`+"`"+`: Generate a certificate issued from Aporeto public CA.
+	// * `+"`"+`LetsEncrypt`+"`"+`: Issue a certificate from letsencrypt.
+	// * `+"`"+`External`+"`"+`: : Let you define your own certificate and key to use.
 	TLSMode *ServiceTLSModeValue `json:"TLSMode,omitempty" bson:"tlsmode" mapstructure:"TLSMode,omitempty"`
 
 	// This is a set of all API tags for matching in the DB.
