@@ -160,7 +160,7 @@ type Service struct {
 	// required for this service. The certificate must be in PEM format.
 	JWTSigningCertificate string `json:"JWTSigningCertificate" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
-	// Base64 encoded version of the Certificate Authority to use to verify client
+	// PEM encoded version of the Certificate Authority to use to verify client
 	// certificates. This only applies if `+"`"+`MTLSType`+"`"+` is set to
 	// `+"`"+`VerifyClientCertIfGiven`+"`"+` or `+"`"+`RequireAndVerifyClientCert`+"`"+`. If it is not set,
 	// Aporeto own Authority will be used.
@@ -185,11 +185,11 @@ type Service struct {
 	// Configures the scopes you want to add to the OIDC provider.
 	OIDCScopes []string `json:"OIDCScopes" bson:"oidcscopes" mapstructure:"OIDCScopes,omitempty"`
 
-	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
+	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the PEM encoded
 	// certificate to expose to the client for TLS.
 	TLSCertificate string `json:"TLSCertificate" bson:"tlscertificate" mapstructure:"TLSCertificate,omitempty"`
 
-	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
+	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the PEM encoded
 	// certificate key associated to `+"`"+`TLSCertificate`+"`"+`.
 	TLSCertificateKey string `json:"TLSCertificateKey" bson:"tlscertificatekey" mapstructure:"TLSCertificateKey,omitempty"`
 
@@ -882,7 +882,7 @@ required for this service. The certificate must be in PEM format.`,
 	"MTLSCertificateAuthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "MTLSCertificateAuthority",
-		Description: `Base64 encoded version of the Certificate Authority to use to verify client
+		Description: `PEM encoded version of the Certificate Authority to use to verify client
 certificates. This only applies if ` + "`" + `MTLSType` + "`" + ` is set to
 ` + "`" + `VerifyClientCertIfGiven` + "`" + ` or ` + "`" + `RequireAndVerifyClientCert` + "`" + `. If it is not set,
 Aporeto own Authority will be used.`,
@@ -945,7 +945,7 @@ URL to the OAUTH provider that must be used.`,
 	"TLSCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificate",
-		Description: `If ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the base64 encoded
+		Description: `If ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the PEM encoded
 certificate to expose to the client for TLS.`,
 		Exposed: true,
 		Name:    "TLSCertificate",
@@ -955,7 +955,7 @@ certificate to expose to the client for TLS.`,
 	"TLSCertificateKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificateKey",
-		Description: `If ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the base64 encoded
+		Description: `If ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the PEM encoded
 certificate key associated to ` + "`" + `TLSCertificate` + "`" + `.`,
 		Exposed: true,
 		Name:    "TLSCertificateKey",
@@ -1350,7 +1350,7 @@ required for this service. The certificate must be in PEM format.`,
 	"mtlscertificateauthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "MTLSCertificateAuthority",
-		Description: `Base64 encoded version of the Certificate Authority to use to verify client
+		Description: `PEM encoded version of the Certificate Authority to use to verify client
 certificates. This only applies if ` + "`" + `MTLSType` + "`" + ` is set to
 ` + "`" + `VerifyClientCertIfGiven` + "`" + ` or ` + "`" + `RequireAndVerifyClientCert` + "`" + `. If it is not set,
 Aporeto own Authority will be used.`,
@@ -1413,7 +1413,7 @@ URL to the OAUTH provider that must be used.`,
 	"tlscertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificate",
-		Description: `If ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the base64 encoded
+		Description: `If ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the PEM encoded
 certificate to expose to the client for TLS.`,
 		Exposed: true,
 		Name:    "TLSCertificate",
@@ -1423,7 +1423,7 @@ certificate to expose to the client for TLS.`,
 	"tlscertificatekey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TLSCertificateKey",
-		Description: `If ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the base64 encoded
+		Description: `If ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `, this property sets the PEM encoded
 certificate key associated to ` + "`" + `TLSCertificate` + "`" + `.`,
 		Exposed: true,
 		Name:    "TLSCertificateKey",
@@ -1853,7 +1853,7 @@ type SparseService struct {
 	// required for this service. The certificate must be in PEM format.
 	JWTSigningCertificate *string `json:"JWTSigningCertificate,omitempty" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
-	// Base64 encoded version of the Certificate Authority to use to verify client
+	// PEM encoded version of the Certificate Authority to use to verify client
 	// certificates. This only applies if `+"`"+`MTLSType`+"`"+` is set to
 	// `+"`"+`VerifyClientCertIfGiven`+"`"+` or `+"`"+`RequireAndVerifyClientCert`+"`"+`. If it is not set,
 	// Aporeto own Authority will be used.
@@ -1878,11 +1878,11 @@ type SparseService struct {
 	// Configures the scopes you want to add to the OIDC provider.
 	OIDCScopes *[]string `json:"OIDCScopes,omitempty" bson:"oidcscopes" mapstructure:"OIDCScopes,omitempty"`
 
-	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
+	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the PEM encoded
 	// certificate to expose to the client for TLS.
 	TLSCertificate *string `json:"TLSCertificate,omitempty" bson:"tlscertificate" mapstructure:"TLSCertificate,omitempty"`
 
-	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the base64 encoded
+	// If `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`, this property sets the PEM encoded
 	// certificate key associated to `+"`"+`TLSCertificate`+"`"+`.
 	TLSCertificateKey *string `json:"TLSCertificateKey,omitempty" bson:"tlscertificatekey" mapstructure:"TLSCertificateKey,omitempty"`
 

@@ -66,7 +66,7 @@ attributes:
 
   - name: MTLSCertificateAuthority
     description: |-
-      Base64 encoded version of the Certificate Authority to use to verify client
+      PEM encoded version of the Certificate Authority to use to verify client
       certificates. This only applies if `MTLSType` is set to
       `VerifyClientCertIfGiven` or `RequireAndVerifyClientCert`. If it is not set,
       Aporeto own Authority will be used.
@@ -119,7 +119,7 @@ attributes:
 
   - name: TLSCertificate
     description: |-
-      If `TLSType` is set to `External`, this property sets the base64 encoded
+      If `TLSType` is set to `External`, this property sets the PEM encoded
       certificate to expose to the client for TLS.
     type: string
     exposed: true
@@ -127,7 +127,7 @@ attributes:
 
   - name: TLSCertificateKey
     description: |-
-      If `TLSType` is set to `External`, this property sets the base64 encoded
+      If `TLSType` is set to `External`, this property sets the PEM encoded
       certificate key associated to `TLSCertificate`.
     type: string
     exposed: true

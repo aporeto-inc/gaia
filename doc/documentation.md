@@ -9206,7 +9206,7 @@ required for this service. The certificate must be in PEM format.
 
 #### `MTLSCertificateAuthority (string)`
 
-Base64 encoded version of the Certificate Authority to use to verify client
+PEM encoded version of the Certificate Authority to use to verify client
 certificates. This only applies if `MTLSType` is set to
 `VerifyClientCertIfGiven` or `RequireAndVerifyClientCert`. If it is not set,
 Aporeto own Authority will be used.
@@ -9242,12 +9242,12 @@ Configures the scopes you want to add to the OIDC provider.
 
 #### `TLSCertificate (string)`
 
-If `TLSType` is set to `External`, this property sets the base64 encoded
+If `TLSType` is set to `External`, this property sets the PEM encoded
 certificate to expose to the client for TLS.
 
 #### `TLSCertificateKey (string)`
 
-If `TLSType` is set to `External`, this property sets the base64 encoded
+If `TLSType` is set to `External`, this property sets the PEM encoded
 certificate key associated to `TLSCertificate`.
 
 #### `TLSType (enum)`
