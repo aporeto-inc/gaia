@@ -10,18 +10,38 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
+// ServiceTLSTypeValue represents the possible values for attribute "TLSType".
+type ServiceTLSTypeValue string
+
+const (
+	// ServiceTLSTypeAporeto represents the value Aporeto.
+	ServiceTLSTypeAporeto ServiceTLSTypeValue = "Aporeto"
+
+	// ServiceTLSTypeExternal represents the value External.
+	ServiceTLSTypeExternal ServiceTLSTypeValue = "External"
+
+	// ServiceTLSTypeLetsEncrypt represents the value LetsEncrypt.
+	ServiceTLSTypeLetsEncrypt ServiceTLSTypeValue = "LetsEncrypt"
+
+	// ServiceTLSTypeNone represents the value None.
+	ServiceTLSTypeNone ServiceTLSTypeValue = "None"
+)
+
 // ServiceAuthorizationTypeValue represents the possible values for attribute "authorizationType".
 type ServiceAuthorizationTypeValue string
 
 const (
+	// ServiceAuthorizationTypeJWT represents the value JWT.
+	ServiceAuthorizationTypeJWT ServiceAuthorizationTypeValue = "JWT"
+
+	// ServiceAuthorizationTypeMTLS represents the value MTLS.
+	ServiceAuthorizationTypeMTLS ServiceAuthorizationTypeValue = "MTLS"
+
 	// ServiceAuthorizationTypeNone represents the value None.
 	ServiceAuthorizationTypeNone ServiceAuthorizationTypeValue = "None"
 
 	// ServiceAuthorizationTypeOIDC represents the value OIDC.
 	ServiceAuthorizationTypeOIDC ServiceAuthorizationTypeValue = "OIDC"
-
-	// ServiceAuthorizationTypePKI represents the value PKI.
-	ServiceAuthorizationTypePKI ServiceAuthorizationTypeValue = "PKI"
 )
 
 // ServiceTypeValue represents the possible values for attribute "type".
@@ -121,13 +141,53 @@ type Service struct {
 	// IPs is the list of IP addresses where the service can be accessed.
 	// This is an optional attribute and is only required if no host names are
 	// provided.
-	// The system will automatically resolve IP addresses from  host names otherwise.
+	// The system will automatically resolve IP addresses from host names otherwise.
 	IPs types.IPList `json:"IPs" bson:"ips" mapstructure:"IPs,omitempty"`
 
-	// JWTSigningCertificate is a certificate that can be used to validate user JWT in
-	// HTTP requests. This is an optional field, needed only if user JWT validation is
-	// required for this service. The certificate must be in PEM format.
+	// PEM encoded certificate that will be used to validate user JWT in HTTP requests.
+	// This is an optional field, needed only if the `+"`"+`authorizationType`+"`"+`
+	// is set to `+"`"+`JWT`+"`"+`.
 	JWTSigningCertificate string `json:"JWTSigningCertificate" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
+
+	// PEM encoded Certificate Authority to use to verify client
+	// certificates. This only applies if `+"`"+`authorizationType`+"`"+` is set to
+	// `+"`"+`MTLS`+"`"+`. If it is not set, Aporeto's Public Signing Certificate Authority will
+	// be used.
+	MTLSCertificateAuthority string `json:"MTLSCertificateAuthority" bson:"mtlscertificateauthority" mapstructure:"MTLSCertificateAuthority,omitempty"`
+
+	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
+	// Aporeto will autodiscover it. It will be
+	// `+"`"+`https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback`+"`"+`.
+	OIDCCallbackURL string `json:"OIDCCallbackURL" bson:"oidccallbackurl" mapstructure:"OIDCCallbackURL,omitempty"`
+
+	// OIDC Client ID. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	OIDCClientID string `json:"OIDCClientID" bson:"oidcclientid" mapstructure:"OIDCClientID,omitempty"`
+
+	// OIDC Client Secret. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	OIDCClientSecret string `json:"OIDCClientSecret" bson:"oidcclientsecret" mapstructure:"OIDCClientSecret,omitempty"`
+
+	// OIDC Provider URL. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	OIDCProviderURL string `json:"OIDCProviderURL" bson:"oidcproviderurl" mapstructure:"OIDCProviderURL,omitempty"`
+
+	// Configures the scopes you want to add to the OIDC provider. Only has effect if
+	// `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	OIDCScopes []string `json:"OIDCScopes" bson:"oidcscopes" mapstructure:"OIDCScopes,omitempty"`
+
+	// PEM encoded certificate to expose to the clients for TLS. Only has effect and
+	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
+	TLSCertificate string `json:"TLSCertificate" bson:"tlscertificate" mapstructure:"TLSCertificate,omitempty"`
+
+	// PEM encoded certificate key associated to `+"`"+`TLSCertificate`+"`"+`. Only has effect and
+	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
+	TLSCertificateKey string `json:"TLSCertificateKey" bson:"tlscertificatekey" mapstructure:"TLSCertificateKey,omitempty"`
+
+	// Set how to provide a server certificate to the service.
+	//
+	// * `+"`"+`Aporeto`+"`"+`: Generate a certificate issued from Aporeto public CA.
+	// * `+"`"+`LetsEncrypt`+"`"+`: Issue a certificate from letsencrypt.
+	// * `+"`"+`External`+"`"+`: : Let you define your own certificate and key to use.
+	// * `+"`"+`None`+"`"+`: : TLS is disabled (not recommended).
+	TLSType ServiceTLSTypeValue `json:"TLSType" bson:"tlstype" mapstructure:"TLSType,omitempty"`
 
 	// This is a set of all API tags for matching in the DB.
 	AllAPITags []string `json:"-" bson:"allapitags" mapstructure:"-,omitempty"`
@@ -144,26 +204,22 @@ type Service struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// authorizationClaimMappings defines a list of mappings between incoming and
+	// AuthorizationType defines the user authorization type that should be used.
+	//
+	// * `+"`"+`None`+"`"+`: No auhtorization.
+	// * `+"`"+`JWT`+"`"+`:  Configures a simple JWT verification from the HTTP `+"`"+`Auhorization`+"`"+`
+	// Header
+	// * `+"`"+`OIDC`+"`"+`: Configures OIDC authorization. You must then set `+"`"+`OIDCClientID`+"`"+`,
+	// `+"`"+`OIDCClientSecret`+"`"+`, OIDCProviderURL`+"`"+`.
+	// * `+"`"+`MTLS`+"`"+`: Configures Client Certificate authorization. Then you can optionaly
+	// `+"`"+`MTLSCertificateAuthority`+"`"+` otherwise Aporeto Public Signing Certificate will be
+	// used.
+	AuthorizationType ServiceAuthorizationTypeValue `json:"authorizationType" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
+
+	// Defines a list of mappings between claims and
 	// HTTP headers. When these mappings are defined, the enforcer will copy the
 	// values of the claims to the corresponding HTTP headers.
-	AuthorizationClaimMappings []*ClaimMapping `json:"authorizationClaimMappings" bson:"authorizationclaimmappings" mapstructure:"authorizationClaimMappings,omitempty"`
-
-	// authorizationID is only valid for OIDC authorization and defines the
-	// issuer ID of the OAUTH token.
-	AuthorizationID string `json:"authorizationID" bson:"authorizationid" mapstructure:"authorizationID,omitempty"`
-
-	// authorizationProvider is only valid for OAUTH authorization and defines the
-	// URL to the OAUTH provider that must be used.
-	AuthorizationProvider string `json:"authorizationProvider" bson:"authorizationprovider" mapstructure:"authorizationProvider,omitempty"`
-
-	// authorizationSecret is only valid for OIDC authorization and defines the
-	// secret that should be used with the OAUTH provider to validate tokens.
-	AuthorizationSecret string `json:"authorizationSecret" bson:"authorizationsecret" mapstructure:"authorizationSecret,omitempty"`
-
-	// AuthorizationType defines the user authorization type that should be used.
-	// Currently supporting PKI, and OIDC.
-	AuthorizationType ServiceAuthorizationTypeValue `json:"authorizationType" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
+	ClaimsToHTTPHeaderMappings []*ClaimMapping `json:"claimsToHTTPHeaderMappings" bson:"claimstohttpheadermappings" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
@@ -222,29 +278,20 @@ type Service struct {
 	// when an application is being accessed from a public network.
 	PublicApplicationPort int `json:"publicApplicationPort" bson:"publicapplicationport" mapstructure:"publicApplicationPort,omitempty"`
 
-	// RedirectOnFail is a boolean that forces a redirect response if an API request
-	// arrives and the user authorization information is not valid. This only applies
-	// to HTTP services and it is only send for APIs that are not public.
-	RedirectOnFail bool `json:"redirectOnFail" bson:"redirectonfail" mapstructure:"redirectOnFail,omitempty"`
-
-	// RedirectOnNoToken is a boolean that forces a redirect response if an API request
-	// arrives and there is no user authorization information. This only applies to
-	// HTTP services and it is only send for APIs that are not public.
-	RedirectOnNoToken bool `json:"redirectOnNoToken" bson:"redirectonnotoken" mapstructure:"redirectOnNoToken,omitempty"`
-
-	// RedirectURL is the URL that will be send back to the user to
-	// redirect for authentication if there is no user authorization information in
-	// the API request. URL can be defined if a redirection is requested only.
-	RedirectURL string `json:"redirectURL" bson:"redirecturl" mapstructure:"redirectURL,omitempty"`
+	// If this is set, the user will be redirected to that URL in case of any
+	// authorization failure to let you chance to provide a nice message to the user.
+	// The query parameter `+"`"+`?failure_message=<message>`+"`"+` will be added to that url
+	// explaining the possible reasons of the failure.
+	RedirectURLOnAuthorizationFailure string `json:"redirectURLOnAuthorizationFailure" bson:"redirecturlonauthorizationfailure" mapstructure:"redirectURLOnAuthorizationFailure,omitempty"`
 
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to implement this particular service.
 	Selectors [][]string `json:"selectors" bson:"selectors" mapstructure:"selectors,omitempty"`
 
-	// ServiceCA  is the certificate authority that the service is using. This
-	// is needed for external services with private certificate authorities. The
-	// field is optional. If provided, this must be a valid PEM CA file.
-	ServiceCA string `json:"serviceCA" bson:"serviceca" mapstructure:"serviceCA,omitempty"`
+	// PEM encoded Certificate Authorities to trust when additional hops are needed. It
+	// must be set if the service must reach a Service marked as `+"`"+`external`+"`"+` or must go
+	// through an additional TLS termination point like a L7 Load Balancer.
+	TrustedCertificateAuthorities string `json:"trustedCertificateAuthorities" bson:"trustedcertificateauthorities" mapstructure:"trustedCertificateAuthorities,omitempty"`
 
 	// Type is the type of the service.
 	Type ServiceTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
@@ -262,19 +309,18 @@ func NewService() *Service {
 
 	return &Service{
 		ModelVersion:               1,
-		AssociatedTags:             []string{},
 		AllAPITags:                 []string{},
-		AuthorizationClaimMappings: []*ClaimMapping{},
-		AllServiceTags:             []string{},
 		Annotations:                map[string][]string{},
-		AuthorizationType:          ServiceAuthorizationTypeNone,
-		Endpoints:                  types.ExposedAPIList{},
 		External:                   false,
-		RedirectOnFail:             false,
+		Endpoints:                  types.ExposedAPIList{},
+		ClaimsToHTTPHeaderMappings: []*ClaimMapping{},
+		AuthorizationType:          ServiceAuthorizationTypeNone,
+		AssociatedTags:             []string{},
+		AllServiceTags:             []string{},
 		Metadata:                   []string{},
 		NormalizedTags:             []string{},
+		TLSType:                    ServiceTLSTypeAporeto,
 		IPs:                        types.IPList{},
-		RedirectOnNoToken:          false,
 		Type:                       ServiceTypeHTTP,
 	}
 }
@@ -445,40 +491,44 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseService{
-			ID:                         &o.ID,
-			IPs:                        &o.IPs,
-			JWTSigningCertificate:      &o.JWTSigningCertificate,
-			AllAPITags:                 &o.AllAPITags,
-			AllServiceTags:             &o.AllServiceTags,
-			Annotations:                &o.Annotations,
-			Archived:                   &o.Archived,
-			AssociatedTags:             &o.AssociatedTags,
-			AuthorizationClaimMappings: &o.AuthorizationClaimMappings,
-			AuthorizationID:            &o.AuthorizationID,
-			AuthorizationProvider:      &o.AuthorizationProvider,
-			AuthorizationSecret:        &o.AuthorizationSecret,
-			AuthorizationType:          &o.AuthorizationType,
-			CreateTime:                 &o.CreateTime,
-			Description:                &o.Description,
-			Endpoints:                  &o.Endpoints,
-			ExposedAPIs:                &o.ExposedAPIs,
-			ExposedPort:                &o.ExposedPort,
-			External:                   &o.External,
-			Hosts:                      &o.Hosts,
-			Metadata:                   &o.Metadata,
-			Name:                       &o.Name,
-			Namespace:                  &o.Namespace,
-			NormalizedTags:             &o.NormalizedTags,
-			Port:                       &o.Port,
-			Protected:                  &o.Protected,
-			PublicApplicationPort:      &o.PublicApplicationPort,
-			RedirectOnFail:             &o.RedirectOnFail,
-			RedirectOnNoToken:          &o.RedirectOnNoToken,
-			RedirectURL:                &o.RedirectURL,
-			Selectors:                  &o.Selectors,
-			ServiceCA:                  &o.ServiceCA,
-			Type:                       &o.Type,
-			UpdateTime:                 &o.UpdateTime,
+			ID:                                &o.ID,
+			IPs:                               &o.IPs,
+			JWTSigningCertificate:             &o.JWTSigningCertificate,
+			MTLSCertificateAuthority:          &o.MTLSCertificateAuthority,
+			OIDCCallbackURL:                   &o.OIDCCallbackURL,
+			OIDCClientID:                      &o.OIDCClientID,
+			OIDCClientSecret:                  &o.OIDCClientSecret,
+			OIDCProviderURL:                   &o.OIDCProviderURL,
+			OIDCScopes:                        &o.OIDCScopes,
+			TLSCertificate:                    &o.TLSCertificate,
+			TLSCertificateKey:                 &o.TLSCertificateKey,
+			TLSType:                           &o.TLSType,
+			AllAPITags:                        &o.AllAPITags,
+			AllServiceTags:                    &o.AllServiceTags,
+			Annotations:                       &o.Annotations,
+			Archived:                          &o.Archived,
+			AssociatedTags:                    &o.AssociatedTags,
+			AuthorizationType:                 &o.AuthorizationType,
+			ClaimsToHTTPHeaderMappings:        &o.ClaimsToHTTPHeaderMappings,
+			CreateTime:                        &o.CreateTime,
+			Description:                       &o.Description,
+			Endpoints:                         &o.Endpoints,
+			ExposedAPIs:                       &o.ExposedAPIs,
+			ExposedPort:                       &o.ExposedPort,
+			External:                          &o.External,
+			Hosts:                             &o.Hosts,
+			Metadata:                          &o.Metadata,
+			Name:                              &o.Name,
+			Namespace:                         &o.Namespace,
+			NormalizedTags:                    &o.NormalizedTags,
+			Port:                              &o.Port,
+			Protected:                         &o.Protected,
+			PublicApplicationPort:             &o.PublicApplicationPort,
+			RedirectURLOnAuthorizationFailure: &o.RedirectURLOnAuthorizationFailure,
+			Selectors:                         &o.Selectors,
+			TrustedCertificateAuthorities:     &o.TrustedCertificateAuthorities,
+			Type:                              &o.Type,
+			UpdateTime:                        &o.UpdateTime,
 		}
 	}
 
@@ -491,6 +541,24 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.IPs = &(o.IPs)
 		case "JWTSigningCertificate":
 			sp.JWTSigningCertificate = &(o.JWTSigningCertificate)
+		case "MTLSCertificateAuthority":
+			sp.MTLSCertificateAuthority = &(o.MTLSCertificateAuthority)
+		case "OIDCCallbackURL":
+			sp.OIDCCallbackURL = &(o.OIDCCallbackURL)
+		case "OIDCClientID":
+			sp.OIDCClientID = &(o.OIDCClientID)
+		case "OIDCClientSecret":
+			sp.OIDCClientSecret = &(o.OIDCClientSecret)
+		case "OIDCProviderURL":
+			sp.OIDCProviderURL = &(o.OIDCProviderURL)
+		case "OIDCScopes":
+			sp.OIDCScopes = &(o.OIDCScopes)
+		case "TLSCertificate":
+			sp.TLSCertificate = &(o.TLSCertificate)
+		case "TLSCertificateKey":
+			sp.TLSCertificateKey = &(o.TLSCertificateKey)
+		case "TLSType":
+			sp.TLSType = &(o.TLSType)
 		case "allAPITags":
 			sp.AllAPITags = &(o.AllAPITags)
 		case "allServiceTags":
@@ -501,16 +569,10 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Archived = &(o.Archived)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
-		case "authorizationClaimMappings":
-			sp.AuthorizationClaimMappings = &(o.AuthorizationClaimMappings)
-		case "authorizationID":
-			sp.AuthorizationID = &(o.AuthorizationID)
-		case "authorizationProvider":
-			sp.AuthorizationProvider = &(o.AuthorizationProvider)
-		case "authorizationSecret":
-			sp.AuthorizationSecret = &(o.AuthorizationSecret)
 		case "authorizationType":
 			sp.AuthorizationType = &(o.AuthorizationType)
+		case "claimsToHTTPHeaderMappings":
+			sp.ClaimsToHTTPHeaderMappings = &(o.ClaimsToHTTPHeaderMappings)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -539,16 +601,12 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Protected = &(o.Protected)
 		case "publicApplicationPort":
 			sp.PublicApplicationPort = &(o.PublicApplicationPort)
-		case "redirectOnFail":
-			sp.RedirectOnFail = &(o.RedirectOnFail)
-		case "redirectOnNoToken":
-			sp.RedirectOnNoToken = &(o.RedirectOnNoToken)
-		case "redirectURL":
-			sp.RedirectURL = &(o.RedirectURL)
+		case "redirectURLOnAuthorizationFailure":
+			sp.RedirectURLOnAuthorizationFailure = &(o.RedirectURLOnAuthorizationFailure)
 		case "selectors":
 			sp.Selectors = &(o.Selectors)
-		case "serviceCA":
-			sp.ServiceCA = &(o.ServiceCA)
+		case "trustedCertificateAuthorities":
+			sp.TrustedCertificateAuthorities = &(o.TrustedCertificateAuthorities)
 		case "type":
 			sp.Type = &(o.Type)
 		case "updateTime":
@@ -575,6 +633,33 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if so.JWTSigningCertificate != nil {
 		o.JWTSigningCertificate = *so.JWTSigningCertificate
 	}
+	if so.MTLSCertificateAuthority != nil {
+		o.MTLSCertificateAuthority = *so.MTLSCertificateAuthority
+	}
+	if so.OIDCCallbackURL != nil {
+		o.OIDCCallbackURL = *so.OIDCCallbackURL
+	}
+	if so.OIDCClientID != nil {
+		o.OIDCClientID = *so.OIDCClientID
+	}
+	if so.OIDCClientSecret != nil {
+		o.OIDCClientSecret = *so.OIDCClientSecret
+	}
+	if so.OIDCProviderURL != nil {
+		o.OIDCProviderURL = *so.OIDCProviderURL
+	}
+	if so.OIDCScopes != nil {
+		o.OIDCScopes = *so.OIDCScopes
+	}
+	if so.TLSCertificate != nil {
+		o.TLSCertificate = *so.TLSCertificate
+	}
+	if so.TLSCertificateKey != nil {
+		o.TLSCertificateKey = *so.TLSCertificateKey
+	}
+	if so.TLSType != nil {
+		o.TLSType = *so.TLSType
+	}
 	if so.AllAPITags != nil {
 		o.AllAPITags = *so.AllAPITags
 	}
@@ -590,20 +675,11 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
 	}
-	if so.AuthorizationClaimMappings != nil {
-		o.AuthorizationClaimMappings = *so.AuthorizationClaimMappings
-	}
-	if so.AuthorizationID != nil {
-		o.AuthorizationID = *so.AuthorizationID
-	}
-	if so.AuthorizationProvider != nil {
-		o.AuthorizationProvider = *so.AuthorizationProvider
-	}
-	if so.AuthorizationSecret != nil {
-		o.AuthorizationSecret = *so.AuthorizationSecret
-	}
 	if so.AuthorizationType != nil {
 		o.AuthorizationType = *so.AuthorizationType
+	}
+	if so.ClaimsToHTTPHeaderMappings != nil {
+		o.ClaimsToHTTPHeaderMappings = *so.ClaimsToHTTPHeaderMappings
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -647,20 +723,14 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if so.PublicApplicationPort != nil {
 		o.PublicApplicationPort = *so.PublicApplicationPort
 	}
-	if so.RedirectOnFail != nil {
-		o.RedirectOnFail = *so.RedirectOnFail
-	}
-	if so.RedirectOnNoToken != nil {
-		o.RedirectOnNoToken = *so.RedirectOnNoToken
-	}
-	if so.RedirectURL != nil {
-		o.RedirectURL = *so.RedirectURL
+	if so.RedirectURLOnAuthorizationFailure != nil {
+		o.RedirectURLOnAuthorizationFailure = *so.RedirectURLOnAuthorizationFailure
 	}
 	if so.Selectors != nil {
 		o.Selectors = *so.Selectors
 	}
-	if so.ServiceCA != nil {
-		o.ServiceCA = *so.ServiceCA
+	if so.TrustedCertificateAuthorities != nil {
+		o.TrustedCertificateAuthorities = *so.TrustedCertificateAuthorities
 	}
 	if so.Type != nil {
 		o.Type = *so.Type
@@ -676,14 +746,18 @@ func (o *Service) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	for _, sub := range o.AuthorizationClaimMappings {
+	if err := elemental.ValidateStringInList("TLSType", string(o.TLSType), []string{"Aporeto", "LetsEncrypt", "External", "None"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("authorizationType", string(o.AuthorizationType), []string{"None", "JWT", "OIDC", "MTLS"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	for _, sub := range o.ClaimsToHTTPHeaderMappings {
 		if err := sub.Validate(); err != nil {
 			errors = append(errors, err)
 		}
-	}
-
-	if err := elemental.ValidateStringInList("authorizationType", string(o.AuthorizationType), []string{"PKI", "OIDC", "None"}, false); err != nil {
-		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
@@ -720,6 +794,18 @@ func (o *Service) Validate() error {
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"HTTP", "TCP", "KubernetesSecrets", "VaultSecrets"}, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	// Custom object validation.
+	if err := ValidateServiceEntity(o); err != nil {
+		switch e := err.(type) {
+		case elemental.Errors:
+			errors = append(errors, e...)
+		case elemental.Error:
+			errors = append(errors, e)
+		default:
+			errors = append(errors, e)
+		}
 	}
 
 	if len(requiredErrors) > 0 {
@@ -773,7 +859,7 @@ var ServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Description: `IPs is the list of IP addresses where the service can be accessed.
 This is an optional attribute and is only required if no host names are
 provided.
-The system will automatically resolve IP addresses from  host names otherwise.`,
+The system will automatically resolve IP addresses from host names otherwise.`,
 		Exposed: true,
 		Name:    "IPs",
 		Stored:  true,
@@ -783,13 +869,109 @@ The system will automatically resolve IP addresses from  host names otherwise.`,
 	"JWTSigningCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "JWTSigningCertificate",
-		Description: `JWTSigningCertificate is a certificate that can be used to validate user JWT in
-HTTP requests. This is an optional field, needed only if user JWT validation is
-required for this service. The certificate must be in PEM format.`,
+		Description: `PEM encoded certificate that will be used to validate user JWT in HTTP requests.
+This is an optional field, needed only if the ` + "`" + `authorizationType` + "`" + `
+is set to ` + "`" + `JWT` + "`" + `.`,
 		Exposed: true,
 		Name:    "JWTSigningCertificate",
 		Stored:  true,
 		Type:    "string",
+	},
+	"MTLSCertificateAuthority": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MTLSCertificateAuthority",
+		Description: `PEM encoded Certificate Authority to use to verify client
+certificates. This only applies if ` + "`" + `authorizationType` + "`" + ` is set to
+` + "`" + `MTLS` + "`" + `. If it is not set, Aporeto's Public Signing Certificate Authority will
+be used.`,
+		Exposed: true,
+		Name:    "MTLSCertificateAuthority",
+		Stored:  true,
+		Type:    "string",
+	},
+	"OIDCCallbackURL": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCCallbackURL",
+		Description: `This is an advanced setting. Optional OIDC callback URL. If you don't set it,
+Aporeto will autodiscover it. It will be
+` + "`" + `https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback` + "`" + `.`,
+		Exposed: true,
+		Name:    "OIDCCallbackURL",
+		Stored:  true,
+		Type:    "string",
+	},
+	"OIDCClientID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCClientID",
+		Description:    `OIDC Client ID. Only has effect if the ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed:        true,
+		Name:           "OIDCClientID",
+		Stored:         true,
+		Type:           "string",
+	},
+	"OIDCClientSecret": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCClientSecret",
+		Description:    `OIDC Client Secret. Only has effect if the ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed:        true,
+		Name:           "OIDCClientSecret",
+		Stored:         true,
+		Type:           "string",
+	},
+	"OIDCProviderURL": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCProviderURL",
+		Description:    `OIDC Provider URL. Only has effect if the ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed:        true,
+		Name:           "OIDCProviderURL",
+		Stored:         true,
+		Type:           "string",
+	},
+	"OIDCScopes": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCScopes",
+		Description: `Configures the scopes you want to add to the OIDC provider. Only has effect if
+` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed: true,
+		Name:    "OIDCScopes",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
+	},
+	"TLSCertificate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TLSCertificate",
+		Description: `PEM encoded certificate to expose to the clients for TLS. Only has effect and
+required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
+		Exposed: true,
+		Name:    "TLSCertificate",
+		Stored:  true,
+		Type:    "string",
+	},
+	"TLSCertificateKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TLSCertificateKey",
+		Description: `PEM encoded certificate key associated to ` + "`" + `TLSCertificate` + "`" + `. Only has effect and
+required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
+		Exposed: true,
+		Name:    "TLSCertificateKey",
+		Stored:  true,
+		Type:    "string",
+	},
+	"TLSType": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Aporeto", "LetsEncrypt", "External", "None"},
+		ConvertedName:  "TLSType",
+		DefaultValue:   ServiceTLSTypeAporeto,
+		Description: `Set how to provide a server certificate to the service.
+
+* ` + "`" + `Aporeto` + "`" + `: Generate a certificate issued from Aporeto public CA.
+* ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from letsencrypt.
+* ` + "`" + `External` + "`" + `: : Let you define your own certificate and key to use.
+* ` + "`" + `None` + "`" + `: : TLS is disabled (not recommended).`,
+		Exposed: true,
+		Name:    "TLSType",
+		Stored:  true,
+		Type:    "enum",
 	},
 	"AllAPITags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -845,58 +1027,36 @@ required for this service. The certificate must be in PEM format.`,
 		SubType:        "tags_list",
 		Type:           "external",
 	},
-	"AuthorizationClaimMappings": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizationClaimMappings",
-		Description: `authorizationClaimMappings defines a list of mappings between incoming and
-HTTP headers. When these mappings are defined, the enforcer will copy the
-values of the claims to the corresponding HTTP headers.`,
-		Exposed: true,
-		Name:    "authorizationClaimMappings",
-		Stored:  true,
-		SubType: "claimmapping",
-		Type:    "refList",
-	},
-	"AuthorizationID": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizationID",
-		Description: `authorizationID is only valid for OIDC authorization and defines the
-issuer ID of the OAUTH token.`,
-		Exposed: true,
-		Name:    "authorizationID",
-		Stored:  true,
-		Type:    "string",
-	},
-	"AuthorizationProvider": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizationProvider",
-		Description: `authorizationProvider is only valid for OAUTH authorization and defines the
-URL to the OAUTH provider that must be used.`,
-		Exposed: true,
-		Name:    "authorizationProvider",
-		Stored:  true,
-		Type:    "string",
-	},
-	"AuthorizationSecret": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizationSecret",
-		Description: `authorizationSecret is only valid for OIDC authorization and defines the
-secret that should be used with the OAUTH provider to validate tokens.`,
-		Exposed: true,
-		Name:    "authorizationSecret",
-		Stored:  true,
-		Type:    "string",
-	},
 	"AuthorizationType": elemental.AttributeSpecification{
-		AllowedChoices: []string{"PKI", "OIDC", "None"},
+		AllowedChoices: []string{"None", "JWT", "OIDC", "MTLS"},
 		ConvertedName:  "AuthorizationType",
 		DefaultValue:   ServiceAuthorizationTypeNone,
 		Description: `AuthorizationType defines the user authorization type that should be used.
-Currently supporting PKI, and OIDC.`,
+
+* ` + "`" + `None` + "`" + `: No auhtorization.
+* ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the HTTP ` + "`" + `Auhorization` + "`" + `
+Header
+* ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set ` + "`" + `OIDCClientID` + "`" + `,
+` + "`" + `OIDCClientSecret` + "`" + `, OIDCProviderURL` + "`" + `.
+* ` + "`" + `MTLS` + "`" + `: Configures Client Certificate authorization. Then you can optionaly
+` + "`" + `MTLSCertificateAuthority` + "`" + ` otherwise Aporeto Public Signing Certificate will be
+used.`,
 		Exposed: true,
 		Name:    "authorizationType",
 		Stored:  true,
 		Type:    "enum",
+	},
+	"ClaimsToHTTPHeaderMappings": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ClaimsToHTTPHeaderMappings",
+		Description: `Defines a list of mappings between claims and
+HTTP headers. When these mappings are defined, the enforcer will copy the
+values of the claims to the corresponding HTTP headers.`,
+		Exposed: true,
+		Name:    "claimsToHTTPHeaderMappings",
+		Stored:  true,
+		SubType: "claimmapping",
+		Type:    "refList",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1085,38 +1245,15 @@ when an application is being accessed from a public network.`,
 		Stored:   true,
 		Type:     "integer",
 	},
-	"RedirectOnFail": elemental.AttributeSpecification{
+	"RedirectURLOnAuthorizationFailure": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "RedirectOnFail",
-		Description: `RedirectOnFail is a boolean that forces a redirect response if an API request
-arrives and the user authorization information is not valid. This only applies
-to HTTP services and it is only send for APIs that are not public.`,
-		Exposed:   true,
-		Name:      "redirectOnFail",
-		Orderable: true,
-		Stored:    true,
-		Type:      "boolean",
-	},
-	"RedirectOnNoToken": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "RedirectOnNoToken",
-		Description: `RedirectOnNoToken is a boolean that forces a redirect response if an API request
-arrives and there is no user authorization information. This only applies to
-HTTP services and it is only send for APIs that are not public.`,
-		Exposed:   true,
-		Name:      "redirectOnNoToken",
-		Orderable: true,
-		Stored:    true,
-		Type:      "boolean",
-	},
-	"RedirectURL": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "RedirectURL",
-		Description: `RedirectURL is the URL that will be send back to the user to
-redirect for authentication if there is no user authorization information in
-the API request. URL can be defined if a redirection is requested only.`,
+		ConvertedName:  "RedirectURLOnAuthorizationFailure",
+		Description: `If this is set, the user will be redirected to that URL in case of any
+authorization failure to let you chance to provide a nice message to the user.
+The query parameter ` + "`" + `?failure_message=<message>` + "`" + ` will be added to that url
+explaining the possible reasons of the failure.`,
 		Exposed: true,
-		Name:    "redirectURL",
+		Name:    "redirectURLOnAuthorizationFailure",
 		Stored:  true,
 		Type:    "string",
 	},
@@ -1131,14 +1268,14 @@ must match in order to implement this particular service.`,
 		SubType: "policies_list",
 		Type:    "external",
 	},
-	"ServiceCA": elemental.AttributeSpecification{
+	"TrustedCertificateAuthorities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "ServiceCA",
-		Description: `ServiceCA  is the certificate authority that the service is using. This
-is needed for external services with private certificate authorities. The
-field is optional. If provided, this must be a valid PEM CA file.`,
+		ConvertedName:  "TrustedCertificateAuthorities",
+		Description: `PEM encoded Certificate Authorities to trust when additional hops are needed. It
+must be set if the service must reach a Service marked as ` + "`" + `external` + "`" + ` or must go
+through an additional TLS termination point like a L7 Load Balancer.`,
 		Exposed: true,
-		Name:    "serviceCA",
+		Name:    "trustedCertificateAuthorities",
 		Stored:  true,
 		Type:    "string",
 	},
@@ -1191,7 +1328,7 @@ var ServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description: `IPs is the list of IP addresses where the service can be accessed.
 This is an optional attribute and is only required if no host names are
 provided.
-The system will automatically resolve IP addresses from  host names otherwise.`,
+The system will automatically resolve IP addresses from host names otherwise.`,
 		Exposed: true,
 		Name:    "IPs",
 		Stored:  true,
@@ -1201,13 +1338,109 @@ The system will automatically resolve IP addresses from  host names otherwise.`,
 	"jwtsigningcertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "JWTSigningCertificate",
-		Description: `JWTSigningCertificate is a certificate that can be used to validate user JWT in
-HTTP requests. This is an optional field, needed only if user JWT validation is
-required for this service. The certificate must be in PEM format.`,
+		Description: `PEM encoded certificate that will be used to validate user JWT in HTTP requests.
+This is an optional field, needed only if the ` + "`" + `authorizationType` + "`" + `
+is set to ` + "`" + `JWT` + "`" + `.`,
 		Exposed: true,
 		Name:    "JWTSigningCertificate",
 		Stored:  true,
 		Type:    "string",
+	},
+	"mtlscertificateauthority": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MTLSCertificateAuthority",
+		Description: `PEM encoded Certificate Authority to use to verify client
+certificates. This only applies if ` + "`" + `authorizationType` + "`" + ` is set to
+` + "`" + `MTLS` + "`" + `. If it is not set, Aporeto's Public Signing Certificate Authority will
+be used.`,
+		Exposed: true,
+		Name:    "MTLSCertificateAuthority",
+		Stored:  true,
+		Type:    "string",
+	},
+	"oidccallbackurl": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCCallbackURL",
+		Description: `This is an advanced setting. Optional OIDC callback URL. If you don't set it,
+Aporeto will autodiscover it. It will be
+` + "`" + `https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback` + "`" + `.`,
+		Exposed: true,
+		Name:    "OIDCCallbackURL",
+		Stored:  true,
+		Type:    "string",
+	},
+	"oidcclientid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCClientID",
+		Description:    `OIDC Client ID. Only has effect if the ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed:        true,
+		Name:           "OIDCClientID",
+		Stored:         true,
+		Type:           "string",
+	},
+	"oidcclientsecret": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCClientSecret",
+		Description:    `OIDC Client Secret. Only has effect if the ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed:        true,
+		Name:           "OIDCClientSecret",
+		Stored:         true,
+		Type:           "string",
+	},
+	"oidcproviderurl": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCProviderURL",
+		Description:    `OIDC Provider URL. Only has effect if the ` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed:        true,
+		Name:           "OIDCProviderURL",
+		Stored:         true,
+		Type:           "string",
+	},
+	"oidcscopes": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "OIDCScopes",
+		Description: `Configures the scopes you want to add to the OIDC provider. Only has effect if
+` + "`" + `authorizationType` + "`" + ` is set to ` + "`" + `OIDC` + "`" + `.`,
+		Exposed: true,
+		Name:    "OIDCScopes",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
+	},
+	"tlscertificate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TLSCertificate",
+		Description: `PEM encoded certificate to expose to the clients for TLS. Only has effect and
+required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
+		Exposed: true,
+		Name:    "TLSCertificate",
+		Stored:  true,
+		Type:    "string",
+	},
+	"tlscertificatekey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TLSCertificateKey",
+		Description: `PEM encoded certificate key associated to ` + "`" + `TLSCertificate` + "`" + `. Only has effect and
+required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" + `.`,
+		Exposed: true,
+		Name:    "TLSCertificateKey",
+		Stored:  true,
+		Type:    "string",
+	},
+	"tlstype": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Aporeto", "LetsEncrypt", "External", "None"},
+		ConvertedName:  "TLSType",
+		DefaultValue:   ServiceTLSTypeAporeto,
+		Description: `Set how to provide a server certificate to the service.
+
+* ` + "`" + `Aporeto` + "`" + `: Generate a certificate issued from Aporeto public CA.
+* ` + "`" + `LetsEncrypt` + "`" + `: Issue a certificate from letsencrypt.
+* ` + "`" + `External` + "`" + `: : Let you define your own certificate and key to use.
+* ` + "`" + `None` + "`" + `: : TLS is disabled (not recommended).`,
+		Exposed: true,
+		Name:    "TLSType",
+		Stored:  true,
+		Type:    "enum",
 	},
 	"allapitags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1263,58 +1496,36 @@ required for this service. The certificate must be in PEM format.`,
 		SubType:        "tags_list",
 		Type:           "external",
 	},
-	"authorizationclaimmappings": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizationClaimMappings",
-		Description: `authorizationClaimMappings defines a list of mappings between incoming and
-HTTP headers. When these mappings are defined, the enforcer will copy the
-values of the claims to the corresponding HTTP headers.`,
-		Exposed: true,
-		Name:    "authorizationClaimMappings",
-		Stored:  true,
-		SubType: "claimmapping",
-		Type:    "refList",
-	},
-	"authorizationid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizationID",
-		Description: `authorizationID is only valid for OIDC authorization and defines the
-issuer ID of the OAUTH token.`,
-		Exposed: true,
-		Name:    "authorizationID",
-		Stored:  true,
-		Type:    "string",
-	},
-	"authorizationprovider": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizationProvider",
-		Description: `authorizationProvider is only valid for OAUTH authorization and defines the
-URL to the OAUTH provider that must be used.`,
-		Exposed: true,
-		Name:    "authorizationProvider",
-		Stored:  true,
-		Type:    "string",
-	},
-	"authorizationsecret": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AuthorizationSecret",
-		Description: `authorizationSecret is only valid for OIDC authorization and defines the
-secret that should be used with the OAUTH provider to validate tokens.`,
-		Exposed: true,
-		Name:    "authorizationSecret",
-		Stored:  true,
-		Type:    "string",
-	},
 	"authorizationtype": elemental.AttributeSpecification{
-		AllowedChoices: []string{"PKI", "OIDC", "None"},
+		AllowedChoices: []string{"None", "JWT", "OIDC", "MTLS"},
 		ConvertedName:  "AuthorizationType",
 		DefaultValue:   ServiceAuthorizationTypeNone,
 		Description: `AuthorizationType defines the user authorization type that should be used.
-Currently supporting PKI, and OIDC.`,
+
+* ` + "`" + `None` + "`" + `: No auhtorization.
+* ` + "`" + `JWT` + "`" + `:  Configures a simple JWT verification from the HTTP ` + "`" + `Auhorization` + "`" + `
+Header
+* ` + "`" + `OIDC` + "`" + `: Configures OIDC authorization. You must then set ` + "`" + `OIDCClientID` + "`" + `,
+` + "`" + `OIDCClientSecret` + "`" + `, OIDCProviderURL` + "`" + `.
+* ` + "`" + `MTLS` + "`" + `: Configures Client Certificate authorization. Then you can optionaly
+` + "`" + `MTLSCertificateAuthority` + "`" + ` otherwise Aporeto Public Signing Certificate will be
+used.`,
 		Exposed: true,
 		Name:    "authorizationType",
 		Stored:  true,
 		Type:    "enum",
+	},
+	"claimstohttpheadermappings": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ClaimsToHTTPHeaderMappings",
+		Description: `Defines a list of mappings between claims and
+HTTP headers. When these mappings are defined, the enforcer will copy the
+values of the claims to the corresponding HTTP headers.`,
+		Exposed: true,
+		Name:    "claimsToHTTPHeaderMappings",
+		Stored:  true,
+		SubType: "claimmapping",
+		Type:    "refList",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1503,38 +1714,15 @@ when an application is being accessed from a public network.`,
 		Stored:   true,
 		Type:     "integer",
 	},
-	"redirectonfail": elemental.AttributeSpecification{
+	"redirecturlonauthorizationfailure": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "RedirectOnFail",
-		Description: `RedirectOnFail is a boolean that forces a redirect response if an API request
-arrives and the user authorization information is not valid. This only applies
-to HTTP services and it is only send for APIs that are not public.`,
-		Exposed:   true,
-		Name:      "redirectOnFail",
-		Orderable: true,
-		Stored:    true,
-		Type:      "boolean",
-	},
-	"redirectonnotoken": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "RedirectOnNoToken",
-		Description: `RedirectOnNoToken is a boolean that forces a redirect response if an API request
-arrives and there is no user authorization information. This only applies to
-HTTP services and it is only send for APIs that are not public.`,
-		Exposed:   true,
-		Name:      "redirectOnNoToken",
-		Orderable: true,
-		Stored:    true,
-		Type:      "boolean",
-	},
-	"redirecturl": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "RedirectURL",
-		Description: `RedirectURL is the URL that will be send back to the user to
-redirect for authentication if there is no user authorization information in
-the API request. URL can be defined if a redirection is requested only.`,
+		ConvertedName:  "RedirectURLOnAuthorizationFailure",
+		Description: `If this is set, the user will be redirected to that URL in case of any
+authorization failure to let you chance to provide a nice message to the user.
+The query parameter ` + "`" + `?failure_message=<message>` + "`" + ` will be added to that url
+explaining the possible reasons of the failure.`,
 		Exposed: true,
-		Name:    "redirectURL",
+		Name:    "redirectURLOnAuthorizationFailure",
 		Stored:  true,
 		Type:    "string",
 	},
@@ -1549,14 +1737,14 @@ must match in order to implement this particular service.`,
 		SubType: "policies_list",
 		Type:    "external",
 	},
-	"serviceca": elemental.AttributeSpecification{
+	"trustedcertificateauthorities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "ServiceCA",
-		Description: `ServiceCA  is the certificate authority that the service is using. This
-is needed for external services with private certificate authorities. The
-field is optional. If provided, this must be a valid PEM CA file.`,
+		ConvertedName:  "TrustedCertificateAuthorities",
+		Description: `PEM encoded Certificate Authorities to trust when additional hops are needed. It
+must be set if the service must reach a Service marked as ` + "`" + `external` + "`" + ` or must go
+through an additional TLS termination point like a L7 Load Balancer.`,
 		Exposed: true,
-		Name:    "serviceCA",
+		Name:    "trustedCertificateAuthorities",
 		Stored:  true,
 		Type:    "string",
 	},
@@ -1657,13 +1845,53 @@ type SparseService struct {
 	// IPs is the list of IP addresses where the service can be accessed.
 	// This is an optional attribute and is only required if no host names are
 	// provided.
-	// The system will automatically resolve IP addresses from  host names otherwise.
+	// The system will automatically resolve IP addresses from host names otherwise.
 	IPs *types.IPList `json:"IPs,omitempty" bson:"ips" mapstructure:"IPs,omitempty"`
 
-	// JWTSigningCertificate is a certificate that can be used to validate user JWT in
-	// HTTP requests. This is an optional field, needed only if user JWT validation is
-	// required for this service. The certificate must be in PEM format.
+	// PEM encoded certificate that will be used to validate user JWT in HTTP requests.
+	// This is an optional field, needed only if the `+"`"+`authorizationType`+"`"+`
+	// is set to `+"`"+`JWT`+"`"+`.
 	JWTSigningCertificate *string `json:"JWTSigningCertificate,omitempty" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
+
+	// PEM encoded Certificate Authority to use to verify client
+	// certificates. This only applies if `+"`"+`authorizationType`+"`"+` is set to
+	// `+"`"+`MTLS`+"`"+`. If it is not set, Aporeto's Public Signing Certificate Authority will
+	// be used.
+	MTLSCertificateAuthority *string `json:"MTLSCertificateAuthority,omitempty" bson:"mtlscertificateauthority" mapstructure:"MTLSCertificateAuthority,omitempty"`
+
+	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
+	// Aporeto will autodiscover it. It will be
+	// `+"`"+`https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback`+"`"+`.
+	OIDCCallbackURL *string `json:"OIDCCallbackURL,omitempty" bson:"oidccallbackurl" mapstructure:"OIDCCallbackURL,omitempty"`
+
+	// OIDC Client ID. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	OIDCClientID *string `json:"OIDCClientID,omitempty" bson:"oidcclientid" mapstructure:"OIDCClientID,omitempty"`
+
+	// OIDC Client Secret. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	OIDCClientSecret *string `json:"OIDCClientSecret,omitempty" bson:"oidcclientsecret" mapstructure:"OIDCClientSecret,omitempty"`
+
+	// OIDC Provider URL. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	OIDCProviderURL *string `json:"OIDCProviderURL,omitempty" bson:"oidcproviderurl" mapstructure:"OIDCProviderURL,omitempty"`
+
+	// Configures the scopes you want to add to the OIDC provider. Only has effect if
+	// `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
+	OIDCScopes *[]string `json:"OIDCScopes,omitempty" bson:"oidcscopes" mapstructure:"OIDCScopes,omitempty"`
+
+	// PEM encoded certificate to expose to the clients for TLS. Only has effect and
+	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
+	TLSCertificate *string `json:"TLSCertificate,omitempty" bson:"tlscertificate" mapstructure:"TLSCertificate,omitempty"`
+
+	// PEM encoded certificate key associated to `+"`"+`TLSCertificate`+"`"+`. Only has effect and
+	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
+	TLSCertificateKey *string `json:"TLSCertificateKey,omitempty" bson:"tlscertificatekey" mapstructure:"TLSCertificateKey,omitempty"`
+
+	// Set how to provide a server certificate to the service.
+	//
+	// * `+"`"+`Aporeto`+"`"+`: Generate a certificate issued from Aporeto public CA.
+	// * `+"`"+`LetsEncrypt`+"`"+`: Issue a certificate from letsencrypt.
+	// * `+"`"+`External`+"`"+`: : Let you define your own certificate and key to use.
+	// * `+"`"+`None`+"`"+`: : TLS is disabled (not recommended).
+	TLSType *ServiceTLSTypeValue `json:"TLSType,omitempty" bson:"tlstype" mapstructure:"TLSType,omitempty"`
 
 	// This is a set of all API tags for matching in the DB.
 	AllAPITags *[]string `json:"-,omitempty" bson:"allapitags" mapstructure:"-,omitempty"`
@@ -1680,26 +1908,22 @@ type SparseService struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// authorizationClaimMappings defines a list of mappings between incoming and
+	// AuthorizationType defines the user authorization type that should be used.
+	//
+	// * `+"`"+`None`+"`"+`: No auhtorization.
+	// * `+"`"+`JWT`+"`"+`:  Configures a simple JWT verification from the HTTP `+"`"+`Auhorization`+"`"+`
+	// Header
+	// * `+"`"+`OIDC`+"`"+`: Configures OIDC authorization. You must then set `+"`"+`OIDCClientID`+"`"+`,
+	// `+"`"+`OIDCClientSecret`+"`"+`, OIDCProviderURL`+"`"+`.
+	// * `+"`"+`MTLS`+"`"+`: Configures Client Certificate authorization. Then you can optionaly
+	// `+"`"+`MTLSCertificateAuthority`+"`"+` otherwise Aporeto Public Signing Certificate will be
+	// used.
+	AuthorizationType *ServiceAuthorizationTypeValue `json:"authorizationType,omitempty" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
+
+	// Defines a list of mappings between claims and
 	// HTTP headers. When these mappings are defined, the enforcer will copy the
 	// values of the claims to the corresponding HTTP headers.
-	AuthorizationClaimMappings *[]*ClaimMapping `json:"authorizationClaimMappings,omitempty" bson:"authorizationclaimmappings" mapstructure:"authorizationClaimMappings,omitempty"`
-
-	// authorizationID is only valid for OIDC authorization and defines the
-	// issuer ID of the OAUTH token.
-	AuthorizationID *string `json:"authorizationID,omitempty" bson:"authorizationid" mapstructure:"authorizationID,omitempty"`
-
-	// authorizationProvider is only valid for OAUTH authorization and defines the
-	// URL to the OAUTH provider that must be used.
-	AuthorizationProvider *string `json:"authorizationProvider,omitempty" bson:"authorizationprovider" mapstructure:"authorizationProvider,omitempty"`
-
-	// authorizationSecret is only valid for OIDC authorization and defines the
-	// secret that should be used with the OAUTH provider to validate tokens.
-	AuthorizationSecret *string `json:"authorizationSecret,omitempty" bson:"authorizationsecret" mapstructure:"authorizationSecret,omitempty"`
-
-	// AuthorizationType defines the user authorization type that should be used.
-	// Currently supporting PKI, and OIDC.
-	AuthorizationType *ServiceAuthorizationTypeValue `json:"authorizationType,omitempty" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
+	ClaimsToHTTPHeaderMappings *[]*ClaimMapping `json:"claimsToHTTPHeaderMappings,omitempty" bson:"claimstohttpheadermappings" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
@@ -1758,29 +1982,20 @@ type SparseService struct {
 	// when an application is being accessed from a public network.
 	PublicApplicationPort *int `json:"publicApplicationPort,omitempty" bson:"publicapplicationport" mapstructure:"publicApplicationPort,omitempty"`
 
-	// RedirectOnFail is a boolean that forces a redirect response if an API request
-	// arrives and the user authorization information is not valid. This only applies
-	// to HTTP services and it is only send for APIs that are not public.
-	RedirectOnFail *bool `json:"redirectOnFail,omitempty" bson:"redirectonfail" mapstructure:"redirectOnFail,omitempty"`
-
-	// RedirectOnNoToken is a boolean that forces a redirect response if an API request
-	// arrives and there is no user authorization information. This only applies to
-	// HTTP services and it is only send for APIs that are not public.
-	RedirectOnNoToken *bool `json:"redirectOnNoToken,omitempty" bson:"redirectonnotoken" mapstructure:"redirectOnNoToken,omitempty"`
-
-	// RedirectURL is the URL that will be send back to the user to
-	// redirect for authentication if there is no user authorization information in
-	// the API request. URL can be defined if a redirection is requested only.
-	RedirectURL *string `json:"redirectURL,omitempty" bson:"redirecturl" mapstructure:"redirectURL,omitempty"`
+	// If this is set, the user will be redirected to that URL in case of any
+	// authorization failure to let you chance to provide a nice message to the user.
+	// The query parameter `+"`"+`?failure_message=<message>`+"`"+` will be added to that url
+	// explaining the possible reasons of the failure.
+	RedirectURLOnAuthorizationFailure *string `json:"redirectURLOnAuthorizationFailure,omitempty" bson:"redirecturlonauthorizationfailure" mapstructure:"redirectURLOnAuthorizationFailure,omitempty"`
 
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to implement this particular service.
 	Selectors *[][]string `json:"selectors,omitempty" bson:"selectors" mapstructure:"selectors,omitempty"`
 
-	// ServiceCA  is the certificate authority that the service is using. This
-	// is needed for external services with private certificate authorities. The
-	// field is optional. If provided, this must be a valid PEM CA file.
-	ServiceCA *string `json:"serviceCA,omitempty" bson:"serviceca" mapstructure:"serviceCA,omitempty"`
+	// PEM encoded Certificate Authorities to trust when additional hops are needed. It
+	// must be set if the service must reach a Service marked as `+"`"+`external`+"`"+` or must go
+	// through an additional TLS termination point like a L7 Load Balancer.
+	TrustedCertificateAuthorities *string `json:"trustedCertificateAuthorities,omitempty" bson:"trustedcertificateauthorities" mapstructure:"trustedCertificateAuthorities,omitempty"`
 
 	// Type is the type of the service.
 	Type *ServiceTypeValue `json:"type,omitempty" bson:"type" mapstructure:"type,omitempty"`
@@ -1838,6 +2053,33 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.JWTSigningCertificate != nil {
 		out.JWTSigningCertificate = *o.JWTSigningCertificate
 	}
+	if o.MTLSCertificateAuthority != nil {
+		out.MTLSCertificateAuthority = *o.MTLSCertificateAuthority
+	}
+	if o.OIDCCallbackURL != nil {
+		out.OIDCCallbackURL = *o.OIDCCallbackURL
+	}
+	if o.OIDCClientID != nil {
+		out.OIDCClientID = *o.OIDCClientID
+	}
+	if o.OIDCClientSecret != nil {
+		out.OIDCClientSecret = *o.OIDCClientSecret
+	}
+	if o.OIDCProviderURL != nil {
+		out.OIDCProviderURL = *o.OIDCProviderURL
+	}
+	if o.OIDCScopes != nil {
+		out.OIDCScopes = *o.OIDCScopes
+	}
+	if o.TLSCertificate != nil {
+		out.TLSCertificate = *o.TLSCertificate
+	}
+	if o.TLSCertificateKey != nil {
+		out.TLSCertificateKey = *o.TLSCertificateKey
+	}
+	if o.TLSType != nil {
+		out.TLSType = *o.TLSType
+	}
 	if o.AllAPITags != nil {
 		out.AllAPITags = *o.AllAPITags
 	}
@@ -1853,20 +2095,11 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
-	if o.AuthorizationClaimMappings != nil {
-		out.AuthorizationClaimMappings = *o.AuthorizationClaimMappings
-	}
-	if o.AuthorizationID != nil {
-		out.AuthorizationID = *o.AuthorizationID
-	}
-	if o.AuthorizationProvider != nil {
-		out.AuthorizationProvider = *o.AuthorizationProvider
-	}
-	if o.AuthorizationSecret != nil {
-		out.AuthorizationSecret = *o.AuthorizationSecret
-	}
 	if o.AuthorizationType != nil {
 		out.AuthorizationType = *o.AuthorizationType
+	}
+	if o.ClaimsToHTTPHeaderMappings != nil {
+		out.ClaimsToHTTPHeaderMappings = *o.ClaimsToHTTPHeaderMappings
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
@@ -1910,20 +2143,14 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.PublicApplicationPort != nil {
 		out.PublicApplicationPort = *o.PublicApplicationPort
 	}
-	if o.RedirectOnFail != nil {
-		out.RedirectOnFail = *o.RedirectOnFail
-	}
-	if o.RedirectOnNoToken != nil {
-		out.RedirectOnNoToken = *o.RedirectOnNoToken
-	}
-	if o.RedirectURL != nil {
-		out.RedirectURL = *o.RedirectURL
+	if o.RedirectURLOnAuthorizationFailure != nil {
+		out.RedirectURLOnAuthorizationFailure = *o.RedirectURLOnAuthorizationFailure
 	}
 	if o.Selectors != nil {
 		out.Selectors = *o.Selectors
 	}
-	if o.ServiceCA != nil {
-		out.ServiceCA = *o.ServiceCA
+	if o.TrustedCertificateAuthorities != nil {
+		out.TrustedCertificateAuthorities = *o.TrustedCertificateAuthorities
 	}
 	if o.Type != nil {
 		out.Type = *o.Type

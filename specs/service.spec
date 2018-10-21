@@ -17,6 +17,12 @@ model:
     - archived
   - - namespace
     - normalizedtags
+  - - allAPITags
+  - - namespace
+    - allAPITags
+  - - allServiceTags
+  - - namespace
+    - allServiceTags
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
@@ -34,6 +40,8 @@ model:
   - '@identifiable-pk-stored'
   - '@named'
   - '@metadatable'
+  validations:
+  - $serviceEntity
 
 # Attributes
 attributes:
@@ -43,7 +51,7 @@ attributes:
       IPs is the list of IP addresses where the service can be accessed.
       This is an optional attribute and is only required if no host names are
       provided.
-      The system will automatically resolve IP addresses from  host names otherwise.
+      The system will automatically resolve IP addresses from host names otherwise.
     type: external
     exposed: true
     subtype: ip_list
@@ -51,12 +59,99 @@ attributes:
 
   - name: JWTSigningCertificate
     description: |-
-      JWTSigningCertificate is a certificate that can be used to validate user JWT in
-      HTTP requests. This is an optional field, needed only if user JWT validation is
-      required for this service. The certificate must be in PEM format.
+      PEM encoded certificate that will be used to validate user JWT in HTTP requests.
+      This is an optional field, needed only if the `authorizationType`
+      is set to `JWT`.
     type: string
     exposed: true
     stored: true
+
+  - name: MTLSCertificateAuthority
+    description: |-
+      PEM encoded Certificate Authority to use to verify client
+      certificates. This only applies if `authorizationType` is set to
+      `MTLS`. If it is not set, Aporeto's Public Signing Certificate Authority will
+      be used.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: OIDCCallbackURL
+    description: |-
+      This is an advanced setting. Optional OIDC callback URL. If you don't set it,
+      Aporeto will autodiscover it. It will be
+      `https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback`.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: OIDCClientID
+    description: OIDC Client ID. Only has effect if the `authorizationType` is set
+      to `OIDC`.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: OIDCClientSecret
+    description: OIDC Client Secret. Only has effect if the `authorizationType` is
+      set to `OIDC`.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: OIDCProviderURL
+    description: OIDC Provider URL. Only has effect if the `authorizationType` is
+      set to `OIDC`.
+    type: string
+    exposed: true
+    stored: true
+    example_value: https://accounts.google.com
+
+  - name: OIDCScopes
+    description: |-
+      Configures the scopes you want to add to the OIDC provider. Only has effect if
+      `authorizationType` is set to `OIDC`.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    example_value:
+    - email
+    - profile
+
+  - name: TLSCertificate
+    description: |-
+      PEM encoded certificate to expose to the clients for TLS. Only has effect and
+      required if `TLSType` is set to `External`.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: TLSCertificateKey
+    description: |-
+      PEM encoded certificate key associated to `TLSCertificate`. Only has effect and
+      required if `TLSType` is set to `External`.
+    type: string
+    exposed: true
+    stored: true
+
+  - name: TLSType
+    description: |-
+      Set how to provide a server certificate to the service.
+
+      * `Aporeto`: Generate a certificate issued from Aporeto public CA.
+      * `LetsEncrypt`: Issue a certificate from letsencrypt.
+      * `External`: : Let you define your own certificate and key to use.
+      * `None`: : TLS is disabled (not recommended).
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Aporeto
+    - LetsEncrypt
+    - External
+    - None
+    default_value: Aporeto
 
   - name: allAPITags
     description: This is a set of all API tags for matching in the DB.
@@ -72,9 +167,31 @@ attributes:
     stored: true
     read_only: true
 
-  - name: authorizationClaimMappings
+  - name: authorizationType
     description: |-
-      authorizationClaimMappings defines a list of mappings between incoming and
+      AuthorizationType defines the user authorization type that should be used.
+
+      * `None`: No auhtorization.
+      * `JWT`:  Configures a simple JWT verification from the HTTP `Auhorization`
+      Header
+      * `OIDC`: Configures OIDC authorization. You must then set `OIDCClientID`,
+      `OIDCClientSecret`, OIDCProviderURL`.
+      * `MTLS`: Configures Client Certificate authorization. Then you can optionaly
+      `MTLSCertificateAuthority` otherwise Aporeto Public Signing Certificate will be
+      used.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - None
+    - JWT
+    - OIDC
+    - MTLS
+    default_value: None
+
+  - name: claimsToHTTPHeaderMappings
+    description: |-
+      Defines a list of mappings between claims and
       HTTP headers. When these mappings are defined, the enforcer will copy the
       values of the claims to the corresponding HTTP headers.
     type: refList
@@ -83,43 +200,6 @@ attributes:
     stored: true
     extensions:
       refMode: pointer
-
-  - name: authorizationID
-    description: |-
-      authorizationID is only valid for OIDC authorization and defines the
-      issuer ID of the OAUTH token.
-    type: string
-    exposed: true
-    stored: true
-
-  - name: authorizationProvider
-    description: |-
-      authorizationProvider is only valid for OAUTH authorization and defines the
-      URL to the OAUTH provider that must be used.
-    type: string
-    exposed: true
-    stored: true
-
-  - name: authorizationSecret
-    description: |-
-      authorizationSecret is only valid for OIDC authorization and defines the
-      secret that should be used with the OAUTH provider to validate tokens.
-    type: string
-    exposed: true
-    stored: true
-
-  - name: authorizationType
-    description: |-
-      AuthorizationType defines the user authorization type that should be used.
-      Currently supporting PKI, and OIDC.
-    type: enum
-    exposed: true
-    stored: true
-    allowed_choices:
-    - PKI
-    - OIDC
-    - None
-    default_value: None
 
   - name: endpoints
     description: |-
@@ -199,33 +279,12 @@ attributes:
     example_value: 443
     max_value: 65535
 
-  - name: redirectOnFail
+  - name: redirectURLOnAuthorizationFailure
     description: |-
-      RedirectOnFail is a boolean that forces a redirect response if an API request
-      arrives and the user authorization information is not valid. This only applies
-      to HTTP services and it is only send for APIs that are not public.
-    type: boolean
-    exposed: true
-    stored: true
-    default_value: false
-    orderable: true
-
-  - name: redirectOnNoToken
-    description: |-
-      RedirectOnNoToken is a boolean that forces a redirect response if an API request
-      arrives and there is no user authorization information. This only applies to
-      HTTP services and it is only send for APIs that are not public.
-    type: boolean
-    exposed: true
-    stored: true
-    default_value: false
-    orderable: true
-
-  - name: redirectURL
-    description: |-
-      RedirectURL is the URL that will be send back to the user to
-      redirect for authentication if there is no user authorization information in
-      the API request. URL can be defined if a redirection is requested only.
+      If this is set, the user will be redirected to that URL in case of any
+      authorization failure to let you chance to provide a nice message to the user.
+      The query parameter `?failure_message=<message>` will be added to that url
+      explaining the possible reasons of the failure.
     type: string
     exposed: true
     stored: true
@@ -241,11 +300,11 @@ attributes:
     example_value:
     - - $identity=processingunit
 
-  - name: serviceCA
+  - name: trustedCertificateAuthorities
     description: |-
-      ServiceCA  is the certificate authority that the service is using. This
-      is needed for external services with private certificate authorities. The
-      field is optional. If provided, this must be a valid PEM CA file.
+      PEM encoded Certificate Authorities to trust when additional hops are needed. It
+      must be set if the service must reach a Service marked as `external` or must go
+      through an additional TLS termination point like a L7 Load Balancer.
     type: string
     exposed: true
     stored: true

@@ -455,3 +455,190 @@ func TestValidateProtocolList(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateServiceEntity(t *testing.T) {
+	type args struct {
+		service *Service
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// OIDC
+		{
+			"valid OIDC service",
+			args{
+				&Service{
+					Hosts:             []string{"myservice.com"},
+					AuthorizationType: ServiceAuthorizationTypeOIDC,
+					OIDCProviderURL:   "http://url.com",
+					OIDCClientID:      "client id",
+					OIDCClientSecret:  "client secret",
+				},
+			},
+			false,
+		},
+		{
+			"OIDC service with missing OIDCProviderURL",
+			args{
+				&Service{
+					Hosts:             []string{"myservice.com"},
+					AuthorizationType: ServiceAuthorizationTypeOIDC,
+					OIDCClientID:      "client id",
+					OIDCClientSecret:  "client secret",
+				},
+			},
+			true,
+		},
+		{
+			"OIDC service with missing OIDCClientID",
+			args{
+				&Service{
+					Hosts:             []string{"myservice.com"},
+					AuthorizationType: ServiceAuthorizationTypeOIDC,
+					OIDCProviderURL:   "http://url.com",
+					OIDCClientSecret:  "client secret",
+				},
+			},
+			true,
+		},
+		{
+			"OIDC service with missing OIDCClientSecret",
+			args{
+				&Service{
+					Hosts:             []string{"myservice.com"},
+					AuthorizationType: ServiceAuthorizationTypeOIDC,
+					OIDCProviderURL:   "http://url.com",
+					OIDCClientID:      "client id",
+				},
+			},
+			true,
+		},
+
+		// JWT
+		{
+			"valid JWT service",
+			args{
+				&Service{
+					Hosts:                 []string{"myservice.com"},
+					AuthorizationType:     ServiceAuthorizationTypeJWT,
+					JWTSigningCertificate: "---pem---",
+				},
+			},
+			false,
+		},
+		{
+			"JWT service with missing JWTSigningCertificate",
+			args{
+				&Service{
+					Hosts:             []string{"myservice.com"},
+					AuthorizationType: ServiceAuthorizationTypeJWT,
+				},
+			},
+			true,
+		},
+
+		// TLS
+		{
+			"valid service with type TLSType set to Aporeto",
+			args{
+				&Service{
+					Hosts:             []string{"myservice.com"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeAporeto,
+				},
+			},
+			false,
+		},
+		{
+			"valid service with type TLSType set to LetsEcncrypt",
+			args{
+				&Service{
+					Hosts:             []string{"myservice.com"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeLetsEncrypt,
+				},
+			},
+			false,
+		},
+		{
+			"valid service with type TLSType set to None",
+			args{
+				&Service{
+					Hosts:             []string{"myservice.com"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeNone,
+				},
+			},
+			false,
+		},
+		{
+			"valid service with type TLSType set to External",
+			args{
+				&Service{
+					Hosts:             []string{"myservice.com"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeExternal,
+					TLSCertificate:    "---cert---",
+					TLSCertificateKey: "---key---",
+				},
+			},
+			false,
+		},
+		{
+			"service with type TLSType set to External with missing cert and key",
+			args{
+				&Service{
+					Hosts:             []string{"myservice.com"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeExternal,
+				},
+			},
+			true,
+		},
+		{
+			"service with type TLSType set to External with missing cert",
+			args{
+				&Service{
+					Hosts:             []string{"myservice.com"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeExternal,
+					TLSCertificateKey: "---key---",
+				},
+			},
+			true,
+		},
+		{
+			"service with type TLSType set to External with missing key",
+			args{
+				&Service{
+					Hosts:             []string{"myservice.com"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeExternal,
+					TLSCertificate:    "---key---",
+				},
+			},
+			true,
+		},
+
+		// Hosts an IP
+		{
+			"service missing hosts and ips",
+			args{
+				&Service{
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeNone,
+				},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateServiceEntity(tt.args.service); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateServiceEntity() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}

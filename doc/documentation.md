@@ -9095,6 +9095,11 @@ units.
 
 ```json
 {
+  "OIDCProviderURL": "https://accounts.google.com",
+  "OIDCScopes": [
+    "email",
+    "profile"
+  ],
   "exposedAPIs": [
     [
       "package=p1"
@@ -9196,13 +9201,67 @@ ID is the identifier of the object.
 IPs is the list of IP addresses where the service can be accessed.
 This is an optional attribute and is only required if no host names are
 provided.
-The system will automatically resolve IP addresses from  host names otherwise.
+The system will automatically resolve IP addresses from host names otherwise.
 
 #### `JWTSigningCertificate (string)`
 
-JWTSigningCertificate is a certificate that can be used to validate user JWT in
-HTTP requests. This is an optional field, needed only if user JWT validation is
-required for this service. The certificate must be in PEM format.
+PEM encoded certificate that will be used to validate user JWT in HTTP requests.
+This is an optional field, needed only if the `authorizationType`
+is set to `JWT`.
+
+#### `MTLSCertificateAuthority (string)`
+
+PEM encoded Certificate Authority to use to verify client
+certificates. This only applies if `authorizationType` is set to
+`MTLS`. If it is not set, Aporeto's Public Signing Certificate Authority will
+be used.
+
+#### `OIDCCallbackURL (string)`
+
+This is an advanced setting. Optional OIDC callback URL. If you don't set it,
+Aporeto will autodiscover it. It will be
+`https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback`.
+
+#### `OIDCClientID (string)`
+
+OIDC Client ID. Only has effect if the `authorizationType` is set to `OIDC`.
+
+#### `OIDCClientSecret (string)`
+
+OIDC Client Secret. Only has effect if the `authorizationType` is set to `OIDC`.
+
+#### `OIDCProviderURL (string)`
+
+OIDC Provider URL. Only has effect if the `authorizationType` is set to `OIDC`.
+
+#### `OIDCScopes (list)`
+
+Configures the scopes you want to add to the OIDC provider. Only has effect if
+`authorizationType` is set to `OIDC`.
+
+#### `TLSCertificate (string)`
+
+PEM encoded certificate to expose to the clients for TLS. Only has effect and
+required if `TLSType` is set to `External`.
+
+#### `TLSCertificateKey (string)`
+
+PEM encoded certificate key associated to `TLSCertificate`. Only has effect and
+required if `TLSType` is set to `External`.
+
+#### `TLSType (enum)`
+
+Set how to provide a server certificate to the service.
+
+* `Aporeto`: Generate a certificate issued from Aporeto public CA.
+* `LetsEncrypt`: Issue a certificate from letsencrypt.
+* `External`: : Let you define your own certificate and key to use.
+* `None`: : TLS is disabled (not recommended).
+
+| Characteristics | Value                                  |
+| -               | -:                                     |
+| Allowed Value   | `Aporeto, LetsEncrypt, External, None` |
+| Default         | `"Aporeto"`                            |
 
 #### `annotations (external:annotations)`
 
@@ -9212,36 +9271,29 @@ Annotation stores additional information about an entity.
 
 AssociatedTags are the list of tags attached to an entity.
 
-#### `authorizationClaimMappings (refList)`
-
-authorizationClaimMappings defines a list of mappings between incoming and
-HTTP headers. When these mappings are defined, the enforcer will copy the
-values of the claims to the corresponding HTTP headers.
-
-#### `authorizationID (string)`
-
-authorizationID is only valid for OIDC authorization and defines the
-issuer ID of the OAUTH token.
-
-#### `authorizationProvider (string)`
-
-authorizationProvider is only valid for OAUTH authorization and defines the
-URL to the OAUTH provider that must be used.
-
-#### `authorizationSecret (string)`
-
-authorizationSecret is only valid for OIDC authorization and defines the
-secret that should be used with the OAUTH provider to validate tokens.
-
 #### `authorizationType (enum)`
 
 AuthorizationType defines the user authorization type that should be used.
-Currently supporting PKI, and OIDC.
 
-| Characteristics | Value             |
-| -               | -:                |
-| Allowed Value   | `PKI, OIDC, None` |
-| Default         | `"None"`          |
+* `None`: No auhtorization.
+* `JWT`:  Configures a simple JWT verification from the HTTP `Auhorization`
+Header
+* `OIDC`: Configures OIDC authorization. You must then set `OIDCClientID`,
+`OIDCClientSecret`, OIDCProviderURL`.
+* `MTLS`: Configures Client Certificate authorization. Then you can optionaly
+`MTLSCertificateAuthority` otherwise Aporeto Public Signing Certificate will be
+used.
+
+| Characteristics | Value                   |
+| -               | -:                      |
+| Allowed Value   | `None, JWT, OIDC, MTLS` |
+| Default         | `"None"`                |
+
+#### `claimsToHTTPHeaderMappings (refList)`
+
+Defines a list of mappings between claims and
+HTTP headers. When these mappings are defined, the enforcer will copy the
+values of the claims to the corresponding HTTP headers.
 
 #### `createTime (time)`
 
@@ -9382,44 +9434,23 @@ when an application is being accessed from a public network.
 | -               | -:      |
 | Max length      | `65535` |
 
-#### `redirectOnFail (boolean)`
+#### `redirectURLOnAuthorizationFailure (string)`
 
-RedirectOnFail is a boolean that forces a redirect response if an API request
-arrives and the user authorization information is not valid. This only applies
-to HTTP services and it is only send for APIs that are not public.
-
-| Characteristics | Value   |
-| -               | -:      |
-| Default         | `false` |
-| Orderable       | `true`  |
-
-#### `redirectOnNoToken (boolean)`
-
-RedirectOnNoToken is a boolean that forces a redirect response if an API request
-arrives and there is no user authorization information. This only applies to
-HTTP services and it is only send for APIs that are not public.
-
-| Characteristics | Value   |
-| -               | -:      |
-| Default         | `false` |
-| Orderable       | `true`  |
-
-#### `redirectURL (string)`
-
-RedirectURL is the URL that will be send back to the user to
-redirect for authentication if there is no user authorization information in
-the API request. URL can be defined if a redirection is requested only.
+If this is set, the user will be redirected to that URL in case of any
+authorization failure to let you chance to provide a nice message to the user.
+The query parameter `?failure_message=<message>` will be added to that url
+explaining the possible reasons of the failure.
 
 #### `selectors (external:policies_list)`
 
 Selectors contains the tag expression that an a processing unit
 must match in order to implement this particular service.
 
-#### `serviceCA (string)`
+#### `trustedCertificateAuthorities (string)`
 
-ServiceCA  is the certificate authority that the service is using. This
-is needed for external services with private certificate authorities. The
-field is optional. If provided, this must be a valid PEM CA file.
+PEM encoded Certificate Authorities to trust when additional hops are needed. It
+must be set if the service must reach a Service marked as `external` or must go
+through an additional TLS termination point like a L7 Load Balancer.
 
 #### `type (enum)`
 
