@@ -33,3 +33,7 @@ $protocol:
 $protocols:
   elemental:
     name: ValidateProtocolList
+
+$serviceEntity:
+  elemental:
+    name: ValidateServiceEntity
