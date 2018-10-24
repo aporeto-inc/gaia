@@ -1,10 +1,9 @@
 package gaia
 
 import (
+	"encoding/json"
 	"fmt"
 	"sync"
-
-	"encoding/json"
 
 	"go.aporeto.io/elemental"
 )
