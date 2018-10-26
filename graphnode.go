@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"sync"
-
 	"time"
 
 	"go.aporeto.io/elemental"

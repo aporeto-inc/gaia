@@ -45,6 +45,7 @@
 | [GraphNode](#graphnode)                                       | Represents an node from the dependency map.                                         |
 | [GraphPolicyInfo](#graphpolicyinfo)                           | Represents a policy information.                                                    |
 | [HookPolicy](#hookpolicy)                                     | Hook allows to to define hooks to the write operations in squall. Hooks are sent... |
+| [HostService](#hostservice)                                   | Represents a service of the enforcer's host.                                        |
 | [Import](#import)                                             | Imports an export of policies and related objects into the namespace.               |
 | [Installation](#installation)                                 | Installation represents an installation for a given account.                        |
 | [InstalledApp](#installedapp)                                 | InstalledApps represents an installed application.                                  |
@@ -68,6 +69,7 @@
 | [PolicyRule](#policyrule)                                     | PolicyRule is an internal policy resolution API. Services can use this API to       |
 | [ProcessingUnit](#processingunit)                             | A Processing Unit reprents anything that can compute. It can be a Docker            |
 | [ProcessingUnitPolicy](#processingunitpolicy)                 | A ProcessingUnitPolicies needs a better description.                                |
+| [ProcessingUnitService](#processingunitservice)               | Represents a service attached to a processing unit.                                 |
 | [QuotaPolicy](#quotapolicy)                                   | Quotas Policies allows to set quotas on the number of objects that can be           |
 | [RemoteProcessor](#remoteprocessor)                           | Hook to integrate an Aporeto service.                                               |
 | [RenderedPolicy](#renderedpolicy)                             | Retrieve the aggregated policies applied to a particular processing unit.           |
@@ -3277,7 +3279,18 @@ enforcer.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `hostServices (external:host_services_list)`
+#### `hostModeEnabled (boolean)`
+
+hostModeEnabled enables protection of the complete host. When this option is
+turned on, all incoming and outgoing flows will be monitored. Flows will
+be allowed if and only if a network policy has been created to allow the flow.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Default         | `false` |
+| Orderable       | `true`  |
+
+#### `hostServices (refList)`
 
 HostServices is a list of services that must be activated by default to all
 enforcers matching this profile.
@@ -5566,6 +5579,43 @@ UpdateTime is the time at which an entity was updated.
 | Read only       | `true` |
 | Orderable       | `true` |
 
+## HostService
+
+Represents a service of the enforcer's host.
+
+### Attributes
+
+#### `associatedTags (external:tags_list)`
+
+AssociatedTags are the list of tags attached to an entity.
+
+#### `name (string)`
+
+Name of the service.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `networkonly (boolean)`
+
+> This attribute is deprecated
+
+networkonly indicate the host service is of type network only.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Default         | `true` |
+| Read only       | `true` |
+
+#### `services (refList)`
+
+Services lists all protocols and ports a service is running.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
 ## Import
 
 Imports an export of policies and related objects into the namespace.
@@ -5574,8 +5624,7 @@ Imports an export of policies and related objects into the namespace.
 
 ```json
 {
-  "data": "previous output of export",
-  "mode": "ReplacePartial"
+  "data": "previous output of export"
 }
 ```
 
@@ -5599,9 +5648,10 @@ The data to import.
 
 How to import the data.
 
-| Characteristics | Value                                 |
-| -               | -:                                    |
-| Allowed Value   | `Append, ReplacePartial, ReplaceFull` |
+| Characteristics | Value                                         |
+| -               | -:                                            |
+| Allowed Value   | `Append, ReplacePartial, ReplaceFull, Remove` |
+| Default         | `"ReplacePartial"`                            |
 
 ## Installation
 
@@ -8119,7 +8169,7 @@ Namespace tag attached to an entity.
 
 NativeContextID is the Docker UUID or service PID.
 
-#### `networkServices (external:processing_unit_services_list)`
+#### `networkServices (refList)`
 
 NetworkServices is the list of services that this processing unit has declared
 that it will be listening to. This can happen either with an activation command
@@ -8390,6 +8440,31 @@ UpdateTime is the time at which an entity was updated.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
+
+## ProcessingUnitService
+
+Represents a service attached to a processing unit.
+
+### Attributes
+
+#### `ports (string)`
+
+> This attribute is deprecated
+
+ports contains the list of allowed ports and ranges.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Read only       | `true` |
+| Orderable       | `true` |
+
+#### `protocol (integer)`
+
+Protocol used by the service.
+
+#### `targetPorts (external:ports_list)`
+
+List of single ports or range (xx:yy).
 
 ## QuotaPolicy
 

@@ -60,10 +60,12 @@ audit_profile_rule_list:
 audit_profile_selector:
   elemental:
     type: '[]string'
+    init: '[]string{}'
 
 audit_profiles:
   elemental:
     type: AuditProfilesList
+    init: AuditProfilesList{}
 
 authorization_map:
   elemental:
@@ -188,12 +190,6 @@ hashed_tags:
     type: map[string]string
     init: map[string]string{}
 
-host_services_list:
-  elemental:
-    type: types.HostServicesList
-    init: types.HostServicesList{}
-    import: go.aporeto.io/gaia/types
-
 identity_list:
   elemental:
     type: '[]string'
@@ -291,12 +287,6 @@ ports_list:
     type: '[]string'
     init: '[]string{}'
 
-processing_unit_services_list:
-  elemental:
-    type: types.ProcessingUnitServicesList
-    init: types.ProcessingUnitServicesList{}
-    import: go.aporeto.io/gaia/types
-
 processingunit:
   elemental:
     type: '*ProcessingUnit'
@@ -378,10 +368,12 @@ tags_map:
 target_networks_list:
   elemental:
     type: '[]string'
+    init: '[]string{}'
 
 target_tags:
   elemental:
     type: '[][]string'
+    init: '[][]string{}'
 
 time_series_results:
   elemental:

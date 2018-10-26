@@ -97,11 +97,15 @@ attributes:
       NetworkServices is the list of services that this processing unit has declared
       that it will be listening to. This can happen either with an activation command
       or by exposing the ports in a container manifest.
-    type: external
+    type: refList
     exposed: true
-    subtype: processing_unit_services_list
+    subtype: processingunitservice
     stored: true
     orderable: true
+    validations:
+    - $processingunitservices
+    extensions:
+      refMode: pointer
 
   - name: operationalStatus
     description: OperationalStatus of the processing unit.

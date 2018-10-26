@@ -29,6 +29,8 @@ model:
   - '@described'
   - '@identifiable-pk-stored'
   - '@named'
+  validations:
+  - $enforcerprofile
 
 # Attributes
 attributes:
@@ -127,14 +129,29 @@ attributes:
     stored: true
     orderable: true
 
+  - name: hostModeEnabled
+    description: |-
+      hostModeEnabled enables protection of the complete host. When this option is
+      turned on, all incoming and outgoing flows will be monitored. Flows will
+      be allowed if and only if a network policy has been created to allow the flow.
+    type: boolean
+    exposed: true
+    stored: true
+    default_value: false
+    orderable: true
+
   - name: hostServices
     description: |-
       HostServices is a list of services that must be activated by default to all
       enforcers matching this profile.
-    type: external
+    type: refList
     exposed: true
-    subtype: host_services_list
+    subtype: hostservice
     stored: true
+    validations:
+    - $host_services_list
+    extensions:
+      refMode: pointer
 
   - name: ignoreExpression
     description: |-

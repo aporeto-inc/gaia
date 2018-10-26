@@ -3,7 +3,6 @@ package gaia
 import (
 	"fmt"
 	"sync"
-
 	"time"
 
 	"go.aporeto.io/elemental"

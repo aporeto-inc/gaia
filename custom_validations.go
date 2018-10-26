@@ -1,6 +1,8 @@
 package gaia
 
 import (
+	"crypto/x509"
+	"encoding/pem"
 	"fmt"
 	"net"
 	"net/http"
@@ -9,6 +11,7 @@ import (
 	"strings"
 
 	"go.aporeto.io/elemental"
+	"go.aporeto.io/gaia/portutils"
 	"go.aporeto.io/gaia/protocols"
 )
 
@@ -16,6 +19,7 @@ import (
 // valid: 443, 443:555
 func ValidatePortString(attribute string, portExp string) error {
 
+	// TODO: Use portutils to validate a port
 	ports := strings.Split(portExp, ":")
 	if len(ports) == 0 || len(ports) > 2 {
 		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be a port (xxx) or port range (xxx:yyy)", attribute))
@@ -52,10 +56,6 @@ func ValidatePortString(attribute string, portExp string) error {
 
 // ValidatePortStringList validates a list of ports.
 func ValidatePortStringList(attribute string, ports []string) error {
-
-	if len(ports) == 0 {
-		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' port list must not be empty", attribute))
-	}
 
 	for _, port := range ports {
 		if err := ValidatePortString(attribute, port); err != nil {
@@ -198,4 +198,154 @@ func makeValidationError(attribute string, message string) error {
 	}
 
 	return err
+}
+
+var regHostServiceName = regexp.MustCompile(`^[a-zA-Z0-9_]{0,11}$`)
+
+// ValidateHostServicesList validates a list of host services.
+// CS: 10/6/2018 - Keep the constraint on the regex for now. Will need to create an API for HostServices
+func ValidateHostServicesList(attribute string, hostServices []*HostService) error {
+
+	cacheNames := map[string]struct{}{}
+	cachePortsList := map[int]*portutils.PortsList{}
+	cacheRanges := map[int]*portutils.PortsRangeList{}
+
+	for _, hs := range hostServices {
+
+		if len(hs.Name) == 0 {
+			return makeValidationError("hostServices", "Host service names must be specified")
+		}
+
+		// Constraint on regex is used because the enforcer is using the name as nativeContextID.
+		if !regHostServiceName.MatchString(hs.Name) {
+			return makeValidationError("hostServices", "Host service name must be less than 12 characters and contains only alphanumeric or _")
+		}
+
+		// Name should be unique
+		if _, ok := cacheNames[hs.Name]; ok {
+			return makeValidationError("hostServices", "Name must be unique.")
+		}
+
+		cacheNames[hs.Name] = struct{}{}
+
+		if hs.Services != nil {
+			var err error
+			if cachePortsList, cacheRanges, err = ValidateProcessingUnitServicesListWithoutOverlap(hs.Services, cachePortsList, cacheRanges); err != nil {
+				return makeValidationError("hostServices", err.Error())
+			}
+		}
+	}
+	return nil
+}
+
+// ValidateEnforcerProfile validates a an enforcer profile.
+func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
+
+	// Validate Target Networks
+	for _, tn := range enforcerProfile.TargetNetworks {
+		_, _, err := net.ParseCIDR(tn)
+		if err != nil {
+			return makeValidationError("targetNetworks", fmt.Sprintf("%s is not a valid CIDR", tn))
+		}
+	}
+
+	// Validate trusted CAs
+	for i, ca := range enforcerProfile.TrustedCAs {
+		rest := []byte(ca)
+		var block *pem.Block
+
+		for {
+			block, rest = pem.Decode(rest)
+
+			if block == nil || block.Type != "CERTIFICATE" {
+				return makeValidationError("trustedCAs", fmt.Sprintf("The CA %d is not a valid CA", i))
+			}
+
+			if _, err := x509.ParseCertificate(block.Bytes); err != nil {
+				return makeValidationError("trustedCAs", err.Error())
+			}
+
+			if len(rest) == 0 {
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// ValidateProcessingUnitServicesList validates a list of processing unit services.
+func ValidateProcessingUnitServicesList(attribute string, svcs []*ProcessingUnitService) error {
+
+	if _, _, err := ValidateProcessingUnitServicesListWithoutOverlap(svcs, map[int]*portutils.PortsList{}, map[int]*portutils.PortsRangeList{}); err != nil {
+		return makeValidationError(attribute, err.Error())
+	}
+	return nil
+}
+
+// ValidateProcessingUnitServicesListWithoutOverlap validates a list of processing unit services has no overlap with any given parameter.
+func ValidateProcessingUnitServicesListWithoutOverlap(svcs []*ProcessingUnitService, cachePortsList map[int]*portutils.PortsList, cacheRanges map[int]*portutils.PortsRangeList) (map[int]*portutils.PortsList, map[int]*portutils.PortsRangeList, error) {
+
+	for _, svc := range svcs {
+
+		var cpl *portutils.PortsList
+		var cpr *portutils.PortsRangeList
+		var ok bool
+
+		if cpl, ok = cachePortsList[svc.Protocol]; !ok {
+			cpl = &portutils.PortsList{}
+			cachePortsList[svc.Protocol] = cpl
+		}
+
+		if cpr, ok = cacheRanges[svc.Protocol]; !ok {
+			cpr = &portutils.PortsRangeList{}
+			cacheRanges[svc.Protocol] = cpr
+		}
+
+		targetPorts := svc.TargetPorts
+
+		for _, ports := range targetPorts {
+			// Range port
+			if strings.Contains(ports, ":") {
+
+				pr, err := portutils.ConvertToPortsRange(ports)
+				if err != nil {
+					return nil, nil, err
+				}
+
+				if pr.HasOverlapWithPortsRanges(cpr) {
+					return nil, nil, fmt.Errorf("Port range overlaps with another range")
+				}
+
+				if pr.HasOverlapWithPortsList(cpl) {
+					return nil, nil, fmt.Errorf("Port range overlaps with another port")
+				}
+
+				*cpr = append(*cpr, pr)
+				cacheRanges[svc.Protocol] = cpr
+
+				continue
+			}
+
+			// Single & Multiple ports
+			pl, err := portutils.ConvertToPortsList(ports)
+			if err != nil {
+				return nil, nil, err
+			}
+
+			if pl.HasOverlapWithPortsList(cpl) {
+				return nil, nil, fmt.Errorf("Port overlaps with another port")
+			}
+
+			if pl.HasOverlapWithPortsRanges(cpr) {
+				return nil, nil, fmt.Errorf("Port overlaps with another port range")
+			}
+
+			*cpl = append(*cpl, *pl...)
+			cachePortsList[svc.Protocol] = cpl
+		}
+
+	}
+
+	return cachePortsList, cacheRanges, nil
 }

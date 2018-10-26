@@ -3,11 +3,9 @@ package gaia
 import (
 	"fmt"
 	"sync"
-
 	"time"
 
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/types"
 )
 
 // EnforcerProfileKubernetesMetadataExtractorValue represents the possible values for attribute "kubernetesMetadataExtractor".
@@ -161,9 +159,14 @@ type EnforcerProfile struct {
 	// enforcer.
 	ExcludedNetworks []string `json:"excludedNetworks" bson:"excludednetworks" mapstructure:"excludedNetworks,omitempty"`
 
+	// hostModeEnabled enables protection of the complete host. When this option is
+	// turned on, all incoming and outgoing flows will be monitored. Flows will
+	// be allowed if and only if a network policy has been created to allow the flow.
+	HostModeEnabled bool `json:"hostModeEnabled" bson:"hostmodeenabled" mapstructure:"hostModeEnabled,omitempty"`
+
 	// HostServices is a list of services that must be activated by default to all
 	// enforcers matching this profile.
-	HostServices types.HostServicesList `json:"hostServices" bson:"hostservices" mapstructure:"hostServices,omitempty"`
+	HostServices []*HostService `json:"hostServices" bson:"hostservices" mapstructure:"hostServices,omitempty"`
 
 	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
 	// docker container started with labels matching the rule.
@@ -255,12 +258,15 @@ func NewEnforcerProfile() *EnforcerProfile {
 
 	return &EnforcerProfile{
 		ModelVersion:                  1,
-		AssociatedTags:                []string{},
-		Annotations:                   map[string][]string{},
-		AuditSocketBufferSize:         16384,
 		ApplicationProxyPort:          20992,
+		AuditProfiles:                 AuditProfilesList{},
+		AuditProfileSelectors:         []string{},
+		Annotations:                   map[string][]string{},
+		AssociatedTags:                []string{},
 		DockerSocketAddress:           "unix:///var/run/docker.sock",
-		HostServices:                  types.HostServicesList{},
+		AuditSocketBufferSize:         16384,
+		HostModeEnabled:               false,
+		HostServices:                  []*HostService{},
 		KubernetesSupportEnabled:      false,
 		PUHeartbeatInterval:           "5s",
 		ProxyListenAddress:            "unix:///var/run/aporeto.sock",
@@ -269,9 +275,11 @@ func NewEnforcerProfile() *EnforcerProfile {
 		ReceiverQueueSize:             500,
 		MetadataExtractor:             EnforcerProfileMetadataExtractorDocker,
 		RemoteEnforcerEnabled:         true,
+		TargetNetworks:                []string{},
 		TransmitterNumberOfQueues:     4,
 		KubernetesMetadataExtractor:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
 		TransmitterQueueSize:          500,
+		TargetUDPNetworks:             []string{},
 		PolicySynchronizationInterval: "10m",
 		TransmitterQueue:              4,
 		LinuxProcessesSupportEnabled:  true,
@@ -438,6 +446,7 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			DockerSocketAddress:           &o.DockerSocketAddress,
 			ExcludedInterfaces:            &o.ExcludedInterfaces,
 			ExcludedNetworks:              &o.ExcludedNetworks,
+			HostModeEnabled:               &o.HostModeEnabled,
 			HostServices:                  &o.HostServices,
 			IgnoreExpression:              &o.IgnoreExpression,
 			KillContainersOnFailure:       &o.KillContainersOnFailure,
@@ -498,6 +507,8 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.ExcludedInterfaces = &(o.ExcludedInterfaces)
 		case "excludedNetworks":
 			sp.ExcludedNetworks = &(o.ExcludedNetworks)
+		case "hostModeEnabled":
+			sp.HostModeEnabled = &(o.HostModeEnabled)
 		case "hostServices":
 			sp.HostServices = &(o.HostServices)
 		case "ignoreExpression":
@@ -603,6 +614,9 @@ func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ExcludedNetworks != nil {
 		o.ExcludedNetworks = *so.ExcludedNetworks
+	}
+	if so.HostModeEnabled != nil {
+		o.HostModeEnabled = *so.HostModeEnabled
 	}
 	if so.HostServices != nil {
 		o.HostServices = *so.HostServices
@@ -716,6 +730,16 @@ func (o *EnforcerProfile) Validate() error {
 		errors = append(errors, err)
 	}
 
+	for _, sub := range o.HostServices {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	if err := ValidateHostServicesList("hostServices", o.HostServices); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateStringInList("kubernetesMetadataExtractor", string(o.KubernetesMetadataExtractor), []string{"KubeSquall", "PodAtomic", "PodContainers"}, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -782,6 +806,18 @@ func (o *EnforcerProfile) Validate() error {
 
 	if err := elemental.ValidateMinimumInt("transmitterQueueSize", o.TransmitterQueueSize, int(1), false); err != nil {
 		errors = append(errors, err)
+	}
+
+	// Custom object validation.
+	if err := ValidateEnforcerProfile(o); err != nil {
+		switch e := err.(type) {
+		case elemental.Errors:
+			errors = append(errors, e...)
+		case elemental.Error:
+			errors = append(errors, e)
+		default:
+			errors = append(errors, e)
+		}
 	}
 
 	if len(requiredErrors) > 0 {
@@ -998,6 +1034,18 @@ enforcer.`,
 		SubType:   "excluded_networks_list",
 		Type:      "external",
 	},
+	"HostModeEnabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "HostModeEnabled",
+		Description: `hostModeEnabled enables protection of the complete host. When this option is
+turned on, all incoming and outgoing flows will be monitored. Flows will
+be allowed if and only if a network policy has been created to allow the flow.`,
+		Exposed:   true,
+		Name:      "hostModeEnabled",
+		Orderable: true,
+		Stored:    true,
+		Type:      "boolean",
+	},
 	"HostServices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "HostServices",
@@ -1006,8 +1054,8 @@ enforcers matching this profile.`,
 		Exposed: true,
 		Name:    "hostServices",
 		Stored:  true,
-		SubType: "host_services_list",
-		Type:    "external",
+		SubType: "hostservice",
+		Type:    "refList",
 	},
 	"IgnoreExpression": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1485,6 +1533,18 @@ enforcer.`,
 		SubType:   "excluded_networks_list",
 		Type:      "external",
 	},
+	"hostmodeenabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "HostModeEnabled",
+		Description: `hostModeEnabled enables protection of the complete host. When this option is
+turned on, all incoming and outgoing flows will be monitored. Flows will
+be allowed if and only if a network policy has been created to allow the flow.`,
+		Exposed:   true,
+		Name:      "hostModeEnabled",
+		Orderable: true,
+		Stored:    true,
+		Type:      "boolean",
+	},
 	"hostservices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "HostServices",
@@ -1493,8 +1553,8 @@ enforcers matching this profile.`,
 		Exposed: true,
 		Name:    "hostServices",
 		Stored:  true,
-		SubType: "host_services_list",
-		Type:    "external",
+		SubType: "hostservice",
+		Type:    "refList",
 	},
 	"ignoreexpression": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1900,9 +1960,14 @@ type SparseEnforcerProfile struct {
 	// enforcer.
 	ExcludedNetworks *[]string `json:"excludedNetworks,omitempty" bson:"excludednetworks" mapstructure:"excludedNetworks,omitempty"`
 
+	// hostModeEnabled enables protection of the complete host. When this option is
+	// turned on, all incoming and outgoing flows will be monitored. Flows will
+	// be allowed if and only if a network policy has been created to allow the flow.
+	HostModeEnabled *bool `json:"hostModeEnabled,omitempty" bson:"hostmodeenabled" mapstructure:"hostModeEnabled,omitempty"`
+
 	// HostServices is a list of services that must be activated by default to all
 	// enforcers matching this profile.
-	HostServices *types.HostServicesList `json:"hostServices,omitempty" bson:"hostservices" mapstructure:"hostServices,omitempty"`
+	HostServices *[]*HostService `json:"hostServices,omitempty" bson:"hostservices" mapstructure:"hostServices,omitempty"`
 
 	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
 	// docker container started with labels matching the rule.
@@ -2069,6 +2134,9 @@ func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ExcludedNetworks != nil {
 		out.ExcludedNetworks = *o.ExcludedNetworks
+	}
+	if o.HostModeEnabled != nil {
+		out.HostModeEnabled = *o.HostModeEnabled
 	}
 	if o.HostServices != nil {
 		out.HostServices = *o.HostServices

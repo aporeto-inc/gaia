@@ -181,7 +181,7 @@ func TestValidatePortStringList(t *testing.T) {
 				"ports",
 				[]string{},
 			},
-			true,
+			false,
 		},
 	}
 	for _, tt := range tests {
@@ -451,6 +451,169 @@ func TestValidateProtocolList(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := ValidateProtocolList(tt.args.attribute, tt.args.protocols); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateProtocolList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateHostServicesList(t *testing.T) {
+	type args struct {
+		attribute    string
+		hostservices []*HostService
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"alphanumeric name",
+			args{
+				"hostservices",
+				[]*HostService{
+					&HostService{
+						Name: "ssh22",
+					},
+				},
+			},
+			false,
+		},
+		{
+			"name with underscore",
+			args{
+				"hostservices",
+				[]*HostService{
+					&HostService{
+						Name: "proxy_ssh",
+					},
+				},
+			},
+			false,
+		},
+		{
+			"empty name",
+			args{
+				"hostservices",
+				[]*HostService{
+					&HostService{
+						Name: "",
+					},
+				},
+			},
+			true,
+		},
+		{
+			"name with space",
+			args{
+				"hostservices",
+				[]*HostService{
+					&HostService{
+						Name: "Host Service",
+					},
+				},
+			},
+			true,
+		},
+		{
+			"name contains hyphen",
+			args{
+				"hostservices",
+				[]*HostService{
+					&HostService{
+						Name: "proxy-ssh",
+					},
+				},
+			},
+			true,
+		},
+		{
+			"name with 12 characters",
+			args{
+				"hostservices",
+				[]*HostService{
+					&HostService{
+						Name: "ansible_proxy_ssh",
+					},
+				},
+			},
+			true,
+		},
+		{
+			"invalid name",
+			args{
+				"hostservices",
+				[]*HostService{
+					&HostService{
+						Name: "###InvalidName!",
+					},
+				},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateHostServicesList(tt.args.attribute, tt.args.hostservices); (err != nil) != tt.wantErr {
+				t.Errorf("TestValidateHostServicesList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateEnforcerProfile(t *testing.T) {
+	tests := []struct {
+		name            string
+		enforcerprofile *EnforcerProfile
+		wantErr         bool
+	}{
+		// Invalid CIDR
+		{
+			"valid target network",
+			&EnforcerProfile{
+				Name:           "Valid target network",
+				TargetNetworks: []string{"0.0.0.0/0"},
+			},
+			false,
+		},
+		{
+			"invalid target network",
+			&EnforcerProfile{
+				Name:           "Invalid target network",
+				TargetNetworks: []string{"invalid"},
+			},
+			true,
+		},
+
+		// Trusted CAs
+		{
+			"valid trusted CA",
+			&EnforcerProfile{
+				Name: "Valid CAs",
+				TrustedCAs: []string{`-----BEGIN CERTIFICATE-----
+MIIBPzCB5aADAgECAhB8oW2KA1BfhUmp6B1TkvcRMAoGCCqGSM49BAMCMA8xDTAL
+BgNVBAMTBHRlc3QwHhcNMTgxMDAyMjI1MjUwWhcNMjgwODEwMjI1MjUwWjAPMQ0w
+CwYDVQQDEwR0ZXN0MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEsHxO39rdxGtD
+8bP5AW2gqTMxgq4w9nyVbbpetS0rtjxwZ5bMgdS4GmqaifjqNGGt+VkK7gFNEyqG
+Hq/uTgtJ56MjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wCgYI
+KoZIzj0EAwIDSQAwRgIhAKRcwnrREJ6EnHOsiUnDfuNFxxALw4kV/ZyRxl1CJcS+
+AiEA0epxATHNzheAa8ZuiPeNQL6DhoKYz3B+41J2vgVlGZY=
+-----END CERTIFICATE-----`},
+			},
+			false,
+		},
+		{
+			"invalid trusted CA",
+			&EnforcerProfile{
+				Name:       "Invalid CAs",
+				TrustedCAs: []string{"invalid ca"},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateEnforcerProfile(tt.enforcerprofile); (err != nil) != tt.wantErr {
+				t.Errorf("TestVValidateEnforcerProfile() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
