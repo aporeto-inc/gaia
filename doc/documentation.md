@@ -5651,12 +5651,13 @@ The data to import.
 
 #### `mode (enum)`
 
-How to import the data.
+How to import the data. ReplacePartial is deprecated and should be Import. Right
+now the API considers both equivalent.
 
-| Characteristics | Value                                         |
-| -               | -:                                            |
-| Allowed Value   | `Append, ReplacePartial, ReplaceFull, Remove` |
-| Default         | `"ReplacePartial"`                            |
+| Characteristics | Value                            |
+| -               | -:                               |
+| Allowed Value   | `ReplacePartial, Import, Remove` |
+| Default         | `"Import"`                       |
 
 ## Installation
 

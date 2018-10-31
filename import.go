@@ -11,14 +11,11 @@ import (
 type ImportModeValue string
 
 const (
-	// ImportModeAppend represents the value Append.
-	ImportModeAppend ImportModeValue = "Append"
+	// ImportModeImport represents the value Import.
+	ImportModeImport ImportModeValue = "Import"
 
 	// ImportModeRemove represents the value Remove.
 	ImportModeRemove ImportModeValue = "Remove"
-
-	// ImportModeReplaceFull represents the value ReplaceFull.
-	ImportModeReplaceFull ImportModeValue = "ReplaceFull"
 
 	// ImportModeReplacePartial represents the value ReplacePartial.
 	ImportModeReplacePartial ImportModeValue = "ReplacePartial"
@@ -99,7 +96,8 @@ type Import struct {
 	// The data to import.
 	Data *Export `json:"data" bson:"-" mapstructure:"data,omitempty"`
 
-	// How to import the data.
+	// How to import the data. ReplacePartial is deprecated and should be Import. Right
+	// now the API considers both equivalent.
 	Mode ImportModeValue `json:"mode" bson:"-" mapstructure:"mode,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
@@ -113,7 +111,7 @@ func NewImport() *Import {
 	return &Import{
 		ModelVersion: 1,
 		Data:         NewExport(),
-		Mode:         ImportModeReplacePartial,
+		Mode:         ImportModeImport,
 	}
 }
 
@@ -206,7 +204,7 @@ func (o *Import) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateStringInList("mode", string(o.Mode), []string{"Append", "ReplacePartial", "ReplaceFull", "Remove"}, false); err != nil {
+	if err := elemental.ValidateStringInList("mode", string(o.Mode), []string{"ReplacePartial", "Import", "Remove"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -266,13 +264,14 @@ var ImportAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"Mode": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Append", "ReplacePartial", "ReplaceFull", "Remove"},
+		AllowedChoices: []string{"ReplacePartial", "Import", "Remove"},
 		ConvertedName:  "Mode",
-		DefaultValue:   ImportModeReplacePartial,
-		Description:    `How to import the data.`,
-		Exposed:        true,
-		Name:           "mode",
-		Type:           "enum",
+		DefaultValue:   ImportModeImport,
+		Description: `How to import the data. ReplacePartial is deprecated and should be Import. Right
+now the API considers both equivalent.`,
+		Exposed: true,
+		Name:    "mode",
+		Type:    "enum",
 	},
 }
 
@@ -289,13 +288,14 @@ var ImportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"mode": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Append", "ReplacePartial", "ReplaceFull", "Remove"},
+		AllowedChoices: []string{"ReplacePartial", "Import", "Remove"},
 		ConvertedName:  "Mode",
-		DefaultValue:   ImportModeReplacePartial,
-		Description:    `How to import the data.`,
-		Exposed:        true,
-		Name:           "mode",
-		Type:           "enum",
+		DefaultValue:   ImportModeImport,
+		Description: `How to import the data. ReplacePartial is deprecated and should be Import. Right
+now the API considers both equivalent.`,
+		Exposed: true,
+		Name:    "mode",
+		Type:    "enum",
 	},
 }
 
@@ -365,7 +365,8 @@ type SparseImport struct {
 	// The data to import.
 	Data **Export `json:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
-	// How to import the data.
+	// How to import the data. ReplacePartial is deprecated and should be Import. Right
+	// now the API considers both equivalent.
 	Mode *ImportModeValue `json:"mode,omitempty" bson:"-" mapstructure:"mode,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
