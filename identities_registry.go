@@ -45,7 +45,6 @@ var (
 		"hookpolicy": HookPolicyIdentity,
 
 		"import":                 ImportIdentity,
-		"installation":           InstallationIdentity,
 		"installedapp":           InstalledAppIdentity,
 		"invoice":                InvoiceIdentity,
 		"invoicerecord":          InvoiceRecordIdentity,
@@ -138,7 +137,6 @@ var (
 		"hookpolicies": HookPolicyIdentity,
 
 		"import":                   ImportIdentity,
-		"installations":            InstallationIdentity,
 		"installedapps":            InstalledAppIdentity,
 		"invoices":                 InvoiceIdentity,
 		"invoicerecords":           InvoiceRecordIdentity,
@@ -208,6 +206,7 @@ var (
 		"profiles":   EnforcerProfileIdentity,
 		"enfpols":    EnforcerProfileMappingPolicyIdentity,
 		"enfpol":     EnforcerProfileMappingPolicyIdentity,
+		"epm":        EnforcerProfileMappingPolicyIdentity,
 		"extnet":     ExternalNetworkIdentity,
 		"extnets":    ExternalNetworkIdentity,
 		"extsrv":     ExternalServiceIdentity,
@@ -338,10 +337,9 @@ var (
 			[]string{"namespace", "normalizedTags"},
 			[]string{"archived"},
 		},
-		"flowreport":   nil,
-		"hookpolicy":   nil,
-		"import":       nil,
-		"installation": nil,
+		"flowreport": nil,
+		"hookpolicy": nil,
+		"import":     nil,
 		"installedapp": [][]string{
 			[]string{"accountname", "name"},
 		},
@@ -556,8 +554,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewHookPolicy()
 	case ImportIdentity:
 		return NewImport()
-	case InstallationIdentity:
-		return NewInstallation()
 	case InstalledAppIdentity:
 		return NewInstalledApp()
 	case InvoiceIdentity:
@@ -737,8 +733,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseHookPolicy()
 	case ImportIdentity:
 		return NewSparseImport()
-	case InstallationIdentity:
-		return NewSparseInstallation()
 	case InstalledAppIdentity:
 		return NewSparseInstalledApp()
 	case InvoiceIdentity:
@@ -926,8 +920,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &HookPoliciesList{}
 	case ImportIdentity:
 		return &ImportsList{}
-	case InstallationIdentity:
-		return &InstallationsList{}
 	case InstalledAppIdentity:
 		return &InstalledAppsList{}
 	case InvoiceIdentity:
@@ -1105,8 +1097,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseHookPoliciesList{}
 	case ImportIdentity:
 		return &SparseImportsList{}
-	case InstallationIdentity:
-		return &SparseInstallationsList{}
 	case InstalledAppIdentity:
 		return &SparseInstalledAppsList{}
 	case InvoiceIdentity:
@@ -1261,7 +1251,6 @@ func AllIdentities() []elemental.Identity {
 		FlowReportIdentity,
 		HookPolicyIdentity,
 		ImportIdentity,
-		InstallationIdentity,
 		InstalledAppIdentity,
 		InvoiceIdentity,
 		InvoiceRecordIdentity,
@@ -1395,6 +1384,7 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"enfpols",
 			"enfpol",
+			"epm",
 		}
 	case EnforcerReportIdentity:
 		return []string{}
@@ -1433,8 +1423,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"hookpols",
 		}
 	case ImportIdentity:
-		return []string{}
-	case InstallationIdentity:
 		return []string{}
 	case InstalledAppIdentity:
 		return []string{

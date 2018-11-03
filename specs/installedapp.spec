@@ -78,6 +78,7 @@ attributes:
     type: string
     exposed: true
     stored: true
+    read_only: true
     orderable: true
 
   - name: parameters

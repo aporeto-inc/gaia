@@ -11,6 +11,7 @@ model:
   aliases:
   - enfpols
   - enfpol
+  - epm
   get:
     description: Retrieves the object with the given ID.
   update:

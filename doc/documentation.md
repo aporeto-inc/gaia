@@ -47,7 +47,6 @@
 | [HookPolicy](#hookpolicy)                                     | Hook allows to to define hooks to the write operations in squall. Hooks are sent... |
 | [HostService](#hostservice)                                   | Represents a service of the enforcer's host.                                        |
 | [Import](#import)                                             | Imports an export of policies and related objects into the namespace.               |
-| [Installation](#installation)                                 | Installation represents an installation for a given account.                        |
 | [InstalledApp](#installedapp)                                 | InstalledApps represents an installed application.                                  |
 | [Invoice](#invoice)                                           | This api allows to view invoices for Aporeto customers.                             |
 | [InvoiceRecord](#invoicerecord)                               | This api allows to view detailed records of invoices for Aporeto customers.         |
@@ -5658,56 +5657,6 @@ How to import the data.
 | Allowed Value   | `Append, ReplacePartial, ReplaceFull, Remove` |
 | Default         | `"ReplacePartial"`                            |
 
-## Installation
-
-Installation represents an installation for a given account.
-
-### Relations
-
-#### `GET /installations`
-
-Retrieves the list of installations.
-
-#### `POST /installations`
-
-Creates a new installation.
-
-#### `DELETE /installations/:id`
-
-Deletes the object with the given ID.
-
-##### Parameters
-
-- `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
-
-#### `GET /installations/:id`
-
-Retrieves the object with the given ID.
-
-#### `PUT /installations/:id`
-
-Updates the object with the given ID.
-
-### Attributes
-
-#### `ID (string)`
-
-ID is the identifier of the object.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Identifier      | `true` |
-| Orderable       | `true` |
-
-#### `accountName (string)`
-
-AccountName that should be installed.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-
 ## InstalledApp
 
 InstalledApps represents an installed application.
@@ -5796,6 +5745,7 @@ Namespace in which the app is running.
 
 | Characteristics | Value  |
 | -               | -:     |
+| Read only       | `true` |
 | Orderable       | `true` |
 
 #### `parameters (external:app_parameters)`

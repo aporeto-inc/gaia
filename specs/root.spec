@@ -337,12 +337,6 @@ relations:
   create:
     description: Imports data from a previous export.
 
-- rest_name: installation
-  get:
-    description: Retrieves the list of installations.
-  create:
-    description: Creates a new installation.
-
 - rest_name: isolationprofile
   get:
     description: Retrieves the list of isolation profiles.
