@@ -18,12 +18,13 @@ attributes:
     example_value: previous output of export
 
   - name: mode
-    description: How to import the data.
+    description: |-
+      How to import the data. ReplacePartial is deprecated and should be Import. Right
+      now the API considers both equivalent.
     type: enum
     exposed: true
     allowed_choices:
-    - Append
     - ReplacePartial
-    - ReplaceFull
+    - Import
     - Remove
-    default_value: ReplacePartial
+    default_value: Import
