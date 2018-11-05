@@ -5441,6 +5441,11 @@ ClientCertificateKey contains the key associated to the clientCertificate.
 | Required        | `true` |
 | Orderable       | `true` |
 
+#### `continueOnError (boolean)`
+
+If set to true and `mode` is in `Pre`, the request will be honored even if
+calling the hook fails.
+
 #### `createTime (time)`
 
 CreatedTime is the time at which the object was created.
@@ -7933,6 +7938,10 @@ Policy target namespaces.
 #### `policyNamespace (string)`
 
 PolicyNamespace is the namespace of the policy that created this rule.
+
+#### `policyUpdateTime (time)`
+
+Last time the policy was updated.
 
 #### `propagated (boolean)`
 

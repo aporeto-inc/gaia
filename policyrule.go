@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 	"sync"
+	"time"
 
 	"go.aporeto.io/elemental"
 )
@@ -111,6 +112,9 @@ type PolicyRule struct {
 	// PolicyNamespace is the namespace of the policy that created this rule.
 	PolicyNamespace string `json:"policyNamespace" bson:"-" mapstructure:"policyNamespace,omitempty"`
 
+	// Last time the policy was updated.
+	PolicyUpdateTime time.Time `json:"policyUpdateTime" bson:"-" mapstructure:"policyUpdateTime,omitempty"`
+
 	// Propagated indicates if the policy is propagated.
 	Propagated bool `json:"propagated" bson:"-" mapstructure:"propagated,omitempty"`
 
@@ -217,6 +221,7 @@ func (o *PolicyRule) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Name:              &o.Name,
 			Namespaces:        &o.Namespaces,
 			PolicyNamespace:   &o.PolicyNamespace,
+			PolicyUpdateTime:  &o.PolicyUpdateTime,
 			Propagated:        &o.Propagated,
 			Relation:          &o.Relation,
 			Services:          &o.Services,
@@ -247,6 +252,8 @@ func (o *PolicyRule) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Namespaces = &(o.Namespaces)
 		case "policyNamespace":
 			sp.PolicyNamespace = &(o.PolicyNamespace)
+		case "policyUpdateTime":
+			sp.PolicyUpdateTime = &(o.PolicyUpdateTime)
 		case "propagated":
 			sp.Propagated = &(o.Propagated)
 		case "relation":
@@ -297,6 +304,9 @@ func (o *PolicyRule) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.PolicyNamespace != nil {
 		o.PolicyNamespace = *so.PolicyNamespace
+	}
+	if so.PolicyUpdateTime != nil {
+		o.PolicyUpdateTime = *so.PolicyUpdateTime
 	}
 	if so.Propagated != nil {
 		o.Propagated = *so.Propagated
@@ -380,6 +390,8 @@ func (o *PolicyRule) ValueForAttribute(name string) interface{} {
 		return o.Namespaces
 	case "policyNamespace":
 		return o.PolicyNamespace
+	case "policyUpdateTime":
+		return o.PolicyUpdateTime
 	case "propagated":
 		return o.Propagated
 	case "relation":
@@ -495,6 +507,14 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "policyNamespace",
 		Type:           "string",
+	},
+	"PolicyUpdateTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PolicyUpdateTime",
+		Description:    `Last time the policy was updated.`,
+		Exposed:        true,
+		Name:           "policyUpdateTime",
+		Type:           "time",
 	},
 	"Propagated": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -637,6 +657,14 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Name:           "policyNamespace",
 		Type:           "string",
 	},
+	"policyupdatetime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PolicyUpdateTime",
+		Description:    `Last time the policy was updated.`,
+		Exposed:        true,
+		Name:           "policyUpdateTime",
+		Type:           "time",
+	},
 	"propagated": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagated",
@@ -770,6 +798,9 @@ type SparsePolicyRule struct {
 	// PolicyNamespace is the namespace of the policy that created this rule.
 	PolicyNamespace *string `json:"policyNamespace,omitempty" bson:"-" mapstructure:"policyNamespace,omitempty"`
 
+	// Last time the policy was updated.
+	PolicyUpdateTime *time.Time `json:"policyUpdateTime,omitempty" bson:"-" mapstructure:"policyUpdateTime,omitempty"`
+
 	// Propagated indicates if the policy is propagated.
 	Propagated *bool `json:"propagated,omitempty" bson:"-" mapstructure:"propagated,omitempty"`
 
@@ -853,6 +884,9 @@ func (o *SparsePolicyRule) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.PolicyNamespace != nil {
 		out.PolicyNamespace = *o.PolicyNamespace
+	}
+	if o.PolicyUpdateTime != nil {
+		out.PolicyUpdateTime = *o.PolicyUpdateTime
 	}
 	if o.Propagated != nil {
 		out.Propagated = *o.Propagated

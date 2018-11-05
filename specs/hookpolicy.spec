@@ -91,6 +91,14 @@ attributes:
     orderable: true
     secret: true
 
+  - name: continueOnError
+    description: |-
+      If set to true and `mode` is in `Pre`, the request will be honored even if
+      calling the hook fails.
+    type: boolean
+    exposed: true
+    stored: true
+
   - name: endpoint
     description: Endpoint contains the full address of the remote processor endoint.
     type: string
