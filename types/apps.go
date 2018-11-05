@@ -182,23 +182,6 @@ func (p *AppParameter) ValueToString() string {
 	return ""
 }
 
-// AppRelatedObject defines a related object.
-type AppRelatedObject struct {
-	Namespace string `json:"-"`
-	Identity  string `json:"-"`
-	ID        string `json:"-"`
-}
-
-// NewAppRelatedObject creates a new related object.
-func NewAppRelatedObject() *AppRelatedObject {
-
-	return &AppRelatedObject{}
-}
-
-// AppRelatedObjectOption is to prepare the future :)
-type AppRelatedObjectOption struct {
-}
-
 // validateStringValue validates a string parameter.
 func (p *AppParameter) validateStringValue() error {
 

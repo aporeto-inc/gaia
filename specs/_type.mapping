@@ -28,12 +28,6 @@ app_parameters:
     init: '[]*types.AppParameter{}'
     import: go.aporeto.io/gaia/types
 
-app_relatedobjects:
-  elemental:
-    type: '[]*types.AppRelatedObject'
-    init: '[]*types.AppRelatedObject{}'
-    import: go.aporeto.io/gaia/types
-
 app_versionparameters:
   elemental:
     type: map[string][]*types.AppParameter
@@ -327,11 +321,6 @@ scopes_list:
 selectors_list:
   elemental:
     type: map[string]string
-
-service_data:
-  elemental:
-    type: interface{}
-    init: nil
 
 syscall_action:
   elemental:

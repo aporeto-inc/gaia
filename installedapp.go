@@ -106,9 +106,6 @@ type InstalledApp struct {
 	// Version of the installed app.
 	CurrentVersion string `json:"currentVersion" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
 
-	// Data retains all data created to use this service.
-	Data interface{} `json:"-" bson:"data" mapstructure:"-,omitempty"`
-
 	// K8SIdentifier retains the identifier for kubernetes.
 	K8sIdentifier string `json:"-" bson:"k8sidentifier" mapstructure:"-,omitempty"`
 
@@ -120,9 +117,6 @@ type InstalledApp struct {
 
 	// Parameters is a list of parameters to start the app.
 	Parameters []*types.AppParameter `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
-
-	// RelatedObjects retains all objects created to use this app.
-	RelatedObjects []*types.AppRelatedObject `json:"-" bson:"relatedobjects" mapstructure:"-,omitempty"`
 
 	// Status of the app.
 	Status InstalledAppStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
@@ -136,11 +130,9 @@ type InstalledApp struct {
 func NewInstalledApp() *InstalledApp {
 
 	return &InstalledApp{
-		ModelVersion:   1,
-		Data:           nil,
-		Parameters:     []*types.AppParameter{},
-		RelatedObjects: []*types.AppRelatedObject{},
-		Status:         InstalledAppStatusPending,
+		ModelVersion: 1,
+		Parameters:   []*types.AppParameter{},
+		Status:       InstalledAppStatusPending,
 	}
 }
 
@@ -195,12 +187,10 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			AccountName:    &o.AccountName,
 			CategoryID:     &o.CategoryID,
 			CurrentVersion: &o.CurrentVersion,
-			Data:           &o.Data,
 			K8sIdentifier:  &o.K8sIdentifier,
 			Name:           &o.Name,
 			Namespace:      &o.Namespace,
 			Parameters:     &o.Parameters,
-			RelatedObjects: &o.RelatedObjects,
 			Status:         &o.Status,
 		}
 	}
@@ -216,8 +206,6 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CategoryID = &(o.CategoryID)
 		case "currentVersion":
 			sp.CurrentVersion = &(o.CurrentVersion)
-		case "data":
-			sp.Data = &(o.Data)
 		case "k8sIdentifier":
 			sp.K8sIdentifier = &(o.K8sIdentifier)
 		case "name":
@@ -226,8 +214,6 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Namespace = &(o.Namespace)
 		case "parameters":
 			sp.Parameters = &(o.Parameters)
-		case "relatedObjects":
-			sp.RelatedObjects = &(o.RelatedObjects)
 		case "status":
 			sp.Status = &(o.Status)
 		}
@@ -255,9 +241,6 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CurrentVersion != nil {
 		o.CurrentVersion = *so.CurrentVersion
 	}
-	if so.Data != nil {
-		o.Data = *so.Data
-	}
 	if so.K8sIdentifier != nil {
 		o.K8sIdentifier = *so.K8sIdentifier
 	}
@@ -269,9 +252,6 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Parameters != nil {
 		o.Parameters = *so.Parameters
-	}
-	if so.RelatedObjects != nil {
-		o.RelatedObjects = *so.RelatedObjects
 	}
 	if so.Status != nil {
 		o.Status = *so.Status
@@ -330,8 +310,6 @@ func (o *InstalledApp) ValueForAttribute(name string) interface{} {
 		return o.CategoryID
 	case "currentVersion":
 		return o.CurrentVersion
-	case "data":
-		return o.Data
 	case "k8sIdentifier":
 		return o.K8sIdentifier
 	case "name":
@@ -340,8 +318,6 @@ func (o *InstalledApp) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "parameters":
 		return o.Parameters
-	case "relatedObjects":
-		return o.RelatedObjects
 	case "status":
 		return o.Status
 	}
@@ -394,15 +370,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Data": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Data",
-		Description:    `Data retains all data created to use this service.`,
-		Name:           "data",
-		Stored:         true,
-		SubType:        "service_data",
-		Type:           "external",
-	},
 	"K8sIdentifier": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "K8sIdentifier",
@@ -441,15 +408,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "parameters",
 		Stored:         true,
 		SubType:        "app_parameters",
-		Type:           "external",
-	},
-	"RelatedObjects": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "RelatedObjects",
-		Description:    `RelatedObjects retains all objects created to use this app.`,
-		Name:           "relatedObjects",
-		Stored:         true,
-		SubType:        "app_relatedobjects",
 		Type:           "external",
 	},
 	"Status": elemental.AttributeSpecification{
@@ -511,15 +469,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "string",
 	},
-	"data": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Data",
-		Description:    `Data retains all data created to use this service.`,
-		Name:           "data",
-		Stored:         true,
-		SubType:        "service_data",
-		Type:           "external",
-	},
 	"k8sidentifier": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "K8sIdentifier",
@@ -558,15 +507,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Name:           "parameters",
 		Stored:         true,
 		SubType:        "app_parameters",
-		Type:           "external",
-	},
-	"relatedobjects": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "RelatedObjects",
-		Description:    `RelatedObjects retains all objects created to use this app.`,
-		Name:           "relatedObjects",
-		Stored:         true,
-		SubType:        "app_relatedobjects",
 		Type:           "external",
 	},
 	"status": elemental.AttributeSpecification{
@@ -658,9 +598,6 @@ type SparseInstalledApp struct {
 	// Version of the installed app.
 	CurrentVersion *string `json:"currentVersion,omitempty" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
 
-	// Data retains all data created to use this service.
-	Data *interface{} `json:"-,omitempty" bson:"data" mapstructure:"-,omitempty"`
-
 	// K8SIdentifier retains the identifier for kubernetes.
 	K8sIdentifier *string `json:"-,omitempty" bson:"k8sidentifier" mapstructure:"-,omitempty"`
 
@@ -672,9 +609,6 @@ type SparseInstalledApp struct {
 
 	// Parameters is a list of parameters to start the app.
 	Parameters *[]*types.AppParameter `json:"parameters,omitempty" bson:"parameters" mapstructure:"parameters,omitempty"`
-
-	// RelatedObjects retains all objects created to use this app.
-	RelatedObjects *[]*types.AppRelatedObject `json:"-,omitempty" bson:"relatedobjects" mapstructure:"-,omitempty"`
 
 	// Status of the app.
 	Status *InstalledAppStatusValue `json:"status,omitempty" bson:"status" mapstructure:"status,omitempty"`
@@ -732,9 +666,6 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.CurrentVersion != nil {
 		out.CurrentVersion = *o.CurrentVersion
 	}
-	if o.Data != nil {
-		out.Data = *o.Data
-	}
 	if o.K8sIdentifier != nil {
 		out.K8sIdentifier = *o.K8sIdentifier
 	}
@@ -746,9 +677,6 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Parameters != nil {
 		out.Parameters = *o.Parameters
-	}
-	if o.RelatedObjects != nil {
-		out.RelatedObjects = *o.RelatedObjects
 	}
 	if o.Status != nil {
 		out.Status = *o.Status

@@ -54,12 +54,6 @@ attributes:
     exposed: true
     stored: true
 
-  - name: data
-    description: Data retains all data created to use this service.
-    type: external
-    subtype: service_data
-    stored: true
-
   - name: k8sIdentifier
     description: K8SIdentifier retains the identifier for kubernetes.
     type: string
@@ -86,12 +80,6 @@ attributes:
     type: external
     exposed: true
     subtype: app_parameters
-    stored: true
-
-  - name: relatedObjects
-    description: RelatedObjects retains all objects created to use this app.
-    type: external
-    subtype: app_relatedobjects
     stored: true
 
   - name: status
