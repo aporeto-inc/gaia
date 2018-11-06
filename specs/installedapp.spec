@@ -54,6 +54,13 @@ attributes:
     exposed: true
     stored: true
 
+  - name: deploymentCount
+    description: DeploymentCount represents the number of expected deployment for
+      this app.
+    type: integer
+    stored: true
+    read_only: true
+
   - name: k8sIdentifier
     description: K8SIdentifier retains the identifier for kubernetes.
     type: string

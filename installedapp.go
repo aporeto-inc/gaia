@@ -106,6 +106,9 @@ type InstalledApp struct {
 	// Version of the installed app.
 	CurrentVersion string `json:"currentVersion" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
 
+	// DeploymentCount represents the number of expected deployment for this app.
+	DeploymentCount int `json:"-" bson:"deploymentcount" mapstructure:"-,omitempty"`
+
 	// K8SIdentifier retains the identifier for kubernetes.
 	K8sIdentifier string `json:"-" bson:"k8sidentifier" mapstructure:"-,omitempty"`
 
@@ -183,15 +186,16 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseInstalledApp{
-			ID:             &o.ID,
-			AccountName:    &o.AccountName,
-			CategoryID:     &o.CategoryID,
-			CurrentVersion: &o.CurrentVersion,
-			K8sIdentifier:  &o.K8sIdentifier,
-			Name:           &o.Name,
-			Namespace:      &o.Namespace,
-			Parameters:     &o.Parameters,
-			Status:         &o.Status,
+			ID:              &o.ID,
+			AccountName:     &o.AccountName,
+			CategoryID:      &o.CategoryID,
+			CurrentVersion:  &o.CurrentVersion,
+			DeploymentCount: &o.DeploymentCount,
+			K8sIdentifier:   &o.K8sIdentifier,
+			Name:            &o.Name,
+			Namespace:       &o.Namespace,
+			Parameters:      &o.Parameters,
+			Status:          &o.Status,
 		}
 	}
 
@@ -206,6 +210,8 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CategoryID = &(o.CategoryID)
 		case "currentVersion":
 			sp.CurrentVersion = &(o.CurrentVersion)
+		case "deploymentCount":
+			sp.DeploymentCount = &(o.DeploymentCount)
 		case "k8sIdentifier":
 			sp.K8sIdentifier = &(o.K8sIdentifier)
 		case "name":
@@ -240,6 +246,9 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CurrentVersion != nil {
 		o.CurrentVersion = *so.CurrentVersion
+	}
+	if so.DeploymentCount != nil {
+		o.DeploymentCount = *so.DeploymentCount
 	}
 	if so.K8sIdentifier != nil {
 		o.K8sIdentifier = *so.K8sIdentifier
@@ -310,6 +319,8 @@ func (o *InstalledApp) ValueForAttribute(name string) interface{} {
 		return o.CategoryID
 	case "currentVersion":
 		return o.CurrentVersion
+	case "deploymentCount":
+		return o.DeploymentCount
 	case "k8sIdentifier":
 		return o.K8sIdentifier
 	case "name":
@@ -369,6 +380,15 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "currentVersion",
 		Stored:         true,
 		Type:           "string",
+	},
+	"DeploymentCount": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "DeploymentCount",
+		Description:    `DeploymentCount represents the number of expected deployment for this app.`,
+		Name:           "deploymentCount",
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"K8sIdentifier": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -468,6 +488,15 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Name:           "currentVersion",
 		Stored:         true,
 		Type:           "string",
+	},
+	"deploymentcount": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "DeploymentCount",
+		Description:    `DeploymentCount represents the number of expected deployment for this app.`,
+		Name:           "deploymentCount",
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"k8sidentifier": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -598,6 +627,9 @@ type SparseInstalledApp struct {
 	// Version of the installed app.
 	CurrentVersion *string `json:"currentVersion,omitempty" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
 
+	// DeploymentCount represents the number of expected deployment for this app.
+	DeploymentCount *int `json:"-,omitempty" bson:"deploymentcount" mapstructure:"-,omitempty"`
+
 	// K8SIdentifier retains the identifier for kubernetes.
 	K8sIdentifier *string `json:"-,omitempty" bson:"k8sidentifier" mapstructure:"-,omitempty"`
 
@@ -665,6 +697,9 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CurrentVersion != nil {
 		out.CurrentVersion = *o.CurrentVersion
+	}
+	if o.DeploymentCount != nil {
+		out.DeploymentCount = *o.DeploymentCount
 	}
 	if o.K8sIdentifier != nil {
 		out.K8sIdentifier = *o.K8sIdentifier
