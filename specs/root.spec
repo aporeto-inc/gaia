@@ -726,3 +726,16 @@ relations:
         example_value: aporeto
   create:
     description: Creates a new OIDC provider.
+
+- rest_name: ipinfo
+  get:
+    description: Returns information about an IP address given as parameters.
+    parameters:
+      required:
+      - - - ip
+      entries:
+      - name: ip
+        description: List of IPs to resolve.
+        type: string
+        multiple: true
+        example_value: 1.2.3.4

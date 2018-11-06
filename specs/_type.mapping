@@ -409,3 +409,8 @@ vulnerability_level:
     type: constants.Vulnerability
     init: constants.VulnerabilityUnknown
     import: go.aporeto.io/gaia/constants
+
+whois_info:
+  elemental:
+    type: map[string]string
+    init: map[string]string{}
