@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -185,6 +186,30 @@ func (o *IPInfo) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Records != nil {
 		o.Records = *so.Records
 	}
+}
+
+// DeepCopy returns a deep copy if the IPInfo.
+func (o *IPInfo) DeepCopy() *IPInfo {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &IPInfo{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *IPInfo.
+func (o *IPInfo) DeepCopyInto(out *IPInfo) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy IPInfo: %s", err))
+	}
+
+	*out = *target.(*IPInfo)
 }
 
 // Validate valides the current information stored into the structure.
@@ -428,4 +453,28 @@ func (o *SparseIPInfo) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseIPInfo.
+func (o *SparseIPInfo) DeepCopy() *SparseIPInfo {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseIPInfo{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseIPInfo.
+func (o *SparseIPInfo) DeepCopyInto(out *SparseIPInfo) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseIPInfo: %s", err))
+	}
+
+	*out = *target.(*SparseIPInfo)
 }
