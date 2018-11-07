@@ -66,6 +66,11 @@ attributes:
     type: string
     exposed: true
 
+  - name: policyUpdateTime
+    description: Last time the policy was updated.
+    type: time
+    exposed: true
+
   - name: propagated
     description: Propagated indicates if the policy is propagated.
     type: boolean

@@ -117,6 +117,10 @@ type HookPolicy struct {
 	// ClientCertificateKey contains the key associated to the clientCertificate.
 	ClientCertificateKey string `json:"clientCertificateKey" bson:"clientcertificatekey" mapstructure:"clientCertificateKey,omitempty"`
 
+	// If set to true and `+"`"+`mode`+"`"+` is in `+"`"+`Pre`+"`"+`, the request will be honored even if
+	// calling the hook fails.
+	ContinueOnError bool `json:"continueOnError" bson:"continueonerror" mapstructure:"continueOnError,omitempty"`
+
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -392,6 +396,7 @@ func (o *HookPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CertificateAuthority: &o.CertificateAuthority,
 			ClientCertificate:    &o.ClientCertificate,
 			ClientCertificateKey: &o.ClientCertificateKey,
+			ContinueOnError:      &o.ContinueOnError,
 			CreateTime:           &o.CreateTime,
 			Description:          &o.Description,
 			Disabled:             &o.Disabled,
@@ -425,6 +430,8 @@ func (o *HookPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ClientCertificate = &(o.ClientCertificate)
 		case "clientCertificateKey":
 			sp.ClientCertificateKey = &(o.ClientCertificateKey)
+		case "continueOnError":
+			sp.ContinueOnError = &(o.ContinueOnError)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -485,6 +492,9 @@ func (o *HookPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ClientCertificateKey != nil {
 		o.ClientCertificateKey = *so.ClientCertificateKey
+	}
+	if so.ContinueOnError != nil {
+		o.ContinueOnError = *so.ContinueOnError
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -645,6 +655,8 @@ func (o *HookPolicy) ValueForAttribute(name string) interface{} {
 		return o.ClientCertificate
 	case "clientCertificateKey":
 		return o.ClientCertificateKey
+	case "continueOnError":
+		return o.ContinueOnError
 	case "createTime":
 		return o.CreateTime
 	case "description":
@@ -753,6 +765,16 @@ to the remote endoint.`,
 		Required:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"ContinueOnError": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ContinueOnError",
+		Description: `If set to true and ` + "`" + `mode` + "`" + ` is in ` + "`" + `Pre` + "`" + `, the request will be honored even if
+calling the hook fails.`,
+		Exposed: true,
+		Name:    "continueOnError",
+		Stored:  true,
+		Type:    "boolean",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1027,6 +1049,16 @@ to the remote endoint.`,
 		Required:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"continueonerror": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ContinueOnError",
+		Description: `If set to true and ` + "`" + `mode` + "`" + ` is in ` + "`" + `Pre` + "`" + `, the request will be honored even if
+calling the hook fails.`,
+		Exposed: true,
+		Name:    "continueOnError",
+		Stored:  true,
+		Type:    "boolean",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1313,6 +1345,10 @@ type SparseHookPolicy struct {
 	// ClientCertificateKey contains the key associated to the clientCertificate.
 	ClientCertificateKey *string `json:"clientCertificateKey,omitempty" bson:"clientcertificatekey" mapstructure:"clientCertificateKey,omitempty"`
 
+	// If set to true and `+"`"+`mode`+"`"+` is in `+"`"+`Pre`+"`"+`, the request will be honored even if
+	// calling the hook fails.
+	ContinueOnError *bool `json:"continueOnError,omitempty" bson:"continueonerror" mapstructure:"continueOnError,omitempty"`
+
 	// CreatedTime is the time at which the object was created.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -1421,6 +1457,9 @@ func (o *SparseHookPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ClientCertificateKey != nil {
 		out.ClientCertificateKey = *o.ClientCertificateKey
+	}
+	if o.ContinueOnError != nil {
+		out.ContinueOnError = *o.ContinueOnError
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime

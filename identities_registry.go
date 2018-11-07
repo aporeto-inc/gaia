@@ -48,6 +48,7 @@ var (
 		"installedapp":           InstalledAppIdentity,
 		"invoice":                InvoiceIdentity,
 		"invoicerecord":          InvoiceRecordIdentity,
+		"ipinfo":                 IPInfoIdentity,
 		"isolationprofile":       IsolationProfileIdentity,
 		"issue":                  IssueIdentity,
 		"jaegerbatch":            JaegerbatchIdentity,
@@ -140,6 +141,7 @@ var (
 		"installedapps":            InstalledAppIdentity,
 		"invoices":                 InvoiceIdentity,
 		"invoicerecords":           InvoiceRecordIdentity,
+		"ipinfos":                  IPInfoIdentity,
 		"isolationprofiles":        IsolationProfileIdentity,
 		"issue":                    IssueIdentity,
 		"jaegerbatchs":             JaegerbatchIdentity,
@@ -345,6 +347,7 @@ var (
 		},
 		"invoice":       nil,
 		"invoicerecord": nil,
+		"ipinfo":        nil,
 		"isolationprofile": [][]string{
 			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
@@ -560,6 +563,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewInvoice()
 	case InvoiceRecordIdentity:
 		return NewInvoiceRecord()
+	case IPInfoIdentity:
+		return NewIPInfo()
 	case IsolationProfileIdentity:
 		return NewIsolationProfile()
 	case IssueIdentity:
@@ -739,6 +744,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseInvoice()
 	case InvoiceRecordIdentity:
 		return NewSparseInvoiceRecord()
+	case IPInfoIdentity:
+		return NewSparseIPInfo()
 	case IsolationProfileIdentity:
 		return NewSparseIsolationProfile()
 	case IssueIdentity:
@@ -926,6 +933,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &InvoicesList{}
 	case InvoiceRecordIdentity:
 		return &InvoiceRecordsList{}
+	case IPInfoIdentity:
+		return &IPInfosList{}
 	case IsolationProfileIdentity:
 		return &IsolationProfilesList{}
 	case IssueIdentity:
@@ -1103,6 +1112,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseInvoicesList{}
 	case InvoiceRecordIdentity:
 		return &SparseInvoiceRecordsList{}
+	case IPInfoIdentity:
+		return &SparseIPInfosList{}
 	case IsolationProfileIdentity:
 		return &SparseIsolationProfilesList{}
 	case IssueIdentity:
@@ -1254,6 +1265,7 @@ func AllIdentities() []elemental.Identity {
 		InstalledAppIdentity,
 		InvoiceIdentity,
 		InvoiceRecordIdentity,
+		IPInfoIdentity,
 		IsolationProfileIdentity,
 		IssueIdentity,
 		JaegerbatchIdentity,
@@ -1432,6 +1444,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case InvoiceIdentity:
 		return []string{}
 	case InvoiceRecordIdentity:
+		return []string{}
+	case IPInfoIdentity:
 		return []string{}
 	case IsolationProfileIdentity:
 		return []string{

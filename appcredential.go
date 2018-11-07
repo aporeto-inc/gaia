@@ -108,6 +108,9 @@ type AppCredential struct {
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
+	// Disabled defines if the propert is disabled.
+	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
+
 	// The email address that will receive a copy of the application credentials.
 	Email string `json:"email" bson:"email" mapstructure:"email,omitempty"`
 
@@ -232,6 +235,18 @@ func (o *AppCredential) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetDisabled returns the Disabled of the receiver.
+func (o *AppCredential) GetDisabled() bool {
+
+	return o.Disabled
+}
+
+// SetDisabled sets the property Disabled of the receiver using the given value.
+func (o *AppCredential) SetDisabled(disabled bool) {
+
+	o.Disabled = disabled
+}
+
 // GetMetadata returns the Metadata of the receiver.
 func (o *AppCredential) GetMetadata() []string {
 
@@ -313,6 +328,7 @@ func (o *AppCredential) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			CreateTime:     &o.CreateTime,
 			Credentials:    &o.Credentials,
 			Description:    &o.Description,
+			Disabled:       &o.Disabled,
 			Email:          &o.Email,
 			Metadata:       &o.Metadata,
 			Name:           &o.Name,
@@ -344,6 +360,8 @@ func (o *AppCredential) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.Credentials = &(o.Credentials)
 		case "description":
 			sp.Description = &(o.Description)
+		case "disabled":
+			sp.Disabled = &(o.Disabled)
 		case "email":
 			sp.Email = &(o.Email)
 		case "metadata":
@@ -398,6 +416,9 @@ func (o *AppCredential) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
+	}
+	if so.Disabled != nil {
+		o.Disabled = *so.Disabled
 	}
 	if so.Email != nil {
 		o.Email = *so.Email
@@ -524,6 +545,8 @@ func (o *AppCredential) ValueForAttribute(name string) interface{} {
 		return o.Credentials
 	case "description":
 		return o.Description
+	case "disabled":
+		return o.Disabled
 	case "email":
 		return o.Email
 	case "metadata":
@@ -642,6 +665,18 @@ var AppCredentialAttributesMap = map[string]elemental.AttributeSpecification{
 		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"Disabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Disabled",
+		Description:    `Disabled defines if the propert is disabled.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "disabled",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"Email": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -859,6 +894,18 @@ var AppCredentialLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Stored:         true,
 		Type:           "string",
 	},
+	"disabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Disabled",
+		Description:    `Disabled defines if the propert is disabled.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "disabled",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"email": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Email",
@@ -1069,6 +1116,9 @@ type SparseAppCredential struct {
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
 
+	// Disabled defines if the propert is disabled.
+	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
+
 	// The email address that will receive a copy of the application credentials.
 	Email *string `json:"email,omitempty" bson:"email" mapstructure:"email,omitempty"`
 
@@ -1162,6 +1212,9 @@ func (o *SparseAppCredential) ToPlain() elemental.PlainIdentifiable {
 	if o.Description != nil {
 		out.Description = *o.Description
 	}
+	if o.Disabled != nil {
+		out.Disabled = *o.Disabled
+	}
 	if o.Email != nil {
 		out.Email = *o.Email
 	}
@@ -1227,6 +1280,18 @@ func (o *SparseAppCredential) GetCreateTime() time.Time {
 func (o *SparseAppCredential) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetDisabled returns the Disabled of the receiver.
+func (o *SparseAppCredential) GetDisabled() bool {
+
+	return *o.Disabled
+}
+
+// SetDisabled sets the property Disabled of the receiver using the address of the given value.
+func (o *SparseAppCredential) SetDisabled(disabled bool) {
+
+	o.Disabled = &disabled
 }
 
 // GetMetadata returns the Metadata of the receiver.

@@ -27,6 +27,7 @@ model:
   - '@metadatable'
   - '@timeable'
   - '@named'
+  - '@disabled'
 
 # Attributes
 attributes:
