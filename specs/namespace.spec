@@ -91,3 +91,5 @@ attributes:
     exposed: true
     stored: true
     default_value: 1h
+    validations:
+    - $timeDuration

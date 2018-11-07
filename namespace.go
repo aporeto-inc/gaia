@@ -457,6 +457,10 @@ func (o *Namespace) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := ValidateTimeDuration("serviceCertificateValidityTime", o.ServiceCertificateValidityTime); err != nil {
+		errors = append(errors, err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
