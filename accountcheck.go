@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -151,6 +152,30 @@ func (o *AccountCheck) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 // Patch apply the non nil value of a *SparseAccountCheck to the object.
 func (o *AccountCheck) Patch(sparse elemental.SparseIdentifiable) {
+}
+
+// DeepCopy returns a deep copy if the AccountCheck.
+func (o *AccountCheck) DeepCopy() *AccountCheck {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &AccountCheck{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *AccountCheck.
+func (o *AccountCheck) DeepCopyInto(out *AccountCheck) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy AccountCheck: %s", err))
+	}
+
+	*out = *target.(*AccountCheck)
 }
 
 // Validate valides the current information stored into the structure.
@@ -306,4 +331,28 @@ func (o *SparseAccountCheck) ToPlain() elemental.PlainIdentifiable {
 	out := NewAccountCheck()
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseAccountCheck.
+func (o *SparseAccountCheck) DeepCopy() *SparseAccountCheck {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseAccountCheck{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseAccountCheck.
+func (o *SparseAccountCheck) DeepCopyInto(out *SparseAccountCheck) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseAccountCheck: %s", err))
+	}
+
+	*out = *target.(*SparseAccountCheck)
 }

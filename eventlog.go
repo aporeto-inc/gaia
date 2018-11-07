@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -184,7 +185,7 @@ func (o *EventLog) GetNamespace() string {
 	return o.Namespace
 }
 
-// SetNamespace sets the given Namespace of the receiver.
+// SetNamespace sets the property Namespace of the receiver using the given value.
 func (o *EventLog) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
@@ -264,6 +265,30 @@ func (o *EventLog) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Title != nil {
 		o.Title = *so.Title
 	}
+}
+
+// DeepCopy returns a deep copy if the EventLog.
+func (o *EventLog) DeepCopy() *EventLog {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &EventLog{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *EventLog.
+func (o *EventLog) DeepCopyInto(out *EventLog) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy EventLog: %s", err))
+	}
+
+	*out = *target.(*EventLog)
 }
 
 // Validate valides the current information stored into the structure.
@@ -700,4 +725,40 @@ func (o *SparseEventLog) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseEventLog) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseEventLog) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
+}
+
+// DeepCopy returns a deep copy if the SparseEventLog.
+func (o *SparseEventLog) DeepCopy() *SparseEventLog {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseEventLog{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseEventLog.
+func (o *SparseEventLog) DeepCopyInto(out *SparseEventLog) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseEventLog: %s", err))
+	}
+
+	*out = *target.(*SparseEventLog)
 }

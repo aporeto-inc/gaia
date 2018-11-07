@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/types"
 )
@@ -177,7 +178,7 @@ func (o *AutomationTemplate) GetName() string {
 	return o.Name
 }
 
-// SetName sets the given Name of the receiver.
+// SetName sets the property Name of the receiver using the given value.
 func (o *AutomationTemplate) SetName(name string) {
 
 	o.Name = name
@@ -251,6 +252,30 @@ func (o *AutomationTemplate) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Parameters != nil {
 		o.Parameters = *so.Parameters
 	}
+}
+
+// DeepCopy returns a deep copy if the AutomationTemplate.
+func (o *AutomationTemplate) DeepCopy() *AutomationTemplate {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &AutomationTemplate{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *AutomationTemplate.
+func (o *AutomationTemplate) DeepCopyInto(out *AutomationTemplate) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy AutomationTemplate: %s", err))
+	}
+
+	*out = *target.(*AutomationTemplate)
 }
 
 // Validate valides the current information stored into the structure.
@@ -622,4 +647,40 @@ func (o *SparseAutomationTemplate) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseAutomationTemplate) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseAutomationTemplate) SetName(name string) {
+
+	o.Name = &name
+}
+
+// DeepCopy returns a deep copy if the SparseAutomationTemplate.
+func (o *SparseAutomationTemplate) DeepCopy() *SparseAutomationTemplate {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseAutomationTemplate{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseAutomationTemplate.
+func (o *SparseAutomationTemplate) DeepCopyInto(out *SparseAutomationTemplate) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseAutomationTemplate: %s", err))
+	}
+
+	*out = *target.(*SparseAutomationTemplate)
 }

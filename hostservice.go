@@ -1,8 +1,10 @@
 package gaia
 
 import (
+	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -42,10 +44,34 @@ func (o *HostService) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
-// SetAssociatedTags sets the given AssociatedTags of the receiver.
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
 func (o *HostService) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// DeepCopy returns a deep copy if the HostService.
+func (o *HostService) DeepCopy() *HostService {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &HostService{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *HostService.
+func (o *HostService) DeepCopyInto(out *HostService) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy HostService: %s", err))
+	}
+
+	*out = *target.(*HostService)
 }
 
 // Validate valides the current information stored into the structure.

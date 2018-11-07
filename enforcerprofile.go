@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -340,7 +341,7 @@ func (o *EnforcerProfile) GetAnnotations() map[string][]string {
 	return o.Annotations
 }
 
-// SetAnnotations sets the given Annotations of the receiver.
+// SetAnnotations sets the property Annotations of the receiver using the given value.
 func (o *EnforcerProfile) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
@@ -352,7 +353,7 @@ func (o *EnforcerProfile) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
-// SetAssociatedTags sets the given AssociatedTags of the receiver.
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
 func (o *EnforcerProfile) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
@@ -364,7 +365,7 @@ func (o *EnforcerProfile) GetCreateTime() time.Time {
 	return o.CreateTime
 }
 
-// SetCreateTime sets the given CreateTime of the receiver.
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
 func (o *EnforcerProfile) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
@@ -376,7 +377,7 @@ func (o *EnforcerProfile) GetName() string {
 	return o.Name
 }
 
-// SetName sets the given Name of the receiver.
+// SetName sets the property Name of the receiver using the given value.
 func (o *EnforcerProfile) SetName(name string) {
 
 	o.Name = name
@@ -388,7 +389,7 @@ func (o *EnforcerProfile) GetNamespace() string {
 	return o.Namespace
 }
 
-// SetNamespace sets the given Namespace of the receiver.
+// SetNamespace sets the property Namespace of the receiver using the given value.
 func (o *EnforcerProfile) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
@@ -400,7 +401,7 @@ func (o *EnforcerProfile) GetNormalizedTags() []string {
 	return o.NormalizedTags
 }
 
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
 func (o *EnforcerProfile) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
@@ -418,7 +419,7 @@ func (o *EnforcerProfile) GetUpdateTime() time.Time {
 	return o.UpdateTime
 }
 
-// SetUpdateTime sets the given UpdateTime of the receiver.
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
 func (o *EnforcerProfile) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
@@ -690,6 +691,30 @@ func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the EnforcerProfile.
+func (o *EnforcerProfile) DeepCopy() *EnforcerProfile {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &EnforcerProfile{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *EnforcerProfile.
+func (o *EnforcerProfile) DeepCopyInto(out *EnforcerProfile) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy EnforcerProfile: %s", err))
+	}
+
+	*out = *target.(*EnforcerProfile)
 }
 
 // Validate valides the current information stored into the structure.
@@ -2303,4 +2328,118 @@ func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetAnnotations returns the Annotations of the receiver.
+func (o *SparseEnforcerProfile) GetAnnotations() map[string][]string {
+
+	return *o.Annotations
+}
+
+// SetAnnotations sets the property Annotations of the receiver using the address of the given value.
+func (o *SparseEnforcerProfile) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = &annotations
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *SparseEnforcerProfile) GetAssociatedTags() []string {
+
+	return *o.AssociatedTags
+}
+
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
+func (o *SparseEnforcerProfile) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseEnforcerProfile) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseEnforcerProfile) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseEnforcerProfile) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseEnforcerProfile) SetName(name string) {
+
+	o.Name = &name
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseEnforcerProfile) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseEnforcerProfile) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *SparseEnforcerProfile) GetNormalizedTags() []string {
+
+	return *o.NormalizedTags
+}
+
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
+func (o *SparseEnforcerProfile) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = &normalizedTags
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *SparseEnforcerProfile) GetProtected() bool {
+
+	return *o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseEnforcerProfile) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseEnforcerProfile) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
+}
+
+// DeepCopy returns a deep copy if the SparseEnforcerProfile.
+func (o *SparseEnforcerProfile) DeepCopy() *SparseEnforcerProfile {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseEnforcerProfile{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseEnforcerProfile.
+func (o *SparseEnforcerProfile) DeepCopyInto(out *SparseEnforcerProfile) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseEnforcerProfile: %s", err))
+	}
+
+	*out = *target.(*SparseEnforcerProfile)
 }

@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -204,7 +205,7 @@ func (o *NamespaceMappingPolicy) GetAnnotations() map[string][]string {
 	return o.Annotations
 }
 
-// SetAnnotations sets the given Annotations of the receiver.
+// SetAnnotations sets the property Annotations of the receiver using the given value.
 func (o *NamespaceMappingPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
@@ -216,7 +217,7 @@ func (o *NamespaceMappingPolicy) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
-// SetAssociatedTags sets the given AssociatedTags of the receiver.
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
 func (o *NamespaceMappingPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
@@ -228,7 +229,7 @@ func (o *NamespaceMappingPolicy) GetCreateTime() time.Time {
 	return o.CreateTime
 }
 
-// SetCreateTime sets the given CreateTime of the receiver.
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
 func (o *NamespaceMappingPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
@@ -240,7 +241,7 @@ func (o *NamespaceMappingPolicy) GetDisabled() bool {
 	return o.Disabled
 }
 
-// SetDisabled sets the given Disabled of the receiver.
+// SetDisabled sets the property Disabled of the receiver using the given value.
 func (o *NamespaceMappingPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
@@ -252,7 +253,7 @@ func (o *NamespaceMappingPolicy) GetMetadata() []string {
 	return o.Metadata
 }
 
-// SetMetadata sets the given Metadata of the receiver.
+// SetMetadata sets the property Metadata of the receiver using the given value.
 func (o *NamespaceMappingPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
@@ -264,7 +265,7 @@ func (o *NamespaceMappingPolicy) GetName() string {
 	return o.Name
 }
 
-// SetName sets the given Name of the receiver.
+// SetName sets the property Name of the receiver using the given value.
 func (o *NamespaceMappingPolicy) SetName(name string) {
 
 	o.Name = name
@@ -276,7 +277,7 @@ func (o *NamespaceMappingPolicy) GetNamespace() string {
 	return o.Namespace
 }
 
-// SetNamespace sets the given Namespace of the receiver.
+// SetNamespace sets the property Namespace of the receiver using the given value.
 func (o *NamespaceMappingPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
@@ -288,7 +289,7 @@ func (o *NamespaceMappingPolicy) GetNormalizedTags() []string {
 	return o.NormalizedTags
 }
 
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
 func (o *NamespaceMappingPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
@@ -306,7 +307,7 @@ func (o *NamespaceMappingPolicy) GetUpdateTime() time.Time {
 	return o.UpdateTime
 }
 
-// SetUpdateTime sets the given UpdateTime of the receiver.
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
 func (o *NamespaceMappingPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
@@ -422,6 +423,30 @@ func (o *NamespaceMappingPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the NamespaceMappingPolicy.
+func (o *NamespaceMappingPolicy) DeepCopy() *NamespaceMappingPolicy {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &NamespaceMappingPolicy{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *NamespaceMappingPolicy.
+func (o *NamespaceMappingPolicy) DeepCopyInto(out *NamespaceMappingPolicy) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy NamespaceMappingPolicy: %s", err))
+	}
+
+	*out = *target.(*NamespaceMappingPolicy)
 }
 
 // Validate valides the current information stored into the structure.
@@ -1086,4 +1111,142 @@ func (o *SparseNamespaceMappingPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetAnnotations returns the Annotations of the receiver.
+func (o *SparseNamespaceMappingPolicy) GetAnnotations() map[string][]string {
+
+	return *o.Annotations
+}
+
+// SetAnnotations sets the property Annotations of the receiver using the address of the given value.
+func (o *SparseNamespaceMappingPolicy) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = &annotations
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *SparseNamespaceMappingPolicy) GetAssociatedTags() []string {
+
+	return *o.AssociatedTags
+}
+
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
+func (o *SparseNamespaceMappingPolicy) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseNamespaceMappingPolicy) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseNamespaceMappingPolicy) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetDisabled returns the Disabled of the receiver.
+func (o *SparseNamespaceMappingPolicy) GetDisabled() bool {
+
+	return *o.Disabled
+}
+
+// SetDisabled sets the property Disabled of the receiver using the address of the given value.
+func (o *SparseNamespaceMappingPolicy) SetDisabled(disabled bool) {
+
+	o.Disabled = &disabled
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *SparseNamespaceMappingPolicy) GetMetadata() []string {
+
+	return *o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the address of the given value.
+func (o *SparseNamespaceMappingPolicy) SetMetadata(metadata []string) {
+
+	o.Metadata = &metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseNamespaceMappingPolicy) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseNamespaceMappingPolicy) SetName(name string) {
+
+	o.Name = &name
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseNamespaceMappingPolicy) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseNamespaceMappingPolicy) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *SparseNamespaceMappingPolicy) GetNormalizedTags() []string {
+
+	return *o.NormalizedTags
+}
+
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
+func (o *SparseNamespaceMappingPolicy) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = &normalizedTags
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *SparseNamespaceMappingPolicy) GetProtected() bool {
+
+	return *o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseNamespaceMappingPolicy) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseNamespaceMappingPolicy) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
+}
+
+// DeepCopy returns a deep copy if the SparseNamespaceMappingPolicy.
+func (o *SparseNamespaceMappingPolicy) DeepCopy() *SparseNamespaceMappingPolicy {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseNamespaceMappingPolicy{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseNamespaceMappingPolicy.
+func (o *SparseNamespaceMappingPolicy) DeepCopyInto(out *SparseNamespaceMappingPolicy) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseNamespaceMappingPolicy: %s", err))
+	}
+
+	*out = *target.(*SparseNamespaceMappingPolicy)
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -225,6 +226,30 @@ func (o *FileAccess) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Protocol != nil {
 		o.Protocol = *so.Protocol
 	}
+}
+
+// DeepCopy returns a deep copy if the FileAccess.
+func (o *FileAccess) DeepCopy() *FileAccess {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &FileAccess{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *FileAccess.
+func (o *FileAccess) DeepCopyInto(out *FileAccess) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy FileAccess: %s", err))
+	}
+
+	*out = *target.(*FileAccess)
 }
 
 // Validate valides the current information stored into the structure.
@@ -554,4 +579,28 @@ func (o *SparseFileAccess) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseFileAccess.
+func (o *SparseFileAccess) DeepCopy() *SparseFileAccess {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseFileAccess{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseFileAccess.
+func (o *SparseFileAccess) DeepCopyInto(out *SparseFileAccess) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseFileAccess: %s", err))
+	}
+
+	*out = *target.(*SparseFileAccess)
 }

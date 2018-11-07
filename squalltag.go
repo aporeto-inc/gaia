@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -185,6 +186,30 @@ func (o *SquallTag) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Value != nil {
 		o.Value = *so.Value
 	}
+}
+
+// DeepCopy returns a deep copy if the SquallTag.
+func (o *SquallTag) DeepCopy() *SquallTag {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SquallTag{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SquallTag.
+func (o *SquallTag) DeepCopyInto(out *SquallTag) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SquallTag: %s", err))
+	}
+
+	*out = *target.(*SquallTag)
 }
 
 // Validate valides the current information stored into the structure.
@@ -420,4 +445,28 @@ func (o *SparseSquallTag) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseSquallTag.
+func (o *SparseSquallTag) DeepCopy() *SparseSquallTag {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseSquallTag{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseSquallTag.
+func (o *SparseSquallTag) DeepCopyInto(out *SparseSquallTag) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseSquallTag: %s", err))
+	}
+
+	*out = *target.(*SparseSquallTag)
 }

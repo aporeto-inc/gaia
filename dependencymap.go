@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -213,6 +214,30 @@ func (o *DependencyMap) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ViewSuggestions != nil {
 		o.ViewSuggestions = *so.ViewSuggestions
 	}
+}
+
+// DeepCopy returns a deep copy if the DependencyMap.
+func (o *DependencyMap) DeepCopy() *DependencyMap {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &DependencyMap{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *DependencyMap.
+func (o *DependencyMap) DeepCopyInto(out *DependencyMap) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy DependencyMap: %s", err))
+	}
+
+	*out = *target.(*DependencyMap)
 }
 
 // Validate valides the current information stored into the structure.
@@ -528,4 +553,28 @@ func (o *SparseDependencyMap) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseDependencyMap.
+func (o *SparseDependencyMap) DeepCopy() *SparseDependencyMap {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseDependencyMap{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseDependencyMap.
+func (o *SparseDependencyMap) DeepCopyInto(out *SparseDependencyMap) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseDependencyMap: %s", err))
+	}
+
+	*out = *target.(*SparseDependencyMap)
 }

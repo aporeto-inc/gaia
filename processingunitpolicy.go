@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -238,7 +239,7 @@ func (o *ProcessingUnitPolicy) GetActiveDuration() string {
 	return o.ActiveDuration
 }
 
-// SetActiveDuration sets the given ActiveDuration of the receiver.
+// SetActiveDuration sets the property ActiveDuration of the receiver using the given value.
 func (o *ProcessingUnitPolicy) SetActiveDuration(activeDuration string) {
 
 	o.ActiveDuration = activeDuration
@@ -250,7 +251,7 @@ func (o *ProcessingUnitPolicy) GetActiveSchedule() string {
 	return o.ActiveSchedule
 }
 
-// SetActiveSchedule sets the given ActiveSchedule of the receiver.
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the given value.
 func (o *ProcessingUnitPolicy) SetActiveSchedule(activeSchedule string) {
 
 	o.ActiveSchedule = activeSchedule
@@ -262,7 +263,7 @@ func (o *ProcessingUnitPolicy) GetAnnotations() map[string][]string {
 	return o.Annotations
 }
 
-// SetAnnotations sets the given Annotations of the receiver.
+// SetAnnotations sets the property Annotations of the receiver using the given value.
 func (o *ProcessingUnitPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
@@ -274,7 +275,7 @@ func (o *ProcessingUnitPolicy) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
-// SetAssociatedTags sets the given AssociatedTags of the receiver.
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
 func (o *ProcessingUnitPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
@@ -286,7 +287,7 @@ func (o *ProcessingUnitPolicy) GetCreateTime() time.Time {
 	return o.CreateTime
 }
 
-// SetCreateTime sets the given CreateTime of the receiver.
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
 func (o *ProcessingUnitPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
@@ -298,7 +299,7 @@ func (o *ProcessingUnitPolicy) GetDisabled() bool {
 	return o.Disabled
 }
 
-// SetDisabled sets the given Disabled of the receiver.
+// SetDisabled sets the property Disabled of the receiver using the given value.
 func (o *ProcessingUnitPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
@@ -310,7 +311,7 @@ func (o *ProcessingUnitPolicy) GetFallback() bool {
 	return o.Fallback
 }
 
-// SetFallback sets the given Fallback of the receiver.
+// SetFallback sets the property Fallback of the receiver using the given value.
 func (o *ProcessingUnitPolicy) SetFallback(fallback bool) {
 
 	o.Fallback = fallback
@@ -322,7 +323,7 @@ func (o *ProcessingUnitPolicy) GetMetadata() []string {
 	return o.Metadata
 }
 
-// SetMetadata sets the given Metadata of the receiver.
+// SetMetadata sets the property Metadata of the receiver using the given value.
 func (o *ProcessingUnitPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
@@ -334,7 +335,7 @@ func (o *ProcessingUnitPolicy) GetName() string {
 	return o.Name
 }
 
-// SetName sets the given Name of the receiver.
+// SetName sets the property Name of the receiver using the given value.
 func (o *ProcessingUnitPolicy) SetName(name string) {
 
 	o.Name = name
@@ -346,7 +347,7 @@ func (o *ProcessingUnitPolicy) GetNamespace() string {
 	return o.Namespace
 }
 
-// SetNamespace sets the given Namespace of the receiver.
+// SetNamespace sets the property Namespace of the receiver using the given value.
 func (o *ProcessingUnitPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
@@ -358,7 +359,7 @@ func (o *ProcessingUnitPolicy) GetNormalizedTags() []string {
 	return o.NormalizedTags
 }
 
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
 func (o *ProcessingUnitPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
@@ -370,7 +371,7 @@ func (o *ProcessingUnitPolicy) GetPropagate() bool {
 	return o.Propagate
 }
 
-// SetPropagate sets the given Propagate of the receiver.
+// SetPropagate sets the property Propagate of the receiver using the given value.
 func (o *ProcessingUnitPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = propagate
@@ -382,7 +383,7 @@ func (o *ProcessingUnitPolicy) GetPropagationHidden() bool {
 	return o.PropagationHidden
 }
 
-// SetPropagationHidden sets the given PropagationHidden of the receiver.
+// SetPropagationHidden sets the property PropagationHidden of the receiver using the given value.
 func (o *ProcessingUnitPolicy) SetPropagationHidden(propagationHidden bool) {
 
 	o.PropagationHidden = propagationHidden
@@ -400,7 +401,7 @@ func (o *ProcessingUnitPolicy) GetUpdateTime() time.Time {
 	return o.UpdateTime
 }
 
-// SetUpdateTime sets the given UpdateTime of the receiver.
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
 func (o *ProcessingUnitPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
@@ -552,6 +553,30 @@ func (o *ProcessingUnitPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the ProcessingUnitPolicy.
+func (o *ProcessingUnitPolicy) DeepCopy() *ProcessingUnitPolicy {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &ProcessingUnitPolicy{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *ProcessingUnitPolicy.
+func (o *ProcessingUnitPolicy) DeepCopyInto(out *ProcessingUnitPolicy) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy ProcessingUnitPolicy: %s", err))
+	}
+
+	*out = *target.(*ProcessingUnitPolicy)
 }
 
 // Validate valides the current information stored into the structure.
@@ -1421,4 +1446,202 @@ func (o *SparseProcessingUnitPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *SparseProcessingUnitPolicy) GetActiveDuration() string {
+
+	return *o.ActiveDuration
+}
+
+// SetActiveDuration sets the property ActiveDuration of the receiver using the address of the given value.
+func (o *SparseProcessingUnitPolicy) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = &activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *SparseProcessingUnitPolicy) GetActiveSchedule() string {
+
+	return *o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the address of the given value.
+func (o *SparseProcessingUnitPolicy) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = &activeSchedule
+}
+
+// GetAnnotations returns the Annotations of the receiver.
+func (o *SparseProcessingUnitPolicy) GetAnnotations() map[string][]string {
+
+	return *o.Annotations
+}
+
+// SetAnnotations sets the property Annotations of the receiver using the address of the given value.
+func (o *SparseProcessingUnitPolicy) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = &annotations
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *SparseProcessingUnitPolicy) GetAssociatedTags() []string {
+
+	return *o.AssociatedTags
+}
+
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
+func (o *SparseProcessingUnitPolicy) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseProcessingUnitPolicy) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseProcessingUnitPolicy) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetDisabled returns the Disabled of the receiver.
+func (o *SparseProcessingUnitPolicy) GetDisabled() bool {
+
+	return *o.Disabled
+}
+
+// SetDisabled sets the property Disabled of the receiver using the address of the given value.
+func (o *SparseProcessingUnitPolicy) SetDisabled(disabled bool) {
+
+	o.Disabled = &disabled
+}
+
+// GetFallback returns the Fallback of the receiver.
+func (o *SparseProcessingUnitPolicy) GetFallback() bool {
+
+	return *o.Fallback
+}
+
+// SetFallback sets the property Fallback of the receiver using the address of the given value.
+func (o *SparseProcessingUnitPolicy) SetFallback(fallback bool) {
+
+	o.Fallback = &fallback
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *SparseProcessingUnitPolicy) GetMetadata() []string {
+
+	return *o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the address of the given value.
+func (o *SparseProcessingUnitPolicy) SetMetadata(metadata []string) {
+
+	o.Metadata = &metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseProcessingUnitPolicy) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseProcessingUnitPolicy) SetName(name string) {
+
+	o.Name = &name
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseProcessingUnitPolicy) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseProcessingUnitPolicy) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *SparseProcessingUnitPolicy) GetNormalizedTags() []string {
+
+	return *o.NormalizedTags
+}
+
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
+func (o *SparseProcessingUnitPolicy) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = &normalizedTags
+}
+
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseProcessingUnitPolicy) GetPropagate() bool {
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseProcessingUnitPolicy) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
+}
+
+// GetPropagationHidden returns the PropagationHidden of the receiver.
+func (o *SparseProcessingUnitPolicy) GetPropagationHidden() bool {
+
+	return *o.PropagationHidden
+}
+
+// SetPropagationHidden sets the property PropagationHidden of the receiver using the address of the given value.
+func (o *SparseProcessingUnitPolicy) SetPropagationHidden(propagationHidden bool) {
+
+	o.PropagationHidden = &propagationHidden
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *SparseProcessingUnitPolicy) GetProtected() bool {
+
+	return *o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseProcessingUnitPolicy) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseProcessingUnitPolicy) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
+}
+
+// DeepCopy returns a deep copy if the SparseProcessingUnitPolicy.
+func (o *SparseProcessingUnitPolicy) DeepCopy() *SparseProcessingUnitPolicy {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseProcessingUnitPolicy{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseProcessingUnitPolicy.
+func (o *SparseProcessingUnitPolicy) DeepCopyInto(out *SparseProcessingUnitPolicy) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseProcessingUnitPolicy: %s", err))
+	}
+
+	*out = *target.(*SparseProcessingUnitPolicy)
 }

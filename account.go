@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -529,6 +530,30 @@ func (o *Account) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the Account.
+func (o *Account) DeepCopy() *Account {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Account{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Account.
+func (o *Account) DeepCopyInto(out *Account) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Account: %s", err))
+	}
+
+	*out = *target.(*Account)
 }
 
 // Validate valides the current information stored into the structure.
@@ -1780,4 +1805,28 @@ func (o *SparseAccount) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseAccount.
+func (o *SparseAccount) DeepCopy() *SparseAccount {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseAccount{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseAccount.
+func (o *SparseAccount) DeepCopyInto(out *SparseAccount) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseAccount: %s", err))
+	}
+
+	*out = *target.(*SparseAccount)
 }

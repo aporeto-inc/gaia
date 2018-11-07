@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -166,6 +167,30 @@ func (o *Activate) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Token != nil {
 		o.Token = *so.Token
 	}
+}
+
+// DeepCopy returns a deep copy if the Activate.
+func (o *Activate) DeepCopy() *Activate {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Activate{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Activate.
+func (o *Activate) DeepCopyInto(out *Activate) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Activate: %s", err))
+	}
+
+	*out = *target.(*Activate)
 }
 
 // Validate valides the current information stored into the structure.
@@ -349,4 +374,28 @@ func (o *SparseActivate) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseActivate.
+func (o *SparseActivate) DeepCopy() *SparseActivate {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseActivate{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseActivate.
+func (o *SparseActivate) DeepCopyInto(out *SparseActivate) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseActivate: %s", err))
+	}
+
+	*out = *target.(*SparseActivate)
 }

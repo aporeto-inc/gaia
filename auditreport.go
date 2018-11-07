@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -447,6 +448,30 @@ func (o *AuditReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Timestamp != nil {
 		o.Timestamp = *so.Timestamp
 	}
+}
+
+// DeepCopy returns a deep copy if the AuditReport.
+func (o *AuditReport) DeepCopy() *AuditReport {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &AuditReport{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *AuditReport.
+func (o *AuditReport) DeepCopyInto(out *AuditReport) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy AuditReport: %s", err))
+	}
+
+	*out = *target.(*AuditReport)
 }
 
 // Validate valides the current information stored into the structure.
@@ -1428,4 +1453,28 @@ func (o *SparseAuditReport) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseAuditReport.
+func (o *SparseAuditReport) DeepCopy() *SparseAuditReport {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseAuditReport{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseAuditReport.
+func (o *SparseAuditReport) DeepCopyInto(out *SparseAuditReport) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseAuditReport: %s", err))
+	}
+
+	*out = *target.(*SparseAuditReport)
 }

@@ -1,8 +1,10 @@
 package gaia
 
 import (
+	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -25,6 +27,30 @@ func NewClaimMapping() *ClaimMapping {
 	return &ClaimMapping{
 		ModelVersion: 1,
 	}
+}
+
+// DeepCopy returns a deep copy if the ClaimMapping.
+func (o *ClaimMapping) DeepCopy() *ClaimMapping {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &ClaimMapping{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *ClaimMapping.
+func (o *ClaimMapping) DeepCopyInto(out *ClaimMapping) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy ClaimMapping: %s", err))
+	}
+
+	*out = *target.(*ClaimMapping)
 }
 
 // Validate valides the current information stored into the structure.

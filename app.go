@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/types"
 )
@@ -167,7 +168,7 @@ func (o *App) GetName() string {
 	return o.Name
 }
 
-// SetName sets the given Name of the receiver.
+// SetName sets the property Name of the receiver using the given value.
 func (o *App) SetName(name string) {
 
 	o.Name = name
@@ -247,6 +248,30 @@ func (o *App) Patch(sparse elemental.SparseIdentifiable) {
 	if so.VersionParameters != nil {
 		o.VersionParameters = *so.VersionParameters
 	}
+}
+
+// DeepCopy returns a deep copy if the App.
+func (o *App) DeepCopy() *App {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &App{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *App.
+func (o *App) DeepCopyInto(out *App) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy App: %s", err))
+	}
+
+	*out = *target.(*App)
 }
 
 // Validate valides the current information stored into the structure.
@@ -640,4 +665,40 @@ func (o *SparseApp) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseApp) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseApp) SetName(name string) {
+
+	o.Name = &name
+}
+
+// DeepCopy returns a deep copy if the SparseApp.
+func (o *SparseApp) DeepCopy() *SparseApp {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseApp{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseApp.
+func (o *SparseApp) DeepCopyInto(out *SparseApp) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseApp: %s", err))
+	}
+
+	*out = *target.(*SparseApp)
 }

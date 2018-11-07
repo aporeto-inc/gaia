@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -151,7 +152,7 @@ func (o *Category) GetName() string {
 	return o.Name
 }
 
-// SetName sets the given Name of the receiver.
+// SetName sets the property Name of the receiver using the given value.
 func (o *Category) SetName(name string) {
 
 	o.Name = name
@@ -201,6 +202,30 @@ func (o *Category) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Name != nil {
 		o.Name = *so.Name
 	}
+}
+
+// DeepCopy returns a deep copy if the Category.
+func (o *Category) DeepCopy() *Category {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Category{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Category.
+func (o *Category) DeepCopyInto(out *Category) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Category: %s", err))
+	}
+
+	*out = *target.(*Category)
 }
 
 // Validate valides the current information stored into the structure.
@@ -484,4 +509,40 @@ func (o *SparseCategory) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseCategory) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseCategory) SetName(name string) {
+
+	o.Name = &name
+}
+
+// DeepCopy returns a deep copy if the SparseCategory.
+func (o *SparseCategory) DeepCopy() *SparseCategory {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseCategory{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseCategory.
+func (o *SparseCategory) DeepCopyInto(out *SparseCategory) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseCategory: %s", err))
+	}
+
+	*out = *target.(*SparseCategory)
 }

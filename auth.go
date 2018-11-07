@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/midgard-lib/claims"
 )
@@ -168,6 +169,30 @@ func (o *Auth) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Claims != nil {
 		o.Claims = *so.Claims
 	}
+}
+
+// DeepCopy returns a deep copy if the Auth.
+func (o *Auth) DeepCopy() *Auth {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Auth{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Auth.
+func (o *Auth) DeepCopyInto(out *Auth) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Auth: %s", err))
+	}
+
+	*out = *target.(*Auth)
 }
 
 // Validate valides the current information stored into the structure.
@@ -355,4 +380,28 @@ func (o *SparseAuth) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseAuth.
+func (o *SparseAuth) DeepCopy() *SparseAuth {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseAuth{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseAuth.
+func (o *SparseAuth) DeepCopyInto(out *SparseAuth) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseAuth: %s", err))
+	}
+
+	*out = *target.(*SparseAuth)
 }

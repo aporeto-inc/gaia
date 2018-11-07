@@ -1,8 +1,10 @@
 package gaia
 
 import (
+	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -25,6 +27,30 @@ func NewGraphPolicyInfo() *GraphPolicyInfo {
 	return &GraphPolicyInfo{
 		ModelVersion: 1,
 	}
+}
+
+// DeepCopy returns a deep copy if the GraphPolicyInfo.
+func (o *GraphPolicyInfo) DeepCopy() *GraphPolicyInfo {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &GraphPolicyInfo{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *GraphPolicyInfo.
+func (o *GraphPolicyInfo) DeepCopyInto(out *GraphPolicyInfo) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy GraphPolicyInfo: %s", err))
+	}
+
+	*out = *target.(*GraphPolicyInfo)
 }
 
 // Validate valides the current information stored into the structure.

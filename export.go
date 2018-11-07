@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -196,6 +197,30 @@ func (o *Export) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Label != nil {
 		o.Label = *so.Label
 	}
+}
+
+// DeepCopy returns a deep copy if the Export.
+func (o *Export) DeepCopy() *Export {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Export{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Export.
+func (o *Export) DeepCopyInto(out *Export) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Export: %s", err))
+	}
+
+	*out = *target.(*Export)
 }
 
 // Validate valides the current information stored into the structure.
@@ -471,4 +496,28 @@ func (o *SparseExport) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseExport.
+func (o *SparseExport) DeepCopy() *SparseExport {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseExport{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseExport.
+func (o *SparseExport) DeepCopyInto(out *SparseExport) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseExport: %s", err))
+	}
+
+	*out = *target.(*SparseExport)
 }

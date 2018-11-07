@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -195,7 +196,7 @@ func (o *ExternalService) GetAnnotations() map[string][]string {
 	return o.Annotations
 }
 
-// SetAnnotations sets the given Annotations of the receiver.
+// SetAnnotations sets the property Annotations of the receiver using the given value.
 func (o *ExternalService) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
@@ -207,7 +208,7 @@ func (o *ExternalService) GetArchived() bool {
 	return o.Archived
 }
 
-// SetArchived sets the given Archived of the receiver.
+// SetArchived sets the property Archived of the receiver using the given value.
 func (o *ExternalService) SetArchived(archived bool) {
 
 	o.Archived = archived
@@ -219,7 +220,7 @@ func (o *ExternalService) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
-// SetAssociatedTags sets the given AssociatedTags of the receiver.
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
 func (o *ExternalService) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
@@ -231,7 +232,7 @@ func (o *ExternalService) GetCreateTime() time.Time {
 	return o.CreateTime
 }
 
-// SetCreateTime sets the given CreateTime of the receiver.
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
 func (o *ExternalService) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
@@ -243,7 +244,7 @@ func (o *ExternalService) GetMetadata() []string {
 	return o.Metadata
 }
 
-// SetMetadata sets the given Metadata of the receiver.
+// SetMetadata sets the property Metadata of the receiver using the given value.
 func (o *ExternalService) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
@@ -255,7 +256,7 @@ func (o *ExternalService) GetName() string {
 	return o.Name
 }
 
-// SetName sets the given Name of the receiver.
+// SetName sets the property Name of the receiver using the given value.
 func (o *ExternalService) SetName(name string) {
 
 	o.Name = name
@@ -267,7 +268,7 @@ func (o *ExternalService) GetNamespace() string {
 	return o.Namespace
 }
 
-// SetNamespace sets the given Namespace of the receiver.
+// SetNamespace sets the property Namespace of the receiver using the given value.
 func (o *ExternalService) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
@@ -279,7 +280,7 @@ func (o *ExternalService) GetNormalizedTags() []string {
 	return o.NormalizedTags
 }
 
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
 func (o *ExternalService) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
@@ -297,7 +298,7 @@ func (o *ExternalService) GetUpdateTime() time.Time {
 	return o.UpdateTime
 }
 
-// SetUpdateTime sets the given UpdateTime of the receiver.
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
 func (o *ExternalService) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
@@ -419,6 +420,30 @@ func (o *ExternalService) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the ExternalService.
+func (o *ExternalService) DeepCopy() *ExternalService {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &ExternalService{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *ExternalService.
+func (o *ExternalService) DeepCopyInto(out *ExternalService) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy ExternalService: %s", err))
+	}
+
+	*out = *target.(*ExternalService)
 }
 
 // Validate valides the current information stored into the structure.
@@ -1116,4 +1141,142 @@ func (o *SparseExternalService) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetAnnotations returns the Annotations of the receiver.
+func (o *SparseExternalService) GetAnnotations() map[string][]string {
+
+	return *o.Annotations
+}
+
+// SetAnnotations sets the property Annotations of the receiver using the address of the given value.
+func (o *SparseExternalService) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = &annotations
+}
+
+// GetArchived returns the Archived of the receiver.
+func (o *SparseExternalService) GetArchived() bool {
+
+	return *o.Archived
+}
+
+// SetArchived sets the property Archived of the receiver using the address of the given value.
+func (o *SparseExternalService) SetArchived(archived bool) {
+
+	o.Archived = &archived
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *SparseExternalService) GetAssociatedTags() []string {
+
+	return *o.AssociatedTags
+}
+
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
+func (o *SparseExternalService) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseExternalService) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseExternalService) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *SparseExternalService) GetMetadata() []string {
+
+	return *o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the address of the given value.
+func (o *SparseExternalService) SetMetadata(metadata []string) {
+
+	o.Metadata = &metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseExternalService) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseExternalService) SetName(name string) {
+
+	o.Name = &name
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseExternalService) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseExternalService) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *SparseExternalService) GetNormalizedTags() []string {
+
+	return *o.NormalizedTags
+}
+
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
+func (o *SparseExternalService) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = &normalizedTags
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *SparseExternalService) GetProtected() bool {
+
+	return *o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseExternalService) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseExternalService) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
+}
+
+// DeepCopy returns a deep copy if the SparseExternalService.
+func (o *SparseExternalService) DeepCopy() *SparseExternalService {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseExternalService{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseExternalService.
+func (o *SparseExternalService) DeepCopyInto(out *SparseExternalService) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseExternalService: %s", err))
+	}
+
+	*out = *target.(*SparseExternalService)
 }

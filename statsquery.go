@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/types"
 )
@@ -170,6 +171,30 @@ func (o *StatsQuery) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Results != nil {
 		o.Results = *so.Results
 	}
+}
+
+// DeepCopy returns a deep copy if the StatsQuery.
+func (o *StatsQuery) DeepCopy() *StatsQuery {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &StatsQuery{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *StatsQuery.
+func (o *StatsQuery) DeepCopyInto(out *StatsQuery) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy StatsQuery: %s", err))
+	}
+
+	*out = *target.(*StatsQuery)
 }
 
 // Validate valides the current information stored into the structure.
@@ -357,4 +382,28 @@ func (o *SparseStatsQuery) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseStatsQuery.
+func (o *SparseStatsQuery) DeepCopy() *SparseStatsQuery {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseStatsQuery{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseStatsQuery.
+func (o *SparseStatsQuery) DeepCopyInto(out *SparseStatsQuery) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseStatsQuery: %s", err))
+	}
+
+	*out = *target.(*SparseStatsQuery)
 }

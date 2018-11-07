@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -204,7 +205,7 @@ func (o *ExternalNetwork) GetAnnotations() map[string][]string {
 	return o.Annotations
 }
 
-// SetAnnotations sets the given Annotations of the receiver.
+// SetAnnotations sets the property Annotations of the receiver using the given value.
 func (o *ExternalNetwork) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
@@ -216,7 +217,7 @@ func (o *ExternalNetwork) GetArchived() bool {
 	return o.Archived
 }
 
-// SetArchived sets the given Archived of the receiver.
+// SetArchived sets the property Archived of the receiver using the given value.
 func (o *ExternalNetwork) SetArchived(archived bool) {
 
 	o.Archived = archived
@@ -228,7 +229,7 @@ func (o *ExternalNetwork) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
-// SetAssociatedTags sets the given AssociatedTags of the receiver.
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
 func (o *ExternalNetwork) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
@@ -240,7 +241,7 @@ func (o *ExternalNetwork) GetCreateTime() time.Time {
 	return o.CreateTime
 }
 
-// SetCreateTime sets the given CreateTime of the receiver.
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
 func (o *ExternalNetwork) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
@@ -252,7 +253,7 @@ func (o *ExternalNetwork) GetMetadata() []string {
 	return o.Metadata
 }
 
-// SetMetadata sets the given Metadata of the receiver.
+// SetMetadata sets the property Metadata of the receiver using the given value.
 func (o *ExternalNetwork) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
@@ -264,7 +265,7 @@ func (o *ExternalNetwork) GetName() string {
 	return o.Name
 }
 
-// SetName sets the given Name of the receiver.
+// SetName sets the property Name of the receiver using the given value.
 func (o *ExternalNetwork) SetName(name string) {
 
 	o.Name = name
@@ -276,7 +277,7 @@ func (o *ExternalNetwork) GetNamespace() string {
 	return o.Namespace
 }
 
-// SetNamespace sets the given Namespace of the receiver.
+// SetNamespace sets the property Namespace of the receiver using the given value.
 func (o *ExternalNetwork) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
@@ -288,7 +289,7 @@ func (o *ExternalNetwork) GetNormalizedTags() []string {
 	return o.NormalizedTags
 }
 
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
 func (o *ExternalNetwork) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
@@ -306,7 +307,7 @@ func (o *ExternalNetwork) GetUpdateTime() time.Time {
 	return o.UpdateTime
 }
 
-// SetUpdateTime sets the given UpdateTime of the receiver.
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
 func (o *ExternalNetwork) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
@@ -428,6 +429,30 @@ func (o *ExternalNetwork) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the ExternalNetwork.
+func (o *ExternalNetwork) DeepCopy() *ExternalNetwork {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &ExternalNetwork{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *ExternalNetwork.
+func (o *ExternalNetwork) DeepCopyInto(out *ExternalNetwork) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy ExternalNetwork: %s", err))
+	}
+
+	*out = *target.(*ExternalNetwork)
 }
 
 // Validate valides the current information stored into the structure.
@@ -1136,4 +1161,142 @@ func (o *SparseExternalNetwork) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetAnnotations returns the Annotations of the receiver.
+func (o *SparseExternalNetwork) GetAnnotations() map[string][]string {
+
+	return *o.Annotations
+}
+
+// SetAnnotations sets the property Annotations of the receiver using the address of the given value.
+func (o *SparseExternalNetwork) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = &annotations
+}
+
+// GetArchived returns the Archived of the receiver.
+func (o *SparseExternalNetwork) GetArchived() bool {
+
+	return *o.Archived
+}
+
+// SetArchived sets the property Archived of the receiver using the address of the given value.
+func (o *SparseExternalNetwork) SetArchived(archived bool) {
+
+	o.Archived = &archived
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *SparseExternalNetwork) GetAssociatedTags() []string {
+
+	return *o.AssociatedTags
+}
+
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
+func (o *SparseExternalNetwork) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseExternalNetwork) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseExternalNetwork) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *SparseExternalNetwork) GetMetadata() []string {
+
+	return *o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the address of the given value.
+func (o *SparseExternalNetwork) SetMetadata(metadata []string) {
+
+	o.Metadata = &metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseExternalNetwork) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseExternalNetwork) SetName(name string) {
+
+	o.Name = &name
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseExternalNetwork) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseExternalNetwork) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *SparseExternalNetwork) GetNormalizedTags() []string {
+
+	return *o.NormalizedTags
+}
+
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
+func (o *SparseExternalNetwork) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = &normalizedTags
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *SparseExternalNetwork) GetProtected() bool {
+
+	return *o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseExternalNetwork) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseExternalNetwork) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
+}
+
+// DeepCopy returns a deep copy if the SparseExternalNetwork.
+func (o *SparseExternalNetwork) DeepCopy() *SparseExternalNetwork {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseExternalNetwork{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseExternalNetwork.
+func (o *SparseExternalNetwork) DeepCopyInto(out *SparseExternalNetwork) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseExternalNetwork: %s", err))
+	}
+
+	*out = *target.(*SparseExternalNetwork)
 }

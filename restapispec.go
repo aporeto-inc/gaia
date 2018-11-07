@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/types"
 )
@@ -197,7 +198,7 @@ func (o *RESTAPISpec) GetAnnotations() map[string][]string {
 	return o.Annotations
 }
 
-// SetAnnotations sets the given Annotations of the receiver.
+// SetAnnotations sets the property Annotations of the receiver using the given value.
 func (o *RESTAPISpec) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
@@ -209,7 +210,7 @@ func (o *RESTAPISpec) GetArchived() bool {
 	return o.Archived
 }
 
-// SetArchived sets the given Archived of the receiver.
+// SetArchived sets the property Archived of the receiver using the given value.
 func (o *RESTAPISpec) SetArchived(archived bool) {
 
 	o.Archived = archived
@@ -221,7 +222,7 @@ func (o *RESTAPISpec) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
-// SetAssociatedTags sets the given AssociatedTags of the receiver.
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
 func (o *RESTAPISpec) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
@@ -233,7 +234,7 @@ func (o *RESTAPISpec) GetCreateTime() time.Time {
 	return o.CreateTime
 }
 
-// SetCreateTime sets the given CreateTime of the receiver.
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
 func (o *RESTAPISpec) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
@@ -245,7 +246,7 @@ func (o *RESTAPISpec) GetMetadata() []string {
 	return o.Metadata
 }
 
-// SetMetadata sets the given Metadata of the receiver.
+// SetMetadata sets the property Metadata of the receiver using the given value.
 func (o *RESTAPISpec) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
@@ -257,7 +258,7 @@ func (o *RESTAPISpec) GetName() string {
 	return o.Name
 }
 
-// SetName sets the given Name of the receiver.
+// SetName sets the property Name of the receiver using the given value.
 func (o *RESTAPISpec) SetName(name string) {
 
 	o.Name = name
@@ -269,7 +270,7 @@ func (o *RESTAPISpec) GetNamespace() string {
 	return o.Namespace
 }
 
-// SetNamespace sets the given Namespace of the receiver.
+// SetNamespace sets the property Namespace of the receiver using the given value.
 func (o *RESTAPISpec) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
@@ -281,7 +282,7 @@ func (o *RESTAPISpec) GetNormalizedTags() []string {
 	return o.NormalizedTags
 }
 
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
 func (o *RESTAPISpec) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
@@ -293,7 +294,7 @@ func (o *RESTAPISpec) GetPropagate() bool {
 	return o.Propagate
 }
 
-// SetPropagate sets the given Propagate of the receiver.
+// SetPropagate sets the property Propagate of the receiver using the given value.
 func (o *RESTAPISpec) SetPropagate(propagate bool) {
 
 	o.Propagate = propagate
@@ -305,7 +306,7 @@ func (o *RESTAPISpec) GetPropagationHidden() bool {
 	return o.PropagationHidden
 }
 
-// SetPropagationHidden sets the given PropagationHidden of the receiver.
+// SetPropagationHidden sets the property PropagationHidden of the receiver using the given value.
 func (o *RESTAPISpec) SetPropagationHidden(propagationHidden bool) {
 
 	o.PropagationHidden = propagationHidden
@@ -323,7 +324,7 @@ func (o *RESTAPISpec) GetUpdateTime() time.Time {
 	return o.UpdateTime
 }
 
-// SetUpdateTime sets the given UpdateTime of the receiver.
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
 func (o *RESTAPISpec) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
@@ -445,6 +446,30 @@ func (o *RESTAPISpec) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the RESTAPISpec.
+func (o *RESTAPISpec) DeepCopy() *RESTAPISpec {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &RESTAPISpec{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *RESTAPISpec.
+func (o *RESTAPISpec) DeepCopyInto(out *RESTAPISpec) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy RESTAPISpec: %s", err))
+	}
+
+	*out = *target.(*RESTAPISpec)
 }
 
 // Validate valides the current information stored into the structure.
@@ -1136,4 +1161,166 @@ func (o *SparseRESTAPISpec) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetAnnotations returns the Annotations of the receiver.
+func (o *SparseRESTAPISpec) GetAnnotations() map[string][]string {
+
+	return *o.Annotations
+}
+
+// SetAnnotations sets the property Annotations of the receiver using the address of the given value.
+func (o *SparseRESTAPISpec) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = &annotations
+}
+
+// GetArchived returns the Archived of the receiver.
+func (o *SparseRESTAPISpec) GetArchived() bool {
+
+	return *o.Archived
+}
+
+// SetArchived sets the property Archived of the receiver using the address of the given value.
+func (o *SparseRESTAPISpec) SetArchived(archived bool) {
+
+	o.Archived = &archived
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *SparseRESTAPISpec) GetAssociatedTags() []string {
+
+	return *o.AssociatedTags
+}
+
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
+func (o *SparseRESTAPISpec) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseRESTAPISpec) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseRESTAPISpec) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *SparseRESTAPISpec) GetMetadata() []string {
+
+	return *o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the address of the given value.
+func (o *SparseRESTAPISpec) SetMetadata(metadata []string) {
+
+	o.Metadata = &metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseRESTAPISpec) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseRESTAPISpec) SetName(name string) {
+
+	o.Name = &name
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseRESTAPISpec) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseRESTAPISpec) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *SparseRESTAPISpec) GetNormalizedTags() []string {
+
+	return *o.NormalizedTags
+}
+
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
+func (o *SparseRESTAPISpec) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = &normalizedTags
+}
+
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseRESTAPISpec) GetPropagate() bool {
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseRESTAPISpec) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
+}
+
+// GetPropagationHidden returns the PropagationHidden of the receiver.
+func (o *SparseRESTAPISpec) GetPropagationHidden() bool {
+
+	return *o.PropagationHidden
+}
+
+// SetPropagationHidden sets the property PropagationHidden of the receiver using the address of the given value.
+func (o *SparseRESTAPISpec) SetPropagationHidden(propagationHidden bool) {
+
+	o.PropagationHidden = &propagationHidden
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *SparseRESTAPISpec) GetProtected() bool {
+
+	return *o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseRESTAPISpec) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseRESTAPISpec) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
+}
+
+// DeepCopy returns a deep copy if the SparseRESTAPISpec.
+func (o *SparseRESTAPISpec) DeepCopy() *SparseRESTAPISpec {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseRESTAPISpec{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseRESTAPISpec.
+func (o *SparseRESTAPISpec) DeepCopyInto(out *SparseRESTAPISpec) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseRESTAPISpec: %s", err))
+	}
+
+	*out = *target.(*SparseRESTAPISpec)
 }

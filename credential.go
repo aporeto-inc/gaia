@@ -1,8 +1,10 @@
 package gaia
 
 import (
+	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -40,6 +42,30 @@ func NewCredential() *Credential {
 	return &Credential{
 		ModelVersion: 1,
 	}
+}
+
+// DeepCopy returns a deep copy if the Credential.
+func (o *Credential) DeepCopy() *Credential {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Credential{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Credential.
+func (o *Credential) DeepCopyInto(out *Credential) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Credential: %s", err))
+	}
+
+	*out = *target.(*Credential)
 }
 
 // Validate valides the current information stored into the structure.

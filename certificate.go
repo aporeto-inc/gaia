@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -308,6 +309,30 @@ func (o *Certificate) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the Certificate.
+func (o *Certificate) DeepCopy() *Certificate {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Certificate{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Certificate.
+func (o *Certificate) DeepCopyInto(out *Certificate) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Certificate: %s", err))
+	}
+
+	*out = *target.(*Certificate)
 }
 
 // Validate valides the current information stored into the structure.
@@ -973,4 +998,28 @@ func (o *SparseCertificate) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseCertificate.
+func (o *SparseCertificate) DeepCopy() *SparseCertificate {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseCertificate{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseCertificate.
+func (o *SparseCertificate) DeepCopyInto(out *SparseCertificate) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseCertificate: %s", err))
+	}
+
+	*out = *target.(*SparseCertificate)
 }
