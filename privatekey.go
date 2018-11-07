@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -186,6 +187,30 @@ func (o *PrivateKey) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Data != nil {
 		o.Data = *so.Data
 	}
+}
+
+// DeepCopy returns a deep copy if the PrivateKey.
+func (o *PrivateKey) DeepCopy() *PrivateKey {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &PrivateKey{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *PrivateKey.
+func (o *PrivateKey) DeepCopyInto(out *PrivateKey) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy PrivateKey: %s", err))
+	}
+
+	*out = *target.(*PrivateKey)
 }
 
 // Validate valides the current information stored into the structure.
@@ -428,4 +453,28 @@ func (o *SparsePrivateKey) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparsePrivateKey.
+func (o *SparsePrivateKey) DeepCopy() *SparsePrivateKey {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparsePrivateKey{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparsePrivateKey.
+func (o *SparsePrivateKey) DeepCopyInto(out *SparsePrivateKey) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparsePrivateKey: %s", err))
+	}
+
+	*out = *target.(*SparsePrivateKey)
 }

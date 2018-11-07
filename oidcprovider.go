@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -250,6 +251,30 @@ func (o *OIDCProvider) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the OIDCProvider.
+func (o *OIDCProvider) DeepCopy() *OIDCProvider {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &OIDCProvider{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *OIDCProvider.
+func (o *OIDCProvider) DeepCopyInto(out *OIDCProvider) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy OIDCProvider: %s", err))
+	}
+
+	*out = *target.(*OIDCProvider)
 }
 
 // Validate valides the current information stored into the structure.
@@ -737,4 +762,28 @@ func (o *SparseOIDCProvider) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseOIDCProvider.
+func (o *SparseOIDCProvider) DeepCopy() *SparseOIDCProvider {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseOIDCProvider{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseOIDCProvider.
+func (o *SparseOIDCProvider) DeepCopyInto(out *SparseOIDCProvider) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseOIDCProvider: %s", err))
+	}
+
+	*out = *target.(*SparseOIDCProvider)
 }

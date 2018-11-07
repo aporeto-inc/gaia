@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -211,7 +212,7 @@ func (o *ServiceDependency) GetActiveDuration() string {
 	return o.ActiveDuration
 }
 
-// SetActiveDuration sets the given ActiveDuration of the receiver.
+// SetActiveDuration sets the property ActiveDuration of the receiver using the given value.
 func (o *ServiceDependency) SetActiveDuration(activeDuration string) {
 
 	o.ActiveDuration = activeDuration
@@ -223,7 +224,7 @@ func (o *ServiceDependency) GetActiveSchedule() string {
 	return o.ActiveSchedule
 }
 
-// SetActiveSchedule sets the given ActiveSchedule of the receiver.
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the given value.
 func (o *ServiceDependency) SetActiveSchedule(activeSchedule string) {
 
 	o.ActiveSchedule = activeSchedule
@@ -235,7 +236,7 @@ func (o *ServiceDependency) GetAnnotations() map[string][]string {
 	return o.Annotations
 }
 
-// SetAnnotations sets the given Annotations of the receiver.
+// SetAnnotations sets the property Annotations of the receiver using the given value.
 func (o *ServiceDependency) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
@@ -247,7 +248,7 @@ func (o *ServiceDependency) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
-// SetAssociatedTags sets the given AssociatedTags of the receiver.
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
 func (o *ServiceDependency) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
@@ -259,7 +260,7 @@ func (o *ServiceDependency) GetCreateTime() time.Time {
 	return o.CreateTime
 }
 
-// SetCreateTime sets the given CreateTime of the receiver.
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
 func (o *ServiceDependency) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
@@ -271,7 +272,7 @@ func (o *ServiceDependency) GetDisabled() bool {
 	return o.Disabled
 }
 
-// SetDisabled sets the given Disabled of the receiver.
+// SetDisabled sets the property Disabled of the receiver using the given value.
 func (o *ServiceDependency) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
@@ -283,7 +284,7 @@ func (o *ServiceDependency) GetFallback() bool {
 	return o.Fallback
 }
 
-// SetFallback sets the given Fallback of the receiver.
+// SetFallback sets the property Fallback of the receiver using the given value.
 func (o *ServiceDependency) SetFallback(fallback bool) {
 
 	o.Fallback = fallback
@@ -295,7 +296,7 @@ func (o *ServiceDependency) GetMetadata() []string {
 	return o.Metadata
 }
 
-// SetMetadata sets the given Metadata of the receiver.
+// SetMetadata sets the property Metadata of the receiver using the given value.
 func (o *ServiceDependency) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
@@ -307,7 +308,7 @@ func (o *ServiceDependency) GetName() string {
 	return o.Name
 }
 
-// SetName sets the given Name of the receiver.
+// SetName sets the property Name of the receiver using the given value.
 func (o *ServiceDependency) SetName(name string) {
 
 	o.Name = name
@@ -319,7 +320,7 @@ func (o *ServiceDependency) GetNamespace() string {
 	return o.Namespace
 }
 
-// SetNamespace sets the given Namespace of the receiver.
+// SetNamespace sets the property Namespace of the receiver using the given value.
 func (o *ServiceDependency) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
@@ -331,7 +332,7 @@ func (o *ServiceDependency) GetNormalizedTags() []string {
 	return o.NormalizedTags
 }
 
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
 func (o *ServiceDependency) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
@@ -343,7 +344,7 @@ func (o *ServiceDependency) GetPropagate() bool {
 	return o.Propagate
 }
 
-// SetPropagate sets the given Propagate of the receiver.
+// SetPropagate sets the property Propagate of the receiver using the given value.
 func (o *ServiceDependency) SetPropagate(propagate bool) {
 
 	o.Propagate = propagate
@@ -355,7 +356,7 @@ func (o *ServiceDependency) GetPropagationHidden() bool {
 	return o.PropagationHidden
 }
 
-// SetPropagationHidden sets the given PropagationHidden of the receiver.
+// SetPropagationHidden sets the property PropagationHidden of the receiver using the given value.
 func (o *ServiceDependency) SetPropagationHidden(propagationHidden bool) {
 
 	o.PropagationHidden = propagationHidden
@@ -373,7 +374,7 @@ func (o *ServiceDependency) GetUpdateTime() time.Time {
 	return o.UpdateTime
 }
 
-// SetUpdateTime sets the given UpdateTime of the receiver.
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
 func (o *ServiceDependency) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
@@ -519,6 +520,30 @@ func (o *ServiceDependency) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the ServiceDependency.
+func (o *ServiceDependency) DeepCopy() *ServiceDependency {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &ServiceDependency{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *ServiceDependency.
+func (o *ServiceDependency) DeepCopyInto(out *ServiceDependency) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy ServiceDependency: %s", err))
+	}
+
+	*out = *target.(*ServiceDependency)
 }
 
 // Validate valides the current information stored into the structure.
@@ -1350,4 +1375,202 @@ func (o *SparseServiceDependency) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *SparseServiceDependency) GetActiveDuration() string {
+
+	return *o.ActiveDuration
+}
+
+// SetActiveDuration sets the property ActiveDuration of the receiver using the address of the given value.
+func (o *SparseServiceDependency) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = &activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *SparseServiceDependency) GetActiveSchedule() string {
+
+	return *o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the address of the given value.
+func (o *SparseServiceDependency) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = &activeSchedule
+}
+
+// GetAnnotations returns the Annotations of the receiver.
+func (o *SparseServiceDependency) GetAnnotations() map[string][]string {
+
+	return *o.Annotations
+}
+
+// SetAnnotations sets the property Annotations of the receiver using the address of the given value.
+func (o *SparseServiceDependency) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = &annotations
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *SparseServiceDependency) GetAssociatedTags() []string {
+
+	return *o.AssociatedTags
+}
+
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
+func (o *SparseServiceDependency) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseServiceDependency) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseServiceDependency) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetDisabled returns the Disabled of the receiver.
+func (o *SparseServiceDependency) GetDisabled() bool {
+
+	return *o.Disabled
+}
+
+// SetDisabled sets the property Disabled of the receiver using the address of the given value.
+func (o *SparseServiceDependency) SetDisabled(disabled bool) {
+
+	o.Disabled = &disabled
+}
+
+// GetFallback returns the Fallback of the receiver.
+func (o *SparseServiceDependency) GetFallback() bool {
+
+	return *o.Fallback
+}
+
+// SetFallback sets the property Fallback of the receiver using the address of the given value.
+func (o *SparseServiceDependency) SetFallback(fallback bool) {
+
+	o.Fallback = &fallback
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *SparseServiceDependency) GetMetadata() []string {
+
+	return *o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the address of the given value.
+func (o *SparseServiceDependency) SetMetadata(metadata []string) {
+
+	o.Metadata = &metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseServiceDependency) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseServiceDependency) SetName(name string) {
+
+	o.Name = &name
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseServiceDependency) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseServiceDependency) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *SparseServiceDependency) GetNormalizedTags() []string {
+
+	return *o.NormalizedTags
+}
+
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
+func (o *SparseServiceDependency) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = &normalizedTags
+}
+
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseServiceDependency) GetPropagate() bool {
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseServiceDependency) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
+}
+
+// GetPropagationHidden returns the PropagationHidden of the receiver.
+func (o *SparseServiceDependency) GetPropagationHidden() bool {
+
+	return *o.PropagationHidden
+}
+
+// SetPropagationHidden sets the property PropagationHidden of the receiver using the address of the given value.
+func (o *SparseServiceDependency) SetPropagationHidden(propagationHidden bool) {
+
+	o.PropagationHidden = &propagationHidden
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *SparseServiceDependency) GetProtected() bool {
+
+	return *o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseServiceDependency) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseServiceDependency) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
+}
+
+// DeepCopy returns a deep copy if the SparseServiceDependency.
+func (o *SparseServiceDependency) DeepCopy() *SparseServiceDependency {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseServiceDependency{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseServiceDependency.
+func (o *SparseServiceDependency) DeepCopyInto(out *SparseServiceDependency) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseServiceDependency: %s", err))
+	}
+
+	*out = *target.(*SparseServiceDependency)
 }

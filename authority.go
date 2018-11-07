@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -213,6 +214,30 @@ func (o *Authority) Patch(sparse elemental.SparseIdentifiable) {
 	if so.SerialNumber != nil {
 		o.SerialNumber = *so.SerialNumber
 	}
+}
+
+// DeepCopy returns a deep copy if the Authority.
+func (o *Authority) DeepCopy() *Authority {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Authority{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Authority.
+func (o *Authority) DeepCopyInto(out *Authority) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Authority: %s", err))
+	}
+
+	*out = *target.(*Authority)
 }
 
 // Validate valides the current information stored into the structure.
@@ -554,4 +579,28 @@ func (o *SparseAuthority) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseAuthority.
+func (o *SparseAuthority) DeepCopy() *SparseAuthority {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseAuthority{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseAuthority.
+func (o *SparseAuthority) DeepCopyInto(out *SparseAuthority) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseAuthority: %s", err))
+	}
+
+	*out = *target.(*SparseAuthority)
 }

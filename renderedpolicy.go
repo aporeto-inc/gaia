@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/constants"
 )
@@ -276,6 +277,30 @@ func (o *RenderedPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Scopes != nil {
 		o.Scopes = *so.Scopes
 	}
+}
+
+// DeepCopy returns a deep copy if the RenderedPolicy.
+func (o *RenderedPolicy) DeepCopy() *RenderedPolicy {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &RenderedPolicy{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *RenderedPolicy.
+func (o *RenderedPolicy) DeepCopyInto(out *RenderedPolicy) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy RenderedPolicy: %s", err))
+	}
+
+	*out = *target.(*RenderedPolicy)
 }
 
 // Validate valides the current information stored into the structure.
@@ -766,4 +791,28 @@ func (o *SparseRenderedPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseRenderedPolicy.
+func (o *SparseRenderedPolicy) DeepCopy() *SparseRenderedPolicy {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseRenderedPolicy{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseRenderedPolicy.
+func (o *SparseRenderedPolicy) DeepCopyInto(out *SparseRenderedPolicy) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseRenderedPolicy: %s", err))
+	}
+
+	*out = *target.(*SparseRenderedPolicy)
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -192,6 +193,30 @@ func (o *Import) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Mode != nil {
 		o.Mode = *so.Mode
 	}
+}
+
+// DeepCopy returns a deep copy if the Import.
+func (o *Import) DeepCopy() *Import {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Import{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Import.
+func (o *Import) DeepCopyInto(out *Import) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Import: %s", err))
+	}
+
+	*out = *target.(*Import)
 }
 
 // Validate valides the current information stored into the structure.
@@ -414,4 +439,28 @@ func (o *SparseImport) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseImport.
+func (o *SparseImport) DeepCopy() *SparseImport {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseImport{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseImport.
+func (o *SparseImport) DeepCopyInto(out *SparseImport) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseImport: %s", err))
+	}
+
+	*out = *target.(*SparseImport)
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -186,6 +187,30 @@ func (o *Tabulation) Patch(sparse elemental.SparseIdentifiable) {
 	if so.TargetIdentity != nil {
 		o.TargetIdentity = *so.TargetIdentity
 	}
+}
+
+// DeepCopy returns a deep copy if the Tabulation.
+func (o *Tabulation) DeepCopy() *Tabulation {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Tabulation{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Tabulation.
+func (o *Tabulation) DeepCopyInto(out *Tabulation) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Tabulation: %s", err))
+	}
+
+	*out = *target.(*Tabulation)
 }
 
 // Validate valides the current information stored into the structure.
@@ -431,4 +456,28 @@ func (o *SparseTabulation) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseTabulation.
+func (o *SparseTabulation) DeepCopy() *SparseTabulation {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseTabulation{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseTabulation.
+func (o *SparseTabulation) DeepCopyInto(out *SparseTabulation) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseTabulation: %s", err))
+	}
+
+	*out = *target.(*SparseTabulation)
 }

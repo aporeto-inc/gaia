@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -198,7 +199,7 @@ func (o *PolicyRule) GetName() string {
 	return o.Name
 }
 
-// SetName sets the given Name of the receiver.
+// SetName sets the property Name of the receiver using the given value.
 func (o *PolicyRule) SetName(name string) {
 
 	o.Name = name
@@ -320,6 +321,30 @@ func (o *PolicyRule) Patch(sparse elemental.SparseIdentifiable) {
 	if so.TagClauses != nil {
 		o.TagClauses = *so.TagClauses
 	}
+}
+
+// DeepCopy returns a deep copy if the PolicyRule.
+func (o *PolicyRule) DeepCopy() *PolicyRule {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &PolicyRule{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *PolicyRule.
+func (o *PolicyRule) DeepCopyInto(out *PolicyRule) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy PolicyRule: %s", err))
+	}
+
+	*out = *target.(*PolicyRule)
 }
 
 // Validate valides the current information stored into the structure.
@@ -902,4 +927,40 @@ func (o *SparsePolicyRule) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparsePolicyRule) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparsePolicyRule) SetName(name string) {
+
+	o.Name = &name
+}
+
+// DeepCopy returns a deep copy if the SparsePolicyRule.
+func (o *SparsePolicyRule) DeepCopy() *SparsePolicyRule {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparsePolicyRule{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparsePolicyRule.
+func (o *SparsePolicyRule) DeepCopyInto(out *SparsePolicyRule) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparsePolicyRule: %s", err))
+	}
+
+	*out = *target.(*SparsePolicyRule)
 }

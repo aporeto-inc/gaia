@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -241,6 +242,30 @@ func (o *Email) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Type != nil {
 		o.Type = *so.Type
 	}
+}
+
+// DeepCopy returns a deep copy if the Email.
+func (o *Email) DeepCopy() *Email {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Email{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Email.
+func (o *Email) DeepCopyInto(out *Email) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Email: %s", err))
+	}
+
+	*out = *target.(*Email)
 }
 
 // Validate valides the current information stored into the structure.
@@ -610,4 +635,28 @@ func (o *SparseEmail) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseEmail.
+func (o *SparseEmail) DeepCopy() *SparseEmail {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseEmail{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseEmail.
+func (o *SparseEmail) DeepCopyInto(out *SparseEmail) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseEmail: %s", err))
+	}
+
+	*out = *target.(*SparseEmail)
 }

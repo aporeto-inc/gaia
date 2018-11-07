@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -193,6 +194,30 @@ func (o *Token) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Validity != nil {
 		o.Validity = *so.Validity
 	}
+}
+
+// DeepCopy returns a deep copy if the Token.
+func (o *Token) DeepCopy() *Token {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Token{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Token.
+func (o *Token) DeepCopyInto(out *Token) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Token: %s", err))
+	}
+
+	*out = *target.(*Token)
 }
 
 // Validate valides the current information stored into the structure.
@@ -462,4 +487,28 @@ func (o *SparseToken) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseToken.
+func (o *SparseToken) DeepCopy() *SparseToken {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseToken{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseToken.
+func (o *SparseToken) DeepCopyInto(out *SparseToken) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseToken: %s", err))
+	}
+
+	*out = *target.(*SparseToken)
 }

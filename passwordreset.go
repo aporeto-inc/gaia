@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -175,6 +176,30 @@ func (o *PasswordReset) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Token != nil {
 		o.Token = *so.Token
 	}
+}
+
+// DeepCopy returns a deep copy if the PasswordReset.
+func (o *PasswordReset) DeepCopy() *PasswordReset {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &PasswordReset{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *PasswordReset.
+func (o *PasswordReset) DeepCopyInto(out *PasswordReset) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy PasswordReset: %s", err))
+	}
+
+	*out = *target.(*PasswordReset)
 }
 
 // Validate valides the current information stored into the structure.
@@ -392,4 +417,28 @@ func (o *SparsePasswordReset) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparsePasswordReset.
+func (o *SparsePasswordReset) DeepCopy() *SparsePasswordReset {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparsePasswordReset{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparsePasswordReset.
+func (o *SparsePasswordReset) DeepCopyInto(out *SparsePasswordReset) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparsePasswordReset: %s", err))
+	}
+
+	*out = *target.(*SparsePasswordReset)
 }

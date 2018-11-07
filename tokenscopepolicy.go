@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -214,7 +215,7 @@ func (o *TokenScopePolicy) GetActiveDuration() string {
 	return o.ActiveDuration
 }
 
-// SetActiveDuration sets the given ActiveDuration of the receiver.
+// SetActiveDuration sets the property ActiveDuration of the receiver using the given value.
 func (o *TokenScopePolicy) SetActiveDuration(activeDuration string) {
 
 	o.ActiveDuration = activeDuration
@@ -226,7 +227,7 @@ func (o *TokenScopePolicy) GetActiveSchedule() string {
 	return o.ActiveSchedule
 }
 
-// SetActiveSchedule sets the given ActiveSchedule of the receiver.
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the given value.
 func (o *TokenScopePolicy) SetActiveSchedule(activeSchedule string) {
 
 	o.ActiveSchedule = activeSchedule
@@ -238,7 +239,7 @@ func (o *TokenScopePolicy) GetAnnotations() map[string][]string {
 	return o.Annotations
 }
 
-// SetAnnotations sets the given Annotations of the receiver.
+// SetAnnotations sets the property Annotations of the receiver using the given value.
 func (o *TokenScopePolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
@@ -250,7 +251,7 @@ func (o *TokenScopePolicy) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
-// SetAssociatedTags sets the given AssociatedTags of the receiver.
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
 func (o *TokenScopePolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
@@ -262,7 +263,7 @@ func (o *TokenScopePolicy) GetCreateTime() time.Time {
 	return o.CreateTime
 }
 
-// SetCreateTime sets the given CreateTime of the receiver.
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
 func (o *TokenScopePolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
@@ -274,7 +275,7 @@ func (o *TokenScopePolicy) GetDisabled() bool {
 	return o.Disabled
 }
 
-// SetDisabled sets the given Disabled of the receiver.
+// SetDisabled sets the property Disabled of the receiver using the given value.
 func (o *TokenScopePolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
@@ -286,7 +287,7 @@ func (o *TokenScopePolicy) GetFallback() bool {
 	return o.Fallback
 }
 
-// SetFallback sets the given Fallback of the receiver.
+// SetFallback sets the property Fallback of the receiver using the given value.
 func (o *TokenScopePolicy) SetFallback(fallback bool) {
 
 	o.Fallback = fallback
@@ -298,7 +299,7 @@ func (o *TokenScopePolicy) GetMetadata() []string {
 	return o.Metadata
 }
 
-// SetMetadata sets the given Metadata of the receiver.
+// SetMetadata sets the property Metadata of the receiver using the given value.
 func (o *TokenScopePolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
@@ -310,7 +311,7 @@ func (o *TokenScopePolicy) GetName() string {
 	return o.Name
 }
 
-// SetName sets the given Name of the receiver.
+// SetName sets the property Name of the receiver using the given value.
 func (o *TokenScopePolicy) SetName(name string) {
 
 	o.Name = name
@@ -322,7 +323,7 @@ func (o *TokenScopePolicy) GetNamespace() string {
 	return o.Namespace
 }
 
-// SetNamespace sets the given Namespace of the receiver.
+// SetNamespace sets the property Namespace of the receiver using the given value.
 func (o *TokenScopePolicy) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
@@ -334,7 +335,7 @@ func (o *TokenScopePolicy) GetNormalizedTags() []string {
 	return o.NormalizedTags
 }
 
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
 func (o *TokenScopePolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
@@ -346,7 +347,7 @@ func (o *TokenScopePolicy) GetPropagate() bool {
 	return o.Propagate
 }
 
-// SetPropagate sets the given Propagate of the receiver.
+// SetPropagate sets the property Propagate of the receiver using the given value.
 func (o *TokenScopePolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = propagate
@@ -358,7 +359,7 @@ func (o *TokenScopePolicy) GetPropagationHidden() bool {
 	return o.PropagationHidden
 }
 
-// SetPropagationHidden sets the given PropagationHidden of the receiver.
+// SetPropagationHidden sets the property PropagationHidden of the receiver using the given value.
 func (o *TokenScopePolicy) SetPropagationHidden(propagationHidden bool) {
 
 	o.PropagationHidden = propagationHidden
@@ -376,7 +377,7 @@ func (o *TokenScopePolicy) GetUpdateTime() time.Time {
 	return o.UpdateTime
 }
 
-// SetUpdateTime sets the given UpdateTime of the receiver.
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
 func (o *TokenScopePolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
@@ -522,6 +523,30 @@ func (o *TokenScopePolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the TokenScopePolicy.
+func (o *TokenScopePolicy) DeepCopy() *TokenScopePolicy {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &TokenScopePolicy{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *TokenScopePolicy.
+func (o *TokenScopePolicy) DeepCopyInto(out *TokenScopePolicy) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy TokenScopePolicy: %s", err))
+	}
+
+	*out = *target.(*TokenScopePolicy)
 }
 
 // Validate valides the current information stored into the structure.
@@ -1360,4 +1385,202 @@ func (o *SparseTokenScopePolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *SparseTokenScopePolicy) GetActiveDuration() string {
+
+	return *o.ActiveDuration
+}
+
+// SetActiveDuration sets the property ActiveDuration of the receiver using the address of the given value.
+func (o *SparseTokenScopePolicy) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = &activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *SparseTokenScopePolicy) GetActiveSchedule() string {
+
+	return *o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the address of the given value.
+func (o *SparseTokenScopePolicy) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = &activeSchedule
+}
+
+// GetAnnotations returns the Annotations of the receiver.
+func (o *SparseTokenScopePolicy) GetAnnotations() map[string][]string {
+
+	return *o.Annotations
+}
+
+// SetAnnotations sets the property Annotations of the receiver using the address of the given value.
+func (o *SparseTokenScopePolicy) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = &annotations
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *SparseTokenScopePolicy) GetAssociatedTags() []string {
+
+	return *o.AssociatedTags
+}
+
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
+func (o *SparseTokenScopePolicy) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseTokenScopePolicy) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseTokenScopePolicy) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetDisabled returns the Disabled of the receiver.
+func (o *SparseTokenScopePolicy) GetDisabled() bool {
+
+	return *o.Disabled
+}
+
+// SetDisabled sets the property Disabled of the receiver using the address of the given value.
+func (o *SparseTokenScopePolicy) SetDisabled(disabled bool) {
+
+	o.Disabled = &disabled
+}
+
+// GetFallback returns the Fallback of the receiver.
+func (o *SparseTokenScopePolicy) GetFallback() bool {
+
+	return *o.Fallback
+}
+
+// SetFallback sets the property Fallback of the receiver using the address of the given value.
+func (o *SparseTokenScopePolicy) SetFallback(fallback bool) {
+
+	o.Fallback = &fallback
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *SparseTokenScopePolicy) GetMetadata() []string {
+
+	return *o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the address of the given value.
+func (o *SparseTokenScopePolicy) SetMetadata(metadata []string) {
+
+	o.Metadata = &metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseTokenScopePolicy) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseTokenScopePolicy) SetName(name string) {
+
+	o.Name = &name
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseTokenScopePolicy) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseTokenScopePolicy) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *SparseTokenScopePolicy) GetNormalizedTags() []string {
+
+	return *o.NormalizedTags
+}
+
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
+func (o *SparseTokenScopePolicy) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = &normalizedTags
+}
+
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseTokenScopePolicy) GetPropagate() bool {
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseTokenScopePolicy) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
+}
+
+// GetPropagationHidden returns the PropagationHidden of the receiver.
+func (o *SparseTokenScopePolicy) GetPropagationHidden() bool {
+
+	return *o.PropagationHidden
+}
+
+// SetPropagationHidden sets the property PropagationHidden of the receiver using the address of the given value.
+func (o *SparseTokenScopePolicy) SetPropagationHidden(propagationHidden bool) {
+
+	o.PropagationHidden = &propagationHidden
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *SparseTokenScopePolicy) GetProtected() bool {
+
+	return *o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseTokenScopePolicy) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseTokenScopePolicy) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
+}
+
+// DeepCopy returns a deep copy if the SparseTokenScopePolicy.
+func (o *SparseTokenScopePolicy) DeepCopy() *SparseTokenScopePolicy {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseTokenScopePolicy{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseTokenScopePolicy.
+func (o *SparseTokenScopePolicy) DeepCopyInto(out *SparseTokenScopePolicy) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseTokenScopePolicy: %s", err))
+	}
+
+	*out = *target.(*SparseTokenScopePolicy)
 }

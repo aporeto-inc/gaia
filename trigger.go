@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -166,6 +167,30 @@ func (o *Trigger) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Payload != nil {
 		o.Payload = *so.Payload
 	}
+}
+
+// DeepCopy returns a deep copy if the Trigger.
+func (o *Trigger) DeepCopy() *Trigger {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Trigger{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Trigger.
+func (o *Trigger) DeepCopyInto(out *Trigger) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Trigger: %s", err))
+	}
+
+	*out = *target.(*Trigger)
 }
 
 // Validate valides the current information stored into the structure.
@@ -347,4 +372,28 @@ func (o *SparseTrigger) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseTrigger.
+func (o *SparseTrigger) DeepCopy() *SparseTrigger {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseTrigger{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseTrigger.
+func (o *SparseTrigger) DeepCopyInto(out *SparseTrigger) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseTrigger: %s", err))
+	}
+
+	*out = *target.(*SparseTrigger)
 }

@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -201,7 +202,7 @@ func (o *AppCredential) GetAnnotations() map[string][]string {
 	return o.Annotations
 }
 
-// SetAnnotations sets the given Annotations of the receiver.
+// SetAnnotations sets the property Annotations of the receiver using the given value.
 func (o *AppCredential) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
@@ -213,7 +214,7 @@ func (o *AppCredential) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
-// SetAssociatedTags sets the given AssociatedTags of the receiver.
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
 func (o *AppCredential) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
@@ -225,7 +226,7 @@ func (o *AppCredential) GetCreateTime() time.Time {
 	return o.CreateTime
 }
 
-// SetCreateTime sets the given CreateTime of the receiver.
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
 func (o *AppCredential) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
@@ -237,7 +238,7 @@ func (o *AppCredential) GetMetadata() []string {
 	return o.Metadata
 }
 
-// SetMetadata sets the given Metadata of the receiver.
+// SetMetadata sets the property Metadata of the receiver using the given value.
 func (o *AppCredential) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
@@ -249,7 +250,7 @@ func (o *AppCredential) GetName() string {
 	return o.Name
 }
 
-// SetName sets the given Name of the receiver.
+// SetName sets the property Name of the receiver using the given value.
 func (o *AppCredential) SetName(name string) {
 
 	o.Name = name
@@ -261,7 +262,7 @@ func (o *AppCredential) GetNamespace() string {
 	return o.Namespace
 }
 
-// SetNamespace sets the given Namespace of the receiver.
+// SetNamespace sets the property Namespace of the receiver using the given value.
 func (o *AppCredential) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
@@ -273,7 +274,7 @@ func (o *AppCredential) GetNormalizedTags() []string {
 	return o.NormalizedTags
 }
 
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
 func (o *AppCredential) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
@@ -291,7 +292,7 @@ func (o *AppCredential) GetUpdateTime() time.Time {
 	return o.UpdateTime
 }
 
-// SetUpdateTime sets the given UpdateTime of the receiver.
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
 func (o *AppCredential) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
@@ -425,6 +426,30 @@ func (o *AppCredential) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the AppCredential.
+func (o *AppCredential) DeepCopy() *AppCredential {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &AppCredential{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *AppCredential.
+func (o *AppCredential) DeepCopyInto(out *AppCredential) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy AppCredential: %s", err))
+	}
+
+	*out = *target.(*AppCredential)
 }
 
 // Validate valides the current information stored into the structure.
@@ -1166,4 +1191,130 @@ func (o *SparseAppCredential) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetAnnotations returns the Annotations of the receiver.
+func (o *SparseAppCredential) GetAnnotations() map[string][]string {
+
+	return *o.Annotations
+}
+
+// SetAnnotations sets the property Annotations of the receiver using the address of the given value.
+func (o *SparseAppCredential) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = &annotations
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *SparseAppCredential) GetAssociatedTags() []string {
+
+	return *o.AssociatedTags
+}
+
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
+func (o *SparseAppCredential) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseAppCredential) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseAppCredential) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *SparseAppCredential) GetMetadata() []string {
+
+	return *o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the address of the given value.
+func (o *SparseAppCredential) SetMetadata(metadata []string) {
+
+	o.Metadata = &metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseAppCredential) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseAppCredential) SetName(name string) {
+
+	o.Name = &name
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseAppCredential) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseAppCredential) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *SparseAppCredential) GetNormalizedTags() []string {
+
+	return *o.NormalizedTags
+}
+
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
+func (o *SparseAppCredential) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = &normalizedTags
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *SparseAppCredential) GetProtected() bool {
+
+	return *o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseAppCredential) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseAppCredential) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
+}
+
+// DeepCopy returns a deep copy if the SparseAppCredential.
+func (o *SparseAppCredential) DeepCopy() *SparseAppCredential {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseAppCredential{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseAppCredential.
+func (o *SparseAppCredential) DeepCopyInto(out *SparseAppCredential) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseAppCredential: %s", err))
+	}
+
+	*out = *target.(*SparseAppCredential)
 }

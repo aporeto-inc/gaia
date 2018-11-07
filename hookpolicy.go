@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -238,7 +239,7 @@ func (o *HookPolicy) GetAnnotations() map[string][]string {
 	return o.Annotations
 }
 
-// SetAnnotations sets the given Annotations of the receiver.
+// SetAnnotations sets the property Annotations of the receiver using the given value.
 func (o *HookPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
@@ -250,7 +251,7 @@ func (o *HookPolicy) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
-// SetAssociatedTags sets the given AssociatedTags of the receiver.
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
 func (o *HookPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
@@ -262,7 +263,7 @@ func (o *HookPolicy) GetCreateTime() time.Time {
 	return o.CreateTime
 }
 
-// SetCreateTime sets the given CreateTime of the receiver.
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
 func (o *HookPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
@@ -274,7 +275,7 @@ func (o *HookPolicy) GetDisabled() bool {
 	return o.Disabled
 }
 
-// SetDisabled sets the given Disabled of the receiver.
+// SetDisabled sets the property Disabled of the receiver using the given value.
 func (o *HookPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
@@ -286,7 +287,7 @@ func (o *HookPolicy) GetFallback() bool {
 	return o.Fallback
 }
 
-// SetFallback sets the given Fallback of the receiver.
+// SetFallback sets the property Fallback of the receiver using the given value.
 func (o *HookPolicy) SetFallback(fallback bool) {
 
 	o.Fallback = fallback
@@ -298,7 +299,7 @@ func (o *HookPolicy) GetMetadata() []string {
 	return o.Metadata
 }
 
-// SetMetadata sets the given Metadata of the receiver.
+// SetMetadata sets the property Metadata of the receiver using the given value.
 func (o *HookPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
@@ -310,7 +311,7 @@ func (o *HookPolicy) GetName() string {
 	return o.Name
 }
 
-// SetName sets the given Name of the receiver.
+// SetName sets the property Name of the receiver using the given value.
 func (o *HookPolicy) SetName(name string) {
 
 	o.Name = name
@@ -322,7 +323,7 @@ func (o *HookPolicy) GetNamespace() string {
 	return o.Namespace
 }
 
-// SetNamespace sets the given Namespace of the receiver.
+// SetNamespace sets the property Namespace of the receiver using the given value.
 func (o *HookPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
@@ -334,7 +335,7 @@ func (o *HookPolicy) GetNormalizedTags() []string {
 	return o.NormalizedTags
 }
 
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
 func (o *HookPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
@@ -346,7 +347,7 @@ func (o *HookPolicy) GetPropagate() bool {
 	return o.Propagate
 }
 
-// SetPropagate sets the given Propagate of the receiver.
+// SetPropagate sets the property Propagate of the receiver using the given value.
 func (o *HookPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = propagate
@@ -358,7 +359,7 @@ func (o *HookPolicy) GetPropagationHidden() bool {
 	return o.PropagationHidden
 }
 
-// SetPropagationHidden sets the given PropagationHidden of the receiver.
+// SetPropagationHidden sets the property PropagationHidden of the receiver using the given value.
 func (o *HookPolicy) SetPropagationHidden(propagationHidden bool) {
 
 	o.PropagationHidden = propagationHidden
@@ -376,7 +377,7 @@ func (o *HookPolicy) GetUpdateTime() time.Time {
 	return o.UpdateTime
 }
 
-// SetUpdateTime sets the given UpdateTime of the receiver.
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
 func (o *HookPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
@@ -540,6 +541,30 @@ func (o *HookPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the HookPolicy.
+func (o *HookPolicy) DeepCopy() *HookPolicy {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &HookPolicy{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *HookPolicy.
+func (o *HookPolicy) DeepCopyInto(out *HookPolicy) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy HookPolicy: %s", err))
+	}
+
+	*out = *target.(*HookPolicy)
 }
 
 // Validate valides the current information stored into the structure.
@@ -1483,4 +1508,178 @@ func (o *SparseHookPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetAnnotations returns the Annotations of the receiver.
+func (o *SparseHookPolicy) GetAnnotations() map[string][]string {
+
+	return *o.Annotations
+}
+
+// SetAnnotations sets the property Annotations of the receiver using the address of the given value.
+func (o *SparseHookPolicy) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = &annotations
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *SparseHookPolicy) GetAssociatedTags() []string {
+
+	return *o.AssociatedTags
+}
+
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
+func (o *SparseHookPolicy) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseHookPolicy) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseHookPolicy) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetDisabled returns the Disabled of the receiver.
+func (o *SparseHookPolicy) GetDisabled() bool {
+
+	return *o.Disabled
+}
+
+// SetDisabled sets the property Disabled of the receiver using the address of the given value.
+func (o *SparseHookPolicy) SetDisabled(disabled bool) {
+
+	o.Disabled = &disabled
+}
+
+// GetFallback returns the Fallback of the receiver.
+func (o *SparseHookPolicy) GetFallback() bool {
+
+	return *o.Fallback
+}
+
+// SetFallback sets the property Fallback of the receiver using the address of the given value.
+func (o *SparseHookPolicy) SetFallback(fallback bool) {
+
+	o.Fallback = &fallback
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *SparseHookPolicy) GetMetadata() []string {
+
+	return *o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the address of the given value.
+func (o *SparseHookPolicy) SetMetadata(metadata []string) {
+
+	o.Metadata = &metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseHookPolicy) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseHookPolicy) SetName(name string) {
+
+	o.Name = &name
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseHookPolicy) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseHookPolicy) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *SparseHookPolicy) GetNormalizedTags() []string {
+
+	return *o.NormalizedTags
+}
+
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
+func (o *SparseHookPolicy) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = &normalizedTags
+}
+
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseHookPolicy) GetPropagate() bool {
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseHookPolicy) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
+}
+
+// GetPropagationHidden returns the PropagationHidden of the receiver.
+func (o *SparseHookPolicy) GetPropagationHidden() bool {
+
+	return *o.PropagationHidden
+}
+
+// SetPropagationHidden sets the property PropagationHidden of the receiver using the address of the given value.
+func (o *SparseHookPolicy) SetPropagationHidden(propagationHidden bool) {
+
+	o.PropagationHidden = &propagationHidden
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *SparseHookPolicy) GetProtected() bool {
+
+	return *o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseHookPolicy) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseHookPolicy) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
+}
+
+// DeepCopy returns a deep copy if the SparseHookPolicy.
+func (o *SparseHookPolicy) DeepCopy() *SparseHookPolicy {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseHookPolicy{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseHookPolicy.
+func (o *SparseHookPolicy) DeepCopyInto(out *SparseHookPolicy) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseHookPolicy: %s", err))
+	}
+
+	*out = *target.(*SparseHookPolicy)
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -195,6 +196,30 @@ func (o *Role) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Name != nil {
 		o.Name = *so.Name
 	}
+}
+
+// DeepCopy returns a deep copy if the Role.
+func (o *Role) DeepCopy() *Role {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Role{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Role.
+func (o *Role) DeepCopyInto(out *Role) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Role: %s", err))
+	}
+
+	*out = *target.(*Role)
 }
 
 // Validate valides the current information stored into the structure.
@@ -466,4 +491,28 @@ func (o *SparseRole) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseRole.
+func (o *SparseRole) DeepCopy() *SparseRole {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseRole{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseRole.
+func (o *SparseRole) DeepCopyInto(out *SparseRole) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseRole: %s", err))
+	}
+
+	*out = *target.(*SparseRole)
 }

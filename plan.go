@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -211,6 +212,30 @@ func (o *Plan) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ProcessingUnitsQuota != nil {
 		o.ProcessingUnitsQuota = *so.ProcessingUnitsQuota
 	}
+}
+
+// DeepCopy returns a deep copy if the Plan.
+func (o *Plan) DeepCopy() *Plan {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Plan{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Plan.
+func (o *Plan) DeepCopyInto(out *Plan) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Plan: %s", err))
+	}
+
+	*out = *target.(*Plan)
 }
 
 // Validate valides the current information stored into the structure.
@@ -548,4 +573,28 @@ func (o *SparsePlan) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparsePlan.
+func (o *SparsePlan) DeepCopy() *SparsePlan {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparsePlan{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparsePlan.
+func (o *SparsePlan) DeepCopyInto(out *SparsePlan) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparsePlan: %s", err))
+	}
+
+	*out = *target.(*SparsePlan)
 }

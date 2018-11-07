@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -248,6 +249,30 @@ func (o *Customer) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the Customer.
+func (o *Customer) DeepCopy() *Customer {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Customer{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Customer.
+func (o *Customer) DeepCopyInto(out *Customer) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Customer: %s", err))
+	}
+
+	*out = *target.(*Customer)
 }
 
 // Validate valides the current information stored into the structure.
@@ -610,4 +635,28 @@ func (o *SparseCustomer) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseCustomer.
+func (o *SparseCustomer) DeepCopy() *SparseCustomer {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseCustomer{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseCustomer.
+func (o *SparseCustomer) DeepCopyInto(out *SparseCustomer) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseCustomer: %s", err))
+	}
+
+	*out = *target.(*SparseCustomer)
 }

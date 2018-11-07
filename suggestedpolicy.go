@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -166,6 +167,30 @@ func (o *SuggestedPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NetworkAccessPolicies != nil {
 		o.NetworkAccessPolicies = *so.NetworkAccessPolicies
 	}
+}
+
+// DeepCopy returns a deep copy if the SuggestedPolicy.
+func (o *SuggestedPolicy) DeepCopy() *SuggestedPolicy {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SuggestedPolicy{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SuggestedPolicy.
+func (o *SuggestedPolicy) DeepCopyInto(out *SuggestedPolicy) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SuggestedPolicy: %s", err))
+	}
+
+	*out = *target.(*SuggestedPolicy)
 }
 
 // Validate valides the current information stored into the structure.
@@ -353,4 +378,28 @@ func (o *SparseSuggestedPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseSuggestedPolicy.
+func (o *SparseSuggestedPolicy) DeepCopy() *SparseSuggestedPolicy {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseSuggestedPolicy{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseSuggestedPolicy.
+func (o *SparseSuggestedPolicy) DeepCopyInto(out *SparseSuggestedPolicy) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseSuggestedPolicy: %s", err))
+	}
+
+	*out = *target.(*SparseSuggestedPolicy)
 }

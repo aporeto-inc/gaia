@@ -1,8 +1,10 @@
 package gaia
 
 import (
+	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -29,6 +31,30 @@ func NewProcessingUnitService() *ProcessingUnitService {
 		ModelVersion: 1,
 		TargetPorts:  []string{},
 	}
+}
+
+// DeepCopy returns a deep copy if the ProcessingUnitService.
+func (o *ProcessingUnitService) DeepCopy() *ProcessingUnitService {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &ProcessingUnitService{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *ProcessingUnitService.
+func (o *ProcessingUnitService) DeepCopyInto(out *ProcessingUnitService) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy ProcessingUnitService: %s", err))
+	}
+
+	*out = *target.(*ProcessingUnitService)
 }
 
 // Validate valides the current information stored into the structure.

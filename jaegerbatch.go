@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"github.com/uber/jaeger-client-go/thrift-gen/jaeger"
 	"go.aporeto.io/elemental"
 )
@@ -169,6 +170,30 @@ func (o *Jaegerbatch) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Batch != nil {
 		o.Batch = *so.Batch
 	}
+}
+
+// DeepCopy returns a deep copy if the Jaegerbatch.
+func (o *Jaegerbatch) DeepCopy() *Jaegerbatch {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Jaegerbatch{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Jaegerbatch.
+func (o *Jaegerbatch) DeepCopyInto(out *Jaegerbatch) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Jaegerbatch: %s", err))
+	}
+
+	*out = *target.(*Jaegerbatch)
 }
 
 // Validate valides the current information stored into the structure.
@@ -356,4 +381,28 @@ func (o *SparseJaegerbatch) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseJaegerbatch.
+func (o *SparseJaegerbatch) DeepCopy() *SparseJaegerbatch {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseJaegerbatch{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseJaegerbatch.
+func (o *SparseJaegerbatch) DeepCopyInto(out *SparseJaegerbatch) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseJaegerbatch: %s", err))
+	}
+
+	*out = *target.(*SparseJaegerbatch)
 }

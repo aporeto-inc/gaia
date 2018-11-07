@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -185,6 +186,30 @@ func (o *QuotaCheck) Patch(sparse elemental.SparseIdentifiable) {
 	if so.TargetNamespace != nil {
 		o.TargetNamespace = *so.TargetNamespace
 	}
+}
+
+// DeepCopy returns a deep copy if the QuotaCheck.
+func (o *QuotaCheck) DeepCopy() *QuotaCheck {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &QuotaCheck{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *QuotaCheck.
+func (o *QuotaCheck) DeepCopyInto(out *QuotaCheck) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy QuotaCheck: %s", err))
+	}
+
+	*out = *target.(*QuotaCheck)
 }
 
 // Validate valides the current information stored into the structure.
@@ -430,4 +455,28 @@ func (o *SparseQuotaCheck) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseQuotaCheck.
+func (o *SparseQuotaCheck) DeepCopy() *SparseQuotaCheck {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseQuotaCheck{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseQuotaCheck.
+func (o *SparseQuotaCheck) DeepCopyInto(out *SparseQuotaCheck) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseQuotaCheck: %s", err))
+	}
+
+	*out = *target.(*SparseQuotaCheck)
 }

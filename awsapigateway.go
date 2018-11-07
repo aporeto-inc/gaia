@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -208,7 +209,7 @@ func (o *AWSAPIGateway) GetAnnotations() map[string][]string {
 	return o.Annotations
 }
 
-// SetAnnotations sets the given Annotations of the receiver.
+// SetAnnotations sets the property Annotations of the receiver using the given value.
 func (o *AWSAPIGateway) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
@@ -220,7 +221,7 @@ func (o *AWSAPIGateway) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
-// SetAssociatedTags sets the given AssociatedTags of the receiver.
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
 func (o *AWSAPIGateway) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
@@ -232,7 +233,7 @@ func (o *AWSAPIGateway) GetCreateTime() time.Time {
 	return o.CreateTime
 }
 
-// SetCreateTime sets the given CreateTime of the receiver.
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
 func (o *AWSAPIGateway) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
@@ -244,7 +245,7 @@ func (o *AWSAPIGateway) GetMetadata() []string {
 	return o.Metadata
 }
 
-// SetMetadata sets the given Metadata of the receiver.
+// SetMetadata sets the property Metadata of the receiver using the given value.
 func (o *AWSAPIGateway) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
@@ -256,7 +257,7 @@ func (o *AWSAPIGateway) GetName() string {
 	return o.Name
 }
 
-// SetName sets the given Name of the receiver.
+// SetName sets the property Name of the receiver using the given value.
 func (o *AWSAPIGateway) SetName(name string) {
 
 	o.Name = name
@@ -268,7 +269,7 @@ func (o *AWSAPIGateway) GetNamespace() string {
 	return o.Namespace
 }
 
-// SetNamespace sets the given Namespace of the receiver.
+// SetNamespace sets the property Namespace of the receiver using the given value.
 func (o *AWSAPIGateway) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
@@ -280,7 +281,7 @@ func (o *AWSAPIGateway) GetNormalizedTags() []string {
 	return o.NormalizedTags
 }
 
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
 func (o *AWSAPIGateway) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
@@ -298,7 +299,7 @@ func (o *AWSAPIGateway) GetUpdateTime() time.Time {
 	return o.UpdateTime
 }
 
-// SetUpdateTime sets the given UpdateTime of the receiver.
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
 func (o *AWSAPIGateway) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
@@ -450,6 +451,30 @@ func (o *AWSAPIGateway) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the AWSAPIGateway.
+func (o *AWSAPIGateway) DeepCopy() *AWSAPIGateway {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &AWSAPIGateway{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *AWSAPIGateway.
+func (o *AWSAPIGateway) DeepCopyInto(out *AWSAPIGateway) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy AWSAPIGateway: %s", err))
+	}
+
+	*out = *target.(*AWSAPIGateway)
 }
 
 // Validate valides the current information stored into the structure.
@@ -1238,4 +1263,130 @@ func (o *SparseAWSAPIGateway) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetAnnotations returns the Annotations of the receiver.
+func (o *SparseAWSAPIGateway) GetAnnotations() map[string][]string {
+
+	return *o.Annotations
+}
+
+// SetAnnotations sets the property Annotations of the receiver using the address of the given value.
+func (o *SparseAWSAPIGateway) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = &annotations
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *SparseAWSAPIGateway) GetAssociatedTags() []string {
+
+	return *o.AssociatedTags
+}
+
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
+func (o *SparseAWSAPIGateway) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseAWSAPIGateway) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseAWSAPIGateway) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *SparseAWSAPIGateway) GetMetadata() []string {
+
+	return *o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the address of the given value.
+func (o *SparseAWSAPIGateway) SetMetadata(metadata []string) {
+
+	o.Metadata = &metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseAWSAPIGateway) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseAWSAPIGateway) SetName(name string) {
+
+	o.Name = &name
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseAWSAPIGateway) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseAWSAPIGateway) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *SparseAWSAPIGateway) GetNormalizedTags() []string {
+
+	return *o.NormalizedTags
+}
+
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
+func (o *SparseAWSAPIGateway) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = &normalizedTags
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *SparseAWSAPIGateway) GetProtected() bool {
+
+	return *o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseAWSAPIGateway) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseAWSAPIGateway) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
+}
+
+// DeepCopy returns a deep copy if the SparseAWSAPIGateway.
+func (o *SparseAWSAPIGateway) DeepCopy() *SparseAWSAPIGateway {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseAWSAPIGateway{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseAWSAPIGateway.
+func (o *SparseAWSAPIGateway) DeepCopyInto(out *SparseAWSAPIGateway) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseAWSAPIGateway: %s", err))
+	}
+
+	*out = *target.(*SparseAWSAPIGateway)
 }

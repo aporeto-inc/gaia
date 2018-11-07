@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -285,7 +286,7 @@ func (o *NetworkAccessPolicy) GetActiveDuration() string {
 	return o.ActiveDuration
 }
 
-// SetActiveDuration sets the given ActiveDuration of the receiver.
+// SetActiveDuration sets the property ActiveDuration of the receiver using the given value.
 func (o *NetworkAccessPolicy) SetActiveDuration(activeDuration string) {
 
 	o.ActiveDuration = activeDuration
@@ -297,7 +298,7 @@ func (o *NetworkAccessPolicy) GetActiveSchedule() string {
 	return o.ActiveSchedule
 }
 
-// SetActiveSchedule sets the given ActiveSchedule of the receiver.
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the given value.
 func (o *NetworkAccessPolicy) SetActiveSchedule(activeSchedule string) {
 
 	o.ActiveSchedule = activeSchedule
@@ -309,7 +310,7 @@ func (o *NetworkAccessPolicy) GetAnnotations() map[string][]string {
 	return o.Annotations
 }
 
-// SetAnnotations sets the given Annotations of the receiver.
+// SetAnnotations sets the property Annotations of the receiver using the given value.
 func (o *NetworkAccessPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
@@ -321,7 +322,7 @@ func (o *NetworkAccessPolicy) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
-// SetAssociatedTags sets the given AssociatedTags of the receiver.
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
 func (o *NetworkAccessPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
@@ -333,7 +334,7 @@ func (o *NetworkAccessPolicy) GetCreateTime() time.Time {
 	return o.CreateTime
 }
 
-// SetCreateTime sets the given CreateTime of the receiver.
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
 func (o *NetworkAccessPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
@@ -345,7 +346,7 @@ func (o *NetworkAccessPolicy) GetDisabled() bool {
 	return o.Disabled
 }
 
-// SetDisabled sets the given Disabled of the receiver.
+// SetDisabled sets the property Disabled of the receiver using the given value.
 func (o *NetworkAccessPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
@@ -357,7 +358,7 @@ func (o *NetworkAccessPolicy) GetFallback() bool {
 	return o.Fallback
 }
 
-// SetFallback sets the given Fallback of the receiver.
+// SetFallback sets the property Fallback of the receiver using the given value.
 func (o *NetworkAccessPolicy) SetFallback(fallback bool) {
 
 	o.Fallback = fallback
@@ -369,7 +370,7 @@ func (o *NetworkAccessPolicy) GetMetadata() []string {
 	return o.Metadata
 }
 
-// SetMetadata sets the given Metadata of the receiver.
+// SetMetadata sets the property Metadata of the receiver using the given value.
 func (o *NetworkAccessPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
@@ -381,7 +382,7 @@ func (o *NetworkAccessPolicy) GetName() string {
 	return o.Name
 }
 
-// SetName sets the given Name of the receiver.
+// SetName sets the property Name of the receiver using the given value.
 func (o *NetworkAccessPolicy) SetName(name string) {
 
 	o.Name = name
@@ -393,7 +394,7 @@ func (o *NetworkAccessPolicy) GetNamespace() string {
 	return o.Namespace
 }
 
-// SetNamespace sets the given Namespace of the receiver.
+// SetNamespace sets the property Namespace of the receiver using the given value.
 func (o *NetworkAccessPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
@@ -405,7 +406,7 @@ func (o *NetworkAccessPolicy) GetNegateObject() bool {
 	return o.NegateObject
 }
 
-// SetNegateObject sets the given NegateObject of the receiver.
+// SetNegateObject sets the property NegateObject of the receiver using the given value.
 func (o *NetworkAccessPolicy) SetNegateObject(negateObject bool) {
 
 	o.NegateObject = negateObject
@@ -417,7 +418,7 @@ func (o *NetworkAccessPolicy) GetNegateSubject() bool {
 	return o.NegateSubject
 }
 
-// SetNegateSubject sets the given NegateSubject of the receiver.
+// SetNegateSubject sets the property NegateSubject of the receiver using the given value.
 func (o *NetworkAccessPolicy) SetNegateSubject(negateSubject bool) {
 
 	o.NegateSubject = negateSubject
@@ -429,7 +430,7 @@ func (o *NetworkAccessPolicy) GetNormalizedTags() []string {
 	return o.NormalizedTags
 }
 
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
 func (o *NetworkAccessPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
@@ -441,7 +442,7 @@ func (o *NetworkAccessPolicy) GetPropagate() bool {
 	return o.Propagate
 }
 
-// SetPropagate sets the given Propagate of the receiver.
+// SetPropagate sets the property Propagate of the receiver using the given value.
 func (o *NetworkAccessPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = propagate
@@ -453,7 +454,7 @@ func (o *NetworkAccessPolicy) GetPropagationHidden() bool {
 	return o.PropagationHidden
 }
 
-// SetPropagationHidden sets the given PropagationHidden of the receiver.
+// SetPropagationHidden sets the property PropagationHidden of the receiver using the given value.
 func (o *NetworkAccessPolicy) SetPropagationHidden(propagationHidden bool) {
 
 	o.PropagationHidden = propagationHidden
@@ -471,7 +472,7 @@ func (o *NetworkAccessPolicy) GetUpdateTime() time.Time {
 	return o.UpdateTime
 }
 
-// SetUpdateTime sets the given UpdateTime of the receiver.
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
 func (o *NetworkAccessPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
@@ -671,6 +672,30 @@ func (o *NetworkAccessPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the NetworkAccessPolicy.
+func (o *NetworkAccessPolicy) DeepCopy() *NetworkAccessPolicy {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &NetworkAccessPolicy{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *NetworkAccessPolicy.
+func (o *NetworkAccessPolicy) DeepCopyInto(out *NetworkAccessPolicy) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy NetworkAccessPolicy: %s", err))
+	}
+
+	*out = *target.(*NetworkAccessPolicy)
 }
 
 // Validate valides the current information stored into the structure.
@@ -1773,4 +1798,226 @@ func (o *SparseNetworkAccessPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *SparseNetworkAccessPolicy) GetActiveDuration() string {
+
+	return *o.ActiveDuration
+}
+
+// SetActiveDuration sets the property ActiveDuration of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = &activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *SparseNetworkAccessPolicy) GetActiveSchedule() string {
+
+	return *o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = &activeSchedule
+}
+
+// GetAnnotations returns the Annotations of the receiver.
+func (o *SparseNetworkAccessPolicy) GetAnnotations() map[string][]string {
+
+	return *o.Annotations
+}
+
+// SetAnnotations sets the property Annotations of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = &annotations
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *SparseNetworkAccessPolicy) GetAssociatedTags() []string {
+
+	return *o.AssociatedTags
+}
+
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseNetworkAccessPolicy) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetDisabled returns the Disabled of the receiver.
+func (o *SparseNetworkAccessPolicy) GetDisabled() bool {
+
+	return *o.Disabled
+}
+
+// SetDisabled sets the property Disabled of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetDisabled(disabled bool) {
+
+	o.Disabled = &disabled
+}
+
+// GetFallback returns the Fallback of the receiver.
+func (o *SparseNetworkAccessPolicy) GetFallback() bool {
+
+	return *o.Fallback
+}
+
+// SetFallback sets the property Fallback of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetFallback(fallback bool) {
+
+	o.Fallback = &fallback
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *SparseNetworkAccessPolicy) GetMetadata() []string {
+
+	return *o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetMetadata(metadata []string) {
+
+	o.Metadata = &metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseNetworkAccessPolicy) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetName(name string) {
+
+	o.Name = &name
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseNetworkAccessPolicy) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
+}
+
+// GetNegateObject returns the NegateObject of the receiver.
+func (o *SparseNetworkAccessPolicy) GetNegateObject() bool {
+
+	return *o.NegateObject
+}
+
+// SetNegateObject sets the property NegateObject of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetNegateObject(negateObject bool) {
+
+	o.NegateObject = &negateObject
+}
+
+// GetNegateSubject returns the NegateSubject of the receiver.
+func (o *SparseNetworkAccessPolicy) GetNegateSubject() bool {
+
+	return *o.NegateSubject
+}
+
+// SetNegateSubject sets the property NegateSubject of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetNegateSubject(negateSubject bool) {
+
+	o.NegateSubject = &negateSubject
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *SparseNetworkAccessPolicy) GetNormalizedTags() []string {
+
+	return *o.NormalizedTags
+}
+
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = &normalizedTags
+}
+
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseNetworkAccessPolicy) GetPropagate() bool {
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
+}
+
+// GetPropagationHidden returns the PropagationHidden of the receiver.
+func (o *SparseNetworkAccessPolicy) GetPropagationHidden() bool {
+
+	return *o.PropagationHidden
+}
+
+// SetPropagationHidden sets the property PropagationHidden of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetPropagationHidden(propagationHidden bool) {
+
+	o.PropagationHidden = &propagationHidden
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *SparseNetworkAccessPolicy) GetProtected() bool {
+
+	return *o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseNetworkAccessPolicy) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
+}
+
+// DeepCopy returns a deep copy if the SparseNetworkAccessPolicy.
+func (o *SparseNetworkAccessPolicy) DeepCopy() *SparseNetworkAccessPolicy {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseNetworkAccessPolicy{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseNetworkAccessPolicy.
+func (o *SparseNetworkAccessPolicy) DeepCopyInto(out *SparseNetworkAccessPolicy) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseNetworkAccessPolicy: %s", err))
+	}
+
+	*out = *target.(*SparseNetworkAccessPolicy)
 }

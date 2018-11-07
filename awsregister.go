@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -195,6 +196,30 @@ func (o *AWSRegister) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the AWSRegister.
+func (o *AWSRegister) DeepCopy() *AWSRegister {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &AWSRegister{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *AWSRegister.
+func (o *AWSRegister) DeepCopyInto(out *AWSRegister) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy AWSRegister: %s", err))
+	}
+
+	*out = *target.(*AWSRegister)
 }
 
 // Validate valides the current information stored into the structure.
@@ -482,4 +507,28 @@ func (o *SparseAWSRegister) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseAWSRegister.
+func (o *SparseAWSRegister) DeepCopy() *SparseAWSRegister {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseAWSRegister{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseAWSRegister.
+func (o *SparseAWSRegister) DeepCopyInto(out *SparseAWSRegister) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseAWSRegister: %s", err))
+	}
+
+	*out = *target.(*SparseAWSRegister)
 }

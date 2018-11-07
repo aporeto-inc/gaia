@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -167,6 +168,30 @@ func (o *X509CertificateCheck) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
+}
+
+// DeepCopy returns a deep copy if the X509CertificateCheck.
+func (o *X509CertificateCheck) DeepCopy() *X509CertificateCheck {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &X509CertificateCheck{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *X509CertificateCheck.
+func (o *X509CertificateCheck) DeepCopyInto(out *X509CertificateCheck) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy X509CertificateCheck: %s", err))
+	}
+
+	*out = *target.(*X509CertificateCheck)
 }
 
 // Validate valides the current information stored into the structure.
@@ -360,4 +385,28 @@ func (o *SparseX509CertificateCheck) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseX509CertificateCheck.
+func (o *SparseX509CertificateCheck) DeepCopy() *SparseX509CertificateCheck {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseX509CertificateCheck{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseX509CertificateCheck.
+func (o *SparseX509CertificateCheck) DeepCopyInto(out *SparseX509CertificateCheck) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseX509CertificateCheck: %s", err))
+	}
+
+	*out = *target.(*SparseX509CertificateCheck)
 }

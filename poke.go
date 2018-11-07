@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -152,6 +153,30 @@ func (o *Poke) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 // Patch apply the non nil value of a *SparsePoke to the object.
 func (o *Poke) Patch(sparse elemental.SparseIdentifiable) {
+}
+
+// DeepCopy returns a deep copy if the Poke.
+func (o *Poke) DeepCopy() *Poke {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Poke{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Poke.
+func (o *Poke) DeepCopyInto(out *Poke) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Poke: %s", err))
+	}
+
+	*out = *target.(*Poke)
 }
 
 // Validate valides the current information stored into the structure.
@@ -307,4 +332,28 @@ func (o *SparsePoke) ToPlain() elemental.PlainIdentifiable {
 	out := NewPoke()
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparsePoke.
+func (o *SparsePoke) DeepCopy() *SparsePoke {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparsePoke{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparsePoke.
+func (o *SparsePoke) DeepCopyInto(out *SparsePoke) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparsePoke: %s", err))
+	}
+
+	*out = *target.(*SparsePoke)
 }

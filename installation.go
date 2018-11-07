@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -176,6 +177,30 @@ func (o *Installation) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AccountName != nil {
 		o.AccountName = *so.AccountName
 	}
+}
+
+// DeepCopy returns a deep copy if the Installation.
+func (o *Installation) DeepCopy() *Installation {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Installation{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Installation.
+func (o *Installation) DeepCopyInto(out *Installation) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Installation: %s", err))
+	}
+
+	*out = *target.(*Installation)
 }
 
 // Validate valides the current information stored into the structure.
@@ -397,4 +422,28 @@ func (o *SparseInstallation) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseInstallation.
+func (o *SparseInstallation) DeepCopy() *SparseInstallation {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseInstallation{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseInstallation.
+func (o *SparseInstallation) DeepCopyInto(out *SparseInstallation) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseInstallation: %s", err))
+	}
+
+	*out = *target.(*SparseInstallation)
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -241,6 +242,30 @@ func (o *RemoteProcessor) Patch(sparse elemental.SparseIdentifiable) {
 	if so.TargetIdentity != nil {
 		o.TargetIdentity = *so.TargetIdentity
 	}
+}
+
+// DeepCopy returns a deep copy if the RemoteProcessor.
+func (o *RemoteProcessor) DeepCopy() *RemoteProcessor {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &RemoteProcessor{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *RemoteProcessor.
+func (o *RemoteProcessor) DeepCopyInto(out *RemoteProcessor) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy RemoteProcessor: %s", err))
+	}
+
+	*out = *target.(*RemoteProcessor)
 }
 
 // Validate valides the current information stored into the structure.
@@ -636,4 +661,28 @@ func (o *SparseRemoteProcessor) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseRemoteProcessor.
+func (o *SparseRemoteProcessor) DeepCopy() *SparseRemoteProcessor {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseRemoteProcessor{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseRemoteProcessor.
+func (o *SparseRemoteProcessor) DeepCopyInto(out *SparseRemoteProcessor) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseRemoteProcessor: %s", err))
+	}
+
+	*out = *target.(*SparseRemoteProcessor)
 }

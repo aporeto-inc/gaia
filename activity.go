@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -262,6 +263,30 @@ func (o *Activity) Patch(sparse elemental.SparseIdentifiable) {
 	if so.TargetIdentity != nil {
 		o.TargetIdentity = *so.TargetIdentity
 	}
+}
+
+// DeepCopy returns a deep copy if the Activity.
+func (o *Activity) DeepCopy() *Activity {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Activity{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Activity.
+func (o *Activity) DeepCopyInto(out *Activity) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Activity: %s", err))
+	}
+
+	*out = *target.(*Activity)
 }
 
 // Validate valides the current information stored into the structure.
@@ -794,4 +819,28 @@ func (o *SparseActivity) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseActivity.
+func (o *SparseActivity) DeepCopy() *SparseActivity {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseActivity{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseActivity.
+func (o *SparseActivity) DeepCopyInto(out *SparseActivity) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseActivity: %s", err))
+	}
+
+	*out = *target.(*SparseActivity)
 }

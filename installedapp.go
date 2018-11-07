@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/types"
 )
@@ -276,6 +277,30 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Status != nil {
 		o.Status = *so.Status
 	}
+}
+
+// DeepCopy returns a deep copy if the InstalledApp.
+func (o *InstalledApp) DeepCopy() *InstalledApp {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &InstalledApp{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *InstalledApp.
+func (o *InstalledApp) DeepCopyInto(out *InstalledApp) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy InstalledApp: %s", err))
+	}
+
+	*out = *target.(*InstalledApp)
 }
 
 // Validate valides the current information stored into the structure.
@@ -753,4 +778,28 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseInstalledApp.
+func (o *SparseInstalledApp) DeepCopy() *SparseInstalledApp {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseInstalledApp{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseInstalledApp.
+func (o *SparseInstalledApp) DeepCopyInto(out *SparseInstalledApp) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseInstalledApp: %s", err))
+	}
+
+	*out = *target.(*SparseInstalledApp)
 }

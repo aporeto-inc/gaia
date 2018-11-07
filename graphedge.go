@@ -1,8 +1,10 @@
 package gaia
 
 import (
+	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -92,6 +94,30 @@ func NewGraphEdge() *GraphEdge {
 		PolicyIDs:          map[string]*GraphPolicyInfo{},
 		ServiceIDs:         map[string]int{},
 	}
+}
+
+// DeepCopy returns a deep copy if the GraphEdge.
+func (o *GraphEdge) DeepCopy() *GraphEdge {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &GraphEdge{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *GraphEdge.
+func (o *GraphEdge) DeepCopyInto(out *GraphEdge) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy GraphEdge: %s", err))
+	}
+
+	*out = *target.(*GraphEdge)
 }
 
 // Validate valides the current information stored into the structure.

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -176,6 +177,30 @@ func (o *PolicyRefresh) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Type != nil {
 		o.Type = *so.Type
 	}
+}
+
+// DeepCopy returns a deep copy if the PolicyRefresh.
+func (o *PolicyRefresh) DeepCopy() *PolicyRefresh {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &PolicyRefresh{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *PolicyRefresh.
+func (o *PolicyRefresh) DeepCopyInto(out *PolicyRefresh) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy PolicyRefresh: %s", err))
+	}
+
+	*out = *target.(*PolicyRefresh)
 }
 
 // Validate valides the current information stored into the structure.
@@ -393,4 +418,28 @@ func (o *SparsePolicyRefresh) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparsePolicyRefresh.
+func (o *SparsePolicyRefresh) DeepCopy() *SparsePolicyRefresh {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparsePolicyRefresh{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparsePolicyRefresh.
+func (o *SparsePolicyRefresh) DeepCopyInto(out *SparsePolicyRefresh) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparsePolicyRefresh: %s", err))
+	}
+
+	*out = *target.(*SparsePolicyRefresh)
 }

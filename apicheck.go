@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -242,6 +243,30 @@ func (o *APICheck) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Token != nil {
 		o.Token = *so.Token
 	}
+}
+
+// DeepCopy returns a deep copy if the APICheck.
+func (o *APICheck) DeepCopy() *APICheck {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &APICheck{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *APICheck.
+func (o *APICheck) DeepCopyInto(out *APICheck) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy APICheck: %s", err))
+	}
+
+	*out = *target.(*APICheck)
 }
 
 // Validate valides the current information stored into the structure.
@@ -586,4 +611,28 @@ func (o *SparseAPICheck) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseAPICheck.
+func (o *SparseAPICheck) DeepCopy() *SparseAPICheck {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseAPICheck{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseAPICheck.
+func (o *SparseAPICheck) DeepCopyInto(out *SparseAPICheck) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseAPICheck: %s", err))
+	}
+
+	*out = *target.(*SparseAPICheck)
 }

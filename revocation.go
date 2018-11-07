@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -205,6 +206,30 @@ func (o *Revocation) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Subject != nil {
 		o.Subject = *so.Subject
 	}
+}
+
+// DeepCopy returns a deep copy if the Revocation.
+func (o *Revocation) DeepCopy() *Revocation {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Revocation{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Revocation.
+func (o *Revocation) DeepCopyInto(out *Revocation) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Revocation: %s", err))
+	}
+
+	*out = *target.(*Revocation)
 }
 
 // Validate valides the current information stored into the structure.
@@ -511,4 +536,28 @@ func (o *SparseRevocation) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseRevocation.
+func (o *SparseRevocation) DeepCopy() *SparseRevocation {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseRevocation{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseRevocation.
+func (o *SparseRevocation) DeepCopyInto(out *SparseRevocation) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseRevocation: %s", err))
+	}
+
+	*out = *target.(*SparseRevocation)
 }

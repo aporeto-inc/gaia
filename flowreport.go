@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -493,6 +494,30 @@ func (o *FlowReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Value != nil {
 		o.Value = *so.Value
 	}
+}
+
+// DeepCopy returns a deep copy if the FlowReport.
+func (o *FlowReport) DeepCopy() *FlowReport {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &FlowReport{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *FlowReport.
+func (o *FlowReport) DeepCopyInto(out *FlowReport) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy FlowReport: %s", err))
+	}
+
+	*out = *target.(*FlowReport)
 }
 
 // Validate valides the current information stored into the structure.
@@ -1426,4 +1451,28 @@ func (o *SparseFlowReport) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseFlowReport.
+func (o *SparseFlowReport) DeepCopy() *SparseFlowReport {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseFlowReport{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseFlowReport.
+func (o *SparseFlowReport) DeepCopyInto(out *SparseFlowReport) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseFlowReport: %s", err))
+	}
+
+	*out = *target.(*SparseFlowReport)
 }

@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -275,7 +276,7 @@ func (o *ProcessingUnit) GetAnnotations() map[string][]string {
 	return o.Annotations
 }
 
-// SetAnnotations sets the given Annotations of the receiver.
+// SetAnnotations sets the property Annotations of the receiver using the given value.
 func (o *ProcessingUnit) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
@@ -287,7 +288,7 @@ func (o *ProcessingUnit) GetArchived() bool {
 	return o.Archived
 }
 
-// SetArchived sets the given Archived of the receiver.
+// SetArchived sets the property Archived of the receiver using the given value.
 func (o *ProcessingUnit) SetArchived(archived bool) {
 
 	o.Archived = archived
@@ -299,7 +300,7 @@ func (o *ProcessingUnit) GetAssociatedTags() []string {
 	return o.AssociatedTags
 }
 
-// SetAssociatedTags sets the given AssociatedTags of the receiver.
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
 func (o *ProcessingUnit) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
@@ -311,7 +312,7 @@ func (o *ProcessingUnit) GetCreateTime() time.Time {
 	return o.CreateTime
 }
 
-// SetCreateTime sets the given CreateTime of the receiver.
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
 func (o *ProcessingUnit) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
@@ -323,7 +324,7 @@ func (o *ProcessingUnit) GetMetadata() []string {
 	return o.Metadata
 }
 
-// SetMetadata sets the given Metadata of the receiver.
+// SetMetadata sets the property Metadata of the receiver using the given value.
 func (o *ProcessingUnit) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
@@ -335,7 +336,7 @@ func (o *ProcessingUnit) GetName() string {
 	return o.Name
 }
 
-// SetName sets the given Name of the receiver.
+// SetName sets the property Name of the receiver using the given value.
 func (o *ProcessingUnit) SetName(name string) {
 
 	o.Name = name
@@ -347,7 +348,7 @@ func (o *ProcessingUnit) GetNamespace() string {
 	return o.Namespace
 }
 
-// SetNamespace sets the given Namespace of the receiver.
+// SetNamespace sets the property Namespace of the receiver using the given value.
 func (o *ProcessingUnit) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
@@ -359,7 +360,7 @@ func (o *ProcessingUnit) GetNormalizedTags() []string {
 	return o.NormalizedTags
 }
 
-// SetNormalizedTags sets the given NormalizedTags of the receiver.
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
 func (o *ProcessingUnit) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
@@ -377,7 +378,7 @@ func (o *ProcessingUnit) GetUpdateTime() time.Time {
 	return o.UpdateTime
 }
 
-// SetUpdateTime sets the given UpdateTime of the receiver.
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
 func (o *ProcessingUnit) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
@@ -535,6 +536,30 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the ProcessingUnit.
+func (o *ProcessingUnit) DeepCopy() *ProcessingUnit {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &ProcessingUnit{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *ProcessingUnit.
+func (o *ProcessingUnit) DeepCopyInto(out *ProcessingUnit) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy ProcessingUnit: %s", err))
+	}
+
+	*out = *target.(*ProcessingUnit)
 }
 
 // Validate valides the current information stored into the structure.
@@ -1417,4 +1442,142 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetAnnotations returns the Annotations of the receiver.
+func (o *SparseProcessingUnit) GetAnnotations() map[string][]string {
+
+	return *o.Annotations
+}
+
+// SetAnnotations sets the property Annotations of the receiver using the address of the given value.
+func (o *SparseProcessingUnit) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = &annotations
+}
+
+// GetArchived returns the Archived of the receiver.
+func (o *SparseProcessingUnit) GetArchived() bool {
+
+	return *o.Archived
+}
+
+// SetArchived sets the property Archived of the receiver using the address of the given value.
+func (o *SparseProcessingUnit) SetArchived(archived bool) {
+
+	o.Archived = &archived
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *SparseProcessingUnit) GetAssociatedTags() []string {
+
+	return *o.AssociatedTags
+}
+
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
+func (o *SparseProcessingUnit) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseProcessingUnit) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseProcessingUnit) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *SparseProcessingUnit) GetMetadata() []string {
+
+	return *o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the address of the given value.
+func (o *SparseProcessingUnit) SetMetadata(metadata []string) {
+
+	o.Metadata = &metadata
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseProcessingUnit) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseProcessingUnit) SetName(name string) {
+
+	o.Name = &name
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseProcessingUnit) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseProcessingUnit) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *SparseProcessingUnit) GetNormalizedTags() []string {
+
+	return *o.NormalizedTags
+}
+
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
+func (o *SparseProcessingUnit) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = &normalizedTags
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *SparseProcessingUnit) GetProtected() bool {
+
+	return *o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseProcessingUnit) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseProcessingUnit) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
+}
+
+// DeepCopy returns a deep copy if the SparseProcessingUnit.
+func (o *SparseProcessingUnit) DeepCopy() *SparseProcessingUnit {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseProcessingUnit{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseProcessingUnit.
+func (o *SparseProcessingUnit) DeepCopyInto(out *SparseProcessingUnit) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseProcessingUnit: %s", err))
+	}
+
+	*out = *target.(*SparseProcessingUnit)
 }

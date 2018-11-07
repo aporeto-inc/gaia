@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -71,6 +72,30 @@ func (o *Root) Doc() string {
 func (o *Root) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// DeepCopy returns a deep copy if the Root.
+func (o *Root) DeepCopy() *Root {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &Root{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *Root.
+func (o *Root) DeepCopyInto(out *Root) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy Root: %s", err))
+	}
+
+	*out = *target.(*Root)
 }
 
 // Validate valides the current information stored into the structure.

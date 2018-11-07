@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -205,6 +206,30 @@ func (o *InvoiceRecord) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+}
+
+// DeepCopy returns a deep copy if the InvoiceRecord.
+func (o *InvoiceRecord) DeepCopy() *InvoiceRecord {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &InvoiceRecord{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *InvoiceRecord.
+func (o *InvoiceRecord) DeepCopyInto(out *InvoiceRecord) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy InvoiceRecord: %s", err))
+	}
+
+	*out = *target.(*InvoiceRecord)
 }
 
 // Validate valides the current information stored into the structure.
@@ -515,4 +540,28 @@ func (o *SparseInvoiceRecord) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseInvoiceRecord.
+func (o *SparseInvoiceRecord) DeepCopy() *SparseInvoiceRecord {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseInvoiceRecord{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseInvoiceRecord.
+func (o *SparseInvoiceRecord) DeepCopyInto(out *SparseInvoiceRecord) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseInvoiceRecord: %s", err))
+	}
+
+	*out = *target.(*SparseInvoiceRecord)
 }

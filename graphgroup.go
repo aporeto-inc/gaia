@@ -1,8 +1,10 @@
 package gaia
 
 import (
+	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -35,6 +37,30 @@ func NewGraphGroup() *GraphGroup {
 		ModelVersion: 1,
 		Match:        [][]string{},
 	}
+}
+
+// DeepCopy returns a deep copy if the GraphGroup.
+func (o *GraphGroup) DeepCopy() *GraphGroup {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &GraphGroup{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *GraphGroup.
+func (o *GraphGroup) DeepCopyInto(out *GraphGroup) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy GraphGroup: %s", err))
+	}
+
+	*out = *target.(*GraphGroup)
 }
 
 // Validate valides the current information stored into the structure.

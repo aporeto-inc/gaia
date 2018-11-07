@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
 )
 
@@ -184,6 +185,30 @@ func (o *TagInject) Patch(sparse elemental.SparseIdentifiable) {
 	if so.TargetNamespace != nil {
 		o.TargetNamespace = *so.TargetNamespace
 	}
+}
+
+// DeepCopy returns a deep copy if the TagInject.
+func (o *TagInject) DeepCopy() *TagInject {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &TagInject{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *TagInject.
+func (o *TagInject) DeepCopyInto(out *TagInject) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy TagInject: %s", err))
+	}
+
+	*out = *target.(*TagInject)
 }
 
 // Validate valides the current information stored into the structure.
@@ -423,4 +448,28 @@ func (o *SparseTagInject) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// DeepCopy returns a deep copy if the SparseTagInject.
+func (o *SparseTagInject) DeepCopy() *SparseTagInject {
+
+	if o == nil {
+		return nil
+	}
+
+	out := &SparseTagInject{}
+	o.DeepCopyInto(out)
+
+	return out
+}
+
+// DeepCopyInto copies the receiver into the given *SparseTagInject.
+func (o *SparseTagInject) DeepCopyInto(out *SparseTagInject) {
+
+	target, err := copystructure.Copy(o)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to deepcopy SparseTagInject: %s", err))
+	}
+
+	*out = *target.(*SparseTagInject)
 }
