@@ -83,7 +83,7 @@ attributes:
     subtype: tags_list
     stored: true
 
-  - name: serviceCertificateValidityTime
+  - name: serviceCertificateValidity
     description: |-
       Determines the validity time of certificates issued in this namespace. Default
       value is 1 hour.

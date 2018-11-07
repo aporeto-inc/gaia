@@ -356,7 +356,7 @@ func ValidateProcessingUnitServicesListWithoutOverlap(svcs []*ProcessingUnitServ
 func ValidateTimeDuration(attribute string, duration string) error {
 	_, err := time.ParseDuration(duration)
 	if err != nil {
-		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be time validity (examaple: 1h or 30s)", attribute))
+		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be valid duration (examaple: 1h or 30s)", attribute))
 	}
 	return nil
 }

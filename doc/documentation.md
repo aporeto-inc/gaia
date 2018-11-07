@@ -6856,7 +6856,7 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `serviceCertificateValidityTime (string)`
+#### `serviceCertificateValidity (string)`
 
 Determines the validity time of certificates issued in this namespace. Default
 value is 1 hour.

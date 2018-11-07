@@ -128,7 +128,7 @@ type Namespace struct {
 
 	// Determines the validity time of certificates issued in this namespace. Default
 	// value is 1 hour.
-	ServiceCertificateValidityTime string `json:"serviceCertificateValidityTime" bson:"servicecertificatevaliditytime" mapstructure:"serviceCertificateValidityTime,omitempty"`
+	ServiceCertificateValidity string `json:"serviceCertificateValidity" bson:"servicecertificatevalidity" mapstructure:"serviceCertificateValidity,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -142,13 +142,13 @@ type Namespace struct {
 func NewNamespace() *Namespace {
 
 	return &Namespace{
-		ModelVersion:                   1,
-		Annotations:                    map[string][]string{},
-		AssociatedTags:                 []string{},
-		Metadata:                       []string{},
-		NetworkAccessPolicyTags:        []string{},
-		NormalizedTags:                 []string{},
-		ServiceCertificateValidityTime: "1h",
+		ModelVersion:               1,
+		Annotations:                map[string][]string{},
+		AssociatedTags:             []string{},
+		Metadata:                   []string{},
+		NetworkAccessPolicyTags:    []string{},
+		NormalizedTags:             []string{},
+		ServiceCertificateValidity: "1h",
 	}
 }
 
@@ -298,22 +298,22 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseNamespace{
-			ID:                             &o.ID,
-			Annotations:                    &o.Annotations,
-			AssociatedLocalCAID:            &o.AssociatedLocalCAID,
-			AssociatedTags:                 &o.AssociatedTags,
-			CreateTime:                     &o.CreateTime,
-			Description:                    &o.Description,
-			LocalCA:                        &o.LocalCA,
-			LocalCAEnabled:                 &o.LocalCAEnabled,
-			Metadata:                       &o.Metadata,
-			Name:                           &o.Name,
-			Namespace:                      &o.Namespace,
-			NetworkAccessPolicyTags:        &o.NetworkAccessPolicyTags,
-			NormalizedTags:                 &o.NormalizedTags,
-			Protected:                      &o.Protected,
-			ServiceCertificateValidityTime: &o.ServiceCertificateValidityTime,
-			UpdateTime:                     &o.UpdateTime,
+			ID:                         &o.ID,
+			Annotations:                &o.Annotations,
+			AssociatedLocalCAID:        &o.AssociatedLocalCAID,
+			AssociatedTags:             &o.AssociatedTags,
+			CreateTime:                 &o.CreateTime,
+			Description:                &o.Description,
+			LocalCA:                    &o.LocalCA,
+			LocalCAEnabled:             &o.LocalCAEnabled,
+			Metadata:                   &o.Metadata,
+			Name:                       &o.Name,
+			Namespace:                  &o.Namespace,
+			NetworkAccessPolicyTags:    &o.NetworkAccessPolicyTags,
+			NormalizedTags:             &o.NormalizedTags,
+			Protected:                  &o.Protected,
+			ServiceCertificateValidity: &o.ServiceCertificateValidity,
+			UpdateTime:                 &o.UpdateTime,
 		}
 	}
 
@@ -348,8 +348,8 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "protected":
 			sp.Protected = &(o.Protected)
-		case "serviceCertificateValidityTime":
-			sp.ServiceCertificateValidityTime = &(o.ServiceCertificateValidityTime)
+		case "serviceCertificateValidity":
+			sp.ServiceCertificateValidity = &(o.ServiceCertificateValidity)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		}
@@ -407,8 +407,8 @@ func (o *Namespace) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
-	if so.ServiceCertificateValidityTime != nil {
-		o.ServiceCertificateValidityTime = *so.ServiceCertificateValidityTime
+	if so.ServiceCertificateValidity != nil {
+		o.ServiceCertificateValidity = *so.ServiceCertificateValidity
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -457,7 +457,7 @@ func (o *Namespace) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := ValidateTimeDuration("serviceCertificateValidityTime", o.ServiceCertificateValidityTime); err != nil {
+	if err := ValidateTimeDuration("serviceCertificateValidity", o.ServiceCertificateValidity); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -523,8 +523,8 @@ func (o *Namespace) ValueForAttribute(name string) interface{} {
 		return o.NormalizedTags
 	case "protected":
 		return o.Protected
-	case "serviceCertificateValidityTime":
-		return o.ServiceCertificateValidityTime
+	case "serviceCertificateValidity":
+		return o.ServiceCertificateValidity
 	case "updateTime":
 		return o.UpdateTime
 	}
@@ -713,14 +713,14 @@ policies in the namespace and its children.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"ServiceCertificateValidityTime": elemental.AttributeSpecification{
+	"ServiceCertificateValidity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "ServiceCertificateValidityTime",
+		ConvertedName:  "ServiceCertificateValidity",
 		DefaultValue:   "1h",
 		Description: `Determines the validity time of certificates issued in this namespace. Default
 value is 1 hour.`,
 		Exposed: true,
-		Name:    "serviceCertificateValidityTime",
+		Name:    "serviceCertificateValidity",
 		Stored:  true,
 		Type:    "string",
 	},
@@ -921,14 +921,14 @@ policies in the namespace and its children.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"servicecertificatevaliditytime": elemental.AttributeSpecification{
+	"servicecertificatevalidity": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "ServiceCertificateValidityTime",
+		ConvertedName:  "ServiceCertificateValidity",
 		DefaultValue:   "1h",
 		Description: `Determines the validity time of certificates issued in this namespace. Default
 value is 1 hour.`,
 		Exposed: true,
-		Name:    "serviceCertificateValidityTime",
+		Name:    "serviceCertificateValidity",
 		Stored:  true,
 		Type:    "string",
 	},
@@ -1058,7 +1058,7 @@ type SparseNamespace struct {
 
 	// Determines the validity time of certificates issued in this namespace. Default
 	// value is 1 hour.
-	ServiceCertificateValidityTime *string `json:"serviceCertificateValidityTime,omitempty" bson:"servicecertificatevaliditytime" mapstructure:"serviceCertificateValidityTime,omitempty"`
+	ServiceCertificateValidity *string `json:"serviceCertificateValidity,omitempty" bson:"servicecertificatevalidity" mapstructure:"serviceCertificateValidity,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -1146,8 +1146,8 @@ func (o *SparseNamespace) ToPlain() elemental.PlainIdentifiable {
 	if o.Protected != nil {
 		out.Protected = *o.Protected
 	}
-	if o.ServiceCertificateValidityTime != nil {
-		out.ServiceCertificateValidityTime = *o.ServiceCertificateValidityTime
+	if o.ServiceCertificateValidity != nil {
+		out.ServiceCertificateValidity = *o.ServiceCertificateValidity
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
