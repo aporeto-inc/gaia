@@ -82,3 +82,12 @@ attributes:
     exposed: true
     subtype: tags_list
     stored: true
+
+  - name: serviceCertificateValidityTime
+    description: |-
+      Determines the validity time of certificates issued in this namespace. Default
+      value is 1 hour.
+    type: string
+    exposed: true
+    stored: true
+    default_value: 1h
