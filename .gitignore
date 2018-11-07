@@ -1,4 +1,5 @@
 codegen
 vendor
 *.lock
-coverage.txt
+*.cov
+artifacts
