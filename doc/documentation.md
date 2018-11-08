@@ -1102,6 +1102,10 @@ Icon contains a base64 image for the app.
 | -               | -:     |
 | Read only       | `true` |
 
+#### `latestVersion (string)`
+
+LatestVersion represents the latest version available of the app.
+
 #### `longDescription (string)`
 
 LongDescription contains a more detailed description of the app.
@@ -1117,13 +1121,13 @@ Name is the name of the entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
+#### `parameters (external:app_parameters)`
+
+Parameters is a list of parameters available for the app.
+
 #### `title (string)`
 
 Title represents the title of the app.
-
-#### `versionParameters (external:app_versionparameters)`
-
-VersionParameters contains parameters for each available version.
 
 ## AppCredential
 

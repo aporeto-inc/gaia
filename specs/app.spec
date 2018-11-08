@@ -30,18 +30,24 @@ attributes:
     exposed: true
     read_only: true
 
+  - name: latestVersion
+    description: LatestVersion represents the latest version available of the app.
+    type: string
+    exposed: true
+
   - name: longDescription
     description: LongDescription contains a more detailed description of the app.
     type: string
     exposed: true
 
+  - name: parameters
+    description: Parameters is a list of parameters available for the app.
+    type: external
+    exposed: true
+    subtype: app_parameters
+    stored: true
+
   - name: title
     description: Title represents the title of the app.
     type: string
     exposed: true
-
-  - name: versionParameters
-    description: VersionParameters contains parameters for each available version.
-    type: external
-    exposed: true
-    subtype: app_versionparameters
