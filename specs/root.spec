@@ -540,6 +540,7 @@ relations:
     description: Retrieves statistics information based on parameters.
     global_parameters:
     - $timewindow
+    - $offset
     parameters:
       entries:
       - name: field

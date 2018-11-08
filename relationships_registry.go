@@ -3775,6 +3775,14 @@ func init() {
 						Name: "startRelative",
 						Type: "duration",
 					},
+					elemental.ParameterDefinition{
+						Name: "limit",
+						Type: "integer",
+					},
+					elemental.ParameterDefinition{
+						Name: "offset",
+						Type: "integer",
+					},
 				},
 			},
 		},
@@ -3879,6 +3887,14 @@ func init() {
 					elemental.ParameterDefinition{
 						Name: "startRelative",
 						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "limit",
+						Type: "integer",
+					},
+					elemental.ParameterDefinition{
+						Name: "offset",
+						Type: "integer",
 					},
 				},
 			},

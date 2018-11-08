@@ -9871,6 +9871,8 @@ Retrieves statistics information based on parameters.
 - `endRelative` (duration): Set the relative end of the time window.
 - `startAbsolute` (time): Set the absolute start of the time window.
 - `startRelative` (duration): Set the relative start of the time window.
+- `limit` (integer): Maximum number of results.
+- `offset` (integer): Maximum number of results.
 
 ##### Mandatory Parameters
 
