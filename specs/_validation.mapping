@@ -37,3 +37,7 @@ $protocols:
 $serviceEntity:
   elemental:
     name: ValidateServiceEntity
+
+$timeDuration:
+  elemental:
+    name: ValidateTimeDuration

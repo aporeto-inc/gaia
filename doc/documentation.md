@@ -6810,6 +6810,15 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
+#### `serviceCertificateValidity (string)`
+
+Determines the validity time of certificates issued in this namespace. Default
+value is 1 hour.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Default         | `"1h"` |
+
 #### `updateTime (time)`
 
 UpdateTime is the time at which an entity was updated.
