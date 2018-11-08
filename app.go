@@ -165,6 +165,18 @@ func (o *App) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *App) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *App) SetDescription(description string) {
+
+	o.Description = description
+}
+
 // GetName returns the Name of the receiver.
 func (o *App) GetName() string {
 
@@ -383,9 +395,11 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -475,9 +489,11 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -700,6 +716,18 @@ func (o *SparseApp) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SparseApp) GetDescription() string {
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseApp) SetDescription(description string) {
+
+	o.Description = &description
 }
 
 // GetName returns the Name of the receiver.

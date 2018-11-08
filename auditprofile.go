@@ -221,6 +221,18 @@ func (o *AuditProfile) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *AuditProfile) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *AuditProfile) SetDescription(description string) {
+
+	o.Description = description
+}
+
 // GetMetadata returns the Metadata of the receiver.
 func (o *AuditProfile) GetMetadata() []string {
 
@@ -560,9 +572,11 @@ var AuditProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -735,9 +749,11 @@ var AuditProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1073,6 +1089,18 @@ func (o *SparseAuditProfile) GetCreateTime() time.Time {
 func (o *SparseAuditProfile) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SparseAuditProfile) GetDescription() string {
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseAuditProfile) SetDescription(description string) {
+
+	o.Description = &description
 }
 
 // GetMetadata returns the Metadata of the receiver.

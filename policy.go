@@ -327,6 +327,18 @@ func (o *Policy) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *Policy) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *Policy) SetDescription(description string) {
+
+	o.Description = description
+}
+
 // GetDisabled returns the Disabled of the receiver.
 func (o *Policy) GetDisabled() bool {
 
@@ -888,9 +900,11 @@ The policy will be active for the given activeDuration.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1198,9 +1212,11 @@ The policy will be active for the given activeDuration.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1716,6 +1732,18 @@ func (o *SparsePolicy) GetCreateTime() time.Time {
 func (o *SparsePolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SparsePolicy) GetDescription() string {
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparsePolicy) SetDescription(description string) {
+
+	o.Description = &description
 }
 
 // GetDisabled returns the Disabled of the receiver.

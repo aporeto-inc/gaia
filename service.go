@@ -418,6 +418,18 @@ func (o *Service) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *Service) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *Service) SetDescription(description string) {
+
+	o.Description = description
+}
+
 // GetMetadata returns the Metadata of the receiver.
 func (o *Service) GetMetadata() []string {
 
@@ -1188,9 +1200,11 @@ values of the claims to the corresponding HTTP headers.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1657,9 +1671,11 @@ values of the claims to the corresponding HTTP headers.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -2319,6 +2335,18 @@ func (o *SparseService) GetCreateTime() time.Time {
 func (o *SparseService) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SparseService) GetDescription() string {
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseService) SetDescription(description string) {
+
+	o.Description = &description
 }
 
 // GetMetadata returns the Metadata of the receiver.

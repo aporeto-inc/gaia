@@ -6,5 +6,7 @@ attributes:
     type: string
     exposed: true
     stored: true
+    getter: true
+    setter: true
     max_length: 1024
     orderable: true

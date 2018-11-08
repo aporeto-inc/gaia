@@ -269,6 +269,18 @@ func (o *HookPolicy) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *HookPolicy) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *HookPolicy) SetDescription(description string) {
+
+	o.Description = description
+}
+
 // GetDisabled returns the Disabled of the receiver.
 func (o *HookPolicy) GetDisabled() bool {
 
@@ -795,9 +807,11 @@ calling the hook fails.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1079,9 +1093,11 @@ calling the hook fails.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1544,6 +1560,18 @@ func (o *SparseHookPolicy) GetCreateTime() time.Time {
 func (o *SparseHookPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SparseHookPolicy) GetDescription() string {
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseHookPolicy) SetDescription(description string) {
+
+	o.Description = &description
 }
 
 // GetDisabled returns the Disabled of the receiver.

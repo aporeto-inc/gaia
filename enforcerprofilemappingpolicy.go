@@ -235,6 +235,18 @@ func (o *EnforcerProfileMappingPolicy) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *EnforcerProfileMappingPolicy) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *EnforcerProfileMappingPolicy) SetDescription(description string) {
+
+	o.Description = description
+}
+
 // GetDisabled returns the Disabled of the receiver.
 func (o *EnforcerProfileMappingPolicy) GetDisabled() bool {
 
@@ -660,9 +672,11 @@ var EnforcerProfileMappingPolicyAttributesMap = map[string]elemental.AttributeSp
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -887,9 +901,11 @@ var EnforcerProfileMappingPolicyLowerCaseAttributesMap = map[string]elemental.At
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1306,6 +1322,18 @@ func (o *SparseEnforcerProfileMappingPolicy) GetCreateTime() time.Time {
 func (o *SparseEnforcerProfileMappingPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SparseEnforcerProfileMappingPolicy) GetDescription() string {
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseEnforcerProfileMappingPolicy) SetDescription(description string) {
+
+	o.Description = &description
 }
 
 // GetDisabled returns the Disabled of the receiver.

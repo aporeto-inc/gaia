@@ -371,6 +371,18 @@ func (o *EnforcerProfile) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *EnforcerProfile) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *EnforcerProfile) SetDescription(description string) {
+
+	o.Description = description
+}
+
 // GetName returns the Name of the receiver.
 func (o *EnforcerProfile) GetName() string {
 
@@ -1109,9 +1121,11 @@ is a read only attribute when an enforcer profile is resolved for an enforcer.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1608,9 +1622,11 @@ is a read only attribute when an enforcer profile is resolved for an enforcer.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -2364,6 +2380,18 @@ func (o *SparseEnforcerProfile) GetCreateTime() time.Time {
 func (o *SparseEnforcerProfile) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SparseEnforcerProfile) GetDescription() string {
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseEnforcerProfile) SetDescription(description string) {
+
+	o.Description = &description
 }
 
 // GetName returns the Name of the receiver.

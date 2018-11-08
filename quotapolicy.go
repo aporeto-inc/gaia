@@ -238,6 +238,18 @@ func (o *QuotaPolicy) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *QuotaPolicy) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *QuotaPolicy) SetDescription(description string) {
+
+	o.Description = description
+}
+
 // GetDisabled returns the Disabled of the receiver.
 func (o *QuotaPolicy) GetDisabled() bool {
 
@@ -667,9 +679,11 @@ var QuotaPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -902,9 +916,11 @@ var QuotaPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1336,6 +1352,18 @@ func (o *SparseQuotaPolicy) GetCreateTime() time.Time {
 func (o *SparseQuotaPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SparseQuotaPolicy) GetDescription() string {
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseQuotaPolicy) SetDescription(description string) {
+
+	o.Description = &description
 }
 
 // GetDisabled returns the Disabled of the receiver.

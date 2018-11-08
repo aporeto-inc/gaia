@@ -226,6 +226,18 @@ func (o *Namespace) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *Namespace) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *Namespace) SetDescription(description string) {
+
+	o.Description = description
+}
+
 // GetMetadata returns the Metadata of the receiver.
 func (o *Namespace) GetMetadata() []string {
 
@@ -583,9 +595,11 @@ var NamespaceAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -780,9 +794,11 @@ var NamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1144,6 +1160,18 @@ func (o *SparseNamespace) GetCreateTime() time.Time {
 func (o *SparseNamespace) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SparseNamespace) GetDescription() string {
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseNamespace) SetDescription(description string) {
+
+	o.Description = &description
 }
 
 // GetMetadata returns the Metadata of the receiver.

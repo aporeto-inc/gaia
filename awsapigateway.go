@@ -239,6 +239,18 @@ func (o *AWSAPIGateway) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *AWSAPIGateway) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *AWSAPIGateway) SetDescription(description string) {
+
+	o.Description = description
+}
+
 // GetMetadata returns the Metadata of the receiver.
 func (o *AWSAPIGateway) GetMetadata() []string {
 
@@ -660,9 +672,11 @@ var AWSAPIGatewayAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -890,9 +904,11 @@ var AWSAPIGatewayLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1299,6 +1315,18 @@ func (o *SparseAWSAPIGateway) GetCreateTime() time.Time {
 func (o *SparseAWSAPIGateway) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SparseAWSAPIGateway) GetDescription() string {
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseAWSAPIGateway) SetDescription(description string) {
+
+	o.Description = &description
 }
 
 // GetMetadata returns the Metadata of the receiver.

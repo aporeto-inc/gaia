@@ -318,6 +318,18 @@ func (o *ProcessingUnit) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *ProcessingUnit) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *ProcessingUnit) SetDescription(description string) {
+
+	o.Description = description
+}
+
 // GetMetadata returns the Metadata of the receiver.
 func (o *ProcessingUnit) GetMetadata() []string {
 
@@ -753,9 +765,11 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1014,9 +1028,11 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1490,6 +1506,18 @@ func (o *SparseProcessingUnit) GetCreateTime() time.Time {
 func (o *SparseProcessingUnit) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SparseProcessingUnit) GetDescription() string {
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseProcessingUnit) SetDescription(description string) {
+
+	o.Description = &description
 }
 
 // GetMetadata returns the Metadata of the receiver.

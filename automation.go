@@ -268,6 +268,18 @@ func (o *Automation) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *Automation) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *Automation) SetDescription(description string) {
+
+	o.Description = description
+}
+
 // GetDisabled returns the Disabled of the receiver.
 func (o *Automation) GetDisabled() bool {
 
@@ -716,9 +728,11 @@ be taken.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -996,9 +1010,11 @@ be taken.`,
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1481,6 +1497,18 @@ func (o *SparseAutomation) GetCreateTime() time.Time {
 func (o *SparseAutomation) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SparseAutomation) GetDescription() string {
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseAutomation) SetDescription(description string) {
+
+	o.Description = &description
 }
 
 // GetDisabled returns the Disabled of the receiver.

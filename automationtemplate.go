@@ -172,6 +172,18 @@ func (o *AutomationTemplate) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *AutomationTemplate) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *AutomationTemplate) SetDescription(description string) {
+
+	o.Description = description
+}
+
 // GetName returns the Name of the receiver.
 func (o *AutomationTemplate) GetName() string {
 
@@ -360,9 +372,11 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -434,9 +448,11 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		ConvertedName:  "Description",
 		Description:    `Description is the description of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		MaxLength:      1024,
 		Name:           "description",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -647,6 +663,18 @@ func (o *SparseAutomationTemplate) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SparseAutomationTemplate) GetDescription() string {
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseAutomationTemplate) SetDescription(description string) {
+
+	o.Description = &description
 }
 
 // GetName returns the Name of the receiver.
