@@ -29,6 +29,7 @@ model:
   - '@metadatable'
   - '@named'
   - '@propagated'
+  - '@hidden'
   - '@fallback'
 
 # Attributes

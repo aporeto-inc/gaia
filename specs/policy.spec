@@ -49,6 +49,7 @@ model:
   - '@metadatable'
   - '@named'
   - '@propagated'
+  - '@hidden'
   - '@fallback'
   - '@schedulable'
 
