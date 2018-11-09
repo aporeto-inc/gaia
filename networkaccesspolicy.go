@@ -202,10 +202,6 @@ type NetworkAccessPolicy struct {
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// If set to true while the policy is propagating, it won't be visible to children
-	// namespace, but still used for policy resolution.
-	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
-
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -230,8 +226,8 @@ func NewNetworkAccessPolicy() *NetworkAccessPolicy {
 		Annotations:           map[string][]string{},
 		ApplyPolicyMode:       NetworkAccessPolicyApplyPolicyModeBidirectional,
 		DestinationPorts:      []string{},
-		Metadata:              []string{},
 		NormalizedTags:        []string{},
+		Metadata:              []string{},
 		ObservedTrafficAction: NetworkAccessPolicyObservedTrafficActionContinue,
 	}
 }
@@ -460,18 +456,6 @@ func (o *NetworkAccessPolicy) SetPropagate(propagate bool) {
 	o.Propagate = propagate
 }
 
-// GetPropagationHidden returns the PropagationHidden of the receiver.
-func (o *NetworkAccessPolicy) GetPropagationHidden() bool {
-
-	return o.PropagationHidden
-}
-
-// SetPropagationHidden sets the property PropagationHidden of the receiver using the given value.
-func (o *NetworkAccessPolicy) SetPropagationHidden(propagationHidden bool) {
-
-	o.PropagationHidden = propagationHidden
-}
-
 // GetProtected returns the Protected of the receiver.
 func (o *NetworkAccessPolicy) GetProtected() bool {
 
@@ -521,7 +505,6 @@ func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentif
 			ObservationEnabled:    &o.ObservationEnabled,
 			ObservedTrafficAction: &o.ObservedTrafficAction,
 			Propagate:             &o.Propagate,
-			PropagationHidden:     &o.PropagationHidden,
 			Protected:             &o.Protected,
 			Subject:               &o.Subject,
 			UpdateTime:            &o.UpdateTime,
@@ -579,8 +562,6 @@ func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentif
 			sp.ObservedTrafficAction = &(o.ObservedTrafficAction)
 		case "propagate":
 			sp.Propagate = &(o.Propagate)
-		case "propagationHidden":
-			sp.PropagationHidden = &(o.PropagationHidden)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "subject":
@@ -671,9 +652,6 @@ func (o *NetworkAccessPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Propagate != nil {
 		o.Propagate = *so.Propagate
-	}
-	if so.PropagationHidden != nil {
-		o.PropagationHidden = *so.PropagationHidden
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -826,8 +804,6 @@ func (o *NetworkAccessPolicy) ValueForAttribute(name string) interface{} {
 		return o.ObservedTrafficAction
 	case "propagate":
 		return o.Propagate
-	case "propagationHidden":
-		return o.PropagationHidden
 	case "protected":
 		return o.Protected
 	case "subject":
@@ -1133,19 +1109,6 @@ packets.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
-	},
-	"PropagationHidden": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PropagationHidden",
-		Description: `If set to true while the policy is propagating, it won't be visible to children
-namespace, but still used for policy resolution.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "propagationHidden",
-		Orderable: true,
-		Setter:    true,
-		Stored:    true,
-		Type:      "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1479,19 +1442,6 @@ packets.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"propagationhidden": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PropagationHidden",
-		Description: `If set to true while the policy is propagating, it won't be visible to children
-namespace, but still used for policy resolution.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "propagationHidden",
-		Orderable: true,
-		Setter:    true,
-		Stored:    true,
-		Type:      "boolean",
-	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -1674,10 +1624,6 @@ type SparseNetworkAccessPolicy struct {
 	// Propagate will propagate the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// If set to true while the policy is propagating, it won't be visible to children
-	// namespace, but still used for policy resolution.
-	PropagationHidden *bool `json:"propagationHidden,omitempty" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
-
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -1799,9 +1745,6 @@ func (o *SparseNetworkAccessPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Propagate != nil {
 		out.Propagate = *o.Propagate
-	}
-	if o.PropagationHidden != nil {
-		out.PropagationHidden = *o.PropagationHidden
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -1994,18 +1937,6 @@ func (o *SparseNetworkAccessPolicy) GetPropagate() bool {
 func (o *SparseNetworkAccessPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = &propagate
-}
-
-// GetPropagationHidden returns the PropagationHidden of the receiver.
-func (o *SparseNetworkAccessPolicy) GetPropagationHidden() bool {
-
-	return *o.PropagationHidden
-}
-
-// SetPropagationHidden sets the property PropagationHidden of the receiver using the address of the given value.
-func (o *SparseNetworkAccessPolicy) SetPropagationHidden(propagationHidden bool) {
-
-	o.PropagationHidden = &propagationHidden
 }
 
 // GetProtected returns the Protected of the receiver.

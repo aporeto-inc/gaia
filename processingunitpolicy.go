@@ -160,10 +160,6 @@ type ProcessingUnitPolicy struct {
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// If set to true while the policy is propagating, it won't be visible to children
-	// namespace, but still used for policy resolution.
-	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
-
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -389,18 +385,6 @@ func (o *ProcessingUnitPolicy) SetPropagate(propagate bool) {
 	o.Propagate = propagate
 }
 
-// GetPropagationHidden returns the PropagationHidden of the receiver.
-func (o *ProcessingUnitPolicy) GetPropagationHidden() bool {
-
-	return o.PropagationHidden
-}
-
-// SetPropagationHidden sets the property PropagationHidden of the receiver using the given value.
-func (o *ProcessingUnitPolicy) SetPropagationHidden(propagationHidden bool) {
-
-	o.PropagationHidden = propagationHidden
-}
-
 // GetProtected returns the Protected of the receiver.
 func (o *ProcessingUnitPolicy) GetProtected() bool {
 
@@ -442,7 +426,6 @@ func (o *ProcessingUnitPolicy) ToSparse(fields ...string) elemental.SparseIdenti
 			Namespace:                &o.Namespace,
 			NormalizedTags:           &o.NormalizedTags,
 			Propagate:                &o.Propagate,
-			PropagationHidden:        &o.PropagationHidden,
 			Protected:                &o.Protected,
 			Subject:                  &o.Subject,
 			UpdateTime:               &o.UpdateTime,
@@ -484,8 +467,6 @@ func (o *ProcessingUnitPolicy) ToSparse(fields ...string) elemental.SparseIdenti
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "propagate":
 			sp.Propagate = &(o.Propagate)
-		case "propagationHidden":
-			sp.PropagationHidden = &(o.PropagationHidden)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "subject":
@@ -552,9 +533,6 @@ func (o *ProcessingUnitPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Propagate != nil {
 		o.Propagate = *so.Propagate
-	}
-	if so.PropagationHidden != nil {
-		o.PropagationHidden = *so.PropagationHidden
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -683,8 +661,6 @@ func (o *ProcessingUnitPolicy) ValueForAttribute(name string) interface{} {
 		return o.NormalizedTags
 	case "propagate":
 		return o.Propagate
-	case "propagationHidden":
-		return o.PropagationHidden
 	case "protected":
 		return o.Protected
 	case "subject":
@@ -909,19 +885,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
-	},
-	"PropagationHidden": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PropagationHidden",
-		Description: `If set to true while the policy is propagating, it won't be visible to children
-namespace, but still used for policy resolution.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "propagationHidden",
-		Orderable: true,
-		Setter:    true,
-		Stored:    true,
-		Type:      "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1175,19 +1138,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"propagationhidden": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PropagationHidden",
-		Description: `If set to true while the policy is propagating, it won't be visible to children
-namespace, but still used for policy resolution.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "propagationHidden",
-		Orderable: true,
-		Setter:    true,
-		Stored:    true,
-		Type:      "boolean",
-	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -1345,10 +1295,6 @@ type SparseProcessingUnitPolicy struct {
 	// Propagate will propagate the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// If set to true while the policy is propagating, it won't be visible to children
-	// namespace, but still used for policy resolution.
-	PropagationHidden *bool `json:"propagationHidden,omitempty" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
-
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -1447,9 +1393,6 @@ func (o *SparseProcessingUnitPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Propagate != nil {
 		out.Propagate = *o.Propagate
-	}
-	if o.PropagationHidden != nil {
-		out.PropagationHidden = *o.PropagationHidden
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -1618,18 +1561,6 @@ func (o *SparseProcessingUnitPolicy) GetPropagate() bool {
 func (o *SparseProcessingUnitPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = &propagate
-}
-
-// GetPropagationHidden returns the PropagationHidden of the receiver.
-func (o *SparseProcessingUnitPolicy) GetPropagationHidden() bool {
-
-	return *o.PropagationHidden
-}
-
-// SetPropagationHidden sets the property PropagationHidden of the receiver using the address of the given value.
-func (o *SparseProcessingUnitPolicy) SetPropagationHidden(propagationHidden bool) {
-
-	o.PropagationHidden = &propagationHidden
 }
 
 // GetProtected returns the Protected of the receiver.

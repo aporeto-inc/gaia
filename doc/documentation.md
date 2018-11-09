@@ -3721,15 +3721,6 @@ Propagate will propagate the policy to all of its children.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `propagationHidden (boolean)`
-
-If set to true while the policy is propagating, it won't be visible to children
-namespace, but still used for policy resolution.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-
 #### `protected (boolean)`
 
 Protected defines if the object is protected.
@@ -4664,15 +4655,6 @@ Object is the object of the policy.
 #### `propagate (boolean)`
 
 Propagate will propagate the policy to all of its children.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-
-#### `propagationHidden (boolean)`
-
-If set to true while the policy is propagating, it won't be visible to children
-namespace, but still used for policy resolution.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -7307,15 +7289,6 @@ Propagate will propagate the policy to all of its children.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `propagationHidden (boolean)`
-
-If set to true while the policy is propagating, it won't be visible to children
-namespace, but still used for policy resolution.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-
 #### `protected (boolean)`
 
 Protected defines if the object is protected.
@@ -8442,15 +8415,6 @@ Propagate will propagate the policy to all of its children.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `propagationHidden (boolean)`
-
-If set to true while the policy is propagating, it won't be visible to children
-namespace, but still used for policy resolution.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-
 #### `protected (boolean)`
 
 Protected defines if the object is protected.
@@ -9116,15 +9080,6 @@ Propagate will propagate the policy to all of its children.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `propagationHidden (boolean)`
-
-If set to true while the policy is propagating, it won't be visible to children
-namespace, but still used for policy resolution.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-
 #### `protected (boolean)`
 
 Protected defines if the object is protected.
@@ -9764,15 +9719,6 @@ Propagate will propagate the policy to all of its children.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `propagationHidden (boolean)`
-
-If set to true while the policy is propagating, it won't be visible to children
-namespace, but still used for policy resolution.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-
 #### `protected (boolean)`
 
 Protected defines if the object is protected.
@@ -9825,6 +9771,8 @@ Retrieves statistics information based on parameters.
 - `endRelative` (duration): Set the relative end of the time window.
 - `startAbsolute` (time): Set the absolute start of the time window.
 - `startRelative` (duration): Set the relative start of the time window.
+- `limit` (integer): Maximum number of results.
+- `offset` (integer): Maximum number of results.
 
 ##### Mandatory Parameters
 
@@ -10164,15 +10112,6 @@ NormalizedTags contains the list of normalized tags of the entities.
 #### `propagate (boolean)`
 
 Propagate will propagate the policy to all of its children.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-
-#### `propagationHidden (boolean)`
-
-If set to true while the policy is propagating, it won't be visible to children
-namespace, but still used for policy resolution.
 
 | Characteristics | Value  |
 | -               | -:     |
