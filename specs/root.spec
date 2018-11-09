@@ -236,31 +236,6 @@ relations:
     description: Creates a new enforcer profile mapping policies.
 
 - rest_name: eventlog
-  get:
-    description: Retrieves the eventlogs for one or multiple entities.
-    global_parameters:
-    - $timewindow
-    parameters:
-      entries:
-      - name: category
-        description: Show event logs of the given category.
-        type: string
-        example_value: something
-
-      - name: id
-        description: Show event logs on given ID.
-        type: string
-        example_value: xxx-xxx-xxx-xxx
-
-      - name: identity
-        description: Show event logs on given identity.
-        type: string
-        example_value: enforcer
-
-      - name: level
-        description: Show event logs of the given level.
-        type: string
-        example_value: Warning
   create:
     description: Creates a new eventlog for a particular entity.
 

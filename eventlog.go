@@ -116,6 +116,9 @@ type EventLog struct {
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
+	// Opaque data that can attached to the log, for further machine processing.
+	Opaque string `json:"opaque" bson:"opaque" mapstructure:"opaque,omitempty"`
+
 	// ID of the object this eventlog is attached to. The object must be in the same
 	// namespace than the eventlog.
 	TargetID string `json:"targetID" bson:"targetid" mapstructure:"targetID,omitempty"`
@@ -203,6 +206,7 @@ func (o *EventLog) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Date:           &o.Date,
 			Level:          &o.Level,
 			Namespace:      &o.Namespace,
+			Opaque:         &o.Opaque,
 			TargetID:       &o.TargetID,
 			TargetIdentity: &o.TargetIdentity,
 			Title:          &o.Title,
@@ -222,6 +226,8 @@ func (o *EventLog) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Level = &(o.Level)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
+		case "opaque":
+			sp.Opaque = &(o.Opaque)
 		case "targetID":
 			sp.TargetID = &(o.TargetID)
 		case "targetIdentity":
@@ -255,6 +261,9 @@ func (o *EventLog) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
+	}
+	if so.Opaque != nil {
+		o.Opaque = *so.Opaque
 	}
 	if so.TargetID != nil {
 		o.TargetID = *so.TargetID
@@ -365,6 +374,8 @@ func (o *EventLog) ValueForAttribute(name string) interface{} {
 		return o.Level
 	case "namespace":
 		return o.Namespace
+	case "opaque":
+		return o.Opaque
 	case "targetID":
 		return o.TargetID
 	case "targetIdentity":
@@ -436,6 +447,17 @@ var EventLogAttributesMap = map[string]elemental.AttributeSpecification{
 		PrimaryKey:     true,
 		ReadOnly:       true,
 		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"Opaque": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Opaque",
+		CreationOnly:   true,
+		Description:    `Opaque data that can attached to the log, for further machine processing.`,
+		Exposed:        true,
+		Name:           "opaque",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -535,6 +557,17 @@ var EventLogLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		PrimaryKey:     true,
 		ReadOnly:       true,
 		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"opaque": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Opaque",
+		CreationOnly:   true,
+		Description:    `Opaque data that can attached to the log, for further machine processing.`,
+		Exposed:        true,
+		Name:           "opaque",
+		Orderable:      true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -652,6 +685,9 @@ type SparseEventLog struct {
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
 
+	// Opaque data that can attached to the log, for further machine processing.
+	Opaque *string `json:"opaque,omitempty" bson:"opaque" mapstructure:"opaque,omitempty"`
+
 	// ID of the object this eventlog is attached to. The object must be in the same
 	// namespace than the eventlog.
 	TargetID *string `json:"targetID,omitempty" bson:"targetid" mapstructure:"targetID,omitempty"`
@@ -713,6 +749,9 @@ func (o *SparseEventLog) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
+	}
+	if o.Opaque != nil {
+		out.Opaque = *o.Opaque
 	}
 	if o.TargetID != nil {
 		out.TargetID = *o.TargetID
