@@ -8157,6 +8157,15 @@ EnforcerID is the ID of the enforcer associated with the processing unit.
 | -               | -:     |
 | Filterable      | `true` |
 
+#### `enforcerNamespace (string)`
+
+enforcerNamespace is the namespace of the enforcer associated with the
+processing unit.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Filterable      | `true` |
+
 #### `image (string)`
 
 Docker image, or path to executable.

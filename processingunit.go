@@ -161,6 +161,10 @@ type ProcessingUnit struct {
 	// EnforcerID is the ID of the enforcer associated with the processing unit.
 	EnforcerID string `json:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
 
+	// enforcerNamespace is the namespace of the enforcer associated with the
+	// processing unit.
+	EnforcerNamespace string `json:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
+
 	// Docker image, or path to executable.
 	Image string `json:"image" bson:"image" mapstructure:"image,omitempty"`
 
@@ -411,6 +415,7 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			Description:       &o.Description,
 			EnforcementStatus: &o.EnforcementStatus,
 			EnforcerID:        &o.EnforcerID,
+			EnforcerNamespace: &o.EnforcerNamespace,
 			Image:             &o.Image,
 			LastPokeTime:      &o.LastPokeTime,
 			LastSyncTime:      &o.LastSyncTime,
@@ -446,6 +451,8 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.EnforcementStatus = &(o.EnforcementStatus)
 		case "enforcerID":
 			sp.EnforcerID = &(o.EnforcerID)
+		case "enforcerNamespace":
+			sp.EnforcerNamespace = &(o.EnforcerNamespace)
 		case "image":
 			sp.Image = &(o.Image)
 		case "lastPokeTime":
@@ -508,6 +515,9 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.EnforcerID != nil {
 		o.EnforcerID = *so.EnforcerID
+	}
+	if so.EnforcerNamespace != nil {
+		o.EnforcerNamespace = *so.EnforcerNamespace
 	}
 	if so.Image != nil {
 		o.Image = *so.Image
@@ -664,6 +674,8 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.EnforcementStatus
 	case "enforcerID":
 		return o.EnforcerID
+	case "enforcerNamespace":
+		return o.EnforcerNamespace
 	case "image":
 		return o.Image
 	case "lastPokeTime":
@@ -793,6 +805,17 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "enforcerID",
 		Stored:         true,
 		Type:           "string",
+	},
+	"EnforcerNamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EnforcerNamespace",
+		Description: `enforcerNamespace is the namespace of the enforcer associated with the
+processing unit.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "enforcerNamespace",
+		Stored:     true,
+		Type:       "string",
 	},
 	"Image": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1057,6 +1080,17 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Stored:         true,
 		Type:           "string",
 	},
+	"enforcernamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EnforcerNamespace",
+		Description: `enforcerNamespace is the namespace of the enforcer associated with the
+processing unit.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "enforcerNamespace",
+		Stored:     true,
+		Type:       "string",
+	},
 	"image": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Image",
@@ -1310,6 +1344,10 @@ type SparseProcessingUnit struct {
 	// EnforcerID is the ID of the enforcer associated with the processing unit.
 	EnforcerID *string `json:"enforcerID,omitempty" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
 
+	// enforcerNamespace is the namespace of the enforcer associated with the
+	// processing unit.
+	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
+
 	// Docker image, or path to executable.
 	Image *string `json:"image,omitempty" bson:"image" mapstructure:"image,omitempty"`
 
@@ -1416,6 +1454,9 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.EnforcerID != nil {
 		out.EnforcerID = *o.EnforcerID
+	}
+	if o.EnforcerNamespace != nil {
+		out.EnforcerNamespace = *o.EnforcerNamespace
 	}
 	if o.Image != nil {
 		out.Image = *o.Image
