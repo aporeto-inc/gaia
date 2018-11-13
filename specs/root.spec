@@ -637,6 +637,19 @@ relations:
   create:
     description: Internal api to inject tags.
 
+- rest_name: tagvalue
+  get:
+    description: Retrieves the list of existing values for the given tag keys.
+    parameters:
+      required:
+      - - - key
+      entries:
+      - name: key
+        description: Keys of the tag you want to get the values of.
+        type: string
+        multiple: true
+        example_value: $name
+
 - rest_name: token
   create:
     description: Creates a new token.
