@@ -66,6 +66,15 @@ attributes:
     stored: true
     filterable: true
 
+  - name: enforcerNamespace
+    description: |-
+      enforcerNamespace is the namespace of the enforcer associated with the
+      processing unit.
+    type: string
+    exposed: true
+    stored: true
+    filterable: true
+
   - name: image
     description: Docker image, or path to executable.
     type: string
