@@ -63,6 +63,14 @@ attributes:
     orderable: true
     primary_key: true
 
+  - name: opaque
+    description: Opaque data that can attached to the log, for further machine processing.
+    type: string
+    exposed: true
+    stored: true
+    creation_only: true
+    orderable: true
+
   - name: targetID
     description: |-
       ID of the object this eventlog is attached to. The object must be in the same
