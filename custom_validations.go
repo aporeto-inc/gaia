@@ -409,9 +409,9 @@ func isFQDN(val string) bool {
 }
 
 func ipNetFromString(ip string) (*net.IPNet, error) {
-	_, ipNet, err := net.ParseCIDR(string(ip))
+	_, ipNet, err := net.ParseCIDR(ip)
 	if err != nil {
-		parsedIP := net.ParseIP(string(ip))
+		parsedIP := net.ParseIP(ip)
 		if parsedIP == nil {
 			return nil, makeValidationError("IPs", "`IPs` must be a list of valid IPv4 address or CIDR notation")
 		}
