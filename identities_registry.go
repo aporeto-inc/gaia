@@ -88,6 +88,7 @@ var (
 		"tabulation":           TabulationIdentity,
 		"tag":                  TagIdentity,
 		"taginject":            TagInjectIdentity,
+		"tagvalue":             TagValueIdentity,
 		"token":                TokenIdentity,
 		"tokenscopepolicy":     TokenScopePolicyIdentity,
 		"trigger":              TriggerIdentity,
@@ -181,6 +182,7 @@ var (
 		"tabulations":           TabulationIdentity,
 		"tags":                  TagIdentity,
 		"taginjects":            TagInjectIdentity,
+		"tagvalues":             TagValueIdentity,
 		"tokens":                TokenIdentity,
 		"tokenscopepolicies":    TokenScopePolicyIdentity,
 		"triggers":              TriggerIdentity,
@@ -432,6 +434,7 @@ var (
 		"tabulation":       nil,
 		"tag":              nil,
 		"taginject":        nil,
+		"tagvalue":         nil,
 		"token":            nil,
 		"tokenscopepolicy": nil,
 		"trigger":          nil,
@@ -641,6 +644,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewTag()
 	case TagInjectIdentity:
 		return NewTagInject()
+	case TagValueIdentity:
+		return NewTagValue()
 	case TokenIdentity:
 		return NewToken()
 	case TokenScopePolicyIdentity:
@@ -820,6 +825,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseTag()
 	case TagInjectIdentity:
 		return NewSparseTagInject()
+	case TagValueIdentity:
+		return NewSparseTagValue()
 	case TokenIdentity:
 		return NewSparseToken()
 	case TokenScopePolicyIdentity:
@@ -1009,6 +1016,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &TagsList{}
 	case TagInjectIdentity:
 		return &TagInjectsList{}
+	case TagValueIdentity:
+		return &TagValuesList{}
 	case TokenIdentity:
 		return &TokensList{}
 	case TokenScopePolicyIdentity:
@@ -1188,6 +1197,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseTagsList{}
 	case TagInjectIdentity:
 		return &SparseTagInjectsList{}
+	case TagValueIdentity:
+		return &SparseTagValuesList{}
 	case TokenIdentity:
 		return &SparseTokensList{}
 	case TokenScopePolicyIdentity:
@@ -1304,6 +1315,7 @@ func AllIdentities() []elemental.Identity {
 		TabulationIdentity,
 		TagIdentity,
 		TagInjectIdentity,
+		TagValueIdentity,
 		TokenIdentity,
 		TokenScopePolicyIdentity,
 		TriggerIdentity,
@@ -1571,6 +1583,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case TagIdentity:
 		return []string{}
 	case TagInjectIdentity:
+		return []string{}
+	case TagValueIdentity:
 		return []string{}
 	case TokenIdentity:
 		return []string{}
