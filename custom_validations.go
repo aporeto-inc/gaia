@@ -179,19 +179,30 @@ func ValidateServiceEntity(service *Service) error {
 		}
 	}
 
-	for _, ip := range service.IPs {
-		_, _, err := net.ParseCIDR(string(ip))
+	allSubnets := []*net.IPNet{}
+	for i, ip := range service.IPs {
+		ipNet, err := ipNetFromString(string(ip))
 		if err != nil {
-			if parsedIP := net.ParseIP(string(ip)); parsedIP == nil {
-				errs = append(errs, makeValidationError("IPs", "`IPs` must be a list of valid IPv4 address or CIDR notation"))
+			errs = append(errs, err)
+			continue
+		}
+		for j := 0; j < i; j++ {
+			if allSubnets[j].Contains(ipNet.IP) || ipNet.Contains(allSubnets[j].IP) {
+				errs = append(errs, makeValidationError("IPs", "subnets cannot overlap"))
 			}
 		}
+		allSubnets = append(allSubnets, ipNet)
 	}
 
+	allHosts := map[string]bool{}
 	for _, name := range service.Hosts {
 		if !isFQDN(name) {
 			errs = append(errs, makeValidationError("Hosts", "`Hosts` must be a valid hostname or FQDN, compliant with RF952"))
 		}
+		if _, ok := allHosts[name]; ok {
+			errs = append(errs, makeValidationError("Hosts", "`Hosts` must be unique"))
+		}
+		allHosts[name] = true
 	}
 
 	if len(service.Hosts) == 0 && len(service.IPs) == 0 {
@@ -395,4 +406,16 @@ func isFQDN(val string) bool {
 	}
 
 	return hostnameRegexRFC952.MatchString(val)
+}
+
+func ipNetFromString(ip string) (*net.IPNet, error) {
+	_, ipNet, err := net.ParseCIDR(string(ip))
+	if err != nil {
+		parsedIP := net.ParseIP(string(ip))
+		if parsedIP == nil {
+			return nil, makeValidationError("IPs", "`IPs` must be a list of valid IPv4 address or CIDR notation")
+		}
+		ipNet = &net.IPNet{IP: parsedIP, Mask: []byte{0xf, 0xf, 0xf, 0xf}}
+	}
+	return ipNet, nil
 }

@@ -2,6 +2,8 @@ package gaia
 
 import (
 	"testing"
+
+	"go.aporeto.io/gaia/types"
 )
 
 func TestValidatePortString(t *testing.T) {
@@ -635,7 +637,7 @@ func TestValidateServiceEntity(t *testing.T) {
 				&Service{
 					Hosts:             []string{"myservice.com"},
 					AuthorizationType: ServiceAuthorizationTypeOIDC,
-					OIDCProviderURL:   "http://url.com",
+					OIDCProviderURL:   "https://url.com",
 					OIDCClientID:      "client id",
 					OIDCClientSecret:  "client secret",
 				},
@@ -647,6 +649,32 @@ func TestValidateServiceEntity(t *testing.T) {
 			args{
 				&Service{
 					Hosts:             []string{"myservice.com"},
+					AuthorizationType: ServiceAuthorizationTypeOIDC,
+					OIDCClientID:      "client id",
+					OIDCClientSecret:  "client secret",
+				},
+			},
+			true,
+		},
+		{
+			"OIDC service with bad OIDCProviderURL - no https",
+			args{
+				&Service{
+					Hosts:             []string{"myservice.com"},
+					OIDCProviderURL:   "http://url.com",
+					AuthorizationType: ServiceAuthorizationTypeOIDC,
+					OIDCClientID:      "client id",
+					OIDCClientSecret:  "client secret",
+				},
+			},
+			true,
+		},
+		{
+			"OIDC service with bad OIDCProviderURL - no https",
+			args{
+				&Service{
+					Hosts:             []string{"myservice.com"},
+					OIDCProviderURL:   "http://!@#!@#/1231",
 					AuthorizationType: ServiceAuthorizationTypeOIDC,
 					OIDCClientID:      "client id",
 					OIDCClientSecret:  "client secret",
@@ -790,6 +818,61 @@ func TestValidateServiceEntity(t *testing.T) {
 			"service missing hosts and ips",
 			args{
 				&Service{
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeNone,
+				},
+			},
+			true,
+		},
+		{
+			"service with invalid hosts ",
+			args{
+				&Service{
+					Hosts:             []string{"@#$@#$.2234242"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeNone,
+				},
+			},
+			true,
+		},
+		{
+			"service with overlapping hosts",
+			args{
+				&Service{
+					Hosts:             []string{"foo.com", "foo.com"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeNone,
+				},
+			},
+			true,
+		},
+		{
+			"service with bad IPs",
+			args{
+				&Service{
+					IPs:               types.IPList{"1234.2.3.3"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeNone,
+				},
+			},
+			true,
+		},
+		{
+			"service with bad subnets",
+			args{
+				&Service{
+					IPs:               types.IPList{"10.1.1.0/48"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeNone,
+				},
+			},
+			true,
+		},
+		{
+			"service with overlapping subnets",
+			args{
+				&Service{
+					IPs:               types.IPList{"10.1.0.0/24", "10.1.0.0/16"},
 					AuthorizationType: ServiceAuthorizationTypeMTLS,
 					TLSType:           ServiceTLSTypeNone,
 				},
