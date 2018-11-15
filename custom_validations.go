@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"net/url"
 	"regexp"
 	"strconv"
 	"strings"
@@ -148,6 +149,10 @@ func ValidateServiceEntity(service *Service) error {
 			errs = append(errs, makeValidationError("OIDCProviderURL", "`OIDCProviderURL` is required when `authorizationType` is set to `OIDC`"))
 		}
 
+		if u, err := url.Parse(service.OIDCProviderURL); err != nil || u == nil || u.Scheme != "https" {
+			errs = append(errs, makeValidationError("OIDCProviderURL", "`OIDCProviderURL` must be a valid HTTPS URL: example https://xxx.yyy"))
+		}
+
 		if service.OIDCClientID == "" {
 			errs = append(errs, makeValidationError("OIDCClientID", "`OIDCClientID` is required when `authorizationType` is set to `OIDC`"))
 		}
@@ -172,6 +177,32 @@ func ValidateServiceEntity(service *Service) error {
 		if service.TLSCertificateKey == "" {
 			errs = append(errs, makeValidationError("TLSCertificateKey", "`TLSCertificateKey` is required when `TLSType` is set to `External`"))
 		}
+	}
+
+	allSubnets := []*net.IPNet{}
+	for i, ip := range service.IPs {
+		ipNet, err := ipNetFromString(string(ip))
+		if err != nil {
+			errs = append(errs, err)
+			continue
+		}
+		for j := 0; j < i; j++ {
+			if allSubnets[j].Contains(ipNet.IP) || ipNet.Contains(allSubnets[j].IP) {
+				errs = append(errs, makeValidationError("IPs", "subnets cannot overlap"))
+			}
+		}
+		allSubnets = append(allSubnets, ipNet)
+	}
+
+	allHosts := map[string]bool{}
+	for _, name := range service.Hosts {
+		if !isFQDN(name) {
+			errs = append(errs, makeValidationError("Hosts", "`Hosts` must be a valid hostname or FQDN, compliant with RF952"))
+		}
+		if _, ok := allHosts[name]; ok {
+			errs = append(errs, makeValidationError("Hosts", "`Hosts` must be unique"))
+		}
+		allHosts[name] = true
 	}
 
 	if len(service.Hosts) == 0 && len(service.IPs) == 0 {
@@ -359,4 +390,32 @@ func ValidateTimeDuration(attribute string, duration string) error {
 		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must be valid duration (examaple: 1h or 30s)", attribute))
 	}
 	return nil
+}
+
+// hostname regex from github.com/go-playground/validator
+var hostnameRegexRFC952 = regexp.MustCompile(`^[a-zA-Z][a-zA-Z0-9\-\.]+[a-z-Az0-9]$`)
+
+func isFQDN(val string) bool {
+
+	if val == "" {
+		return false
+	}
+
+	if val[len(val)-1] == '.' {
+		val = val[0 : len(val)-1]
+	}
+
+	return hostnameRegexRFC952.MatchString(val)
+}
+
+func ipNetFromString(ip string) (*net.IPNet, error) {
+	_, ipNet, err := net.ParseCIDR(ip)
+	if err != nil {
+		parsedIP := net.ParseIP(ip)
+		if parsedIP == nil {
+			return nil, makeValidationError("IPs", "`IPs` must be a list of valid IPv4 address or CIDR notation")
+		}
+		ipNet = &net.IPNet{IP: parsedIP, Mask: []byte{0xf, 0xf, 0xf, 0xf}}
+	}
+	return ipNet, nil
 }
