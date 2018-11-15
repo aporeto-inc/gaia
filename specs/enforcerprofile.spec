@@ -29,6 +29,7 @@ model:
   - '@described'
   - '@identifiable-pk-stored'
   - '@named'
+  - '@metadatable'
   validations:
   - $enforcerprofile
 

@@ -187,6 +187,10 @@ type EnforcerProfile struct {
 	// LinuxProcessesSupportEnabled configures support for Linux processes.
 	LinuxProcessesSupportEnabled bool `json:"linuxProcessesSupportEnabled" bson:"linuxprocessessupportenabled" mapstructure:"linuxProcessesSupportEnabled,omitempty"`
 
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+
 	// Select which metadata extractor to use to process new processing units.
 	MetadataExtractor EnforcerProfileMetadataExtractorValue `json:"metadataExtractor" bson:"metadataextractor" mapstructure:"metadataExtractor,omitempty"`
 
@@ -269,24 +273,25 @@ func NewEnforcerProfile() *EnforcerProfile {
 		HostModeEnabled:               false,
 		HostServices:                  []*HostService{},
 		KubernetesSupportEnabled:      false,
-		PUHeartbeatInterval:           "5s",
+		PolicySynchronizationInterval: "10m",
+		PUBookkeepingInterval:         "15m",
 		ProxyListenAddress:            "unix:///var/run/aporeto.sock",
-		IPTablesMarkValue:             1000,
-		ReceiverNumberOfQueues:        4,
+		KubernetesMetadataExtractor:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
+		LinuxProcessesSupportEnabled:  true,
 		ReceiverQueueSize:             500,
 		MetadataExtractor:             EnforcerProfileMetadataExtractorDocker,
 		RemoteEnforcerEnabled:         true,
-		TargetNetworks:                []string{},
-		TransmitterNumberOfQueues:     4,
-		KubernetesMetadataExtractor:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
-		TransmitterQueueSize:          500,
 		TargetUDPNetworks:             []string{},
-		PolicySynchronizationInterval: "10m",
+		ReceiverNumberOfQueues:        4,
 		TransmitterQueue:              4,
-		LinuxProcessesSupportEnabled:  true,
+		IPTablesMarkValue:             1000,
+		TargetNetworks:                []string{},
 		NormalizedTags:                []string{},
+		TransmitterNumberOfQueues:     4,
+		TransmitterQueueSize:          500,
+		PUHeartbeatInterval:           "5s",
+		Metadata:                      []string{},
 		TrustedCAs:                    []string{},
-		PUBookkeepingInterval:         "15m",
 	}
 }
 
@@ -383,6 +388,18 @@ func (o *EnforcerProfile) SetDescription(description string) {
 	o.Description = description
 }
 
+// GetMetadata returns the Metadata of the receiver.
+func (o *EnforcerProfile) GetMetadata() []string {
+
+	return o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the given value.
+func (o *EnforcerProfile) SetMetadata(metadata []string) {
+
+	o.Metadata = metadata
+}
+
 // GetName returns the Name of the receiver.
 func (o *EnforcerProfile) GetName() string {
 
@@ -466,6 +483,7 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			KubernetesMetadataExtractor:   &o.KubernetesMetadataExtractor,
 			KubernetesSupportEnabled:      &o.KubernetesSupportEnabled,
 			LinuxProcessesSupportEnabled:  &o.LinuxProcessesSupportEnabled,
+			Metadata:                      &o.Metadata,
 			MetadataExtractor:             &o.MetadataExtractor,
 			Name:                          &o.Name,
 			Namespace:                     &o.Namespace,
@@ -534,6 +552,8 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.KubernetesSupportEnabled = &(o.KubernetesSupportEnabled)
 		case "linuxProcessesSupportEnabled":
 			sp.LinuxProcessesSupportEnabled = &(o.LinuxProcessesSupportEnabled)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
 		case "metadataExtractor":
 			sp.MetadataExtractor = &(o.MetadataExtractor)
 		case "name":
@@ -648,6 +668,9 @@ func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.LinuxProcessesSupportEnabled != nil {
 		o.LinuxProcessesSupportEnabled = *so.LinuxProcessesSupportEnabled
+	}
+	if so.Metadata != nil {
+		o.Metadata = *so.Metadata
 	}
 	if so.MetadataExtractor != nil {
 		o.MetadataExtractor = *so.MetadataExtractor
@@ -935,6 +958,8 @@ func (o *EnforcerProfile) ValueForAttribute(name string) interface{} {
 		return o.KubernetesSupportEnabled
 	case "linuxProcessesSupportEnabled":
 		return o.LinuxProcessesSupportEnabled
+	case "metadata":
+		return o.Metadata
 	case "metadataExtractor":
 		return o.MetadataExtractor
 	case "name":
@@ -1239,6 +1264,21 @@ Kubernetes.`,
 		Name:           "linuxProcessesSupportEnabled",
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"Metadata": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Metadata",
+		CreationOnly:   true,
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
 	},
 	"MetadataExtractor": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Docker", "ECS", "Kubernetes"},
@@ -1741,6 +1781,21 @@ Kubernetes.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"metadata": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Metadata",
+		CreationOnly:   true,
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "metadata_list",
+		Type:       "external",
+	},
 	"metadataextractor": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Docker", "ECS", "Kubernetes"},
 		ConvertedName:  "MetadataExtractor",
@@ -2119,6 +2174,10 @@ type SparseEnforcerProfile struct {
 	// LinuxProcessesSupportEnabled configures support for Linux processes.
 	LinuxProcessesSupportEnabled *bool `json:"linuxProcessesSupportEnabled,omitempty" bson:"linuxprocessessupportenabled" mapstructure:"linuxProcessesSupportEnabled,omitempty"`
 
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+
 	// Select which metadata extractor to use to process new processing units.
 	MetadataExtractor *EnforcerProfileMetadataExtractorValue `json:"metadataExtractor,omitempty" bson:"metadataextractor" mapstructure:"metadataExtractor,omitempty"`
 
@@ -2288,6 +2347,9 @@ func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
 	if o.LinuxProcessesSupportEnabled != nil {
 		out.LinuxProcessesSupportEnabled = *o.LinuxProcessesSupportEnabled
 	}
+	if o.Metadata != nil {
+		out.Metadata = *o.Metadata
+	}
 	if o.MetadataExtractor != nil {
 		out.MetadataExtractor = *o.MetadataExtractor
 	}
@@ -2392,6 +2454,18 @@ func (o *SparseEnforcerProfile) GetDescription() string {
 func (o *SparseEnforcerProfile) SetDescription(description string) {
 
 	o.Description = &description
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *SparseEnforcerProfile) GetMetadata() []string {
+
+	return *o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the address of the given value.
+func (o *SparseEnforcerProfile) SetMetadata(metadata []string) {
+
+	o.Metadata = &metadata
 }
 
 // GetName returns the Name of the receiver.
