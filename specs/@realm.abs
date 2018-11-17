@@ -8,6 +8,7 @@ attributes:
     required: true
     allowed_choices:
     - AWSIdentityDocument
+    - AWSSecurityToken
     - Certificate
     - Google
     - LDAP

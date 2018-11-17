@@ -15,6 +15,9 @@ const (
 	// IssueRealmAWSIdentityDocument represents the value AWSIdentityDocument.
 	IssueRealmAWSIdentityDocument IssueRealmValue = "AWSIdentityDocument"
 
+	// IssueRealmAWSSecurityToken represents the value AWSSecurityToken.
+	IssueRealmAWSSecurityToken IssueRealmValue = "AWSSecurityToken"
+
 	// IssueRealmAzureIdentityDocument represents the value AzureIdentityDocument.
 	IssueRealmAzureIdentityDocument IssueRealmValue = "AzureIdentityDocument"
 
@@ -267,7 +270,7 @@ func (o *Issue) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSIdentityDocument", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityDocument", "AzureIdentityDocument", "OIDC"}, false); err != nil {
+	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityDocument", "AzureIdentityDocument", "OIDC"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -347,7 +350,7 @@ var IssueAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"Realm": elemental.AttributeSpecification{
-		AllowedChoices: []string{"AWSIdentityDocument", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityDocument", "AzureIdentityDocument", "OIDC"},
+		AllowedChoices: []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityDocument", "AzureIdentityDocument", "OIDC"},
 		ConvertedName:  "Realm",
 		Description:    `Realm is the authentication realm.`,
 		Exposed:        true,
@@ -403,7 +406,7 @@ var IssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"realm": elemental.AttributeSpecification{
-		AllowedChoices: []string{"AWSIdentityDocument", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityDocument", "AzureIdentityDocument", "OIDC"},
+		AllowedChoices: []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityDocument", "AzureIdentityDocument", "OIDC"},
 		ConvertedName:  "Realm",
 		Description:    `Realm is the authentication realm.`,
 		Exposed:        true,

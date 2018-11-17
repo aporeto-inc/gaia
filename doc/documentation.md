@@ -3373,6 +3373,16 @@ LinuxProcessesSupportEnabled configures support for Linux processes.
 | -               | -:     |
 | Default         | `true` |
 
+#### `metadata (external:metadata_list)`
+
+Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Creation only   | `true` |
+| Filterable      | `true` |
+
 #### `metadataExtractor (enum)`
 
 Select which metadata extractor to use to process new processing units.
@@ -6196,10 +6206,10 @@ Metadata contains various additional information. Meaning depends on the realm.
 
 Realm is the authentication realm.
 
-| Characteristics | Value                                                                                                     |
-| -               | -:                                                                                                        |
-| Allowed Value   | `AWSIdentityDocument, Certificate, Google, LDAP, Vince, GCPIdentityDocument, AzureIdentityDocument, OIDC` |
-| Required        | `true`                                                                                                    |
+| Characteristics | Value                                                                                                                       |
+| -               | -:                                                                                                                          |
+| Allowed Value   | `AWSIdentityDocument, AWSSecurityToken, Certificate, Google, LDAP, Vince, GCPIdentityDocument, AzureIdentityDocument, OIDC` |
+| Required        | `true`                                                                                                                      |
 
 #### `token (string)`
 
