@@ -946,10 +946,11 @@ given when you retrieve a single enforcer.`,
 		Description: `MachineID holds a unique identifier for every machine as detected by the
 enforcer. It is based on hardware information such as the SMBIOS UUID, MAC
 addresses of interfaces or cloud provider IDs.`,
-		Exposed: true,
-		Name:    "machineID",
-		Stored:  true,
-		Type:    "string",
+		Exposed:    true,
+		Filterable: true,
+		Name:       "machineID",
+		Stored:     true,
+		Type:       "string",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1300,10 +1301,11 @@ given when you retrieve a single enforcer.`,
 		Description: `MachineID holds a unique identifier for every machine as detected by the
 enforcer. It is based on hardware information such as the SMBIOS UUID, MAC
 addresses of interfaces or cloud provider IDs.`,
-		Exposed: true,
-		Name:    "machineID",
-		Stored:  true,
-		Type:    "string",
+		Exposed:    true,
+		Filterable: true,
+		Name:       "machineID",
+		Stored:     true,
+		Type:       "string",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

@@ -164,6 +164,7 @@ attributes:
     exposed: true
     stored: true
     example_value: 3F23E8DF-C56D-45CF-89B8-A867F3956409
+    filterable: true
 
   - name: operationalStatus
     description: OperationalStatus tells the status of the enforcer.

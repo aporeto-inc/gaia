@@ -3031,6 +3031,10 @@ MachineID holds a unique identifier for every machine as detected by the
 enforcer. It is based on hardware information such as the SMBIOS UUID, MAC
 addresses of interfaces or cloud provider IDs.
 
+| Characteristics | Value  |
+| -               | -:     |
+| Filterable      | `true` |
+
 #### `metadata (external:metadata_list)`
 
 Metadata contains tags that can only be set during creation. They must all start
