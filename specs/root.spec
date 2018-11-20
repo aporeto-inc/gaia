@@ -568,7 +568,9 @@ relations:
         example_value: '@tag'
 
       - name: where
-        description: list of where clauses.
+        description: list of where clauses. If `query` is given, this where clause
+          will be applied to the controlled subquery as additional `and` clauses to
+          the internally computed where clause.
         type: string
         multiple: true
         example_value: a=a

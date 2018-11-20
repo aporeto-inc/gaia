@@ -164,6 +164,11 @@ type Enforcer struct {
 	// given when you retrieve a single enforcer.
 	LocalCA string `json:"localCA" bson:"-" mapstructure:"localCA,omitempty"`
 
+	// MachineID holds a unique identifier for every machine as detected by the
+	// enforcer. It is based on hardware information such as the SMBIOS UUID, MAC
+	// addresses of interfaces or cloud provider IDs.
+	MachineID string `json:"machineID" bson:"machineid" mapstructure:"machineID,omitempty"`
+
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
@@ -403,6 +408,7 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			LastCollectionTime:        &o.LastCollectionTime,
 			LastSyncTime:              &o.LastSyncTime,
 			LocalCA:                   &o.LocalCA,
+			MachineID:                 &o.MachineID,
 			Metadata:                  &o.Metadata,
 			Name:                      &o.Name,
 			Namespace:                 &o.Namespace,
@@ -455,6 +461,8 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.LastSyncTime = &(o.LastSyncTime)
 		case "localCA":
 			sp.LocalCA = &(o.LocalCA)
+		case "machineID":
+			sp.MachineID = &(o.MachineID)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "name":
@@ -541,6 +549,9 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.LocalCA != nil {
 		o.LocalCA = *so.LocalCA
+	}
+	if so.MachineID != nil {
+		o.MachineID = *so.MachineID
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -694,6 +705,8 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.LastSyncTime
 	case "localCA":
 		return o.LocalCA
+	case "machineID":
+		return o.MachineID
 	case "metadata":
 		return o.Metadata
 	case "name":
@@ -926,6 +939,18 @@ given when you retrieve a single enforcer.`,
 		Name:      "localCA",
 		Transient: true,
 		Type:      "string",
+	},
+	"MachineID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MachineID",
+		Description: `MachineID holds a unique identifier for every machine as detected by the
+enforcer. It is based on hardware information such as the SMBIOS UUID, MAC
+addresses of interfaces or cloud provider IDs.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "machineID",
+		Stored:     true,
+		Type:       "string",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1270,6 +1295,18 @@ given when you retrieve a single enforcer.`,
 		Transient: true,
 		Type:      "string",
 	},
+	"machineid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "MachineID",
+		Description: `MachineID holds a unique identifier for every machine as detected by the
+enforcer. It is based on hardware information such as the SMBIOS UUID, MAC
+addresses of interfaces or cloud provider IDs.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "machineID",
+		Stored:     true,
+		Type:       "string",
+	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -1531,6 +1568,11 @@ type SparseEnforcer struct {
 	// given when you retrieve a single enforcer.
 	LocalCA *string `json:"localCA,omitempty" bson:"-" mapstructure:"localCA,omitempty"`
 
+	// MachineID holds a unique identifier for every machine as detected by the
+	// enforcer. It is based on hardware information such as the SMBIOS UUID, MAC
+	// addresses of interfaces or cloud provider IDs.
+	MachineID *string `json:"machineID,omitempty" bson:"machineid" mapstructure:"machineID,omitempty"`
+
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
@@ -1658,6 +1700,9 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.LocalCA != nil {
 		out.LocalCA = *o.LocalCA
+	}
+	if o.MachineID != nil {
+		out.MachineID = *o.MachineID
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
