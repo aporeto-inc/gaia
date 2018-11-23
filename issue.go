@@ -18,14 +18,14 @@ const (
 	// IssueRealmAWSSecurityToken represents the value AWSSecurityToken.
 	IssueRealmAWSSecurityToken IssueRealmValue = "AWSSecurityToken"
 
-	// IssueRealmAzureIdentityDocument represents the value AzureIdentityDocument.
-	IssueRealmAzureIdentityDocument IssueRealmValue = "AzureIdentityDocument"
+	// IssueRealmAzureIdentityToken represents the value AzureIdentityToken.
+	IssueRealmAzureIdentityToken IssueRealmValue = "AzureIdentityToken"
 
 	// IssueRealmCertificate represents the value Certificate.
 	IssueRealmCertificate IssueRealmValue = "Certificate"
 
-	// IssueRealmGCPIdentityDocument represents the value GCPIdentityDocument.
-	IssueRealmGCPIdentityDocument IssueRealmValue = "GCPIdentityDocument"
+	// IssueRealmGCPIdentityToken represents the value GCPIdentityToken.
+	IssueRealmGCPIdentityToken IssueRealmValue = "GCPIdentityToken"
 
 	// IssueRealmGoogle represents the value Google.
 	IssueRealmGoogle IssueRealmValue = "Google"
@@ -270,7 +270,7 @@ func (o *Issue) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityDocument", "AzureIdentityDocument", "OIDC"}, false); err != nil {
+	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -350,7 +350,7 @@ var IssueAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"Realm": elemental.AttributeSpecification{
-		AllowedChoices: []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityDocument", "AzureIdentityDocument", "OIDC"},
+		AllowedChoices: []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC"},
 		ConvertedName:  "Realm",
 		Description:    `Realm is the authentication realm.`,
 		Exposed:        true,
@@ -406,7 +406,7 @@ var IssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "external",
 	},
 	"realm": elemental.AttributeSpecification{
-		AllowedChoices: []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityDocument", "AzureIdentityDocument", "OIDC"},
+		AllowedChoices: []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC"},
 		ConvertedName:  "Realm",
 		Description:    `Realm is the authentication realm.`,
 		Exposed:        true,

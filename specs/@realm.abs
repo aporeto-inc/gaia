@@ -13,7 +13,7 @@ attributes:
     - Google
     - LDAP
     - Vince
-    - GCPIdentityDocument
-    - AzureIdentityDocument
+    - GCPIdentityToken
+    - AzureIdentityToken
     - OIDC
     example_value: Certificate

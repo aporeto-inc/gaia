@@ -6217,10 +6217,10 @@ Metadata contains various additional information. Meaning depends on the realm.
 
 Realm is the authentication realm.
 
-| Characteristics | Value                                                                                                                       |
-| -               | -:                                                                                                                          |
-| Allowed Value   | `AWSIdentityDocument, AWSSecurityToken, Certificate, Google, LDAP, Vince, GCPIdentityDocument, AzureIdentityDocument, OIDC` |
-| Required        | `true`                                                                                                                      |
+| Characteristics | Value                                                                                                                 |
+| -               | -:                                                                                                                    |
+| Allowed Value   | `AWSIdentityDocument, AWSSecurityToken, Certificate, Google, LDAP, Vince, GCPIdentityToken, AzureIdentityToken, OIDC` |
+| Required        | `true`                                                                                                                |
 
 #### `token (string)`
 
