@@ -9467,6 +9467,14 @@ Description is the description of the object.
 | Max length      | `1024` |
 | Orderable       | `true` |
 
+#### `disabled (boolean)`
+
+Disabled defines if the propert is disabled.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
 #### `endpoints (external:exposed_api_list)`
 
 Endpoints is a read only attribute that actually resolves the API
