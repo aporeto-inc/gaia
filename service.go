@@ -227,6 +227,9 @@ type Service struct {
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
+	// Disabled defines if the propert is disabled.
+	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
+
 	// Endpoints is a read only attribute that actually resolves the API
 	// endpoints that the service is exposing. Only valid during policy rendering.
 	Endpoints types.ExposedAPIList `json:"endpoints" bson:"-" mapstructure:"endpoints,omitempty"`
@@ -310,13 +313,13 @@ func NewService() *Service {
 	return &Service{
 		ModelVersion:               1,
 		AllAPITags:                 []string{},
-		Annotations:                map[string][]string{},
-		External:                   false,
+		AllServiceTags:             []string{},
 		Endpoints:                  types.ExposedAPIList{},
+		External:                   false,
 		ClaimsToHTTPHeaderMappings: []*ClaimMapping{},
 		AuthorizationType:          ServiceAuthorizationTypeNone,
 		AssociatedTags:             []string{},
-		AllServiceTags:             []string{},
+		Annotations:                map[string][]string{},
 		Metadata:                   []string{},
 		NormalizedTags:             []string{},
 		TLSType:                    ServiceTLSTypeAporeto,
@@ -430,6 +433,18 @@ func (o *Service) SetDescription(description string) {
 	o.Description = description
 }
 
+// GetDisabled returns the Disabled of the receiver.
+func (o *Service) GetDisabled() bool {
+
+	return o.Disabled
+}
+
+// SetDisabled sets the property Disabled of the receiver using the given value.
+func (o *Service) SetDisabled(disabled bool) {
+
+	o.Disabled = disabled
+}
+
 // GetMetadata returns the Metadata of the receiver.
 func (o *Service) GetMetadata() []string {
 
@@ -524,6 +539,7 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ClaimsToHTTPHeaderMappings:        &o.ClaimsToHTTPHeaderMappings,
 			CreateTime:                        &o.CreateTime,
 			Description:                       &o.Description,
+			Disabled:                          &o.Disabled,
 			Endpoints:                         &o.Endpoints,
 			ExposedAPIs:                       &o.ExposedAPIs,
 			ExposedPort:                       &o.ExposedPort,
@@ -589,6 +605,8 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
 			sp.Description = &(o.Description)
+		case "disabled":
+			sp.Disabled = &(o.Disabled)
 		case "endpoints":
 			sp.Endpoints = &(o.Endpoints)
 		case "exposedAPIs":
@@ -698,6 +716,9 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
+	}
+	if so.Disabled != nil {
+		o.Disabled = *so.Disabled
 	}
 	if so.Endpoints != nil {
 		o.Endpoints = *so.Endpoints
@@ -920,6 +941,8 @@ func (o *Service) ValueForAttribute(name string) interface{} {
 		return o.CreateTime
 	case "description":
 		return o.Description
+	case "disabled":
+		return o.Disabled
 	case "endpoints":
 		return o.Endpoints
 	case "exposedAPIs":
@@ -1207,6 +1230,18 @@ values of the claims to the corresponding HTTP headers.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"Disabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Disabled",
+		Description:    `Disabled defines if the propert is disabled.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "disabled",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"Endpoints": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1679,6 +1714,18 @@ values of the claims to the corresponding HTTP headers.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"disabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Disabled",
+		Description:    `Disabled defines if the propert is disabled.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "disabled",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"endpoints": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoints",
@@ -2058,6 +2105,9 @@ type SparseService struct {
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
 
+	// Disabled defines if the propert is disabled.
+	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
+
 	// Endpoints is a read only attribute that actually resolves the API
 	// endpoints that the service is exposing. Only valid during policy rendering.
 	Endpoints *types.ExposedAPIList `json:"endpoints,omitempty" bson:"-" mapstructure:"endpoints,omitempty"`
@@ -2234,6 +2284,9 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.Description != nil {
 		out.Description = *o.Description
 	}
+	if o.Disabled != nil {
+		out.Disabled = *o.Disabled
+	}
 	if o.Endpoints != nil {
 		out.Endpoints = *o.Endpoints
 	}
@@ -2347,6 +2400,18 @@ func (o *SparseService) GetDescription() string {
 func (o *SparseService) SetDescription(description string) {
 
 	o.Description = &description
+}
+
+// GetDisabled returns the Disabled of the receiver.
+func (o *SparseService) GetDisabled() bool {
+
+	return *o.Disabled
+}
+
+// SetDisabled sets the property Disabled of the receiver using the address of the given value.
+func (o *SparseService) SetDisabled(disabled bool) {
+
+	o.Disabled = &disabled
 }
 
 // GetMetadata returns the Metadata of the receiver.

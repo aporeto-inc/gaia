@@ -40,6 +40,7 @@ model:
   - '@identifiable-pk-stored'
   - '@named'
   - '@metadatable'
+  - '@disabled'
   validations:
   - $serviceEntity
 
