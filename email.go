@@ -103,7 +103,8 @@ type Email struct {
 	// Content of the email to send.
 	Content string `json:"content" bson:"-" mapstructure:"content,omitempty"`
 
-	// From represents the sender of the email.
+	// From represents the sender of the email. If not set, the default sender will be
+	// used.
 	From string `json:"from" bson:"-" mapstructure:"from,omitempty"`
 
 	// Subject represents the subject of the email.
@@ -274,10 +275,6 @@ func (o *Email) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredString("from", o.From); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"HTML", "Plain"}, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -377,11 +374,11 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 	"From": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "From",
-		Description:    `From represents the sender of the email.`,
-		Exposed:        true,
-		Name:           "from",
-		Required:       true,
-		Type:           "string",
+		Description: `From represents the sender of the email. If not set, the default sender will be
+used.`,
+		Exposed: true,
+		Name:    "from",
+		Type:    "string",
 	},
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -451,11 +448,11 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"from": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "From",
-		Description:    `From represents the sender of the email.`,
-		Exposed:        true,
-		Name:           "from",
-		Required:       true,
-		Type:           "string",
+		Description: `From represents the sender of the email. If not set, the default sender will be
+used.`,
+		Exposed: true,
+		Name:    "from",
+		Type:    "string",
 	},
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -560,7 +557,8 @@ type SparseEmail struct {
 	// Content of the email to send.
 	Content *string `json:"content,omitempty" bson:"-" mapstructure:"content,omitempty"`
 
-	// From represents the sender of the email.
+	// From represents the sender of the email. If not set, the default sender will be
+	// used.
 	From *string `json:"from,omitempty" bson:"-" mapstructure:"from,omitempty"`
 
 	// Subject represents the subject of the email.
