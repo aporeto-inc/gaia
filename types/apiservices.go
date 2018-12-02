@@ -44,5 +44,8 @@ func (e *ExposedAPI) Validate() error {
 		}
 		e.Methods[i] = method
 	}
+	if len(e.Scopes) != 0 {
+		return fmt.Errorf("Property is deprecated and read-only")
+	}
 	return nil
 }
