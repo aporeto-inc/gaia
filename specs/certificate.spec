@@ -23,6 +23,7 @@ model:
   extends:
   - '@identifiable-pk-stored'
   - '@timeable'
+  - '@zonable'
 
 # Attributes
 attributes:

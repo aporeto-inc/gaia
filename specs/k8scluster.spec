@@ -9,6 +9,10 @@ model:
   - - namespace
   - - namespace
     - normalizedTags
+  - - :shard
+    - zone
+    - namespace
+    - id
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -22,6 +26,7 @@ model:
   - '@described'
   - '@identifiable-pk-stored'
   - '@metadatable'
+  - '@zonable'
 
 # Attributes
 attributes:

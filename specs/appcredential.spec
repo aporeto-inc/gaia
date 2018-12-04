@@ -12,6 +12,10 @@ model:
   - - namespace
   - - namespace
     - normalizedTags
+  - - :shard
+    - zone
+    - namespace
+    - id
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -28,6 +32,7 @@ model:
   - '@timeable'
   - '@named'
   - '@disabled'
+  - '@zonable'
 
 # Attributes
 attributes:

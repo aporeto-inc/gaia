@@ -9,6 +9,12 @@ model:
     children namespaces.
   aliases:
   - mess
+  indexes:
+  - - namespace
+  - - :shard
+    - zone
+    - namespace
+    - id
   get:
     description: Retrieves the object with the given ID.
   update:

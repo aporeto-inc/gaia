@@ -15,10 +15,15 @@ model:
     - date
   - - namespace
     - operation
+  - - :shard
+    - zone
+    - namespace
+    - id
   get:
     description: Retrieves the object with the given ID.
   extends:
   - '@identifiable-pk-stored'
+  - '@zonable'
 
 # Attributes
 attributes:

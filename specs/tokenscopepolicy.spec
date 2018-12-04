@@ -10,6 +10,12 @@ model:
     generated tokens to be used by external applications.
   aliases:
   - tsp
+  indexes:
+  - - namespace
+  - - :shard
+    - zone
+    - namespace
+    - id
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -28,6 +34,7 @@ model:
   - '@propagated'
   - '@fallback'
   - '@schedulable'
+  - '@zonable'
 
 # Attributes
 attributes:

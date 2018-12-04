@@ -23,6 +23,10 @@ model:
   - - allServiceTags
   - - namespace
     - allServiceTags
+  - - :shard
+    - zone
+    - namespace
+    - id
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
@@ -41,6 +45,7 @@ model:
   - '@named'
   - '@metadatable'
   - '@disabled'
+  - '@zonable'
   validations:
   - $serviceEntity
 

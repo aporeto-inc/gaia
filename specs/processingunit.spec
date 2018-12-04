@@ -24,6 +24,10 @@ model:
   - - namespace
     - normalizedTags
     - archived
+  - - :shard
+    - zone
+    - namespace
+    - enforcerID
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
@@ -41,6 +45,7 @@ model:
   - '@identifiable-pk-stored'
   - '@metadatable'
   - '@named'
+  - '@zonable'
 
 # Attributes
 attributes:

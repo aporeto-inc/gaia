@@ -33,6 +33,7 @@ model:
   - '@schedulable'
   - '@negatable-object'
   - '@negatable-subject'
+  - '@zonable'
 
 # Attributes
 attributes:

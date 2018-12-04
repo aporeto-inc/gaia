@@ -11,10 +11,15 @@ model:
   indexes:
   - - commonName
   - - serialNumber
+  - - :shard
+    - zone
+    - serialNumber
   delete:
     description: Deletes the object with the given ID.
     global_parameters:
     - $filtering
+  extends:
+  - '@zonable'
 
 # Attributes
 attributes:

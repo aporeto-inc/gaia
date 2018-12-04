@@ -13,6 +13,10 @@ model:
     - archived
   - - namespace
     - normalizedtags
+  - - :shard
+    - zone
+    - namespace
+    - id
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
@@ -31,6 +35,7 @@ model:
   - '@named'
   - '@propagated'
   - '@metadatable'
+  - '@zonable'
 
 # Attributes
 attributes:

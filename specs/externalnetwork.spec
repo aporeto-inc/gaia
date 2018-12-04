@@ -20,6 +20,10 @@ model:
     - normalizedTags
   - - namespace
     - archived
+  - - :shard
+    - zone
+    - namespace
+    - id
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
@@ -37,6 +41,7 @@ model:
   - '@identifiable-pk-stored'
   - '@metadatable'
   - '@named'
+  - '@zonable'
 
 # Attributes
 attributes:

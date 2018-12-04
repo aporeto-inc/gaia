@@ -35,6 +35,10 @@ model:
     - propagated
   - - namespace
     - fallback
+  - - :shard
+    - zone
+    - namespace
+    - id
   get:
     description: Retrieves the object with the given ID.
   delete:
@@ -52,6 +56,7 @@ model:
   - '@hidden'
   - '@fallback'
   - '@schedulable'
+  - '@zonable'
 
 # Attributes
 attributes:

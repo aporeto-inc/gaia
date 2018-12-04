@@ -16,6 +16,10 @@ model:
   - - namespace
   - - namespace
     - normalizedTags
+  - - :shard
+    - zone
+    - namespace
+    - id
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -30,6 +34,7 @@ model:
   - '@identifiable-pk-stored'
   - '@named'
   - '@metadatable'
+  - '@zonable'
   validations:
   - $enforcerprofile
 

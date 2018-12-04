@@ -14,6 +14,8 @@ model:
     - email
   - - activationtoken
   - - resetpasswordtoken
+  - - :shard
+    - name
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -25,6 +27,7 @@ model:
   extends:
   - '@identifiable-pk-stored'
   - '@timeable'
+  - '@zonable'
 
 # Attributes
 attributes:
