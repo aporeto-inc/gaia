@@ -28,10 +28,11 @@ var (
 // ExposedAPI is an exposed API defined by the URI, verb, and associated tags.
 // The URIs must be valid Golang regular expressions.
 type ExposedAPI struct {
-	URI     string   `json:"URI" bson:"URI" mapstructure:"URI,omitempty"`
-	Methods []string `json:"methods" bson:"methods" mapstructure:"methods,omitempty"`
-	Scopes  []string `json:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
-	Public  bool     `json:"public" bson:"public" mapstructure:"public,omitempty"`
+	URI                string     `json:"URI" bson:"URI" mapstructure:"URI,omitempty"`
+	Methods            []string   `json:"methods" bson:"methods" mapstructure:"methods,omitempty"`
+	Scopes             []string   `json:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
+	ClaimMatchingRules [][]string `json:"claimmatchingrules" bson:"claimmatchingrules" mapstructure:"claimmatchingrules,omitempty"`
+	Public             bool       `json:"public" bson:"public" mapstructure:"public,omitempty"`
 }
 
 // Validate validates the ExposedAPI structure
@@ -42,6 +43,9 @@ func (e *ExposedAPI) Validate() error {
 			return fmt.Errorf("Invalid method %s", m)
 		}
 		e.Methods[i] = method
+	}
+	if len(e.Scopes) != 0 {
+		return fmt.Errorf("Scopes attribute is deprecated and read-only")
 	}
 	return nil
 }
