@@ -13,14 +13,14 @@ model:
   - fp
   - fps
   indexes:
+  - - :shard
+    - $hashed:namespace
   - - namespace
+  - - namespace
+    - name
   - - namespace
     - normalizedTags
   - - archived
-  - - :shard
-    - zone
-    - namespace
-    - id
   get:
     description: Retrieves the object with the given ID.
   update:

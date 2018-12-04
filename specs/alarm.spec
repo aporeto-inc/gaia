@@ -6,13 +6,11 @@ model:
   package: sephiroth
   description: An alarm represents an event requiring attention.
   indexes:
+  - - :shard
+    - $hashed:namespace
   - - namespace
   - - namespace
     - kind
-  - - :shard
-    - zone
-    - namespace
-    - id
   get:
     description: Retrieves the object with the given ID.
   update:

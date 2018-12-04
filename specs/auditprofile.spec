@@ -10,11 +10,11 @@ model:
   aliases:
   - ap
   indexes:
-  - - namespace
   - - :shard
-    - zone
-    - namespace
-    - id
+    - $hashed:namespace
+  - - namespace
+  - - namespace
+    - name
   get:
     description: Retrieves the object with the given ID.
   update:

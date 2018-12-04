@@ -11,15 +11,15 @@ model:
   - srvdep
   - srvdeps
   indexes:
+  - - :shard
+    - $hashed:namespace
   - - namespace
+  - - namespace
+    - name
   - - namespace
     - archived
   - - namespace
     - normalizedtags
-  - - :shard
-    - zone
-    - namespace
-    - id
   get:
     description: Retrieves the object with the given ID.
   update:

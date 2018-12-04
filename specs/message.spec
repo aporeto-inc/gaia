@@ -10,11 +10,11 @@ model:
   aliases:
   - mess
   indexes:
-  - - namespace
   - - :shard
-    - zone
-    - namespace
-    - id
+    - $hashed:namespace
+  - - namespace
+  - - namespace
+    - name
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -28,6 +28,7 @@ model:
   - '@described'
   - '@identifiable-pk-stored'
   - '@named'
+  - '@zonable'
 
 # Attributes
 attributes:

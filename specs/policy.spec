@@ -6,6 +6,10 @@ model:
   package: squall
   description: Policy represents the policy primitive used by all aporeto policies.
   indexes:
+  - - :shard
+    - $hashed:namespace
+  - - namespace
+    - name
   - - namespace
   - - namespace
     - type
@@ -35,10 +39,6 @@ model:
     - propagated
   - - namespace
     - fallback
-  - - :shard
-    - zone
-    - namespace
-    - id
   get:
     description: Retrieves the object with the given ID.
   delete:

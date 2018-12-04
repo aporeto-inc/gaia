@@ -15,15 +15,15 @@ model:
   - extnet
   - extnets
   indexes:
+  - - :shard
+    - $hashed:namespace
   - - namespace
+  - - namespace
+    - name
   - - namespace
     - normalizedTags
   - - namespace
     - archived
-  - - :shard
-    - zone
-    - namespace
-    - id
   get:
     description: Retrieves the object with the given ID.
     global_parameters:

@@ -12,14 +12,12 @@ model:
   aliases:
   - ns
   indexes:
-  - - namespace
+  - - :shard
+    - $hashed:name
   - - :unique
-    - namespace
     - name
   - - namespace
-    - normalizedTags
-  - - :shard
-    - namespace
+  - - namespace
     - name
   get:
     description: Retrieves the object with the given ID.
@@ -34,7 +32,6 @@ model:
   - '@described'
   - '@identifiable-nopk-stored'
   - '@metadatable'
-  - '@zonable'
 
 # Attributes
 attributes:

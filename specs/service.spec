@@ -12,7 +12,11 @@ model:
   aliases:
   - srv
   indexes:
+  - - :shard
+    - $hashed:namespace
   - - namespace
+  - - namespace
+    - name
   - - namespace
     - archived
   - - namespace
@@ -23,10 +27,6 @@ model:
   - - allServiceTags
   - - namespace
     - allServiceTags
-  - - :shard
-    - zone
-    - namespace
-    - id
   get:
     description: Retrieves the object with the given ID.
     global_parameters:

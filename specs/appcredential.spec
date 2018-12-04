@@ -9,13 +9,13 @@ model:
   - appcred
   - appcreds
   indexes:
+  - - :shard
+    - $hashed:namespace
   - - namespace
+  - - namespace
+    - name
   - - namespace
     - normalizedTags
-  - - :shard
-    - zone
-    - namespace
-    - id
   get:
     description: Retrieves the object with the given ID.
   update:

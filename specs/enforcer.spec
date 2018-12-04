@@ -14,13 +14,13 @@ model:
     a single policy, it will refuse to start. Some parameters will be applied
     directly to a running agent, some will need to restart it.
   indexes:
+  - - :shard
+    - $hashed:namespace
   - - namespace
+  - - namespace
+    - name
   - - namespace
     - normalizedTags
-  - - :shard
-    - zone
-    - namespace
-    - id
   get:
     description: Retrieves the object with the given ID.
   update:

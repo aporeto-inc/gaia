@@ -8,15 +8,15 @@ model:
     RESTAPISpec descibes the REST APIs exposed by a service. These APIs
     can be associated with one or more services.
   indexes:
+  - - :shard
+    - $hashed:namespace
   - - namespace
+  - - namespace
+    - name
   - - namespace
     - archived
   - - namespace
     - normalizedtags
-  - - :shard
-    - zone
-    - namespace
-    - id
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
