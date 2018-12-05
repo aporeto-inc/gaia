@@ -9,7 +9,8 @@ model:
     can be associated with one or more services.
   indexes:
   - - :shard
-    - $hashed:namespace
+    - zone
+    - zhash
   - - namespace
   - - namespace
     - name

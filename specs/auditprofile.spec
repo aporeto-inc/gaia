@@ -11,7 +11,8 @@ model:
   - ap
   indexes:
   - - :shard
-    - $hashed:namespace
+    - zone
+    - zhash
   - - namespace
   - - namespace
     - name

@@ -7,7 +7,8 @@ model:
   description: Policy represents the policy primitive used by all aporeto policies.
   indexes:
   - - :shard
-    - $hashed:namespace
+    - zone
+    - zhash
   - - namespace
     - name
   - - namespace

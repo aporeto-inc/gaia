@@ -10,7 +10,8 @@ model:
   - appcreds
   indexes:
   - - :shard
-    - $hashed:namespace
+    - zone
+    - zhash
   - - namespace
   - - namespace
     - name

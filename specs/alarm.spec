@@ -7,7 +7,8 @@ model:
   description: An alarm represents an event requiring attention.
   indexes:
   - - :shard
-    - $hashed:namespace
+    - zone
+    - zhash
   - - namespace
   - - namespace
     - kind

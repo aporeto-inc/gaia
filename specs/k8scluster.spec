@@ -7,7 +7,8 @@ model:
   description: Create a remote Kubernetes Cluster integration.
   indexes:
   - - :shard
-    - $hashed:namespace
+    - zone
+    - zhash
   - - namespace
   - - namespace
     - name

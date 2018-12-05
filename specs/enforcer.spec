@@ -15,7 +15,8 @@ model:
     directly to a running agent, some will need to restart it.
   indexes:
   - - :shard
-    - $hashed:namespace
+    - zone
+    - zhash
   - - namespace
   - - namespace
     - name

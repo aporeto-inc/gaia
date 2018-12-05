@@ -11,7 +11,8 @@ model:
     50k entries by default.
   indexes:
   - - :shard
-    - $hashed:namespace
+    - zone
+    - zhash
   - - namespace
   - - namespace
     - date

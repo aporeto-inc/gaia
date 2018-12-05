@@ -274,13 +274,13 @@ var (
 		"accountcheck": nil,
 		"activate":     nil,
 		"activity": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "date"},
 			[]string{"namespace", "operation"},
 		},
 		"alarm": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "kind"},
 		},
@@ -288,13 +288,13 @@ var (
 		"apicheck":               nil,
 		"app":                    nil,
 		"appcredential": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags"},
 		},
 		"auditprofile": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 		},
@@ -306,7 +306,7 @@ var (
 			[]string{"commonName"},
 		},
 		"automation": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 		},
@@ -326,13 +326,13 @@ var (
 		"dependencymap": nil,
 		"email":         nil,
 		"enforcer": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags"},
 		},
 		"enforcerprofile": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags"},
@@ -342,7 +342,7 @@ var (
 		"eventlog":                     nil,
 		"export":                       nil,
 		"externalnetwork": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags"},
@@ -353,7 +353,7 @@ var (
 		"fileaccesspolicy": nil,
 		"fileaccessreport": nil,
 		"filepath": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags"},
@@ -370,7 +370,7 @@ var (
 		"invoicerecord": nil,
 		"ipinfo":        nil,
 		"isolationprofile": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags"},
@@ -378,14 +378,14 @@ var (
 		"issue":       nil,
 		"jaegerbatch": nil,
 		"k8scluster": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags"},
 		},
 		"log": nil,
 		"message": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 		},
@@ -404,7 +404,7 @@ var (
 		"plan":          nil,
 		"poke":          nil,
 		"policy": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace", "name"},
 			[]string{"namespace"},
 			[]string{"namespace", "type"},
@@ -422,7 +422,7 @@ var (
 		"policyrule":     nil,
 		"privatekey":     nil,
 		"processingunit": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "archived"},
@@ -437,7 +437,7 @@ var (
 		"renderedpolicy":       nil,
 		"report":               nil,
 		"restapispec": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "archived"},
@@ -450,7 +450,7 @@ var (
 		"role": nil,
 		"root": nil,
 		"service": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "archived"},
@@ -461,7 +461,7 @@ var (
 			[]string{"namespace", "allServiceTags"},
 		},
 		"servicedependency": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "archived"},
@@ -476,13 +476,13 @@ var (
 		"tagvalue":        nil,
 		"token":           nil,
 		"tokenscopepolicy": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 		},
 		"trigger": nil,
 		"vulnerability": [][]string{
-			[]string{":shard", "$hashed:namespace"},
+			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 		},
