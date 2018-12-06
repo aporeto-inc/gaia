@@ -13,8 +13,6 @@ model:
     - serialNumber
   update:
     description: Updates the object with the given ID.
-  extends:
-  - '@zonable'
 
 # Attributes
 attributes:

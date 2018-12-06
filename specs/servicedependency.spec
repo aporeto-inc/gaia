@@ -10,17 +10,6 @@ model:
   aliases:
   - srvdep
   - srvdeps
-  indexes:
-  - - :shard
-    - zone
-    - zhash
-  - - namespace
-  - - namespace
-    - name
-  - - namespace
-    - archived
-  - - namespace
-    - normalizedtags
   get:
     description: Retrieves the object with the given ID.
   update:

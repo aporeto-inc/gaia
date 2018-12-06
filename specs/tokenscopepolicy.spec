@@ -10,13 +10,6 @@ model:
     generated tokens to be used by external applications.
   aliases:
   - tsp
-  indexes:
-  - - :shard
-    - zone
-    - zhash
-  - - namespace
-  - - namespace
-    - name
   get:
     description: Retrieves the object with the given ID.
   update:
