@@ -6,7 +6,12 @@ model:
   package: cactuar
   description: Create a remote Kubernetes Cluster integration.
   indexes:
+  - - :shard
+    - zone
+    - zhash
   - - namespace
+  - - namespace
+    - name
   - - namespace
     - normalizedTags
   get:
@@ -22,6 +27,7 @@ model:
   - '@described'
   - '@identifiable-pk-stored'
   - '@metadatable'
+  - '@zonable'
 
 # Attributes
 attributes:

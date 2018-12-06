@@ -12,7 +12,12 @@ model:
   aliases:
   - srv
   indexes:
+  - - :shard
+    - zone
+    - zhash
   - - namespace
+  - - namespace
+    - name
   - - namespace
     - archived
   - - namespace
@@ -41,6 +46,7 @@ model:
   - '@named'
   - '@metadatable'
   - '@disabled'
+  - '@zonable'
   validations:
   - $serviceEntity
 

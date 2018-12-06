@@ -9,7 +9,12 @@ model:
   - appcred
   - appcreds
   indexes:
+  - - :shard
+    - zone
+    - zhash
   - - namespace
+  - - namespace
+    - name
   - - namespace
     - normalizedTags
   get:
@@ -28,6 +33,7 @@ model:
   - '@timeable'
   - '@named'
   - '@disabled'
+  - '@zonable'
 
 # Attributes
 attributes:

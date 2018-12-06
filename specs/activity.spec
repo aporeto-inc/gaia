@@ -10,6 +10,9 @@ model:
     the user who triggered the actiions. This log is capped and only keeps the last
     50k entries by default.
   indexes:
+  - - :shard
+    - zone
+    - zhash
   - - namespace
   - - namespace
     - date
@@ -19,6 +22,7 @@ model:
     description: Retrieves the object with the given ID.
   extends:
   - '@identifiable-pk-stored'
+  - '@zonable'
 
 # Attributes
 attributes:

@@ -40,6 +40,7 @@ model:
   - '@identifiable-nopk-nostored'
   - '@metadatable'
   - '@named'
+  - '@zonable'
 
 # Attributes
 attributes:

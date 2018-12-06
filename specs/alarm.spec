@@ -6,6 +6,9 @@ model:
   package: sephiroth
   description: An alarm represents an event requiring attention.
   indexes:
+  - - :shard
+    - zone
+    - zhash
   - - namespace
   - - namespace
     - kind
@@ -22,6 +25,7 @@ model:
   - '@described'
   - '@identifiable-pk-stored'
   - '@named'
+  - '@zonable'
 
 # Attributes
 attributes:

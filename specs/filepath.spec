@@ -13,7 +13,12 @@ model:
   - fp
   - fps
   indexes:
+  - - :shard
+    - zone
+    - zhash
   - - namespace
+  - - namespace
+    - name
   - - namespace
     - normalizedTags
   - - archived
@@ -31,6 +36,7 @@ model:
   - '@identifiable-pk-stored'
   - '@metadatable'
   - '@named'
+  - '@zonable'
 
 # Attributes
 attributes:

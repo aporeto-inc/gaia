@@ -8,6 +8,7 @@ model:
   extends:
   - '@described'
   - '@named'
+  - '@zonable'
 
 # Attributes
 attributes:

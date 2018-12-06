@@ -8,7 +8,12 @@ model:
   aliases:
   - ip
   indexes:
+  - - :shard
+    - zone
+    - zhash
   - - namespace
+  - - namespace
+    - name
   - - namespace
     - normalizedTags
   get:
@@ -23,6 +28,7 @@ model:
   - '@identifiable-pk-stored'
   - '@metadatable'
   - '@named'
+  - '@zonable'
 
 # Attributes
 attributes:

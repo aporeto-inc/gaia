@@ -6,6 +6,11 @@ model:
   package: squall
   description: Policy represents the policy primitive used by all aporeto policies.
   indexes:
+  - - :shard
+    - zone
+    - zhash
+  - - namespace
+    - name
   - - namespace
   - - namespace
     - type
@@ -52,6 +57,7 @@ model:
   - '@hidden'
   - '@fallback'
   - '@schedulable'
+  - '@zonable'
 
 # Attributes
 attributes:

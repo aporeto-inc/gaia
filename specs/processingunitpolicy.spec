@@ -25,6 +25,7 @@ model:
   - '@propagated'
   - '@fallback'
   - '@schedulable'
+  - '@zonable'
 
 # Attributes
 attributes:

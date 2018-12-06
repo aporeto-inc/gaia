@@ -13,7 +13,12 @@ model:
   - profile
   - profiles
   indexes:
+  - - :shard
+    - zone
+    - zhash
   - - namespace
+  - - namespace
+    - name
   - - namespace
     - normalizedTags
   get:
@@ -30,6 +35,7 @@ model:
   - '@identifiable-pk-stored'
   - '@named'
   - '@metadatable'
+  - '@zonable'
   validations:
   - $enforcerprofile
 

@@ -10,7 +10,12 @@ model:
   aliases:
   - ap
   indexes:
+  - - :shard
+    - zone
+    - zhash
   - - namespace
+  - - namespace
+    - name
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -25,6 +30,7 @@ model:
   - '@identifiable-pk-stored'
   - '@metadatable'
   - '@named'
+  - '@zonable'
 
 # Attributes
 attributes:

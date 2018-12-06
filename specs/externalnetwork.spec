@@ -15,7 +15,12 @@ model:
   - extnet
   - extnets
   indexes:
+  - - :shard
+    - zone
+    - zhash
   - - namespace
+  - - namespace
+    - name
   - - namespace
     - normalizedTags
   - - namespace
@@ -37,6 +42,7 @@ model:
   - '@identifiable-pk-stored'
   - '@metadatable'
   - '@named'
+  - '@zonable'
 
 # Attributes
 attributes:

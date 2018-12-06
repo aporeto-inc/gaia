@@ -8,7 +8,12 @@ model:
     RESTAPISpec descibes the REST APIs exposed by a service. These APIs
     can be associated with one or more services.
   indexes:
+  - - :shard
+    - zone
+    - zhash
   - - namespace
+  - - namespace
+    - name
   - - namespace
     - archived
   - - namespace
@@ -31,6 +36,7 @@ model:
   - '@named'
   - '@propagated'
   - '@metadatable'
+  - '@zonable'
 
 # Attributes
 attributes:

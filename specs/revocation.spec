@@ -7,6 +7,8 @@ model:
   description: Used to revoke a certificate.
   private: true
   indexes:
+  - - :shard
+    - $hashed:serialNumber
   - - :unique
     - serialNumber
   update:

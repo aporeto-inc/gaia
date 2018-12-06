@@ -12,12 +12,13 @@ model:
   aliases:
   - ns
   indexes:
-  - - namespace
+  - - :shard
+    - $hashed:name
   - - :unique
-    - namespace
     - name
   - - namespace
-    - normalizedTags
+  - - namespace
+    - name
   get:
     description: Retrieves the object with the given ID.
   update:

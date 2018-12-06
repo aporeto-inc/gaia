@@ -25,6 +25,7 @@ model:
   - '@identifiable-pk-stored'
   - '@metadatable'
   - '@named'
+  - '@zonable'
 
 # Attributes
 attributes:

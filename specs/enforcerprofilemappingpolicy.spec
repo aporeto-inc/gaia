@@ -29,6 +29,7 @@ model:
   - '@named'
   - '@propagated'
   - '@fallback'
+  - '@zonable'
 
 # Attributes
 attributes:

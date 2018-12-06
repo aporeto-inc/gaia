@@ -14,7 +14,12 @@ model:
     a single policy, it will refuse to start. Some parameters will be applied
     directly to a running agent, some will need to restart it.
   indexes:
+  - - :shard
+    - zone
+    - zhash
   - - namespace
+  - - namespace
+    - name
   - - namespace
     - normalizedTags
   get:
@@ -43,6 +48,7 @@ model:
   - '@identifiable-pk-stored'
   - '@metadatable'
   - '@named'
+  - '@zonable'
 
 # Attributes
 attributes:

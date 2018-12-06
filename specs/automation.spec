@@ -9,7 +9,12 @@ model:
   - autos
   - auto
   indexes:
+  - - :shard
+    - zone
+    - zhash
   - - namespace
+  - - namespace
+    - name
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -24,6 +29,7 @@ model:
   - '@disabled'
   - '@identifiable-pk-stored'
   - '@named'
+  - '@zonable'
 
 # Attributes
 attributes:
