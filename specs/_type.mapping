@@ -355,6 +355,11 @@ tabulated_data:
     type: '[][]interface{}'
     init: '[][]interface{}{}'
 
+tag_delta:
+  elemental:
+    type: map[string]int
+    init: map[string]int{}
+
 tags_list:
   elemental:
     type: '[]string'
