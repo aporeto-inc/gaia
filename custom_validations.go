@@ -419,3 +419,21 @@ func ipNetFromString(ip string) (*net.IPNet, error) {
 	}
 	return ipNet, nil
 }
+
+func ValidateHTTPMethods(attribute string, methods []string) error {
+
+	for _, m := range methods {
+		mu := strings.ToUpper(m)
+
+		if mu != http.MethodPost &&
+			mu != http.MethodGet &&
+			mu != http.MethodDelete &&
+			mu != http.MethodHead &&
+			mu != http.MethodPatch {
+
+			return fmt.Errorf("invalid HTTP method %s", m)
+		}
+	}
+
+	return nil
+}

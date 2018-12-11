@@ -212,10 +212,12 @@ attributes:
     description: |-
       Endpoints is a read only attribute that actually resolves the API
       endpoints that the service is exposing. Only valid during policy rendering.
-    type: external
+    type: refList
     exposed: true
-    subtype: exposed_api_list
+    subtype: endpoint
     read_only: true
+    extensions:
+      refMode: pointer
 
   - name: exposedAPIs
     description: |-
@@ -330,9 +332,9 @@ attributes:
 
 # Relations
 relations:
-- rest_name: restapispec
+- rest_name: httpresourcespec
   get:
-    description: Retrieves the REST APIs exposed by this service.
+    description: Retrieves the HTTP Resource exposed by this service.
 
 - rest_name: processingunit
   get:

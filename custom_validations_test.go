@@ -888,3 +888,47 @@ func TestValidateServiceEntity(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateHTTPMethods(t *testing.T) {
+	type args struct {
+		attribute string
+		methods   []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"empty list of methods",
+			args{
+				attribute: "methods",
+				methods:   []string{},
+			},
+			false,
+		},
+		{
+			"valid list of methods",
+			args{
+				attribute: "methods",
+				methods:   []string{"POST"},
+			},
+			false,
+		},
+		{
+			"invalid list of methods",
+			args{
+				attribute: "methods",
+				methods:   []string{"BIDULE"},
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateHTTPMethods(tt.args.attribute, tt.args.methods); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateHTTPMethods() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}

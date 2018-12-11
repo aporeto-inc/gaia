@@ -27,6 +27,7 @@
 | [ClaimMapping](#claimmapping)                                 | Represents a mapping from a claim name to an HTTP header.                           |
 | [Credential](#credential)                                     | Represents an application credential data.                                          |
 | [DependencyMap](#dependencymap)                               | This api returns a data structure representing the graph of all processing units... |
+| [Endpoint](#endpoint)                                         | Represents an HTTP endpoint.                                                        |
 | [Enforcer](#enforcer)                                         | An Enforcer Profile contains a configuration for a Enforcer. It contains various... |
 | [EnforcerProfile](#enforcerprofile)                           | Allows to create reusable configuration profile for your enforcers. Enforcer        |
 | [EnforcerProfileMappingPolicy](#enforcerprofilemappingpolicy) | A Enforcer Profile Mapping Policy will tell what Enforcer Profile should be used... |
@@ -46,6 +47,7 @@
 | [GraphPolicyInfo](#graphpolicyinfo)                           | Represents a policy information.                                                    |
 | [HookPolicy](#hookpolicy)                                     | Hook allows to to define hooks to the write operations in squall. Hooks are sent... |
 | [HostService](#hostservice)                                   | Represents a service of the enforcer's host.                                        |
+| [HTTPResourceSpec](#httpresourcespec)                         | HTTPResourceSpec descibes an HTTP resource exposed by a service. These APIs         |
 | [Import](#import)                                             | Imports an export of policies and related objects into the namespace.               |
 | [Installation](#installation)                                 | Installation represents an installation for a given account.                        |
 | [InstalledApp](#installedapp)                                 | InstalledApps represents an installed application.                                  |
@@ -75,7 +77,7 @@
 | [RemoteProcessor](#remoteprocessor)                           | Hook to integrate an Aporeto service.                                               |
 | [RenderedPolicy](#renderedpolicy)                             | Retrieve the aggregated policies applied to a particular processing unit.           |
 | [Report](#report)                                             | Post a new statistics report.                                                       |
-| [RESTAPISpec](#restapispec)                                   | RESTAPISpec descibes the REST APIs exposed by a service. These APIs                 |
+| [RESTAPISpec](#restapispec)                                   | This is deprecated. Use HTTPResourceSpec instead.                                   |
 | [Role](#role)                                                 | Roles returns the available roles that can be used with API Authorization           |
 | [Root](#root)                                                 | root object.                                                                        |
 | [Service](#service)                                           | A Service defines a generic service object at L4 or L7 that encapsulates the        |
@@ -2807,6 +2809,41 @@ viewSuggestions provides suggestion of views based on relevant tags.
 | Characteristics | Value  |
 | -               | -:     |
 | Read only       | `true` |
+
+## Endpoint
+
+Represents an HTTP endpoint.
+
+### Attributes
+
+#### `URI (string)`
+
+URI of the exposed API.
+
+#### `allowedScopes (external:policies_list)`
+
+AllowedScopes authorized to access the API.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `methods (list)`
+
+methods exposed to access the API.
+
+#### `public (boolean)`
+
+public defines if the api is public or not.
+
+#### `scopes (list)`
+
+Scopes authorized to access the API.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Read only       | `true` |
+| Orderable       | `true` |
 
 ## Enforcer
 
@@ -5649,6 +5686,174 @@ Services lists all protocols and ports a service is running.
 
 | Characteristics | Value  |
 | -               | -:     |
+| Orderable       | `true` |
+
+## HTTPResourceSpec
+
+HTTPResourceSpec descibes an HTTP resource exposed by a service. These APIs
+can be associated with one or more services.
+
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
+
+### Relations
+
+#### `GET /httpresourcespecs`
+
+Retrieves the list of HTTP Resource specifications.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `propagated` (boolean): Also retrieve the objects that propagate down.
+- `archived` (boolean): Also retrieve the objects that have been archived.
+
+#### `POST /httpresourcespecs`
+
+Creates a new HTTP Resource specification.
+
+#### `DELETE /httpresourcespecs/:id`
+
+Deletes the object with the given ID.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `GET /httpresourcespecs/:id`
+
+Retrieves the object with the given ID.
+
+##### Parameters
+
+- `archived` (boolean): Also retrieve the objects that have been archived.
+
+#### `PUT /httpresourcespecs/:id`
+
+Updates the object with the given ID.
+
+#### `GET /services/:id/httpresourcespecs`
+
+Retrieves the HTTP Resource exposed by this service.
+
+### Attributes
+
+#### `ID (string)`
+
+ID is the identifier of the object.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Identifier      | `true` |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `annotations (external:annotations)`
+
+Annotation stores additional information about an entity.
+
+#### `associatedTags (external:tags_list)`
+
+AssociatedTags are the list of tags attached to an entity.
+
+#### `createTime (time)`
+
+CreatedTime is the time at which the object was created.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
+
+#### `description (string)`
+
+Description is the description of the object.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `1024` |
+| Orderable       | `true` |
+
+#### `endpoints (refList)`
+
+EndPoints is a list of API endpoints that are exposed for the service.
+
+#### `metadata (external:metadata_list)`
+
+Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Creation only   | `true` |
+| Filterable      | `true` |
+
+#### `name (string)`
+
+Name is the name of the entity.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `256`  |
+| Required        | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `namespace (string)`
+
+Namespace tag attached to an entity.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Creation only   | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `normalizedTags (external:tags_list)`
+
+NormalizedTags contains the list of normalized tags of the entities.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+
+#### `propagate (boolean)`
+
+Propagate will propagate the policy to all of its children.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `protected (boolean)`
+
+Protected defines if the object is protected.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `updateTime (time)`
+
+UpdateTime is the time at which an entity was updated.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
 | Orderable       | `true` |
 
 ## Import
@@ -9022,8 +9227,7 @@ Value contains the value for the report.
 
 ## RESTAPISpec
 
-RESTAPISpec descibes the REST APIs exposed by a service. These APIs
-can be associated with one or more services.
+This is deprecated. Use HTTPResourceSpec instead.
 
 ### Example
 
@@ -9070,10 +9274,6 @@ Retrieves the object with the given ID.
 #### `PUT /restapispecs/:id`
 
 Updates the object with the given ID.
-
-#### `GET /services/:id/restapispecs`
-
-Retrieves the REST APIs exposed by this service.
 
 ### Attributes
 
@@ -9323,6 +9523,10 @@ Retrieves the services used by a processing unit.
 
 Returns the list of external services that are targets of service dependency.
 
+#### `GET /services/:id/httpresourcespecs`
+
+Retrieves the HTTP Resource exposed by this service.
+
 #### `GET /services/:id/processingunits`
 
 Retrieves the Processing Units that implement this service.
@@ -9330,10 +9534,6 @@ Retrieves the Processing Units that implement this service.
 ##### Parameters
 
 - `mode` (enum): Matching mode.
-
-#### `GET /services/:id/restapispecs`
-
-Retrieves the REST APIs exposed by this service.
 
 ### Attributes
 
@@ -9475,7 +9675,7 @@ Disabled defines if the propert is disabled.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `endpoints (external:exposed_api_list)`
+#### `endpoints (refList)`
 
 Endpoints is a read only attribute that actually resolves the API
 endpoints that the service is exposing. Only valid during policy rendering.

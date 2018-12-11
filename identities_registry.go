@@ -25,9 +25,10 @@ var (
 		"category":               CategoryIdentity,
 		"certificate":            CertificateIdentity,
 
-		"customer":                     CustomerIdentity,
-		"dependencymap":                DependencyMapIdentity,
-		"email":                        EmailIdentity,
+		"customer":      CustomerIdentity,
+		"dependencymap": DependencyMapIdentity,
+		"email":         EmailIdentity,
+
 		"enforcer":                     EnforcerIdentity,
 		"enforcerprofile":              EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicy": EnforcerProfileMappingPolicyIdentity,
@@ -44,6 +45,7 @@ var (
 
 		"hookpolicy": HookPolicyIdentity,
 
+		"httpresourcespec":       HTTPResourceSpecIdentity,
 		"import":                 ImportIdentity,
 		"installation":           InstallationIdentity,
 		"installedapp":           InstalledAppIdentity,
@@ -120,9 +122,10 @@ var (
 		"categories":               CategoryIdentity,
 		"certificates":             CertificateIdentity,
 
-		"customers":                      CustomerIdentity,
-		"dependencymaps":                 DependencyMapIdentity,
-		"emails":                         EmailIdentity,
+		"customers":      CustomerIdentity,
+		"dependencymaps": DependencyMapIdentity,
+		"emails":         EmailIdentity,
+
 		"enforcers":                      EnforcerIdentity,
 		"enforcerprofiles":               EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicies": EnforcerProfileMappingPolicyIdentity,
@@ -139,6 +142,7 @@ var (
 
 		"hookpolicies": HookPolicyIdentity,
 
+		"httpresourcespecs":        HTTPResourceSpecIdentity,
 		"import":                   ImportIdentity,
 		"installations":            InstallationIdentity,
 		"installedapps":            InstalledAppIdentity,
@@ -359,8 +363,15 @@ var (
 			[]string{"namespace", "normalizedTags"},
 			[]string{"archived"},
 		},
-		"flowreport":   nil,
-		"hookpolicy":   nil,
+		"flowreport": nil,
+		"hookpolicy": nil,
+		"httpresourcespec": [][]string{
+			[]string{":shard", "zone", "zhash"},
+			[]string{"namespace"},
+			[]string{"namespace", "name"},
+			[]string{"namespace", "archived"},
+			[]string{"namespace", "normalizedtags"},
+		},
 		"import":       nil,
 		"installation": nil,
 		"installedapp": [][]string{
@@ -592,6 +603,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewFlowReport()
 	case HookPolicyIdentity:
 		return NewHookPolicy()
+	case HTTPResourceSpecIdentity:
+		return NewHTTPResourceSpec()
 	case ImportIdentity:
 		return NewImport()
 	case InstallationIdentity:
@@ -777,6 +790,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseFlowReport()
 	case HookPolicyIdentity:
 		return NewSparseHookPolicy()
+	case HTTPResourceSpecIdentity:
+		return NewSparseHTTPResourceSpec()
 	case ImportIdentity:
 		return NewSparseImport()
 	case InstallationIdentity:
@@ -970,6 +985,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &FlowReportsList{}
 	case HookPolicyIdentity:
 		return &HookPoliciesList{}
+	case HTTPResourceSpecIdentity:
+		return &HTTPResourceSpecsList{}
 	case ImportIdentity:
 		return &ImportsList{}
 	case InstallationIdentity:
@@ -1153,6 +1170,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseFlowReportsList{}
 	case HookPolicyIdentity:
 		return &SparseHookPoliciesList{}
+	case HTTPResourceSpecIdentity:
+		return &SparseHTTPResourceSpecsList{}
 	case ImportIdentity:
 		return &SparseImportsList{}
 	case InstallationIdentity:
@@ -1314,6 +1333,7 @@ func AllIdentities() []elemental.Identity {
 		FilePathIdentity,
 		FlowReportIdentity,
 		HookPolicyIdentity,
+		HTTPResourceSpecIdentity,
 		ImportIdentity,
 		InstallationIdentity,
 		InstalledAppIdentity,
@@ -1488,6 +1508,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"hookpol",
 			"hookpols",
 		}
+	case HTTPResourceSpecIdentity:
+		return []string{}
 	case ImportIdentity:
 		return []string{}
 	case InstallationIdentity:

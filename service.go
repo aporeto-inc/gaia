@@ -232,7 +232,7 @@ type Service struct {
 
 	// Endpoints is a read only attribute that actually resolves the API
 	// endpoints that the service is exposing. Only valid during policy rendering.
-	Endpoints types.ExposedAPIList `json:"endpoints" bson:"-" mapstructure:"endpoints,omitempty"`
+	Endpoints []*Endpoint `json:"endpoints" bson:"-" mapstructure:"endpoints,omitempty"`
 
 	// ExposedAPIs contains a tag expression that will determine which
 	// APIs a service is exposing. The APIs can be defined as the RESTAPISpec or
@@ -322,7 +322,7 @@ func NewService() *Service {
 		ModelVersion:               1,
 		AllAPITags:                 []string{},
 		AllServiceTags:             []string{},
-		Endpoints:                  types.ExposedAPIList{},
+		Endpoints:                  []*Endpoint{},
 		External:                   false,
 		ClaimsToHTTPHeaderMappings: []*ClaimMapping{},
 		AuthorizationType:          ServiceAuthorizationTypeNone,
@@ -865,6 +865,12 @@ func (o *Service) Validate() error {
 		errors = append(errors, err)
 	}
 
+	for _, sub := range o.Endpoints {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
 	if err := elemental.ValidateRequiredInt("exposedPort", o.ExposedPort); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -1299,8 +1305,8 @@ endpoints that the service is exposing. Only valid during policy rendering.`,
 		Exposed:  true,
 		Name:     "endpoints",
 		ReadOnly: true,
-		SubType:  "exposed_api_list",
-		Type:     "external",
+		SubType:  "endpoint",
+		Type:     "refList",
 	},
 	"ExposedAPIs": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1808,8 +1814,8 @@ endpoints that the service is exposing. Only valid during policy rendering.`,
 		Exposed:  true,
 		Name:     "endpoints",
 		ReadOnly: true,
-		SubType:  "exposed_api_list",
-		Type:     "external",
+		SubType:  "endpoint",
+		Type:     "refList",
 	},
 	"exposedapis": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -2210,7 +2216,7 @@ type SparseService struct {
 
 	// Endpoints is a read only attribute that actually resolves the API
 	// endpoints that the service is exposing. Only valid during policy rendering.
-	Endpoints *types.ExposedAPIList `json:"endpoints,omitempty" bson:"-" mapstructure:"endpoints,omitempty"`
+	Endpoints *[]*Endpoint `json:"endpoints,omitempty" bson:"-" mapstructure:"endpoints,omitempty"`
 
 	// ExposedAPIs contains a tag expression that will determine which
 	// APIs a service is exposing. The APIs can be defined as the RESTAPISpec or

@@ -1,10 +1,12 @@
 # Model
 model:
-  rest_name: restapispec
-  resource_name: restapispecs
-  entity_name: RESTAPISpec
+  rest_name: httpresourcespec
+  resource_name: httpresourcespecs
+  entity_name: HTTPResourceSpec
   package: squall
-  description: This is deprecated. Use HTTPResourceSpec instead.
+  description: |-
+    HTTPResourceSpec descibes an HTTP resource exposed by a service. These APIs
+    can be associated with one or more services.
   indexes:
   - - :shard
     - zone
@@ -41,12 +43,9 @@ attributes:
   v1:
   - name: endpoints
     description: EndPoints is a list of API endpoints that are exposed for the service.
-    type: external
+    type: refList
     exposed: true
-    subtype: exposed_api_list
+    subtype: endpoint
     stored: true
-
-  - name: migrated
-    description: Migrated indicated if the object has been migrated to an HTTPResourceSpec.
-    type: boolean
-    stored: true
+    extensions:
+      refMode: pointer
