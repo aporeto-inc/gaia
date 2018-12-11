@@ -420,6 +420,7 @@ func ipNetFromString(ip string) (*net.IPNet, error) {
 	return ipNet, nil
 }
 
+// ValidateHTTPMethods validates the attribute methods is a list of HTTP verbs.
 func ValidateHTTPMethods(attribute string, methods []string) error {
 
 	for _, m := range methods {
