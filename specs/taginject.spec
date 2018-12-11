@@ -12,15 +12,15 @@ attributes:
   v1:
   - name: addedTags
     description: List of tags to be added.
-    type: list
+    type: external
     exposed: true
-    subtype: string
+    subtype: tag_delta
 
   - name: removedTags
     description: List of tags to be removed.
-    type: list
+    type: external
     exposed: true
-    subtype: string
+    subtype: tag_delta
 
   - name: targetNamespace
     description: List of tags to inject.

@@ -668,10 +668,6 @@ relations:
     description: Creates a new vulnerability.
 
 - rest_name: x509certificate
-  get:
-    description: Retrieves a X509 certificates.
-    global_parameters:
-    - $filtering
   create:
     description: Creates a new x509 certificate.
 

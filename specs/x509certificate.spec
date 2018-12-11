@@ -76,14 +76,19 @@ attributes:
     - System
     default_value: Public
 
+  - name: unrevocable
+    description: |-
+      If set to true, the certificate is considered short lived and it will not be
+      possible to revoke it.
+    type: boolean
+    exposed: true
+
   - name: usage
     description: Usage defines the requested key usage.
     type: enum
     exposed: true
-    stored: true
     allowed_choices:
     - Client
     - Server
     - ServerClient
     default_value: Client
-    orderable: true

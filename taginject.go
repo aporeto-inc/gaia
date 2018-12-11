@@ -81,10 +81,10 @@ func (o TagInjectsList) Version() int {
 // TagInject represents the model of a taginject
 type TagInject struct {
 	// List of tags to be added.
-	AddedTags []string `json:"addedTags" bson:"-" mapstructure:"addedTags,omitempty"`
+	AddedTags map[string]int `json:"addedTags" bson:"-" mapstructure:"addedTags,omitempty"`
 
 	// List of tags to be removed.
-	RemovedTags []string `json:"removedTags" bson:"-" mapstructure:"removedTags,omitempty"`
+	RemovedTags map[string]int `json:"removedTags" bson:"-" mapstructure:"removedTags,omitempty"`
 
 	// List of tags to inject.
 	TargetNamespace string `json:"targetNamespace" bson:"-" mapstructure:"targetNamespace,omitempty"`
@@ -99,6 +99,8 @@ func NewTagInject() *TagInject {
 
 	return &TagInject{
 		ModelVersion: 1,
+		AddedTags:    map[string]int{},
+		RemovedTags:  map[string]int{},
 	}
 }
 
@@ -274,8 +276,8 @@ var TagInjectAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `List of tags to be added.`,
 		Exposed:        true,
 		Name:           "addedTags",
-		SubType:        "string",
-		Type:           "list",
+		SubType:        "tag_delta",
+		Type:           "external",
 	},
 	"RemovedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -283,8 +285,8 @@ var TagInjectAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `List of tags to be removed.`,
 		Exposed:        true,
 		Name:           "removedTags",
-		SubType:        "string",
-		Type:           "list",
+		SubType:        "tag_delta",
+		Type:           "external",
 	},
 	"TargetNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -305,8 +307,8 @@ var TagInjectLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `List of tags to be added.`,
 		Exposed:        true,
 		Name:           "addedTags",
-		SubType:        "string",
-		Type:           "list",
+		SubType:        "tag_delta",
+		Type:           "external",
 	},
 	"removedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -314,8 +316,8 @@ var TagInjectLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `List of tags to be removed.`,
 		Exposed:        true,
 		Name:           "removedTags",
-		SubType:        "string",
-		Type:           "list",
+		SubType:        "tag_delta",
+		Type:           "external",
 	},
 	"targetnamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -392,10 +394,10 @@ func (o SparseTagInjectsList) Version() int {
 // SparseTagInject represents the sparse version of a taginject.
 type SparseTagInject struct {
 	// List of tags to be added.
-	AddedTags *[]string `json:"addedTags,omitempty" bson:"-" mapstructure:"addedTags,omitempty"`
+	AddedTags *map[string]int `json:"addedTags,omitempty" bson:"-" mapstructure:"addedTags,omitempty"`
 
 	// List of tags to be removed.
-	RemovedTags *[]string `json:"removedTags,omitempty" bson:"-" mapstructure:"removedTags,omitempty"`
+	RemovedTags *map[string]int `json:"removedTags,omitempty" bson:"-" mapstructure:"removedTags,omitempty"`
 
 	// List of tags to inject.
 	TargetNamespace *string `json:"targetNamespace,omitempty" bson:"-" mapstructure:"targetNamespace,omitempty"`

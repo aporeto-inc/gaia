@@ -125,8 +125,12 @@ type X509Certificate struct {
 	// Selects what CA should sign the certificate.
 	Signer X509CertificateSignerValue `json:"signer" bson:"-" mapstructure:"signer,omitempty"`
 
+	// If set to true, the certificate is considered short lived and it will not be
+	// possible to revoke it.
+	Unrevocable bool `json:"unrevocable" bson:"-" mapstructure:"unrevocable,omitempty"`
+
 	// Usage defines the requested key usage.
-	Usage X509CertificateUsageValue `json:"usage" bson:"usage" mapstructure:"usage,omitempty"`
+	Usage X509CertificateUsageValue `json:"usage" bson:"-" mapstructure:"usage,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -197,6 +201,7 @@ func (o *X509Certificate) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			ExpirationDate: &o.ExpirationDate,
 			Extensions:     &o.Extensions,
 			Signer:         &o.Signer,
+			Unrevocable:    &o.Unrevocable,
 			Usage:          &o.Usage,
 		}
 	}
@@ -216,6 +221,8 @@ func (o *X509Certificate) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.Extensions = &(o.Extensions)
 		case "signer":
 			sp.Signer = &(o.Signer)
+		case "unrevocable":
+			sp.Unrevocable = &(o.Unrevocable)
 		case "usage":
 			sp.Usage = &(o.Usage)
 		}
@@ -248,6 +255,9 @@ func (o *X509Certificate) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Signer != nil {
 		o.Signer = *so.Signer
+	}
+	if so.Unrevocable != nil {
+		o.Unrevocable = *so.Unrevocable
 	}
 	if so.Usage != nil {
 		o.Usage = *so.Usage
@@ -342,6 +352,8 @@ func (o *X509Certificate) ValueForAttribute(name string) interface{} {
 		return o.Extensions
 	case "signer":
 		return o.Signer
+	case "unrevocable":
+		return o.Unrevocable
 	case "usage":
 		return o.Usage
 	}
@@ -413,6 +425,15 @@ certificate.`,
 		Name:           "signer",
 		Type:           "enum",
 	},
+	"Unrevocable": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Unrevocable",
+		Description: `If set to true, the certificate is considered short lived and it will not be
+possible to revoke it.`,
+		Exposed: true,
+		Name:    "unrevocable",
+		Type:    "boolean",
+	},
 	"Usage": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Client", "Server", "ServerClient"},
 		ConvertedName:  "Usage",
@@ -420,8 +441,6 @@ certificate.`,
 		Description:    `Usage defines the requested key usage.`,
 		Exposed:        true,
 		Name:           "usage",
-		Orderable:      true,
-		Stored:         true,
 		Type:           "enum",
 	},
 }
@@ -490,6 +509,15 @@ certificate.`,
 		Name:           "signer",
 		Type:           "enum",
 	},
+	"unrevocable": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Unrevocable",
+		Description: `If set to true, the certificate is considered short lived and it will not be
+possible to revoke it.`,
+		Exposed: true,
+		Name:    "unrevocable",
+		Type:    "boolean",
+	},
 	"usage": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Client", "Server", "ServerClient"},
 		ConvertedName:  "Usage",
@@ -497,8 +525,6 @@ certificate.`,
 		Description:    `Usage defines the requested key usage.`,
 		Exposed:        true,
 		Name:           "usage",
-		Orderable:      true,
-		Stored:         true,
 		Type:           "enum",
 	},
 }
@@ -585,8 +611,12 @@ type SparseX509Certificate struct {
 	// Selects what CA should sign the certificate.
 	Signer *X509CertificateSignerValue `json:"signer,omitempty" bson:"-" mapstructure:"signer,omitempty"`
 
+	// If set to true, the certificate is considered short lived and it will not be
+	// possible to revoke it.
+	Unrevocable *bool `json:"unrevocable,omitempty" bson:"-" mapstructure:"unrevocable,omitempty"`
+
 	// Usage defines the requested key usage.
-	Usage *X509CertificateUsageValue `json:"usage,omitempty" bson:"usage" mapstructure:"usage,omitempty"`
+	Usage *X509CertificateUsageValue `json:"usage,omitempty" bson:"-" mapstructure:"usage,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -646,6 +676,9 @@ func (o *SparseX509Certificate) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Signer != nil {
 		out.Signer = *o.Signer
+	}
+	if o.Unrevocable != nil {
+		out.Unrevocable = *o.Unrevocable
 	}
 	if o.Usage != nil {
 		out.Usage = *o.Usage
