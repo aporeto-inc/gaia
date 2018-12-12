@@ -429,6 +429,7 @@ func ValidateHTTPMethods(attribute string, methods []string) error {
 		if mu != http.MethodPost &&
 			mu != http.MethodGet &&
 			mu != http.MethodDelete &&
+			mu != http.MethodPut &&
 			mu != http.MethodHead &&
 			mu != http.MethodPatch {
 
