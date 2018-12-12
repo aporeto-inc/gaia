@@ -7,6 +7,10 @@ model:
   description: |-
     HTTPResourceSpec descibes an HTTP resource exposed by a service. These APIs
     can be associated with one or more services.
+  aliases:
+  - httpresource
+  - resource
+  - httpspec
   indexes:
   - - :shard
     - zone

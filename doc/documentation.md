@@ -2838,7 +2838,9 @@ public defines if the api is public or not.
 
 #### `scopes (list)`
 
-Scopes authorized to access the API.
+> This attribute is deprecated
+
+Scopes is deprecated.
 
 | Characteristics | Value  |
 | -               | -:     |

@@ -22,7 +22,7 @@ type Endpoint struct {
 	// public defines if the api is public or not.
 	Public bool `json:"public" bson:"public" mapstructure:"public,omitempty"`
 
-	// Scopes authorized to access the API.
+	// Scopes is deprecated.
 	Scopes []string `json:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`

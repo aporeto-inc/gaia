@@ -40,10 +40,11 @@ attributes:
     stored: true
 
   - name: scopes
-    description: Scopes authorized to access the API.
+    description: Scopes is deprecated.
     type: list
     exposed: true
     subtype: string
     stored: true
     read_only: true
+    deprecated: true
     orderable: true
