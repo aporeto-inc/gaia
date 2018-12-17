@@ -246,6 +246,11 @@ type Service struct {
 	// whereas the port that the implementation is listening can be different.
 	ExposedPort int `json:"exposedPort" bson:"exposedport" mapstructure:"exposedPort,omitempty"`
 
+	// ExposedServiceIsTLS indicates that the exposed service is TLS. This means that
+	// the enforcer has to initiate a TLS session in order to forrward traffic to the
+	// service.
+	ExposedServiceIsTLS bool `json:"exposedServiceIsTLS" bson:"exposedserviceistls" mapstructure:"exposedServiceIsTLS,omitempty"`
+
 	// External is a boolean that indicates if this is an external service.
 	External bool `json:"external" bson:"external" mapstructure:"external,omitempty"`
 
@@ -321,13 +326,14 @@ func NewService() *Service {
 	return &Service{
 		ModelVersion:               1,
 		AllAPITags:                 []string{},
+		Annotations:                map[string][]string{},
 		AllServiceTags:             []string{},
-		Endpoints:                  []*Endpoint{},
+		AssociatedTags:             []string{},
+		ExposedServiceIsTLS:        false,
 		External:                   false,
 		ClaimsToHTTPHeaderMappings: []*ClaimMapping{},
+		Endpoints:                  []*Endpoint{},
 		AuthorizationType:          ServiceAuthorizationTypeNone,
-		AssociatedTags:             []string{},
-		Annotations:                map[string][]string{},
 		Type:                       ServiceTypeHTTP,
 		TLSType:                    ServiceTLSTypeAporeto,
 		Metadata:                   []string{},
@@ -575,6 +581,7 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Endpoints:                         &o.Endpoints,
 			ExposedAPIs:                       &o.ExposedAPIs,
 			ExposedPort:                       &o.ExposedPort,
+			ExposedServiceIsTLS:               &o.ExposedServiceIsTLS,
 			External:                          &o.External,
 			Hosts:                             &o.Hosts,
 			Metadata:                          &o.Metadata,
@@ -647,6 +654,8 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ExposedAPIs = &(o.ExposedAPIs)
 		case "exposedPort":
 			sp.ExposedPort = &(o.ExposedPort)
+		case "exposedServiceIsTLS":
+			sp.ExposedServiceIsTLS = &(o.ExposedServiceIsTLS)
 		case "external":
 			sp.External = &(o.External)
 		case "hosts":
@@ -766,6 +775,9 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ExposedPort != nil {
 		o.ExposedPort = *so.ExposedPort
+	}
+	if so.ExposedServiceIsTLS != nil {
+		o.ExposedServiceIsTLS = *so.ExposedServiceIsTLS
 	}
 	if so.External != nil {
 		o.External = *so.External
@@ -999,6 +1011,8 @@ func (o *Service) ValueForAttribute(name string) interface{} {
 		return o.ExposedAPIs
 	case "exposedPort":
 		return o.ExposedPort
+	case "exposedServiceIsTLS":
+		return o.ExposedServiceIsTLS
 	case "external":
 		return o.External
 	case "hosts":
@@ -1334,6 +1348,19 @@ whereas the port that the implementation is listening can be different.`,
 		Required: true,
 		Stored:   true,
 		Type:     "integer",
+	},
+	"ExposedServiceIsTLS": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExposedServiceIsTLS",
+		Description: `ExposedServiceIsTLS indicates that the exposed service is TLS. This means that
+the enforcer has to initiate a TLS session in order to forrward traffic to the
+service.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "exposedServiceIsTLS",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "boolean",
 	},
 	"External": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1844,6 +1871,19 @@ whereas the port that the implementation is listening can be different.`,
 		Stored:   true,
 		Type:     "integer",
 	},
+	"exposedserviceistls": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExposedServiceIsTLS",
+		Description: `ExposedServiceIsTLS indicates that the exposed service is TLS. This means that
+the enforcer has to initiate a TLS session in order to forrward traffic to the
+service.`,
+		Exposed:    true,
+		Filterable: true,
+		Name:       "exposedServiceIsTLS",
+		Orderable:  true,
+		Stored:     true,
+		Type:       "boolean",
+	},
 	"external": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "External",
@@ -2230,6 +2270,11 @@ type SparseService struct {
 	// whereas the port that the implementation is listening can be different.
 	ExposedPort *int `json:"exposedPort,omitempty" bson:"exposedport" mapstructure:"exposedPort,omitempty"`
 
+	// ExposedServiceIsTLS indicates that the exposed service is TLS. This means that
+	// the enforcer has to initiate a TLS session in order to forrward traffic to the
+	// service.
+	ExposedServiceIsTLS *bool `json:"exposedServiceIsTLS,omitempty" bson:"exposedserviceistls" mapstructure:"exposedServiceIsTLS,omitempty"`
+
 	// External is a boolean that indicates if this is an external service.
 	External *bool `json:"external,omitempty" bson:"external" mapstructure:"external,omitempty"`
 
@@ -2409,6 +2454,9 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ExposedPort != nil {
 		out.ExposedPort = *o.ExposedPort
+	}
+	if o.ExposedServiceIsTLS != nil {
+		out.ExposedServiceIsTLS = *o.ExposedServiceIsTLS
 	}
 	if o.External != nil {
 		out.External = *o.External

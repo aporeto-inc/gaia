@@ -9705,6 +9705,18 @@ whereas the port that the implementation is listening can be different.
 | Max length      | `65535` |
 | Required        | `true`  |
 
+#### `exposedServiceIsTLS (boolean)`
+
+ExposedServiceIsTLS indicates that the exposed service is TLS. This means that
+the enforcer has to initiate a TLS session in order to forrward traffic to the
+service.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Default         | `false` |
+| Orderable       | `true`  |
+| Filterable      | `true`  |
+
 #### `external (boolean)`
 
 External is a boolean that indicates if this is an external service.

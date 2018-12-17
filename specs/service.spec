@@ -245,6 +245,18 @@ attributes:
     example_value: 443
     max_value: 65535
 
+  - name: exposedServiceIsTLS
+    description: |-
+      ExposedServiceIsTLS indicates that the exposed service is TLS. This means that
+      the enforcer has to initiate a TLS session in order to forrward traffic to the
+      service.
+    type: boolean
+    exposed: true
+    stored: true
+    default_value: false
+    filterable: true
+    orderable: true
+
   - name: external
     description: External is a boolean that indicates if this is an external service.
     type: boolean
