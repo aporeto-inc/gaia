@@ -212,10 +212,12 @@ attributes:
     description: |-
       Endpoints is a read only attribute that actually resolves the API
       endpoints that the service is exposing. Only valid during policy rendering.
-    type: external
+    type: refList
     exposed: true
-    subtype: exposed_api_list
+    subtype: endpoint
     read_only: true
+    extensions:
+      refMode: pointer
 
   - name: exposedAPIs
     description: |-
@@ -242,6 +244,18 @@ attributes:
     required: true
     example_value: 443
     max_value: 65535
+
+  - name: exposedServiceIsTLS
+    description: |-
+      ExposedServiceIsTLS indicates that the exposed service is TLS. This means that
+      the enforcer has to initiate a TLS session in order to forrward traffic to the
+      service.
+    type: boolean
+    exposed: true
+    stored: true
+    default_value: false
+    filterable: true
+    orderable: true
 
   - name: external
     description: External is a boolean that indicates if this is an external service.
@@ -330,9 +344,9 @@ attributes:
 
 # Relations
 relations:
-- rest_name: restapispec
+- rest_name: httpresourcespec
   get:
-    description: Retrieves the REST APIs exposed by this service.
+    description: Retrieves the HTTP Resource exposed by this service.
 
 - rest_name: processingunit
   get:

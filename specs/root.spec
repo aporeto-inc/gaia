@@ -81,6 +81,16 @@ relations:
   create:
     description: Verifies the authorizations on various identities for a given token.
 
+- rest_name: httpresourcespec
+  get:
+    description: Retrieves the list of HTTP Resource specifications.
+    global_parameters:
+    - $filtering
+    - $propagatable
+    - $archivable
+  create:
+    description: Creates a new HTTP Resource specification.
+
 - rest_name: restapispec
   get:
     description: Retrieves the list of REST API specifications.

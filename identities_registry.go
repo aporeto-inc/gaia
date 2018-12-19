@@ -25,9 +25,10 @@ var (
 		"category":               CategoryIdentity,
 		"certificate":            CertificateIdentity,
 
-		"customer":                     CustomerIdentity,
-		"dependencymap":                DependencyMapIdentity,
-		"email":                        EmailIdentity,
+		"customer":      CustomerIdentity,
+		"dependencymap": DependencyMapIdentity,
+		"email":         EmailIdentity,
+
 		"enforcer":                     EnforcerIdentity,
 		"enforcerprofile":              EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicy": EnforcerProfileMappingPolicyIdentity,
@@ -44,6 +45,7 @@ var (
 
 		"hookpolicy": HookPolicyIdentity,
 
+		"httpresourcespec":       HTTPResourceSpecIdentity,
 		"import":                 ImportIdentity,
 		"installedapp":           InstalledAppIdentity,
 		"invoice":                InvoiceIdentity,
@@ -119,9 +121,10 @@ var (
 		"categories":               CategoryIdentity,
 		"certificates":             CertificateIdentity,
 
-		"customers":                      CustomerIdentity,
-		"dependencymaps":                 DependencyMapIdentity,
-		"emails":                         EmailIdentity,
+		"customers":      CustomerIdentity,
+		"dependencymaps": DependencyMapIdentity,
+		"emails":         EmailIdentity,
+
 		"enforcers":                      EnforcerIdentity,
 		"enforcerprofiles":               EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicies": EnforcerProfileMappingPolicyIdentity,
@@ -138,6 +141,7 @@ var (
 
 		"hookpolicies": HookPolicyIdentity,
 
+		"httpresourcespecs":        HTTPResourceSpecIdentity,
 		"import":                   ImportIdentity,
 		"installedapps":            InstalledAppIdentity,
 		"invoices":                 InvoiceIdentity,
@@ -192,75 +196,78 @@ var (
 	}
 
 	aliasesMap = map[string]elemental.Identity{
-		"apiauth":    APIAuthorizationPolicyIdentity,
-		"apiauths":   APIAuthorizationPolicyIdentity,
-		"appcred":    AppCredentialIdentity,
-		"appcreds":   AppCredentialIdentity,
-		"ap":         AuditProfileIdentity,
-		"ca":         AuthorityIdentity,
-		"autos":      AutomationIdentity,
-		"auto":       AutomationIdentity,
-		"autotmpl":   AutomationTemplateIdentity,
-		"aws":        AWSAccountIdentity,
-		"awsaccs":    AWSAccountIdentity,
-		"awsacc":     AWSAccountIdentity,
-		"depmaps":    DependencyMapIdentity,
-		"depmap":     DependencyMapIdentity,
-		"profile":    EnforcerProfileIdentity,
-		"profiles":   EnforcerProfileIdentity,
-		"enfpols":    EnforcerProfileMappingPolicyIdentity,
-		"enfpol":     EnforcerProfileMappingPolicyIdentity,
-		"epm":        EnforcerProfileMappingPolicyIdentity,
-		"extnet":     ExternalNetworkIdentity,
-		"extnets":    ExternalNetworkIdentity,
-		"extsrv":     ExternalServiceIdentity,
-		"extsrvs":    ExternalServiceIdentity,
-		"fp":         FilePathIdentity,
-		"fps":        FilePathIdentity,
-		"hook":       HookPolicyIdentity,
-		"hooks":      HookPolicyIdentity,
-		"hookpol":    HookPolicyIdentity,
-		"hookpols":   HookPolicyIdentity,
-		"iapps":      InstalledAppIdentity,
-		"iapp":       InstalledAppIdentity,
-		"ip":         IsolationProfileIdentity,
-		"sp":         JaegerbatchIdentity,
-		"mess":       MessageIdentity,
-		"ns":         NamespaceIdentity,
-		"nspolicy":   NamespaceMappingPolicyIdentity,
-		"nspolicies": NamespaceMappingPolicyIdentity,
-		"nsmap":      NamespaceMappingPolicyIdentity,
-		"nsmaps":     NamespaceMappingPolicyIdentity,
-		"netpol":     NetworkAccessPolicyIdentity,
-		"netpols":    NetworkAccessPolicyIdentity,
-		"pu":         ProcessingUnitIdentity,
-		"pus":        ProcessingUnitIdentity,
-		"pup":        ProcessingUnitPolicyIdentity,
-		"quota":      QuotaPolicyIdentity,
-		"quotas":     QuotaPolicyIdentity,
-		"quotapol":   QuotaPolicyIdentity,
-		"quotapols":  QuotaPolicyIdentity,
-		"hks":        RemoteProcessorIdentity,
-		"hk":         RemoteProcessorIdentity,
-		"rpol":       RenderedPolicyIdentity,
-		"rpols":      RenderedPolicyIdentity,
-		"srv":        ServiceIdentity,
-		"srvdep":     ServiceDependencyIdentity,
-		"srvdeps":    ServiceDependencyIdentity,
-		"sq":         StatsQueryIdentity,
-		"sugpol":     SuggestedPolicyIdentity,
-		"sugpols":    SuggestedPolicyIdentity,
-		"sugg":       SuggestedPolicyIdentity,
-		"suggs":      SuggestedPolicyIdentity,
-		"table":      TabulationIdentity,
-		"tables":     TabulationIdentity,
-		"tabs":       TabulationIdentity,
-		"tab":        TabulationIdentity,
-		"tsp":        TokenScopePolicyIdentity,
-		"vulns":      VulnerabilityIdentity,
-		"vul":        VulnerabilityIdentity,
-		"vuln":       VulnerabilityIdentity,
-		"vuls":       VulnerabilityIdentity,
+		"apiauth":      APIAuthorizationPolicyIdentity,
+		"apiauths":     APIAuthorizationPolicyIdentity,
+		"appcred":      AppCredentialIdentity,
+		"appcreds":     AppCredentialIdentity,
+		"ap":           AuditProfileIdentity,
+		"ca":           AuthorityIdentity,
+		"autos":        AutomationIdentity,
+		"auto":         AutomationIdentity,
+		"autotmpl":     AutomationTemplateIdentity,
+		"aws":          AWSAccountIdentity,
+		"awsaccs":      AWSAccountIdentity,
+		"awsacc":       AWSAccountIdentity,
+		"depmaps":      DependencyMapIdentity,
+		"depmap":       DependencyMapIdentity,
+		"profile":      EnforcerProfileIdentity,
+		"profiles":     EnforcerProfileIdentity,
+		"enfpols":      EnforcerProfileMappingPolicyIdentity,
+		"enfpol":       EnforcerProfileMappingPolicyIdentity,
+		"epm":          EnforcerProfileMappingPolicyIdentity,
+		"extnet":       ExternalNetworkIdentity,
+		"extnets":      ExternalNetworkIdentity,
+		"extsrv":       ExternalServiceIdentity,
+		"extsrvs":      ExternalServiceIdentity,
+		"fp":           FilePathIdentity,
+		"fps":          FilePathIdentity,
+		"hook":         HookPolicyIdentity,
+		"hooks":        HookPolicyIdentity,
+		"hookpol":      HookPolicyIdentity,
+		"hookpols":     HookPolicyIdentity,
+		"httpresource": HTTPResourceSpecIdentity,
+		"resource":     HTTPResourceSpecIdentity,
+		"httpspec":     HTTPResourceSpecIdentity,
+		"iapps":        InstalledAppIdentity,
+		"iapp":         InstalledAppIdentity,
+		"ip":           IsolationProfileIdentity,
+		"sp":           JaegerbatchIdentity,
+		"mess":         MessageIdentity,
+		"ns":           NamespaceIdentity,
+		"nspolicy":     NamespaceMappingPolicyIdentity,
+		"nspolicies":   NamespaceMappingPolicyIdentity,
+		"nsmap":        NamespaceMappingPolicyIdentity,
+		"nsmaps":       NamespaceMappingPolicyIdentity,
+		"netpol":       NetworkAccessPolicyIdentity,
+		"netpols":      NetworkAccessPolicyIdentity,
+		"pu":           ProcessingUnitIdentity,
+		"pus":          ProcessingUnitIdentity,
+		"pup":          ProcessingUnitPolicyIdentity,
+		"quota":        QuotaPolicyIdentity,
+		"quotas":       QuotaPolicyIdentity,
+		"quotapol":     QuotaPolicyIdentity,
+		"quotapols":    QuotaPolicyIdentity,
+		"hks":          RemoteProcessorIdentity,
+		"hk":           RemoteProcessorIdentity,
+		"rpol":         RenderedPolicyIdentity,
+		"rpols":        RenderedPolicyIdentity,
+		"srv":          ServiceIdentity,
+		"srvdep":       ServiceDependencyIdentity,
+		"srvdeps":      ServiceDependencyIdentity,
+		"sq":           StatsQueryIdentity,
+		"sugpol":       SuggestedPolicyIdentity,
+		"sugpols":      SuggestedPolicyIdentity,
+		"sugg":         SuggestedPolicyIdentity,
+		"suggs":        SuggestedPolicyIdentity,
+		"table":        TabulationIdentity,
+		"tables":       TabulationIdentity,
+		"tabs":         TabulationIdentity,
+		"tab":          TabulationIdentity,
+		"tsp":          TokenScopePolicyIdentity,
+		"vulns":        VulnerabilityIdentity,
+		"vul":          VulnerabilityIdentity,
+		"vuln":         VulnerabilityIdentity,
+		"vuls":         VulnerabilityIdentity,
 	}
 
 	indexesMap = map[string][][]string{
@@ -360,7 +367,14 @@ var (
 		},
 		"flowreport": nil,
 		"hookpolicy": nil,
-		"import":     nil,
+		"httpresourcespec": [][]string{
+			[]string{":shard", "zone", "zhash"},
+			[]string{"namespace"},
+			[]string{"namespace", "name"},
+			[]string{"namespace", "archived"},
+			[]string{"namespace", "normalizedtags"},
+		},
+		"import": nil,
 		"installedapp": [][]string{
 			[]string{"accountname", "name"},
 		},
@@ -590,6 +604,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewFlowReport()
 	case HookPolicyIdentity:
 		return NewHookPolicy()
+	case HTTPResourceSpecIdentity:
+		return NewHTTPResourceSpec()
 	case ImportIdentity:
 		return NewImport()
 	case InstalledAppIdentity:
@@ -773,6 +789,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseFlowReport()
 	case HookPolicyIdentity:
 		return NewSparseHookPolicy()
+	case HTTPResourceSpecIdentity:
+		return NewSparseHTTPResourceSpec()
 	case ImportIdentity:
 		return NewSparseImport()
 	case InstalledAppIdentity:
@@ -964,6 +982,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &FlowReportsList{}
 	case HookPolicyIdentity:
 		return &HookPoliciesList{}
+	case HTTPResourceSpecIdentity:
+		return &HTTPResourceSpecsList{}
 	case ImportIdentity:
 		return &ImportsList{}
 	case InstalledAppIdentity:
@@ -1145,6 +1165,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseFlowReportsList{}
 	case HookPolicyIdentity:
 		return &SparseHookPoliciesList{}
+	case HTTPResourceSpecIdentity:
+		return &SparseHTTPResourceSpecsList{}
 	case ImportIdentity:
 		return &SparseImportsList{}
 	case InstalledAppIdentity:
@@ -1304,6 +1326,7 @@ func AllIdentities() []elemental.Identity {
 		FilePathIdentity,
 		FlowReportIdentity,
 		HookPolicyIdentity,
+		HTTPResourceSpecIdentity,
 		ImportIdentity,
 		InstalledAppIdentity,
 		InvoiceIdentity,
@@ -1477,6 +1500,12 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"hooks",
 			"hookpol",
 			"hookpols",
+		}
+	case HTTPResourceSpecIdentity:
+		return []string{
+			"httpresource",
+			"resource",
+			"httpspec",
 		}
 	case ImportIdentity:
 		return []string{}

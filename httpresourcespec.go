@@ -7,46 +7,45 @@ import (
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/types"
 )
 
-// RESTAPISpecIdentity represents the Identity of the object.
-var RESTAPISpecIdentity = elemental.Identity{
-	Name:     "restapispec",
-	Category: "restapispecs",
+// HTTPResourceSpecIdentity represents the Identity of the object.
+var HTTPResourceSpecIdentity = elemental.Identity{
+	Name:     "httpresourcespec",
+	Category: "httpresourcespecs",
 	Package:  "squall",
 	Private:  false,
 }
 
-// RESTAPISpecsList represents a list of RESTAPISpecs
-type RESTAPISpecsList []*RESTAPISpec
+// HTTPResourceSpecsList represents a list of HTTPResourceSpecs
+type HTTPResourceSpecsList []*HTTPResourceSpec
 
 // Identity returns the identity of the objects in the list.
-func (o RESTAPISpecsList) Identity() elemental.Identity {
+func (o HTTPResourceSpecsList) Identity() elemental.Identity {
 
-	return RESTAPISpecIdentity
+	return HTTPResourceSpecIdentity
 }
 
-// Copy returns a pointer to a copy the RESTAPISpecsList.
-func (o RESTAPISpecsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the HTTPResourceSpecsList.
+func (o HTTPResourceSpecsList) Copy() elemental.Identifiables {
 
-	copy := append(RESTAPISpecsList{}, o...)
+	copy := append(HTTPResourceSpecsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the RESTAPISpecsList.
-func (o RESTAPISpecsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the HTTPResourceSpecsList.
+func (o HTTPResourceSpecsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(RESTAPISpecsList{}, o...)
+	out := append(HTTPResourceSpecsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*RESTAPISpec))
+		out = append(out, obj.(*HTTPResourceSpec))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o RESTAPISpecsList) List() elemental.IdentifiablesList {
+func (o HTTPResourceSpecsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -57,16 +56,16 @@ func (o RESTAPISpecsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o RESTAPISpecsList) DefaultOrder() []string {
+func (o HTTPResourceSpecsList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToSparse returns the RESTAPISpecsList converted to SparseRESTAPISpecsList.
+// ToSparse returns the HTTPResourceSpecsList converted to SparseHTTPResourceSpecsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o RESTAPISpecsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o HTTPResourceSpecsList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -77,13 +76,13 @@ func (o RESTAPISpecsList) ToSparse(fields ...string) elemental.IdentifiablesList
 }
 
 // Version returns the version of the content.
-func (o RESTAPISpecsList) Version() int {
+func (o HTTPResourceSpecsList) Version() int {
 
 	return 1
 }
 
-// RESTAPISpec represents the model of a restapispec
-type RESTAPISpec struct {
+// HTTPResourceSpec represents the model of a httpresourcespec
+type HTTPResourceSpec struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
@@ -103,14 +102,11 @@ type RESTAPISpec struct {
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// EndPoints is a list of API endpoints that are exposed for the service.
-	Endpoints types.ExposedAPIList `json:"endpoints" bson:"endpoints" mapstructure:"endpoints,omitempty"`
+	Endpoints []*Endpoint `json:"endpoints" bson:"endpoints" mapstructure:"endpoints,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
-
-	// Migrated indicated if the object has been migrated to an HTTPResourceSpec.
-	Migrated bool `json:"-" bson:"migrated" mapstructure:"-,omitempty"`
 
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
@@ -143,13 +139,13 @@ type RESTAPISpec struct {
 	sync.Mutex `json:"-" bson:"-"`
 }
 
-// NewRESTAPISpec returns a new *RESTAPISpec
-func NewRESTAPISpec() *RESTAPISpec {
+// NewHTTPResourceSpec returns a new *HTTPResourceSpec
+func NewHTTPResourceSpec() *HTTPResourceSpec {
 
-	return &RESTAPISpec{
+	return &HTTPResourceSpec{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
-		Endpoints:      types.ExposedAPIList{},
+		Endpoints:      []*Endpoint{},
 		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
@@ -157,31 +153,31 @@ func NewRESTAPISpec() *RESTAPISpec {
 }
 
 // Identity returns the Identity of the object.
-func (o *RESTAPISpec) Identity() elemental.Identity {
+func (o *HTTPResourceSpec) Identity() elemental.Identity {
 
-	return RESTAPISpecIdentity
+	return HTTPResourceSpecIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *RESTAPISpec) Identifier() string {
+func (o *HTTPResourceSpec) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *RESTAPISpec) SetIdentifier(id string) {
+func (o *HTTPResourceSpec) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *RESTAPISpec) Version() int {
+func (o *HTTPResourceSpec) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *RESTAPISpec) DefaultOrder() []string {
+func (o *HTTPResourceSpec) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -189,184 +185,185 @@ func (o *RESTAPISpec) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *RESTAPISpec) Doc() string {
-	return `This is deprecated. Use HTTPResourceSpec instead.`
+func (o *HTTPResourceSpec) Doc() string {
+	return `HTTPResourceSpec descibes an HTTP resource exposed by a service. These APIs
+can be associated with one or more services.`
 }
 
-func (o *RESTAPISpec) String() string {
+func (o *HTTPResourceSpec) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *RESTAPISpec) GetAnnotations() map[string][]string {
+func (o *HTTPResourceSpec) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *RESTAPISpec) SetAnnotations(annotations map[string][]string) {
+func (o *HTTPResourceSpec) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetArchived returns the Archived of the receiver.
-func (o *RESTAPISpec) GetArchived() bool {
+func (o *HTTPResourceSpec) GetArchived() bool {
 
 	return o.Archived
 }
 
 // SetArchived sets the property Archived of the receiver using the given value.
-func (o *RESTAPISpec) SetArchived(archived bool) {
+func (o *HTTPResourceSpec) SetArchived(archived bool) {
 
 	o.Archived = archived
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *RESTAPISpec) GetAssociatedTags() []string {
+func (o *HTTPResourceSpec) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *RESTAPISpec) SetAssociatedTags(associatedTags []string) {
+func (o *HTTPResourceSpec) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *RESTAPISpec) GetCreateTime() time.Time {
+func (o *HTTPResourceSpec) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *RESTAPISpec) SetCreateTime(createTime time.Time) {
+func (o *HTTPResourceSpec) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *RESTAPISpec) GetDescription() string {
+func (o *HTTPResourceSpec) GetDescription() string {
 
 	return o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the given value.
-func (o *RESTAPISpec) SetDescription(description string) {
+func (o *HTTPResourceSpec) SetDescription(description string) {
 
 	o.Description = description
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *RESTAPISpec) GetMetadata() []string {
+func (o *HTTPResourceSpec) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the given value.
-func (o *RESTAPISpec) SetMetadata(metadata []string) {
+func (o *HTTPResourceSpec) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *RESTAPISpec) GetName() string {
+func (o *HTTPResourceSpec) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *RESTAPISpec) SetName(name string) {
+func (o *HTTPResourceSpec) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *RESTAPISpec) GetNamespace() string {
+func (o *HTTPResourceSpec) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *RESTAPISpec) SetNamespace(namespace string) {
+func (o *HTTPResourceSpec) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *RESTAPISpec) GetNormalizedTags() []string {
+func (o *HTTPResourceSpec) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *RESTAPISpec) SetNormalizedTags(normalizedTags []string) {
+func (o *HTTPResourceSpec) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *RESTAPISpec) GetPropagate() bool {
+func (o *HTTPResourceSpec) GetPropagate() bool {
 
 	return o.Propagate
 }
 
 // SetPropagate sets the property Propagate of the receiver using the given value.
-func (o *RESTAPISpec) SetPropagate(propagate bool) {
+func (o *HTTPResourceSpec) SetPropagate(propagate bool) {
 
 	o.Propagate = propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *RESTAPISpec) GetProtected() bool {
+func (o *HTTPResourceSpec) GetProtected() bool {
 
 	return o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *RESTAPISpec) GetUpdateTime() time.Time {
+func (o *HTTPResourceSpec) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *RESTAPISpec) SetUpdateTime(updateTime time.Time) {
+func (o *HTTPResourceSpec) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *RESTAPISpec) GetZHash() int {
+func (o *HTTPResourceSpec) GetZHash() int {
 
 	return o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the given value.
-func (o *RESTAPISpec) SetZHash(zHash int) {
+func (o *HTTPResourceSpec) SetZHash(zHash int) {
 
 	o.ZHash = zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *RESTAPISpec) GetZone() int {
+func (o *HTTPResourceSpec) GetZone() int {
 
 	return o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the given value.
-func (o *RESTAPISpec) SetZone(zone int) {
+func (o *HTTPResourceSpec) SetZone(zone int) {
 
 	o.Zone = zone
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *RESTAPISpec) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *HTTPResourceSpec) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseRESTAPISpec{
+		return &SparseHTTPResourceSpec{
 			ID:             &o.ID,
 			Annotations:    &o.Annotations,
 			Archived:       &o.Archived,
@@ -375,7 +372,6 @@ func (o *RESTAPISpec) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Description:    &o.Description,
 			Endpoints:      &o.Endpoints,
 			Metadata:       &o.Metadata,
-			Migrated:       &o.Migrated,
 			Name:           &o.Name,
 			Namespace:      &o.Namespace,
 			NormalizedTags: &o.NormalizedTags,
@@ -387,7 +383,7 @@ func (o *RESTAPISpec) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		}
 	}
 
-	sp := &SparseRESTAPISpec{}
+	sp := &SparseHTTPResourceSpec{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
@@ -406,8 +402,6 @@ func (o *RESTAPISpec) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Endpoints = &(o.Endpoints)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
-		case "migrated":
-			sp.Migrated = &(o.Migrated)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -430,13 +424,13 @@ func (o *RESTAPISpec) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseRESTAPISpec to the object.
-func (o *RESTAPISpec) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseHTTPResourceSpec to the object.
+func (o *HTTPResourceSpec) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseRESTAPISpec)
+	so := sparse.(*SparseHTTPResourceSpec)
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
@@ -460,9 +454,6 @@ func (o *RESTAPISpec) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
-	}
-	if so.Migrated != nil {
-		o.Migrated = *so.Migrated
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -490,38 +481,44 @@ func (o *RESTAPISpec) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the RESTAPISpec.
-func (o *RESTAPISpec) DeepCopy() *RESTAPISpec {
+// DeepCopy returns a deep copy if the HTTPResourceSpec.
+func (o *HTTPResourceSpec) DeepCopy() *HTTPResourceSpec {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &RESTAPISpec{}
+	out := &HTTPResourceSpec{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *RESTAPISpec.
-func (o *RESTAPISpec) DeepCopyInto(out *RESTAPISpec) {
+// DeepCopyInto copies the receiver into the given *HTTPResourceSpec.
+func (o *HTTPResourceSpec) DeepCopyInto(out *HTTPResourceSpec) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy RESTAPISpec: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy HTTPResourceSpec: %s", err))
 	}
 
-	*out = *target.(*RESTAPISpec)
+	*out = *target.(*HTTPResourceSpec)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *RESTAPISpec) Validate() error {
+func (o *HTTPResourceSpec) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	for _, sub := range o.Endpoints {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
@@ -544,26 +541,26 @@ func (o *RESTAPISpec) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*RESTAPISpec) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*HTTPResourceSpec) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := RESTAPISpecAttributesMap[name]; ok {
+	if v, ok := HTTPResourceSpecAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return RESTAPISpecLowerCaseAttributesMap[name]
+	return HTTPResourceSpecLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*RESTAPISpec) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*HTTPResourceSpec) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return RESTAPISpecAttributesMap
+	return HTTPResourceSpecAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *RESTAPISpec) ValueForAttribute(name string) interface{} {
+func (o *HTTPResourceSpec) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
@@ -582,8 +579,6 @@ func (o *RESTAPISpec) ValueForAttribute(name string) interface{} {
 		return o.Endpoints
 	case "metadata":
 		return o.Metadata
-	case "migrated":
-		return o.Migrated
 	case "name":
 		return o.Name
 	case "namespace":
@@ -605,8 +600,8 @@ func (o *RESTAPISpec) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// RESTAPISpecAttributesMap represents the map of attribute for RESTAPISpec.
-var RESTAPISpecAttributesMap = map[string]elemental.AttributeSpecification{
+// HTTPResourceSpecAttributesMap represents the map of attribute for HTTPResourceSpec.
+var HTTPResourceSpecAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -690,8 +685,8 @@ var RESTAPISpecAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "endpoints",
 		Stored:         true,
-		SubType:        "exposed_api_list",
-		Type:           "external",
+		SubType:        "endpoint",
+		Type:           "refList",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -707,14 +702,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:     true,
 		SubType:    "metadata_list",
 		Type:       "external",
-	},
-	"Migrated": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Migrated",
-		Description:    `Migrated indicated if the object has been migrated to an HTTPResourceSpec.`,
-		Name:           "migrated",
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -829,8 +816,8 @@ georedundancy.`,
 	},
 }
 
-// RESTAPISpecLowerCaseAttributesMap represents the map of attribute for RESTAPISpec.
-var RESTAPISpecLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// HTTPResourceSpecLowerCaseAttributesMap represents the map of attribute for HTTPResourceSpec.
+var HTTPResourceSpecLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -914,8 +901,8 @@ var RESTAPISpecLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Exposed:        true,
 		Name:           "endpoints",
 		Stored:         true,
-		SubType:        "exposed_api_list",
-		Type:           "external",
+		SubType:        "endpoint",
+		Type:           "refList",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -931,14 +918,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:     true,
 		SubType:    "metadata_list",
 		Type:       "external",
-	},
-	"migrated": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Migrated",
-		Description:    `Migrated indicated if the object has been migrated to an HTTPResourceSpec.`,
-		Name:           "migrated",
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1053,35 +1032,35 @@ georedundancy.`,
 	},
 }
 
-// SparseRESTAPISpecsList represents a list of SparseRESTAPISpecs
-type SparseRESTAPISpecsList []*SparseRESTAPISpec
+// SparseHTTPResourceSpecsList represents a list of SparseHTTPResourceSpecs
+type SparseHTTPResourceSpecsList []*SparseHTTPResourceSpec
 
 // Identity returns the identity of the objects in the list.
-func (o SparseRESTAPISpecsList) Identity() elemental.Identity {
+func (o SparseHTTPResourceSpecsList) Identity() elemental.Identity {
 
-	return RESTAPISpecIdentity
+	return HTTPResourceSpecIdentity
 }
 
-// Copy returns a pointer to a copy the SparseRESTAPISpecsList.
-func (o SparseRESTAPISpecsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseHTTPResourceSpecsList.
+func (o SparseHTTPResourceSpecsList) Copy() elemental.Identifiables {
 
-	copy := append(SparseRESTAPISpecsList{}, o...)
+	copy := append(SparseHTTPResourceSpecsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseRESTAPISpecsList.
-func (o SparseRESTAPISpecsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseHTTPResourceSpecsList.
+func (o SparseHTTPResourceSpecsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseRESTAPISpecsList{}, o...)
+	out := append(SparseHTTPResourceSpecsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseRESTAPISpec))
+		out = append(out, obj.(*SparseHTTPResourceSpec))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseRESTAPISpecsList) List() elemental.IdentifiablesList {
+func (o SparseHTTPResourceSpecsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1092,15 +1071,15 @@ func (o SparseRESTAPISpecsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseRESTAPISpecsList) DefaultOrder() []string {
+func (o SparseHTTPResourceSpecsList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToPlain returns the SparseRESTAPISpecsList converted to RESTAPISpecsList.
-func (o SparseRESTAPISpecsList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseHTTPResourceSpecsList converted to HTTPResourceSpecsList.
+func (o SparseHTTPResourceSpecsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1111,13 +1090,13 @@ func (o SparseRESTAPISpecsList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseRESTAPISpecsList) Version() int {
+func (o SparseHTTPResourceSpecsList) Version() int {
 
 	return 1
 }
 
-// SparseRESTAPISpec represents the sparse version of a restapispec.
-type SparseRESTAPISpec struct {
+// SparseHTTPResourceSpec represents the sparse version of a httpresourcespec.
+type SparseHTTPResourceSpec struct {
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
@@ -1137,14 +1116,11 @@ type SparseRESTAPISpec struct {
 	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
 
 	// EndPoints is a list of API endpoints that are exposed for the service.
-	Endpoints *types.ExposedAPIList `json:"endpoints,omitempty" bson:"endpoints" mapstructure:"endpoints,omitempty"`
+	Endpoints *[]*Endpoint `json:"endpoints,omitempty" bson:"endpoints" mapstructure:"endpoints,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
-
-	// Migrated indicated if the object has been migrated to an HTTPResourceSpec.
-	Migrated *bool `json:"-,omitempty" bson:"migrated" mapstructure:"-,omitempty"`
 
 	// Name is the name of the entity.
 	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
@@ -1177,19 +1153,19 @@ type SparseRESTAPISpec struct {
 	sync.Mutex `json:"-" bson:"-"`
 }
 
-// NewSparseRESTAPISpec returns a new  SparseRESTAPISpec.
-func NewSparseRESTAPISpec() *SparseRESTAPISpec {
-	return &SparseRESTAPISpec{}
+// NewSparseHTTPResourceSpec returns a new  SparseHTTPResourceSpec.
+func NewSparseHTTPResourceSpec() *SparseHTTPResourceSpec {
+	return &SparseHTTPResourceSpec{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseRESTAPISpec) Identity() elemental.Identity {
+func (o *SparseHTTPResourceSpec) Identity() elemental.Identity {
 
-	return RESTAPISpecIdentity
+	return HTTPResourceSpecIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseRESTAPISpec) Identifier() string {
+func (o *SparseHTTPResourceSpec) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1198,21 +1174,21 @@ func (o *SparseRESTAPISpec) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseRESTAPISpec) SetIdentifier(id string) {
+func (o *SparseHTTPResourceSpec) SetIdentifier(id string) {
 
 	o.ID = &id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseRESTAPISpec) Version() int {
+func (o *SparseHTTPResourceSpec) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseRESTAPISpec) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseHTTPResourceSpec) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewRESTAPISpec()
+	out := NewHTTPResourceSpec()
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
@@ -1236,9 +1212,6 @@ func (o *SparseRESTAPISpec) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
-	}
-	if o.Migrated != nil {
-		out.Migrated = *o.Migrated
 	}
 	if o.Name != nil {
 		out.Name = *o.Name
@@ -1269,187 +1242,187 @@ func (o *SparseRESTAPISpec) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseRESTAPISpec) GetAnnotations() map[string][]string {
+func (o *SparseHTTPResourceSpec) GetAnnotations() map[string][]string {
 
 	return *o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetAnnotations(annotations map[string][]string) {
+func (o *SparseHTTPResourceSpec) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetArchived returns the Archived of the receiver.
-func (o *SparseRESTAPISpec) GetArchived() bool {
+func (o *SparseHTTPResourceSpec) GetArchived() bool {
 
 	return *o.Archived
 }
 
 // SetArchived sets the property Archived of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetArchived(archived bool) {
+func (o *SparseHTTPResourceSpec) SetArchived(archived bool) {
 
 	o.Archived = &archived
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseRESTAPISpec) GetAssociatedTags() []string {
+func (o *SparseHTTPResourceSpec) GetAssociatedTags() []string {
 
 	return *o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetAssociatedTags(associatedTags []string) {
+func (o *SparseHTTPResourceSpec) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseRESTAPISpec) GetCreateTime() time.Time {
+func (o *SparseHTTPResourceSpec) GetCreateTime() time.Time {
 
 	return *o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetCreateTime(createTime time.Time) {
+func (o *SparseHTTPResourceSpec) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseRESTAPISpec) GetDescription() string {
+func (o *SparseHTTPResourceSpec) GetDescription() string {
 
 	return *o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetDescription(description string) {
+func (o *SparseHTTPResourceSpec) SetDescription(description string) {
 
 	o.Description = &description
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseRESTAPISpec) GetMetadata() []string {
+func (o *SparseHTTPResourceSpec) GetMetadata() []string {
 
 	return *o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetMetadata(metadata []string) {
+func (o *SparseHTTPResourceSpec) SetMetadata(metadata []string) {
 
 	o.Metadata = &metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseRESTAPISpec) GetName() string {
+func (o *SparseHTTPResourceSpec) GetName() string {
 
 	return *o.Name
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetName(name string) {
+func (o *SparseHTTPResourceSpec) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseRESTAPISpec) GetNamespace() string {
+func (o *SparseHTTPResourceSpec) GetNamespace() string {
 
 	return *o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetNamespace(namespace string) {
+func (o *SparseHTTPResourceSpec) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseRESTAPISpec) GetNormalizedTags() []string {
+func (o *SparseHTTPResourceSpec) GetNormalizedTags() []string {
 
 	return *o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseHTTPResourceSpec) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseRESTAPISpec) GetPropagate() bool {
+func (o *SparseHTTPResourceSpec) GetPropagate() bool {
 
 	return *o.Propagate
 }
 
 // SetPropagate sets the property Propagate of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetPropagate(propagate bool) {
+func (o *SparseHTTPResourceSpec) SetPropagate(propagate bool) {
 
 	o.Propagate = &propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseRESTAPISpec) GetProtected() bool {
+func (o *SparseHTTPResourceSpec) GetProtected() bool {
 
 	return *o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseRESTAPISpec) GetUpdateTime() time.Time {
+func (o *SparseHTTPResourceSpec) GetUpdateTime() time.Time {
 
 	return *o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetUpdateTime(updateTime time.Time) {
+func (o *SparseHTTPResourceSpec) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseRESTAPISpec) GetZHash() int {
+func (o *SparseHTTPResourceSpec) GetZHash() int {
 
 	return *o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetZHash(zHash int) {
+func (o *SparseHTTPResourceSpec) SetZHash(zHash int) {
 
 	o.ZHash = &zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseRESTAPISpec) GetZone() int {
+func (o *SparseHTTPResourceSpec) GetZone() int {
 
 	return *o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetZone(zone int) {
+func (o *SparseHTTPResourceSpec) SetZone(zone int) {
 
 	o.Zone = &zone
 }
 
-// DeepCopy returns a deep copy if the SparseRESTAPISpec.
-func (o *SparseRESTAPISpec) DeepCopy() *SparseRESTAPISpec {
+// DeepCopy returns a deep copy if the SparseHTTPResourceSpec.
+func (o *SparseHTTPResourceSpec) DeepCopy() *SparseHTTPResourceSpec {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseRESTAPISpec{}
+	out := &SparseHTTPResourceSpec{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseRESTAPISpec.
-func (o *SparseRESTAPISpec) DeepCopyInto(out *SparseRESTAPISpec) {
+// DeepCopyInto copies the receiver into the given *SparseHTTPResourceSpec.
+func (o *SparseHTTPResourceSpec) DeepCopyInto(out *SparseHTTPResourceSpec) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseRESTAPISpec: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseHTTPResourceSpec: %s", err))
 	}
 
-	*out = *target.(*SparseRESTAPISpec)
+	*out = *target.(*SparseHTTPResourceSpec)
 }

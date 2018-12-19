@@ -12,8 +12,10 @@ type IPList []IPAddress
 type IPAddress string
 
 // ExposedAPIList is a list of API endpoints and associated tags.
+// TODO: Mark as deprecated in 3.5. Remove in 3.8
 type ExposedAPIList []ExposedAPI
 
+// TODO: Mark as deprecated in 3.5. Remove in 3.8
 var (
 	allowedMethods = map[string]bool{
 		"GET":    true,
@@ -27,6 +29,7 @@ var (
 
 // ExposedAPI is an exposed API defined by the URI, verb, and associated tags.
 // The URIs must be valid Golang regular expressions.
+// TODO: Mark as deprecated in 3.5. Remove in 3.8
 type ExposedAPI struct {
 	URI                string     `json:"URI" bson:"URI" mapstructure:"URI,omitempty"`
 	Methods            []string   `json:"methods" bson:"methods" mapstructure:"methods,omitempty"`
@@ -36,6 +39,7 @@ type ExposedAPI struct {
 }
 
 // Validate validates the ExposedAPI structure
+// TODO: Mark as deprecated in 3.5. Remove in 3.8
 func (e *ExposedAPI) Validate() error {
 	for i, m := range e.Methods {
 		method := strings.ToUpper(m)
