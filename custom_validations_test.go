@@ -355,22 +355,6 @@ func TestValidateProtocol(t *testing.T) {
 			false,
 		},
 		{
-			"valid string all",
-			args{
-				"proto",
-				"all",
-			},
-			false,
-		},
-		{
-			"valid string ALL",
-			args{
-				"proto",
-				"ALL",
-			},
-			false,
-		},
-		{
 			"valid string number",
 			args{
 				"proto",
@@ -401,6 +385,22 @@ func TestValidateProtocol(t *testing.T) {
 			args{
 				"proto",
 				"256",
+			},
+			true,
+		},
+		{
+			"valid string all",
+			args{
+				"proto",
+				"all",
+			},
+			true,
+		},
+		{
+			"valid string ALL",
+			args{
+				"proto",
+				"ALL",
 			},
 			true,
 		},
