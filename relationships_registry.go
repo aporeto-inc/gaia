@@ -3590,6 +3590,66 @@ func init() {
 	}
 
 	relationshipsRegistry[StatsQueryIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				RequiredParameters: elemental.NewParametersRequirement(
+					[][][]string{
+						[][]string{
+							[]string{
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+							},
+							[]string{
+								"startRelative",
+								"endRelative",
+							},
+							[]string{
+								"startRelative",
+								"endAbsolute",
+							},
+							[]string{
+								"startAbsolute",
+								"endRelative",
+							},
+							[]string{
+								"startAbsolute",
+								"endAbsolute",
+							},
+						},
+					},
+				),
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "endAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "endRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name: "startAbsolute",
+						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "startRelative",
+						Type: "duration",
+					},
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
 				RequiredParameters: elemental.NewParametersRequirement(

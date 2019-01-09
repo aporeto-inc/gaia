@@ -584,6 +584,11 @@ relations:
         type: string
         multiple: true
         example_value: a=a
+  create:
+    description: Sends a query on statistical data.
+    global_parameters:
+    - $timewindow
+    - $filtering
 
 - rest_name: servicedependency
   get:

@@ -10044,7 +10044,59 @@ Retrieves statistics information based on parameters.
 
 (`endRelative`) or (`startRelative`) or (`startRelative` and `endRelative`) or (`startRelative` and `endAbsolute`) or (`startAbsolute` and `endRelative`) or (`startAbsolute` and `endAbsolute`)
 
+#### `POST /statsqueries`
+
+Sends a query on statistical data.
+
+##### Parameters
+
+- `endAbsolute` (time): Set the absolute end of the time window.
+- `endRelative` (duration): Set the relative end of the time window.
+- `startAbsolute` (time): Set the absolute start of the time window.
+- `startRelative` (duration): Set the relative start of the time window.
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+##### Mandatory Parameters
+
+(`endRelative`) or (`startRelative`) or (`startRelative` and `endRelative`) or (`startRelative` and `endAbsolute`) or (`startAbsolute` and `endRelative`) or (`startAbsolute` and `endAbsolute`)
+
 ### Attributes
+
+#### `fields (list)`
+
+List of fields to extract. If you don't pass anything, all available fields will
+be returned. It is also possible to use function like `sum(value)`.
+
+#### `groups (list)`
+
+Group results by the provided values. Note that not all fields can be used to
+group the results.
+
+#### `limit (integer)`
+
+Limits the number of results. -1 means no limit.
+
+| Characteristics | Value |
+| -               | -:    |
+| Default         | `-1`  |
+
+#### `measurement (enum)`
+
+Name of the measurement.
+
+| Characteristics | Value                                       |
+| -               | -:                                          |
+| Allowed Value   | `Flows, Audit, Enforcers, Files, Eventlogs` |
+| Default         | `"Flows"`                                   |
+
+#### `offset (integer)`
+
+Offsets the of results. -1 means no offset.
+
+| Characteristics | Value |
+| -               | -:    |
+| Default         | `-1`  |
 
 #### `results (external:time_series_results)`
 

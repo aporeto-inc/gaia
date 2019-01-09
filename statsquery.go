@@ -9,6 +9,26 @@ import (
 	"go.aporeto.io/gaia/types"
 )
 
+// StatsQueryMeasurementValue represents the possible values for attribute "measurement".
+type StatsQueryMeasurementValue string
+
+const (
+	// StatsQueryMeasurementAudit represents the value Audit.
+	StatsQueryMeasurementAudit StatsQueryMeasurementValue = "Audit"
+
+	// StatsQueryMeasurementEnforcers represents the value Enforcers.
+	StatsQueryMeasurementEnforcers StatsQueryMeasurementValue = "Enforcers"
+
+	// StatsQueryMeasurementEventlogs represents the value Eventlogs.
+	StatsQueryMeasurementEventlogs StatsQueryMeasurementValue = "Eventlogs"
+
+	// StatsQueryMeasurementFiles represents the value Files.
+	StatsQueryMeasurementFiles StatsQueryMeasurementValue = "Files"
+
+	// StatsQueryMeasurementFlows represents the value Flows.
+	StatsQueryMeasurementFlows StatsQueryMeasurementValue = "Flows"
+)
+
 // StatsQueryIdentity represents the Identity of the object.
 var StatsQueryIdentity = elemental.Identity{
 	Name:     "statsquery",
@@ -81,6 +101,23 @@ func (o StatsQueriesList) Version() int {
 
 // StatsQuery represents the model of a statsquery
 type StatsQuery struct {
+	// List of fields to extract. If you don't pass anything, all available fields will
+	// be returned. It is also possible to use function like `+"`"+`sum(value)`+"`"+`.
+	Fields []string `json:"fields" bson:"-" mapstructure:"fields,omitempty"`
+
+	// Group results by the provided values. Note that not all fields can be used to
+	// group the results.
+	Groups []string `json:"groups" bson:"-" mapstructure:"groups,omitempty"`
+
+	// Limits the number of results. -1 means no limit.
+	Limit int `json:"limit" bson:"-" mapstructure:"limit,omitempty"`
+
+	// Name of the measurement.
+	Measurement StatsQueryMeasurementValue `json:"measurement" bson:"-" mapstructure:"measurement,omitempty"`
+
+	// Offsets the of results. -1 means no offset.
+	Offset int `json:"offset" bson:"-" mapstructure:"offset,omitempty"`
+
 	// Results contains the result of the query.
 	Results []*types.TimeSeriesQueryResults `json:"results" bson:"-" mapstructure:"results,omitempty"`
 
@@ -94,6 +131,9 @@ func NewStatsQuery() *StatsQuery {
 
 	return &StatsQuery{
 		ModelVersion: 1,
+		Limit:        -1,
+		Measurement:  StatsQueryMeasurementFlows,
+		Offset:       -1,
 		Results:      []*types.TimeSeriesQueryResults{},
 	}
 }
@@ -146,13 +186,28 @@ func (o *StatsQuery) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseStatsQuery{
-			Results: &o.Results,
+			Fields:      &o.Fields,
+			Groups:      &o.Groups,
+			Limit:       &o.Limit,
+			Measurement: &o.Measurement,
+			Offset:      &o.Offset,
+			Results:     &o.Results,
 		}
 	}
 
 	sp := &SparseStatsQuery{}
 	for _, f := range fields {
 		switch f {
+		case "fields":
+			sp.Fields = &(o.Fields)
+		case "groups":
+			sp.Groups = &(o.Groups)
+		case "limit":
+			sp.Limit = &(o.Limit)
+		case "measurement":
+			sp.Measurement = &(o.Measurement)
+		case "offset":
+			sp.Offset = &(o.Offset)
 		case "results":
 			sp.Results = &(o.Results)
 		}
@@ -168,6 +223,21 @@ func (o *StatsQuery) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseStatsQuery)
+	if so.Fields != nil {
+		o.Fields = *so.Fields
+	}
+	if so.Groups != nil {
+		o.Groups = *so.Groups
+	}
+	if so.Limit != nil {
+		o.Limit = *so.Limit
+	}
+	if so.Measurement != nil {
+		o.Measurement = *so.Measurement
+	}
+	if so.Offset != nil {
+		o.Offset = *so.Offset
+	}
 	if so.Results != nil {
 		o.Results = *so.Results
 	}
@@ -203,6 +273,10 @@ func (o *StatsQuery) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "Eventlogs"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -237,6 +311,16 @@ func (*StatsQuery) AttributeSpecifications() map[string]elemental.AttributeSpeci
 func (o *StatsQuery) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "fields":
+		return o.Fields
+	case "groups":
+		return o.Groups
+	case "limit":
+		return o.Limit
+	case "measurement":
+		return o.Measurement
+	case "offset":
+		return o.Offset
 	case "results":
 		return o.Results
 	}
@@ -246,6 +330,53 @@ func (o *StatsQuery) ValueForAttribute(name string) interface{} {
 
 // StatsQueryAttributesMap represents the map of attribute for StatsQuery.
 var StatsQueryAttributesMap = map[string]elemental.AttributeSpecification{
+	"Fields": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Fields",
+		Description: `List of fields to extract. If you don't pass anything, all available fields will
+be returned. It is also possible to use function like ` + "`" + `sum(value)` + "`" + `.`,
+		Exposed: true,
+		Name:    "fields",
+		SubType: "string",
+		Type:    "list",
+	},
+	"Groups": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Groups",
+		Description: `Group results by the provided values. Note that not all fields can be used to
+group the results.`,
+		Exposed: true,
+		Name:    "groups",
+		SubType: "string",
+		Type:    "list",
+	},
+	"Limit": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Limit",
+		DefaultValue:   -1,
+		Description:    `Limits the number of results. -1 means no limit.`,
+		Exposed:        true,
+		Name:           "limit",
+		Type:           "integer",
+	},
+	"Measurement": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "Eventlogs"},
+		ConvertedName:  "Measurement",
+		DefaultValue:   StatsQueryMeasurementFlows,
+		Description:    `Name of the measurement.`,
+		Exposed:        true,
+		Name:           "measurement",
+		Type:           "enum",
+	},
+	"Offset": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Offset",
+		DefaultValue:   -1,
+		Description:    `Offsets the of results. -1 means no offset.`,
+		Exposed:        true,
+		Name:           "offset",
+		Type:           "integer",
+	},
 	"Results": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -261,6 +392,53 @@ var StatsQueryAttributesMap = map[string]elemental.AttributeSpecification{
 
 // StatsQueryLowerCaseAttributesMap represents the map of attribute for StatsQuery.
 var StatsQueryLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"fields": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Fields",
+		Description: `List of fields to extract. If you don't pass anything, all available fields will
+be returned. It is also possible to use function like ` + "`" + `sum(value)` + "`" + `.`,
+		Exposed: true,
+		Name:    "fields",
+		SubType: "string",
+		Type:    "list",
+	},
+	"groups": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Groups",
+		Description: `Group results by the provided values. Note that not all fields can be used to
+group the results.`,
+		Exposed: true,
+		Name:    "groups",
+		SubType: "string",
+		Type:    "list",
+	},
+	"limit": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Limit",
+		DefaultValue:   -1,
+		Description:    `Limits the number of results. -1 means no limit.`,
+		Exposed:        true,
+		Name:           "limit",
+		Type:           "integer",
+	},
+	"measurement": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "Eventlogs"},
+		ConvertedName:  "Measurement",
+		DefaultValue:   StatsQueryMeasurementFlows,
+		Description:    `Name of the measurement.`,
+		Exposed:        true,
+		Name:           "measurement",
+		Type:           "enum",
+	},
+	"offset": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Offset",
+		DefaultValue:   -1,
+		Description:    `Offsets the of results. -1 means no offset.`,
+		Exposed:        true,
+		Name:           "offset",
+		Type:           "integer",
+	},
 	"results": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -337,6 +515,23 @@ func (o SparseStatsQueriesList) Version() int {
 
 // SparseStatsQuery represents the sparse version of a statsquery.
 type SparseStatsQuery struct {
+	// List of fields to extract. If you don't pass anything, all available fields will
+	// be returned. It is also possible to use function like `+"`"+`sum(value)`+"`"+`.
+	Fields *[]string `json:"fields,omitempty" bson:"-" mapstructure:"fields,omitempty"`
+
+	// Group results by the provided values. Note that not all fields can be used to
+	// group the results.
+	Groups *[]string `json:"groups,omitempty" bson:"-" mapstructure:"groups,omitempty"`
+
+	// Limits the number of results. -1 means no limit.
+	Limit *int `json:"limit,omitempty" bson:"-" mapstructure:"limit,omitempty"`
+
+	// Name of the measurement.
+	Measurement *StatsQueryMeasurementValue `json:"measurement,omitempty" bson:"-" mapstructure:"measurement,omitempty"`
+
+	// Offsets the of results. -1 means no offset.
+	Offset *int `json:"offset,omitempty" bson:"-" mapstructure:"offset,omitempty"`
+
 	// Results contains the result of the query.
 	Results *[]*types.TimeSeriesQueryResults `json:"results,omitempty" bson:"-" mapstructure:"results,omitempty"`
 
@@ -377,6 +572,21 @@ func (o *SparseStatsQuery) Version() int {
 func (o *SparseStatsQuery) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewStatsQuery()
+	if o.Fields != nil {
+		out.Fields = *o.Fields
+	}
+	if o.Groups != nil {
+		out.Groups = *o.Groups
+	}
+	if o.Limit != nil {
+		out.Limit = *o.Limit
+	}
+	if o.Measurement != nil {
+		out.Measurement = *o.Measurement
+	}
+	if o.Offset != nil {
+		out.Offset = *o.Offset
+	}
 	if o.Results != nil {
 		out.Results = *o.Results
 	}
