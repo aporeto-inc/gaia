@@ -158,10 +158,6 @@ relations:
   get:
     description: Retrieves the services used by a processing unit.
 
-- rest_name: fileaccess
-  get:
-    description: Retrieves the file accesses done by the processing unit.
-
 - rest_name: renderedpolicy
   get:
     description: Retrieves the policies for the processing unit.
