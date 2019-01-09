@@ -278,20 +278,6 @@ relations:
   create:
     description: Creates a new external network.
 
-- rest_name: fileaccess
-  get:
-    description: Retrieves the list of file access according to parameters.
-    global_parameters:
-    - $timewindow
-    parameters:
-      required:
-      - - - puID
-      entries:
-      - name: puID
-        description: ID of the processing unit.
-        type: string
-        example_value: xxx-xxx-xxx-xxx
-
 - rest_name: fileaccesspolicy
   get:
     description: Retrieves the list of file access policies.

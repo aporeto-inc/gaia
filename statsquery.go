@@ -19,8 +19,8 @@ const (
 	// StatsQueryMeasurementEnforcers represents the value Enforcers.
 	StatsQueryMeasurementEnforcers StatsQueryMeasurementValue = "Enforcers"
 
-	// StatsQueryMeasurementEventlogs represents the value Eventlogs.
-	StatsQueryMeasurementEventlogs StatsQueryMeasurementValue = "Eventlogs"
+	// StatsQueryMeasurementEventLogs represents the value EventLogs.
+	StatsQueryMeasurementEventLogs StatsQueryMeasurementValue = "EventLogs"
 
 	// StatsQueryMeasurementFiles represents the value Files.
 	StatsQueryMeasurementFiles StatsQueryMeasurementValue = "Files"
@@ -282,7 +282,7 @@ func (o *StatsQuery) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "Eventlogs"}, false); err != nil {
+	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -379,7 +379,7 @@ group the results.`,
 		Type:           "integer",
 	},
 	"Measurement": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "Eventlogs"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs"},
 		ConvertedName:  "Measurement",
 		DefaultValue:   StatsQueryMeasurementFlows,
 		Description:    `Name of the measurement.`,
@@ -449,7 +449,7 @@ group the results.`,
 		Type:           "integer",
 	},
 	"measurement": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "Eventlogs"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs"},
 		ConvertedName:  "Measurement",
 		DefaultValue:   StatsQueryMeasurementFlows,
 		Description:    `Name of the measurement.`,

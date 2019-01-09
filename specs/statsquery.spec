@@ -50,7 +50,7 @@ attributes:
     - Audit
     - Enforcers
     - Files
-    - Eventlogs
+    - EventLogs
     default_value: Flows
 
   - name: offset
