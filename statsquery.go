@@ -105,6 +105,9 @@ type StatsQuery struct {
 	// be returned. It is also possible to use function like `+"`"+`sum(value)`+"`"+`.
 	Fields []string `json:"fields" bson:"-" mapstructure:"fields,omitempty"`
 
+	// Apply a filter to the query.
+	Filter string `json:"filter" bson:"-" mapstructure:"filter,omitempty"`
+
 	// Group results by the provided values. Note that not all fields can be used to
 	// group the results.
 	Groups []string `json:"groups" bson:"-" mapstructure:"groups,omitempty"`
@@ -187,6 +190,7 @@ func (o *StatsQuery) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		// nolint: goimports
 		return &SparseStatsQuery{
 			Fields:      &o.Fields,
+			Filter:      &o.Filter,
 			Groups:      &o.Groups,
 			Limit:       &o.Limit,
 			Measurement: &o.Measurement,
@@ -200,6 +204,8 @@ func (o *StatsQuery) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "fields":
 			sp.Fields = &(o.Fields)
+		case "filter":
+			sp.Filter = &(o.Filter)
 		case "groups":
 			sp.Groups = &(o.Groups)
 		case "limit":
@@ -225,6 +231,9 @@ func (o *StatsQuery) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparseStatsQuery)
 	if so.Fields != nil {
 		o.Fields = *so.Fields
+	}
+	if so.Filter != nil {
+		o.Filter = *so.Filter
 	}
 	if so.Groups != nil {
 		o.Groups = *so.Groups
@@ -313,6 +322,8 @@ func (o *StatsQuery) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "fields":
 		return o.Fields
+	case "filter":
+		return o.Filter
 	case "groups":
 		return o.Groups
 	case "limit":
@@ -339,6 +350,14 @@ be returned. It is also possible to use function like ` + "`" + `sum(value)` + "
 		Name:    "fields",
 		SubType: "string",
 		Type:    "list",
+	},
+	"Filter": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Filter",
+		Description:    `Apply a filter to the query.`,
+		Exposed:        true,
+		Name:           "filter",
+		Type:           "string",
 	},
 	"Groups": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -401,6 +420,14 @@ be returned. It is also possible to use function like ` + "`" + `sum(value)` + "
 		Name:    "fields",
 		SubType: "string",
 		Type:    "list",
+	},
+	"filter": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Filter",
+		Description:    `Apply a filter to the query.`,
+		Exposed:        true,
+		Name:           "filter",
+		Type:           "string",
 	},
 	"groups": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -519,6 +546,9 @@ type SparseStatsQuery struct {
 	// be returned. It is also possible to use function like `+"`"+`sum(value)`+"`"+`.
 	Fields *[]string `json:"fields,omitempty" bson:"-" mapstructure:"fields,omitempty"`
 
+	// Apply a filter to the query.
+	Filter *string `json:"filter,omitempty" bson:"-" mapstructure:"filter,omitempty"`
+
 	// Group results by the provided values. Note that not all fields can be used to
 	// group the results.
 	Groups *[]string `json:"groups,omitempty" bson:"-" mapstructure:"groups,omitempty"`
@@ -574,6 +604,9 @@ func (o *SparseStatsQuery) ToPlain() elemental.PlainIdentifiable {
 	out := NewStatsQuery()
 	if o.Fields != nil {
 		out.Fields = *o.Fields
+	}
+	if o.Filter != nil {
+		out.Filter = *o.Filter
 	}
 	if o.Groups != nil {
 		out.Groups = *o.Groups

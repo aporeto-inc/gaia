@@ -10068,6 +10068,10 @@ Sends a query on statistical data.
 List of fields to extract. If you don't pass anything, all available fields will
 be returned. It is also possible to use function like `sum(value)`.
 
+#### `filter (string)`
+
+Apply a filter to the query.
+
 #### `groups (list)`
 
 Group results by the provided values. Note that not all fields can be used to

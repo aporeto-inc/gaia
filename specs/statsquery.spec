@@ -22,6 +22,11 @@ attributes:
     exposed: true
     subtype: string
 
+  - name: filter
+    description: Apply a filter to the query.
+    type: string
+    exposed: true
+
   - name: groups
     description: |-
       Group results by the provided values. Note that not all fields can be used to
