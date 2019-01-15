@@ -618,7 +618,7 @@ func (o *Account) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidatePattern("name", o.Name, `^[^\*\=]*$`, true); err != nil {
+	if err := elemental.ValidatePattern("name", o.Name, `^[^\*\=]*$`, `must not contain any '*' or '='`, true); err != nil {
 		errors = append(errors, err)
 	}
 

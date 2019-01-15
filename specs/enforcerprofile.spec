@@ -57,6 +57,7 @@ attributes:
     exposed: true
     stored: true
     allowed_chars: ^[0-9]+[smh]$
+    allowed_chars_message: must be a valid duration like <n>s or <n>s or <n>h
     default_value: 15m
     orderable: true
 
@@ -66,6 +67,7 @@ attributes:
     exposed: true
     stored: true
     allowed_chars: ^[0-9]+[smh]$
+    allowed_chars_message: must be a valid duration like <n>s or <n>s or <n>h
     default_value: 5s
     orderable: true
 
@@ -115,6 +117,7 @@ attributes:
     exposed: true
     stored: true
     allowed_chars: ^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$
+    allowed_chars_message: must be a valid url or path starting by unix://
     default_value: unix:///var/run/docker.sock
     orderable: true
 
@@ -188,7 +191,7 @@ attributes:
     - KubeSquall
     - PodAtomic
     - PodContainers
-    default_value: KubeSquall
+    default_value: PodAtomic
     orderable: true
 
   - name: kubernetesSupportEnabled
@@ -227,6 +230,7 @@ attributes:
     exposed: true
     stored: true
     allowed_chars: ^[0-9]+[smh]$
+    allowed_chars_message: must be a valid duration like <n>s or <n>s or <n>h
     default_value: 10m
     orderable: true
 
@@ -240,6 +244,7 @@ attributes:
     exposed: true
     stored: true
     allowed_chars: ^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$
+    allowed_chars_message: must be a valid url or path starting by unix://
     default_value: unix:///var/run/aporeto.sock
     orderable: true
 

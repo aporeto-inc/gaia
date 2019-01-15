@@ -37,7 +37,6 @@ var (
 		"export":                       ExportIdentity,
 		"externalnetwork":              ExternalNetworkIdentity,
 		"externalservice":              ExternalServiceIdentity,
-		"fileaccess":                   FileAccessIdentity,
 		"fileaccesspolicy":             FileAccessPolicyIdentity,
 		"fileaccessreport":             FileAccessReportIdentity,
 		"filepath":                     FilePathIdentity,
@@ -85,6 +84,7 @@ var (
 		"service":              ServiceIdentity,
 		"servicedependency":    ServiceDependencyIdentity,
 		"squalltag":            SquallTagIdentity,
+		"statsinfo":            StatsInfoIdentity,
 		"statsquery":           StatsQueryIdentity,
 		"suggestedpolicy":      SuggestedPolicyIdentity,
 		"tabulation":           TabulationIdentity,
@@ -133,7 +133,6 @@ var (
 		"export":                         ExportIdentity,
 		"externalnetworks":               ExternalNetworkIdentity,
 		"externalservices":               ExternalServiceIdentity,
-		"fileaccesses":                   FileAccessIdentity,
 		"fileaccesspolicies":             FileAccessPolicyIdentity,
 		"fileaccessreports":              FileAccessReportIdentity,
 		"filepaths":                      FilePathIdentity,
@@ -181,6 +180,7 @@ var (
 		"services":              ServiceIdentity,
 		"servicedependencies":   ServiceDependencyIdentity,
 		"squalltags":            SquallTagIdentity,
+		"statsinfo":             StatsInfoIdentity,
 		"statsqueries":          StatsQueryIdentity,
 		"suggestedpolicies":     SuggestedPolicyIdentity,
 		"tabulations":           TabulationIdentity,
@@ -254,6 +254,7 @@ var (
 		"srv":          ServiceIdentity,
 		"srvdep":       ServiceDependencyIdentity,
 		"srvdeps":      ServiceDependencyIdentity,
+		"si":           StatsInfoIdentity,
 		"sq":           StatsQueryIdentity,
 		"sugpol":       SuggestedPolicyIdentity,
 		"sugpols":      SuggestedPolicyIdentity,
@@ -355,7 +356,6 @@ var (
 			[]string{"namespace", "archived"},
 		},
 		"externalservice":  nil,
-		"fileaccess":       nil,
 		"fileaccesspolicy": nil,
 		"fileaccessreport": nil,
 		"filepath": [][]string{
@@ -474,6 +474,7 @@ var (
 		},
 		"servicedependency": nil,
 		"squalltag":         nil,
+		"statsinfo":         nil,
 		"statsquery":        nil,
 		"suggestedpolicy":   nil,
 		"tabulation":        nil,
@@ -592,8 +593,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewExternalNetwork()
 	case ExternalServiceIdentity:
 		return NewExternalService()
-	case FileAccessIdentity:
-		return NewFileAccess()
 	case FileAccessPolicyIdentity:
 		return NewFileAccessPolicy()
 	case FileAccessReportIdentity:
@@ -682,6 +681,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewServiceDependency()
 	case SquallTagIdentity:
 		return NewSquallTag()
+	case StatsInfoIdentity:
+		return NewStatsInfo()
 	case StatsQueryIdentity:
 		return NewStatsQuery()
 	case SuggestedPolicyIdentity:
@@ -777,8 +778,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseExternalNetwork()
 	case ExternalServiceIdentity:
 		return NewSparseExternalService()
-	case FileAccessIdentity:
-		return NewSparseFileAccess()
 	case FileAccessPolicyIdentity:
 		return NewSparseFileAccessPolicy()
 	case FileAccessReportIdentity:
@@ -865,6 +864,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseServiceDependency()
 	case SquallTagIdentity:
 		return NewSparseSquallTag()
+	case StatsInfoIdentity:
+		return NewSparseStatsInfo()
 	case StatsQueryIdentity:
 		return NewSparseStatsQuery()
 	case SuggestedPolicyIdentity:
@@ -970,8 +971,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ExternalNetworksList{}
 	case ExternalServiceIdentity:
 		return &ExternalServicesList{}
-	case FileAccessIdentity:
-		return &FileAccessList{}
 	case FileAccessPolicyIdentity:
 		return &FileAccessPoliciesList{}
 	case FileAccessReportIdentity:
@@ -1058,6 +1057,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ServiceDependenciesList{}
 	case SquallTagIdentity:
 		return &SquallTagsList{}
+	case StatsInfoIdentity:
+		return &StatsInfosList{}
 	case StatsQueryIdentity:
 		return &StatsQueriesList{}
 	case SuggestedPolicyIdentity:
@@ -1153,8 +1154,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseExternalNetworksList{}
 	case ExternalServiceIdentity:
 		return &SparseExternalServicesList{}
-	case FileAccessIdentity:
-		return &SparseFileAccessList{}
 	case FileAccessPolicyIdentity:
 		return &SparseFileAccessPoliciesList{}
 	case FileAccessReportIdentity:
@@ -1241,6 +1240,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseServiceDependenciesList{}
 	case SquallTagIdentity:
 		return &SparseSquallTagsList{}
+	case StatsInfoIdentity:
+		return &SparseStatsInfosList{}
 	case StatsQueryIdentity:
 		return &SparseStatsQueriesList{}
 	case SuggestedPolicyIdentity:
@@ -1320,7 +1321,6 @@ func AllIdentities() []elemental.Identity {
 		ExportIdentity,
 		ExternalNetworkIdentity,
 		ExternalServiceIdentity,
-		FileAccessIdentity,
 		FileAccessPolicyIdentity,
 		FileAccessReportIdentity,
 		FilePathIdentity,
@@ -1365,6 +1365,7 @@ func AllIdentities() []elemental.Identity {
 		ServiceIdentity,
 		ServiceDependencyIdentity,
 		SquallTagIdentity,
+		StatsInfoIdentity,
 		StatsQueryIdentity,
 		SuggestedPolicyIdentity,
 		TabulationIdentity,
@@ -1481,8 +1482,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"extsrv",
 			"extsrvs",
 		}
-	case FileAccessIdentity:
-		return []string{}
 	case FileAccessPolicyIdentity:
 		return []string{}
 	case FileAccessReportIdentity:
@@ -1623,6 +1622,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case SquallTagIdentity:
 		return []string{}
+	case StatsInfoIdentity:
+		return []string{
+			"si",
+		}
 	case StatsQueryIdentity:
 		return []string{
 			"sq",

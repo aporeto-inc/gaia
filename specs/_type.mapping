@@ -322,6 +322,11 @@ selectors_list:
   elemental:
     type: map[string]string
 
+stats_fields_info:
+  elemental:
+    type: map[string]string
+    init: map[string]string{}
+
 syscall_action:
   elemental:
     type: types.SyscallEnforcementAction

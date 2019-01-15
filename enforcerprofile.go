@@ -284,7 +284,7 @@ func NewEnforcerProfile() *EnforcerProfile {
 		ProxyListenAddress:            "unix:///var/run/aporeto.sock",
 		PUBookkeepingInterval:         "15m",
 		ReceiverNumberOfQueues:        4,
-		KubernetesMetadataExtractor:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
+		KubernetesMetadataExtractor:   EnforcerProfileKubernetesMetadataExtractorPodAtomic,
 		RemoteEnforcerEnabled:         true,
 		MetadataExtractor:             EnforcerProfileMetadataExtractorDocker,
 		ReceiverQueueSize:             500,
@@ -806,11 +806,11 @@ func (o *EnforcerProfile) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("PUBookkeepingInterval", o.PUBookkeepingInterval, `^[0-9]+[smh]$`, false); err != nil {
+	if err := elemental.ValidatePattern("PUBookkeepingInterval", o.PUBookkeepingInterval, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("PUHeartbeatInterval", o.PUHeartbeatInterval, `^[0-9]+[smh]$`, false); err != nil {
+	if err := elemental.ValidatePattern("PUHeartbeatInterval", o.PUHeartbeatInterval, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -830,7 +830,7 @@ func (o *EnforcerProfile) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("dockerSocketAddress", o.DockerSocketAddress, `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`, false); err != nil {
+	if err := elemental.ValidatePattern("dockerSocketAddress", o.DockerSocketAddress, `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`, `must be a valid url or path starting by unix://`, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -860,11 +860,11 @@ func (o *EnforcerProfile) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("policySynchronizationInterval", o.PolicySynchronizationInterval, `^[0-9]+[smh]$`, false); err != nil {
+	if err := elemental.ValidatePattern("policySynchronizationInterval", o.PolicySynchronizationInterval, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("proxyListenAddress", o.ProxyListenAddress, `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`, false); err != nil {
+	if err := elemental.ValidatePattern("proxyListenAddress", o.ProxyListenAddress, `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`, `must be a valid url or path starting by unix://`, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -1284,7 +1284,7 @@ there are policy failures.`,
 	"KubernetesMetadataExtractor": elemental.AttributeSpecification{
 		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
 		ConvertedName:  "KubernetesMetadataExtractor",
-		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
+		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorPodAtomic,
 		Description: `Select which metadata extractor to use to process new processing units from
 Kubernetes.`,
 		Exposed:   true,
@@ -1826,7 +1826,7 @@ there are policy failures.`,
 	"kubernetesmetadataextractor": elemental.AttributeSpecification{
 		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
 		ConvertedName:  "KubernetesMetadataExtractor",
-		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
+		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorPodAtomic,
 		Description: `Select which metadata extractor to use to process new processing units from
 Kubernetes.`,
 		Exposed:   true,

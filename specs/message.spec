@@ -77,3 +77,4 @@ attributes:
     exposed: true
     stored: true
     allowed_chars: ^[0-9]+[smh]$
+    allowed_chars_message: must be a valid duration like <n>s or <n>s or <n>h

@@ -18,6 +18,8 @@ attributes:
     stored: true
     required: true
     allowed_chars: ^[a-zA-Z0-9-_/*#&@\+\$~:]+$
+    allowed_chars_message: must be an alpha numerical character or '-', '_', '/',
+      '*', '#', '&', '@', '_', '$' ~ or ':'
     example_value: email
 
   - name: targetHTTPHeader
@@ -27,4 +29,6 @@ attributes:
     stored: true
     required: true
     allowed_chars: ^[a-zA-Z0-9-_/*#&@\+\$~:]+$
+    allowed_chars_message: must be an alpha numerical character or '-', '_', '/',
+      '*', '#', '&', '@', '_', '$' ~ or ':'
     example_value: X-Username

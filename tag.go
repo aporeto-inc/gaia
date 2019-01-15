@@ -236,7 +236,7 @@ func (o *Tag) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidatePattern("value", o.Value, `^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@~<>#/-]+$`, true); err != nil {
+	if err := elemental.ValidatePattern("value", o.Value, `^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@~<>#/-]+$`, `must contain at least one '=' symbol separating two valid words.`, true); err != nil {
 		errors = append(errors, err)
 	}
 

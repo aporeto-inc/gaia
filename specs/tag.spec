@@ -42,5 +42,7 @@ attributes:
     required: true
     creation_only: true
     allowed_chars: ^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@~<>#/-]+$
+    allowed_chars_message: must contain at least one '=' symbol separating two valid
+      words.
     example_value: key=value
     primary_key: true

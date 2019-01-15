@@ -514,7 +514,7 @@ func (o *Message) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("validity", o.Validity, `^[0-9]+[smh]$`, false); err != nil {
+	if err := elemental.ValidatePattern("validity", o.Validity, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
 		errors = append(errors, err)
 	}
 
