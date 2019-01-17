@@ -193,7 +193,7 @@ func NewK8SCluster() *K8SCluster {
 	return &K8SCluster{
 		ModelVersion:      1,
 		Metadata:          []string{},
-		ActivationType:    K8SClusterActivationTypeKubeSquall,
+		ActivationType:    K8SClusterActivationTypePodAtomic,
 		Annotations:       map[string][]string{},
 		AssociatedTags:    []string{},
 		NetworkPolicyType: K8SClusterNetworkPolicyTypeKubernetes,
@@ -702,7 +702,7 @@ var K8SClusterAttributesMap = map[string]elemental.AttributeSpecification{
 	"ActivationType": elemental.AttributeSpecification{
 		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
 		ConvertedName:  "ActivationType",
-		DefaultValue:   K8SClusterActivationTypeKubeSquall,
+		DefaultValue:   K8SClusterActivationTypePodAtomic,
 		Description:    `Defines the mode of activation on the KubernetesCluster.`,
 		Exposed:        true,
 		Name:           "activationType",
@@ -976,7 +976,7 @@ var K8SClusterLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 	"activationtype": elemental.AttributeSpecification{
 		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
 		ConvertedName:  "ActivationType",
-		DefaultValue:   K8SClusterActivationTypeKubeSquall,
+		DefaultValue:   K8SClusterActivationTypePodAtomic,
 		Description:    `Defines the mode of activation on the KubernetesCluster.`,
 		Exposed:        true,
 		Name:           "activationType",

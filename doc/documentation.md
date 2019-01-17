@@ -3400,7 +3400,7 @@ Kubernetes.
 | Characteristics | Value                                  |
 | -               | -:                                     |
 | Allowed Value   | `KubeSquall, PodAtomic, PodContainers` |
-| Default         | `"KubeSquall"`                         |
+| Default         | `"PodAtomic"`                         |
 | Orderable       | `true`                                 |
 
 #### `kubernetesSupportEnabled (boolean)`
@@ -6581,7 +6581,7 @@ Defines the mode of activation on the KubernetesCluster.
 | Characteristics | Value                                  |
 | -               | -:                                     |
 | Allowed Value   | `KubeSquall, PodAtomic, PodContainers` |
-| Default         | `"KubeSquall"`                         |
+| Default         | `"PodAtomic"`                         |
 | Orderable       | `true`                                 |
 
 #### `adminEmail (string)`

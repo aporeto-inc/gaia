@@ -284,7 +284,7 @@ func NewEnforcerProfile() *EnforcerProfile {
 		ProxyListenAddress:            "unix:///var/run/aporeto.sock",
 		PUBookkeepingInterval:         "15m",
 		ReceiverNumberOfQueues:        4,
-		KubernetesMetadataExtractor:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
+		KubernetesMetadataExtractor:   EnforcerProfileKubernetesMetadataExtractorPodAtomic,
 		RemoteEnforcerEnabled:         true,
 		MetadataExtractor:             EnforcerProfileMetadataExtractorDocker,
 		ReceiverQueueSize:             500,
@@ -1284,7 +1284,7 @@ there are policy failures.`,
 	"KubernetesMetadataExtractor": elemental.AttributeSpecification{
 		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
 		ConvertedName:  "KubernetesMetadataExtractor",
-		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
+		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorPodAtomic,
 		Description: `Select which metadata extractor to use to process new processing units from
 Kubernetes.`,
 		Exposed:   true,
@@ -1826,7 +1826,7 @@ there are policy failures.`,
 	"kubernetesmetadataextractor": elemental.AttributeSpecification{
 		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
 		ConvertedName:  "KubernetesMetadataExtractor",
-		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorKubeSquall,
+		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorPodAtomic,
 		Description: `Select which metadata extractor to use to process new processing units from
 Kubernetes.`,
 		Exposed:   true,

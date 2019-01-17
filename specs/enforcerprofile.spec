@@ -188,7 +188,7 @@ attributes:
     - KubeSquall
     - PodAtomic
     - PodContainers
-    default_value: KubeSquall
+    default_value: PodAtomic
     orderable: true
 
   - name: kubernetesSupportEnabled
