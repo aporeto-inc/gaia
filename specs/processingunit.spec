@@ -51,6 +51,22 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: collectInfo
+    description: |-
+      CollectInfo indicates to the enforcer it needs to collect information for this
+      PU.
+    type: boolean
+    exposed: true
+    stored: true
+
+  - name: collectedInfo
+    description: CollectedInfo represents the latest info collected by the enforcer
+      for this PU.
+    type: external
+    exposed: true
+    subtype: collected_info
+    stored: true
+
   - name: enforcementStatus
     description: EnforcementStatus communicates the state of the enforcer for that
       PU.
@@ -135,6 +151,13 @@ attributes:
     - Terminated
     default_value: Initialized
     filterable: true
+
+  - name: tracing
+    description: Tracing indicates if this PU must be placed in tracing mode.
+    type: ref
+    exposed: true
+    subtype: tracemode
+    stored: true
 
   - name: type
     description: Type of the container ecosystem.

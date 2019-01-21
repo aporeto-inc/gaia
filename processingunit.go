@@ -149,6 +149,13 @@ type ProcessingUnit struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// CollectInfo indicates to the enforcer it needs to collect information for this
+	// PU.
+	CollectInfo bool `json:"collectInfo" bson:"collectinfo" mapstructure:"collectInfo,omitempty"`
+
+	// CollectedInfo represents the latest info collected by the enforcer for this PU.
+	CollectedInfo map[string]string `json:"collectedInfo" bson:"collectedinfo" mapstructure:"collectedInfo,omitempty"`
+
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -201,6 +208,9 @@ type ProcessingUnit struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
+	// Tracing indicates if this PU must be placed in tracing mode.
+	Tracing TraceMode `json:"tracing" bson:"tracing" mapstructure:"tracing,omitempty"`
+
 	// Type of the container ecosystem.
 	Type ProcessingUnitTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
@@ -226,12 +236,13 @@ func NewProcessingUnit() *ProcessingUnit {
 	return &ProcessingUnit{
 		ModelVersion:      1,
 		Annotations:       map[string][]string{},
-		EnforcementStatus: ProcessingUnitEnforcementStatusInactive,
 		AssociatedTags:    []string{},
-		Metadata:          []string{},
-		NetworkServices:   []*ProcessingUnitService{},
+		EnforcementStatus: ProcessingUnitEnforcementStatusInactive,
 		NormalizedTags:    []string{},
 		OperationalStatus: ProcessingUnitOperationalStatusInitialized,
+		NetworkServices:   []*ProcessingUnitService{},
+		Metadata:          []string{},
+		Tracing:           TraceMode{},
 	}
 }
 
@@ -443,6 +454,8 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			Annotations:       &o.Annotations,
 			Archived:          &o.Archived,
 			AssociatedTags:    &o.AssociatedTags,
+			CollectInfo:       &o.CollectInfo,
+			CollectedInfo:     &o.CollectedInfo,
 			CreateTime:        &o.CreateTime,
 			Description:       &o.Description,
 			EnforcementStatus: &o.EnforcementStatus,
@@ -459,6 +472,7 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			NormalizedTags:    &o.NormalizedTags,
 			OperationalStatus: &o.OperationalStatus,
 			Protected:         &o.Protected,
+			Tracing:           &o.Tracing,
 			Type:              &o.Type,
 			UpdateTime:        &o.UpdateTime,
 			ZHash:             &o.ZHash,
@@ -477,6 +491,10 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.Archived = &(o.Archived)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
+		case "collectInfo":
+			sp.CollectInfo = &(o.CollectInfo)
+		case "collectedInfo":
+			sp.CollectedInfo = &(o.CollectedInfo)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -509,6 +527,8 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.OperationalStatus = &(o.OperationalStatus)
 		case "protected":
 			sp.Protected = &(o.Protected)
+		case "tracing":
+			sp.Tracing = &(o.Tracing)
 		case "type":
 			sp.Type = &(o.Type)
 		case "updateTime":
@@ -541,6 +561,12 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.CollectInfo != nil {
+		o.CollectInfo = *so.CollectInfo
+	}
+	if so.CollectedInfo != nil {
+		o.CollectedInfo = *so.CollectedInfo
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -589,6 +615,9 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
+	}
+	if so.Tracing != nil {
+		o.Tracing = *so.Tracing
 	}
 	if so.Type != nil {
 		o.Type = *so.Type
@@ -664,6 +693,10 @@ func (o *ProcessingUnit) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := o.Tracing.Validate(); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Docker", "LinuxService", "RKT", "User", "APIGateway"}, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -710,6 +743,10 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.Archived
 	case "associatedTags":
 		return o.AssociatedTags
+	case "collectInfo":
+		return o.CollectInfo
+	case "collectedInfo":
+		return o.CollectedInfo
 	case "createTime":
 		return o.CreateTime
 	case "description":
@@ -742,6 +779,8 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.OperationalStatus
 	case "protected":
 		return o.Protected
+	case "tracing":
+		return o.Tracing
 	case "type":
 		return o.Type
 	case "updateTime":
@@ -804,6 +843,26 @@ var ProcessingUnitAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		SubType:        "tags_list",
+		Type:           "external",
+	},
+	"CollectInfo": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CollectInfo",
+		Description: `CollectInfo indicates to the enforcer it needs to collect information for this
+PU.`,
+		Exposed: true,
+		Name:    "collectInfo",
+		Stored:  true,
+		Type:    "boolean",
+	},
+	"CollectedInfo": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CollectedInfo",
+		Description:    `CollectedInfo represents the latest info collected by the enforcer for this PU.`,
+		Exposed:        true,
+		Name:           "collectedInfo",
+		Stored:         true,
+		SubType:        "collected_info",
 		Type:           "external",
 	},
 	"CreateTime": elemental.AttributeSpecification{
@@ -1001,6 +1060,16 @@ or by exposing the ports in a container manifest.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"Tracing": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Tracing",
+		Description:    `Tracing indicates if this PU must be placed in tracing mode.`,
+		Exposed:        true,
+		Name:           "tracing",
+		Stored:         true,
+		SubType:        "tracemode",
+		Type:           "ref",
+	},
 	"Type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Docker", "LinuxService", "RKT", "User", "APIGateway"},
 		ConvertedName:  "Type",
@@ -1104,6 +1173,26 @@ var ProcessingUnitLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Setter:         true,
 		Stored:         true,
 		SubType:        "tags_list",
+		Type:           "external",
+	},
+	"collectinfo": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CollectInfo",
+		Description: `CollectInfo indicates to the enforcer it needs to collect information for this
+PU.`,
+		Exposed: true,
+		Name:    "collectInfo",
+		Stored:  true,
+		Type:    "boolean",
+	},
+	"collectedinfo": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CollectedInfo",
+		Description:    `CollectedInfo represents the latest info collected by the enforcer for this PU.`,
+		Exposed:        true,
+		Name:           "collectedInfo",
+		Stored:         true,
+		SubType:        "collected_info",
 		Type:           "external",
 	},
 	"createtime": elemental.AttributeSpecification{
@@ -1301,6 +1390,16 @@ or by exposing the ports in a container manifest.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"tracing": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Tracing",
+		Description:    `Tracing indicates if this PU must be placed in tracing mode.`,
+		Exposed:        true,
+		Name:           "tracing",
+		Stored:         true,
+		SubType:        "tracemode",
+		Type:           "ref",
+	},
 	"type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Docker", "LinuxService", "RKT", "User", "APIGateway"},
 		ConvertedName:  "Type",
@@ -1432,6 +1531,13 @@ type SparseProcessingUnit struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// CollectInfo indicates to the enforcer it needs to collect information for this
+	// PU.
+	CollectInfo *bool `json:"collectInfo,omitempty" bson:"collectinfo" mapstructure:"collectInfo,omitempty"`
+
+	// CollectedInfo represents the latest info collected by the enforcer for this PU.
+	CollectedInfo *map[string]string `json:"collectedInfo,omitempty" bson:"collectedinfo" mapstructure:"collectedInfo,omitempty"`
+
 	// CreatedTime is the time at which the object was created.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -1483,6 +1589,9 @@ type SparseProcessingUnit struct {
 
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// Tracing indicates if this PU must be placed in tracing mode.
+	Tracing *TraceMode `json:"tracing,omitempty" bson:"tracing" mapstructure:"tracing,omitempty"`
 
 	// Type of the container ecosystem.
 	Type *ProcessingUnitTypeValue `json:"type,omitempty" bson:"type" mapstructure:"type,omitempty"`
@@ -1551,6 +1660,12 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
+	if o.CollectInfo != nil {
+		out.CollectInfo = *o.CollectInfo
+	}
+	if o.CollectedInfo != nil {
+		out.CollectedInfo = *o.CollectedInfo
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1598,6 +1713,9 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
+	}
+	if o.Tracing != nil {
+		out.Tracing = *o.Tracing
 	}
 	if o.Type != nil {
 		out.Type = *o.Type

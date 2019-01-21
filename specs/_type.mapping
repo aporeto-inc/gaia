@@ -130,6 +130,11 @@ elemental_operation:
   elemental:
     type: elemental.Operation
 
+enforcer_claims:
+  elemental:
+    type: map[string]string
+    init: map[string]string{}
+
 enforcerprofiles_list:
   elemental:
     type: EnforcerProfilesList

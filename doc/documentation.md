@@ -32,6 +32,7 @@
 | [EnforcerProfile](#enforcerprofile)                           | Allows to create reusable configuration profile for your enforcers. Enforcer        |
 | [EnforcerProfileMappingPolicy](#enforcerprofilemappingpolicy) | A Enforcer Profile Mapping Policy will tell what Enforcer Profile should be used... |
 | [EnforcerReport](#enforcerreport)                             | Post a new enforcer statistics report.                                              |
+| [EnforcerTraceReport](#enforcertracereport)                   | Post a new enforcer trace that determines how packets are.                          |
 | [EventLog](#eventlog)                                         | This api allows to report various event on any objects.                             |
 | [Export](#export)                                             | Export the policies and related objects in a given namespace.                       |
 | [ExternalNetwork](#externalnetwork)                           | An External Network represents a random network or ip that is not managed by the... |
@@ -62,6 +63,7 @@
 | [NamespaceMappingPolicy](#namespacemappingpolicy)             | A Namespace Mapping Policy defines in which namespace a Processing Unit should      |
 | [NetworkAccessPolicy](#networkaccesspolicy)                   | Allows to define networking policies to allow or prevent processing units           |
 | [OIDCProvider](#oidcprovider)                                 | Allows to declare a generic OpenID Connect provider that can be used in exchange... |
+| [PacketReport](#packetreport)                                 | Post a new packet tracing report.                                                   |
 | [PasswordReset](#passwordreset)                               | Used to reset an account password.                                                  |
 | [Plan](#plan)                                                 | Plan contains the various billing plans available.                                  |
 | [Poke](#poke)                                                 | When available, poke can be used to update various information about the parent.... |
@@ -87,6 +89,8 @@
 | [Tag](#tag)                                                   | A tag is a string in the form of "key=value" that can applied to all objects in     |
 | [TagValue](#tagvalue)                                         | Represents all values associated to tag key.                                        |
 | [TokenScopePolicy](#tokenscopepolicy)                         | The TokenScopePolicy defines a set of policies that allow customization of the      |
+| [TraceMode](#tracemode)                                       | TraceMode is the tracing mode that must be applied to a PU.                         |
+| [TraceRecord](#tracerecord)                                   | Represents a single trace record from the enforcer.                                 |
 | [Trigger](#trigger)                                           | Trigger can be used to remotely trigger an automation.                              |
 | [Vulnerability](#vulnerability)                               | A vulnerabily represents a particular CVE.                                          |
 
@@ -3915,6 +3919,59 @@ Date of the report.
 | -               | -:     |
 | Required        | `true` |
 
+## EnforcerTraceReport
+
+Post a new enforcer trace that determines how packets are.
+
+### Example
+
+```json
+{
+  "enforcerID": "xxx-xxx-xxx",
+  "namespace": "xxx-xxx-xxx",
+  "puID": "xxx-xxx-xxx"
+}
+```
+
+### Relations
+
+#### `GET /enforcertracereports`
+
+Retrieves an enforcer trace report.
+
+#### `POST /enforcertracereports`
+
+Create an enforcer trace report.
+
+### Attributes
+
+#### `enforcerID (string)`
+
+EnforcerID of the enforcer where the trace was collected.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+| Filterable      | `true` |
+
+#### `namespace (string)`
+
+Namespace of the PU where the trace was collected.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+| Filterable      | `true` |
+
+#### `puID (string)`
+
+ID of the pu where the trace was collected.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+| Filterable      | `true` |
+
 ## EventLog
 
 This api allows to report various event on any objects.
@@ -7641,6 +7698,129 @@ Last update date of the object.
 | Read only       | `true` |
 | Orderable       | `true` |
 
+## PacketReport
+
+Post a new packet tracing report.
+
+### Example
+
+```json
+{
+  "DstPort": 11000,
+  "ID": 12333,
+  "SrcPort": 80,
+  "encrypt": false,
+  "event": "Rcv",
+  "length": 94,
+  "mark": 123123,
+  "namespace": "/my/namespace",
+  "protocol": 6,
+  "puID": "xxx-xxx-xxx",
+  "timestamp": "2018-06-14T23:10:46.420397985Z"
+}
+```
+
+### Relations
+
+#### `GET /packetreports`
+
+Retrieves a packet trace report.
+
+#### `POST /packetreports`
+
+Create a packet trace report.
+
+### Attributes
+
+#### `DstPort (integer)`
+
+DstPort is the destination port of the packet.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Max length      | `65536` |
+
+#### `SrcPort (integer)`
+
+SrcPort is the source port of the packet.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Max length      | `65536` |
+
+#### `destinationIP (string)`
+
+Type of the destination.
+
+#### `dropReason (string)`
+
+This field is only set if 'action' is set to 'Reject' and specifies the reason
+for the rejection.
+
+#### `encrypt (boolean)`
+
+Encrypt indicates that the packet was encrypted.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `event (enum)`
+
+Event is the event that triggered the report.
+
+| Characteristics | Value            |
+| -               | -:               |
+| Allowed Value   | `Rcv, Txt, Drop` |
+| Required        | `true`           |
+
+#### `namespace (string)`
+
+Namespace of the PU reporting the packet.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Filterable      | `true` |
+
+#### `protocol (integer)`
+
+Protocol number.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `255`  |
+| Required        | `true` |
+
+#### `puID (string)`
+
+ID of the PU reporting the packet.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+| Filterable      | `true` |
+
+#### `sourceIP (string)`
+
+Type of the source.
+
+#### `timestamp (time)`
+
+Date of the report.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `triremePacket (boolean)`
+
+TriremePacket is set if the packet arrived with the Trireme options.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Default         | `true` |
+| Required        | `true` |
+
 ## PasswordReset
 
 Used to reset an account password.
@@ -8257,6 +8437,15 @@ Annotation stores additional information about an entity.
 
 AssociatedTags are the list of tags attached to an entity.
 
+#### `collectInfo (boolean)`
+
+CollectInfo indicates to the enforcer it needs to collect information for this
+PU.
+
+#### `collectedInfo (external:collected_info)`
+
+CollectedInfo represents the latest info collected by the enforcer for this PU.
+
 #### `createTime (time)`
 
 CreatedTime is the time at which the object was created.
@@ -8393,6 +8582,10 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
+
+#### `tracing (ref)`
+
+Tracing indicates if this PU must be placed in tracing mode.
 
 #### `type (enum)`
 
@@ -10478,6 +10671,179 @@ UpdateTime is the time at which an entity was updated.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
+
+## TraceMode
+
+TraceMode is the tracing mode that must be applied to a PU.
+
+### Attributes
+
+#### `ApplicationConnections (boolean)`
+
+ApplicationConnections instructs the enforcer to send records for all
+application initiated connections.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Default         | `false` |
+
+#### `IPTables (boolean)`
+
+IPTables instructs the enforcers to provide an iptables trace for a PU.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Default         | `false` |
+
+#### `NetworkConnections (boolean)`
+
+NetworkConnections instructs the enforcer to send records for all network
+initiated connections.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Default         | `false` |
+
+#### `TimeInterval (string)`
+
+TimeInterval determins the length of the time interval that the trace must be
+enabled.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Default         | `"10s"` |
+
+## TraceRecord
+
+Represents a single trace record from the enforcer.
+
+### Example
+
+```json
+{
+  "ID": 10,
+  "Length": 98,
+  "TTL": 64,
+  "chain": "PREROUTING",
+  "destIP": "10.1.1.30",
+  "destInterface": "en0",
+  "dstPort": 80,
+  "policy": 10,
+  "protocol": 80,
+  "srcIP": "10.1.1.30",
+  "srcInterface": "en0",
+  "srcPort": 80,
+  "table": "raw"
+}
+```
+
+### Attributes
+
+#### `ID (integer)`
+
+ID is the packet ID.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+| Filterable      | `true` |
+
+#### `Length (integer)`
+
+Length of the observed packet.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Max length      | `65536` |
+| Required        | `true`  |
+
+#### `TTL (integer)`
+
+TTL is the TTL value of the packet.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `255`  |
+| Required        | `true` |
+
+#### `chain (string)`
+
+Chain is the chain that the trace was collected from.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `destIP (string)`
+
+DestIP is the destination IP.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `destInterface (string)`
+
+DestInterface is the destination interface of the packet.
+
+#### `dstPort (integer)`
+
+DstPort is the destination Port.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Max length      | `65536` |
+| Required        | `true`  |
+
+#### `policy (integer)`
+
+Policy is the index of the iptables entry that was hit.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `protocol (integer)`
+
+Protocol is the protocol of the packets.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Max length      | `65536` |
+| Required        | `true`  |
+
+#### `srcIP (string)`
+
+SrcIP is the source IP.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `srcInterface (string)`
+
+SrcInterface is the source interface of the packet.
+
+#### `srcPort (integer)`
+
+SrcPort is the source Port.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Max length      | `65536` |
+| Required        | `true`  |
+
+#### `table (string)`
+
+Table is the iptable that the trace was collected.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `timestamp (time)`
+
+Date of the report.
 
 ## Trigger
 
