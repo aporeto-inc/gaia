@@ -9,6 +9,20 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// EnforcerProfileKubernetesMetadataExtractorValue represents the possible values for attribute "kubernetesMetadataExtractor".
+type EnforcerProfileKubernetesMetadataExtractorValue string
+
+const (
+	// EnforcerProfileKubernetesMetadataExtractorKubeSquall represents the value KubeSquall.
+	EnforcerProfileKubernetesMetadataExtractorKubeSquall EnforcerProfileKubernetesMetadataExtractorValue = "KubeSquall"
+
+	// EnforcerProfileKubernetesMetadataExtractorPodAtomic represents the value PodAtomic.
+	EnforcerProfileKubernetesMetadataExtractorPodAtomic EnforcerProfileKubernetesMetadataExtractorValue = "PodAtomic"
+
+	// EnforcerProfileKubernetesMetadataExtractorPodContainers represents the value PodContainers.
+	EnforcerProfileKubernetesMetadataExtractorPodContainers EnforcerProfileKubernetesMetadataExtractorValue = "PodContainers"
+)
+
 // EnforcerProfileMetadataExtractorValue represents the possible values for attribute "metadataExtractor".
 type EnforcerProfileMetadataExtractorValue string
 
@@ -19,11 +33,8 @@ const (
 	// EnforcerProfileMetadataExtractorECS represents the value ECS.
 	EnforcerProfileMetadataExtractorECS EnforcerProfileMetadataExtractorValue = "ECS"
 
-	// EnforcerProfileMetadataExtractorKubernetesPUperContainer represents the value KubernetesPUperContainer.
-	EnforcerProfileMetadataExtractorKubernetesPUperContainer EnforcerProfileMetadataExtractorValue = "KubernetesPUperContainer"
-
-	// EnforcerProfileMetadataExtractorKubernetesPUperPOD represents the value KubernetesPUperPOD.
-	EnforcerProfileMetadataExtractorKubernetesPUperPOD EnforcerProfileMetadataExtractorValue = "KubernetesPUperPOD"
+	// EnforcerProfileMetadataExtractorKubernetes represents the value Kubernetes.
+	EnforcerProfileMetadataExtractorKubernetes EnforcerProfileMetadataExtractorValue = "Kubernetes"
 )
 
 // EnforcerProfileIdentity represents the Identity of the object.
@@ -103,6 +114,9 @@ type EnforcerProfile struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
+	// IptablesMarkValue is the mark value to be used in an iptables implementation.
+	IPTablesMarkValue int `json:"IPTablesMarkValue" bson:"iptablesmarkvalue" mapstructure:"IPTablesMarkValue,omitempty"`
+
 	// PUBookkeepingInterval configures how often the PU will be synchronized.
 	PUBookkeepingInterval string `json:"PUBookkeepingInterval" bson:"pubookkeepinginterval" mapstructure:"PUBookkeepingInterval,omitempty"`
 
@@ -112,14 +126,32 @@ type EnforcerProfile struct {
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
+	// Port used by aporeto application proxy.
+	ApplicationProxyPort int `json:"applicationProxyPort" bson:"applicationproxyport" mapstructure:"applicationProxyPort,omitempty"`
+
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// AuditProfileSelectors is the list of tags (key/value pairs) that define the
+	// audit policies that must be implemented by this enforcer. The enforcer will
+	// implement all policies that match any of these tags.
+	AuditProfileSelectors []string `json:"auditProfileSelectors" bson:"auditprofileselectors" mapstructure:"auditProfileSelectors,omitempty"`
+
+	// AuditProfiles returns the audit rules associated with the enforcer profile. This
+	// is a read only attribute when an enforcer profile is resolved for an enforcer.
+	AuditProfiles AuditProfilesList `json:"auditProfiles" bson:"-" mapstructure:"auditProfiles,omitempty"`
+
+	// AuditSocketBufferSize is the size of the audit socket buffer. Default 16384.
+	AuditSocketBufferSize int `json:"auditSocketBufferSize" bson:"auditsocketbuffersize" mapstructure:"auditSocketBufferSize,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+
+	// DockerSocketAddress is the address of the docker daemon.
+	DockerSocketAddress string `json:"dockerSocketAddress" bson:"dockersocketaddress" mapstructure:"dockerSocketAddress,omitempty"`
 
 	// ExcludedInterfaces is a list of interfaces that must be excluded.
 	ExcludedInterfaces []string `json:"excludedInterfaces" bson:"excludedinterfaces" mapstructure:"excludedInterfaces,omitempty"`
@@ -128,6 +160,15 @@ type EnforcerProfile struct {
 	// enforcer.
 	ExcludedNetworks []string `json:"excludedNetworks" bson:"excludednetworks" mapstructure:"excludedNetworks,omitempty"`
 
+	// hostModeEnabled enables protection of the complete host. When this option is
+	// turned on, all incoming and outgoing flows will be monitored. Flows will
+	// be allowed if and only if a network policy has been created to allow the flow.
+	HostModeEnabled bool `json:"hostModeEnabled" bson:"hostmodeenabled" mapstructure:"hostModeEnabled,omitempty"`
+
+	// HostServices is a list of services that must be activated by default to all
+	// enforcers matching this profile.
+	HostServices []*HostService `json:"hostServices" bson:"hostservices" mapstructure:"hostServices,omitempty"`
+
 	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
 	// docker container started with labels matching the rule.
 	IgnoreExpression [][]string `json:"ignoreExpression" bson:"ignoreexpression" mapstructure:"ignoreExpression,omitempty"`
@@ -135,6 +176,16 @@ type EnforcerProfile struct {
 	// KillContainersOnFailure will configure the enforcers to kill any containers if
 	// there are policy failures.
 	KillContainersOnFailure bool `json:"killContainersOnFailure" bson:"killcontainersonfailure" mapstructure:"killContainersOnFailure,omitempty"`
+
+	// Select which metadata extractor to use to process new processing units from
+	// Kubernetes.
+	KubernetesMetadataExtractor EnforcerProfileKubernetesMetadataExtractorValue `json:"kubernetesMetadataExtractor" bson:"kubernetesmetadataextractor" mapstructure:"kubernetesMetadataExtractor,omitempty"`
+
+	// KubernetesSupportEnabled enables kubernetes mode for the enforcer.
+	KubernetesSupportEnabled bool `json:"kubernetesSupportEnabled" bson:"kubernetessupportenabled" mapstructure:"kubernetesSupportEnabled,omitempty"`
+
+	// LinuxProcessesSupportEnabled configures support for Linux processes.
+	LinuxProcessesSupportEnabled bool `json:"linuxProcessesSupportEnabled" bson:"linuxprocessessupportenabled" mapstructure:"linuxProcessesSupportEnabled,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -159,12 +210,42 @@ type EnforcerProfile struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
+	// ProxyListenAddress is the address the enforcer should use to listen for API
+	// calls. It can be a port (example :9443) or socket path
+	// example:
+	//   unix:///var/run/aporeto.sock.
+	ProxyListenAddress string `json:"proxyListenAddress" bson:"proxylistenaddress" mapstructure:"proxyListenAddress,omitempty"`
+
+	// ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network
+	// receiver starting at the ReceiverQueue.
+	ReceiverNumberOfQueues int `json:"receiverNumberOfQueues" bson:"receivernumberofqueues" mapstructure:"receiverNumberOfQueues,omitempty"`
+
+	// ReceiverQueue is the base queue number for traffic from the network.
+	ReceiverQueue int `json:"receiverQueue" bson:"receiverqueue" mapstructure:"receiverQueue,omitempty"`
+
+	// ReceiverQueueSize is the queue size of the receiver.
+	ReceiverQueueSize int `json:"receiverQueueSize" bson:"receiverqueuesize" mapstructure:"receiverQueueSize,omitempty"`
+
+	// RemoteEnforcerEnabled inidicates whether a single enforcer should be used or a
+	// distributed enforcer. True means distributed.
+	RemoteEnforcerEnabled bool `json:"remoteEnforcerEnabled" bson:"remoteenforcerenabled" mapstructure:"remoteEnforcerEnabled,omitempty"`
+
 	// TargetNetworks is the list of networks that authorization should be applied.
 	TargetNetworks []string `json:"targetNetworks" bson:"targetnetworks" mapstructure:"targetNetworks,omitempty"`
 
 	// TargetUDPNetworks is the list of UDP networks that authorization should be
 	// applied.
 	TargetUDPNetworks []string `json:"targetUDPNetworks" bson:"targetudpnetworks" mapstructure:"targetUDPNetworks,omitempty"`
+
+	// TransmitterNumberOfQueues is the number of queues for application traffic.
+	TransmitterNumberOfQueues int `json:"transmitterNumberOfQueues" bson:"transmitternumberofqueues" mapstructure:"transmitterNumberOfQueues,omitempty"`
+
+	// TransmitterQueue is the queue number for traffic from the applications starting
+	// at the transmitterQueue.
+	TransmitterQueue int `json:"transmitterQueue" bson:"transmitterqueue" mapstructure:"transmitterQueue,omitempty"`
+
+	// TransmitterQueueSize is the size of the queue for application traffic.
+	TransmitterQueueSize int `json:"transmitterQueueSize" bson:"transmitterqueuesize" mapstructure:"transmitterQueueSize,omitempty"`
 
 	// List of trusted CA. If empty the main chain of trust will be used.
 	TrustedCAs []string `json:"trustedCAs" bson:"trustedcas" mapstructure:"trustedCAs,omitempty"`
@@ -190,16 +271,34 @@ func NewEnforcerProfile() *EnforcerProfile {
 
 	return &EnforcerProfile{
 		ModelVersion:                  1,
+		ApplicationProxyPort:          20992,
+		AuditProfiles:                 AuditProfilesList{},
+		AuditProfileSelectors:         []string{},
 		Annotations:                   map[string][]string{},
 		AssociatedTags:                []string{},
-		MetadataExtractor:             EnforcerProfileMetadataExtractorDocker,
-		NormalizedTags:                []string{},
-		PolicySynchronizationInterval: "10m",
+		DockerSocketAddress:           "unix:///var/run/docker.sock",
+		AuditSocketBufferSize:         16384,
+		HostModeEnabled:               false,
+		HostServices:                  []*HostService{},
+		LinuxProcessesSupportEnabled:  true,
+		ProxyListenAddress:            "unix:///var/run/aporeto.sock",
 		PUBookkeepingInterval:         "15m",
-		PUHeartbeatInterval:           "5s",
-		Metadata:                      []string{},
-		TargetNetworks:                []string{},
+		ReceiverNumberOfQueues:        4,
+		KubernetesMetadataExtractor:   EnforcerProfileKubernetesMetadataExtractorPodAtomic,
+		RemoteEnforcerEnabled:         true,
+		MetadataExtractor:             EnforcerProfileMetadataExtractorDocker,
+		ReceiverQueueSize:             500,
 		TargetUDPNetworks:             []string{},
+		IPTablesMarkValue:             1000,
+		TransmitterQueue:              4,
+		TargetNetworks:                []string{},
+		NormalizedTags:                []string{},
+		TransmitterNumberOfQueues:     4,
+		TransmitterQueueSize:          500,
+		Metadata:                      []string{},
+		PUHeartbeatInterval:           "5s",
+		PolicySynchronizationInterval: "10m",
+		KubernetesSupportEnabled:      false,
 		TrustedCAs:                    []string{},
 	}
 }
@@ -395,16 +494,27 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 		// nolint: goimports
 		return &SparseEnforcerProfile{
 			ID:                            &o.ID,
+			IPTablesMarkValue:             &o.IPTablesMarkValue,
 			PUBookkeepingInterval:         &o.PUBookkeepingInterval,
 			PUHeartbeatInterval:           &o.PUHeartbeatInterval,
 			Annotations:                   &o.Annotations,
+			ApplicationProxyPort:          &o.ApplicationProxyPort,
 			AssociatedTags:                &o.AssociatedTags,
+			AuditProfileSelectors:         &o.AuditProfileSelectors,
+			AuditProfiles:                 &o.AuditProfiles,
+			AuditSocketBufferSize:         &o.AuditSocketBufferSize,
 			CreateTime:                    &o.CreateTime,
 			Description:                   &o.Description,
+			DockerSocketAddress:           &o.DockerSocketAddress,
 			ExcludedInterfaces:            &o.ExcludedInterfaces,
 			ExcludedNetworks:              &o.ExcludedNetworks,
+			HostModeEnabled:               &o.HostModeEnabled,
+			HostServices:                  &o.HostServices,
 			IgnoreExpression:              &o.IgnoreExpression,
 			KillContainersOnFailure:       &o.KillContainersOnFailure,
+			KubernetesMetadataExtractor:   &o.KubernetesMetadataExtractor,
+			KubernetesSupportEnabled:      &o.KubernetesSupportEnabled,
+			LinuxProcessesSupportEnabled:  &o.LinuxProcessesSupportEnabled,
 			Metadata:                      &o.Metadata,
 			MetadataExtractor:             &o.MetadataExtractor,
 			Name:                          &o.Name,
@@ -412,8 +522,16 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			NormalizedTags:                &o.NormalizedTags,
 			PolicySynchronizationInterval: &o.PolicySynchronizationInterval,
 			Protected:                     &o.Protected,
+			ProxyListenAddress:            &o.ProxyListenAddress,
+			ReceiverNumberOfQueues:        &o.ReceiverNumberOfQueues,
+			ReceiverQueue:                 &o.ReceiverQueue,
+			ReceiverQueueSize:             &o.ReceiverQueueSize,
+			RemoteEnforcerEnabled:         &o.RemoteEnforcerEnabled,
 			TargetNetworks:                &o.TargetNetworks,
 			TargetUDPNetworks:             &o.TargetUDPNetworks,
+			TransmitterNumberOfQueues:     &o.TransmitterNumberOfQueues,
+			TransmitterQueue:              &o.TransmitterQueue,
+			TransmitterQueueSize:          &o.TransmitterQueueSize,
 			TrustedCAs:                    &o.TrustedCAs,
 			UpdateTime:                    &o.UpdateTime,
 			ZHash:                         &o.ZHash,
@@ -426,26 +544,48 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
+		case "IPTablesMarkValue":
+			sp.IPTablesMarkValue = &(o.IPTablesMarkValue)
 		case "PUBookkeepingInterval":
 			sp.PUBookkeepingInterval = &(o.PUBookkeepingInterval)
 		case "PUHeartbeatInterval":
 			sp.PUHeartbeatInterval = &(o.PUHeartbeatInterval)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
+		case "applicationProxyPort":
+			sp.ApplicationProxyPort = &(o.ApplicationProxyPort)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
+		case "auditProfileSelectors":
+			sp.AuditProfileSelectors = &(o.AuditProfileSelectors)
+		case "auditProfiles":
+			sp.AuditProfiles = &(o.AuditProfiles)
+		case "auditSocketBufferSize":
+			sp.AuditSocketBufferSize = &(o.AuditSocketBufferSize)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
 			sp.Description = &(o.Description)
+		case "dockerSocketAddress":
+			sp.DockerSocketAddress = &(o.DockerSocketAddress)
 		case "excludedInterfaces":
 			sp.ExcludedInterfaces = &(o.ExcludedInterfaces)
 		case "excludedNetworks":
 			sp.ExcludedNetworks = &(o.ExcludedNetworks)
+		case "hostModeEnabled":
+			sp.HostModeEnabled = &(o.HostModeEnabled)
+		case "hostServices":
+			sp.HostServices = &(o.HostServices)
 		case "ignoreExpression":
 			sp.IgnoreExpression = &(o.IgnoreExpression)
 		case "killContainersOnFailure":
 			sp.KillContainersOnFailure = &(o.KillContainersOnFailure)
+		case "kubernetesMetadataExtractor":
+			sp.KubernetesMetadataExtractor = &(o.KubernetesMetadataExtractor)
+		case "kubernetesSupportEnabled":
+			sp.KubernetesSupportEnabled = &(o.KubernetesSupportEnabled)
+		case "linuxProcessesSupportEnabled":
+			sp.LinuxProcessesSupportEnabled = &(o.LinuxProcessesSupportEnabled)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "metadataExtractor":
@@ -460,10 +600,26 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.PolicySynchronizationInterval = &(o.PolicySynchronizationInterval)
 		case "protected":
 			sp.Protected = &(o.Protected)
+		case "proxyListenAddress":
+			sp.ProxyListenAddress = &(o.ProxyListenAddress)
+		case "receiverNumberOfQueues":
+			sp.ReceiverNumberOfQueues = &(o.ReceiverNumberOfQueues)
+		case "receiverQueue":
+			sp.ReceiverQueue = &(o.ReceiverQueue)
+		case "receiverQueueSize":
+			sp.ReceiverQueueSize = &(o.ReceiverQueueSize)
+		case "remoteEnforcerEnabled":
+			sp.RemoteEnforcerEnabled = &(o.RemoteEnforcerEnabled)
 		case "targetNetworks":
 			sp.TargetNetworks = &(o.TargetNetworks)
 		case "targetUDPNetworks":
 			sp.TargetUDPNetworks = &(o.TargetUDPNetworks)
+		case "transmitterNumberOfQueues":
+			sp.TransmitterNumberOfQueues = &(o.TransmitterNumberOfQueues)
+		case "transmitterQueue":
+			sp.TransmitterQueue = &(o.TransmitterQueue)
+		case "transmitterQueueSize":
+			sp.TransmitterQueueSize = &(o.TransmitterQueueSize)
 		case "trustedCAs":
 			sp.TrustedCAs = &(o.TrustedCAs)
 		case "updateTime":
@@ -488,6 +644,9 @@ func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
+	if so.IPTablesMarkValue != nil {
+		o.IPTablesMarkValue = *so.IPTablesMarkValue
+	}
 	if so.PUBookkeepingInterval != nil {
 		o.PUBookkeepingInterval = *so.PUBookkeepingInterval
 	}
@@ -497,8 +656,20 @@ func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
 	}
+	if so.ApplicationProxyPort != nil {
+		o.ApplicationProxyPort = *so.ApplicationProxyPort
+	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.AuditProfileSelectors != nil {
+		o.AuditProfileSelectors = *so.AuditProfileSelectors
+	}
+	if so.AuditProfiles != nil {
+		o.AuditProfiles = *so.AuditProfiles
+	}
+	if so.AuditSocketBufferSize != nil {
+		o.AuditSocketBufferSize = *so.AuditSocketBufferSize
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -506,17 +677,35 @@ func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Description != nil {
 		o.Description = *so.Description
 	}
+	if so.DockerSocketAddress != nil {
+		o.DockerSocketAddress = *so.DockerSocketAddress
+	}
 	if so.ExcludedInterfaces != nil {
 		o.ExcludedInterfaces = *so.ExcludedInterfaces
 	}
 	if so.ExcludedNetworks != nil {
 		o.ExcludedNetworks = *so.ExcludedNetworks
 	}
+	if so.HostModeEnabled != nil {
+		o.HostModeEnabled = *so.HostModeEnabled
+	}
+	if so.HostServices != nil {
+		o.HostServices = *so.HostServices
+	}
 	if so.IgnoreExpression != nil {
 		o.IgnoreExpression = *so.IgnoreExpression
 	}
 	if so.KillContainersOnFailure != nil {
 		o.KillContainersOnFailure = *so.KillContainersOnFailure
+	}
+	if so.KubernetesMetadataExtractor != nil {
+		o.KubernetesMetadataExtractor = *so.KubernetesMetadataExtractor
+	}
+	if so.KubernetesSupportEnabled != nil {
+		o.KubernetesSupportEnabled = *so.KubernetesSupportEnabled
+	}
+	if so.LinuxProcessesSupportEnabled != nil {
+		o.LinuxProcessesSupportEnabled = *so.LinuxProcessesSupportEnabled
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -539,11 +728,35 @@ func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
+	if so.ProxyListenAddress != nil {
+		o.ProxyListenAddress = *so.ProxyListenAddress
+	}
+	if so.ReceiverNumberOfQueues != nil {
+		o.ReceiverNumberOfQueues = *so.ReceiverNumberOfQueues
+	}
+	if so.ReceiverQueue != nil {
+		o.ReceiverQueue = *so.ReceiverQueue
+	}
+	if so.ReceiverQueueSize != nil {
+		o.ReceiverQueueSize = *so.ReceiverQueueSize
+	}
+	if so.RemoteEnforcerEnabled != nil {
+		o.RemoteEnforcerEnabled = *so.RemoteEnforcerEnabled
+	}
 	if so.TargetNetworks != nil {
 		o.TargetNetworks = *so.TargetNetworks
 	}
 	if so.TargetUDPNetworks != nil {
 		o.TargetUDPNetworks = *so.TargetUDPNetworks
+	}
+	if so.TransmitterNumberOfQueues != nil {
+		o.TransmitterNumberOfQueues = *so.TransmitterNumberOfQueues
+	}
+	if so.TransmitterQueue != nil {
+		o.TransmitterQueue = *so.TransmitterQueue
+	}
+	if so.TransmitterQueueSize != nil {
+		o.TransmitterQueueSize = *so.TransmitterQueueSize
 	}
 	if so.TrustedCAs != nil {
 		o.TrustedCAs = *so.TrustedCAs
@@ -589,6 +802,10 @@ func (o *EnforcerProfile) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateMaximumInt("IPTablesMarkValue", o.IPTablesMarkValue, int(65000), false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidatePattern("PUBookkeepingInterval", o.PUBookkeepingInterval, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -597,11 +814,41 @@ func (o *EnforcerProfile) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateMaximumInt("applicationProxyPort", o.ApplicationProxyPort, int(65535), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMinimumInt("applicationProxyPort", o.ApplicationProxyPort, int(1), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMaximumInt("auditSocketBufferSize", o.AuditSocketBufferSize, int(262144), false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("metadataExtractor", string(o.MetadataExtractor), []string{"Docker", "ECS", "KubernetesPUperPOD", "KubernetesPUperContainer"}, false); err != nil {
+	if err := elemental.ValidatePattern("dockerSocketAddress", o.DockerSocketAddress, `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`, `must be a valid url or path starting by unix://`, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	for _, sub := range o.HostServices {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	if err := ValidateHostServicesList("hostServices", o.HostServices); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("kubernetesMetadataExtractor", string(o.KubernetesMetadataExtractor), []string{"KubeSquall", "PodAtomic", "PodContainers"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("metadataExtractor", string(o.MetadataExtractor), []string{"Docker", "ECS", "Kubernetes"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -614,6 +861,54 @@ func (o *EnforcerProfile) Validate() error {
 	}
 
 	if err := elemental.ValidatePattern("policySynchronizationInterval", o.PolicySynchronizationInterval, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidatePattern("proxyListenAddress", o.ProxyListenAddress, `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`, `must be a valid url or path starting by unix://`, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMaximumInt("receiverNumberOfQueues", o.ReceiverNumberOfQueues, int(16), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMinimumInt("receiverNumberOfQueues", o.ReceiverNumberOfQueues, int(1), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMaximumInt("receiverQueue", o.ReceiverQueue, int(1000), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMaximumInt("receiverQueueSize", o.ReceiverQueueSize, int(5000), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMinimumInt("receiverQueueSize", o.ReceiverQueueSize, int(1), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMaximumInt("transmitterNumberOfQueues", o.TransmitterNumberOfQueues, int(16), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMinimumInt("transmitterNumberOfQueues", o.TransmitterNumberOfQueues, int(1), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMaximumInt("transmitterQueue", o.TransmitterQueue, int(1000), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMinimumInt("transmitterQueue", o.TransmitterQueue, int(1), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMaximumInt("transmitterQueueSize", o.TransmitterQueueSize, int(1000), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateMinimumInt("transmitterQueueSize", o.TransmitterQueueSize, int(1), false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -665,26 +960,48 @@ func (o *EnforcerProfile) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "ID":
 		return o.ID
+	case "IPTablesMarkValue":
+		return o.IPTablesMarkValue
 	case "PUBookkeepingInterval":
 		return o.PUBookkeepingInterval
 	case "PUHeartbeatInterval":
 		return o.PUHeartbeatInterval
 	case "annotations":
 		return o.Annotations
+	case "applicationProxyPort":
+		return o.ApplicationProxyPort
 	case "associatedTags":
 		return o.AssociatedTags
+	case "auditProfileSelectors":
+		return o.AuditProfileSelectors
+	case "auditProfiles":
+		return o.AuditProfiles
+	case "auditSocketBufferSize":
+		return o.AuditSocketBufferSize
 	case "createTime":
 		return o.CreateTime
 	case "description":
 		return o.Description
+	case "dockerSocketAddress":
+		return o.DockerSocketAddress
 	case "excludedInterfaces":
 		return o.ExcludedInterfaces
 	case "excludedNetworks":
 		return o.ExcludedNetworks
+	case "hostModeEnabled":
+		return o.HostModeEnabled
+	case "hostServices":
+		return o.HostServices
 	case "ignoreExpression":
 		return o.IgnoreExpression
 	case "killContainersOnFailure":
 		return o.KillContainersOnFailure
+	case "kubernetesMetadataExtractor":
+		return o.KubernetesMetadataExtractor
+	case "kubernetesSupportEnabled":
+		return o.KubernetesSupportEnabled
+	case "linuxProcessesSupportEnabled":
+		return o.LinuxProcessesSupportEnabled
 	case "metadata":
 		return o.Metadata
 	case "metadataExtractor":
@@ -699,10 +1016,26 @@ func (o *EnforcerProfile) ValueForAttribute(name string) interface{} {
 		return o.PolicySynchronizationInterval
 	case "protected":
 		return o.Protected
+	case "proxyListenAddress":
+		return o.ProxyListenAddress
+	case "receiverNumberOfQueues":
+		return o.ReceiverNumberOfQueues
+	case "receiverQueue":
+		return o.ReceiverQueue
+	case "receiverQueueSize":
+		return o.ReceiverQueueSize
+	case "remoteEnforcerEnabled":
+		return o.RemoteEnforcerEnabled
 	case "targetNetworks":
 		return o.TargetNetworks
 	case "targetUDPNetworks":
 		return o.TargetUDPNetworks
+	case "transmitterNumberOfQueues":
+		return o.TransmitterNumberOfQueues
+	case "transmitterQueue":
+		return o.TransmitterQueue
+	case "transmitterQueueSize":
+		return o.TransmitterQueueSize
 	case "trustedCAs":
 		return o.TrustedCAs
 	case "updateTime":
@@ -732,6 +1065,18 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"IPTablesMarkValue": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IPTablesMarkValue",
+		DefaultValue:   1000,
+		Description:    `IptablesMarkValue is the mark value to be used in an iptables implementation.`,
+		Exposed:        true,
+		MaxValue:       65000,
+		Name:           "IPTablesMarkValue",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"PUBookkeepingInterval": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -769,6 +1114,19 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "annotations",
 		Type:           "external",
 	},
+	"ApplicationProxyPort": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ApplicationProxyPort",
+		DefaultValue:   20992,
+		Description:    `Port used by aporeto application proxy.`,
+		Exposed:        true,
+		MaxValue:       65535,
+		MinValue:       1,
+		Name:           "applicationProxyPort",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
@@ -780,6 +1138,42 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
+	},
+	"AuditProfileSelectors": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuditProfileSelectors",
+		Description: `AuditProfileSelectors is the list of tags (key/value pairs) that define the
+audit policies that must be implemented by this enforcer. The enforcer will
+implement all policies that match any of these tags.`,
+		Exposed: true,
+		Name:    "auditProfileSelectors",
+		Stored:  true,
+		SubType: "audit_profile_selector",
+		Type:    "external",
+	},
+	"AuditProfiles": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "AuditProfiles",
+		Description: `AuditProfiles returns the audit rules associated with the enforcer profile. This
+is a read only attribute when an enforcer profile is resolved for an enforcer.`,
+		Exposed:  true,
+		Name:     "auditProfiles",
+		ReadOnly: true,
+		SubType:  "audit_profiles",
+		Type:     "external",
+	},
+	"AuditSocketBufferSize": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuditSocketBufferSize",
+		DefaultValue:   16384,
+		Description:    `AuditSocketBufferSize is the size of the audit socket buffer. Default 16384.`,
+		Exposed:        true,
+		MaxValue:       262144,
+		Name:           "auditSocketBufferSize",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -808,6 +1202,18 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"DockerSocketAddress": elemental.AttributeSpecification{
+		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "DockerSocketAddress",
+		DefaultValue:   "unix:///var/run/docker.sock",
+		Description:    `DockerSocketAddress is the address of the docker daemon.`,
+		Exposed:        true,
+		Name:           "dockerSocketAddress",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"ExcludedInterfaces": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExcludedInterfaces",
@@ -831,6 +1237,29 @@ enforcer.`,
 		SubType:   "excluded_networks_list",
 		Type:      "external",
 	},
+	"HostModeEnabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "HostModeEnabled",
+		Description: `hostModeEnabled enables protection of the complete host. When this option is
+turned on, all incoming and outgoing flows will be monitored. Flows will
+be allowed if and only if a network policy has been created to allow the flow.`,
+		Exposed:   true,
+		Name:      "hostModeEnabled",
+		Orderable: true,
+		Stored:    true,
+		Type:      "boolean",
+	},
+	"HostServices": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "HostServices",
+		Description: `HostServices is a list of services that must be activated by default to all
+enforcers matching this profile.`,
+		Exposed: true,
+		Name:    "hostServices",
+		Stored:  true,
+		SubType: "hostservice",
+		Type:    "refList",
+	},
 	"IgnoreExpression": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoreExpression",
@@ -852,6 +1281,38 @@ there are policy failures.`,
 		Stored:  true,
 		Type:    "boolean",
 	},
+	"KubernetesMetadataExtractor": elemental.AttributeSpecification{
+		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
+		ConvertedName:  "KubernetesMetadataExtractor",
+		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorPodAtomic,
+		Description: `Select which metadata extractor to use to process new processing units from
+Kubernetes.`,
+		Exposed:   true,
+		Name:      "kubernetesMetadataExtractor",
+		Orderable: true,
+		Stored:    true,
+		Type:      "enum",
+	},
+	"KubernetesSupportEnabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "KubernetesSupportEnabled",
+		Description:    `KubernetesSupportEnabled enables kubernetes mode for the enforcer.`,
+		Exposed:        true,
+		Name:           "kubernetesSupportEnabled",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
+	},
+	"LinuxProcessesSupportEnabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LinuxProcessesSupportEnabled",
+		DefaultValue:   true,
+		Description:    `LinuxProcessesSupportEnabled configures support for Linux processes.`,
+		Exposed:        true,
+		Name:           "linuxProcessesSupportEnabled",
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -868,7 +1329,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Type:       "external",
 	},
 	"MetadataExtractor": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Docker", "ECS", "KubernetesPUperPOD", "KubernetesPUperContainer"},
+		AllowedChoices: []string{"Docker", "ECS", "Kubernetes"},
 		ConvertedName:  "MetadataExtractor",
 		DefaultValue:   EnforcerProfileMetadataExtractorDocker,
 		Description:    `Select which metadata extractor to use to process new processing units.`,
@@ -950,6 +1411,71 @@ resynchronized.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"ProxyListenAddress": elemental.AttributeSpecification{
+		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "ProxyListenAddress",
+		DefaultValue:   "unix:///var/run/aporeto.sock",
+		Description: `ProxyListenAddress is the address the enforcer should use to listen for API
+calls. It can be a port (example :9443) or socket path
+example:
+  unix:///var/run/aporeto.sock.`,
+		Exposed:   true,
+		Name:      "proxyListenAddress",
+		Orderable: true,
+		Stored:    true,
+		Type:      "string",
+	},
+	"ReceiverNumberOfQueues": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ReceiverNumberOfQueues",
+		DefaultValue:   4,
+		Description: `ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network
+receiver starting at the ReceiverQueue.`,
+		Exposed:   true,
+		MaxValue:  16,
+		MinValue:  1,
+		Name:      "receiverNumberOfQueues",
+		Orderable: true,
+		Stored:    true,
+		Type:      "integer",
+	},
+	"ReceiverQueue": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ReceiverQueue",
+		Description:    `ReceiverQueue is the base queue number for traffic from the network.`,
+		Exposed:        true,
+		MaxValue:       1000,
+		Name:           "receiverQueue",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
+	},
+	"ReceiverQueueSize": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ReceiverQueueSize",
+		DefaultValue:   500,
+		Description:    `ReceiverQueueSize is the queue size of the receiver.`,
+		Exposed:        true,
+		MaxValue:       5000,
+		MinValue:       1,
+		Name:           "receiverQueueSize",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
+	},
+	"RemoteEnforcerEnabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RemoteEnforcerEnabled",
+		DefaultValue:   true,
+		Description: `RemoteEnforcerEnabled inidicates whether a single enforcer should be used or a
+distributed enforcer. True means distributed.`,
+		Exposed:   true,
+		Name:      "remoteEnforcerEnabled",
+		Orderable: true,
+		Stored:    true,
+		Type:      "boolean",
+	},
 	"TargetNetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNetworks",
@@ -972,6 +1498,46 @@ applied.`,
 		Stored:    true,
 		SubType:   "target_networks_list",
 		Type:      "external",
+	},
+	"TransmitterNumberOfQueues": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TransmitterNumberOfQueues",
+		DefaultValue:   4,
+		Description:    `TransmitterNumberOfQueues is the number of queues for application traffic.`,
+		Exposed:        true,
+		MaxValue:       16,
+		MinValue:       1,
+		Name:           "transmitterNumberOfQueues",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
+	},
+	"TransmitterQueue": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TransmitterQueue",
+		DefaultValue:   4,
+		Description: `TransmitterQueue is the queue number for traffic from the applications starting
+at the transmitterQueue.`,
+		Exposed:   true,
+		MaxValue:  1000,
+		MinValue:  1,
+		Name:      "transmitterQueue",
+		Orderable: true,
+		Stored:    true,
+		Type:      "integer",
+	},
+	"TransmitterQueueSize": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TransmitterQueueSize",
+		DefaultValue:   500,
+		Description:    `TransmitterQueueSize is the size of the queue for application traffic.`,
+		Exposed:        true,
+		MaxValue:       1000,
+		MinValue:       1,
+		Name:           "transmitterQueueSize",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"TrustedCAs": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1042,6 +1608,18 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "string",
 	},
+	"iptablesmarkvalue": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "IPTablesMarkValue",
+		DefaultValue:   1000,
+		Description:    `IptablesMarkValue is the mark value to be used in an iptables implementation.`,
+		Exposed:        true,
+		MaxValue:       65000,
+		Name:           "IPTablesMarkValue",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"pubookkeepinginterval": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
@@ -1078,6 +1656,19 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		SubType:        "annotations",
 		Type:           "external",
 	},
+	"applicationproxyport": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ApplicationProxyPort",
+		DefaultValue:   20992,
+		Description:    `Port used by aporeto application proxy.`,
+		Exposed:        true,
+		MaxValue:       65535,
+		MinValue:       1,
+		Name:           "applicationProxyPort",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
+	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
@@ -1089,6 +1680,42 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
+	},
+	"auditprofileselectors": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuditProfileSelectors",
+		Description: `AuditProfileSelectors is the list of tags (key/value pairs) that define the
+audit policies that must be implemented by this enforcer. The enforcer will
+implement all policies that match any of these tags.`,
+		Exposed: true,
+		Name:    "auditProfileSelectors",
+		Stored:  true,
+		SubType: "audit_profile_selector",
+		Type:    "external",
+	},
+	"auditprofiles": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "AuditProfiles",
+		Description: `AuditProfiles returns the audit rules associated with the enforcer profile. This
+is a read only attribute when an enforcer profile is resolved for an enforcer.`,
+		Exposed:  true,
+		Name:     "auditProfiles",
+		ReadOnly: true,
+		SubType:  "audit_profiles",
+		Type:     "external",
+	},
+	"auditsocketbuffersize": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuditSocketBufferSize",
+		DefaultValue:   16384,
+		Description:    `AuditSocketBufferSize is the size of the audit socket buffer. Default 16384.`,
+		Exposed:        true,
+		MaxValue:       262144,
+		Name:           "auditSocketBufferSize",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1117,6 +1744,18 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "string",
 	},
+	"dockersocketaddress": elemental.AttributeSpecification{
+		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "DockerSocketAddress",
+		DefaultValue:   "unix:///var/run/docker.sock",
+		Description:    `DockerSocketAddress is the address of the docker daemon.`,
+		Exposed:        true,
+		Name:           "dockerSocketAddress",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"excludedinterfaces": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExcludedInterfaces",
@@ -1140,6 +1779,29 @@ enforcer.`,
 		SubType:   "excluded_networks_list",
 		Type:      "external",
 	},
+	"hostmodeenabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "HostModeEnabled",
+		Description: `hostModeEnabled enables protection of the complete host. When this option is
+turned on, all incoming and outgoing flows will be monitored. Flows will
+be allowed if and only if a network policy has been created to allow the flow.`,
+		Exposed:   true,
+		Name:      "hostModeEnabled",
+		Orderable: true,
+		Stored:    true,
+		Type:      "boolean",
+	},
+	"hostservices": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "HostServices",
+		Description: `HostServices is a list of services that must be activated by default to all
+enforcers matching this profile.`,
+		Exposed: true,
+		Name:    "hostServices",
+		Stored:  true,
+		SubType: "hostservice",
+		Type:    "refList",
+	},
 	"ignoreexpression": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoreExpression",
@@ -1161,6 +1823,38 @@ there are policy failures.`,
 		Stored:  true,
 		Type:    "boolean",
 	},
+	"kubernetesmetadataextractor": elemental.AttributeSpecification{
+		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
+		ConvertedName:  "KubernetesMetadataExtractor",
+		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorPodAtomic,
+		Description: `Select which metadata extractor to use to process new processing units from
+Kubernetes.`,
+		Exposed:   true,
+		Name:      "kubernetesMetadataExtractor",
+		Orderable: true,
+		Stored:    true,
+		Type:      "enum",
+	},
+	"kubernetessupportenabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "KubernetesSupportEnabled",
+		Description:    `KubernetesSupportEnabled enables kubernetes mode for the enforcer.`,
+		Exposed:        true,
+		Name:           "kubernetesSupportEnabled",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
+	},
+	"linuxprocessessupportenabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LinuxProcessesSupportEnabled",
+		DefaultValue:   true,
+		Description:    `LinuxProcessesSupportEnabled configures support for Linux processes.`,
+		Exposed:        true,
+		Name:           "linuxProcessesSupportEnabled",
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -1177,7 +1871,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Type:       "external",
 	},
 	"metadataextractor": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Docker", "ECS", "KubernetesPUperPOD", "KubernetesPUperContainer"},
+		AllowedChoices: []string{"Docker", "ECS", "Kubernetes"},
 		ConvertedName:  "MetadataExtractor",
 		DefaultValue:   EnforcerProfileMetadataExtractorDocker,
 		Description:    `Select which metadata extractor to use to process new processing units.`,
@@ -1259,6 +1953,71 @@ resynchronized.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"proxylistenaddress": elemental.AttributeSpecification{
+		AllowedChars:   `^(:([1-9]|[1-9][0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|65535))$|(unix://(/[^/]{1,16}){1,5}/?)$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "ProxyListenAddress",
+		DefaultValue:   "unix:///var/run/aporeto.sock",
+		Description: `ProxyListenAddress is the address the enforcer should use to listen for API
+calls. It can be a port (example :9443) or socket path
+example:
+  unix:///var/run/aporeto.sock.`,
+		Exposed:   true,
+		Name:      "proxyListenAddress",
+		Orderable: true,
+		Stored:    true,
+		Type:      "string",
+	},
+	"receivernumberofqueues": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ReceiverNumberOfQueues",
+		DefaultValue:   4,
+		Description: `ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network
+receiver starting at the ReceiverQueue.`,
+		Exposed:   true,
+		MaxValue:  16,
+		MinValue:  1,
+		Name:      "receiverNumberOfQueues",
+		Orderable: true,
+		Stored:    true,
+		Type:      "integer",
+	},
+	"receiverqueue": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ReceiverQueue",
+		Description:    `ReceiverQueue is the base queue number for traffic from the network.`,
+		Exposed:        true,
+		MaxValue:       1000,
+		Name:           "receiverQueue",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
+	},
+	"receiverqueuesize": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ReceiverQueueSize",
+		DefaultValue:   500,
+		Description:    `ReceiverQueueSize is the queue size of the receiver.`,
+		Exposed:        true,
+		MaxValue:       5000,
+		MinValue:       1,
+		Name:           "receiverQueueSize",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
+	},
+	"remoteenforcerenabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RemoteEnforcerEnabled",
+		DefaultValue:   true,
+		Description: `RemoteEnforcerEnabled inidicates whether a single enforcer should be used or a
+distributed enforcer. True means distributed.`,
+		Exposed:   true,
+		Name:      "remoteEnforcerEnabled",
+		Orderable: true,
+		Stored:    true,
+		Type:      "boolean",
+	},
 	"targetnetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNetworks",
@@ -1281,6 +2040,46 @@ applied.`,
 		Stored:    true,
 		SubType:   "target_networks_list",
 		Type:      "external",
+	},
+	"transmitternumberofqueues": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TransmitterNumberOfQueues",
+		DefaultValue:   4,
+		Description:    `TransmitterNumberOfQueues is the number of queues for application traffic.`,
+		Exposed:        true,
+		MaxValue:       16,
+		MinValue:       1,
+		Name:           "transmitterNumberOfQueues",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
+	},
+	"transmitterqueue": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TransmitterQueue",
+		DefaultValue:   4,
+		Description: `TransmitterQueue is the queue number for traffic from the applications starting
+at the transmitterQueue.`,
+		Exposed:   true,
+		MaxValue:  1000,
+		MinValue:  1,
+		Name:      "transmitterQueue",
+		Orderable: true,
+		Stored:    true,
+		Type:      "integer",
+	},
+	"transmitterqueuesize": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TransmitterQueueSize",
+		DefaultValue:   500,
+		Description:    `TransmitterQueueSize is the size of the queue for application traffic.`,
+		Exposed:        true,
+		MaxValue:       1000,
+		MinValue:       1,
+		Name:           "transmitterQueueSize",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "integer",
 	},
 	"trustedcas": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1402,6 +2201,9 @@ type SparseEnforcerProfile struct {
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
+	// IptablesMarkValue is the mark value to be used in an iptables implementation.
+	IPTablesMarkValue *int `json:"IPTablesMarkValue,omitempty" bson:"iptablesmarkvalue" mapstructure:"IPTablesMarkValue,omitempty"`
+
 	// PUBookkeepingInterval configures how often the PU will be synchronized.
 	PUBookkeepingInterval *string `json:"PUBookkeepingInterval,omitempty" bson:"pubookkeepinginterval" mapstructure:"PUBookkeepingInterval,omitempty"`
 
@@ -1411,14 +2213,32 @@ type SparseEnforcerProfile struct {
 	// Annotation stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
 
+	// Port used by aporeto application proxy.
+	ApplicationProxyPort *int `json:"applicationProxyPort,omitempty" bson:"applicationproxyport" mapstructure:"applicationProxyPort,omitempty"`
+
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// AuditProfileSelectors is the list of tags (key/value pairs) that define the
+	// audit policies that must be implemented by this enforcer. The enforcer will
+	// implement all policies that match any of these tags.
+	AuditProfileSelectors *[]string `json:"auditProfileSelectors,omitempty" bson:"auditprofileselectors" mapstructure:"auditProfileSelectors,omitempty"`
+
+	// AuditProfiles returns the audit rules associated with the enforcer profile. This
+	// is a read only attribute when an enforcer profile is resolved for an enforcer.
+	AuditProfiles *AuditProfilesList `json:"auditProfiles,omitempty" bson:"-" mapstructure:"auditProfiles,omitempty"`
+
+	// AuditSocketBufferSize is the size of the audit socket buffer. Default 16384.
+	AuditSocketBufferSize *int `json:"auditSocketBufferSize,omitempty" bson:"auditsocketbuffersize" mapstructure:"auditSocketBufferSize,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// DockerSocketAddress is the address of the docker daemon.
+	DockerSocketAddress *string `json:"dockerSocketAddress,omitempty" bson:"dockersocketaddress" mapstructure:"dockerSocketAddress,omitempty"`
 
 	// ExcludedInterfaces is a list of interfaces that must be excluded.
 	ExcludedInterfaces *[]string `json:"excludedInterfaces,omitempty" bson:"excludedinterfaces" mapstructure:"excludedInterfaces,omitempty"`
@@ -1427,6 +2247,15 @@ type SparseEnforcerProfile struct {
 	// enforcer.
 	ExcludedNetworks *[]string `json:"excludedNetworks,omitempty" bson:"excludednetworks" mapstructure:"excludedNetworks,omitempty"`
 
+	// hostModeEnabled enables protection of the complete host. When this option is
+	// turned on, all incoming and outgoing flows will be monitored. Flows will
+	// be allowed if and only if a network policy has been created to allow the flow.
+	HostModeEnabled *bool `json:"hostModeEnabled,omitempty" bson:"hostmodeenabled" mapstructure:"hostModeEnabled,omitempty"`
+
+	// HostServices is a list of services that must be activated by default to all
+	// enforcers matching this profile.
+	HostServices *[]*HostService `json:"hostServices,omitempty" bson:"hostservices" mapstructure:"hostServices,omitempty"`
+
 	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
 	// docker container started with labels matching the rule.
 	IgnoreExpression *[][]string `json:"ignoreExpression,omitempty" bson:"ignoreexpression" mapstructure:"ignoreExpression,omitempty"`
@@ -1434,6 +2263,16 @@ type SparseEnforcerProfile struct {
 	// KillContainersOnFailure will configure the enforcers to kill any containers if
 	// there are policy failures.
 	KillContainersOnFailure *bool `json:"killContainersOnFailure,omitempty" bson:"killcontainersonfailure" mapstructure:"killContainersOnFailure,omitempty"`
+
+	// Select which metadata extractor to use to process new processing units from
+	// Kubernetes.
+	KubernetesMetadataExtractor *EnforcerProfileKubernetesMetadataExtractorValue `json:"kubernetesMetadataExtractor,omitempty" bson:"kubernetesmetadataextractor" mapstructure:"kubernetesMetadataExtractor,omitempty"`
+
+	// KubernetesSupportEnabled enables kubernetes mode for the enforcer.
+	KubernetesSupportEnabled *bool `json:"kubernetesSupportEnabled,omitempty" bson:"kubernetessupportenabled" mapstructure:"kubernetesSupportEnabled,omitempty"`
+
+	// LinuxProcessesSupportEnabled configures support for Linux processes.
+	LinuxProcessesSupportEnabled *bool `json:"linuxProcessesSupportEnabled,omitempty" bson:"linuxprocessessupportenabled" mapstructure:"linuxProcessesSupportEnabled,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -1458,12 +2297,42 @@ type SparseEnforcerProfile struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
 
+	// ProxyListenAddress is the address the enforcer should use to listen for API
+	// calls. It can be a port (example :9443) or socket path
+	// example:
+	//   unix:///var/run/aporeto.sock.
+	ProxyListenAddress *string `json:"proxyListenAddress,omitempty" bson:"proxylistenaddress" mapstructure:"proxyListenAddress,omitempty"`
+
+	// ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network
+	// receiver starting at the ReceiverQueue.
+	ReceiverNumberOfQueues *int `json:"receiverNumberOfQueues,omitempty" bson:"receivernumberofqueues" mapstructure:"receiverNumberOfQueues,omitempty"`
+
+	// ReceiverQueue is the base queue number for traffic from the network.
+	ReceiverQueue *int `json:"receiverQueue,omitempty" bson:"receiverqueue" mapstructure:"receiverQueue,omitempty"`
+
+	// ReceiverQueueSize is the queue size of the receiver.
+	ReceiverQueueSize *int `json:"receiverQueueSize,omitempty" bson:"receiverqueuesize" mapstructure:"receiverQueueSize,omitempty"`
+
+	// RemoteEnforcerEnabled inidicates whether a single enforcer should be used or a
+	// distributed enforcer. True means distributed.
+	RemoteEnforcerEnabled *bool `json:"remoteEnforcerEnabled,omitempty" bson:"remoteenforcerenabled" mapstructure:"remoteEnforcerEnabled,omitempty"`
+
 	// TargetNetworks is the list of networks that authorization should be applied.
 	TargetNetworks *[]string `json:"targetNetworks,omitempty" bson:"targetnetworks" mapstructure:"targetNetworks,omitempty"`
 
 	// TargetUDPNetworks is the list of UDP networks that authorization should be
 	// applied.
 	TargetUDPNetworks *[]string `json:"targetUDPNetworks,omitempty" bson:"targetudpnetworks" mapstructure:"targetUDPNetworks,omitempty"`
+
+	// TransmitterNumberOfQueues is the number of queues for application traffic.
+	TransmitterNumberOfQueues *int `json:"transmitterNumberOfQueues,omitempty" bson:"transmitternumberofqueues" mapstructure:"transmitterNumberOfQueues,omitempty"`
+
+	// TransmitterQueue is the queue number for traffic from the applications starting
+	// at the transmitterQueue.
+	TransmitterQueue *int `json:"transmitterQueue,omitempty" bson:"transmitterqueue" mapstructure:"transmitterQueue,omitempty"`
+
+	// TransmitterQueueSize is the size of the queue for application traffic.
+	TransmitterQueueSize *int `json:"transmitterQueueSize,omitempty" bson:"transmitterqueuesize" mapstructure:"transmitterQueueSize,omitempty"`
 
 	// List of trusted CA. If empty the main chain of trust will be used.
 	TrustedCAs *[]string `json:"trustedCAs,omitempty" bson:"trustedcas" mapstructure:"trustedCAs,omitempty"`
@@ -1523,6 +2392,9 @@ func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
+	if o.IPTablesMarkValue != nil {
+		out.IPTablesMarkValue = *o.IPTablesMarkValue
+	}
 	if o.PUBookkeepingInterval != nil {
 		out.PUBookkeepingInterval = *o.PUBookkeepingInterval
 	}
@@ -1532,8 +2404,20 @@ func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
 	}
+	if o.ApplicationProxyPort != nil {
+		out.ApplicationProxyPort = *o.ApplicationProxyPort
+	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.AuditProfileSelectors != nil {
+		out.AuditProfileSelectors = *o.AuditProfileSelectors
+	}
+	if o.AuditProfiles != nil {
+		out.AuditProfiles = *o.AuditProfiles
+	}
+	if o.AuditSocketBufferSize != nil {
+		out.AuditSocketBufferSize = *o.AuditSocketBufferSize
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
@@ -1541,17 +2425,35 @@ func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
 	if o.Description != nil {
 		out.Description = *o.Description
 	}
+	if o.DockerSocketAddress != nil {
+		out.DockerSocketAddress = *o.DockerSocketAddress
+	}
 	if o.ExcludedInterfaces != nil {
 		out.ExcludedInterfaces = *o.ExcludedInterfaces
 	}
 	if o.ExcludedNetworks != nil {
 		out.ExcludedNetworks = *o.ExcludedNetworks
 	}
+	if o.HostModeEnabled != nil {
+		out.HostModeEnabled = *o.HostModeEnabled
+	}
+	if o.HostServices != nil {
+		out.HostServices = *o.HostServices
+	}
 	if o.IgnoreExpression != nil {
 		out.IgnoreExpression = *o.IgnoreExpression
 	}
 	if o.KillContainersOnFailure != nil {
 		out.KillContainersOnFailure = *o.KillContainersOnFailure
+	}
+	if o.KubernetesMetadataExtractor != nil {
+		out.KubernetesMetadataExtractor = *o.KubernetesMetadataExtractor
+	}
+	if o.KubernetesSupportEnabled != nil {
+		out.KubernetesSupportEnabled = *o.KubernetesSupportEnabled
+	}
+	if o.LinuxProcessesSupportEnabled != nil {
+		out.LinuxProcessesSupportEnabled = *o.LinuxProcessesSupportEnabled
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
@@ -1574,11 +2476,35 @@ func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
 	if o.Protected != nil {
 		out.Protected = *o.Protected
 	}
+	if o.ProxyListenAddress != nil {
+		out.ProxyListenAddress = *o.ProxyListenAddress
+	}
+	if o.ReceiverNumberOfQueues != nil {
+		out.ReceiverNumberOfQueues = *o.ReceiverNumberOfQueues
+	}
+	if o.ReceiverQueue != nil {
+		out.ReceiverQueue = *o.ReceiverQueue
+	}
+	if o.ReceiverQueueSize != nil {
+		out.ReceiverQueueSize = *o.ReceiverQueueSize
+	}
+	if o.RemoteEnforcerEnabled != nil {
+		out.RemoteEnforcerEnabled = *o.RemoteEnforcerEnabled
+	}
 	if o.TargetNetworks != nil {
 		out.TargetNetworks = *o.TargetNetworks
 	}
 	if o.TargetUDPNetworks != nil {
 		out.TargetUDPNetworks = *o.TargetUDPNetworks
+	}
+	if o.TransmitterNumberOfQueues != nil {
+		out.TransmitterNumberOfQueues = *o.TransmitterNumberOfQueues
+	}
+	if o.TransmitterQueue != nil {
+		out.TransmitterQueue = *o.TransmitterQueue
+	}
+	if o.TransmitterQueueSize != nil {
+		out.TransmitterQueueSize = *o.TransmitterQueueSize
 	}
 	if o.TrustedCAs != nil {
 		out.TrustedCAs = *o.TrustedCAs

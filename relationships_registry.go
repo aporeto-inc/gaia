@@ -589,6 +589,7 @@ func init() {
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"auditprofilemappingpolicy": &elemental.RelationshipInfo{},
 			"enforcer":                  &elemental.RelationshipInfo{},
+			"enforcerprofile":           &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -607,6 +608,7 @@ func init() {
 		Info: map[string]*elemental.RelationshipInfo{
 			"auditprofilemappingpolicy": &elemental.RelationshipInfo{},
 			"enforcer":                  &elemental.RelationshipInfo{},
+			"enforcerprofile":           &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
