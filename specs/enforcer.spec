@@ -219,6 +219,15 @@ relations:
   get:
     description: Returns the enforcer profile that must be used by an enforcer.
 
+- rest_name: auditprofile
+  get:
+    description: Returns a list of the audit profiles that must be applied to this
+      enforcer.
+
+- rest_name: hostservicemappingpolicy
+  get:
+    description: Returns a list of the host services policies that apply to this enforcer.
+
 - rest_name: poke
   get:
     description: Sends a poke empty object. This is used to ensure an enforcer is

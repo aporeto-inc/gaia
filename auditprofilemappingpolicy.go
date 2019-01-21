@@ -9,43 +9,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// HostServiceIdentity represents the Identity of the object.
-var HostServiceIdentity = elemental.Identity{
-	Name:     "hostservice",
-	Category: "hostservices",
+// AuditProfileMappingPolicyIdentity represents the Identity of the object.
+var AuditProfileMappingPolicyIdentity = elemental.Identity{
+	Name:     "auditprofilemappingpolicy",
+	Category: "auditprofilemappingpolicies",
 	Package:  "squall",
 	Private:  false,
 }
 
-// HostServicesList represents a list of HostServices
-type HostServicesList []*HostService
+// AuditProfileMappingPoliciesList represents a list of AuditProfileMappingPolicies
+type AuditProfileMappingPoliciesList []*AuditProfileMappingPolicy
 
 // Identity returns the identity of the objects in the list.
-func (o HostServicesList) Identity() elemental.Identity {
+func (o AuditProfileMappingPoliciesList) Identity() elemental.Identity {
 
-	return HostServiceIdentity
+	return AuditProfileMappingPolicyIdentity
 }
 
-// Copy returns a pointer to a copy the HostServicesList.
-func (o HostServicesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the AuditProfileMappingPoliciesList.
+func (o AuditProfileMappingPoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(HostServicesList{}, o...)
+	copy := append(AuditProfileMappingPoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the HostServicesList.
-func (o HostServicesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the AuditProfileMappingPoliciesList.
+func (o AuditProfileMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(HostServicesList{}, o...)
+	out := append(AuditProfileMappingPoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*HostService))
+		out = append(out, obj.(*AuditProfileMappingPolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o HostServicesList) List() elemental.IdentifiablesList {
+func (o AuditProfileMappingPoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -56,16 +56,16 @@ func (o HostServicesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o HostServicesList) DefaultOrder() []string {
+func (o AuditProfileMappingPoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToSparse returns the HostServicesList converted to SparseHostServicesList.
+// ToSparse returns the AuditProfileMappingPoliciesList converted to SparseAuditProfileMappingPoliciesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o HostServicesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o AuditProfileMappingPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -76,30 +76,47 @@ func (o HostServicesList) ToSparse(fields ...string) elemental.IdentifiablesList
 }
 
 // Version returns the version of the content.
-func (o HostServicesList) Version() int {
+func (o AuditProfileMappingPoliciesList) Version() int {
 
 	return 1
 }
 
-// HostService represents the model of a hostservice
-type HostService struct {
+// AuditProfileMappingPolicy represents the model of a auditprofilemappingpolicy
+type AuditProfileMappingPolicy struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
+	// ActiveDuration defines for how long the policy will be active according to the
+	// activeSchedule.
+	ActiveDuration string `json:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
+
+	// ActiveSchedule defines when the policy should be active using the cron notation.
+	// The policy will be active for the given activeDuration.
+	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// Archived defines if the object is archived.
-	Archived bool `json:"-" bson:"archived" mapstructure:"-,omitempty"`
-
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// AuditProfiles returns the audit rules associated with the enforcer profile. This
+	// is a read only attribute when an enforcer profile is resolved for an enforcer.
+	AuditProfiles AuditProfilesList `json:"auditProfiles" bson:"-" mapstructure:"auditProfiles,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+
+	// Disabled defines if the propert is disabled.
+	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
+
+	// Fallback indicates that this is fallback policy. It will only be
+	// applied if no other policies have been resolved. If the policy is also
+	// propagated it will become a fallback for children namespaces.
+	Fallback bool `json:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -111,17 +128,22 @@ type HostService struct {
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// networkonly indicate the host service is of type network only.
-	Networkonly bool `json:"networkonly" bson:"networkonly" mapstructure:"networkonly,omitempty"`
-
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Object of the policy is the selector of the audit profiles that must be applied
+	// based on this policy.
+	Object [][]string `json:"object" bson:"-" mapstructure:"object,omitempty"`
+
+	// Propagate will propagate the policy to all of its children.
+	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Services lists all protocols and ports a service is running.
-	Services []*ProcessingUnitService `json:"services" bson:"services" mapstructure:"services,omitempty"`
+	// Subject of the policy is a selector of the enforcers that must implement the
+	// policy.
+	Subject [][]string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -139,46 +161,45 @@ type HostService struct {
 	sync.Mutex `json:"-" bson:"-"`
 }
 
-// NewHostService returns a new *HostService
-func NewHostService() *HostService {
+// NewAuditProfileMappingPolicy returns a new *AuditProfileMappingPolicy
+func NewAuditProfileMappingPolicy() *AuditProfileMappingPolicy {
 
-	return &HostService{
+	return &AuditProfileMappingPolicy{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
+		AuditProfiles:  AuditProfilesList{},
 		Metadata:       []string{},
-		Networkonly:    true,
 		NormalizedTags: []string{},
-		Services:       []*ProcessingUnitService{},
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *HostService) Identity() elemental.Identity {
+func (o *AuditProfileMappingPolicy) Identity() elemental.Identity {
 
-	return HostServiceIdentity
+	return AuditProfileMappingPolicyIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *HostService) Identifier() string {
+func (o *AuditProfileMappingPolicy) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *HostService) SetIdentifier(id string) {
+func (o *AuditProfileMappingPolicy) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *HostService) Version() int {
+func (o *AuditProfileMappingPolicy) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *HostService) DefaultOrder() []string {
+func (o *AuditProfileMappingPolicy) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -186,220 +207,284 @@ func (o *HostService) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *HostService) Doc() string {
-	return `Represents a set of services that a host must expose and protect.`
+func (o *AuditProfileMappingPolicy) Doc() string {
+	return `Defines an audit policy that determine the sets of enforcers that must implement
+a specific audit profile.`
 }
 
-func (o *HostService) String() string {
+func (o *AuditProfileMappingPolicy) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *AuditProfileMappingPolicy) GetActiveDuration() string {
+
+	return o.ActiveDuration
+}
+
+// SetActiveDuration sets the property ActiveDuration of the receiver using the given value.
+func (o *AuditProfileMappingPolicy) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *AuditProfileMappingPolicy) GetActiveSchedule() string {
+
+	return o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the given value.
+func (o *AuditProfileMappingPolicy) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = activeSchedule
+}
+
 // GetAnnotations returns the Annotations of the receiver.
-func (o *HostService) GetAnnotations() map[string][]string {
+func (o *AuditProfileMappingPolicy) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *HostService) SetAnnotations(annotations map[string][]string) {
+func (o *AuditProfileMappingPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
-// GetArchived returns the Archived of the receiver.
-func (o *HostService) GetArchived() bool {
-
-	return o.Archived
-}
-
-// SetArchived sets the property Archived of the receiver using the given value.
-func (o *HostService) SetArchived(archived bool) {
-
-	o.Archived = archived
-}
-
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *HostService) GetAssociatedTags() []string {
+func (o *AuditProfileMappingPolicy) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *HostService) SetAssociatedTags(associatedTags []string) {
+func (o *AuditProfileMappingPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *HostService) GetCreateTime() time.Time {
+func (o *AuditProfileMappingPolicy) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *HostService) SetCreateTime(createTime time.Time) {
+func (o *AuditProfileMappingPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *HostService) GetDescription() string {
+func (o *AuditProfileMappingPolicy) GetDescription() string {
 
 	return o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the given value.
-func (o *HostService) SetDescription(description string) {
+func (o *AuditProfileMappingPolicy) SetDescription(description string) {
 
 	o.Description = description
 }
 
+// GetDisabled returns the Disabled of the receiver.
+func (o *AuditProfileMappingPolicy) GetDisabled() bool {
+
+	return o.Disabled
+}
+
+// SetDisabled sets the property Disabled of the receiver using the given value.
+func (o *AuditProfileMappingPolicy) SetDisabled(disabled bool) {
+
+	o.Disabled = disabled
+}
+
+// GetFallback returns the Fallback of the receiver.
+func (o *AuditProfileMappingPolicy) GetFallback() bool {
+
+	return o.Fallback
+}
+
+// SetFallback sets the property Fallback of the receiver using the given value.
+func (o *AuditProfileMappingPolicy) SetFallback(fallback bool) {
+
+	o.Fallback = fallback
+}
+
 // GetMetadata returns the Metadata of the receiver.
-func (o *HostService) GetMetadata() []string {
+func (o *AuditProfileMappingPolicy) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the given value.
-func (o *HostService) SetMetadata(metadata []string) {
+func (o *AuditProfileMappingPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *HostService) GetName() string {
+func (o *AuditProfileMappingPolicy) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *HostService) SetName(name string) {
+func (o *AuditProfileMappingPolicy) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *HostService) GetNamespace() string {
+func (o *AuditProfileMappingPolicy) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *HostService) SetNamespace(namespace string) {
+func (o *AuditProfileMappingPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *HostService) GetNormalizedTags() []string {
+func (o *AuditProfileMappingPolicy) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *HostService) SetNormalizedTags(normalizedTags []string) {
+func (o *AuditProfileMappingPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *AuditProfileMappingPolicy) GetPropagate() bool {
+
+	return o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the given value.
+func (o *AuditProfileMappingPolicy) SetPropagate(propagate bool) {
+
+	o.Propagate = propagate
+}
+
 // GetProtected returns the Protected of the receiver.
-func (o *HostService) GetProtected() bool {
+func (o *AuditProfileMappingPolicy) GetProtected() bool {
 
 	return o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *HostService) GetUpdateTime() time.Time {
+func (o *AuditProfileMappingPolicy) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *HostService) SetUpdateTime(updateTime time.Time) {
+func (o *AuditProfileMappingPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *HostService) GetZHash() int {
+func (o *AuditProfileMappingPolicy) GetZHash() int {
 
 	return o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the given value.
-func (o *HostService) SetZHash(zHash int) {
+func (o *AuditProfileMappingPolicy) SetZHash(zHash int) {
 
 	o.ZHash = zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *HostService) GetZone() int {
+func (o *AuditProfileMappingPolicy) GetZone() int {
 
 	return o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the given value.
-func (o *HostService) SetZone(zone int) {
+func (o *AuditProfileMappingPolicy) SetZone(zone int) {
 
 	o.Zone = zone
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *HostService) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *AuditProfileMappingPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseHostService{
+		return &SparseAuditProfileMappingPolicy{
 			ID:             &o.ID,
+			ActiveDuration: &o.ActiveDuration,
+			ActiveSchedule: &o.ActiveSchedule,
 			Annotations:    &o.Annotations,
-			Archived:       &o.Archived,
 			AssociatedTags: &o.AssociatedTags,
+			AuditProfiles:  &o.AuditProfiles,
 			CreateTime:     &o.CreateTime,
 			Description:    &o.Description,
+			Disabled:       &o.Disabled,
+			Fallback:       &o.Fallback,
 			Metadata:       &o.Metadata,
 			Name:           &o.Name,
 			Namespace:      &o.Namespace,
-			Networkonly:    &o.Networkonly,
 			NormalizedTags: &o.NormalizedTags,
+			Object:         &o.Object,
+			Propagate:      &o.Propagate,
 			Protected:      &o.Protected,
-			Services:       &o.Services,
+			Subject:        &o.Subject,
 			UpdateTime:     &o.UpdateTime,
 			ZHash:          &o.ZHash,
 			Zone:           &o.Zone,
 		}
 	}
 
-	sp := &SparseHostService{}
+	sp := &SparseAuditProfileMappingPolicy{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
+		case "activeDuration":
+			sp.ActiveDuration = &(o.ActiveDuration)
+		case "activeSchedule":
+			sp.ActiveSchedule = &(o.ActiveSchedule)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
-		case "archived":
-			sp.Archived = &(o.Archived)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
+		case "auditProfiles":
+			sp.AuditProfiles = &(o.AuditProfiles)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
 			sp.Description = &(o.Description)
+		case "disabled":
+			sp.Disabled = &(o.Disabled)
+		case "fallback":
+			sp.Fallback = &(o.Fallback)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
-		case "networkonly":
-			sp.Networkonly = &(o.Networkonly)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
+		case "object":
+			sp.Object = &(o.Object)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
-		case "services":
-			sp.Services = &(o.Services)
+		case "subject":
+			sp.Subject = &(o.Subject)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -412,30 +497,42 @@ func (o *HostService) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseHostService to the object.
-func (o *HostService) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseAuditProfileMappingPolicy to the object.
+func (o *AuditProfileMappingPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseHostService)
+	so := sparse.(*SparseAuditProfileMappingPolicy)
 	if so.ID != nil {
 		o.ID = *so.ID
+	}
+	if so.ActiveDuration != nil {
+		o.ActiveDuration = *so.ActiveDuration
+	}
+	if so.ActiveSchedule != nil {
+		o.ActiveSchedule = *so.ActiveSchedule
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
 	}
-	if so.Archived != nil {
-		o.Archived = *so.Archived
-	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.AuditProfiles != nil {
+		o.AuditProfiles = *so.AuditProfiles
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
+	}
+	if so.Disabled != nil {
+		o.Disabled = *so.Disabled
+	}
+	if so.Fallback != nil {
+		o.Fallback = *so.Fallback
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -446,17 +543,20 @@ func (o *HostService) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
 	}
-	if so.Networkonly != nil {
-		o.Networkonly = *so.Networkonly
-	}
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Object != nil {
+		o.Object = *so.Object
+	}
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
-	if so.Services != nil {
-		o.Services = *so.Services
+	if so.Subject != nil {
+		o.Subject = *so.Subject
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -469,35 +569,39 @@ func (o *HostService) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the HostService.
-func (o *HostService) DeepCopy() *HostService {
+// DeepCopy returns a deep copy if the AuditProfileMappingPolicy.
+func (o *AuditProfileMappingPolicy) DeepCopy() *AuditProfileMappingPolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &HostService{}
+	out := &AuditProfileMappingPolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *HostService.
-func (o *HostService) DeepCopyInto(out *HostService) {
+// DeepCopyInto copies the receiver into the given *AuditProfileMappingPolicy.
+func (o *AuditProfileMappingPolicy) DeepCopyInto(out *AuditProfileMappingPolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy HostService: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy AuditProfileMappingPolicy: %s", err))
 	}
 
-	*out = *target.(*HostService)
+	*out = *target.(*AuditProfileMappingPolicy)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *HostService) Validate() error {
+func (o *AuditProfileMappingPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
+		errors = append(errors, err)
+	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
@@ -509,12 +613,6 @@ func (o *HostService) Validate() error {
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = append(errors, err)
-	}
-
-	for _, sub := range o.Services {
-		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
-		}
 	}
 
 	if len(requiredErrors) > 0 {
@@ -529,54 +627,64 @@ func (o *HostService) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*HostService) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*AuditProfileMappingPolicy) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := HostServiceAttributesMap[name]; ok {
+	if v, ok := AuditProfileMappingPolicyAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return HostServiceLowerCaseAttributesMap[name]
+	return AuditProfileMappingPolicyLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*HostService) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*AuditProfileMappingPolicy) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return HostServiceAttributesMap
+	return AuditProfileMappingPolicyAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *HostService) ValueForAttribute(name string) interface{} {
+func (o *AuditProfileMappingPolicy) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
 		return o.ID
+	case "activeDuration":
+		return o.ActiveDuration
+	case "activeSchedule":
+		return o.ActiveSchedule
 	case "annotations":
 		return o.Annotations
-	case "archived":
-		return o.Archived
 	case "associatedTags":
 		return o.AssociatedTags
+	case "auditProfiles":
+		return o.AuditProfiles
 	case "createTime":
 		return o.CreateTime
 	case "description":
 		return o.Description
+	case "disabled":
+		return o.Disabled
+	case "fallback":
+		return o.Fallback
 	case "metadata":
 		return o.Metadata
 	case "name":
 		return o.Name
 	case "namespace":
 		return o.Namespace
-	case "networkonly":
-		return o.Networkonly
 	case "normalizedTags":
 		return o.NormalizedTags
+	case "object":
+		return o.Object
+	case "propagate":
+		return o.Propagate
 	case "protected":
 		return o.Protected
-	case "services":
-		return o.Services
+	case "subject":
+		return o.Subject
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -588,8 +696,8 @@ func (o *HostService) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// HostServiceAttributesMap represents the map of attribute for HostService.
-var HostServiceAttributesMap = map[string]elemental.AttributeSpecification{
+// AuditProfileMappingPolicyAttributesMap represents the map of attribute for AuditProfileMappingPolicy.
+var AuditProfileMappingPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -600,10 +708,34 @@ var HostServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
-		Stored:         true,
 		Type:           "string",
+	},
+	"ActiveDuration": elemental.AttributeSpecification{
+		AllowedChars:   `^[0-9]+[smh]$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveDuration",
+		Description: `ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeDuration",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
+	},
+	"ActiveSchedule": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveSchedule",
+		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeSchedule",
+		Setter:  true,
+		Stored:  true,
+		SubType: "cron_expression",
+		Type:    "external",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -617,16 +749,6 @@ var HostServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "annotations",
 		Type:           "external",
 	},
-	"Archived": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Archived",
-		Description:    `Archived defines if the object is archived.`,
-		Getter:         true,
-		Name:           "archived",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
@@ -638,6 +760,18 @@ var HostServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
+	},
+	"AuditProfiles": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "AuditProfiles",
+		Description: `AuditProfiles returns the audit rules associated with the enforcer profile. This
+is a read only attribute when an enforcer profile is resolved for an enforcer.`,
+		Exposed:  true,
+		Name:     "auditProfiles",
+		ReadOnly: true,
+		SubType:  "audit_profiles",
+		Type:     "external",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -665,6 +799,32 @@ var HostServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"Disabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Disabled",
+		Description:    `Disabled defines if the propert is disabled.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "disabled",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
+	"Fallback": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Fallback",
+		Description: `Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.`,
+		Exposed:   true,
+		Getter:    true,
+		Name:      "fallback",
+		Orderable: true,
+		Setter:    true,
+		Stored:    true,
+		Type:      "boolean",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -714,18 +874,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"Networkonly": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Networkonly",
-		DefaultValue:   true,
-		Deprecated:     true,
-		Description:    `networkonly indicate the host service is of type network only.`,
-		Exposed:        true,
-		Name:           "networkonly",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"NormalizedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -741,6 +889,29 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "external",
 	},
+	"Object": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Object",
+		Description: `Object of the policy is the selector of the audit profiles that must be applied
+based on this policy.`,
+		Exposed:   true,
+		Name:      "object",
+		Orderable: true,
+		SubType:   "policies_list",
+		Type:      "external",
+	},
+	"Propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -752,16 +923,16 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"Services": elemental.AttributeSpecification{
+	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Services",
-		Description:    `Services lists all protocols and ports a service is running.`,
-		Exposed:        true,
-		Name:           "services",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "processingunitservice",
-		Type:           "refList",
+		ConvertedName:  "Subject",
+		Description: `Subject of the policy is a selector of the enforcers that must implement the
+policy.`,
+		Exposed:   true,
+		Name:      "subject",
+		Orderable: true,
+		SubType:   "policies_list",
+		Type:      "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -805,8 +976,8 @@ georedundancy.`,
 	},
 }
 
-// HostServiceLowerCaseAttributesMap represents the map of attribute for HostService.
-var HostServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// AuditProfileMappingPolicyLowerCaseAttributesMap represents the map of attribute for AuditProfileMappingPolicy.
+var AuditProfileMappingPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -817,10 +988,34 @@ var HostServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
-		Stored:         true,
 		Type:           "string",
+	},
+	"activeduration": elemental.AttributeSpecification{
+		AllowedChars:   `^[0-9]+[smh]$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveDuration",
+		Description: `ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeDuration",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
+	},
+	"activeschedule": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveSchedule",
+		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeSchedule",
+		Setter:  true,
+		Stored:  true,
+		SubType: "cron_expression",
+		Type:    "external",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -834,16 +1029,6 @@ var HostServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		SubType:        "annotations",
 		Type:           "external",
 	},
-	"archived": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Archived",
-		Description:    `Archived defines if the object is archived.`,
-		Getter:         true,
-		Name:           "archived",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
@@ -855,6 +1040,18 @@ var HostServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Stored:         true,
 		SubType:        "tags_list",
 		Type:           "external",
+	},
+	"auditprofiles": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "AuditProfiles",
+		Description: `AuditProfiles returns the audit rules associated with the enforcer profile. This
+is a read only attribute when an enforcer profile is resolved for an enforcer.`,
+		Exposed:  true,
+		Name:     "auditProfiles",
+		ReadOnly: true,
+		SubType:  "audit_profiles",
+		Type:     "external",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -882,6 +1079,32 @@ var HostServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"disabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Disabled",
+		Description:    `Disabled defines if the propert is disabled.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "disabled",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
+	"fallback": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Fallback",
+		Description: `Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.`,
+		Exposed:   true,
+		Getter:    true,
+		Name:      "fallback",
+		Orderable: true,
+		Setter:    true,
+		Stored:    true,
+		Type:      "boolean",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -931,18 +1154,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"networkonly": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Networkonly",
-		DefaultValue:   true,
-		Deprecated:     true,
-		Description:    `networkonly indicate the host service is of type network only.`,
-		Exposed:        true,
-		Name:           "networkonly",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"normalizedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -958,6 +1169,29 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "external",
 	},
+	"object": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Object",
+		Description: `Object of the policy is the selector of the audit profiles that must be applied
+based on this policy.`,
+		Exposed:   true,
+		Name:      "object",
+		Orderable: true,
+		SubType:   "policies_list",
+		Type:      "external",
+	},
+	"propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -969,16 +1203,16 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"services": elemental.AttributeSpecification{
+	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Services",
-		Description:    `Services lists all protocols and ports a service is running.`,
-		Exposed:        true,
-		Name:           "services",
-		Orderable:      true,
-		Stored:         true,
-		SubType:        "processingunitservice",
-		Type:           "refList",
+		ConvertedName:  "Subject",
+		Description: `Subject of the policy is a selector of the enforcers that must implement the
+policy.`,
+		Exposed:   true,
+		Name:      "subject",
+		Orderable: true,
+		SubType:   "policies_list",
+		Type:      "external",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1022,35 +1256,35 @@ georedundancy.`,
 	},
 }
 
-// SparseHostServicesList represents a list of SparseHostServices
-type SparseHostServicesList []*SparseHostService
+// SparseAuditProfileMappingPoliciesList represents a list of SparseAuditProfileMappingPolicies
+type SparseAuditProfileMappingPoliciesList []*SparseAuditProfileMappingPolicy
 
 // Identity returns the identity of the objects in the list.
-func (o SparseHostServicesList) Identity() elemental.Identity {
+func (o SparseAuditProfileMappingPoliciesList) Identity() elemental.Identity {
 
-	return HostServiceIdentity
+	return AuditProfileMappingPolicyIdentity
 }
 
-// Copy returns a pointer to a copy the SparseHostServicesList.
-func (o SparseHostServicesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseAuditProfileMappingPoliciesList.
+func (o SparseAuditProfileMappingPoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(SparseHostServicesList{}, o...)
+	copy := append(SparseAuditProfileMappingPoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseHostServicesList.
-func (o SparseHostServicesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseAuditProfileMappingPoliciesList.
+func (o SparseAuditProfileMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseHostServicesList{}, o...)
+	out := append(SparseAuditProfileMappingPoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseHostService))
+		out = append(out, obj.(*SparseAuditProfileMappingPolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseHostServicesList) List() elemental.IdentifiablesList {
+func (o SparseAuditProfileMappingPoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1061,15 +1295,15 @@ func (o SparseHostServicesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseHostServicesList) DefaultOrder() []string {
+func (o SparseAuditProfileMappingPoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToPlain returns the SparseHostServicesList converted to HostServicesList.
-func (o SparseHostServicesList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseAuditProfileMappingPoliciesList converted to AuditProfileMappingPoliciesList.
+func (o SparseAuditProfileMappingPoliciesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1080,30 +1314,47 @@ func (o SparseHostServicesList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseHostServicesList) Version() int {
+func (o SparseAuditProfileMappingPoliciesList) Version() int {
 
 	return 1
 }
 
-// SparseHostService represents the sparse version of a hostservice.
-type SparseHostService struct {
+// SparseAuditProfileMappingPolicy represents the sparse version of a auditprofilemappingpolicy.
+type SparseAuditProfileMappingPolicy struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
+	// ActiveDuration defines for how long the policy will be active according to the
+	// activeSchedule.
+	ActiveDuration *string `json:"activeDuration,omitempty" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
+
+	// ActiveSchedule defines when the policy should be active using the cron notation.
+	// The policy will be active for the given activeDuration.
+	ActiveSchedule *string `json:"activeSchedule,omitempty" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// Archived defines if the object is archived.
-	Archived *bool `json:"-,omitempty" bson:"archived" mapstructure:"-,omitempty"`
-
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// AuditProfiles returns the audit rules associated with the enforcer profile. This
+	// is a read only attribute when an enforcer profile is resolved for an enforcer.
+	AuditProfiles *AuditProfilesList `json:"auditProfiles,omitempty" bson:"-" mapstructure:"auditProfiles,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+
+	// Disabled defines if the propert is disabled.
+	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
+
+	// Fallback indicates that this is fallback policy. It will only be
+	// applied if no other policies have been resolved. If the policy is also
+	// propagated it will become a fallback for children namespaces.
+	Fallback *bool `json:"fallback,omitempty" bson:"fallback" mapstructure:"fallback,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -1115,17 +1366,22 @@ type SparseHostService struct {
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// networkonly indicate the host service is of type network only.
-	Networkonly *bool `json:"networkonly,omitempty" bson:"networkonly" mapstructure:"networkonly,omitempty"`
-
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Object of the policy is the selector of the audit profiles that must be applied
+	// based on this policy.
+	Object *[][]string `json:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
+
+	// Propagate will propagate the policy to all of its children.
+	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Services lists all protocols and ports a service is running.
-	Services *[]*ProcessingUnitService `json:"services,omitempty" bson:"services" mapstructure:"services,omitempty"`
+	// Subject of the policy is a selector of the enforcers that must implement the
+	// policy.
+	Subject *[][]string `json:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -1143,19 +1399,19 @@ type SparseHostService struct {
 	sync.Mutex `json:"-" bson:"-"`
 }
 
-// NewSparseHostService returns a new  SparseHostService.
-func NewSparseHostService() *SparseHostService {
-	return &SparseHostService{}
+// NewSparseAuditProfileMappingPolicy returns a new  SparseAuditProfileMappingPolicy.
+func NewSparseAuditProfileMappingPolicy() *SparseAuditProfileMappingPolicy {
+	return &SparseAuditProfileMappingPolicy{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseHostService) Identity() elemental.Identity {
+func (o *SparseAuditProfileMappingPolicy) Identity() elemental.Identity {
 
-	return HostServiceIdentity
+	return AuditProfileMappingPolicyIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseHostService) Identifier() string {
+func (o *SparseAuditProfileMappingPolicy) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1164,38 +1420,50 @@ func (o *SparseHostService) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseHostService) SetIdentifier(id string) {
+func (o *SparseAuditProfileMappingPolicy) SetIdentifier(id string) {
 
 	o.ID = &id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseHostService) Version() int {
+func (o *SparseAuditProfileMappingPolicy) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseHostService) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseAuditProfileMappingPolicy) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewHostService()
+	out := NewAuditProfileMappingPolicy()
 	if o.ID != nil {
 		out.ID = *o.ID
+	}
+	if o.ActiveDuration != nil {
+		out.ActiveDuration = *o.ActiveDuration
+	}
+	if o.ActiveSchedule != nil {
+		out.ActiveSchedule = *o.ActiveSchedule
 	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
 	}
-	if o.Archived != nil {
-		out.Archived = *o.Archived
-	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.AuditProfiles != nil {
+		out.AuditProfiles = *o.AuditProfiles
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
+	}
+	if o.Disabled != nil {
+		out.Disabled = *o.Disabled
+	}
+	if o.Fallback != nil {
+		out.Fallback = *o.Fallback
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
@@ -1206,17 +1474,20 @@ func (o *SparseHostService) ToPlain() elemental.PlainIdentifiable {
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
-	if o.Networkonly != nil {
-		out.Networkonly = *o.Networkonly
-	}
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Object != nil {
+		out.Object = *o.Object
+	}
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
 	}
-	if o.Services != nil {
-		out.Services = *o.Services
+	if o.Subject != nil {
+		out.Subject = *o.Subject
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
@@ -1231,176 +1502,224 @@ func (o *SparseHostService) ToPlain() elemental.PlainIdentifiable {
 	return out
 }
 
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *SparseAuditProfileMappingPolicy) GetActiveDuration() string {
+
+	return *o.ActiveDuration
+}
+
+// SetActiveDuration sets the property ActiveDuration of the receiver using the address of the given value.
+func (o *SparseAuditProfileMappingPolicy) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = &activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *SparseAuditProfileMappingPolicy) GetActiveSchedule() string {
+
+	return *o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the address of the given value.
+func (o *SparseAuditProfileMappingPolicy) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = &activeSchedule
+}
+
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseHostService) GetAnnotations() map[string][]string {
+func (o *SparseAuditProfileMappingPolicy) GetAnnotations() map[string][]string {
 
 	return *o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseHostService) SetAnnotations(annotations map[string][]string) {
+func (o *SparseAuditProfileMappingPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
-// GetArchived returns the Archived of the receiver.
-func (o *SparseHostService) GetArchived() bool {
-
-	return *o.Archived
-}
-
-// SetArchived sets the property Archived of the receiver using the address of the given value.
-func (o *SparseHostService) SetArchived(archived bool) {
-
-	o.Archived = &archived
-}
-
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseHostService) GetAssociatedTags() []string {
+func (o *SparseAuditProfileMappingPolicy) GetAssociatedTags() []string {
 
 	return *o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseHostService) SetAssociatedTags(associatedTags []string) {
+func (o *SparseAuditProfileMappingPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseHostService) GetCreateTime() time.Time {
+func (o *SparseAuditProfileMappingPolicy) GetCreateTime() time.Time {
 
 	return *o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparseHostService) SetCreateTime(createTime time.Time) {
+func (o *SparseAuditProfileMappingPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseHostService) GetDescription() string {
+func (o *SparseAuditProfileMappingPolicy) GetDescription() string {
 
 	return *o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the address of the given value.
-func (o *SparseHostService) SetDescription(description string) {
+func (o *SparseAuditProfileMappingPolicy) SetDescription(description string) {
 
 	o.Description = &description
 }
 
+// GetDisabled returns the Disabled of the receiver.
+func (o *SparseAuditProfileMappingPolicy) GetDisabled() bool {
+
+	return *o.Disabled
+}
+
+// SetDisabled sets the property Disabled of the receiver using the address of the given value.
+func (o *SparseAuditProfileMappingPolicy) SetDisabled(disabled bool) {
+
+	o.Disabled = &disabled
+}
+
+// GetFallback returns the Fallback of the receiver.
+func (o *SparseAuditProfileMappingPolicy) GetFallback() bool {
+
+	return *o.Fallback
+}
+
+// SetFallback sets the property Fallback of the receiver using the address of the given value.
+func (o *SparseAuditProfileMappingPolicy) SetFallback(fallback bool) {
+
+	o.Fallback = &fallback
+}
+
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseHostService) GetMetadata() []string {
+func (o *SparseAuditProfileMappingPolicy) GetMetadata() []string {
 
 	return *o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the address of the given value.
-func (o *SparseHostService) SetMetadata(metadata []string) {
+func (o *SparseAuditProfileMappingPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = &metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseHostService) GetName() string {
+func (o *SparseAuditProfileMappingPolicy) GetName() string {
 
 	return *o.Name
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseHostService) SetName(name string) {
+func (o *SparseAuditProfileMappingPolicy) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseHostService) GetNamespace() string {
+func (o *SparseAuditProfileMappingPolicy) GetNamespace() string {
 
 	return *o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseHostService) SetNamespace(namespace string) {
+func (o *SparseAuditProfileMappingPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseHostService) GetNormalizedTags() []string {
+func (o *SparseAuditProfileMappingPolicy) GetNormalizedTags() []string {
 
 	return *o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseHostService) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseAuditProfileMappingPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseAuditProfileMappingPolicy) GetPropagate() bool {
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseAuditProfileMappingPolicy) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
+}
+
 // GetProtected returns the Protected of the receiver.
-func (o *SparseHostService) GetProtected() bool {
+func (o *SparseAuditProfileMappingPolicy) GetProtected() bool {
 
 	return *o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseHostService) GetUpdateTime() time.Time {
+func (o *SparseAuditProfileMappingPolicy) GetUpdateTime() time.Time {
 
 	return *o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparseHostService) SetUpdateTime(updateTime time.Time) {
+func (o *SparseAuditProfileMappingPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseHostService) GetZHash() int {
+func (o *SparseAuditProfileMappingPolicy) GetZHash() int {
 
 	return *o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparseHostService) SetZHash(zHash int) {
+func (o *SparseAuditProfileMappingPolicy) SetZHash(zHash int) {
 
 	o.ZHash = &zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseHostService) GetZone() int {
+func (o *SparseAuditProfileMappingPolicy) GetZone() int {
 
 	return *o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparseHostService) SetZone(zone int) {
+func (o *SparseAuditProfileMappingPolicy) SetZone(zone int) {
 
 	o.Zone = &zone
 }
 
-// DeepCopy returns a deep copy if the SparseHostService.
-func (o *SparseHostService) DeepCopy() *SparseHostService {
+// DeepCopy returns a deep copy if the SparseAuditProfileMappingPolicy.
+func (o *SparseAuditProfileMappingPolicy) DeepCopy() *SparseAuditProfileMappingPolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseHostService{}
+	out := &SparseAuditProfileMappingPolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseHostService.
-func (o *SparseHostService) DeepCopyInto(out *SparseHostService) {
+// DeepCopyInto copies the receiver into the given *SparseAuditProfileMappingPolicy.
+func (o *SparseAuditProfileMappingPolicy) DeepCopyInto(out *SparseAuditProfileMappingPolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseHostService: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseAuditProfileMappingPolicy: %s", err))
 	}
 
-	*out = *target.(*SparseHostService)
+	*out = *target.(*SparseAuditProfileMappingPolicy)
 }

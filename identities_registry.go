@@ -4,26 +4,27 @@ import "go.aporeto.io/elemental"
 
 var (
 	identityNamesMap = map[string]elemental.Identity{
-		"account":                AccountIdentity,
-		"accountcheck":           AccountCheckIdentity,
-		"activate":               ActivateIdentity,
-		"activity":               ActivityIdentity,
-		"alarm":                  AlarmIdentity,
-		"apiauthorizationpolicy": APIAuthorizationPolicyIdentity,
-		"apicheck":               APICheckIdentity,
-		"app":                    AppIdentity,
-		"appcredential":          AppCredentialIdentity,
-		"auditprofile":           AuditProfileIdentity,
-		"auditreport":            AuditReportIdentity,
-		"auth":                   AuthIdentity,
-		"authority":              AuthorityIdentity,
-		"automation":             AutomationIdentity,
-		"automationtemplate":     AutomationTemplateIdentity,
-		"awsaccount":             AWSAccountIdentity,
-		"awsapigateway":          AWSAPIGatewayIdentity,
-		"awsregister":            AWSRegisterIdentity,
-		"category":               CategoryIdentity,
-		"certificate":            CertificateIdentity,
+		"account":                   AccountIdentity,
+		"accountcheck":              AccountCheckIdentity,
+		"activate":                  ActivateIdentity,
+		"activity":                  ActivityIdentity,
+		"alarm":                     AlarmIdentity,
+		"apiauthorizationpolicy":    APIAuthorizationPolicyIdentity,
+		"apicheck":                  APICheckIdentity,
+		"app":                       AppIdentity,
+		"appcredential":             AppCredentialIdentity,
+		"auditprofile":              AuditProfileIdentity,
+		"auditprofilemappingpolicy": AuditProfileMappingPolicyIdentity,
+		"auditreport":               AuditReportIdentity,
+		"auth":                      AuthIdentity,
+		"authority":                 AuthorityIdentity,
+		"automation":                AutomationIdentity,
+		"automationtemplate":        AutomationTemplateIdentity,
+		"awsaccount":                AWSAccountIdentity,
+		"awsapigateway":             AWSAPIGatewayIdentity,
+		"awsregister":               AWSRegisterIdentity,
+		"category":                  CategoryIdentity,
+		"certificate":               CertificateIdentity,
 
 		"customer":      CustomerIdentity,
 		"dependencymap": DependencyMapIdentity,
@@ -42,34 +43,35 @@ var (
 		"filepath":                     FilePathIdentity,
 		"flowreport":                   FlowReportIdentity,
 
-		"hookpolicy": HookPolicyIdentity,
-
-		"httpresourcespec":       HTTPResourceSpecIdentity,
-		"import":                 ImportIdentity,
-		"installedapp":           InstalledAppIdentity,
-		"invoice":                InvoiceIdentity,
-		"invoicerecord":          InvoiceRecordIdentity,
-		"ipinfo":                 IPInfoIdentity,
-		"isolationprofile":       IsolationProfileIdentity,
-		"issue":                  IssueIdentity,
-		"jaegerbatch":            JaegerbatchIdentity,
-		"k8scluster":             K8SClusterIdentity,
-		"log":                    LogIdentity,
-		"message":                MessageIdentity,
-		"namespace":              NamespaceIdentity,
-		"namespacemappingpolicy": NamespaceMappingPolicyIdentity,
-		"networkaccesspolicy":    NetworkAccessPolicyIdentity,
-		"oidcprovider":           OIDCProviderIdentity,
-		"passwordreset":          PasswordResetIdentity,
-		"plan":                   PlanIdentity,
-		"poke":                   PokeIdentity,
-		"policy":                 PolicyIdentity,
-		"policyrefresh":          PolicyRefreshIdentity,
-		"policyrenderer":         PolicyRendererIdentity,
-		"policyrule":             PolicyRuleIdentity,
-		"privatekey":             PrivateKeyIdentity,
-		"processingunit":         ProcessingUnitIdentity,
-		"processingunitpolicy":   ProcessingUnitPolicyIdentity,
+		"hookpolicy":               HookPolicyIdentity,
+		"hostservice":              HostServiceIdentity,
+		"hostservicemappingpolicy": HostServiceMappingPolicyIdentity,
+		"httpresourcespec":         HTTPResourceSpecIdentity,
+		"import":                   ImportIdentity,
+		"installedapp":             InstalledAppIdentity,
+		"invoice":                  InvoiceIdentity,
+		"invoicerecord":            InvoiceRecordIdentity,
+		"ipinfo":                   IPInfoIdentity,
+		"isolationprofile":         IsolationProfileIdentity,
+		"issue":                    IssueIdentity,
+		"jaegerbatch":              JaegerbatchIdentity,
+		"k8scluster":               K8SClusterIdentity,
+		"log":                      LogIdentity,
+		"message":                  MessageIdentity,
+		"namespace":                NamespaceIdentity,
+		"namespacemappingpolicy":   NamespaceMappingPolicyIdentity,
+		"networkaccesspolicy":      NetworkAccessPolicyIdentity,
+		"oidcprovider":             OIDCProviderIdentity,
+		"passwordreset":            PasswordResetIdentity,
+		"plan":                     PlanIdentity,
+		"poke":                     PokeIdentity,
+		"policy":                   PolicyIdentity,
+		"policyrefresh":            PolicyRefreshIdentity,
+		"policyrenderer":           PolicyRendererIdentity,
+		"policyrule":               PolicyRuleIdentity,
+		"privatekey":               PrivateKeyIdentity,
+		"processingunit":           ProcessingUnitIdentity,
+		"processingunitpolicy":     ProcessingUnitPolicyIdentity,
 
 		"punode":               PUNodeIdentity,
 		"quotacheck":           QuotaCheckIdentity,
@@ -100,26 +102,27 @@ var (
 	}
 
 	identitycategoriesMap = map[string]elemental.Identity{
-		"accounts":                 AccountIdentity,
-		"accountchecks":            AccountCheckIdentity,
-		"activate":                 ActivateIdentity,
-		"activities":               ActivityIdentity,
-		"alarms":                   AlarmIdentity,
-		"apiauthorizationpolicies": APIAuthorizationPolicyIdentity,
-		"apichecks":                APICheckIdentity,
-		"apps":                     AppIdentity,
-		"appcredentials":           AppCredentialIdentity,
-		"auditprofiles":            AuditProfileIdentity,
-		"auditreports":             AuditReportIdentity,
-		"auth":                     AuthIdentity,
-		"authorities":              AuthorityIdentity,
-		"automations":              AutomationIdentity,
-		"automationtemplates":      AutomationTemplateIdentity,
-		"awsaccounts":              AWSAccountIdentity,
-		"awsapigateways":           AWSAPIGatewayIdentity,
-		"awsregister":              AWSRegisterIdentity,
-		"categories":               CategoryIdentity,
-		"certificates":             CertificateIdentity,
+		"accounts":                    AccountIdentity,
+		"accountchecks":               AccountCheckIdentity,
+		"activate":                    ActivateIdentity,
+		"activities":                  ActivityIdentity,
+		"alarms":                      AlarmIdentity,
+		"apiauthorizationpolicies":    APIAuthorizationPolicyIdentity,
+		"apichecks":                   APICheckIdentity,
+		"apps":                        AppIdentity,
+		"appcredentials":              AppCredentialIdentity,
+		"auditprofiles":               AuditProfileIdentity,
+		"auditprofilemappingpolicies": AuditProfileMappingPolicyIdentity,
+		"auditreports":                AuditReportIdentity,
+		"auth":                        AuthIdentity,
+		"authorities":                 AuthorityIdentity,
+		"automations":                 AutomationIdentity,
+		"automationtemplates":         AutomationTemplateIdentity,
+		"awsaccounts":                 AWSAccountIdentity,
+		"awsapigateways":              AWSAPIGatewayIdentity,
+		"awsregister":                 AWSRegisterIdentity,
+		"categories":                  CategoryIdentity,
+		"certificates":                CertificateIdentity,
 
 		"customers":      CustomerIdentity,
 		"dependencymaps": DependencyMapIdentity,
@@ -138,34 +141,35 @@ var (
 		"filepaths":                      FilePathIdentity,
 		"flowreports":                    FlowReportIdentity,
 
-		"hookpolicies": HookPolicyIdentity,
-
-		"httpresourcespecs":        HTTPResourceSpecIdentity,
-		"import":                   ImportIdentity,
-		"installedapps":            InstalledAppIdentity,
-		"invoices":                 InvoiceIdentity,
-		"invoicerecords":           InvoiceRecordIdentity,
-		"ipinfos":                  IPInfoIdentity,
-		"isolationprofiles":        IsolationProfileIdentity,
-		"issue":                    IssueIdentity,
-		"jaegerbatchs":             JaegerbatchIdentity,
-		"k8sclusters":              K8SClusterIdentity,
-		"logs":                     LogIdentity,
-		"messages":                 MessageIdentity,
-		"namespaces":               NamespaceIdentity,
-		"namespacemappingpolicies": NamespaceMappingPolicyIdentity,
-		"networkaccesspolicies":    NetworkAccessPolicyIdentity,
-		"oidcproviders":            OIDCProviderIdentity,
-		"passwordreset":            PasswordResetIdentity,
-		"plans":                    PlanIdentity,
-		"poke":                     PokeIdentity,
-		"policies":                 PolicyIdentity,
-		"policyrefreshs":           PolicyRefreshIdentity,
-		"policyrenderers":          PolicyRendererIdentity,
-		"policyrules":              PolicyRuleIdentity,
-		"privatekeys":              PrivateKeyIdentity,
-		"processingunits":          ProcessingUnitIdentity,
-		"processingunitpolicies":   ProcessingUnitPolicyIdentity,
+		"hookpolicies":               HookPolicyIdentity,
+		"hostservices":               HostServiceIdentity,
+		"hostservicemappingpolicies": HostServiceMappingPolicyIdentity,
+		"httpresourcespecs":          HTTPResourceSpecIdentity,
+		"import":                     ImportIdentity,
+		"installedapps":              InstalledAppIdentity,
+		"invoices":                   InvoiceIdentity,
+		"invoicerecords":             InvoiceRecordIdentity,
+		"ipinfos":                    IPInfoIdentity,
+		"isolationprofiles":          IsolationProfileIdentity,
+		"issue":                      IssueIdentity,
+		"jaegerbatchs":               JaegerbatchIdentity,
+		"k8sclusters":                K8SClusterIdentity,
+		"logs":                       LogIdentity,
+		"messages":                   MessageIdentity,
+		"namespaces":                 NamespaceIdentity,
+		"namespacemappingpolicies":   NamespaceMappingPolicyIdentity,
+		"networkaccesspolicies":      NetworkAccessPolicyIdentity,
+		"oidcproviders":              OIDCProviderIdentity,
+		"passwordreset":              PasswordResetIdentity,
+		"plans":                      PlanIdentity,
+		"poke":                       PokeIdentity,
+		"policies":                   PolicyIdentity,
+		"policyrefreshs":             PolicyRefreshIdentity,
+		"policyrenderers":            PolicyRendererIdentity,
+		"policyrules":                PolicyRuleIdentity,
+		"privatekeys":                PrivateKeyIdentity,
+		"processingunits":            ProcessingUnitIdentity,
+		"processingunitpolicies":     ProcessingUnitPolicyIdentity,
 
 		"punodes":               PUNodeIdentity,
 		"quotacheck":            QuotaCheckIdentity,
@@ -201,6 +205,8 @@ var (
 		"appcred":      AppCredentialIdentity,
 		"appcreds":     AppCredentialIdentity,
 		"ap":           AuditProfileIdentity,
+		"audpol":       AuditProfileMappingPolicyIdentity,
+		"audpols":      AuditProfileMappingPolicyIdentity,
 		"ca":           AuthorityIdentity,
 		"autos":        AutomationIdentity,
 		"auto":         AutomationIdentity,
@@ -225,6 +231,10 @@ var (
 		"hooks":        HookPolicyIdentity,
 		"hookpol":      HookPolicyIdentity,
 		"hookpols":     HookPolicyIdentity,
+		"hostsrv":      HostServiceIdentity,
+		"hostsrvs":     HostServiceIdentity,
+		"hostsrvplc":   HostServiceMappingPolicyIdentity,
+		"hostsrvplcs":  HostServiceMappingPolicyIdentity,
 		"httpresource": HTTPResourceSpecIdentity,
 		"resource":     HTTPResourceSpecIdentity,
 		"httpspec":     HTTPResourceSpecIdentity,
@@ -305,8 +315,9 @@ var (
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 		},
-		"auditreport": nil,
-		"auth":        nil,
+		"auditprofilemappingpolicy": nil,
+		"auditreport":               nil,
+		"auth":                      nil,
 		"authority": [][]string{
 			[]string{":shard", "$hashed:serialNumber"},
 			[]string{":unique", "serialNumber"},
@@ -367,6 +378,14 @@ var (
 		},
 		"flowreport": nil,
 		"hookpolicy": nil,
+		"hostservice": [][]string{
+			[]string{":shard", "zone", "zhash"},
+			[]string{"namespace"},
+			[]string{"namespace", "name"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "archived"},
+		},
+		"hostservicemappingpolicy": nil,
 		"httpresourcespec": [][]string{
 			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
@@ -551,6 +570,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAppCredential()
 	case AuditProfileIdentity:
 		return NewAuditProfile()
+	case AuditProfileMappingPolicyIdentity:
+		return NewAuditProfileMappingPolicy()
 	case AuditReportIdentity:
 		return NewAuditReport()
 	case AuthIdentity:
@@ -603,6 +624,10 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewFlowReport()
 	case HookPolicyIdentity:
 		return NewHookPolicy()
+	case HostServiceIdentity:
+		return NewHostService()
+	case HostServiceMappingPolicyIdentity:
+		return NewHostServiceMappingPolicy()
 	case HTTPResourceSpecIdentity:
 		return NewHTTPResourceSpec()
 	case ImportIdentity:
@@ -736,6 +761,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAppCredential()
 	case AuditProfileIdentity:
 		return NewSparseAuditProfile()
+	case AuditProfileMappingPolicyIdentity:
+		return NewSparseAuditProfileMappingPolicy()
 	case AuditReportIdentity:
 		return NewSparseAuditReport()
 	case AuthIdentity:
@@ -788,6 +815,10 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseFlowReport()
 	case HookPolicyIdentity:
 		return NewSparseHookPolicy()
+	case HostServiceIdentity:
+		return NewSparseHostService()
+	case HostServiceMappingPolicyIdentity:
+		return NewSparseHostServiceMappingPolicy()
 	case HTTPResourceSpecIdentity:
 		return NewSparseHTTPResourceSpec()
 	case ImportIdentity:
@@ -929,6 +960,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &AppCredentialsList{}
 	case AuditProfileIdentity:
 		return &AuditProfilesList{}
+	case AuditProfileMappingPolicyIdentity:
+		return &AuditProfileMappingPoliciesList{}
 	case AuditReportIdentity:
 		return &AuditReportsList{}
 	case AuthIdentity:
@@ -981,6 +1014,10 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &FlowReportsList{}
 	case HookPolicyIdentity:
 		return &HookPoliciesList{}
+	case HostServiceIdentity:
+		return &HostServicesList{}
+	case HostServiceMappingPolicyIdentity:
+		return &HostServiceMappingPoliciesList{}
 	case HTTPResourceSpecIdentity:
 		return &HTTPResourceSpecsList{}
 	case ImportIdentity:
@@ -1112,6 +1149,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAppCredentialsList{}
 	case AuditProfileIdentity:
 		return &SparseAuditProfilesList{}
+	case AuditProfileMappingPolicyIdentity:
+		return &SparseAuditProfileMappingPoliciesList{}
 	case AuditReportIdentity:
 		return &SparseAuditReportsList{}
 	case AuthIdentity:
@@ -1164,6 +1203,10 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseFlowReportsList{}
 	case HookPolicyIdentity:
 		return &SparseHookPoliciesList{}
+	case HostServiceIdentity:
+		return &SparseHostServicesList{}
+	case HostServiceMappingPolicyIdentity:
+		return &SparseHostServiceMappingPoliciesList{}
 	case HTTPResourceSpecIdentity:
 		return &SparseHTTPResourceSpecsList{}
 	case ImportIdentity:
@@ -1300,6 +1343,7 @@ func AllIdentities() []elemental.Identity {
 		AppIdentity,
 		AppCredentialIdentity,
 		AuditProfileIdentity,
+		AuditProfileMappingPolicyIdentity,
 		AuditReportIdentity,
 		AuthIdentity,
 		AuthorityIdentity,
@@ -1326,6 +1370,8 @@ func AllIdentities() []elemental.Identity {
 		FilePathIdentity,
 		FlowReportIdentity,
 		HookPolicyIdentity,
+		HostServiceIdentity,
+		HostServiceMappingPolicyIdentity,
 		HTTPResourceSpecIdentity,
 		ImportIdentity,
 		InstalledAppIdentity,
@@ -1413,6 +1459,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"ap",
 		}
+	case AuditProfileMappingPolicyIdentity:
+		return []string{
+			"audpol",
+			"audpols",
+		}
 	case AuditReportIdentity:
 		return []string{}
 	case AuthIdentity:
@@ -1499,6 +1550,16 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"hooks",
 			"hookpol",
 			"hookpols",
+		}
+	case HostServiceIdentity:
+		return []string{
+			"hostsrv",
+			"hostsrvs",
+		}
+	case HostServiceMappingPolicyIdentity:
+		return []string{
+			"hostsrvplc",
+			"hostsrvplcs",
 		}
 	case HTTPResourceSpecIdentity:
 		return []string{
