@@ -214,12 +214,6 @@ isolation_profile_entities:
     type: IsolationProfilesList
     init: IsolationProfilesList{}
 
-jaeger_batch:
-  elemental:
-    type: '*jaeger.Batch'
-    init: '&jaeger.Batch{}'
-    import: github.com/uber/jaeger-client-go/thrift-gen/jaeger
-
 list_attachments:
   elemental:
     type: map[string]string

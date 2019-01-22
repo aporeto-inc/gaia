@@ -6397,7 +6397,7 @@ Sends a jaeger tracing batch.
 
 ### Attributes
 
-#### `batch (external:jaeger_batch)`
+#### `batch (object)`
 
 Represents a jaeger batch.
 
