@@ -727,13 +727,9 @@ relations:
         example_value: 1.2.3.4
 
 - rest_name: packetreport
-  get:
-    description: Retrieves a packet trace report.
   create:
     description: Create a packet trace report.
 
 - rest_name: enforcertracereport
-  get:
-    description: Retrieves an enforcer trace report.
   create:
     description: Create an enforcer trace report.

@@ -11,12 +11,6 @@ import (
 
 // TraceRecord represents the model of a tracerecord
 type TraceRecord struct {
-	// ID is the packet ID.
-	ID int `json:"ID" bson:"id" mapstructure:"ID,omitempty"`
-
-	// Length of the observed packet.
-	Length int `json:"Length" bson:"length" mapstructure:"Length,omitempty"`
-
 	// TTL is the TTL value of the packet.
 	TTL int `json:"TTL" bson:"ttl" mapstructure:"TTL,omitempty"`
 
@@ -24,31 +18,37 @@ type TraceRecord struct {
 	Chain string `json:"chain" bson:"chain" mapstructure:"chain,omitempty"`
 
 	// DestIP is the destination IP.
-	DestIP string `json:"destIP" bson:"destip" mapstructure:"destIP,omitempty"`
+	DestinationIP string `json:"destinationIP" bson:"destinationip" mapstructure:"destinationIP,omitempty"`
 
 	// DestInterface is the destination interface of the packet.
-	DestInterface string `json:"destInterface" bson:"destinterface" mapstructure:"destInterface,omitempty"`
+	DestinationInterface string `json:"destinationInterface" bson:"destinationinterface" mapstructure:"destinationInterface,omitempty"`
 
-	// DstPort is the destination Port.
-	DstPort int `json:"dstPort" bson:"dstport" mapstructure:"dstPort,omitempty"`
+	// DestPort is the destination Port.
+	DestinationPort int `json:"destinationPort" bson:"destinationport" mapstructure:"destinationPort,omitempty"`
 
-	// Policy is the index of the iptables entry that was hit.
-	Policy int `json:"policy" bson:"policy" mapstructure:"policy,omitempty"`
+	// Length of the observed packet.
+	Length int `json:"length" bson:"length" mapstructure:"length,omitempty"`
+
+	// ID is the packet ID.
+	PacketID int `json:"packetID" bson:"packetid" mapstructure:"packetID,omitempty"`
 
 	// Protocol is the protocol of the packets.
 	Protocol int `json:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
 
+	// ruleID is the index of the iptables entry that was hit.
+	RuleID int `json:"ruleID" bson:"ruleid" mapstructure:"ruleID,omitempty"`
+
 	// SrcIP is the source IP.
-	SrcIP string `json:"srcIP" bson:"srcip" mapstructure:"srcIP,omitempty"`
+	SourceIP string `json:"sourceIP" bson:"sourceip" mapstructure:"sourceIP,omitempty"`
 
 	// SrcInterface is the source interface of the packet.
-	SrcInterface string `json:"srcInterface" bson:"srcinterface" mapstructure:"srcInterface,omitempty"`
+	SourceInterface string `json:"sourceInterface" bson:"sourceinterface" mapstructure:"sourceInterface,omitempty"`
 
 	// SrcPort is the source Port.
-	SrcPort int `json:"srcPort" bson:"srcport" mapstructure:"srcPort,omitempty"`
+	SourcePort int `json:"sourcePort" bson:"sourceport" mapstructure:"sourcePort,omitempty"`
 
-	// Table is the iptable that the trace was collected.
-	Table string `json:"table" bson:"table" mapstructure:"table,omitempty"`
+	// TableName is the iptable that the trace was collected.
+	TableName string `json:"tableName" bson:"tablename" mapstructure:"tableName,omitempty"`
 
 	// Date of the report.
 	Timestamp time.Time `json:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
@@ -96,18 +96,6 @@ func (o *TraceRecord) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredInt("ID", o.ID); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredInt("Length", o.Length); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateMaximumInt("Length", o.Length, int(65536), false); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateRequiredInt("TTL", o.TTL); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -120,19 +108,31 @@ func (o *TraceRecord) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("destIP", o.DestIP); err != nil {
+	if err := elemental.ValidateRequiredString("destinationIP", o.DestinationIP); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredInt("dstPort", o.DstPort); err != nil {
+	if err := elemental.ValidateRequiredInt("destinationPort", o.DestinationPort); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateMaximumInt("dstPort", o.DstPort, int(65536), false); err != nil {
+	if err := elemental.ValidateMaximumInt("destinationPort", o.DestinationPort, int(65536), false); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredInt("policy", o.Policy); err != nil {
+	if err := elemental.ValidateMinimumInt("destinationPort", o.DestinationPort, int(1), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredInt("length", o.Length); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumInt("length", o.Length, int(65536), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredInt("packetID", o.PacketID); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
@@ -144,19 +144,31 @@ func (o *TraceRecord) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("srcIP", o.SrcIP); err != nil {
+	if err := elemental.ValidateRequiredInt("ruleID", o.RuleID); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredInt("srcPort", o.SrcPort); err != nil {
+	if err := elemental.ValidateRequiredString("sourceIP", o.SourceIP); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateMaximumInt("srcPort", o.SrcPort, int(65536), false); err != nil {
+	if err := elemental.ValidateRequiredInt("sourcePort", o.SourcePort); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumInt("sourcePort", o.SourcePort, int(65536), false); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("table", o.Table); err != nil {
+	if err := elemental.ValidateMinimumInt("sourcePort", o.SourcePort, int(1), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("tableName", o.TableName); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredTime("timestamp", o.Timestamp); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 

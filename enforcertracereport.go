@@ -81,16 +81,19 @@ func (o EnforcerTraceReportsList) Version() int {
 // EnforcerTraceReport represents the model of a enforcertracereport
 type EnforcerTraceReport struct {
 	// EnforcerID of the enforcer where the trace was collected.
-	EnforcerID string `json:"enforcerID" bson:"-" mapstructure:"enforcerID,omitempty"`
+	EnforcerID string `json:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
+
+	// Namespace of the enforcer where the trace was collected.
+	EnforcerNamespace string `json:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Namespace of the PU where the trace was collected.
-	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// ID of the pu where the trace was collected.
-	PuID string `json:"puID" bson:"-" mapstructure:"puID,omitempty"`
+	PuID string `json:"puID" bson:"puid" mapstructure:"puID,omitempty"`
 
-	// TraceList is the list of iptables trace records collected.
-	TraceList []*TraceRecord `json:"-" bson:"tracelist" mapstructure:"-,omitempty"`
+	// List of iptables trace records collected.
+	Records []*TraceRecord `json:"-" bson:"records" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -102,7 +105,7 @@ func NewEnforcerTraceReport() *EnforcerTraceReport {
 
 	return &EnforcerTraceReport{
 		ModelVersion: 1,
-		TraceList:    []*TraceRecord{},
+		Records:      []*TraceRecord{},
 	}
 }
 
@@ -152,10 +155,11 @@ func (o *EnforcerTraceReport) ToSparse(fields ...string) elemental.SparseIdentif
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseEnforcerTraceReport{
-			EnforcerID: &o.EnforcerID,
-			Namespace:  &o.Namespace,
-			PuID:       &o.PuID,
-			TraceList:  &o.TraceList,
+			EnforcerID:        &o.EnforcerID,
+			EnforcerNamespace: &o.EnforcerNamespace,
+			Namespace:         &o.Namespace,
+			PuID:              &o.PuID,
+			Records:           &o.Records,
 		}
 	}
 
@@ -164,12 +168,14 @@ func (o *EnforcerTraceReport) ToSparse(fields ...string) elemental.SparseIdentif
 		switch f {
 		case "enforcerID":
 			sp.EnforcerID = &(o.EnforcerID)
+		case "enforcerNamespace":
+			sp.EnforcerNamespace = &(o.EnforcerNamespace)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "puID":
 			sp.PuID = &(o.PuID)
-		case "traceList":
-			sp.TraceList = &(o.TraceList)
+		case "records":
+			sp.Records = &(o.Records)
 		}
 	}
 
@@ -186,14 +192,17 @@ func (o *EnforcerTraceReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.EnforcerID != nil {
 		o.EnforcerID = *so.EnforcerID
 	}
+	if so.EnforcerNamespace != nil {
+		o.EnforcerNamespace = *so.EnforcerNamespace
+	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
 	}
 	if so.PuID != nil {
 		o.PuID = *so.PuID
 	}
-	if so.TraceList != nil {
-		o.TraceList = *so.TraceList
+	if so.Records != nil {
+		o.Records = *so.Records
 	}
 }
 
@@ -228,6 +237,10 @@ func (o *EnforcerTraceReport) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("enforcerID", o.EnforcerID); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("enforcerNamespace", o.EnforcerNamespace); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
@@ -275,12 +288,14 @@ func (o *EnforcerTraceReport) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "enforcerID":
 		return o.EnforcerID
+	case "enforcerNamespace":
+		return o.EnforcerNamespace
 	case "namespace":
 		return o.Namespace
 	case "puID":
 		return o.PuID
-	case "traceList":
-		return o.TraceList
+	case "records":
+		return o.Records
 	}
 
 	return nil
@@ -293,9 +308,19 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 		ConvertedName:  "EnforcerID",
 		Description:    `EnforcerID of the enforcer where the trace was collected.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "enforcerID",
 		Required:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"EnforcerNamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EnforcerNamespace",
+		Description:    `Namespace of the enforcer where the trace was collected.`,
+		Exposed:        true,
+		Name:           "enforcerNamespace",
+		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"Namespace": elemental.AttributeSpecification{
@@ -303,9 +328,9 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 		ConvertedName:  "Namespace",
 		Description:    `Namespace of the PU where the trace was collected.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "namespace",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"PuID": elemental.AttributeSpecification{
@@ -313,16 +338,16 @@ var EnforcerTraceReportAttributesMap = map[string]elemental.AttributeSpecificati
 		ConvertedName:  "PuID",
 		Description:    `ID of the pu where the trace was collected.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "puID",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
-	"TraceList": elemental.AttributeSpecification{
+	"Records": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "TraceList",
-		Description:    `TraceList is the list of iptables trace records collected.`,
-		Name:           "traceList",
+		ConvertedName:  "Records",
+		Description:    `List of iptables trace records collected.`,
+		Name:           "records",
 		Stored:         true,
 		SubType:        "tracerecord",
 		Type:           "refList",
@@ -336,9 +361,19 @@ var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		ConvertedName:  "EnforcerID",
 		Description:    `EnforcerID of the enforcer where the trace was collected.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "enforcerID",
 		Required:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"enforcernamespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "EnforcerNamespace",
+		Description:    `Namespace of the enforcer where the trace was collected.`,
+		Exposed:        true,
+		Name:           "enforcerNamespace",
+		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"namespace": elemental.AttributeSpecification{
@@ -346,9 +381,9 @@ var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		ConvertedName:  "Namespace",
 		Description:    `Namespace of the PU where the trace was collected.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "namespace",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
 	"puid": elemental.AttributeSpecification{
@@ -356,16 +391,16 @@ var EnforcerTraceReportLowerCaseAttributesMap = map[string]elemental.AttributeSp
 		ConvertedName:  "PuID",
 		Description:    `ID of the pu where the trace was collected.`,
 		Exposed:        true,
-		Filterable:     true,
 		Name:           "puID",
 		Required:       true,
+		Stored:         true,
 		Type:           "string",
 	},
-	"tracelist": elemental.AttributeSpecification{
+	"records": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "TraceList",
-		Description:    `TraceList is the list of iptables trace records collected.`,
-		Name:           "traceList",
+		ConvertedName:  "Records",
+		Description:    `List of iptables trace records collected.`,
+		Name:           "records",
 		Stored:         true,
 		SubType:        "tracerecord",
 		Type:           "refList",
@@ -436,16 +471,19 @@ func (o SparseEnforcerTraceReportsList) Version() int {
 // SparseEnforcerTraceReport represents the sparse version of a enforcertracereport.
 type SparseEnforcerTraceReport struct {
 	// EnforcerID of the enforcer where the trace was collected.
-	EnforcerID *string `json:"enforcerID,omitempty" bson:"-" mapstructure:"enforcerID,omitempty"`
+	EnforcerID *string `json:"enforcerID,omitempty" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
+
+	// Namespace of the enforcer where the trace was collected.
+	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Namespace of the PU where the trace was collected.
-	Namespace *string `json:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// ID of the pu where the trace was collected.
-	PuID *string `json:"puID,omitempty" bson:"-" mapstructure:"puID,omitempty"`
+	PuID *string `json:"puID,omitempty" bson:"puid" mapstructure:"puID,omitempty"`
 
-	// TraceList is the list of iptables trace records collected.
-	TraceList *[]*TraceRecord `json:"-,omitempty" bson:"tracelist" mapstructure:"-,omitempty"`
+	// List of iptables trace records collected.
+	Records *[]*TraceRecord `json:"-,omitempty" bson:"records" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -487,14 +525,17 @@ func (o *SparseEnforcerTraceReport) ToPlain() elemental.PlainIdentifiable {
 	if o.EnforcerID != nil {
 		out.EnforcerID = *o.EnforcerID
 	}
+	if o.EnforcerNamespace != nil {
+		out.EnforcerNamespace = *o.EnforcerNamespace
+	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
 	if o.PuID != nil {
 		out.PuID = *o.PuID
 	}
-	if o.TraceList != nil {
-		out.TraceList = *o.TraceList
+	if o.Records != nil {
+		out.Records = *o.Records
 	}
 
 	return out

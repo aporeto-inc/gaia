@@ -9,25 +9,9 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: DstPort
-    description: DstPort is the destination port of the packet.
+  - name: TCPFlags
+    description: Flags are the TCP flags of the packet.
     type: integer
-    exposed: true
-    example_value: 11000
-    max_value: 65536
-
-  - name: ID
-    description: ID is the packet ID from the IP header.
-    type: integer
-    required: true
-    example_value: 12333
-
-  - name: SrcPort
-    description: SrcPort is the source port of the packet.
-    type: integer
-    exposed: true
-    example_value: 80
-    max_value: 65536
 
   - name: claims
     description: Claims is the list of claims detected for the packet.
@@ -35,9 +19,16 @@ attributes:
     subtype: enforcer_claims
 
   - name: destinationIP
-    description: Type of the destination.
+    description: IP of the destination.
     type: string
     exposed: true
+
+  - name: destinationPort
+    description: DestPort is the destination port of the packet.
+    type: integer
+    exposed: true
+    example_value: 11000
+    max_value: 65536
 
   - name: dropReason
     description: |-
@@ -50,8 +41,6 @@ attributes:
     description: Encrypt indicates that the packet was encrypted.
     type: boolean
     exposed: true
-    required: true
-    example_value: false
 
   - name: event
     description: Event is the event that triggered the report.
@@ -59,14 +48,10 @@ attributes:
     exposed: true
     required: true
     allowed_choices:
-    - Rcv
-    - Txt
-    - Drop
+    - Received
+    - Transmitted
+    - Dropped
     example_value: Rcv
-
-  - name: flags
-    description: Flags are the TCP flags of the packet.
-    type: integer
 
   - name: length
     description: Length is the length of the packet.
@@ -86,6 +71,12 @@ attributes:
     exposed: true
     example_value: /my/namespace
     filterable: true
+
+  - name: packetID
+    description: ID is the packet ID from the IP header.
+    type: integer
+    required: true
+    example_value: 12333
 
   - name: protocol
     description: Protocol number.
@@ -107,6 +98,13 @@ attributes:
     description: Type of the source.
     type: string
     exposed: true
+
+  - name: sourcePort
+    description: SrcPort is the source port of the packet.
+    type: integer
+    exposed: true
+    example_value: 80
+    max_value: 65536
 
   - name: timestamp
     description: Date of the report.

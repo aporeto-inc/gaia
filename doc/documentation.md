@@ -3928,16 +3928,13 @@ Post a new enforcer trace that determines how packets are.
 ```json
 {
   "enforcerID": "xxx-xxx-xxx",
+  "enforcerNamespace": "xxx-xxx-xxx",
   "namespace": "xxx-xxx-xxx",
   "puID": "xxx-xxx-xxx"
 }
 ```
 
 ### Relations
-
-#### `GET /enforcertracereports`
-
-Retrieves an enforcer trace report.
 
 #### `POST /enforcertracereports`
 
@@ -3952,7 +3949,14 @@ EnforcerID of the enforcer where the trace was collected.
 | Characteristics | Value  |
 | -               | -:     |
 | Required        | `true` |
-| Filterable      | `true` |
+
+#### `enforcerNamespace (string)`
+
+Namespace of the enforcer where the trace was collected.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
 
 #### `namespace (string)`
 
@@ -3961,7 +3965,6 @@ Namespace of the PU where the trace was collected.
 | Characteristics | Value  |
 | -               | -:     |
 | Required        | `true` |
-| Filterable      | `true` |
 
 #### `puID (string)`
 
@@ -3970,7 +3973,6 @@ ID of the pu where the trace was collected.
 | Characteristics | Value  |
 | -               | -:     |
 | Required        | `true` |
-| Filterable      | `true` |
 
 ## EventLog
 
@@ -7706,25 +7708,20 @@ Post a new packet tracing report.
 
 ```json
 {
-  "DstPort": 11000,
-  "ID": 12333,
-  "SrcPort": 80,
-  "encrypt": false,
+  "destinationPort": 11000,
   "event": "Rcv",
   "length": 94,
   "mark": 123123,
   "namespace": "/my/namespace",
+  "packetID": 12333,
   "protocol": 6,
   "puID": "xxx-xxx-xxx",
+  "sourcePort": 80,
   "timestamp": "2018-06-14T23:10:46.420397985Z"
 }
 ```
 
 ### Relations
-
-#### `GET /packetreports`
-
-Retrieves a packet trace report.
 
 #### `POST /packetreports`
 
@@ -7732,25 +7729,17 @@ Create a packet trace report.
 
 ### Attributes
 
-#### `DstPort (integer)`
-
-DstPort is the destination port of the packet.
-
-| Characteristics | Value   |
-| -               | -:      |
-| Max length      | `65536` |
-
-#### `SrcPort (integer)`
-
-SrcPort is the source port of the packet.
-
-| Characteristics | Value   |
-| -               | -:      |
-| Max length      | `65536` |
-
 #### `destinationIP (string)`
 
-Type of the destination.
+IP of the destination.
+
+#### `destinationPort (integer)`
+
+DestPort is the destination port of the packet.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Max length      | `65536` |
 
 #### `dropReason (string)`
 
@@ -7761,18 +7750,14 @@ for the rejection.
 
 Encrypt indicates that the packet was encrypted.
 
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
-
 #### `event (enum)`
 
 Event is the event that triggered the report.
 
-| Characteristics | Value            |
-| -               | -:               |
-| Allowed Value   | `Rcv, Txt, Drop` |
-| Required        | `true`           |
+| Characteristics | Value                            |
+| -               | -:                               |
+| Allowed Value   | `Received, Transmitted, Dropped` |
+| Required        | `true`                           |
 
 #### `namespace (string)`
 
@@ -7803,6 +7788,14 @@ ID of the PU reporting the packet.
 #### `sourceIP (string)`
 
 Type of the source.
+
+#### `sourcePort (integer)`
+
+SrcPort is the source port of the packet.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Max length      | `65536` |
 
 #### `timestamp (time)`
 
@@ -10678,40 +10671,28 @@ TraceMode is the tracing mode that must be applied to a PU.
 
 ### Attributes
 
-#### `ApplicationConnections (boolean)`
-
-ApplicationConnections instructs the enforcer to send records for all
-application initiated connections.
-
-| Characteristics | Value   |
-| -               | -:      |
-| Default         | `false` |
-
 #### `IPTables (boolean)`
 
 IPTables instructs the enforcers to provide an iptables trace for a PU.
 
-| Characteristics | Value   |
-| -               | -:      |
-| Default         | `false` |
+#### `applicationConnections (boolean)`
 
-#### `NetworkConnections (boolean)`
+Instructs the enforcer to send records for all
+application initiated connections.
 
-NetworkConnections instructs the enforcer to send records for all network
-initiated connections.
+#### `interval (string)`
 
-| Characteristics | Value   |
-| -               | -:      |
-| Default         | `false` |
-
-#### `TimeInterval (string)`
-
-TimeInterval determins the length of the time interval that the trace must be
+Determines the length of the time interval that the trace must be
 enabled.
 
 | Characteristics | Value   |
 | -               | -:      |
 | Default         | `"10s"` |
+
+#### `networkConnections (boolean)`
+
+Instructs the enforcer to send records for all network
+initiated connections.
 
 ## TraceRecord
 
@@ -10721,41 +10702,24 @@ Represents a single trace record from the enforcer.
 
 ```json
 {
-  "ID": 10,
-  "Length": 98,
   "TTL": 64,
   "chain": "PREROUTING",
-  "destIP": "10.1.1.30",
-  "destInterface": "en0",
-  "dstPort": 80,
-  "policy": 10,
+  "destinationIP": "10.1.1.30",
+  "destinationInterface": "en0",
+  "destinationPort": 80,
+  "length": 98,
+  "packetID": 10,
   "protocol": 80,
-  "srcIP": "10.1.1.30",
-  "srcInterface": "en0",
-  "srcPort": 80,
-  "table": "raw"
+  "ruleID": 10,
+  "sourceIP": "10.1.1.30",
+  "sourceInterface": "en0",
+  "sourcePort": 80,
+  "tableName": "raw",
+  "timestamp": "2018-06-14T23:10:46.420397985Z"
 }
 ```
 
 ### Attributes
-
-#### `ID (integer)`
-
-ID is the packet ID.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
-| Filterable      | `true` |
-
-#### `Length (integer)`
-
-Length of the observed packet.
-
-| Characteristics | Value   |
-| -               | -:      |
-| Max length      | `65536` |
-| Required        | `true`  |
 
 #### `TTL (integer)`
 
@@ -10774,7 +10738,7 @@ Chain is the chain that the trace was collected from.
 | -               | -:     |
 | Required        | `true` |
 
-#### `destIP (string)`
+#### `destinationIP (string)`
 
 DestIP is the destination IP.
 
@@ -10782,22 +10746,32 @@ DestIP is the destination IP.
 | -               | -:     |
 | Required        | `true` |
 
-#### `destInterface (string)`
+#### `destinationInterface (string)`
 
 DestInterface is the destination interface of the packet.
 
-#### `dstPort (integer)`
+#### `destinationPort (integer)`
 
-DstPort is the destination Port.
+DestPort is the destination Port.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Min length      | `1`     |
+| Max length      | `65536` |
+| Required        | `true`  |
+
+#### `length (integer)`
+
+Length of the observed packet.
 
 | Characteristics | Value   |
 | -               | -:      |
 | Max length      | `65536` |
 | Required        | `true`  |
 
-#### `policy (integer)`
+#### `packetID (integer)`
 
-Policy is the index of the iptables entry that was hit.
+ID is the packet ID.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -10812,7 +10786,15 @@ Protocol is the protocol of the packets.
 | Max length      | `65536` |
 | Required        | `true`  |
 
-#### `srcIP (string)`
+#### `ruleID (integer)`
+
+ruleID is the index of the iptables entry that was hit.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `sourceIP (string)`
 
 SrcIP is the source IP.
 
@@ -10820,22 +10802,23 @@ SrcIP is the source IP.
 | -               | -:     |
 | Required        | `true` |
 
-#### `srcInterface (string)`
+#### `sourceInterface (string)`
 
 SrcInterface is the source interface of the packet.
 
-#### `srcPort (integer)`
+#### `sourcePort (integer)`
 
 SrcPort is the source Port.
 
 | Characteristics | Value   |
 | -               | -:      |
+| Min length      | `1`     |
 | Max length      | `65536` |
 | Required        | `true`  |
 
-#### `table (string)`
+#### `tableName (string)`
 
-Table is the iptable that the trace was collected.
+TableName is the iptable that the trace was collected.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -10844,6 +10827,10 @@ Table is the iptable that the trace was collected.
 #### `timestamp (time)`
 
 Date of the report.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
 
 ## Trigger
 

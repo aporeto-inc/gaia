@@ -10,20 +10,20 @@ import (
 
 // TraceMode represents the model of a tracemode
 type TraceMode struct {
-	// ApplicationConnections instructs the enforcer to send records for all
-	// application initiated connections.
-	ApplicationConnections bool `json:"ApplicationConnections" bson:"applicationconnections" mapstructure:"ApplicationConnections,omitempty"`
-
 	// IPTables instructs the enforcers to provide an iptables trace for a PU.
 	IPTables bool `json:"IPTables" bson:"iptables" mapstructure:"IPTables,omitempty"`
 
-	// NetworkConnections instructs the enforcer to send records for all network
-	// initiated connections.
-	NetworkConnections bool `json:"NetworkConnections" bson:"networkconnections" mapstructure:"NetworkConnections,omitempty"`
+	// Instructs the enforcer to send records for all
+	// application initiated connections.
+	ApplicationConnections bool `json:"applicationConnections" bson:"applicationconnections" mapstructure:"applicationConnections,omitempty"`
 
-	// TimeInterval determins the length of the time interval that the trace must be
+	// Determines the length of the time interval that the trace must be
 	// enabled.
-	TimeInterval string `json:"TimeInterval" bson:"timeinterval" mapstructure:"TimeInterval,omitempty"`
+	Interval string `json:"interval" bson:"interval" mapstructure:"interval,omitempty"`
+
+	// Instructs the enforcer to send records for all network
+	// initiated connections.
+	NetworkConnections bool `json:"networkConnections" bson:"networkconnections" mapstructure:"networkConnections,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -34,11 +34,8 @@ type TraceMode struct {
 func NewTraceMode() *TraceMode {
 
 	return &TraceMode{
-		ModelVersion:           1,
-		ApplicationConnections: false,
-		IPTables:               false,
-		NetworkConnections:     false,
-		TimeInterval:           "10s",
+		ModelVersion: 1,
+		Interval:     "10s",
 	}
 }
 

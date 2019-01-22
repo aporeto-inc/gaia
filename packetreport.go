@@ -13,14 +13,14 @@ import (
 type PacketReportEventValue string
 
 const (
-	// PacketReportEventDrop represents the value Drop.
-	PacketReportEventDrop PacketReportEventValue = "Drop"
+	// PacketReportEventDropped represents the value Dropped.
+	PacketReportEventDropped PacketReportEventValue = "Dropped"
 
-	// PacketReportEventRcv represents the value Rcv.
-	PacketReportEventRcv PacketReportEventValue = "Rcv"
+	// PacketReportEventReceived represents the value Received.
+	PacketReportEventReceived PacketReportEventValue = "Received"
 
-	// PacketReportEventTxt represents the value Txt.
-	PacketReportEventTxt PacketReportEventValue = "Txt"
+	// PacketReportEventTransmitted represents the value Transmitted.
+	PacketReportEventTransmitted PacketReportEventValue = "Transmitted"
 )
 
 // PacketReportIdentity represents the Identity of the object.
@@ -95,20 +95,17 @@ func (o PacketReportsList) Version() int {
 
 // PacketReport represents the model of a packetreport
 type PacketReport struct {
-	// DstPort is the destination port of the packet.
-	DstPort int `json:"DstPort" bson:"-" mapstructure:"DstPort,omitempty"`
-
-	// ID is the packet ID from the IP header.
-	ID int `json:"-" bson:"-" mapstructure:"-,omitempty"`
-
-	// SrcPort is the source port of the packet.
-	SrcPort int `json:"SrcPort" bson:"-" mapstructure:"SrcPort,omitempty"`
+	// Flags are the TCP flags of the packet.
+	TCPFlags int `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Claims is the list of claims detected for the packet.
 	Claims map[string]string `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
-	// Type of the destination.
+	// IP of the destination.
 	DestinationIP string `json:"destinationIP" bson:"-" mapstructure:"destinationIP,omitempty"`
+
+	// DestPort is the destination port of the packet.
+	DestinationPort int `json:"destinationPort" bson:"-" mapstructure:"destinationPort,omitempty"`
 
 	// This field is only set if 'action' is set to 'Reject' and specifies the reason
 	// for the rejection.
@@ -120,9 +117,6 @@ type PacketReport struct {
 	// Event is the event that triggered the report.
 	Event PacketReportEventValue `json:"event" bson:"-" mapstructure:"event,omitempty"`
 
-	// Flags are the TCP flags of the packet.
-	Flags int `json:"-" bson:"-" mapstructure:"-,omitempty"`
-
 	// Length is the length of the packet.
 	Length int `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
@@ -132,6 +126,9 @@ type PacketReport struct {
 	// Namespace of the PU reporting the packet.
 	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
+	// ID is the packet ID from the IP header.
+	PacketID int `json:"-" bson:"-" mapstructure:"-,omitempty"`
+
 	// Protocol number.
 	Protocol int `json:"protocol" bson:"-" mapstructure:"protocol,omitempty"`
 
@@ -140,6 +137,9 @@ type PacketReport struct {
 
 	// Type of the source.
 	SourceIP string `json:"sourceIP" bson:"-" mapstructure:"sourceIP,omitempty"`
+
+	// SrcPort is the source port of the packet.
+	SourcePort int `json:"sourcePort" bson:"-" mapstructure:"sourcePort,omitempty"`
 
 	// Date of the report.
 	Timestamp time.Time `json:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
@@ -208,59 +208,59 @@ func (o *PacketReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparsePacketReport{
-			DstPort:       &o.DstPort,
-			ID:            &o.ID,
-			SrcPort:       &o.SrcPort,
-			Claims:        &o.Claims,
-			DestinationIP: &o.DestinationIP,
-			DropReason:    &o.DropReason,
-			Encrypt:       &o.Encrypt,
-			Event:         &o.Event,
-			Flags:         &o.Flags,
-			Length:        &o.Length,
-			Mark:          &o.Mark,
-			Namespace:     &o.Namespace,
-			Protocol:      &o.Protocol,
-			PuID:          &o.PuID,
-			SourceIP:      &o.SourceIP,
-			Timestamp:     &o.Timestamp,
-			TriremePacket: &o.TriremePacket,
+			TCPFlags:        &o.TCPFlags,
+			Claims:          &o.Claims,
+			DestinationIP:   &o.DestinationIP,
+			DestinationPort: &o.DestinationPort,
+			DropReason:      &o.DropReason,
+			Encrypt:         &o.Encrypt,
+			Event:           &o.Event,
+			Length:          &o.Length,
+			Mark:            &o.Mark,
+			Namespace:       &o.Namespace,
+			PacketID:        &o.PacketID,
+			Protocol:        &o.Protocol,
+			PuID:            &o.PuID,
+			SourceIP:        &o.SourceIP,
+			SourcePort:      &o.SourcePort,
+			Timestamp:       &o.Timestamp,
+			TriremePacket:   &o.TriremePacket,
 		}
 	}
 
 	sp := &SparsePacketReport{}
 	for _, f := range fields {
 		switch f {
-		case "DstPort":
-			sp.DstPort = &(o.DstPort)
-		case "ID":
-			sp.ID = &(o.ID)
-		case "SrcPort":
-			sp.SrcPort = &(o.SrcPort)
+		case "TCPFlags":
+			sp.TCPFlags = &(o.TCPFlags)
 		case "claims":
 			sp.Claims = &(o.Claims)
 		case "destinationIP":
 			sp.DestinationIP = &(o.DestinationIP)
+		case "destinationPort":
+			sp.DestinationPort = &(o.DestinationPort)
 		case "dropReason":
 			sp.DropReason = &(o.DropReason)
 		case "encrypt":
 			sp.Encrypt = &(o.Encrypt)
 		case "event":
 			sp.Event = &(o.Event)
-		case "flags":
-			sp.Flags = &(o.Flags)
 		case "length":
 			sp.Length = &(o.Length)
 		case "mark":
 			sp.Mark = &(o.Mark)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
+		case "packetID":
+			sp.PacketID = &(o.PacketID)
 		case "protocol":
 			sp.Protocol = &(o.Protocol)
 		case "puID":
 			sp.PuID = &(o.PuID)
 		case "sourceIP":
 			sp.SourceIP = &(o.SourceIP)
+		case "sourcePort":
+			sp.SourcePort = &(o.SourcePort)
 		case "timestamp":
 			sp.Timestamp = &(o.Timestamp)
 		case "triremePacket":
@@ -278,20 +278,17 @@ func (o *PacketReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparsePacketReport)
-	if so.DstPort != nil {
-		o.DstPort = *so.DstPort
-	}
-	if so.ID != nil {
-		o.ID = *so.ID
-	}
-	if so.SrcPort != nil {
-		o.SrcPort = *so.SrcPort
+	if so.TCPFlags != nil {
+		o.TCPFlags = *so.TCPFlags
 	}
 	if so.Claims != nil {
 		o.Claims = *so.Claims
 	}
 	if so.DestinationIP != nil {
 		o.DestinationIP = *so.DestinationIP
+	}
+	if so.DestinationPort != nil {
+		o.DestinationPort = *so.DestinationPort
 	}
 	if so.DropReason != nil {
 		o.DropReason = *so.DropReason
@@ -302,9 +299,6 @@ func (o *PacketReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Event != nil {
 		o.Event = *so.Event
 	}
-	if so.Flags != nil {
-		o.Flags = *so.Flags
-	}
 	if so.Length != nil {
 		o.Length = *so.Length
 	}
@@ -314,6 +308,9 @@ func (o *PacketReport) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
 	}
+	if so.PacketID != nil {
+		o.PacketID = *so.PacketID
+	}
 	if so.Protocol != nil {
 		o.Protocol = *so.Protocol
 	}
@@ -322,6 +319,9 @@ func (o *PacketReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.SourceIP != nil {
 		o.SourceIP = *so.SourceIP
+	}
+	if so.SourcePort != nil {
+		o.SourcePort = *so.SourcePort
 	}
 	if so.Timestamp != nil {
 		o.Timestamp = *so.Timestamp
@@ -361,15 +361,11 @@ func (o *PacketReport) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateMaximumInt("DstPort", o.DstPort, int(65536), false); err != nil {
+	if err := elemental.ValidateMaximumInt("destinationPort", o.DestinationPort, int(65536), false); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateMaximumInt("SrcPort", o.SrcPort, int(65536), false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateStringInList("event", string(o.Event), []string{"Rcv", "Txt", "Drop"}, false); err != nil {
+	if err := elemental.ValidateStringInList("event", string(o.Event), []string{"Received", "Transmitted", "Dropped"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -383,6 +379,10 @@ func (o *PacketReport) Validate() error {
 
 	if err := elemental.ValidateRequiredString("puID", o.PuID); err != nil {
 		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumInt("sourcePort", o.SourcePort, int(65536), false); err != nil {
+		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateRequiredTime("timestamp", o.Timestamp); err != nil {
@@ -423,36 +423,36 @@ func (*PacketReport) AttributeSpecifications() map[string]elemental.AttributeSpe
 func (o *PacketReport) ValueForAttribute(name string) interface{} {
 
 	switch name {
-	case "DstPort":
-		return o.DstPort
-	case "ID":
-		return o.ID
-	case "SrcPort":
-		return o.SrcPort
+	case "TCPFlags":
+		return o.TCPFlags
 	case "claims":
 		return o.Claims
 	case "destinationIP":
 		return o.DestinationIP
+	case "destinationPort":
+		return o.DestinationPort
 	case "dropReason":
 		return o.DropReason
 	case "encrypt":
 		return o.Encrypt
 	case "event":
 		return o.Event
-	case "flags":
-		return o.Flags
 	case "length":
 		return o.Length
 	case "mark":
 		return o.Mark
 	case "namespace":
 		return o.Namespace
+	case "packetID":
+		return o.PacketID
 	case "protocol":
 		return o.Protocol
 	case "puID":
 		return o.PuID
 	case "sourceIP":
 		return o.SourceIP
+	case "sourcePort":
+		return o.SourcePort
 	case "timestamp":
 		return o.Timestamp
 	case "triremePacket":
@@ -464,30 +464,11 @@ func (o *PacketReport) ValueForAttribute(name string) interface{} {
 
 // PacketReportAttributesMap represents the map of attribute for PacketReport.
 var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
-	"DstPort": elemental.AttributeSpecification{
+	"TCPFlags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "DstPort",
-		Description:    `DstPort is the destination port of the packet.`,
-		Exposed:        true,
-		MaxValue:       65536,
-		Name:           "DstPort",
-		Type:           "integer",
-	},
-	"ID": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ID",
-		Description:    `ID is the packet ID from the IP header.`,
-		Name:           "ID",
-		Required:       true,
-		Type:           "integer",
-	},
-	"SrcPort": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "SrcPort",
-		Description:    `SrcPort is the source port of the packet.`,
-		Exposed:        true,
-		MaxValue:       65536,
-		Name:           "SrcPort",
+		ConvertedName:  "TCPFlags",
+		Description:    `Flags are the TCP flags of the packet.`,
+		Name:           "TCPFlags",
 		Type:           "integer",
 	},
 	"Claims": elemental.AttributeSpecification{
@@ -501,10 +482,19 @@ var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"DestinationIP": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationIP",
-		Description:    `Type of the destination.`,
+		Description:    `IP of the destination.`,
 		Exposed:        true,
 		Name:           "destinationIP",
 		Type:           "string",
+	},
+	"DestinationPort": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "DestinationPort",
+		Description:    `DestPort is the destination port of the packet.`,
+		Exposed:        true,
+		MaxValue:       65536,
+		Name:           "destinationPort",
+		Type:           "integer",
 	},
 	"DropReason": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -521,24 +511,16 @@ for the rejection.`,
 		Description:    `Encrypt indicates that the packet was encrypted.`,
 		Exposed:        true,
 		Name:           "encrypt",
-		Required:       true,
 		Type:           "boolean",
 	},
 	"Event": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Rcv", "Txt", "Drop"},
+		AllowedChoices: []string{"Received", "Transmitted", "Dropped"},
 		ConvertedName:  "Event",
 		Description:    `Event is the event that triggered the report.`,
 		Exposed:        true,
 		Name:           "event",
 		Required:       true,
 		Type:           "enum",
-	},
-	"Flags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Flags",
-		Description:    `Flags are the TCP flags of the packet.`,
-		Name:           "flags",
-		Type:           "integer",
 	},
 	"Length": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -564,6 +546,14 @@ for the rejection.`,
 		Filterable:     true,
 		Name:           "namespace",
 		Type:           "string",
+	},
+	"PacketID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PacketID",
+		Description:    `ID is the packet ID from the IP header.`,
+		Name:           "packetID",
+		Required:       true,
+		Type:           "integer",
 	},
 	"Protocol": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -593,6 +583,15 @@ for the rejection.`,
 		Name:           "sourceIP",
 		Type:           "string",
 	},
+	"SourcePort": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SourcePort",
+		Description:    `SrcPort is the source port of the packet.`,
+		Exposed:        true,
+		MaxValue:       65536,
+		Name:           "sourcePort",
+		Type:           "integer",
+	},
 	"Timestamp": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
@@ -617,30 +616,11 @@ for the rejection.`,
 
 // PacketReportLowerCaseAttributesMap represents the map of attribute for PacketReport.
 var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"dstport": elemental.AttributeSpecification{
+	"tcpflags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "DstPort",
-		Description:    `DstPort is the destination port of the packet.`,
-		Exposed:        true,
-		MaxValue:       65536,
-		Name:           "DstPort",
-		Type:           "integer",
-	},
-	"id": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ID",
-		Description:    `ID is the packet ID from the IP header.`,
-		Name:           "ID",
-		Required:       true,
-		Type:           "integer",
-	},
-	"srcport": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "SrcPort",
-		Description:    `SrcPort is the source port of the packet.`,
-		Exposed:        true,
-		MaxValue:       65536,
-		Name:           "SrcPort",
+		ConvertedName:  "TCPFlags",
+		Description:    `Flags are the TCP flags of the packet.`,
+		Name:           "TCPFlags",
 		Type:           "integer",
 	},
 	"claims": elemental.AttributeSpecification{
@@ -654,10 +634,19 @@ var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"destinationip": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationIP",
-		Description:    `Type of the destination.`,
+		Description:    `IP of the destination.`,
 		Exposed:        true,
 		Name:           "destinationIP",
 		Type:           "string",
+	},
+	"destinationport": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "DestinationPort",
+		Description:    `DestPort is the destination port of the packet.`,
+		Exposed:        true,
+		MaxValue:       65536,
+		Name:           "destinationPort",
+		Type:           "integer",
 	},
 	"dropreason": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -674,24 +663,16 @@ for the rejection.`,
 		Description:    `Encrypt indicates that the packet was encrypted.`,
 		Exposed:        true,
 		Name:           "encrypt",
-		Required:       true,
 		Type:           "boolean",
 	},
 	"event": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Rcv", "Txt", "Drop"},
+		AllowedChoices: []string{"Received", "Transmitted", "Dropped"},
 		ConvertedName:  "Event",
 		Description:    `Event is the event that triggered the report.`,
 		Exposed:        true,
 		Name:           "event",
 		Required:       true,
 		Type:           "enum",
-	},
-	"flags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Flags",
-		Description:    `Flags are the TCP flags of the packet.`,
-		Name:           "flags",
-		Type:           "integer",
 	},
 	"length": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -717,6 +698,14 @@ for the rejection.`,
 		Filterable:     true,
 		Name:           "namespace",
 		Type:           "string",
+	},
+	"packetid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "PacketID",
+		Description:    `ID is the packet ID from the IP header.`,
+		Name:           "packetID",
+		Required:       true,
+		Type:           "integer",
 	},
 	"protocol": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -745,6 +734,15 @@ for the rejection.`,
 		Exposed:        true,
 		Name:           "sourceIP",
 		Type:           "string",
+	},
+	"sourceport": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SourcePort",
+		Description:    `SrcPort is the source port of the packet.`,
+		Exposed:        true,
+		MaxValue:       65536,
+		Name:           "sourcePort",
+		Type:           "integer",
 	},
 	"timestamp": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -831,20 +829,17 @@ func (o SparsePacketReportsList) Version() int {
 
 // SparsePacketReport represents the sparse version of a packetreport.
 type SparsePacketReport struct {
-	// DstPort is the destination port of the packet.
-	DstPort *int `json:"DstPort,omitempty" bson:"-" mapstructure:"DstPort,omitempty"`
-
-	// ID is the packet ID from the IP header.
-	ID *int `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
-
-	// SrcPort is the source port of the packet.
-	SrcPort *int `json:"SrcPort,omitempty" bson:"-" mapstructure:"SrcPort,omitempty"`
+	// Flags are the TCP flags of the packet.
+	TCPFlags *int `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
 
 	// Claims is the list of claims detected for the packet.
 	Claims *map[string]string `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
 
-	// Type of the destination.
+	// IP of the destination.
 	DestinationIP *string `json:"destinationIP,omitempty" bson:"-" mapstructure:"destinationIP,omitempty"`
+
+	// DestPort is the destination port of the packet.
+	DestinationPort *int `json:"destinationPort,omitempty" bson:"-" mapstructure:"destinationPort,omitempty"`
 
 	// This field is only set if 'action' is set to 'Reject' and specifies the reason
 	// for the rejection.
@@ -856,9 +851,6 @@ type SparsePacketReport struct {
 	// Event is the event that triggered the report.
 	Event *PacketReportEventValue `json:"event,omitempty" bson:"-" mapstructure:"event,omitempty"`
 
-	// Flags are the TCP flags of the packet.
-	Flags *int `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
-
 	// Length is the length of the packet.
 	Length *int `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
 
@@ -868,6 +860,9 @@ type SparsePacketReport struct {
 	// Namespace of the PU reporting the packet.
 	Namespace *string `json:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
+	// ID is the packet ID from the IP header.
+	PacketID *int `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
+
 	// Protocol number.
 	Protocol *int `json:"protocol,omitempty" bson:"-" mapstructure:"protocol,omitempty"`
 
@@ -876,6 +871,9 @@ type SparsePacketReport struct {
 
 	// Type of the source.
 	SourceIP *string `json:"sourceIP,omitempty" bson:"-" mapstructure:"sourceIP,omitempty"`
+
+	// SrcPort is the source port of the packet.
+	SourcePort *int `json:"sourcePort,omitempty" bson:"-" mapstructure:"sourcePort,omitempty"`
 
 	// Date of the report.
 	Timestamp *time.Time `json:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
@@ -920,20 +918,17 @@ func (o *SparsePacketReport) Version() int {
 func (o *SparsePacketReport) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewPacketReport()
-	if o.DstPort != nil {
-		out.DstPort = *o.DstPort
-	}
-	if o.ID != nil {
-		out.ID = *o.ID
-	}
-	if o.SrcPort != nil {
-		out.SrcPort = *o.SrcPort
+	if o.TCPFlags != nil {
+		out.TCPFlags = *o.TCPFlags
 	}
 	if o.Claims != nil {
 		out.Claims = *o.Claims
 	}
 	if o.DestinationIP != nil {
 		out.DestinationIP = *o.DestinationIP
+	}
+	if o.DestinationPort != nil {
+		out.DestinationPort = *o.DestinationPort
 	}
 	if o.DropReason != nil {
 		out.DropReason = *o.DropReason
@@ -944,9 +939,6 @@ func (o *SparsePacketReport) ToPlain() elemental.PlainIdentifiable {
 	if o.Event != nil {
 		out.Event = *o.Event
 	}
-	if o.Flags != nil {
-		out.Flags = *o.Flags
-	}
 	if o.Length != nil {
 		out.Length = *o.Length
 	}
@@ -956,6 +948,9 @@ func (o *SparsePacketReport) ToPlain() elemental.PlainIdentifiable {
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
+	if o.PacketID != nil {
+		out.PacketID = *o.PacketID
+	}
 	if o.Protocol != nil {
 		out.Protocol = *o.Protocol
 	}
@@ -964,6 +959,9 @@ func (o *SparsePacketReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.SourceIP != nil {
 		out.SourceIP = *o.SourceIP
+	}
+	if o.SourcePort != nil {
+		out.SourcePort = *o.SourcePort
 	}
 	if o.Timestamp != nil {
 		out.Timestamp = *o.Timestamp

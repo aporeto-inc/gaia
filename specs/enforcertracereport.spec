@@ -13,28 +13,36 @@ attributes:
     description: EnforcerID of the enforcer where the trace was collected.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: xxx-xxx-xxx
-    filterable: true
+
+  - name: enforcerNamespace
+    description: Namespace of the enforcer where the trace was collected.
+    type: string
+    exposed: true
+    stored: true
+    required: true
+    example_value: xxx-xxx-xxx
 
   - name: namespace
     description: Namespace of the PU where the trace was collected.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: xxx-xxx-xxx
-    filterable: true
 
   - name: puID
     description: ID of the pu where the trace was collected.
     type: string
     exposed: true
+    stored: true
     required: true
     example_value: xxx-xxx-xxx
-    filterable: true
 
-  - name: traceList
-    description: TraceList is the list of iptables trace records collected.
+  - name: records
+    description: List of iptables trace records collected.
     type: refList
     subtype: tracerecord
     stored: true
