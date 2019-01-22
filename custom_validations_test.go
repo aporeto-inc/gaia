@@ -461,7 +461,7 @@ func TestValidateProtocolList(t *testing.T) {
 func TestValidateHostServicesList(t *testing.T) {
 	type args struct {
 		attribute    string
-		hostservices []*HostService
+		hostservices []*DeprecatedHostService
 	}
 	tests := []struct {
 		name    string
@@ -472,8 +472,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"alphanumeric name",
 			args{
 				"hostservices",
-				[]*HostService{
-					&HostService{
+				[]*DeprecatedHostService{
+					&DeprecatedHostService{
 						Name: "ssh22",
 					},
 				},
@@ -484,8 +484,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"name with underscore",
 			args{
 				"hostservices",
-				[]*HostService{
-					&HostService{
+				[]*DeprecatedHostService{
+					&DeprecatedHostService{
 						Name: "proxy_ssh",
 					},
 				},
@@ -496,8 +496,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"empty name",
 			args{
 				"hostservices",
-				[]*HostService{
-					&HostService{
+				[]*DeprecatedHostService{
+					&DeprecatedHostService{
 						Name: "",
 					},
 				},
@@ -508,8 +508,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"name with space",
 			args{
 				"hostservices",
-				[]*HostService{
-					&HostService{
+				[]*DeprecatedHostService{
+					&DeprecatedHostService{
 						Name: "Host Service",
 					},
 				},
@@ -520,8 +520,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"name contains hyphen",
 			args{
 				"hostservices",
-				[]*HostService{
-					&HostService{
+				[]*DeprecatedHostService{
+					&DeprecatedHostService{
 						Name: "proxy-ssh",
 					},
 				},
@@ -532,8 +532,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"name with 12 characters",
 			args{
 				"hostservices",
-				[]*HostService{
-					&HostService{
+				[]*DeprecatedHostService{
+					&DeprecatedHostService{
 						Name: "ansible_proxy_ssh",
 					},
 				},
@@ -544,8 +544,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"invalid name",
 			args{
 				"hostservices",
-				[]*HostService{
-					&HostService{
+				[]*DeprecatedHostService{
+					&DeprecatedHostService{
 						Name: "###InvalidName!",
 					},
 				},

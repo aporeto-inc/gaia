@@ -30,7 +30,7 @@
 | [DependencyMap](#dependencymap)                               | This api returns a data structure representing the graph of all processing units... |
 | [DeprecatedHostService](#deprecatedhostservice)               | Represents a service of the enforcer's host.                                        |
 | [Endpoint](#endpoint)                                         | Represents an HTTP endpoint.                                                        |
-| [Enforcer](#enforcer)                                         | An Enforcer Profile contains a configuration for a Enforcer. It contains various... |
+| [Enforcer](#enforcer)                                         | An Enforcer contains all parameters associated with a registered enforcer. The      |
 | [EnforcerProfile](#enforcerprofile)                           | Allows to create reusable configuration profile for your enforcers. Enforcer        |
 | [EnforcerProfileMappingPolicy](#enforcerprofilemappingpolicy) | A Enforcer Profile Mapping Policy will tell what Enforcer Profile should be used... |
 | [EnforcerReport](#enforcerreport)                             | Post a new enforcer statistics report.                                              |
@@ -3137,14 +3137,9 @@ Scopes is deprecated.
 
 ## Enforcer
 
-An Enforcer Profile contains a configuration for a Enforcer. It contains various
-parameters, like what network should not policeds, what processing units should
-be ignored based on their tags and so on. It also contains more advanced
-parameters to fine tune the Agent. A Enforcer will decide what profile to apply
-using aEnforcer Profile Mapping Policy. This policy will decide according the
-Enforcer's tags what profile to use. If an Enforcer tags are matching more than
-a single policy, it will refuse to start. Some parameters will be applied
-directly to a running agent, some will need to restart it.
+An Enforcer contains all parameters associated with a registered enforcer. The
+object is mainly by maintained by the enforcers themselves. Users can read the
+object in order to understand the current status of the enforcers.
 
 ### Example
 
@@ -3210,7 +3205,7 @@ Returns a list of the audit profiles that must be applied to this enforcer.
 
 Returns the enforcer profile that must be used by an enforcer.
 
-#### `GET /enforcers/:id/hostservicemappingpolicies`
+#### `GET /enforcers/:id/hostservices`
 
 Returns a list of the host services policies that apply to this enforcer.
 
@@ -5923,6 +5918,10 @@ Retrieves the object with the given ID.
 
 Updates the object with the given ID.
 
+#### `GET /enforcers/:id/hostservices`
+
+Returns a list of the host services policies that apply to this enforcer.
+
 #### `GET /hostservicemappingpolicies/:id/hostservices`
 
 Returns the list of host services that are referred by this policy.
@@ -5967,6 +5966,19 @@ Description is the description of the object.
 | -               | -:     |
 | Max length      | `1024` |
 | Orderable       | `true` |
+
+#### `hostModeEnabled (boolean)`
+
+HostModeEnabled forces the corresponding enforcers to enable complete host
+protection. When this option is turned on, all incoming and outgoing flows will
+be monitored. Flows will be allowed if and only if a network policy has been
+created to allow the flow. The option applies to all enforcers that match the
+subject constraints.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Default         | `false` |
+| Orderable       | `true`  |
 
 #### `metadata (external:metadata_list)`
 
@@ -6020,7 +6032,10 @@ Protected defines if the object is protected.
 
 #### `services (list)`
 
-Services lists all protocols and ports a service is running.
+Services lists all protocols and ports a service is running. A service entry can
+be defined by a protocol and port '(tcp/80)', or range of protocol/port pairs
+'(udp/80:100)'. If no protocol is provided, it is assumed to be TCP. Allowed
+protocols are only tcp and udp.
 
 #### `updateTime (time)`
 
@@ -6077,10 +6092,6 @@ Retrieves the object with the given ID.
 #### `PUT /hostservicemappingpolicies/:id`
 
 Updates the object with the given ID.
-
-#### `GET /enforcers/:id/hostservicemappingpolicies`
-
-Returns a list of the host services policies that apply to this enforcer.
 
 #### `GET /hostservicemappingpolicies/:id/enforcers`
 
@@ -6162,29 +6173,6 @@ propagated it will become a fallback for children namespaces.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
-
-#### `hostModeEnabled (boolean)`
-
-HostModeEnabled forces the corresponding enforcers to enable complete host
-protection. When this option is turned on, all incoming and outgoing flows will
-be monitored. Flows will be allowed if and only if a network policy has been
-created to allow the flow. The option applies to all enforcers that match the
-subject constraints.
-
-| Characteristics | Value   |
-| -               | -:      |
-| Default         | `false` |
-| Orderable       | `true`  |
-
-#### `hostservices (refList)`
-
-Hostservices is the list of host services that the policy resolves to. This is a
-read only attribute after policy is resolved for a given enforcer.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
 
 #### `metadata (external:metadata_list)`
 

@@ -101,6 +101,13 @@ type HostService struct {
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
+	// HostModeEnabled forces the corresponding enforcers to enable complete host
+	// protection. When this option is turned on, all incoming and outgoing flows will
+	// be monitored. Flows will be allowed if and only if a network policy has been
+	// created to allow the flow. The option applies to all enforcers that match the
+	// subject constraints.
+	HostModeEnabled bool `json:"hostModeEnabled" bson:"-" mapstructure:"hostModeEnabled,omitempty"`
+
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
@@ -117,7 +124,10 @@ type HostService struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Services lists all protocols and ports a service is running.
+	// Services lists all protocols and ports a service is running. A service entry can
+	// be defined by a protocol and port '(tcp/80)', or range of protocol/port pairs
+	// '(udp/80:100)'. If no protocol is provided, it is assumed to be TCP. Allowed
+	// protocols are only tcp and udp.
 	Services []string `json:"services" bson:"services" mapstructure:"services,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
@@ -140,11 +150,12 @@ type HostService struct {
 func NewHostService() *HostService {
 
 	return &HostService{
-		ModelVersion:   1,
-		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
-		Metadata:       []string{},
-		NormalizedTags: []string{},
+		ModelVersion:    1,
+		Annotations:     map[string][]string{},
+		HostModeEnabled: false,
+		AssociatedTags:  []string{},
+		Metadata:        []string{},
+		NormalizedTags:  []string{},
 	}
 }
 
@@ -347,21 +358,22 @@ func (o *HostService) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseHostService{
-			ID:             &o.ID,
-			Annotations:    &o.Annotations,
-			Archived:       &o.Archived,
-			AssociatedTags: &o.AssociatedTags,
-			CreateTime:     &o.CreateTime,
-			Description:    &o.Description,
-			Metadata:       &o.Metadata,
-			Name:           &o.Name,
-			Namespace:      &o.Namespace,
-			NormalizedTags: &o.NormalizedTags,
-			Protected:      &o.Protected,
-			Services:       &o.Services,
-			UpdateTime:     &o.UpdateTime,
-			ZHash:          &o.ZHash,
-			Zone:           &o.Zone,
+			ID:              &o.ID,
+			Annotations:     &o.Annotations,
+			Archived:        &o.Archived,
+			AssociatedTags:  &o.AssociatedTags,
+			CreateTime:      &o.CreateTime,
+			Description:     &o.Description,
+			HostModeEnabled: &o.HostModeEnabled,
+			Metadata:        &o.Metadata,
+			Name:            &o.Name,
+			Namespace:       &o.Namespace,
+			NormalizedTags:  &o.NormalizedTags,
+			Protected:       &o.Protected,
+			Services:        &o.Services,
+			UpdateTime:      &o.UpdateTime,
+			ZHash:           &o.ZHash,
+			Zone:            &o.Zone,
 		}
 	}
 
@@ -380,6 +392,8 @@ func (o *HostService) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
 			sp.Description = &(o.Description)
+		case "hostModeEnabled":
+			sp.HostModeEnabled = &(o.HostModeEnabled)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "name":
@@ -428,6 +442,9 @@ func (o *HostService) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
+	}
+	if so.HostModeEnabled != nil {
+		o.HostModeEnabled = *so.HostModeEnabled
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -546,6 +563,8 @@ func (o *HostService) ValueForAttribute(name string) interface{} {
 		return o.CreateTime
 	case "description":
 		return o.Description
+	case "hostModeEnabled":
+		return o.HostModeEnabled
 	case "metadata":
 		return o.Metadata
 	case "name":
@@ -647,6 +666,19 @@ var HostServiceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"HostModeEnabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "HostModeEnabled",
+		Description: `HostModeEnabled forces the corresponding enforcers to enable complete host
+protection. When this option is turned on, all incoming and outgoing flows will
+be monitored. Flows will be allowed if and only if a network policy has been
+created to allow the flow. The option applies to all enforcers that match the
+subject constraints.`,
+		Exposed:   true,
+		Name:      "hostModeEnabled",
+		Orderable: true,
+		Type:      "boolean",
+	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -724,12 +756,15 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Services": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Services",
-		Description:    `Services lists all protocols and ports a service is running.`,
-		Exposed:        true,
-		Name:           "services",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `Services lists all protocols and ports a service is running. A service entry can
+be defined by a protocol and port '(tcp/80)', or range of protocol/port pairs
+'(udp/80:100)'. If no protocol is provided, it is assumed to be TCP. Allowed
+protocols are only tcp and udp.`,
+		Exposed: true,
+		Name:    "services",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -851,6 +886,19 @@ var HostServiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Stored:         true,
 		Type:           "string",
 	},
+	"hostmodeenabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "HostModeEnabled",
+		Description: `HostModeEnabled forces the corresponding enforcers to enable complete host
+protection. When this option is turned on, all incoming and outgoing flows will
+be monitored. Flows will be allowed if and only if a network policy has been
+created to allow the flow. The option applies to all enforcers that match the
+subject constraints.`,
+		Exposed:   true,
+		Name:      "hostModeEnabled",
+		Orderable: true,
+		Type:      "boolean",
+	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -928,12 +976,15 @@ with the '@' prefix, and should only be used by external systems.`,
 	"services": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Services",
-		Description:    `Services lists all protocols and ports a service is running.`,
-		Exposed:        true,
-		Name:           "services",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
+		Description: `Services lists all protocols and ports a service is running. A service entry can
+be defined by a protocol and port '(tcp/80)', or range of protocol/port pairs
+'(udp/80:100)'. If no protocol is provided, it is assumed to be TCP. Allowed
+protocols are only tcp and udp.`,
+		Exposed: true,
+		Name:    "services",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1060,6 +1111,13 @@ type SparseHostService struct {
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
 
+	// HostModeEnabled forces the corresponding enforcers to enable complete host
+	// protection. When this option is turned on, all incoming and outgoing flows will
+	// be monitored. Flows will be allowed if and only if a network policy has been
+	// created to allow the flow. The option applies to all enforcers that match the
+	// subject constraints.
+	HostModeEnabled *bool `json:"hostModeEnabled,omitempty" bson:"-" mapstructure:"hostModeEnabled,omitempty"`
+
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
@@ -1076,7 +1134,10 @@ type SparseHostService struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Services lists all protocols and ports a service is running.
+	// Services lists all protocols and ports a service is running. A service entry can
+	// be defined by a protocol and port '(tcp/80)', or range of protocol/port pairs
+	// '(udp/80:100)'. If no protocol is provided, it is assumed to be TCP. Allowed
+	// protocols are only tcp and udp.
 	Services *[]string `json:"services,omitempty" bson:"services" mapstructure:"services,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
@@ -1148,6 +1209,9 @@ func (o *SparseHostService) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
+	}
+	if o.HostModeEnabled != nil {
+		out.HostModeEnabled = *o.HostModeEnabled
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata

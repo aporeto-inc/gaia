@@ -114,17 +114,6 @@ type HostServiceMappingPolicy struct {
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
-	// HostModeEnabled forces the corresponding enforcers to enable complete host
-	// protection. When this option is turned on, all incoming and outgoing flows will
-	// be monitored. Flows will be allowed if and only if a network policy has been
-	// created to allow the flow. The option applies to all enforcers that match the
-	// subject constraints.
-	HostModeEnabled bool `json:"hostModeEnabled" bson:"-" mapstructure:"hostModeEnabled,omitempty"`
-
-	// Hostservices is the list of host services that the policy resolves to. This is a
-	// read only attribute after policy is resolved for a given enforcer.
-	Hostservices []HostService `json:"hostservices" bson:"-" mapstructure:"hostservices,omitempty"`
-
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
@@ -172,13 +161,11 @@ type HostServiceMappingPolicy struct {
 func NewHostServiceMappingPolicy() *HostServiceMappingPolicy {
 
 	return &HostServiceMappingPolicy{
-		ModelVersion:    1,
-		Annotations:     map[string][]string{},
-		AssociatedTags:  []string{},
-		Hostservices:    []HostService{},
-		HostModeEnabled: false,
-		Metadata:        []string{},
-		NormalizedTags:  []string{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		Metadata:       []string{},
+		NormalizedTags: []string{},
 	}
 }
 
@@ -430,28 +417,26 @@ func (o *HostServiceMappingPolicy) ToSparse(fields ...string) elemental.SparseId
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseHostServiceMappingPolicy{
-			ID:              &o.ID,
-			ActiveDuration:  &o.ActiveDuration,
-			ActiveSchedule:  &o.ActiveSchedule,
-			Annotations:     &o.Annotations,
-			AssociatedTags:  &o.AssociatedTags,
-			CreateTime:      &o.CreateTime,
-			Description:     &o.Description,
-			Disabled:        &o.Disabled,
-			Fallback:        &o.Fallback,
-			HostModeEnabled: &o.HostModeEnabled,
-			Hostservices:    &o.Hostservices,
-			Metadata:        &o.Metadata,
-			Name:            &o.Name,
-			Namespace:       &o.Namespace,
-			NormalizedTags:  &o.NormalizedTags,
-			Object:          &o.Object,
-			Propagate:       &o.Propagate,
-			Protected:       &o.Protected,
-			Subject:         &o.Subject,
-			UpdateTime:      &o.UpdateTime,
-			ZHash:           &o.ZHash,
-			Zone:            &o.Zone,
+			ID:             &o.ID,
+			ActiveDuration: &o.ActiveDuration,
+			ActiveSchedule: &o.ActiveSchedule,
+			Annotations:    &o.Annotations,
+			AssociatedTags: &o.AssociatedTags,
+			CreateTime:     &o.CreateTime,
+			Description:    &o.Description,
+			Disabled:       &o.Disabled,
+			Fallback:       &o.Fallback,
+			Metadata:       &o.Metadata,
+			Name:           &o.Name,
+			Namespace:      &o.Namespace,
+			NormalizedTags: &o.NormalizedTags,
+			Object:         &o.Object,
+			Propagate:      &o.Propagate,
+			Protected:      &o.Protected,
+			Subject:        &o.Subject,
+			UpdateTime:     &o.UpdateTime,
+			ZHash:          &o.ZHash,
+			Zone:           &o.Zone,
 		}
 	}
 
@@ -476,10 +461,6 @@ func (o *HostServiceMappingPolicy) ToSparse(fields ...string) elemental.SparseId
 			sp.Disabled = &(o.Disabled)
 		case "fallback":
 			sp.Fallback = &(o.Fallback)
-		case "hostModeEnabled":
-			sp.HostModeEnabled = &(o.HostModeEnabled)
-		case "hostservices":
-			sp.Hostservices = &(o.Hostservices)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "name":
@@ -541,12 +522,6 @@ func (o *HostServiceMappingPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Fallback != nil {
 		o.Fallback = *so.Fallback
-	}
-	if so.HostModeEnabled != nil {
-		o.HostModeEnabled = *so.HostModeEnabled
-	}
-	if so.Hostservices != nil {
-		o.Hostservices = *so.Hostservices
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -621,12 +596,6 @@ func (o *HostServiceMappingPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	for _, sub := range o.Hostservices {
-		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
-		}
-	}
-
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -687,10 +656,6 @@ func (o *HostServiceMappingPolicy) ValueForAttribute(name string) interface{} {
 		return o.Disabled
 	case "fallback":
 		return o.Fallback
-	case "hostModeEnabled":
-		return o.HostModeEnabled
-	case "hostservices":
-		return o.Hostservices
 	case "metadata":
 		return o.Metadata
 	case "name":
@@ -835,31 +800,6 @@ propagated it will become a fallback for children namespaces.`,
 		Setter:    true,
 		Stored:    true,
 		Type:      "boolean",
-	},
-	"HostModeEnabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "HostModeEnabled",
-		Description: `HostModeEnabled forces the corresponding enforcers to enable complete host
-protection. When this option is turned on, all incoming and outgoing flows will
-be monitored. Flows will be allowed if and only if a network policy has been
-created to allow the flow. The option applies to all enforcers that match the
-subject constraints.`,
-		Exposed:   true,
-		Name:      "hostModeEnabled",
-		Orderable: true,
-		Type:      "boolean",
-	},
-	"Hostservices": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Hostservices",
-		Description: `Hostservices is the list of host services that the policy resolves to. This is a
-read only attribute after policy is resolved for a given enforcer.`,
-		Exposed:  true,
-		Name:     "hostservices",
-		ReadOnly: true,
-		SubType:  "hostservice",
-		Type:     "refList",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1129,31 +1069,6 @@ propagated it will become a fallback for children namespaces.`,
 		Stored:    true,
 		Type:      "boolean",
 	},
-	"hostmodeenabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "HostModeEnabled",
-		Description: `HostModeEnabled forces the corresponding enforcers to enable complete host
-protection. When this option is turned on, all incoming and outgoing flows will
-be monitored. Flows will be allowed if and only if a network policy has been
-created to allow the flow. The option applies to all enforcers that match the
-subject constraints.`,
-		Exposed:   true,
-		Name:      "hostModeEnabled",
-		Orderable: true,
-		Type:      "boolean",
-	},
-	"hostservices": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Hostservices",
-		Description: `Hostservices is the list of host services that the policy resolves to. This is a
-read only attribute after policy is resolved for a given enforcer.`,
-		Exposed:  true,
-		Name:     "hostservices",
-		ReadOnly: true,
-		SubType:  "hostservice",
-		Type:     "refList",
-	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -1400,17 +1315,6 @@ type SparseHostServiceMappingPolicy struct {
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" bson:"fallback" mapstructure:"fallback,omitempty"`
 
-	// HostModeEnabled forces the corresponding enforcers to enable complete host
-	// protection. When this option is turned on, all incoming and outgoing flows will
-	// be monitored. Flows will be allowed if and only if a network policy has been
-	// created to allow the flow. The option applies to all enforcers that match the
-	// subject constraints.
-	HostModeEnabled *bool `json:"hostModeEnabled,omitempty" bson:"-" mapstructure:"hostModeEnabled,omitempty"`
-
-	// Hostservices is the list of host services that the policy resolves to. This is a
-	// read only attribute after policy is resolved for a given enforcer.
-	Hostservices *[]HostService `json:"hostservices,omitempty" bson:"-" mapstructure:"hostservices,omitempty"`
-
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
@@ -1516,12 +1420,6 @@ func (o *SparseHostServiceMappingPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Fallback != nil {
 		out.Fallback = *o.Fallback
-	}
-	if o.HostModeEnabled != nil {
-		out.HostModeEnabled = *o.HostModeEnabled
-	}
-	if o.Hostservices != nil {
-		out.Hostservices = *o.Hostservices
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata

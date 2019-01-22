@@ -244,7 +244,7 @@ var regHostServiceName = regexp.MustCompile(`^[a-zA-Z0-9_]{0,11}$`)
 
 // ValidateHostServicesList validates a list of host services.
 // CS: 10/6/2018 - Keep the constraint on the regex for now. Will need to create an API for HostServices
-func ValidateHostServicesList(attribute string, hostServices []*HostService) error {
+func ValidateHostServicesList(attribute string, hostServices []*DeprecatedHostService) error {
 
 	cacheNames := map[string]struct{}{}
 	cachePortsList := map[int]*portutils.PortsList{}
