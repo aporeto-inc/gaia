@@ -101,14 +101,14 @@ type PacketReport struct {
 	// Claims is the list of claims detected for the packet.
 	Claims map[string]string `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
-	// IP of the destination.
+	// DestinationIP is the IP address of the destination.
 	DestinationIP string `json:"destinationIP" bson:"-" mapstructure:"destinationIP,omitempty"`
 
-	// DestPort is the destination port of the packet.
+	// DestinationPort is the destination port of a TCP or UDP packet.
 	DestinationPort int `json:"destinationPort" bson:"-" mapstructure:"destinationPort,omitempty"`
 
-	// This field is only set if 'action' is set to 'Reject' and specifies the reason
-	// for the rejection.
+	// This field is only set if 'event' is set to 'Dropped' and specifies the reason
+	// for the drop.
 	DropReason string `json:"dropReason" bson:"-" mapstructure:"dropReason,omitempty"`
 
 	// Encrypt indicates that the packet was encrypted.
@@ -126,22 +126,22 @@ type PacketReport struct {
 	// Namespace of the PU reporting the packet.
 	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
-	// ID is the packet ID from the IP header.
+	// PacketID is the ID from the IP header of the packet.
 	PacketID int `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Protocol number.
 	Protocol int `json:"protocol" bson:"-" mapstructure:"protocol,omitempty"`
 
-	// ID of the PU reporting the packet.
+	// PUID is the ID of the PU reporting the packet.
 	PuID string `json:"puID" bson:"-" mapstructure:"puID,omitempty"`
 
-	// Type of the source.
+	// SourceIP is the source IP address of the packet.
 	SourceIP string `json:"sourceIP" bson:"-" mapstructure:"sourceIP,omitempty"`
 
-	// SrcPort is the source port of the packet.
+	// SourcePort is the source port of the packet.
 	SourcePort int `json:"sourcePort" bson:"-" mapstructure:"sourcePort,omitempty"`
 
-	// Date of the report.
+	// Timestamp is the date of the report.
 	Timestamp time.Time `json:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
 	// TriremePacket is set if the packet arrived with the Trireme options.
@@ -482,7 +482,7 @@ var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"DestinationIP": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationIP",
-		Description:    `IP of the destination.`,
+		Description:    `DestinationIP is the IP address of the destination.`,
 		Exposed:        true,
 		Name:           "destinationIP",
 		Type:           "string",
@@ -490,7 +490,7 @@ var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"DestinationPort": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationPort",
-		Description:    `DestPort is the destination port of the packet.`,
+		Description:    `DestinationPort is the destination port of a TCP or UDP packet.`,
 		Exposed:        true,
 		MaxValue:       65536,
 		Name:           "destinationPort",
@@ -499,8 +499,8 @@ var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"DropReason": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DropReason",
-		Description: `This field is only set if 'action' is set to 'Reject' and specifies the reason
-for the rejection.`,
+		Description: `This field is only set if 'event' is set to 'Dropped' and specifies the reason
+for the drop.`,
 		Exposed: true,
 		Name:    "dropReason",
 		Type:    "string",
@@ -550,7 +550,7 @@ for the rejection.`,
 	"PacketID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PacketID",
-		Description:    `ID is the packet ID from the IP header.`,
+		Description:    `PacketID is the ID from the IP header of the packet.`,
 		Name:           "packetID",
 		Required:       true,
 		Type:           "integer",
@@ -568,7 +568,7 @@ for the rejection.`,
 	"PuID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PuID",
-		Description:    `ID of the PU reporting the packet.`,
+		Description:    `PUID is the ID of the PU reporting the packet.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "puID",
@@ -578,7 +578,7 @@ for the rejection.`,
 	"SourceIP": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceIP",
-		Description:    `Type of the source.`,
+		Description:    `SourceIP is the source IP address of the packet.`,
 		Exposed:        true,
 		Name:           "sourceIP",
 		Type:           "string",
@@ -586,7 +586,7 @@ for the rejection.`,
 	"SourcePort": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourcePort",
-		Description:    `SrcPort is the source port of the packet.`,
+		Description:    `SourcePort is the source port of the packet.`,
 		Exposed:        true,
 		MaxValue:       65536,
 		Name:           "sourcePort",
@@ -595,7 +595,7 @@ for the rejection.`,
 	"Timestamp": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
-		Description:    `Date of the report.`,
+		Description:    `Timestamp is the date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
 		Required:       true,
@@ -634,7 +634,7 @@ var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"destinationip": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationIP",
-		Description:    `IP of the destination.`,
+		Description:    `DestinationIP is the IP address of the destination.`,
 		Exposed:        true,
 		Name:           "destinationIP",
 		Type:           "string",
@@ -642,7 +642,7 @@ var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"destinationport": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DestinationPort",
-		Description:    `DestPort is the destination port of the packet.`,
+		Description:    `DestinationPort is the destination port of a TCP or UDP packet.`,
 		Exposed:        true,
 		MaxValue:       65536,
 		Name:           "destinationPort",
@@ -651,8 +651,8 @@ var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"dropreason": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "DropReason",
-		Description: `This field is only set if 'action' is set to 'Reject' and specifies the reason
-for the rejection.`,
+		Description: `This field is only set if 'event' is set to 'Dropped' and specifies the reason
+for the drop.`,
 		Exposed: true,
 		Name:    "dropReason",
 		Type:    "string",
@@ -702,7 +702,7 @@ for the rejection.`,
 	"packetid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PacketID",
-		Description:    `ID is the packet ID from the IP header.`,
+		Description:    `PacketID is the ID from the IP header of the packet.`,
 		Name:           "packetID",
 		Required:       true,
 		Type:           "integer",
@@ -720,7 +720,7 @@ for the rejection.`,
 	"puid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PuID",
-		Description:    `ID of the PU reporting the packet.`,
+		Description:    `PUID is the ID of the PU reporting the packet.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "puID",
@@ -730,7 +730,7 @@ for the rejection.`,
 	"sourceip": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceIP",
-		Description:    `Type of the source.`,
+		Description:    `SourceIP is the source IP address of the packet.`,
 		Exposed:        true,
 		Name:           "sourceIP",
 		Type:           "string",
@@ -738,7 +738,7 @@ for the rejection.`,
 	"sourceport": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourcePort",
-		Description:    `SrcPort is the source port of the packet.`,
+		Description:    `SourcePort is the source port of the packet.`,
 		Exposed:        true,
 		MaxValue:       65536,
 		Name:           "sourcePort",
@@ -747,7 +747,7 @@ for the rejection.`,
 	"timestamp": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Timestamp",
-		Description:    `Date of the report.`,
+		Description:    `Timestamp is the date of the report.`,
 		Exposed:        true,
 		Name:           "timestamp",
 		Required:       true,
@@ -835,14 +835,14 @@ type SparsePacketReport struct {
 	// Claims is the list of claims detected for the packet.
 	Claims *map[string]string `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
 
-	// IP of the destination.
+	// DestinationIP is the IP address of the destination.
 	DestinationIP *string `json:"destinationIP,omitempty" bson:"-" mapstructure:"destinationIP,omitempty"`
 
-	// DestPort is the destination port of the packet.
+	// DestinationPort is the destination port of a TCP or UDP packet.
 	DestinationPort *int `json:"destinationPort,omitempty" bson:"-" mapstructure:"destinationPort,omitempty"`
 
-	// This field is only set if 'action' is set to 'Reject' and specifies the reason
-	// for the rejection.
+	// This field is only set if 'event' is set to 'Dropped' and specifies the reason
+	// for the drop.
 	DropReason *string `json:"dropReason,omitempty" bson:"-" mapstructure:"dropReason,omitempty"`
 
 	// Encrypt indicates that the packet was encrypted.
@@ -860,22 +860,22 @@ type SparsePacketReport struct {
 	// Namespace of the PU reporting the packet.
 	Namespace *string `json:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
-	// ID is the packet ID from the IP header.
+	// PacketID is the ID from the IP header of the packet.
 	PacketID *int `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
 
 	// Protocol number.
 	Protocol *int `json:"protocol,omitempty" bson:"-" mapstructure:"protocol,omitempty"`
 
-	// ID of the PU reporting the packet.
+	// PUID is the ID of the PU reporting the packet.
 	PuID *string `json:"puID,omitempty" bson:"-" mapstructure:"puID,omitempty"`
 
-	// Type of the source.
+	// SourceIP is the source IP address of the packet.
 	SourceIP *string `json:"sourceIP,omitempty" bson:"-" mapstructure:"sourceIP,omitempty"`
 
-	// SrcPort is the source port of the packet.
+	// SourcePort is the source port of the packet.
 	SourcePort *int `json:"sourcePort,omitempty" bson:"-" mapstructure:"sourcePort,omitempty"`
 
-	// Date of the report.
+	// Timestamp is the date of the report.
 	Timestamp *time.Time `json:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
 
 	// TriremePacket is set if the packet arrived with the Trireme options.

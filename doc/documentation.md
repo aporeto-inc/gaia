@@ -7731,11 +7731,11 @@ Create a packet trace report.
 
 #### `destinationIP (string)`
 
-IP of the destination.
+DestinationIP is the IP address of the destination.
 
 #### `destinationPort (integer)`
 
-DestPort is the destination port of the packet.
+DestinationPort is the destination port of a TCP or UDP packet.
 
 | Characteristics | Value   |
 | -               | -:      |
@@ -7743,8 +7743,8 @@ DestPort is the destination port of the packet.
 
 #### `dropReason (string)`
 
-This field is only set if 'action' is set to 'Reject' and specifies the reason
-for the rejection.
+This field is only set if 'event' is set to 'Dropped' and specifies the reason
+for the drop.
 
 #### `encrypt (boolean)`
 
@@ -7778,7 +7778,7 @@ Protocol number.
 
 #### `puID (string)`
 
-ID of the PU reporting the packet.
+PUID is the ID of the PU reporting the packet.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -7787,11 +7787,11 @@ ID of the PU reporting the packet.
 
 #### `sourceIP (string)`
 
-Type of the source.
+SourceIP is the source IP address of the packet.
 
 #### `sourcePort (integer)`
 
-SrcPort is the source port of the packet.
+SourcePort is the source port of the packet.
 
 | Characteristics | Value   |
 | -               | -:      |
@@ -7799,7 +7799,7 @@ SrcPort is the source port of the packet.
 
 #### `timestamp (time)`
 
-Date of the report.
+Timestamp is the date of the report.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -10740,7 +10740,7 @@ Chain is the chain that the trace was collected from.
 
 #### `destinationIP (string)`
 
-DestIP is the destination IP.
+DestinationIP is the destination IP.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -10748,11 +10748,11 @@ DestIP is the destination IP.
 
 #### `destinationInterface (string)`
 
-DestInterface is the destination interface of the packet.
+DestinationInterface is the destination interface of the packet.
 
 #### `destinationPort (integer)`
 
-DestPort is the destination Port.
+DestinationPort is the destination UPD or TCP port of the packet.
 
 | Characteristics | Value   |
 | -               | -:      |
@@ -10771,7 +10771,7 @@ Length of the observed packet.
 
 #### `packetID (integer)`
 
-ID is the packet ID.
+PacketID is the IP packet header ID.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -10788,7 +10788,7 @@ Protocol is the protocol of the packets.
 
 #### `ruleID (integer)`
 
-ruleID is the index of the iptables entry that was hit.
+ruleID is the priority index of the iptables entry that was hit.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -10796,7 +10796,7 @@ ruleID is the index of the iptables entry that was hit.
 
 #### `sourceIP (string)`
 
-SrcIP is the source IP.
+SourceIP is the source IP of the packet.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -10804,11 +10804,11 @@ SrcIP is the source IP.
 
 #### `sourceInterface (string)`
 
-SrcInterface is the source interface of the packet.
+SourceInterface is the source interface of the packet.
 
 #### `sourcePort (integer)`
 
-SrcPort is the source Port.
+SourcePort is the source TCP or UDP Port of the packet.
 
 | Characteristics | Value   |
 | -               | -:      |
@@ -10818,7 +10818,7 @@ SrcPort is the source Port.
 
 #### `tableName (string)`
 
-TableName is the iptable that the trace was collected.
+TableName is the iptable name that the trace was collected.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -10826,7 +10826,7 @@ TableName is the iptable that the trace was collected.
 
 #### `timestamp (time)`
 
-Date of the report.
+Timestamp is the date of the report.
 
 | Characteristics | Value  |
 | -               | -:     |

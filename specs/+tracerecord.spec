@@ -28,7 +28,7 @@ attributes:
     example_value: PREROUTING
 
   - name: destinationIP
-    description: DestIP is the destination IP.
+    description: DestinationIP is the destination IP.
     type: string
     exposed: true
     stored: true
@@ -36,14 +36,14 @@ attributes:
     example_value: 10.1.1.30
 
   - name: destinationInterface
-    description: DestInterface is the destination interface of the packet.
+    description: DestinationInterface is the destination interface of the packet.
     type: string
     exposed: true
     stored: true
     example_value: en0
 
   - name: destinationPort
-    description: DestPort is the destination Port.
+    description: DestinationPort is the destination UPD or TCP port of the packet.
     type: integer
     exposed: true
     stored: true
@@ -62,7 +62,7 @@ attributes:
     max_value: 65536
 
   - name: packetID
-    description: ID is the packet ID.
+    description: PacketID is the IP packet header ID.
     type: integer
     exposed: true
     stored: true
@@ -79,7 +79,7 @@ attributes:
     max_value: 65536
 
   - name: ruleID
-    description: ruleID is the index of the iptables entry that was hit.
+    description: ruleID is the priority index of the iptables entry that was hit.
     type: integer
     exposed: true
     stored: true
@@ -87,7 +87,7 @@ attributes:
     example_value: 10
 
   - name: sourceIP
-    description: SrcIP is the source IP.
+    description: SourceIP is the source IP of the packet.
     type: string
     exposed: true
     stored: true
@@ -95,14 +95,14 @@ attributes:
     example_value: 10.1.1.30
 
   - name: sourceInterface
-    description: SrcInterface is the source interface of the packet.
+    description: SourceInterface is the source interface of the packet.
     type: string
     exposed: true
     stored: true
     example_value: en0
 
   - name: sourcePort
-    description: SrcPort is the source Port.
+    description: SourcePort is the source TCP or UDP Port of the packet.
     type: integer
     exposed: true
     stored: true
@@ -112,7 +112,7 @@ attributes:
     min_value: 1
 
   - name: tableName
-    description: TableName is the iptable that the trace was collected.
+    description: TableName is the iptable name that the trace was collected.
     type: string
     exposed: true
     stored: true
@@ -120,7 +120,7 @@ attributes:
     example_value: raw
 
   - name: timestamp
-    description: Date of the report.
+    description: Timestamp is the date of the report.
     type: time
     exposed: true
     required: true

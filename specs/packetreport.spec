@@ -19,12 +19,12 @@ attributes:
     subtype: enforcer_claims
 
   - name: destinationIP
-    description: IP of the destination.
+    description: DestinationIP is the IP address of the destination.
     type: string
     exposed: true
 
   - name: destinationPort
-    description: DestPort is the destination port of the packet.
+    description: DestinationPort is the destination port of a TCP or UDP packet.
     type: integer
     exposed: true
     example_value: 11000
@@ -32,8 +32,8 @@ attributes:
 
   - name: dropReason
     description: |-
-      This field is only set if 'action' is set to 'Reject' and specifies the reason
-      for the rejection.
+      This field is only set if 'event' is set to 'Dropped' and specifies the reason
+      for the drop.
     type: string
     exposed: true
 
@@ -73,7 +73,7 @@ attributes:
     filterable: true
 
   - name: packetID
-    description: ID is the packet ID from the IP header.
+    description: PacketID is the ID from the IP header of the packet.
     type: integer
     required: true
     example_value: 12333
@@ -87,7 +87,7 @@ attributes:
     max_value: 255
 
   - name: puID
-    description: ID of the PU reporting the packet.
+    description: PUID is the ID of the PU reporting the packet.
     type: string
     exposed: true
     required: true
@@ -95,19 +95,19 @@ attributes:
     filterable: true
 
   - name: sourceIP
-    description: Type of the source.
+    description: SourceIP is the source IP address of the packet.
     type: string
     exposed: true
 
   - name: sourcePort
-    description: SrcPort is the source port of the packet.
+    description: SourcePort is the source port of the packet.
     type: integer
     exposed: true
     example_value: 80
     max_value: 65536
 
   - name: timestamp
-    description: Date of the report.
+    description: Timestamp is the date of the report.
     type: time
     exposed: true
     required: true

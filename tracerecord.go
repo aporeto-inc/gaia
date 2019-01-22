@@ -17,40 +17,40 @@ type TraceRecord struct {
 	// Chain is the chain that the trace was collected from.
 	Chain string `json:"chain" bson:"chain" mapstructure:"chain,omitempty"`
 
-	// DestIP is the destination IP.
+	// DestinationIP is the destination IP.
 	DestinationIP string `json:"destinationIP" bson:"destinationip" mapstructure:"destinationIP,omitempty"`
 
-	// DestInterface is the destination interface of the packet.
+	// DestinationInterface is the destination interface of the packet.
 	DestinationInterface string `json:"destinationInterface" bson:"destinationinterface" mapstructure:"destinationInterface,omitempty"`
 
-	// DestPort is the destination Port.
+	// DestinationPort is the destination UPD or TCP port of the packet.
 	DestinationPort int `json:"destinationPort" bson:"destinationport" mapstructure:"destinationPort,omitempty"`
 
 	// Length of the observed packet.
 	Length int `json:"length" bson:"length" mapstructure:"length,omitempty"`
 
-	// ID is the packet ID.
+	// PacketID is the IP packet header ID.
 	PacketID int `json:"packetID" bson:"packetid" mapstructure:"packetID,omitempty"`
 
 	// Protocol is the protocol of the packets.
 	Protocol int `json:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
 
-	// ruleID is the index of the iptables entry that was hit.
+	// ruleID is the priority index of the iptables entry that was hit.
 	RuleID int `json:"ruleID" bson:"ruleid" mapstructure:"ruleID,omitempty"`
 
-	// SrcIP is the source IP.
+	// SourceIP is the source IP of the packet.
 	SourceIP string `json:"sourceIP" bson:"sourceip" mapstructure:"sourceIP,omitempty"`
 
-	// SrcInterface is the source interface of the packet.
+	// SourceInterface is the source interface of the packet.
 	SourceInterface string `json:"sourceInterface" bson:"sourceinterface" mapstructure:"sourceInterface,omitempty"`
 
-	// SrcPort is the source Port.
+	// SourcePort is the source TCP or UDP Port of the packet.
 	SourcePort int `json:"sourcePort" bson:"sourceport" mapstructure:"sourcePort,omitempty"`
 
-	// TableName is the iptable that the trace was collected.
+	// TableName is the iptable name that the trace was collected.
 	TableName string `json:"tableName" bson:"tablename" mapstructure:"tableName,omitempty"`
 
-	// Date of the report.
+	// Timestamp is the date of the report.
 	Timestamp time.Time `json:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
