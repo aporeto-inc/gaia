@@ -167,7 +167,7 @@ type EnforcerProfile struct {
 
 	// HostServices is a list of services that must be activated by default to all
 	// enforcers matching this profile.
-	HostServices []*HostService `json:"hostServices" bson:"hostservices" mapstructure:"hostServices,omitempty"`
+	HostServices []*DeprecatedHostService `json:"hostServices" bson:"hostservices" mapstructure:"hostServices,omitempty"`
 
 	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
 	// docker container started with labels matching the rule.
@@ -279,7 +279,7 @@ func NewEnforcerProfile() *EnforcerProfile {
 		DockerSocketAddress:           "unix:///var/run/docker.sock",
 		AuditSocketBufferSize:         16384,
 		HostModeEnabled:               false,
-		HostServices:                  []*HostService{},
+		HostServices:                  []*DeprecatedHostService{},
 		LinuxProcessesSupportEnabled:  true,
 		ProxyListenAddress:            "unix:///var/run/aporeto.sock",
 		PUBookkeepingInterval:         "15m",
@@ -1257,7 +1257,7 @@ enforcers matching this profile.`,
 		Exposed: true,
 		Name:    "hostServices",
 		Stored:  true,
-		SubType: "hostservice",
+		SubType: "deprecatedhostservice",
 		Type:    "refList",
 	},
 	"IgnoreExpression": elemental.AttributeSpecification{
@@ -1799,7 +1799,7 @@ enforcers matching this profile.`,
 		Exposed: true,
 		Name:    "hostServices",
 		Stored:  true,
-		SubType: "hostservice",
+		SubType: "deprecatedhostservice",
 		Type:    "refList",
 	},
 	"ignoreexpression": elemental.AttributeSpecification{
@@ -2254,7 +2254,7 @@ type SparseEnforcerProfile struct {
 
 	// HostServices is a list of services that must be activated by default to all
 	// enforcers matching this profile.
-	HostServices *[]*HostService `json:"hostServices,omitempty" bson:"hostservices" mapstructure:"hostServices,omitempty"`
+	HostServices *[]*DeprecatedHostService `json:"hostServices,omitempty" bson:"hostservices" mapstructure:"hostServices,omitempty"`
 
 	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
 	// docker container started with labels matching the rule.

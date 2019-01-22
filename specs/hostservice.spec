@@ -41,21 +41,9 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: networkonly
-    description: networkonly indicate the host service is of type network only.
-    type: boolean
-    exposed: true
-    stored: true
-    read_only: true
-    default_value: true
-    deprecated: true
-
   - name: services
     description: Services lists all protocols and ports a service is running.
-    type: refList
+    type: list
     exposed: true
-    subtype: processingunitservice
+    subtype: string
     stored: true
-    orderable: true
-    extensions:
-      refMode: pointer

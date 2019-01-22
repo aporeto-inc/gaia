@@ -156,7 +156,7 @@ attributes:
       enforcers matching this profile.
     type: refList
     exposed: true
-    subtype: hostservice
+    subtype: deprecatedhostservice
     stored: true
     validations:
     - $host_services_list

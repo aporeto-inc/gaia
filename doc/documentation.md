@@ -28,6 +28,7 @@
 | [ClaimMapping](#claimmapping)                                 | Represents a mapping from a claim name to an HTTP header.                           |
 | [Credential](#credential)                                     | Represents an application credential data.                                          |
 | [DependencyMap](#dependencymap)                               | This api returns a data structure representing the graph of all processing units... |
+| [DeprecatedHostService](#deprecatedhostservice)               | Represents a service of the enforcer's host.                                        |
 | [Endpoint](#endpoint)                                         | Represents an HTTP endpoint.                                                        |
 | [Enforcer](#enforcer)                                         | An Enforcer Profile contains a configuration for a Enforcer. It contains various... |
 | [EnforcerProfile](#enforcerprofile)                           | Allows to create reusable configuration profile for your enforcers. Enforcer        |
@@ -3060,6 +3061,43 @@ viewSuggestions provides suggestion of views based on relevant tags.
 | -               | -:     |
 | Read only       | `true` |
 
+## DeprecatedHostService
+
+Represents a service of the enforcer's host.
+
+### Attributes
+
+#### `associatedTags (external:tags_list)`
+
+AssociatedTags are the list of tags attached to an entity.
+
+#### `name (string)`
+
+Name of the service.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `networkonly (boolean)`
+
+> This attribute is deprecated
+
+networkonly indicate the host service is of type network only.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Default         | `true` |
+| Read only       | `true` |
+
+#### `services (refList)`
+
+Services lists all protocols and ports a service is running.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
 ## Endpoint
 
 Represents an HTTP endpoint.
@@ -5963,17 +6001,6 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `networkonly (boolean)`
-
-> This attribute is deprecated
-
-networkonly indicate the host service is of type network only.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Default         | `true` |
-| Read only       | `true` |
-
 #### `normalizedTags (external:tags_list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
@@ -5991,13 +6018,9 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `services (refList)`
+#### `services (list)`
 
 Services lists all protocols and ports a service is running.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
 
 #### `updateTime (time)`
 
