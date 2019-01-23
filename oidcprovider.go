@@ -121,6 +121,7 @@ func NewOIDCProvider() *OIDCProvider {
 
 	return &OIDCProvider{
 		ModelVersion: 1,
+		Scopes:       []string{},
 	}
 }
 
@@ -296,6 +297,10 @@ func (o *OIDCProvider) Validate() error {
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("scopes", o.Scopes); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 

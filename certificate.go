@@ -156,8 +156,9 @@ type Certificate struct {
 func NewCertificate() *Certificate {
 
 	return &Certificate{
-		ModelVersion: 1,
-		Status:       CertificateStatusValid,
+		ModelVersion:        1,
+		OrganizationalUnits: []string{},
+		Status:              CertificateStatusValid,
 	}
 }
 

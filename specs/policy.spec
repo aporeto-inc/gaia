@@ -133,4 +133,6 @@ attributes:
     - Syscall
     - TokenScope
     - ServiceDependency
+    - AuditProfileMapping
+    - HostServiceMapping
     primary_key: true

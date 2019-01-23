@@ -148,6 +148,7 @@ func NewExternalNetwork() *ExternalNetwork {
 	return &ExternalNetwork{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
+		Entries:        []string{},
 		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
@@ -533,8 +534,16 @@ func (o *ExternalNetwork) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateRequiredExternal("ports", o.Ports); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	if err := ValidatePortStringList("ports", o.Ports); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("protocols", o.Protocols); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := ValidateProtocolList("protocols", o.Protocols); err != nil {

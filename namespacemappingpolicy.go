@@ -196,7 +196,7 @@ Namespace Mapping Policy, then the Processing Unit will be bumped down again,
 until it reach a namespace with no matching policies.
 
 This is very useful to dispatch processes and containers into a particular
-namespace, based on a lot of factor.
+namespace, based on a lot of factor. 
 
 You can put in place a quarantine namespace that will grab all Processing Units
 with too much vulnerabilities for instances.`

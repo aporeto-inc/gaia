@@ -136,6 +136,7 @@ func NewAPICheck() *APICheck {
 	return &APICheck{
 		ModelVersion:     1,
 		Authorized:       map[string]bool{},
+		Claims:           []string{},
 		TargetIdentities: []string{},
 	}
 }

@@ -170,6 +170,8 @@ func NewAppCredential() *AppCredential {
 		AssociatedTags: []string{},
 		NormalizedTags: []string{},
 		Metadata:       []string{},
+		ParentIDs:      []string{},
+		Roles:          []string{},
 	}
 }
 
@@ -564,6 +566,10 @@ func (o *AppCredential) Validate() error {
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("roles", o.Roles); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if len(requiredErrors) > 0 {

@@ -447,3 +447,59 @@ func ValidateHTTPMethods(attribute string, methods []string) error {
 
 	return nil
 }
+
+// ValidateHostServices validates a host service. Applies to the new API only.
+func ValidateHostServices(hs *HostService) error {
+
+	if len(hs.Name) == 0 {
+		return makeValidationError("hostServices", "Host service names must be specified")
+	}
+
+	// Constraint on regex is used because the enforcer is using the name as nativeContextID.
+	if !regHostServiceName.MatchString(hs.Name) {
+		return makeValidationError("hostServices", "Host service name must be less than 12 characters and contains only alphanumeric or _")
+	}
+
+	if err := ValidateHostServicesNonOverlapPorts(hs.Services); err != nil {
+		return makeValidationError("hostServices", err.Error())
+	}
+
+	return nil
+}
+
+// ValidateHostServicesNonOverlapPorts validates a list of processing unit services has no overlap with any given parameter.
+func ValidateHostServicesNonOverlapPorts(svcs []string) error {
+
+	udpPorts := portutils.PortsRangeList{}
+	tcpPorts := portutils.PortsRangeList{}
+
+	var pr *portutils.PortsRange
+	var protocol string
+	var err error
+
+	for _, ports := range svcs {
+
+		pr, protocol, err = portutils.ConvertStringToPorts(ports)
+		if err != nil {
+			return err
+		}
+
+		switch protocol {
+		case "tcp":
+			if pr.HasOverlapWithPortsRanges(&tcpPorts) {
+				return fmt.Errorf("hostService cannot have overlapping ports")
+			}
+			tcpPorts = append(tcpPorts, pr)
+		case "udp":
+			if pr.HasOverlapWithPortsRanges(&udpPorts) {
+				return fmt.Errorf("hostService cannot have overlapping ports")
+			}
+			udpPorts = append(udpPorts, pr)
+		default:
+			return fmt.Errorf("%s is an invalid protocol", protocol)
+		}
+
+	}
+
+	return nil
+}

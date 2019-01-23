@@ -61,3 +61,52 @@ func ConvertToSinglePort(port string) (int64, error) {
 
 	return p, nil
 }
+
+// ConvertStringToPorts converts a string of the format tcp/80:100 to a port range.
+// If the prefix is neither tcp or udp it will return an error.
+func ConvertStringToPorts(port string) (*PortsRange, string, error) {
+
+	proto := ""
+	var portSubString string
+
+	if strings.HasPrefix(port, "udp/") && len(port) > 3 {
+		proto = "udp"
+		portSubString = port[4:]
+	} else if strings.HasPrefix(port, "tcp/") && len(port) > 3 {
+		proto = "tcp"
+		portSubString = port[4:]
+	} else {
+		proto = "tcp"
+		portSubString = port
+	}
+
+	if strings.Contains(portSubString, ":") {
+
+		parts := strings.SplitN(portSubString, ":", 2)
+		if len(parts) != 2 {
+			return nil, proto, fmt.Errorf("%s is not a valid service port specification", port)
+		}
+
+		min, err := ConvertToSinglePort(parts[0])
+		if err != nil {
+			return nil, proto, err
+		}
+
+		max, err := ConvertToSinglePort(parts[1])
+		if err != nil {
+			return nil, proto, err
+		}
+
+		if min > max {
+			return nil, proto, fmt.Errorf("%s is not a valid port range", portSubString)
+		}
+		return &PortsRange{FromPort: min, ToPort: max}, proto, nil
+	}
+
+	min, err := ConvertToSinglePort(portSubString)
+	if err != nil {
+		return nil, proto, err
+	}
+
+	return &PortsRange{FromPort: min, ToPort: min}, proto, nil
+}

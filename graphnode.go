@@ -68,6 +68,7 @@ func NewGraphNode() *GraphNode {
 
 	return &GraphNode{
 		ModelVersion: 1,
+		Tags:         []string{},
 	}
 }
 

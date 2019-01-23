@@ -35,6 +35,8 @@ func NewEndpoint() *Endpoint {
 
 	return &Endpoint{
 		ModelVersion: 1,
+		Methods:      []string{},
+		Scopes:       []string{},
 	}
 }
 

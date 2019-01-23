@@ -156,6 +156,7 @@ func NewHostService() *HostService {
 		AssociatedTags:  []string{},
 		Metadata:        []string{},
 		NormalizedTags:  []string{},
+		Services:        []string{},
 	}
 }
 
@@ -515,6 +516,18 @@ func (o *HostService) Validate() error {
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	// Custom object validation.
+	if err := ValidateHostServices(o); err != nil {
+		switch e := err.(type) {
+		case elemental.Errors:
+			errors = append(errors, e...)
+		case elemental.Error:
+			errors = append(errors, e)
+		default:
+			errors = append(errors, e)
+		}
 	}
 
 	if len(requiredErrors) > 0 {
