@@ -534,16 +534,8 @@ func (o *ExternalNetwork) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("ports", o.Ports); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if err := ValidatePortStringList("ports", o.Ports); err != nil {
 		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("protocols", o.Protocols); err != nil {
-		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := ValidateProtocolList("protocols", o.Protocols); err != nil {
@@ -783,7 +775,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description: `List of single ports or range (xx:yy).`,
 		Exposed:     true,
 		Name:        "ports",
-		Required:    true,
 		Stored:      true,
 		SubType:     "string",
 		Type:        "list",
@@ -808,7 +799,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description: `List of protocols (tcp, udp, or protocol number).`,
 		Exposed:     true,
 		Name:        "protocols",
-		Required:    true,
 		Stored:      true,
 		SubType:     "string",
 		Type:        "list",
@@ -1015,7 +1005,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description: `List of single ports or range (xx:yy).`,
 		Exposed:     true,
 		Name:        "ports",
-		Required:    true,
 		Stored:      true,
 		SubType:     "string",
 		Type:        "list",
@@ -1040,7 +1029,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description: `List of protocols (tcp, udp, or protocol number).`,
 		Exposed:     true,
 		Name:        "protocols",
-		Required:    true,
 		Stored:      true,
 		SubType:     "string",
 		Type:        "list",

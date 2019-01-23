@@ -28,12 +28,16 @@ attributes:
     type: refList
     exposed: true
     subtype: enforcerprofile
+    extensions:
+      noInit: true
 
   - name: externalNetworks
     description: Policy target networks.
     type: refList
     exposed: true
     subtype: externalnetwork
+    extensions:
+      noInit: true
 
   - name: externalServices
     description: Policy target networks.
@@ -41,24 +45,32 @@ attributes:
     exposed: true
     subtype: externalservice
     deprecated: true
+    extensions:
+      noInit: true
 
   - name: filePaths
     description: Policy target file paths.
     type: refList
     exposed: true
     subtype: filepath
+    extensions:
+      noInit: true
 
   - name: isolationProfiles
     description: IsolationProfiles are the isolation profiles of the rule.
     type: refList
     exposed: true
     subtype: isolationprofile
+    extensions:
+      noInit: true
 
   - name: namespaces
     description: Policy target namespaces.
     type: refList
     exposed: true
     subtype: namespace
+    extensions:
+      noInit: true
 
   - name: policyNamespace
     description: PolicyNamespace is the namespace of the policy that created this
@@ -89,6 +101,8 @@ attributes:
     type: refList
     exposed: true
     subtype: service
+    extensions:
+      noInit: true
 
   - name: tagClauses
     description: Policy target tags.

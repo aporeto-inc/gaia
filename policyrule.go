@@ -138,16 +138,9 @@ type PolicyRule struct {
 func NewPolicyRule() *PolicyRule {
 
 	return &PolicyRule{
-		ModelVersion:      1,
-		FilePaths:         FilePathsList{},
-		EnforcerProfiles:  EnforcerProfilesList{},
-		ExternalNetworks:  ExternalNetworksList{},
-		ExternalServices:  ExternalServicesList{},
-		IsolationProfiles: IsolationProfilesList{},
-		Namespaces:        NamespacesList{},
-		Relation:          []string{},
-		Services:          ServicesList{},
-		TagClauses:        [][]string{},
+		ModelVersion: 1,
+		Relation:     []string{},
+		TagClauses:   [][]string{},
 	}
 }
 

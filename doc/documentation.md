@@ -4221,7 +4221,6 @@ List of single ports or range (xx:yy).
 | Characteristics | Value                       |
 | -               | -:                          |
 | Default         | `[]interface {}{"1:65535"}` |
-| Required        | `true`                      |
 
 #### `protected (boolean)`
 
@@ -4238,7 +4237,6 @@ List of protocols (tcp, udp, or protocol number).
 | Characteristics | Value                   |
 | -               | -:                      |
 | Default         | `[]interface {}{"tcp"}` |
-| Required        | `true`                  |
 
 #### `updateTime (time)`
 
