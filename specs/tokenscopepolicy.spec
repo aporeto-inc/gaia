@@ -47,6 +47,6 @@ attributes:
       and scope request information.
     type: external
     exposed: true
-    subtype: list_of_list_of_strings
+    subtype: list_of_lists_of_strings
     stored: true
     orderable: true

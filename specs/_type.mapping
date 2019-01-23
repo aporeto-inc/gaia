@@ -93,12 +93,12 @@ elemental_operation:
   elemental:
     type: elemental.Operation
 
-list_of_list_of_objects:
+list_of_lists_of_objects:
   elemental:
     type: '[][]interface{}'
     init: '[][]interface{}{}'
 
-list_of_list_of_strings:
+list_of_lists_of_strings:
   elemental:
     type: '[][]string'
     init: '[][]string{}'

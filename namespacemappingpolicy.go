@@ -528,10 +528,6 @@ func (o *NamespaceMappingPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("subject", o.Subject); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -773,8 +769,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Exposed:        true,
 		Name:           "subject",
 		Orderable:      true,
-		Required:       true,
-		SubType:        "list_of_list_of_strings",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
@@ -989,8 +984,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Exposed:        true,
 		Name:           "subject",
 		Orderable:      true,
-		Required:       true,
-		SubType:        "list_of_list_of_strings",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 	"updatetime": elemental.AttributeSpecification{

@@ -24,6 +24,8 @@ model:
   - - archived
   get:
     description: Retrieves the object with the given ID.
+    global_parameters:
+    - $archivable
   update:
     description: Updates the object with the given ID.
   delete:

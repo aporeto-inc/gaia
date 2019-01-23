@@ -226,7 +226,7 @@ attributes:
       similar specifications for other L7 protocols.
     type: external
     exposed: true
-    subtype: list_of_list_of_strings
+    subtype: list_of_lists_of_strings
     stored: true
     example_value:
     - - package=p1
@@ -316,7 +316,7 @@ attributes:
       must match in order to implement this particular service.
     type: external
     exposed: true
-    subtype: list_of_list_of_strings
+    subtype: list_of_lists_of_strings
     stored: true
     example_value:
     - - $identity=processingunit

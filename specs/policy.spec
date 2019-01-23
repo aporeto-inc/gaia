@@ -88,7 +88,7 @@ attributes:
       objects are identified as logical operations on tags when a policy is defined.
     type: external
     exposed: true
-    subtype: list_of_list_of_strings
+    subtype: list_of_lists_of_strings
     stored: true
     getter: true
     setter: true
@@ -109,7 +109,7 @@ attributes:
       includes AND/OR.
     type: external
     exposed: true
-    subtype: list_of_list_of_strings
+    subtype: list_of_lists_of_strings
     stored: true
     getter: true
     setter: true

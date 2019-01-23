@@ -153,9 +153,6 @@ type NetworkAccessPolicy struct {
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// DestinationPorts contains the list of allowed ports and ranges.
-	DestinationPorts []string `json:"destinationPorts" bson:"-" mapstructure:"destinationPorts,omitempty"`
-
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
@@ -233,11 +230,10 @@ func NewNetworkAccessPolicy() *NetworkAccessPolicy {
 		AssociatedTags:        []string{},
 		Annotations:           map[string][]string{},
 		ApplyPolicyMode:       NetworkAccessPolicyApplyPolicyModeBidirectional,
-		DestinationPorts:      []string{},
-		Metadata:              []string{},
 		ObservedTrafficAction: NetworkAccessPolicyObservedTrafficActionContinue,
 		NormalizedTags:        []string{},
 		Object:                [][]string{},
+		Metadata:              []string{},
 		Subject:               [][]string{},
 	}
 }
@@ -524,7 +520,6 @@ func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentif
 			AssociatedTags:        &o.AssociatedTags,
 			CreateTime:            &o.CreateTime,
 			Description:           &o.Description,
-			DestinationPorts:      &o.DestinationPorts,
 			Disabled:              &o.Disabled,
 			EncryptionEnabled:     &o.EncryptionEnabled,
 			Fallback:              &o.Fallback,
@@ -568,8 +563,6 @@ func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentif
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
 			sp.Description = &(o.Description)
-		case "destinationPorts":
-			sp.DestinationPorts = &(o.DestinationPorts)
 		case "disabled":
 			sp.Disabled = &(o.Disabled)
 		case "encryptionEnabled":
@@ -647,9 +640,6 @@ func (o *NetworkAccessPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
-	}
-	if so.DestinationPorts != nil {
-		o.DestinationPorts = *so.DestinationPorts
 	}
 	if so.Disabled != nil {
 		o.Disabled = *so.Disabled
@@ -820,8 +810,6 @@ func (o *NetworkAccessPolicy) ValueForAttribute(name string) interface{} {
 		return o.CreateTime
 	case "description":
 		return o.Description
-	case "destinationPorts":
-		return o.DestinationPorts
 	case "disabled":
 		return o.Disabled
 	case "encryptionEnabled":
@@ -978,16 +966,6 @@ Default is both directions.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"DestinationPorts": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "DestinationPorts",
-		Description:    `DestinationPorts contains the list of allowed ports and ranges.`,
-		Exposed:        true,
-		Name:           "destinationPorts",
-		Orderable:      true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"Disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
@@ -1124,7 +1102,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Exposed:        true,
 		Name:           "object",
 		Orderable:      true,
-		SubType:        "list_of_list_of_strings",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 	"ObservationEnabled": elemental.AttributeSpecification{
@@ -1177,7 +1155,7 @@ packets.`,
 		Exposed:        true,
 		Name:           "subject",
 		Orderable:      true,
-		SubType:        "list_of_list_of_strings",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
@@ -1335,16 +1313,6 @@ Default is both directions.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"destinationports": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "DestinationPorts",
-		Description:    `DestinationPorts contains the list of allowed ports and ranges.`,
-		Exposed:        true,
-		Name:           "destinationPorts",
-		Orderable:      true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Disabled",
@@ -1481,7 +1449,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Exposed:        true,
 		Name:           "object",
 		Orderable:      true,
-		SubType:        "list_of_list_of_strings",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 	"observationenabled": elemental.AttributeSpecification{
@@ -1534,7 +1502,7 @@ packets.`,
 		Exposed:        true,
 		Name:           "subject",
 		Orderable:      true,
-		SubType:        "list_of_list_of_strings",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 	"updatetime": elemental.AttributeSpecification{
@@ -1675,9 +1643,6 @@ type SparseNetworkAccessPolicy struct {
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
 
-	// DestinationPorts contains the list of allowed ports and ranges.
-	DestinationPorts *[]string `json:"destinationPorts,omitempty" bson:"-" mapstructure:"destinationPorts,omitempty"`
-
 	// Disabled defines if the propert is disabled.
 	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
 
@@ -1808,9 +1773,6 @@ func (o *SparseNetworkAccessPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
-	}
-	if o.DestinationPorts != nil {
-		out.DestinationPorts = *o.DestinationPorts
 	}
 	if o.Disabled != nil {
 		out.Disabled = *o.Disabled

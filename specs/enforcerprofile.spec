@@ -169,7 +169,7 @@ attributes:
       docker container started with labels matching the rule.
     type: external
     exposed: true
-    subtype: list_of_list_of_strings
+    subtype: list_of_lists_of_strings
     stored: true
 
   - name: killContainersOnFailure

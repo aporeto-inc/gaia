@@ -63,13 +63,6 @@ attributes:
     default_value: Bidirectional
     orderable: true
 
-  - name: destinationPorts
-    description: DestinationPorts contains the list of allowed ports and ranges.
-    type: list
-    exposed: true
-    subtype: string
-    orderable: true
-
   - name: encryptionEnabled
     description: EncryptionEnabled defines if the flow has to be encrypted.
     type: boolean
@@ -86,7 +79,7 @@ attributes:
     description: Object of the policy.
     type: external
     exposed: true
-    subtype: list_of_list_of_strings
+    subtype: list_of_lists_of_strings
     orderable: true
 
   - name: observationEnabled
@@ -111,7 +104,7 @@ attributes:
     description: Subject of the policy.
     type: external
     exposed: true
-    subtype: list_of_list_of_strings
+    subtype: list_of_lists_of_strings
     orderable: true
 
 # Relations

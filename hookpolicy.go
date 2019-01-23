@@ -662,10 +662,6 @@ func (o *HookPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("subject", o.Subject); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -1016,12 +1012,11 @@ namespace, but still used for policy resolution.`,
 		ConvertedName:  "Subject",
 		Description: `Subject contains the tag expression that an object must match in order to
 trigger the hook.`,
-		Exposed:  true,
-		Name:     "subject",
-		Required: true,
-		Stored:   true,
-		SubType:  "list_of_list_of_strings",
-		Type:     "external",
+		Exposed: true,
+		Name:    "subject",
+		Stored:  true,
+		SubType: "list_of_lists_of_strings",
+		Type:    "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1328,12 +1323,11 @@ namespace, but still used for policy resolution.`,
 		ConvertedName:  "Subject",
 		Description: `Subject contains the tag expression that an object must match in order to
 trigger the hook.`,
-		Exposed:  true,
-		Name:     "subject",
-		Required: true,
-		Stored:   true,
-		SubType:  "list_of_list_of_strings",
-		Type:     "external",
+		Exposed: true,
+		Name:    "subject",
+		Stored:  true,
+		SubType: "list_of_lists_of_strings",
+		Type:    "external",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

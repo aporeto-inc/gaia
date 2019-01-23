@@ -557,14 +557,6 @@ func (o *EnforcerProfileMappingPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("object", o.Object); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("subject", o.Subject); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -801,9 +793,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Object is the list of tags to use to find a enforcer profile.`,
 		Exposed:        true,
 		Name:           "object",
-		Required:       true,
 		Stored:         true,
-		SubType:        "list_of_list_of_strings",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 	"Propagate": elemental.AttributeSpecification{
@@ -835,9 +826,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Subject is the subject of the policy.`,
 		Exposed:        true,
 		Name:           "subject",
-		Required:       true,
 		Stored:         true,
-		SubType:        "list_of_list_of_strings",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
@@ -1043,9 +1033,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Object is the list of tags to use to find a enforcer profile.`,
 		Exposed:        true,
 		Name:           "object",
-		Required:       true,
 		Stored:         true,
-		SubType:        "list_of_list_of_strings",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 	"propagate": elemental.AttributeSpecification{
@@ -1077,9 +1066,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Subject is the subject of the policy.`,
 		Exposed:        true,
 		Name:           "subject",
-		Required:       true,
 		Stored:         true,
-		SubType:        "list_of_list_of_strings",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 	"updatetime": elemental.AttributeSpecification{
