@@ -661,7 +661,7 @@ var EnforcerProfileMappingPolicyAttributesMap = map[string]elemental.AttributeSp
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "map_of_string_of_list_of_string",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
@@ -903,7 +903,7 @@ var EnforcerProfileMappingPolicyLowerCaseAttributesMap = map[string]elemental.At
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "map_of_string_of_list_of_string",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"associatedtags": elemental.AttributeSpecification{

@@ -43,7 +43,7 @@ attributes:
     description: EndPoints is a list of API endpoints that are exposed for the service.
     type: external
     exposed: true
-    subtype: exposed_api_list
+    subtype: _exposed_api_list
     stored: true
 
   - name: migrated

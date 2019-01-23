@@ -92,7 +92,8 @@ type SuggestedPolicy struct {
 func NewSuggestedPolicy() *SuggestedPolicy {
 
 	return &SuggestedPolicy{
-		ModelVersion: 1,
+		ModelVersion:          1,
+		NetworkAccessPolicies: []*NetworkAccessPolicy{},
 	}
 }
 
@@ -199,6 +200,12 @@ func (o *SuggestedPolicy) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	for _, sub := range o.NetworkAccessPolicies {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -250,8 +257,8 @@ var SuggestedPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "networkAccessPolicies",
 		Orderable:      true,
 		Stored:         true,
-		SubType:        "network_access_policies_list",
-		Type:           "external",
+		SubType:        "networkaccesspolicy",
+		Type:           "refList",
 	},
 }
 
@@ -265,8 +272,8 @@ var SuggestedPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Name:           "networkAccessPolicies",
 		Orderable:      true,
 		Stored:         true,
-		SubType:        "network_access_policies_list",
-		Type:           "external",
+		SubType:        "networkaccesspolicy",
+		Type:           "refList",
 	},
 }
 

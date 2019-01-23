@@ -436,7 +436,7 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `Parameters contains the parameter description of the function.`,
 		Exposed:        true,
 		Name:           "parameters",
-		SubType:        "automation_template_parameters",
+		SubType:        "_automation_template_parameters",
 		Type:           "external",
 	},
 }
@@ -512,7 +512,7 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		Description:    `Parameters contains the parameter description of the function.`,
 		Exposed:        true,
 		Name:           "parameters",
-		SubType:        "automation_template_parameters",
+		SubType:        "_automation_template_parameters",
 		Type:           "external",
 	},
 }

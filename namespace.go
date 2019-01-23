@@ -565,7 +565,7 @@ var NamespaceAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "map_of_string_of_list_of_string",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"AssociatedLocalCAID": elemental.AttributeSpecification{
@@ -775,7 +775,7 @@ var NamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "map_of_string_of_list_of_string",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"associatedlocalcaid": elemental.AttributeSpecification{

@@ -610,7 +610,7 @@ var FilePathAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "map_of_string_of_list_of_string",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"Archived": elemental.AttributeSpecification{
@@ -824,7 +824,7 @@ var FilePathLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "map_of_string_of_list_of_string",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"archived": elemental.AttributeSpecification{

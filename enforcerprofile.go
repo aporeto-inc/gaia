@@ -139,7 +139,7 @@ type EnforcerProfile struct {
 
 	// AuditProfiles returns the audit rules associated with the enforcer profile. This
 	// is a read only attribute when an enforcer profile is resolved for an enforcer.
-	AuditProfiles AuditProfilesList `json:"auditProfiles" bson:"-" mapstructure:"auditProfiles,omitempty"`
+	AuditProfiles []*AuditProfile `json:"auditProfiles" bson:"-" mapstructure:"auditProfiles,omitempty"`
 
 	// AuditSocketBufferSize is the size of the audit socket buffer. Default 16384.
 	AuditSocketBufferSize int `json:"auditSocketBufferSize" bson:"auditsocketbuffersize" mapstructure:"auditSocketBufferSize,omitempty"`
@@ -272,7 +272,7 @@ func NewEnforcerProfile() *EnforcerProfile {
 	return &EnforcerProfile{
 		ModelVersion:                  1,
 		ApplicationProxyPort:          20992,
-		AuditProfiles:                 AuditProfilesList{},
+		AuditProfiles:                 []*AuditProfile{},
 		Annotations:                   map[string][]string{},
 		DockerSocketAddress:           "unix:///var/run/docker.sock",
 		AuditSocketBufferSize:         16384,
@@ -816,6 +816,12 @@ func (o *EnforcerProfile) Validate() error {
 		errors = append(errors, err)
 	}
 
+	for _, sub := range o.AuditProfiles {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
 	if err := elemental.ValidateMaximumInt("auditSocketBufferSize", o.AuditSocketBufferSize, int(262144), false); err != nil {
 		errors = append(errors, err)
 	}
@@ -1105,7 +1111,7 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "map_of_string_of_list_of_string",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"ApplicationProxyPort": elemental.AttributeSpecification{
@@ -1154,8 +1160,8 @@ is a read only attribute when an enforcer profile is resolved for an enforcer.`,
 		Exposed:  true,
 		Name:     "auditProfiles",
 		ReadOnly: true,
-		SubType:  "audit_profiles",
-		Type:     "external",
+		SubType:  "auditprofile",
+		Type:     "refList",
 	},
 	"AuditSocketBufferSize": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1647,7 +1653,7 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "map_of_string_of_list_of_string",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"applicationproxyport": elemental.AttributeSpecification{
@@ -1696,8 +1702,8 @@ is a read only attribute when an enforcer profile is resolved for an enforcer.`,
 		Exposed:  true,
 		Name:     "auditProfiles",
 		ReadOnly: true,
-		SubType:  "audit_profiles",
-		Type:     "external",
+		SubType:  "auditprofile",
+		Type:     "refList",
 	},
 	"auditsocketbuffersize": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -2220,7 +2226,7 @@ type SparseEnforcerProfile struct {
 
 	// AuditProfiles returns the audit rules associated with the enforcer profile. This
 	// is a read only attribute when an enforcer profile is resolved for an enforcer.
-	AuditProfiles *AuditProfilesList `json:"auditProfiles,omitempty" bson:"-" mapstructure:"auditProfiles,omitempty"`
+	AuditProfiles *[]*AuditProfile `json:"auditProfiles,omitempty" bson:"-" mapstructure:"auditProfiles,omitempty"`
 
 	// AuditSocketBufferSize is the size of the audit socket buffer. Default 16384.
 	AuditSocketBufferSize *int `json:"auditSocketBufferSize,omitempty" bson:"auditsocketbuffersize" mapstructure:"auditSocketBufferSize,omitempty"`

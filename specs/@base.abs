@@ -5,7 +5,7 @@ attributes:
     description: Annotation stores additional information about an entity.
     type: external
     exposed: true
-    subtype: map_of_string_of_list_of_string
+    subtype: map_of_string_of_list_of_strings
     stored: true
     getter: true
     setter: true

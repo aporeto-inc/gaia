@@ -619,7 +619,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -817,12 +817,12 @@ activeSchedule.
 | -               | -:                |
 | Format          | `/^[0-9]+[smh]$/` |
 
-#### `activeSchedule (external:cron_expression)`
+#### `activeSchedule (string)`
 
 ActiveSchedule defines when the policy should be active using the cron notation.
 The policy will be active for the given activeDuration.
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -1129,7 +1129,7 @@ Name is the name of the entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `parameters (external:app_parameters)`
+#### `parameters (external:_app_parameters)`
 
 Parameters is a list of parameters available for the app.
 
@@ -1226,7 +1226,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -1427,7 +1427,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -1508,7 +1508,7 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `rules (external:audit_profile_rule_list)`
+#### `rules (external:_audit_profile_rule_list)`
 
 Rules is the list of audit policy rules associated with this policy.
 
@@ -1826,7 +1826,7 @@ ID is the identifier of the object.
 
 Action contains the code that will be executed if the condition is met.
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -2054,7 +2054,7 @@ Name is the name of the entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `parameters (external:automation_template_parameters)`
+#### `parameters (external:_automation_template_parameters)`
 
 Parameters contains the parameter description of the function.
 
@@ -2273,7 +2273,7 @@ ID is the identifier of the object.
 
 the account ID for the gateway managing this request.
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -2787,7 +2787,7 @@ Retrieves the dependencymap of a namespace.
 
 ### Attributes
 
-#### `claims (external:map_of_string_of_list_of_string)`
+#### `claims (external:map_of_string_of_list_of_strings)`
 
 claims represents a user or a script that have accessed an api.
 
@@ -2962,7 +2962,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -3292,7 +3292,7 @@ PUHeartbeatInterval configures the heart beat interval.
 | Default         | `"5s"`            |
 | Orderable       | `true`            |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -3317,7 +3317,7 @@ AuditProfileSelectors is the list of tags (key/value pairs) that define the
 audit policies that must be implemented by this enforcer. The enforcer will
 implement all policies that match any of these tags.
 
-#### `auditProfiles (external:audit_profiles)`
+#### `auditProfiles (refList)`
 
 AuditProfiles returns the audit rules associated with the enforcer profile. This
 is a read only attribute when an enforcer profile is resolved for an enforcer.
@@ -3716,7 +3716,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -4149,7 +4149,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -4331,7 +4331,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -4517,7 +4517,7 @@ activeSchedule.
 | -               | -:                |
 | Format          | `/^[0-9]+[smh]$/` |
 
-#### `activeSchedule (external:cron_expression)`
+#### `activeSchedule (string)`
 
 ActiveSchedule defines when the policy should be active using the cron notation.
 The policy will be active for the given activeDuration.
@@ -4546,7 +4546,7 @@ AllowsWrite allows to write the files.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -4836,7 +4836,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -5403,7 +5403,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -5693,7 +5693,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -5812,7 +5812,7 @@ Imports data from a previous export.
 
 ### Attributes
 
-#### `data (external:exported_data)`
+#### `data (ref)`
 
 The data to import.
 
@@ -5921,7 +5921,7 @@ Namespace in which the app is running.
 | Read only       | `true` |
 | Orderable       | `true` |
 
-#### `parameters (external:app_parameters)`
+#### `parameters (external:_app_parameters)`
 
 Parameters is a list of parameters to start the app.
 
@@ -6192,7 +6192,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -6200,7 +6200,7 @@ Annotation stores additional information about an entity.
 
 AssociatedTags are the list of tags attached to an entity.
 
-#### `capabilitiesActions (external:cap_map)`
+#### `capabilitiesActions (external:_cap_map)`
 
 CapabilitiesActions identifies the capabilities that should be added or removed
 from the processing unit.
@@ -6219,7 +6219,7 @@ CreatedTime is the time at which the object was created.
 | Read only       | `true` |
 | Orderable       | `true` |
 
-#### `defaultSyscallAction (external:syscall_action)`
+#### `defaultSyscallAction (external:_syscall_action)`
 
 DefaultAction is the default action applied to all syscalls of this profile.
 Default is "Allow".
@@ -6283,7 +6283,7 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `syscallRules (external:syscall_rules)`
+#### `syscallRules (external:_syscall_rules)`
 
 SyscallRules is a list of syscall rules that identify actions for particular
 syscalls.
@@ -6292,7 +6292,7 @@ syscalls.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `targetArchitectures (external:arch_list)`
+#### `targetArchitectures (external:_arch_list)`
 
 TargetArchitectures is the target processor architectures where this profile can
 be applied. Default all.
@@ -6482,7 +6482,7 @@ definition.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -6685,7 +6685,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -6868,7 +6868,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -7066,7 +7066,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -7295,12 +7295,12 @@ activeSchedule.
 | -               | -:                |
 | Format          | `/^[0-9]+[smh]$/` |
 
-#### `activeSchedule (external:cron_expression)`
+#### `activeSchedule (string)`
 
 ActiveSchedule defines when the policy should be active using the cron notation.
 The policy will be active for the given activeDuration.
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -7840,7 +7840,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `action (external:actions_list)`
+#### `action (external:map_of_string_of_maps_of_string_of_objects)`
 
 Action defines set of actions that must be enforced when a dependency is met.
 
@@ -7853,12 +7853,12 @@ activeSchedule.
 | -               | -:                |
 | Format          | `/^[0-9]+[smh]$/` |
 
-#### `activeSchedule (external:cron_expression)`
+#### `activeSchedule (string)`
 
 ActiveSchedule defines when the policy should be active using the cron notation.
 The policy will be active for the given activeDuration.
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -8063,29 +8063,29 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `action (external:actions_list)`
+#### `action (external:map_of_string_of_maps_of_string_of_objects)`
 
 Action defines set of actions that must be enforced when a dependency is met.
 
-#### `enforcerProfiles (external:enforcerprofiles_list)`
+#### `enforcerProfiles (refList)`
 
 EnforcerProfiles provides the information about the server profile.
 
-#### `externalNetworks (external:network_entities)`
+#### `externalNetworks (refList)`
 
 Policy target networks.
 
-#### `externalServices (external:deprecated_network_entities)`
+#### `externalServices (refList)`
 
 > This attribute is deprecated
 
 Policy target networks.
 
-#### `filePaths (external:file_entities)`
+#### `filePaths (refList)`
 
 Policy target file paths.
 
-#### `isolationProfiles (external:isolation_profile_entities)`
+#### `isolationProfiles (refList)`
 
 IsolationProfiles are the isolation profiles of the rule.
 
@@ -8100,7 +8100,7 @@ Name is the name of the entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `namespaces (external:namespace_entities)`
+#### `namespaces (refList)`
 
 Policy target namespaces.
 
@@ -8121,7 +8121,7 @@ Propagated indicates if the policy is propagated.
 Relation describes the required operation to be performed between subjects and
 objects.
 
-#### `services (external:api_services_entities)`
+#### `services (refList)`
 
 Services provides the services of this policy rule.
 
@@ -8249,7 +8249,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -8492,12 +8492,12 @@ activeSchedule.
 | -               | -:                |
 | Format          | `/^[0-9]+[smh]$/` |
 
-#### `activeSchedule (external:cron_expression)`
+#### `activeSchedule (string)`
 
 ActiveSchedule defines when the policy should be active using the cron notation.
 The policy will be active for the given activeDuration.
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -8710,7 +8710,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -8997,7 +8997,7 @@ to any internal or external services.
 | -               | -:     |
 | Read only       | `true` |
 
-#### `dependendServices (external:api_services_entities)`
+#### `dependendServices (refList)`
 
 DependendServices is the list of services that this processing unit depends on.
 
@@ -9010,7 +9010,7 @@ EgressPolicies lists all the egress policies attached to processing unit.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `exposedServices (external:api_services_entities)`
+#### `exposedServices (refList)`
 
 ExposedServices is the list of services that this processing unit is
 implementing.
@@ -9042,7 +9042,7 @@ MatchingTags contains the list of tags that matched the policies.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `processingUnit (external:processingunit)`
+#### `processingUnit (ref)`
 
 Can be set during a POST operation to render a policy on a Processing Unit that
 has not been created yet.
@@ -9176,7 +9176,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -9203,7 +9203,7 @@ Description is the description of the object.
 | Max length      | `1024` |
 | Orderable       | `true` |
 
-#### `endpoints (external:exposed_api_list)`
+#### `endpoints (external:_exposed_api_list)`
 
 EndPoints is a list of API endpoints that are exposed for the service.
 
@@ -9288,7 +9288,7 @@ Retrieves the list of existing roles.
 
 ### Attributes
 
-#### `authorizations (external:map_of_string_of_list_of_string)`
+#### `authorizations (external:map_of_string_of_list_of_strings)`
 
 Authorizations of the role.
 
@@ -9436,7 +9436,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `IPs (external:ip_list)`
+#### `IPs (external:_ip_list)`
 
 IPs is the list of IP addresses where the service can be accessed.
 This is an optional attribute and is only required if no host names are
@@ -9503,7 +9503,7 @@ Set how to provide a server certificate to the service.
 | Allowed Value   | `Aporeto, LetsEncrypt, External, None` |
 | Default         | `"Aporeto"`                            |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -9808,12 +9808,12 @@ activeSchedule.
 | -               | -:                |
 | Format          | `/^[0-9]+[smh]$/` |
 
-#### `activeSchedule (external:cron_expression)`
+#### `activeSchedule (string)`
 
 ActiveSchedule defines when the policy should be active using the cron notation.
 The policy will be active for the given activeDuration.
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -10077,7 +10077,7 @@ Offsets the of results. -1 means no offset.
 | -               | -:    |
 | Default         | `-1`  |
 
-#### `results (external:time_series_results)`
+#### `results (external:_time_series_results)`
 
 Results contains the result of the query.
 
@@ -10112,7 +10112,7 @@ Retrieves a list of network policy suggestion.
 
 ### Attributes
 
-#### `networkAccessPolicies (external:network_access_policies_list)`
+#### `networkAccessPolicies (refList)`
 
 List of suggested network access policies.
 
@@ -10344,12 +10344,12 @@ activeSchedule.
 | -               | -:                |
 | Format          | `/^[0-9]+[smh]$/` |
 
-#### `activeSchedule (external:cron_expression)`
+#### `activeSchedule (string)`
 
 ActiveSchedule defines when the policy should be active using the cron notation.
 The policy will be active for the given activeDuration.
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -10559,7 +10559,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:map_of_string_of_list_of_string)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -10637,7 +10637,7 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `severity (external:vulnerability_level)`
+#### `severity (external:_vulnerability_level)`
 
 Severity refers to the security vulnerability level.
 

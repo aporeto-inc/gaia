@@ -628,7 +628,7 @@ var RESTAPISpecAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "map_of_string_of_list_of_string",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"Archived": elemental.AttributeSpecification{
@@ -687,7 +687,7 @@ var RESTAPISpecAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "endpoints",
 		Stored:         true,
-		SubType:        "exposed_api_list",
+		SubType:        "_exposed_api_list",
 		Type:           "external",
 	},
 	"Metadata": elemental.AttributeSpecification{
@@ -852,7 +852,7 @@ var RESTAPISpecLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "map_of_string_of_list_of_string",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"archived": elemental.AttributeSpecification{
@@ -911,7 +911,7 @@ var RESTAPISpecLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Exposed:        true,
 		Name:           "endpoints",
 		Stored:         true,
-		SubType:        "exposed_api_list",
+		SubType:        "_exposed_api_list",
 		Type:           "external",
 	},
 	"metadata": elemental.AttributeSpecification{

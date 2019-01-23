@@ -321,7 +321,7 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "claims",
 		ReadOnly:       true,
-		SubType:        "map_of_string_of_list_of_string",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"Edges": elemental.AttributeSpecification{
@@ -375,7 +375,7 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Exposed:        true,
 		Name:           "claims",
 		ReadOnly:       true,
-		SubType:        "map_of_string_of_list_of_string",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"edges": elemental.AttributeSpecification{

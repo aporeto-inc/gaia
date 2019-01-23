@@ -116,7 +116,7 @@ func (o PolicyRenderersList) Version() int {
 // PolicyRenderer represents the model of a policyrenderer
 type PolicyRenderer struct {
 	// List of policies rendered for the given set of tags.
-	Policies PolicyRulesList `json:"policies" bson:"-" mapstructure:"policies,omitempty"`
+	Policies []*PolicyRule `json:"policies" bson:"-" mapstructure:"policies,omitempty"`
 
 	// List of tags of the object to render the hook policy for.
 	Tags []string `json:"tags" bson:"-" mapstructure:"tags,omitempty"`
@@ -134,7 +134,7 @@ func NewPolicyRenderer() *PolicyRenderer {
 
 	return &PolicyRenderer{
 		ModelVersion: 1,
-		Policies:     PolicyRulesList{},
+		Policies:     []*PolicyRule{},
 	}
 }
 
@@ -253,6 +253,12 @@ func (o *PolicyRenderer) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	for _, sub := range o.Policies {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"}, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -312,8 +318,8 @@ var PolicyRendererAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "policies",
 		ReadOnly:       true,
-		SubType:        "policy_rules_list",
-		Type:           "external",
+		SubType:        "policyrule",
+		Type:           "refList",
 	},
 	"Tags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -346,8 +352,8 @@ var PolicyRendererLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Exposed:        true,
 		Name:           "policies",
 		ReadOnly:       true,
-		SubType:        "policy_rules_list",
-		Type:           "external",
+		SubType:        "policyrule",
+		Type:           "refList",
 	},
 	"tags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -434,7 +440,7 @@ func (o SparsePolicyRenderersList) Version() int {
 // SparsePolicyRenderer represents the sparse version of a policyrenderer.
 type SparsePolicyRenderer struct {
 	// List of policies rendered for the given set of tags.
-	Policies *PolicyRulesList `json:"policies,omitempty" bson:"-" mapstructure:"policies,omitempty"`
+	Policies *[]*PolicyRule `json:"policies,omitempty" bson:"-" mapstructure:"policies,omitempty"`
 
 	// List of tags of the object to render the hook policy for.
 	Tags *[]string `json:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`

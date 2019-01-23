@@ -61,7 +61,7 @@ attributes:
       The system will automatically resolve IP addresses from host names otherwise.
     type: external
     exposed: true
-    subtype: ip_list
+    subtype: _ip_list
     stored: true
 
   - name: JWTSigningCertificate

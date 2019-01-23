@@ -86,14 +86,14 @@ type RenderedPolicy struct {
 	Certificate string `json:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// DependendServices is the list of services that this processing unit depends on.
-	DependendServices ServicesList `json:"dependendServices" bson:"-" mapstructure:"dependendServices,omitempty"`
+	DependendServices []*Service `json:"dependendServices" bson:"-" mapstructure:"dependendServices,omitempty"`
 
 	// EgressPolicies lists all the egress policies attached to processing unit.
 	EgressPolicies map[string]PolicyRulesList `json:"egressPolicies" bson:"-" mapstructure:"egressPolicies,omitempty"`
 
 	// ExposedServices is the list of services that this processing unit is
 	// implementing.
-	ExposedServices ServicesList `json:"exposedServices" bson:"-" mapstructure:"exposedServices,omitempty"`
+	ExposedServices []*Service `json:"exposedServices" bson:"-" mapstructure:"exposedServices,omitempty"`
 
 	// hashedTags contains the list of tags that matched the policies and their hashes.
 	HashedTags map[string]string `json:"hashedTags" bson:"-" mapstructure:"hashedTags,omitempty"`
@@ -129,20 +129,21 @@ func NewRenderedPolicy() *RenderedPolicy {
 
 	return &RenderedPolicy{
 		ModelVersion:      1,
-		DependendServices: ServicesList{},
+		DependendServices: []*Service{},
 		EgressPolicies: map[string]PolicyRulesList{
 			string(constants.RenderedPolicyTypeNetwork):   PolicyRulesList{},
 			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
 			string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
 		},
-		ExposedServices: ServicesList{},
+		ExposedServices: []*Service{},
 		HashedTags:      map[string]string{},
 		IngressPolicies: map[string]PolicyRulesList{
 			string(constants.RenderedPolicyTypeNetwork):   PolicyRulesList{},
 			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
 			string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
 		},
-		Profile: map[string]string{},
+		ProcessingUnit: &ProcessingUnit{},
+		Profile:        map[string]string{},
 	}
 }
 
@@ -309,8 +310,20 @@ func (o *RenderedPolicy) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredExternal("processingUnit", o.ProcessingUnit); err != nil {
-		requiredErrors = append(requiredErrors, err)
+	for _, sub := range o.DependendServices {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	for _, sub := range o.ExposedServices {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	if err := o.ProcessingUnit.Validate(); err != nil {
+		errors = append(errors, err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -392,8 +405,8 @@ to any internal or external services.`,
 		Description:    `DependendServices is the list of services that this processing unit depends on.`,
 		Exposed:        true,
 		Name:           "dependendServices",
-		SubType:        "api_services_entities",
-		Type:           "external",
+		SubType:        "service",
+		Type:           "refList",
 	},
 	"EgressPolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -413,8 +426,8 @@ to any internal or external services.`,
 implementing.`,
 		Exposed: true,
 		Name:    "exposedServices",
-		SubType: "api_services_entities",
-		Type:    "external",
+		SubType: "service",
+		Type:    "refList",
 	},
 	"HashedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -459,7 +472,7 @@ has not been created yet.`,
 		Name:     "processingUnit",
 		Required: true,
 		SubType:  "processingunit",
-		Type:     "external",
+		Type:     "ref",
 	},
 	"ProcessingUnitID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -514,8 +527,8 @@ to any internal or external services.`,
 		Description:    `DependendServices is the list of services that this processing unit depends on.`,
 		Exposed:        true,
 		Name:           "dependendServices",
-		SubType:        "api_services_entities",
-		Type:           "external",
+		SubType:        "service",
+		Type:           "refList",
 	},
 	"egresspolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -535,8 +548,8 @@ to any internal or external services.`,
 implementing.`,
 		Exposed: true,
 		Name:    "exposedServices",
-		SubType: "api_services_entities",
-		Type:    "external",
+		SubType: "service",
+		Type:    "refList",
 	},
 	"hashedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -581,7 +594,7 @@ has not been created yet.`,
 		Name:     "processingUnit",
 		Required: true,
 		SubType:  "processingunit",
-		Type:     "external",
+		Type:     "ref",
 	},
 	"processingunitid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -686,14 +699,14 @@ type SparseRenderedPolicy struct {
 	Certificate *string `json:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// DependendServices is the list of services that this processing unit depends on.
-	DependendServices *ServicesList `json:"dependendServices,omitempty" bson:"-" mapstructure:"dependendServices,omitempty"`
+	DependendServices *[]*Service `json:"dependendServices,omitempty" bson:"-" mapstructure:"dependendServices,omitempty"`
 
 	// EgressPolicies lists all the egress policies attached to processing unit.
 	EgressPolicies *map[string]PolicyRulesList `json:"egressPolicies,omitempty" bson:"-" mapstructure:"egressPolicies,omitempty"`
 
 	// ExposedServices is the list of services that this processing unit is
 	// implementing.
-	ExposedServices *ServicesList `json:"exposedServices,omitempty" bson:"-" mapstructure:"exposedServices,omitempty"`
+	ExposedServices *[]*Service `json:"exposedServices,omitempty" bson:"-" mapstructure:"exposedServices,omitempty"`
 
 	// hashedTags contains the list of tags that matched the policies and their hashes.
 	HashedTags *map[string]string `json:"hashedTags,omitempty" bson:"-" mapstructure:"hashedTags,omitempty"`

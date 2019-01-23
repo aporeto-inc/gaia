@@ -67,7 +67,7 @@ attributes:
       is met.
     type: external
     exposed: true
-    subtype: actions_list
+    subtype: map_of_string_of_maps_of_string_of_objects
     stored: true
 
   - name: allObjectTags

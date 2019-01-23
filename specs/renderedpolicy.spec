@@ -24,9 +24,11 @@ attributes:
   - name: dependendServices
     description: DependendServices is the list of services that this processing unit
       depends on.
-    type: external
+    type: refList
     exposed: true
-    subtype: api_services_entities
+    subtype: service
+    extensions:
+      refMode: pointer
 
   - name: egressPolicies
     description: EgressPolicies lists all the egress policies attached to processing
@@ -41,9 +43,11 @@ attributes:
     description: |-
       ExposedServices is the list of services that this processing unit is
       implementing.
-    type: external
+    type: refList
     exposed: true
-    subtype: api_services_entities
+    subtype: service
+    extensions:
+      refMode: pointer
 
   - name: hashedTags
     description: hashedTags contains the list of tags that matched the policies and
@@ -75,7 +79,7 @@ attributes:
     description: |-
       Can be set during a POST operation to render a policy on a Processing Unit that
       has not been created yet.
-    type: external
+    type: ref
     exposed: true
     subtype: processingunit
     required: true
@@ -89,6 +93,8 @@ attributes:
           "b=b"
         ]
       }
+    extensions:
+      refMode: pointer
 
   - name: processingUnitID
     description: Identifier of the processing unit.
