@@ -7617,20 +7617,16 @@ UpdateTime is the time at which an entity was updated.
 ## NamespaceMappingPolicy
 
 A Namespace Mapping Policy defines in which namespace a Processing Unit should
-be placed when it is created, based on its tags.
-
-When an Aporeto Agent creates a new Processing Unit, the system will place it in
-its own namespace if no matching Namespace Mapping Policy can be found. If one
-match is found, then the Processing will be bumped down to the namespace
-declared in the policy. If it finds in that child namespace another matching
-Namespace Mapping Policy, then the Processing Unit will be bumped down again,
-until it reach a namespace with no matching policies.
-
-This is very useful to dispatch processes and containers into a particular
-namespace, based on a lot of factor. 
-
-You can put in place a quarantine namespace that will grab all Processing Units
-with too much vulnerabilities for instances.
+be placed when it is created, based on its tags.  When an Aporeto Agent creates
+a new Processing Unit, the system will place it in its own namespace if no
+matching Namespace Mapping Policy can be found. If one match is found, then the
+Processing will be bumped down to the namespace declared in the policy. If it
+finds in that child namespace another matching Namespace Mapping Policy, then
+the Processing Unit will be bumped down again, until it reach a namespace with
+no matching policies.  This is very useful to dispatch processes and containers
+into a particular namespace, based on a lot of factor.   You can put in place a
+quarantine namespace that will grab all Processing Units with too much
+vulnerabilities for instances.
 
 ### Example
 
@@ -8693,6 +8689,10 @@ ID is the identifier of the object.
 
 Action defines set of actions that must be enforced when a dependency is met.
 
+#### `auditProfiles (external:auditprofiles_list)`
+
+AuditProfiles provides the audit profiles that must be applied.
+
 #### `enforcerProfiles (external:enforcerprofiles_list)`
 
 EnforcerProfiles provides the information about the server profile.
@@ -8710,6 +8710,10 @@ Policy target networks.
 #### `filePaths (external:file_entities)`
 
 Policy target file paths.
+
+#### `hostServices (external:hostservices_list)`
+
+HostServices provides the list of host services that must be instantiated.
 
 #### `isolationProfiles (external:isolation_profile_entities)`
 

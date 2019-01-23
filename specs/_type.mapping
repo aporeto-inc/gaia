@@ -61,6 +61,11 @@ audit_profiles:
     type: AuditProfilesList
     init: AuditProfilesList{}
 
+auditprofiles_list:
+  elemental:
+    type: AuditProfilesList
+    init: AuditProfilesList{}
+
 authorization_map:
   elemental:
     type: map[string][]string
@@ -183,6 +188,11 @@ hashed_tags:
   elemental:
     type: map[string]string
     init: map[string]string{}
+
+hostservices_list:
+  elemental:
+    type: HostServicesList
+    init: HostServicesList{}
 
 identity_list:
   elemental:
