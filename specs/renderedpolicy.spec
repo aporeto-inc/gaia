@@ -27,8 +27,6 @@ attributes:
     type: refList
     exposed: true
     subtype: service
-    extensions:
-      refMode: pointer
 
   - name: egressPolicies
     description: EgressPolicies lists all the egress policies attached to processing
@@ -46,8 +44,6 @@ attributes:
     type: refList
     exposed: true
     subtype: service
-    extensions:
-      refMode: pointer
 
   - name: hashedTags
     description: hashedTags contains the list of tags that matched the policies and

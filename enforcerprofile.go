@@ -139,7 +139,7 @@ type EnforcerProfile struct {
 
 	// AuditProfiles returns the audit rules associated with the enforcer profile. This
 	// is a read only attribute when an enforcer profile is resolved for an enforcer.
-	AuditProfiles []*AuditProfile `json:"auditProfiles" bson:"-" mapstructure:"auditProfiles,omitempty"`
+	AuditProfiles AuditProfilesList `json:"auditProfiles" bson:"-" mapstructure:"auditProfiles,omitempty"`
 
 	// AuditSocketBufferSize is the size of the audit socket buffer. Default 16384.
 	AuditSocketBufferSize int `json:"auditSocketBufferSize" bson:"auditsocketbuffersize" mapstructure:"auditSocketBufferSize,omitempty"`
@@ -272,7 +272,7 @@ func NewEnforcerProfile() *EnforcerProfile {
 	return &EnforcerProfile{
 		ModelVersion:                  1,
 		ApplicationProxyPort:          20992,
-		AuditProfiles:                 []*AuditProfile{},
+		AuditProfiles:                 AuditProfilesList{},
 		AuditProfileSelectors:         []string{},
 		Annotations:                   map[string][]string{},
 		AssociatedTags:                []string{},
@@ -2235,7 +2235,7 @@ type SparseEnforcerProfile struct {
 
 	// AuditProfiles returns the audit rules associated with the enforcer profile. This
 	// is a read only attribute when an enforcer profile is resolved for an enforcer.
-	AuditProfiles *[]*AuditProfile `json:"auditProfiles,omitempty" bson:"-" mapstructure:"auditProfiles,omitempty"`
+	AuditProfiles *AuditProfilesList `json:"auditProfiles,omitempty" bson:"-" mapstructure:"auditProfiles,omitempty"`
 
 	// AuditSocketBufferSize is the size of the audit socket buffer. Default 16384.
 	AuditSocketBufferSize *int `json:"auditSocketBufferSize,omitempty" bson:"auditsocketbuffersize" mapstructure:"auditSocketBufferSize,omitempty"`

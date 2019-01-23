@@ -86,14 +86,14 @@ type RenderedPolicy struct {
 	Certificate string `json:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// DependendServices is the list of services that this processing unit depends on.
-	DependendServices []*Service `json:"dependendServices" bson:"-" mapstructure:"dependendServices,omitempty"`
+	DependendServices ServicesList `json:"dependendServices" bson:"-" mapstructure:"dependendServices,omitempty"`
 
 	// EgressPolicies lists all the egress policies attached to processing unit.
 	EgressPolicies map[string]PolicyRulesList `json:"egressPolicies" bson:"-" mapstructure:"egressPolicies,omitempty"`
 
 	// ExposedServices is the list of services that this processing unit is
 	// implementing.
-	ExposedServices []*Service `json:"exposedServices" bson:"-" mapstructure:"exposedServices,omitempty"`
+	ExposedServices ServicesList `json:"exposedServices" bson:"-" mapstructure:"exposedServices,omitempty"`
 
 	// hashedTags contains the list of tags that matched the policies and their hashes.
 	HashedTags map[string]string `json:"hashedTags" bson:"-" mapstructure:"hashedTags,omitempty"`
@@ -129,13 +129,13 @@ func NewRenderedPolicy() *RenderedPolicy {
 
 	return &RenderedPolicy{
 		ModelVersion:      1,
-		DependendServices: []*Service{},
+		DependendServices: ServicesList{},
 		EgressPolicies: map[string]PolicyRulesList{
 			string(constants.RenderedPolicyTypeNetwork):   PolicyRulesList{},
 			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
 			string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
 		},
-		ExposedServices: []*Service{},
+		ExposedServices: ServicesList{},
 		HashedTags:      map[string]string{},
 		IngressPolicies: map[string]PolicyRulesList{
 			string(constants.RenderedPolicyTypeNetwork):   PolicyRulesList{},
@@ -701,14 +701,14 @@ type SparseRenderedPolicy struct {
 	Certificate *string `json:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// DependendServices is the list of services that this processing unit depends on.
-	DependendServices *[]*Service `json:"dependendServices,omitempty" bson:"-" mapstructure:"dependendServices,omitempty"`
+	DependendServices *ServicesList `json:"dependendServices,omitempty" bson:"-" mapstructure:"dependendServices,omitempty"`
 
 	// EgressPolicies lists all the egress policies attached to processing unit.
 	EgressPolicies *map[string]PolicyRulesList `json:"egressPolicies,omitempty" bson:"-" mapstructure:"egressPolicies,omitempty"`
 
 	// ExposedServices is the list of services that this processing unit is
 	// implementing.
-	ExposedServices *[]*Service `json:"exposedServices,omitempty" bson:"-" mapstructure:"exposedServices,omitempty"`
+	ExposedServices *ServicesList `json:"exposedServices,omitempty" bson:"-" mapstructure:"exposedServices,omitempty"`
 
 	// hashedTags contains the list of tags that matched the policies and their hashes.
 	HashedTags *map[string]string `json:"hashedTags,omitempty" bson:"-" mapstructure:"hashedTags,omitempty"`

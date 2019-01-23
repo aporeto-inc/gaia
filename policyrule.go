@@ -90,25 +90,25 @@ type PolicyRule struct {
 	Action map[string]map[string]interface{} `json:"action" bson:"-" mapstructure:"action,omitempty"`
 
 	// EnforcerProfiles provides the information about the server profile.
-	EnforcerProfiles []*EnforcerProfile `json:"enforcerProfiles" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
+	EnforcerProfiles EnforcerProfilesList `json:"enforcerProfiles" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
 
 	// Policy target networks.
-	ExternalNetworks []*ExternalNetwork `json:"externalNetworks" bson:"-" mapstructure:"externalNetworks,omitempty"`
+	ExternalNetworks ExternalNetworksList `json:"externalNetworks" bson:"-" mapstructure:"externalNetworks,omitempty"`
 
 	// Policy target networks.
-	ExternalServices []*ExternalService `json:"externalServices" bson:"-" mapstructure:"externalServices,omitempty"`
+	ExternalServices ExternalServicesList `json:"externalServices" bson:"-" mapstructure:"externalServices,omitempty"`
 
 	// Policy target file paths.
-	FilePaths []*FilePath `json:"filePaths" bson:"-" mapstructure:"filePaths,omitempty"`
+	FilePaths FilePathsList `json:"filePaths" bson:"-" mapstructure:"filePaths,omitempty"`
 
 	// IsolationProfiles are the isolation profiles of the rule.
-	IsolationProfiles []*IsolationProfile `json:"isolationProfiles" bson:"-" mapstructure:"isolationProfiles,omitempty"`
+	IsolationProfiles IsolationProfilesList `json:"isolationProfiles" bson:"-" mapstructure:"isolationProfiles,omitempty"`
 
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Policy target namespaces.
-	Namespaces []*Namespace `json:"namespaces" bson:"-" mapstructure:"namespaces,omitempty"`
+	Namespaces NamespacesList `json:"namespaces" bson:"-" mapstructure:"namespaces,omitempty"`
 
 	// PolicyNamespace is the namespace of the policy that created this rule.
 	PolicyNamespace string `json:"policyNamespace" bson:"-" mapstructure:"policyNamespace,omitempty"`
@@ -124,7 +124,7 @@ type PolicyRule struct {
 	Relation []string `json:"relation" bson:"-" mapstructure:"relation,omitempty"`
 
 	// Services provides the services of this policy rule.
-	Services []*Service `json:"services" bson:"-" mapstructure:"services,omitempty"`
+	Services ServicesList `json:"services" bson:"-" mapstructure:"services,omitempty"`
 
 	// Policy target tags.
 	TagClauses [][]string `json:"tagClauses" bson:"-" mapstructure:"tagClauses,omitempty"`
@@ -139,14 +139,14 @@ func NewPolicyRule() *PolicyRule {
 
 	return &PolicyRule{
 		ModelVersion:      1,
-		FilePaths:         []*FilePath{},
-		EnforcerProfiles:  []*EnforcerProfile{},
-		ExternalNetworks:  []*ExternalNetwork{},
-		ExternalServices:  []*ExternalService{},
-		IsolationProfiles: []*IsolationProfile{},
-		Namespaces:        []*Namespace{},
+		FilePaths:         FilePathsList{},
+		EnforcerProfiles:  EnforcerProfilesList{},
+		ExternalNetworks:  ExternalNetworksList{},
+		ExternalServices:  ExternalServicesList{},
+		IsolationProfiles: IsolationProfilesList{},
+		Namespaces:        NamespacesList{},
 		Relation:          []string{},
-		Services:          []*Service{},
+		Services:          ServicesList{},
 		TagClauses:        [][]string{},
 	}
 }
@@ -843,25 +843,25 @@ type SparsePolicyRule struct {
 	Action *map[string]map[string]interface{} `json:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
 
 	// EnforcerProfiles provides the information about the server profile.
-	EnforcerProfiles *[]*EnforcerProfile `json:"enforcerProfiles,omitempty" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
+	EnforcerProfiles *EnforcerProfilesList `json:"enforcerProfiles,omitempty" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
 
 	// Policy target networks.
-	ExternalNetworks *[]*ExternalNetwork `json:"externalNetworks,omitempty" bson:"-" mapstructure:"externalNetworks,omitempty"`
+	ExternalNetworks *ExternalNetworksList `json:"externalNetworks,omitempty" bson:"-" mapstructure:"externalNetworks,omitempty"`
 
 	// Policy target networks.
-	ExternalServices *[]*ExternalService `json:"externalServices,omitempty" bson:"-" mapstructure:"externalServices,omitempty"`
+	ExternalServices *ExternalServicesList `json:"externalServices,omitempty" bson:"-" mapstructure:"externalServices,omitempty"`
 
 	// Policy target file paths.
-	FilePaths *[]*FilePath `json:"filePaths,omitempty" bson:"-" mapstructure:"filePaths,omitempty"`
+	FilePaths *FilePathsList `json:"filePaths,omitempty" bson:"-" mapstructure:"filePaths,omitempty"`
 
 	// IsolationProfiles are the isolation profiles of the rule.
-	IsolationProfiles *[]*IsolationProfile `json:"isolationProfiles,omitempty" bson:"-" mapstructure:"isolationProfiles,omitempty"`
+	IsolationProfiles *IsolationProfilesList `json:"isolationProfiles,omitempty" bson:"-" mapstructure:"isolationProfiles,omitempty"`
 
 	// Name is the name of the entity.
 	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
 
 	// Policy target namespaces.
-	Namespaces *[]*Namespace `json:"namespaces,omitempty" bson:"-" mapstructure:"namespaces,omitempty"`
+	Namespaces *NamespacesList `json:"namespaces,omitempty" bson:"-" mapstructure:"namespaces,omitempty"`
 
 	// PolicyNamespace is the namespace of the policy that created this rule.
 	PolicyNamespace *string `json:"policyNamespace,omitempty" bson:"-" mapstructure:"policyNamespace,omitempty"`
@@ -877,7 +877,7 @@ type SparsePolicyRule struct {
 	Relation *[]string `json:"relation,omitempty" bson:"-" mapstructure:"relation,omitempty"`
 
 	// Services provides the services of this policy rule.
-	Services *[]*Service `json:"services,omitempty" bson:"-" mapstructure:"services,omitempty"`
+	Services *ServicesList `json:"services,omitempty" bson:"-" mapstructure:"services,omitempty"`
 
 	// Policy target tags.
 	TagClauses *[][]string `json:"tagClauses,omitempty" bson:"-" mapstructure:"tagClauses,omitempty"`

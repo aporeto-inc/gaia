@@ -21,5 +21,3 @@ attributes:
     subtype: networkaccesspolicy
     stored: true
     orderable: true
-    extensions:
-      refMode: pointer
