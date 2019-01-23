@@ -568,6 +568,10 @@ func (o *AppCredential) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateRequiredExternal("roles", o.Roles); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}

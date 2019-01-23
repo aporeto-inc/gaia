@@ -579,6 +579,10 @@ func (o *QuotaPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateRequiredExternal("identities", o.Identities); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}

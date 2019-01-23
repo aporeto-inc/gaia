@@ -639,6 +639,10 @@ func (o *APIAuthorizationPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateRequiredExternal("authorizedIdentities", o.AuthorizedIdentities); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("authorizedNamespace", o.AuthorizedNamespace); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}

@@ -284,6 +284,10 @@ func (o *APICheck) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateRequiredExternal("targetIdentities", o.TargetIdentities); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("token", o.Token); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}

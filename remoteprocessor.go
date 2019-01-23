@@ -275,6 +275,10 @@ func (o *RemoteProcessor) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateRequiredExternal("claims", o.Claims); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	if err := elemental.ValidateRequiredExternal("input", o.Input); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}

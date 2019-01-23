@@ -260,6 +260,10 @@ func (o *PolicyRenderer) Validate() error {
 		}
 	}
 
+	if err := elemental.ValidateRequiredExternal("tags", o.Tags); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"}, false); err != nil {
 		errors = append(errors, err)
 	}

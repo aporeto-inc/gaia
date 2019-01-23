@@ -300,6 +300,10 @@ func (o *OIDCProvider) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
+	if err := elemental.ValidateRequiredExternal("scopes", o.Scopes); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
