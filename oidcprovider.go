@@ -121,6 +121,7 @@ func NewOIDCProvider() *OIDCProvider {
 
 	return &OIDCProvider{
 		ModelVersion: 1,
+		Scopes:       []string{},
 	}
 }
 

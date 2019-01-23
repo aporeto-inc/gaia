@@ -126,6 +126,7 @@ func NewRemoteProcessor() *RemoteProcessor {
 
 	return &RemoteProcessor{
 		ModelVersion: 1,
+		Claims:       []string{},
 	}
 }
 

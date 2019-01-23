@@ -96,6 +96,7 @@ func NewTagValue() *TagValue {
 
 	return &TagValue{
 		ModelVersion: 1,
+		Values:       []string{},
 	}
 }
 

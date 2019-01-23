@@ -105,6 +105,7 @@ func NewExport() *Export {
 	return &Export{
 		ModelVersion: 1,
 		Data:         map[string][]map[string]interface{}{},
+		Identities:   []string{},
 	}
 }
 
