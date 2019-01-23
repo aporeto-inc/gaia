@@ -141,9 +141,12 @@ type AuditProfile struct {
 func NewAuditProfile() *AuditProfile {
 
 	return &AuditProfile{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
-		Rules:        types.AuditProfileRuleList{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		Metadata:       []string{},
+		NormalizedTags: []string{},
+		Rules:          types.AuditProfileRuleList{},
 	}
 }
 

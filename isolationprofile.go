@@ -153,7 +153,10 @@ func NewIsolationProfile() *IsolationProfile {
 	return &IsolationProfile{
 		ModelVersion:        1,
 		Annotations:         map[string][]string{},
+		AssociatedTags:      []string{},
 		CapabilitiesActions: types.CapabilitiesTypeMap{},
+		Metadata:            []string{},
+		NormalizedTags:      []string{},
 		SyscallRules:        types.SyscallEnforcementRulesMap{},
 		TargetArchitectures: types.ArchitecturesTypeList{},
 	}

@@ -146,8 +146,12 @@ type ExternalNetwork struct {
 func NewExternalNetwork() *ExternalNetwork {
 
 	return &ExternalNetwork{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		Entries:        []string{},
+		AssociatedTags: []string{},
+		Metadata:       []string{},
+		NormalizedTags: []string{},
 		Ports: []string{
 			"1:65535",
 		},

@@ -143,9 +143,12 @@ type HTTPResourceSpec struct {
 func NewHTTPResourceSpec() *HTTPResourceSpec {
 
 	return &HTTPResourceSpec{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
-		Endpoints:    []*Endpoint{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		Endpoints:      []*Endpoint{},
+		AssociatedTags: []string{},
+		Metadata:       []string{},
+		NormalizedTags: []string{},
 	}
 }
 

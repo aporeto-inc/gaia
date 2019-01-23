@@ -144,6 +144,10 @@ func NewNamespace() *Namespace {
 	return &Namespace{
 		ModelVersion:               1,
 		Annotations:                map[string][]string{},
+		AssociatedTags:             []string{},
+		Metadata:                   []string{},
+		NetworkAccessPolicyTags:    []string{},
+		NormalizedTags:             []string{},
 		ServiceCertificateValidity: "1h",
 	}
 }

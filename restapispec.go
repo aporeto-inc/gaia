@@ -147,9 +147,12 @@ type RESTAPISpec struct {
 func NewRESTAPISpec() *RESTAPISpec {
 
 	return &RESTAPISpec{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
-		Endpoints:    types.ExposedAPIList{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		Endpoints:      types.ExposedAPIList{},
+		AssociatedTags: []string{},
+		Metadata:       []string{},
+		NormalizedTags: []string{},
 	}
 }
 

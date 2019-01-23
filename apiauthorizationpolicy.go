@@ -170,9 +170,14 @@ type APIAuthorizationPolicy struct {
 func NewAPIAuthorizationPolicy() *APIAuthorizationPolicy {
 
 	return &APIAuthorizationPolicy{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
-		Subject:      [][]string{},
+		ModelVersion:         1,
+		Annotations:          map[string][]string{},
+		AssociatedTags:       []string{},
+		AuthorizedIdentities: []string{},
+		AuthorizedSubnets:    []string{},
+		Metadata:             []string{},
+		NormalizedTags:       []string{},
+		Subject:              [][]string{},
 	}
 }
 

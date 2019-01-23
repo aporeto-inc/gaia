@@ -174,10 +174,13 @@ type FileAccessPolicy struct {
 func NewFileAccessPolicy() *FileAccessPolicy {
 
 	return &FileAccessPolicy{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
-		Object:       [][]string{},
-		Subject:      [][]string{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		Metadata:       []string{},
+		NormalizedTags: []string{},
+		Object:         [][]string{},
+		Subject:        [][]string{},
 	}
 }
 

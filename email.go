@@ -127,6 +127,9 @@ func NewEmail() *Email {
 	return &Email{
 		ModelVersion: 1,
 		Attachments:  map[string]string{},
+		Bcc:          []string{},
+		Cc:           []string{},
+		To:           []string{},
 		Type:         EmailTypePlain,
 	}
 }

@@ -143,8 +143,11 @@ type FilePath struct {
 func NewFilePath() *FilePath {
 
 	return &FilePath{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		Metadata:       []string{},
+		NormalizedTags: []string{},
 	}
 }
 

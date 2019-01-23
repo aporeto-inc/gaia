@@ -160,11 +160,13 @@ type Alarm struct {
 func NewAlarm() *Alarm {
 
 	return &Alarm{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
-		Data:         []map[string]string{},
-		Occurrences:  []time.Time{},
-		Status:       AlarmStatusOpen,
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		Data:           []map[string]string{},
+		NormalizedTags: []string{},
+		Occurrences:    []time.Time{},
+		Status:         AlarmStatusOpen,
 	}
 }
 

@@ -143,9 +143,12 @@ type NamespaceMappingPolicy struct {
 func NewNamespaceMappingPolicy() *NamespaceMappingPolicy {
 
 	return &NamespaceMappingPolicy{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
-		Subject:      [][]string{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		Metadata:       []string{},
+		NormalizedTags: []string{},
+		Subject:        [][]string{},
 	}
 }
 

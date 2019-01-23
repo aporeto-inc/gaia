@@ -248,6 +248,7 @@ func NewAccount() *Account {
 		AssociatedGCPPolicies:    map[string]string{},
 		AssociatedAWSPolicies:    map[string]string{},
 		LDAPSubjectKey:           "uid",
+		LDAPIgnoredKeys:          []string{},
 		LDAPConnSecurityProtocol: AccountLDAPConnSecurityProtocolInbandTLS,
 		LDAPBindSearchFilter:     "uid={USERNAME}",
 		Status:                   AccountStatusPending,

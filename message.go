@@ -161,9 +161,11 @@ type Message struct {
 func NewMessage() *Message {
 
 	return &Message{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
-		Level:        MessageLevelInfo,
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		Level:          MessageLevelInfo,
+		NormalizedTags: []string{},
 	}
 }
 

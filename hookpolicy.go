@@ -188,10 +188,13 @@ type HookPolicy struct {
 func NewHookPolicy() *HookPolicy {
 
 	return &HookPolicy{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
-		Mode:         HookPolicyModePre,
-		Subject:      [][]string{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		Metadata:       []string{},
+		Mode:           HookPolicyModePre,
+		NormalizedTags: []string{},
+		Subject:        [][]string{},
 	}
 }
 

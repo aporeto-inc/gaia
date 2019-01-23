@@ -153,8 +153,11 @@ type AWSAPIGateway struct {
 func NewAWSAPIGateway() *AWSAPIGateway {
 
 	return &AWSAPIGateway{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		Metadata:       []string{},
+		NormalizedTags: []string{},
 	}
 }
 

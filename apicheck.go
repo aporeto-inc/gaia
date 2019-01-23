@@ -134,8 +134,10 @@ type APICheck struct {
 func NewAPICheck() *APICheck {
 
 	return &APICheck{
-		ModelVersion: 1,
-		Authorized:   map[string]bool{},
+		ModelVersion:     1,
+		Authorized:       map[string]bool{},
+		Claims:           []string{},
+		TargetIdentities: []string{},
 	}
 }
 

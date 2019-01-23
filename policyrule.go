@@ -145,6 +145,7 @@ func NewPolicyRule() *PolicyRule {
 		ExternalServices:  []*ExternalService{},
 		IsolationProfiles: []*IsolationProfile{},
 		Namespaces:        []*Namespace{},
+		Relation:          []string{},
 		Services:          []*Service{},
 		TagClauses:        [][]string{},
 	}

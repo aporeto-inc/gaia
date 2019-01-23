@@ -142,8 +142,10 @@ func NewRenderedPolicy() *RenderedPolicy {
 			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
 			string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
 		},
+		MatchingTags:   []string{},
 		ProcessingUnit: NewProcessingUnit(),
 		Profile:        map[string]string{},
+		Scopes:         []string{},
 	}
 }
 

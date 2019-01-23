@@ -325,17 +325,24 @@ func NewService() *Service {
 
 	return &Service{
 		ModelVersion:               1,
+		AllAPITags:                 []string{},
 		Annotations:                map[string][]string{},
+		AllServiceTags:             []string{},
+		AssociatedTags:             []string{},
 		ExposedAPIs:                [][]string{},
 		ExposedServiceIsTLS:        false,
 		External:                   false,
+		Hosts:                      []string{},
 		ClaimsToHTTPHeaderMappings: []*ClaimMapping{},
 		Endpoints:                  []*Endpoint{},
 		AuthorizationType:          ServiceAuthorizationTypeNone,
+		OIDCScopes:                 []string{},
 		Selectors:                  [][]string{},
 		Type:                       ServiceTypeHTTP,
 		TLSType:                    ServiceTLSTypeAporeto,
+		Metadata:                   []string{},
 		IPs:                        types.IPList{},
+		NormalizedTags:             []string{},
 	}
 }
 

@@ -160,9 +160,13 @@ type TokenScopePolicy struct {
 func NewTokenScopePolicy() *TokenScopePolicy {
 
 	return &TokenScopePolicy{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
-		Subject:      [][]string{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssignedScopes: []string{},
+		AssociatedTags: []string{},
+		Metadata:       []string{},
+		NormalizedTags: []string{},
+		Subject:        [][]string{},
 	}
 }
 

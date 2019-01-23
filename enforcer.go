@@ -221,8 +221,11 @@ func NewEnforcer() *Enforcer {
 	return &Enforcer{
 		ModelVersion:      1,
 		Annotations:       map[string][]string{},
+		AssociatedTags:    []string{},
 		CollectedInfo:     map[string]string{},
+		NormalizedTags:    []string{},
 		OperationalStatus: EnforcerOperationalStatusRegistered,
+		Metadata:          []string{},
 	}
 }
 

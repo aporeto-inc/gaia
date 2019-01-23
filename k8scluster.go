@@ -192,9 +192,12 @@ func NewK8SCluster() *K8SCluster {
 
 	return &K8SCluster{
 		ModelVersion:      1,
+		Metadata:          []string{},
 		ActivationType:    K8SClusterActivationTypeKubeSquall,
 		Annotations:       map[string][]string{},
+		AssociatedTags:    []string{},
 		NetworkPolicyType: K8SClusterNetworkPolicyTypeKubernetes,
+		NormalizedTags:    []string{},
 	}
 }
 

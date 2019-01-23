@@ -165,8 +165,13 @@ type AppCredential struct {
 func NewAppCredential() *AppCredential {
 
 	return &AppCredential{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		NormalizedTags: []string{},
+		Metadata:       []string{},
+		ParentIDs:      []string{},
+		Roles:          []string{},
 	}
 }
 

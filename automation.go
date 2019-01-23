@@ -187,12 +187,16 @@ type Automation struct {
 func NewAutomation() *Automation {
 
 	return &Automation{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
-		Events:       map[string][]elemental.EventType{},
-		Entitlements: map[string][]elemental.Operation{},
-		Parameters:   map[string]interface{}{},
-		Trigger:      AutomationTriggerTime,
+		ModelVersion:   1,
+		Actions:        []string{},
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		Events:         map[string][]elemental.EventType{},
+		Entitlements:   map[string][]elemental.Operation{},
+		Errors:         []string{},
+		NormalizedTags: []string{},
+		Parameters:     map[string]interface{}{},
+		Trigger:        AutomationTriggerTime,
 	}
 }
 

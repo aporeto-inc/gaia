@@ -189,7 +189,10 @@ func NewProcessingUnitPolicy() *ProcessingUnitPolicy {
 	return &ProcessingUnitPolicy{
 		ModelVersion:             1,
 		Annotations:              map[string][]string{},
+		AssociatedTags:           []string{},
 		IsolationProfileSelector: [][]string{},
+		Metadata:                 []string{},
+		NormalizedTags:           []string{},
 		Subject:                  [][]string{},
 	}
 }

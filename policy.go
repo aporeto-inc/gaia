@@ -223,10 +223,16 @@ type Policy struct {
 func NewPolicy() *Policy {
 
 	return &Policy{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
-		Object:       [][]string{},
-		Subject:      [][]string{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AllObjectTags:  []string{},
+		AllSubjectTags: []string{},
+		AssociatedTags: []string{},
+		Metadata:       []string{},
+		NormalizedTags: []string{},
+		Object:         [][]string{},
+		Relation:       []string{},
+		Subject:        [][]string{},
 	}
 }
 

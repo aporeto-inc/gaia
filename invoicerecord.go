@@ -106,7 +106,8 @@ type InvoiceRecord struct {
 func NewInvoiceRecord() *InvoiceRecord {
 
 	return &InvoiceRecord{
-		ModelVersion: 1,
+		ModelVersion:   1,
+		InvoiceRecords: []string{},
 	}
 }
 

@@ -159,8 +159,12 @@ type QuotaPolicy struct {
 func NewQuotaPolicy() *QuotaPolicy {
 
 	return &QuotaPolicy{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		Metadata:       []string{},
+		NormalizedTags: []string{},
+		Identities:     []string{},
 	}
 }
 

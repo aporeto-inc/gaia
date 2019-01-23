@@ -227,7 +227,10 @@ func NewProcessingUnit() *ProcessingUnit {
 		ModelVersion:      1,
 		Annotations:       map[string][]string{},
 		EnforcementStatus: ProcessingUnitEnforcementStatusInactive,
+		AssociatedTags:    []string{},
+		Metadata:          []string{},
 		NetworkServices:   []*ProcessingUnitService{},
+		NormalizedTags:    []string{},
 		OperationalStatus: ProcessingUnitOperationalStatusInitialized,
 	}
 }

@@ -147,9 +147,12 @@ type ExternalService struct {
 func NewExternalService() *ExternalService {
 
 	return &ExternalService{
-		ModelVersion: 1,
-		Annotations:  map[string][]string{},
-		Port:         "1:65535",
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		Metadata:       []string{},
+		NormalizedTags: []string{},
+		Port:           "1:65535",
 	}
 }
 
