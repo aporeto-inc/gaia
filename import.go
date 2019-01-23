@@ -111,7 +111,7 @@ func NewImport() *Import {
 
 	return &Import{
 		ModelVersion: 1,
-		Data:         &Export{},
+		Data:         NewExport(),
 		Mode:         ImportModeImport,
 	}
 }
