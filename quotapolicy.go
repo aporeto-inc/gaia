@@ -164,6 +164,7 @@ func NewQuotaPolicy() *QuotaPolicy {
 		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
+		Identities:     []string{},
 	}
 }
 
@@ -576,6 +577,10 @@ func (o *QuotaPolicy) Validate() error {
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredExternal("identities", o.Identities); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {

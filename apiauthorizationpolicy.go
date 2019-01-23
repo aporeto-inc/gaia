@@ -174,6 +174,7 @@ func NewAPIAuthorizationPolicy() *APIAuthorizationPolicy {
 		Annotations:          map[string][]string{},
 		AssociatedTags:       []string{},
 		AuthorizedIdentities: []string{},
+		AuthorizedSubnets:    []string{},
 		Metadata:             []string{},
 		NormalizedTags:       []string{},
 	}

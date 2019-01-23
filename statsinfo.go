@@ -121,6 +121,7 @@ func NewStatsInfo() *StatsInfo {
 		ModelVersion: 1,
 		Fields:       map[string]string{},
 		Measurement:  StatsInfoMeasurementFlows,
+		Tags:         []string{},
 	}
 }
 

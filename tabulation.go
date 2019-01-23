@@ -99,6 +99,7 @@ func NewTabulation() *Tabulation {
 
 	return &Tabulation{
 		ModelVersion: 1,
+		Headers:      []string{},
 		Rows:         [][]interface{}{},
 	}
 }

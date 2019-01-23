@@ -142,7 +142,8 @@ func NewRenderedPolicy() *RenderedPolicy {
 			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
 			string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
 		},
-		Scopes: []string{},
+		MatchingTags: []string{},
+		Scopes:       []string{},
 	}
 }
 

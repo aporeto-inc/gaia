@@ -137,6 +137,8 @@ func NewStatsQuery() *StatsQuery {
 
 	return &StatsQuery{
 		ModelVersion: 1,
+		Fields:       []string{},
+		Groups:       []string{},
 		Limit:        -1,
 		Measurement:  StatsQueryMeasurementFlows,
 		Offset:       -1,
