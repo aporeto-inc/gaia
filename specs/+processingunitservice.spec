@@ -27,9 +27,9 @@ attributes:
 
   - name: targetPorts
     description: List of single ports or range (xx:yy).
-    type: external
+    type: list
     exposed: true
-    subtype: ports_list
+    subtype: string
     stored: true
     validations:
     - $ports

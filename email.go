@@ -126,6 +126,7 @@ func NewEmail() *Email {
 
 	return &Email{
 		ModelVersion: 1,
+		Attachments:  map[string]string{},
 		Type:         EmailTypePlain,
 	}
 }
@@ -342,7 +343,7 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Attachments is a list of attachments to send.`,
 		Exposed:        true,
 		Name:           "attachments",
-		SubType:        "list_attachments",
+		SubType:        "map_of_string_of_strings",
 		Type:           "external",
 	},
 	"Bcc": elemental.AttributeSpecification{
@@ -351,8 +352,8 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Bcc represents email that should be in copy but hidden.`,
 		Exposed:        true,
 		Name:           "bcc",
-		SubType:        "list_emails",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Cc": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -360,8 +361,8 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Cc represents the addresses that should be in copy.`,
 		Exposed:        true,
 		Name:           "cc",
-		SubType:        "list_emails",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Content": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -394,8 +395,8 @@ used.`,
 		Description:    `To represents receivers of the email.`,
 		Exposed:        true,
 		Name:           "to",
-		SubType:        "list_emails",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"HTML", "Plain"},
@@ -416,7 +417,7 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Attachments is a list of attachments to send.`,
 		Exposed:        true,
 		Name:           "attachments",
-		SubType:        "list_attachments",
+		SubType:        "map_of_string_of_strings",
 		Type:           "external",
 	},
 	"bcc": elemental.AttributeSpecification{
@@ -425,8 +426,8 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Bcc represents email that should be in copy but hidden.`,
 		Exposed:        true,
 		Name:           "bcc",
-		SubType:        "list_emails",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"cc": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -434,8 +435,8 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Cc represents the addresses that should be in copy.`,
 		Exposed:        true,
 		Name:           "cc",
-		SubType:        "list_emails",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"content": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -468,8 +469,8 @@ used.`,
 		Description:    `To represents receivers of the email.`,
 		Exposed:        true,
 		Name:           "to",
-		SubType:        "list_emails",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"type": elemental.AttributeSpecification{
 		AllowedChoices: []string{"HTML", "Plain"},

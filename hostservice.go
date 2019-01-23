@@ -31,10 +31,9 @@ type HostService struct {
 func NewHostService() *HostService {
 
 	return &HostService{
-		ModelVersion:   1,
-		AssociatedTags: []string{},
-		Networkonly:    true,
-		Services:       []*ProcessingUnitService{},
+		ModelVersion: 1,
+		Networkonly:  true,
+		Services:     []*ProcessingUnitService{},
 	}
 }
 

@@ -11,7 +11,7 @@ model:
   indexes:
   - - :shard
     - zone
-    - zhash
+    - zHash
   - - namespace
   - - namespace
     - name
@@ -89,7 +89,7 @@ attributes:
     description: Parameters are passed to the functions.
     type: external
     exposed: true
-    subtype: automation_parameters
+    subtype: map_of_string_of_objects
     stored: true
 
   - name: schedule

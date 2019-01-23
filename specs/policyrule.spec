@@ -80,9 +80,9 @@ attributes:
     description: |-
       Relation describes the required operation to be performed between subjects and
       objects.
-    type: external
+    type: list
     exposed: true
-    subtype: relations_list
+    subtype: string
 
   - name: services
     description: Services provides the services of this policy rule.
@@ -94,4 +94,4 @@ attributes:
     description: Policy target tags.
     type: external
     exposed: true
-    subtype: target_tags
+    subtype: list_of_list_of_strings

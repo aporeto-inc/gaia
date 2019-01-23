@@ -80,9 +80,9 @@ attributes:
     description: |-
       List of tags that will be added to every `or` clause of all network access
       policies in the namespace and its children.
-    type: external
+    type: list
     exposed: true
-    subtype: tags_list
+    subtype: string
     stored: true
 
   - name: serviceCertificateValidity

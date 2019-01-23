@@ -15,7 +15,7 @@ model:
   indexes:
   - - :shard
     - zone
-    - zhash
+    - zHash
   - - namespace
   - - namespace
     - name
@@ -37,6 +37,7 @@ model:
   - '@metadatable'
   - '@named'
   - '@zonable'
+  - '@archivable'
 
 # Attributes
 attributes:

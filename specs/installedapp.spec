@@ -9,7 +9,7 @@ model:
   - iapps
   - iapp
   indexes:
-  - - accountname
+  - - accountName
     - name
   get:
     description: Retrieves the object with the given ID.

@@ -14,19 +14,19 @@ attributes:
     description: Attachments is a list of attachments to send.
     type: external
     exposed: true
-    subtype: list_attachments
+    subtype: map_of_string_of_strings
 
   - name: bcc
     description: Bcc represents email that should be in copy but hidden.
-    type: external
+    type: list
     exposed: true
-    subtype: list_emails
+    subtype: string
 
   - name: cc
     description: Cc represents the addresses that should be in copy.
-    type: external
+    type: list
     exposed: true
-    subtype: list_emails
+    subtype: string
 
   - name: content
     description: Content of the email to send.
@@ -48,9 +48,9 @@ attributes:
 
   - name: to
     description: To represents receivers of the email.
-    type: external
+    type: list
     exposed: true
-    subtype: list_emails
+    subtype: string
 
   - name: type
     description: Type represents the type of the content.

@@ -14,14 +14,14 @@ model:
   indexes:
   - - :shard
     - zone
-    - zhash
+    - zHash
   - - namespace
   - - namespace
     - name
   - - namespace
     - archived
   - - namespace
-    - normalizedtags
+    - normalizedTags
   get:
     description: Retrieves the object with the given ID.
     global_parameters:

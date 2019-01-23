@@ -2,21 +2,6 @@ actions_list:
   elemental:
     type: map[string]map[string]interface{}
 
-alarm_data:
-  elemental:
-    type: '[]map[string]string'
-    init: '[]map[string]string{}'
-
-alarm_occurrences:
-  elemental:
-    type: '[]time.Time'
-    init: '[]time.Time{}'
-
-annotations:
-  elemental:
-    type: map[string][]string
-    init: map[string][]string{}
-
 api_services_entities:
   elemental:
     type: ServicesList
@@ -40,36 +25,16 @@ arch_list:
     init: types.ArchitecturesTypeList{}
     import: go.aporeto.io/gaia/types
 
-associated_policies:
-  elemental:
-    type: map[string]string
-    init: map[string]string{}
-
 audit_profile_rule_list:
   elemental:
     type: types.AuditProfileRuleList
     init: types.AuditProfileRuleList{}
     import: go.aporeto.io/gaia/types
 
-audit_profile_selector:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
 audit_profiles:
   elemental:
     type: AuditProfilesList
     init: AuditProfilesList{}
-
-authorization_map:
-  elemental:
-    type: map[string][]string
-    init: map[string][]string{}
-
-authorized_identities:
-  elemental:
-    type: map[string]bool
-    init: map[string]bool{}
 
 automation_entitlements:
   elemental:
@@ -80,11 +45,6 @@ automation_events:
   elemental:
     type: map[string][]elemental.EventType
     init: map[string][]elemental.EventType{}
-
-automation_parameters:
-  elemental:
-    type: map[string]interface{}
-    init: map[string]interface{}{}
 
 automation_template_parameters:
   elemental:
@@ -104,18 +64,9 @@ claims:
     init: claims.NewMidgardClaims()
     import: go.aporeto.io/midgard-lib/claims
 
-collected_info:
-  elemental:
-    type: map[string]string
-
 cron_expression:
   elemental:
     type: string
-
-datapoints_list:
-  elemental:
-    type: '[]map[string]interface{}'
-    init: '[]map[string]interface{}{}'
 
 deprecated_network_entities:
   elemental:
@@ -135,23 +86,10 @@ enforcerprofiles_list:
     type: EnforcerProfilesList
     init: EnforcerProfilesList{}
 
-excluded_interfaces_list:
-  elemental:
-    type: '[]string'
-
-excluded_networks_list:
-  elemental:
-    type: '[]string'
-
 exported_data:
   elemental:
     type: '*Export'
     init: NewExport()
-
-exported_data_content:
-  elemental:
-    type: map[string][]map[string]interface{}
-    init: map[string][]map[string]interface{}{}
 
 exposed_api_list:
   elemental:
@@ -159,49 +97,14 @@ exposed_api_list:
     init: types.ExposedAPIList{}
     import: go.aporeto.io/gaia/types
 
-extensions_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
 file_entities:
   elemental:
     type: FilePathsList
     init: FilePathsList{}
 
-flowstatistic_origin_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
-graphclaims_map:
-  elemental:
-    type: map[string][]string
-    init: map[string][]string{}
-
-hashed_tags:
-  elemental:
-    type: map[string]string
-    init: map[string]string{}
-
-identity_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
-ignore_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
 int64:
   elemental:
     type: int64
-
-invoicerecord_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
 
 ip_list:
   elemental:
@@ -214,38 +117,55 @@ isolation_profile_entities:
     type: IsolationProfilesList
     init: IsolationProfilesList{}
 
-list_attachments:
+list_of_list_of_objects:
   elemental:
-    type: map[string]string
+    type: '[][]interface{}'
+    init: '[][]interface{}{}'
 
-list_emails:
-  elemental:
-    type: '[]string'
-
-list_list_string:
+list_of_list_of_strings:
   elemental:
     type: '[][]string'
     init: '[][]string{}'
 
-logs:
+list_of_maps_of_string_of_strings:
   elemental:
-    type: map[string]string
-    init: map[string]string{}
+    type: '[]map[string]string'
+    init: '[]map[string]string{}'
 
-map_string_int:
+list_of_times:
+  elemental:
+    type: '[]time.Time'
+    init: '[]time.Time{}'
+
+map_of_string_of_booleans:
+  elemental:
+    type: map[string]bool
+    init: map[string]bool{}
+
+map_of_string_of_integers:
   elemental:
     type: map[string]int
     init: map[string]int{}
 
-metadata:
+map_of_string_of_list_of_string:
+  elemental:
+    type: map[string][]string
+    init: map[string][]string{}
+
+map_of_string_of_lists_of_maps_of_string_of_objects:
+  elemental:
+    type: map[string][]map[string]interface{}
+    init: map[string][]map[string]interface{}{}
+
+map_of_string_of_objects:
   elemental:
     type: map[string]interface{}
     init: map[string]interface{}{}
 
-metadata_list:
+map_of_string_of_strings:
   elemental:
-    type: '[]string'
-    init: '[]string{}'
+    type: map[string]string
+    init: map[string]string{}
 
 namespace_entities:
   elemental:
@@ -261,19 +181,10 @@ network_entities:
     type: ExternalNetworksList
     init: ExternalNetworksList{}
 
-policies_list:
-  elemental:
-    type: '[][]string'
-
 policy_rules_list:
   elemental:
     type: PolicyRulesList
     init: PolicyRulesList{}
-
-ports_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
 
 processingunit:
   elemental:
@@ -283,18 +194,10 @@ processingunit_transient_tags_map:
   elemental:
     type: map[string][]string
 
-raw_data:
-  elemental:
-    type: interface{}
-
 raw_json:
   elemental:
     type: json.RawMessage
     import: encoding/json
-
-relations_list:
-  elemental:
-    type: '[]string'
 
 rendered_policy:
   elemental:
@@ -306,20 +209,6 @@ rendered_policy:
         string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
       }
     import: go.aporeto.io/gaia/constants
-
-scopes_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
-selectors_list:
-  elemental:
-    type: map[string]string
-
-stats_fields_info:
-  elemental:
-    type: map[string]string
-    init: map[string]string{}
 
 syscall_action:
   elemental:
@@ -338,60 +227,11 @@ system_call_list:
     init: '[]types.AuditSystemCallType{}'
     import: go.aporeto.io/gaia/types
 
-tabulated_data:
-  elemental:
-    type: '[][]interface{}'
-    init: '[][]interface{}{}'
-
-tag_delta:
-  elemental:
-    type: map[string]int
-    init: map[string]int{}
-
-tags_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
-tags_map:
-  elemental:
-    type: map[string]string
-    init: map[string]string{}
-
-target_networks_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
-target_tags:
-  elemental:
-    type: '[][]string'
-    init: '[][]string{}'
-
 time_series_results:
   elemental:
     type: '[]*types.TimeSeriesQueryResults'
     init: '[]*types.TimeSeriesQueryResults{}'
     import: go.aporeto.io/gaia/types
-
-trust_profile:
-  elemental:
-    type: map[string]string
-
-trusted_cas_list:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
-
-tsdb_fields:
-  elemental:
-    type: map[string]interface{}
-    init: map[string]interface{}{}
-
-view_suggestions:
-  elemental:
-    type: '[]string'
-    init: '[]string{}'
 
 vulnerabilities:
   elemental:
@@ -402,8 +242,3 @@ vulnerability_level:
     type: constants.Vulnerability
     init: constants.VulnerabilityUnknown
     import: go.aporeto.io/gaia/constants
-
-whois_info:
-  elemental:
-    type: map[string]string
-    init: map[string]string{}

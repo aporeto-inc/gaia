@@ -170,12 +170,9 @@ type APIAuthorizationPolicy struct {
 func NewAPIAuthorizationPolicy() *APIAuthorizationPolicy {
 
 	return &APIAuthorizationPolicy{
-		ModelVersion:         1,
-		Annotations:          map[string][]string{},
-		AssociatedTags:       []string{},
-		AuthorizedIdentities: []string{},
-		Metadata:             []string{},
-		NormalizedTags:       []string{},
+		ModelVersion: 1,
+		Annotations:  map[string][]string{},
+		Subject:      [][]string{},
 	}
 }
 
@@ -637,10 +634,6 @@ func (o *APIAuthorizationPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("authorizedIdentities", o.AuthorizedIdentities); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("authorizedNamespace", o.AuthorizedNamespace); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -796,7 +789,7 @@ The policy will be active for the given activeDuration.`,
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_string",
 		Type:           "external",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
@@ -808,8 +801,8 @@ The policy will be active for the given activeDuration.`,
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"AuthorizedIdentities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -818,8 +811,8 @@ The policy will be active for the given activeDuration.`,
 		Exposed:        true,
 		Name:           "authorizedIdentities",
 		Required:       true,
-		SubType:        "identity_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"AuthorizedNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -905,8 +898,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -952,9 +945,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -999,7 +992,7 @@ namespace, but still used for policy resolution.`,
 		Exposed:        true,
 		Name:           "subject",
 		Orderable:      true,
-		SubType:        "policies_list",
+		SubType:        "list_of_list_of_strings",
 		Type:           "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
@@ -1094,7 +1087,7 @@ The policy will be active for the given activeDuration.`,
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_string",
 		Type:           "external",
 	},
 	"associatedtags": elemental.AttributeSpecification{
@@ -1106,8 +1099,8 @@ The policy will be active for the given activeDuration.`,
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"authorizedidentities": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1116,8 +1109,8 @@ The policy will be active for the given activeDuration.`,
 		Exposed:        true,
 		Name:           "authorizedIdentities",
 		Required:       true,
-		SubType:        "identity_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"authorizednamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1203,8 +1196,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1250,9 +1243,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1297,7 +1290,7 @@ namespace, but still used for policy resolution.`,
 		Exposed:        true,
 		Name:           "subject",
 		Orderable:      true,
-		SubType:        "policies_list",
+		SubType:        "list_of_list_of_strings",
 		Type:           "external",
 	},
 	"updatetime": elemental.AttributeSpecification{

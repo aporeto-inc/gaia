@@ -134,9 +134,8 @@ type APICheck struct {
 func NewAPICheck() *APICheck {
 
 	return &APICheck{
-		ModelVersion:     1,
-		Authorized:       map[string]bool{},
-		TargetIdentities: []string{},
+		ModelVersion: 1,
+		Authorized:   map[string]bool{},
 	}
 }
 
@@ -283,10 +282,6 @@ func (o *APICheck) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("targetIdentities", o.TargetIdentities); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("token", o.Token); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -352,7 +347,7 @@ var APICheckAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "authorized",
 		ReadOnly:       true,
-		SubType:        "authorized_identities",
+		SubType:        "map_of_string_of_booleans",
 		Type:           "external",
 	},
 	"Claims": elemental.AttributeSpecification{
@@ -393,8 +388,8 @@ authorization.`,
 		Exposed:  true,
 		Name:     "targetIdentities",
 		Required: true,
-		SubType:  "identity_list",
-		Type:     "external",
+		SubType:  "string",
+		Type:     "list",
 	},
 	"Token": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -417,7 +412,7 @@ var APICheckLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Exposed:        true,
 		Name:           "authorized",
 		ReadOnly:       true,
-		SubType:        "authorized_identities",
+		SubType:        "map_of_string_of_booleans",
 		Type:           "external",
 	},
 	"claims": elemental.AttributeSpecification{
@@ -458,8 +453,8 @@ authorization.`,
 		Exposed:  true,
 		Name:     "targetIdentities",
 		Required: true,
-		SubType:  "identity_list",
-		Type:     "external",
+		SubType:  "string",
+		Type:     "list",
 	},
 	"token": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

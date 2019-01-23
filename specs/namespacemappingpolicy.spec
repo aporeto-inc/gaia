@@ -58,7 +58,7 @@ attributes:
     description: Subject is the subject.
     type: external
     exposed: true
-    subtype: policies_list
+    subtype: list_of_list_of_strings
     required: true
     example_value:
     - - color=blue

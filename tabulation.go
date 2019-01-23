@@ -285,7 +285,7 @@ var TabulationAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "rows",
 		ReadOnly:       true,
-		SubType:        "tabulated_data",
+		SubType:        "list_of_list_of_objects",
 		Type:           "external",
 	},
 	"TargetIdentity": elemental.AttributeSpecification{
@@ -321,7 +321,7 @@ var TabulationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Exposed:        true,
 		Name:           "rows",
 		ReadOnly:       true,
-		SubType:        "tabulated_data",
+		SubType:        "list_of_list_of_objects",
 		Type:           "external",
 	},
 	"targetidentity": elemental.AttributeSpecification{

@@ -356,7 +356,7 @@ var IssueAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "metadata",
 		Orderable:      true,
-		SubType:        "metadata",
+		SubType:        "map_of_string_of_objects",
 		Type:           "external",
 	},
 	"Quota": elemental.AttributeSpecification{
@@ -418,7 +418,7 @@ var IssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "metadata",
 		Orderable:      true,
-		SubType:        "metadata",
+		SubType:        "map_of_string_of_objects",
 		Type:           "external",
 	},
 	"quota": elemental.AttributeSpecification{

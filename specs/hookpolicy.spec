@@ -128,7 +128,7 @@ attributes:
       trigger the hook.
     type: external
     exposed: true
-    subtype: policies_list
+    subtype: list_of_list_of_strings
     stored: true
     required: true
     example_value:

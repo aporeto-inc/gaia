@@ -106,8 +106,7 @@ type InvoiceRecord struct {
 func NewInvoiceRecord() *InvoiceRecord {
 
 	return &InvoiceRecord{
-		ModelVersion:   1,
-		InvoiceRecords: []string{},
+		ModelVersion: 1,
 	}
 }
 
@@ -330,8 +329,8 @@ details for.`,
 		Name:           "invoiceRecords",
 		Orderable:      true,
 		Stored:         true,
-		SubType:        "invoicerecord_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -390,8 +389,8 @@ details for.`,
 		Name:           "invoiceRecords",
 		Orderable:      true,
 		Stored:         true,
-		SubType:        "invoicerecord_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

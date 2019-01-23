@@ -160,13 +160,11 @@ type Alarm struct {
 func NewAlarm() *Alarm {
 
 	return &Alarm{
-		ModelVersion:   1,
-		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
-		Data:           []map[string]string{},
-		NormalizedTags: []string{},
-		Occurrences:    []time.Time{},
-		Status:         AlarmStatusOpen,
+		ModelVersion: 1,
+		Annotations:  map[string][]string{},
+		Data:         []map[string]string{},
+		Occurrences:  []time.Time{},
+		Status:       AlarmStatusOpen,
 	}
 }
 
@@ -621,7 +619,7 @@ var AlarmAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_string",
 		Type:           "external",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
@@ -633,8 +631,8 @@ var AlarmAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Content": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -668,7 +666,7 @@ var AlarmAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "data",
 		Stored:         true,
-		SubType:        "alarm_data",
+		SubType:        "list_of_maps_of_string_of_strings",
 		Type:           "external",
 	},
 	"Description": elemental.AttributeSpecification{
@@ -741,9 +739,9 @@ identifier, then only the occurrence will be incremented.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"Occurrences": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -754,7 +752,7 @@ identifier, then only the occurrence will be incremented.`,
 		Exposed:        true,
 		Name:           "occurrences",
 		Stored:         true,
-		SubType:        "alarm_occurrences",
+		SubType:        "list_of_times",
 		Type:           "external",
 	},
 	"Protected": elemental.AttributeSpecification{
@@ -847,7 +845,7 @@ var AlarmLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_string",
 		Type:           "external",
 	},
 	"associatedtags": elemental.AttributeSpecification{
@@ -859,8 +857,8 @@ var AlarmLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"content": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -894,7 +892,7 @@ var AlarmLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "data",
 		Stored:         true,
-		SubType:        "alarm_data",
+		SubType:        "list_of_maps_of_string_of_strings",
 		Type:           "external",
 	},
 	"description": elemental.AttributeSpecification{
@@ -967,9 +965,9 @@ identifier, then only the occurrence will be incremented.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"occurrences": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -980,7 +978,7 @@ identifier, then only the occurrence will be incremented.`,
 		Exposed:        true,
 		Name:           "occurrences",
 		Stored:         true,
-		SubType:        "alarm_occurrences",
+		SubType:        "list_of_times",
 		Type:           "external",
 	},
 	"protected": elemental.AttributeSpecification{

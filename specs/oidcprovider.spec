@@ -9,7 +9,7 @@ model:
     for a Midgard token.
   indexes:
   - - :unique
-    - parentid
+    - parentID
     - name
   get:
     description: Retrieves the object with the given ID.

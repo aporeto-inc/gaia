@@ -34,7 +34,8 @@ type Endpoint struct {
 func NewEndpoint() *Endpoint {
 
 	return &Endpoint{
-		ModelVersion: 1,
+		ModelVersion:  1,
+		AllowedScopes: [][]string{},
 	}
 }
 
