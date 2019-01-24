@@ -14,14 +14,14 @@ model:
   indexes:
   - - :shard
     - zone
-    - zhash
+    - zHash
   - - namespace
   - - namespace
     - name
   - - namespace
     - archived
   - - namespace
-    - normalizedtags
+    - normalizedTags
   - - allAPITags
   - - namespace
     - allAPITags
@@ -61,7 +61,7 @@ attributes:
       The system will automatically resolve IP addresses from host names otherwise.
     type: external
     exposed: true
-    subtype: ip_list
+    subtype: _ip_list
     stored: true
 
   - name: JWTSigningCertificate
@@ -162,15 +162,15 @@ attributes:
 
   - name: allAPITags
     description: This is a set of all API tags for matching in the DB.
-    type: external
-    subtype: tags_list
+    type: list
+    subtype: string
     stored: true
     read_only: true
 
   - name: allServiceTags
     description: This is a set of all selector tags for matching in the DB.
-    type: external
-    subtype: tags_list
+    type: list
+    subtype: string
     stored: true
     read_only: true
 
@@ -226,7 +226,7 @@ attributes:
       similar specifications for other L7 protocols.
     type: external
     exposed: true
-    subtype: policies_list
+    subtype: list_of_lists_of_strings
     stored: true
     example_value:
     - - package=p1
@@ -316,7 +316,7 @@ attributes:
       must match in order to implement this particular service.
     type: external
     exposed: true
-    subtype: policies_list
+    subtype: list_of_lists_of_strings
     stored: true
     example_value:
     - - $identity=processingunit

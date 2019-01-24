@@ -38,8 +38,8 @@ attributes:
 
   - name: invoiceRecords
     description: InvoiceRecords provides details about billing units.
-    type: external
+    type: list
     exposed: true
-    subtype: invoicerecord_list
+    subtype: string
     stored: true
     orderable: true

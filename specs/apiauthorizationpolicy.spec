@@ -42,9 +42,9 @@ attributes:
   - name: authorizedIdentities
     description: AuthorizedIdentities defines the list of api identities the policy
       applies to.
-    type: external
+    type: list
     exposed: true
-    subtype: identity_list
+    subtype: string
     required: true
     example_value:
     - '@auth:role=namespace.editor'
@@ -70,5 +70,5 @@ attributes:
     description: Subject is the subject.
     type: external
     exposed: true
-    subtype: policies_list
+    subtype: list_of_lists_of_strings
     orderable: true

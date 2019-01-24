@@ -89,6 +89,9 @@ type FilePath struct {
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
+	// Archived defines if the object is archived.
+	Archived bool `json:"-" bson:"archived" mapstructure:"-,omitempty"`
+
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
@@ -203,6 +206,18 @@ func (o *FilePath) GetAnnotations() map[string][]string {
 func (o *FilePath) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
+}
+
+// GetArchived returns the Archived of the receiver.
+func (o *FilePath) GetArchived() bool {
+
+	return o.Archived
+}
+
+// SetArchived sets the property Archived of the receiver using the given value.
+func (o *FilePath) SetArchived(archived bool) {
+
+	o.Archived = archived
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
@@ -340,6 +355,7 @@ func (o *FilePath) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		return &SparseFilePath{
 			ID:             &o.ID,
 			Annotations:    &o.Annotations,
+			Archived:       &o.Archived,
 			AssociatedTags: &o.AssociatedTags,
 			CreateTime:     &o.CreateTime,
 			Description:    &o.Description,
@@ -363,6 +379,8 @@ func (o *FilePath) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ID = &(o.ID)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
+		case "archived":
+			sp.Archived = &(o.Archived)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "createTime":
@@ -407,6 +425,9 @@ func (o *FilePath) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
+	}
+	if so.Archived != nil {
+		o.Archived = *so.Archived
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
@@ -533,6 +554,8 @@ func (o *FilePath) ValueForAttribute(name string) interface{} {
 		return o.ID
 	case "annotations":
 		return o.Annotations
+	case "archived":
+		return o.Archived
 	case "associatedTags":
 		return o.AssociatedTags
 	case "createTime":
@@ -590,8 +613,18 @@ var FilePathAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
+	},
+	"Archived": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Archived",
+		Description:    `Archived defines if the object is archived.`,
+		Getter:         true,
+		Name:           "archived",
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -602,8 +635,8 @@ var FilePathAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -654,8 +687,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -701,9 +734,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -794,8 +827,18 @@ var FilePathLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
+	},
+	"archived": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Archived",
+		Description:    `Archived defines if the object is archived.`,
+		Getter:         true,
+		Name:           "archived",
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -806,8 +849,8 @@ var FilePathLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -858,8 +901,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -905,9 +948,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1043,6 +1086,9 @@ type SparseFilePath struct {
 	// Annotation stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
 
+	// Archived defines if the object is archived.
+	Archived *bool `json:"-,omitempty" bson:"archived" mapstructure:"-,omitempty"`
+
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
@@ -1132,6 +1178,9 @@ func (o *SparseFilePath) ToPlain() elemental.PlainIdentifiable {
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
 	}
+	if o.Archived != nil {
+		out.Archived = *o.Archived
+	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
@@ -1185,6 +1234,18 @@ func (o *SparseFilePath) GetAnnotations() map[string][]string {
 func (o *SparseFilePath) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
+}
+
+// GetArchived returns the Archived of the receiver.
+func (o *SparseFilePath) GetArchived() bool {
+
+	return *o.Archived
+}
+
+// SetArchived sets the property Archived of the receiver using the address of the given value.
+func (o *SparseFilePath) SetArchived(archived bool) {
+
+	o.Archived = &archived
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.

@@ -35,9 +35,9 @@ attributes:
   v1:
   - name: assignedScopes
     description: AssignedScopes is the the list of scopes that the policiy will assigns.
-    type: external
+    type: list
     exposed: true
-    subtype: tags_list
+    subtype: string
     stored: true
     orderable: true
 
@@ -47,6 +47,6 @@ attributes:
       and scope request information.
     type: external
     exposed: true
-    subtype: policies_list
+    subtype: list_of_lists_of_strings
     stored: true
     orderable: true

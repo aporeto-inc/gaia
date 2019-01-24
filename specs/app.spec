@@ -45,7 +45,7 @@ attributes:
     description: Parameters is a list of parameters available for the app.
     type: external
     exposed: true
-    subtype: app_parameters
+    subtype: _app_parameters
     stored: true
 
   - name: title

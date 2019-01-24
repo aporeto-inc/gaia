@@ -254,6 +254,12 @@ func (o *PolicyRenderer) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	for _, sub := range o.Policies {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
 	if err := elemental.ValidateRequiredExternal("tags", o.Tags); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -317,8 +323,8 @@ var PolicyRendererAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "policies",
 		ReadOnly:       true,
-		SubType:        "policy_rules_list",
-		Type:           "external",
+		SubType:        "policyrule",
+		Type:           "refList",
 	},
 	"Tags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -351,8 +357,8 @@ var PolicyRendererLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Exposed:        true,
 		Name:           "policies",
 		ReadOnly:       true,
-		SubType:        "policy_rules_list",
-		Type:           "external",
+		SubType:        "policyrule",
+		Type:           "refList",
 	},
 	"tags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

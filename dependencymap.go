@@ -322,7 +322,7 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "claims",
 		ReadOnly:       true,
-		SubType:        "graphclaims_map",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"Edges": elemental.AttributeSpecification{
@@ -362,8 +362,8 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "viewSuggestions",
 		ReadOnly:       true,
-		SubType:        "view_suggestions",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 }
 
@@ -376,7 +376,7 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Exposed:        true,
 		Name:           "claims",
 		ReadOnly:       true,
-		SubType:        "graphclaims_map",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"edges": elemental.AttributeSpecification{
@@ -416,8 +416,8 @@ var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Exposed:        true,
 		Name:           "viewSuggestions",
 		ReadOnly:       true,
-		SubType:        "view_suggestions",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 }
 

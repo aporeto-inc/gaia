@@ -8,14 +8,14 @@ model:
   indexes:
   - - :shard
     - zone
-    - zhash
+    - zHash
   - - namespace
   - - namespace
     - name
   - - namespace
     - archived
   - - namespace
-    - normalizedtags
+    - normalizedTags
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
@@ -43,7 +43,7 @@ attributes:
     description: EndPoints is a list of API endpoints that are exposed for the service.
     type: external
     exposed: true
-    subtype: exposed_api_list
+    subtype: _exposed_api_list
     stored: true
 
   - name: migrated

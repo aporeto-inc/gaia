@@ -11,7 +11,7 @@ model:
   indexes:
   - - :shard
     - zone
-    - zhash
+    - zHash
   - - namespace
   - - namespace
     - name
@@ -112,7 +112,7 @@ attributes:
     description: CollectedInfo represents the latest info collected by the enforcer.
     type: external
     exposed: true
-    subtype: collected_info
+    subtype: map_of_string_of_strings
     stored: true
 
   - name: currentVersion

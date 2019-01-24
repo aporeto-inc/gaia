@@ -10,7 +10,7 @@ model:
   indexes:
   - - :shard
     - zone
-    - zhash
+    - zHash
   - - namespace
   - - namespace
     - name
@@ -39,7 +39,7 @@ attributes:
       from the processing unit.
     type: external
     exposed: true
-    subtype: cap_map
+    subtype: _cap_map
     stored: true
     orderable: true
 
@@ -49,7 +49,7 @@ attributes:
       Default is "Allow".
     type: external
     exposed: true
-    subtype: syscall_action
+    subtype: _syscall_action
     stored: true
 
   - name: syscallRules
@@ -58,7 +58,7 @@ attributes:
       syscalls.
     type: external
     exposed: true
-    subtype: syscall_rules
+    subtype: _syscall_rules
     stored: true
     orderable: true
 
@@ -68,6 +68,6 @@ attributes:
       be applied. Default all.
     type: external
     exposed: true
-    subtype: arch_list
+    subtype: _arch_list
     stored: true
     orderable: true

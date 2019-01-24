@@ -128,21 +128,20 @@ type RenderedPolicy struct {
 func NewRenderedPolicy() *RenderedPolicy {
 
 	return &RenderedPolicy{
-		ModelVersion:      1,
-		DependendServices: ServicesList{},
+		ModelVersion: 1,
 		EgressPolicies: map[string]PolicyRulesList{
 			string(constants.RenderedPolicyTypeNetwork):   PolicyRulesList{},
 			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
 			string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
 		},
-		ExposedServices: ServicesList{},
-		HashedTags:      map[string]string{},
+		HashedTags: map[string]string{},
 		IngressPolicies: map[string]PolicyRulesList{
 			string(constants.RenderedPolicyTypeNetwork):   PolicyRulesList{},
 			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
 			string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
 		},
 		MatchingTags: []string{},
+		Profile:      map[string]string{},
 		Scopes:       []string{},
 	}
 }
@@ -310,8 +309,20 @@ func (o *RenderedPolicy) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredExternal("processingUnit", o.ProcessingUnit); err != nil {
-		requiredErrors = append(requiredErrors, err)
+	for _, sub := range o.DependendServices {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	for _, sub := range o.ExposedServices {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	if err := o.ProcessingUnit.Validate(); err != nil {
+		errors = append(errors, err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -393,8 +404,8 @@ to any internal or external services.`,
 		Description:    `DependendServices is the list of services that this processing unit depends on.`,
 		Exposed:        true,
 		Name:           "dependendServices",
-		SubType:        "api_services_entities",
-		Type:           "external",
+		SubType:        "service",
+		Type:           "refList",
 	},
 	"EgressPolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -414,8 +425,8 @@ to any internal or external services.`,
 implementing.`,
 		Exposed: true,
 		Name:    "exposedServices",
-		SubType: "api_services_entities",
-		Type:    "external",
+		SubType: "service",
+		Type:    "refList",
 	},
 	"HashedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -425,7 +436,7 @@ implementing.`,
 		Exposed:        true,
 		Name:           "hashedTags",
 		ReadOnly:       true,
-		SubType:        "hashed_tags",
+		SubType:        "map_of_string_of_strings",
 		Type:           "external",
 	},
 	"IngressPolicies": elemental.AttributeSpecification{
@@ -460,7 +471,7 @@ has not been created yet.`,
 		Name:     "processingUnit",
 		Required: true,
 		SubType:  "processingunit",
-		Type:     "external",
+		Type:     "ref",
 	},
 	"ProcessingUnitID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -481,7 +492,7 @@ all communications.`,
 		Exposed:  true,
 		Name:     "profile",
 		ReadOnly: true,
-		SubType:  "trust_profile",
+		SubType:  "map_of_string_of_strings",
 		Type:     "external",
 	},
 	"Scopes": elemental.AttributeSpecification{
@@ -492,8 +503,8 @@ present in HTTP requests.`,
 		Exposed: true,
 		Name:    "scopes",
 		Stored:  true,
-		SubType: "scopes_list",
-		Type:    "external",
+		SubType: "string",
+		Type:    "list",
 	},
 }
 
@@ -515,8 +526,8 @@ to any internal or external services.`,
 		Description:    `DependendServices is the list of services that this processing unit depends on.`,
 		Exposed:        true,
 		Name:           "dependendServices",
-		SubType:        "api_services_entities",
-		Type:           "external",
+		SubType:        "service",
+		Type:           "refList",
 	},
 	"egresspolicies": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -536,8 +547,8 @@ to any internal or external services.`,
 implementing.`,
 		Exposed: true,
 		Name:    "exposedServices",
-		SubType: "api_services_entities",
-		Type:    "external",
+		SubType: "service",
+		Type:    "refList",
 	},
 	"hashedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -547,7 +558,7 @@ implementing.`,
 		Exposed:        true,
 		Name:           "hashedTags",
 		ReadOnly:       true,
-		SubType:        "hashed_tags",
+		SubType:        "map_of_string_of_strings",
 		Type:           "external",
 	},
 	"ingresspolicies": elemental.AttributeSpecification{
@@ -582,7 +593,7 @@ has not been created yet.`,
 		Name:     "processingUnit",
 		Required: true,
 		SubType:  "processingunit",
-		Type:     "external",
+		Type:     "ref",
 	},
 	"processingunitid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -603,7 +614,7 @@ all communications.`,
 		Exposed:  true,
 		Name:     "profile",
 		ReadOnly: true,
-		SubType:  "trust_profile",
+		SubType:  "map_of_string_of_strings",
 		Type:     "external",
 	},
 	"scopes": elemental.AttributeSpecification{
@@ -614,8 +625,8 @@ present in HTTP requests.`,
 		Exposed: true,
 		Name:    "scopes",
 		Stored:  true,
-		SubType: "scopes_list",
-		Type:    "external",
+		SubType: "string",
+		Type:    "list",
 	},
 }
 

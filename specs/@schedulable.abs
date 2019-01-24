@@ -17,9 +17,8 @@ attributes:
     description: |-
       ActiveSchedule defines when the policy should be active using the cron notation.
       The policy will be active for the given activeDuration.
-    type: external
+    type: string
     exposed: true
-    subtype: cron_expression
     stored: true
     getter: true
     setter: true

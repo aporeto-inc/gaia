@@ -39,7 +39,7 @@ attributes:
       to this enforcer.
     type: external
     exposed: true
-    subtype: policies_list
+    subtype: list_of_lists_of_strings
     orderable: true
 
   - name: subject
@@ -48,7 +48,7 @@ attributes:
       services must apply to.
     type: external
     exposed: true
-    subtype: policies_list
+    subtype: list_of_lists_of_strings
     orderable: true
 
 # Relations

@@ -413,8 +413,8 @@ var X509CertificateAttributesMap = map[string]elemental.AttributeSpecification{
 certificate.`,
 		Exposed: true,
 		Name:    "extensions",
-		SubType: "extensions_list",
-		Type:    "external",
+		SubType: "string",
+		Type:    "list",
 	},
 	"Signer": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Public", "System"},
@@ -497,8 +497,8 @@ var X509CertificateLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 certificate.`,
 		Exposed: true,
 		Name:    "extensions",
-		SubType: "extensions_list",
-		Type:    "external",
+		SubType: "string",
+		Type:    "list",
 	},
 	"signer": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Public", "System"},

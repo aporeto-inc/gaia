@@ -12,9 +12,9 @@ attributes:
   v1:
   - name: associatedTags
     description: AssociatedTags are the list of tags attached to an entity.
-    type: external
+    type: list
     exposed: true
-    subtype: tags_list
+    subtype: string
     stored: true
     getter: true
     setter: true

@@ -8,36 +8,36 @@ model:
   indexes:
   - - :shard
     - zone
-    - zhash
+    - zHash
   - - namespace
     - name
   - - namespace
   - - namespace
     - type
   - - namespace
-    - normalizedtags
+    - normalizedTags
   - - namespace
     - type
-    - allobjecttags
+    - allObjectTags
   - - namespace
     - type
-    - allsubjecttags
+    - allSubjectTags
   - - namespace
     - type
-    - allobjecttags
+    - allObjectTags
     - disabled
   - - namespace
     - type
-    - allsubjecttags
+    - allSubjectTags
     - disabled
   - - namespace
     - type
-    - allobjecttags
-    - propagated
+    - allObjectTags
+    - propagate
   - - namespace
     - type
-    - allsubjecttags
-    - propagated
+    - allSubjectTags
+    - propagate
   - - namespace
     - fallback
   get:
@@ -67,19 +67,19 @@ attributes:
       is met.
     type: external
     exposed: true
-    subtype: actions_list
+    subtype: map_of_string_of_maps_of_string_of_objects
     stored: true
 
   - name: allObjectTags
     description: This is a set of all object tags for matching in the DB.
-    type: external
-    subtype: tags_list
+    type: list
+    subtype: string
     stored: true
 
   - name: allSubjectTags
     description: This is a set of all subject tags for matching in the DB.
-    type: external
-    subtype: tags_list
+    type: list
+    subtype: string
     stored: true
 
   - name: object
@@ -88,7 +88,7 @@ attributes:
       objects are identified as logical operations on tags when a policy is defined.
     type: external
     exposed: true
-    subtype: policies_list
+    subtype: list_of_lists_of_strings
     stored: true
     getter: true
     setter: true
@@ -97,9 +97,9 @@ attributes:
     description: |-
       Relation describes the required operation to be performed between subjects and
       objects.
-    type: external
+    type: list
     exposed: true
-    subtype: relations_list
+    subtype: string
     stored: true
 
   - name: subject
@@ -109,7 +109,7 @@ attributes:
       includes AND/OR.
     type: external
     exposed: true
-    subtype: policies_list
+    subtype: list_of_lists_of_strings
     stored: true
     getter: true
     setter: true

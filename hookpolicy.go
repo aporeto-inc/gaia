@@ -194,6 +194,7 @@ func NewHookPolicy() *HookPolicy {
 		Metadata:       []string{},
 		Mode:           HookPolicyModePre,
 		NormalizedTags: []string{},
+		Subject:        [][]string{},
 	}
 }
 
@@ -661,10 +662,6 @@ func (o *HookPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("subject", o.Subject); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -776,7 +773,7 @@ var HookPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
@@ -788,8 +785,8 @@ var HookPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"CertificateAuthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -912,8 +909,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"Mode": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Both", "Post", "Pre"},
@@ -970,9 +967,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1015,12 +1012,11 @@ namespace, but still used for policy resolution.`,
 		ConvertedName:  "Subject",
 		Description: `Subject contains the tag expression that an object must match in order to
 trigger the hook.`,
-		Exposed:  true,
-		Name:     "subject",
-		Required: true,
-		Stored:   true,
-		SubType:  "policies_list",
-		Type:     "external",
+		Exposed: true,
+		Name:    "subject",
+		Stored:  true,
+		SubType: "list_of_lists_of_strings",
+		Type:    "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1088,7 +1084,7 @@ var HookPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"associatedtags": elemental.AttributeSpecification{
@@ -1100,8 +1096,8 @@ var HookPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"certificateauthority": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1224,8 +1220,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"mode": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Both", "Post", "Pre"},
@@ -1282,9 +1278,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1327,12 +1323,11 @@ namespace, but still used for policy resolution.`,
 		ConvertedName:  "Subject",
 		Description: `Subject contains the tag expression that an object must match in order to
 trigger the hook.`,
-		Exposed:  true,
-		Name:     "subject",
-		Required: true,
-		Stored:   true,
-		SubType:  "policies_list",
-		Type:     "external",
+		Exposed: true,
+		Name:    "subject",
+		Stored:  true,
+		SubType: "list_of_lists_of_strings",
+		Type:    "external",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

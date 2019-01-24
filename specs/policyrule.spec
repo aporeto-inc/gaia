@@ -21,7 +21,7 @@ attributes:
       is met.
     type: external
     exposed: true
-    subtype: actions_list
+    subtype: map_of_string_of_maps_of_string_of_objects
 
   - name: auditProfiles
     description: AuditProfiles provides the audit profiles that must be applied.
@@ -31,28 +31,36 @@ attributes:
 
   - name: enforcerProfiles
     description: EnforcerProfiles provides the information about the server profile.
-    type: external
+    type: refList
     exposed: true
-    subtype: enforcerprofiles_list
+    subtype: enforcerprofile
+    extensions:
+      noInit: true
 
   - name: externalNetworks
     description: Policy target networks.
-    type: external
+    type: refList
     exposed: true
-    subtype: network_entities
+    subtype: externalnetwork
+    extensions:
+      noInit: true
 
   - name: externalServices
     description: Policy target networks.
-    type: external
+    type: refList
     exposed: true
-    subtype: deprecated_network_entities
+    subtype: externalservice
     deprecated: true
+    extensions:
+      noInit: true
 
   - name: filePaths
     description: Policy target file paths.
-    type: external
+    type: refList
     exposed: true
-    subtype: file_entities
+    subtype: filepath
+    extensions:
+      noInit: true
 
   - name: hostServices
     description: HostServices provides the list of host services that must be instantiated.
@@ -62,15 +70,19 @@ attributes:
 
   - name: isolationProfiles
     description: IsolationProfiles are the isolation profiles of the rule.
-    type: external
+    type: refList
     exposed: true
-    subtype: isolation_profile_entities
+    subtype: isolationprofile
+    extensions:
+      noInit: true
 
   - name: namespaces
     description: Policy target namespaces.
-    type: external
+    type: refList
     exposed: true
-    subtype: namespace_entities
+    subtype: namespace
+    extensions:
+      noInit: true
 
   - name: policyNamespace
     description: PolicyNamespace is the namespace of the policy that created this
@@ -92,18 +104,20 @@ attributes:
     description: |-
       Relation describes the required operation to be performed between subjects and
       objects.
-    type: external
+    type: list
     exposed: true
-    subtype: relations_list
+    subtype: string
 
   - name: services
     description: Services provides the services of this policy rule.
-    type: external
+    type: refList
     exposed: true
-    subtype: api_services_entities
+    subtype: service
+    extensions:
+      noInit: true
 
   - name: tagClauses
     description: Policy target tags.
     type: external
     exposed: true
-    subtype: target_tags
+    subtype: list_of_lists_of_strings
