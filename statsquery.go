@@ -6,7 +6,6 @@ import (
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/types"
 )
 
 // StatsQueryMeasurementValue represents the possible values for attribute "measurement".
@@ -125,7 +124,7 @@ type StatsQuery struct {
 	Offset int `json:"offset" bson:"-" mapstructure:"offset,omitempty"`
 
 	// Results contains the result of the query.
-	Results []*types.TimeSeriesQueryResults `json:"results" bson:"-" mapstructure:"results,omitempty"`
+	Results []*TimeSeriesQueryResults `json:"results" bson:"-" mapstructure:"results,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -142,7 +141,7 @@ func NewStatsQuery() *StatsQuery {
 		Limit:        -1,
 		Measurement:  StatsQueryMeasurementFlows,
 		Offset:       -1,
-		Results:      []*types.TimeSeriesQueryResults{},
+		Results:      []*TimeSeriesQueryResults{},
 	}
 }
 
@@ -297,6 +296,12 @@ func (o *StatsQuery) Validate() error {
 		errors = append(errors, err)
 	}
 
+	for _, sub := range o.Results {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -425,8 +430,8 @@ group the results.`,
 		Exposed:        true,
 		Name:           "results",
 		ReadOnly:       true,
-		SubType:        "_time_series_results",
-		Type:           "external",
+		SubType:        "timeseriesqueryresults",
+		Type:           "refList",
 	},
 }
 
@@ -503,8 +508,8 @@ group the results.`,
 		Exposed:        true,
 		Name:           "results",
 		ReadOnly:       true,
-		SubType:        "_time_series_results",
-		Type:           "external",
+		SubType:        "timeseriesqueryresults",
+		Type:           "refList",
 	},
 }
 
@@ -595,7 +600,7 @@ type SparseStatsQuery struct {
 	Offset *int `json:"offset,omitempty" bson:"-" mapstructure:"offset,omitempty"`
 
 	// Results contains the result of the query.
-	Results *[]*types.TimeSeriesQueryResults `json:"results,omitempty" bson:"-" mapstructure:"results,omitempty"`
+	Results *[]*TimeSeriesQueryResults `json:"results,omitempty" bson:"-" mapstructure:"results,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

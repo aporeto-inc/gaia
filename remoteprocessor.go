@@ -411,7 +411,7 @@ var RemoteProcessorAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "output",
 		ReadOnly:       true,
-		SubType:        "elemental_identitifable",
+		SubType:        "_elemental_identifiable",
 		Type:           "external",
 	},
 	"RequestID": elemental.AttributeSpecification{
@@ -492,7 +492,7 @@ var RemoteProcessorLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Exposed:        true,
 		Name:           "output",
 		ReadOnly:       true,
-		SubType:        "elemental_identitifable",
+		SubType:        "_elemental_identifiable",
 		Type:           "external",
 	},
 	"requestid": elemental.AttributeSpecification{

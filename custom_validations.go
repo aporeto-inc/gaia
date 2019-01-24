@@ -189,7 +189,7 @@ func ValidateServiceEntity(service *Service) error {
 
 	allSubnets := []*net.IPNet{}
 	for i, ip := range service.IPs {
-		ipNet, err := ipNetFromString(string(ip))
+		ipNet, err := ipNetFromString(ip)
 		if err != nil {
 			errs = append(errs, err)
 			continue

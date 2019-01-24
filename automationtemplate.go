@@ -6,7 +6,6 @@ import (
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/types"
 )
 
 // AutomationTemplateKindValue represents the possible values for attribute "kind".
@@ -113,7 +112,7 @@ type AutomationTemplate struct {
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Parameters contains the parameter description of the function.
-	Parameters map[string]types.AutomationTemplateParameter `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
+	Parameters map[string]*AutomationTemplateParameter `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -127,7 +126,7 @@ func NewAutomationTemplate() *AutomationTemplate {
 		ModelVersion: 1,
 		Entitlements: map[string][]elemental.Operation{},
 		Kind:         AutomationTemplateKindCondition,
-		Parameters:   map[string]types.AutomationTemplateParameter{},
+		Parameters:   map[string]*AutomationTemplateParameter{},
 	}
 }
 
@@ -312,6 +311,12 @@ func (o *AutomationTemplate) Validate() error {
 		errors = append(errors, err)
 	}
 
+	for _, sub := range o.Parameters {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -386,7 +391,7 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `Entitlements contains the entitlements needed for executing the function.`,
 		Exposed:        true,
 		Name:           "entitlements",
-		SubType:        "automation_entitlements",
+		SubType:        "_automation_entitlements",
 		Type:           "external",
 	},
 	"Function": elemental.AttributeSpecification{
@@ -436,8 +441,8 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `Parameters contains the parameter description of the function.`,
 		Exposed:        true,
 		Name:           "parameters",
-		SubType:        "_automation_template_parameters",
-		Type:           "external",
+		SubType:        "automationtemplateparameter",
+		Type:           "refMap",
 	},
 }
 
@@ -462,7 +467,7 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		Description:    `Entitlements contains the entitlements needed for executing the function.`,
 		Exposed:        true,
 		Name:           "entitlements",
-		SubType:        "automation_entitlements",
+		SubType:        "_automation_entitlements",
 		Type:           "external",
 	},
 	"function": elemental.AttributeSpecification{
@@ -512,8 +517,8 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		Description:    `Parameters contains the parameter description of the function.`,
 		Exposed:        true,
 		Name:           "parameters",
-		SubType:        "_automation_template_parameters",
-		Type:           "external",
+		SubType:        "automationtemplateparameter",
+		Type:           "refMap",
 	},
 }
 
@@ -601,7 +606,7 @@ type SparseAutomationTemplate struct {
 	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
 
 	// Parameters contains the parameter description of the function.
-	Parameters *map[string]types.AutomationTemplateParameter `json:"parameters,omitempty" bson:"-" mapstructure:"parameters,omitempty"`
+	Parameters *map[string]*AutomationTemplateParameter `json:"parameters,omitempty" bson:"-" mapstructure:"parameters,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

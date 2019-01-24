@@ -19,11 +19,12 @@ var (
 		"authority":              AuthorityIdentity,
 		"automation":             AutomationIdentity,
 		"automationtemplate":     AutomationTemplateIdentity,
-		"awsaccount":             AWSAccountIdentity,
-		"awsapigateway":          AWSAPIGatewayIdentity,
-		"awsregister":            AWSRegisterIdentity,
-		"category":               CategoryIdentity,
-		"certificate":            CertificateIdentity,
+
+		"awsaccount":    AWSAccountIdentity,
+		"awsapigateway": AWSAPIGatewayIdentity,
+		"awsregister":   AWSRegisterIdentity,
+		"category":      CategoryIdentity,
+		"certificate":   CertificateIdentity,
 
 		"customer":      CustomerIdentity,
 		"dependencymap": DependencyMapIdentity,
@@ -79,7 +80,6 @@ var (
 		"remoteprocessor":   RemoteProcessorIdentity,
 		"renderedpolicy":    RenderedPolicyIdentity,
 		"report":            ReportIdentity,
-		"restapispec":       RESTAPISpecIdentity,
 		"revocation":        RevocationIdentity,
 		"role":              RoleIdentity,
 		"root":              RootIdentity,
@@ -93,8 +93,9 @@ var (
 		"tag":               TagIdentity,
 		"taginject":         TagInjectIdentity,
 		"tagvalue":          TagValueIdentity,
-		"token":             TokenIdentity,
-		"tokenscopepolicy":  TokenScopePolicyIdentity,
+
+		"token":            TokenIdentity,
+		"tokenscopepolicy": TokenScopePolicyIdentity,
 
 		"trigger":              TriggerIdentity,
 		"vulnerability":        VulnerabilityIdentity,
@@ -118,11 +119,12 @@ var (
 		"authorities":              AuthorityIdentity,
 		"automations":              AutomationIdentity,
 		"automationtemplates":      AutomationTemplateIdentity,
-		"awsaccounts":              AWSAccountIdentity,
-		"awsapigateways":           AWSAPIGatewayIdentity,
-		"awsregister":              AWSRegisterIdentity,
-		"categories":               CategoryIdentity,
-		"certificates":             CertificateIdentity,
+
+		"awsaccounts":    AWSAccountIdentity,
+		"awsapigateways": AWSAPIGatewayIdentity,
+		"awsregister":    AWSRegisterIdentity,
+		"categories":     CategoryIdentity,
+		"certificates":   CertificateIdentity,
 
 		"customers":      CustomerIdentity,
 		"dependencymaps": DependencyMapIdentity,
@@ -178,7 +180,6 @@ var (
 		"remoteprocessors":    RemoteProcessorIdentity,
 		"renderedpolicies":    RenderedPolicyIdentity,
 		"reports":             ReportIdentity,
-		"restapispecs":        RESTAPISpecIdentity,
 		"revocations":         RevocationIdentity,
 		"roles":               RoleIdentity,
 		"root":                RootIdentity,
@@ -192,8 +193,9 @@ var (
 		"tags":                TagIdentity,
 		"taginjects":          TagInjectIdentity,
 		"tagvalues":           TagValueIdentity,
-		"tokens":              TokenIdentity,
-		"tokenscopepolicies":  TokenScopePolicyIdentity,
+
+		"tokens":             TokenIdentity,
+		"tokenscopepolicies": TokenScopePolicyIdentity,
 
 		"triggers":              TriggerIdentity,
 		"vulnerabilities":       VulnerabilityIdentity,
@@ -455,13 +457,6 @@ var (
 		"remoteprocessor":      nil,
 		"renderedpolicy":       nil,
 		"report":               nil,
-		"restapispec": [][]string{
-			[]string{":shard", "zone", "zHash"},
-			[]string{"namespace"},
-			[]string{"namespace", "name"},
-			[]string{"namespace", "archived"},
-			[]string{"namespace", "normalizedTags"},
-		},
 		"revocation": [][]string{
 			[]string{":shard", "$hashed:serialNumber"},
 			[]string{":unique", "serialNumber"},
@@ -678,8 +673,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewRenderedPolicy()
 	case ReportIdentity:
 		return NewReport()
-	case RESTAPISpecIdentity:
-		return NewRESTAPISpec()
 	case RevocationIdentity:
 		return NewRevocation()
 	case RoleIdentity:
@@ -867,8 +860,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseRenderedPolicy()
 	case ReportIdentity:
 		return NewSparseReport()
-	case RESTAPISpecIdentity:
-		return NewSparseRESTAPISpec()
 	case RevocationIdentity:
 		return NewSparseRevocation()
 	case RoleIdentity:
@@ -1064,8 +1055,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &RenderedPoliciesList{}
 	case ReportIdentity:
 		return &ReportsList{}
-	case RESTAPISpecIdentity:
-		return &RESTAPISpecsList{}
 	case RevocationIdentity:
 		return &RevocationsList{}
 	case RoleIdentity:
@@ -1251,8 +1240,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseRenderedPoliciesList{}
 	case ReportIdentity:
 		return &SparseReportsList{}
-	case RESTAPISpecIdentity:
-		return &SparseRESTAPISpecsList{}
 	case RevocationIdentity:
 		return &SparseRevocationsList{}
 	case RoleIdentity:
@@ -1383,7 +1370,6 @@ func AllIdentities() []elemental.Identity {
 		RemoteProcessorIdentity,
 		RenderedPolicyIdentity,
 		ReportIdentity,
-		RESTAPISpecIdentity,
 		RevocationIdentity,
 		RoleIdentity,
 		RootIdentity,
@@ -1631,8 +1617,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"rpols",
 		}
 	case ReportIdentity:
-		return []string{}
-	case RESTAPISpecIdentity:
 		return []string{}
 	case RevocationIdentity:
 		return []string{}
