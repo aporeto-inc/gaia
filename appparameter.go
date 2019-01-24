@@ -49,31 +49,31 @@ const (
 // AppParameter represents the model of a appparameter
 type AppParameter struct {
 	// Defines if the parameter is an advanced one.
-	Advanced bool `json:"advanced" bson:"-" mapstructure:"advanced,omitempty"`
+	Advanced bool `json:"advanced" bson:"advanced" mapstructure:"advanced,omitempty"`
 
 	// List of values that can be used.
 	AllowedValues []interface{} `json:"allowedValues" bson:"allowedvalues" mapstructure:"allowedValues,omitempty"`
 
 	// Default value of the parameter.
-	DefaultValue interface{} `json:"defaultValue" bson:"-" mapstructure:"defaultValue,omitempty"`
+	DefaultValue interface{} `json:"defaultValue" bson:"defaultvalue" mapstructure:"defaultValue,omitempty"`
 
 	// Description of the paramerter.
-	Description string `json:"description" bson:"-" mapstructure:"description,omitempty"`
+	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Key identifying the parameter.
-	Key string `json:"key" bson:"-" mapstructure:"key,omitempty"`
+	Key string `json:"key" bson:"key" mapstructure:"key,omitempty"`
 
 	// Long explanation of the parameter.
-	LongDescription string `json:"longDescription" bson:"-" mapstructure:"longDescription,omitempty"`
+	LongDescription string `json:"longDescription" bson:"longdescription" mapstructure:"longDescription,omitempty"`
 
 	// Name of the paramerter.
-	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
+	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Defines if the parameter is optional.
-	Optional bool `json:"optional" bson:"-" mapstructure:"optional,omitempty"`
+	Optional bool `json:"optional" bson:"optional" mapstructure:"optional,omitempty"`
 
 	// The type of the parameter.
-	Type AppParameterTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`
+	Type AppParameterTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	// Value of the parameter.
 	Value interface{} `json:"value" bson:"-" mapstructure:"value,omitempty"`
