@@ -34,67 +34,7 @@ _cap_map:
     init: types.CapabilitiesTypeMap{}
     import: go.aporeto.io/gaia/types
 
-claims:
-  elemental:
-    type: '*claims.MidgardClaims'
-    init: claims.NewMidgardClaims()
-    import: go.aporeto.io/midgard-lib/claims
-
-collected_info:
-  elemental:
-    type: map[string]string
-
-cron_expression:
-  elemental:
-    type: string
-
-datapoints_list:
-  elemental:
-    type: '[]map[string]interface{}'
-    init: '[]map[string]interface{}{}'
-
-deprecated_network_entities:
-  elemental:
-    type: ExternalServicesList
-    init: ExternalServicesList{}
-
-elemental_identitifable:
-  elemental:
-    type: elemental.Identifiable
-
-elemental_operation:
-  elemental:
-    type: elemental.Operation
-
-enforcer_claims:
-  elemental:
-    type: map[string]string
-    init: map[string]string{} 
-
-enforcerprofiles_list:
-  elemental:
-    type: EnforcerProfilesList
-    init: EnforcerProfilesList{}
-
-excluded_interfaces_list:
-  elemental:
-    type: '[]string'
-
-excluded_networks_list:
-  elemental:
-    type: '[]string'
-
-exported_data:
-  elemental:
-    type: '*Export'
-    init: NewExport()
-
-exported_data_content:
-  elemental:
-    type: map[string][]map[string]interface{}
-    init: map[string][]map[string]interface{}{}
-
-exposed_api_list:
+_exposed_api_list:
   elemental:
     type: types.ExposedAPIList
     init: types.ExposedAPIList{}

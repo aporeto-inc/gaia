@@ -237,12 +237,13 @@ func NewProcessingUnit() *ProcessingUnit {
 		ModelVersion:      1,
 		Annotations:       map[string][]string{},
 		AssociatedTags:    []string{},
+		CollectedInfo:     map[string]string{},
 		EnforcementStatus: ProcessingUnitEnforcementStatusInactive,
 		NormalizedTags:    []string{},
 		OperationalStatus: ProcessingUnitOperationalStatusInitialized,
 		NetworkServices:   []*ProcessingUnitService{},
 		Metadata:          []string{},
-		Tracing:           TraceMode{},
+		Tracing:           TraceMode(),
 	}
 }
 
@@ -862,7 +863,7 @@ PU.`,
 		Exposed:        true,
 		Name:           "collectedInfo",
 		Stored:         true,
-		SubType:        "collected_info",
+		SubType:        "map_of_string_of_strings",
 		Type:           "external",
 	},
 	"CreateTime": elemental.AttributeSpecification{
@@ -1192,7 +1193,7 @@ PU.`,
 		Exposed:        true,
 		Name:           "collectedInfo",
 		Stored:         true,
-		SubType:        "collected_info",
+		SubType:        "map_of_string_of_strings",
 		Type:           "external",
 	},
 	"createtime": elemental.AttributeSpecification{

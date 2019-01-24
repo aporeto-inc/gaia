@@ -476,7 +476,7 @@ var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Claims",
 		Description:    `Claims is the list of claims detected for the packet.`,
 		Name:           "claims",
-		SubType:        "enforcer_claims",
+		SubType:        "map_of_string_of_strings",
 		Type:           "external",
 	},
 	"DestinationIP": elemental.AttributeSpecification{
@@ -628,7 +628,7 @@ var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ConvertedName:  "Claims",
 		Description:    `Claims is the list of claims detected for the packet.`,
 		Name:           "claims",
-		SubType:        "enforcer_claims",
+		SubType:        "map_of_string_of_strings",
 		Type:           "external",
 	},
 	"destinationip": elemental.AttributeSpecification{

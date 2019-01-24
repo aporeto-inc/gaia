@@ -8417,7 +8417,7 @@ AssociatedTags are the list of tags attached to an entity.
 CollectInfo indicates to the enforcer it needs to collect information for this
 PU.
 
-#### `collectedInfo (external:collected_info)`
+#### `collectedInfo (external:map_of_string_of_strings)`
 
 CollectedInfo represents the latest info collected by the enforcer for this PU.
 
