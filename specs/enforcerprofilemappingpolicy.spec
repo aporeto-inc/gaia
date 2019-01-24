@@ -34,6 +34,13 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: migrated
+    description: |-
+      Migrated indicated if the object has been migrated to hostservices and
+      auditprofiles.
+    type: boolean
+    stored: true
+
   - name: object
     description: Object is the list of tags to use to find a enforcer profile.
     type: external

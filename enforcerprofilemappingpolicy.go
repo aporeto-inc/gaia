@@ -110,6 +110,10 @@ type EnforcerProfileMappingPolicy struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
+	// Migrated indicated if the object has been migrated to hostservices and
+	// auditprofiles.
+	Migrated bool `json:"-" bson:"migrated" mapstructure:"-,omitempty"`
+
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -394,6 +398,7 @@ func (o *EnforcerProfileMappingPolicy) ToSparse(fields ...string) elemental.Spar
 			Disabled:       &o.Disabled,
 			Fallback:       &o.Fallback,
 			Metadata:       &o.Metadata,
+			Migrated:       &o.Migrated,
 			Name:           &o.Name,
 			Namespace:      &o.Namespace,
 			NormalizedTags: &o.NormalizedTags,
@@ -426,6 +431,8 @@ func (o *EnforcerProfileMappingPolicy) ToSparse(fields ...string) elemental.Spar
 			sp.Fallback = &(o.Fallback)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
+		case "migrated":
+			sp.Migrated = &(o.Migrated)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -482,6 +489,9 @@ func (o *EnforcerProfileMappingPolicy) Patch(sparse elemental.SparseIdentifiable
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
+	}
+	if so.Migrated != nil {
+		o.Migrated = *so.Migrated
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -607,6 +617,8 @@ func (o *EnforcerProfileMappingPolicy) ValueForAttribute(name string) interface{
 		return o.Fallback
 	case "metadata":
 		return o.Metadata
+	case "migrated":
+		return o.Migrated
 	case "name":
 		return o.Name
 	case "namespace":
@@ -738,6 +750,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:     true,
 		SubType:    "string",
 		Type:       "list",
+	},
+	"Migrated": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Migrated",
+		Description: `Migrated indicated if the object has been migrated to hostservices and
+auditprofiles.`,
+		Name:   "migrated",
+		Stored: true,
+		Type:   "boolean",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -979,6 +1000,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
+	"migrated": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Migrated",
+		Description: `Migrated indicated if the object has been migrated to hostservices and
+auditprofiles.`,
+		Name:   "migrated",
+		Stored: true,
+		Type:   "boolean",
+	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -1204,6 +1234,10 @@ type SparseEnforcerProfileMappingPolicy struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
 
+	// Migrated indicated if the object has been migrated to hostservices and
+	// auditprofiles.
+	Migrated *bool `json:"-,omitempty" bson:"migrated" mapstructure:"-,omitempty"`
+
 	// Name is the name of the entity.
 	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
 
@@ -1300,6 +1334,9 @@ func (o *SparseEnforcerProfileMappingPolicy) ToPlain() elemental.PlainIdentifiab
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
+	}
+	if o.Migrated != nil {
+		out.Migrated = *o.Migrated
 	}
 	if o.Name != nil {
 		out.Name = *o.Name
