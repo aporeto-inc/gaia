@@ -2,8 +2,6 @@ package gaia
 
 import (
 	"testing"
-
-	"go.aporeto.io/gaia/types"
 )
 
 func TestValidatePortString(t *testing.T) {
@@ -850,7 +848,7 @@ func TestValidateServiceEntity(t *testing.T) {
 			"service with bad IPs",
 			args{
 				&Service{
-					IPs:               types.IPList{"1234.2.3.3"},
+					IPs:               []string{"1234.2.3.3"},
 					AuthorizationType: ServiceAuthorizationTypeMTLS,
 					TLSType:           ServiceTLSTypeNone,
 				},
@@ -861,7 +859,7 @@ func TestValidateServiceEntity(t *testing.T) {
 			"service with bad subnets",
 			args{
 				&Service{
-					IPs:               types.IPList{"10.1.1.0/48"},
+					IPs:               []string{"10.1.1.0/48"},
 					AuthorizationType: ServiceAuthorizationTypeMTLS,
 					TLSType:           ServiceTLSTypeNone,
 				},
@@ -872,7 +870,7 @@ func TestValidateServiceEntity(t *testing.T) {
 			"service with overlapping subnets",
 			args{
 				&Service{
-					IPs:               types.IPList{"10.1.0.0/24", "10.1.0.0/16"},
+					IPs:               []string{"10.1.0.0/24", "10.1.0.0/16"},
 					AuthorizationType: ServiceAuthorizationTypeMTLS,
 					TLSType:           ServiceTLSTypeNone,
 				},
