@@ -17,7 +17,7 @@ model:
   indexes:
   - - :shard
     - zone
-    - zhash
+    - zHash
   - - namespace
   - - namespace
     - name
@@ -62,7 +62,6 @@ attributes:
     exposed: true
     subtype: string
     stored: true
-    required: true
     default_value:
     - 1:65535
     validations:
@@ -74,7 +73,6 @@ attributes:
     exposed: true
     subtype: string
     stored: true
-    required: true
     default_value:
     - tcp
     validations:

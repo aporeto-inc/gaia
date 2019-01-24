@@ -293,7 +293,7 @@ var IPInfoAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "records",
 		ReadOnly:       true,
-		SubType:        "whois_info",
+		SubType:        "map_of_string_of_strings",
 		Type:           "external",
 	},
 }
@@ -328,7 +328,7 @@ var IPInfoLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "records",
 		ReadOnly:       true,
-		SubType:        "whois_info",
+		SubType:        "map_of_string_of_strings",
 		Type:           "external",
 	},
 }

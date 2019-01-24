@@ -20,7 +20,7 @@ attributes:
     description: AllowedScopes authorized to access the API.
     type: external
     exposed: true
-    subtype: policies_list
+    subtype: list_of_lists_of_strings
     stored: true
     orderable: true
 

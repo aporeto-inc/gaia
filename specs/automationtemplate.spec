@@ -45,4 +45,4 @@ attributes:
     description: Parameters contains the parameter description of the function.
     type: external
     exposed: true
-    subtype: automation_template_parameters
+    subtype: _automation_template_parameters

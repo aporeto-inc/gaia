@@ -16,8 +16,8 @@ attributes:
   v1:
   - name: networkAccessPolicies
     description: List of suggested network access policies.
-    type: external
+    type: refList
     exposed: true
-    subtype: network_access_policies_list
+    subtype: networkaccesspolicy
     stored: true
     orderable: true

@@ -12,7 +12,7 @@ model:
   indexes:
   - - :shard
     - zone
-    - zhash
+    - zHash
   - - namespace
   - - namespace
     - name
@@ -45,5 +45,5 @@ attributes:
     description: Rules is the list of audit policy rules associated with this policy.
     type: external
     exposed: true
-    subtype: audit_profile_rule_list
+    subtype: _audit_profile_rule_list
     stored: true

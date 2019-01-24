@@ -22,7 +22,7 @@ attributes:
       on the realm.
     type: external
     exposed: true
-    subtype: metadata
+    subtype: map_of_string_of_objects
     orderable: true
 
   - name: quota

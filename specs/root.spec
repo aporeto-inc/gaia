@@ -292,6 +292,7 @@ relations:
     description: Retrieves the list of file path.
     global_parameters:
     - $filtering
+    - $archivable
   create:
     description: Create a new file path.
 

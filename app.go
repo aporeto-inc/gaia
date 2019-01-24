@@ -499,7 +499,7 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
-		SubType:        "app_parameters",
+		SubType:        "_app_parameters",
 		Type:           "external",
 	},
 	"Title": elemental.AttributeSpecification{
@@ -619,7 +619,7 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
-		SubType:        "app_parameters",
+		SubType:        "_app_parameters",
 		Type:           "external",
 	},
 	"title": elemental.AttributeSpecification{

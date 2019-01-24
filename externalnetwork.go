@@ -534,16 +534,8 @@ func (o *ExternalNetwork) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("ports", o.Ports); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if err := ValidatePortStringList("ports", o.Ports); err != nil {
 		errors = append(errors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("protocols", o.Protocols); err != nil {
-		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := ValidateProtocolList("protocols", o.Protocols); err != nil {
@@ -649,7 +641,7 @@ var ExternalNetworkAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"Archived": elemental.AttributeSpecification{
@@ -671,8 +663,8 @@ var ExternalNetworkAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -723,8 +715,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -770,9 +762,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"Ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -783,7 +775,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description: `List of single ports or range (xx:yy).`,
 		Exposed:     true,
 		Name:        "ports",
-		Required:    true,
 		Stored:      true,
 		SubType:     "string",
 		Type:        "list",
@@ -808,7 +799,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description: `List of protocols (tcp, udp, or protocol number).`,
 		Exposed:     true,
 		Name:        "protocols",
-		Required:    true,
 		Stored:      true,
 		SubType:     "string",
 		Type:        "list",
@@ -881,7 +871,7 @@ var ExternalNetworkLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"archived": elemental.AttributeSpecification{
@@ -903,8 +893,8 @@ var ExternalNetworkLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -955,8 +945,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1002,9 +992,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"ports": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1015,7 +1005,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description: `List of single ports or range (xx:yy).`,
 		Exposed:     true,
 		Name:        "ports",
-		Required:    true,
 		Stored:      true,
 		SubType:     "string",
 		Type:        "list",
@@ -1040,7 +1029,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description: `List of protocols (tcp, udp, or protocol number).`,
 		Exposed:     true,
 		Name:        "protocols",
-		Required:    true,
 		Stored:      true,
 		SubType:     "string",
 		Type:        "list",

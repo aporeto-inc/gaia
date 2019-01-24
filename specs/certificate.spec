@@ -9,8 +9,6 @@ model:
   - - commonName
   - - :unique
     - parentID
-    - accountID
-  - - parentID
     - commonName
   get:
     description: Retrieves the object with the given ID.

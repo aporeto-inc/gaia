@@ -225,8 +225,8 @@ func (o *Import) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredExternal("data", o.Data); err != nil {
-		requiredErrors = append(requiredErrors, err)
+	if err := o.Data.Validate(); err != nil {
+		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateStringInList("mode", string(o.Mode), []string{"ReplacePartial", "Import", "Remove"}, false); err != nil {
@@ -285,8 +285,8 @@ var ImportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "data",
 		Required:       true,
-		SubType:        "exported_data",
-		Type:           "external",
+		SubType:        "export",
+		Type:           "ref",
 	},
 	"Mode": elemental.AttributeSpecification{
 		AllowedChoices: []string{"ReplacePartial", "Import", "Remove"},
@@ -309,8 +309,8 @@ var ImportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "data",
 		Required:       true,
-		SubType:        "exported_data",
-		Type:           "external",
+		SubType:        "export",
+		Type:           "ref",
 	},
 	"mode": elemental.AttributeSpecification{
 		AllowedChoices: []string{"ReplacePartial", "Import", "Remove"},

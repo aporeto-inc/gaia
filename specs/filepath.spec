@@ -15,7 +15,7 @@ model:
   indexes:
   - - :shard
     - zone
-    - zhash
+    - zHash
   - - namespace
   - - namespace
     - name
@@ -24,6 +24,8 @@ model:
   - - archived
   get:
     description: Retrieves the object with the given ID.
+    global_parameters:
+    - $archivable
   update:
     description: Updates the object with the given ID.
   delete:
@@ -37,6 +39,7 @@ model:
   - '@metadatable'
   - '@named'
   - '@zonable'
+  - '@archivable'
 
 # Attributes
 attributes:

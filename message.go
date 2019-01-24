@@ -617,7 +617,7 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
@@ -629,8 +629,8 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -734,9 +734,9 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"NotifyByEmail": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -838,7 +838,7 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"associatedtags": elemental.AttributeSpecification{
@@ -850,8 +850,8 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -955,9 +955,9 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"notifybyemail": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

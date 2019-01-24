@@ -51,7 +51,7 @@ attributes:
       matches. Only applies to Enforce and LogCompliance actions.
     type: external
     exposed: true
-    subtype: policies_list
+    subtype: list_of_lists_of_strings
     stored: true
 
   - name: subject
@@ -60,5 +60,5 @@ attributes:
       this policy applies.
     type: external
     exposed: true
-    subtype: policies_list
+    subtype: list_of_lists_of_strings
     stored: true

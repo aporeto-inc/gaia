@@ -62,9 +62,9 @@ attributes:
     description: |-
       Extensions is a list of extensions that can be added as SAN extensions to the
       certificate.
-    type: external
+    type: list
     exposed: true
-    subtype: extensions_list
+    subtype: string
     creation_only: true
 
   - name: signer

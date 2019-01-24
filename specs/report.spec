@@ -13,7 +13,7 @@ attributes:
     description: TSDB Fields to set for the report.
     type: external
     exposed: true
-    subtype: tsdb_fields
+    subtype: map_of_string_of_objects
 
   - name: kind
     description: Kind contains the kind of report.
@@ -32,7 +32,7 @@ attributes:
     description: Tags contains the tags associated to the data point.
     type: external
     exposed: true
-    subtype: tags_map
+    subtype: map_of_string_of_strings
 
   - name: timestamp
     description: Timestamp contains the time for the report.

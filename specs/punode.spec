@@ -49,7 +49,7 @@ attributes:
     description: Tags of the pu.
     type: external
     exposed: true
-    subtype: tags_map
+    subtype: map_of_string_of_strings
 
   - name: type
     description: Type of the pu.

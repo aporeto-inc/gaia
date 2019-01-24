@@ -11,11 +11,13 @@ attributes:
   v1:
   - name: data
     description: The data to import.
-    type: external
+    type: ref
     exposed: true
-    subtype: exported_data
+    subtype: export
     required: true
     example_value: previous output of export
+    extensions:
+      refMode: pointer
 
   - name: mode
     description: |-
