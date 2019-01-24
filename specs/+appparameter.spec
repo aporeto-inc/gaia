@@ -81,3 +81,4 @@ attributes:
     description: Value of the parameter.
     type: object
     exposed: true
+    stored: true

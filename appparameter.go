@@ -76,7 +76,7 @@ type AppParameter struct {
 	Type AppParameterTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	// Value of the parameter.
-	Value interface{} `json:"value" bson:"-" mapstructure:"value,omitempty"`
+	Value interface{} `json:"value" bson:"value" mapstructure:"value,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
