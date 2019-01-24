@@ -1,17 +1,3 @@
-_app_parameters:
-  elemental:
-    type: '[]*types.AppParameter'
-    init: '[]*types.AppParameter{}'
-    import: go.aporeto.io/gaia/types
-  jsonschema:
-    type: |-
-      {
-        "type": "array",
-        "items": {
-          "$ref": "app-types.json#/appparameter"
-        }
-      }
-
 _arch_list:
   elemental:
     type: types.ArchitecturesTypeList

@@ -6,7 +6,6 @@ import (
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/types"
 )
 
 // InstalledAppStatusValue represents the possible values for attribute "status".
@@ -120,7 +119,7 @@ type InstalledApp struct {
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// Parameters is a list of parameters to start the app.
-	Parameters []*types.AppParameter `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
+	Parameters []*AppParameter `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// Status of the app.
 	Status InstalledAppStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
@@ -135,7 +134,7 @@ func NewInstalledApp() *InstalledApp {
 
 	return &InstalledApp{
 		ModelVersion: 1,
-		Parameters:   []*types.AppParameter{},
+		Parameters:   []*AppParameter{},
 		Status:       InstalledAppStatusPending,
 	}
 }
@@ -298,6 +297,12 @@ func (o *InstalledApp) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	for _, sub := range o.Parameters {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
 	if err := elemental.ValidateStringInList("status", string(o.Status), []string{"Error", "Pending", "Running"}, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -452,8 +457,8 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
-		SubType:        "_app_parameters",
-		Type:           "external",
+		SubType:        "appparameter",
+		Type:           "refList",
 	},
 	"Status": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Error", "Pending", "Running"},
@@ -560,8 +565,8 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
-		SubType:        "_app_parameters",
-		Type:           "external",
+		SubType:        "appparameter",
+		Type:           "refList",
 	},
 	"status": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Error", "Pending", "Running"},
@@ -665,7 +670,7 @@ type SparseInstalledApp struct {
 	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// Parameters is a list of parameters to start the app.
-	Parameters *[]*types.AppParameter `json:"parameters,omitempty" bson:"parameters" mapstructure:"parameters,omitempty"`
+	Parameters *[]*AppParameter `json:"parameters,omitempty" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// Status of the app.
 	Status *InstalledAppStatusValue `json:"status,omitempty" bson:"status" mapstructure:"status,omitempty"`

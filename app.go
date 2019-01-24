@@ -6,7 +6,6 @@ import (
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/types"
 )
 
 // AppIdentity represents the Identity of the object.
@@ -105,7 +104,7 @@ type App struct {
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Parameters is a list of parameters available for the app.
-	Parameters []*types.AppParameter `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
+	Parameters []*AppParameter `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// Title represents the title of the app.
 	Title string `json:"title" bson:"-" mapstructure:"title,omitempty"`
@@ -128,7 +127,7 @@ func NewApp() *App {
 
 	return &App{
 		ModelVersion: 1,
-		Parameters:   []*types.AppParameter{},
+		Parameters:   []*AppParameter{},
 	}
 }
 
@@ -357,6 +356,12 @@ func (o *App) Validate() error {
 		errors = append(errors, err)
 	}
 
+	for _, sub := range o.Parameters {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -499,8 +504,8 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
-		SubType:        "_app_parameters",
-		Type:           "external",
+		SubType:        "appparameter",
+		Type:           "refList",
 	},
 	"Title": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -619,8 +624,8 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
-		SubType:        "_app_parameters",
-		Type:           "external",
+		SubType:        "appparameter",
+		Type:           "refList",
 	},
 	"title": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -745,7 +750,7 @@ type SparseApp struct {
 	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
 
 	// Parameters is a list of parameters available for the app.
-	Parameters *[]*types.AppParameter `json:"parameters,omitempty" bson:"parameters" mapstructure:"parameters,omitempty"`
+	Parameters *[]*AppParameter `json:"parameters,omitempty" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// Title represents the title of the app.
 	Title *string `json:"title,omitempty" bson:"-" mapstructure:"title,omitempty"`

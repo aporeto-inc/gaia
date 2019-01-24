@@ -43,10 +43,12 @@ attributes:
 
   - name: parameters
     description: Parameters is a list of parameters available for the app.
-    type: external
+    type: refList
     exposed: true
-    subtype: _app_parameters
+    subtype: appparameter
     stored: true
+    extensions:
+      refMode: pointer
 
   - name: title
     description: Title represents the title of the app.

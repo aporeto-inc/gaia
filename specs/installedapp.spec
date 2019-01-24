@@ -84,10 +84,12 @@ attributes:
 
   - name: parameters
     description: Parameters is a list of parameters to start the app.
-    type: external
+    type: refList
     exposed: true
-    subtype: _app_parameters
+    subtype: appparameter
     stored: true
+    extensions:
+      refMode: pointer
 
   - name: status
     description: Status of the app.
