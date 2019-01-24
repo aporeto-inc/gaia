@@ -209,7 +209,7 @@ type ProcessingUnit struct {
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Tracing indicates if this PU must be placed in tracing mode.
-	Tracing TraceMode `json:"tracing" bson:"tracing" mapstructure:"tracing,omitempty"`
+	Tracing *TraceMode `json:"tracing" bson:"tracing" mapstructure:"tracing,omitempty"`
 
 	// Type of the container ecosystem.
 	Type ProcessingUnitTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
@@ -243,7 +243,7 @@ func NewProcessingUnit() *ProcessingUnit {
 		OperationalStatus: ProcessingUnitOperationalStatusInitialized,
 		NetworkServices:   []*ProcessingUnitService{},
 		Metadata:          []string{},
-		Tracing:           TraceMode(),
+		Tracing:           NewTraceMode(),
 	}
 }
 
@@ -1592,7 +1592,7 @@ type SparseProcessingUnit struct {
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Tracing indicates if this PU must be placed in tracing mode.
-	Tracing *TraceMode `json:"tracing,omitempty" bson:"tracing" mapstructure:"tracing,omitempty"`
+	Tracing **TraceMode `json:"tracing,omitempty" bson:"tracing" mapstructure:"tracing,omitempty"`
 
 	// Type of the container ecosystem.
 	Type *ProcessingUnitTypeValue `json:"type,omitempty" bson:"type" mapstructure:"type,omitempty"`

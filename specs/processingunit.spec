@@ -158,6 +158,8 @@ attributes:
     exposed: true
     subtype: tracemode
     stored: true
+    extensions:
+      refMode: pointer
 
   - name: type
     description: Type of the container ecosystem.
