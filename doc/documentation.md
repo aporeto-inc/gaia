@@ -7804,6 +7804,7 @@ Namespace of the PU reporting the packet.
 
 | Characteristics | Value  |
 | -               | -:     |
+| Required        | `true` |
 | Filterable      | `true` |
 
 #### `protocol (integer)`
@@ -10126,10 +10127,10 @@ Limits the number of results. -1 means no limit.
 
 Name of the measurement.
 
-| Characteristics | Value                                       |
-| -               | -:                                          |
-| Allowed Value   | `Flows, Audit, Enforcers, Files, EventLogs` |
-| Default         | `"Flows"`                                   |
+| Characteristics | Value                                                                |
+| -               | -:                                                                   |
+| Allowed Value   | `Flows, Audit, Enforcers, Files, EventLogs, Packets, EnforcerTraces` |
+| Default         | `"Flows"`                                                            |
 
 #### `offset (integer)`
 

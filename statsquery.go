@@ -15,6 +15,9 @@ const (
 	// StatsQueryMeasurementAudit represents the value Audit.
 	StatsQueryMeasurementAudit StatsQueryMeasurementValue = "Audit"
 
+	// StatsQueryMeasurementEnforcerTraces represents the value EnforcerTraces.
+	StatsQueryMeasurementEnforcerTraces StatsQueryMeasurementValue = "EnforcerTraces"
+
 	// StatsQueryMeasurementEnforcers represents the value Enforcers.
 	StatsQueryMeasurementEnforcers StatsQueryMeasurementValue = "Enforcers"
 
@@ -26,6 +29,9 @@ const (
 
 	// StatsQueryMeasurementFlows represents the value Flows.
 	StatsQueryMeasurementFlows StatsQueryMeasurementValue = "Flows"
+
+	// StatsQueryMeasurementPackets represents the value Packets.
+	StatsQueryMeasurementPackets StatsQueryMeasurementValue = "Packets"
 )
 
 // StatsQueryIdentity represents the Identity of the object.
@@ -292,7 +298,7 @@ func (o *StatsQuery) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs"}, false); err != nil {
+	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -405,7 +411,7 @@ group the results.`,
 		Type:           "integer",
 	},
 	"Measurement": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces"},
 		ConvertedName:  "Measurement",
 		DefaultValue:   StatsQueryMeasurementFlows,
 		Description:    `Name of the measurement.`,
@@ -483,7 +489,7 @@ group the results.`,
 		Type:           "integer",
 	},
 	"measurement": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces"},
 		ConvertedName:  "Measurement",
 		DefaultValue:   StatsQueryMeasurementFlows,
 		Description:    `Name of the measurement.`,

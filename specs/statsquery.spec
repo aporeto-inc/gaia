@@ -57,6 +57,8 @@ attributes:
     - Enforcers
     - Files
     - EventLogs
+    - Packets
+    - EnforcerTraces
     default_value: Flows
 
   - name: offset

@@ -69,6 +69,7 @@ attributes:
     description: Namespace of the PU reporting the packet.
     type: string
     exposed: true
+    required: true
     example_value: /my/namespace
     filterable: true
 

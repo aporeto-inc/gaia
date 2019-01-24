@@ -369,6 +369,10 @@ func (o *PacketReport) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	if err := elemental.ValidateRequiredInt("protocol", o.Protocol); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -545,6 +549,7 @@ for the drop.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "namespace",
+		Required:       true,
 		Type:           "string",
 	},
 	"PacketID": elemental.AttributeSpecification{
@@ -697,6 +702,7 @@ for the drop.`,
 		Exposed:        true,
 		Filterable:     true,
 		Name:           "namespace",
+		Required:       true,
 		Type:           "string",
 	},
 	"packetid": elemental.AttributeSpecification{
