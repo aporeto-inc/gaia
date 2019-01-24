@@ -122,17 +122,16 @@ attributes:
     creation_only: true
     allowed_choices:
     - APIAuthorization
+    - AuditProfileMapping
     - EnforcerProfile
     - File
     - Hook
+    - HostServiceMapping
     - NamespaceMapping
     - Network
     - ProcessingUnit
     - Quota
     - Service
+    - ServiceDependency
     - Syscall
     - TokenScope
-    - ServiceDependency
-    - AuditProfileMapping
-    - HostServiceMapping
-    primary_key: true

@@ -8,8 +8,8 @@ model:
     Defines a host service mapping policy that provides the relation between
     enforcers and host services that they must implement.
   aliases:
-  - hostsrvplc
-  - hostsrvplcs
+  - hostsrvmappol
+  - hostsrvmappols
   get:
     description: Retrieves the object with the given ID.
   update:

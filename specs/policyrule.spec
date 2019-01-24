@@ -25,9 +25,9 @@ attributes:
 
   - name: auditProfiles
     description: AuditProfiles provides the audit profiles that must be applied.
-    type: external
+    type: refList
     exposed: true
-    subtype: auditprofiles_list
+    subtype: auditprofile
 
   - name: enforcerProfiles
     description: EnforcerProfiles provides the information about the server profile.
@@ -56,9 +56,9 @@ attributes:
 
   - name: hostServices
     description: HostServices provides the list of host services that must be instantiated.
-    type: external
+    type: refList
     exposed: true
-    subtype: hostservices_list
+    subtype: hostservice
 
   - name: isolationProfiles
     description: IsolationProfiles are the isolation profiles of the rule.

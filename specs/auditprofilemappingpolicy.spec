@@ -40,7 +40,6 @@ attributes:
     type: external
     exposed: true
     subtype: policies_list
-    orderable: true
 
   - name: subject
     description: |-
@@ -49,7 +48,6 @@ attributes:
     type: external
     exposed: true
     subtype: policies_list
-    orderable: true
 
 # Relations
 relations:

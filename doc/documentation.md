@@ -1707,10 +1707,6 @@ NormalizedTags contains the list of normalized tags of the entities.
 Object of the policy is the selector of the audit profiles that must be applied
 based on this policy.
 
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-
 #### `propagate (boolean)`
 
 Propagate will propagate the policy to all of its children.
@@ -1731,10 +1727,6 @@ Protected defines if the object is protected.
 
 Subject of the policy is a selector of the enforcers that must implement the
 policy.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
 
 #### `updateTime (time)`
 
@@ -8614,7 +8606,7 @@ Type of the policy.
 
 | Characteristics | Value                                                                                                                                                                                       |
 | -               | -:                                                                                                                                                                                          |
-| Allowed Value   | `APIAuthorization, EnforcerProfile, File, Hook, NamespaceMapping, Network, ProcessingUnit, Quota, Service, Syscall, TokenScope, ServiceDependency, AuditProfileMapping, HostServiceMapping` |
+| Allowed Value   | `APIAuthorization, AuditProfileMapping, EnforcerProfile, File, Hook, HostServiceMapping, NamespaceMapping, Network, ProcessingUnit, Quota, Service, ServiceDependency, Syscall, TokenScope` |
 | Creation only   | `true`                                                                                                                                                                                      |
 
 #### `updateTime (time)`
@@ -8689,7 +8681,7 @@ ID is the identifier of the object.
 
 Action defines set of actions that must be enforced when a dependency is met.
 
-#### `auditProfiles (external:auditprofiles_list)`
+#### `auditProfiles (refList)`
 
 AuditProfiles provides the audit profiles that must be applied.
 
@@ -8711,7 +8703,7 @@ Policy target networks.
 
 Policy target file paths.
 
-#### `hostServices (external:hostservices_list)`
+#### `hostServices (refList)`
 
 HostServices provides the list of host services that must be instantiated.
 

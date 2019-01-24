@@ -451,13 +451,13 @@ func ValidateHTTPMethods(attribute string, methods []string) error {
 // ValidateHostServices validates a host service. Applies to the new API only.
 func ValidateHostServices(hs *HostService) error {
 
-	if len(hs.Name) == 0 {
-		return makeValidationError("hostServices", "Host service names must be specified")
-	}
-
 	// Constraint on regex is used because the enforcer is using the name as nativeContextID.
 	if !regHostServiceName.MatchString(hs.Name) {
 		return makeValidationError("hostServices", "Host service name must be less than 12 characters and contains only alphanumeric or _")
+	}
+
+	if !hs.HostModeEnabled && len(hs.Services) == 0 {
+		return makeValidationError("hostServices", "Host service must have either HostModeEnabled or must declare services")
 	}
 
 	if err := ValidateHostServicesNonOverlapPorts(hs.Services); err != nil {

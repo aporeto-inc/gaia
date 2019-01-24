@@ -373,6 +373,18 @@ func (o *PolicyRule) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	for _, sub := range o.AuditProfiles {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	for _, sub := range o.HostServices {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -484,8 +496,8 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `AuditProfiles provides the audit profiles that must be applied.`,
 		Exposed:        true,
 		Name:           "auditProfiles",
-		SubType:        "auditprofiles_list",
-		Type:           "external",
+		SubType:        "auditprofile",
+		Type:           "refList",
 	},
 	"EnforcerProfiles": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -530,8 +542,8 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `HostServices provides the list of host services that must be instantiated.`,
 		Exposed:        true,
 		Name:           "hostServices",
-		SubType:        "hostservices_list",
-		Type:           "external",
+		SubType:        "hostservice",
+		Type:           "refList",
 	},
 	"IsolationProfiles": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -651,8 +663,8 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `AuditProfiles provides the audit profiles that must be applied.`,
 		Exposed:        true,
 		Name:           "auditProfiles",
-		SubType:        "auditprofiles_list",
-		Type:           "external",
+		SubType:        "auditprofile",
+		Type:           "refList",
 	},
 	"enforcerprofiles": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -697,8 +709,8 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `HostServices provides the list of host services that must be instantiated.`,
 		Exposed:        true,
 		Name:           "hostServices",
-		SubType:        "hostservices_list",
-		Type:           "external",
+		SubType:        "hostservice",
+		Type:           "refList",
 	},
 	"isolationprofiles": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
