@@ -252,7 +252,7 @@ var AuthAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "claims",
 		ReadOnly:       true,
-		SubType:        "claims",
+		SubType:        "_claims",
 		Type:           "external",
 	},
 }
@@ -267,7 +267,7 @@ var AuthLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "claims",
 		ReadOnly:       true,
-		SubType:        "claims",
+		SubType:        "_claims",
 		Type:           "external",
 	},
 }

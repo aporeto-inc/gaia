@@ -91,16 +91,6 @@ relations:
   create:
     description: Creates a new HTTP Resource specification.
 
-- rest_name: restapispec
-  get:
-    description: Retrieves the list of REST API specifications.
-    global_parameters:
-    - $filtering
-    - $propagatable
-    - $archivable
-  create:
-    description: Creates a new REST API specification.
-
 - rest_name: service
   get:
     description: Retrieves the list of Services.

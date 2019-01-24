@@ -20,11 +20,12 @@ var (
 		"authority":                 AuthorityIdentity,
 		"automation":                AutomationIdentity,
 		"automationtemplate":        AutomationTemplateIdentity,
-		"awsaccount":                AWSAccountIdentity,
-		"awsapigateway":             AWSAPIGatewayIdentity,
-		"awsregister":               AWSRegisterIdentity,
-		"category":                  CategoryIdentity,
-		"certificate":               CertificateIdentity,
+
+		"awsaccount":    AWSAccountIdentity,
+		"awsapigateway": AWSAPIGatewayIdentity,
+		"awsregister":   AWSRegisterIdentity,
+		"category":      CategoryIdentity,
+		"certificate":   CertificateIdentity,
 
 		"customer":      CustomerIdentity,
 		"dependencymap": DependencyMapIdentity,
@@ -74,26 +75,26 @@ var (
 		"processingunit":           ProcessingUnitIdentity,
 		"processingunitpolicy":     ProcessingUnitPolicyIdentity,
 
-		"punode":               PUNodeIdentity,
-		"quotacheck":           QuotaCheckIdentity,
-		"quotapolicy":          QuotaPolicyIdentity,
-		"remoteprocessor":      RemoteProcessorIdentity,
-		"renderedpolicy":       RenderedPolicyIdentity,
-		"report":               ReportIdentity,
-		"restapispec":          RESTAPISpecIdentity,
-		"revocation":           RevocationIdentity,
-		"role":                 RoleIdentity,
-		"root":                 RootIdentity,
-		"service":              ServiceIdentity,
-		"servicedependency":    ServiceDependencyIdentity,
-		"squalltag":            SquallTagIdentity,
-		"statsinfo":            StatsInfoIdentity,
-		"statsquery":           StatsQueryIdentity,
-		"suggestedpolicy":      SuggestedPolicyIdentity,
-		"tabulation":           TabulationIdentity,
-		"tag":                  TagIdentity,
-		"taginject":            TagInjectIdentity,
-		"tagvalue":             TagValueIdentity,
+		"punode":            PUNodeIdentity,
+		"quotacheck":        QuotaCheckIdentity,
+		"quotapolicy":       QuotaPolicyIdentity,
+		"remoteprocessor":   RemoteProcessorIdentity,
+		"renderedpolicy":    RenderedPolicyIdentity,
+		"report":            ReportIdentity,
+		"revocation":        RevocationIdentity,
+		"role":              RoleIdentity,
+		"root":              RootIdentity,
+		"service":           ServiceIdentity,
+		"servicedependency": ServiceDependencyIdentity,
+		"squalltag":         SquallTagIdentity,
+		"statsinfo":         StatsInfoIdentity,
+		"statsquery":        StatsQueryIdentity,
+		"suggestedpolicy":   SuggestedPolicyIdentity,
+		"tabulation":        TabulationIdentity,
+		"tag":               TagIdentity,
+		"taginject":         TagInjectIdentity,
+		"tagvalue":          TagValueIdentity,
+
 		"token":                TokenIdentity,
 		"tokenscopepolicy":     TokenScopePolicyIdentity,
 		"trigger":              TriggerIdentity,
@@ -119,11 +120,12 @@ var (
 		"authorities":                 AuthorityIdentity,
 		"automations":                 AutomationIdentity,
 		"automationtemplates":         AutomationTemplateIdentity,
-		"awsaccounts":                 AWSAccountIdentity,
-		"awsapigateways":              AWSAPIGatewayIdentity,
-		"awsregister":                 AWSRegisterIdentity,
-		"categories":                  CategoryIdentity,
-		"certificates":                CertificateIdentity,
+
+		"awsaccounts":    AWSAccountIdentity,
+		"awsapigateways": AWSAPIGatewayIdentity,
+		"awsregister":    AWSRegisterIdentity,
+		"categories":     CategoryIdentity,
+		"certificates":   CertificateIdentity,
 
 		"customers":      CustomerIdentity,
 		"dependencymaps": DependencyMapIdentity,
@@ -173,26 +175,26 @@ var (
 		"processingunits":            ProcessingUnitIdentity,
 		"processingunitpolicies":     ProcessingUnitPolicyIdentity,
 
-		"punodes":               PUNodeIdentity,
-		"quotacheck":            QuotaCheckIdentity,
-		"quotapolicies":         QuotaPolicyIdentity,
-		"remoteprocessors":      RemoteProcessorIdentity,
-		"renderedpolicies":      RenderedPolicyIdentity,
-		"reports":               ReportIdentity,
-		"restapispecs":          RESTAPISpecIdentity,
-		"revocations":           RevocationIdentity,
-		"roles":                 RoleIdentity,
-		"root":                  RootIdentity,
-		"services":              ServiceIdentity,
-		"servicedependencies":   ServiceDependencyIdentity,
-		"squalltags":            SquallTagIdentity,
-		"statsinfo":             StatsInfoIdentity,
-		"statsqueries":          StatsQueryIdentity,
-		"suggestedpolicies":     SuggestedPolicyIdentity,
-		"tabulations":           TabulationIdentity,
-		"tags":                  TagIdentity,
-		"taginjects":            TagInjectIdentity,
-		"tagvalues":             TagValueIdentity,
+		"punodes":             PUNodeIdentity,
+		"quotacheck":          QuotaCheckIdentity,
+		"quotapolicies":       QuotaPolicyIdentity,
+		"remoteprocessors":    RemoteProcessorIdentity,
+		"renderedpolicies":    RenderedPolicyIdentity,
+		"reports":             ReportIdentity,
+		"revocations":         RevocationIdentity,
+		"roles":               RoleIdentity,
+		"root":                RootIdentity,
+		"services":            ServiceIdentity,
+		"servicedependencies": ServiceDependencyIdentity,
+		"squalltags":          SquallTagIdentity,
+		"statsinfo":           StatsInfoIdentity,
+		"statsqueries":        StatsQueryIdentity,
+		"suggestedpolicies":   SuggestedPolicyIdentity,
+		"tabulations":         TabulationIdentity,
+		"tags":                TagIdentity,
+		"taginjects":          TagInjectIdentity,
+		"tagvalues":           TagValueIdentity,
+
 		"tokens":                TokenIdentity,
 		"tokenscopepolicies":    TokenScopePolicyIdentity,
 		"triggers":              TriggerIdentity,
@@ -468,13 +470,6 @@ var (
 		"remoteprocessor":      nil,
 		"renderedpolicy":       nil,
 		"report":               nil,
-		"restapispec": [][]string{
-			[]string{":shard", "zone", "zHash"},
-			[]string{"namespace"},
-			[]string{"namespace", "name"},
-			[]string{"namespace", "archived"},
-			[]string{"namespace", "normalizedTags"},
-		},
 		"revocation": [][]string{
 			[]string{":shard", "$hashed:serialNumber"},
 			[]string{":unique", "serialNumber"},
@@ -693,8 +688,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewRenderedPolicy()
 	case ReportIdentity:
 		return NewReport()
-	case RESTAPISpecIdentity:
-		return NewRESTAPISpec()
 	case RevocationIdentity:
 		return NewRevocation()
 	case RoleIdentity:
@@ -884,8 +877,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseRenderedPolicy()
 	case ReportIdentity:
 		return NewSparseReport()
-	case RESTAPISpecIdentity:
-		return NewSparseRESTAPISpec()
 	case RevocationIdentity:
 		return NewSparseRevocation()
 	case RoleIdentity:
@@ -1083,8 +1074,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &RenderedPoliciesList{}
 	case ReportIdentity:
 		return &ReportsList{}
-	case RESTAPISpecIdentity:
-		return &RESTAPISpecsList{}
 	case RevocationIdentity:
 		return &RevocationsList{}
 	case RoleIdentity:
@@ -1272,8 +1261,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseRenderedPoliciesList{}
 	case ReportIdentity:
 		return &SparseReportsList{}
-	case RESTAPISpecIdentity:
-		return &SparseRESTAPISpecsList{}
 	case RevocationIdentity:
 		return &SparseRevocationsList{}
 	case RoleIdentity:
@@ -1405,7 +1392,6 @@ func AllIdentities() []elemental.Identity {
 		RemoteProcessorIdentity,
 		RenderedPolicyIdentity,
 		ReportIdentity,
-		RESTAPISpecIdentity,
 		RevocationIdentity,
 		RoleIdentity,
 		RootIdentity,
@@ -1664,8 +1650,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"rpols",
 		}
 	case ReportIdentity:
-		return []string{}
-	case RESTAPISpecIdentity:
 		return []string{}
 	case RevocationIdentity:
 		return []string{}

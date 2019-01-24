@@ -3,156 +3,107 @@ _app_parameters:
     type: '[]*types.AppParameter'
     init: '[]*types.AppParameter{}'
     import: go.aporeto.io/gaia/types
-
-_app_versionparameters:
-  elemental:
-    type: map[string][]*types.AppParameter
-    init: map[string][]*types.AppParameter{}
-    import: go.aporeto.io/gaia/types
+  jsonschema:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "$ref": "app-types.json#/appparameter"
+        }
+      }
 
 _arch_list:
   elemental:
     type: types.ArchitecturesTypeList
     init: types.ArchitecturesTypeList{}
     import: go.aporeto.io/gaia/types
+  jsonschema:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "$ref": "isolation-profile-types.json#/architecturestype"
+        }
+      }
 
 _audit_profile_rule_list:
   elemental:
     type: types.AuditProfileRuleList
     init: types.AuditProfileRuleList{}
     import: go.aporeto.io/gaia/types
+  jsonschema:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "$ref": "audit-types.json#/auditprofilerule"
+        }
+      }
 
-_automation_template_parameters:
+_automation_entitlements:
   elemental:
-    type: map[string]types.AutomationTemplateParameter
-    init: map[string]types.AutomationTemplateParameter{}
-    import: go.aporeto.io/gaia/types
+    type: map[string][]elemental.Operation
+    init: map[string][]elemental.Operation{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "$ref": "elemental-types.json#/operation"
+          }
+        }
+      }
+
+_automation_events:
+  elemental:
+    type: map[string][]elemental.EventType
+    init: map[string][]elemental.EventType{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+             "$ref": "elemental-types.json#/eventtype"
+          }
+        }
+      }
 
 _cap_map:
   elemental:
     type: types.CapabilitiesTypeMap
     init: types.CapabilitiesTypeMap{}
     import: go.aporeto.io/gaia/types
+  jsonschema:
+    type: |-
+      {
+        "$ref": "isolation-profile-types.json#/capabilitiestypemap"
+      }
 
-_exposed_api_list:
-  elemental:
-    type: types.ExposedAPIList
-    init: types.ExposedAPIList{}
-    import: go.aporeto.io/gaia/types
-
-_ip_list:
-  elemental:
-    type: types.IPList
-    init: types.IPList{}
-    import: go.aporeto.io/gaia/types
-
-_syscall_action:
-  elemental:
-    type: types.SyscallEnforcementAction
-    import: go.aporeto.io/gaia/types
-
-_syscall_rules:
-  elemental:
-    type: types.SyscallEnforcementRulesMap
-    init: types.SyscallEnforcementRulesMap{}
-    import: go.aporeto.io/gaia/types
-
-_time_series_results:
-  elemental:
-    type: '[]*types.TimeSeriesQueryResults'
-    init: '[]*types.TimeSeriesQueryResults{}'
-    import: go.aporeto.io/gaia/types
-
-_vulnerability_level:
-  elemental:
-    type: constants.Vulnerability
-    init: constants.VulnerabilityUnknown
-    import: go.aporeto.io/gaia/constants
-
-automation_entitlements:
-  elemental:
-    type: map[string][]elemental.Operation
-    init: map[string][]elemental.Operation{}
-
-automation_events:
-  elemental:
-    type: map[string][]elemental.EventType
-    init: map[string][]elemental.EventType{}
-
-claims:
+_claims:
   elemental:
     type: '*claims.MidgardClaims'
     init: claims.NewMidgardClaims()
     import: go.aporeto.io/midgard-lib/claims
+  jsonschema:
+    type: |-
+      {
+        "$ref": "midgard-types.json#/midgardclaims"
+      }
 
-elemental_identitifable:
+_elemental_identifiable:
   elemental:
     type: elemental.Identifiable
+  jsonschema:
+    type: |-
+      {
+        "$ref": "elemental-types.json#/identifiable"
+      }
 
-elemental_operation:
-  elemental:
-    type: elemental.Operation
-
-list_of_lists_of_objects:
-  elemental:
-    type: '[][]interface{}'
-    init: '[][]interface{}{}'
-
-list_of_lists_of_strings:
-  elemental:
-    type: '[][]string'
-    init: '[][]string{}'
-
-list_of_maps_of_string_of_strings:
-  elemental:
-    type: '[]map[string]string'
-    init: '[]map[string]string{}'
-
-list_of_times:
-  elemental:
-    type: '[]time.Time'
-    init: '[]time.Time{}'
-
-map_of_string_of_booleans:
-  elemental:
-    type: map[string]bool
-    init: map[string]bool{}
-
-map_of_string_of_integers:
-  elemental:
-    type: map[string]int
-    init: map[string]int{}
-
-map_of_string_of_list_of_strings:
-  elemental:
-    type: map[string][]string
-    init: map[string][]string{}
-
-map_of_string_of_lists_of_maps_of_string_of_objects:
-  elemental:
-    type: map[string][]map[string]interface{}
-    init: map[string][]map[string]interface{}{}
-
-map_of_string_of_maps_of_string_of_objects:
-  elemental:
-    type: map[string]map[string]interface{}
-
-map_of_string_of_objects:
-  elemental:
-    type: map[string]interface{}
-    init: map[string]interface{}{}
-
-map_of_string_of_strings:
-  elemental:
-    type: map[string]string
-    init: map[string]string{}
-
-raw_json:
-  elemental:
-    type: json.RawMessage
-    import: encoding/json
-
-rendered_policy:
+_rendered_policy:
   elemental:
     type: map[string]PolicyRulesList
     init: |-
@@ -162,3 +113,223 @@ rendered_policy:
         string(constants.RenderedPolicyTypeIsolation): PolicyRulesList{},
       }
     import: go.aporeto.io/gaia/constants
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "type": "gaia.json#/policyrule"
+          }
+        }
+      }
+
+_syscall_action:
+  elemental:
+    type: types.SyscallEnforcementAction
+    import: go.aporeto.io/gaia/types
+  jsonschema:
+    type: |-
+      {
+        "$ref": "isolation-profile-types.json#/syscallenforcementaction"
+      }
+
+_syscall_rules:
+  elemental:
+    type: types.SyscallEnforcementRulesMap
+    init: types.SyscallEnforcementRulesMap{}
+    import: go.aporeto.io/gaia/types
+  jsonschema:
+    type: |-
+      {
+        "$ref": "isolation-profile-types.json#/syscallenforcementrulesmap"
+      }
+
+_vulnerability_level:
+  elemental:
+    type: constants.Vulnerability
+    init: constants.VulnerabilityUnknown
+    import: go.aporeto.io/gaia/constants
+  jsonschema:
+    type: |-
+      {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 7
+      }
+
+elemental_operation:
+  elemental:
+    type: elemental.Operation
+  jsonschema:
+    type: |-
+      {
+        "enum": ["retrieve-many", "retrieve", "create", "update", "delete", "patch", "info"]
+      }
+
+list_of_lists_of_objects:
+  elemental:
+    type: '[][]interface{}'
+    init: '[][]interface{}{}'
+  jsonschema:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": true
+        }
+      }
+
+list_of_lists_of_strings:
+  elemental:
+    type: '[][]string'
+    init: '[][]string{}'
+  jsonschema:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+
+list_of_maps_of_string_of_strings:
+  elemental:
+    type: '[]map[string]string'
+    init: '[]map[string]string{}'
+  jsonschema:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+
+list_of_times:
+  elemental:
+    type: '[]time.Time'
+    init: '[]time.Time{}'
+  jsonschema:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+
+map_of_string_of_booleans:
+  elemental:
+    type: map[string]bool
+    init: map[string]bool{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "boolean"
+        }
+      }
+
+map_of_string_of_integers:
+  elemental:
+    type: map[string]int
+    init: map[string]int{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "integer"
+        }
+      }
+
+map_of_string_of_list_of_strings:
+  elemental:
+    type: map[string][]string
+    init: map[string][]string{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+
+map_of_string_of_lists_of_maps_of_string_of_objects:
+  elemental:
+    type: map[string][]map[string]interface{}
+    init: map[string][]map[string]interface{}{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+
+map_of_string_of_maps_of_string_of_objects:
+  elemental:
+    type: map[string]map[string]interface{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+
+map_of_string_of_objects:
+  elemental:
+    type: map[string]interface{}
+    init: map[string]interface{}{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": true
+      }
+
+map_of_string_of_strings:
+  elemental:
+    type: map[string]string
+    init: map[string]string{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      }
+
+raw_json:
+  elemental:
+    type: json.RawMessage
+    import: encoding/json
+  jsonschema:
+    type: |-
+      {
+        "type": "string"
+      }

@@ -59,9 +59,9 @@ attributes:
       This is an optional attribute and is only required if no host names are
       provided.
       The system will automatically resolve IP addresses from host names otherwise.
-    type: external
+    type: list
     exposed: true
-    subtype: _ip_list
+    subtype: string
     stored: true
 
   - name: JWTSigningCertificate

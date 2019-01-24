@@ -7,7 +7,6 @@ import (
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/types"
 )
 
 // ServiceTLSTypeValue represents the possible values for attribute "TLSType".
@@ -142,7 +141,7 @@ type Service struct {
 	// This is an optional attribute and is only required if no host names are
 	// provided.
 	// The system will automatically resolve IP addresses from host names otherwise.
-	IPs types.IPList `json:"IPs" bson:"ips" mapstructure:"IPs,omitempty"`
+	IPs []string `json:"IPs" bson:"ips" mapstructure:"IPs,omitempty"`
 
 	// PEM encoded certificate that will be used to validate user JWT in HTTP requests.
 	// This is an optional field, needed only if the `+"`"+`authorizationType`+"`"+`
@@ -341,7 +340,7 @@ func NewService() *Service {
 		Type:                       ServiceTypeHTTP,
 		TLSType:                    ServiceTLSTypeAporeto,
 		Metadata:                   []string{},
-		IPs:                        types.IPList{},
+		IPs:                        []string{},
 		NormalizedTags:             []string{},
 	}
 }
@@ -1081,8 +1080,8 @@ The system will automatically resolve IP addresses from host names otherwise.`,
 		Exposed: true,
 		Name:    "IPs",
 		Stored:  true,
-		SubType: "_ip_list",
-		Type:    "external",
+		SubType: "string",
+		Type:    "list",
 	},
 	"JWTSigningCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1603,8 +1602,8 @@ The system will automatically resolve IP addresses from host names otherwise.`,
 		Exposed: true,
 		Name:    "IPs",
 		Stored:  true,
-		SubType: "_ip_list",
-		Type:    "external",
+		SubType: "string",
+		Type:    "list",
 	},
 	"jwtsigningcertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -2170,7 +2169,7 @@ type SparseService struct {
 	// This is an optional attribute and is only required if no host names are
 	// provided.
 	// The system will automatically resolve IP addresses from host names otherwise.
-	IPs *types.IPList `json:"IPs,omitempty" bson:"ips" mapstructure:"IPs,omitempty"`
+	IPs *[]string `json:"IPs,omitempty" bson:"ips" mapstructure:"IPs,omitempty"`
 
 	// PEM encoded certificate that will be used to validate user JWT in HTTP requests.
 	// This is an optional field, needed only if the `+"`"+`authorizationType`+"`"+`
