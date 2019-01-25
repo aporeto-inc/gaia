@@ -6,6 +6,10 @@ $host_services_list:
   elemental:
     name: ValidateHostServicesList
 
+$hostservices:
+  elemental:
+    name: ValidateHostServices
+
 $httpMethods:
   elemental:
     name: ValidateHTTPMethods

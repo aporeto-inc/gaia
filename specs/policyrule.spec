@@ -23,6 +23,12 @@ attributes:
     exposed: true
     subtype: map_of_string_of_maps_of_string_of_objects
 
+  - name: auditProfiles
+    description: AuditProfiles provides the audit profiles that must be applied.
+    type: refList
+    exposed: true
+    subtype: auditprofile
+
   - name: enforcerProfiles
     description: EnforcerProfiles provides the information about the server profile.
     type: refList
@@ -55,6 +61,12 @@ attributes:
     subtype: filepath
     extensions:
       noInit: true
+
+  - name: hostServices
+    description: HostServices provides the list of host services that must be instantiated.
+    type: refList
+    exposed: true
+    subtype: hostservice
 
   - name: isolationProfiles
     description: IsolationProfiles are the isolation profiles of the rule.

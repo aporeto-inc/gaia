@@ -118,6 +118,9 @@ type Issue struct {
 	// Metadata contains various additional information. Meaning depends on the realm.
 	Metadata map[string]interface{} `json:"metadata" bson:"-" mapstructure:"metadata,omitempty"`
 
+	// Opaque data that will be included in the issued token.
+	Opaque map[string]string `json:"opaque" bson:"-" mapstructure:"opaque,omitempty"`
+
 	// Restricts the number of time the issued token should be used.
 	Quota int `json:"quota" bson:"-" mapstructure:"quota,omitempty"`
 
@@ -142,6 +145,7 @@ func NewIssue() *Issue {
 	return &Issue{
 		ModelVersion: 1,
 		Metadata:     map[string]interface{}{},
+		Opaque:       map[string]string{},
 		Validity:     "24h",
 	}
 }
@@ -194,6 +198,7 @@ func (o *Issue) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		return &SparseIssue{
 			Data:     &o.Data,
 			Metadata: &o.Metadata,
+			Opaque:   &o.Opaque,
 			Quota:    &o.Quota,
 			Realm:    &o.Realm,
 			Token:    &o.Token,
@@ -208,6 +213,8 @@ func (o *Issue) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Data = &(o.Data)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
+		case "opaque":
+			sp.Opaque = &(o.Opaque)
 		case "quota":
 			sp.Quota = &(o.Quota)
 		case "realm":
@@ -234,6 +241,9 @@ func (o *Issue) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
+	}
+	if so.Opaque != nil {
+		o.Opaque = *so.Opaque
 	}
 	if so.Quota != nil {
 		o.Quota = *so.Quota
@@ -325,6 +335,8 @@ func (o *Issue) ValueForAttribute(name string) interface{} {
 		return o.Data
 	case "metadata":
 		return o.Metadata
+	case "opaque":
+		return o.Opaque
 	case "quota":
 		return o.Quota
 	case "realm":
@@ -357,6 +369,15 @@ var IssueAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "metadata",
 		Orderable:      true,
 		SubType:        "map_of_string_of_objects",
+		Type:           "external",
+	},
+	"Opaque": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Opaque",
+		Description:    `Opaque data that will be included in the issued token.`,
+		Exposed:        true,
+		Name:           "opaque",
+		SubType:        "map_of_string_of_strings",
 		Type:           "external",
 	},
 	"Quota": elemental.AttributeSpecification{
@@ -419,6 +440,15 @@ var IssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "metadata",
 		Orderable:      true,
 		SubType:        "map_of_string_of_objects",
+		Type:           "external",
+	},
+	"opaque": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Opaque",
+		Description:    `Opaque data that will be included in the issued token.`,
+		Exposed:        true,
+		Name:           "opaque",
+		SubType:        "map_of_string_of_strings",
 		Type:           "external",
 	},
 	"quota": elemental.AttributeSpecification{
@@ -531,6 +561,9 @@ type SparseIssue struct {
 	// Metadata contains various additional information. Meaning depends on the realm.
 	Metadata *map[string]interface{} `json:"metadata,omitempty" bson:"-" mapstructure:"metadata,omitempty"`
 
+	// Opaque data that will be included in the issued token.
+	Opaque *map[string]string `json:"opaque,omitempty" bson:"-" mapstructure:"opaque,omitempty"`
+
 	// Restricts the number of time the issued token should be used.
 	Quota *int `json:"quota,omitempty" bson:"-" mapstructure:"quota,omitempty"`
 
@@ -586,6 +619,9 @@ func (o *SparseIssue) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
+	}
+	if o.Opaque != nil {
+		out.Opaque = *o.Opaque
 	}
 	if o.Quota != nil {
 		out.Quota = *o.Quota

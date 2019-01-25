@@ -716,3 +716,30 @@ relations:
         type: string
         multiple: true
         example_value: 1.2.3.4
+
+- rest_name: hostservicemappingpolicy
+  get:
+    description: Retrieves the list of host service mapping policies.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new host service mapping policy.
+
+- rest_name: auditprofilemappingpolicy
+  get:
+    description: Retrieves the list of audit profile mapping policies.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new audit profile mapping policy.
+
+- rest_name: hostservice
+  get:
+    description: Retrieves the list of host services.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new host service.
