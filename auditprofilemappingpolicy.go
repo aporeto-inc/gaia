@@ -9,43 +9,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// EnforcerProfileMappingPolicyIdentity represents the Identity of the object.
-var EnforcerProfileMappingPolicyIdentity = elemental.Identity{
-	Name:     "enforcerprofilemappingpolicy",
-	Category: "enforcerprofilemappingpolicies",
+// AuditProfileMappingPolicyIdentity represents the Identity of the object.
+var AuditProfileMappingPolicyIdentity = elemental.Identity{
+	Name:     "auditprofilemappingpolicy",
+	Category: "auditprofilemappingpolicies",
 	Package:  "squall",
 	Private:  false,
 }
 
-// EnforcerProfileMappingPoliciesList represents a list of EnforcerProfileMappingPolicies
-type EnforcerProfileMappingPoliciesList []*EnforcerProfileMappingPolicy
+// AuditProfileMappingPoliciesList represents a list of AuditProfileMappingPolicies
+type AuditProfileMappingPoliciesList []*AuditProfileMappingPolicy
 
 // Identity returns the identity of the objects in the list.
-func (o EnforcerProfileMappingPoliciesList) Identity() elemental.Identity {
+func (o AuditProfileMappingPoliciesList) Identity() elemental.Identity {
 
-	return EnforcerProfileMappingPolicyIdentity
+	return AuditProfileMappingPolicyIdentity
 }
 
-// Copy returns a pointer to a copy the EnforcerProfileMappingPoliciesList.
-func (o EnforcerProfileMappingPoliciesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the AuditProfileMappingPoliciesList.
+func (o AuditProfileMappingPoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(EnforcerProfileMappingPoliciesList{}, o...)
+	copy := append(AuditProfileMappingPoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the EnforcerProfileMappingPoliciesList.
-func (o EnforcerProfileMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the AuditProfileMappingPoliciesList.
+func (o AuditProfileMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(EnforcerProfileMappingPoliciesList{}, o...)
+	out := append(AuditProfileMappingPoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*EnforcerProfileMappingPolicy))
+		out = append(out, obj.(*AuditProfileMappingPolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o EnforcerProfileMappingPoliciesList) List() elemental.IdentifiablesList {
+func (o AuditProfileMappingPoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -56,16 +56,16 @@ func (o EnforcerProfileMappingPoliciesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o EnforcerProfileMappingPoliciesList) DefaultOrder() []string {
+func (o AuditProfileMappingPoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToSparse returns the EnforcerProfileMappingPoliciesList converted to SparseEnforcerProfileMappingPoliciesList.
+// ToSparse returns the AuditProfileMappingPoliciesList converted to SparseAuditProfileMappingPoliciesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o EnforcerProfileMappingPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o AuditProfileMappingPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -76,15 +76,23 @@ func (o EnforcerProfileMappingPoliciesList) ToSparse(fields ...string) elemental
 }
 
 // Version returns the version of the content.
-func (o EnforcerProfileMappingPoliciesList) Version() int {
+func (o AuditProfileMappingPoliciesList) Version() int {
 
 	return 1
 }
 
-// EnforcerProfileMappingPolicy represents the model of a enforcerprofilemappingpolicy
-type EnforcerProfileMappingPolicy struct {
+// AuditProfileMappingPolicy represents the model of a auditprofilemappingpolicy
+type AuditProfileMappingPolicy struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
+	// ActiveDuration defines for how long the policy will be active according to the
+	// activeSchedule.
+	ActiveDuration string `json:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
+
+	// ActiveSchedule defines when the policy should be active using the cron notation.
+	// The policy will be active for the given activeDuration.
+	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -110,10 +118,6 @@ type EnforcerProfileMappingPolicy struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Migrated indicated if the object has been migrated to hostservices and
-	// auditprofiles.
-	Migrated bool `json:"-" bson:"migrated" mapstructure:"-,omitempty"`
-
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -123,8 +127,9 @@ type EnforcerProfileMappingPolicy struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Object is the list of tags to use to find a enforcer profile.
-	Object [][]string `json:"object" bson:"object" mapstructure:"object,omitempty"`
+	// Object of the policy is the selector of the audit profiles that must be applied
+	// based on this policy.
+	Object [][]string `json:"object" bson:"-" mapstructure:"object,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
@@ -132,8 +137,9 @@ type EnforcerProfileMappingPolicy struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject is the subject of the policy.
-	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
+	// Subject of the policy is a selector of the enforcers that must implement the
+	// policy.
+	Subject [][]string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -151,10 +157,10 @@ type EnforcerProfileMappingPolicy struct {
 	sync.Mutex `json:"-" bson:"-"`
 }
 
-// NewEnforcerProfileMappingPolicy returns a new *EnforcerProfileMappingPolicy
-func NewEnforcerProfileMappingPolicy() *EnforcerProfileMappingPolicy {
+// NewAuditProfileMappingPolicy returns a new *AuditProfileMappingPolicy
+func NewAuditProfileMappingPolicy() *AuditProfileMappingPolicy {
 
-	return &EnforcerProfileMappingPolicy{
+	return &AuditProfileMappingPolicy{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
@@ -166,31 +172,31 @@ func NewEnforcerProfileMappingPolicy() *EnforcerProfileMappingPolicy {
 }
 
 // Identity returns the Identity of the object.
-func (o *EnforcerProfileMappingPolicy) Identity() elemental.Identity {
+func (o *AuditProfileMappingPolicy) Identity() elemental.Identity {
 
-	return EnforcerProfileMappingPolicyIdentity
+	return AuditProfileMappingPolicyIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *EnforcerProfileMappingPolicy) Identifier() string {
+func (o *AuditProfileMappingPolicy) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *EnforcerProfileMappingPolicy) SetIdentifier(id string) {
+func (o *AuditProfileMappingPolicy) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *EnforcerProfileMappingPolicy) Version() int {
+func (o *AuditProfileMappingPolicy) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *EnforcerProfileMappingPolicy) DefaultOrder() []string {
+func (o *AuditProfileMappingPolicy) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -198,199 +204,224 @@ func (o *EnforcerProfileMappingPolicy) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *EnforcerProfileMappingPolicy) Doc() string {
-	return `A Enforcer Profile Mapping Policy will tell what Enforcer Profile should be used
-by and Aporeto Agent based on the Enforcer that have been used during the
-registration. The policy can also be propagated down to the child namespace.`
+func (o *AuditProfileMappingPolicy) Doc() string {
+	return `Defines an audit policy that determine the sets of enforcers that must implement
+a specific audit profile.`
 }
 
-func (o *EnforcerProfileMappingPolicy) String() string {
+func (o *AuditProfileMappingPolicy) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *AuditProfileMappingPolicy) GetActiveDuration() string {
+
+	return o.ActiveDuration
+}
+
+// SetActiveDuration sets the property ActiveDuration of the receiver using the given value.
+func (o *AuditProfileMappingPolicy) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *AuditProfileMappingPolicy) GetActiveSchedule() string {
+
+	return o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the given value.
+func (o *AuditProfileMappingPolicy) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = activeSchedule
+}
+
 // GetAnnotations returns the Annotations of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetAnnotations() map[string][]string {
+func (o *AuditProfileMappingPolicy) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetAnnotations(annotations map[string][]string) {
+func (o *AuditProfileMappingPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetAssociatedTags() []string {
+func (o *AuditProfileMappingPolicy) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetAssociatedTags(associatedTags []string) {
+func (o *AuditProfileMappingPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetCreateTime() time.Time {
+func (o *AuditProfileMappingPolicy) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetCreateTime(createTime time.Time) {
+func (o *AuditProfileMappingPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetDescription() string {
+func (o *AuditProfileMappingPolicy) GetDescription() string {
 
 	return o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetDescription(description string) {
+func (o *AuditProfileMappingPolicy) SetDescription(description string) {
 
 	o.Description = description
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetDisabled() bool {
+func (o *AuditProfileMappingPolicy) GetDisabled() bool {
 
 	return o.Disabled
 }
 
 // SetDisabled sets the property Disabled of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetDisabled(disabled bool) {
+func (o *AuditProfileMappingPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetFallback() bool {
+func (o *AuditProfileMappingPolicy) GetFallback() bool {
 
 	return o.Fallback
 }
 
 // SetFallback sets the property Fallback of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetFallback(fallback bool) {
+func (o *AuditProfileMappingPolicy) SetFallback(fallback bool) {
 
 	o.Fallback = fallback
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetMetadata() []string {
+func (o *AuditProfileMappingPolicy) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetMetadata(metadata []string) {
+func (o *AuditProfileMappingPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetName() string {
+func (o *AuditProfileMappingPolicy) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetName(name string) {
+func (o *AuditProfileMappingPolicy) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetNamespace() string {
+func (o *AuditProfileMappingPolicy) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetNamespace(namespace string) {
+func (o *AuditProfileMappingPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetNormalizedTags() []string {
+func (o *AuditProfileMappingPolicy) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetNormalizedTags(normalizedTags []string) {
+func (o *AuditProfileMappingPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetPropagate() bool {
+func (o *AuditProfileMappingPolicy) GetPropagate() bool {
 
 	return o.Propagate
 }
 
 // SetPropagate sets the property Propagate of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetPropagate(propagate bool) {
+func (o *AuditProfileMappingPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetProtected() bool {
+func (o *AuditProfileMappingPolicy) GetProtected() bool {
 
 	return o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetUpdateTime() time.Time {
+func (o *AuditProfileMappingPolicy) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetUpdateTime(updateTime time.Time) {
+func (o *AuditProfileMappingPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetZHash() int {
+func (o *AuditProfileMappingPolicy) GetZHash() int {
 
 	return o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetZHash(zHash int) {
+func (o *AuditProfileMappingPolicy) SetZHash(zHash int) {
 
 	o.ZHash = zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetZone() int {
+func (o *AuditProfileMappingPolicy) GetZone() int {
 
 	return o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetZone(zone int) {
+func (o *AuditProfileMappingPolicy) SetZone(zone int) {
 
 	o.Zone = zone
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *EnforcerProfileMappingPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *AuditProfileMappingPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseEnforcerProfileMappingPolicy{
+		return &SparseAuditProfileMappingPolicy{
 			ID:             &o.ID,
+			ActiveDuration: &o.ActiveDuration,
+			ActiveSchedule: &o.ActiveSchedule,
 			Annotations:    &o.Annotations,
 			AssociatedTags: &o.AssociatedTags,
 			CreateTime:     &o.CreateTime,
@@ -398,7 +429,6 @@ func (o *EnforcerProfileMappingPolicy) ToSparse(fields ...string) elemental.Spar
 			Disabled:       &o.Disabled,
 			Fallback:       &o.Fallback,
 			Metadata:       &o.Metadata,
-			Migrated:       &o.Migrated,
 			Name:           &o.Name,
 			Namespace:      &o.Namespace,
 			NormalizedTags: &o.NormalizedTags,
@@ -412,11 +442,15 @@ func (o *EnforcerProfileMappingPolicy) ToSparse(fields ...string) elemental.Spar
 		}
 	}
 
-	sp := &SparseEnforcerProfileMappingPolicy{}
+	sp := &SparseAuditProfileMappingPolicy{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
+		case "activeDuration":
+			sp.ActiveDuration = &(o.ActiveDuration)
+		case "activeSchedule":
+			sp.ActiveSchedule = &(o.ActiveSchedule)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
@@ -431,8 +465,6 @@ func (o *EnforcerProfileMappingPolicy) ToSparse(fields ...string) elemental.Spar
 			sp.Fallback = &(o.Fallback)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
-		case "migrated":
-			sp.Migrated = &(o.Migrated)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -459,15 +491,21 @@ func (o *EnforcerProfileMappingPolicy) ToSparse(fields ...string) elemental.Spar
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseEnforcerProfileMappingPolicy to the object.
-func (o *EnforcerProfileMappingPolicy) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseAuditProfileMappingPolicy to the object.
+func (o *AuditProfileMappingPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseEnforcerProfileMappingPolicy)
+	so := sparse.(*SparseAuditProfileMappingPolicy)
 	if so.ID != nil {
 		o.ID = *so.ID
+	}
+	if so.ActiveDuration != nil {
+		o.ActiveDuration = *so.ActiveDuration
+	}
+	if so.ActiveSchedule != nil {
+		o.ActiveSchedule = *so.ActiveSchedule
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
@@ -489,9 +527,6 @@ func (o *EnforcerProfileMappingPolicy) Patch(sparse elemental.SparseIdentifiable
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
-	}
-	if so.Migrated != nil {
-		o.Migrated = *so.Migrated
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -525,35 +560,39 @@ func (o *EnforcerProfileMappingPolicy) Patch(sparse elemental.SparseIdentifiable
 	}
 }
 
-// DeepCopy returns a deep copy if the EnforcerProfileMappingPolicy.
-func (o *EnforcerProfileMappingPolicy) DeepCopy() *EnforcerProfileMappingPolicy {
+// DeepCopy returns a deep copy if the AuditProfileMappingPolicy.
+func (o *AuditProfileMappingPolicy) DeepCopy() *AuditProfileMappingPolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &EnforcerProfileMappingPolicy{}
+	out := &AuditProfileMappingPolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *EnforcerProfileMappingPolicy.
-func (o *EnforcerProfileMappingPolicy) DeepCopyInto(out *EnforcerProfileMappingPolicy) {
+// DeepCopyInto copies the receiver into the given *AuditProfileMappingPolicy.
+func (o *AuditProfileMappingPolicy) DeepCopyInto(out *AuditProfileMappingPolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy EnforcerProfileMappingPolicy: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy AuditProfileMappingPolicy: %s", err))
 	}
 
-	*out = *target.(*EnforcerProfileMappingPolicy)
+	*out = *target.(*AuditProfileMappingPolicy)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *EnforcerProfileMappingPolicy) Validate() error {
+func (o *AuditProfileMappingPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
+		errors = append(errors, err)
+	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
@@ -579,30 +618,34 @@ func (o *EnforcerProfileMappingPolicy) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*EnforcerProfileMappingPolicy) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*AuditProfileMappingPolicy) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := EnforcerProfileMappingPolicyAttributesMap[name]; ok {
+	if v, ok := AuditProfileMappingPolicyAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return EnforcerProfileMappingPolicyLowerCaseAttributesMap[name]
+	return AuditProfileMappingPolicyLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*EnforcerProfileMappingPolicy) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*AuditProfileMappingPolicy) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return EnforcerProfileMappingPolicyAttributesMap
+	return AuditProfileMappingPolicyAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *EnforcerProfileMappingPolicy) ValueForAttribute(name string) interface{} {
+func (o *AuditProfileMappingPolicy) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
 		return o.ID
+	case "activeDuration":
+		return o.ActiveDuration
+	case "activeSchedule":
+		return o.ActiveSchedule
 	case "annotations":
 		return o.Annotations
 	case "associatedTags":
@@ -617,8 +660,6 @@ func (o *EnforcerProfileMappingPolicy) ValueForAttribute(name string) interface{
 		return o.Fallback
 	case "metadata":
 		return o.Metadata
-	case "migrated":
-		return o.Migrated
 	case "name":
 		return o.Name
 	case "namespace":
@@ -644,8 +685,8 @@ func (o *EnforcerProfileMappingPolicy) ValueForAttribute(name string) interface{
 	return nil
 }
 
-// EnforcerProfileMappingPolicyAttributesMap represents the map of attribute for EnforcerProfileMappingPolicy.
-var EnforcerProfileMappingPolicyAttributesMap = map[string]elemental.AttributeSpecification{
+// AuditProfileMappingPolicyAttributesMap represents the map of attribute for AuditProfileMappingPolicy.
+var AuditProfileMappingPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -658,6 +699,31 @@ var EnforcerProfileMappingPolicyAttributesMap = map[string]elemental.AttributeSp
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
+	},
+	"ActiveDuration": elemental.AttributeSpecification{
+		AllowedChars:   `^[0-9]+[smh]$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveDuration",
+		Description: `ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeDuration",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
+	},
+	"ActiveSchedule": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveSchedule",
+		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeSchedule",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -751,15 +817,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
-	"Migrated": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Migrated",
-		Description: `Migrated indicated if the object has been migrated to hostservices and
-auditprofiles.`,
-		Name:   "migrated",
-		Stored: true,
-		Type:   "boolean",
-	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -811,12 +868,12 @@ auditprofiles.`,
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description:    `Object is the list of tags to use to find a enforcer profile.`,
-		Exposed:        true,
-		Name:           "object",
-		Stored:         true,
-		SubType:        "list_of_lists_of_strings",
-		Type:           "external",
+		Description: `Object of the policy is the selector of the audit profiles that must be applied
+based on this policy.`,
+		Exposed: true,
+		Name:    "object",
+		SubType: "list_of_lists_of_strings",
+		Type:    "external",
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -844,12 +901,12 @@ auditprofiles.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject is the subject of the policy.`,
-		Exposed:        true,
-		Name:           "subject",
-		Stored:         true,
-		SubType:        "list_of_lists_of_strings",
-		Type:           "external",
+		Description: `Subject of the policy is a selector of the enforcers that must implement the
+policy.`,
+		Exposed: true,
+		Name:    "subject",
+		SubType: "list_of_lists_of_strings",
+		Type:    "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -893,8 +950,8 @@ georedundancy.`,
 	},
 }
 
-// EnforcerProfileMappingPolicyLowerCaseAttributesMap represents the map of attribute for EnforcerProfileMappingPolicy.
-var EnforcerProfileMappingPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// AuditProfileMappingPolicyLowerCaseAttributesMap represents the map of attribute for AuditProfileMappingPolicy.
+var AuditProfileMappingPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -907,6 +964,31 @@ var EnforcerProfileMappingPolicyLowerCaseAttributesMap = map[string]elemental.At
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
+	},
+	"activeduration": elemental.AttributeSpecification{
+		AllowedChars:   `^[0-9]+[smh]$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveDuration",
+		Description: `ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeDuration",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
+	},
+	"activeschedule": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveSchedule",
+		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeSchedule",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1000,15 +1082,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
-	"migrated": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Migrated",
-		Description: `Migrated indicated if the object has been migrated to hostservices and
-auditprofiles.`,
-		Name:   "migrated",
-		Stored: true,
-		Type:   "boolean",
-	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -1060,12 +1133,12 @@ auditprofiles.`,
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description:    `Object is the list of tags to use to find a enforcer profile.`,
-		Exposed:        true,
-		Name:           "object",
-		Stored:         true,
-		SubType:        "list_of_lists_of_strings",
-		Type:           "external",
+		Description: `Object of the policy is the selector of the audit profiles that must be applied
+based on this policy.`,
+		Exposed: true,
+		Name:    "object",
+		SubType: "list_of_lists_of_strings",
+		Type:    "external",
 	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1093,12 +1166,12 @@ auditprofiles.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject is the subject of the policy.`,
-		Exposed:        true,
-		Name:           "subject",
-		Stored:         true,
-		SubType:        "list_of_lists_of_strings",
-		Type:           "external",
+		Description: `Subject of the policy is a selector of the enforcers that must implement the
+policy.`,
+		Exposed: true,
+		Name:    "subject",
+		SubType: "list_of_lists_of_strings",
+		Type:    "external",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1142,35 +1215,35 @@ georedundancy.`,
 	},
 }
 
-// SparseEnforcerProfileMappingPoliciesList represents a list of SparseEnforcerProfileMappingPolicies
-type SparseEnforcerProfileMappingPoliciesList []*SparseEnforcerProfileMappingPolicy
+// SparseAuditProfileMappingPoliciesList represents a list of SparseAuditProfileMappingPolicies
+type SparseAuditProfileMappingPoliciesList []*SparseAuditProfileMappingPolicy
 
 // Identity returns the identity of the objects in the list.
-func (o SparseEnforcerProfileMappingPoliciesList) Identity() elemental.Identity {
+func (o SparseAuditProfileMappingPoliciesList) Identity() elemental.Identity {
 
-	return EnforcerProfileMappingPolicyIdentity
+	return AuditProfileMappingPolicyIdentity
 }
 
-// Copy returns a pointer to a copy the SparseEnforcerProfileMappingPoliciesList.
-func (o SparseEnforcerProfileMappingPoliciesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseAuditProfileMappingPoliciesList.
+func (o SparseAuditProfileMappingPoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(SparseEnforcerProfileMappingPoliciesList{}, o...)
+	copy := append(SparseAuditProfileMappingPoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseEnforcerProfileMappingPoliciesList.
-func (o SparseEnforcerProfileMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseAuditProfileMappingPoliciesList.
+func (o SparseAuditProfileMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseEnforcerProfileMappingPoliciesList{}, o...)
+	out := append(SparseAuditProfileMappingPoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseEnforcerProfileMappingPolicy))
+		out = append(out, obj.(*SparseAuditProfileMappingPolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseEnforcerProfileMappingPoliciesList) List() elemental.IdentifiablesList {
+func (o SparseAuditProfileMappingPoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1181,15 +1254,15 @@ func (o SparseEnforcerProfileMappingPoliciesList) List() elemental.Identifiables
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseEnforcerProfileMappingPoliciesList) DefaultOrder() []string {
+func (o SparseAuditProfileMappingPoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToPlain returns the SparseEnforcerProfileMappingPoliciesList converted to EnforcerProfileMappingPoliciesList.
-func (o SparseEnforcerProfileMappingPoliciesList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseAuditProfileMappingPoliciesList converted to AuditProfileMappingPoliciesList.
+func (o SparseAuditProfileMappingPoliciesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1200,15 +1273,23 @@ func (o SparseEnforcerProfileMappingPoliciesList) ToPlain() elemental.Identifiab
 }
 
 // Version returns the version of the content.
-func (o SparseEnforcerProfileMappingPoliciesList) Version() int {
+func (o SparseAuditProfileMappingPoliciesList) Version() int {
 
 	return 1
 }
 
-// SparseEnforcerProfileMappingPolicy represents the sparse version of a enforcerprofilemappingpolicy.
-type SparseEnforcerProfileMappingPolicy struct {
+// SparseAuditProfileMappingPolicy represents the sparse version of a auditprofilemappingpolicy.
+type SparseAuditProfileMappingPolicy struct {
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
+	// ActiveDuration defines for how long the policy will be active according to the
+	// activeSchedule.
+	ActiveDuration *string `json:"activeDuration,omitempty" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
+
+	// ActiveSchedule defines when the policy should be active using the cron notation.
+	// The policy will be active for the given activeDuration.
+	ActiveSchedule *string `json:"activeSchedule,omitempty" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -1234,10 +1315,6 @@ type SparseEnforcerProfileMappingPolicy struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Migrated indicated if the object has been migrated to hostservices and
-	// auditprofiles.
-	Migrated *bool `json:"-,omitempty" bson:"migrated" mapstructure:"-,omitempty"`
-
 	// Name is the name of the entity.
 	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
 
@@ -1247,8 +1324,9 @@ type SparseEnforcerProfileMappingPolicy struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Object is the list of tags to use to find a enforcer profile.
-	Object *[][]string `json:"object,omitempty" bson:"object" mapstructure:"object,omitempty"`
+	// Object of the policy is the selector of the audit profiles that must be applied
+	// based on this policy.
+	Object *[][]string `json:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
@@ -1256,8 +1334,9 @@ type SparseEnforcerProfileMappingPolicy struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject is the subject of the policy.
-	Subject *[][]string `json:"subject,omitempty" bson:"subject" mapstructure:"subject,omitempty"`
+	// Subject of the policy is a selector of the enforcers that must implement the
+	// policy.
+	Subject *[][]string `json:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -1275,19 +1354,19 @@ type SparseEnforcerProfileMappingPolicy struct {
 	sync.Mutex `json:"-" bson:"-"`
 }
 
-// NewSparseEnforcerProfileMappingPolicy returns a new  SparseEnforcerProfileMappingPolicy.
-func NewSparseEnforcerProfileMappingPolicy() *SparseEnforcerProfileMappingPolicy {
-	return &SparseEnforcerProfileMappingPolicy{}
+// NewSparseAuditProfileMappingPolicy returns a new  SparseAuditProfileMappingPolicy.
+func NewSparseAuditProfileMappingPolicy() *SparseAuditProfileMappingPolicy {
+	return &SparseAuditProfileMappingPolicy{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseEnforcerProfileMappingPolicy) Identity() elemental.Identity {
+func (o *SparseAuditProfileMappingPolicy) Identity() elemental.Identity {
 
-	return EnforcerProfileMappingPolicyIdentity
+	return AuditProfileMappingPolicyIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseEnforcerProfileMappingPolicy) Identifier() string {
+func (o *SparseAuditProfileMappingPolicy) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1296,23 +1375,29 @@ func (o *SparseEnforcerProfileMappingPolicy) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseEnforcerProfileMappingPolicy) SetIdentifier(id string) {
+func (o *SparseAuditProfileMappingPolicy) SetIdentifier(id string) {
 
 	o.ID = &id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseEnforcerProfileMappingPolicy) Version() int {
+func (o *SparseAuditProfileMappingPolicy) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseEnforcerProfileMappingPolicy) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseAuditProfileMappingPolicy) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewEnforcerProfileMappingPolicy()
+	out := NewAuditProfileMappingPolicy()
 	if o.ID != nil {
 		out.ID = *o.ID
+	}
+	if o.ActiveDuration != nil {
+		out.ActiveDuration = *o.ActiveDuration
+	}
+	if o.ActiveSchedule != nil {
+		out.ActiveSchedule = *o.ActiveSchedule
 	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
@@ -1334,9 +1419,6 @@ func (o *SparseEnforcerProfileMappingPolicy) ToPlain() elemental.PlainIdentifiab
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
-	}
-	if o.Migrated != nil {
-		out.Migrated = *o.Migrated
 	}
 	if o.Name != nil {
 		out.Name = *o.Name
@@ -1372,200 +1454,224 @@ func (o *SparseEnforcerProfileMappingPolicy) ToPlain() elemental.PlainIdentifiab
 	return out
 }
 
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *SparseAuditProfileMappingPolicy) GetActiveDuration() string {
+
+	return *o.ActiveDuration
+}
+
+// SetActiveDuration sets the property ActiveDuration of the receiver using the address of the given value.
+func (o *SparseAuditProfileMappingPolicy) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = &activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *SparseAuditProfileMappingPolicy) GetActiveSchedule() string {
+
+	return *o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the address of the given value.
+func (o *SparseAuditProfileMappingPolicy) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = &activeSchedule
+}
+
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetAnnotations() map[string][]string {
+func (o *SparseAuditProfileMappingPolicy) GetAnnotations() map[string][]string {
 
 	return *o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetAnnotations(annotations map[string][]string) {
+func (o *SparseAuditProfileMappingPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetAssociatedTags() []string {
+func (o *SparseAuditProfileMappingPolicy) GetAssociatedTags() []string {
 
 	return *o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetAssociatedTags(associatedTags []string) {
+func (o *SparseAuditProfileMappingPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetCreateTime() time.Time {
+func (o *SparseAuditProfileMappingPolicy) GetCreateTime() time.Time {
 
 	return *o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetCreateTime(createTime time.Time) {
+func (o *SparseAuditProfileMappingPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetDescription() string {
+func (o *SparseAuditProfileMappingPolicy) GetDescription() string {
 
 	return *o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetDescription(description string) {
+func (o *SparseAuditProfileMappingPolicy) SetDescription(description string) {
 
 	o.Description = &description
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetDisabled() bool {
+func (o *SparseAuditProfileMappingPolicy) GetDisabled() bool {
 
 	return *o.Disabled
 }
 
 // SetDisabled sets the property Disabled of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetDisabled(disabled bool) {
+func (o *SparseAuditProfileMappingPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = &disabled
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetFallback() bool {
+func (o *SparseAuditProfileMappingPolicy) GetFallback() bool {
 
 	return *o.Fallback
 }
 
 // SetFallback sets the property Fallback of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetFallback(fallback bool) {
+func (o *SparseAuditProfileMappingPolicy) SetFallback(fallback bool) {
 
 	o.Fallback = &fallback
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetMetadata() []string {
+func (o *SparseAuditProfileMappingPolicy) GetMetadata() []string {
 
 	return *o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetMetadata(metadata []string) {
+func (o *SparseAuditProfileMappingPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = &metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetName() string {
+func (o *SparseAuditProfileMappingPolicy) GetName() string {
 
 	return *o.Name
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetName(name string) {
+func (o *SparseAuditProfileMappingPolicy) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetNamespace() string {
+func (o *SparseAuditProfileMappingPolicy) GetNamespace() string {
 
 	return *o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetNamespace(namespace string) {
+func (o *SparseAuditProfileMappingPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetNormalizedTags() []string {
+func (o *SparseAuditProfileMappingPolicy) GetNormalizedTags() []string {
 
 	return *o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseAuditProfileMappingPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetPropagate() bool {
+func (o *SparseAuditProfileMappingPolicy) GetPropagate() bool {
 
 	return *o.Propagate
 }
 
 // SetPropagate sets the property Propagate of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetPropagate(propagate bool) {
+func (o *SparseAuditProfileMappingPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = &propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetProtected() bool {
+func (o *SparseAuditProfileMappingPolicy) GetProtected() bool {
 
 	return *o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetUpdateTime() time.Time {
+func (o *SparseAuditProfileMappingPolicy) GetUpdateTime() time.Time {
 
 	return *o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetUpdateTime(updateTime time.Time) {
+func (o *SparseAuditProfileMappingPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetZHash() int {
+func (o *SparseAuditProfileMappingPolicy) GetZHash() int {
 
 	return *o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetZHash(zHash int) {
+func (o *SparseAuditProfileMappingPolicy) SetZHash(zHash int) {
 
 	o.ZHash = &zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetZone() int {
+func (o *SparseAuditProfileMappingPolicy) GetZone() int {
 
 	return *o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetZone(zone int) {
+func (o *SparseAuditProfileMappingPolicy) SetZone(zone int) {
 
 	o.Zone = &zone
 }
 
-// DeepCopy returns a deep copy if the SparseEnforcerProfileMappingPolicy.
-func (o *SparseEnforcerProfileMappingPolicy) DeepCopy() *SparseEnforcerProfileMappingPolicy {
+// DeepCopy returns a deep copy if the SparseAuditProfileMappingPolicy.
+func (o *SparseAuditProfileMappingPolicy) DeepCopy() *SparseAuditProfileMappingPolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseEnforcerProfileMappingPolicy{}
+	out := &SparseAuditProfileMappingPolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseEnforcerProfileMappingPolicy.
-func (o *SparseEnforcerProfileMappingPolicy) DeepCopyInto(out *SparseEnforcerProfileMappingPolicy) {
+// DeepCopyInto copies the receiver into the given *SparseAuditProfileMappingPolicy.
+func (o *SparseAuditProfileMappingPolicy) DeepCopyInto(out *SparseAuditProfileMappingPolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseEnforcerProfileMappingPolicy: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseAuditProfileMappingPolicy: %s", err))
 	}
 
-	*out = *target.(*SparseEnforcerProfileMappingPolicy)
+	*out = *target.(*SparseAuditProfileMappingPolicy)
 }

@@ -167,7 +167,7 @@ type EnforcerProfile struct {
 
 	// HostServices is a list of services that must be activated by default to all
 	// enforcers matching this profile.
-	HostServices []*HostService `json:"hostServices" bson:"hostservices" mapstructure:"hostServices,omitempty"`
+	HostServices []*DeprecatedHostService `json:"hostServices" bson:"hostservices" mapstructure:"hostServices,omitempty"`
 
 	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
 	// docker container started with labels matching the rule.
@@ -193,6 +193,10 @@ type EnforcerProfile struct {
 
 	// Select which metadata extractor to use to process new processing units.
 	MetadataExtractor EnforcerProfileMetadataExtractorValue `json:"metadataExtractor" bson:"metadataextractor" mapstructure:"metadataExtractor,omitempty"`
+
+	// Migrated indicated if the object has been migrated to hostservices and
+	// auditprofiles.
+	Migrated bool `json:"-" bson:"migrated" mapstructure:"-,omitempty"`
 
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
@@ -280,29 +284,29 @@ func NewEnforcerProfile() *EnforcerProfile {
 		AuditSocketBufferSize:         16384,
 		ExcludedNetworks:              []string{},
 		HostModeEnabled:               false,
-		HostServices:                  []*HostService{},
+		HostServices:                  []*DeprecatedHostService{},
 		ExcludedInterfaces:            []string{},
-		LinuxProcessesSupportEnabled:  true,
-		ProxyListenAddress:            "unix:///var/run/aporeto.sock",
-		PUBookkeepingInterval:         "15m",
-		ReceiverNumberOfQueues:        4,
-		IgnoreExpression:              [][]string{},
-		KubernetesMetadataExtractor:   EnforcerProfileKubernetesMetadataExtractorPodAtomic,
-		RemoteEnforcerEnabled:         true,
-		MetadataExtractor:             EnforcerProfileMetadataExtractorDocker,
-		ReceiverQueueSize:             500,
-		TargetUDPNetworks:             []string{},
-		IPTablesMarkValue:             1000,
-		TransmitterQueue:              4,
-		TargetNetworks:                []string{},
-		NormalizedTags:                []string{},
-		TransmitterNumberOfQueues:     4,
-		TransmitterQueueSize:          500,
 		Metadata:                      []string{},
 		PUHeartbeatInterval:           "5s",
-		PolicySynchronizationInterval: "10m",
+		ProxyListenAddress:            "unix:///var/run/aporeto.sock",
+		IPTablesMarkValue:             1000,
+		ReceiverNumberOfQueues:        4,
 		KubernetesSupportEnabled:      false,
+		RemoteEnforcerEnabled:         true,
+		ReceiverQueueSize:             500,
+		TargetNetworks:                []string{},
+		PUBookkeepingInterval:         "15m",
+		TransmitterNumberOfQueues:     4,
+		MetadataExtractor:             EnforcerProfileMetadataExtractorDocker,
+		TargetUDPNetworks:             []string{},
+		IgnoreExpression:              [][]string{},
 		TrustedCAs:                    []string{},
+		TransmitterQueue:              4,
+		LinuxProcessesSupportEnabled:  true,
+		PolicySynchronizationInterval: "10m",
+		NormalizedTags:                []string{},
+		KubernetesMetadataExtractor:   EnforcerProfileKubernetesMetadataExtractorPodAtomic,
+		TransmitterQueueSize:          500,
 	}
 }
 
@@ -520,6 +524,7 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			LinuxProcessesSupportEnabled:  &o.LinuxProcessesSupportEnabled,
 			Metadata:                      &o.Metadata,
 			MetadataExtractor:             &o.MetadataExtractor,
+			Migrated:                      &o.Migrated,
 			Name:                          &o.Name,
 			Namespace:                     &o.Namespace,
 			NormalizedTags:                &o.NormalizedTags,
@@ -593,6 +598,8 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.Metadata = &(o.Metadata)
 		case "metadataExtractor":
 			sp.MetadataExtractor = &(o.MetadataExtractor)
+		case "migrated":
+			sp.Migrated = &(o.Migrated)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -715,6 +722,9 @@ func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.MetadataExtractor != nil {
 		o.MetadataExtractor = *so.MetadataExtractor
+	}
+	if so.Migrated != nil {
+		o.Migrated = *so.Migrated
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -1015,6 +1025,8 @@ func (o *EnforcerProfile) ValueForAttribute(name string) interface{} {
 		return o.Metadata
 	case "metadataExtractor":
 		return o.MetadataExtractor
+	case "migrated":
+		return o.Migrated
 	case "name":
 		return o.Name
 	case "namespace":
@@ -1266,7 +1278,7 @@ enforcers matching this profile.`,
 		Exposed: true,
 		Name:    "hostServices",
 		Stored:  true,
-		SubType: "hostservice",
+		SubType: "deprecatedhostservice",
 		Type:    "refList",
 	},
 	"IgnoreExpression": elemental.AttributeSpecification{
@@ -1347,6 +1359,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "enum",
+	},
+	"Migrated": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Migrated",
+		Description: `Migrated indicated if the object has been migrated to hostservices and
+auditprofiles.`,
+		Name:   "migrated",
+		Stored: true,
+		Type:   "boolean",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1808,7 +1829,7 @@ enforcers matching this profile.`,
 		Exposed: true,
 		Name:    "hostServices",
 		Stored:  true,
-		SubType: "hostservice",
+		SubType: "deprecatedhostservice",
 		Type:    "refList",
 	},
 	"ignoreexpression": elemental.AttributeSpecification{
@@ -1889,6 +1910,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "enum",
+	},
+	"migrated": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Migrated",
+		Description: `Migrated indicated if the object has been migrated to hostservices and
+auditprofiles.`,
+		Name:   "migrated",
+		Stored: true,
+		Type:   "boolean",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -2263,7 +2293,7 @@ type SparseEnforcerProfile struct {
 
 	// HostServices is a list of services that must be activated by default to all
 	// enforcers matching this profile.
-	HostServices *[]*HostService `json:"hostServices,omitempty" bson:"hostservices" mapstructure:"hostServices,omitempty"`
+	HostServices *[]*DeprecatedHostService `json:"hostServices,omitempty" bson:"hostservices" mapstructure:"hostServices,omitempty"`
 
 	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
 	// docker container started with labels matching the rule.
@@ -2289,6 +2319,10 @@ type SparseEnforcerProfile struct {
 
 	// Select which metadata extractor to use to process new processing units.
 	MetadataExtractor *EnforcerProfileMetadataExtractorValue `json:"metadataExtractor,omitempty" bson:"metadataextractor" mapstructure:"metadataExtractor,omitempty"`
+
+	// Migrated indicated if the object has been migrated to hostservices and
+	// auditprofiles.
+	Migrated *bool `json:"-,omitempty" bson:"migrated" mapstructure:"-,omitempty"`
 
 	// Name is the name of the entity.
 	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
@@ -2469,6 +2503,9 @@ func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.MetadataExtractor != nil {
 		out.MetadataExtractor = *o.MetadataExtractor
+	}
+	if o.Migrated != nil {
+		out.Migrated = *o.Migrated
 	}
 	if o.Name != nil {
 		out.Name = *o.Name

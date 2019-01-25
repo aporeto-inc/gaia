@@ -156,7 +156,7 @@ attributes:
       enforcers matching this profile.
     type: refList
     exposed: true
-    subtype: hostservice
+    subtype: deprecatedhostservice
     stored: true
     validations:
     - $host_services_list
@@ -221,6 +221,13 @@ attributes:
     - Kubernetes
     default_value: Docker
     orderable: true
+
+  - name: migrated
+    description: |-
+      Migrated indicated if the object has been migrated to hostservices and
+      auditprofiles.
+    type: boolean
+    stored: true
 
   - name: policySynchronizationInterval
     description: |-

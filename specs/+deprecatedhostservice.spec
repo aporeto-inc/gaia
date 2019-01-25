@@ -1,8 +1,8 @@
 # Model
 model:
-  rest_name: hostservice
-  resource_name: hostservices
-  entity_name: HostService
+  rest_name: deprecatedhostservice
+  resource_name: deprecatedhostservices
+  entity_name: DeprecatedHostService
   package: squall
   description: Represents a service of the enforcer's host.
   detached: true

@@ -9,43 +9,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// EnforcerProfileMappingPolicyIdentity represents the Identity of the object.
-var EnforcerProfileMappingPolicyIdentity = elemental.Identity{
-	Name:     "enforcerprofilemappingpolicy",
-	Category: "enforcerprofilemappingpolicies",
+// HostServiceMappingPolicyIdentity represents the Identity of the object.
+var HostServiceMappingPolicyIdentity = elemental.Identity{
+	Name:     "hostservicemappingpolicy",
+	Category: "hostservicemappingpolicies",
 	Package:  "squall",
 	Private:  false,
 }
 
-// EnforcerProfileMappingPoliciesList represents a list of EnforcerProfileMappingPolicies
-type EnforcerProfileMappingPoliciesList []*EnforcerProfileMappingPolicy
+// HostServiceMappingPoliciesList represents a list of HostServiceMappingPolicies
+type HostServiceMappingPoliciesList []*HostServiceMappingPolicy
 
 // Identity returns the identity of the objects in the list.
-func (o EnforcerProfileMappingPoliciesList) Identity() elemental.Identity {
+func (o HostServiceMappingPoliciesList) Identity() elemental.Identity {
 
-	return EnforcerProfileMappingPolicyIdentity
+	return HostServiceMappingPolicyIdentity
 }
 
-// Copy returns a pointer to a copy the EnforcerProfileMappingPoliciesList.
-func (o EnforcerProfileMappingPoliciesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the HostServiceMappingPoliciesList.
+func (o HostServiceMappingPoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(EnforcerProfileMappingPoliciesList{}, o...)
+	copy := append(HostServiceMappingPoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the EnforcerProfileMappingPoliciesList.
-func (o EnforcerProfileMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the HostServiceMappingPoliciesList.
+func (o HostServiceMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(EnforcerProfileMappingPoliciesList{}, o...)
+	out := append(HostServiceMappingPoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*EnforcerProfileMappingPolicy))
+		out = append(out, obj.(*HostServiceMappingPolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o EnforcerProfileMappingPoliciesList) List() elemental.IdentifiablesList {
+func (o HostServiceMappingPoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -56,16 +56,16 @@ func (o EnforcerProfileMappingPoliciesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o EnforcerProfileMappingPoliciesList) DefaultOrder() []string {
+func (o HostServiceMappingPoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToSparse returns the EnforcerProfileMappingPoliciesList converted to SparseEnforcerProfileMappingPoliciesList.
+// ToSparse returns the HostServiceMappingPoliciesList converted to SparseHostServiceMappingPoliciesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o EnforcerProfileMappingPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o HostServiceMappingPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -76,15 +76,23 @@ func (o EnforcerProfileMappingPoliciesList) ToSparse(fields ...string) elemental
 }
 
 // Version returns the version of the content.
-func (o EnforcerProfileMappingPoliciesList) Version() int {
+func (o HostServiceMappingPoliciesList) Version() int {
 
 	return 1
 }
 
-// EnforcerProfileMappingPolicy represents the model of a enforcerprofilemappingpolicy
-type EnforcerProfileMappingPolicy struct {
+// HostServiceMappingPolicy represents the model of a hostservicemappingpolicy
+type HostServiceMappingPolicy struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
+	// ActiveDuration defines for how long the policy will be active according to the
+	// activeSchedule.
+	ActiveDuration string `json:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
+
+	// ActiveSchedule defines when the policy should be active using the cron notation.
+	// The policy will be active for the given activeDuration.
+	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -110,10 +118,6 @@ type EnforcerProfileMappingPolicy struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Migrated indicated if the object has been migrated to hostservices and
-	// auditprofiles.
-	Migrated bool `json:"-" bson:"migrated" mapstructure:"-,omitempty"`
-
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -123,8 +127,9 @@ type EnforcerProfileMappingPolicy struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Object is the list of tags to use to find a enforcer profile.
-	Object [][]string `json:"object" bson:"object" mapstructure:"object,omitempty"`
+	// Object of the policy is the selector for the host services that must be applied
+	// to this enforcer.
+	Object [][]string `json:"object" bson:"-" mapstructure:"object,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
@@ -132,8 +137,9 @@ type EnforcerProfileMappingPolicy struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject is the subject of the policy.
-	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
+	// Subject of the policy is the selector of the enforcers that the list of host
+	// services must apply to.
+	Subject [][]string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -151,10 +157,10 @@ type EnforcerProfileMappingPolicy struct {
 	sync.Mutex `json:"-" bson:"-"`
 }
 
-// NewEnforcerProfileMappingPolicy returns a new *EnforcerProfileMappingPolicy
-func NewEnforcerProfileMappingPolicy() *EnforcerProfileMappingPolicy {
+// NewHostServiceMappingPolicy returns a new *HostServiceMappingPolicy
+func NewHostServiceMappingPolicy() *HostServiceMappingPolicy {
 
-	return &EnforcerProfileMappingPolicy{
+	return &HostServiceMappingPolicy{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
@@ -166,31 +172,31 @@ func NewEnforcerProfileMappingPolicy() *EnforcerProfileMappingPolicy {
 }
 
 // Identity returns the Identity of the object.
-func (o *EnforcerProfileMappingPolicy) Identity() elemental.Identity {
+func (o *HostServiceMappingPolicy) Identity() elemental.Identity {
 
-	return EnforcerProfileMappingPolicyIdentity
+	return HostServiceMappingPolicyIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *EnforcerProfileMappingPolicy) Identifier() string {
+func (o *HostServiceMappingPolicy) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *EnforcerProfileMappingPolicy) SetIdentifier(id string) {
+func (o *HostServiceMappingPolicy) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *EnforcerProfileMappingPolicy) Version() int {
+func (o *HostServiceMappingPolicy) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *EnforcerProfileMappingPolicy) DefaultOrder() []string {
+func (o *HostServiceMappingPolicy) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -198,199 +204,224 @@ func (o *EnforcerProfileMappingPolicy) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *EnforcerProfileMappingPolicy) Doc() string {
-	return `A Enforcer Profile Mapping Policy will tell what Enforcer Profile should be used
-by and Aporeto Agent based on the Enforcer that have been used during the
-registration. The policy can also be propagated down to the child namespace.`
+func (o *HostServiceMappingPolicy) Doc() string {
+	return `Defines a host service mapping policy that provides the relation between
+enforcers and host services that they must implement.`
 }
 
-func (o *EnforcerProfileMappingPolicy) String() string {
+func (o *HostServiceMappingPolicy) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *HostServiceMappingPolicy) GetActiveDuration() string {
+
+	return o.ActiveDuration
+}
+
+// SetActiveDuration sets the property ActiveDuration of the receiver using the given value.
+func (o *HostServiceMappingPolicy) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *HostServiceMappingPolicy) GetActiveSchedule() string {
+
+	return o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the given value.
+func (o *HostServiceMappingPolicy) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = activeSchedule
+}
+
 // GetAnnotations returns the Annotations of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetAnnotations() map[string][]string {
+func (o *HostServiceMappingPolicy) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetAnnotations(annotations map[string][]string) {
+func (o *HostServiceMappingPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetAssociatedTags() []string {
+func (o *HostServiceMappingPolicy) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetAssociatedTags(associatedTags []string) {
+func (o *HostServiceMappingPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetCreateTime() time.Time {
+func (o *HostServiceMappingPolicy) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetCreateTime(createTime time.Time) {
+func (o *HostServiceMappingPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetDescription() string {
+func (o *HostServiceMappingPolicy) GetDescription() string {
 
 	return o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetDescription(description string) {
+func (o *HostServiceMappingPolicy) SetDescription(description string) {
 
 	o.Description = description
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetDisabled() bool {
+func (o *HostServiceMappingPolicy) GetDisabled() bool {
 
 	return o.Disabled
 }
 
 // SetDisabled sets the property Disabled of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetDisabled(disabled bool) {
+func (o *HostServiceMappingPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetFallback() bool {
+func (o *HostServiceMappingPolicy) GetFallback() bool {
 
 	return o.Fallback
 }
 
 // SetFallback sets the property Fallback of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetFallback(fallback bool) {
+func (o *HostServiceMappingPolicy) SetFallback(fallback bool) {
 
 	o.Fallback = fallback
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetMetadata() []string {
+func (o *HostServiceMappingPolicy) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetMetadata(metadata []string) {
+func (o *HostServiceMappingPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetName() string {
+func (o *HostServiceMappingPolicy) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetName(name string) {
+func (o *HostServiceMappingPolicy) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetNamespace() string {
+func (o *HostServiceMappingPolicy) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetNamespace(namespace string) {
+func (o *HostServiceMappingPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetNormalizedTags() []string {
+func (o *HostServiceMappingPolicy) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetNormalizedTags(normalizedTags []string) {
+func (o *HostServiceMappingPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetPropagate() bool {
+func (o *HostServiceMappingPolicy) GetPropagate() bool {
 
 	return o.Propagate
 }
 
 // SetPropagate sets the property Propagate of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetPropagate(propagate bool) {
+func (o *HostServiceMappingPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetProtected() bool {
+func (o *HostServiceMappingPolicy) GetProtected() bool {
 
 	return o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetUpdateTime() time.Time {
+func (o *HostServiceMappingPolicy) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetUpdateTime(updateTime time.Time) {
+func (o *HostServiceMappingPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetZHash() int {
+func (o *HostServiceMappingPolicy) GetZHash() int {
 
 	return o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetZHash(zHash int) {
+func (o *HostServiceMappingPolicy) SetZHash(zHash int) {
 
 	o.ZHash = zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *EnforcerProfileMappingPolicy) GetZone() int {
+func (o *HostServiceMappingPolicy) GetZone() int {
 
 	return o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the given value.
-func (o *EnforcerProfileMappingPolicy) SetZone(zone int) {
+func (o *HostServiceMappingPolicy) SetZone(zone int) {
 
 	o.Zone = zone
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *EnforcerProfileMappingPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *HostServiceMappingPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseEnforcerProfileMappingPolicy{
+		return &SparseHostServiceMappingPolicy{
 			ID:             &o.ID,
+			ActiveDuration: &o.ActiveDuration,
+			ActiveSchedule: &o.ActiveSchedule,
 			Annotations:    &o.Annotations,
 			AssociatedTags: &o.AssociatedTags,
 			CreateTime:     &o.CreateTime,
@@ -398,7 +429,6 @@ func (o *EnforcerProfileMappingPolicy) ToSparse(fields ...string) elemental.Spar
 			Disabled:       &o.Disabled,
 			Fallback:       &o.Fallback,
 			Metadata:       &o.Metadata,
-			Migrated:       &o.Migrated,
 			Name:           &o.Name,
 			Namespace:      &o.Namespace,
 			NormalizedTags: &o.NormalizedTags,
@@ -412,11 +442,15 @@ func (o *EnforcerProfileMappingPolicy) ToSparse(fields ...string) elemental.Spar
 		}
 	}
 
-	sp := &SparseEnforcerProfileMappingPolicy{}
+	sp := &SparseHostServiceMappingPolicy{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
+		case "activeDuration":
+			sp.ActiveDuration = &(o.ActiveDuration)
+		case "activeSchedule":
+			sp.ActiveSchedule = &(o.ActiveSchedule)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
@@ -431,8 +465,6 @@ func (o *EnforcerProfileMappingPolicy) ToSparse(fields ...string) elemental.Spar
 			sp.Fallback = &(o.Fallback)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
-		case "migrated":
-			sp.Migrated = &(o.Migrated)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -459,15 +491,21 @@ func (o *EnforcerProfileMappingPolicy) ToSparse(fields ...string) elemental.Spar
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseEnforcerProfileMappingPolicy to the object.
-func (o *EnforcerProfileMappingPolicy) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseHostServiceMappingPolicy to the object.
+func (o *HostServiceMappingPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseEnforcerProfileMappingPolicy)
+	so := sparse.(*SparseHostServiceMappingPolicy)
 	if so.ID != nil {
 		o.ID = *so.ID
+	}
+	if so.ActiveDuration != nil {
+		o.ActiveDuration = *so.ActiveDuration
+	}
+	if so.ActiveSchedule != nil {
+		o.ActiveSchedule = *so.ActiveSchedule
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
@@ -489,9 +527,6 @@ func (o *EnforcerProfileMappingPolicy) Patch(sparse elemental.SparseIdentifiable
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
-	}
-	if so.Migrated != nil {
-		o.Migrated = *so.Migrated
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -525,35 +560,39 @@ func (o *EnforcerProfileMappingPolicy) Patch(sparse elemental.SparseIdentifiable
 	}
 }
 
-// DeepCopy returns a deep copy if the EnforcerProfileMappingPolicy.
-func (o *EnforcerProfileMappingPolicy) DeepCopy() *EnforcerProfileMappingPolicy {
+// DeepCopy returns a deep copy if the HostServiceMappingPolicy.
+func (o *HostServiceMappingPolicy) DeepCopy() *HostServiceMappingPolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &EnforcerProfileMappingPolicy{}
+	out := &HostServiceMappingPolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *EnforcerProfileMappingPolicy.
-func (o *EnforcerProfileMappingPolicy) DeepCopyInto(out *EnforcerProfileMappingPolicy) {
+// DeepCopyInto copies the receiver into the given *HostServiceMappingPolicy.
+func (o *HostServiceMappingPolicy) DeepCopyInto(out *HostServiceMappingPolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy EnforcerProfileMappingPolicy: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy HostServiceMappingPolicy: %s", err))
 	}
 
-	*out = *target.(*EnforcerProfileMappingPolicy)
+	*out = *target.(*HostServiceMappingPolicy)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *EnforcerProfileMappingPolicy) Validate() error {
+func (o *HostServiceMappingPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
+		errors = append(errors, err)
+	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
@@ -579,30 +618,34 @@ func (o *EnforcerProfileMappingPolicy) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*EnforcerProfileMappingPolicy) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*HostServiceMappingPolicy) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := EnforcerProfileMappingPolicyAttributesMap[name]; ok {
+	if v, ok := HostServiceMappingPolicyAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return EnforcerProfileMappingPolicyLowerCaseAttributesMap[name]
+	return HostServiceMappingPolicyLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*EnforcerProfileMappingPolicy) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*HostServiceMappingPolicy) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return EnforcerProfileMappingPolicyAttributesMap
+	return HostServiceMappingPolicyAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *EnforcerProfileMappingPolicy) ValueForAttribute(name string) interface{} {
+func (o *HostServiceMappingPolicy) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
 		return o.ID
+	case "activeDuration":
+		return o.ActiveDuration
+	case "activeSchedule":
+		return o.ActiveSchedule
 	case "annotations":
 		return o.Annotations
 	case "associatedTags":
@@ -617,8 +660,6 @@ func (o *EnforcerProfileMappingPolicy) ValueForAttribute(name string) interface{
 		return o.Fallback
 	case "metadata":
 		return o.Metadata
-	case "migrated":
-		return o.Migrated
 	case "name":
 		return o.Name
 	case "namespace":
@@ -644,8 +685,8 @@ func (o *EnforcerProfileMappingPolicy) ValueForAttribute(name string) interface{
 	return nil
 }
 
-// EnforcerProfileMappingPolicyAttributesMap represents the map of attribute for EnforcerProfileMappingPolicy.
-var EnforcerProfileMappingPolicyAttributesMap = map[string]elemental.AttributeSpecification{
+// HostServiceMappingPolicyAttributesMap represents the map of attribute for HostServiceMappingPolicy.
+var HostServiceMappingPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -658,6 +699,31 @@ var EnforcerProfileMappingPolicyAttributesMap = map[string]elemental.AttributeSp
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
+	},
+	"ActiveDuration": elemental.AttributeSpecification{
+		AllowedChars:   `^[0-9]+[smh]$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveDuration",
+		Description: `ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeDuration",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
+	},
+	"ActiveSchedule": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveSchedule",
+		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeSchedule",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -751,15 +817,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
-	"Migrated": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Migrated",
-		Description: `Migrated indicated if the object has been migrated to hostservices and
-auditprofiles.`,
-		Name:   "migrated",
-		Stored: true,
-		Type:   "boolean",
-	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -811,12 +868,13 @@ auditprofiles.`,
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description:    `Object is the list of tags to use to find a enforcer profile.`,
-		Exposed:        true,
-		Name:           "object",
-		Stored:         true,
-		SubType:        "list_of_lists_of_strings",
-		Type:           "external",
+		Description: `Object of the policy is the selector for the host services that must be applied
+to this enforcer.`,
+		Exposed:   true,
+		Name:      "object",
+		Orderable: true,
+		SubType:   "list_of_lists_of_strings",
+		Type:      "external",
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -844,12 +902,13 @@ auditprofiles.`,
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject is the subject of the policy.`,
-		Exposed:        true,
-		Name:           "subject",
-		Stored:         true,
-		SubType:        "list_of_lists_of_strings",
-		Type:           "external",
+		Description: `Subject of the policy is the selector of the enforcers that the list of host
+services must apply to.`,
+		Exposed:   true,
+		Name:      "subject",
+		Orderable: true,
+		SubType:   "list_of_lists_of_strings",
+		Type:      "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -893,8 +952,8 @@ georedundancy.`,
 	},
 }
 
-// EnforcerProfileMappingPolicyLowerCaseAttributesMap represents the map of attribute for EnforcerProfileMappingPolicy.
-var EnforcerProfileMappingPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// HostServiceMappingPolicyLowerCaseAttributesMap represents the map of attribute for HostServiceMappingPolicy.
+var HostServiceMappingPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -907,6 +966,31 @@ var EnforcerProfileMappingPolicyLowerCaseAttributesMap = map[string]elemental.At
 		Orderable:      true,
 		ReadOnly:       true,
 		Type:           "string",
+	},
+	"activeduration": elemental.AttributeSpecification{
+		AllowedChars:   `^[0-9]+[smh]$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveDuration",
+		Description: `ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeDuration",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
+	},
+	"activeschedule": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveSchedule",
+		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeSchedule",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1000,15 +1084,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:    "string",
 		Type:       "list",
 	},
-	"migrated": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Migrated",
-		Description: `Migrated indicated if the object has been migrated to hostservices and
-auditprofiles.`,
-		Name:   "migrated",
-		Stored: true,
-		Type:   "boolean",
-	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -1060,12 +1135,13 @@ auditprofiles.`,
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description:    `Object is the list of tags to use to find a enforcer profile.`,
-		Exposed:        true,
-		Name:           "object",
-		Stored:         true,
-		SubType:        "list_of_lists_of_strings",
-		Type:           "external",
+		Description: `Object of the policy is the selector for the host services that must be applied
+to this enforcer.`,
+		Exposed:   true,
+		Name:      "object",
+		Orderable: true,
+		SubType:   "list_of_lists_of_strings",
+		Type:      "external",
 	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1093,12 +1169,13 @@ auditprofiles.`,
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description:    `Subject is the subject of the policy.`,
-		Exposed:        true,
-		Name:           "subject",
-		Stored:         true,
-		SubType:        "list_of_lists_of_strings",
-		Type:           "external",
+		Description: `Subject of the policy is the selector of the enforcers that the list of host
+services must apply to.`,
+		Exposed:   true,
+		Name:      "subject",
+		Orderable: true,
+		SubType:   "list_of_lists_of_strings",
+		Type:      "external",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1142,35 +1219,35 @@ georedundancy.`,
 	},
 }
 
-// SparseEnforcerProfileMappingPoliciesList represents a list of SparseEnforcerProfileMappingPolicies
-type SparseEnforcerProfileMappingPoliciesList []*SparseEnforcerProfileMappingPolicy
+// SparseHostServiceMappingPoliciesList represents a list of SparseHostServiceMappingPolicies
+type SparseHostServiceMappingPoliciesList []*SparseHostServiceMappingPolicy
 
 // Identity returns the identity of the objects in the list.
-func (o SparseEnforcerProfileMappingPoliciesList) Identity() elemental.Identity {
+func (o SparseHostServiceMappingPoliciesList) Identity() elemental.Identity {
 
-	return EnforcerProfileMappingPolicyIdentity
+	return HostServiceMappingPolicyIdentity
 }
 
-// Copy returns a pointer to a copy the SparseEnforcerProfileMappingPoliciesList.
-func (o SparseEnforcerProfileMappingPoliciesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseHostServiceMappingPoliciesList.
+func (o SparseHostServiceMappingPoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(SparseEnforcerProfileMappingPoliciesList{}, o...)
+	copy := append(SparseHostServiceMappingPoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseEnforcerProfileMappingPoliciesList.
-func (o SparseEnforcerProfileMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseHostServiceMappingPoliciesList.
+func (o SparseHostServiceMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseEnforcerProfileMappingPoliciesList{}, o...)
+	out := append(SparseHostServiceMappingPoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseEnforcerProfileMappingPolicy))
+		out = append(out, obj.(*SparseHostServiceMappingPolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseEnforcerProfileMappingPoliciesList) List() elemental.IdentifiablesList {
+func (o SparseHostServiceMappingPoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1181,15 +1258,15 @@ func (o SparseEnforcerProfileMappingPoliciesList) List() elemental.Identifiables
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseEnforcerProfileMappingPoliciesList) DefaultOrder() []string {
+func (o SparseHostServiceMappingPoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToPlain returns the SparseEnforcerProfileMappingPoliciesList converted to EnforcerProfileMappingPoliciesList.
-func (o SparseEnforcerProfileMappingPoliciesList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseHostServiceMappingPoliciesList converted to HostServiceMappingPoliciesList.
+func (o SparseHostServiceMappingPoliciesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1200,15 +1277,23 @@ func (o SparseEnforcerProfileMappingPoliciesList) ToPlain() elemental.Identifiab
 }
 
 // Version returns the version of the content.
-func (o SparseEnforcerProfileMappingPoliciesList) Version() int {
+func (o SparseHostServiceMappingPoliciesList) Version() int {
 
 	return 1
 }
 
-// SparseEnforcerProfileMappingPolicy represents the sparse version of a enforcerprofilemappingpolicy.
-type SparseEnforcerProfileMappingPolicy struct {
+// SparseHostServiceMappingPolicy represents the sparse version of a hostservicemappingpolicy.
+type SparseHostServiceMappingPolicy struct {
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
+	// ActiveDuration defines for how long the policy will be active according to the
+	// activeSchedule.
+	ActiveDuration *string `json:"activeDuration,omitempty" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
+
+	// ActiveSchedule defines when the policy should be active using the cron notation.
+	// The policy will be active for the given activeDuration.
+	ActiveSchedule *string `json:"activeSchedule,omitempty" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
@@ -1234,10 +1319,6 @@ type SparseEnforcerProfileMappingPolicy struct {
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
 
-	// Migrated indicated if the object has been migrated to hostservices and
-	// auditprofiles.
-	Migrated *bool `json:"-,omitempty" bson:"migrated" mapstructure:"-,omitempty"`
-
 	// Name is the name of the entity.
 	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
 
@@ -1247,8 +1328,9 @@ type SparseEnforcerProfileMappingPolicy struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Object is the list of tags to use to find a enforcer profile.
-	Object *[][]string `json:"object,omitempty" bson:"object" mapstructure:"object,omitempty"`
+	// Object of the policy is the selector for the host services that must be applied
+	// to this enforcer.
+	Object *[][]string `json:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
@@ -1256,8 +1338,9 @@ type SparseEnforcerProfileMappingPolicy struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Subject is the subject of the policy.
-	Subject *[][]string `json:"subject,omitempty" bson:"subject" mapstructure:"subject,omitempty"`
+	// Subject of the policy is the selector of the enforcers that the list of host
+	// services must apply to.
+	Subject *[][]string `json:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -1275,19 +1358,19 @@ type SparseEnforcerProfileMappingPolicy struct {
 	sync.Mutex `json:"-" bson:"-"`
 }
 
-// NewSparseEnforcerProfileMappingPolicy returns a new  SparseEnforcerProfileMappingPolicy.
-func NewSparseEnforcerProfileMappingPolicy() *SparseEnforcerProfileMappingPolicy {
-	return &SparseEnforcerProfileMappingPolicy{}
+// NewSparseHostServiceMappingPolicy returns a new  SparseHostServiceMappingPolicy.
+func NewSparseHostServiceMappingPolicy() *SparseHostServiceMappingPolicy {
+	return &SparseHostServiceMappingPolicy{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseEnforcerProfileMappingPolicy) Identity() elemental.Identity {
+func (o *SparseHostServiceMappingPolicy) Identity() elemental.Identity {
 
-	return EnforcerProfileMappingPolicyIdentity
+	return HostServiceMappingPolicyIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseEnforcerProfileMappingPolicy) Identifier() string {
+func (o *SparseHostServiceMappingPolicy) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1296,23 +1379,29 @@ func (o *SparseEnforcerProfileMappingPolicy) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseEnforcerProfileMappingPolicy) SetIdentifier(id string) {
+func (o *SparseHostServiceMappingPolicy) SetIdentifier(id string) {
 
 	o.ID = &id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseEnforcerProfileMappingPolicy) Version() int {
+func (o *SparseHostServiceMappingPolicy) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseEnforcerProfileMappingPolicy) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseHostServiceMappingPolicy) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewEnforcerProfileMappingPolicy()
+	out := NewHostServiceMappingPolicy()
 	if o.ID != nil {
 		out.ID = *o.ID
+	}
+	if o.ActiveDuration != nil {
+		out.ActiveDuration = *o.ActiveDuration
+	}
+	if o.ActiveSchedule != nil {
+		out.ActiveSchedule = *o.ActiveSchedule
 	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
@@ -1334,9 +1423,6 @@ func (o *SparseEnforcerProfileMappingPolicy) ToPlain() elemental.PlainIdentifiab
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
-	}
-	if o.Migrated != nil {
-		out.Migrated = *o.Migrated
 	}
 	if o.Name != nil {
 		out.Name = *o.Name
@@ -1372,200 +1458,224 @@ func (o *SparseEnforcerProfileMappingPolicy) ToPlain() elemental.PlainIdentifiab
 	return out
 }
 
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *SparseHostServiceMappingPolicy) GetActiveDuration() string {
+
+	return *o.ActiveDuration
+}
+
+// SetActiveDuration sets the property ActiveDuration of the receiver using the address of the given value.
+func (o *SparseHostServiceMappingPolicy) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = &activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *SparseHostServiceMappingPolicy) GetActiveSchedule() string {
+
+	return *o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the address of the given value.
+func (o *SparseHostServiceMappingPolicy) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = &activeSchedule
+}
+
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetAnnotations() map[string][]string {
+func (o *SparseHostServiceMappingPolicy) GetAnnotations() map[string][]string {
 
 	return *o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetAnnotations(annotations map[string][]string) {
+func (o *SparseHostServiceMappingPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetAssociatedTags() []string {
+func (o *SparseHostServiceMappingPolicy) GetAssociatedTags() []string {
 
 	return *o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetAssociatedTags(associatedTags []string) {
+func (o *SparseHostServiceMappingPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetCreateTime() time.Time {
+func (o *SparseHostServiceMappingPolicy) GetCreateTime() time.Time {
 
 	return *o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetCreateTime(createTime time.Time) {
+func (o *SparseHostServiceMappingPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetDescription() string {
+func (o *SparseHostServiceMappingPolicy) GetDescription() string {
 
 	return *o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetDescription(description string) {
+func (o *SparseHostServiceMappingPolicy) SetDescription(description string) {
 
 	o.Description = &description
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetDisabled() bool {
+func (o *SparseHostServiceMappingPolicy) GetDisabled() bool {
 
 	return *o.Disabled
 }
 
 // SetDisabled sets the property Disabled of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetDisabled(disabled bool) {
+func (o *SparseHostServiceMappingPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = &disabled
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetFallback() bool {
+func (o *SparseHostServiceMappingPolicy) GetFallback() bool {
 
 	return *o.Fallback
 }
 
 // SetFallback sets the property Fallback of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetFallback(fallback bool) {
+func (o *SparseHostServiceMappingPolicy) SetFallback(fallback bool) {
 
 	o.Fallback = &fallback
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetMetadata() []string {
+func (o *SparseHostServiceMappingPolicy) GetMetadata() []string {
 
 	return *o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetMetadata(metadata []string) {
+func (o *SparseHostServiceMappingPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = &metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetName() string {
+func (o *SparseHostServiceMappingPolicy) GetName() string {
 
 	return *o.Name
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetName(name string) {
+func (o *SparseHostServiceMappingPolicy) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetNamespace() string {
+func (o *SparseHostServiceMappingPolicy) GetNamespace() string {
 
 	return *o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetNamespace(namespace string) {
+func (o *SparseHostServiceMappingPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetNormalizedTags() []string {
+func (o *SparseHostServiceMappingPolicy) GetNormalizedTags() []string {
 
 	return *o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseHostServiceMappingPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetPropagate() bool {
+func (o *SparseHostServiceMappingPolicy) GetPropagate() bool {
 
 	return *o.Propagate
 }
 
 // SetPropagate sets the property Propagate of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetPropagate(propagate bool) {
+func (o *SparseHostServiceMappingPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = &propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetProtected() bool {
+func (o *SparseHostServiceMappingPolicy) GetProtected() bool {
 
 	return *o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetUpdateTime() time.Time {
+func (o *SparseHostServiceMappingPolicy) GetUpdateTime() time.Time {
 
 	return *o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetUpdateTime(updateTime time.Time) {
+func (o *SparseHostServiceMappingPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetZHash() int {
+func (o *SparseHostServiceMappingPolicy) GetZHash() int {
 
 	return *o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetZHash(zHash int) {
+func (o *SparseHostServiceMappingPolicy) SetZHash(zHash int) {
 
 	o.ZHash = &zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseEnforcerProfileMappingPolicy) GetZone() int {
+func (o *SparseHostServiceMappingPolicy) GetZone() int {
 
 	return *o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparseEnforcerProfileMappingPolicy) SetZone(zone int) {
+func (o *SparseHostServiceMappingPolicy) SetZone(zone int) {
 
 	o.Zone = &zone
 }
 
-// DeepCopy returns a deep copy if the SparseEnforcerProfileMappingPolicy.
-func (o *SparseEnforcerProfileMappingPolicy) DeepCopy() *SparseEnforcerProfileMappingPolicy {
+// DeepCopy returns a deep copy if the SparseHostServiceMappingPolicy.
+func (o *SparseHostServiceMappingPolicy) DeepCopy() *SparseHostServiceMappingPolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseEnforcerProfileMappingPolicy{}
+	out := &SparseHostServiceMappingPolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseEnforcerProfileMappingPolicy.
-func (o *SparseEnforcerProfileMappingPolicy) DeepCopyInto(out *SparseEnforcerProfileMappingPolicy) {
+// DeepCopyInto copies the receiver into the given *SparseHostServiceMappingPolicy.
+func (o *SparseHostServiceMappingPolicy) DeepCopyInto(out *SparseHostServiceMappingPolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseEnforcerProfileMappingPolicy: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseHostServiceMappingPolicy: %s", err))
 	}
 
-	*out = *target.(*SparseEnforcerProfileMappingPolicy)
+	*out = *target.(*SparseHostServiceMappingPolicy)
 }

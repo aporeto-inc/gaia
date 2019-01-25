@@ -16,6 +16,9 @@ const (
 	// PolicyTypeAPIAuthorization represents the value APIAuthorization.
 	PolicyTypeAPIAuthorization PolicyTypeValue = "APIAuthorization"
 
+	// PolicyTypeAuditProfileMapping represents the value AuditProfileMapping.
+	PolicyTypeAuditProfileMapping PolicyTypeValue = "AuditProfileMapping"
+
 	// PolicyTypeEnforcerProfile represents the value EnforcerProfile.
 	PolicyTypeEnforcerProfile PolicyTypeValue = "EnforcerProfile"
 
@@ -24,6 +27,9 @@ const (
 
 	// PolicyTypeHook represents the value Hook.
 	PolicyTypeHook PolicyTypeValue = "Hook"
+
+	// PolicyTypeHostServiceMapping represents the value HostServiceMapping.
+	PolicyTypeHostServiceMapping PolicyTypeValue = "HostServiceMapping"
 
 	// PolicyTypeNamespaceMapping represents the value NamespaceMapping.
 	PolicyTypeNamespaceMapping PolicyTypeValue = "NamespaceMapping"
@@ -742,7 +748,7 @@ func (o *Policy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "Syscall", "TokenScope", "ServiceDependency"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -1122,13 +1128,12 @@ includes AND/OR.`,
 		Type:    "external",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "Syscall", "TokenScope", "ServiceDependency"},
+		AllowedChoices: []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the policy.`,
 		Exposed:        true,
 		Name:           "type",
-		PrimaryKey:     true,
 		Stored:         true,
 		Type:           "enum",
 	},
@@ -1459,13 +1464,12 @@ includes AND/OR.`,
 		Type:    "external",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "Syscall", "TokenScope", "ServiceDependency"},
+		AllowedChoices: []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the policy.`,
 		Exposed:        true,
 		Name:           "type",
-		PrimaryKey:     true,
 		Stored:         true,
 		Type:           "enum",
 	},

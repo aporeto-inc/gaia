@@ -459,7 +459,7 @@ func TestValidateProtocolList(t *testing.T) {
 func TestValidateHostServicesList(t *testing.T) {
 	type args struct {
 		attribute    string
-		hostservices []*HostService
+		hostservices []*DeprecatedHostService
 	}
 	tests := []struct {
 		name    string
@@ -470,8 +470,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"alphanumeric name",
 			args{
 				"hostservices",
-				[]*HostService{
-					&HostService{
+				[]*DeprecatedHostService{
+					&DeprecatedHostService{
 						Name: "ssh22",
 					},
 				},
@@ -482,8 +482,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"name with underscore",
 			args{
 				"hostservices",
-				[]*HostService{
-					&HostService{
+				[]*DeprecatedHostService{
+					&DeprecatedHostService{
 						Name: "proxy_ssh",
 					},
 				},
@@ -494,8 +494,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"empty name",
 			args{
 				"hostservices",
-				[]*HostService{
-					&HostService{
+				[]*DeprecatedHostService{
+					&DeprecatedHostService{
 						Name: "",
 					},
 				},
@@ -506,8 +506,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"name with space",
 			args{
 				"hostservices",
-				[]*HostService{
-					&HostService{
+				[]*DeprecatedHostService{
+					&DeprecatedHostService{
 						Name: "Host Service",
 					},
 				},
@@ -518,8 +518,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"name contains hyphen",
 			args{
 				"hostservices",
-				[]*HostService{
-					&HostService{
+				[]*DeprecatedHostService{
+					&DeprecatedHostService{
 						Name: "proxy-ssh",
 					},
 				},
@@ -530,8 +530,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"name with 12 characters",
 			args{
 				"hostservices",
-				[]*HostService{
-					&HostService{
+				[]*DeprecatedHostService{
+					&DeprecatedHostService{
 						Name: "ansible_proxy_ssh",
 					},
 				},
@@ -542,8 +542,8 @@ func TestValidateHostServicesList(t *testing.T) {
 			"invalid name",
 			args{
 				"hostservices",
-				[]*HostService{
-					&HostService{
+				[]*DeprecatedHostService{
+					&DeprecatedHostService{
 						Name: "###InvalidName!",
 					},
 				},
@@ -970,6 +970,86 @@ func TestValidateOptionalNetworkList(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := ValidateOptionalNetworkList(tt.args.attribute, tt.args.networks); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateOptionalNetworkList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateHostService(t *testing.T) {
+	tests := []struct {
+		name    string
+		hs      *HostService
+		wantErr bool
+	}{
+		{
+			"valid service",
+			&HostService{
+				Name:            "jboss",
+				HostModeEnabled: false,
+				Services:        []string{"tcp/80"},
+			},
+			false,
+		},
+		{
+			"invalid name",
+			&HostService{
+				Name:            "jboss@!#$!$!",
+				HostModeEnabled: false,
+				Services:        []string{},
+			},
+			true,
+		},
+		{
+			"empty name",
+			&HostService{
+				Name:            "",
+				HostModeEnabled: false,
+				Services:        []string{},
+			},
+			true,
+		},
+		{
+			"invalid services",
+			&HostService{
+				Name:            "jboss",
+				HostModeEnabled: false,
+				Services:        []string{"foo / 123"},
+			},
+			true,
+		},
+		{
+			"tcp port overlaps",
+			&HostService{
+				Name:            "jboss",
+				HostModeEnabled: false,
+				Services:        []string{"tcp/80:100, tcp/90"},
+			},
+			true,
+		},
+		{
+			"udp port overlaps",
+			&HostService{
+				Name:            "jboss",
+				HostModeEnabled: false,
+				Services:        []string{"udp/80:100, udp/90"},
+			},
+			true,
+		},
+		{
+			"non overlap with tcp and udp ports",
+			&HostService{
+				Name:            "jboss",
+				HostModeEnabled: false,
+				Services:        []string{"udp/90", "tcp/90"},
+			},
+			false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateHostServices(tt.hs); (err != nil) != tt.wantErr {
+				t.Errorf("TestValidateHostServicesList() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
