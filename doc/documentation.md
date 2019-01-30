@@ -7110,6 +7110,11 @@ Issues a new token.
 
 ### Attributes
 
+#### `audience (string)`
+
+If given, the issued token will only be valid from that namespace declared in
+that value.
+
 #### `data (string)`
 
 Data contains additional data. The value depends on the issuer type.

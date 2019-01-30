@@ -11,6 +11,15 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: audience
+    description: |-
+      If given, the issued token will only be valid from that namespace declared in
+      that value.
+    type: string
+    exposed: true
+    validations:
+    - $audience
+
   - name: data
     description: Data contains additional data. The value depends on the issuer type.
     type: string

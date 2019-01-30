@@ -112,6 +112,10 @@ func (o IssuesList) Version() int {
 
 // Issue represents the model of a issue
 type Issue struct {
+	// If given, the issued token will only be valid from that namespace declared in
+	// that value.
+	Audience string `json:"audience" bson:"-" mapstructure:"audience,omitempty"`
+
 	// Data contains additional data. The value depends on the issuer type.
 	Data string `json:"data" bson:"-" mapstructure:"data,omitempty"`
 
@@ -196,6 +200,7 @@ func (o *Issue) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseIssue{
+			Audience: &o.Audience,
 			Data:     &o.Data,
 			Metadata: &o.Metadata,
 			Opaque:   &o.Opaque,
@@ -209,6 +214,8 @@ func (o *Issue) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	sp := &SparseIssue{}
 	for _, f := range fields {
 		switch f {
+		case "audience":
+			sp.Audience = &(o.Audience)
 		case "data":
 			sp.Data = &(o.Data)
 		case "metadata":
@@ -236,6 +243,9 @@ func (o *Issue) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseIssue)
+	if so.Audience != nil {
+		o.Audience = *so.Audience
+	}
 	if so.Data != nil {
 		o.Data = *so.Data
 	}
@@ -289,6 +299,10 @@ func (o *Issue) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := ValidateAudience("audience", o.Audience); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC"}, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -331,6 +345,8 @@ func (*Issue) AttributeSpecifications() map[string]elemental.AttributeSpecificat
 func (o *Issue) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "audience":
+		return o.Audience
 	case "data":
 		return o.Data
 	case "metadata":
@@ -352,6 +368,15 @@ func (o *Issue) ValueForAttribute(name string) interface{} {
 
 // IssueAttributesMap represents the map of attribute for Issue.
 var IssueAttributesMap = map[string]elemental.AttributeSpecification{
+	"Audience": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Audience",
+		Description: `If given, the issued token will only be valid from that namespace declared in
+that value.`,
+		Exposed: true,
+		Name:    "audience",
+		Type:    "string",
+	},
 	"Data": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Data",
@@ -423,6 +448,15 @@ configured max validity, it will be capped.`,
 
 // IssueLowerCaseAttributesMap represents the map of attribute for Issue.
 var IssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"audience": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Audience",
+		Description: `If given, the issued token will only be valid from that namespace declared in
+that value.`,
+		Exposed: true,
+		Name:    "audience",
+		Type:    "string",
+	},
 	"data": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Data",
@@ -555,6 +589,10 @@ func (o SparseIssuesList) Version() int {
 
 // SparseIssue represents the sparse version of a issue.
 type SparseIssue struct {
+	// If given, the issued token will only be valid from that namespace declared in
+	// that value.
+	Audience *string `json:"audience,omitempty" bson:"-" mapstructure:"audience,omitempty"`
+
 	// Data contains additional data. The value depends on the issuer type.
 	Data *string `json:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
@@ -614,6 +652,9 @@ func (o *SparseIssue) Version() int {
 func (o *SparseIssue) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewIssue()
+	if o.Audience != nil {
+		out.Audience = *o.Audience
+	}
 	if o.Data != nil {
 		out.Data = *o.Data
 	}

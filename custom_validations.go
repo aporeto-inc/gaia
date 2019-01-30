@@ -503,3 +503,9 @@ func ValidateHostServicesNonOverlapPorts(svcs []string) error {
 
 	return nil
 }
+
+// ValidateAudience validates an audience string.
+func ValidateAudience(attribute string, audience string) error {
+	// TODO: not liking the idea of importing addedeffect here
+	return nil
+}
