@@ -79,8 +79,6 @@ func ExtractPortsAndProtocolFromHostService(service string) (*PortsRange, string
 		proto = protocols.L4ProtocolTCP
 		portSubString = upperService[4:]
 	} else {
-		// TODO: Shouldn't we return an error here ?
-		// That's what the above comment is suggesting !
 		proto = protocols.L4ProtocolTCP
 		portSubString = upperService
 	}
