@@ -121,6 +121,7 @@ func NewStatsInfo() *StatsInfo {
 		ModelVersion: 1,
 		Fields:       map[string]string{},
 		Measurement:  StatsInfoMeasurementFlows,
+		Tags:         []string{},
 	}
 }
 
@@ -299,7 +300,7 @@ var StatsInfoAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "fields",
 		ReadOnly:       true,
-		SubType:        "stats_fields_info",
+		SubType:        "map_of_string_of_strings",
 		Type:           "external",
 	},
 	"Measurement": elemental.AttributeSpecification{
@@ -334,7 +335,7 @@ var StatsInfoLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Exposed:        true,
 		Name:           "fields",
 		ReadOnly:       true,
-		SubType:        "stats_fields_info",
+		SubType:        "map_of_string_of_strings",
 		Type:           "external",
 	},
 	"measurement": elemental.AttributeSpecification{

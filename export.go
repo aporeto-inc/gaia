@@ -105,6 +105,7 @@ func NewExport() *Export {
 	return &Export{
 		ModelVersion: 1,
 		Data:         map[string][]map[string]interface{}{},
+		Identities:   []string{},
 	}
 }
 
@@ -295,7 +296,7 @@ var ExportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `List of all exported data.`,
 		Exposed:        true,
 		Name:           "data",
-		SubType:        "exported_data_content",
+		SubType:        "map_of_string_of_lists_of_maps_of_string_of_objects",
 		Type:           "external",
 	},
 	"Identities": elemental.AttributeSpecification{
@@ -341,7 +342,7 @@ var ExportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `List of all exported data.`,
 		Exposed:        true,
 		Name:           "data",
-		SubType:        "exported_data_content",
+		SubType:        "map_of_string_of_lists_of_maps_of_string_of_objects",
 		Type:           "external",
 	},
 	"identities": elemental.AttributeSpecification{

@@ -211,6 +211,9 @@ const (
 	// ActionAllowTagString is the system created action=allow tag.
 	ActionAllowTagString = "action=allow"
 
+	// ActionAllowedSubnetsTagString is the system created action=authorize-subnets tag.
+	ActionAllowedSubnetsTagString = "action=authorize-subnets"
+
 	// ActionRejectTagString is the system created "action=reject" tag
 	ActionRejectTagString = "action=reject"
 

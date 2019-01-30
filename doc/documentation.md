@@ -14,11 +14,14 @@
 | [APICheck](#apicheck)                                         | This API allows to verify is a client identitied by his token is allowed to do      |
 | [App](#app)                                                   | App represents an application that can be installed.                                |
 | [AppCredential](#appcredential)                               | Create a credential for an application.                                             |
+| [AppParameter](#appparameter)                                 | Represents a parameter that can be passed to an app.                                |
 | [AuditProfile](#auditprofile)                                 | AuditProfile is an audit policy that consists of a set of audit rules. An audit     |
+| [AuditProfileMappingPolicy](#auditprofilemappingpolicy)       | Defines an audit policy that determine the sets of enforcers that must implement... |
 | [AuditReport](#auditreport)                                   | Post a new audit statistics report.                                                 |
 | [Auth](#auth)                                                 | This API verifies if the given token is valid or not.                               |
 | [Automation](#automation)                                     | An automation needs documentation.                                                  |
 | [AutomationTemplate](#automationtemplate)                     | Templates that ca be used in automations.                                           |
+| [AutomationTemplateParameter](#automationtemplateparameter)   | Represents an Automation template parameter.                                        |
 | [AWSAccount](#awsaccount)                                     | Allows to bind an AWS account to your Aporeto account to allow auto registration... |
 | [AWSAPIGateway](#awsapigateway)                               | managed API decisions for the AWS API Gateway.                                      |
 | [AWSRegister](#awsregister)                                   | This api allows AWS customer to register with Aporeto SaaS for billing.             |
@@ -27,11 +30,13 @@
 | [ClaimMapping](#claimmapping)                                 | Represents a mapping from a claim name to an HTTP header.                           |
 | [Credential](#credential)                                     | Represents an application credential data.                                          |
 | [DependencyMap](#dependencymap)                               | This api returns a data structure representing the graph of all processing units... |
+| [DeprecatedHostService](#deprecatedhostservice)               | Represents a service of the enforcer's host.                                        |
 | [Endpoint](#endpoint)                                         | Represents an HTTP endpoint.                                                        |
-| [Enforcer](#enforcer)                                         | An Enforcer Profile contains a configuration for a Enforcer. It contains various... |
+| [Enforcer](#enforcer)                                         | An Enforcer contains all parameters associated with a registered enforcer. The      |
 | [EnforcerProfile](#enforcerprofile)                           | Allows to create reusable configuration profile for your enforcers. Enforcer        |
 | [EnforcerProfileMappingPolicy](#enforcerprofilemappingpolicy) | A Enforcer Profile Mapping Policy will tell what Enforcer Profile should be used... |
 | [EnforcerReport](#enforcerreport)                             | Post a new enforcer statistics report.                                              |
+| [EnforcerTraceReport](#enforcertracereport)                   | Post a new enforcer trace that determines how packets are.                          |
 | [EventLog](#eventlog)                                         | This api allows to report various event on any objects.                             |
 | [Export](#export)                                             | Export the policies and related objects in a given namespace.                       |
 | [ExternalNetwork](#externalnetwork)                           | An External Network represents a random network or ip that is not managed by the... |
@@ -45,7 +50,8 @@
 | [GraphNode](#graphnode)                                       | Represents an node from the dependency map.                                         |
 | [GraphPolicyInfo](#graphpolicyinfo)                           | Represents a policy information.                                                    |
 | [HookPolicy](#hookpolicy)                                     | Hook allows to to define hooks to the write operations in squall. Hooks are sent... |
-| [HostService](#hostservice)                                   | Represents a service of the enforcer's host.                                        |
+| [HostService](#hostservice)                                   | Represents a set of services that a host must expose and protect.                   |
+| [HostServiceMappingPolicy](#hostservicemappingpolicy)         | Defines a host service mapping policy that provides the relation between            |
 | [HTTPResourceSpec](#httpresourcespec)                         | HTTPResourceSpec descibes an HTTP resource exposed by a service. These APIs         |
 | [Import](#import)                                             | Imports an export of policies and related objects into the namespace.               |
 | [InstalledApp](#installedapp)                                 | InstalledApps represents an installed application.                                  |
@@ -62,6 +68,7 @@
 | [NamespaceMappingPolicy](#namespacemappingpolicy)             | A Namespace Mapping Policy defines in which namespace a Processing Unit should      |
 | [NetworkAccessPolicy](#networkaccesspolicy)                   | Allows to define networking policies to allow or prevent processing units           |
 | [OIDCProvider](#oidcprovider)                                 | Allows to declare a generic OpenID Connect provider that can be used in exchange... |
+| [PacketReport](#packetreport)                                 | Post a new packet tracing report.                                                   |
 | [PasswordReset](#passwordreset)                               | Used to reset an account password.                                                  |
 | [Plan](#plan)                                                 | Plan contains the various billing plans available.                                  |
 | [Poke](#poke)                                                 | When available, poke can be used to update various information about the parent.... |
@@ -75,7 +82,6 @@
 | [RemoteProcessor](#remoteprocessor)                           | Hook to integrate an Aporeto service.                                               |
 | [RenderedPolicy](#renderedpolicy)                             | Retrieve the aggregated policies applied to a particular processing unit.           |
 | [Report](#report)                                             | Post a new statistics report.                                                       |
-| [RESTAPISpec](#restapispec)                                   | This is deprecated. Use HTTPResourceSpec instead.                                   |
 | [Role](#role)                                                 | Roles returns the available roles that can be used with API Authorization           |
 | [Root](#root)                                                 | root object.                                                                        |
 | [Service](#service)                                           | A Service defines a generic service object at L4 or L7 that encapsulates the        |
@@ -86,7 +92,11 @@
 | [Tabulation](#tabulation)                                     | Tabulate API allows you to retrieve a custom table view for any identity using      |
 | [Tag](#tag)                                                   | A tag is a string in the form of "key=value" that can applied to all objects in     |
 | [TagValue](#tagvalue)                                         | Represents all values associated to tag key.                                        |
+| [TimeSeriesQueryResults](#timeseriesqueryresults)             | Represent the results of a stats query.                                             |
+| [TimeSeriesRow](#timeseriesrow)                               | Represent a time series row.                                                        |
 | [TokenScopePolicy](#tokenscopepolicy)                         | The TokenScopePolicy defines a set of policies that allow customization of the      |
+| [TraceMode](#tracemode)                                       | TraceMode is the tracing mode that must be applied to a PU.                         |
+| [TraceRecord](#tracerecord)                                   | Represents a single trace record from the enforcer.                                 |
 | [Trigger](#trigger)                                           | Trigger can be used to remotely trigger an automation.                              |
 | [Vulnerability](#vulnerability)                               | A vulnerabily represents a particular CVE.                                          |
 
@@ -229,7 +239,7 @@ LDAPEnabled triggers if the account uses it's own LDAP for authentication.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `LDAPIgnoredKeys (external:ignore_list)`
+#### `LDAPIgnoredKeys (list)`
 
 LDAPIgnoredKeys holds a list of keys that must not be imported into Aporeto
 authorization system.
@@ -457,7 +467,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `claims (external:raw_data)`
+#### `claims (object)`
 
 Claims of the user who performed the operation.
 
@@ -467,7 +477,7 @@ Claims of the user who performed the operation.
 | Read only       | `true` |
 | Orderable       | `true` |
 
-#### `data (external:raw_data)`
+#### `data (object)`
 
 Data of the notification.
 
@@ -487,7 +497,7 @@ Date of the notification.
 | Read only       | `true` |
 | Orderable       | `true` |
 
-#### `error (external:raw_data)`
+#### `error (object)`
 
 Error contains the eventual error.
 
@@ -526,7 +536,7 @@ Operation describe what kind of operation the notification represents.
 | Read only       | `true` |
 | Filterable      | `true` |
 
-#### `originalData (external:raw_data)`
+#### `originalData (object)`
 
 OriginalData contains the eventual original data of the object that has been
 modified.
@@ -619,11 +629,11 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -646,7 +656,7 @@ CreatedTime is the time at which the object was created.
 | Read only       | `true` |
 | Orderable       | `true` |
 
-#### `data (external:alarm_data)`
+#### `data (external:list_of_maps_of_string_of_strings)`
 
 Data represent user data related to the alams.
 
@@ -693,7 +703,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -702,7 +712,7 @@ NormalizedTags contains the list of normalized tags of the entities.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `occurrences (external:alarm_occurrences)`
+#### `occurrences (external:list_of_times)`
 
 Number of time this alarm have been seen.
 
@@ -817,20 +827,20 @@ activeSchedule.
 | -               | -:                |
 | Format          | `/^[0-9]+[smh]$/` |
 
-#### `activeSchedule (external:cron_expression)`
+#### `activeSchedule (string)`
 
 ActiveSchedule defines when the policy should be active using the cron notation.
 The policy will be active for the given activeDuration.
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
-#### `authorizedIdentities (external:identity_list)`
+#### `authorizedIdentities (list)`
 
 AuthorizedIdentities defines the list of api identities the policy applies to.
 
@@ -845,6 +855,11 @@ AuthorizedNamespace defines on what namespace the policy applies.
 | Characteristics | Value  |
 | -               | -:     |
 | Required        | `true` |
+
+#### `authorizedSubnets (list)`
+
+If set, the api authorization will only be valid if the request comes from one
+the declared subnets.
 
 #### `createTime (time)`
 
@@ -883,7 +898,7 @@ propagated it will become a fallback for children namespaces.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -916,7 +931,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -950,7 +965,7 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `subject (external:policies_list)`
+#### `subject (external:list_of_lists_of_strings)`
 
 Subject is the subject.
 
@@ -995,7 +1010,7 @@ Verifies the authorizations on various identities for a given token.
 
 ### Attributes
 
-#### `authorized (external:authorized_identities)`
+#### `authorized (external:map_of_string_of_booleans)`
 
 Authorized contains the results of the check.
 
@@ -1030,7 +1045,7 @@ Operation is the operation you want to check.
 | Orderable       | `true`                                                        |
 | Filterable      | `true`                                                        |
 
-#### `targetIdentities (external:identity_list)`
+#### `targetIdentities (list)`
 
 TargetIdentities contains the list of identities you want to check the
 authorization.
@@ -1124,7 +1139,7 @@ Name is the name of the entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `parameters (external:app_parameters)`
+#### `parameters (refList)`
 
 Parameters is a list of parameters available for the app.
 
@@ -1221,11 +1236,11 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -1282,7 +1297,7 @@ The email address that will receive a copy of the application credentials.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -1315,7 +1330,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -1358,6 +1373,56 @@ UpdateTime is the time at which an entity was updated.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
+
+## AppParameter
+
+Represents a parameter that can be passed to an app.
+
+### Attributes
+
+#### `advanced (boolean)`
+
+Defines if the parameter is an advanced one.
+
+#### `allowedValues (list)`
+
+List of values that can be used.
+
+#### `defaultValue (object)`
+
+Default value of the parameter.
+
+#### `description (string)`
+
+Description of the paramerter.
+
+#### `key (string)`
+
+Key identifying the parameter.
+
+#### `longDescription (string)`
+
+Long explanation of the parameter.
+
+#### `name (string)`
+
+Name of the paramerter.
+
+#### `optional (boolean)`
+
+Defines if the parameter is optional.
+
+#### `type (enum)`
+
+The type of the parameter.
+
+| Characteristics | Value                                                                                                             |
+| -               | -:                                                                                                                |
+| Allowed Value   | `Boolean, Duration, Enum, IntegerSlice, Integer, Float, FloatSlice, Password, String, StringSlice, CVSSThreshold` |
+
+#### `value (object)`
+
+Value of the parameter.
 
 ## AuditProfile
 
@@ -1404,9 +1469,17 @@ Retrieves the object with the given ID.
 
 Updates the object with the given ID.
 
+#### `GET /auditprofilemappingpolicies/:id/auditprofiles`
+
+Returns the list of audit profiles that are referred by this policy.
+
 #### `GET /enforcerprofiles/:id/auditprofiles`
 
 Returns the list of AuditProfiles used by an enforcer profile.
+
+#### `GET /enforcers/:id/auditprofiles`
+
+Returns a list of the audit profiles that must be applied to this enforcer.
 
 ### Attributes
 
@@ -1422,11 +1495,11 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -1449,7 +1522,7 @@ Description is the description of the object.
 | Max length      | `1024` |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -1482,7 +1555,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -1503,9 +1576,214 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `rules (external:audit_profile_rule_list)`
+#### `rules (external:_audit_profile_rule_list)`
 
 Rules is the list of audit policy rules associated with this policy.
+
+#### `updateTime (time)`
+
+UpdateTime is the time at which an entity was updated.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
+
+## AuditProfileMappingPolicy
+
+Defines an audit policy that determine the sets of enforcers that must implement
+a specific audit profile.
+
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
+
+### Relations
+
+#### `GET /auditprofilemappingpolicies`
+
+Retrieves the list of audit profile mapping policies.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `propagated` (boolean): Also retrieve the objects that propagate down.
+
+#### `POST /auditprofilemappingpolicies`
+
+Creates a new audit profile mapping policy.
+
+#### `DELETE /auditprofilemappingpolicies/:id`
+
+Deletes the object with the given ID.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `GET /auditprofilemappingpolicies/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /auditprofilemappingpolicies/:id`
+
+Updates the object with the given ID.
+
+#### `GET /auditprofilemappingpolicies/:id/auditprofiles`
+
+Returns the list of audit profiles that are referred by this policy.
+
+#### `GET /auditprofilemappingpolicies/:id/enforcers`
+
+Returns the list of enforcers that are affected by this poliy.
+
+### Attributes
+
+#### `ID (string)`
+
+ID is the identifier of the object.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Identifier      | `true` |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `activeDuration (string)`
+
+ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.
+
+| Characteristics | Value             |
+| -               | -:                |
+| Format          | `/^[0-9]+[smh]$/` |
+
+#### `activeSchedule (string)`
+
+ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.
+
+#### `annotations (external:map_of_string_of_list_of_strings)`
+
+Annotation stores additional information about an entity.
+
+#### `associatedTags (list)`
+
+AssociatedTags are the list of tags attached to an entity.
+
+#### `createTime (time)`
+
+CreatedTime is the time at which the object was created.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
+
+#### `description (string)`
+
+Description is the description of the object.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `1024` |
+| Orderable       | `true` |
+
+#### `disabled (boolean)`
+
+Disabled defines if the propert is disabled.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `metadata (list)`
+
+Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Creation only   | `true` |
+| Filterable      | `true` |
+
+#### `name (string)`
+
+Name is the name of the entity.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `256`  |
+| Required        | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `namespace (string)`
+
+Namespace tag attached to an entity.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Creation only   | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `normalizedTags (list)`
+
+NormalizedTags contains the list of normalized tags of the entities.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+
+#### `object (external:list_of_lists_of_strings)`
+
+Object of the policy is the selector of the audit profiles that must be applied
+based on this policy.
+
+#### `propagate (boolean)`
+
+Propagate will propagate the policy to all of its children.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `protected (boolean)`
+
+Protected defines if the object is protected.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `subject (external:list_of_lists_of_strings)`
+
+Subject of the policy is a selector of the enforcers that must implement the
+policy.
 
 #### `updateTime (time)`
 
@@ -1739,7 +2017,7 @@ Verify the validity of a token.
 
 ### Attributes
 
-#### `claims (external:claims)`
+#### `claims (external:_claims)`
 
 Claims are the claims.
 
@@ -1821,11 +2099,11 @@ ID is the identifier of the object.
 
 Action contains the code that will be executed if the condition is met.
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -1865,7 +2143,7 @@ Disabled defines if the propert is disabled.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `entitlements (external:automation_entitlements)`
+#### `entitlements (external:_automation_entitlements)`
 
 Entitlements declares which operations are allowed on which identities.
 
@@ -1878,7 +2156,7 @@ Error contains the eventual error of the last run.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `events (external:automation_events)`
+#### `events (external:_automation_events)`
 
 Events contains the identity and operation an event must have to trigger the
 automation.
@@ -1915,7 +2193,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -1924,7 +2202,7 @@ NormalizedTags contains the list of normalized tags of the entities.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `parameters (external:automation_parameters)`
+#### `parameters (external:map_of_string_of_objects)`
 
 Parameters are passed to the functions.
 
@@ -2017,7 +2295,7 @@ Description is the description of the object.
 | Max length      | `1024` |
 | Orderable       | `true` |
 
-#### `entitlements (external:automation_entitlements)`
+#### `entitlements (external:_automation_entitlements)`
 
 Entitlements contains the entitlements needed for executing the function.
 
@@ -2049,9 +2327,64 @@ Name is the name of the entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `parameters (external:automation_template_parameters)`
+#### `parameters (refMap)`
 
 Parameters contains the parameter description of the function.
+
+## AutomationTemplateParameter
+
+Represents an Automation template parameter.
+
+### Example
+
+```json
+{
+  "name": "the name",
+  "type": "String"
+}
+```
+
+### Attributes
+
+#### `allowedChoices (external:map_of_string_of_objects)`
+
+Set the possible values for the parameter.
+
+#### `defaultValue (object)`
+
+Default value of the parameter.
+
+#### `description (string)`
+
+Name of the parameter.
+
+#### `name (string)`
+
+Name is the name of the entity.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `256`  |
+| Required        | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `position (integer)`
+
+Preferred position for the parameter.
+
+#### `required (boolean)`
+
+Set if the parameter must be set.
+
+#### `type (enum)`
+
+Type of the parameter.
+
+| Characteristics | Value                                                          |
+| -               | -:                                                             |
+| Allowed Value   | `Array, Boolean, Enum, Filter, Float, Integer, Object, String` |
+| Required        | `true`                                                         |
 
 ## AWSAccount
 
@@ -2268,11 +2601,11 @@ ID is the identifier of the object.
 
 the account ID for the gateway managing this request.
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -2304,7 +2637,7 @@ Description is the description of the object.
 | Max length      | `1024` |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -2345,7 +2678,7 @@ Namespace tag attached to an entity.
 
 Link to the cluster namespace where the AWS API gateway is defined.
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -2782,7 +3115,7 @@ Retrieves the dependencymap of a namespace.
 
 ### Attributes
 
-#### `claims (external:graphclaims_map)`
+#### `claims (external:map_of_string_of_list_of_strings)`
 
 claims represents a user or a script that have accessed an api.
 
@@ -2814,13 +3147,50 @@ nodes refers to the nodes of the map.
 | -               | -:     |
 | Read only       | `true` |
 
-#### `viewSuggestions (external:view_suggestions)`
+#### `viewSuggestions (list)`
 
 viewSuggestions provides suggestion of views based on relevant tags.
 
 | Characteristics | Value  |
 | -               | -:     |
 | Read only       | `true` |
+
+## DeprecatedHostService
+
+Represents a service of the enforcer's host.
+
+### Attributes
+
+#### `associatedTags (list)`
+
+AssociatedTags are the list of tags attached to an entity.
+
+#### `name (string)`
+
+Name of the service.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `networkonly (boolean)`
+
+> This attribute is deprecated
+
+networkonly indicate the host service is of type network only.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Default         | `true` |
+| Read only       | `true` |
+
+#### `services (refList)`
+
+Services lists all protocols and ports a service is running.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
 
 ## Endpoint
 
@@ -2832,7 +3202,7 @@ Represents an HTTP endpoint.
 
 URI of the exposed API.
 
-#### `allowedScopes (external:policies_list)`
+#### `allowedScopes (external:list_of_lists_of_strings)`
 
 AllowedScopes authorized to access the API.
 
@@ -2861,14 +3231,9 @@ Scopes is deprecated.
 
 ## Enforcer
 
-An Enforcer Profile contains a configuration for a Enforcer. It contains various
-parameters, like what network should not policeds, what processing units should
-be ignored based on their tags and so on. It also contains more advanced
-parameters to fine tune the Agent. A Enforcer will decide what profile to apply
-using aEnforcer Profile Mapping Policy. This policy will decide according the
-Enforcer's tags what profile to use. If an Enforcer tags are matching more than
-a single policy, it will refuse to start. Some parameters will be applied
-directly to a running agent, some will need to restart it.
+An Enforcer contains all parameters associated with a registered enforcer. The
+object is mainly by maintained by the enforcers themselves. Users can read the
+object in order to understand the current status of the enforcers.
 
 ### Example
 
@@ -2914,13 +3279,29 @@ Retrieves the object with the given ID.
 
 Updates the object with the given ID.
 
+#### `GET /auditprofilemappingpolicies/:id/enforcers`
+
+Returns the list of enforcers that are affected by this poliy.
+
 #### `GET /enforcerprofilemappingpolicies/:id/enforcers`
 
 Returns the list of enforcers affected by an enforcer profile mapping policy.
 
+#### `GET /hostservicemappingpolicies/:id/enforcers`
+
+Returns the list of enforcers that are affected by this poliy.
+
+#### `GET /enforcers/:id/auditprofiles`
+
+Returns a list of the audit profiles that must be applied to this enforcer.
+
 #### `GET /enforcers/:id/enforcerprofiles`
 
 Returns the enforcer profile that must be used by an enforcer.
+
+#### `GET /enforcers/:id/hostservices`
+
+Returns a list of the host services policies that apply to this enforcer.
 
 #### `GET /enforcers/:id/poke`
 
@@ -2957,11 +3338,11 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -3013,7 +3394,7 @@ update.
 
 CollectInfo indicates to the enforcer it needs to collect information.
 
-#### `collectedInfo (external:collected_info)`
+#### `collectedInfo (external:map_of_string_of_strings)`
 
 CollectedInfo represents the latest info collected by the enforcer.
 
@@ -3086,7 +3467,7 @@ addresses of interfaces or cloud provider IDs.
 | -               | -:     |
 | Filterable      | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -3119,7 +3500,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -3287,7 +3668,7 @@ PUHeartbeatInterval configures the heart beat interval.
 | Default         | `"5s"`            |
 | Orderable       | `true`            |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -3302,17 +3683,17 @@ Port used by aporeto application proxy.
 | Max length      | `65535` |
 | Orderable       | `true`  |
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
-#### `auditProfileSelectors (external:audit_profile_selector)`
+#### `auditProfileSelectors (list)`
 
 AuditProfileSelectors is the list of tags (key/value pairs) that define the
 audit policies that must be implemented by this enforcer. The enforcer will
 implement all policies that match any of these tags.
 
-#### `auditProfiles (external:audit_profiles)`
+#### `auditProfiles (refList)`
 
 AuditProfiles returns the audit rules associated with the enforcer profile. This
 is a read only attribute when an enforcer profile is resolved for an enforcer.
@@ -3361,7 +3742,7 @@ DockerSocketAddress is the address of the docker daemon.
 | Default         | `"unix:///var/run/docker.sock"`                                                                                                             |
 | Orderable       | `true`                                                                                                                                      |
 
-#### `excludedInterfaces (external:excluded_interfaces_list)`
+#### `excludedInterfaces (list)`
 
 ExcludedInterfaces is a list of interfaces that must be excluded.
 
@@ -3369,7 +3750,7 @@ ExcludedInterfaces is a list of interfaces that must be excluded.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `excludedNetworks (external:excluded_networks_list)`
+#### `excludedNetworks (list)`
 
 ExcludedNetworks is the list of networks that must be excluded for this
 enforcer.
@@ -3394,7 +3775,7 @@ be allowed if and only if a network policy has been created to allow the flow.
 HostServices is a list of services that must be activated by default to all
 enforcers matching this profile.
 
-#### `ignoreExpression (external:policies_list)`
+#### `ignoreExpression (external:list_of_lists_of_strings)`
 
 IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
 docker container started with labels matching the rule.
@@ -3432,7 +3813,7 @@ LinuxProcessesSupportEnabled configures support for Linux processes.
 | -               | -:     |
 | Default         | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -3475,7 +3856,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -3558,7 +3939,7 @@ distributed enforcer. True means distributed.
 | Default         | `true` |
 | Orderable       | `true` |
 
-#### `targetNetworks (external:target_networks_list)`
+#### `targetNetworks (list)`
 
 TargetNetworks is the list of networks that authorization should be applied.
 
@@ -3566,7 +3947,7 @@ TargetNetworks is the list of networks that authorization should be applied.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `targetUDPNetworks (external:target_networks_list)`
+#### `targetUDPNetworks (list)`
 
 TargetUDPNetworks is the list of UDP networks that authorization should be
 applied.
@@ -3609,7 +3990,7 @@ TransmitterQueueSize is the size of the queue for application traffic.
 | Max length      | `1000` |
 | Orderable       | `true` |
 
-#### `trustedCAs (external:trusted_cas_list)`
+#### `trustedCAs (list)`
 
 List of trusted CA. If empty the main chain of trust will be used.
 
@@ -3711,11 +4092,11 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -3756,7 +4137,7 @@ propagated it will become a fallback for children namespaces.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -3789,7 +4170,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -3798,13 +4179,9 @@ NormalizedTags contains the list of normalized tags of the entities.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `object (external:policies_list)`
+#### `object (external:list_of_lists_of_strings)`
 
 Object is the list of tags to use to find a enforcer profile.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
 
 #### `propagate (boolean)`
 
@@ -3822,13 +4199,9 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `subject (external:policies_list)`
+#### `subject (external:list_of_lists_of_strings)`
 
 Subject is the subject of the policy.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
 
 #### `updateTime (time)`
 
@@ -3905,6 +4278,61 @@ Number of active processes of the enforcer.
 #### `timestamp (time)`
 
 Date of the report.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+## EnforcerTraceReport
+
+Post a new enforcer trace that determines how packets are.
+
+### Example
+
+```json
+{
+  "enforcerID": "xxx-xxx-xxx",
+  "enforcerNamespace": "xxx-xxx-xxx",
+  "namespace": "xxx-xxx-xxx",
+  "puID": "xxx-xxx-xxx"
+}
+```
+
+### Relations
+
+#### `POST /enforcertracereports`
+
+Create an enforcer trace report.
+
+### Attributes
+
+#### `enforcerID (string)`
+
+EnforcerID of the enforcer where the trace was collected.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `enforcerNamespace (string)`
+
+Namespace of the enforcer where the trace was collected.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `namespace (string)`
+
+Namespace of the PU where the trace was collected.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `puID (string)`
+
+ID of the pu where the trace was collected.
 
 | Characteristics | Value  |
 | -               | -:     |
@@ -4045,7 +4473,7 @@ APIVersion of the api used for the exported data.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `data (external:exported_data_content)`
+#### `data (external:map_of_string_of_lists_of_maps_of_string_of_objects)`
 
 List of all exported data.
 
@@ -4144,11 +4572,11 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -4175,7 +4603,7 @@ Description is the description of the object.
 
 List of CIDRs or domain name.
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -4208,7 +4636,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -4224,7 +4652,6 @@ List of single ports or range (xx:yy).
 | Characteristics | Value                       |
 | -               | -:                          |
 | Default         | `[]interface {}{"1:65535"}` |
-| Required        | `true`                      |
 
 #### `protected (boolean)`
 
@@ -4241,7 +4668,6 @@ List of protocols (tcp, udp, or protocol number).
 | Characteristics | Value                   |
 | -               | -:                      |
 | Default         | `[]interface {}{"tcp"}` |
-| Required        | `true`                  |
 
 #### `updateTime (time)`
 
@@ -4326,11 +4752,11 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -4353,7 +4779,7 @@ Description is the description of the object.
 | Max length      | `1024` |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -4390,7 +4816,7 @@ Namespace tag attached to an entity.
 
 Network refers to either CIDR or domain name.
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -4512,7 +4938,7 @@ activeSchedule.
 | -               | -:                |
 | Format          | `/^[0-9]+[smh]$/` |
 
-#### `activeSchedule (external:cron_expression)`
+#### `activeSchedule (string)`
 
 ActiveSchedule defines when the policy should be active using the cron notation.
 The policy will be active for the given activeDuration.
@@ -4541,11 +4967,11 @@ AllowsWrite allows to write the files.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -4602,7 +5028,7 @@ LogsEnabled will enable logging when this policy is used.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -4635,7 +5061,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -4644,7 +5070,7 @@ NormalizedTags contains the list of normalized tags of the entities.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `object (external:policies_list)`
+#### `object (external:list_of_lists_of_strings)`
 
 Object is the object of the policy.
 
@@ -4668,7 +5094,7 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `subject (external:policies_list)`
+#### `subject (external:list_of_lists_of_strings)`
 
 Subject is the subject of the policy.
 
@@ -4795,6 +5221,7 @@ Retrieves the list of file path.
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
 - `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `archived` (boolean): Also retrieve the objects that have been archived.
 
 #### `POST /filepaths`
 
@@ -4812,6 +5239,10 @@ Deletes the object with the given ID.
 #### `GET /filepaths/:id`
 
 Retrieves the object with the given ID.
+
+##### Parameters
+
+- `archived` (boolean): Also retrieve the objects that have been archived.
 
 #### `PUT /filepaths/:id`
 
@@ -4831,11 +5262,11 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -4866,7 +5297,7 @@ FilePath refer to the file mount path.
 | -               | -:     |
 | Required        | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -4899,7 +5330,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -5187,7 +5618,7 @@ represented by that edge.
 
 Number of rejected observed flows.
 
-#### `observedServiceIDs (external:map_string_int)`
+#### `observedServiceIDs (external:map_of_string_of_integers)`
 
 Map of ints...
 
@@ -5200,7 +5631,7 @@ edge.
 
 Number of rejected flows in the edge.
 
-#### `serviceIDs (external:map_string_int)`
+#### `serviceIDs (external:map_of_string_of_integers)`
 
 Map of ints...
 
@@ -5230,7 +5661,7 @@ Identifier of the group.
 
 Color to use for the group.
 
-#### `match (external:list_list_string)`
+#### `match (external:list_of_lists_of_strings)`
 
 List of tag that was used to create this group.
 
@@ -5398,11 +5829,11 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -5486,7 +5917,7 @@ propagated it will become a fallback for children namespaces.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -5529,7 +5960,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -5563,14 +5994,10 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `subject (external:policies_list)`
+#### `subject (external:list_of_lists_of_strings)`
 
 Subject contains the tag expression that an object must match in order to
 trigger the hook.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Required        | `true` |
 
 #### `updateTime (time)`
 
@@ -5584,39 +6011,392 @@ UpdateTime is the time at which an entity was updated.
 
 ## HostService
 
-Represents a service of the enforcer's host.
+Represents a set of services that a host must expose and protect.
+
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
+
+### Relations
+
+#### `GET /hostservices`
+
+Retrieves the list of host services.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `propagated` (boolean): Also retrieve the objects that propagate down.
+
+#### `POST /hostservices`
+
+Creates a new host service.
+
+#### `DELETE /hostservices/:id`
+
+Deletes the object with the given ID.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `GET /hostservices/:id`
+
+Retrieves the object with the given ID.
+
+##### Parameters
+
+- `archived` (boolean): Also retrieve the objects that have been archived.
+
+#### `PUT /hostservices/:id`
+
+Updates the object with the given ID.
+
+#### `GET /enforcers/:id/hostservices`
+
+Returns a list of the host services policies that apply to this enforcer.
+
+#### `GET /hostservicemappingpolicies/:id/hostservices`
+
+Returns the list of host services that are referred by this policy.
 
 ### Attributes
 
-#### `associatedTags (external:tags_list)`
+#### `ID (string)`
+
+ID is the identifier of the object.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Identifier      | `true` |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `annotations (external:map_of_string_of_list_of_strings)`
+
+Annotation stores additional information about an entity.
+
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
-#### `name (string)`
+#### `createTime (time)`
 
-Name of the service.
+CreatedTime is the time at which the object was created.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
+
+#### `description (string)`
+
+Description is the description of the object.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `1024` |
+| Orderable       | `true` |
+
+#### `hostModeEnabled (boolean)`
+
+HostModeEnabled forces the corresponding enforcers to enable complete host
+protection. When this option is turned on, all incoming and outgoing flows will
+be monitored. Flows will be allowed if and only if a network policy has been
+created to allow the flow. The option applies to all enforcers that match the
+subject constraints.
 
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `networkonly (boolean)`
+#### `metadata (list)`
 
-> This attribute is deprecated
-
-networkonly indicate the host service is of type network only.
+Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.
 
 | Characteristics | Value  |
 | -               | -:     |
-| Default         | `true` |
+| Creation only   | `true` |
+| Filterable      | `true` |
+
+#### `name (string)`
+
+Name is the name of the entity.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `256`  |
+| Required        | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `namespace (string)`
+
+Namespace tag attached to an entity.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Creation only   | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `normalizedTags (list)`
+
+NormalizedTags contains the list of normalized tags of the entities.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `services (refList)`
+#### `protected (boolean)`
 
-Services lists all protocols and ports a service is running.
+Protected defines if the object is protected.
 
 | Characteristics | Value  |
 | -               | -:     |
+| Orderable       | `true` |
+
+#### `services (list)`
+
+Services lists all protocols and ports a service is running. A service entry can
+be defined by a protocol and port '(tcp/80)', or range of protocol/port pairs
+'(udp/80:100)'. If no protocol is provided, it is assumed to be TCP. Allowed
+protocols are only tcp and udp.
+
+#### `updateTime (time)`
+
+UpdateTime is the time at which an entity was updated.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
+
+## HostServiceMappingPolicy
+
+Defines a host service mapping policy that provides the relation between
+enforcers and host services that they must implement.
+
+### Example
+
+```json
+{
+  "name": "the name"
+}
+```
+
+### Relations
+
+#### `GET /hostservicemappingpolicies`
+
+Retrieves the list of host service mapping policies.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+- `propagated` (boolean): Also retrieve the objects that propagate down.
+
+#### `POST /hostservicemappingpolicies`
+
+Creates a new host service mapping policy.
+
+#### `DELETE /hostservicemappingpolicies/:id`
+
+Deletes the object with the given ID.
+
+##### Parameters
+
+- `q` (string): Filtering query. Consequent `q` parameters will form an or.
+- `tag` (string): List of tags to filter on. This parameter is deprecated.
+
+#### `GET /hostservicemappingpolicies/:id`
+
+Retrieves the object with the given ID.
+
+#### `PUT /hostservicemappingpolicies/:id`
+
+Updates the object with the given ID.
+
+#### `GET /hostservicemappingpolicies/:id/enforcers`
+
+Returns the list of enforcers that are affected by this poliy.
+
+#### `GET /hostservicemappingpolicies/:id/hostservices`
+
+Returns the list of host services that are referred by this policy.
+
+### Attributes
+
+#### `ID (string)`
+
+ID is the identifier of the object.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Identifier      | `true` |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `activeDuration (string)`
+
+ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.
+
+| Characteristics | Value             |
+| -               | -:                |
+| Format          | `/^[0-9]+[smh]$/` |
+
+#### `activeSchedule (string)`
+
+ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.
+
+#### `annotations (external:map_of_string_of_list_of_strings)`
+
+Annotation stores additional information about an entity.
+
+#### `associatedTags (list)`
+
+AssociatedTags are the list of tags attached to an entity.
+
+#### `createTime (time)`
+
+CreatedTime is the time at which the object was created.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Orderable       | `true` |
+
+#### `description (string)`
+
+Description is the description of the object.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `1024` |
+| Orderable       | `true` |
+
+#### `disabled (boolean)`
+
+Disabled defines if the propert is disabled.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `fallback (boolean)`
+
+Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `metadata (list)`
+
+Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Creation only   | `true` |
+| Filterable      | `true` |
+
+#### `name (string)`
+
+Name is the name of the entity.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `256`  |
+| Required        | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `namespace (string)`
+
+Namespace tag attached to an entity.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+| Creation only   | `true` |
+| Orderable       | `true` |
+| Filterable      | `true` |
+
+#### `normalizedTags (list)`
+
+NormalizedTags contains the list of normalized tags of the entities.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
+
+#### `object (external:list_of_lists_of_strings)`
+
+Object of the policy is the selector for the host services that must be applied
+to this enforcer.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `propagate (boolean)`
+
+Propagate will propagate the policy to all of its children.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `protected (boolean)`
+
+Protected defines if the object is protected.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `subject (external:list_of_lists_of_strings)`
+
+Subject of the policy is the selector of the enforcers that the list of host
+services must apply to.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Orderable       | `true` |
+
+#### `updateTime (time)`
+
+UpdateTime is the time at which an entity was updated.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Autogenerated   | `true` |
+| Read only       | `true` |
 | Orderable       | `true` |
 
 ## HTTPResourceSpec
@@ -5688,11 +6468,11 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -5719,7 +6499,7 @@ Description is the description of the object.
 
 EndPoints is a list of API endpoints that are exposed for the service.
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -5752,7 +6532,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -5807,7 +6587,7 @@ Imports data from a previous export.
 
 ### Attributes
 
-#### `data (external:exported_data)`
+#### `data (ref)`
 
 The data to import.
 
@@ -5916,7 +6696,7 @@ Namespace in which the app is running.
 | Read only       | `true` |
 | Orderable       | `true` |
 
-#### `parameters (external:app_parameters)`
+#### `parameters (refList)`
 
 Parameters is a list of parameters to start the app.
 
@@ -6069,7 +6849,7 @@ details for.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `invoiceRecords (external:invoicerecord_list)`
+#### `invoiceRecords (list)`
 
 InvoiceRecords provides details about billing units.
 
@@ -6125,7 +6905,7 @@ Eventual error that happened during resolution.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `records (external:whois_info)`
+#### `records (external:map_of_string_of_strings)`
 
 List of DNS records associated to that IP.
 
@@ -6187,15 +6967,15 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
-#### `capabilitiesActions (external:cap_map)`
+#### `capabilitiesActions (external:_cap_map)`
 
 CapabilitiesActions identifies the capabilities that should be added or removed
 from the processing unit.
@@ -6214,7 +6994,7 @@ CreatedTime is the time at which the object was created.
 | Read only       | `true` |
 | Orderable       | `true` |
 
-#### `defaultSyscallAction (external:syscall_action)`
+#### `defaultSyscallAction (external:_syscall_action)`
 
 DefaultAction is the default action applied to all syscalls of this profile.
 Default is "Allow".
@@ -6228,7 +7008,7 @@ Description is the description of the object.
 | Max length      | `1024` |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -6261,7 +7041,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -6278,7 +7058,7 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `syscallRules (external:syscall_rules)`
+#### `syscallRules (external:_syscall_rules)`
 
 SyscallRules is a list of syscall rules that identify actions for particular
 syscalls.
@@ -6287,7 +7067,7 @@ syscalls.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `targetArchitectures (external:arch_list)`
+#### `targetArchitectures (external:_arch_list)`
 
 TargetArchitectures is the target processor architectures where this profile can
 be applied. Default all.
@@ -6338,13 +7118,21 @@ Data contains additional data. The value depends on the issuer type.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata)`
+#### `metadata (external:map_of_string_of_objects)`
 
 Metadata contains various additional information. Meaning depends on the realm.
 
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
+
+#### `opaque (external:map_of_string_of_strings)`
+
+Opaque data that will be included in the issued token.
+
+#### `quota (integer)`
+
+Restricts the number of time the issued token should be used.
 
 #### `realm (enum)`
 
@@ -6388,7 +7176,7 @@ Sends a jaeger tracing batch.
 
 ### Attributes
 
-#### `batch (external:jaeger_batch)`
+#### `batch (object)`
 
 Represents a jaeger batch.
 
@@ -6473,11 +7261,11 @@ definition.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -6518,7 +7306,7 @@ the aporeto side on your kubernetes Cluster.
 | Read only       | `true` |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -6565,7 +7353,7 @@ consistent policies in Squall.
 | Default         | `"Kubernetes"`         |
 | Orderable       | `true`                 |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -6608,7 +7396,7 @@ Returns the logs for a app.
 
 ### Attributes
 
-#### `data (external:logs)`
+#### `data (external:map_of_string_of_strings)`
 
 Data contains all logs data.
 
@@ -6676,11 +7464,11 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -6752,7 +7540,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -6859,11 +7647,11 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -6904,7 +7692,7 @@ Authority. Switching it off and on again will regenerate a new CA.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -6938,12 +7726,12 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `networkAccessPolicyTags (external:tags_list)`
+#### `networkAccessPolicyTags (list)`
 
 List of tags that will be added to every `or` clause of all network access
 policies in the namespace and its children.
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -6982,20 +7770,16 @@ UpdateTime is the time at which an entity was updated.
 ## NamespaceMappingPolicy
 
 A Namespace Mapping Policy defines in which namespace a Processing Unit should
-be placed when it is created, based on its tags.
-
-When an Aporeto Agent creates a new Processing Unit, the system will place it in
-its own namespace if no matching Namespace Mapping Policy can be found. If one
-match is found, then the Processing will be bumped down to the namespace
-declared in the policy. If it finds in that child namespace another matching
-Namespace Mapping Policy, then the Processing Unit will be bumped down again,
-until it reach a namespace with no matching policies.
-
-This is very useful to dispatch processes and containers into a particular
-namespace, based on a lot of factor.
-
-You can put in place a quarantine namespace that will grab all Processing Units
-with too much vulnerabilities for instances.
+be placed when it is created, based on its tags.  When an Aporeto Agent creates
+a new Processing Unit, the system will place it in its own namespace if no
+matching Namespace Mapping Policy can be found. If one match is found, then the
+Processing will be bumped down to the namespace declared in the policy. If it
+finds in that child namespace another matching Namespace Mapping Policy, then
+the Processing Unit will be bumped down again, until it reach a namespace with
+no matching policies.  This is very useful to dispatch processes and containers
+into a particular namespace, based on a lot of factor.   You can put in place a
+quarantine namespace that will grab all Processing Units with too much
+vulnerabilities for instances.
 
 ### Example
 
@@ -7057,11 +7841,11 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -7101,7 +7885,7 @@ mappedNamespace is the mapped namespace.
 | Required        | `true` |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -7134,7 +7918,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -7151,13 +7935,12 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `subject (external:policies_list)`
+#### `subject (external:list_of_lists_of_strings)`
 
 Subject is the subject.
 
 | Characteristics | Value  |
 | -               | -:     |
-| Required        | `true` |
 | Orderable       | `true` |
 
 #### `updateTime (time)`
@@ -7286,12 +8069,12 @@ activeSchedule.
 | -               | -:                |
 | Format          | `/^[0-9]+[smh]$/` |
 
-#### `activeSchedule (external:cron_expression)`
+#### `activeSchedule (string)`
 
 ActiveSchedule defines when the policy should be active using the cron notation.
 The policy will be active for the given activeDuration.
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
@@ -7307,7 +8090,7 @@ Default is both directions.
 | Default         | `"Bidirectional"`                                 |
 | Orderable       | `true`                                            |
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -7328,14 +8111,6 @@ Description is the description of the object.
 | Characteristics | Value  |
 | -               | -:     |
 | Max length      | `1024` |
-| Orderable       | `true` |
-
-#### `destinationPorts (external:ports_list)`
-
-DestinationPorts contains the list of allowed ports and ranges.
-
-| Characteristics | Value  |
-| -               | -:     |
 | Orderable       | `true` |
 
 #### `disabled (boolean)`
@@ -7372,7 +8147,7 @@ LogsEnabled defines if the flow has to be logged.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -7413,7 +8188,7 @@ Setting this to true will invert the object to find what is not matching.
 
 Setting this to true will invert the subject to find what is not matching.
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -7422,7 +8197,7 @@ NormalizedTags contains the list of normalized tags of the entities.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `object (external:policies_list)`
+#### `object (external:list_of_lists_of_strings)`
 
 Object of the policy.
 
@@ -7465,7 +8240,7 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `subject (external:policies_list)`
+#### `subject (external:list_of_lists_of_strings)`
 
 Subject of the policy.
 
@@ -7631,6 +8406,121 @@ Last update date of the object.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
+
+## PacketReport
+
+Post a new packet tracing report.
+
+### Example
+
+```json
+{
+  "destinationPort": 11000,
+  "event": "Rcv",
+  "length": 94,
+  "mark": 123123,
+  "namespace": "/my/namespace",
+  "packetID": 12333,
+  "protocol": 6,
+  "puID": "xxx-xxx-xxx",
+  "sourcePort": 80,
+  "timestamp": "2018-06-14T23:10:46.420397985Z"
+}
+```
+
+### Relations
+
+#### `POST /packetreports`
+
+Create a packet trace report.
+
+### Attributes
+
+#### `destinationIP (string)`
+
+DestinationIP is the IP address of the destination.
+
+#### `destinationPort (integer)`
+
+DestinationPort is the destination port of a TCP or UDP packet.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Max length      | `65536` |
+
+#### `dropReason (string)`
+
+This field is only set if 'event' is set to 'Dropped' and specifies the reason
+for the drop.
+
+#### `encrypt (boolean)`
+
+Encrypt indicates that the packet was encrypted.
+
+#### `event (enum)`
+
+Event is the event that triggered the report.
+
+| Characteristics | Value                            |
+| -               | -:                               |
+| Allowed Value   | `Received, Transmitted, Dropped` |
+| Required        | `true`                           |
+
+#### `namespace (string)`
+
+Namespace of the PU reporting the packet.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+| Filterable      | `true` |
+
+#### `protocol (integer)`
+
+Protocol number.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `255`  |
+| Required        | `true` |
+
+#### `puID (string)`
+
+PUID is the ID of the PU reporting the packet.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+| Filterable      | `true` |
+
+#### `sourceIP (string)`
+
+SourceIP is the source IP address of the packet.
+
+#### `sourcePort (integer)`
+
+SourcePort is the source port of the packet.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Max length      | `65536` |
+
+#### `timestamp (time)`
+
+Timestamp is the date of the report.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `triremePacket (boolean)`
+
+TriremePacket is set if the packet arrived with the Trireme options.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Default         | `true` |
+| Required        | `true` |
 
 ## PasswordReset
 
@@ -7831,7 +8721,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `action (external:actions_list)`
+#### `action (external:map_of_string_of_maps_of_string_of_objects)`
 
 Action defines set of actions that must be enforced when a dependency is met.
 
@@ -7844,16 +8734,16 @@ activeSchedule.
 | -               | -:                |
 | Format          | `/^[0-9]+[smh]$/` |
 
-#### `activeSchedule (external:cron_expression)`
+#### `activeSchedule (string)`
 
 ActiveSchedule defines when the policy should be active using the cron notation.
 The policy will be active for the given activeDuration.
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -7894,7 +8784,7 @@ propagated it will become a fallback for children namespaces.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -7927,7 +8817,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -7936,7 +8826,7 @@ NormalizedTags contains the list of normalized tags of the entities.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `object (external:policies_list)`
+#### `object (external:list_of_lists_of_strings)`
 
 Object represents set of entities that another entity depends on. As subjects,
 objects are identified as logical operations on tags when a policy is defined.
@@ -7966,12 +8856,12 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `relation (external:relations_list)`
+#### `relation (list)`
 
 Relation describes the required operation to be performed between subjects and
 objects.
 
-#### `subject (external:policies_list)`
+#### `subject (external:list_of_lists_of_strings)`
 
 Subject represent sets of entities that will have a dependency other entities.
 Subjects are defined as logical operations on tags. Logical operations can
@@ -7981,10 +8871,10 @@ includes AND/OR.
 
 Type of the policy.
 
-| Characteristics | Value                                                                                                                                              |
-| -               | -:                                                                                                                                                 |
-| Allowed Value   | `APIAuthorization, EnforcerProfile, File, Hook, NamespaceMapping, Network, ProcessingUnit, Quota, Service, Syscall, TokenScope, ServiceDependency` |
-| Creation only   | `true`                                                                                                                                             |
+| Characteristics | Value                                                                                                                                                                                       |
+| -               | -:                                                                                                                                                                                          |
+| Allowed Value   | `APIAuthorization, AuditProfileMapping, EnforcerProfile, File, Hook, HostServiceMapping, NamespaceMapping, Network, ProcessingUnit, Quota, Service, ServiceDependency, Syscall, TokenScope` |
+| Creation only   | `true`                                                                                                                                                                                      |
 
 #### `updateTime (time)`
 
@@ -8054,29 +8944,37 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `action (external:actions_list)`
+#### `action (external:map_of_string_of_maps_of_string_of_objects)`
 
 Action defines set of actions that must be enforced when a dependency is met.
 
-#### `enforcerProfiles (external:enforcerprofiles_list)`
+#### `auditProfiles (refList)`
+
+AuditProfiles provides the audit profiles that must be applied.
+
+#### `enforcerProfiles (refList)`
 
 EnforcerProfiles provides the information about the server profile.
 
-#### `externalNetworks (external:network_entities)`
+#### `externalNetworks (refList)`
 
 Policy target networks.
 
-#### `externalServices (external:deprecated_network_entities)`
+#### `externalServices (refList)`
 
 > This attribute is deprecated
 
 Policy target networks.
 
-#### `filePaths (external:file_entities)`
+#### `filePaths (refList)`
 
 Policy target file paths.
 
-#### `isolationProfiles (external:isolation_profile_entities)`
+#### `hostServices (refList)`
+
+HostServices provides the list of host services that must be instantiated.
+
+#### `isolationProfiles (refList)`
 
 IsolationProfiles are the isolation profiles of the rule.
 
@@ -8091,7 +8989,7 @@ Name is the name of the entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `namespaces (external:namespace_entities)`
+#### `namespaces (refList)`
 
 Policy target namespaces.
 
@@ -8107,16 +9005,16 @@ Last time the policy was updated.
 
 Propagated indicates if the policy is propagated.
 
-#### `relation (external:relations_list)`
+#### `relation (list)`
 
 Relation describes the required operation to be performed between subjects and
 objects.
 
-#### `services (external:api_services_entities)`
+#### `services (refList)`
 
 Services provides the services of this policy rule.
 
-#### `tagClauses (external:target_tags)`
+#### `tagClauses (external:list_of_lists_of_strings)`
 
 Policy target tags.
 
@@ -8240,13 +9138,22 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
+
+#### `collectInfo (boolean)`
+
+CollectInfo indicates to the enforcer it needs to collect information for this
+PU.
+
+#### `collectedInfo (external:map_of_string_of_strings)`
+
+CollectedInfo represents the latest info collected by the enforcer for this PU.
 
 #### `createTime (time)`
 
@@ -8311,7 +9218,7 @@ LastSyncTime is the time when the policy was last resolved.
 | Autogenerated   | `true` |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -8358,7 +9265,7 @@ or by exposing the ports in a container manifest.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -8384,6 +9291,10 @@ Protected defines if the object is protected.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
+
+#### `tracing (ref)`
+
+Tracing indicates if this PU must be placed in tracing mode.
 
 #### `type (enum)`
 
@@ -8483,16 +9394,16 @@ activeSchedule.
 | -               | -:                |
 | Format          | `/^[0-9]+[smh]$/` |
 
-#### `activeSchedule (external:cron_expression)`
+#### `activeSchedule (string)`
 
 ActiveSchedule defines when the policy should be active using the cron notation.
 The policy will be active for the given activeDuration.
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -8533,12 +9444,12 @@ propagated it will become a fallback for children namespaces.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `isolationProfileSelector (external:policies_list)`
+#### `isolationProfileSelector (external:list_of_lists_of_strings)`
 
 IsolationProfileSelector are the profiles that must be applied when this policy
 matches. Only applies to Enforce and LogCompliance actions.
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -8571,7 +9482,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -8596,7 +9507,7 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `subject (external:policies_list)`
+#### `subject (external:list_of_lists_of_strings)`
 
 Subject defines the tag selectors that identitfy the processing units to which
 this policy applies.
@@ -8632,7 +9543,7 @@ ports contains the list of allowed ports and ranges.
 
 Protocol used by the service.
 
-#### `targetPorts (external:ports_list)`
+#### `targetPorts (list)`
 
 List of single ports or range (xx:yy).
 
@@ -8701,11 +9612,11 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -8754,7 +9665,7 @@ Identities contains the list of identity names where the quota will be applied.
 | -               | -:     |
 | Required        | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -8787,7 +9698,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -8915,7 +9826,7 @@ Define the operation that is currently handled by the service.
 | -               | -:     |
 | Required        | `true` |
 
-#### `output (external:elemental_identitifable)`
+#### `output (external:_elemental_identifiable)`
 
 Returns the OutputData filled with the processor information.
 
@@ -8988,11 +9899,11 @@ to any internal or external services.
 | -               | -:     |
 | Read only       | `true` |
 
-#### `dependendServices (external:api_services_entities)`
+#### `dependendServices (refList)`
 
 DependendServices is the list of services that this processing unit depends on.
 
-#### `egressPolicies (external:rendered_policy)`
+#### `egressPolicies (external:_rendered_policy)`
 
 EgressPolicies lists all the egress policies attached to processing unit.
 
@@ -9001,12 +9912,12 @@ EgressPolicies lists all the egress policies attached to processing unit.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `exposedServices (external:api_services_entities)`
+#### `exposedServices (refList)`
 
 ExposedServices is the list of services that this processing unit is
 implementing.
 
-#### `hashedTags (external:hashed_tags)`
+#### `hashedTags (external:map_of_string_of_strings)`
 
 hashedTags contains the list of tags that matched the policies and their hashes.
 
@@ -9015,7 +9926,7 @@ hashedTags contains the list of tags that matched the policies and their hashes.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `ingressPolicies (external:rendered_policy)`
+#### `ingressPolicies (external:_rendered_policy)`
 
 IngressPolicies lists all the ingress policies attached to processing unit.
 
@@ -9033,7 +9944,7 @@ MatchingTags contains the list of tags that matched the policies.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `processingUnit (external:processingunit)`
+#### `processingUnit (ref)`
 
 Can be set during a POST operation to render a policy on a Processing Unit that
 has not been created yet.
@@ -9052,7 +9963,7 @@ Identifier of the processing unit.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `profile (external:trust_profile)`
+#### `profile (external:map_of_string_of_strings)`
 
 Profile is the trust profile of the processing unit that should be used during
 all communications.
@@ -9062,7 +9973,7 @@ all communications.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `scopes (external:scopes_list)`
+#### `scopes (list)`
 
 Scopes is the set of scopes granted to this processing unit that it has to
 present in HTTP requests.
@@ -9079,7 +9990,7 @@ Create a statistics report.
 
 ### Attributes
 
-#### `fields (external:tsdb_fields)`
+#### `fields (external:map_of_string_of_objects)`
 
 TSDB Fields to set for the report.
 
@@ -9091,7 +10002,7 @@ Kind contains the kind of report.
 | -               | -:                                                                   |
 | Allowed Value   | `Audit, Enforcer, FileAccess, Flow, ProcessingUnit, Syscall, Claims` |
 
-#### `tags (external:tags_map)`
+#### `tags (external:map_of_string_of_strings)`
 
 Tags contains the tags associated to the data point.
 
@@ -9102,169 +10013,6 @@ Timestamp contains the time for the report.
 #### `value (float)`
 
 Value contains the value for the report.
-
-## RESTAPISpec
-
-This is deprecated. Use HTTPResourceSpec instead.
-
-### Example
-
-```json
-{
-  "name": "the name"
-}
-```
-
-### Relations
-
-#### `GET /restapispecs`
-
-Retrieves the list of REST API specifications.
-
-##### Parameters
-
-- `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
-- `propagated` (boolean): Also retrieve the objects that propagate down.
-- `archived` (boolean): Also retrieve the objects that have been archived.
-
-#### `POST /restapispecs`
-
-Creates a new REST API specification.
-
-#### `DELETE /restapispecs/:id`
-
-Deletes the object with the given ID.
-
-##### Parameters
-
-- `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
-
-#### `GET /restapispecs/:id`
-
-Retrieves the object with the given ID.
-
-##### Parameters
-
-- `archived` (boolean): Also retrieve the objects that have been archived.
-
-#### `PUT /restapispecs/:id`
-
-Updates the object with the given ID.
-
-### Attributes
-
-#### `ID (string)`
-
-ID is the identifier of the object.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Identifier      | `true` |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
-#### `annotations (external:annotations)`
-
-Annotation stores additional information about an entity.
-
-#### `associatedTags (external:tags_list)`
-
-AssociatedTags are the list of tags attached to an entity.
-
-#### `createTime (time)`
-
-CreatedTime is the time at which the object was created.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-| Orderable       | `true` |
-
-#### `description (string)`
-
-Description is the description of the object.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Max length      | `1024` |
-| Orderable       | `true` |
-
-#### `endpoints (external:exposed_api_list)`
-
-EndPoints is a list of API endpoints that are exposed for the service.
-
-#### `metadata (external:metadata_list)`
-
-Metadata contains tags that can only be set during creation. They must all start
-with the '@' prefix, and should only be used by external systems.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Creation only   | `true` |
-| Filterable      | `true` |
-
-#### `name (string)`
-
-Name is the name of the entity.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Max length      | `256`  |
-| Required        | `true` |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
-#### `namespace (string)`
-
-Namespace tag attached to an entity.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-| Creation only   | `true` |
-| Orderable       | `true` |
-| Filterable      | `true` |
-
-#### `normalizedTags (external:tags_list)`
-
-NormalizedTags contains the list of normalized tags of the entities.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-
-#### `propagate (boolean)`
-
-Propagate will propagate the policy to all of its children.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-
-#### `protected (boolean)`
-
-Protected defines if the object is protected.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Orderable       | `true` |
-
-#### `updateTime (time)`
-
-UpdateTime is the time at which an entity was updated.
-
-| Characteristics | Value  |
-| -               | -:     |
-| Autogenerated   | `true` |
-| Read only       | `true` |
-| Orderable       | `true` |
 
 ## Role
 
@@ -9279,7 +10027,7 @@ Retrieves the list of existing roles.
 
 ### Attributes
 
-#### `authorizations (external:authorization_map)`
+#### `authorizations (external:map_of_string_of_list_of_strings)`
 
 Authorizations of the role.
 
@@ -9427,7 +10175,7 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `IPs (external:ip_list)`
+#### `IPs (list)`
 
 IPs is the list of IP addresses where the service can be accessed.
 This is an optional attribute and is only required if no host names are
@@ -9494,11 +10242,11 @@ Set how to provide a server certificate to the service.
 | Allowed Value   | `Aporeto, LetsEncrypt, External, None` |
 | Default         | `"Aporeto"`                            |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -9562,7 +10310,7 @@ endpoints that the service is exposing. Only valid during policy rendering.
 | -               | -:     |
 | Read only       | `true` |
 
-#### `exposedAPIs (external:policies_list)`
+#### `exposedAPIs (external:list_of_lists_of_strings)`
 
 ExposedAPIs contains a tag expression that will determine which
 APIs a service is exposing. The APIs can be defined as the RESTAPISpec or
@@ -9611,7 +10359,7 @@ Hosts are the names that the service can be accessed with.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -9644,7 +10392,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -9692,7 +10440,7 @@ authorization failure to let you chance to provide a nice message to the user.
 The query parameter `?failure_message=<message>` will be added to that url
 explaining the possible reasons of the failure.
 
-#### `selectors (external:policies_list)`
+#### `selectors (external:list_of_lists_of_strings)`
 
 Selectors contains the tag expression that an a processing unit
 must match in order to implement this particular service.
@@ -9799,16 +10547,16 @@ activeSchedule.
 | -               | -:                |
 | Format          | `/^[0-9]+[smh]$/` |
 
-#### `activeSchedule (external:cron_expression)`
+#### `activeSchedule (string)`
 
 ActiveSchedule defines when the policy should be active using the cron notation.
 The policy will be active for the given activeDuration.
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -9849,7 +10597,7 @@ propagated it will become a fallback for children namespaces.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -9882,7 +10630,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -9891,7 +10639,7 @@ NormalizedTags contains the list of normalized tags of the entities.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `object (external:policies_list)`
+#### `object (external:list_of_lists_of_strings)`
 
 Object of the policy.
 
@@ -9915,7 +10663,7 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `subject (external:policies_list)`
+#### `subject (external:list_of_lists_of_strings)`
 
 Subject of the policy.
 
@@ -9946,7 +10694,7 @@ Retrieves information about the content of the stats measurement.
 
 ### Attributes
 
-#### `fields (external:stats_fields_info)`
+#### `fields (external:map_of_string_of_strings)`
 
 Contains the list of fields. You cannot group by these fields.
 
@@ -10055,10 +10803,10 @@ Limits the number of results. -1 means no limit.
 
 Name of the measurement.
 
-| Characteristics | Value                                       |
-| -               | -:                                          |
-| Allowed Value   | `Flows, Audit, Enforcers, Files, EventLogs` |
-| Default         | `"Flows"`                                   |
+| Characteristics | Value                                                                |
+| -               | -:                                                                   |
+| Allowed Value   | `Flows, Audit, Enforcers, Files, EventLogs, Packets, EnforcerTraces` |
+| Default         | `"Flows"`                                                            |
 
 #### `offset (integer)`
 
@@ -10068,7 +10816,7 @@ Offsets the of results. -1 means no offset.
 | -               | -:    |
 | Default         | `-1`  |
 
-#### `results (external:time_series_results)`
+#### `results (refList)`
 
 Results contains the result of the query.
 
@@ -10103,7 +10851,7 @@ Retrieves a list of network policy suggestion.
 
 ### Attributes
 
-#### `networkAccessPolicies (external:network_access_policies_list)`
+#### `networkAccessPolicies (refList)`
 
 List of suggested network access policies.
 
@@ -10144,7 +10892,7 @@ Headers contains the requests headers that matched.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
-#### `rows (external:tabulated_data)`
+#### `rows (external:list_of_lists_of_objects)`
 
 Rows contains the tabulated data.
 
@@ -10265,6 +11013,38 @@ List of all values.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 
+## TimeSeriesQueryResults
+
+Represent the results of a stats query.
+
+### Attributes
+
+#### `rows (refList)`
+
+List of rows.
+
+## TimeSeriesRow
+
+Represent a time series row.
+
+### Attributes
+
+#### `columns (list)`
+
+colums of the row.
+
+#### `name (string)`
+
+the name of row.
+
+#### `tags (external:map_of_string_of_strings)`
+
+List of tags.
+
+#### `values (external:list_of_lists_of_objects)`
+
+List of tags.
+
 ## TokenScopePolicy
 
 The TokenScopePolicy defines a set of policies that allow customization of the
@@ -10335,16 +11115,16 @@ activeSchedule.
 | -               | -:                |
 | Format          | `/^[0-9]+[smh]$/` |
 
-#### `activeSchedule (external:cron_expression)`
+#### `activeSchedule (string)`
 
 ActiveSchedule defines when the policy should be active using the cron notation.
 The policy will be active for the given activeDuration.
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `assignedScopes (external:tags_list)`
+#### `assignedScopes (list)`
 
 AssignedScopes is the the list of scopes that the policiy will assigns.
 
@@ -10352,7 +11132,7 @@ AssignedScopes is the the list of scopes that the policiy will assigns.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -10393,7 +11173,7 @@ propagated it will become a fallback for children namespaces.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `metadata (external:metadata_list)`
+#### `metadata (list)`
 
 Metadata contains tags that can only be set during creation. They must all start
 with the '@' prefix, and should only be used by external systems.
@@ -10426,7 +11206,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -10451,7 +11231,7 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `subject (external:policies_list)`
+#### `subject (external:list_of_lists_of_strings)`
 
 Subject defines the selection criteria that this policy must match on identiy
 and scope request information.
@@ -10469,6 +11249,173 @@ UpdateTime is the time at which an entity was updated.
 | Autogenerated   | `true` |
 | Read only       | `true` |
 | Orderable       | `true` |
+
+## TraceMode
+
+TraceMode is the tracing mode that must be applied to a PU.
+
+### Attributes
+
+#### `IPTables (boolean)`
+
+IPTables instructs the enforcers to provide an iptables trace for a PU.
+
+#### `applicationConnections (boolean)`
+
+Instructs the enforcer to send records for all
+application initiated connections.
+
+#### `interval (string)`
+
+Determines the length of the time interval that the trace must be
+enabled.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Default         | `"10s"` |
+
+#### `networkConnections (boolean)`
+
+Instructs the enforcer to send records for all network
+initiated connections.
+
+## TraceRecord
+
+Represents a single trace record from the enforcer.
+
+### Example
+
+```json
+{
+  "TTL": 64,
+  "chain": "PREROUTING",
+  "destinationIP": "10.1.1.30",
+  "destinationInterface": "en0",
+  "destinationPort": 80,
+  "length": 98,
+  "packetID": 10,
+  "protocol": 80,
+  "ruleID": 10,
+  "sourceIP": "10.1.1.30",
+  "sourceInterface": "en0",
+  "sourcePort": 80,
+  "tableName": "raw",
+  "timestamp": "2018-06-14T23:10:46.420397985Z"
+}
+```
+
+### Attributes
+
+#### `TTL (integer)`
+
+TTL is the TTL value of the packet.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Max length      | `255`  |
+| Required        | `true` |
+
+#### `chain (string)`
+
+Chain is the chain that the trace was collected from.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `destinationIP (string)`
+
+DestinationIP is the destination IP.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `destinationInterface (string)`
+
+DestinationInterface is the destination interface of the packet.
+
+#### `destinationPort (integer)`
+
+DestinationPort is the destination UPD or TCP port of the packet.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Min length      | `1`     |
+| Max length      | `65536` |
+| Required        | `true`  |
+
+#### `length (integer)`
+
+Length of the observed packet.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Max length      | `65536` |
+| Required        | `true`  |
+
+#### `packetID (integer)`
+
+PacketID is the IP packet header ID.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `protocol (integer)`
+
+Protocol is the protocol of the packets.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Max length      | `65536` |
+| Required        | `true`  |
+
+#### `ruleID (integer)`
+
+ruleID is the priority index of the iptables entry that was hit.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `sourceIP (string)`
+
+SourceIP is the source IP of the packet.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `sourceInterface (string)`
+
+SourceInterface is the source interface of the packet.
+
+#### `sourcePort (integer)`
+
+SourcePort is the source TCP or UDP Port of the packet.
+
+| Characteristics | Value   |
+| -               | -:      |
+| Min length      | `1`     |
+| Max length      | `65536` |
+| Required        | `true`  |
+
+#### `tableName (string)`
+
+TableName is the iptable name that the trace was collected.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
+
+#### `timestamp (time)`
+
+Timestamp is the date of the report.
+
+| Characteristics | Value  |
+| -               | -:     |
+| Required        | `true` |
 
 ## Trigger
 
@@ -10550,11 +11497,11 @@ ID is the identifier of the object.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `annotations (external:annotations)`
+#### `annotations (external:map_of_string_of_list_of_strings)`
 
 Annotation stores additional information about an entity.
 
-#### `associatedTags (external:tags_list)`
+#### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
 
@@ -10611,7 +11558,7 @@ Namespace tag attached to an entity.
 | Orderable       | `true` |
 | Filterable      | `true` |
 
-#### `normalizedTags (external:tags_list)`
+#### `normalizedTags (list)`
 
 NormalizedTags contains the list of normalized tags of the entities.
 
@@ -10628,7 +11575,7 @@ Protected defines if the object is protected.
 | -               | -:     |
 | Orderable       | `true` |
 
-#### `severity (external:vulnerability_level)`
+#### `severity (external:_vulnerability_level)`
 
 Severity refers to the security vulnerability level.
 

@@ -113,10 +113,16 @@ func (o IssuesList) Version() int {
 // Issue represents the model of a issue
 type Issue struct {
 	// Data contains additional data. The value depends on the issuer type.
-	Data string `json:"data" bson:"data" mapstructure:"data,omitempty"`
+	Data string `json:"data" bson:"-" mapstructure:"data,omitempty"`
 
 	// Metadata contains various additional information. Meaning depends on the realm.
 	Metadata map[string]interface{} `json:"metadata" bson:"-" mapstructure:"metadata,omitempty"`
+
+	// Opaque data that will be included in the issued token.
+	Opaque map[string]string `json:"opaque" bson:"-" mapstructure:"opaque,omitempty"`
+
+	// Restricts the number of time the issued token should be used.
+	Quota int `json:"quota" bson:"-" mapstructure:"quota,omitempty"`
 
 	// Realm is the authentication realm.
 	Realm IssueRealmValue `json:"realm" bson:"-" mapstructure:"realm,omitempty"`
@@ -126,7 +132,7 @@ type Issue struct {
 
 	// Validity configures the max validity time for a token. If it is bigger than the
 	// configured max validity, it will be capped.
-	Validity string `json:"validity" bson:"validity" mapstructure:"validity,omitempty"`
+	Validity string `json:"validity" bson:"-" mapstructure:"validity,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -139,6 +145,7 @@ func NewIssue() *Issue {
 	return &Issue{
 		ModelVersion: 1,
 		Metadata:     map[string]interface{}{},
+		Opaque:       map[string]string{},
 		Validity:     "24h",
 	}
 }
@@ -191,6 +198,8 @@ func (o *Issue) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		return &SparseIssue{
 			Data:     &o.Data,
 			Metadata: &o.Metadata,
+			Opaque:   &o.Opaque,
+			Quota:    &o.Quota,
 			Realm:    &o.Realm,
 			Token:    &o.Token,
 			Validity: &o.Validity,
@@ -204,6 +213,10 @@ func (o *Issue) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Data = &(o.Data)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
+		case "opaque":
+			sp.Opaque = &(o.Opaque)
+		case "quota":
+			sp.Quota = &(o.Quota)
 		case "realm":
 			sp.Realm = &(o.Realm)
 		case "token":
@@ -228,6 +241,12 @@ func (o *Issue) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
+	}
+	if so.Opaque != nil {
+		o.Opaque = *so.Opaque
+	}
+	if so.Quota != nil {
+		o.Quota = *so.Quota
 	}
 	if so.Realm != nil {
 		o.Realm = *so.Realm
@@ -316,6 +335,10 @@ func (o *Issue) ValueForAttribute(name string) interface{} {
 		return o.Data
 	case "metadata":
 		return o.Metadata
+	case "opaque":
+		return o.Opaque
+	case "quota":
+		return o.Quota
 	case "realm":
 		return o.Realm
 	case "token":
@@ -336,7 +359,6 @@ var IssueAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "data",
 		Orderable:      true,
-		Stored:         true,
 		Type:           "string",
 	},
 	"Metadata": elemental.AttributeSpecification{
@@ -346,8 +368,25 @@ var IssueAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "metadata",
 		Orderable:      true,
-		SubType:        "metadata",
+		SubType:        "map_of_string_of_objects",
 		Type:           "external",
+	},
+	"Opaque": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Opaque",
+		Description:    `Opaque data that will be included in the issued token.`,
+		Exposed:        true,
+		Name:           "opaque",
+		SubType:        "map_of_string_of_strings",
+		Type:           "external",
+	},
+	"Quota": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Quota",
+		Description:    `Restricts the number of time the issued token should be used.`,
+		Exposed:        true,
+		Name:           "quota",
+		Type:           "integer",
 	},
 	"Realm": elemental.AttributeSpecification{
 		AllowedChoices: []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC"},
@@ -378,7 +417,6 @@ configured max validity, it will be capped.`,
 		Exposed:   true,
 		Name:      "validity",
 		Orderable: true,
-		Stored:    true,
 		Type:      "string",
 	},
 }
@@ -392,7 +430,6 @@ var IssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "data",
 		Orderable:      true,
-		Stored:         true,
 		Type:           "string",
 	},
 	"metadata": elemental.AttributeSpecification{
@@ -402,8 +439,25 @@ var IssueLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "metadata",
 		Orderable:      true,
-		SubType:        "metadata",
+		SubType:        "map_of_string_of_objects",
 		Type:           "external",
+	},
+	"opaque": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Opaque",
+		Description:    `Opaque data that will be included in the issued token.`,
+		Exposed:        true,
+		Name:           "opaque",
+		SubType:        "map_of_string_of_strings",
+		Type:           "external",
+	},
+	"quota": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Quota",
+		Description:    `Restricts the number of time the issued token should be used.`,
+		Exposed:        true,
+		Name:           "quota",
+		Type:           "integer",
 	},
 	"realm": elemental.AttributeSpecification{
 		AllowedChoices: []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC"},
@@ -434,7 +488,6 @@ configured max validity, it will be capped.`,
 		Exposed:   true,
 		Name:      "validity",
 		Orderable: true,
-		Stored:    true,
 		Type:      "string",
 	},
 }
@@ -503,10 +556,16 @@ func (o SparseIssuesList) Version() int {
 // SparseIssue represents the sparse version of a issue.
 type SparseIssue struct {
 	// Data contains additional data. The value depends on the issuer type.
-	Data *string `json:"data,omitempty" bson:"data" mapstructure:"data,omitempty"`
+	Data *string `json:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
 	// Metadata contains various additional information. Meaning depends on the realm.
 	Metadata *map[string]interface{} `json:"metadata,omitempty" bson:"-" mapstructure:"metadata,omitempty"`
+
+	// Opaque data that will be included in the issued token.
+	Opaque *map[string]string `json:"opaque,omitempty" bson:"-" mapstructure:"opaque,omitempty"`
+
+	// Restricts the number of time the issued token should be used.
+	Quota *int `json:"quota,omitempty" bson:"-" mapstructure:"quota,omitempty"`
 
 	// Realm is the authentication realm.
 	Realm *IssueRealmValue `json:"realm,omitempty" bson:"-" mapstructure:"realm,omitempty"`
@@ -516,7 +575,7 @@ type SparseIssue struct {
 
 	// Validity configures the max validity time for a token. If it is bigger than the
 	// configured max validity, it will be capped.
-	Validity *string `json:"validity,omitempty" bson:"validity" mapstructure:"validity,omitempty"`
+	Validity *string `json:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -560,6 +619,12 @@ func (o *SparseIssue) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
+	}
+	if o.Opaque != nil {
+		out.Opaque = *o.Opaque
+	}
+	if o.Quota != nil {
+		out.Quota = *o.Quota
 	}
 	if o.Realm != nil {
 		out.Realm = *o.Realm

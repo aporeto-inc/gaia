@@ -85,11 +85,19 @@ func ValidateNetwork(attribute string, network string) error {
 }
 
 // ValidateNetworkList validates a list of networks.
+// The list cannot be empty
 func ValidateNetworkList(attribute string, networks []string) error {
 
 	if len(networks) == 0 {
 		return makeValidationError(attribute, fmt.Sprintf("Attribute '%s' must not be empty", attribute))
 	}
+
+	return ValidateOptionalNetworkList(attribute, networks)
+}
+
+// ValidateOptionalNetworkList validates a list of networks.
+// It can be empty/
+func ValidateOptionalNetworkList(attribute string, networks []string) error {
 
 	for _, network := range networks {
 		if err := ValidateNetwork(attribute, network); err != nil {
@@ -181,7 +189,7 @@ func ValidateServiceEntity(service *Service) error {
 
 	allSubnets := []*net.IPNet{}
 	for i, ip := range service.IPs {
-		ipNet, err := ipNetFromString(string(ip))
+		ipNet, err := ipNetFromString(ip)
 		if err != nil {
 			errs = append(errs, err)
 			continue
@@ -236,7 +244,7 @@ var regHostServiceName = regexp.MustCompile(`^[a-zA-Z0-9_]{0,11}$`)
 
 // ValidateHostServicesList validates a list of host services.
 // CS: 10/6/2018 - Keep the constraint on the regex for now. Will need to create an API for HostServices
-func ValidateHostServicesList(attribute string, hostServices []*HostService) error {
+func ValidateHostServicesList(attribute string, hostServices []*DeprecatedHostService) error {
 
 	cacheNames := map[string]struct{}{}
 	cachePortsList := map[int]*portutils.PortsList{}
@@ -435,6 +443,62 @@ func ValidateHTTPMethods(attribute string, methods []string) error {
 
 			return fmt.Errorf("invalid HTTP method %s", m)
 		}
+	}
+
+	return nil
+}
+
+// ValidateHostServices validates a host service. Applies to the new API only.
+func ValidateHostServices(hs *HostService) error {
+
+	// Constraint on regex is used because the enforcer is using the name as nativeContextID.
+	if !regHostServiceName.MatchString(hs.Name) {
+		return makeValidationError("hostServices", "Host service name must be less than 12 characters and contains only alphanumeric or _")
+	}
+
+	if !hs.HostModeEnabled && len(hs.Services) == 0 {
+		return makeValidationError("hostServices", "Host service must have either HostModeEnabled or must declare services")
+	}
+
+	if err := ValidateHostServicesNonOverlapPorts(hs.Services); err != nil {
+		return makeValidationError("hostServices", err.Error())
+	}
+
+	return nil
+}
+
+// ValidateHostServicesNonOverlapPorts validates a list of processing unit services has no overlap with any given parameter.
+func ValidateHostServicesNonOverlapPorts(svcs []string) error {
+
+	udpPorts := portutils.PortsRangeList{}
+	tcpPorts := portutils.PortsRangeList{}
+
+	var pr *portutils.PortsRange
+	var protocol string
+	var err error
+
+	for _, ports := range svcs {
+
+		pr, protocol, err = portutils.ConvertStringToPorts(ports)
+		if err != nil {
+			return err
+		}
+
+		switch protocol {
+		case "tcp":
+			if pr.HasOverlapWithPortsRanges(&tcpPorts) {
+				return fmt.Errorf("hostService cannot have overlapping ports")
+			}
+			tcpPorts = append(tcpPorts, pr)
+		case "udp":
+			if pr.HasOverlapWithPortsRanges(&udpPorts) {
+				return fmt.Errorf("hostService cannot have overlapping ports")
+			}
+			udpPorts = append(udpPorts, pr)
+		default:
+			return fmt.Errorf("%s is an invalid protocol", protocol)
+		}
+
 	}
 
 	return nil

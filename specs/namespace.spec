@@ -70,6 +70,7 @@ attributes:
     creation_only: true
     allowed_chars: ^[a-zA-Z0-9-_/]+$
     allowed_chars_message: must only contain alpha numerical characters, '-' or '_'
+    default_order: true
     example_value: mynamespace
     filterable: true
     getter: true
@@ -80,9 +81,9 @@ attributes:
     description: |-
       List of tags that will be added to every `or` clause of all network access
       policies in the namespace and its children.
-    type: external
+    type: list
     exposed: true
-    subtype: tags_list
+    subtype: string
     stored: true
 
   - name: serviceCertificateValidity

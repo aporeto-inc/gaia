@@ -23,7 +23,7 @@ attributes:
     description: claims represents a user or a script that have accessed an api.
     type: external
     exposed: true
-    subtype: graphclaims_map
+    subtype: map_of_string_of_list_of_strings
     read_only: true
 
   - name: edges
@@ -55,7 +55,7 @@ attributes:
 
   - name: viewSuggestions
     description: viewSuggestions provides suggestion of views based on relevant tags.
-    type: external
+    type: list
     exposed: true
-    subtype: view_suggestions
+    subtype: string
     read_only: true

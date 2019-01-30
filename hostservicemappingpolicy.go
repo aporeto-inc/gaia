@@ -7,46 +7,45 @@ import (
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/types"
 )
 
-// RESTAPISpecIdentity represents the Identity of the object.
-var RESTAPISpecIdentity = elemental.Identity{
-	Name:     "restapispec",
-	Category: "restapispecs",
+// HostServiceMappingPolicyIdentity represents the Identity of the object.
+var HostServiceMappingPolicyIdentity = elemental.Identity{
+	Name:     "hostservicemappingpolicy",
+	Category: "hostservicemappingpolicies",
 	Package:  "squall",
 	Private:  false,
 }
 
-// RESTAPISpecsList represents a list of RESTAPISpecs
-type RESTAPISpecsList []*RESTAPISpec
+// HostServiceMappingPoliciesList represents a list of HostServiceMappingPolicies
+type HostServiceMappingPoliciesList []*HostServiceMappingPolicy
 
 // Identity returns the identity of the objects in the list.
-func (o RESTAPISpecsList) Identity() elemental.Identity {
+func (o HostServiceMappingPoliciesList) Identity() elemental.Identity {
 
-	return RESTAPISpecIdentity
+	return HostServiceMappingPolicyIdentity
 }
 
-// Copy returns a pointer to a copy the RESTAPISpecsList.
-func (o RESTAPISpecsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the HostServiceMappingPoliciesList.
+func (o HostServiceMappingPoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(RESTAPISpecsList{}, o...)
+	copy := append(HostServiceMappingPoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the RESTAPISpecsList.
-func (o RESTAPISpecsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the HostServiceMappingPoliciesList.
+func (o HostServiceMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(RESTAPISpecsList{}, o...)
+	out := append(HostServiceMappingPoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*RESTAPISpec))
+		out = append(out, obj.(*HostServiceMappingPolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o RESTAPISpecsList) List() elemental.IdentifiablesList {
+func (o HostServiceMappingPoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -57,16 +56,16 @@ func (o RESTAPISpecsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o RESTAPISpecsList) DefaultOrder() []string {
+func (o HostServiceMappingPoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToSparse returns the RESTAPISpecsList converted to SparseRESTAPISpecsList.
+// ToSparse returns the HostServiceMappingPoliciesList converted to SparseHostServiceMappingPoliciesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o RESTAPISpecsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o HostServiceMappingPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -77,21 +76,26 @@ func (o RESTAPISpecsList) ToSparse(fields ...string) elemental.IdentifiablesList
 }
 
 // Version returns the version of the content.
-func (o RESTAPISpecsList) Version() int {
+func (o HostServiceMappingPoliciesList) Version() int {
 
 	return 1
 }
 
-// RESTAPISpec represents the model of a restapispec
-type RESTAPISpec struct {
+// HostServiceMappingPolicy represents the model of a hostservicemappingpolicy
+type HostServiceMappingPolicy struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
+	// ActiveDuration defines for how long the policy will be active according to the
+	// activeSchedule.
+	ActiveDuration string `json:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
+
+	// ActiveSchedule defines when the policy should be active using the cron notation.
+	// The policy will be active for the given activeDuration.
+	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
-
-	// Archived defines if the object is archived.
-	Archived bool `json:"-" bson:"archived" mapstructure:"-,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
@@ -102,15 +106,17 @@ type RESTAPISpec struct {
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// EndPoints is a list of API endpoints that are exposed for the service.
-	Endpoints types.ExposedAPIList `json:"endpoints" bson:"endpoints" mapstructure:"endpoints,omitempty"`
+	// Disabled defines if the propert is disabled.
+	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
+
+	// Fallback indicates that this is fallback policy. It will only be
+	// applied if no other policies have been resolved. If the policy is also
+	// propagated it will become a fallback for children namespaces.
+	Fallback bool `json:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
-
-	// Migrated indicated if the object has been migrated to an HTTPResourceSpec.
-	Migrated bool `json:"-" bson:"migrated" mapstructure:"-,omitempty"`
 
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
@@ -121,11 +127,19 @@ type RESTAPISpec struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
+	// Object of the policy is the selector for the host services that must be applied
+	// to this enforcer.
+	Object [][]string `json:"object" bson:"-" mapstructure:"object,omitempty"`
+
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// Subject of the policy is the selector of the enforcers that the list of host
+	// services must apply to.
+	Subject [][]string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -143,45 +157,46 @@ type RESTAPISpec struct {
 	sync.Mutex `json:"-" bson:"-"`
 }
 
-// NewRESTAPISpec returns a new *RESTAPISpec
-func NewRESTAPISpec() *RESTAPISpec {
+// NewHostServiceMappingPolicy returns a new *HostServiceMappingPolicy
+func NewHostServiceMappingPolicy() *HostServiceMappingPolicy {
 
-	return &RESTAPISpec{
+	return &HostServiceMappingPolicy{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
-		Endpoints:      types.ExposedAPIList{},
 		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
+		Object:         [][]string{},
+		Subject:        [][]string{},
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *RESTAPISpec) Identity() elemental.Identity {
+func (o *HostServiceMappingPolicy) Identity() elemental.Identity {
 
-	return RESTAPISpecIdentity
+	return HostServiceMappingPolicyIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *RESTAPISpec) Identifier() string {
+func (o *HostServiceMappingPolicy) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *RESTAPISpec) SetIdentifier(id string) {
+func (o *HostServiceMappingPolicy) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *RESTAPISpec) Version() int {
+func (o *HostServiceMappingPolicy) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *RESTAPISpec) DefaultOrder() []string {
+func (o *HostServiceMappingPolicy) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -189,235 +204,281 @@ func (o *RESTAPISpec) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *RESTAPISpec) Doc() string {
-	return `This is deprecated. Use HTTPResourceSpec instead.`
+func (o *HostServiceMappingPolicy) Doc() string {
+	return `Defines a host service mapping policy that provides the relation between
+enforcers and host services that they must implement.`
 }
 
-func (o *RESTAPISpec) String() string {
+func (o *HostServiceMappingPolicy) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *HostServiceMappingPolicy) GetActiveDuration() string {
+
+	return o.ActiveDuration
+}
+
+// SetActiveDuration sets the property ActiveDuration of the receiver using the given value.
+func (o *HostServiceMappingPolicy) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *HostServiceMappingPolicy) GetActiveSchedule() string {
+
+	return o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the given value.
+func (o *HostServiceMappingPolicy) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = activeSchedule
+}
+
 // GetAnnotations returns the Annotations of the receiver.
-func (o *RESTAPISpec) GetAnnotations() map[string][]string {
+func (o *HostServiceMappingPolicy) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *RESTAPISpec) SetAnnotations(annotations map[string][]string) {
+func (o *HostServiceMappingPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
-// GetArchived returns the Archived of the receiver.
-func (o *RESTAPISpec) GetArchived() bool {
-
-	return o.Archived
-}
-
-// SetArchived sets the property Archived of the receiver using the given value.
-func (o *RESTAPISpec) SetArchived(archived bool) {
-
-	o.Archived = archived
-}
-
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *RESTAPISpec) GetAssociatedTags() []string {
+func (o *HostServiceMappingPolicy) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *RESTAPISpec) SetAssociatedTags(associatedTags []string) {
+func (o *HostServiceMappingPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *RESTAPISpec) GetCreateTime() time.Time {
+func (o *HostServiceMappingPolicy) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *RESTAPISpec) SetCreateTime(createTime time.Time) {
+func (o *HostServiceMappingPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *RESTAPISpec) GetDescription() string {
+func (o *HostServiceMappingPolicy) GetDescription() string {
 
 	return o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the given value.
-func (o *RESTAPISpec) SetDescription(description string) {
+func (o *HostServiceMappingPolicy) SetDescription(description string) {
 
 	o.Description = description
 }
 
+// GetDisabled returns the Disabled of the receiver.
+func (o *HostServiceMappingPolicy) GetDisabled() bool {
+
+	return o.Disabled
+}
+
+// SetDisabled sets the property Disabled of the receiver using the given value.
+func (o *HostServiceMappingPolicy) SetDisabled(disabled bool) {
+
+	o.Disabled = disabled
+}
+
+// GetFallback returns the Fallback of the receiver.
+func (o *HostServiceMappingPolicy) GetFallback() bool {
+
+	return o.Fallback
+}
+
+// SetFallback sets the property Fallback of the receiver using the given value.
+func (o *HostServiceMappingPolicy) SetFallback(fallback bool) {
+
+	o.Fallback = fallback
+}
+
 // GetMetadata returns the Metadata of the receiver.
-func (o *RESTAPISpec) GetMetadata() []string {
+func (o *HostServiceMappingPolicy) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the given value.
-func (o *RESTAPISpec) SetMetadata(metadata []string) {
+func (o *HostServiceMappingPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *RESTAPISpec) GetName() string {
+func (o *HostServiceMappingPolicy) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *RESTAPISpec) SetName(name string) {
+func (o *HostServiceMappingPolicy) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *RESTAPISpec) GetNamespace() string {
+func (o *HostServiceMappingPolicy) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *RESTAPISpec) SetNamespace(namespace string) {
+func (o *HostServiceMappingPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *RESTAPISpec) GetNormalizedTags() []string {
+func (o *HostServiceMappingPolicy) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *RESTAPISpec) SetNormalizedTags(normalizedTags []string) {
+func (o *HostServiceMappingPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *RESTAPISpec) GetPropagate() bool {
+func (o *HostServiceMappingPolicy) GetPropagate() bool {
 
 	return o.Propagate
 }
 
 // SetPropagate sets the property Propagate of the receiver using the given value.
-func (o *RESTAPISpec) SetPropagate(propagate bool) {
+func (o *HostServiceMappingPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *RESTAPISpec) GetProtected() bool {
+func (o *HostServiceMappingPolicy) GetProtected() bool {
 
 	return o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *RESTAPISpec) GetUpdateTime() time.Time {
+func (o *HostServiceMappingPolicy) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *RESTAPISpec) SetUpdateTime(updateTime time.Time) {
+func (o *HostServiceMappingPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *RESTAPISpec) GetZHash() int {
+func (o *HostServiceMappingPolicy) GetZHash() int {
 
 	return o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the given value.
-func (o *RESTAPISpec) SetZHash(zHash int) {
+func (o *HostServiceMappingPolicy) SetZHash(zHash int) {
 
 	o.ZHash = zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *RESTAPISpec) GetZone() int {
+func (o *HostServiceMappingPolicy) GetZone() int {
 
 	return o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the given value.
-func (o *RESTAPISpec) SetZone(zone int) {
+func (o *HostServiceMappingPolicy) SetZone(zone int) {
 
 	o.Zone = zone
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *RESTAPISpec) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *HostServiceMappingPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseRESTAPISpec{
+		return &SparseHostServiceMappingPolicy{
 			ID:             &o.ID,
+			ActiveDuration: &o.ActiveDuration,
+			ActiveSchedule: &o.ActiveSchedule,
 			Annotations:    &o.Annotations,
-			Archived:       &o.Archived,
 			AssociatedTags: &o.AssociatedTags,
 			CreateTime:     &o.CreateTime,
 			Description:    &o.Description,
-			Endpoints:      &o.Endpoints,
+			Disabled:       &o.Disabled,
+			Fallback:       &o.Fallback,
 			Metadata:       &o.Metadata,
-			Migrated:       &o.Migrated,
 			Name:           &o.Name,
 			Namespace:      &o.Namespace,
 			NormalizedTags: &o.NormalizedTags,
+			Object:         &o.Object,
 			Propagate:      &o.Propagate,
 			Protected:      &o.Protected,
+			Subject:        &o.Subject,
 			UpdateTime:     &o.UpdateTime,
 			ZHash:          &o.ZHash,
 			Zone:           &o.Zone,
 		}
 	}
 
-	sp := &SparseRESTAPISpec{}
+	sp := &SparseHostServiceMappingPolicy{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
+		case "activeDuration":
+			sp.ActiveDuration = &(o.ActiveDuration)
+		case "activeSchedule":
+			sp.ActiveSchedule = &(o.ActiveSchedule)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
-		case "archived":
-			sp.Archived = &(o.Archived)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
 			sp.Description = &(o.Description)
-		case "endpoints":
-			sp.Endpoints = &(o.Endpoints)
+		case "disabled":
+			sp.Disabled = &(o.Disabled)
+		case "fallback":
+			sp.Fallback = &(o.Fallback)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
-		case "migrated":
-			sp.Migrated = &(o.Migrated)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
+		case "object":
+			sp.Object = &(o.Object)
 		case "propagate":
 			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
+		case "subject":
+			sp.Subject = &(o.Subject)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -430,21 +491,24 @@ func (o *RESTAPISpec) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseRESTAPISpec to the object.
-func (o *RESTAPISpec) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseHostServiceMappingPolicy to the object.
+func (o *HostServiceMappingPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseRESTAPISpec)
+	so := sparse.(*SparseHostServiceMappingPolicy)
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
+	if so.ActiveDuration != nil {
+		o.ActiveDuration = *so.ActiveDuration
+	}
+	if so.ActiveSchedule != nil {
+		o.ActiveSchedule = *so.ActiveSchedule
+	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
-	}
-	if so.Archived != nil {
-		o.Archived = *so.Archived
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
@@ -455,14 +519,14 @@ func (o *RESTAPISpec) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Description != nil {
 		o.Description = *so.Description
 	}
-	if so.Endpoints != nil {
-		o.Endpoints = *so.Endpoints
+	if so.Disabled != nil {
+		o.Disabled = *so.Disabled
+	}
+	if so.Fallback != nil {
+		o.Fallback = *so.Fallback
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
-	}
-	if so.Migrated != nil {
-		o.Migrated = *so.Migrated
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -473,11 +537,17 @@ func (o *RESTAPISpec) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
 	}
+	if so.Object != nil {
+		o.Object = *so.Object
+	}
 	if so.Propagate != nil {
 		o.Propagate = *so.Propagate
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
+	}
+	if so.Subject != nil {
+		o.Subject = *so.Subject
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -490,35 +560,39 @@ func (o *RESTAPISpec) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the RESTAPISpec.
-func (o *RESTAPISpec) DeepCopy() *RESTAPISpec {
+// DeepCopy returns a deep copy if the HostServiceMappingPolicy.
+func (o *HostServiceMappingPolicy) DeepCopy() *HostServiceMappingPolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &RESTAPISpec{}
+	out := &HostServiceMappingPolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *RESTAPISpec.
-func (o *RESTAPISpec) DeepCopyInto(out *RESTAPISpec) {
+// DeepCopyInto copies the receiver into the given *HostServiceMappingPolicy.
+func (o *HostServiceMappingPolicy) DeepCopyInto(out *HostServiceMappingPolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy RESTAPISpec: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy HostServiceMappingPolicy: %s", err))
 	}
 
-	*out = *target.(*RESTAPISpec)
+	*out = *target.(*HostServiceMappingPolicy)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *RESTAPISpec) Validate() error {
+func (o *HostServiceMappingPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
+		errors = append(errors, err)
+	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
@@ -544,56 +618,62 @@ func (o *RESTAPISpec) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*RESTAPISpec) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*HostServiceMappingPolicy) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := RESTAPISpecAttributesMap[name]; ok {
+	if v, ok := HostServiceMappingPolicyAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return RESTAPISpecLowerCaseAttributesMap[name]
+	return HostServiceMappingPolicyLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*RESTAPISpec) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*HostServiceMappingPolicy) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return RESTAPISpecAttributesMap
+	return HostServiceMappingPolicyAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *RESTAPISpec) ValueForAttribute(name string) interface{} {
+func (o *HostServiceMappingPolicy) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
 		return o.ID
+	case "activeDuration":
+		return o.ActiveDuration
+	case "activeSchedule":
+		return o.ActiveSchedule
 	case "annotations":
 		return o.Annotations
-	case "archived":
-		return o.Archived
 	case "associatedTags":
 		return o.AssociatedTags
 	case "createTime":
 		return o.CreateTime
 	case "description":
 		return o.Description
-	case "endpoints":
-		return o.Endpoints
+	case "disabled":
+		return o.Disabled
+	case "fallback":
+		return o.Fallback
 	case "metadata":
 		return o.Metadata
-	case "migrated":
-		return o.Migrated
 	case "name":
 		return o.Name
 	case "namespace":
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
+	case "object":
+		return o.Object
 	case "propagate":
 		return o.Propagate
 	case "protected":
 		return o.Protected
+	case "subject":
+		return o.Subject
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -605,8 +685,8 @@ func (o *RESTAPISpec) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// RESTAPISpecAttributesMap represents the map of attribute for RESTAPISpec.
-var RESTAPISpecAttributesMap = map[string]elemental.AttributeSpecification{
+// HostServiceMappingPolicyAttributesMap represents the map of attribute for HostServiceMappingPolicy.
+var HostServiceMappingPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -617,10 +697,33 @@ var RESTAPISpecAttributesMap = map[string]elemental.AttributeSpecification{
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
-		Stored:         true,
 		Type:           "string",
+	},
+	"ActiveDuration": elemental.AttributeSpecification{
+		AllowedChars:   `^[0-9]+[smh]$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveDuration",
+		Description: `ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeDuration",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
+	},
+	"ActiveSchedule": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveSchedule",
+		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeSchedule",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -631,18 +734,8 @@ var RESTAPISpecAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
-	},
-	"Archived": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Archived",
-		Description:    `Archived defines if the object is archived.`,
-		Getter:         true,
-		Name:           "archived",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -653,8 +746,8 @@ var RESTAPISpecAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -683,15 +776,31 @@ var RESTAPISpecAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Endpoints": elemental.AttributeSpecification{
+	"Disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Endpoints",
-		Description:    `EndPoints is a list of API endpoints that are exposed for the service.`,
+		ConvertedName:  "Disabled",
+		Description:    `Disabled defines if the propert is disabled.`,
 		Exposed:        true,
-		Name:           "endpoints",
+		Getter:         true,
+		Name:           "disabled",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
-		SubType:        "exposed_api_list",
-		Type:           "external",
+		Type:           "boolean",
+	},
+	"Fallback": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Fallback",
+		Description: `Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.`,
+		Exposed:   true,
+		Getter:    true,
+		Name:      "fallback",
+		Orderable: true,
+		Setter:    true,
+		Stored:    true,
+		Type:      "boolean",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -705,16 +814,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
-	},
-	"Migrated": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Migrated",
-		Description:    `Migrated indicated if the object has been migrated to an HTTPResourceSpec.`,
-		Name:           "migrated",
-		Stored:         true,
-		Type:           "boolean",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -760,9 +861,20 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
+	},
+	"Object": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Object",
+		Description: `Object of the policy is the selector for the host services that must be applied
+to this enforcer.`,
+		Exposed:   true,
+		Name:      "object",
+		Orderable: true,
+		SubType:   "list_of_lists_of_strings",
+		Type:      "external",
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -786,6 +898,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"Subject": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Subject",
+		Description: `Subject of the policy is the selector of the enforcers that the list of host
+services must apply to.`,
+		Exposed:   true,
+		Name:      "subject",
+		Orderable: true,
+		SubType:   "list_of_lists_of_strings",
+		Type:      "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -829,8 +952,8 @@ georedundancy.`,
 	},
 }
 
-// RESTAPISpecLowerCaseAttributesMap represents the map of attribute for RESTAPISpec.
-var RESTAPISpecLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// HostServiceMappingPolicyLowerCaseAttributesMap represents the map of attribute for HostServiceMappingPolicy.
+var HostServiceMappingPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -841,10 +964,33 @@ var RESTAPISpecLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
-		Stored:         true,
 		Type:           "string",
+	},
+	"activeduration": elemental.AttributeSpecification{
+		AllowedChars:   `^[0-9]+[smh]$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveDuration",
+		Description: `ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeDuration",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
+	},
+	"activeschedule": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveSchedule",
+		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeSchedule",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -855,18 +1001,8 @@ var RESTAPISpecLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
-	},
-	"archived": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Archived",
-		Description:    `Archived defines if the object is archived.`,
-		Getter:         true,
-		Name:           "archived",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -877,8 +1013,8 @@ var RESTAPISpecLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -907,15 +1043,31 @@ var RESTAPISpecLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Stored:         true,
 		Type:           "string",
 	},
-	"endpoints": elemental.AttributeSpecification{
+	"disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Endpoints",
-		Description:    `EndPoints is a list of API endpoints that are exposed for the service.`,
+		ConvertedName:  "Disabled",
+		Description:    `Disabled defines if the propert is disabled.`,
 		Exposed:        true,
-		Name:           "endpoints",
+		Getter:         true,
+		Name:           "disabled",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
-		SubType:        "exposed_api_list",
-		Type:           "external",
+		Type:           "boolean",
+	},
+	"fallback": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Fallback",
+		Description: `Fallback indicates that this is fallback policy. It will only be
+applied if no other policies have been resolved. If the policy is also
+propagated it will become a fallback for children namespaces.`,
+		Exposed:   true,
+		Getter:    true,
+		Name:      "fallback",
+		Orderable: true,
+		Setter:    true,
+		Stored:    true,
+		Type:      "boolean",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -929,16 +1081,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
-	},
-	"migrated": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Migrated",
-		Description:    `Migrated indicated if the object has been migrated to an HTTPResourceSpec.`,
-		Name:           "migrated",
-		Stored:         true,
-		Type:           "boolean",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -984,9 +1128,20 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
+	},
+	"object": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Object",
+		Description: `Object of the policy is the selector for the host services that must be applied
+to this enforcer.`,
+		Exposed:   true,
+		Name:      "object",
+		Orderable: true,
+		SubType:   "list_of_lists_of_strings",
+		Type:      "external",
 	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1010,6 +1165,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"subject": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Subject",
+		Description: `Subject of the policy is the selector of the enforcers that the list of host
+services must apply to.`,
+		Exposed:   true,
+		Name:      "subject",
+		Orderable: true,
+		SubType:   "list_of_lists_of_strings",
+		Type:      "external",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1053,35 +1219,35 @@ georedundancy.`,
 	},
 }
 
-// SparseRESTAPISpecsList represents a list of SparseRESTAPISpecs
-type SparseRESTAPISpecsList []*SparseRESTAPISpec
+// SparseHostServiceMappingPoliciesList represents a list of SparseHostServiceMappingPolicies
+type SparseHostServiceMappingPoliciesList []*SparseHostServiceMappingPolicy
 
 // Identity returns the identity of the objects in the list.
-func (o SparseRESTAPISpecsList) Identity() elemental.Identity {
+func (o SparseHostServiceMappingPoliciesList) Identity() elemental.Identity {
 
-	return RESTAPISpecIdentity
+	return HostServiceMappingPolicyIdentity
 }
 
-// Copy returns a pointer to a copy the SparseRESTAPISpecsList.
-func (o SparseRESTAPISpecsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseHostServiceMappingPoliciesList.
+func (o SparseHostServiceMappingPoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(SparseRESTAPISpecsList{}, o...)
+	copy := append(SparseHostServiceMappingPoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseRESTAPISpecsList.
-func (o SparseRESTAPISpecsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseHostServiceMappingPoliciesList.
+func (o SparseHostServiceMappingPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseRESTAPISpecsList{}, o...)
+	out := append(SparseHostServiceMappingPoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseRESTAPISpec))
+		out = append(out, obj.(*SparseHostServiceMappingPolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseRESTAPISpecsList) List() elemental.IdentifiablesList {
+func (o SparseHostServiceMappingPoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1092,15 +1258,15 @@ func (o SparseRESTAPISpecsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseRESTAPISpecsList) DefaultOrder() []string {
+func (o SparseHostServiceMappingPoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToPlain returns the SparseRESTAPISpecsList converted to RESTAPISpecsList.
-func (o SparseRESTAPISpecsList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseHostServiceMappingPoliciesList converted to HostServiceMappingPoliciesList.
+func (o SparseHostServiceMappingPoliciesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1111,21 +1277,26 @@ func (o SparseRESTAPISpecsList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseRESTAPISpecsList) Version() int {
+func (o SparseHostServiceMappingPoliciesList) Version() int {
 
 	return 1
 }
 
-// SparseRESTAPISpec represents the sparse version of a restapispec.
-type SparseRESTAPISpec struct {
+// SparseHostServiceMappingPolicy represents the sparse version of a hostservicemappingpolicy.
+type SparseHostServiceMappingPolicy struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
+	// ActiveDuration defines for how long the policy will be active according to the
+	// activeSchedule.
+	ActiveDuration *string `json:"activeDuration,omitempty" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
+
+	// ActiveSchedule defines when the policy should be active using the cron notation.
+	// The policy will be active for the given activeDuration.
+	ActiveSchedule *string `json:"activeSchedule,omitempty" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
-
-	// Archived defines if the object is archived.
-	Archived *bool `json:"-,omitempty" bson:"archived" mapstructure:"-,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
@@ -1136,15 +1307,17 @@ type SparseRESTAPISpec struct {
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
 
-	// EndPoints is a list of API endpoints that are exposed for the service.
-	Endpoints *types.ExposedAPIList `json:"endpoints,omitempty" bson:"endpoints" mapstructure:"endpoints,omitempty"`
+	// Disabled defines if the propert is disabled.
+	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
+
+	// Fallback indicates that this is fallback policy. It will only be
+	// applied if no other policies have been resolved. If the policy is also
+	// propagated it will become a fallback for children namespaces.
+	Fallback *bool `json:"fallback,omitempty" bson:"fallback" mapstructure:"fallback,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
-
-	// Migrated indicated if the object has been migrated to an HTTPResourceSpec.
-	Migrated *bool `json:"-,omitempty" bson:"migrated" mapstructure:"-,omitempty"`
 
 	// Name is the name of the entity.
 	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
@@ -1155,11 +1328,19 @@ type SparseRESTAPISpec struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
+	// Object of the policy is the selector for the host services that must be applied
+	// to this enforcer.
+	Object *[][]string `json:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
+
 	// Propagate will propagate the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// Subject of the policy is the selector of the enforcers that the list of host
+	// services must apply to.
+	Subject *[][]string `json:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -1177,19 +1358,19 @@ type SparseRESTAPISpec struct {
 	sync.Mutex `json:"-" bson:"-"`
 }
 
-// NewSparseRESTAPISpec returns a new  SparseRESTAPISpec.
-func NewSparseRESTAPISpec() *SparseRESTAPISpec {
-	return &SparseRESTAPISpec{}
+// NewSparseHostServiceMappingPolicy returns a new  SparseHostServiceMappingPolicy.
+func NewSparseHostServiceMappingPolicy() *SparseHostServiceMappingPolicy {
+	return &SparseHostServiceMappingPolicy{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseRESTAPISpec) Identity() elemental.Identity {
+func (o *SparseHostServiceMappingPolicy) Identity() elemental.Identity {
 
-	return RESTAPISpecIdentity
+	return HostServiceMappingPolicyIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseRESTAPISpec) Identifier() string {
+func (o *SparseHostServiceMappingPolicy) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1198,29 +1379,32 @@ func (o *SparseRESTAPISpec) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseRESTAPISpec) SetIdentifier(id string) {
+func (o *SparseHostServiceMappingPolicy) SetIdentifier(id string) {
 
 	o.ID = &id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseRESTAPISpec) Version() int {
+func (o *SparseHostServiceMappingPolicy) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseRESTAPISpec) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseHostServiceMappingPolicy) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewRESTAPISpec()
+	out := NewHostServiceMappingPolicy()
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
+	if o.ActiveDuration != nil {
+		out.ActiveDuration = *o.ActiveDuration
+	}
+	if o.ActiveSchedule != nil {
+		out.ActiveSchedule = *o.ActiveSchedule
+	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
-	}
-	if o.Archived != nil {
-		out.Archived = *o.Archived
 	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
@@ -1231,14 +1415,14 @@ func (o *SparseRESTAPISpec) ToPlain() elemental.PlainIdentifiable {
 	if o.Description != nil {
 		out.Description = *o.Description
 	}
-	if o.Endpoints != nil {
-		out.Endpoints = *o.Endpoints
+	if o.Disabled != nil {
+		out.Disabled = *o.Disabled
+	}
+	if o.Fallback != nil {
+		out.Fallback = *o.Fallback
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
-	}
-	if o.Migrated != nil {
-		out.Migrated = *o.Migrated
 	}
 	if o.Name != nil {
 		out.Name = *o.Name
@@ -1249,11 +1433,17 @@ func (o *SparseRESTAPISpec) ToPlain() elemental.PlainIdentifiable {
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
 	}
+	if o.Object != nil {
+		out.Object = *o.Object
+	}
 	if o.Propagate != nil {
 		out.Propagate = *o.Propagate
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
+	}
+	if o.Subject != nil {
+		out.Subject = *o.Subject
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
@@ -1268,188 +1458,224 @@ func (o *SparseRESTAPISpec) ToPlain() elemental.PlainIdentifiable {
 	return out
 }
 
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *SparseHostServiceMappingPolicy) GetActiveDuration() string {
+
+	return *o.ActiveDuration
+}
+
+// SetActiveDuration sets the property ActiveDuration of the receiver using the address of the given value.
+func (o *SparseHostServiceMappingPolicy) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = &activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *SparseHostServiceMappingPolicy) GetActiveSchedule() string {
+
+	return *o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the address of the given value.
+func (o *SparseHostServiceMappingPolicy) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = &activeSchedule
+}
+
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseRESTAPISpec) GetAnnotations() map[string][]string {
+func (o *SparseHostServiceMappingPolicy) GetAnnotations() map[string][]string {
 
 	return *o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetAnnotations(annotations map[string][]string) {
+func (o *SparseHostServiceMappingPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
-// GetArchived returns the Archived of the receiver.
-func (o *SparseRESTAPISpec) GetArchived() bool {
-
-	return *o.Archived
-}
-
-// SetArchived sets the property Archived of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetArchived(archived bool) {
-
-	o.Archived = &archived
-}
-
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseRESTAPISpec) GetAssociatedTags() []string {
+func (o *SparseHostServiceMappingPolicy) GetAssociatedTags() []string {
 
 	return *o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetAssociatedTags(associatedTags []string) {
+func (o *SparseHostServiceMappingPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseRESTAPISpec) GetCreateTime() time.Time {
+func (o *SparseHostServiceMappingPolicy) GetCreateTime() time.Time {
 
 	return *o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetCreateTime(createTime time.Time) {
+func (o *SparseHostServiceMappingPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseRESTAPISpec) GetDescription() string {
+func (o *SparseHostServiceMappingPolicy) GetDescription() string {
 
 	return *o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetDescription(description string) {
+func (o *SparseHostServiceMappingPolicy) SetDescription(description string) {
 
 	o.Description = &description
 }
 
+// GetDisabled returns the Disabled of the receiver.
+func (o *SparseHostServiceMappingPolicy) GetDisabled() bool {
+
+	return *o.Disabled
+}
+
+// SetDisabled sets the property Disabled of the receiver using the address of the given value.
+func (o *SparseHostServiceMappingPolicy) SetDisabled(disabled bool) {
+
+	o.Disabled = &disabled
+}
+
+// GetFallback returns the Fallback of the receiver.
+func (o *SparseHostServiceMappingPolicy) GetFallback() bool {
+
+	return *o.Fallback
+}
+
+// SetFallback sets the property Fallback of the receiver using the address of the given value.
+func (o *SparseHostServiceMappingPolicy) SetFallback(fallback bool) {
+
+	o.Fallback = &fallback
+}
+
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseRESTAPISpec) GetMetadata() []string {
+func (o *SparseHostServiceMappingPolicy) GetMetadata() []string {
 
 	return *o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetMetadata(metadata []string) {
+func (o *SparseHostServiceMappingPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = &metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseRESTAPISpec) GetName() string {
+func (o *SparseHostServiceMappingPolicy) GetName() string {
 
 	return *o.Name
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetName(name string) {
+func (o *SparseHostServiceMappingPolicy) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseRESTAPISpec) GetNamespace() string {
+func (o *SparseHostServiceMappingPolicy) GetNamespace() string {
 
 	return *o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetNamespace(namespace string) {
+func (o *SparseHostServiceMappingPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseRESTAPISpec) GetNormalizedTags() []string {
+func (o *SparseHostServiceMappingPolicy) GetNormalizedTags() []string {
 
 	return *o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseHostServiceMappingPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparseRESTAPISpec) GetPropagate() bool {
+func (o *SparseHostServiceMappingPolicy) GetPropagate() bool {
 
 	return *o.Propagate
 }
 
 // SetPropagate sets the property Propagate of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetPropagate(propagate bool) {
+func (o *SparseHostServiceMappingPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = &propagate
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseRESTAPISpec) GetProtected() bool {
+func (o *SparseHostServiceMappingPolicy) GetProtected() bool {
 
 	return *o.Protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseRESTAPISpec) GetUpdateTime() time.Time {
+func (o *SparseHostServiceMappingPolicy) GetUpdateTime() time.Time {
 
 	return *o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetUpdateTime(updateTime time.Time) {
+func (o *SparseHostServiceMappingPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseRESTAPISpec) GetZHash() int {
+func (o *SparseHostServiceMappingPolicy) GetZHash() int {
 
 	return *o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetZHash(zHash int) {
+func (o *SparseHostServiceMappingPolicy) SetZHash(zHash int) {
 
 	o.ZHash = &zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseRESTAPISpec) GetZone() int {
+func (o *SparseHostServiceMappingPolicy) GetZone() int {
 
 	return *o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparseRESTAPISpec) SetZone(zone int) {
+func (o *SparseHostServiceMappingPolicy) SetZone(zone int) {
 
 	o.Zone = &zone
 }
 
-// DeepCopy returns a deep copy if the SparseRESTAPISpec.
-func (o *SparseRESTAPISpec) DeepCopy() *SparseRESTAPISpec {
+// DeepCopy returns a deep copy if the SparseHostServiceMappingPolicy.
+func (o *SparseHostServiceMappingPolicy) DeepCopy() *SparseHostServiceMappingPolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseRESTAPISpec{}
+	out := &SparseHostServiceMappingPolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseRESTAPISpec.
-func (o *SparseRESTAPISpec) DeepCopyInto(out *SparseRESTAPISpec) {
+// DeepCopyInto copies the receiver into the given *SparseHostServiceMappingPolicy.
+func (o *SparseHostServiceMappingPolicy) DeepCopyInto(out *SparseHostServiceMappingPolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseRESTAPISpec: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseHostServiceMappingPolicy: %s", err))
 	}
 
-	*out = *target.(*SparseRESTAPISpec)
+	*out = *target.(*SparseHostServiceMappingPolicy)
 }

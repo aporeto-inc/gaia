@@ -58,7 +58,9 @@ func (o NamespacesList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o NamespacesList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"name",
+	}
 }
 
 // ToSparse returns the NamespacesList converted to SparseNamespacesList.
@@ -179,7 +181,9 @@ func (o *Namespace) Version() int {
 // DefaultOrder returns the list of default ordering fields.
 func (o *Namespace) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"name",
+	}
 }
 
 // Doc returns the documentation for the object
@@ -569,7 +573,7 @@ var NamespaceAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"AssociatedLocalCAID": elemental.AttributeSpecification{
@@ -590,8 +594,8 @@ var NamespaceAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -654,14 +658,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChars:   `^[a-zA-Z0-9-_/]+$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		CreationOnly:   true,
+		DefaultOrder:   true,
 		Description:    `Name is the name of the namespace.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -698,8 +703,8 @@ policies in the namespace and its children.`,
 		Exposed: true,
 		Name:    "networkAccessPolicyTags",
 		Stored:  true,
-		SubType: "tags_list",
-		Type:    "external",
+		SubType: "string",
+		Type:    "list",
 	},
 	"NormalizedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -712,9 +717,9 @@ policies in the namespace and its children.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -779,7 +784,7 @@ var NamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"associatedlocalcaid": elemental.AttributeSpecification{
@@ -800,8 +805,8 @@ var NamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -864,14 +869,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChars:   `^[a-zA-Z0-9-_/]+$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
 		CreationOnly:   true,
+		DefaultOrder:   true,
 		Description:    `Name is the name of the namespace.`,
 		Exposed:        true,
 		Filterable:     true,
@@ -908,8 +914,8 @@ policies in the namespace and its children.`,
 		Exposed: true,
 		Name:    "networkAccessPolicyTags",
 		Stored:  true,
-		SubType: "tags_list",
-		Type:    "external",
+		SubType: "string",
+		Type:    "list",
 	},
 	"normalizedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -922,9 +928,9 @@ policies in the namespace and its children.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1005,7 +1011,9 @@ func (o SparseNamespacesList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o SparseNamespacesList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"name",
+	}
 }
 
 // ToPlain returns the SparseNamespacesList converted to NamespacesList.

@@ -6,7 +6,6 @@ import (
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/types"
 )
 
 // StatsQueryMeasurementValue represents the possible values for attribute "measurement".
@@ -15,6 +14,9 @@ type StatsQueryMeasurementValue string
 const (
 	// StatsQueryMeasurementAudit represents the value Audit.
 	StatsQueryMeasurementAudit StatsQueryMeasurementValue = "Audit"
+
+	// StatsQueryMeasurementEnforcerTraces represents the value EnforcerTraces.
+	StatsQueryMeasurementEnforcerTraces StatsQueryMeasurementValue = "EnforcerTraces"
 
 	// StatsQueryMeasurementEnforcers represents the value Enforcers.
 	StatsQueryMeasurementEnforcers StatsQueryMeasurementValue = "Enforcers"
@@ -27,6 +29,9 @@ const (
 
 	// StatsQueryMeasurementFlows represents the value Flows.
 	StatsQueryMeasurementFlows StatsQueryMeasurementValue = "Flows"
+
+	// StatsQueryMeasurementPackets represents the value Packets.
+	StatsQueryMeasurementPackets StatsQueryMeasurementValue = "Packets"
 )
 
 // StatsQueryIdentity represents the Identity of the object.
@@ -125,7 +130,7 @@ type StatsQuery struct {
 	Offset int `json:"offset" bson:"-" mapstructure:"offset,omitempty"`
 
 	// Results contains the result of the query.
-	Results []*types.TimeSeriesQueryResults `json:"results" bson:"-" mapstructure:"results,omitempty"`
+	Results []*TimeSeriesQueryResults `json:"results" bson:"-" mapstructure:"results,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -137,10 +142,12 @@ func NewStatsQuery() *StatsQuery {
 
 	return &StatsQuery{
 		ModelVersion: 1,
+		Fields:       []string{},
+		Groups:       []string{},
 		Limit:        -1,
 		Measurement:  StatsQueryMeasurementFlows,
 		Offset:       -1,
-		Results:      []*types.TimeSeriesQueryResults{},
+		Results:      []*TimeSeriesQueryResults{},
 	}
 }
 
@@ -291,8 +298,14 @@ func (o *StatsQuery) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs"}, false); err != nil {
+	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces"}, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	for _, sub := range o.Results {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
 	}
 
 	if len(requiredErrors) > 0 {
@@ -398,7 +411,7 @@ group the results.`,
 		Type:           "integer",
 	},
 	"Measurement": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces"},
 		ConvertedName:  "Measurement",
 		DefaultValue:   StatsQueryMeasurementFlows,
 		Description:    `Name of the measurement.`,
@@ -423,8 +436,8 @@ group the results.`,
 		Exposed:        true,
 		Name:           "results",
 		ReadOnly:       true,
-		SubType:        "time_series_results",
-		Type:           "external",
+		SubType:        "timeseriesqueryresults",
+		Type:           "refList",
 	},
 }
 
@@ -476,7 +489,7 @@ group the results.`,
 		Type:           "integer",
 	},
 	"measurement": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs"},
+		AllowedChoices: []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces"},
 		ConvertedName:  "Measurement",
 		DefaultValue:   StatsQueryMeasurementFlows,
 		Description:    `Name of the measurement.`,
@@ -501,8 +514,8 @@ group the results.`,
 		Exposed:        true,
 		Name:           "results",
 		ReadOnly:       true,
-		SubType:        "time_series_results",
-		Type:           "external",
+		SubType:        "timeseriesqueryresults",
+		Type:           "refList",
 	},
 }
 
@@ -593,7 +606,7 @@ type SparseStatsQuery struct {
 	Offset *int `json:"offset,omitempty" bson:"-" mapstructure:"offset,omitempty"`
 
 	// Results contains the result of the query.
-	Results *[]*types.TimeSeriesQueryResults `json:"results,omitempty" bson:"-" mapstructure:"results,omitempty"`
+	Results *[]*TimeSeriesQueryResults `json:"results,omitempty" bson:"-" mapstructure:"results,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

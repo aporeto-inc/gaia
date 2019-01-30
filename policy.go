@@ -16,6 +16,9 @@ const (
 	// PolicyTypeAPIAuthorization represents the value APIAuthorization.
 	PolicyTypeAPIAuthorization PolicyTypeValue = "APIAuthorization"
 
+	// PolicyTypeAuditProfileMapping represents the value AuditProfileMapping.
+	PolicyTypeAuditProfileMapping PolicyTypeValue = "AuditProfileMapping"
+
 	// PolicyTypeEnforcerProfile represents the value EnforcerProfile.
 	PolicyTypeEnforcerProfile PolicyTypeValue = "EnforcerProfile"
 
@@ -24,6 +27,9 @@ const (
 
 	// PolicyTypeHook represents the value Hook.
 	PolicyTypeHook PolicyTypeValue = "Hook"
+
+	// PolicyTypeHostServiceMapping represents the value HostServiceMapping.
+	PolicyTypeHostServiceMapping PolicyTypeValue = "HostServiceMapping"
 
 	// PolicyTypeNamespaceMapping represents the value NamespaceMapping.
 	PolicyTypeNamespaceMapping PolicyTypeValue = "NamespaceMapping"
@@ -230,6 +236,9 @@ func NewPolicy() *Policy {
 		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
+		Object:         [][]string{},
+		Relation:       []string{},
+		Subject:        [][]string{},
 	}
 }
 
@@ -739,7 +748,7 @@ func (o *Policy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "Syscall", "TokenScope", "ServiceDependency"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -858,7 +867,7 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "action",
 		Stored:         true,
-		SubType:        "actions_list",
+		SubType:        "map_of_string_of_maps_of_string_of_objects",
 		Type:           "external",
 	},
 	"ActiveDuration": elemental.AttributeSpecification{
@@ -884,8 +893,7 @@ The policy will be active for the given activeDuration.`,
 		Name:    "activeSchedule",
 		Setter:  true,
 		Stored:  true,
-		SubType: "cron_expression",
-		Type:    "external",
+		Type:    "string",
 	},
 	"AllObjectTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -893,8 +901,8 @@ The policy will be active for the given activeDuration.`,
 		Description:    `This is a set of all object tags for matching in the DB.`,
 		Name:           "allObjectTags",
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"AllSubjectTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -902,8 +910,8 @@ The policy will be active for the given activeDuration.`,
 		Description:    `This is a set of all subject tags for matching in the DB.`,
 		Name:           "allSubjectTags",
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -914,7 +922,7 @@ The policy will be active for the given activeDuration.`,
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
@@ -926,8 +934,8 @@ The policy will be active for the given activeDuration.`,
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -994,8 +1002,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1041,9 +1049,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1055,7 +1063,7 @@ objects are identified as logical operations on tags when a policy is defined.`,
 		Name:    "object",
 		Setter:  true,
 		Stored:  true,
-		SubType: "policies_list",
+		SubType: "list_of_lists_of_strings",
 		Type:    "external",
 	},
 	"Propagate": elemental.AttributeSpecification{
@@ -1102,8 +1110,8 @@ objects.`,
 		Exposed: true,
 		Name:    "relation",
 		Stored:  true,
-		SubType: "relations_list",
-		Type:    "external",
+		SubType: "string",
+		Type:    "list",
 	},
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1116,17 +1124,16 @@ includes AND/OR.`,
 		Name:    "subject",
 		Setter:  true,
 		Stored:  true,
-		SubType: "policies_list",
+		SubType: "list_of_lists_of_strings",
 		Type:    "external",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "Syscall", "TokenScope", "ServiceDependency"},
+		AllowedChoices: []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the policy.`,
 		Exposed:        true,
 		Name:           "type",
-		PrimaryKey:     true,
 		Stored:         true,
 		Type:           "enum",
 	},
@@ -1196,7 +1203,7 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "action",
 		Stored:         true,
-		SubType:        "actions_list",
+		SubType:        "map_of_string_of_maps_of_string_of_objects",
 		Type:           "external",
 	},
 	"activeduration": elemental.AttributeSpecification{
@@ -1222,8 +1229,7 @@ The policy will be active for the given activeDuration.`,
 		Name:    "activeSchedule",
 		Setter:  true,
 		Stored:  true,
-		SubType: "cron_expression",
-		Type:    "external",
+		Type:    "string",
 	},
 	"allobjecttags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1231,8 +1237,8 @@ The policy will be active for the given activeDuration.`,
 		Description:    `This is a set of all object tags for matching in the DB.`,
 		Name:           "allObjectTags",
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"allsubjecttags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1240,8 +1246,8 @@ The policy will be active for the given activeDuration.`,
 		Description:    `This is a set of all subject tags for matching in the DB.`,
 		Name:           "allSubjectTags",
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1252,7 +1258,7 @@ The policy will be active for the given activeDuration.`,
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"associatedtags": elemental.AttributeSpecification{
@@ -1264,8 +1270,8 @@ The policy will be active for the given activeDuration.`,
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1332,8 +1338,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1379,9 +1385,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1393,7 +1399,7 @@ objects are identified as logical operations on tags when a policy is defined.`,
 		Name:    "object",
 		Setter:  true,
 		Stored:  true,
-		SubType: "policies_list",
+		SubType: "list_of_lists_of_strings",
 		Type:    "external",
 	},
 	"propagate": elemental.AttributeSpecification{
@@ -1440,8 +1446,8 @@ objects.`,
 		Exposed: true,
 		Name:    "relation",
 		Stored:  true,
-		SubType: "relations_list",
-		Type:    "external",
+		SubType: "string",
+		Type:    "list",
 	},
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1454,17 +1460,16 @@ includes AND/OR.`,
 		Name:    "subject",
 		Setter:  true,
 		Stored:  true,
-		SubType: "policies_list",
+		SubType: "list_of_lists_of_strings",
 		Type:    "external",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "Syscall", "TokenScope", "ServiceDependency"},
+		AllowedChoices: []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the policy.`,
 		Exposed:        true,
 		Name:           "type",
-		PrimaryKey:     true,
 		Stored:         true,
 		Type:           "enum",
 	},

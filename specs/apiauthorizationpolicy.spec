@@ -42,9 +42,9 @@ attributes:
   - name: authorizedIdentities
     description: AuthorizedIdentities defines the list of api identities the policy
       applies to.
-    type: external
+    type: list
     exposed: true
-    subtype: identity_list
+    subtype: string
     required: true
     example_value:
     - '@auth:role=namespace.editor'
@@ -56,9 +56,19 @@ attributes:
     required: true
     example_value: /namespace
 
+  - name: authorizedSubnets
+    description: |-
+      If set, the api authorization will only be valid if the request comes from one
+      the declared subnets.
+    type: list
+    exposed: true
+    subtype: string
+    validations:
+    - $optionalnetworks
+
   - name: subject
     description: Subject is the subject.
     type: external
     exposed: true
-    subtype: policies_list
+    subtype: list_of_lists_of_strings
     orderable: true

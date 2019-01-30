@@ -13,26 +13,31 @@ var (
 		"apicheck":               APICheckIdentity,
 		"app":                    AppIdentity,
 		"appcredential":          AppCredentialIdentity,
-		"auditprofile":           AuditProfileIdentity,
-		"auditreport":            AuditReportIdentity,
-		"auth":                   AuthIdentity,
-		"authority":              AuthorityIdentity,
-		"automation":             AutomationIdentity,
-		"automationtemplate":     AutomationTemplateIdentity,
-		"awsaccount":             AWSAccountIdentity,
-		"awsapigateway":          AWSAPIGatewayIdentity,
-		"awsregister":            AWSRegisterIdentity,
-		"category":               CategoryIdentity,
-		"certificate":            CertificateIdentity,
+
+		"auditprofile":              AuditProfileIdentity,
+		"auditprofilemappingpolicy": AuditProfileMappingPolicyIdentity,
+		"auditreport":               AuditReportIdentity,
+		"auth":                      AuthIdentity,
+		"authority":                 AuthorityIdentity,
+		"automation":                AutomationIdentity,
+		"automationtemplate":        AutomationTemplateIdentity,
+
+		"awsaccount":    AWSAccountIdentity,
+		"awsapigateway": AWSAPIGatewayIdentity,
+		"awsregister":   AWSRegisterIdentity,
+		"category":      CategoryIdentity,
+		"certificate":   CertificateIdentity,
 
 		"customer":      CustomerIdentity,
 		"dependencymap": DependencyMapIdentity,
-		"email":         EmailIdentity,
+
+		"email": EmailIdentity,
 
 		"enforcer":                     EnforcerIdentity,
 		"enforcerprofile":              EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicy": EnforcerProfileMappingPolicyIdentity,
 		"enforcerreport":               EnforcerReportIdentity,
+		"enforcertracereport":          EnforcerTraceReportIdentity,
 		"eventlog":                     EventLogIdentity,
 		"export":                       ExportIdentity,
 		"externalnetwork":              ExternalNetworkIdentity,
@@ -42,57 +47,60 @@ var (
 		"filepath":                     FilePathIdentity,
 		"flowreport":                   FlowReportIdentity,
 
-		"hookpolicy": HookPolicyIdentity,
+		"hookpolicy":               HookPolicyIdentity,
+		"hostservice":              HostServiceIdentity,
+		"hostservicemappingpolicy": HostServiceMappingPolicyIdentity,
+		"httpresourcespec":         HTTPResourceSpecIdentity,
+		"import":                   ImportIdentity,
+		"installedapp":             InstalledAppIdentity,
+		"invoice":                  InvoiceIdentity,
+		"invoicerecord":            InvoiceRecordIdentity,
+		"ipinfo":                   IPInfoIdentity,
+		"isolationprofile":         IsolationProfileIdentity,
+		"issue":                    IssueIdentity,
+		"jaegerbatch":              JaegerbatchIdentity,
+		"k8scluster":               K8SClusterIdentity,
+		"log":                      LogIdentity,
+		"message":                  MessageIdentity,
+		"namespace":                NamespaceIdentity,
+		"namespacemappingpolicy":   NamespaceMappingPolicyIdentity,
+		"networkaccesspolicy":      NetworkAccessPolicyIdentity,
+		"oidcprovider":             OIDCProviderIdentity,
+		"packetreport":             PacketReportIdentity,
+		"passwordreset":            PasswordResetIdentity,
+		"plan":                     PlanIdentity,
+		"poke":                     PokeIdentity,
+		"policy":                   PolicyIdentity,
+		"policyrefresh":            PolicyRefreshIdentity,
+		"policyrenderer":           PolicyRendererIdentity,
+		"policyrule":               PolicyRuleIdentity,
+		"privatekey":               PrivateKeyIdentity,
+		"processingunit":           ProcessingUnitIdentity,
+		"processingunitpolicy":     ProcessingUnitPolicyIdentity,
 
-		"httpresourcespec":       HTTPResourceSpecIdentity,
-		"import":                 ImportIdentity,
-		"installedapp":           InstalledAppIdentity,
-		"invoice":                InvoiceIdentity,
-		"invoicerecord":          InvoiceRecordIdentity,
-		"ipinfo":                 IPInfoIdentity,
-		"isolationprofile":       IsolationProfileIdentity,
-		"issue":                  IssueIdentity,
-		"jaegerbatch":            JaegerbatchIdentity,
-		"k8scluster":             K8SClusterIdentity,
-		"log":                    LogIdentity,
-		"message":                MessageIdentity,
-		"namespace":              NamespaceIdentity,
-		"namespacemappingpolicy": NamespaceMappingPolicyIdentity,
-		"networkaccesspolicy":    NetworkAccessPolicyIdentity,
-		"oidcprovider":           OIDCProviderIdentity,
-		"passwordreset":          PasswordResetIdentity,
-		"plan":                   PlanIdentity,
-		"poke":                   PokeIdentity,
-		"policy":                 PolicyIdentity,
-		"policyrefresh":          PolicyRefreshIdentity,
-		"policyrenderer":         PolicyRendererIdentity,
-		"policyrule":             PolicyRuleIdentity,
-		"privatekey":             PrivateKeyIdentity,
-		"processingunit":         ProcessingUnitIdentity,
-		"processingunitpolicy":   ProcessingUnitPolicyIdentity,
+		"punode":            PUNodeIdentity,
+		"quotacheck":        QuotaCheckIdentity,
+		"quotapolicy":       QuotaPolicyIdentity,
+		"remoteprocessor":   RemoteProcessorIdentity,
+		"renderedpolicy":    RenderedPolicyIdentity,
+		"report":            ReportIdentity,
+		"revocation":        RevocationIdentity,
+		"role":              RoleIdentity,
+		"root":              RootIdentity,
+		"service":           ServiceIdentity,
+		"servicedependency": ServiceDependencyIdentity,
+		"squalltag":         SquallTagIdentity,
+		"statsinfo":         StatsInfoIdentity,
+		"statsquery":        StatsQueryIdentity,
+		"suggestedpolicy":   SuggestedPolicyIdentity,
+		"tabulation":        TabulationIdentity,
+		"tag":               TagIdentity,
+		"taginject":         TagInjectIdentity,
+		"tagvalue":          TagValueIdentity,
 
-		"punode":               PUNodeIdentity,
-		"quotacheck":           QuotaCheckIdentity,
-		"quotapolicy":          QuotaPolicyIdentity,
-		"remoteprocessor":      RemoteProcessorIdentity,
-		"renderedpolicy":       RenderedPolicyIdentity,
-		"report":               ReportIdentity,
-		"restapispec":          RESTAPISpecIdentity,
-		"revocation":           RevocationIdentity,
-		"role":                 RoleIdentity,
-		"root":                 RootIdentity,
-		"service":              ServiceIdentity,
-		"servicedependency":    ServiceDependencyIdentity,
-		"squalltag":            SquallTagIdentity,
-		"statsinfo":            StatsInfoIdentity,
-		"statsquery":           StatsQueryIdentity,
-		"suggestedpolicy":      SuggestedPolicyIdentity,
-		"tabulation":           TabulationIdentity,
-		"tag":                  TagIdentity,
-		"taginject":            TagInjectIdentity,
-		"tagvalue":             TagValueIdentity,
-		"token":                TokenIdentity,
-		"tokenscopepolicy":     TokenScopePolicyIdentity,
+		"token":            TokenIdentity,
+		"tokenscopepolicy": TokenScopePolicyIdentity,
+
 		"trigger":              TriggerIdentity,
 		"vulnerability":        VulnerabilityIdentity,
 		"x509certificate":      X509CertificateIdentity,
@@ -109,26 +117,31 @@ var (
 		"apichecks":                APICheckIdentity,
 		"apps":                     AppIdentity,
 		"appcredentials":           AppCredentialIdentity,
-		"auditprofiles":            AuditProfileIdentity,
-		"auditreports":             AuditReportIdentity,
-		"auth":                     AuthIdentity,
-		"authorities":              AuthorityIdentity,
-		"automations":              AutomationIdentity,
-		"automationtemplates":      AutomationTemplateIdentity,
-		"awsaccounts":              AWSAccountIdentity,
-		"awsapigateways":           AWSAPIGatewayIdentity,
-		"awsregister":              AWSRegisterIdentity,
-		"categories":               CategoryIdentity,
-		"certificates":             CertificateIdentity,
+
+		"auditprofiles":               AuditProfileIdentity,
+		"auditprofilemappingpolicies": AuditProfileMappingPolicyIdentity,
+		"auditreports":                AuditReportIdentity,
+		"auth":                        AuthIdentity,
+		"authorities":                 AuthorityIdentity,
+		"automations":                 AutomationIdentity,
+		"automationtemplates":         AutomationTemplateIdentity,
+
+		"awsaccounts":    AWSAccountIdentity,
+		"awsapigateways": AWSAPIGatewayIdentity,
+		"awsregister":    AWSRegisterIdentity,
+		"categories":     CategoryIdentity,
+		"certificates":   CertificateIdentity,
 
 		"customers":      CustomerIdentity,
 		"dependencymaps": DependencyMapIdentity,
-		"emails":         EmailIdentity,
+
+		"emails": EmailIdentity,
 
 		"enforcers":                      EnforcerIdentity,
 		"enforcerprofiles":               EnforcerProfileIdentity,
 		"enforcerprofilemappingpolicies": EnforcerProfileMappingPolicyIdentity,
 		"enforcerreports":                EnforcerReportIdentity,
+		"enforcertracereports":           EnforcerTraceReportIdentity,
 		"eventlogs":                      EventLogIdentity,
 		"export":                         ExportIdentity,
 		"externalnetworks":               ExternalNetworkIdentity,
@@ -138,57 +151,60 @@ var (
 		"filepaths":                      FilePathIdentity,
 		"flowreports":                    FlowReportIdentity,
 
-		"hookpolicies": HookPolicyIdentity,
+		"hookpolicies":               HookPolicyIdentity,
+		"hostservices":               HostServiceIdentity,
+		"hostservicemappingpolicies": HostServiceMappingPolicyIdentity,
+		"httpresourcespecs":          HTTPResourceSpecIdentity,
+		"import":                     ImportIdentity,
+		"installedapps":              InstalledAppIdentity,
+		"invoices":                   InvoiceIdentity,
+		"invoicerecords":             InvoiceRecordIdentity,
+		"ipinfos":                    IPInfoIdentity,
+		"isolationprofiles":          IsolationProfileIdentity,
+		"issue":                      IssueIdentity,
+		"jaegerbatchs":               JaegerbatchIdentity,
+		"k8sclusters":                K8SClusterIdentity,
+		"logs":                       LogIdentity,
+		"messages":                   MessageIdentity,
+		"namespaces":                 NamespaceIdentity,
+		"namespacemappingpolicies":   NamespaceMappingPolicyIdentity,
+		"networkaccesspolicies":      NetworkAccessPolicyIdentity,
+		"oidcproviders":              OIDCProviderIdentity,
+		"packetreports":              PacketReportIdentity,
+		"passwordreset":              PasswordResetIdentity,
+		"plans":                      PlanIdentity,
+		"poke":                       PokeIdentity,
+		"policies":                   PolicyIdentity,
+		"policyrefreshs":             PolicyRefreshIdentity,
+		"policyrenderers":            PolicyRendererIdentity,
+		"policyrules":                PolicyRuleIdentity,
+		"privatekeys":                PrivateKeyIdentity,
+		"processingunits":            ProcessingUnitIdentity,
+		"processingunitpolicies":     ProcessingUnitPolicyIdentity,
 
-		"httpresourcespecs":        HTTPResourceSpecIdentity,
-		"import":                   ImportIdentity,
-		"installedapps":            InstalledAppIdentity,
-		"invoices":                 InvoiceIdentity,
-		"invoicerecords":           InvoiceRecordIdentity,
-		"ipinfos":                  IPInfoIdentity,
-		"isolationprofiles":        IsolationProfileIdentity,
-		"issue":                    IssueIdentity,
-		"jaegerbatchs":             JaegerbatchIdentity,
-		"k8sclusters":              K8SClusterIdentity,
-		"logs":                     LogIdentity,
-		"messages":                 MessageIdentity,
-		"namespaces":               NamespaceIdentity,
-		"namespacemappingpolicies": NamespaceMappingPolicyIdentity,
-		"networkaccesspolicies":    NetworkAccessPolicyIdentity,
-		"oidcproviders":            OIDCProviderIdentity,
-		"passwordreset":            PasswordResetIdentity,
-		"plans":                    PlanIdentity,
-		"poke":                     PokeIdentity,
-		"policies":                 PolicyIdentity,
-		"policyrefreshs":           PolicyRefreshIdentity,
-		"policyrenderers":          PolicyRendererIdentity,
-		"policyrules":              PolicyRuleIdentity,
-		"privatekeys":              PrivateKeyIdentity,
-		"processingunits":          ProcessingUnitIdentity,
-		"processingunitpolicies":   ProcessingUnitPolicyIdentity,
+		"punodes":             PUNodeIdentity,
+		"quotacheck":          QuotaCheckIdentity,
+		"quotapolicies":       QuotaPolicyIdentity,
+		"remoteprocessors":    RemoteProcessorIdentity,
+		"renderedpolicies":    RenderedPolicyIdentity,
+		"reports":             ReportIdentity,
+		"revocations":         RevocationIdentity,
+		"roles":               RoleIdentity,
+		"root":                RootIdentity,
+		"services":            ServiceIdentity,
+		"servicedependencies": ServiceDependencyIdentity,
+		"squalltags":          SquallTagIdentity,
+		"statsinfo":           StatsInfoIdentity,
+		"statsqueries":        StatsQueryIdentity,
+		"suggestedpolicies":   SuggestedPolicyIdentity,
+		"tabulations":         TabulationIdentity,
+		"tags":                TagIdentity,
+		"taginjects":          TagInjectIdentity,
+		"tagvalues":           TagValueIdentity,
 
-		"punodes":               PUNodeIdentity,
-		"quotacheck":            QuotaCheckIdentity,
-		"quotapolicies":         QuotaPolicyIdentity,
-		"remoteprocessors":      RemoteProcessorIdentity,
-		"renderedpolicies":      RenderedPolicyIdentity,
-		"reports":               ReportIdentity,
-		"restapispecs":          RESTAPISpecIdentity,
-		"revocations":           RevocationIdentity,
-		"roles":                 RoleIdentity,
-		"root":                  RootIdentity,
-		"services":              ServiceIdentity,
-		"servicedependencies":   ServiceDependencyIdentity,
-		"squalltags":            SquallTagIdentity,
-		"statsinfo":             StatsInfoIdentity,
-		"statsqueries":          StatsQueryIdentity,
-		"suggestedpolicies":     SuggestedPolicyIdentity,
-		"tabulations":           TabulationIdentity,
-		"tags":                  TagIdentity,
-		"taginjects":            TagInjectIdentity,
-		"tagvalues":             TagValueIdentity,
-		"tokens":                TokenIdentity,
-		"tokenscopepolicies":    TokenScopePolicyIdentity,
+		"tokens":             TokenIdentity,
+		"tokenscopepolicies": TokenScopePolicyIdentity,
+
 		"triggers":              TriggerIdentity,
 		"vulnerabilities":       VulnerabilityIdentity,
 		"x509certificates":      X509CertificateIdentity,
@@ -196,98 +212,104 @@ var (
 	}
 
 	aliasesMap = map[string]elemental.Identity{
-		"apiauth":      APIAuthorizationPolicyIdentity,
-		"apiauths":     APIAuthorizationPolicyIdentity,
-		"appcred":      AppCredentialIdentity,
-		"appcreds":     AppCredentialIdentity,
-		"ap":           AuditProfileIdentity,
-		"ca":           AuthorityIdentity,
-		"autos":        AutomationIdentity,
-		"auto":         AutomationIdentity,
-		"autotmpl":     AutomationTemplateIdentity,
-		"aws":          AWSAccountIdentity,
-		"awsaccs":      AWSAccountIdentity,
-		"awsacc":       AWSAccountIdentity,
-		"depmaps":      DependencyMapIdentity,
-		"depmap":       DependencyMapIdentity,
-		"profile":      EnforcerProfileIdentity,
-		"profiles":     EnforcerProfileIdentity,
-		"enfpols":      EnforcerProfileMappingPolicyIdentity,
-		"enfpol":       EnforcerProfileMappingPolicyIdentity,
-		"epm":          EnforcerProfileMappingPolicyIdentity,
-		"extnet":       ExternalNetworkIdentity,
-		"extnets":      ExternalNetworkIdentity,
-		"extsrv":       ExternalServiceIdentity,
-		"extsrvs":      ExternalServiceIdentity,
-		"fp":           FilePathIdentity,
-		"fps":          FilePathIdentity,
-		"hook":         HookPolicyIdentity,
-		"hooks":        HookPolicyIdentity,
-		"hookpol":      HookPolicyIdentity,
-		"hookpols":     HookPolicyIdentity,
-		"httpresource": HTTPResourceSpecIdentity,
-		"resource":     HTTPResourceSpecIdentity,
-		"httpspec":     HTTPResourceSpecIdentity,
-		"iapps":        InstalledAppIdentity,
-		"iapp":         InstalledAppIdentity,
-		"ip":           IsolationProfileIdentity,
-		"sp":           JaegerbatchIdentity,
-		"mess":         MessageIdentity,
-		"ns":           NamespaceIdentity,
-		"nspolicy":     NamespaceMappingPolicyIdentity,
-		"nspolicies":   NamespaceMappingPolicyIdentity,
-		"nsmap":        NamespaceMappingPolicyIdentity,
-		"nsmaps":       NamespaceMappingPolicyIdentity,
-		"netpol":       NetworkAccessPolicyIdentity,
-		"netpols":      NetworkAccessPolicyIdentity,
-		"pu":           ProcessingUnitIdentity,
-		"pus":          ProcessingUnitIdentity,
-		"pup":          ProcessingUnitPolicyIdentity,
-		"quota":        QuotaPolicyIdentity,
-		"quotas":       QuotaPolicyIdentity,
-		"quotapol":     QuotaPolicyIdentity,
-		"quotapols":    QuotaPolicyIdentity,
-		"hks":          RemoteProcessorIdentity,
-		"hk":           RemoteProcessorIdentity,
-		"rpol":         RenderedPolicyIdentity,
-		"rpols":        RenderedPolicyIdentity,
-		"srv":          ServiceIdentity,
-		"srvdep":       ServiceDependencyIdentity,
-		"srvdeps":      ServiceDependencyIdentity,
-		"si":           StatsInfoIdentity,
-		"sq":           StatsQueryIdentity,
-		"sugpol":       SuggestedPolicyIdentity,
-		"sugpols":      SuggestedPolicyIdentity,
-		"sugg":         SuggestedPolicyIdentity,
-		"suggs":        SuggestedPolicyIdentity,
-		"table":        TabulationIdentity,
-		"tables":       TabulationIdentity,
-		"tabs":         TabulationIdentity,
-		"tab":          TabulationIdentity,
-		"tsp":          TokenScopePolicyIdentity,
-		"vulns":        VulnerabilityIdentity,
-		"vul":          VulnerabilityIdentity,
-		"vuln":         VulnerabilityIdentity,
-		"vuls":         VulnerabilityIdentity,
+		"apiauth":        APIAuthorizationPolicyIdentity,
+		"apiauths":       APIAuthorizationPolicyIdentity,
+		"appcred":        AppCredentialIdentity,
+		"appcreds":       AppCredentialIdentity,
+		"ap":             AuditProfileIdentity,
+		"audpol":         AuditProfileMappingPolicyIdentity,
+		"audpols":        AuditProfileMappingPolicyIdentity,
+		"ca":             AuthorityIdentity,
+		"autos":          AutomationIdentity,
+		"auto":           AutomationIdentity,
+		"autotmpl":       AutomationTemplateIdentity,
+		"aws":            AWSAccountIdentity,
+		"awsaccs":        AWSAccountIdentity,
+		"awsacc":         AWSAccountIdentity,
+		"depmaps":        DependencyMapIdentity,
+		"depmap":         DependencyMapIdentity,
+		"profile":        EnforcerProfileIdentity,
+		"profiles":       EnforcerProfileIdentity,
+		"enfpols":        EnforcerProfileMappingPolicyIdentity,
+		"enfpol":         EnforcerProfileMappingPolicyIdentity,
+		"epm":            EnforcerProfileMappingPolicyIdentity,
+		"extnet":         ExternalNetworkIdentity,
+		"extnets":        ExternalNetworkIdentity,
+		"extsrv":         ExternalServiceIdentity,
+		"extsrvs":        ExternalServiceIdentity,
+		"fp":             FilePathIdentity,
+		"fps":            FilePathIdentity,
+		"hook":           HookPolicyIdentity,
+		"hooks":          HookPolicyIdentity,
+		"hookpol":        HookPolicyIdentity,
+		"hookpols":       HookPolicyIdentity,
+		"hostsrv":        HostServiceIdentity,
+		"hostsrvs":       HostServiceIdentity,
+		"hostsrvmappol":  HostServiceMappingPolicyIdentity,
+		"hostsrvmappols": HostServiceMappingPolicyIdentity,
+		"httpresource":   HTTPResourceSpecIdentity,
+		"resource":       HTTPResourceSpecIdentity,
+		"httpspec":       HTTPResourceSpecIdentity,
+		"iapps":          InstalledAppIdentity,
+		"iapp":           InstalledAppIdentity,
+		"ip":             IsolationProfileIdentity,
+		"sp":             JaegerbatchIdentity,
+		"mess":           MessageIdentity,
+		"ns":             NamespaceIdentity,
+		"nspolicy":       NamespaceMappingPolicyIdentity,
+		"nspolicies":     NamespaceMappingPolicyIdentity,
+		"nsmap":          NamespaceMappingPolicyIdentity,
+		"nsmaps":         NamespaceMappingPolicyIdentity,
+		"netpol":         NetworkAccessPolicyIdentity,
+		"netpols":        NetworkAccessPolicyIdentity,
+		"pu":             ProcessingUnitIdentity,
+		"pus":            ProcessingUnitIdentity,
+		"pup":            ProcessingUnitPolicyIdentity,
+		"quota":          QuotaPolicyIdentity,
+		"quotas":         QuotaPolicyIdentity,
+		"quotapol":       QuotaPolicyIdentity,
+		"quotapols":      QuotaPolicyIdentity,
+		"hks":            RemoteProcessorIdentity,
+		"hk":             RemoteProcessorIdentity,
+		"rpol":           RenderedPolicyIdentity,
+		"rpols":          RenderedPolicyIdentity,
+		"srv":            ServiceIdentity,
+		"srvdep":         ServiceDependencyIdentity,
+		"srvdeps":        ServiceDependencyIdentity,
+		"si":             StatsInfoIdentity,
+		"sq":             StatsQueryIdentity,
+		"sugpol":         SuggestedPolicyIdentity,
+		"sugpols":        SuggestedPolicyIdentity,
+		"sugg":           SuggestedPolicyIdentity,
+		"suggs":          SuggestedPolicyIdentity,
+		"table":          TabulationIdentity,
+		"tables":         TabulationIdentity,
+		"tabs":           TabulationIdentity,
+		"tab":            TabulationIdentity,
+		"tsp":            TokenScopePolicyIdentity,
+		"vulns":          VulnerabilityIdentity,
+		"vul":            VulnerabilityIdentity,
+		"vuln":           VulnerabilityIdentity,
+		"vuls":           VulnerabilityIdentity,
 	}
 
 	indexesMap = map[string][][]string{
 		"account": [][]string{
 			[]string{":unique", "name"},
 			[]string{":unique", "email"},
-			[]string{"activationtoken"},
-			[]string{"resetpasswordtoken"},
+			[]string{"activationToken"},
+			[]string{"resetPasswordToken"},
 		},
 		"accountcheck": nil,
 		"activate":     nil,
 		"activity": [][]string{
-			[]string{":shard", "zone", "zhash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "date"},
 			[]string{"namespace", "operation"},
 		},
 		"alarm": [][]string{
-			[]string{":shard", "zone", "zhash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "kind"},
 		},
@@ -295,25 +317,26 @@ var (
 		"apicheck":               nil,
 		"app":                    nil,
 		"appcredential": [][]string{
-			[]string{":shard", "zone", "zhash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags"},
 		},
 		"auditprofile": [][]string{
-			[]string{":shard", "zone", "zhash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 		},
-		"auditreport": nil,
-		"auth":        nil,
+		"auditprofilemappingpolicy": nil,
+		"auditreport":               nil,
+		"auth":                      nil,
 		"authority": [][]string{
 			[]string{":shard", "$hashed:serialNumber"},
 			[]string{":unique", "serialNumber"},
 			[]string{"commonName"},
 		},
 		"automation": [][]string{
-			[]string{":shard", "zone", "zhash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 		},
@@ -324,8 +347,7 @@ var (
 		"category":           nil,
 		"certificate": [][]string{
 			[]string{"commonName"},
-			[]string{":unique", "parentID", "accountID"},
-			[]string{"parentID", "commonName"},
+			[]string{":unique", "parentID", "commonName"},
 		},
 		"customer": [][]string{
 			[]string{"providerCustomerID"},
@@ -333,23 +355,24 @@ var (
 		"dependencymap": nil,
 		"email":         nil,
 		"enforcer": [][]string{
-			[]string{":shard", "zone", "zhash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags"},
 		},
 		"enforcerprofile": [][]string{
-			[]string{":shard", "zone", "zhash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags"},
 		},
 		"enforcerprofilemappingpolicy": nil,
 		"enforcerreport":               nil,
+		"enforcertracereport":          nil,
 		"eventlog":                     nil,
 		"export":                       nil,
 		"externalnetwork": [][]string{
-			[]string{":shard", "zone", "zhash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags"},
@@ -359,7 +382,7 @@ var (
 		"fileaccesspolicy": nil,
 		"fileaccessreport": nil,
 		"filepath": [][]string{
-			[]string{":shard", "zone", "zhash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags"},
@@ -367,22 +390,30 @@ var (
 		},
 		"flowreport": nil,
 		"hookpolicy": nil,
-		"httpresourcespec": [][]string{
+		"hostservice": [][]string{
 			[]string{":shard", "zone", "zhash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
+			[]string{"namespace", "normalizedTags"},
 			[]string{"namespace", "archived"},
-			[]string{"namespace", "normalizedtags"},
+		},
+		"hostservicemappingpolicy": nil,
+		"httpresourcespec": [][]string{
+			[]string{":shard", "zone", "zHash"},
+			[]string{"namespace"},
+			[]string{"namespace", "name"},
+			[]string{"namespace", "archived"},
+			[]string{"namespace", "normalizedTags"},
 		},
 		"import": nil,
 		"installedapp": [][]string{
-			[]string{"accountname", "name"},
+			[]string{"accountName", "name"},
 		},
 		"invoice":       nil,
 		"invoicerecord": nil,
 		"ipinfo":        nil,
 		"isolationprofile": [][]string{
-			[]string{":shard", "zone", "zhash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags"},
@@ -390,14 +421,14 @@ var (
 		"issue":       nil,
 		"jaegerbatch": nil,
 		"k8scluster": [][]string{
-			[]string{":shard", "zone", "zhash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags"},
 		},
 		"log": nil,
 		"message": [][]string{
-			[]string{":shard", "zone", "zhash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 		},
@@ -410,23 +441,24 @@ var (
 		"namespacemappingpolicy": nil,
 		"networkaccesspolicy":    nil,
 		"oidcprovider": [][]string{
-			[]string{":unique", "parentid", "name"},
+			[]string{":unique", "parentID", "name"},
 		},
+		"packetreport":  nil,
 		"passwordreset": nil,
 		"plan":          nil,
 		"poke":          nil,
 		"policy": [][]string{
-			[]string{":shard", "zone", "zhash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace", "name"},
 			[]string{"namespace"},
 			[]string{"namespace", "type"},
-			[]string{"namespace", "normalizedtags"},
-			[]string{"namespace", "type", "allobjecttags"},
-			[]string{"namespace", "type", "allsubjecttags"},
-			[]string{"namespace", "type", "allobjecttags", "disabled"},
-			[]string{"namespace", "type", "allsubjecttags", "disabled"},
-			[]string{"namespace", "type", "allobjecttags", "propagated"},
-			[]string{"namespace", "type", "allsubjecttags", "propagated"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "type", "allObjectTags"},
+			[]string{"namespace", "type", "allSubjectTags"},
+			[]string{"namespace", "type", "allObjectTags", "disabled"},
+			[]string{"namespace", "type", "allSubjectTags", "disabled"},
+			[]string{"namespace", "type", "allObjectTags", "propagate"},
+			[]string{"namespace", "type", "allSubjectTags", "propagate"},
 			[]string{"namespace", "fallback"},
 		},
 		"policyrefresh":  nil,
@@ -434,7 +466,7 @@ var (
 		"policyrule":     nil,
 		"privatekey":     nil,
 		"processingunit": [][]string{
-			[]string{":shard", "zone", "zhash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "archived"},
@@ -448,13 +480,6 @@ var (
 		"remoteprocessor":      nil,
 		"renderedpolicy":       nil,
 		"report":               nil,
-		"restapispec": [][]string{
-			[]string{":shard", "zone", "zhash"},
-			[]string{"namespace"},
-			[]string{"namespace", "name"},
-			[]string{"namespace", "archived"},
-			[]string{"namespace", "normalizedtags"},
-		},
 		"revocation": [][]string{
 			[]string{":shard", "$hashed:serialNumber"},
 			[]string{":unique", "serialNumber"},
@@ -462,11 +487,11 @@ var (
 		"role": nil,
 		"root": nil,
 		"service": [][]string{
-			[]string{":shard", "zone", "zhash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "archived"},
-			[]string{"namespace", "normalizedtags"},
+			[]string{"namespace", "normalizedTags"},
 			[]string{"allAPITags"},
 			[]string{"namespace", "allAPITags"},
 			[]string{"allServiceTags"},
@@ -485,7 +510,7 @@ var (
 		"tokenscopepolicy":  nil,
 		"trigger":           nil,
 		"vulnerability": [][]string{
-			[]string{":shard", "zone", "zhash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
 		},
@@ -551,6 +576,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAppCredential()
 	case AuditProfileIdentity:
 		return NewAuditProfile()
+	case AuditProfileMappingPolicyIdentity:
+		return NewAuditProfileMappingPolicy()
 	case AuditReportIdentity:
 		return NewAuditReport()
 	case AuthIdentity:
@@ -585,6 +612,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewEnforcerProfileMappingPolicy()
 	case EnforcerReportIdentity:
 		return NewEnforcerReport()
+	case EnforcerTraceReportIdentity:
+		return NewEnforcerTraceReport()
 	case EventLogIdentity:
 		return NewEventLog()
 	case ExportIdentity:
@@ -603,6 +632,10 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewFlowReport()
 	case HookPolicyIdentity:
 		return NewHookPolicy()
+	case HostServiceIdentity:
+		return NewHostService()
+	case HostServiceMappingPolicyIdentity:
+		return NewHostServiceMappingPolicy()
 	case HTTPResourceSpecIdentity:
 		return NewHTTPResourceSpec()
 	case ImportIdentity:
@@ -635,6 +668,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewNetworkAccessPolicy()
 	case OIDCProviderIdentity:
 		return NewOIDCProvider()
+	case PacketReportIdentity:
+		return NewPacketReport()
 	case PasswordResetIdentity:
 		return NewPasswordReset()
 	case PlanIdentity:
@@ -667,8 +702,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewRenderedPolicy()
 	case ReportIdentity:
 		return NewReport()
-	case RESTAPISpecIdentity:
-		return NewRESTAPISpec()
 	case RevocationIdentity:
 		return NewRevocation()
 	case RoleIdentity:
@@ -736,6 +769,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAppCredential()
 	case AuditProfileIdentity:
 		return NewSparseAuditProfile()
+	case AuditProfileMappingPolicyIdentity:
+		return NewSparseAuditProfileMappingPolicy()
 	case AuditReportIdentity:
 		return NewSparseAuditReport()
 	case AuthIdentity:
@@ -770,6 +805,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseEnforcerProfileMappingPolicy()
 	case EnforcerReportIdentity:
 		return NewSparseEnforcerReport()
+	case EnforcerTraceReportIdentity:
+		return NewSparseEnforcerTraceReport()
 	case EventLogIdentity:
 		return NewSparseEventLog()
 	case ExportIdentity:
@@ -788,6 +825,10 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseFlowReport()
 	case HookPolicyIdentity:
 		return NewSparseHookPolicy()
+	case HostServiceIdentity:
+		return NewSparseHostService()
+	case HostServiceMappingPolicyIdentity:
+		return NewSparseHostServiceMappingPolicy()
 	case HTTPResourceSpecIdentity:
 		return NewSparseHTTPResourceSpec()
 	case ImportIdentity:
@@ -820,6 +861,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseNetworkAccessPolicy()
 	case OIDCProviderIdentity:
 		return NewSparseOIDCProvider()
+	case PacketReportIdentity:
+		return NewSparsePacketReport()
 	case PasswordResetIdentity:
 		return NewSparsePasswordReset()
 	case PlanIdentity:
@@ -852,8 +895,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseRenderedPolicy()
 	case ReportIdentity:
 		return NewSparseReport()
-	case RESTAPISpecIdentity:
-		return NewSparseRESTAPISpec()
 	case RevocationIdentity:
 		return NewSparseRevocation()
 	case RoleIdentity:
@@ -929,6 +970,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &AppCredentialsList{}
 	case AuditProfileIdentity:
 		return &AuditProfilesList{}
+	case AuditProfileMappingPolicyIdentity:
+		return &AuditProfileMappingPoliciesList{}
 	case AuditReportIdentity:
 		return &AuditReportsList{}
 	case AuthIdentity:
@@ -963,6 +1006,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &EnforcerProfileMappingPoliciesList{}
 	case EnforcerReportIdentity:
 		return &EnforcerReportsList{}
+	case EnforcerTraceReportIdentity:
+		return &EnforcerTraceReportsList{}
 	case EventLogIdentity:
 		return &EventLogsList{}
 	case ExportIdentity:
@@ -981,6 +1026,10 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &FlowReportsList{}
 	case HookPolicyIdentity:
 		return &HookPoliciesList{}
+	case HostServiceIdentity:
+		return &HostServicesList{}
+	case HostServiceMappingPolicyIdentity:
+		return &HostServiceMappingPoliciesList{}
 	case HTTPResourceSpecIdentity:
 		return &HTTPResourceSpecsList{}
 	case ImportIdentity:
@@ -1013,6 +1062,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &NetworkAccessPoliciesList{}
 	case OIDCProviderIdentity:
 		return &OIDCProvidersList{}
+	case PacketReportIdentity:
+		return &PacketReportsList{}
 	case PasswordResetIdentity:
 		return &PasswordResetsList{}
 	case PlanIdentity:
@@ -1045,8 +1096,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &RenderedPoliciesList{}
 	case ReportIdentity:
 		return &ReportsList{}
-	case RESTAPISpecIdentity:
-		return &RESTAPISpecsList{}
 	case RevocationIdentity:
 		return &RevocationsList{}
 	case RoleIdentity:
@@ -1112,6 +1161,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAppCredentialsList{}
 	case AuditProfileIdentity:
 		return &SparseAuditProfilesList{}
+	case AuditProfileMappingPolicyIdentity:
+		return &SparseAuditProfileMappingPoliciesList{}
 	case AuditReportIdentity:
 		return &SparseAuditReportsList{}
 	case AuthIdentity:
@@ -1146,6 +1197,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseEnforcerProfileMappingPoliciesList{}
 	case EnforcerReportIdentity:
 		return &SparseEnforcerReportsList{}
+	case EnforcerTraceReportIdentity:
+		return &SparseEnforcerTraceReportsList{}
 	case EventLogIdentity:
 		return &SparseEventLogsList{}
 	case ExportIdentity:
@@ -1164,6 +1217,10 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseFlowReportsList{}
 	case HookPolicyIdentity:
 		return &SparseHookPoliciesList{}
+	case HostServiceIdentity:
+		return &SparseHostServicesList{}
+	case HostServiceMappingPolicyIdentity:
+		return &SparseHostServiceMappingPoliciesList{}
 	case HTTPResourceSpecIdentity:
 		return &SparseHTTPResourceSpecsList{}
 	case ImportIdentity:
@@ -1196,6 +1253,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseNetworkAccessPoliciesList{}
 	case OIDCProviderIdentity:
 		return &SparseOIDCProvidersList{}
+	case PacketReportIdentity:
+		return &SparsePacketReportsList{}
 	case PasswordResetIdentity:
 		return &SparsePasswordResetsList{}
 	case PlanIdentity:
@@ -1228,8 +1287,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseRenderedPoliciesList{}
 	case ReportIdentity:
 		return &SparseReportsList{}
-	case RESTAPISpecIdentity:
-		return &SparseRESTAPISpecsList{}
 	case RevocationIdentity:
 		return &SparseRevocationsList{}
 	case RoleIdentity:
@@ -1300,6 +1357,7 @@ func AllIdentities() []elemental.Identity {
 		AppIdentity,
 		AppCredentialIdentity,
 		AuditProfileIdentity,
+		AuditProfileMappingPolicyIdentity,
 		AuditReportIdentity,
 		AuthIdentity,
 		AuthorityIdentity,
@@ -1317,6 +1375,7 @@ func AllIdentities() []elemental.Identity {
 		EnforcerProfileIdentity,
 		EnforcerProfileMappingPolicyIdentity,
 		EnforcerReportIdentity,
+		EnforcerTraceReportIdentity,
 		EventLogIdentity,
 		ExportIdentity,
 		ExternalNetworkIdentity,
@@ -1326,6 +1385,8 @@ func AllIdentities() []elemental.Identity {
 		FilePathIdentity,
 		FlowReportIdentity,
 		HookPolicyIdentity,
+		HostServiceIdentity,
+		HostServiceMappingPolicyIdentity,
 		HTTPResourceSpecIdentity,
 		ImportIdentity,
 		InstalledAppIdentity,
@@ -1342,6 +1403,7 @@ func AllIdentities() []elemental.Identity {
 		NamespaceMappingPolicyIdentity,
 		NetworkAccessPolicyIdentity,
 		OIDCProviderIdentity,
+		PacketReportIdentity,
 		PasswordResetIdentity,
 		PlanIdentity,
 		PokeIdentity,
@@ -1358,7 +1420,6 @@ func AllIdentities() []elemental.Identity {
 		RemoteProcessorIdentity,
 		RenderedPolicyIdentity,
 		ReportIdentity,
-		RESTAPISpecIdentity,
 		RevocationIdentity,
 		RoleIdentity,
 		RootIdentity,
@@ -1412,6 +1473,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case AuditProfileIdentity:
 		return []string{
 			"ap",
+		}
+	case AuditProfileMappingPolicyIdentity:
+		return []string{
+			"audpol",
+			"audpols",
 		}
 	case AuditReportIdentity:
 		return []string{}
@@ -1468,6 +1534,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case EnforcerReportIdentity:
 		return []string{}
+	case EnforcerTraceReportIdentity:
+		return []string{}
 	case EventLogIdentity:
 		return []string{}
 	case ExportIdentity:
@@ -1499,6 +1567,16 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"hooks",
 			"hookpol",
 			"hookpols",
+		}
+	case HostServiceIdentity:
+		return []string{
+			"hostsrv",
+			"hostsrvs",
+		}
+	case HostServiceMappingPolicyIdentity:
+		return []string{
+			"hostsrvmappol",
+			"hostsrvmappols",
 		}
 	case HTTPResourceSpecIdentity:
 		return []string{
@@ -1555,6 +1633,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case OIDCProviderIdentity:
 		return []string{}
+	case PacketReportIdentity:
+		return []string{}
 	case PasswordResetIdentity:
 		return []string{}
 	case PlanIdentity:
@@ -1602,8 +1682,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"rpols",
 		}
 	case ReportIdentity:
-		return []string{}
-	case RESTAPISpecIdentity:
 		return []string{}
 	case RevocationIdentity:
 		return []string{}

@@ -156,6 +156,8 @@ func NewEnforcerProfileMappingPolicy() *EnforcerProfileMappingPolicy {
 		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
+		Object:         [][]string{},
+		Subject:        [][]string{},
 	}
 }
 
@@ -555,14 +557,6 @@ func (o *EnforcerProfileMappingPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("object", o.Object); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
-	if err := elemental.ValidateRequiredExternal("subject", o.Subject); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -662,7 +656,7 @@ var EnforcerProfileMappingPolicyAttributesMap = map[string]elemental.AttributeSp
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
@@ -674,8 +668,8 @@ var EnforcerProfileMappingPolicyAttributesMap = map[string]elemental.AttributeSp
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -742,8 +736,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -789,9 +783,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -799,9 +793,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Object is the list of tags to use to find a enforcer profile.`,
 		Exposed:        true,
 		Name:           "object",
-		Required:       true,
 		Stored:         true,
-		SubType:        "policies_list",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 	"Propagate": elemental.AttributeSpecification{
@@ -833,9 +826,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Subject is the subject of the policy.`,
 		Exposed:        true,
 		Name:           "subject",
-		Required:       true,
 		Stored:         true,
-		SubType:        "policies_list",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
@@ -904,7 +896,7 @@ var EnforcerProfileMappingPolicyLowerCaseAttributesMap = map[string]elemental.At
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"associatedtags": elemental.AttributeSpecification{
@@ -916,8 +908,8 @@ var EnforcerProfileMappingPolicyLowerCaseAttributesMap = map[string]elemental.At
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -984,8 +976,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1031,9 +1023,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1041,9 +1033,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Object is the list of tags to use to find a enforcer profile.`,
 		Exposed:        true,
 		Name:           "object",
-		Required:       true,
 		Stored:         true,
-		SubType:        "policies_list",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 	"propagate": elemental.AttributeSpecification{
@@ -1075,9 +1066,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Description:    `Subject is the subject of the policy.`,
 		Exposed:        true,
 		Name:           "subject",
-		Required:       true,
 		Stored:         true,
-		SubType:        "policies_list",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 	"updatetime": elemental.AttributeSpecification{

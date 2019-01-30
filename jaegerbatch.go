@@ -5,7 +5,6 @@ import (
 	"sync"
 
 	"github.com/mitchellh/copystructure"
-	"github.com/uber/jaeger-client-go/thrift-gen/jaeger"
 	"go.aporeto.io/elemental"
 )
 
@@ -82,7 +81,7 @@ func (o JaegerbatchsList) Version() int {
 // Jaegerbatch represents the model of a jaegerbatch
 type Jaegerbatch struct {
 	// Represents a jaeger batch.
-	Batch *jaeger.Batch `json:"batch" bson:"batch" mapstructure:"batch,omitempty"`
+	Batch interface{} `json:"batch" bson:"batch" mapstructure:"batch,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -94,7 +93,6 @@ func NewJaegerbatch() *Jaegerbatch {
 
 	return &Jaegerbatch{
 		ModelVersion: 1,
-		Batch:        &jaeger.Batch{},
 	}
 }
 
@@ -253,8 +251,7 @@ var JaegerbatchAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "batch",
 		Stored:         true,
-		SubType:        "jaeger_batch",
-		Type:           "external",
+		Type:           "object",
 	},
 }
 
@@ -268,8 +265,7 @@ var JaegerbatchLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Exposed:        true,
 		Name:           "batch",
 		Stored:         true,
-		SubType:        "jaeger_batch",
-		Type:           "external",
+		Type:           "object",
 	},
 }
 
@@ -337,7 +333,7 @@ func (o SparseJaegerbatchsList) Version() int {
 // SparseJaegerbatch represents the sparse version of a jaegerbatch.
 type SparseJaegerbatch struct {
 	// Represents a jaeger batch.
-	Batch **jaeger.Batch `json:"batch,omitempty" bson:"batch" mapstructure:"batch,omitempty"`
+	Batch *interface{} `json:"batch,omitempty" bson:"batch" mapstructure:"batch,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

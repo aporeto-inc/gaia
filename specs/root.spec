@@ -91,16 +91,6 @@ relations:
   create:
     description: Creates a new HTTP Resource specification.
 
-- rest_name: restapispec
-  get:
-    description: Retrieves the list of REST API specifications.
-    global_parameters:
-    - $filtering
-    - $propagatable
-    - $archivable
-  create:
-    description: Creates a new REST API specification.
-
 - rest_name: service
   get:
     description: Retrieves the list of Services.
@@ -292,6 +282,7 @@ relations:
     description: Retrieves the list of file path.
     global_parameters:
     - $filtering
+    - $archivable
   create:
     description: Create a new file path.
 
@@ -725,3 +716,38 @@ relations:
         type: string
         multiple: true
         example_value: 1.2.3.4
+
+- rest_name: packetreport
+  create:
+    description: Create a packet trace report.
+
+- rest_name: enforcertracereport
+  create:
+    description: Create an enforcer trace report.
+
+- rest_name: hostservicemappingpolicy
+  get:
+    description: Retrieves the list of host service mapping policies.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new host service mapping policy.
+
+- rest_name: auditprofilemappingpolicy
+  get:
+    description: Retrieves the list of audit profile mapping policies.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new audit profile mapping policy.
+
+- rest_name: hostservice
+  get:
+    description: Retrieves the list of host services.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new host service.

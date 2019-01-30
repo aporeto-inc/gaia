@@ -15,8 +15,7 @@ attributes:
   v1:
   - name: batch
     description: Represents a jaeger batch.
-    type: external
+    type: object
     exposed: true
-    subtype: jaeger_batch
     stored: true
     creation_only: true

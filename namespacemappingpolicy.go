@@ -148,6 +148,7 @@ func NewNamespaceMappingPolicy() *NamespaceMappingPolicy {
 		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
+		Subject:        [][]string{},
 	}
 }
 
@@ -186,20 +187,16 @@ func (o *NamespaceMappingPolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *NamespaceMappingPolicy) Doc() string {
 	return `A Namespace Mapping Policy defines in which namespace a Processing Unit should
-be placed when it is created, based on its tags.
-
-When an Aporeto Agent creates a new Processing Unit, the system will place it in
-its own namespace if no matching Namespace Mapping Policy can be found. If one
-match is found, then the Processing will be bumped down to the namespace
-declared in the policy. If it finds in that child namespace another matching
-Namespace Mapping Policy, then the Processing Unit will be bumped down again,
-until it reach a namespace with no matching policies.
-
-This is very useful to dispatch processes and containers into a particular
-namespace, based on a lot of factor.
-
-You can put in place a quarantine namespace that will grab all Processing Units
-with too much vulnerabilities for instances.`
+be placed when it is created, based on its tags.  When an Aporeto Agent creates
+a new Processing Unit, the system will place it in its own namespace if no
+matching Namespace Mapping Policy can be found. If one match is found, then the
+Processing will be bumped down to the namespace declared in the policy. If it
+finds in that child namespace another matching Namespace Mapping Policy, then
+the Processing Unit will be bumped down again, until it reach a namespace with
+no matching policies.  This is very useful to dispatch processes and containers
+into a particular namespace, based on a lot of factor.   You can put in place a
+quarantine namespace that will grab all Processing Units with too much
+vulnerabilities for instances.`
 }
 
 func (o *NamespaceMappingPolicy) String() string {
@@ -527,10 +524,6 @@ func (o *NamespaceMappingPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("subject", o.Subject); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -626,7 +619,7 @@ var NamespaceMappingPolicyAttributesMap = map[string]elemental.AttributeSpecific
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
@@ -638,8 +631,8 @@ var NamespaceMappingPolicyAttributesMap = map[string]elemental.AttributeSpecific
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -703,8 +696,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -750,9 +743,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -772,8 +765,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Exposed:        true,
 		Name:           "subject",
 		Orderable:      true,
-		Required:       true,
-		SubType:        "policies_list",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
@@ -842,7 +834,7 @@ var NamespaceMappingPolicyLowerCaseAttributesMap = map[string]elemental.Attribut
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"associatedtags": elemental.AttributeSpecification{
@@ -854,8 +846,8 @@ var NamespaceMappingPolicyLowerCaseAttributesMap = map[string]elemental.Attribut
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -919,8 +911,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -966,9 +958,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -988,8 +980,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Exposed:        true,
 		Name:           "subject",
 		Orderable:      true,
-		Required:       true,
-		SubType:        "policies_list",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 	"updatetime": elemental.AttributeSpecification{

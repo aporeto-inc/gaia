@@ -170,6 +170,8 @@ func NewAppCredential() *AppCredential {
 		AssociatedTags: []string{},
 		NormalizedTags: []string{},
 		Metadata:       []string{},
+		ParentIDs:      []string{},
+		Roles:          []string{},
 	}
 }
 
@@ -566,6 +568,10 @@ func (o *AppCredential) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateRequiredExternal("roles", o.Roles); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -687,7 +693,7 @@ If you send anything else, the signing request will be rejected.`,
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
@@ -699,8 +705,8 @@ If you send anything else, the signing request will be rejected.`,
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Certificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -793,8 +799,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -840,9 +846,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"ParentIDs": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -961,7 +967,7 @@ If you send anything else, the signing request will be rejected.`,
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"associatedtags": elemental.AttributeSpecification{
@@ -973,8 +979,8 @@ If you send anything else, the signing request will be rejected.`,
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"certificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1067,8 +1073,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1114,9 +1120,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"parentids": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

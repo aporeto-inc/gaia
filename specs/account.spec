@@ -12,8 +12,8 @@ model:
     - name
   - - :unique
     - email
-  - - activationtoken
-  - - resetpasswordtoken
+  - - activationToken
+  - - resetPasswordToken
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -108,9 +108,9 @@ attributes:
     description: |-
       LDAPIgnoredKeys holds a list of keys that must not be imported into Aporeto
       authorization system.
-    type: external
+    type: list
     exposed: true
-    subtype: ignore_list
+    subtype: string
     stored: true
     orderable: true
 
@@ -178,7 +178,7 @@ attributes:
     description: AssociatedAWSPolicies contains a map of associated AWS Enforcerd
       Policies.
     type: external
-    subtype: associated_policies
+    subtype: map_of_string_of_strings
     stored: true
 
   - name: associatedBillingID
@@ -191,7 +191,7 @@ attributes:
     description: associatedGCPPolicies contains a map of associated GCP Enforcerd
       Policies.
     type: external
-    subtype: associated_policies
+    subtype: map_of_string_of_strings
     stored: true
 
   - name: associatedNamespaceID
@@ -213,7 +213,7 @@ attributes:
     description: AssociatedQuotaPolicies contains a mapping to the associated quota
       pollicies.
     type: external
-    subtype: associated_policies
+    subtype: map_of_string_of_strings
     stored: true
 
   - name: company

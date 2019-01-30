@@ -9,7 +9,7 @@ model:
   - iapps
   - iapp
   indexes:
-  - - accountname
+  - - accountName
     - name
   get:
     description: Retrieves the object with the given ID.
@@ -84,10 +84,12 @@ attributes:
 
   - name: parameters
     description: Parameters is a list of parameters to start the app.
-    type: external
+    type: refList
     exposed: true
-    subtype: app_parameters
+    subtype: appparameter
     stored: true
+    extensions:
+      refMode: pointer
 
   - name: status
     description: Status of the app.

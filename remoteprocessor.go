@@ -126,6 +126,7 @@ func NewRemoteProcessor() *RemoteProcessor {
 
 	return &RemoteProcessor{
 		ModelVersion: 1,
+		Claims:       []string{},
 	}
 }
 
@@ -274,6 +275,10 @@ func (o *RemoteProcessor) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateRequiredExternal("claims", o.Claims); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	if err := elemental.ValidateRequiredExternal("input", o.Input); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -406,7 +411,7 @@ var RemoteProcessorAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "output",
 		ReadOnly:       true,
-		SubType:        "elemental_identitifable",
+		SubType:        "_elemental_identifiable",
 		Type:           "external",
 	},
 	"RequestID": elemental.AttributeSpecification{
@@ -487,7 +492,7 @@ var RemoteProcessorLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Exposed:        true,
 		Name:           "output",
 		ReadOnly:       true,
-		SubType:        "elemental_identitifable",
+		SubType:        "_elemental_identifiable",
 		Type:           "external",
 	},
 	"requestid": elemental.AttributeSpecification{

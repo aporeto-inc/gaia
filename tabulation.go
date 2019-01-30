@@ -99,6 +99,7 @@ func NewTabulation() *Tabulation {
 
 	return &Tabulation{
 		ModelVersion: 1,
+		Headers:      []string{},
 		Rows:         [][]interface{}{},
 	}
 }
@@ -285,7 +286,7 @@ var TabulationAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "rows",
 		ReadOnly:       true,
-		SubType:        "tabulated_data",
+		SubType:        "list_of_lists_of_objects",
 		Type:           "external",
 	},
 	"TargetIdentity": elemental.AttributeSpecification{
@@ -321,7 +322,7 @@ var TabulationLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Exposed:        true,
 		Name:           "rows",
 		ReadOnly:       true,
-		SubType:        "tabulated_data",
+		SubType:        "list_of_lists_of_objects",
 		Type:           "external",
 	},
 	"targetidentity": elemental.AttributeSpecification{

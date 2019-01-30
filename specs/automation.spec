@@ -11,7 +11,7 @@ model:
   indexes:
   - - :shard
     - zone
-    - zhash
+    - zHash
   - - namespace
   - - namespace
     - name
@@ -56,7 +56,7 @@ attributes:
     description: Entitlements declares which operations are allowed on which identities.
     type: external
     exposed: true
-    subtype: automation_entitlements
+    subtype: _automation_entitlements
     stored: true
 
   - name: errors
@@ -74,7 +74,7 @@ attributes:
       automation.
     type: external
     exposed: true
-    subtype: automation_events
+    subtype: _automation_events
     stored: true
 
   - name: lastExecTime
@@ -89,7 +89,7 @@ attributes:
     description: Parameters are passed to the functions.
     type: external
     exposed: true
-    subtype: automation_parameters
+    subtype: map_of_string_of_objects
     stored: true
 
   - name: schedule

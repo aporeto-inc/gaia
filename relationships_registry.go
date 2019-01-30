@@ -587,7 +587,9 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"enforcerprofile": &elemental.RelationshipInfo{},
+			"auditprofilemappingpolicy": &elemental.RelationshipInfo{},
+			"enforcer":                  &elemental.RelationshipInfo{},
+			"enforcerprofile":           &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -604,7 +606,9 @@ func init() {
 			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"enforcerprofile": &elemental.RelationshipInfo{},
+			"auditprofilemappingpolicy": &elemental.RelationshipInfo{},
+			"enforcer":                  &elemental.RelationshipInfo{},
+			"enforcerprofile":           &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -616,6 +620,77 @@ func init() {
 						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
+					},
+				},
+			},
+		},
+	}
+
+	relationshipsRegistry[AuditProfileMappingPolicyIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Update: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Patch: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Delete: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
 					},
 				},
 			},
@@ -1036,7 +1111,9 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"auditprofilemappingpolicy":    &elemental.RelationshipInfo{},
 			"enforcerprofilemappingpolicy": &elemental.RelationshipInfo{},
+			"hostservicemappingpolicy":     &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -1053,7 +1130,9 @@ func init() {
 			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
+			"auditprofilemappingpolicy":    &elemental.RelationshipInfo{},
 			"enforcerprofilemappingpolicy": &elemental.RelationshipInfo{},
+			"hostservicemappingpolicy":     &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -1210,6 +1289,12 @@ func init() {
 	}
 
 	relationshipsRegistry[EnforcerReportIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+	}
+
+	relationshipsRegistry[EnforcerTraceReportIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
 		},
@@ -1547,7 +1632,14 @@ func init() {
 			},
 		},
 		Retrieve: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
@@ -1561,6 +1653,10 @@ func init() {
 						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
 					},
 				},
 			},
@@ -1577,6 +1673,10 @@ func init() {
 						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
 					},
 				},
 			},
@@ -1678,6 +1778,159 @@ func init() {
 	}
 
 	relationshipsRegistry[HookPolicyIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Update: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Patch: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Delete: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
+		},
+	}
+
+	relationshipsRegistry[HostServiceIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Update: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Patch: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Delete: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "archived",
+						Type: "boolean",
+					},
+				},
+			},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"enforcer":                 &elemental.RelationshipInfo{},
+			"hostservicemappingpolicy": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"enforcer":                 &elemental.RelationshipInfo{},
+			"hostservicemappingpolicy": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
+		},
+	}
+
+	relationshipsRegistry[HostServiceMappingPolicyIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
 		},
@@ -2522,6 +2775,12 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[PacketReportIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+	}
+
 	relationshipsRegistry[PasswordResetIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
@@ -3056,92 +3315,6 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name: "propagated",
-						Type: "boolean",
-					},
-				},
-			},
-		},
-	}
-
-	relationshipsRegistry[RESTAPISpecIdentity] = &elemental.Relationship{
-		Create: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
-		},
-		Update: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
-		},
-		Patch: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
-		},
-		Delete: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-				},
-			},
-		},
-		Retrieve: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name: "archived",
-						Type: "boolean",
-					},
-				},
-			},
-		},
-		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "propagated",
-						Type: "boolean",
-					},
-					elemental.ParameterDefinition{
-						Name: "archived",
-						Type: "boolean",
-					},
-				},
-			},
-		},
-		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "propagated",
-						Type: "boolean",
-					},
-					elemental.ParameterDefinition{
-						Name: "archived",
 						Type: "boolean",
 					},
 				},

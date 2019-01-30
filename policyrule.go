@@ -89,6 +89,9 @@ type PolicyRule struct {
 	// Action defines set of actions that must be enforced when a dependency is met.
 	Action map[string]map[string]interface{} `json:"action" bson:"-" mapstructure:"action,omitempty"`
 
+	// AuditProfiles provides the audit profiles that must be applied.
+	AuditProfiles AuditProfilesList `json:"auditProfiles" bson:"-" mapstructure:"auditProfiles,omitempty"`
+
 	// EnforcerProfiles provides the information about the server profile.
 	EnforcerProfiles EnforcerProfilesList `json:"enforcerProfiles" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
 
@@ -100,6 +103,9 @@ type PolicyRule struct {
 
 	// Policy target file paths.
 	FilePaths FilePathsList `json:"filePaths" bson:"-" mapstructure:"filePaths,omitempty"`
+
+	// HostServices provides the list of host services that must be instantiated.
+	HostServices HostServicesList `json:"hostServices" bson:"-" mapstructure:"hostServices,omitempty"`
 
 	// IsolationProfiles are the isolation profiles of the rule.
 	IsolationProfiles IsolationProfilesList `json:"isolationProfiles" bson:"-" mapstructure:"isolationProfiles,omitempty"`
@@ -138,15 +144,11 @@ type PolicyRule struct {
 func NewPolicyRule() *PolicyRule {
 
 	return &PolicyRule{
-		ModelVersion:      1,
-		FilePaths:         FilePathsList{},
-		EnforcerProfiles:  EnforcerProfilesList{},
-		ExternalNetworks:  ExternalNetworksList{},
-		ExternalServices:  ExternalServicesList{},
-		IsolationProfiles: IsolationProfilesList{},
-		Namespaces:        NamespacesList{},
-		Services:          ServicesList{},
-		TagClauses:        [][]string{},
+		ModelVersion:  1,
+		AuditProfiles: AuditProfilesList{},
+		HostServices:  HostServicesList{},
+		Relation:      []string{},
+		TagClauses:    [][]string{},
 	}
 }
 
@@ -214,10 +216,12 @@ func (o *PolicyRule) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		return &SparsePolicyRule{
 			ID:                &o.ID,
 			Action:            &o.Action,
+			AuditProfiles:     &o.AuditProfiles,
 			EnforcerProfiles:  &o.EnforcerProfiles,
 			ExternalNetworks:  &o.ExternalNetworks,
 			ExternalServices:  &o.ExternalServices,
 			FilePaths:         &o.FilePaths,
+			HostServices:      &o.HostServices,
 			IsolationProfiles: &o.IsolationProfiles,
 			Name:              &o.Name,
 			Namespaces:        &o.Namespaces,
@@ -237,6 +241,8 @@ func (o *PolicyRule) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ID = &(o.ID)
 		case "action":
 			sp.Action = &(o.Action)
+		case "auditProfiles":
+			sp.AuditProfiles = &(o.AuditProfiles)
 		case "enforcerProfiles":
 			sp.EnforcerProfiles = &(o.EnforcerProfiles)
 		case "externalNetworks":
@@ -245,6 +251,8 @@ func (o *PolicyRule) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ExternalServices = &(o.ExternalServices)
 		case "filePaths":
 			sp.FilePaths = &(o.FilePaths)
+		case "hostServices":
+			sp.HostServices = &(o.HostServices)
 		case "isolationProfiles":
 			sp.IsolationProfiles = &(o.IsolationProfiles)
 		case "name":
@@ -282,6 +290,9 @@ func (o *PolicyRule) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Action != nil {
 		o.Action = *so.Action
 	}
+	if so.AuditProfiles != nil {
+		o.AuditProfiles = *so.AuditProfiles
+	}
 	if so.EnforcerProfiles != nil {
 		o.EnforcerProfiles = *so.EnforcerProfiles
 	}
@@ -293,6 +304,9 @@ func (o *PolicyRule) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.FilePaths != nil {
 		o.FilePaths = *so.FilePaths
+	}
+	if so.HostServices != nil {
+		o.HostServices = *so.HostServices
 	}
 	if so.IsolationProfiles != nil {
 		o.IsolationProfiles = *so.IsolationProfiles
@@ -353,12 +367,66 @@ func (o *PolicyRule) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	for _, sub := range o.AuditProfiles {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	for _, sub := range o.EnforcerProfiles {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	for _, sub := range o.ExternalNetworks {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	for _, sub := range o.ExternalServices {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	for _, sub := range o.FilePaths {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	for _, sub := range o.HostServices {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	for _, sub := range o.IsolationProfiles {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	for _, sub := range o.Namespaces {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	for _, sub := range o.Services {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
 	}
 
 	if len(requiredErrors) > 0 {
@@ -399,6 +467,8 @@ func (o *PolicyRule) ValueForAttribute(name string) interface{} {
 		return o.ID
 	case "action":
 		return o.Action
+	case "auditProfiles":
+		return o.AuditProfiles
 	case "enforcerProfiles":
 		return o.EnforcerProfiles
 	case "externalNetworks":
@@ -407,6 +477,8 @@ func (o *PolicyRule) ValueForAttribute(name string) interface{} {
 		return o.ExternalServices
 	case "filePaths":
 		return o.FilePaths
+	case "hostServices":
+		return o.HostServices
 	case "isolationProfiles":
 		return o.IsolationProfiles
 	case "name":
@@ -451,8 +523,17 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Action defines set of actions that must be enforced when a dependency is met.`,
 		Exposed:        true,
 		Name:           "action",
-		SubType:        "actions_list",
+		SubType:        "map_of_string_of_maps_of_string_of_objects",
 		Type:           "external",
+	},
+	"AuditProfiles": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuditProfiles",
+		Description:    `AuditProfiles provides the audit profiles that must be applied.`,
+		Exposed:        true,
+		Name:           "auditProfiles",
+		SubType:        "auditprofile",
+		Type:           "refList",
 	},
 	"EnforcerProfiles": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -460,8 +541,8 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `EnforcerProfiles provides the information about the server profile.`,
 		Exposed:        true,
 		Name:           "enforcerProfiles",
-		SubType:        "enforcerprofiles_list",
-		Type:           "external",
+		SubType:        "enforcerprofile",
+		Type:           "refList",
 	},
 	"ExternalNetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -469,8 +550,8 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Policy target networks.`,
 		Exposed:        true,
 		Name:           "externalNetworks",
-		SubType:        "network_entities",
-		Type:           "external",
+		SubType:        "externalnetwork",
+		Type:           "refList",
 	},
 	"ExternalServices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -479,8 +560,8 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Policy target networks.`,
 		Exposed:        true,
 		Name:           "externalServices",
-		SubType:        "deprecated_network_entities",
-		Type:           "external",
+		SubType:        "externalservice",
+		Type:           "refList",
 	},
 	"FilePaths": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -488,8 +569,17 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Policy target file paths.`,
 		Exposed:        true,
 		Name:           "filePaths",
-		SubType:        "file_entities",
-		Type:           "external",
+		SubType:        "filepath",
+		Type:           "refList",
+	},
+	"HostServices": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "HostServices",
+		Description:    `HostServices provides the list of host services that must be instantiated.`,
+		Exposed:        true,
+		Name:           "hostServices",
+		SubType:        "hostservice",
+		Type:           "refList",
 	},
 	"IsolationProfiles": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -497,8 +587,8 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `IsolationProfiles are the isolation profiles of the rule.`,
 		Exposed:        true,
 		Name:           "isolationProfiles",
-		SubType:        "isolation_profile_entities",
-		Type:           "external",
+		SubType:        "isolationprofile",
+		Type:           "refList",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -522,8 +612,8 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Policy target namespaces.`,
 		Exposed:        true,
 		Name:           "namespaces",
-		SubType:        "namespace_entities",
-		Type:           "external",
+		SubType:        "namespace",
+		Type:           "refList",
 	},
 	"PolicyNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -556,8 +646,8 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 objects.`,
 		Exposed: true,
 		Name:    "relation",
-		SubType: "relations_list",
-		Type:    "external",
+		SubType: "string",
+		Type:    "list",
 	},
 	"Services": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -565,8 +655,8 @@ objects.`,
 		Description:    `Services provides the services of this policy rule.`,
 		Exposed:        true,
 		Name:           "services",
-		SubType:        "api_services_entities",
-		Type:           "external",
+		SubType:        "service",
+		Type:           "refList",
 	},
 	"TagClauses": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -574,7 +664,7 @@ objects.`,
 		Description:    `Policy target tags.`,
 		Exposed:        true,
 		Name:           "tagClauses",
-		SubType:        "target_tags",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 }
@@ -600,8 +690,17 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `Action defines set of actions that must be enforced when a dependency is met.`,
 		Exposed:        true,
 		Name:           "action",
-		SubType:        "actions_list",
+		SubType:        "map_of_string_of_maps_of_string_of_objects",
 		Type:           "external",
+	},
+	"auditprofiles": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuditProfiles",
+		Description:    `AuditProfiles provides the audit profiles that must be applied.`,
+		Exposed:        true,
+		Name:           "auditProfiles",
+		SubType:        "auditprofile",
+		Type:           "refList",
 	},
 	"enforcerprofiles": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -609,8 +708,8 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `EnforcerProfiles provides the information about the server profile.`,
 		Exposed:        true,
 		Name:           "enforcerProfiles",
-		SubType:        "enforcerprofiles_list",
-		Type:           "external",
+		SubType:        "enforcerprofile",
+		Type:           "refList",
 	},
 	"externalnetworks": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -618,8 +717,8 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `Policy target networks.`,
 		Exposed:        true,
 		Name:           "externalNetworks",
-		SubType:        "network_entities",
-		Type:           "external",
+		SubType:        "externalnetwork",
+		Type:           "refList",
 	},
 	"externalservices": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -628,8 +727,8 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `Policy target networks.`,
 		Exposed:        true,
 		Name:           "externalServices",
-		SubType:        "deprecated_network_entities",
-		Type:           "external",
+		SubType:        "externalservice",
+		Type:           "refList",
 	},
 	"filepaths": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -637,8 +736,17 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `Policy target file paths.`,
 		Exposed:        true,
 		Name:           "filePaths",
-		SubType:        "file_entities",
-		Type:           "external",
+		SubType:        "filepath",
+		Type:           "refList",
+	},
+	"hostservices": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "HostServices",
+		Description:    `HostServices provides the list of host services that must be instantiated.`,
+		Exposed:        true,
+		Name:           "hostServices",
+		SubType:        "hostservice",
+		Type:           "refList",
 	},
 	"isolationprofiles": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -646,8 +754,8 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `IsolationProfiles are the isolation profiles of the rule.`,
 		Exposed:        true,
 		Name:           "isolationProfiles",
-		SubType:        "isolation_profile_entities",
-		Type:           "external",
+		SubType:        "isolationprofile",
+		Type:           "refList",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -671,8 +779,8 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Description:    `Policy target namespaces.`,
 		Exposed:        true,
 		Name:           "namespaces",
-		SubType:        "namespace_entities",
-		Type:           "external",
+		SubType:        "namespace",
+		Type:           "refList",
 	},
 	"policynamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -705,8 +813,8 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 objects.`,
 		Exposed: true,
 		Name:    "relation",
-		SubType: "relations_list",
-		Type:    "external",
+		SubType: "string",
+		Type:    "list",
 	},
 	"services": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -714,8 +822,8 @@ objects.`,
 		Description:    `Services provides the services of this policy rule.`,
 		Exposed:        true,
 		Name:           "services",
-		SubType:        "api_services_entities",
-		Type:           "external",
+		SubType:        "service",
+		Type:           "refList",
 	},
 	"tagclauses": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -723,7 +831,7 @@ objects.`,
 		Description:    `Policy target tags.`,
 		Exposed:        true,
 		Name:           "tagClauses",
-		SubType:        "target_tags",
+		SubType:        "list_of_lists_of_strings",
 		Type:           "external",
 	},
 }
@@ -799,6 +907,9 @@ type SparsePolicyRule struct {
 	// Action defines set of actions that must be enforced when a dependency is met.
 	Action *map[string]map[string]interface{} `json:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
 
+	// AuditProfiles provides the audit profiles that must be applied.
+	AuditProfiles *AuditProfilesList `json:"auditProfiles,omitempty" bson:"-" mapstructure:"auditProfiles,omitempty"`
+
 	// EnforcerProfiles provides the information about the server profile.
 	EnforcerProfiles *EnforcerProfilesList `json:"enforcerProfiles,omitempty" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
 
@@ -810,6 +921,9 @@ type SparsePolicyRule struct {
 
 	// Policy target file paths.
 	FilePaths *FilePathsList `json:"filePaths,omitempty" bson:"-" mapstructure:"filePaths,omitempty"`
+
+	// HostServices provides the list of host services that must be instantiated.
+	HostServices *HostServicesList `json:"hostServices,omitempty" bson:"-" mapstructure:"hostServices,omitempty"`
 
 	// IsolationProfiles are the isolation profiles of the rule.
 	IsolationProfiles *IsolationProfilesList `json:"isolationProfiles,omitempty" bson:"-" mapstructure:"isolationProfiles,omitempty"`
@@ -886,6 +1000,9 @@ func (o *SparsePolicyRule) ToPlain() elemental.PlainIdentifiable {
 	if o.Action != nil {
 		out.Action = *o.Action
 	}
+	if o.AuditProfiles != nil {
+		out.AuditProfiles = *o.AuditProfiles
+	}
 	if o.EnforcerProfiles != nil {
 		out.EnforcerProfiles = *o.EnforcerProfiles
 	}
@@ -897,6 +1014,9 @@ func (o *SparsePolicyRule) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.FilePaths != nil {
 		out.FilePaths = *o.FilePaths
+	}
+	if o.HostServices != nil {
+		out.HostServices = *o.HostServices
 	}
 	if o.IsolationProfiles != nil {
 		out.IsolationProfiles = *o.IsolationProfiles

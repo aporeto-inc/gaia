@@ -14,13 +14,13 @@ attributes:
     description: List of tags to be added.
     type: external
     exposed: true
-    subtype: tag_delta
+    subtype: map_of_string_of_integers
 
   - name: removedTags
     description: List of tags to be removed.
     type: external
     exposed: true
-    subtype: tag_delta
+    subtype: map_of_string_of_integers
 
   - name: targetNamespace
     description: List of tags to inject.

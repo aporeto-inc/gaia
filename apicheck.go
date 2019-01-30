@@ -136,6 +136,7 @@ func NewAPICheck() *APICheck {
 	return &APICheck{
 		ModelVersion:     1,
 		Authorized:       map[string]bool{},
+		Claims:           []string{},
 		TargetIdentities: []string{},
 	}
 }
@@ -352,7 +353,7 @@ var APICheckAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "authorized",
 		ReadOnly:       true,
-		SubType:        "authorized_identities",
+		SubType:        "map_of_string_of_booleans",
 		Type:           "external",
 	},
 	"Claims": elemental.AttributeSpecification{
@@ -393,8 +394,8 @@ authorization.`,
 		Exposed:  true,
 		Name:     "targetIdentities",
 		Required: true,
-		SubType:  "identity_list",
-		Type:     "external",
+		SubType:  "string",
+		Type:     "list",
 	},
 	"Token": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -417,7 +418,7 @@ var APICheckLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Exposed:        true,
 		Name:           "authorized",
 		ReadOnly:       true,
-		SubType:        "authorized_identities",
+		SubType:        "map_of_string_of_booleans",
 		Type:           "external",
 	},
 	"claims": elemental.AttributeSpecification{
@@ -458,8 +459,8 @@ authorization.`,
 		Exposed:  true,
 		Name:     "targetIdentities",
 		Required: true,
-		SubType:  "identity_list",
-		Type:     "external",
+		SubType:  "string",
+		Type:     "list",
 	},
 	"token": elemental.AttributeSpecification{
 		AllowedChoices: []string{},

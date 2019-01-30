@@ -37,14 +37,14 @@ attributes:
     description: Object of the policy.
     type: external
     exposed: true
-    subtype: policies_list
+    subtype: list_of_lists_of_strings
     orderable: true
 
   - name: subject
     description: Subject of the policy.
     type: external
     exposed: true
-    subtype: policies_list
+    subtype: list_of_lists_of_strings
     orderable: true
 
 # Relations

@@ -7,7 +7,6 @@ import (
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
-	"go.aporeto.io/gaia/types"
 )
 
 // ServiceTLSTypeValue represents the possible values for attribute "TLSType".
@@ -142,7 +141,7 @@ type Service struct {
 	// This is an optional attribute and is only required if no host names are
 	// provided.
 	// The system will automatically resolve IP addresses from host names otherwise.
-	IPs types.IPList `json:"IPs" bson:"ips" mapstructure:"IPs,omitempty"`
+	IPs []string `json:"IPs" bson:"ips" mapstructure:"IPs,omitempty"`
 
 	// PEM encoded certificate that will be used to validate user JWT in HTTP requests.
 	// This is an optional field, needed only if the `+"`"+`authorizationType`+"`"+`
@@ -329,15 +328,19 @@ func NewService() *Service {
 		Annotations:                map[string][]string{},
 		AllServiceTags:             []string{},
 		AssociatedTags:             []string{},
+		ExposedAPIs:                [][]string{},
 		ExposedServiceIsTLS:        false,
 		External:                   false,
+		Hosts:                      []string{},
 		ClaimsToHTTPHeaderMappings: []*ClaimMapping{},
 		Endpoints:                  []*Endpoint{},
 		AuthorizationType:          ServiceAuthorizationTypeNone,
+		OIDCScopes:                 []string{},
+		Selectors:                  [][]string{},
 		Type:                       ServiceTypeHTTP,
 		TLSType:                    ServiceTLSTypeAporeto,
 		Metadata:                   []string{},
-		IPs:                        types.IPList{},
+		IPs:                        []string{},
 		NormalizedTags:             []string{},
 	}
 }
@@ -1077,8 +1080,8 @@ The system will automatically resolve IP addresses from host names otherwise.`,
 		Exposed: true,
 		Name:    "IPs",
 		Stored:  true,
-		SubType: "ip_list",
-		Type:    "external",
+		SubType: "string",
+		Type:    "list",
 	},
 	"JWTSigningCertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1194,8 +1197,8 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		Name:           "allAPITags",
 		ReadOnly:       true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"AllServiceTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1204,8 +1207,8 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		Name:           "allServiceTags",
 		ReadOnly:       true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1216,7 +1219,7 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"Archived": elemental.AttributeSpecification{
@@ -1238,8 +1241,8 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"AuthorizationType": elemental.AttributeSpecification{
 		AllowedChoices: []string{"None", "JWT", "OIDC", "MTLS"},
@@ -1331,7 +1334,7 @@ similar specifications for other L7 protocols.`,
 		Exposed: true,
 		Name:    "exposedAPIs",
 		Stored:  true,
-		SubType: "policies_list",
+		SubType: "list_of_lists_of_strings",
 		Type:    "external",
 	},
 	"ExposedPort": elemental.AttributeSpecification{
@@ -1396,8 +1399,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1443,9 +1446,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"Port": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1506,7 +1509,7 @@ must match in order to implement this particular service.`,
 		Exposed: true,
 		Name:    "selectors",
 		Stored:  true,
-		SubType: "policies_list",
+		SubType: "list_of_lists_of_strings",
 		Type:    "external",
 	},
 	"TrustedCertificateAuthorities": elemental.AttributeSpecification{
@@ -1599,8 +1602,8 @@ The system will automatically resolve IP addresses from host names otherwise.`,
 		Exposed: true,
 		Name:    "IPs",
 		Stored:  true,
-		SubType: "ip_list",
-		Type:    "external",
+		SubType: "string",
+		Type:    "list",
 	},
 	"jwtsigningcertificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1716,8 +1719,8 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		Name:           "allAPITags",
 		ReadOnly:       true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"allservicetags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1726,8 +1729,8 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		Name:           "allServiceTags",
 		ReadOnly:       true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1738,7 +1741,7 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "annotations",
+		SubType:        "map_of_string_of_list_of_strings",
 		Type:           "external",
 	},
 	"archived": elemental.AttributeSpecification{
@@ -1760,8 +1763,8 @@ required if ` + "`" + `TLSType` + "`" + ` is set to ` + "`" + `External` + "`" +
 		Name:           "associatedTags",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"authorizationtype": elemental.AttributeSpecification{
 		AllowedChoices: []string{"None", "JWT", "OIDC", "MTLS"},
@@ -1853,7 +1856,7 @@ similar specifications for other L7 protocols.`,
 		Exposed: true,
 		Name:    "exposedAPIs",
 		Stored:  true,
-		SubType: "policies_list",
+		SubType: "list_of_lists_of_strings",
 		Type:    "external",
 	},
 	"exposedport": elemental.AttributeSpecification{
@@ -1918,8 +1921,8 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:       "metadata",
 		Setter:     true,
 		Stored:     true,
-		SubType:    "metadata_list",
-		Type:       "external",
+		SubType:    "string",
+		Type:       "list",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1965,9 +1968,9 @@ with the '@' prefix, and should only be used by external systems.`,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
-		SubType:        "tags_list",
+		SubType:        "string",
 		Transient:      true,
-		Type:           "external",
+		Type:           "list",
 	},
 	"port": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -2028,7 +2031,7 @@ must match in order to implement this particular service.`,
 		Exposed: true,
 		Name:    "selectors",
 		Stored:  true,
-		SubType: "policies_list",
+		SubType: "list_of_lists_of_strings",
 		Type:    "external",
 	},
 	"trustedcertificateauthorities": elemental.AttributeSpecification{
@@ -2166,7 +2169,7 @@ type SparseService struct {
 	// This is an optional attribute and is only required if no host names are
 	// provided.
 	// The system will automatically resolve IP addresses from host names otherwise.
-	IPs *types.IPList `json:"IPs,omitempty" bson:"ips" mapstructure:"IPs,omitempty"`
+	IPs *[]string `json:"IPs,omitempty" bson:"ips" mapstructure:"IPs,omitempty"`
 
 	// PEM encoded certificate that will be used to validate user JWT in HTTP requests.
 	// This is an optional field, needed only if the `+"`"+`authorizationType`+"`"+`
