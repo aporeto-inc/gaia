@@ -337,6 +337,14 @@ func TestValidateProtocol(t *testing.T) {
 			false,
 		},
 		{
+			"valid string IP-in-IP",
+			args{
+				"proto",
+				"IP-in-IP",
+			},
+			false,
+		},
+		{
 			"valid string icmp",
 			args{
 				"proto",
@@ -349,22 +357,6 @@ func TestValidateProtocol(t *testing.T) {
 			args{
 				"proto",
 				"ICMP",
-			},
-			false,
-		},
-		{
-			"valid string all",
-			args{
-				"proto",
-				"all",
-			},
-			false,
-		},
-		{
-			"valid string ALL",
-			args{
-				"proto",
-				"ALL",
 			},
 			false,
 		},
@@ -399,6 +391,22 @@ func TestValidateProtocol(t *testing.T) {
 			args{
 				"proto",
 				"256",
+			},
+			true,
+		},
+		{
+			"valid string all",
+			args{
+				"proto",
+				"all",
+			},
+			true,
+		},
+		{
+			"valid string ALL",
+			args{
+				"proto",
+				"ALL",
 			},
 			true,
 		},

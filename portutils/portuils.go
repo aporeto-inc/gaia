@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	"go.aporeto.io/gaia/protocols"
 )
 
 // ConvertToPortsRange converts a :-separated string to a min and max port.
@@ -62,50 +64,51 @@ func ConvertToSinglePort(port string) (int64, error) {
 	return p, nil
 }
 
-// ConvertStringToPorts converts a string of the format tcp/80:100 to a port range.
+// ExtractPortsAndProtocolFromHostService extracts the port range and the protocol from a host service like tcp/80:100.
 // If the prefix is neither tcp or udp it will return an error.
-func ConvertStringToPorts(port string) (*PortsRange, string, error) {
+func ExtractPortsAndProtocolFromHostService(service string) (*PortsRange, string, error) {
 
+	upperService := strings.ToUpper(service)
 	proto := ""
 	var portSubString string
 
-	if strings.HasPrefix(port, "udp/") && len(port) > 3 {
-		proto = "udp"
-		portSubString = port[4:]
-	} else if strings.HasPrefix(port, "tcp/") && len(port) > 3 {
-		proto = "tcp"
-		portSubString = port[4:]
+	if strings.HasPrefix(upperService, protocols.L4ProtocolUDP+"/") {
+		proto = protocols.L4ProtocolUDP
+		portSubString = upperService[4:]
+	} else if strings.HasPrefix(upperService, protocols.L4ProtocolTCP+"/") {
+		proto = protocols.L4ProtocolTCP
+		portSubString = upperService[4:]
 	} else {
-		proto = "tcp"
-		portSubString = port
+		proto = protocols.L4ProtocolTCP
+		portSubString = upperService
 	}
 
 	if strings.Contains(portSubString, ":") {
 
 		parts := strings.SplitN(portSubString, ":", 2)
 		if len(parts) != 2 {
-			return nil, proto, fmt.Errorf("%s is not a valid service port specification", port)
+			return nil, "", fmt.Errorf("%s does not have a valid port range", upperService)
 		}
 
 		min, err := ConvertToSinglePort(parts[0])
 		if err != nil {
-			return nil, proto, err
+			return nil, "", err
 		}
 
 		max, err := ConvertToSinglePort(parts[1])
 		if err != nil {
-			return nil, proto, err
+			return nil, "", err
 		}
 
 		if min > max {
-			return nil, proto, fmt.Errorf("%s is not a valid port range", portSubString)
+			return nil, "", fmt.Errorf("%s is not a valid port range", portSubString)
 		}
 		return &PortsRange{FromPort: min, ToPort: max}, proto, nil
 	}
 
 	min, err := ConvertToSinglePort(portSubString)
 	if err != nil {
-		return nil, proto, err
+		return nil, "", err
 	}
 
 	return &PortsRange{FromPort: min, ToPort: min}, proto, nil
