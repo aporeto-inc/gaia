@@ -52,7 +52,7 @@ type AppParameter struct {
 	Advanced bool `json:"advanced" bson:"advanced" mapstructure:"advanced,omitempty"`
 
 	// List of values that can be used.
-	AllowedValues []object `json:"allowedValues" bson:"allowedvalues" mapstructure:"allowedValues,omitempty"`
+	AllowedValues []interface{} `json:"allowedValues" bson:"allowedvalues" mapstructure:"allowedValues,omitempty"`
 
 	// Default value of the parameter.
 	DefaultValue interface{} `json:"defaultValue" bson:"defaultvalue" mapstructure:"defaultValue,omitempty"`
@@ -88,7 +88,7 @@ func NewAppParameter() *AppParameter {
 
 	return &AppParameter{
 		ModelVersion:  1,
-		AllowedValues: []object{},
+		AllowedValues: []interface{}{},
 	}
 }
 
