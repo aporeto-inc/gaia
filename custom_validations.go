@@ -453,15 +453,15 @@ func ValidateHostServices(hs *HostService) error {
 
 	// Constraint on regex is used because the enforcer is using the name as nativeContextID.
 	if !regHostServiceName.MatchString(hs.Name) {
-		return makeValidationError("hostServices", "Host service name must be less than 12 characters and contains only alphanumeric or _")
+		return makeValidationError("services", "Host service name must be less than 12 characters and contains only alphanumeric or _")
 	}
 
 	if !hs.HostModeEnabled && len(hs.Services) == 0 {
-		return makeValidationError("hostServices", "Host service must have either HostModeEnabled or must declare services")
+		return makeValidationError("services", "Host service must have either HostModeEnabled or must declare services")
 	}
 
 	if err := ValidateHostServicesNonOverlapPorts(hs.Services); err != nil {
-		return makeValidationError("hostServices", err.Error())
+		return makeValidationError("services", err.Error())
 	}
 
 	return nil
@@ -477,26 +477,26 @@ func ValidateHostServicesNonOverlapPorts(svcs []string) error {
 	var protocol string
 	var err error
 
-	for _, ports := range svcs {
+	for _, svc := range svcs {
 
-		pr, protocol, err = portutils.ConvertStringToPorts(ports)
+		pr, protocol, err = portutils.ExtractPortsAndProtocolFromHostService(svc)
 		if err != nil {
 			return err
 		}
 
 		switch protocol {
-		case "tcp":
+		case protocols.L4ProtocolTCP:
 			if pr.HasOverlapWithPortsRanges(&tcpPorts) {
-				return fmt.Errorf("hostService cannot have overlapping ports")
+				return fmt.Errorf("host service cannot have overlapping TCP ports")
 			}
 			tcpPorts = append(tcpPorts, pr)
-		case "udp":
+		case protocols.L4ProtocolUDP:
 			if pr.HasOverlapWithPortsRanges(&udpPorts) {
-				return fmt.Errorf("hostService cannot have overlapping ports")
+				return fmt.Errorf("host service cannot have overlapping UDP ports")
 			}
 			udpPorts = append(udpPorts, pr)
 		default:
-			return fmt.Errorf("%s is an invalid protocol", protocol)
+			return fmt.Errorf("host service has invalid format: %s", protocol)
 		}
 
 	}

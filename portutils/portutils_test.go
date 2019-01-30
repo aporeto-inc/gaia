@@ -187,7 +187,7 @@ func Test_ConvertToSinglePort(t *testing.T) {
 	}
 }
 
-func Test_ConvertStringToPorts(t *testing.T) {
+func Test_ExtractPortsAndProtocolFromHostService(t *testing.T) {
 	type args struct {
 		ports string
 	}
@@ -202,103 +202,117 @@ func Test_ConvertStringToPorts(t *testing.T) {
 			"single port",
 			args{"80"},
 			&PortsRange{FromPort: 80, ToPort: 80},
-			"tcp",
+			"TCP",
 			false,
 		},
 		{
 			"single port udp",
 			args{"udp/80"},
 			&PortsRange{FromPort: 80, ToPort: 80},
-			"udp",
+			"UDP",
+			false,
+		},
+		{
+			"single port UDP",
+			args{"UDP/80"},
+			&PortsRange{FromPort: 80, ToPort: 80},
+			"UDP",
 			false,
 		},
 		{
 			"port range for tcp",
 			args{"tcp/80:100"},
 			&PortsRange{FromPort: 80, ToPort: 100},
-			"tcp",
+			"TCP",
 			false,
 		},
 		{
 			"port range for udp",
 			args{"udp/80:100"},
 			&PortsRange{FromPort: 80, ToPort: 100},
-			"udp",
+			"UDP",
 			false,
 		},
 		{
 			"port range for no protocol",
 			args{"80:100"},
 			&PortsRange{FromPort: 80, ToPort: 100},
-			"tcp",
+			"TCP",
 			false,
 		},
 		{
 			"port range with min greater than max",
 			args{"800:100"},
 			nil,
-			"tcp",
+			"",
 			true,
 		},
 		{
 			"invalid protocol",
 			args{"foo/100"},
 			nil,
-			"tcp",
+			"",
 			true,
 		},
 		{
 			"invalid protocol characters",
 			args{"@#%$@#$@#100"},
 			nil,
-			"tcp",
+			"",
 			true,
 		},
 		{
 			"empty ports",
 			args{""},
 			nil,
-			"tcp",
+			"",
 			true,
 		},
 		{
 			"invalid single port",
 			args{"something"},
 			nil,
-			"tcp",
+			"",
 			true,
 		},
 		{
 			"invalid port range",
 			args{"tcp/80:"},
 			nil,
-			"tcp",
+			"",
+			true,
+		},
+		{
+			"invalid empty port",
+			args{"tcp/"},
+			nil,
+			"",
 			true,
 		},
 		{
 			"single port lower than 1",
 			args{"0"},
 			nil,
-			"tcp",
+			"",
 			true,
 		},
 		{
 			"single port greater than 65535",
 			args{"65536"},
 			nil,
-			"tcp",
+			"",
 			true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			pr, proto, err := ConvertStringToPorts(tt.args.ports)
+			pr, proto, err := ExtractPortsAndProtocolFromHostService(tt.args.ports)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("CovertStringToPorts() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(pr, tt.wantPorts) {
-				t.Errorf("ConvertStringToPorts() = %v, want %v", pr, tt.wantPorts)
+				t.Errorf("ExtractPortsAndProtocolFromHostService() = %v, want %v", pr, tt.wantPorts)
 			}
 			if proto != tt.wantProto {
 				t.Errorf("CovertStringToPorts() protocol = %s, wantProtocol %v", proto, tt.wantProto)
