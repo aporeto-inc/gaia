@@ -129,7 +129,7 @@ const (
 	L4ProtocolSMP            = "SMP"
 	L4ProtocolSM             = "SM"
 	L4ProtocolPTP            = "PTP"
-	L4ProtocolISIPv4         = "IS-IS OVER IPV4"
+	L4ProtocolISIS           = "ISIS"
 	L4ProtocolFIRE           = "FIRE"
 	L4ProtocolCRTP           = "CRTP"
 	L4ProtocolCRUDP          = "CRUDP"
@@ -140,7 +140,7 @@ const (
 	L4ProtocolSCTP           = "SCTP"
 	L4ProtocolFC             = "FC"
 	L4ProtocolRSVPE2EIGNORE  = "RSVP-E2E-IGNORE"
-	L4ProtocolMobilityHeader = "MOBILITY HEADER"
+	L4ProtocolMobilityHeader = "MOBILITY-HEADER"
 	L4ProtocolUDPLite        = "UDPLITE"
 	L4ProtocolMPLSinIP       = "MPLS-IN-IP"
 	L4Protocolmanet          = "MANET"
@@ -277,7 +277,7 @@ func init() {
 	L4ProtocolNumbers[121] = L4ProtocolSMP
 	L4ProtocolNumbers[122] = L4ProtocolSM
 	L4ProtocolNumbers[123] = L4ProtocolPTP
-	L4ProtocolNumbers[124] = L4ProtocolISIPv4
+	L4ProtocolNumbers[124] = L4ProtocolISIS
 	L4ProtocolNumbers[125] = L4ProtocolFIRE
 	L4ProtocolNumbers[126] = L4ProtocolCRTP
 	L4ProtocolNumbers[127] = L4ProtocolCRUDP
@@ -417,7 +417,7 @@ func init() {
 		L4ProtocolSMP:            121,
 		L4ProtocolSM:             122,
 		L4ProtocolPTP:            123,
-		L4ProtocolISIPv4:         124,
+		L4ProtocolISIS:           124,
 		L4ProtocolFIRE:           125,
 		L4ProtocolCRTP:           126,
 		L4ProtocolCRUDP:          127,
