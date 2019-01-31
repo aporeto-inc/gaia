@@ -14,7 +14,7 @@ const (
 	L4ProtocolICMP           = "ICMP"
 	L4ProtocolIGMP           = "IGMP"
 	L4ProtocolGGP            = "GGP"
-	L4ProtocolIPinIP         = "IP-IN-IP"
+	L4ProtocolIPinIP         = "IPIP"
 	L4ProtocolST             = "ST"
 	L4ProtocolTCP            = "TCP"
 	L4ProtocolCBT            = "CBT"

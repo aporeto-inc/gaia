@@ -337,10 +337,18 @@ func TestValidateProtocol(t *testing.T) {
 			false,
 		},
 		{
-			"valid string IP-in-IP",
+			"valid string IPIP",
 			args{
 				"proto",
-				"IP-in-IP",
+				"IPIP",
+			},
+			false,
+		},
+		{
+			"valid string ipip",
+			args{
+				"proto",
+				"IPIP",
 			},
 			false,
 		},
