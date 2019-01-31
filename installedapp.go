@@ -109,8 +109,8 @@ type InstalledApp struct {
 	// DeploymentCount represents the number of expected deployment for this app.
 	DeploymentCount int `json:"-" bson:"deploymentcount" mapstructure:"-,omitempty"`
 
-	// K8SIdentifier retains the identifier for kubernetes.
-	K8sIdentifier string `json:"-" bson:"k8sidentifier" mapstructure:"-,omitempty"`
+	// AppIdentifier retains the identifier for the app.
+	AppIdentifier string `json:"-" bson:"appidentifier" mapstructure:"-,omitempty"`
 
 	// Name of the installed app.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
@@ -191,7 +191,7 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CategoryID:      &o.CategoryID,
 			CurrentVersion:  &o.CurrentVersion,
 			DeploymentCount: &o.DeploymentCount,
-			K8sIdentifier:   &o.K8sIdentifier,
+			AppIdentifier:   &o.AppIdentifier,
 			Name:            &o.Name,
 			Namespace:       &o.Namespace,
 			Parameters:      &o.Parameters,
@@ -212,8 +212,8 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CurrentVersion = &(o.CurrentVersion)
 		case "deploymentCount":
 			sp.DeploymentCount = &(o.DeploymentCount)
-		case "k8sIdentifier":
-			sp.K8sIdentifier = &(o.K8sIdentifier)
+		case "appIdentifier":
+			sp.AppIdentifier = &(o.AppIdentifier)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -250,8 +250,8 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	if so.DeploymentCount != nil {
 		o.DeploymentCount = *so.DeploymentCount
 	}
-	if so.K8sIdentifier != nil {
-		o.K8sIdentifier = *so.K8sIdentifier
+	if so.AppIdentifier != nil {
+		o.AppIdentifier = *so.AppIdentifier
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -351,8 +351,8 @@ func (o *InstalledApp) ValueForAttribute(name string) interface{} {
 		return o.CurrentVersion
 	case "deploymentCount":
 		return o.DeploymentCount
-	case "k8sIdentifier":
-		return o.K8sIdentifier
+	case "appIdentifier":
+		return o.AppIdentifier
 	case "name":
 		return o.Name
 	case "namespace":
@@ -420,11 +420,11 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "integer",
 	},
-	"K8sIdentifier": elemental.AttributeSpecification{
+	"AppIdentifier": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "K8sIdentifier",
-		Description:    `K8SIdentifier retains the identifier for kubernetes.`,
-		Name:           "k8sIdentifier",
+		ConvertedName:  "AppIdentifier",
+		Description:    `AppIdentifier retains the identifier for the app.`,
+		Name:           "appIdentifier",
 		Stored:         true,
 		Type:           "string",
 	},
@@ -528,11 +528,11 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "integer",
 	},
-	"k8sidentifier": elemental.AttributeSpecification{
+	"appidentifier": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "K8sIdentifier",
-		Description:    `K8SIdentifier retains the identifier for kubernetes.`,
-		Name:           "k8sIdentifier",
+		ConvertedName:  "AppIdentifier",
+		Description:    `AppIdentifier retains the identifier for the app.`,
+		Name:           "appIdentifier",
 		Stored:         true,
 		Type:           "string",
 	},
@@ -660,8 +660,8 @@ type SparseInstalledApp struct {
 	// DeploymentCount represents the number of expected deployment for this app.
 	DeploymentCount *int `json:"-,omitempty" bson:"deploymentcount" mapstructure:"-,omitempty"`
 
-	// K8SIdentifier retains the identifier for kubernetes.
-	K8sIdentifier *string `json:"-,omitempty" bson:"k8sidentifier" mapstructure:"-,omitempty"`
+	// AppIdentifier retains the identifier for the app.
+	AppIdentifier *string `json:"-,omitempty" bson:"appidentifier" mapstructure:"-,omitempty"`
 
 	// Name of the installed app.
 	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
@@ -731,8 +731,8 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.DeploymentCount != nil {
 		out.DeploymentCount = *o.DeploymentCount
 	}
-	if o.K8sIdentifier != nil {
-		out.K8sIdentifier = *o.K8sIdentifier
+	if o.AppIdentifier != nil {
+		out.AppIdentifier = *o.AppIdentifier
 	}
 	if o.Name != nil {
 		out.Name = *o.Name

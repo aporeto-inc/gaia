@@ -61,8 +61,8 @@ attributes:
     stored: true
     read_only: true
 
-  - name: k8sIdentifier
-    description: K8SIdentifier retains the identifier for kubernetes.
+  - name: appIdentifier
+    description: AppIdentifier retains the identifier for the app.
     type: string
     stored: true
 
