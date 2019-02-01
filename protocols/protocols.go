@@ -14,7 +14,7 @@ const (
 	L4ProtocolICMP           = "ICMP"
 	L4ProtocolIGMP           = "IGMP"
 	L4ProtocolGGP            = "GGP"
-	L4ProtocolIPinIP         = "IP-IN-IP"
+	L4ProtocolIPIP           = "IPIP"
 	L4ProtocolST             = "ST"
 	L4ProtocolTCP            = "TCP"
 	L4ProtocolCBT            = "CBT"
@@ -57,7 +57,7 @@ const (
 	L4ProtocolIPv6Frag       = "IPv6-Frag"
 	L4ProtocolIDRP           = "IDRP"
 	L4ProtocolRSVP           = "RSVP"
-	L4ProtocolGREs           = "GRES"
+	L4ProtocolGRE            = "GRE"
 	L4ProtocolDSR            = "DSR"
 	L4ProtocolBNA            = "BNA"
 	L4ProtocolESP            = "ESP"
@@ -129,7 +129,7 @@ const (
 	L4ProtocolSMP            = "SMP"
 	L4ProtocolSM             = "SM"
 	L4ProtocolPTP            = "PTP"
-	L4ProtocolISIPv4         = "IS-IS OVER IPV4"
+	L4ProtocolISIS           = "ISIS"
 	L4ProtocolFIRE           = "FIRE"
 	L4ProtocolCRTP           = "CRTP"
 	L4ProtocolCRUDP          = "CRUDP"
@@ -140,7 +140,7 @@ const (
 	L4ProtocolSCTP           = "SCTP"
 	L4ProtocolFC             = "FC"
 	L4ProtocolRSVPE2EIGNORE  = "RSVP-E2E-IGNORE"
-	L4ProtocolMobilityHeader = "MOBILITY HEADER"
+	L4ProtocolMobilityHeader = "MOBILITY-HEADER"
 	L4ProtocolUDPLite        = "UDPLITE"
 	L4ProtocolMPLSinIP       = "MPLS-IN-IP"
 	L4Protocolmanet          = "MANET"
@@ -162,7 +162,7 @@ func init() {
 	L4ProtocolNumbers[1] = L4ProtocolICMP
 	L4ProtocolNumbers[2] = L4ProtocolIGMP
 	L4ProtocolNumbers[3] = L4ProtocolGGP
-	L4ProtocolNumbers[4] = L4ProtocolIPinIP
+	L4ProtocolNumbers[4] = L4ProtocolIPIP
 	L4ProtocolNumbers[5] = L4ProtocolST
 	L4ProtocolNumbers[6] = L4ProtocolTCP
 	L4ProtocolNumbers[7] = L4ProtocolCBT
@@ -205,7 +205,7 @@ func init() {
 	L4ProtocolNumbers[44] = L4ProtocolIPv6Frag
 	L4ProtocolNumbers[45] = L4ProtocolIDRP
 	L4ProtocolNumbers[46] = L4ProtocolRSVP
-	L4ProtocolNumbers[47] = L4ProtocolGREs
+	L4ProtocolNumbers[47] = L4ProtocolGRE
 	L4ProtocolNumbers[48] = L4ProtocolDSR
 	L4ProtocolNumbers[49] = L4ProtocolBNA
 	L4ProtocolNumbers[50] = L4ProtocolESP
@@ -277,7 +277,7 @@ func init() {
 	L4ProtocolNumbers[121] = L4ProtocolSMP
 	L4ProtocolNumbers[122] = L4ProtocolSM
 	L4ProtocolNumbers[123] = L4ProtocolPTP
-	L4ProtocolNumbers[124] = L4ProtocolISIPv4
+	L4ProtocolNumbers[124] = L4ProtocolISIS
 	L4ProtocolNumbers[125] = L4ProtocolFIRE
 	L4ProtocolNumbers[126] = L4ProtocolCRTP
 	L4ProtocolNumbers[127] = L4ProtocolCRUDP
@@ -302,7 +302,7 @@ func init() {
 		L4ProtocolICMP:           1,
 		L4ProtocolIGMP:           2,
 		L4ProtocolGGP:            3,
-		L4ProtocolIPinIP:         4,
+		L4ProtocolIPIP:           4,
 		L4ProtocolST:             5,
 		L4ProtocolTCP:            6,
 		L4ProtocolCBT:            7,
@@ -345,7 +345,7 @@ func init() {
 		L4ProtocolIPv6Frag:       44,
 		L4ProtocolIDRP:           45,
 		L4ProtocolRSVP:           46,
-		L4ProtocolGREs:           47,
+		L4ProtocolGRE:            47,
 		L4ProtocolDSR:            48,
 		L4ProtocolBNA:            49,
 		L4ProtocolESP:            50,
@@ -417,7 +417,7 @@ func init() {
 		L4ProtocolSMP:            121,
 		L4ProtocolSM:             122,
 		L4ProtocolPTP:            123,
-		L4ProtocolISIPv4:         124,
+		L4ProtocolISIS:           124,
 		L4ProtocolFIRE:           125,
 		L4ProtocolCRTP:           126,
 		L4ProtocolCRUDP:          127,
