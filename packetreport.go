@@ -99,7 +99,7 @@ type PacketReport struct {
 	TCPFlags int `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Claims is the list of claims detected for the packet.
-	Claims map[string]string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Claims []string `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// DestinationIP is the IP address of the destination.
 	DestinationIP string `json:"destinationIP" bson:"-" mapstructure:"destinationIP,omitempty"`
@@ -157,7 +157,7 @@ func NewPacketReport() *PacketReport {
 
 	return &PacketReport{
 		ModelVersion:  1,
-		Claims:        map[string]string{},
+		Claims:        []string{},
 		TriremePacket: true,
 	}
 }
@@ -480,8 +480,8 @@ var PacketReportAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Claims",
 		Description:    `Claims is the list of claims detected for the packet.`,
 		Name:           "claims",
-		SubType:        "map_of_string_of_strings",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"DestinationIP": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -633,8 +633,8 @@ var PacketReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ConvertedName:  "Claims",
 		Description:    `Claims is the list of claims detected for the packet.`,
 		Name:           "claims",
-		SubType:        "map_of_string_of_strings",
-		Type:           "external",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"destinationip": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -839,7 +839,7 @@ type SparsePacketReport struct {
 	TCPFlags *int `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
 
 	// Claims is the list of claims detected for the packet.
-	Claims *map[string]string `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
+	Claims *[]string `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
 
 	// DestinationIP is the IP address of the destination.
 	DestinationIP *string `json:"destinationIP,omitempty" bson:"-" mapstructure:"destinationIP,omitempty"`
