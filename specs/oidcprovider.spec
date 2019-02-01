@@ -43,6 +43,15 @@ attributes:
     example_value: xxx-xxx-xxx
     secret: true
 
+  - name: default
+    description: |-
+      If set, this will be the default OIDCProvider. There can be only one default
+      provider in your account. When logging in with OIDC, if not provider name is
+      given, the default will be used.
+    type: boolean
+    exposed: true
+    stored: true
+
   - name: endpoint
     description: OIDC information endpoint.
     type: string
@@ -84,7 +93,6 @@ attributes:
     exposed: true
     subtype: string
     stored: true
-    required: true
     example_value:
     - email
     - profile

@@ -1891,6 +1891,10 @@ func init() {
 						Name: "appliedServices",
 						Type: "boolean",
 					},
+					elemental.ParameterDefinition{
+						Name: "setServices",
+						Type: "boolean",
+					},
 				},
 			},
 			"hostservicemappingpolicy": &elemental.RelationshipInfo{},
@@ -1918,6 +1922,10 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name: "appliedServices",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name: "setServices",
 						Type: "boolean",
 					},
 				},

@@ -93,6 +93,11 @@ type OIDCProvider struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// If set, this will be the default OIDCProvider. There can be only one default
+	// provider in your account. When logging in with OIDC, if not provider name is
+	// given, the default will be used.
+	Default bool `json:"default" bson:"default" mapstructure:"default,omitempty"`
+
 	// OIDC information endpoint.
 	Endpoint string `json:"endpoint" bson:"endpoint" mapstructure:"endpoint,omitempty"`
 
@@ -177,6 +182,7 @@ func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ClientID:     &o.ClientID,
 			ClientSecret: &o.ClientSecret,
 			CreateTime:   &o.CreateTime,
+			Default:      &o.Default,
 			Endpoint:     &o.Endpoint,
 			Name:         &o.Name,
 			ParentID:     &o.ParentID,
@@ -197,6 +203,8 @@ func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ClientSecret = &(o.ClientSecret)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
+		case "default":
+			sp.Default = &(o.Default)
 		case "endpoint":
 			sp.Endpoint = &(o.Endpoint)
 		case "name":
@@ -233,6 +241,9 @@ func (o *OIDCProvider) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
+	}
+	if so.Default != nil {
+		o.Default = *so.Default
 	}
 	if so.Endpoint != nil {
 		o.Endpoint = *so.Endpoint
@@ -300,10 +311,6 @@ func (o *OIDCProvider) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredExternal("scopes", o.Scopes); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -346,6 +353,8 @@ func (o *OIDCProvider) ValueForAttribute(name string) interface{} {
 		return o.ClientSecret
 	case "createTime":
 		return o.CreateTime
+	case "default":
+		return o.Default
 	case "endpoint":
 		return o.Endpoint
 	case "name":
@@ -412,6 +421,17 @@ var OIDCProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "time",
 	},
+	"Default": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Default",
+		Description: `If set, this will be the default OIDCProvider. There can be only one default
+provider in your account. When logging in with OIDC, if not provider name is
+given, the default will be used.`,
+		Exposed: true,
+		Name:    "default",
+		Stored:  true,
+		Type:    "boolean",
+	},
 	"Endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoint",
@@ -463,7 +483,6 @@ var OIDCProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `List of scopes to allow.`,
 		Exposed:        true,
 		Name:           "scopes",
-		Required:       true,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
@@ -531,6 +550,17 @@ var OIDCProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "time",
 	},
+	"default": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Default",
+		Description: `If set, this will be the default OIDCProvider. There can be only one default
+provider in your account. When logging in with OIDC, if not provider name is
+given, the default will be used.`,
+		Exposed: true,
+		Name:    "default",
+		Stored:  true,
+		Type:    "boolean",
+	},
 	"endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoint",
@@ -582,7 +612,6 @@ var OIDCProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Description:    `List of scopes to allow.`,
 		Exposed:        true,
 		Name:           "scopes",
-		Required:       true,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
@@ -676,6 +705,11 @@ type SparseOIDCProvider struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// If set, this will be the default OIDCProvider. There can be only one default
+	// provider in your account. When logging in with OIDC, if not provider name is
+	// given, the default will be used.
+	Default *bool `json:"default,omitempty" bson:"default" mapstructure:"default,omitempty"`
+
 	// OIDC information endpoint.
 	Endpoint *string `json:"endpoint,omitempty" bson:"endpoint" mapstructure:"endpoint,omitempty"`
 
@@ -746,6 +780,9 @@ func (o *SparseOIDCProvider) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
+	}
+	if o.Default != nil {
+		out.Default = *o.Default
 	}
 	if o.Endpoint != nil {
 		out.Endpoint = *o.Endpoint

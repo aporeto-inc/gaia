@@ -240,6 +240,11 @@ relations:
           services.
         type: boolean
 
+      - name: setServices
+        description: Instructs the backend to cache the services that were resolved.
+          services.
+        type: boolean
+
 - rest_name: poke
   get:
     description: Sends a poke empty object. This is used to ensure an enforcer is
