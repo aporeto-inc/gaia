@@ -3306,6 +3306,7 @@ Returns a list of the host services policies that apply to this enforcer.
 ##### Parameters
 
 - `appliedServices` (boolean): Valid when retrieved for a given enforcer and returns the applied services.
+- `setServices` (boolean): Instructs the backend to cache the services that were resolved. services.
 
 #### `GET /enforcers/:id/poke`
 
@@ -6069,6 +6070,7 @@ Returns a list of the host services policies that apply to this enforcer.
 ##### Parameters
 
 - `appliedServices` (boolean): Valid when retrieved for a given enforcer and returns the applied services.
+- `setServices` (boolean): Instructs the backend to cache the services that were resolved. services.
 
 #### `GET /hostservicemappingpolicies/:id/hostservices`
 
