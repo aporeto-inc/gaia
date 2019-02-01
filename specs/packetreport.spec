@@ -15,8 +15,8 @@ attributes:
 
   - name: claims
     description: Claims is the list of claims detected for the packet.
-    type: external
-    subtype: map_of_string_of_strings
+    type: list
+    subtype: string
 
   - name: destinationIP
     description: DestinationIP is the IP address of the destination.

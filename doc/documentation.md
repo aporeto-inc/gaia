@@ -3303,6 +3303,10 @@ Returns the enforcer profile that must be used by an enforcer.
 
 Returns a list of the host services policies that apply to this enforcer.
 
+##### Parameters
+
+- `appliedServices` (boolean): Valid when retrieved for a given enforcer and returns the applied services.
+
 #### `GET /enforcers/:id/poke`
 
 Sends a poke empty object. This is used to ensure an enforcer is up and running.
@@ -6061,6 +6065,10 @@ Updates the object with the given ID.
 #### `GET /enforcers/:id/hostservices`
 
 Returns a list of the host services policies that apply to this enforcer.
+
+##### Parameters
+
+- `appliedServices` (boolean): Valid when retrieved for a given enforcer and returns the applied services.
 
 #### `GET /hostservicemappingpolicies/:id/hostservices`
 
