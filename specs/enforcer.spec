@@ -233,6 +233,12 @@ relations:
 - rest_name: hostservice
   get:
     description: Returns a list of the host services policies that apply to this enforcer.
+    parameters:
+      entries:
+      - name: appliedServices
+        description: Valid when retrieved for a given enforcer and returns the applied
+          services.
+        type: boolean
 
 - rest_name: poke
   get:

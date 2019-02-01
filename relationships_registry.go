@@ -1885,7 +1885,14 @@ func init() {
 			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"enforcer":                 &elemental.RelationshipInfo{},
+			"enforcer": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "appliedServices",
+						Type: "boolean",
+					},
+				},
+			},
 			"hostservicemappingpolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
@@ -1907,7 +1914,14 @@ func init() {
 			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
-			"enforcer":                 &elemental.RelationshipInfo{},
+			"enforcer": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "appliedServices",
+						Type: "boolean",
+					},
+				},
+			},
 			"hostservicemappingpolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
