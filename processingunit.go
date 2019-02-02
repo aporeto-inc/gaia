@@ -53,6 +53,12 @@ const (
 	// ProcessingUnitTypeDocker represents the value Docker.
 	ProcessingUnitTypeDocker ProcessingUnitTypeValue = "Docker"
 
+	// ProcessingUnitTypeHost represents the value Host.
+	ProcessingUnitTypeHost ProcessingUnitTypeValue = "Host"
+
+	// ProcessingUnitTypeHostService represents the value HostService.
+	ProcessingUnitTypeHostService ProcessingUnitTypeValue = "HostService"
+
 	// ProcessingUnitTypeLinuxService represents the value LinuxService.
 	ProcessingUnitTypeLinuxService ProcessingUnitTypeValue = "LinuxService"
 
@@ -698,7 +704,7 @@ func (o *ProcessingUnit) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Docker", "LinuxService", "RKT", "User", "APIGateway"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIGateway", "Docker", "Host", "HostService", "LinuxService", "RKT", "User"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -1072,7 +1078,7 @@ or by exposing the ports in a container manifest.`,
 		Type:           "ref",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Docker", "LinuxService", "RKT", "User", "APIGateway"},
+		AllowedChoices: []string{"APIGateway", "Docker", "Host", "HostService", "LinuxService", "RKT", "User"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the container ecosystem.`,
@@ -1402,7 +1408,7 @@ or by exposing the ports in a container manifest.`,
 		Type:           "ref",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Docker", "LinuxService", "RKT", "User", "APIGateway"},
+		AllowedChoices: []string{"APIGateway", "Docker", "Host", "HostService", "LinuxService", "RKT", "User"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the container ecosystem.`,
