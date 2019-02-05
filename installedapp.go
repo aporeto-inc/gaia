@@ -100,6 +100,9 @@ type InstalledApp struct {
 	// AccountName represents the vince account name.
 	AccountName string `json:"accountName" bson:"accountname" mapstructure:"accountName,omitempty"`
 
+	// AppIdentifier retains the identifier for the app.
+	AppIdentifier string `json:"-" bson:"appidentifier" mapstructure:"-,omitempty"`
+
 	// CategoryID of the app.
 	CategoryID string `json:"categoryID" bson:"categoryid" mapstructure:"categoryID,omitempty"`
 
@@ -108,9 +111,6 @@ type InstalledApp struct {
 
 	// DeploymentCount represents the number of expected deployment for this app.
 	DeploymentCount int `json:"-" bson:"deploymentcount" mapstructure:"-,omitempty"`
-
-	// AppIdentifier retains the identifier for the app.
-	AppIdentifier string `json:"-" bson:"appidentifier" mapstructure:"-,omitempty"`
 
 	// Name of the installed app.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
@@ -188,10 +188,10 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		return &SparseInstalledApp{
 			ID:              &o.ID,
 			AccountName:     &o.AccountName,
+			AppIdentifier:   &o.AppIdentifier,
 			CategoryID:      &o.CategoryID,
 			CurrentVersion:  &o.CurrentVersion,
 			DeploymentCount: &o.DeploymentCount,
-			AppIdentifier:   &o.AppIdentifier,
 			Name:            &o.Name,
 			Namespace:       &o.Namespace,
 			Parameters:      &o.Parameters,
@@ -206,14 +206,14 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ID = &(o.ID)
 		case "accountName":
 			sp.AccountName = &(o.AccountName)
+		case "appIdentifier":
+			sp.AppIdentifier = &(o.AppIdentifier)
 		case "categoryID":
 			sp.CategoryID = &(o.CategoryID)
 		case "currentVersion":
 			sp.CurrentVersion = &(o.CurrentVersion)
 		case "deploymentCount":
 			sp.DeploymentCount = &(o.DeploymentCount)
-		case "appIdentifier":
-			sp.AppIdentifier = &(o.AppIdentifier)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
@@ -241,6 +241,9 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AccountName != nil {
 		o.AccountName = *so.AccountName
 	}
+	if so.AppIdentifier != nil {
+		o.AppIdentifier = *so.AppIdentifier
+	}
 	if so.CategoryID != nil {
 		o.CategoryID = *so.CategoryID
 	}
@@ -249,9 +252,6 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.DeploymentCount != nil {
 		o.DeploymentCount = *so.DeploymentCount
-	}
-	if so.AppIdentifier != nil {
-		o.AppIdentifier = *so.AppIdentifier
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -345,14 +345,14 @@ func (o *InstalledApp) ValueForAttribute(name string) interface{} {
 		return o.ID
 	case "accountName":
 		return o.AccountName
+	case "appIdentifier":
+		return o.AppIdentifier
 	case "categoryID":
 		return o.CategoryID
 	case "currentVersion":
 		return o.CurrentVersion
 	case "deploymentCount":
 		return o.DeploymentCount
-	case "appIdentifier":
-		return o.AppIdentifier
 	case "name":
 		return o.Name
 	case "namespace":
@@ -391,6 +391,14 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"AppIdentifier": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AppIdentifier",
+		Description:    `AppIdentifier retains the identifier for the app.`,
+		Name:           "appIdentifier",
+		Stored:         true,
+		Type:           "string",
+	},
 	"CategoryID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CategoryID",
@@ -419,14 +427,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "integer",
-	},
-	"AppIdentifier": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AppIdentifier",
-		Description:    `AppIdentifier retains the identifier for the app.`,
-		Name:           "appIdentifier",
-		Stored:         true,
-		Type:           "string",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -499,6 +499,14 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "string",
 	},
+	"appidentifier": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AppIdentifier",
+		Description:    `AppIdentifier retains the identifier for the app.`,
+		Name:           "appIdentifier",
+		Stored:         true,
+		Type:           "string",
+	},
 	"categoryid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CategoryID",
@@ -527,14 +535,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "integer",
-	},
-	"appidentifier": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AppIdentifier",
-		Description:    `AppIdentifier retains the identifier for the app.`,
-		Name:           "appIdentifier",
-		Stored:         true,
-		Type:           "string",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -651,6 +651,9 @@ type SparseInstalledApp struct {
 	// AccountName represents the vince account name.
 	AccountName *string `json:"accountName,omitempty" bson:"accountname" mapstructure:"accountName,omitempty"`
 
+	// AppIdentifier retains the identifier for the app.
+	AppIdentifier *string `json:"-,omitempty" bson:"appidentifier" mapstructure:"-,omitempty"`
+
 	// CategoryID of the app.
 	CategoryID *string `json:"categoryID,omitempty" bson:"categoryid" mapstructure:"categoryID,omitempty"`
 
@@ -659,9 +662,6 @@ type SparseInstalledApp struct {
 
 	// DeploymentCount represents the number of expected deployment for this app.
 	DeploymentCount *int `json:"-,omitempty" bson:"deploymentcount" mapstructure:"-,omitempty"`
-
-	// AppIdentifier retains the identifier for the app.
-	AppIdentifier *string `json:"-,omitempty" bson:"appidentifier" mapstructure:"-,omitempty"`
 
 	// Name of the installed app.
 	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
@@ -722,6 +722,9 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.AccountName != nil {
 		out.AccountName = *o.AccountName
 	}
+	if o.AppIdentifier != nil {
+		out.AppIdentifier = *o.AppIdentifier
+	}
 	if o.CategoryID != nil {
 		out.CategoryID = *o.CategoryID
 	}
@@ -730,9 +733,6 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.DeploymentCount != nil {
 		out.DeploymentCount = *o.DeploymentCount
-	}
-	if o.AppIdentifier != nil {
-		out.AppIdentifier = *o.AppIdentifier
 	}
 	if o.Name != nil {
 		out.Name = *o.Name

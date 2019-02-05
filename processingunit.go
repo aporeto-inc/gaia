@@ -181,6 +181,10 @@ type ProcessingUnit struct {
 	// Docker image, or path to executable.
 	Image string `json:"image" bson:"image" mapstructure:"image,omitempty"`
 
+	// LastCollectionTime represents the date and time when the info have been
+	// collected.
+	LastCollectionTime time.Time `json:"lastCollectionTime" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
+
 	// Last poke is the time when the pu got last poked.
 	LastPokeTime time.Time `json:"-" bson:"lastpoketime" mapstructure:"-,omitempty"`
 
@@ -245,9 +249,9 @@ func NewProcessingUnit() *ProcessingUnit {
 		AssociatedTags:    []string{},
 		CollectedInfo:     map[string]string{},
 		EnforcementStatus: ProcessingUnitEnforcementStatusInactive,
+		NetworkServices:   []*ProcessingUnitService{},
 		NormalizedTags:    []string{},
 		OperationalStatus: ProcessingUnitOperationalStatusInitialized,
-		NetworkServices:   []*ProcessingUnitService{},
 		Metadata:          []string{},
 		Tracing:           NewTraceMode(),
 	}
@@ -457,33 +461,34 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseProcessingUnit{
-			ID:                &o.ID,
-			Annotations:       &o.Annotations,
-			Archived:          &o.Archived,
-			AssociatedTags:    &o.AssociatedTags,
-			CollectInfo:       &o.CollectInfo,
-			CollectedInfo:     &o.CollectedInfo,
-			CreateTime:        &o.CreateTime,
-			Description:       &o.Description,
-			EnforcementStatus: &o.EnforcementStatus,
-			EnforcerID:        &o.EnforcerID,
-			EnforcerNamespace: &o.EnforcerNamespace,
-			Image:             &o.Image,
-			LastPokeTime:      &o.LastPokeTime,
-			LastSyncTime:      &o.LastSyncTime,
-			Metadata:          &o.Metadata,
-			Name:              &o.Name,
-			Namespace:         &o.Namespace,
-			NativeContextID:   &o.NativeContextID,
-			NetworkServices:   &o.NetworkServices,
-			NormalizedTags:    &o.NormalizedTags,
-			OperationalStatus: &o.OperationalStatus,
-			Protected:         &o.Protected,
-			Tracing:           &o.Tracing,
-			Type:              &o.Type,
-			UpdateTime:        &o.UpdateTime,
-			ZHash:             &o.ZHash,
-			Zone:              &o.Zone,
+			ID:                 &o.ID,
+			Annotations:        &o.Annotations,
+			Archived:           &o.Archived,
+			AssociatedTags:     &o.AssociatedTags,
+			CollectInfo:        &o.CollectInfo,
+			CollectedInfo:      &o.CollectedInfo,
+			CreateTime:         &o.CreateTime,
+			Description:        &o.Description,
+			EnforcementStatus:  &o.EnforcementStatus,
+			EnforcerID:         &o.EnforcerID,
+			EnforcerNamespace:  &o.EnforcerNamespace,
+			Image:              &o.Image,
+			LastCollectionTime: &o.LastCollectionTime,
+			LastPokeTime:       &o.LastPokeTime,
+			LastSyncTime:       &o.LastSyncTime,
+			Metadata:           &o.Metadata,
+			Name:               &o.Name,
+			Namespace:          &o.Namespace,
+			NativeContextID:    &o.NativeContextID,
+			NetworkServices:    &o.NetworkServices,
+			NormalizedTags:     &o.NormalizedTags,
+			OperationalStatus:  &o.OperationalStatus,
+			Protected:          &o.Protected,
+			Tracing:            &o.Tracing,
+			Type:               &o.Type,
+			UpdateTime:         &o.UpdateTime,
+			ZHash:              &o.ZHash,
+			Zone:               &o.Zone,
 		}
 	}
 
@@ -514,6 +519,8 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.EnforcerNamespace = &(o.EnforcerNamespace)
 		case "image":
 			sp.Image = &(o.Image)
+		case "lastCollectionTime":
+			sp.LastCollectionTime = &(o.LastCollectionTime)
 		case "lastPokeTime":
 			sp.LastPokeTime = &(o.LastPokeTime)
 		case "lastSyncTime":
@@ -592,6 +599,9 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Image != nil {
 		o.Image = *so.Image
+	}
+	if so.LastCollectionTime != nil {
+		o.LastCollectionTime = *so.LastCollectionTime
 	}
 	if so.LastPokeTime != nil {
 		o.LastPokeTime = *so.LastPokeTime
@@ -766,6 +776,8 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.EnforcerNamespace
 	case "image":
 		return o.Image
+	case "lastCollectionTime":
+		return o.LastCollectionTime
 	case "lastPokeTime":
 		return o.LastPokeTime
 	case "lastSyncTime":
@@ -940,6 +952,16 @@ processing unit.`,
 		Name:           "image",
 		Stored:         true,
 		Type:           "string",
+	},
+	"LastCollectionTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LastCollectionTime",
+		Description: `LastCollectionTime represents the date and time when the info have been
+collected.`,
+		Exposed: true,
+		Name:    "lastCollectionTime",
+		Stored:  true,
+		Type:    "time",
 	},
 	"LastPokeTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1271,6 +1293,16 @@ processing unit.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"lastcollectiontime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LastCollectionTime",
+		Description: `LastCollectionTime represents the date and time when the info have been
+collected.`,
+		Exposed: true,
+		Name:    "lastCollectionTime",
+		Stored:  true,
+		Type:    "time",
+	},
 	"lastpoketime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LastPokeTime",
@@ -1564,6 +1596,10 @@ type SparseProcessingUnit struct {
 	// Docker image, or path to executable.
 	Image *string `json:"image,omitempty" bson:"image" mapstructure:"image,omitempty"`
 
+	// LastCollectionTime represents the date and time when the info have been
+	// collected.
+	LastCollectionTime *time.Time `json:"lastCollectionTime,omitempty" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
+
 	// Last poke is the time when the pu got last poked.
 	LastPokeTime *time.Time `json:"-,omitempty" bson:"lastpoketime" mapstructure:"-,omitempty"`
 
@@ -1690,6 +1726,9 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Image != nil {
 		out.Image = *o.Image
+	}
+	if o.LastCollectionTime != nil {
+		out.LastCollectionTime = *o.LastCollectionTime
 	}
 	if o.LastPokeTime != nil {
 		out.LastPokeTime = *o.LastPokeTime

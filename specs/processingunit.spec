@@ -104,6 +104,14 @@ attributes:
     stored: true
     filterable: true
 
+  - name: lastCollectionTime
+    description: |-
+      LastCollectionTime represents the date and time when the info have been
+      collected.
+    type: time
+    exposed: true
+    stored: true
+
   - name: lastPokeTime
     description: Last poke is the time when the pu got last poked.
     type: time

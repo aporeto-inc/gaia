@@ -9226,6 +9226,11 @@ Docker image, or path to executable.
 | -               | -:     |
 | Filterable      | `true` |
 
+#### `lastCollectionTime (time)`
+
+LastCollectionTime represents the date and time when the info have been
+collected.
+
 #### `lastSyncTime (time)`
 
 LastSyncTime is the time when the policy was last resolved.
