@@ -2893,6 +2893,10 @@ func init() {
 						},
 					},
 					elemental.ParameterDefinition{
+						Name: "forceFullPoke",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
 						Name: "status",
 						Type: "enum",
 						AllowedChoices: []string{
@@ -2939,6 +2943,10 @@ func init() {
 							"Inactive",
 							"Active",
 						},
+					},
+					elemental.ParameterDefinition{
+						Name: "forceFullPoke",
+						Type: "boolean",
 					},
 					elemental.ParameterDefinition{
 						Name: "status",

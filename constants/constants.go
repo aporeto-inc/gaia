@@ -310,6 +310,9 @@ const (
 	// DynamicTagNamespaceKey is the key of the namespace tag.
 	DynamicTagNamespaceKey = "$namespace"
 
+	// DynamicTagImageKey is the key of the image tag.
+	DynamicTagImageKey = "$image"
+
 	// DynamicTagIdentityKey is the key of the identity tag.
 	DynamicTagIdentityKey = "$identity"
 

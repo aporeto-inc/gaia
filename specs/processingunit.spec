@@ -226,6 +226,10 @@ relations:
         - Inactive
         - Active
 
+      - name: forceFullPoke
+        description: If set, it will trigger a full poke (slower).
+        type: boolean
+
       - name: status
         description: If set, changes the status of the processing unit alongside with
           the poke.

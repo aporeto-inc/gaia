@@ -8684,6 +8684,7 @@ database.
 ##### Parameters
 
 - `enforcementStatus` (enum): If set, changes the enforcement status of the processing unit alongside with the poke.
+- `forceFullPoke` (boolean): If set, it will trigger a full poke (slower).
 - `status` (enum): If set, changes the status of the processing unit alongside with the poke.
 - `ts` (time): time of report. If not set, local server time will be used.
 
@@ -9122,6 +9123,7 @@ database.
 ##### Parameters
 
 - `enforcementStatus` (enum): If set, changes the enforcement status of the processing unit alongside with the poke.
+- `forceFullPoke` (boolean): If set, it will trigger a full poke (slower).
 - `status` (enum): If set, changes the status of the processing unit alongside with the poke.
 - `ts` (time): time of report. If not set, local server time will be used.
 
