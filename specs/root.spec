@@ -9,7 +9,7 @@ model:
   get:
     description: Retrieves the object with the given ID.
   extends:
-  - '@identifiable-nopk-nostored'
+  - '@identifiable-not-stored'
   root: true
 
 # Relations

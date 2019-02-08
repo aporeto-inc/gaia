@@ -23,7 +23,7 @@ model:
   - '@base'
   - '@described'
   - '@disabled'
-  - '@identifiable-nopk-nostored'
+  - '@identifiable-not-stored'
   - '@metadatable'
   - '@named'
   - '@propagated'

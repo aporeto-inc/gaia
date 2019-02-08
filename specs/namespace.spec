@@ -31,7 +31,7 @@ model:
   extends:
   - '@base'
   - '@described'
-  - '@identifiable-nopk-stored'
+  - '@identifiable-stored'
   - '@metadatable'
 
 # Attributes
