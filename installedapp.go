@@ -3,6 +3,7 @@ package gaia
 import (
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -12,14 +13,23 @@ import (
 type InstalledAppStatusValue string
 
 const (
+	// InstalledAppStatusDeploying represents the value Deploying.
+	InstalledAppStatusDeploying InstalledAppStatusValue = "Deploying"
+
 	// InstalledAppStatusError represents the value Error.
 	InstalledAppStatusError InstalledAppStatusValue = "Error"
 
-	// InstalledAppStatusPending represents the value Pending.
-	InstalledAppStatusPending InstalledAppStatusValue = "Pending"
+	// InstalledAppStatusInitializing represents the value Initializing.
+	InstalledAppStatusInitializing InstalledAppStatusValue = "Initializing"
 
 	// InstalledAppStatusRunning represents the value Running.
 	InstalledAppStatusRunning InstalledAppStatusValue = "Running"
+
+	// InstalledAppStatusUndeploying represents the value Undeploying.
+	InstalledAppStatusUndeploying InstalledAppStatusValue = "Undeploying"
+
+	// InstalledAppStatusUnknown represents the value Unknown.
+	InstalledAppStatusUnknown InstalledAppStatusValue = "Unknown"
 )
 
 // InstalledAppIdentity represents the Identity of the object.
@@ -106,6 +116,9 @@ type InstalledApp struct {
 	// CategoryID of the app.
 	CategoryID string `json:"categoryID" bson:"categoryid" mapstructure:"categoryID,omitempty"`
 
+	// CreatedTime is the time at which the object was created.
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+
 	// Version of the installed app.
 	CurrentVersion string `json:"currentVersion" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
 
@@ -124,6 +137,9 @@ type InstalledApp struct {
 	// Status of the app.
 	Status InstalledAppStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
 
+	// Reason for the status of the app.
+	StatusMessage string `json:"statusMessage" bson:"statusmessage" mapstructure:"statusMessage,omitempty"`
+
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
 	sync.Mutex `json:"-" bson:"-"`
@@ -135,7 +151,7 @@ func NewInstalledApp() *InstalledApp {
 	return &InstalledApp{
 		ModelVersion: 1,
 		Parameters:   []*AppParameter{},
-		Status:       InstalledAppStatusPending,
+		Status:       InstalledAppStatusUnknown,
 	}
 }
 
@@ -179,6 +195,18 @@ func (o *InstalledApp) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *InstalledApp) GetCreateTime() time.Time {
+
+	return o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
+func (o *InstalledApp) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = createTime
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -190,12 +218,14 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			AccountName:     &o.AccountName,
 			AppIdentifier:   &o.AppIdentifier,
 			CategoryID:      &o.CategoryID,
+			CreateTime:      &o.CreateTime,
 			CurrentVersion:  &o.CurrentVersion,
 			DeploymentCount: &o.DeploymentCount,
 			Name:            &o.Name,
 			Namespace:       &o.Namespace,
 			Parameters:      &o.Parameters,
 			Status:          &o.Status,
+			StatusMessage:   &o.StatusMessage,
 		}
 	}
 
@@ -210,6 +240,8 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.AppIdentifier = &(o.AppIdentifier)
 		case "categoryID":
 			sp.CategoryID = &(o.CategoryID)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
 		case "currentVersion":
 			sp.CurrentVersion = &(o.CurrentVersion)
 		case "deploymentCount":
@@ -222,6 +254,8 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Parameters = &(o.Parameters)
 		case "status":
 			sp.Status = &(o.Status)
+		case "statusMessage":
+			sp.StatusMessage = &(o.StatusMessage)
 		}
 	}
 
@@ -247,6 +281,9 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CategoryID != nil {
 		o.CategoryID = *so.CategoryID
 	}
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
+	}
 	if so.CurrentVersion != nil {
 		o.CurrentVersion = *so.CurrentVersion
 	}
@@ -264,6 +301,9 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Status != nil {
 		o.Status = *so.Status
+	}
+	if so.StatusMessage != nil {
+		o.StatusMessage = *so.StatusMessage
 	}
 }
 
@@ -303,7 +343,7 @@ func (o *InstalledApp) Validate() error {
 		}
 	}
 
-	if err := elemental.ValidateStringInList("status", string(o.Status), []string{"Error", "Pending", "Running"}, false); err != nil {
+	if err := elemental.ValidateStringInList("status", string(o.Status), []string{"Unknown", "Deploying", "Initializing", "Running", "Undeploying", "Error"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -349,6 +389,8 @@ func (o *InstalledApp) ValueForAttribute(name string) interface{} {
 		return o.AppIdentifier
 	case "categoryID":
 		return o.CategoryID
+	case "createTime":
+		return o.CreateTime
 	case "currentVersion":
 		return o.CurrentVersion
 	case "deploymentCount":
@@ -361,6 +403,8 @@ func (o *InstalledApp) ValueForAttribute(name string) interface{} {
 		return o.Parameters
 	case "status":
 		return o.Status
+	case "statusMessage":
+		return o.StatusMessage
 	}
 
 	return nil
@@ -409,6 +453,20 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"CreateTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateTime",
+		Description:    `CreatedTime is the time at which the object was created.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "createTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"CurrentVersion": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -461,9 +519,9 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "refList",
 	},
 	"Status": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Error", "Pending", "Running"},
+		AllowedChoices: []string{"Unknown", "Deploying", "Initializing", "Running", "Undeploying", "Error"},
 		ConvertedName:  "Status",
-		DefaultValue:   InstalledAppStatusPending,
+		DefaultValue:   InstalledAppStatusUnknown,
 		Description:    `Status of the app.`,
 		Exposed:        true,
 		Name:           "status",
@@ -471,6 +529,16 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "enum",
+	},
+	"StatusMessage": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "StatusMessage",
+		Description:    `Reason for the status of the app.`,
+		Exposed:        true,
+		Name:           "statusMessage",
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
 	},
 }
 
@@ -517,6 +585,20 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"createtime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateTime",
+		Description:    `CreatedTime is the time at which the object was created.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "createTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"currentversion": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -569,9 +651,9 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Type:           "refList",
 	},
 	"status": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Error", "Pending", "Running"},
+		AllowedChoices: []string{"Unknown", "Deploying", "Initializing", "Running", "Undeploying", "Error"},
 		ConvertedName:  "Status",
-		DefaultValue:   InstalledAppStatusPending,
+		DefaultValue:   InstalledAppStatusUnknown,
 		Description:    `Status of the app.`,
 		Exposed:        true,
 		Name:           "status",
@@ -579,6 +661,16 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "enum",
+	},
+	"statusmessage": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "StatusMessage",
+		Description:    `Reason for the status of the app.`,
+		Exposed:        true,
+		Name:           "statusMessage",
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
 	},
 }
 
@@ -657,6 +749,9 @@ type SparseInstalledApp struct {
 	// CategoryID of the app.
 	CategoryID *string `json:"categoryID,omitempty" bson:"categoryid" mapstructure:"categoryID,omitempty"`
 
+	// CreatedTime is the time at which the object was created.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+
 	// Version of the installed app.
 	CurrentVersion *string `json:"currentVersion,omitempty" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
 
@@ -674,6 +769,9 @@ type SparseInstalledApp struct {
 
 	// Status of the app.
 	Status *InstalledAppStatusValue `json:"status,omitempty" bson:"status" mapstructure:"status,omitempty"`
+
+	// Reason for the status of the app.
+	StatusMessage *string `json:"statusMessage,omitempty" bson:"statusmessage" mapstructure:"statusMessage,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -728,6 +826,9 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.CategoryID != nil {
 		out.CategoryID = *o.CategoryID
 	}
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
+	}
 	if o.CurrentVersion != nil {
 		out.CurrentVersion = *o.CurrentVersion
 	}
@@ -746,8 +847,23 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.Status != nil {
 		out.Status = *o.Status
 	}
+	if o.StatusMessage != nil {
+		out.StatusMessage = *o.StatusMessage
+	}
 
 	return out
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseInstalledApp) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseInstalledApp) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
 }
 
 // DeepCopy returns a deep copy if the SparseInstalledApp.
