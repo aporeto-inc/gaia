@@ -37,6 +37,13 @@ attributes:
     exposed: true
     stored: true
 
+  - name: tags
+    description: Tags includes a list of tags that must be added to the token.
+    type: list
+    exposed: true
+    subtype: string
+    creation_only: true
+
   - name: token
     description: Token contains the generated token.
     type: string
