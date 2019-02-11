@@ -86,6 +86,9 @@ type Token struct {
 	// SigningKeyID holds the ID of the custom CA to use to sign the token.
 	SigningKeyID string `json:"signingKeyID" bson:"signingkeyid" mapstructure:"signingKeyID,omitempty"`
 
+	// Tags includes a list of tags that must be added to the token.
+	Tags []string `json:"tags" bson:"-" mapstructure:"tags,omitempty"`
+
 	// Token contains the generated token.
 	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
 
@@ -102,6 +105,7 @@ func NewToken() *Token {
 
 	return &Token{
 		ModelVersion: 1,
+		Tags:         []string{},
 	}
 }
 
@@ -153,6 +157,7 @@ func (o *Token) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		return &SparseToken{
 			Certificate:  &o.Certificate,
 			SigningKeyID: &o.SigningKeyID,
+			Tags:         &o.Tags,
 			Token:        &o.Token,
 			Validity:     &o.Validity,
 		}
@@ -165,6 +170,8 @@ func (o *Token) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Certificate = &(o.Certificate)
 		case "signingKeyID":
 			sp.SigningKeyID = &(o.SigningKeyID)
+		case "tags":
+			sp.Tags = &(o.Tags)
 		case "token":
 			sp.Token = &(o.Token)
 		case "validity":
@@ -187,6 +194,9 @@ func (o *Token) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.SigningKeyID != nil {
 		o.SigningKeyID = *so.SigningKeyID
+	}
+	if so.Tags != nil {
+		o.Tags = *so.Tags
 	}
 	if so.Token != nil {
 		o.Token = *so.Token
@@ -268,6 +278,8 @@ func (o *Token) ValueForAttribute(name string) interface{} {
 		return o.Certificate
 	case "signingKeyID":
 		return o.SigningKeyID
+	case "tags":
+		return o.Tags
 	case "token":
 		return o.Token
 	case "validity":
@@ -297,6 +309,16 @@ var TokenAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "signingKeyID",
 		Stored:         true,
 		Type:           "string",
+	},
+	"Tags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Tags",
+		CreationOnly:   true,
+		Description:    `Tags includes a list of tags that must be added to the token.`,
+		Exposed:        true,
+		Name:           "tags",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Token": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -339,6 +361,16 @@ var TokenLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "signingKeyID",
 		Stored:         true,
 		Type:           "string",
+	},
+	"tags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Tags",
+		CreationOnly:   true,
+		Description:    `Tags includes a list of tags that must be added to the token.`,
+		Exposed:        true,
+		Name:           "tags",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"token": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -430,6 +462,9 @@ type SparseToken struct {
 	// SigningKeyID holds the ID of the custom CA to use to sign the token.
 	SigningKeyID *string `json:"signingKeyID,omitempty" bson:"signingkeyid" mapstructure:"signingKeyID,omitempty"`
 
+	// Tags includes a list of tags that must be added to the token.
+	Tags *[]string `json:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
+
 	// Token contains the generated token.
 	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
@@ -478,6 +513,9 @@ func (o *SparseToken) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.SigningKeyID != nil {
 		out.SigningKeyID = *o.SigningKeyID
+	}
+	if o.Tags != nil {
+		out.Tags = *o.Tags
 	}
 	if o.Token != nil {
 		out.Token = *o.Token
