@@ -4973,6 +4973,10 @@ Deletes the object with the given ID.
 
 Retrieves the object with the given ID.
 
+##### Parameters
+
+- `propagated` (boolean): Also retrieve the objects that propagate down.
+
 #### `PUT /auditprofilemappingpolicies/:id`
 
 Updates the object with the given ID.
@@ -7747,6 +7751,10 @@ Deletes the object with the given ID.
 #### `GET /hostservicemappingpolicies/:id`
 
 Retrieves the object with the given ID.
+
+##### Parameters
+
+- `propagated` (boolean): Also retrieve the objects that propagate down.
 
 #### `PUT /hostservicemappingpolicies/:id`
 
