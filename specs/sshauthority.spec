@@ -7,6 +7,8 @@ model:
   group: internal/ssh
   description: Internal api to deliver SSH CA.
   private: true
+  delete:
+    description: Deletes the SSH CA with the given ID.
   extends:
   - '@named'
   - '@timeable'

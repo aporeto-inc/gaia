@@ -3453,6 +3453,9 @@ func init() {
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
 		},
+		Delete: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
 	}
 
 	relationshipsRegistry[SSHCertificateIdentity] = &elemental.Relationship{

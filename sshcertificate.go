@@ -8,6 +8,17 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// SSHCertificateTypeValue represents the possible values for attribute "type".
+type SSHCertificateTypeValue string
+
+const (
+	// SSHCertificateTypeHost represents the value Host.
+	SSHCertificateTypeHost SSHCertificateTypeValue = "Host"
+
+	// SSHCertificateTypeUser represents the value User.
+	SSHCertificateTypeUser SSHCertificateTypeValue = "User"
+)
+
 // SSHCertificateIdentity represents the Identity of the object.
 var SSHCertificateIdentity = elemental.Identity{
 	Name:     "sshcertificate",
@@ -84,7 +95,7 @@ type SSHCertificate struct {
 	Certificate string `json:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// List of extensions to set in the ssh certificate.
-	Extentions map[string]string `json:"extentions" bson:"-" mapstructure:"extentions,omitempty"`
+	Extensions map[string]string `json:"extensions" bson:"-" mapstructure:"extensions,omitempty"`
 
 	// List of options to set in the ssh certificate.
 	Options map[string]string `json:"options" bson:"-" mapstructure:"options,omitempty"`
@@ -97,6 +108,9 @@ type SSHCertificate struct {
 
 	// The identifier of the CA to use to sign the certificate.
 	SignerID string `json:"signerID" bson:"-" mapstructure:"signerID,omitempty"`
+
+	// Type of SSH certificate.
+	Type SSHCertificateTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`
 
 	// Set the validity of the SSH certificate.
 	Validity string `json:"validity" bson:"-" mapstructure:"validity,omitempty"`
@@ -111,9 +125,10 @@ func NewSSHCertificate() *SSHCertificate {
 
 	return &SSHCertificate{
 		ModelVersion: 1,
-		Extentions:   map[string]string{},
+		Extensions:   map[string]string{},
 		Options:      map[string]string{},
 		Principals:   []string{},
+		Type:         SSHCertificateTypeUser,
 		Validity:     "1h",
 	}
 }
@@ -165,11 +180,12 @@ func (o *SSHCertificate) ToSparse(fields ...string) elemental.SparseIdentifiable
 		// nolint: goimports
 		return &SparseSSHCertificate{
 			Certificate: &o.Certificate,
-			Extentions:  &o.Extentions,
+			Extensions:  &o.Extensions,
 			Options:     &o.Options,
 			Principals:  &o.Principals,
 			PublicKey:   &o.PublicKey,
 			SignerID:    &o.SignerID,
+			Type:        &o.Type,
 			Validity:    &o.Validity,
 		}
 	}
@@ -179,8 +195,8 @@ func (o *SSHCertificate) ToSparse(fields ...string) elemental.SparseIdentifiable
 		switch f {
 		case "certificate":
 			sp.Certificate = &(o.Certificate)
-		case "extentions":
-			sp.Extentions = &(o.Extentions)
+		case "extensions":
+			sp.Extensions = &(o.Extensions)
 		case "options":
 			sp.Options = &(o.Options)
 		case "principals":
@@ -189,6 +205,8 @@ func (o *SSHCertificate) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.PublicKey = &(o.PublicKey)
 		case "signerID":
 			sp.SignerID = &(o.SignerID)
+		case "type":
+			sp.Type = &(o.Type)
 		case "validity":
 			sp.Validity = &(o.Validity)
 		}
@@ -207,8 +225,8 @@ func (o *SSHCertificate) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Certificate != nil {
 		o.Certificate = *so.Certificate
 	}
-	if so.Extentions != nil {
-		o.Extentions = *so.Extentions
+	if so.Extensions != nil {
+		o.Extensions = *so.Extensions
 	}
 	if so.Options != nil {
 		o.Options = *so.Options
@@ -221,6 +239,9 @@ func (o *SSHCertificate) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.SignerID != nil {
 		o.SignerID = *so.SignerID
+	}
+	if so.Type != nil {
+		o.Type = *so.Type
 	}
 	if so.Validity != nil {
 		o.Validity = *so.Validity
@@ -265,6 +286,10 @@ func (o *SSHCertificate) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"User", "Host"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidatePattern("validity", o.Validity, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -305,8 +330,8 @@ func (o *SSHCertificate) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "certificate":
 		return o.Certificate
-	case "extentions":
-		return o.Extentions
+	case "extensions":
+		return o.Extensions
 	case "options":
 		return o.Options
 	case "principals":
@@ -315,6 +340,8 @@ func (o *SSHCertificate) ValueForAttribute(name string) interface{} {
 		return o.PublicKey
 	case "signerID":
 		return o.SignerID
+	case "type":
+		return o.Type
 	case "validity":
 		return o.Validity
 	}
@@ -334,12 +361,12 @@ var SSHCertificateAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "string",
 	},
-	"Extentions": elemental.AttributeSpecification{
+	"Extensions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Extentions",
+		ConvertedName:  "Extensions",
 		Description:    `List of extensions to set in the ssh certificate.`,
 		Exposed:        true,
-		Name:           "extentions",
+		Name:           "extensions",
 		SubType:        "map_of_string_of_strings",
 		Type:           "external",
 	},
@@ -379,6 +406,15 @@ var SSHCertificateAttributesMap = map[string]elemental.AttributeSpecification{
 		Required:       true,
 		Type:           "string",
 	},
+	"Type": elemental.AttributeSpecification{
+		AllowedChoices: []string{"User", "Host"},
+		ConvertedName:  "Type",
+		DefaultValue:   SSHCertificateTypeUser,
+		Description:    `Type of SSH certificate.`,
+		Exposed:        true,
+		Name:           "type",
+		Type:           "enum",
+	},
 	"Validity": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
@@ -403,12 +439,12 @@ var SSHCertificateLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		ReadOnly:       true,
 		Type:           "string",
 	},
-	"extentions": elemental.AttributeSpecification{
+	"extensions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Extentions",
+		ConvertedName:  "Extensions",
 		Description:    `List of extensions to set in the ssh certificate.`,
 		Exposed:        true,
-		Name:           "extentions",
+		Name:           "extensions",
 		SubType:        "map_of_string_of_strings",
 		Type:           "external",
 	},
@@ -447,6 +483,15 @@ var SSHCertificateLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Name:           "signerID",
 		Required:       true,
 		Type:           "string",
+	},
+	"type": elemental.AttributeSpecification{
+		AllowedChoices: []string{"User", "Host"},
+		ConvertedName:  "Type",
+		DefaultValue:   SSHCertificateTypeUser,
+		Description:    `Type of SSH certificate.`,
+		Exposed:        true,
+		Name:           "type",
+		Type:           "enum",
 	},
 	"validity": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -527,7 +572,7 @@ type SparseSSHCertificate struct {
 	Certificate *string `json:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// List of extensions to set in the ssh certificate.
-	Extentions *map[string]string `json:"extentions,omitempty" bson:"-" mapstructure:"extentions,omitempty"`
+	Extensions *map[string]string `json:"extensions,omitempty" bson:"-" mapstructure:"extensions,omitempty"`
 
 	// List of options to set in the ssh certificate.
 	Options *map[string]string `json:"options,omitempty" bson:"-" mapstructure:"options,omitempty"`
@@ -540,6 +585,9 @@ type SparseSSHCertificate struct {
 
 	// The identifier of the CA to use to sign the certificate.
 	SignerID *string `json:"signerID,omitempty" bson:"-" mapstructure:"signerID,omitempty"`
+
+	// Type of SSH certificate.
+	Type *SSHCertificateTypeValue `json:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
 
 	// Set the validity of the SSH certificate.
 	Validity *string `json:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
@@ -584,8 +632,8 @@ func (o *SparseSSHCertificate) ToPlain() elemental.PlainIdentifiable {
 	if o.Certificate != nil {
 		out.Certificate = *o.Certificate
 	}
-	if o.Extentions != nil {
-		out.Extentions = *o.Extentions
+	if o.Extensions != nil {
+		out.Extensions = *o.Extensions
 	}
 	if o.Options != nil {
 		out.Options = *o.Options
@@ -598,6 +646,9 @@ func (o *SparseSSHCertificate) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.SignerID != nil {
 		out.SignerID = *o.SignerID
+	}
+	if o.Type != nil {
+		out.Type = *o.Type
 	}
 	if o.Validity != nil {
 		out.Validity = *o.Validity
