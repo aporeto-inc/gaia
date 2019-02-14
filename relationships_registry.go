@@ -3449,6 +3449,18 @@ func init() {
 
 	relationshipsRegistry[RootIdentity] = &elemental.Relationship{}
 
+	relationshipsRegistry[SSHAuthorityIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+	}
+
+	relationshipsRegistry[SSHCertificateIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+	}
+
 	relationshipsRegistry[ServiceIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},

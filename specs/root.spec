@@ -752,3 +752,13 @@ relations:
     - $propagatable
   create:
     description: Creates a new host service.
+
+- rest_name: sshauthority
+  create:
+    description: Creates a new SSH CA.
+  delete:
+    description: Deletes an existing SSH CA.
+
+- rest_name: sshcertificate
+  create:
+    description: Creates a new SSH Certificate.
