@@ -290,7 +290,7 @@ func (o *SSHCertificate) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("validity", o.Validity, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
+	if err := ValidateTimeDuration("validity", o.Validity); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -416,7 +416,6 @@ var SSHCertificateAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "enum",
 	},
 	"Validity": elemental.AttributeSpecification{
-		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
 		DefaultValue:   "1h",
@@ -494,7 +493,6 @@ var SSHCertificateLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Type:           "enum",
 	},
 	"validity": elemental.AttributeSpecification{
-		AllowedChars:   `^[0-9]+[smh]$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
 		DefaultValue:   "1h",

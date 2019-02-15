@@ -65,6 +65,7 @@ attributes:
   - name: associatedSSHCAID
     description: associatedSSHCAID holds the remote ID of the SSH authority to use.
     type: string
+    exposed: true
     stored: true
     read_only: true
     secret: true

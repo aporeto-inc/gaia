@@ -63,6 +63,6 @@ attributes:
     description: Set the validity of the SSH certificate.
     type: string
     exposed: true
-    allowed_chars: ^[0-9]+[smh]$
-    allowed_chars_message: must be a valid duration like <n>s or <n>s or <n>h
     default_value: 1h
+    validations:
+    - $timeDuration

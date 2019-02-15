@@ -100,7 +100,7 @@ type Namespace struct {
 	AssociatedLocalCAID string `json:"-" bson:"associatedlocalcaid" mapstructure:"-,omitempty"`
 
 	// associatedSSHCAID holds the remote ID of the SSH authority to use.
-	AssociatedSSHCAID string `json:"-" bson:"associatedsshcaid" mapstructure:"-,omitempty"`
+	AssociatedSSHCAID string `json:"associatedSSHCAID" bson:"associatedsshcaid" mapstructure:"associatedSSHCAID,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
@@ -645,6 +645,7 @@ deployed in SSH server to validate SSH certificates issued by the platform.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedSSHCAID",
 		Description:    `associatedSSHCAID holds the remote ID of the SSH authority to use.`,
+		Exposed:        true,
 		Name:           "associatedSSHCAID",
 		ReadOnly:       true,
 		Stored:         true,
@@ -887,6 +888,7 @@ deployed in SSH server to validate SSH certificates issued by the platform.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedSSHCAID",
 		Description:    `associatedSSHCAID holds the remote ID of the SSH authority to use.`,
+		Exposed:        true,
 		Name:           "associatedSSHCAID",
 		ReadOnly:       true,
 		Stored:         true,
@@ -1148,7 +1150,7 @@ type SparseNamespace struct {
 	AssociatedLocalCAID *string `json:"-,omitempty" bson:"associatedlocalcaid" mapstructure:"-,omitempty"`
 
 	// associatedSSHCAID holds the remote ID of the SSH authority to use.
-	AssociatedSSHCAID *string `json:"-,omitempty" bson:"associatedsshcaid" mapstructure:"-,omitempty"`
+	AssociatedSSHCAID *string `json:"associatedSSHCAID,omitempty" bson:"associatedsshcaid" mapstructure:"associatedSSHCAID,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`

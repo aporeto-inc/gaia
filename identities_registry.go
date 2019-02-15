@@ -92,6 +92,7 @@ var (
 		"squalltag":         SquallTagIdentity,
 		"sshauthority":      SSHAuthorityIdentity,
 		"sshcertificate":    SSHCertificateIdentity,
+		"sshidentity":       SSHIdentityIdentity,
 		"statsinfo":         StatsInfoIdentity,
 		"statsquery":        StatsQueryIdentity,
 		"suggestedpolicy":   SuggestedPolicyIdentity,
@@ -198,6 +199,7 @@ var (
 		"squalltags":          SquallTagIdentity,
 		"sshauthorities":      SSHAuthorityIdentity,
 		"sshcertificates":     SSHCertificateIdentity,
+		"sshidentitiess":      SSHIdentityIdentity,
 		"statsinfo":           StatsInfoIdentity,
 		"statsqueries":        StatsQueryIdentity,
 		"suggestedpolicies":   SuggestedPolicyIdentity,
@@ -505,6 +507,7 @@ var (
 		"squalltag":         nil,
 		"sshauthority":      nil,
 		"sshcertificate":    nil,
+		"sshidentity":       nil,
 		"statsinfo":         nil,
 		"statsquery":        nil,
 		"suggestedpolicy":   nil,
@@ -724,6 +727,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewSSHAuthority()
 	case SSHCertificateIdentity:
 		return NewSSHCertificate()
+	case SSHIdentityIdentity:
+		return NewSSHIdentity()
 	case StatsInfoIdentity:
 		return NewStatsInfo()
 	case StatsQueryIdentity:
@@ -919,6 +924,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseSSHAuthority()
 	case SSHCertificateIdentity:
 		return NewSparseSSHCertificate()
+	case SSHIdentityIdentity:
+		return NewSparseSSHIdentity()
 	case StatsInfoIdentity:
 		return NewSparseStatsInfo()
 	case StatsQueryIdentity:
@@ -1124,6 +1131,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &SSHAuthoritiesList{}
 	case SSHCertificateIdentity:
 		return &SSHCertificatesList{}
+	case SSHIdentityIdentity:
+		return &SSHIdentitiesList{}
 	case StatsInfoIdentity:
 		return &StatsInfosList{}
 	case StatsQueryIdentity:
@@ -1319,6 +1328,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseSSHAuthoritiesList{}
 	case SSHCertificateIdentity:
 		return &SparseSSHCertificatesList{}
+	case SSHIdentityIdentity:
+		return &SparseSSHIdentitiesList{}
 	case StatsInfoIdentity:
 		return &SparseStatsInfosList{}
 	case StatsQueryIdentity:
@@ -1450,6 +1461,7 @@ func AllIdentities() []elemental.Identity {
 		SquallTagIdentity,
 		SSHAuthorityIdentity,
 		SSHCertificateIdentity,
+		SSHIdentityIdentity,
 		StatsInfoIdentity,
 		StatsQueryIdentity,
 		SuggestedPolicyIdentity,
@@ -1727,6 +1739,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case SSHAuthorityIdentity:
 		return []string{}
 	case SSHCertificateIdentity:
+		return []string{}
+	case SSHIdentityIdentity:
 		return []string{}
 	case StatsInfoIdentity:
 		return []string{

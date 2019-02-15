@@ -762,3 +762,7 @@ relations:
 - rest_name: sshcertificate
   create:
     description: Creates a new SSH Certificate.
+
+- rest_name: sshidentity
+  create:
+    description: Creates a new SSH Identity Certificate.
