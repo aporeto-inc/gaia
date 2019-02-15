@@ -78,28 +78,29 @@ var (
 		"processingunit":           ProcessingUnitIdentity,
 		"processingunitpolicy":     ProcessingUnitPolicyIdentity,
 
-		"punode":            PUNodeIdentity,
-		"quotacheck":        QuotaCheckIdentity,
-		"quotapolicy":       QuotaPolicyIdentity,
-		"remoteprocessor":   RemoteProcessorIdentity,
-		"renderedpolicy":    RenderedPolicyIdentity,
-		"report":            ReportIdentity,
-		"revocation":        RevocationIdentity,
-		"role":              RoleIdentity,
-		"root":              RootIdentity,
-		"service":           ServiceIdentity,
-		"servicedependency": ServiceDependencyIdentity,
-		"squalltag":         SquallTagIdentity,
-		"sshauthority":      SSHAuthorityIdentity,
-		"sshcertificate":    SSHCertificateIdentity,
-		"sshidentity":       SSHIdentityIdentity,
-		"statsinfo":         StatsInfoIdentity,
-		"statsquery":        StatsQueryIdentity,
-		"suggestedpolicy":   SuggestedPolicyIdentity,
-		"tabulation":        TabulationIdentity,
-		"tag":               TagIdentity,
-		"taginject":         TagInjectIdentity,
-		"tagvalue":          TagValueIdentity,
+		"punode":                 PUNodeIdentity,
+		"quotacheck":             QuotaCheckIdentity,
+		"quotapolicy":            QuotaPolicyIdentity,
+		"remoteprocessor":        RemoteProcessorIdentity,
+		"renderedpolicy":         RenderedPolicyIdentity,
+		"report":                 ReportIdentity,
+		"revocation":             RevocationIdentity,
+		"role":                   RoleIdentity,
+		"root":                   RootIdentity,
+		"service":                ServiceIdentity,
+		"servicedependency":      ServiceDependencyIdentity,
+		"squalltag":              SquallTagIdentity,
+		"sshauthority":           SSHAuthorityIdentity,
+		"sshauthorizationpolicy": SSHAuthorizationPolicyIdentity,
+		"sshcertificate":         SSHCertificateIdentity,
+		"sshidentity":            SSHIdentityIdentity,
+		"statsinfo":              StatsInfoIdentity,
+		"statsquery":             StatsQueryIdentity,
+		"suggestedpolicy":        SuggestedPolicyIdentity,
+		"tabulation":             TabulationIdentity,
+		"tag":                    TagIdentity,
+		"taginject":              TagInjectIdentity,
+		"tagvalue":               TagValueIdentity,
 
 		"token":            TokenIdentity,
 		"tokenscopepolicy": TokenScopePolicyIdentity,
@@ -185,28 +186,29 @@ var (
 		"processingunits":            ProcessingUnitIdentity,
 		"processingunitpolicies":     ProcessingUnitPolicyIdentity,
 
-		"punodes":             PUNodeIdentity,
-		"quotacheck":          QuotaCheckIdentity,
-		"quotapolicies":       QuotaPolicyIdentity,
-		"remoteprocessors":    RemoteProcessorIdentity,
-		"renderedpolicies":    RenderedPolicyIdentity,
-		"reports":             ReportIdentity,
-		"revocations":         RevocationIdentity,
-		"roles":               RoleIdentity,
-		"root":                RootIdentity,
-		"services":            ServiceIdentity,
-		"servicedependencies": ServiceDependencyIdentity,
-		"squalltags":          SquallTagIdentity,
-		"sshauthorities":      SSHAuthorityIdentity,
-		"sshcertificates":     SSHCertificateIdentity,
-		"sshidentitiess":      SSHIdentityIdentity,
-		"statsinfo":           StatsInfoIdentity,
-		"statsqueries":        StatsQueryIdentity,
-		"suggestedpolicies":   SuggestedPolicyIdentity,
-		"tabulations":         TabulationIdentity,
-		"tags":                TagIdentity,
-		"taginjects":          TagInjectIdentity,
-		"tagvalues":           TagValueIdentity,
+		"punodes":                  PUNodeIdentity,
+		"quotacheck":               QuotaCheckIdentity,
+		"quotapolicies":            QuotaPolicyIdentity,
+		"remoteprocessors":         RemoteProcessorIdentity,
+		"renderedpolicies":         RenderedPolicyIdentity,
+		"reports":                  ReportIdentity,
+		"revocations":              RevocationIdentity,
+		"roles":                    RoleIdentity,
+		"root":                     RootIdentity,
+		"services":                 ServiceIdentity,
+		"servicedependencies":      ServiceDependencyIdentity,
+		"squalltags":               SquallTagIdentity,
+		"sshauthorities":           SSHAuthorityIdentity,
+		"sshauthorizationpolicies": SSHAuthorizationPolicyIdentity,
+		"sshcertificates":          SSHCertificateIdentity,
+		"sshidentitiess":           SSHIdentityIdentity,
+		"statsinfo":                StatsInfoIdentity,
+		"statsqueries":             StatsQueryIdentity,
+		"suggestedpolicies":        SuggestedPolicyIdentity,
+		"tabulations":              TabulationIdentity,
+		"tags":                     TagIdentity,
+		"taginjects":               TagInjectIdentity,
+		"tagvalues":                TagValueIdentity,
 
 		"tokens":             TokenIdentity,
 		"tokenscopepolicies": TokenScopePolicyIdentity,
@@ -282,6 +284,8 @@ var (
 		"srv":            ServiceIdentity,
 		"srvdep":         ServiceDependencyIdentity,
 		"srvdeps":        ServiceDependencyIdentity,
+		"sshpol":         SSHAuthorizationPolicyIdentity,
+		"sshpols":        SSHAuthorizationPolicyIdentity,
 		"si":             StatsInfoIdentity,
 		"sq":             StatsQueryIdentity,
 		"sugpol":         SuggestedPolicyIdentity,
@@ -503,21 +507,22 @@ var (
 			[]string{"allServiceTags"},
 			[]string{"namespace", "allServiceTags"},
 		},
-		"servicedependency": nil,
-		"squalltag":         nil,
-		"sshauthority":      nil,
-		"sshcertificate":    nil,
-		"sshidentity":       nil,
-		"statsinfo":         nil,
-		"statsquery":        nil,
-		"suggestedpolicy":   nil,
-		"tabulation":        nil,
-		"tag":               nil,
-		"taginject":         nil,
-		"tagvalue":          nil,
-		"token":             nil,
-		"tokenscopepolicy":  nil,
-		"trigger":           nil,
+		"servicedependency":      nil,
+		"squalltag":              nil,
+		"sshauthority":           nil,
+		"sshauthorizationpolicy": nil,
+		"sshcertificate":         nil,
+		"sshidentity":            nil,
+		"statsinfo":              nil,
+		"statsquery":             nil,
+		"suggestedpolicy":        nil,
+		"tabulation":             nil,
+		"tag":                    nil,
+		"taginject":              nil,
+		"tagvalue":               nil,
+		"token":                  nil,
+		"tokenscopepolicy":       nil,
+		"trigger":                nil,
 		"vulnerability": [][]string{
 			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace"},
@@ -725,6 +730,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewSquallTag()
 	case SSHAuthorityIdentity:
 		return NewSSHAuthority()
+	case SSHAuthorizationPolicyIdentity:
+		return NewSSHAuthorizationPolicy()
 	case SSHCertificateIdentity:
 		return NewSSHCertificate()
 	case SSHIdentityIdentity:
@@ -922,6 +929,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseSquallTag()
 	case SSHAuthorityIdentity:
 		return NewSparseSSHAuthority()
+	case SSHAuthorizationPolicyIdentity:
+		return NewSparseSSHAuthorizationPolicy()
 	case SSHCertificateIdentity:
 		return NewSparseSSHCertificate()
 	case SSHIdentityIdentity:
@@ -1129,6 +1138,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &SquallTagsList{}
 	case SSHAuthorityIdentity:
 		return &SSHAuthoritiesList{}
+	case SSHAuthorizationPolicyIdentity:
+		return &SSHAuthorizationPoliciesList{}
 	case SSHCertificateIdentity:
 		return &SSHCertificatesList{}
 	case SSHIdentityIdentity:
@@ -1326,6 +1337,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseSquallTagsList{}
 	case SSHAuthorityIdentity:
 		return &SparseSSHAuthoritiesList{}
+	case SSHAuthorizationPolicyIdentity:
+		return &SparseSSHAuthorizationPoliciesList{}
 	case SSHCertificateIdentity:
 		return &SparseSSHCertificatesList{}
 	case SSHIdentityIdentity:
@@ -1460,6 +1473,7 @@ func AllIdentities() []elemental.Identity {
 		ServiceDependencyIdentity,
 		SquallTagIdentity,
 		SSHAuthorityIdentity,
+		SSHAuthorizationPolicyIdentity,
 		SSHCertificateIdentity,
 		SSHIdentityIdentity,
 		StatsInfoIdentity,
@@ -1738,6 +1752,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case SSHAuthorityIdentity:
 		return []string{}
+	case SSHAuthorizationPolicyIdentity:
+		return []string{
+			"sshpol",
+			"sshpols",
+		}
 	case SSHCertificateIdentity:
 		return []string{}
 	case SSHIdentityIdentity:

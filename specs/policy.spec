@@ -136,3 +136,4 @@ attributes:
     - ServiceDependency
     - Syscall
     - TokenScope
+    - SSHAuthorization

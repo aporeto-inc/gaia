@@ -8,6 +8,17 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// PolicyRendererProcessModeValue represents the possible values for attribute "processMode".
+type PolicyRendererProcessModeValue string
+
+const (
+	// PolicyRendererProcessModeObject represents the value Object.
+	PolicyRendererProcessModeObject PolicyRendererProcessModeValue = "Object"
+
+	// PolicyRendererProcessModeSubject represents the value Subject.
+	PolicyRendererProcessModeSubject PolicyRendererProcessModeValue = "Subject"
+)
+
 // PolicyRendererTypeValue represents the possible values for attribute "type".
 type PolicyRendererTypeValue string
 
@@ -35,6 +46,9 @@ const (
 
 	// PolicyRendererTypeQuota represents the value Quota.
 	PolicyRendererTypeQuota PolicyRendererTypeValue = "Quota"
+
+	// PolicyRendererTypeSSHAuthorization represents the value SSHAuthorization.
+	PolicyRendererTypeSSHAuthorization PolicyRendererTypeValue = "SSHAuthorization"
 
 	// PolicyRendererTypeSyscall represents the value Syscall.
 	PolicyRendererTypeSyscall PolicyRendererTypeValue = "Syscall"
@@ -118,6 +132,10 @@ type PolicyRenderer struct {
 	// List of policies rendered for the given set of tags.
 	Policies PolicyRulesList `json:"policies" bson:"-" mapstructure:"policies,omitempty"`
 
+	// Define if the processMode should be using the object or subject. This only has
+	// effect when rendering a SSHAuthorizationPolicy for now.
+	ProcessMode PolicyRendererProcessModeValue `json:"processMode" bson:"-" mapstructure:"processMode,omitempty"`
+
 	// List of tags of the object to render the hook policy for.
 	Tags []string `json:"tags" bson:"-" mapstructure:"tags,omitempty"`
 
@@ -135,6 +153,7 @@ func NewPolicyRenderer() *PolicyRenderer {
 	return &PolicyRenderer{
 		ModelVersion: 1,
 		Policies:     PolicyRulesList{},
+		ProcessMode:  PolicyRendererProcessModeSubject,
 		Tags:         []string{},
 	}
 }
@@ -185,9 +204,10 @@ func (o *PolicyRenderer) ToSparse(fields ...string) elemental.SparseIdentifiable
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparsePolicyRenderer{
-			Policies: &o.Policies,
-			Tags:     &o.Tags,
-			Type:     &o.Type,
+			Policies:    &o.Policies,
+			ProcessMode: &o.ProcessMode,
+			Tags:        &o.Tags,
+			Type:        &o.Type,
 		}
 	}
 
@@ -196,6 +216,8 @@ func (o *PolicyRenderer) ToSparse(fields ...string) elemental.SparseIdentifiable
 		switch f {
 		case "policies":
 			sp.Policies = &(o.Policies)
+		case "processMode":
+			sp.ProcessMode = &(o.ProcessMode)
 		case "tags":
 			sp.Tags = &(o.Tags)
 		case "type":
@@ -215,6 +237,9 @@ func (o *PolicyRenderer) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparsePolicyRenderer)
 	if so.Policies != nil {
 		o.Policies = *so.Policies
+	}
+	if so.ProcessMode != nil {
+		o.ProcessMode = *so.ProcessMode
 	}
 	if so.Tags != nil {
 		o.Tags = *so.Tags
@@ -260,11 +285,15 @@ func (o *PolicyRenderer) Validate() error {
 		}
 	}
 
+	if err := elemental.ValidateStringInList("processMode", string(o.ProcessMode), []string{"Subject", "Object"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredExternal("tags", o.Tags); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope", "SSHAuthorization"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -304,6 +333,8 @@ func (o *PolicyRenderer) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "policies":
 		return o.Policies
+	case "processMode":
+		return o.ProcessMode
 	case "tags":
 		return o.Tags
 	case "type":
@@ -326,6 +357,16 @@ var PolicyRendererAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "policyrule",
 		Type:           "refList",
 	},
+	"ProcessMode": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Subject", "Object"},
+		ConvertedName:  "ProcessMode",
+		DefaultValue:   PolicyRendererProcessModeSubject,
+		Description: `Define if the processMode should be using the object or subject. This only has
+effect when rendering a SSHAuthorizationPolicy for now.`,
+		Exposed: true,
+		Name:    "processMode",
+		Type:    "enum",
+	},
 	"Tags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Tags",
@@ -337,7 +378,7 @@ var PolicyRendererAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "list",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"},
+		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope", "SSHAuthorization"},
 		ConvertedName:  "Type",
 		Description:    `Type of the policy to render.`,
 		Exposed:        true,
@@ -360,6 +401,16 @@ var PolicyRendererLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		SubType:        "policyrule",
 		Type:           "refList",
 	},
+	"processmode": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Subject", "Object"},
+		ConvertedName:  "ProcessMode",
+		DefaultValue:   PolicyRendererProcessModeSubject,
+		Description: `Define if the processMode should be using the object or subject. This only has
+effect when rendering a SSHAuthorizationPolicy for now.`,
+		Exposed: true,
+		Name:    "processMode",
+		Type:    "enum",
+	},
 	"tags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Tags",
@@ -371,7 +422,7 @@ var PolicyRendererLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Type:           "list",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope"},
+		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope", "SSHAuthorization"},
 		ConvertedName:  "Type",
 		Description:    `Type of the policy to render.`,
 		Exposed:        true,
@@ -447,6 +498,10 @@ type SparsePolicyRenderer struct {
 	// List of policies rendered for the given set of tags.
 	Policies *PolicyRulesList `json:"policies,omitempty" bson:"-" mapstructure:"policies,omitempty"`
 
+	// Define if the processMode should be using the object or subject. This only has
+	// effect when rendering a SSHAuthorizationPolicy for now.
+	ProcessMode *PolicyRendererProcessModeValue `json:"processMode,omitempty" bson:"-" mapstructure:"processMode,omitempty"`
+
 	// List of tags of the object to render the hook policy for.
 	Tags *[]string `json:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
 
@@ -492,6 +547,9 @@ func (o *SparsePolicyRenderer) ToPlain() elemental.PlainIdentifiable {
 	out := NewPolicyRenderer()
 	if o.Policies != nil {
 		out.Policies = *o.Policies
+	}
+	if o.ProcessMode != nil {
+		out.ProcessMode = *o.ProcessMode
 	}
 	if o.Tags != nil {
 		out.Tags = *o.Tags

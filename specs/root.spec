@@ -766,3 +766,12 @@ relations:
 - rest_name: sshidentity
   create:
     description: Creates a new SSH Identity Certificate.
+
+- rest_name: sshauthorizationpolicy
+  get:
+    description: Retrieves the list of SSH authorization policies.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new SSH authorization policies.

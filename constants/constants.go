@@ -280,6 +280,12 @@ const (
 	RelationExecuteTagString = "relation=execute"
 )
 
+// File mode tags
+const (
+	// ActionSSHCertificateScopeTagString contains the SSH certificates scope.
+	ActionSSHCertificateScopeTagString = "action=sshcertificatescope"
+)
+
 // Quota Policies Constants
 const (
 	// ActionLimitTagString is the system created action=limit tag.
