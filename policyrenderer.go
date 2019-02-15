@@ -62,7 +62,7 @@ var PolicyRendererIdentity = elemental.Identity{
 	Name:     "policyrenderer",
 	Category: "policyrenderers",
 	Package:  "squall",
-	Private:  true,
+	Private:  false,
 }
 
 // PolicyRenderersList represents a list of PolicyRenderers
@@ -189,7 +189,8 @@ func (o *PolicyRenderer) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *PolicyRenderer) Doc() string {
-	return `Returns the list of hook policies that matches the given set of tags.`
+	return `Render is a low level api that allows to render policies of given tyoe for a
+given set of tags.`
 }
 
 func (o *PolicyRenderer) String() string {

@@ -283,7 +283,7 @@ const (
 // File mode tags
 const (
 	// ActionSSHCertificateScopeTagString contains the SSH certificates scope.
-	ActionSSHCertificateScopeTagString = "action=sshcertificatescope"
+	ActionSSHCertificateScopeTagString = "action=ssh-certificate-scope"
 )
 
 // Quota Policies Constants

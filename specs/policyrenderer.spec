@@ -5,8 +5,9 @@ model:
   entity_name: PolicyRenderer
   package: squall
   group: core
-  description: Returns the list of hook policies that matches the given set of tags.
-  private: true
+  description: |-
+    Render is a low level api that allows to render policies of given tyoe for a
+    given set of tags.
 
 # Attributes
 attributes:
