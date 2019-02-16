@@ -102,6 +102,10 @@ type AppCredential struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// If set, the it will only be valid if the request comes from one
+	// the declared subnets.
+	AuthorizedSubnets []string `json:"authorizedSubnets" bson:"authorizedsubnets" mapstructure:"authorizedSubnets,omitempty"`
+
 	// The string representation of the Certificate used by the application.
 	Certificate string `json:"certificate" bson:"certificate" mapstructure:"certificate,omitempty"`
 
@@ -165,13 +169,14 @@ type AppCredential struct {
 func NewAppCredential() *AppCredential {
 
 	return &AppCredential{
-		ModelVersion:   1,
-		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
-		NormalizedTags: []string{},
-		Metadata:       []string{},
-		ParentIDs:      []string{},
-		Roles:          []string{},
+		ModelVersion:      1,
+		AssociatedTags:    []string{},
+		Annotations:       map[string][]string{},
+		AuthorizedSubnets: []string{},
+		NormalizedTags:    []string{},
+		Metadata:          []string{},
+		ParentIDs:         []string{},
+		Roles:             []string{},
 	}
 }
 
@@ -375,27 +380,28 @@ func (o *AppCredential) ToSparse(fields ...string) elemental.SparseIdentifiable 
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseAppCredential{
-			CSR:            &o.CSR,
-			ID:             &o.ID,
-			Annotations:    &o.Annotations,
-			AssociatedTags: &o.AssociatedTags,
-			Certificate:    &o.Certificate,
-			CertificateSN:  &o.CertificateSN,
-			CreateTime:     &o.CreateTime,
-			Credentials:    &o.Credentials,
-			Description:    &o.Description,
-			Disabled:       &o.Disabled,
-			Email:          &o.Email,
-			Metadata:       &o.Metadata,
-			Name:           &o.Name,
-			Namespace:      &o.Namespace,
-			NormalizedTags: &o.NormalizedTags,
-			ParentIDs:      &o.ParentIDs,
-			Protected:      &o.Protected,
-			Roles:          &o.Roles,
-			UpdateTime:     &o.UpdateTime,
-			ZHash:          &o.ZHash,
-			Zone:           &o.Zone,
+			CSR:               &o.CSR,
+			ID:                &o.ID,
+			Annotations:       &o.Annotations,
+			AssociatedTags:    &o.AssociatedTags,
+			AuthorizedSubnets: &o.AuthorizedSubnets,
+			Certificate:       &o.Certificate,
+			CertificateSN:     &o.CertificateSN,
+			CreateTime:        &o.CreateTime,
+			Credentials:       &o.Credentials,
+			Description:       &o.Description,
+			Disabled:          &o.Disabled,
+			Email:             &o.Email,
+			Metadata:          &o.Metadata,
+			Name:              &o.Name,
+			Namespace:         &o.Namespace,
+			NormalizedTags:    &o.NormalizedTags,
+			ParentIDs:         &o.ParentIDs,
+			Protected:         &o.Protected,
+			Roles:             &o.Roles,
+			UpdateTime:        &o.UpdateTime,
+			ZHash:             &o.ZHash,
+			Zone:              &o.Zone,
 		}
 	}
 
@@ -410,6 +416,8 @@ func (o *AppCredential) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
+		case "authorizedSubnets":
+			sp.AuthorizedSubnets = &(o.AuthorizedSubnets)
 		case "certificate":
 			sp.Certificate = &(o.Certificate)
 		case "certificateSN":
@@ -468,6 +476,9 @@ func (o *AppCredential) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.AuthorizedSubnets != nil {
+		o.AuthorizedSubnets = *so.AuthorizedSubnets
 	}
 	if so.Certificate != nil {
 		o.Certificate = *so.Certificate
@@ -552,6 +563,10 @@ func (o *AppCredential) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := ValidateOptionalNetworkList("authorizedSubnets", o.AuthorizedSubnets); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := o.Credentials.Validate(); err != nil {
 		errors = append(errors, err)
 	}
@@ -614,6 +629,8 @@ func (o *AppCredential) ValueForAttribute(name string) interface{} {
 		return o.Annotations
 	case "associatedTags":
 		return o.AssociatedTags
+	case "authorizedSubnets":
+		return o.AuthorizedSubnets
 	case "certificate":
 		return o.Certificate
 	case "certificateSN":
@@ -707,6 +724,17 @@ If you send anything else, the signing request will be rejected.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"AuthorizedSubnets": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizedSubnets",
+		Description: `If set, the it will only be valid if the request comes from one
+the declared subnets.`,
+		Exposed: true,
+		Name:    "authorizedSubnets",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
 	},
 	"Certificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -981,6 +1009,17 @@ If you send anything else, the signing request will be rejected.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"authorizedsubnets": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizedSubnets",
+		Description: `If set, the it will only be valid if the request comes from one
+the declared subnets.`,
+		Exposed: true,
+		Name:    "authorizedSubnets",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
 	},
 	"certificate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1285,6 +1324,10 @@ type SparseAppCredential struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// If set, the it will only be valid if the request comes from one
+	// the declared subnets.
+	AuthorizedSubnets *[]string `json:"authorizedSubnets,omitempty" bson:"authorizedsubnets" mapstructure:"authorizedSubnets,omitempty"`
+
 	// The string representation of the Certificate used by the application.
 	Certificate *string `json:"certificate,omitempty" bson:"certificate" mapstructure:"certificate,omitempty"`
 
@@ -1391,6 +1434,9 @@ func (o *SparseAppCredential) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.AuthorizedSubnets != nil {
+		out.AuthorizedSubnets = *o.AuthorizedSubnets
 	}
 	if o.Certificate != nil {
 		out.Certificate = *o.Certificate

@@ -5061,6 +5061,10 @@ Deletes the object with the given ID.
 
 Retrieves the object with the given ID.
 
+##### Parameters
+
+- `propagated` (boolean): Also retrieve the objects that propagate down.
+
 #### `PUT /auditprofilemappingpolicies/:id`
 
 Updates the object with the given ID.
@@ -5849,6 +5853,11 @@ Annotation stores additional information about an entity.
 ##### `associatedTags (list)`
 
 AssociatedTags are the list of tags attached to an entity.
+
+##### `authorizedSubnets (list)`
+
+If set, the it will only be valid if the request comes from one
+the declared subnets.
 
 ##### `certificate (string)`
 
@@ -7835,6 +7844,10 @@ Deletes the object with the given ID.
 #### `GET /hostservicemappingpolicies/:id`
 
 Retrieves the object with the given ID.
+
+##### Parameters
+
+- `propagated` (boolean): Also retrieve the objects that propagate down.
 
 #### `PUT /hostservicemappingpolicies/:id`
 

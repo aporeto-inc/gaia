@@ -69,6 +69,17 @@ attributes:
       97Ob1alpHPoZ7mWiEuJwjBPii6a9M9G30nUo39lBi1w=
       -----END CERTIFICATE REQUEST-----
 
+  - name: authorizedSubnets
+    description: |-
+      If set, the it will only be valid if the request comes from one
+      the declared subnets.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    validations:
+    - $optionalnetworks
+
   - name: certificate
     description: The string representation of the Certificate used by the application.
     type: string
