@@ -401,7 +401,7 @@ func ValidateTimeDuration(attribute string, duration string) error {
 }
 
 // hostname regex from github.com/go-playground/validator
-var hostnameRegexRFC952 = regexp.MustCompile(`^[a-zA-Z][a-zA-Z0-9\-\.]+[a-z-Az0-9]$`)
+var hostnameRegexRFC1123 = regexp.MustCompile(`^[a-zA-Z0-9][a-zA-Z0-9\-\.]+[a-z-Az0-9]$`)
 
 func isFQDN(val string) bool {
 
@@ -413,7 +413,7 @@ func isFQDN(val string) bool {
 		val = val[0 : len(val)-1]
 	}
 
-	return hostnameRegexRFC952.MatchString(val)
+	return hostnameRegexRFC1123.MatchString(val)
 }
 
 func ipNetFromString(ip string) (*net.IPNet, error) {

@@ -1070,3 +1070,51 @@ func TestValidateHostService(t *testing.T) {
 		})
 	}
 }
+
+func Test_isFQDN(t *testing.T) {
+	type args struct {
+		name string
+	}
+	tests := []struct {
+		name      string
+		args      args
+		wantValue bool
+	}{
+		{
+			"valid fqdn",
+			args{
+				"www.google.com",
+			},
+			true,
+		},
+		{
+			"xip",
+			args{
+				"1.2.3.4.xip.io",
+			},
+			true,
+		},
+		{
+			"trailing dot",
+			args{
+				"www.google.com.",
+			},
+			true,
+		},
+		{
+			"bad one",
+			args{
+				"@#$@#$@.#$@#.#@$2",
+			},
+			false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if isFQDN(tt.args.name) != tt.wantValue {
+				t.Errorf("isFQDN() failed at test: %s", tt.name)
+			}
+		})
+	}
+}
