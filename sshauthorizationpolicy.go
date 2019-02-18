@@ -9,93 +9,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// PolicyTypeValue represents the possible values for attribute "type".
-type PolicyTypeValue string
-
-const (
-	// PolicyTypeAPIAuthorization represents the value APIAuthorization.
-	PolicyTypeAPIAuthorization PolicyTypeValue = "APIAuthorization"
-
-	// PolicyTypeAuditProfileMapping represents the value AuditProfileMapping.
-	PolicyTypeAuditProfileMapping PolicyTypeValue = "AuditProfileMapping"
-
-	// PolicyTypeEnforcerProfile represents the value EnforcerProfile.
-	PolicyTypeEnforcerProfile PolicyTypeValue = "EnforcerProfile"
-
-	// PolicyTypeFile represents the value File.
-	PolicyTypeFile PolicyTypeValue = "File"
-
-	// PolicyTypeHook represents the value Hook.
-	PolicyTypeHook PolicyTypeValue = "Hook"
-
-	// PolicyTypeHostServiceMapping represents the value HostServiceMapping.
-	PolicyTypeHostServiceMapping PolicyTypeValue = "HostServiceMapping"
-
-	// PolicyTypeNamespaceMapping represents the value NamespaceMapping.
-	PolicyTypeNamespaceMapping PolicyTypeValue = "NamespaceMapping"
-
-	// PolicyTypeNetwork represents the value Network.
-	PolicyTypeNetwork PolicyTypeValue = "Network"
-
-	// PolicyTypeProcessingUnit represents the value ProcessingUnit.
-	PolicyTypeProcessingUnit PolicyTypeValue = "ProcessingUnit"
-
-	// PolicyTypeQuota represents the value Quota.
-	PolicyTypeQuota PolicyTypeValue = "Quota"
-
-	// PolicyTypeSSHAuthorization represents the value SSHAuthorization.
-	PolicyTypeSSHAuthorization PolicyTypeValue = "SSHAuthorization"
-
-	// PolicyTypeService represents the value Service.
-	PolicyTypeService PolicyTypeValue = "Service"
-
-	// PolicyTypeServiceDependency represents the value ServiceDependency.
-	PolicyTypeServiceDependency PolicyTypeValue = "ServiceDependency"
-
-	// PolicyTypeSyscall represents the value Syscall.
-	PolicyTypeSyscall PolicyTypeValue = "Syscall"
-
-	// PolicyTypeTokenScope represents the value TokenScope.
-	PolicyTypeTokenScope PolicyTypeValue = "TokenScope"
-)
-
-// PolicyIdentity represents the Identity of the object.
-var PolicyIdentity = elemental.Identity{
-	Name:     "policy",
-	Category: "policies",
+// SSHAuthorizationPolicyIdentity represents the Identity of the object.
+var SSHAuthorizationPolicyIdentity = elemental.Identity{
+	Name:     "sshauthorizationpolicy",
+	Category: "sshauthorizationpolicies",
 	Package:  "squall",
 	Private:  false,
 }
 
-// PoliciesList represents a list of Policies
-type PoliciesList []*Policy
+// SSHAuthorizationPoliciesList represents a list of SSHAuthorizationPolicies
+type SSHAuthorizationPoliciesList []*SSHAuthorizationPolicy
 
 // Identity returns the identity of the objects in the list.
-func (o PoliciesList) Identity() elemental.Identity {
+func (o SSHAuthorizationPoliciesList) Identity() elemental.Identity {
 
-	return PolicyIdentity
+	return SSHAuthorizationPolicyIdentity
 }
 
-// Copy returns a pointer to a copy the PoliciesList.
-func (o PoliciesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SSHAuthorizationPoliciesList.
+func (o SSHAuthorizationPoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(PoliciesList{}, o...)
+	copy := append(SSHAuthorizationPoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the PoliciesList.
-func (o PoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SSHAuthorizationPoliciesList.
+func (o SSHAuthorizationPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(PoliciesList{}, o...)
+	out := append(SSHAuthorizationPoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*Policy))
+		out = append(out, obj.(*SSHAuthorizationPolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o PoliciesList) List() elemental.IdentifiablesList {
+func (o SSHAuthorizationPoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -106,16 +56,16 @@ func (o PoliciesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o PoliciesList) DefaultOrder() []string {
+func (o SSHAuthorizationPoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToSparse returns the PoliciesList converted to SparsePoliciesList.
+// ToSparse returns the SSHAuthorizationPoliciesList converted to SparseSSHAuthorizationPoliciesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o SSHAuthorizationPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -126,18 +76,15 @@ func (o PoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o PoliciesList) Version() int {
+func (o SSHAuthorizationPoliciesList) Version() int {
 
 	return 1
 }
 
-// Policy represents the model of a policy
-type Policy struct {
+// SSHAuthorizationPolicy represents the model of a sshauthorizationpolicy
+type SSHAuthorizationPolicy struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Action defines set of actions that must be enforced when a dependency is met.
-	Action map[string]map[string]interface{} `json:"action" bson:"action" mapstructure:"action,omitempty"`
+	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// ActiveDuration defines for how long the policy will be active according to the
 	// activeSchedule.
@@ -147,17 +94,15 @@ type Policy struct {
 	// The policy will be active for the given activeDuration.
 	ActiveSchedule string `json:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
-	// This is a set of all object tags for matching in the DB.
-	AllObjectTags []string `json:"-" bson:"allobjecttags" mapstructure:"-,omitempty"`
-
-	// This is a set of all subject tags for matching in the DB.
-	AllSubjectTags []string `json:"-" bson:"allsubjecttags" mapstructure:"-,omitempty"`
-
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// If set, the api authorization will only be valid if the request comes from one
+	// the declared subnets.
+	AuthorizedSubnets []string `json:"authorizedSubnets" bson:"-" mapstructure:"authorizedSubnets,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
@@ -168,10 +113,20 @@ type Policy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
+	// The list of SSH permissions to apply to SSH certificate. You can check the list
+	// of standard extensions at
+	// <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.
+	Extensions []string `json:"extensions" bson:"-" mapstructure:"extensions,omitempty"`
+
 	// Fallback indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
+
+	// If set, this will configure the `+"`"+`force-command`+"`"+` option in the SSH Certificate.
+	// More info can be found at
+	// <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L249>.
+	ForceCommand string `json:"forceCommand" bson:"-" mapstructure:"forceCommand,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -186,34 +141,30 @@ type Policy struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Object represents set of entities that another entity depends on. As subjects,
-	// objects are identified as logical operations on tags when a policy is defined.
-	Object [][]string `json:"object" bson:"object" mapstructure:"object,omitempty"`
+	// Object contains the tag expression matching the enforcers the subject is allowed
+	// to connect to.
+	Object [][]string `json:"object" bson:"-" mapstructure:"object,omitempty"`
+
+	// You can set some principals that will be applied to delivered certificate. If
+	// not
+	// set, the user's claim Subject will be used.
+	Principals []string `json:"principals" bson:"-" mapstructure:"principals,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// If set to true while the policy is propagating, it won't be visible to children
-	// namespace, but still used for policy resolution.
-	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
-
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Relation describes the required operation to be performed between subjects and
-	// objects.
-	Relation []string `json:"relation" bson:"relation" mapstructure:"relation,omitempty"`
-
-	// Subject represent sets of entities that will have a dependency other entities.
-	// Subjects are defined as logical operations on tags. Logical operations can
-	// includes AND/OR.
-	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
-
-	// Type of the policy.
-	Type PolicyTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
+	// Subject contains the tag expression the authentication claims need to match for
+	// the policy to apply.
+	Subject [][]string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	// Set the validity of the delivered SSH certificate.
+	Validity string `json:"validity" bson:"-" mapstructure:"validity,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -228,49 +179,50 @@ type Policy struct {
 	sync.Mutex `json:"-" bson:"-"`
 }
 
-// NewPolicy returns a new *Policy
-func NewPolicy() *Policy {
+// NewSSHAuthorizationPolicy returns a new *SSHAuthorizationPolicy
+func NewSSHAuthorizationPolicy() *SSHAuthorizationPolicy {
 
-	return &Policy{
-		ModelVersion:   1,
-		Annotations:    map[string][]string{},
-		AllObjectTags:  []string{},
-		AllSubjectTags: []string{},
-		AssociatedTags: []string{},
-		Metadata:       []string{},
-		NormalizedTags: []string{},
-		Object:         [][]string{},
-		Relation:       []string{},
-		Subject:        [][]string{},
+	return &SSHAuthorizationPolicy{
+		ModelVersion:      1,
+		Annotations:       map[string][]string{},
+		AssociatedTags:    []string{},
+		AuthorizedSubnets: []string{},
+		Extensions:        []string{},
+		Metadata:          []string{},
+		NormalizedTags:    []string{},
+		Object:            [][]string{},
+		Principals:        []string{},
+		Subject:           [][]string{},
+		Validity:          "1h",
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *Policy) Identity() elemental.Identity {
+func (o *SSHAuthorizationPolicy) Identity() elemental.Identity {
 
-	return PolicyIdentity
+	return SSHAuthorizationPolicyIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *Policy) Identifier() string {
+func (o *SSHAuthorizationPolicy) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *Policy) SetIdentifier(id string) {
+func (o *SSHAuthorizationPolicy) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *Policy) Version() int {
+func (o *SSHAuthorizationPolicy) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *Policy) DefaultOrder() []string {
+func (o *SSHAuthorizationPolicy) DefaultOrder() []string {
 
 	return []string{
 		"name",
@@ -278,312 +230,279 @@ func (o *Policy) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *Policy) Doc() string {
-	return `Policy represents the policy primitive used by all aporeto policies.`
+func (o *SSHAuthorizationPolicy) Doc() string {
+	return `An SSHAuthorizationPolicy allows to define the permissions for the owner
+of a SSH Identity Certificate. You can define if a user with some claims
+can connect to an sshd server managed by an instance of enforcerd according
+to its tags, what permissions he has and for how long delivered
+certificates are valid.`
 }
 
-func (o *Policy) String() string {
+func (o *SSHAuthorizationPolicy) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *Policy) GetActiveDuration() string {
+func (o *SSHAuthorizationPolicy) GetActiveDuration() string {
 
 	return o.ActiveDuration
 }
 
 // SetActiveDuration sets the property ActiveDuration of the receiver using the given value.
-func (o *Policy) SetActiveDuration(activeDuration string) {
+func (o *SSHAuthorizationPolicy) SetActiveDuration(activeDuration string) {
 
 	o.ActiveDuration = activeDuration
 }
 
 // GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *Policy) GetActiveSchedule() string {
+func (o *SSHAuthorizationPolicy) GetActiveSchedule() string {
 
 	return o.ActiveSchedule
 }
 
 // SetActiveSchedule sets the property ActiveSchedule of the receiver using the given value.
-func (o *Policy) SetActiveSchedule(activeSchedule string) {
+func (o *SSHAuthorizationPolicy) SetActiveSchedule(activeSchedule string) {
 
 	o.ActiveSchedule = activeSchedule
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *Policy) GetAnnotations() map[string][]string {
+func (o *SSHAuthorizationPolicy) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *Policy) SetAnnotations(annotations map[string][]string) {
+func (o *SSHAuthorizationPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *Policy) GetAssociatedTags() []string {
+func (o *SSHAuthorizationPolicy) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *Policy) SetAssociatedTags(associatedTags []string) {
+func (o *SSHAuthorizationPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *Policy) GetCreateTime() time.Time {
+func (o *SSHAuthorizationPolicy) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *Policy) SetCreateTime(createTime time.Time) {
+func (o *SSHAuthorizationPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *Policy) GetDescription() string {
+func (o *SSHAuthorizationPolicy) GetDescription() string {
 
 	return o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the given value.
-func (o *Policy) SetDescription(description string) {
+func (o *SSHAuthorizationPolicy) SetDescription(description string) {
 
 	o.Description = description
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *Policy) GetDisabled() bool {
+func (o *SSHAuthorizationPolicy) GetDisabled() bool {
 
 	return o.Disabled
 }
 
 // SetDisabled sets the property Disabled of the receiver using the given value.
-func (o *Policy) SetDisabled(disabled bool) {
+func (o *SSHAuthorizationPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = disabled
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *Policy) GetFallback() bool {
+func (o *SSHAuthorizationPolicy) GetFallback() bool {
 
 	return o.Fallback
 }
 
 // SetFallback sets the property Fallback of the receiver using the given value.
-func (o *Policy) SetFallback(fallback bool) {
+func (o *SSHAuthorizationPolicy) SetFallback(fallback bool) {
 
 	o.Fallback = fallback
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *Policy) GetMetadata() []string {
+func (o *SSHAuthorizationPolicy) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the given value.
-func (o *Policy) SetMetadata(metadata []string) {
+func (o *SSHAuthorizationPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *Policy) GetName() string {
+func (o *SSHAuthorizationPolicy) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *Policy) SetName(name string) {
+func (o *SSHAuthorizationPolicy) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *Policy) GetNamespace() string {
+func (o *SSHAuthorizationPolicy) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *Policy) SetNamespace(namespace string) {
+func (o *SSHAuthorizationPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *Policy) GetNormalizedTags() []string {
+func (o *SSHAuthorizationPolicy) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *Policy) SetNormalizedTags(normalizedTags []string) {
+func (o *SSHAuthorizationPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
-// GetObject returns the Object of the receiver.
-func (o *Policy) GetObject() [][]string {
-
-	return o.Object
-}
-
-// SetObject sets the property Object of the receiver using the given value.
-func (o *Policy) SetObject(object [][]string) {
-
-	o.Object = object
-}
-
 // GetPropagate returns the Propagate of the receiver.
-func (o *Policy) GetPropagate() bool {
+func (o *SSHAuthorizationPolicy) GetPropagate() bool {
 
 	return o.Propagate
 }
 
 // SetPropagate sets the property Propagate of the receiver using the given value.
-func (o *Policy) SetPropagate(propagate bool) {
+func (o *SSHAuthorizationPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = propagate
 }
 
-// GetPropagationHidden returns the PropagationHidden of the receiver.
-func (o *Policy) GetPropagationHidden() bool {
-
-	return o.PropagationHidden
-}
-
-// SetPropagationHidden sets the property PropagationHidden of the receiver using the given value.
-func (o *Policy) SetPropagationHidden(propagationHidden bool) {
-
-	o.PropagationHidden = propagationHidden
-}
-
 // GetProtected returns the Protected of the receiver.
-func (o *Policy) GetProtected() bool {
+func (o *SSHAuthorizationPolicy) GetProtected() bool {
 
 	return o.Protected
 }
 
-// GetSubject returns the Subject of the receiver.
-func (o *Policy) GetSubject() [][]string {
-
-	return o.Subject
-}
-
-// SetSubject sets the property Subject of the receiver using the given value.
-func (o *Policy) SetSubject(subject [][]string) {
-
-	o.Subject = subject
-}
-
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *Policy) GetUpdateTime() time.Time {
+func (o *SSHAuthorizationPolicy) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *Policy) SetUpdateTime(updateTime time.Time) {
+func (o *SSHAuthorizationPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *Policy) GetZHash() int {
+func (o *SSHAuthorizationPolicy) GetZHash() int {
 
 	return o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the given value.
-func (o *Policy) SetZHash(zHash int) {
+func (o *SSHAuthorizationPolicy) SetZHash(zHash int) {
 
 	o.ZHash = zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *Policy) GetZone() int {
+func (o *SSHAuthorizationPolicy) GetZone() int {
 
 	return o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the given value.
-func (o *Policy) SetZone(zone int) {
+func (o *SSHAuthorizationPolicy) SetZone(zone int) {
 
 	o.Zone = zone
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *Policy) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *SSHAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparsePolicy{
+		return &SparseSSHAuthorizationPolicy{
 			ID:                &o.ID,
-			Action:            &o.Action,
 			ActiveDuration:    &o.ActiveDuration,
 			ActiveSchedule:    &o.ActiveSchedule,
-			AllObjectTags:     &o.AllObjectTags,
-			AllSubjectTags:    &o.AllSubjectTags,
 			Annotations:       &o.Annotations,
 			AssociatedTags:    &o.AssociatedTags,
+			AuthorizedSubnets: &o.AuthorizedSubnets,
 			CreateTime:        &o.CreateTime,
 			Description:       &o.Description,
 			Disabled:          &o.Disabled,
+			Extensions:        &o.Extensions,
 			Fallback:          &o.Fallback,
+			ForceCommand:      &o.ForceCommand,
 			Metadata:          &o.Metadata,
 			Name:              &o.Name,
 			Namespace:         &o.Namespace,
 			NormalizedTags:    &o.NormalizedTags,
 			Object:            &o.Object,
+			Principals:        &o.Principals,
 			Propagate:         &o.Propagate,
-			PropagationHidden: &o.PropagationHidden,
 			Protected:         &o.Protected,
-			Relation:          &o.Relation,
 			Subject:           &o.Subject,
-			Type:              &o.Type,
 			UpdateTime:        &o.UpdateTime,
+			Validity:          &o.Validity,
 			ZHash:             &o.ZHash,
 			Zone:              &o.Zone,
 		}
 	}
 
-	sp := &SparsePolicy{}
+	sp := &SparseSSHAuthorizationPolicy{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
-		case "action":
-			sp.Action = &(o.Action)
 		case "activeDuration":
 			sp.ActiveDuration = &(o.ActiveDuration)
 		case "activeSchedule":
 			sp.ActiveSchedule = &(o.ActiveSchedule)
-		case "allObjectTags":
-			sp.AllObjectTags = &(o.AllObjectTags)
-		case "allSubjectTags":
-			sp.AllSubjectTags = &(o.AllSubjectTags)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
+		case "authorizedSubnets":
+			sp.AuthorizedSubnets = &(o.AuthorizedSubnets)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
 			sp.Description = &(o.Description)
 		case "disabled":
 			sp.Disabled = &(o.Disabled)
+		case "extensions":
+			sp.Extensions = &(o.Extensions)
 		case "fallback":
 			sp.Fallback = &(o.Fallback)
+		case "forceCommand":
+			sp.ForceCommand = &(o.ForceCommand)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "name":
@@ -594,20 +513,18 @@ func (o *Policy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "object":
 			sp.Object = &(o.Object)
+		case "principals":
+			sp.Principals = &(o.Principals)
 		case "propagate":
 			sp.Propagate = &(o.Propagate)
-		case "propagationHidden":
-			sp.PropagationHidden = &(o.PropagationHidden)
 		case "protected":
 			sp.Protected = &(o.Protected)
-		case "relation":
-			sp.Relation = &(o.Relation)
 		case "subject":
 			sp.Subject = &(o.Subject)
-		case "type":
-			sp.Type = &(o.Type)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
+		case "validity":
+			sp.Validity = &(o.Validity)
 		case "zHash":
 			sp.ZHash = &(o.ZHash)
 		case "zone":
@@ -618,18 +535,15 @@ func (o *Policy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
-// Patch apply the non nil value of a *SparsePolicy to the object.
-func (o *Policy) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseSSHAuthorizationPolicy to the object.
+func (o *SSHAuthorizationPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparsePolicy)
+	so := sparse.(*SparseSSHAuthorizationPolicy)
 	if so.ID != nil {
 		o.ID = *so.ID
-	}
-	if so.Action != nil {
-		o.Action = *so.Action
 	}
 	if so.ActiveDuration != nil {
 		o.ActiveDuration = *so.ActiveDuration
@@ -637,17 +551,14 @@ func (o *Policy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ActiveSchedule != nil {
 		o.ActiveSchedule = *so.ActiveSchedule
 	}
-	if so.AllObjectTags != nil {
-		o.AllObjectTags = *so.AllObjectTags
-	}
-	if so.AllSubjectTags != nil {
-		o.AllSubjectTags = *so.AllSubjectTags
-	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.AuthorizedSubnets != nil {
+		o.AuthorizedSubnets = *so.AuthorizedSubnets
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -658,8 +569,14 @@ func (o *Policy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Disabled != nil {
 		o.Disabled = *so.Disabled
 	}
+	if so.Extensions != nil {
+		o.Extensions = *so.Extensions
+	}
 	if so.Fallback != nil {
 		o.Fallback = *so.Fallback
+	}
+	if so.ForceCommand != nil {
+		o.ForceCommand = *so.ForceCommand
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -676,26 +593,23 @@ func (o *Policy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Object != nil {
 		o.Object = *so.Object
 	}
+	if so.Principals != nil {
+		o.Principals = *so.Principals
+	}
 	if so.Propagate != nil {
 		o.Propagate = *so.Propagate
-	}
-	if so.PropagationHidden != nil {
-		o.PropagationHidden = *so.PropagationHidden
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
-	if so.Relation != nil {
-		o.Relation = *so.Relation
-	}
 	if so.Subject != nil {
 		o.Subject = *so.Subject
 	}
-	if so.Type != nil {
-		o.Type = *so.Type
-	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
+	}
+	if so.Validity != nil {
+		o.Validity = *so.Validity
 	}
 	if so.ZHash != nil {
 		o.ZHash = *so.ZHash
@@ -705,37 +619,41 @@ func (o *Policy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the Policy.
-func (o *Policy) DeepCopy() *Policy {
+// DeepCopy returns a deep copy if the SSHAuthorizationPolicy.
+func (o *SSHAuthorizationPolicy) DeepCopy() *SSHAuthorizationPolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &Policy{}
+	out := &SSHAuthorizationPolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *Policy.
-func (o *Policy) DeepCopyInto(out *Policy) {
+// DeepCopyInto copies the receiver into the given *SSHAuthorizationPolicy.
+func (o *SSHAuthorizationPolicy) DeepCopyInto(out *SSHAuthorizationPolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy Policy: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SSHAuthorizationPolicy: %s", err))
 	}
 
-	*out = *target.(*Policy)
+	*out = *target.(*SSHAuthorizationPolicy)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *Policy) Validate() error {
+func (o *SSHAuthorizationPolicy) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateOptionalNetworkList("authorizedSubnets", o.AuthorizedSubnets); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -751,7 +669,7 @@ func (o *Policy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope", "SSHAuthorization"}, false); err != nil {
+	if err := ValidateTimeDuration("validity", o.Validity); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -767,52 +685,52 @@ func (o *Policy) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*Policy) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*SSHAuthorizationPolicy) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := PolicyAttributesMap[name]; ok {
+	if v, ok := SSHAuthorizationPolicyAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return PolicyLowerCaseAttributesMap[name]
+	return SSHAuthorizationPolicyLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*Policy) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*SSHAuthorizationPolicy) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return PolicyAttributesMap
+	return SSHAuthorizationPolicyAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *Policy) ValueForAttribute(name string) interface{} {
+func (o *SSHAuthorizationPolicy) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
 		return o.ID
-	case "action":
-		return o.Action
 	case "activeDuration":
 		return o.ActiveDuration
 	case "activeSchedule":
 		return o.ActiveSchedule
-	case "allObjectTags":
-		return o.AllObjectTags
-	case "allSubjectTags":
-		return o.AllSubjectTags
 	case "annotations":
 		return o.Annotations
 	case "associatedTags":
 		return o.AssociatedTags
+	case "authorizedSubnets":
+		return o.AuthorizedSubnets
 	case "createTime":
 		return o.CreateTime
 	case "description":
 		return o.Description
 	case "disabled":
 		return o.Disabled
+	case "extensions":
+		return o.Extensions
 	case "fallback":
 		return o.Fallback
+	case "forceCommand":
+		return o.ForceCommand
 	case "metadata":
 		return o.Metadata
 	case "name":
@@ -823,20 +741,18 @@ func (o *Policy) ValueForAttribute(name string) interface{} {
 		return o.NormalizedTags
 	case "object":
 		return o.Object
+	case "principals":
+		return o.Principals
 	case "propagate":
 		return o.Propagate
-	case "propagationHidden":
-		return o.PropagationHidden
 	case "protected":
 		return o.Protected
-	case "relation":
-		return o.Relation
 	case "subject":
 		return o.Subject
-	case "type":
-		return o.Type
 	case "updateTime":
 		return o.UpdateTime
+	case "validity":
+		return o.Validity
 	case "zHash":
 		return o.ZHash
 	case "zone":
@@ -846,8 +762,8 @@ func (o *Policy) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// PolicyAttributesMap represents the map of attribute for Policy.
-var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
+// SSHAuthorizationPolicyAttributesMap represents the map of attribute for SSHAuthorizationPolicy.
+var SSHAuthorizationPolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -858,20 +774,8 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
-		Stored:         true,
 		Type:           "string",
-	},
-	"Action": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Action",
-		Description:    `Action defines set of actions that must be enforced when a dependency is met.`,
-		Exposed:        true,
-		Name:           "action",
-		Stored:         true,
-		SubType:        "map_of_string_of_maps_of_string_of_objects",
-		Type:           "external",
 	},
 	"ActiveDuration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -898,24 +802,6 @@ The policy will be active for the given activeDuration.`,
 		Stored:  true,
 		Type:    "string",
 	},
-	"AllObjectTags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AllObjectTags",
-		Description:    `This is a set of all object tags for matching in the DB.`,
-		Name:           "allObjectTags",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
-	"AllSubjectTags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AllSubjectTags",
-		Description:    `This is a set of all subject tags for matching in the DB.`,
-		Name:           "allSubjectTags",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
@@ -939,6 +825,16 @@ The policy will be active for the given activeDuration.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"AuthorizedSubnets": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizedSubnets",
+		Description: `If set, the api authorization will only be valid if the request comes from one
+the declared subnets.`,
+		Exposed: true,
+		Name:    "authorizedSubnets",
+		SubType: "string",
+		Type:    "list",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -979,6 +875,17 @@ The policy will be active for the given activeDuration.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"Extensions": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Extensions",
+		Description: `The list of SSH permissions to apply to SSH certificate. You can check the list
+of standard extensions at
+<https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.`,
+		Exposed: true,
+		Name:    "extensions",
+		SubType: "string",
+		Type:    "list",
+	},
 	"Fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
@@ -992,6 +899,16 @@ propagated it will become a fallback for children namespaces.`,
 		Setter:    true,
 		Stored:    true,
 		Type:      "boolean",
+	},
+	"ForceCommand": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ForceCommand",
+		Description: `If set, this will configure the ` + "`" + `force-command` + "`" + ` option in the SSH Certificate.
+More info can be found at
+<https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L249>.`,
+		Exposed: true,
+		Name:    "forceCommand",
+		Type:    "string",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1059,15 +976,24 @@ with the '@' prefix, and should only be used by external systems.`,
 	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Object represents set of entities that another entity depends on. As subjects,
-objects are identified as logical operations on tags when a policy is defined.`,
+		Description: `Object contains the tag expression matching the enforcers the subject is allowed
+to connect to.`,
+		Exposed:   true,
+		Name:      "object",
+		Orderable: true,
+		SubType:   "list_of_lists_of_strings",
+		Type:      "external",
+	},
+	"Principals": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Principals",
+		Description: `You can set some principals that will be applied to delivered certificate. If
+not
+set, the user's claim Subject will be used.`,
 		Exposed: true,
-		Getter:  true,
-		Name:    "object",
-		Setter:  true,
-		Stored:  true,
-		SubType: "list_of_lists_of_strings",
-		Type:    "external",
+		Name:    "principals",
+		SubType: "string",
+		Type:    "list",
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1081,19 +1007,6 @@ objects are identified as logical operations on tags when a policy is defined.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"PropagationHidden": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PropagationHidden",
-		Description: `If set to true while the policy is propagating, it won't be visible to children
-namespace, but still used for policy resolution.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "propagationHidden",
-		Orderable: true,
-		Setter:    true,
-		Stored:    true,
-		Type:      "boolean",
-	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -1105,40 +1018,16 @@ namespace, but still used for policy resolution.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"Relation": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Relation",
-		Description: `Relation describes the required operation to be performed between subjects and
-objects.`,
-		Exposed: true,
-		Name:    "relation",
-		Stored:  true,
-		SubType: "string",
-		Type:    "list",
-	},
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject represent sets of entities that will have a dependency other entities.
-Subjects are defined as logical operations on tags. Logical operations can
-includes AND/OR.`,
-		Exposed: true,
-		Getter:  true,
-		Name:    "subject",
-		Setter:  true,
-		Stored:  true,
-		SubType: "list_of_lists_of_strings",
-		Type:    "external",
-	},
-	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope", "SSHAuthorization"},
-		ConvertedName:  "Type",
-		CreationOnly:   true,
-		Description:    `Type of the policy.`,
-		Exposed:        true,
-		Name:           "type",
-		Stored:         true,
-		Type:           "enum",
+		Description: `Subject contains the tag expression the authentication claims need to match for
+the policy to apply.`,
+		Exposed:   true,
+		Name:      "subject",
+		Orderable: true,
+		SubType:   "list_of_lists_of_strings",
+		Type:      "external",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1153,6 +1042,15 @@ includes AND/OR.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"Validity": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Validity",
+		DefaultValue:   "1h",
+		Description:    `Set the validity of the delivered SSH certificate.`,
+		Exposed:        true,
+		Name:           "validity",
+		Type:           "string",
 	},
 	"ZHash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1182,8 +1080,8 @@ georedundancy.`,
 	},
 }
 
-// PolicyLowerCaseAttributesMap represents the map of attribute for Policy.
-var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// SSHAuthorizationPolicyLowerCaseAttributesMap represents the map of attribute for SSHAuthorizationPolicy.
+var SSHAuthorizationPolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1194,20 +1092,8 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
-		Stored:         true,
 		Type:           "string",
-	},
-	"action": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Action",
-		Description:    `Action defines set of actions that must be enforced when a dependency is met.`,
-		Exposed:        true,
-		Name:           "action",
-		Stored:         true,
-		SubType:        "map_of_string_of_maps_of_string_of_objects",
-		Type:           "external",
 	},
 	"activeduration": elemental.AttributeSpecification{
 		AllowedChars:   `^[0-9]+[smh]$`,
@@ -1234,24 +1120,6 @@ The policy will be active for the given activeDuration.`,
 		Stored:  true,
 		Type:    "string",
 	},
-	"allobjecttags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AllObjectTags",
-		Description:    `This is a set of all object tags for matching in the DB.`,
-		Name:           "allObjectTags",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
-	"allsubjecttags": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AllSubjectTags",
-		Description:    `This is a set of all subject tags for matching in the DB.`,
-		Name:           "allSubjectTags",
-		Stored:         true,
-		SubType:        "string",
-		Type:           "list",
-	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Annotations",
@@ -1275,6 +1143,16 @@ The policy will be active for the given activeDuration.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"authorizedsubnets": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AuthorizedSubnets",
+		Description: `If set, the api authorization will only be valid if the request comes from one
+the declared subnets.`,
+		Exposed: true,
+		Name:    "authorizedSubnets",
+		SubType: "string",
+		Type:    "list",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1315,6 +1193,17 @@ The policy will be active for the given activeDuration.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"extensions": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Extensions",
+		Description: `The list of SSH permissions to apply to SSH certificate. You can check the list
+of standard extensions at
+<https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.`,
+		Exposed: true,
+		Name:    "extensions",
+		SubType: "string",
+		Type:    "list",
+	},
 	"fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
@@ -1328,6 +1217,16 @@ propagated it will become a fallback for children namespaces.`,
 		Setter:    true,
 		Stored:    true,
 		Type:      "boolean",
+	},
+	"forcecommand": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ForceCommand",
+		Description: `If set, this will configure the ` + "`" + `force-command` + "`" + ` option in the SSH Certificate.
+More info can be found at
+<https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L249>.`,
+		Exposed: true,
+		Name:    "forceCommand",
+		Type:    "string",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1395,15 +1294,24 @@ with the '@' prefix, and should only be used by external systems.`,
 	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Object",
-		Description: `Object represents set of entities that another entity depends on. As subjects,
-objects are identified as logical operations on tags when a policy is defined.`,
+		Description: `Object contains the tag expression matching the enforcers the subject is allowed
+to connect to.`,
+		Exposed:   true,
+		Name:      "object",
+		Orderable: true,
+		SubType:   "list_of_lists_of_strings",
+		Type:      "external",
+	},
+	"principals": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Principals",
+		Description: `You can set some principals that will be applied to delivered certificate. If
+not
+set, the user's claim Subject will be used.`,
 		Exposed: true,
-		Getter:  true,
-		Name:    "object",
-		Setter:  true,
-		Stored:  true,
-		SubType: "list_of_lists_of_strings",
-		Type:    "external",
+		Name:    "principals",
+		SubType: "string",
+		Type:    "list",
 	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1417,19 +1325,6 @@ objects are identified as logical operations on tags when a policy is defined.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"propagationhidden": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PropagationHidden",
-		Description: `If set to true while the policy is propagating, it won't be visible to children
-namespace, but still used for policy resolution.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "propagationHidden",
-		Orderable: true,
-		Setter:    true,
-		Stored:    true,
-		Type:      "boolean",
-	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -1441,40 +1336,16 @@ namespace, but still used for policy resolution.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"relation": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Relation",
-		Description: `Relation describes the required operation to be performed between subjects and
-objects.`,
-		Exposed: true,
-		Name:    "relation",
-		Stored:  true,
-		SubType: "string",
-		Type:    "list",
-	},
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
-		Description: `Subject represent sets of entities that will have a dependency other entities.
-Subjects are defined as logical operations on tags. Logical operations can
-includes AND/OR.`,
-		Exposed: true,
-		Getter:  true,
-		Name:    "subject",
-		Setter:  true,
-		Stored:  true,
-		SubType: "list_of_lists_of_strings",
-		Type:    "external",
-	},
-	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope", "SSHAuthorization"},
-		ConvertedName:  "Type",
-		CreationOnly:   true,
-		Description:    `Type of the policy.`,
-		Exposed:        true,
-		Name:           "type",
-		Stored:         true,
-		Type:           "enum",
+		Description: `Subject contains the tag expression the authentication claims need to match for
+the policy to apply.`,
+		Exposed:   true,
+		Name:      "subject",
+		Orderable: true,
+		SubType:   "list_of_lists_of_strings",
+		Type:      "external",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1489,6 +1360,15 @@ includes AND/OR.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"validity": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Validity",
+		DefaultValue:   "1h",
+		Description:    `Set the validity of the delivered SSH certificate.`,
+		Exposed:        true,
+		Name:           "validity",
+		Type:           "string",
 	},
 	"zhash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1518,35 +1398,35 @@ georedundancy.`,
 	},
 }
 
-// SparsePoliciesList represents a list of SparsePolicies
-type SparsePoliciesList []*SparsePolicy
+// SparseSSHAuthorizationPoliciesList represents a list of SparseSSHAuthorizationPolicies
+type SparseSSHAuthorizationPoliciesList []*SparseSSHAuthorizationPolicy
 
 // Identity returns the identity of the objects in the list.
-func (o SparsePoliciesList) Identity() elemental.Identity {
+func (o SparseSSHAuthorizationPoliciesList) Identity() elemental.Identity {
 
-	return PolicyIdentity
+	return SSHAuthorizationPolicyIdentity
 }
 
-// Copy returns a pointer to a copy the SparsePoliciesList.
-func (o SparsePoliciesList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseSSHAuthorizationPoliciesList.
+func (o SparseSSHAuthorizationPoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(SparsePoliciesList{}, o...)
+	copy := append(SparseSSHAuthorizationPoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparsePoliciesList.
-func (o SparsePoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseSSHAuthorizationPoliciesList.
+func (o SparseSSHAuthorizationPoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparsePoliciesList{}, o...)
+	out := append(SparseSSHAuthorizationPoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparsePolicy))
+		out = append(out, obj.(*SparseSSHAuthorizationPolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparsePoliciesList) List() elemental.IdentifiablesList {
+func (o SparseSSHAuthorizationPoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1557,15 +1437,15 @@ func (o SparsePoliciesList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparsePoliciesList) DefaultOrder() []string {
+func (o SparseSSHAuthorizationPoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"name",
 	}
 }
 
-// ToPlain returns the SparsePoliciesList converted to PoliciesList.
-func (o SparsePoliciesList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseSSHAuthorizationPoliciesList converted to SSHAuthorizationPoliciesList.
+func (o SparseSSHAuthorizationPoliciesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1576,18 +1456,15 @@ func (o SparsePoliciesList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparsePoliciesList) Version() int {
+func (o SparseSSHAuthorizationPoliciesList) Version() int {
 
 	return 1
 }
 
-// SparsePolicy represents the sparse version of a policy.
-type SparsePolicy struct {
+// SparseSSHAuthorizationPolicy represents the sparse version of a sshauthorizationpolicy.
+type SparseSSHAuthorizationPolicy struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
-
-	// Action defines set of actions that must be enforced when a dependency is met.
-	Action *map[string]map[string]interface{} `json:"action,omitempty" bson:"action" mapstructure:"action,omitempty"`
+	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// ActiveDuration defines for how long the policy will be active according to the
 	// activeSchedule.
@@ -1597,17 +1474,15 @@ type SparsePolicy struct {
 	// The policy will be active for the given activeDuration.
 	ActiveSchedule *string `json:"activeSchedule,omitempty" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
-	// This is a set of all object tags for matching in the DB.
-	AllObjectTags *[]string `json:"-,omitempty" bson:"allobjecttags" mapstructure:"-,omitempty"`
-
-	// This is a set of all subject tags for matching in the DB.
-	AllSubjectTags *[]string `json:"-,omitempty" bson:"allsubjecttags" mapstructure:"-,omitempty"`
-
 	// Annotation stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
+	// If set, the api authorization will only be valid if the request comes from one
+	// the declared subnets.
+	AuthorizedSubnets *[]string `json:"authorizedSubnets,omitempty" bson:"-" mapstructure:"authorizedSubnets,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
@@ -1618,10 +1493,20 @@ type SparsePolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
 
+	// The list of SSH permissions to apply to SSH certificate. You can check the list
+	// of standard extensions at
+	// <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.
+	Extensions *[]string `json:"extensions,omitempty" bson:"-" mapstructure:"extensions,omitempty"`
+
 	// Fallback indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" bson:"fallback" mapstructure:"fallback,omitempty"`
+
+	// If set, this will configure the `+"`"+`force-command`+"`"+` option in the SSH Certificate.
+	// More info can be found at
+	// <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L249>.
+	ForceCommand *string `json:"forceCommand,omitempty" bson:"-" mapstructure:"forceCommand,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -1636,34 +1521,30 @@ type SparsePolicy struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Object represents set of entities that another entity depends on. As subjects,
-	// objects are identified as logical operations on tags when a policy is defined.
-	Object *[][]string `json:"object,omitempty" bson:"object" mapstructure:"object,omitempty"`
+	// Object contains the tag expression matching the enforcers the subject is allowed
+	// to connect to.
+	Object *[][]string `json:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
+
+	// You can set some principals that will be applied to delivered certificate. If
+	// not
+	// set, the user's claim Subject will be used.
+	Principals *[]string `json:"principals,omitempty" bson:"-" mapstructure:"principals,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// If set to true while the policy is propagating, it won't be visible to children
-	// namespace, but still used for policy resolution.
-	PropagationHidden *bool `json:"propagationHidden,omitempty" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
-
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Relation describes the required operation to be performed between subjects and
-	// objects.
-	Relation *[]string `json:"relation,omitempty" bson:"relation" mapstructure:"relation,omitempty"`
-
-	// Subject represent sets of entities that will have a dependency other entities.
-	// Subjects are defined as logical operations on tags. Logical operations can
-	// includes AND/OR.
-	Subject *[][]string `json:"subject,omitempty" bson:"subject" mapstructure:"subject,omitempty"`
-
-	// Type of the policy.
-	Type *PolicyTypeValue `json:"type,omitempty" bson:"type" mapstructure:"type,omitempty"`
+	// Subject contains the tag expression the authentication claims need to match for
+	// the policy to apply.
+	Subject *[][]string `json:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+
+	// Set the validity of the delivered SSH certificate.
+	Validity *string `json:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -1678,19 +1559,19 @@ type SparsePolicy struct {
 	sync.Mutex `json:"-" bson:"-"`
 }
 
-// NewSparsePolicy returns a new  SparsePolicy.
-func NewSparsePolicy() *SparsePolicy {
-	return &SparsePolicy{}
+// NewSparseSSHAuthorizationPolicy returns a new  SparseSSHAuthorizationPolicy.
+func NewSparseSSHAuthorizationPolicy() *SparseSSHAuthorizationPolicy {
+	return &SparseSSHAuthorizationPolicy{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparsePolicy) Identity() elemental.Identity {
+func (o *SparseSSHAuthorizationPolicy) Identity() elemental.Identity {
 
-	return PolicyIdentity
+	return SSHAuthorizationPolicyIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparsePolicy) Identifier() string {
+func (o *SparseSSHAuthorizationPolicy) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1699,26 +1580,23 @@ func (o *SparsePolicy) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparsePolicy) SetIdentifier(id string) {
+func (o *SparseSSHAuthorizationPolicy) SetIdentifier(id string) {
 
 	o.ID = &id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparsePolicy) Version() int {
+func (o *SparseSSHAuthorizationPolicy) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparsePolicy) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseSSHAuthorizationPolicy) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewPolicy()
+	out := NewSSHAuthorizationPolicy()
 	if o.ID != nil {
 		out.ID = *o.ID
-	}
-	if o.Action != nil {
-		out.Action = *o.Action
 	}
 	if o.ActiveDuration != nil {
 		out.ActiveDuration = *o.ActiveDuration
@@ -1726,17 +1604,14 @@ func (o *SparsePolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.ActiveSchedule != nil {
 		out.ActiveSchedule = *o.ActiveSchedule
 	}
-	if o.AllObjectTags != nil {
-		out.AllObjectTags = *o.AllObjectTags
-	}
-	if o.AllSubjectTags != nil {
-		out.AllSubjectTags = *o.AllSubjectTags
-	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
 	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
+	}
+	if o.AuthorizedSubnets != nil {
+		out.AuthorizedSubnets = *o.AuthorizedSubnets
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
@@ -1747,8 +1622,14 @@ func (o *SparsePolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.Disabled != nil {
 		out.Disabled = *o.Disabled
 	}
+	if o.Extensions != nil {
+		out.Extensions = *o.Extensions
+	}
 	if o.Fallback != nil {
 		out.Fallback = *o.Fallback
+	}
+	if o.ForceCommand != nil {
+		out.ForceCommand = *o.ForceCommand
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
@@ -1765,26 +1646,23 @@ func (o *SparsePolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.Object != nil {
 		out.Object = *o.Object
 	}
+	if o.Principals != nil {
+		out.Principals = *o.Principals
+	}
 	if o.Propagate != nil {
 		out.Propagate = *o.Propagate
-	}
-	if o.PropagationHidden != nil {
-		out.PropagationHidden = *o.PropagationHidden
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
 	}
-	if o.Relation != nil {
-		out.Relation = *o.Relation
-	}
 	if o.Subject != nil {
 		out.Subject = *o.Subject
 	}
-	if o.Type != nil {
-		out.Type = *o.Type
-	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
+	}
+	if o.Validity != nil {
+		out.Validity = *o.Validity
 	}
 	if o.ZHash != nil {
 		out.ZHash = *o.ZHash
@@ -1797,259 +1675,223 @@ func (o *SparsePolicy) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetActiveDuration returns the ActiveDuration of the receiver.
-func (o *SparsePolicy) GetActiveDuration() string {
+func (o *SparseSSHAuthorizationPolicy) GetActiveDuration() string {
 
 	return *o.ActiveDuration
 }
 
 // SetActiveDuration sets the property ActiveDuration of the receiver using the address of the given value.
-func (o *SparsePolicy) SetActiveDuration(activeDuration string) {
+func (o *SparseSSHAuthorizationPolicy) SetActiveDuration(activeDuration string) {
 
 	o.ActiveDuration = &activeDuration
 }
 
 // GetActiveSchedule returns the ActiveSchedule of the receiver.
-func (o *SparsePolicy) GetActiveSchedule() string {
+func (o *SparseSSHAuthorizationPolicy) GetActiveSchedule() string {
 
 	return *o.ActiveSchedule
 }
 
 // SetActiveSchedule sets the property ActiveSchedule of the receiver using the address of the given value.
-func (o *SparsePolicy) SetActiveSchedule(activeSchedule string) {
+func (o *SparseSSHAuthorizationPolicy) SetActiveSchedule(activeSchedule string) {
 
 	o.ActiveSchedule = &activeSchedule
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparsePolicy) GetAnnotations() map[string][]string {
+func (o *SparseSSHAuthorizationPolicy) GetAnnotations() map[string][]string {
 
 	return *o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparsePolicy) SetAnnotations(annotations map[string][]string) {
+func (o *SparseSSHAuthorizationPolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparsePolicy) GetAssociatedTags() []string {
+func (o *SparseSSHAuthorizationPolicy) GetAssociatedTags() []string {
 
 	return *o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparsePolicy) SetAssociatedTags(associatedTags []string) {
+func (o *SparseSSHAuthorizationPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparsePolicy) GetCreateTime() time.Time {
+func (o *SparseSSHAuthorizationPolicy) GetCreateTime() time.Time {
 
 	return *o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparsePolicy) SetCreateTime(createTime time.Time) {
+func (o *SparseSSHAuthorizationPolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparsePolicy) GetDescription() string {
+func (o *SparseSSHAuthorizationPolicy) GetDescription() string {
 
 	return *o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the address of the given value.
-func (o *SparsePolicy) SetDescription(description string) {
+func (o *SparseSSHAuthorizationPolicy) SetDescription(description string) {
 
 	o.Description = &description
 }
 
 // GetDisabled returns the Disabled of the receiver.
-func (o *SparsePolicy) GetDisabled() bool {
+func (o *SparseSSHAuthorizationPolicy) GetDisabled() bool {
 
 	return *o.Disabled
 }
 
 // SetDisabled sets the property Disabled of the receiver using the address of the given value.
-func (o *SparsePolicy) SetDisabled(disabled bool) {
+func (o *SparseSSHAuthorizationPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = &disabled
 }
 
 // GetFallback returns the Fallback of the receiver.
-func (o *SparsePolicy) GetFallback() bool {
+func (o *SparseSSHAuthorizationPolicy) GetFallback() bool {
 
 	return *o.Fallback
 }
 
 // SetFallback sets the property Fallback of the receiver using the address of the given value.
-func (o *SparsePolicy) SetFallback(fallback bool) {
+func (o *SparseSSHAuthorizationPolicy) SetFallback(fallback bool) {
 
 	o.Fallback = &fallback
 }
 
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparsePolicy) GetMetadata() []string {
+func (o *SparseSSHAuthorizationPolicy) GetMetadata() []string {
 
 	return *o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the address of the given value.
-func (o *SparsePolicy) SetMetadata(metadata []string) {
+func (o *SparseSSHAuthorizationPolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = &metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparsePolicy) GetName() string {
+func (o *SparseSSHAuthorizationPolicy) GetName() string {
 
 	return *o.Name
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparsePolicy) SetName(name string) {
+func (o *SparseSSHAuthorizationPolicy) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparsePolicy) GetNamespace() string {
+func (o *SparseSSHAuthorizationPolicy) GetNamespace() string {
 
 	return *o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparsePolicy) SetNamespace(namespace string) {
+func (o *SparseSSHAuthorizationPolicy) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparsePolicy) GetNormalizedTags() []string {
+func (o *SparseSSHAuthorizationPolicy) GetNormalizedTags() []string {
 
 	return *o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparsePolicy) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseSSHAuthorizationPolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
-// GetObject returns the Object of the receiver.
-func (o *SparsePolicy) GetObject() [][]string {
-
-	return *o.Object
-}
-
-// SetObject sets the property Object of the receiver using the address of the given value.
-func (o *SparsePolicy) SetObject(object [][]string) {
-
-	o.Object = &object
-}
-
 // GetPropagate returns the Propagate of the receiver.
-func (o *SparsePolicy) GetPropagate() bool {
+func (o *SparseSSHAuthorizationPolicy) GetPropagate() bool {
 
 	return *o.Propagate
 }
 
 // SetPropagate sets the property Propagate of the receiver using the address of the given value.
-func (o *SparsePolicy) SetPropagate(propagate bool) {
+func (o *SparseSSHAuthorizationPolicy) SetPropagate(propagate bool) {
 
 	o.Propagate = &propagate
 }
 
-// GetPropagationHidden returns the PropagationHidden of the receiver.
-func (o *SparsePolicy) GetPropagationHidden() bool {
-
-	return *o.PropagationHidden
-}
-
-// SetPropagationHidden sets the property PropagationHidden of the receiver using the address of the given value.
-func (o *SparsePolicy) SetPropagationHidden(propagationHidden bool) {
-
-	o.PropagationHidden = &propagationHidden
-}
-
 // GetProtected returns the Protected of the receiver.
-func (o *SparsePolicy) GetProtected() bool {
+func (o *SparseSSHAuthorizationPolicy) GetProtected() bool {
 
 	return *o.Protected
 }
 
-// GetSubject returns the Subject of the receiver.
-func (o *SparsePolicy) GetSubject() [][]string {
-
-	return *o.Subject
-}
-
-// SetSubject sets the property Subject of the receiver using the address of the given value.
-func (o *SparsePolicy) SetSubject(subject [][]string) {
-
-	o.Subject = &subject
-}
-
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparsePolicy) GetUpdateTime() time.Time {
+func (o *SparseSSHAuthorizationPolicy) GetUpdateTime() time.Time {
 
 	return *o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparsePolicy) SetUpdateTime(updateTime time.Time) {
+func (o *SparseSSHAuthorizationPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparsePolicy) GetZHash() int {
+func (o *SparseSSHAuthorizationPolicy) GetZHash() int {
 
 	return *o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparsePolicy) SetZHash(zHash int) {
+func (o *SparseSSHAuthorizationPolicy) SetZHash(zHash int) {
 
 	o.ZHash = &zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparsePolicy) GetZone() int {
+func (o *SparseSSHAuthorizationPolicy) GetZone() int {
 
 	return *o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparsePolicy) SetZone(zone int) {
+func (o *SparseSSHAuthorizationPolicy) SetZone(zone int) {
 
 	o.Zone = &zone
 }
 
-// DeepCopy returns a deep copy if the SparsePolicy.
-func (o *SparsePolicy) DeepCopy() *SparsePolicy {
+// DeepCopy returns a deep copy if the SparseSSHAuthorizationPolicy.
+func (o *SparseSSHAuthorizationPolicy) DeepCopy() *SparseSSHAuthorizationPolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparsePolicy{}
+	out := &SparseSSHAuthorizationPolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparsePolicy.
-func (o *SparsePolicy) DeepCopyInto(out *SparsePolicy) {
+// DeepCopyInto copies the receiver into the given *SparseSSHAuthorizationPolicy.
+func (o *SparseSSHAuthorizationPolicy) DeepCopyInto(out *SparseSSHAuthorizationPolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparsePolicy: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseSSHAuthorizationPolicy: %s", err))
 	}
 
-	*out = *target.(*SparsePolicy)
+	*out = *target.(*SparseSSHAuthorizationPolicy)
 }

@@ -4,7 +4,7 @@ model:
   resource_name: deprecatedhostservices
   entity_name: DeprecatedHostService
   package: squall
-  group: none
+  group: deprecated
   description: Represents a service of the enforcer's host.
   detached: true
 

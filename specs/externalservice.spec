@@ -4,7 +4,7 @@ model:
   resource_name: externalservices
   entity_name: ExternalService
   package: squall
-  group: none
+  group: deprecated
   description: This API is deprecated in favor of externalnetworks.
   aliases:
   - extsrv
