@@ -313,14 +313,6 @@ relations:
   create:
     description: Sends a jaeger tracing batch.
 
-- rest_name: k8scluster
-  get:
-    description: Retrieves the list of kubernetes clusters.
-    global_parameters:
-    - $filtering
-  create:
-    description: Creates a new kubernetes cluster.
-
 - rest_name: appcredential
   get:
     description: Retrieves the list of application credentials.
