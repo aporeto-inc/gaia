@@ -46,15 +46,6 @@ attributes:
     extensions:
       noInit: true
 
-  - name: externalServices
-    description: Policy target networks.
-    type: refList
-    exposed: true
-    subtype: externalservice
-    deprecated: true
-    extensions:
-      noInit: true
-
   - name: filePaths
     description: Policy target file paths.
     type: refList

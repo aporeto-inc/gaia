@@ -98,9 +98,6 @@ type PolicyRule struct {
 	// Policy target networks.
 	ExternalNetworks ExternalNetworksList `json:"externalNetworks" bson:"-" mapstructure:"externalNetworks,omitempty"`
 
-	// Policy target networks.
-	ExternalServices ExternalServicesList `json:"externalServices" bson:"-" mapstructure:"externalServices,omitempty"`
-
 	// Policy target file paths.
 	FilePaths FilePathsList `json:"filePaths" bson:"-" mapstructure:"filePaths,omitempty"`
 
@@ -145,8 +142,8 @@ func NewPolicyRule() *PolicyRule {
 
 	return &PolicyRule{
 		ModelVersion:  1,
-		AuditProfiles: AuditProfilesList{},
 		HostServices:  HostServicesList{},
+		AuditProfiles: AuditProfilesList{},
 		Relation:      []string{},
 		TagClauses:    [][]string{},
 	}
@@ -219,7 +216,6 @@ func (o *PolicyRule) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			AuditProfiles:     &o.AuditProfiles,
 			EnforcerProfiles:  &o.EnforcerProfiles,
 			ExternalNetworks:  &o.ExternalNetworks,
-			ExternalServices:  &o.ExternalServices,
 			FilePaths:         &o.FilePaths,
 			HostServices:      &o.HostServices,
 			IsolationProfiles: &o.IsolationProfiles,
@@ -247,8 +243,6 @@ func (o *PolicyRule) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.EnforcerProfiles = &(o.EnforcerProfiles)
 		case "externalNetworks":
 			sp.ExternalNetworks = &(o.ExternalNetworks)
-		case "externalServices":
-			sp.ExternalServices = &(o.ExternalServices)
 		case "filePaths":
 			sp.FilePaths = &(o.FilePaths)
 		case "hostServices":
@@ -298,9 +292,6 @@ func (o *PolicyRule) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ExternalNetworks != nil {
 		o.ExternalNetworks = *so.ExternalNetworks
-	}
-	if so.ExternalServices != nil {
-		o.ExternalServices = *so.ExternalServices
 	}
 	if so.FilePaths != nil {
 		o.FilePaths = *so.FilePaths
@@ -380,12 +371,6 @@ func (o *PolicyRule) Validate() error {
 	}
 
 	for _, sub := range o.ExternalNetworks {
-		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
-		}
-	}
-
-	for _, sub := range o.ExternalServices {
 		if err := sub.Validate(); err != nil {
 			errors = append(errors, err)
 		}
@@ -473,8 +458,6 @@ func (o *PolicyRule) ValueForAttribute(name string) interface{} {
 		return o.EnforcerProfiles
 	case "externalNetworks":
 		return o.ExternalNetworks
-	case "externalServices":
-		return o.ExternalServices
 	case "filePaths":
 		return o.FilePaths
 	case "hostServices":
@@ -551,16 +534,6 @@ var PolicyRuleAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "externalNetworks",
 		SubType:        "externalnetwork",
-		Type:           "refList",
-	},
-	"ExternalServices": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ExternalServices",
-		Deprecated:     true,
-		Description:    `Policy target networks.`,
-		Exposed:        true,
-		Name:           "externalServices",
-		SubType:        "externalservice",
 		Type:           "refList",
 	},
 	"FilePaths": elemental.AttributeSpecification{
@@ -718,16 +691,6 @@ var PolicyRuleLowerCaseAttributesMap = map[string]elemental.AttributeSpecificati
 		Exposed:        true,
 		Name:           "externalNetworks",
 		SubType:        "externalnetwork",
-		Type:           "refList",
-	},
-	"externalservices": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ExternalServices",
-		Deprecated:     true,
-		Description:    `Policy target networks.`,
-		Exposed:        true,
-		Name:           "externalServices",
-		SubType:        "externalservice",
 		Type:           "refList",
 	},
 	"filepaths": elemental.AttributeSpecification{
@@ -916,9 +879,6 @@ type SparsePolicyRule struct {
 	// Policy target networks.
 	ExternalNetworks *ExternalNetworksList `json:"externalNetworks,omitempty" bson:"-" mapstructure:"externalNetworks,omitempty"`
 
-	// Policy target networks.
-	ExternalServices *ExternalServicesList `json:"externalServices,omitempty" bson:"-" mapstructure:"externalServices,omitempty"`
-
 	// Policy target file paths.
 	FilePaths *FilePathsList `json:"filePaths,omitempty" bson:"-" mapstructure:"filePaths,omitempty"`
 
@@ -1008,9 +968,6 @@ func (o *SparsePolicyRule) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ExternalNetworks != nil {
 		out.ExternalNetworks = *o.ExternalNetworks
-	}
-	if o.ExternalServices != nil {
-		out.ExternalServices = *o.ExternalServices
 	}
 	if o.FilePaths != nil {
 		out.FilePaths = *o.FilePaths

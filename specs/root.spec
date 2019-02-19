@@ -251,15 +251,6 @@ relations:
         multiple: true
         example_value: a=a
 
-- rest_name: externalservice
-  get:
-    description: Retrieves the list of external services.
-    global_parameters:
-    - $filtering
-    - $archivable
-  create:
-    description: Creates a new external service.
-
 - rest_name: externalnetwork
   get:
     description: Retrieves the list of external network.

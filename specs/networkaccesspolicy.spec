@@ -110,20 +110,6 @@ attributes:
 
 # Relations
 relations:
-- rest_name: externalservice
-  get:
-    description: Returns the list of external services affected by a network access
-      policy.
-    parameters:
-      entries:
-      - name: mode
-        description: Matching mode.
-        type: enum
-        allowed_choices:
-        - subject
-        - object
-        default_value: object
-
 - rest_name: externalnetwork
   get:
     description: Returns the list of external networks affected by a network access
