@@ -2882,12 +2882,34 @@ func init() {
 						Type: "float",
 					},
 					elemental.ParameterDefinition{
+						Name: "enforcementStatus",
+						Type: "enum",
+						AllowedChoices: []string{
+							"Failed",
+							"Inactive",
+							"Active",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name: "forceFullPoke",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
 						Name: "memory",
 						Type: "integer",
 					},
 					elemental.ParameterDefinition{
 						Name: "processes",
 						Type: "integer",
+					},
+					elemental.ParameterDefinition{
+						Name: "status",
+						Type: "enum",
+						AllowedChoices: []string{
+							"Registered",
+							"Connected",
+							"Disconnected",
+						},
 					},
 					elemental.ParameterDefinition{
 						Name: "ts",
@@ -2934,12 +2956,34 @@ func init() {
 						Type: "float",
 					},
 					elemental.ParameterDefinition{
+						Name: "enforcementStatus",
+						Type: "enum",
+						AllowedChoices: []string{
+							"Failed",
+							"Inactive",
+							"Active",
+						},
+					},
+					elemental.ParameterDefinition{
+						Name: "forceFullPoke",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
 						Name: "memory",
 						Type: "integer",
 					},
 					elemental.ParameterDefinition{
 						Name: "processes",
 						Type: "integer",
+					},
+					elemental.ParameterDefinition{
+						Name: "status",
+						Type: "enum",
+						AllowedChoices: []string{
+							"Registered",
+							"Connected",
+							"Disconnected",
+						},
 					},
 					elemental.ParameterDefinition{
 						Name: "ts",

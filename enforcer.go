@@ -9,6 +9,20 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// EnforcerEnforcementStatusValue represents the possible values for attribute "enforcementStatus".
+type EnforcerEnforcementStatusValue string
+
+const (
+	// EnforcerEnforcementStatusActive represents the value Active.
+	EnforcerEnforcementStatusActive EnforcerEnforcementStatusValue = "Active"
+
+	// EnforcerEnforcementStatusFailed represents the value Failed.
+	EnforcerEnforcementStatusFailed EnforcerEnforcementStatusValue = "Failed"
+
+	// EnforcerEnforcementStatusInactive represents the value Inactive.
+	EnforcerEnforcementStatusInactive EnforcerEnforcementStatusValue = "Inactive"
+)
+
 // EnforcerOperationalStatusValue represents the possible values for attribute "operationalStatus".
 type EnforcerOperationalStatusValue string
 
@@ -150,12 +164,18 @@ type Enforcer struct {
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
+	// Status of enforcement for PU managed directly by enforcerd, like Host PUs.
+	EnforcementStatus EnforcerEnforcementStatusValue `json:"enforcementStatus" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
+
 	// Contains the ID of the profile used by the instance of enforcerd.
 	EnforcerProfileID string `json:"enforcerProfileID" bson:"enforcerprofileid" mapstructure:"enforcerProfileID,omitempty"`
 
 	// LastCollectionTime represents the date and time when the info have been
 	// collected.
 	LastCollectionTime time.Time `json:"lastCollectionTime" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
+
+	// Last poke is the time when the enforcer got last poked.
+	LastPokeTime time.Time `json:"-" bson:"lastpoketime" mapstructure:"-,omitempty"`
 
 	// LastSyncTime holds the last heart beat time.
 	LastSyncTime time.Time `json:"lastSyncTime" bson:"lastsynctime" mapstructure:"lastSyncTime,omitempty"`
@@ -229,6 +249,7 @@ func NewEnforcer() *Enforcer {
 		Annotations:           map[string][]string{},
 		AssociatedTags:        []string{},
 		CollectedInfo:         map[string]string{},
+		EnforcementStatus:     EnforcerEnforcementStatusInactive,
 		NormalizedTags:        []string{},
 		OperationalStatus:     EnforcerOperationalStatusRegistered,
 		Metadata:              []string{},
@@ -439,8 +460,10 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CreateTime:                &o.CreateTime,
 			CurrentVersion:            &o.CurrentVersion,
 			Description:               &o.Description,
+			EnforcementStatus:         &o.EnforcementStatus,
 			EnforcerProfileID:         &o.EnforcerProfileID,
 			LastCollectionTime:        &o.LastCollectionTime,
+			LastPokeTime:              &o.LastPokeTime,
 			LastSyncTime:              &o.LastSyncTime,
 			LastValidHostServices:     &o.LastValidHostServices,
 			LocalCA:                   &o.LocalCA,
@@ -491,10 +514,14 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CurrentVersion = &(o.CurrentVersion)
 		case "description":
 			sp.Description = &(o.Description)
+		case "enforcementStatus":
+			sp.EnforcementStatus = &(o.EnforcementStatus)
 		case "enforcerProfileID":
 			sp.EnforcerProfileID = &(o.EnforcerProfileID)
 		case "lastCollectionTime":
 			sp.LastCollectionTime = &(o.LastCollectionTime)
+		case "lastPokeTime":
+			sp.LastPokeTime = &(o.LastPokeTime)
 		case "lastSyncTime":
 			sp.LastSyncTime = &(o.LastSyncTime)
 		case "lastValidHostServices":
@@ -582,11 +609,17 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Description != nil {
 		o.Description = *so.Description
 	}
+	if so.EnforcementStatus != nil {
+		o.EnforcementStatus = *so.EnforcementStatus
+	}
 	if so.EnforcerProfileID != nil {
 		o.EnforcerProfileID = *so.EnforcerProfileID
 	}
 	if so.LastCollectionTime != nil {
 		o.LastCollectionTime = *so.LastCollectionTime
+	}
+	if so.LastPokeTime != nil {
+		o.LastPokeTime = *so.LastPokeTime
 	}
 	if so.LastSyncTime != nil {
 		o.LastSyncTime = *so.LastSyncTime
@@ -676,6 +709,10 @@ func (o *Enforcer) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateStringInList("enforcementStatus", string(o.EnforcementStatus), []string{"Inactive", "Active", "Failed"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -750,10 +787,14 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.CurrentVersion
 	case "description":
 		return o.Description
+	case "enforcementStatus":
+		return o.EnforcementStatus
 	case "enforcerProfileID":
 		return o.EnforcerProfileID
 	case "lastCollectionTime":
 		return o.LastCollectionTime
+	case "lastPokeTime":
+		return o.LastPokeTime
 	case "lastSyncTime":
 		return o.LastSyncTime
 	case "lastValidHostServices":
@@ -958,6 +999,17 @@ to this object.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"EnforcementStatus": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Inactive", "Active", "Failed"},
+		ConvertedName:  "EnforcementStatus",
+		DefaultValue:   EnforcerEnforcementStatusInactive,
+		Description:    `Status of enforcement for PU managed directly by enforcerd, like Host PUs.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "enforcementStatus",
+		Stored:         true,
+		Type:           "enum",
+	},
 	"EnforcerProfileID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerProfileID",
@@ -977,6 +1029,14 @@ collected.`,
 		Name:    "lastCollectionTime",
 		Stored:  true,
 		Type:    "time",
+	},
+	"LastPokeTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LastPokeTime",
+		Description:    `Last poke is the time when the enforcer got last poked.`,
+		Name:           "lastPokeTime",
+		Stored:         true,
+		Type:           "time",
 	},
 	"LastSyncTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1352,6 +1412,17 @@ to this object.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"enforcementstatus": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Inactive", "Active", "Failed"},
+		ConvertedName:  "EnforcementStatus",
+		DefaultValue:   EnforcerEnforcementStatusInactive,
+		Description:    `Status of enforcement for PU managed directly by enforcerd, like Host PUs.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "enforcementStatus",
+		Stored:         true,
+		Type:           "enum",
+	},
 	"enforcerprofileid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EnforcerProfileID",
@@ -1371,6 +1442,14 @@ collected.`,
 		Name:    "lastCollectionTime",
 		Stored:  true,
 		Type:    "time",
+	},
+	"lastpoketime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LastPokeTime",
+		Description:    `Last poke is the time when the enforcer got last poked.`,
+		Name:           "lastPokeTime",
+		Stored:         true,
+		Type:           "time",
 	},
 	"lastsynctime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1691,12 +1770,18 @@ type SparseEnforcer struct {
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
 
+	// Status of enforcement for PU managed directly by enforcerd, like Host PUs.
+	EnforcementStatus *EnforcerEnforcementStatusValue `json:"enforcementStatus,omitempty" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
+
 	// Contains the ID of the profile used by the instance of enforcerd.
 	EnforcerProfileID *string `json:"enforcerProfileID,omitempty" bson:"enforcerprofileid" mapstructure:"enforcerProfileID,omitempty"`
 
 	// LastCollectionTime represents the date and time when the info have been
 	// collected.
 	LastCollectionTime *time.Time `json:"lastCollectionTime,omitempty" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
+
+	// Last poke is the time when the enforcer got last poked.
+	LastPokeTime *time.Time `json:"-,omitempty" bson:"lastpoketime" mapstructure:"-,omitempty"`
 
 	// LastSyncTime holds the last heart beat time.
 	LastSyncTime *time.Time `json:"lastSyncTime,omitempty" bson:"lastsynctime" mapstructure:"lastSyncTime,omitempty"`
@@ -1840,11 +1925,17 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	if o.Description != nil {
 		out.Description = *o.Description
 	}
+	if o.EnforcementStatus != nil {
+		out.EnforcementStatus = *o.EnforcementStatus
+	}
 	if o.EnforcerProfileID != nil {
 		out.EnforcerProfileID = *o.EnforcerProfileID
 	}
 	if o.LastCollectionTime != nil {
 		out.LastCollectionTime = *o.LastCollectionTime
+	}
+	if o.LastPokeTime != nil {
+		out.LastPokeTime = *o.LastPokeTime
 	}
 	if o.LastSyncTime != nil {
 		out.LastSyncTime = *o.LastSyncTime

@@ -115,8 +115,11 @@ Sends a poke empty object. This is used to ensure an enforcer is up and running.
 ##### Parameters
 
 - `cpuload` (float): If set, provides the total cpu usage in percentage of vCPUs.
+- `enforcementStatus` (enum): If set, changes the enforcement status of the enforcer alongside with the poke.
+- `forceFullPoke` (boolean): If set, it will trigger a full poke (slower).
 - `memory` (integer): If set, provides the total resident memory used in bytes.
 - `processes` (integer): If set, defines the number of current processes.
+- `status` (enum): If set, changes the status of the enforcer alongside with the poke.
 - `ts` (time): time of report. If not set, local server time will be used.
 
 #### `GET /processingunits/:id/poke`
@@ -1267,6 +1270,7 @@ object in order to understand the current status of the enforcers.
 ```json
 {
   "FQDN": "server1.domain.com",
+  "enforcementStatus": "Inactive",
   "machineID": "3F23E8DF-C56D-45CF-89B8-A867F3956409",
   "name": "the name",
   "operationalStatus": "Registered"
@@ -1343,8 +1347,11 @@ Sends a poke empty object. This is used to ensure an enforcer is up and running.
 ##### Parameters
 
 - `cpuload` (float): If set, provides the total cpu usage in percentage of vCPUs.
+- `enforcementStatus` (enum): If set, changes the enforcement status of the enforcer alongside with the poke.
+- `forceFullPoke` (boolean): If set, it will trigger a full poke (slower).
 - `memory` (integer): If set, provides the total resident memory used in bytes.
 - `processes` (integer): If set, defines the number of current processes.
+- `status` (enum): If set, changes the status of the enforcer alongside with the poke.
 - `ts` (time): time of report. If not set, local server time will be used.
 
 #### Attributes
@@ -1459,6 +1466,16 @@ Description is the description of the object.
 | -               | -:     |
 | Max length      | `1024` |
 | Orderable       | `true` |
+
+##### `enforcementStatus` (enum)
+
+Status of enforcement for PU managed directly by enforcerd, like Host PUs.
+
+| Characteristics | Value                      |
+| -               | -:                         |
+| Allowed Value   | `Inactive, Active, Failed` |
+| Default         | `"Inactive"`               |
+| Filterable      | `true`                     |
 
 ##### `enforcerProfileID` (string)
 

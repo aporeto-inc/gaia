@@ -126,6 +126,19 @@ attributes:
     filterable: true
     orderable: true
 
+  - name: enforcementStatus
+    description: Status of enforcement for PU managed directly by enforcerd, like
+      Host PUs.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Inactive
+    - Active
+    - Failed
+    default_value: Inactive
+    filterable: true
+
   - name: enforcerProfileID
     description: Contains the ID of the profile used by the instance of enforcerd.
     type: string
@@ -139,6 +152,11 @@ attributes:
       collected.
     type: time
     exposed: true
+    stored: true
+
+  - name: lastPokeTime
+    description: Last poke is the time when the enforcer got last poked.
+    type: time
     stored: true
 
   - name: lastSyncTime
@@ -257,6 +275,19 @@ relations:
         type: float
         example_value: 1000
 
+      - name: enforcementStatus
+        description: If set, changes the enforcement status of the enforcer alongside
+          with the poke.
+        type: enum
+        allowed_choices:
+        - Failed
+        - Inactive
+        - Active
+
+      - name: forceFullPoke
+        description: If set, it will trigger a full poke (slower).
+        type: boolean
+
       - name: memory
         description: If set, provides the total resident memory used in bytes.
         type: integer
@@ -266,6 +297,15 @@ relations:
         description: If set, defines the number of current processes.
         type: integer
         example_value: 10
+
+      - name: status
+        description: If set, changes the status of the enforcer alongside with the
+          poke.
+        type: enum
+        allowed_choices:
+        - Registered
+        - Connected
+        - Disconnected
 
       - name: ts
         description: time of report. If not set, local server time will be used.
