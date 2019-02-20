@@ -621,7 +621,7 @@ var AlarmAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "map_of_string_of_list_of_strings",
+		SubType:        "map[string][]string",
 		Type:           "external",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
@@ -668,7 +668,7 @@ var AlarmAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "data",
 		Stored:         true,
-		SubType:        "list_of_maps_of_string_of_strings",
+		SubType:        "[]map[string]string",
 		Type:           "external",
 	},
 	"Description": elemental.AttributeSpecification{
@@ -754,7 +754,7 @@ identifier, then only the occurrence will be incremented.`,
 		Exposed:        true,
 		Name:           "occurrences",
 		Stored:         true,
-		SubType:        "list_of_times",
+		SubType:        "[]time.Time",
 		Type:           "external",
 	},
 	"Protected": elemental.AttributeSpecification{
@@ -847,7 +847,7 @@ var AlarmLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "map_of_string_of_list_of_strings",
+		SubType:        "map[string][]string",
 		Type:           "external",
 	},
 	"associatedtags": elemental.AttributeSpecification{
@@ -894,7 +894,7 @@ var AlarmLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "data",
 		Stored:         true,
-		SubType:        "list_of_maps_of_string_of_strings",
+		SubType:        "[]map[string]string",
 		Type:           "external",
 	},
 	"description": elemental.AttributeSpecification{
@@ -980,7 +980,7 @@ identifier, then only the occurrence will be incremented.`,
 		Exposed:        true,
 		Name:           "occurrences",
 		Stored:         true,
-		SubType:        "list_of_times",
+		SubType:        "[]time.Time",
 		Type:           "external",
 	},
 	"protected": elemental.AttributeSpecification{

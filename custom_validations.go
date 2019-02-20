@@ -242,42 +242,6 @@ func makeValidationError(attribute string, message string) error {
 
 var regHostServiceName = regexp.MustCompile(`^[a-zA-Z0-9_]{0,11}$`)
 
-// ValidateHostServicesList validates a list of host services.
-// CS: 10/6/2018 - Keep the constraint on the regex for now. Will need to create an API for HostServices
-func ValidateHostServicesList(attribute string, hostServices []*DeprecatedHostService) error {
-
-	cacheNames := map[string]struct{}{}
-	cachePortsList := map[int]*portutils.PortsList{}
-	cacheRanges := map[int]*portutils.PortsRangeList{}
-
-	for _, hs := range hostServices {
-
-		if len(hs.Name) == 0 {
-			return makeValidationError("hostServices", "Host service names must be specified")
-		}
-
-		// Constraint on regex is used because the enforcer is using the name as nativeContextID.
-		if !regHostServiceName.MatchString(hs.Name) {
-			return makeValidationError("hostServices", "Host service name must be less than 12 characters and contains only alphanumeric or _")
-		}
-
-		// Name should be unique
-		if _, ok := cacheNames[hs.Name]; ok {
-			return makeValidationError("hostServices", "Name must be unique.")
-		}
-
-		cacheNames[hs.Name] = struct{}{}
-
-		if hs.Services != nil {
-			var err error
-			if cachePortsList, cacheRanges, err = ValidateProcessingUnitServicesListWithoutOverlap(hs.Services, cachePortsList, cacheRanges); err != nil {
-				return makeValidationError("hostServices", err.Error())
-			}
-		}
-	}
-	return nil
-}
-
 // ValidateEnforcerProfile validates a an enforcer profile.
 func ValidateEnforcerProfile(enforcerProfile *EnforcerProfile) error {
 

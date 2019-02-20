@@ -90,7 +90,7 @@ attributes:
     description: Parameters are passed to the functions.
     type: external
     exposed: true
-    subtype: map_of_string_of_objects
+    subtype: map[string]interface{}
     stored: true
 
   - name: schedule

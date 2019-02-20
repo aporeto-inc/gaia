@@ -26,10 +26,10 @@ attributes:
     description: List of tags.
     type: external
     exposed: true
-    subtype: map_of_string_of_strings
+    subtype: map[string]string
 
   - name: values
     description: List of tags.
     type: external
     exposed: true
-    subtype: list_of_lists_of_objects
+    subtype: '[][]interface{}'

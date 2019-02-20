@@ -22,7 +22,7 @@ attributes:
       is met.
     type: external
     exposed: true
-    subtype: map_of_string_of_maps_of_string_of_objects
+    subtype: map[string]map[string]interface{}
 
   - name: auditProfiles
     description: AuditProfiles provides the audit profiles that must be applied.
@@ -112,4 +112,4 @@ attributes:
     description: Policy target tags.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'

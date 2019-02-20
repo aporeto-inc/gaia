@@ -276,7 +276,7 @@ var TagInjectAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `List of tags to be added.`,
 		Exposed:        true,
 		Name:           "addedTags",
-		SubType:        "map_of_string_of_integers",
+		SubType:        " map[string]int",
 		Type:           "external",
 	},
 	"RemovedTags": elemental.AttributeSpecification{
@@ -285,7 +285,7 @@ var TagInjectAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `List of tags to be removed.`,
 		Exposed:        true,
 		Name:           "removedTags",
-		SubType:        "map_of_string_of_integers",
+		SubType:        " map[string]int",
 		Type:           "external",
 	},
 	"TargetNamespace": elemental.AttributeSpecification{
@@ -307,7 +307,7 @@ var TagInjectLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `List of tags to be added.`,
 		Exposed:        true,
 		Name:           "addedTags",
-		SubType:        "map_of_string_of_integers",
+		SubType:        " map[string]int",
 		Type:           "external",
 	},
 	"removedtags": elemental.AttributeSpecification{
@@ -316,7 +316,7 @@ var TagInjectLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `List of tags to be removed.`,
 		Exposed:        true,
 		Name:           "removedTags",
-		SubType:        "map_of_string_of_integers",
+		SubType:        " map[string]int",
 		Type:           "external",
 	},
 	"targetnamespace": elemental.AttributeSpecification{

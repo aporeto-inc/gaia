@@ -285,7 +285,7 @@ var RoleAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "authorizations",
 		ReadOnly:       true,
-		SubType:        "map_of_string_of_list_of_strings",
+		SubType:        "map[string][]string",
 		Type:           "external",
 	},
 	"Description": elemental.AttributeSpecification{
@@ -330,7 +330,7 @@ var RoleLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "authorizations",
 		ReadOnly:       true,
-		SubType:        "map_of_string_of_list_of_strings",
+		SubType:        "map[string][]string",
 		Type:           "external",
 	},
 	"description": elemental.AttributeSpecification{

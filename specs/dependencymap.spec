@@ -24,7 +24,7 @@ attributes:
     description: claims represents a user or a script that have accessed an api.
     type: external
     exposed: true
-    subtype: map_of_string_of_list_of_strings
+    subtype: map[string][]string
     read_only: true
 
   - name: edges

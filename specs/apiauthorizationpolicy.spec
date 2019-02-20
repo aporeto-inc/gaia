@@ -71,5 +71,5 @@ attributes:
     description: Subject is the subject.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
     orderable: true

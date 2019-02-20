@@ -373,7 +373,7 @@ var RemoteProcessorAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "input",
 		Required:       true,
-		SubType:        "raw_json",
+		SubType:        "json.RawMessage",
 		Type:           "external",
 	},
 	"Mode": elemental.AttributeSpecification{
@@ -400,7 +400,7 @@ var RemoteProcessorAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "operation",
 		Required:       true,
-		SubType:        "elemental_operation",
+		SubType:        "elemental.Operation",
 		Type:           "external",
 	},
 	"Output": elemental.AttributeSpecification{
@@ -454,7 +454,7 @@ var RemoteProcessorLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Exposed:        true,
 		Name:           "input",
 		Required:       true,
-		SubType:        "raw_json",
+		SubType:        "json.RawMessage",
 		Type:           "external",
 	},
 	"mode": elemental.AttributeSpecification{
@@ -481,7 +481,7 @@ var RemoteProcessorLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Exposed:        true,
 		Name:           "operation",
 		Required:       true,
-		SubType:        "elemental_operation",
+		SubType:        "elemental.Operation",
 		Type:           "external",
 	},
 	"output": elemental.AttributeSpecification{

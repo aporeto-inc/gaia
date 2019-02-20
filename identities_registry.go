@@ -26,12 +26,10 @@ var (
 		"awsapigateway": AWSAPIGatewayIdentity,
 		"awsregister":   AWSRegisterIdentity,
 		"category":      CategoryIdentity,
-		"certificate":   CertificateIdentity,
 
 		"customer":      CustomerIdentity,
 		"dependencymap": DependencyMapIdentity,
-
-		"email": EmailIdentity,
+		"email":         EmailIdentity,
 
 		"enforcer":                     EnforcerIdentity,
 		"enforcerprofile":              EnforcerProfileIdentity,
@@ -132,12 +130,10 @@ var (
 		"awsapigateways": AWSAPIGatewayIdentity,
 		"awsregister":    AWSRegisterIdentity,
 		"categories":     CategoryIdentity,
-		"certificates":   CertificateIdentity,
 
 		"customers":      CustomerIdentity,
 		"dependencymaps": DependencyMapIdentity,
-
-		"emails": EmailIdentity,
+		"emails":         EmailIdentity,
 
 		"enforcers":                      EnforcerIdentity,
 		"enforcerprofiles":               EnforcerProfileIdentity,
@@ -349,10 +345,6 @@ var (
 		"awsapigateway":      nil,
 		"awsregister":        nil,
 		"category":           nil,
-		"certificate": [][]string{
-			[]string{"commonName"},
-			[]string{":unique", "parentID", "commonName"},
-		},
 		"customer": [][]string{
 			[]string{"providerCustomerID"},
 		},
@@ -597,8 +589,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAWSRegister()
 	case CategoryIdentity:
 		return NewCategory()
-	case CertificateIdentity:
-		return NewCertificate()
 	case CustomerIdentity:
 		return NewCustomer()
 	case DependencyMapIdentity:
@@ -794,8 +784,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAWSRegister()
 	case CategoryIdentity:
 		return NewSparseCategory()
-	case CertificateIdentity:
-		return NewSparseCertificate()
 	case CustomerIdentity:
 		return NewSparseCustomer()
 	case DependencyMapIdentity:
@@ -999,8 +987,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &AWSRegistersList{}
 	case CategoryIdentity:
 		return &CategoriesList{}
-	case CertificateIdentity:
-		return &CertificatesList{}
 	case CustomerIdentity:
 		return &CustomersList{}
 	case DependencyMapIdentity:
@@ -1194,8 +1180,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAWSRegistersList{}
 	case CategoryIdentity:
 		return &SparseCategoriesList{}
-	case CertificateIdentity:
-		return &SparseCertificatesList{}
 	case CustomerIdentity:
 		return &SparseCustomersList{}
 	case DependencyMapIdentity:
@@ -1384,7 +1368,6 @@ func AllIdentities() []elemental.Identity {
 		AWSAPIGatewayIdentity,
 		AWSRegisterIdentity,
 		CategoryIdentity,
-		CertificateIdentity,
 		CustomerIdentity,
 		DependencyMapIdentity,
 		EmailIdentity,
@@ -1526,8 +1509,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case AWSRegisterIdentity:
 		return []string{}
 	case CategoryIdentity:
-		return []string{}
-	case CertificateIdentity:
 		return []string{}
 	case CustomerIdentity:
 		return []string{}

@@ -21,7 +21,7 @@ attributes:
     description: AllowedScopes authorized to access the API.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
     stored: true
     orderable: true
 

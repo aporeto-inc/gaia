@@ -42,7 +42,7 @@ attributes:
       based on this policy.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
 
   - name: subject
     description: |-
@@ -50,7 +50,7 @@ attributes:
       policy.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
 
 # Relations
 relations:

@@ -367,7 +367,7 @@ var SSHCertificateAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `List of extensions to set in the ssh certificate.`,
 		Exposed:        true,
 		Name:           "extensions",
-		SubType:        "map_of_string_of_strings",
+		SubType:        "map[string]string",
 		Type:           "external",
 	},
 	"Options": elemental.AttributeSpecification{
@@ -376,7 +376,7 @@ var SSHCertificateAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `List of options to set in the ssh certificate.`,
 		Exposed:        true,
 		Name:           "options",
-		SubType:        "map_of_string_of_strings",
+		SubType:        "map[string]string",
 		Type:           "external",
 	},
 	"Principals": elemental.AttributeSpecification{
@@ -444,7 +444,7 @@ var SSHCertificateLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Description:    `List of extensions to set in the ssh certificate.`,
 		Exposed:        true,
 		Name:           "extensions",
-		SubType:        "map_of_string_of_strings",
+		SubType:        "map[string]string",
 		Type:           "external",
 	},
 	"options": elemental.AttributeSpecification{
@@ -453,7 +453,7 @@ var SSHCertificateLowerCaseAttributesMap = map[string]elemental.AttributeSpecifi
 		Description:    `List of options to set in the ssh certificate.`,
 		Exposed:        true,
 		Name:           "options",
-		SubType:        "map_of_string_of_strings",
+		SubType:        "map[string]string",
 		Type:           "external",
 	},
 	"principals": elemental.AttributeSpecification{

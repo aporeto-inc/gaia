@@ -25,7 +25,7 @@ attributes:
     description: List of tag that was used to create this group.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
 
   - name: name
     description: Name of the group.

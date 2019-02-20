@@ -70,7 +70,7 @@ attributes:
       to connect to.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
     orderable: true
 
   - name: principals
@@ -88,7 +88,7 @@ attributes:
       the policy to apply.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
     orderable: true
 
   - name: validity

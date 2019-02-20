@@ -22,13 +22,13 @@ attributes:
     description: List of extensions to set in the ssh certificate.
     type: external
     exposed: true
-    subtype: map_of_string_of_strings
+    subtype: map[string]string
 
   - name: options
     description: List of options to set in the ssh certificate.
     type: external
     exposed: true
-    subtype: map_of_string_of_strings
+    subtype: map[string]string
 
   - name: principals
     description: List of principals to set in the ssh certificate.

@@ -346,7 +346,7 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Attachments is a list of attachments to send.`,
 		Exposed:        true,
 		Name:           "attachments",
-		SubType:        "map_of_string_of_strings",
+		SubType:        "map[string]string",
 		Type:           "external",
 	},
 	"Bcc": elemental.AttributeSpecification{
@@ -420,7 +420,7 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Attachments is a list of attachments to send.`,
 		Exposed:        true,
 		Name:           "attachments",
-		SubType:        "map_of_string_of_strings",
+		SubType:        "map[string]string",
 		Type:           "external",
 	},
 	"bcc": elemental.AttributeSpecification{

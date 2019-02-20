@@ -42,7 +42,7 @@ attributes:
       to this enforcer.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
     orderable: true
 
   - name: subject
@@ -51,7 +51,7 @@ attributes:
       services must apply to.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
     orderable: true
 
 # Relations

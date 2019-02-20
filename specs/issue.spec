@@ -32,14 +32,14 @@ attributes:
       on the realm.
     type: external
     exposed: true
-    subtype: map_of_string_of_objects
+    subtype: map[string]interface{}
     orderable: true
 
   - name: opaque
     description: Opaque data that will be included in the issued token.
     type: external
     exposed: true
-    subtype: map_of_string_of_strings
+    subtype: map[string]string
 
   - name: quota
     description: Restricts the number of time the issued token should be used.

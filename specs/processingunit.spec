@@ -65,7 +65,7 @@ attributes:
       for this PU.
     type: external
     exposed: true
-    subtype: map_of_string_of_strings
+    subtype: map[string]string
     stored: true
 
   - name: enforcementStatus

@@ -80,7 +80,7 @@ attributes:
     description: Object of the policy.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
     orderable: true
 
   - name: observationEnabled
@@ -105,7 +105,7 @@ attributes:
     description: Subject of the policy.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
     orderable: true
 
 # Relations

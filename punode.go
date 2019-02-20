@@ -394,7 +394,7 @@ var PUNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Tags of the pu.`,
 		Exposed:        true,
 		Name:           "tags",
-		SubType:        "map_of_string_of_strings",
+		SubType:        "map[string]string",
 		Type:           "external",
 	},
 	"Type": elemental.AttributeSpecification{
@@ -471,7 +471,7 @@ var PUNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Tags of the pu.`,
 		Exposed:        true,
 		Name:           "tags",
-		SubType:        "map_of_string_of_strings",
+		SubType:        "map[string]string",
 		Type:           "external",
 	},
 	"type": elemental.AttributeSpecification{

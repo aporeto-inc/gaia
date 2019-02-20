@@ -589,7 +589,6 @@ func init() {
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"auditprofilemappingpolicy": &elemental.RelationshipInfo{},
 			"enforcer":                  &elemental.RelationshipInfo{},
-			"enforcerprofile":           &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -608,7 +607,6 @@ func init() {
 		Info: map[string]*elemental.RelationshipInfo{
 			"auditprofilemappingpolicy": &elemental.RelationshipInfo{},
 			"enforcer":                  &elemental.RelationshipInfo{},
-			"enforcerprofile":           &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -844,69 +842,6 @@ func init() {
 	}
 
 	relationshipsRegistry[CategoryIdentity] = &elemental.Relationship{}
-
-	relationshipsRegistry[CertificateIdentity] = &elemental.Relationship{
-		Create: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
-		},
-		Update: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
-		},
-		Patch: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
-		},
-		Delete: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-				},
-			},
-		},
-		Retrieve: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
-		},
-		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-				},
-			},
-		},
-		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-				},
-			},
-		},
-	}
 
 	relationshipsRegistry[CustomerIdentity] = &elemental.Relationship{
 		Update: map[string]*elemental.RelationshipInfo{

@@ -169,14 +169,6 @@ relations:
   create:
     description: Manages the AWS API Gateway.
 
-- rest_name: certificate
-  get:
-    description: Retrieves the list of existing user certificates.
-    global_parameters:
-    - $filtering
-  create:
-    description: Creates a new user certificate.
-
 - rest_name: dependencymap
   get:
     description: Retrieves the dependencymap of a namespace.
