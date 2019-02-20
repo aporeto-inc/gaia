@@ -3880,12 +3880,12 @@ Tracing indicates if this PU must be placed in tracing mode.
 
 Type of the container ecosystem.
 
-| Characteristics | Value                                                            |
-| -               | -:                                                               |
-| Allowed Value   | `APIGateway, Docker, Host, HostService, LinuxService, RKT, User` |
-| Required        | `true`                                                           |
-| Creation only   | `true`                                                           |
-| Filterable      | `true`                                                           |
+| Characteristics | Value                                                                 |
+| -               | -:                                                                    |
+| Allowed Value   | `APIGateway, Docker, Host, HostService, LinuxService, RKT, User, SSH` |
+| Required        | `true`                                                                |
+| Creation only   | `true`                                                                |
+| Filterable      | `true`                                                                |
 
 ##### `updateTime` (time)
 
