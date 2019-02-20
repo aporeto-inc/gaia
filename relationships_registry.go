@@ -28,11 +28,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -48,11 +43,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "propagated",
 						Type: "boolean",
 					},
@@ -64,11 +54,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -105,11 +90,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -124,11 +104,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -137,11 +112,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -162,11 +132,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -185,11 +150,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -202,11 +162,6 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -239,11 +194,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -266,11 +216,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -287,11 +232,6 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -370,11 +310,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -383,11 +318,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -414,11 +344,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -433,11 +358,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -446,11 +366,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -468,11 +383,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -481,11 +391,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -512,11 +417,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -531,11 +431,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -544,11 +439,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -575,11 +465,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -596,11 +481,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -611,11 +491,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -642,11 +517,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -669,11 +539,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "propagated",
 						Type: "boolean",
 					},
@@ -685,11 +550,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -740,11 +600,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -753,11 +608,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -784,11 +634,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -803,11 +648,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -816,11 +656,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -855,11 +690,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -1028,21 +858,7 @@ func init() {
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
-						Name: "q",
-						Type: "string",
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -1063,11 +879,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -1079,11 +890,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -1110,11 +916,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -1131,11 +932,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -1146,11 +942,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -1177,11 +968,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -1197,11 +983,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "propagated",
 						Type: "boolean",
 					},
@@ -1213,11 +994,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -1280,11 +1056,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -1320,11 +1091,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "archived",
 						Type: "boolean",
 					},
@@ -1349,11 +1115,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -1384,11 +1145,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -1404,11 +1160,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "propagated",
 						Type: "boolean",
 					},
@@ -1420,11 +1171,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -1461,11 +1207,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -1488,11 +1229,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "archived",
 						Type: "boolean",
 					},
@@ -1504,11 +1240,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -1545,11 +1276,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -1572,11 +1298,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "propagated",
 						Type: "boolean",
 					},
@@ -1593,11 +1314,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -1633,11 +1349,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -1653,11 +1364,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "propagated",
 						Type: "boolean",
 					},
@@ -1669,11 +1375,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -1701,11 +1402,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -1744,11 +1440,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "propagated",
 						Type: "boolean",
 					},
@@ -1773,11 +1464,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -1808,11 +1494,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -1835,11 +1516,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "propagated",
 						Type: "boolean",
 					},
@@ -1851,11 +1527,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -1935,11 +1606,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -1954,11 +1620,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -1967,11 +1628,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -1995,11 +1651,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -2020,11 +1671,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -2060,11 +1706,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -2073,11 +1714,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -2132,11 +1768,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -2151,11 +1782,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -2164,11 +1790,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -2195,11 +1816,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -2218,11 +1834,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -2235,11 +1846,6 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -2266,11 +1872,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -2285,11 +1886,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -2298,11 +1894,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -2329,11 +1920,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -2356,11 +1942,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "propagated",
 						Type: "boolean",
 					},
@@ -2372,11 +1953,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -2407,11 +1983,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -2434,11 +2005,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -2455,11 +2021,6 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -2801,11 +2362,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -2821,11 +2377,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "propagated",
 						Type: "boolean",
 					},
@@ -2837,11 +2388,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -2883,11 +2429,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -2911,11 +2452,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -2950,11 +2486,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -2998,11 +2529,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -3048,11 +2574,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -3068,11 +2589,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "propagated",
 						Type: "boolean",
 					},
@@ -3084,11 +2600,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -3125,11 +2636,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -3145,11 +2651,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "propagated",
 						Type: "boolean",
 					},
@@ -3161,11 +2662,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -3238,11 +2734,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -3251,11 +2742,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -3302,11 +2788,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -3322,11 +2803,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "propagated",
 						Type: "boolean",
 					},
@@ -3338,11 +2814,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -3385,11 +2856,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -3426,11 +2892,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "archived",
 						Type: "boolean",
 					},
@@ -3457,11 +2918,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -3493,11 +2949,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -3513,11 +2964,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "propagated",
 						Type: "boolean",
 					},
@@ -3529,11 +2975,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -3643,11 +3084,6 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -4046,11 +3482,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -4077,11 +3508,6 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -4172,11 +3598,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -4192,11 +3613,6 @@ func init() {
 						Multiple: true,
 					},
 					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name: "propagated",
 						Type: "boolean",
 					},
@@ -4208,11 +3624,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -4253,11 +3664,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -4267,11 +3673,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},
@@ -4298,11 +3699,6 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
 				},
 			},
 		},
@@ -4311,11 +3707,6 @@ func init() {
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
 						Type:     "string",
 						Multiple: true,
 					},

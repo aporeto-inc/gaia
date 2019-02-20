@@ -235,7 +235,6 @@ system.
 - `name` (string): internal parameters.
 - `status` (string): internal parameters.
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `POST /accounts`
 
@@ -248,7 +247,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /accounts/:id`
 
@@ -648,7 +646,6 @@ Retrieves the list of aws account bindings.
 
 - `accountid` (string): Id of the account.
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `POST /awsaccounts`
 
@@ -661,7 +658,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /awsaccounts/:id`
 
@@ -886,7 +882,6 @@ Retrieves the list of the account OIDC provider.
 - `OIDCProviderName` (string): OIDCProvider name.
 - `accountID` (string): Aporeto Account ID.
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `POST /oidcproviders`
 
@@ -899,7 +894,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /oidcproviders/:id`
 
@@ -1035,7 +1029,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /invoices/:id`
 
@@ -1121,7 +1114,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /invoicerecords/:id`
 
@@ -1286,7 +1278,6 @@ Retrieves the list of enforcers.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `POST /enforcers`
 
@@ -1298,10 +1289,7 @@ Deletes the object with the given ID.
 
 ##### Parameters
 
-- `q` (string): Backward compat for enforcer <=v2.2.1. does not have any effect.
-- `tag` (string): Backward compat for enforcer <=v2.2.1. does not have any effect.
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /enforcers/:id`
 
@@ -2056,7 +2044,6 @@ Retrieves the list of activity logs.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /activities/:id`
 
@@ -2202,7 +2189,6 @@ Retrieves all the alarms.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `POST /alarms`
 
@@ -2215,7 +2201,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /alarms/:id`
 
@@ -2493,7 +2478,6 @@ Retrieves the list of messages.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `POST /messages`
 
@@ -2506,7 +2490,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /messages/:id`
 
@@ -2667,7 +2650,6 @@ Retrieves tabulated informations based on parameters.
 - `column` (string): Columns you want to see.
 - `identity` (string): Identity you want to tabulate.
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 ##### Mandatory Parameters
 
@@ -2735,7 +2717,6 @@ Retrieves the list of namespaces.
 
 - `authorized` (boolean): Returns all namespaces the token bearer has the right to read. If set, other parameters like `recursive` or `q` will have no effect.
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `POST /namespaces`
 
@@ -2748,7 +2729,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /namespaces/:id`
 
@@ -2955,7 +2935,6 @@ Retrieves the list namespace mapping policies.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `POST /namespacemappingpolicies`
 
@@ -2968,7 +2947,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /namespacemappingpolicies/:id`
 
@@ -3135,7 +3113,6 @@ Retrieves the list of policy primitives.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `propagated` (boolean): Also retrieve the objects that propagate down.
 
 #### `DELETE /policies/:id`
@@ -3145,7 +3122,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /policies/:id`
 
@@ -3619,7 +3595,6 @@ Retrieves the list of processing units.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `archived` (boolean): Also retrieve the objects that have been archived.
 
 #### `POST /processingunits`
@@ -3633,7 +3608,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /processingunits/:id`
 
@@ -3921,7 +3895,6 @@ Retrieves the list of vulnerabilities.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `POST /vulnerabilities`
 
@@ -4199,7 +4172,6 @@ Retrieves the list of apps.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### Attributes
 
@@ -4388,7 +4360,6 @@ Retrieves the list of installed apps.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `POST /installedapps`
 
@@ -4401,7 +4372,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /installedapps/:id`
 
@@ -4552,7 +4522,6 @@ Retrieves the list of Automations.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `POST /automations`
 
@@ -4565,7 +4534,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /automations/:id`
 
@@ -4937,7 +4905,6 @@ Retrieves the list of audit profiles.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `POST /auditprofiles`
 
@@ -4950,7 +4917,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /auditprofiles/:id`
 
@@ -5099,7 +5065,6 @@ Retrieves the list of audit profile mapping policies.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `propagated` (boolean): Also retrieve the objects that propagate down.
 
 #### `POST /auditprofilemappingpolicies`
@@ -5113,7 +5078,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /auditprofilemappingpolicies/:id`
 
@@ -5534,7 +5498,6 @@ Retrieves the list of API authorization policies.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `propagated` (boolean): Also retrieve the objects that propagate down.
 
 #### `POST /apiauthorizationpolicies`
@@ -5548,7 +5511,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /apiauthorizationpolicies/:id`
 
@@ -5859,7 +5821,6 @@ Retrieves the list of application credentials.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `POST /appcredentials`
 
@@ -5872,7 +5833,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /appcredentials/:id`
 
@@ -6163,7 +6123,6 @@ Retrieves the list of enforcer profiles.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `POST /enforcerprofiles`
 
@@ -6176,7 +6135,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /enforcerprofiles/:id`
 
@@ -6380,7 +6338,6 @@ Retrieves the list of enforcer profile mapping policies.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `propagated` (boolean): Also retrieve the objects that propagate down.
 
 #### `POST /enforcerprofilemappingpolicies`
@@ -6394,7 +6351,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /enforcerprofilemappingpolicies/:id`
 
@@ -6585,7 +6541,6 @@ Retrieves the list of file access policies.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `propagated` (boolean): Also retrieve the objects that propagate down.
 
 #### `POST /fileaccesspolicies`
@@ -6599,7 +6554,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /fileaccesspolicies/:id`
 
@@ -6917,7 +6871,6 @@ Retrieves the list of file path.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `archived` (boolean): Also retrieve the objects that have been archived.
 
 #### `POST /filepaths`
@@ -6931,7 +6884,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /filepaths/:id`
 
@@ -7124,7 +7076,6 @@ Retrieves the list of hook policies.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `propagated` (boolean): Also retrieve the objects that propagate down.
 
 #### `POST /hookpolicies`
@@ -7138,7 +7089,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /hookpolicies/:id`
 
@@ -7466,7 +7416,6 @@ Retrieves the list of host services.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `propagated` (boolean): Also retrieve the objects that propagate down.
 
 #### `POST /hostservices`
@@ -7480,7 +7429,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /hostservices/:id`
 
@@ -7649,7 +7597,6 @@ Retrieves the list of host service mapping policies.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `propagated` (boolean): Also retrieve the objects that propagate down.
 
 #### `POST /hostservicemappingpolicies`
@@ -7663,7 +7610,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /hostservicemappingpolicies/:id`
 
@@ -7884,7 +7830,6 @@ Retrieves the list of external network.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `archived` (boolean): Also retrieve the objects that have been archived.
 
 #### `POST /externalnetworks`
@@ -7898,7 +7843,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /externalnetworks/:id`
 
@@ -8275,7 +8219,6 @@ Retrieves the list of network access policies.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `propagated` (boolean): Also retrieve the objects that propagate down.
 
 #### `POST /networkaccesspolicies`
@@ -8289,7 +8232,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /networkaccesspolicies/:id`
 
@@ -8578,7 +8520,6 @@ Retrieves the list of isolation profiles.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `POST /isolationprofiles`
 
@@ -8751,7 +8692,6 @@ Retrieves the list of processing unit policies.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `propagated` (boolean): Also retrieve the objects that propagate down.
 
 #### `POST /processingunitpolicies`
@@ -8765,7 +8705,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /processingunitpolicies/:id`
 
@@ -8993,7 +8932,6 @@ Retrieves the list of quota policies.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `propagated` (boolean): Also retrieve the objects that propagate down.
 
 #### `POST /quotapolicies`
@@ -9007,7 +8945,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /quotapolicies/:id`
 
@@ -9277,7 +9214,6 @@ Retrieves the list of HTTP Resource specifications.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `propagated` (boolean): Also retrieve the objects that propagate down.
 - `archived` (boolean): Also retrieve the objects that have been archived.
 
@@ -9292,7 +9228,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /httpresourcespecs/:id`
 
@@ -9470,7 +9405,6 @@ Retrieves the list of Services.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `archived` (boolean): Also retrieve the objects that have been archived.
 
 #### `POST /services`
@@ -9484,7 +9418,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /services/:id`
 
@@ -9857,7 +9790,6 @@ Retrieves the list of service dependencies.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `propagated` (boolean): Also retrieve the objects that propagate down.
 
 #### `POST /servicedependencies`
@@ -9871,7 +9803,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /servicedependencies/:id`
 
@@ -10069,7 +10000,6 @@ Retrieves the list of token scope policies.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `propagated` (boolean): Also retrieve the objects that propagate down.
 
 #### `POST /tokenscopepolicies`
@@ -10083,7 +10013,6 @@ Deletes the object with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /tokenscopepolicies/:id`
 
@@ -10284,7 +10213,6 @@ Retrieves the list of SSH authorization policies.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 - `propagated` (boolean): Also retrieve the objects that propagate down.
 
 #### `POST /sshauthorizationpolicies`
@@ -10298,7 +10226,6 @@ Deletes the SSHAuthorizationPolicy with the given ID.
 ##### Parameters
 
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 #### `GET /sshauthorizationpolicies/:id`
 
@@ -10997,7 +10924,6 @@ Sends a query on statistical data.
 - `startAbsolute` (time): Set the absolute start of the time window.
 - `startRelative` (duration): Set the relative start of the time window.
 - `q` (string): Filtering query. Consequent `q` parameters will form an or.
-- `tag` (string): List of tags to filter on. This parameter is deprecated.
 
 ##### Mandatory Parameters
 

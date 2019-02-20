@@ -10,13 +10,7 @@ $filtering:
     description: Filtering query. Consequent `q` parameters will form an or.
     type: string
     multiple: true
-    example_value: associatedTags contains [`$name=hello`] or type == 'Docker'
-
-  - name: tag
-    description: List of tags to filter on. This parameter is deprecated.
-    type: string
-    multiple: true
-    example_value: a=a
+    example_value: associatedTags contains ['$name=hello'] or type == 'Docker'
 
 $flowoffset:
   entries:

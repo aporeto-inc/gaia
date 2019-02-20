@@ -26,18 +26,6 @@ model:
     description: Deletes the object with the given ID.
     global_parameters:
     - $filtering
-    parameters:
-      entries:
-      - name: q
-        description: Backward compat for enforcer <=v2.2.1. does not have any effect.
-        type: string
-        example_value: no effect
-
-      - name: tag
-        description: Backward compat for enforcer <=v2.2.1. does not have any effect.
-        type: string
-        multiple: true
-        example_value: no effect
   extends:
   - '@base'
   - '@described'
