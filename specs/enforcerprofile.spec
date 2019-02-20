@@ -67,7 +67,7 @@ attributes:
       docker container started with labels matching the rule.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
     stored: true
 
   - name: targetNetworks

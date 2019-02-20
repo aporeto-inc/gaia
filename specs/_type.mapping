@@ -1,3 +1,76 @@
+' map[string]int':
+  elemental:
+    type: map[string]int
+    init: map[string]int{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "integer"
+        }
+      }
+
+'[][]interface{}':
+  elemental:
+    type: '[][]interface{}'
+    init: '[][]interface{}{}'
+  jsonschema:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": true
+        }
+      }
+
+'[][]string':
+  elemental:
+    type: '[][]string'
+    init: '[][]string{}'
+  jsonschema:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+
+'[]map[string]string':
+  elemental:
+    type: '[]map[string]string'
+    init: '[]map[string]string{}'
+  jsonschema:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+
+'[]time.Time':
+  elemental:
+    type: '[]time.Time'
+    init: '[]time.Time{}'
+  jsonschema:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+
 _arch_list:
   elemental:
     type: types.ArchitecturesTypeList
@@ -145,7 +218,7 @@ _vulnerability_level:
         "maximum": 7
       }
 
-elemental_operation:
+elemental.Operation:
   elemental:
     type: elemental.Operation
   jsonschema:
@@ -154,109 +227,17 @@ elemental_operation:
         "enum": ["retrieve-many", "retrieve", "create", "update", "delete", "patch", "info"]
       }
 
-list_of_lists_of_objects:
+json.RawMessage:
   elemental:
-    type: '[][]interface{}'
-    init: '[][]interface{}{}'
+    type: json.RawMessage
+    import: encoding/json
   jsonschema:
     type: |-
       {
-        "type": "array",
-        "items": {
-          "type": "array",
-          "items": true
-        }
+        "type": "string"
       }
 
-list_of_lists_of_strings:
-  elemental:
-    type: '[][]string'
-    init: '[][]string{}'
-  jsonschema:
-    type: |-
-      {
-        "type": "array",
-        "items": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-
-list_of_maps_of_string_of_strings:
-  elemental:
-    type: '[]map[string]string'
-    init: '[]map[string]string{}'
-  jsonschema:
-    type: |-
-      {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      }
-
-list_of_times:
-  elemental:
-    type: '[]time.Time'
-    init: '[]time.Time{}'
-  jsonschema:
-    type: |-
-      {
-        "type": "array",
-        "items": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-
-map_of_string_of_booleans:
-  elemental:
-    type: map[string]bool
-    init: map[string]bool{}
-  jsonschema:
-    type: |-
-      {
-        "type": "object",
-        "additionalProperties": {
-          "type": "boolean"
-        }
-      }
-
-map_of_string_of_integers:
-  elemental:
-    type: map[string]int
-    init: map[string]int{}
-  jsonschema:
-    type: |-
-      {
-        "type": "object",
-        "additionalProperties": {
-          "type": "integer"
-        }
-      }
-
-map_of_string_of_list_of_strings:
-  elemental:
-    type: map[string][]string
-    init: map[string][]string{}
-  jsonschema:
-    type: |-
-      {
-        "type": "object",
-        "additionalProperties": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-
-map_of_string_of_lists_of_maps_of_string_of_objects:
+map[string][]map[string]interface{}:
   elemental:
     type: map[string][]map[string]interface{}
     init: map[string][]map[string]interface{}{}
@@ -273,7 +254,47 @@ map_of_string_of_lists_of_maps_of_string_of_objects:
         }
       }
 
-map_of_string_of_maps_of_string_of_objects:
+map[string][]string:
+  elemental:
+    type: map[string][]string
+    init: map[string][]string{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+
+map[string]bool:
+  elemental:
+    type: map[string]bool
+    init: map[string]bool{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "boolean"
+        }
+      }
+
+map[string]interface{}:
+  elemental:
+    type: map[string]interface{}
+    init: map[string]interface{}{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": true
+      }
+
+map[string]map[string]interface{}:
   elemental:
     type: map[string]map[string]interface{}
   jsonschema:
@@ -286,18 +307,7 @@ map_of_string_of_maps_of_string_of_objects:
         }
       }
 
-map_of_string_of_objects:
-  elemental:
-    type: map[string]interface{}
-    init: map[string]interface{}{}
-  jsonschema:
-    type: |-
-      {
-        "type": "object",
-        "additionalProperties": true
-      }
-
-map_of_string_of_strings:
+map[string]string:
   elemental:
     type: map[string]string
     init: map[string]string{}
@@ -308,14 +318,4 @@ map_of_string_of_strings:
         "additionalProperties": {
           "type": "string"
         }
-      }
-
-raw_json:
-  elemental:
-    type: json.RawMessage
-    import: encoding/json
-  jsonschema:
-    type: |-
-      {
-        "type": "string"
       }

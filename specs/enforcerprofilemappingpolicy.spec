@@ -39,7 +39,7 @@ attributes:
     description: Object is the list of tags to use to find a enforcer profile.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
     stored: true
     example_value:
     - - a=a
@@ -50,7 +50,7 @@ attributes:
     description: Subject is the subject of the policy.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
     stored: true
     example_value:
     - - a=a

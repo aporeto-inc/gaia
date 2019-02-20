@@ -27,7 +27,7 @@ attributes:
     description: Represents data received from the service.
     type: external
     exposed: true
-    subtype: raw_json
+    subtype: json.RawMessage
     required: true
     example_value: |-
       {
@@ -55,7 +55,7 @@ attributes:
     description: Define the operation that is currently handled by the service.
     type: external
     exposed: true
-    subtype: elemental_operation
+    subtype: elemental.Operation
     required: true
     example_value: create
 

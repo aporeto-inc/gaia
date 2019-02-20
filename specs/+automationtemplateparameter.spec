@@ -18,7 +18,7 @@ attributes:
     description: Set the possible values for the parameter.
     type: external
     exposed: true
-    subtype: map_of_string_of_objects
+    subtype: map[string]interface{}
 
   - name: defaultValue
     description: Default value of the parameter.

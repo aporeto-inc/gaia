@@ -296,7 +296,7 @@ var ExportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `List of all exported data.`,
 		Exposed:        true,
 		Name:           "data",
-		SubType:        "map_of_string_of_lists_of_maps_of_string_of_objects",
+		SubType:        "map[string][]map[string]interface{}",
 		Type:           "external",
 	},
 	"Identities": elemental.AttributeSpecification{
@@ -342,7 +342,7 @@ var ExportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `List of all exported data.`,
 		Exposed:        true,
 		Name:           "data",
-		SubType:        "map_of_string_of_lists_of_maps_of_string_of_objects",
+		SubType:        "map[string][]map[string]interface{}",
 		Type:           "external",
 	},
 	"identities": elemental.AttributeSpecification{

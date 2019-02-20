@@ -15,7 +15,7 @@ attributes:
     description: Attachments is a list of attachments to send.
     type: external
     exposed: true
-    subtype: map_of_string_of_strings
+    subtype: map[string]string
 
   - name: bcc
     description: Bcc represents email that should be in copy but hidden.

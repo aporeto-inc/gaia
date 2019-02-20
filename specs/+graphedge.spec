@@ -68,7 +68,7 @@ attributes:
     description: Map of ints...
     type: external
     exposed: true
-    subtype: map_of_string_of_integers
+    subtype: ' map[string]int'
 
   - name: policyIDs
     description: |-
@@ -89,7 +89,7 @@ attributes:
     description: Map of ints...
     type: external
     exposed: true
-    subtype: map_of_string_of_integers
+    subtype: ' map[string]int'
 
   - name: sourceID
     description: ID of the source GraphNode of the edge.

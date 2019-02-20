@@ -129,7 +129,7 @@ attributes:
       trigger the hook.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
     stored: true
     example_value:
     - - $identity=processingunit

@@ -641,7 +641,7 @@ var ExternalNetworkAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "map_of_string_of_list_of_strings",
+		SubType:        "map[string][]string",
 		Type:           "external",
 	},
 	"Archived": elemental.AttributeSpecification{
@@ -871,7 +871,7 @@ var ExternalNetworkLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "map_of_string_of_list_of_strings",
+		SubType:        "map[string][]string",
 		Type:           "external",
 	},
 	"archived": elemental.AttributeSpecification{

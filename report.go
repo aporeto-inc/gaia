@@ -325,7 +325,7 @@ var ReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `TSDB Fields to set for the report.`,
 		Exposed:        true,
 		Name:           "fields",
-		SubType:        "map_of_string_of_objects",
+		SubType:        "map[string]interface{}",
 		Type:           "external",
 	},
 	"Kind": elemental.AttributeSpecification{
@@ -342,7 +342,7 @@ var ReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Tags contains the tags associated to the data point.`,
 		Exposed:        true,
 		Name:           "tags",
-		SubType:        "map_of_string_of_strings",
+		SubType:        "map[string]string",
 		Type:           "external",
 	},
 	"Timestamp": elemental.AttributeSpecification{
@@ -371,7 +371,7 @@ var ReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `TSDB Fields to set for the report.`,
 		Exposed:        true,
 		Name:           "fields",
-		SubType:        "map_of_string_of_objects",
+		SubType:        "map[string]interface{}",
 		Type:           "external",
 	},
 	"kind": elemental.AttributeSpecification{
@@ -388,7 +388,7 @@ var ReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Tags contains the tags associated to the data point.`,
 		Exposed:        true,
 		Name:           "tags",
-		SubType:        "map_of_string_of_strings",
+		SubType:        "map[string]string",
 		Type:           "external",
 	},
 	"timestamp": elemental.AttributeSpecification{

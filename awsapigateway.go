@@ -628,7 +628,7 @@ var AWSAPIGatewayAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "map_of_string_of_list_of_strings",
+		SubType:        "map[string][]string",
 		Type:           "external",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
@@ -860,7 +860,7 @@ var AWSAPIGatewayLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Name:           "annotations",
 		Setter:         true,
 		Stored:         true,
-		SubType:        "map_of_string_of_list_of_strings",
+		SubType:        "map[string][]string",
 		Type:           "external",
 	},
 	"associatedtags": elemental.AttributeSpecification{

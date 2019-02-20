@@ -50,7 +50,7 @@ attributes:
     description: Tags of the pu.
     type: external
     exposed: true
-    subtype: map_of_string_of_strings
+    subtype: map[string]string
 
   - name: type
     description: Type of the pu.

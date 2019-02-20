@@ -55,7 +55,7 @@ attributes:
     description: Subject is the subject.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
     example_value:
     - - color=blue
     orderable: true

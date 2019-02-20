@@ -68,7 +68,7 @@ attributes:
       is met.
     type: external
     exposed: true
-    subtype: map_of_string_of_maps_of_string_of_objects
+    subtype: map[string]map[string]interface{}
     stored: true
 
   - name: allObjectTags
@@ -89,7 +89,7 @@ attributes:
       objects are identified as logical operations on tags when a policy is defined.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
     stored: true
     getter: true
     setter: true
@@ -110,7 +110,7 @@ attributes:
       includes AND/OR.
     type: external
     exposed: true
-    subtype: list_of_lists_of_strings
+    subtype: '[][]string'
     stored: true
     getter: true
     setter: true

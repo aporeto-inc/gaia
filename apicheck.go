@@ -353,7 +353,7 @@ var APICheckAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "authorized",
 		ReadOnly:       true,
-		SubType:        "map_of_string_of_booleans",
+		SubType:        "map[string]bool",
 		Type:           "external",
 	},
 	"Claims": elemental.AttributeSpecification{
@@ -418,7 +418,7 @@ var APICheckLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Exposed:        true,
 		Name:           "authorized",
 		ReadOnly:       true,
-		SubType:        "map_of_string_of_booleans",
+		SubType:        "map[string]bool",
 		Type:           "external",
 	},
 	"claims": elemental.AttributeSpecification{

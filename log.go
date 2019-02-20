@@ -251,7 +251,7 @@ var LogAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "data",
 		ReadOnly:       true,
-		SubType:        "map_of_string_of_strings",
+		SubType:        "map[string]string",
 		Type:           "external",
 	},
 }
@@ -266,7 +266,7 @@ var LogLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "data",
 		ReadOnly:       true,
-		SubType:        "map_of_string_of_strings",
+		SubType:        "map[string]string",
 		Type:           "external",
 	},
 }

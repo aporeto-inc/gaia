@@ -179,7 +179,7 @@ attributes:
     description: AssociatedAWSPolicies contains a map of associated AWS Enforcerd
       Policies.
     type: external
-    subtype: map_of_string_of_strings
+    subtype: map[string]string
     stored: true
 
   - name: associatedBillingID
@@ -192,7 +192,7 @@ attributes:
     description: associatedGCPPolicies contains a map of associated GCP Enforcerd
       Policies.
     type: external
-    subtype: map_of_string_of_strings
+    subtype: map[string]string
     stored: true
 
   - name: associatedNamespaceID
@@ -214,7 +214,7 @@ attributes:
     description: AssociatedQuotaPolicies contains a mapping to the associated quota
       pollicies.
     type: external
-    subtype: map_of_string_of_strings
+    subtype: map[string]string
     stored: true
 
   - name: company
