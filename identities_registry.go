@@ -29,8 +29,7 @@ var (
 
 		"customer":      CustomerIdentity,
 		"dependencymap": DependencyMapIdentity,
-
-		"email": EmailIdentity,
+		"email":         EmailIdentity,
 
 		"enforcer":                     EnforcerIdentity,
 		"enforcerprofile":              EnforcerProfileIdentity,
@@ -134,8 +133,7 @@ var (
 
 		"customers":      CustomerIdentity,
 		"dependencymaps": DependencyMapIdentity,
-
-		"emails": EmailIdentity,
+		"emails":         EmailIdentity,
 
 		"enforcers":                      EnforcerIdentity,
 		"enforcerprofiles":               EnforcerProfileIdentity,

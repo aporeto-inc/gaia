@@ -6,10 +6,6 @@ $enforcerprofile:
   elemental:
     name: ValidateEnforcerProfile
 
-$host_services_list:
-  elemental:
-    name: ValidateHostServicesList
-
 $hostservices:
   elemental:
     name: ValidateHostServices
