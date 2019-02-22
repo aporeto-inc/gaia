@@ -112,6 +112,9 @@ type TokenScopePolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
+	// If set the policy will be auto deleted after the given time.
+	ExpirationTime time.Time `json:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
+
 	// Fallback indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
@@ -298,6 +301,18 @@ func (o *TokenScopePolicy) SetDisabled(disabled bool) {
 	o.Disabled = disabled
 }
 
+// GetExpirationTime returns the ExpirationTime of the receiver.
+func (o *TokenScopePolicy) GetExpirationTime() time.Time {
+
+	return o.ExpirationTime
+}
+
+// SetExpirationTime sets the property ExpirationTime of the receiver using the given value.
+func (o *TokenScopePolicy) SetExpirationTime(expirationTime time.Time) {
+
+	o.ExpirationTime = expirationTime
+}
+
 // GetFallback returns the Fallback of the receiver.
 func (o *TokenScopePolicy) GetFallback() bool {
 
@@ -428,6 +443,7 @@ func (o *TokenScopePolicy) ToSparse(fields ...string) elemental.SparseIdentifiab
 			CreateTime:     &o.CreateTime,
 			Description:    &o.Description,
 			Disabled:       &o.Disabled,
+			ExpirationTime: &o.ExpirationTime,
 			Fallback:       &o.Fallback,
 			Metadata:       &o.Metadata,
 			Name:           &o.Name,
@@ -463,6 +479,8 @@ func (o *TokenScopePolicy) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.Description = &(o.Description)
 		case "disabled":
 			sp.Disabled = &(o.Disabled)
+		case "expirationTime":
+			sp.ExpirationTime = &(o.ExpirationTime)
 		case "fallback":
 			sp.Fallback = &(o.Fallback)
 		case "metadata":
@@ -524,6 +542,9 @@ func (o *TokenScopePolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Disabled != nil {
 		o.Disabled = *so.Disabled
+	}
+	if so.ExpirationTime != nil {
+		o.ExpirationTime = *so.ExpirationTime
 	}
 	if so.Fallback != nil {
 		o.Fallback = *so.Fallback
@@ -658,6 +679,8 @@ func (o *TokenScopePolicy) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "disabled":
 		return o.Disabled
+	case "expirationTime":
+		return o.ExpirationTime
 	case "fallback":
 		return o.Fallback
 	case "metadata":
@@ -798,6 +821,17 @@ The policy will be active for the given activeDuration.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"ExpirationTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExpirationTime",
+		Description:    `If set the policy will be auto deleted after the given time.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "expirationTime",
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"Fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1067,6 +1101,17 @@ The policy will be active for the given activeDuration.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"expirationtime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExpirationTime",
+		Description:    `If set the policy will be auto deleted after the given time.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "expirationTime",
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
+	},
 	"fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
@@ -1315,6 +1360,9 @@ type SparseTokenScopePolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
 
+	// If set the policy will be auto deleted after the given time.
+	ExpirationTime *time.Time `json:"expirationTime,omitempty" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
+
 	// Fallback indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
@@ -1421,6 +1469,9 @@ func (o *SparseTokenScopePolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Disabled != nil {
 		out.Disabled = *o.Disabled
+	}
+	if o.ExpirationTime != nil {
+		out.ExpirationTime = *o.ExpirationTime
 	}
 	if o.Fallback != nil {
 		out.Fallback = *o.Fallback
@@ -1541,6 +1592,18 @@ func (o *SparseTokenScopePolicy) GetDisabled() bool {
 func (o *SparseTokenScopePolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = &disabled
+}
+
+// GetExpirationTime returns the ExpirationTime of the receiver.
+func (o *SparseTokenScopePolicy) GetExpirationTime() time.Time {
+
+	return *o.ExpirationTime
+}
+
+// SetExpirationTime sets the property ExpirationTime of the receiver using the address of the given value.
+func (o *SparseTokenScopePolicy) SetExpirationTime(expirationTime time.Time) {
+
+	o.ExpirationTime = &expirationTime
 }
 
 // GetFallback returns the Fallback of the receiver.

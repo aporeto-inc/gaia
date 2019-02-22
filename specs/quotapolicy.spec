@@ -36,6 +36,14 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: expirationTime
+    description: If set the policy will be auto deleted after the given time.
+    type: time
+    exposed: true
+    stored: true
+    getter: true
+    setter: true
+
   - name: identities
     description: Identities contains the list of identity names where the quota will
       be applied.

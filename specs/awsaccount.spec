@@ -19,7 +19,7 @@ model:
     global_parameters:
     - $filtering
   extends:
-  - '@identifiable-pk-stored'
+  - '@identifiable-stored'
   - '@timeable'
 
 # Attributes

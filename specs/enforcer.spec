@@ -41,7 +41,7 @@ model:
   extends:
   - '@base'
   - '@described'
-  - '@identifiable-pk-stored'
+  - '@identifiable-stored'
   - '@metadatable'
   - '@named'
   - '@zonable'
@@ -240,14 +240,14 @@ attributes:
 
 # Relations
 relations:
-- rest_name: enforcerprofile
-  get:
-    description: Returns the enforcer profile that must be used by an enforcer.
-
 - rest_name: auditprofile
   get:
     description: Returns a list of the audit profiles that must be applied to this
       enforcer.
+
+- rest_name: enforcerprofile
+  get:
+    description: Returns the enforcer profile that must be used by an enforcer.
 
 - rest_name: hostservice
   get:

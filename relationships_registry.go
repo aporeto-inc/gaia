@@ -2874,6 +2874,8 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[PolicyTTLIdentity] = &elemental.Relationship{}
+
 	relationshipsRegistry[PrivateKeyIdentity] = &elemental.Relationship{
 		Update: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
