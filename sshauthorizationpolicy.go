@@ -113,6 +113,9 @@ type SSHAuthorizationPolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
+	// If set the policy will be auto deleted after the given time.
+	ExpirationTime time.Time `json:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
+
 	// The list of SSH permissions to apply to SSH certificate. You can check the list
 	// of standard extensions at
 	// <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.
@@ -327,6 +330,18 @@ func (o *SSHAuthorizationPolicy) SetDisabled(disabled bool) {
 	o.Disabled = disabled
 }
 
+// GetExpirationTime returns the ExpirationTime of the receiver.
+func (o *SSHAuthorizationPolicy) GetExpirationTime() time.Time {
+
+	return o.ExpirationTime
+}
+
+// SetExpirationTime sets the property ExpirationTime of the receiver using the given value.
+func (o *SSHAuthorizationPolicy) SetExpirationTime(expirationTime time.Time) {
+
+	o.ExpirationTime = expirationTime
+}
+
 // GetFallback returns the Fallback of the receiver.
 func (o *SSHAuthorizationPolicy) GetFallback() bool {
 
@@ -457,6 +472,7 @@ func (o *SSHAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 			CreateTime:        &o.CreateTime,
 			Description:       &o.Description,
 			Disabled:          &o.Disabled,
+			ExpirationTime:    &o.ExpirationTime,
 			Extensions:        &o.Extensions,
 			Fallback:          &o.Fallback,
 			ForceCommand:      &o.ForceCommand,
@@ -497,6 +513,8 @@ func (o *SSHAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 			sp.Description = &(o.Description)
 		case "disabled":
 			sp.Disabled = &(o.Disabled)
+		case "expirationTime":
+			sp.ExpirationTime = &(o.ExpirationTime)
 		case "extensions":
 			sp.Extensions = &(o.Extensions)
 		case "fallback":
@@ -568,6 +586,9 @@ func (o *SSHAuthorizationPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Disabled != nil {
 		o.Disabled = *so.Disabled
+	}
+	if so.ExpirationTime != nil {
+		o.ExpirationTime = *so.ExpirationTime
 	}
 	if so.Extensions != nil {
 		o.Extensions = *so.Extensions
@@ -725,6 +746,8 @@ func (o *SSHAuthorizationPolicy) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "disabled":
 		return o.Disabled
+	case "expirationTime":
+		return o.ExpirationTime
 	case "extensions":
 		return o.Extensions
 	case "fallback":
@@ -874,6 +897,17 @@ the declared subnets.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"ExpirationTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExpirationTime",
+		Description:    `If set the policy will be auto deleted after the given time.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "expirationTime",
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"Extensions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1193,6 +1227,17 @@ the declared subnets.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"expirationtime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExpirationTime",
+		Description:    `If set the policy will be auto deleted after the given time.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "expirationTime",
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
+	},
 	"extensions": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Extensions",
@@ -1493,6 +1538,9 @@ type SparseSSHAuthorizationPolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
 
+	// If set the policy will be auto deleted after the given time.
+	ExpirationTime *time.Time `json:"expirationTime,omitempty" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
+
 	// The list of SSH permissions to apply to SSH certificate. You can check the list
 	// of standard extensions at
 	// <https://github.com/openssh/openssh-portable/blob/38e83e4f219c752ebb1560633b73f06f0392018b/PROTOCOL.certkeys#L281>.
@@ -1621,6 +1669,9 @@ func (o *SparseSSHAuthorizationPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Disabled != nil {
 		out.Disabled = *o.Disabled
+	}
+	if o.ExpirationTime != nil {
+		out.ExpirationTime = *o.ExpirationTime
 	}
 	if o.Extensions != nil {
 		out.Extensions = *o.Extensions
@@ -1756,6 +1807,18 @@ func (o *SparseSSHAuthorizationPolicy) GetDisabled() bool {
 func (o *SparseSSHAuthorizationPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = &disabled
+}
+
+// GetExpirationTime returns the ExpirationTime of the receiver.
+func (o *SparseSSHAuthorizationPolicy) GetExpirationTime() time.Time {
+
+	return *o.ExpirationTime
+}
+
+// SetExpirationTime sets the property ExpirationTime of the receiver using the address of the given value.
+func (o *SparseSSHAuthorizationPolicy) SetExpirationTime(expirationTime time.Time) {
+
+	o.ExpirationTime = &expirationTime
 }
 
 // GetFallback returns the Fallback of the receiver.

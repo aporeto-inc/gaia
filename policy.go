@@ -168,6 +168,9 @@ type Policy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
+	// If set the policy will be auto deleted at the given time.
+	ExpirationTime time.Time `json:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
+
 	// Fallback indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
@@ -371,6 +374,18 @@ func (o *Policy) SetDisabled(disabled bool) {
 	o.Disabled = disabled
 }
 
+// GetExpirationTime returns the ExpirationTime of the receiver.
+func (o *Policy) GetExpirationTime() time.Time {
+
+	return o.ExpirationTime
+}
+
+// SetExpirationTime sets the property ExpirationTime of the receiver using the given value.
+func (o *Policy) SetExpirationTime(expirationTime time.Time) {
+
+	o.ExpirationTime = expirationTime
+}
+
 // GetFallback returns the Fallback of the receiver.
 func (o *Policy) GetFallback() bool {
 
@@ -539,6 +554,7 @@ func (o *Policy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CreateTime:        &o.CreateTime,
 			Description:       &o.Description,
 			Disabled:          &o.Disabled,
+			ExpirationTime:    &o.ExpirationTime,
 			Fallback:          &o.Fallback,
 			Metadata:          &o.Metadata,
 			Name:              &o.Name,
@@ -582,6 +598,8 @@ func (o *Policy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Description = &(o.Description)
 		case "disabled":
 			sp.Disabled = &(o.Disabled)
+		case "expirationTime":
+			sp.ExpirationTime = &(o.ExpirationTime)
 		case "fallback":
 			sp.Fallback = &(o.Fallback)
 		case "metadata":
@@ -657,6 +675,9 @@ func (o *Policy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Disabled != nil {
 		o.Disabled = *so.Disabled
+	}
+	if so.ExpirationTime != nil {
+		o.ExpirationTime = *so.ExpirationTime
 	}
 	if so.Fallback != nil {
 		o.Fallback = *so.Fallback
@@ -811,6 +832,8 @@ func (o *Policy) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "disabled":
 		return o.Disabled
+	case "expirationTime":
+		return o.ExpirationTime
 	case "fallback":
 		return o.Fallback
 	case "metadata":
@@ -858,7 +881,6 @@ var PolicyAttributesMap = map[string]elemental.AttributeSpecification{
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
@@ -978,6 +1000,17 @@ The policy will be active for the given activeDuration.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"ExpirationTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExpirationTime",
+		Description:    `If set the policy will be auto deleted at the given time.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "expirationTime",
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"Fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1194,7 +1227,6 @@ var PolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
@@ -1314,6 +1346,17 @@ The policy will be active for the given activeDuration.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"expirationtime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExpirationTime",
+		Description:    `If set the policy will be auto deleted at the given time.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "expirationTime",
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1618,6 +1661,9 @@ type SparsePolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
 
+	// If set the policy will be auto deleted at the given time.
+	ExpirationTime *time.Time `json:"expirationTime,omitempty" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
+
 	// Fallback indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
@@ -1746,6 +1792,9 @@ func (o *SparsePolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Disabled != nil {
 		out.Disabled = *o.Disabled
+	}
+	if o.ExpirationTime != nil {
+		out.ExpirationTime = *o.ExpirationTime
 	}
 	if o.Fallback != nil {
 		out.Fallback = *o.Fallback
@@ -1878,6 +1927,18 @@ func (o *SparsePolicy) GetDisabled() bool {
 func (o *SparsePolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = &disabled
+}
+
+// GetExpirationTime returns the ExpirationTime of the receiver.
+func (o *SparsePolicy) GetExpirationTime() time.Time {
+
+	return *o.ExpirationTime
+}
+
+// SetExpirationTime sets the property ExpirationTime of the receiver using the address of the given value.
+func (o *SparsePolicy) SetExpirationTime(expirationTime time.Time) {
+
+	o.ExpirationTime = &expirationTime
 }
 
 // GetFallback returns the Fallback of the receiver.

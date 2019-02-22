@@ -3218,6 +3218,10 @@ Disabled defines if the propert is disabled.
 | -               | -:     |
 | Orderable       | `true` |
 
+##### `expirationTime` (time)
+
+If set the policy will be auto deleted at the given time.
+
 ##### `fallback` (boolean)
 
 Fallback indicates that this is fallback policy. It will only be
@@ -5642,6 +5646,10 @@ Disabled defines if the propert is disabled.
 | -               | -:     |
 | Orderable       | `true` |
 
+##### `expirationTime` (time)
+
+If set the policy will be auto deleted after the given time.
+
 ##### `fallback` (boolean)
 
 Fallback indicates that this is fallback policy. It will only be
@@ -6704,6 +6712,10 @@ EncryptionEnabled will enable the automatic encryption.
 | -               | -:     |
 | Orderable       | `true` |
 
+##### `expirationTime` (time)
+
+If set the policy will be auto deleted after the given time.
+
 ##### `fallback` (boolean)
 
 Fallback indicates that this is fallback policy. It will only be
@@ -7239,6 +7251,10 @@ Endpoint contains the full address of the remote processor endoint.
 | -               | -:     |
 | Required        | `true` |
 | Orderable       | `true` |
+
+##### `expirationTime` (time)
+
+If set the policy will be auto deleted after the given time.
 
 ##### `fallback` (boolean)
 
@@ -8420,6 +8436,10 @@ EncryptionEnabled defines if the flow has to be encrypted.
 | -               | -:     |
 | Orderable       | `true` |
 
+##### `expirationTime` (time)
+
+If set the policy will be auto deleted after the given time.
+
 ##### `fallback` (boolean)
 
 Fallback indicates that this is fallback policy. It will only be
@@ -9065,6 +9085,10 @@ Disabled defines if the propert is disabled.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
+
+##### `expirationTime` (time)
+
+If set the policy will be auto deleted after the given time.
 
 ##### `fallback` (boolean)
 
@@ -10164,6 +10188,10 @@ Disabled defines if the propert is disabled.
 | -               | -:     |
 | Orderable       | `true` |
 
+##### `expirationTime` (time)
+
+If set the policy will be auto deleted after the given time.
+
 ##### `fallback` (boolean)
 
 Fallback indicates that this is fallback policy. It will only be
@@ -10375,6 +10403,10 @@ Disabled defines if the propert is disabled.
 | Characteristics | Value  |
 | -               | -:     |
 | Orderable       | `true` |
+
+##### `expirationTime` (time)
+
+If set the policy will be auto deleted after the given time.
 
 ##### `extensions` (list)
 

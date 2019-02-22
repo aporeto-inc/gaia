@@ -70,6 +70,14 @@ attributes:
     exposed: true
     orderable: true
 
+  - name: expirationTime
+    description: If set the policy will be auto deleted after the given time.
+    type: time
+    exposed: true
+    stored: true
+    getter: true
+    setter: true
+
   - name: logsEnabled
     description: LogsEnabled defines if the flow has to be logged.
     type: boolean

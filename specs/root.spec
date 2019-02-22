@@ -82,24 +82,19 @@ relations:
   create:
     description: Verifies the authorizations on various identities for a given token.
 
-- rest_name: httpresourcespec
+- rest_name: app
   get:
-    description: Retrieves the list of HTTP Resource specifications.
+    description: Retrieves the list of apps.
     global_parameters:
     - $filtering
-    - $propagatable
-    - $archivable
-  create:
-    description: Creates a new HTTP Resource specification.
 
-- rest_name: service
+- rest_name: appcredential
   get:
-    description: Retrieves the list of Services.
+    description: Retrieves the list of application credentials.
     global_parameters:
     - $filtering
-    - $archivable
   create:
-    description: Creates a new Service.
+    description: Creates a new application credential.
 
 - rest_name: auditprofile
   get:
@@ -108,6 +103,19 @@ relations:
     - $filtering
   create:
     description: Creates a new audit profile.
+
+- rest_name: auditprofilemappingpolicy
+  get:
+    description: Retrieves the list of audit profile mapping policies.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new audit profile mapping policy.
+
+- rest_name: auditreport
+  create:
+    description: Create a audit statistics report.
 
 - rest_name: auth
   get:
@@ -137,12 +145,6 @@ relations:
   get:
     description: Retrieves the list of automation templates.
 
-- rest_name: app
-  get:
-    description: Retrieves the list of apps.
-    global_parameters:
-    - $filtering
-
 - rest_name: awsaccount
   get:
     description: Retrieves the list of aws account bindings.
@@ -157,10 +159,6 @@ relations:
   create:
     description: Creates a new aws account binding.
 
-- rest_name: awsregister
-  create:
-    description: Creates a new aws registration for billing.
-
 - rest_name: awsapigateway
   get:
     description: create an AWS API Gateway.
@@ -168,6 +166,10 @@ relations:
     - $filtering
   create:
     description: Manages the AWS API Gateway.
+
+- rest_name: awsregister
+  create:
+    description: Creates a new aws registration for billing.
 
 - rest_name: dependencymap
   get:
@@ -191,13 +193,6 @@ relations:
       - name: viewSuggestions
         description: Also return the view suggestions.
         type: boolean
-
-- rest_name: punode
-  get:
-    description: Retrieves the pu nodes.
-    global_parameters:
-    - $timewindow
-    - $archivable
 
 - rest_name: email
   create:
@@ -227,6 +222,14 @@ relations:
     - $propagatable
   create:
     description: Creates a new enforcer profile mapping policies.
+
+- rest_name: enforcerreport
+  create:
+    description: Create a enforcer statistics report.
+
+- rest_name: enforcertracereport
+  create:
+    description: Create an enforcer trace report.
 
 - rest_name: eventlog
   create:
@@ -261,6 +264,10 @@ relations:
   create:
     description: Creates a new file access policies.
 
+- rest_name: fileaccessreport
+  create:
+    description: Create a file access statistics report.
+
 - rest_name: filepath
   get:
     description: Retrieves the list of file path.
@@ -269,6 +276,10 @@ relations:
     - $archivable
   create:
     description: Create a new file path.
+
+- rest_name: flowreport
+  create:
+    description: Create a flow statistics report.
 
 - rest_name: hookpolicy
   get:
@@ -279,9 +290,58 @@ relations:
   create:
     description: Creates a new hook policy.
 
+- rest_name: hostservice
+  get:
+    description: Retrieves the list of host services.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new host service.
+
+- rest_name: hostservicemappingpolicy
+  get:
+    description: Retrieves the list of host service mapping policies.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new host service mapping policy.
+
+- rest_name: httpresourcespec
+  get:
+    description: Retrieves the list of HTTP Resource specifications.
+    global_parameters:
+    - $filtering
+    - $propagatable
+    - $archivable
+  create:
+    description: Creates a new HTTP Resource specification.
+
 - rest_name: import
   create:
     description: Imports data from a previous export.
+
+- rest_name: installedapp
+  get:
+    description: Retrieves the list of installed apps.
+    global_parameters:
+    - $filtering
+  create:
+    description: Installs a new app.
+
+- rest_name: ipinfo
+  get:
+    description: Returns information about an IP address given as parameters.
+    parameters:
+      required:
+      - - - ip
+      entries:
+      - name: ip
+        description: List of IPs to resolve.
+        type: string
+        multiple: true
+        example_value: 1.2.3.4
 
 - rest_name: isolationprofile
   get:
@@ -304,14 +364,6 @@ relations:
 - rest_name: jaegerbatch
   create:
     description: Sends a jaeger tracing batch.
-
-- rest_name: appcredential
-  get:
-    description: Retrieves the list of application credentials.
-    global_parameters:
-    - $filtering
-  create:
-    description: Creates a new application credential.
 
 - rest_name: message
   get:
@@ -351,6 +403,29 @@ relations:
     - $propagatable
   create:
     description: Creates a new network access policy.
+
+- rest_name: oidcprovider
+  get:
+    description: Retrieves the list of the account OIDC provider.
+    global_parameters:
+    - $filtering
+    parameters:
+      entries:
+      - name: OIDCProviderName
+        description: OIDCProvider name.
+        type: string
+        example_value: okta
+
+      - name: accountID
+        description: Aporeto Account ID.
+        type: string
+        example_value: aporeto
+  create:
+    description: Creates a new OIDC provider.
+
+- rest_name: packetreport
+  create:
+    description: Create a packet trace report.
 
 - rest_name: passwordreset
   get:
@@ -399,6 +474,13 @@ relations:
   create:
     description: Creates a new processing unit policy.
 
+- rest_name: punode
+  get:
+    description: Retrieves the pu nodes.
+    global_parameters:
+    - $timewindow
+    - $archivable
+
 - rest_name: quotacheck
   create:
     description: Verifies if the quota is exceeded for a particular object.
@@ -433,22 +515,6 @@ relations:
   create:
     description: Create a statistics report.
 
-- rest_name: flowreport
-  create:
-    description: Create a flow statistics report.
-
-- rest_name: enforcerreport
-  create:
-    description: Create a enforcer statistics report.
-
-- rest_name: fileaccessreport
-  create:
-    description: Create a file access statistics report.
-
-- rest_name: auditreport
-  create:
-    description: Create a audit statistics report.
-
 - rest_name: revocation
   get:
     description: Verify the revocation of a certificate according to parameters.
@@ -459,13 +525,62 @@ relations:
   get:
     description: Retrieves the list of existing roles.
 
-- rest_name: installedapp
+- rest_name: service
   get:
-    description: Retrieves the list of installed apps.
+    description: Retrieves the list of Services.
     global_parameters:
     - $filtering
+    - $archivable
   create:
-    description: Installs a new app.
+    description: Creates a new Service.
+
+- rest_name: servicedependency
+  get:
+    description: Retrieves the list of service dependencies.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new service dependency.
+
+- rest_name: squalltag
+  get:
+    description: Retrieves a computed list of tags from squall for caching.
+    parameters:
+      required:
+      - - - identity
+      entries:
+      - name: identity
+        description: Search for all the tags used for the this identity.
+        type: string
+        example_value: processingunit
+
+- rest_name: sshauthority
+  create:
+    description: Creates a new SSH CA.
+  delete:
+    description: Deletes an existing SSH CA.
+
+- rest_name: sshauthorizationpolicy
+  get:
+    description: Retrieves the list of SSH authorization policies.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new SSH authorization policies.
+
+- rest_name: sshcertificate
+  create:
+    description: Creates a new SSH Certificate.
+
+- rest_name: sshidentity
+  create:
+    description: Creates a new SSH Identity Certificate.
+
+- rest_name: statsinfo
+  create:
+    description: Retrieves information about the content of the stats measurement.
 
 - rest_name: statsquery
   get:
@@ -542,19 +657,6 @@ relations:
     global_parameters:
     - $timewindow
     - $filtering
-
-- rest_name: statsinfo
-  create:
-    description: Retrieves information about the content of the stats measurement.
-
-- rest_name: servicedependency
-  get:
-    description: Retrieves the list of service dependencies.
-    global_parameters:
-    - $filtering
-    - $propagatable
-  create:
-    description: Creates a new service dependency.
 
 - rest_name: suggestedpolicy
   get:
@@ -648,105 +750,3 @@ relations:
     description: Verifies if a x509 certificate is valid.
     global_parameters:
     - $filtering
-
-- rest_name: squalltag
-  get:
-    description: Retrieves a computed list of tags from squall for caching.
-    parameters:
-      required:
-      - - - identity
-      entries:
-      - name: identity
-        description: Search for all the tags used for the this identity.
-        type: string
-        example_value: processingunit
-
-- rest_name: oidcprovider
-  get:
-    description: Retrieves the list of the account OIDC provider.
-    global_parameters:
-    - $filtering
-    parameters:
-      entries:
-      - name: OIDCProviderName
-        description: OIDCProvider name.
-        type: string
-        example_value: okta
-
-      - name: accountID
-        description: Aporeto Account ID.
-        type: string
-        example_value: aporeto
-  create:
-    description: Creates a new OIDC provider.
-
-- rest_name: ipinfo
-  get:
-    description: Returns information about an IP address given as parameters.
-    parameters:
-      required:
-      - - - ip
-      entries:
-      - name: ip
-        description: List of IPs to resolve.
-        type: string
-        multiple: true
-        example_value: 1.2.3.4
-
-- rest_name: packetreport
-  create:
-    description: Create a packet trace report.
-
-- rest_name: enforcertracereport
-  create:
-    description: Create an enforcer trace report.
-
-- rest_name: hostservicemappingpolicy
-  get:
-    description: Retrieves the list of host service mapping policies.
-    global_parameters:
-    - $filtering
-    - $propagatable
-  create:
-    description: Creates a new host service mapping policy.
-
-- rest_name: auditprofilemappingpolicy
-  get:
-    description: Retrieves the list of audit profile mapping policies.
-    global_parameters:
-    - $filtering
-    - $propagatable
-  create:
-    description: Creates a new audit profile mapping policy.
-
-- rest_name: hostservice
-  get:
-    description: Retrieves the list of host services.
-    global_parameters:
-    - $filtering
-    - $propagatable
-  create:
-    description: Creates a new host service.
-
-- rest_name: sshauthority
-  create:
-    description: Creates a new SSH CA.
-  delete:
-    description: Deletes an existing SSH CA.
-
-- rest_name: sshcertificate
-  create:
-    description: Creates a new SSH Certificate.
-
-- rest_name: sshidentity
-  create:
-    description: Creates a new SSH Identity Certificate.
-
-- rest_name: sshauthorizationpolicy
-  get:
-    description: Retrieves the list of SSH authorization policies.
-    global_parameters:
-    - $filtering
-    - $propagatable
-  create:
-    description: Creates a new SSH authorization policies.

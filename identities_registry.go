@@ -70,6 +70,7 @@ var (
 		"policyrefresh":            PolicyRefreshIdentity,
 		"policyrenderer":           PolicyRendererIdentity,
 		"policyrule":               PolicyRuleIdentity,
+		"policyttl":                PolicyTTLIdentity,
 		"privatekey":               PrivateKeyIdentity,
 		"processingunit":           ProcessingUnitIdentity,
 		"processingunitpolicy":     ProcessingUnitPolicyIdentity,
@@ -174,6 +175,7 @@ var (
 		"policyrefreshs":             PolicyRefreshIdentity,
 		"policyrenderers":            PolicyRendererIdentity,
 		"policyrules":                PolicyRuleIdentity,
+		"policyttls":                 PolicyTTLIdentity,
 		"privatekeys":                PrivateKeyIdentity,
 		"processingunits":            ProcessingUnitIdentity,
 		"processingunitpolicies":     ProcessingUnitPolicyIdentity,
@@ -453,6 +455,7 @@ var (
 		"policyrefresh":  nil,
 		"policyrenderer": nil,
 		"policyrule":     nil,
+		"policyttl":      nil,
 		"privatekey":     nil,
 		"processingunit": [][]string{
 			[]string{":shard", "zone", "zHash"},
@@ -671,6 +674,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPolicyRenderer()
 	case PolicyRuleIdentity:
 		return NewPolicyRule()
+	case PolicyTTLIdentity:
+		return NewPolicyTTL()
 	case PrivateKeyIdentity:
 		return NewPrivateKey()
 	case ProcessingUnitIdentity:
@@ -866,6 +871,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePolicyRenderer()
 	case PolicyRuleIdentity:
 		return NewSparsePolicyRule()
+	case PolicyTTLIdentity:
+		return NewSparsePolicyTTL()
 	case PrivateKeyIdentity:
 		return NewSparsePrivateKey()
 	case ProcessingUnitIdentity:
@@ -1069,6 +1076,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PolicyRenderersList{}
 	case PolicyRuleIdentity:
 		return &PolicyRulesList{}
+	case PolicyTTLIdentity:
+		return &PolicyTTLsList{}
 	case PrivateKeyIdentity:
 		return &PrivateKeysList{}
 	case ProcessingUnitIdentity:
@@ -1262,6 +1271,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePolicyRenderersList{}
 	case PolicyRuleIdentity:
 		return &SparsePolicyRulesList{}
+	case PolicyTTLIdentity:
+		return &SparsePolicyTTLsList{}
 	case PrivateKeyIdentity:
 		return &SparsePrivateKeysList{}
 	case ProcessingUnitIdentity:
@@ -1409,6 +1420,7 @@ func AllIdentities() []elemental.Identity {
 		PolicyRefreshIdentity,
 		PolicyRendererIdentity,
 		PolicyRuleIdentity,
+		PolicyTTLIdentity,
 		PrivateKeyIdentity,
 		ProcessingUnitIdentity,
 		ProcessingUnitPolicyIdentity,
@@ -1641,6 +1653,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case PolicyRendererIdentity:
 		return []string{}
 	case PolicyRuleIdentity:
+		return []string{}
+	case PolicyTTLIdentity:
 		return []string{}
 	case PrivateKeyIdentity:
 		return []string{}

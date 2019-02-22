@@ -380,3 +380,27 @@ const (
 	// HTTPMethodHeadTagString is the system created http-method=PATCH tag.
 	HTTPMethodHeadTagString = "http-method=head"
 )
+
+// Hook Policy constants
+const (
+	// ActionHookTagString is the system created action=hook tag.
+	ActionHookTagString = "action=hook"
+
+	// ActionHookEndpointKey represents the action key that holds the hook endpoint.
+	ActionHookEndpointKey = "endpoint"
+
+	// ActionHookCAKey represents the action key that holds the hook CA.
+	ActionHookCAKey = "ca"
+
+	// ActionHookClientCertKey represents the action key that holds the hook client certifificate.
+	ActionHookClientCertKey = "clientCert"
+
+	// ActionHookClientCertKeyKey represents the action key that holds the hook client certifificate key.
+	ActionHookClientCertKeyKey = "clientCertKey"
+
+	// ActionHookModeyKey represents the action key that holds the hook mode.
+	ActionHookModeyKey = "mode"
+
+	// ActionHookContinueOnErrorKey represents if the hook should continue in case of error.
+	ActionHookContinueOnErrorKey = "continueOnError"
+)

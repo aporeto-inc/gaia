@@ -22,7 +22,7 @@ model:
   get:
     description: Retrieves the object with the given ID.
   extends:
-  - '@identifiable-pk-stored'
+  - '@identifiable-stored'
   - '@zonable'
 
 # Attributes

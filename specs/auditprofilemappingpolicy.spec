@@ -54,10 +54,10 @@ attributes:
 
 # Relations
 relations:
-- rest_name: enforcer
-  get:
-    description: Returns the list of enforcers that are affected by this poliy.
-
 - rest_name: auditprofile
   get:
     description: Returns the list of audit profiles that are referred by this policy.
+
+- rest_name: enforcer
+  get:
+    description: Returns the list of enforcers that are affected by this poliy.

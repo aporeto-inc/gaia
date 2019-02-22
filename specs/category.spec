@@ -7,6 +7,6 @@ model:
   group: integration/app
   description: Category allows to categorized services.
   extends:
-  - '@identifiable-pk-stored'
+  - '@identifiable-stored'
   - '@named'
   - '@described'

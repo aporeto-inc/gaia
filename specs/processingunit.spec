@@ -44,7 +44,7 @@ model:
   - '@archivable'
   - '@base'
   - '@described'
-  - '@identifiable-pk-stored'
+  - '@identifiable-stored'
   - '@metadatable'
   - '@named'
   - '@zonable'
@@ -191,27 +191,6 @@ attributes:
 
 # Relations
 relations:
-- rest_name: service
-  get:
-    description: Retrieves the services used by a processing unit.
-
-- rest_name: renderedpolicy
-  get:
-    description: Retrieves the policies for the processing unit.
-    parameters:
-      entries:
-      - name: csr
-        description: CSR to sign.
-        type: string
-        example_value: |-
-          --- BEGIN CSR ---
-          xxx-xxx-xxx-xxx
-          --- END CSR ---
-
-- rest_name: vulnerability
-  get:
-    description: Retrieves the vulnerabilities affecting the processing unit.
-
 - rest_name: poke
   get:
     description: |-
@@ -245,3 +224,24 @@ relations:
       - name: ts
         description: time of report. If not set, local server time will be used.
         type: time
+
+- rest_name: renderedpolicy
+  get:
+    description: Retrieves the policies for the processing unit.
+    parameters:
+      entries:
+      - name: csr
+        description: CSR to sign.
+        type: string
+        example_value: |-
+          --- BEGIN CSR ---
+          xxx-xxx-xxx-xxx
+          --- END CSR ---
+
+- rest_name: service
+  get:
+    description: Retrieves the services used by a processing unit.
+
+- rest_name: vulnerability
+  get:
+    description: Retrieves the vulnerabilities affecting the processing unit.

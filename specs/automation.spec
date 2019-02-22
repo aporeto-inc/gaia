@@ -28,7 +28,7 @@ model:
   - '@base'
   - '@described'
   - '@disabled'
-  - '@identifiable-pk-stored'
+  - '@identifiable-stored'
   - '@named'
   - '@zonable'
 

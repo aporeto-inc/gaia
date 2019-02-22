@@ -37,7 +37,7 @@ model:
   - '@archivable'
   - '@base'
   - '@described'
-  - '@identifiable-pk-stored'
+  - '@identifiable-stored'
   - '@named'
   - '@propagated'
   - '@metadatable'
