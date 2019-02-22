@@ -2854,6 +2854,12 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[PolicyGraphIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+	}
+
 	relationshipsRegistry[PolicyRefreshIdentity] = &elemental.Relationship{}
 
 	relationshipsRegistry[PolicyRendererIdentity] = &elemental.Relationship{

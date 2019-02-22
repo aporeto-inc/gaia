@@ -433,6 +433,10 @@ relations:
   create:
     description: Create a statistics report.
 
+- rest_name: policygraph
+  create:
+    description: Retrieve a policy graph.
+
 - rest_name: flowreport
   create:
     description: Create a flow statistics report.
