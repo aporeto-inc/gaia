@@ -33,7 +33,7 @@ attributes:
     exposed: true
     required: true
     creation_only: true
-    example_value: aws access key id
+    example_value: AKIAIOSFODNN7EXAMPLE
 
   - name: accessToken
     description: |-
@@ -90,4 +90,4 @@ attributes:
     exposed: true
     required: true
     creation_only: true
-    example_value: aws secret access key
+    example_value: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY

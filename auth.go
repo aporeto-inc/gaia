@@ -129,7 +129,8 @@ func (o *Auth) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Auth) Doc() string {
-	return `This API verifies if the given token is valid or not.`
+	return `This API verifies if the given token is valid or not. If it is valid it will
+return the claims of the token.`
 }
 
 func (o *Auth) String() string {

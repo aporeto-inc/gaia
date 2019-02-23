@@ -125,8 +125,8 @@ type Account struct {
 	LDAPBindPassword string `json:"LDAPBindPassword" bson:"ldapbindpassword" mapstructure:"LDAPBindPassword,omitempty"`
 
 	// LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
-	// Windows based systems, value may be 'sAMAccountName={USERNAME}'. For Linux and
-	// other systems, value may be 'uid={USERNAME}'.
+	// Windows based systems, value may be `+"`"+`sAMAccountName={USERNAME}`+"`"+`. For Linux and
+	// other systems, value may be `+"`"+`uid={USERNAME}`+"`"+`.
 	LDAPBindSearchFilter string `json:"LDAPBindSearchFilter" bson:"ldapbindsearchfilter" mapstructure:"LDAPBindSearchFilter,omitempty"`
 
 	// LDAPCertificateAuthority contains the optional certificate author ity that will
@@ -176,9 +176,6 @@ type Account struct {
 
 	// associatedBillingID holds the ID of the associated billing customer.
 	AssociatedBillingID string `json:"associatedBillingID" bson:"associatedbillingid" mapstructure:"associatedBillingID,omitempty"`
-
-	// associatedGCPPolicies contains a map of associated GCP Enforcerd Policies.
-	AssociatedGCPPolicies map[string]string `json:"-" bson:"associatedgcppolicies" mapstructure:"-,omitempty"`
 
 	// AssociatedNamespaceID contains the ID of the associated namespace.
 	AssociatedNamespaceID string `json:"-" bson:"associatednamespaceid" mapstructure:"-,omitempty"`
@@ -243,9 +240,8 @@ func NewAccount() *Account {
 
 	return &Account{
 		ModelVersion:             1,
-		AssociatedQuotaPolicies:  map[string]string{},
 		AssociatedPlanKey:        "aporeto.plan.free",
-		AssociatedGCPPolicies:    map[string]string{},
+		AssociatedQuotaPolicies:  map[string]string{},
 		AssociatedAWSPolicies:    map[string]string{},
 		LDAPSubjectKey:           "uid",
 		LDAPIgnoredKeys:          []string{},
@@ -347,7 +343,6 @@ func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			AssociatedAPIAuthPolicyID: &o.AssociatedAPIAuthPolicyID,
 			AssociatedAWSPolicies:     &o.AssociatedAWSPolicies,
 			AssociatedBillingID:       &o.AssociatedBillingID,
-			AssociatedGCPPolicies:     &o.AssociatedGCPPolicies,
 			AssociatedNamespaceID:     &o.AssociatedNamespaceID,
 			AssociatedPlanKey:         &o.AssociatedPlanKey,
 			AssociatedQuotaPolicies:   &o.AssociatedQuotaPolicies,
@@ -411,8 +406,6 @@ func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.AssociatedAWSPolicies = &(o.AssociatedAWSPolicies)
 		case "associatedBillingID":
 			sp.AssociatedBillingID = &(o.AssociatedBillingID)
-		case "associatedGCPPolicies":
-			sp.AssociatedGCPPolicies = &(o.AssociatedGCPPolicies)
 		case "associatedNamespaceID":
 			sp.AssociatedNamespaceID = &(o.AssociatedNamespaceID)
 		case "associatedPlanKey":
@@ -519,9 +512,6 @@ func (o *Account) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.AssociatedBillingID != nil {
 		o.AssociatedBillingID = *so.AssociatedBillingID
-	}
-	if so.AssociatedGCPPolicies != nil {
-		o.AssociatedGCPPolicies = *so.AssociatedGCPPolicies
 	}
 	if so.AssociatedNamespaceID != nil {
 		o.AssociatedNamespaceID = *so.AssociatedNamespaceID
@@ -700,8 +690,6 @@ func (o *Account) ValueForAttribute(name string) interface{} {
 		return o.AssociatedAWSPolicies
 	case "associatedBillingID":
 		return o.AssociatedBillingID
-	case "associatedGCPPolicies":
-		return o.AssociatedGCPPolicies
 	case "associatedNamespaceID":
 		return o.AssociatedNamespaceID
 	case "associatedPlanKey":
@@ -805,8 +793,8 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "LDAPBindSearchFilter",
 		DefaultValue:   "uid={USERNAME}",
 		Description: `LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
-Windows based systems, value may be 'sAMAccountName={USERNAME}'. For Linux and
-other systems, value may be 'uid={USERNAME}'.`,
+Windows based systems, value may be ` + "`" + `sAMAccountName={USERNAME}` + "`" + `. For Linux and
+other systems, value may be ` + "`" + `uid={USERNAME}` + "`" + `.`,
 		Exposed:   true,
 		Name:      "LDAPBindSearchFilter",
 		Orderable: true,
@@ -956,15 +944,6 @@ also use any alternate key.`,
 		Name:           "associatedBillingID",
 		Stored:         true,
 		Type:           "string",
-	},
-	"AssociatedGCPPolicies": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AssociatedGCPPolicies",
-		Description:    `associatedGCPPolicies contains a map of associated GCP Enforcerd Policies.`,
-		Name:           "associatedGCPPolicies",
-		Stored:         true,
-		SubType:        "map[string]string",
-		Type:           "external",
 	},
 	"AssociatedNamespaceID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1221,8 +1200,8 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "LDAPBindSearchFilter",
 		DefaultValue:   "uid={USERNAME}",
 		Description: `LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
-Windows based systems, value may be 'sAMAccountName={USERNAME}'. For Linux and
-other systems, value may be 'uid={USERNAME}'.`,
+Windows based systems, value may be ` + "`" + `sAMAccountName={USERNAME}` + "`" + `. For Linux and
+other systems, value may be ` + "`" + `uid={USERNAME}` + "`" + `.`,
 		Exposed:   true,
 		Name:      "LDAPBindSearchFilter",
 		Orderable: true,
@@ -1372,15 +1351,6 @@ also use any alternate key.`,
 		Name:           "associatedBillingID",
 		Stored:         true,
 		Type:           "string",
-	},
-	"associatedgcppolicies": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AssociatedGCPPolicies",
-		Description:    `associatedGCPPolicies contains a map of associated GCP Enforcerd Policies.`,
-		Name:           "associatedGCPPolicies",
-		Stored:         true,
-		SubType:        "map[string]string",
-		Type:           "external",
 	},
 	"associatednamespaceid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1652,8 +1622,8 @@ type SparseAccount struct {
 	LDAPBindPassword *string `json:"LDAPBindPassword,omitempty" bson:"ldapbindpassword" mapstructure:"LDAPBindPassword,omitempty"`
 
 	// LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
-	// Windows based systems, value may be 'sAMAccountName={USERNAME}'. For Linux and
-	// other systems, value may be 'uid={USERNAME}'.
+	// Windows based systems, value may be `+"`"+`sAMAccountName={USERNAME}`+"`"+`. For Linux and
+	// other systems, value may be `+"`"+`uid={USERNAME}`+"`"+`.
 	LDAPBindSearchFilter *string `json:"LDAPBindSearchFilter,omitempty" bson:"ldapbindsearchfilter" mapstructure:"LDAPBindSearchFilter,omitempty"`
 
 	// LDAPCertificateAuthority contains the optional certificate author ity that will
@@ -1703,9 +1673,6 @@ type SparseAccount struct {
 
 	// associatedBillingID holds the ID of the associated billing customer.
 	AssociatedBillingID *string `json:"associatedBillingID,omitempty" bson:"associatedbillingid" mapstructure:"associatedBillingID,omitempty"`
-
-	// associatedGCPPolicies contains a map of associated GCP Enforcerd Policies.
-	AssociatedGCPPolicies *map[string]string `json:"-,omitempty" bson:"associatedgcppolicies" mapstructure:"-,omitempty"`
 
 	// AssociatedNamespaceID contains the ID of the associated namespace.
 	AssociatedNamespaceID *string `json:"-,omitempty" bson:"associatednamespaceid" mapstructure:"-,omitempty"`
@@ -1860,9 +1827,6 @@ func (o *SparseAccount) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.AssociatedBillingID != nil {
 		out.AssociatedBillingID = *o.AssociatedBillingID
-	}
-	if o.AssociatedGCPPolicies != nil {
-		out.AssociatedGCPPolicies = *o.AssociatedGCPPolicies
 	}
 	if o.AssociatedNamespaceID != nil {
 		out.AssociatedNamespaceID = *o.AssociatedNamespaceID

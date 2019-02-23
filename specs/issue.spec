@@ -6,8 +6,6 @@ model:
   package: midgard
   group: core/authentication
   description: This API issues a new token according to given data.
-  extends:
-  - '@realm'
 
 # Attributes
 attributes:
@@ -25,6 +23,7 @@ attributes:
     description: Data contains additional data. The value depends on the issuer type.
     type: string
     exposed: true
+    deprecated: true
     orderable: true
 
   - name: metadata
@@ -33,6 +32,10 @@ attributes:
     type: external
     exposed: true
     subtype: map[string]interface{}
+    example_value:
+      vinceAccount: acme
+      vinceOTP: 665435
+      vincePassword: s3cr3t
     orderable: true
 
   - name: opaque
@@ -45,6 +48,23 @@ attributes:
     description: Restricts the number of time the issued token should be used.
     type: integer
     exposed: true
+
+  - name: realm
+    description: Realm is the authentication realm.
+    type: enum
+    exposed: true
+    required: true
+    allowed_choices:
+    - AWSIdentityDocument
+    - AWSSecurityToken
+    - Certificate
+    - Google
+    - LDAP
+    - Vince
+    - GCPIdentityToken
+    - AzureIdentityToken
+    - OIDC
+    example_value: Vince
 
   - name: token
     description: Token is the token to use for the registration.

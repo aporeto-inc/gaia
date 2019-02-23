@@ -33,7 +33,7 @@ attributes:
     exposed: true
     stored: true
     required: true
-    example_value: xxx-xxx-xxx
+    example_value: 6195189841830-0644ee9d89ef0644ee9d89examle.apps.googleusercontent.com
 
   - name: clientSecret
     description: Client secret associated with the client ID.
@@ -41,7 +41,7 @@ attributes:
     exposed: true
     stored: true
     required: true
-    example_value: xxx-xxx-xxx
+    example_value: Ytgbfjtj4652jHDFGls99jF
     secret: true
 
   - name: default
@@ -68,7 +68,7 @@ attributes:
     stored: true
     required: true
     creation_only: true
-    example_value: okta
+    example_value: google
 
   - name: parentID
     description: ParentID contains the parent Vince account ID.
