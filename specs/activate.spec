@@ -15,3 +15,4 @@ attributes:
     type: string
     exposed: true
     creation_only: true
+    example_value: 2BB3D52C-DE26-406A-8821-613F102282B0

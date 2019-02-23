@@ -16,7 +16,35 @@ attributes:
     exposed: true
     subtype: export
     required: true
-    example_value: previous output of export
+    example_value:
+      externalnetworks:
+      - associatedTags:
+        - ext:net=tcp
+        description: Represents all TCP traffic on any port
+        entries:
+        - 0.0.0.0/0
+        name: all-tcp
+        protocols:
+        - tcp
+      - associatedTags:
+        - ext:net=udp
+        description: Represents all UDP traffic on any port
+        entries:
+        - 0.0.0.0/0
+        name: all-udp
+        protocols:
+        - udp
+      networkaccesspolicies:
+      - action: Allow
+        description: Allows all communication from pu to pu, tcp and udp
+        logsEnabled: true
+        name: allow-all-communication
+        object:
+        - - $identity=processingunit
+        - - ext:net=tcp
+        - - ext:net=udp
+        subject:
+        - - $identity=processingunit
     extensions:
       refMode: pointer
 

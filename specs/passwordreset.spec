@@ -22,4 +22,4 @@ attributes:
     type: string
     exposed: true
     required: true
-    example_value: valid.jwt.token
+    example_value: 436676D4-7ECA-4853-A572-0644EE9D89EF

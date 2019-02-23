@@ -1,16 +1,3 @@
-' map[string]int':
-  elemental:
-    type: map[string]int
-    init: map[string]int{}
-  jsonschema:
-    type: |-
-      {
-        "type": "object",
-        "additionalProperties": {
-          "type": "integer"
-        }
-      }
-
 '[][]interface{}':
   elemental:
     type: '[][]interface{}'
@@ -280,6 +267,19 @@ map[string]bool:
         "type": "object",
         "additionalProperties": {
           "type": "boolean"
+        }
+      }
+
+map[string]int:
+  elemental:
+    type: map[string]int
+    init: map[string]int{}
+  jsonschema:
+    type: |-
+      {
+        "type": "object",
+        "additionalProperties": {
+          "type": "integer"
         }
       }
 

@@ -1028,15 +1028,6 @@ func init() {
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
-						Name: "q",
-						Type: "string",
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,

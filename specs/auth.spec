@@ -5,7 +5,9 @@ model:
   entity_name: Auth
   package: midgard
   group: core/authentication
-  description: This API verifies if the given token is valid or not.
+  description: |-
+    This API verifies if the given token is valid or not. If it is valid it will
+    return the claims of the token.
 
 # Attributes
 attributes:

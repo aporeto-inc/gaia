@@ -37,6 +37,7 @@ attributes:
     type: string
     exposed: true
     stored: true
+    example_value: ldap.company.com
     filterable: true
     orderable: true
 
@@ -45,6 +46,7 @@ attributes:
     type: string
     exposed: true
     stored: true
+    example_value: dc=universe,dc=io
     filterable: true
     orderable: true
 
@@ -54,6 +56,7 @@ attributes:
     type: string
     exposed: true
     stored: true
+    example_value: cn=readonly,dc=universe,dc=io
     filterable: true
     orderable: true
 
@@ -62,13 +65,14 @@ attributes:
     type: string
     exposed: true
     stored: true
+    example_value: s3cr3t
     orderable: true
 
   - name: LDAPBindSearchFilter
     description: |-
       LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
-      Windows based systems, value may be 'sAMAccountName={USERNAME}'. For Linux and
-      other systems, value may be 'uid={USERNAME}'.
+      Windows based systems, value may be `sAMAccountName={USERNAME}`. For Linux and
+      other systems, value may be `uid={USERNAME}`.
     type: string
     exposed: true
     stored: true
@@ -83,6 +87,16 @@ attributes:
     type: string
     exposed: true
     stored: true
+    example_value: |-
+      -----BEGIN CERTIFICATE-----
+      MIIBPzCB5qADAgECAhEAwbx3c+QW24ePXyD94geytzAKBggqhkjOPQQDAjAPMQ0w
+      CwYDVQQDEwR0b3RvMB4XDTE5MDIyMjIzNDA1MFoXDTI4MTIzMTIzNDA1MFowDzEN
+      MAsGA1UEAxMEdG90bzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJi6CwRDeKks
+      Xb3pDEslmFGR7k9Aeh5RK+XmdqKKPGb3NQWEFPGolnqOR34iVuf7KSxTuzaaVWfu
+      XEa94faUQEqjIzAhMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MAoG
+      CCqGSM49BAMCA0gAMEUCIQD+nL9RF9EvQXHyYuJ31Lz9yWd9hsK91stnpAs890gS
+      /AIgQIKjBBpiyQNZZWso5H04qke9QYMVPegiQQufFFBj32c=
+      -----END CERTIFICATE-----
     orderable: true
 
   - name: LDAPConnSecurityProtocol
@@ -188,13 +202,6 @@ attributes:
     exposed: true
     stored: true
 
-  - name: associatedGCPPolicies
-    description: associatedGCPPolicies contains a map of associated GCP Enforcerd
-      Policies.
-    type: external
-    subtype: map[string]string
-    stored: true
-
   - name: associatedNamespaceID
     description: AssociatedNamespaceID contains the ID of the associated namespace.
     type: string
@@ -222,6 +229,7 @@ attributes:
     type: string
     exposed: true
     stored: true
+    example_value: Acme
     filterable: true
     orderable: true
 
@@ -231,7 +239,7 @@ attributes:
     exposed: true
     stored: true
     required: true
-    example_value: user@aporeto.com
+    example_value: user@acme.com
     filterable: true
     orderable: true
 
@@ -240,6 +248,7 @@ attributes:
     type: string
     exposed: true
     stored: true
+    example_value: John
     filterable: true
     orderable: true
 
@@ -248,6 +257,7 @@ attributes:
     type: string
     exposed: true
     stored: true
+    example_value: Doe
     filterable: true
     orderable: true
 
