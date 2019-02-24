@@ -1133,6 +1133,10 @@ AssociatedTags are the list of tags attached to an entity.
 
 Certificate is the certificate of the enforcer.
 
+##### `certificateExpirationDate` `time`
+
+CertificateExpirationDate is the expiration date of the certificate.
+
 ##### `certificateRequest` `string`
 
 If not empty during a create or update generation, the provided CSR will be
@@ -1363,7 +1367,7 @@ Create a packet trace report.
 
 DestinationIP is the IP address of the destination.
 
-##### `destinationPort` `integer` [`max_value=%!d(float64=65536)`]
+##### `destinationPort` `integer` [`max_value=65536.000000`]
 
 DestinationPort is the destination port of a TCP or UDP packet.
 
@@ -1384,7 +1388,7 @@ Event is the event that triggered the report.
 
 Namespace of the PU reporting the packet.
 
-##### `protocol` `integer` [`required`,`max_value=%!d(float64=255)`]
+##### `protocol` `integer` [`required`,`max_value=255.000000`]
 
 Protocol number.
 
@@ -1396,7 +1400,7 @@ PUID is the ID of the PU reporting the packet.
 
 SourceIP is the source IP address of the packet.
 
-##### `sourcePort` `integer` [`max_value=%!d(float64=65536)`]
+##### `sourcePort` `integer` [`max_value=65536.000000`]
 
 SourcePort is the source port of the packet.
 
@@ -1483,7 +1487,7 @@ Represents a single trace record from the enforcer.
 
 #### Attributes
 
-##### `TTL` `integer` [`required`,`max_value=%!d(float64=255)`]
+##### `TTL` `integer` [`required`,`max_value=255.000000`]
 
 TTL is the TTL value of the packet.
 
@@ -1499,11 +1503,11 @@ DestinationIP is the destination IP.
 
 DestinationInterface is the destination interface of the packet.
 
-##### `destinationPort` `integer` [`required`,`min_value=%!d(float64=1)`,`max_value=%!d(float64=65536)`]
+##### `destinationPort` `integer` [`required`,`min_value=1.000000`,`max_value=65536.000000`]
 
 DestinationPort is the destination UPD or TCP port of the packet.
 
-##### `length` `integer` [`required`,`max_value=%!d(float64=65536)`]
+##### `length` `integer` [`required`,`max_value=65536.000000`]
 
 Length of the observed packet.
 
@@ -1511,7 +1515,7 @@ Length of the observed packet.
 
 PacketID is the IP packet header ID.
 
-##### `protocol` `integer` [`required`,`max_value=%!d(float64=65536)`]
+##### `protocol` `integer` [`required`,`max_value=65536.000000`]
 
 Protocol is the protocol of the packets.
 
@@ -1527,7 +1531,7 @@ SourceIP is the source IP of the packet.
 
 SourceInterface is the source interface of the packet.
 
-##### `sourcePort` `integer` [`required`,`min_value=%!d(float64=1)`,`max_value=%!d(float64=65536)`]
+##### `sourcePort` `integer` [`required`,`min_value=1.000000`,`max_value=65536.000000`]
 
 SourcePort is the source TCP or UDP Port of the packet.
 
@@ -6957,7 +6961,7 @@ ExposedAPIs contains a tag expression that will determine which
 APIs a service is exposing. The APIs can be defined as the RESTAPISpec or
 similar specifications for other L7 protocols.
 
-##### `exposedPort` `integer` [`required`,`max_value=%!d(float64=65535)`]
+##### `exposedPort` `integer` [`required`,`max_value=65535.000000`]
 
 ExposedPort is the port that the service can be accessed. Note that
 this is different from the Port attribute that describes the port that the
@@ -7008,7 +7012,7 @@ Namespace tag attached to an entity.
 
 NormalizedTags contains the list of normalized tags of the entities.
 
-##### `port` `integer` [`required`,`max_value=%!d(float64=65535)`]
+##### `port` `integer` [`required`,`max_value=65535.000000`]
 
 Port is the port that the implementation of the service is listening to and
 it can be different than the exposedPorts describing the service. This is needed
@@ -7018,7 +7022,7 @@ for port mapping use cases where there is private and public ports.
 
 Protected defines if the object is protected.
 
-##### `publicApplicationPort` `integer` [`max_value=%!d(float64=65535)`]
+##### `publicApplicationPort` `integer` [`max_value=65535.000000`]
 
 PublicApplicationPort is a new virtual port that the service can
 be accessed, using HTTPs. Since the enforcer transparently inserts TLS in the

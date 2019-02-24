@@ -132,6 +132,9 @@ type Enforcer struct {
 	// Certificate is the certificate of the enforcer.
 	Certificate string `json:"certificate" bson:"certificate" mapstructure:"certificate,omitempty"`
 
+	// CertificateExpirationDate is the expiration date of the certificate.
+	CertificateExpirationDate time.Time `json:"certificateExpirationDate" bson:"certificateexpirationdate" mapstructure:"certificateExpirationDate,omitempty"`
+
 	// If not empty during a create or update generation, the provided CSR will be
 	// validated and signed by the backend providing a renewed certificate.
 	CertificateRequest string `json:"certificateRequest" bson:"-" mapstructure:"certificateRequest,omitempty"`
@@ -232,13 +235,13 @@ func NewEnforcer() *Enforcer {
 	return &Enforcer{
 		ModelVersion:          1,
 		Annotations:           map[string][]string{},
-		CollectedInfo:         map[string]string{},
 		AssociatedTags:        []string{},
 		EnforcementStatus:     EnforcerEnforcementStatusInactive,
-		LastValidHostServices: HostServicesList{},
+		CollectedInfo:         map[string]string{},
 		NormalizedTags:        []string{},
 		OperationalStatus:     EnforcerOperationalStatusRegistered,
 		Metadata:              []string{},
+		LastValidHostServices: HostServicesList{},
 	}
 }
 
@@ -431,36 +434,37 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseEnforcer{
-			FQDN:                  &o.FQDN,
-			ID:                    &o.ID,
-			Annotations:           &o.Annotations,
-			AssociatedTags:        &o.AssociatedTags,
-			Certificate:           &o.Certificate,
-			CertificateRequest:    &o.CertificateRequest,
-			CollectInfo:           &o.CollectInfo,
-			CollectedInfo:         &o.CollectedInfo,
-			CreateTime:            &o.CreateTime,
-			CurrentVersion:        &o.CurrentVersion,
-			Description:           &o.Description,
-			EnforcementStatus:     &o.EnforcementStatus,
-			LastCollectionTime:    &o.LastCollectionTime,
-			LastPokeTime:          &o.LastPokeTime,
-			LastSyncTime:          &o.LastSyncTime,
-			LastValidHostServices: &o.LastValidHostServices,
-			LocalCA:               &o.LocalCA,
-			MachineID:             &o.MachineID,
-			Metadata:              &o.Metadata,
-			Name:                  &o.Name,
-			Namespace:             &o.Namespace,
-			NormalizedTags:        &o.NormalizedTags,
-			OperationalStatus:     &o.OperationalStatus,
-			Protected:             &o.Protected,
-			PublicToken:           &o.PublicToken,
-			StartTime:             &o.StartTime,
-			UpdateAvailable:       &o.UpdateAvailable,
-			UpdateTime:            &o.UpdateTime,
-			ZHash:                 &o.ZHash,
-			Zone:                  &o.Zone,
+			FQDN:                      &o.FQDN,
+			ID:                        &o.ID,
+			Annotations:               &o.Annotations,
+			AssociatedTags:            &o.AssociatedTags,
+			Certificate:               &o.Certificate,
+			CertificateExpirationDate: &o.CertificateExpirationDate,
+			CertificateRequest:        &o.CertificateRequest,
+			CollectInfo:               &o.CollectInfo,
+			CollectedInfo:             &o.CollectedInfo,
+			CreateTime:                &o.CreateTime,
+			CurrentVersion:            &o.CurrentVersion,
+			Description:               &o.Description,
+			EnforcementStatus:         &o.EnforcementStatus,
+			LastCollectionTime:        &o.LastCollectionTime,
+			LastPokeTime:              &o.LastPokeTime,
+			LastSyncTime:              &o.LastSyncTime,
+			LastValidHostServices:     &o.LastValidHostServices,
+			LocalCA:                   &o.LocalCA,
+			MachineID:                 &o.MachineID,
+			Metadata:                  &o.Metadata,
+			Name:                      &o.Name,
+			Namespace:                 &o.Namespace,
+			NormalizedTags:            &o.NormalizedTags,
+			OperationalStatus:         &o.OperationalStatus,
+			Protected:                 &o.Protected,
+			PublicToken:               &o.PublicToken,
+			StartTime:                 &o.StartTime,
+			UpdateAvailable:           &o.UpdateAvailable,
+			UpdateTime:                &o.UpdateTime,
+			ZHash:                     &o.ZHash,
+			Zone:                      &o.Zone,
 		}
 	}
 
@@ -477,6 +481,8 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "certificate":
 			sp.Certificate = &(o.Certificate)
+		case "certificateExpirationDate":
+			sp.CertificateExpirationDate = &(o.CertificateExpirationDate)
 		case "certificateRequest":
 			sp.CertificateRequest = &(o.CertificateRequest)
 		case "collectInfo":
@@ -554,6 +560,9 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Certificate != nil {
 		o.Certificate = *so.Certificate
+	}
+	if so.CertificateExpirationDate != nil {
+		o.CertificateExpirationDate = *so.CertificateExpirationDate
 	}
 	if so.CertificateRequest != nil {
 		o.CertificateRequest = *so.CertificateRequest
@@ -730,6 +739,8 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.AssociatedTags
 	case "certificate":
 		return o.Certificate
+	case "certificateExpirationDate":
+		return o.CertificateExpirationDate
 	case "certificateRequest":
 		return o.CertificateRequest
 	case "collectInfo":
@@ -848,6 +859,16 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"CertificateExpirationDate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CertificateExpirationDate",
+		Description:    `CertificateExpirationDate is the expiration date of the certificate.`,
+		Exposed:        true,
+		Name:           "certificateExpirationDate",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"CertificateRequest": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1216,6 +1237,16 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"certificateexpirationdate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CertificateExpirationDate",
+		Description:    `CertificateExpirationDate is the expiration date of the certificate.`,
+		Exposed:        true,
+		Name:           "certificateExpirationDate",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"certificaterequest": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1601,6 +1632,9 @@ type SparseEnforcer struct {
 	// Certificate is the certificate of the enforcer.
 	Certificate *string `json:"certificate,omitempty" bson:"certificate" mapstructure:"certificate,omitempty"`
 
+	// CertificateExpirationDate is the expiration date of the certificate.
+	CertificateExpirationDate *time.Time `json:"certificateExpirationDate,omitempty" bson:"certificateexpirationdate" mapstructure:"certificateExpirationDate,omitempty"`
+
 	// If not empty during a create or update generation, the provided CSR will be
 	// validated and signed by the backend providing a renewed certificate.
 	CertificateRequest *string `json:"certificateRequest,omitempty" bson:"-" mapstructure:"certificateRequest,omitempty"`
@@ -1745,6 +1779,9 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Certificate != nil {
 		out.Certificate = *o.Certificate
+	}
+	if o.CertificateExpirationDate != nil {
+		out.CertificateExpirationDate = *o.CertificateExpirationDate
 	}
 	if o.CertificateRequest != nil {
 		out.CertificateRequest = *o.CertificateRequest
