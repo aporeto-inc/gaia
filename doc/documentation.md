@@ -1133,10 +1133,6 @@ AssociatedTags are the list of tags attached to an entity.
 
 Certificate is the certificate of the enforcer.
 
-##### `certificateExpirationDate` `time`
-
-CertificateExpirationDate is the expiration date of the certificate.
-
 ##### `certificateRequest` `string`
 
 If not empty during a create or update generation, the provided CSR will be
