@@ -379,6 +379,11 @@ func init() {
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
+					elemental.ParameterDefinition{
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
@@ -389,6 +394,11 @@ func init() {
 		Info: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "tag",
+						Type:     "string",
+						Multiple: true,
+					},
 					elemental.ParameterDefinition{
 						Name:     "q",
 						Type:     "string",

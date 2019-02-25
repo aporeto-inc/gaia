@@ -87,6 +87,13 @@ relations:
     description: Retrieves the list of apps.
     global_parameters:
     - $filtering
+    parameters:
+      entries:
+      - name: tag
+        description: List of tags to filter on. This parameter is deprecated.
+        type: string
+        multiple: true
+        example_value: a=a
 
 - rest_name: appcredential
   get:
