@@ -67,9 +67,11 @@ var (
 		"plan":                     PlanIdentity,
 		"poke":                     PokeIdentity,
 		"policy":                   PolicyIdentity,
+		"policygraph":              PolicyGraphIdentity,
 		"policyrefresh":            PolicyRefreshIdentity,
 		"policyrenderer":           PolicyRendererIdentity,
 		"policyrule":               PolicyRuleIdentity,
+		"policyttl":                PolicyTTLIdentity,
 		"privatekey":               PrivateKeyIdentity,
 		"processingunit":           ProcessingUnitIdentity,
 		"processingunitpolicy":     ProcessingUnitPolicyIdentity,
@@ -171,9 +173,11 @@ var (
 		"plans":                      PlanIdentity,
 		"poke":                       PokeIdentity,
 		"policies":                   PolicyIdentity,
+		"policygraphs":               PolicyGraphIdentity,
 		"policyrefreshs":             PolicyRefreshIdentity,
 		"policyrenderers":            PolicyRendererIdentity,
 		"policyrules":                PolicyRuleIdentity,
+		"policyttls":                 PolicyTTLIdentity,
 		"privatekeys":                PrivateKeyIdentity,
 		"processingunits":            ProcessingUnitIdentity,
 		"processingunitpolicies":     ProcessingUnitPolicyIdentity,
@@ -260,6 +264,7 @@ var (
 		"nsmaps":         NamespaceMappingPolicyIdentity,
 		"netpol":         NetworkAccessPolicyIdentity,
 		"netpols":        NetworkAccessPolicyIdentity,
+		"polgraph":       PolicyGraphIdentity,
 		"pu":             ProcessingUnitIdentity,
 		"pus":            ProcessingUnitIdentity,
 		"pup":            ProcessingUnitPolicyIdentity,
@@ -450,9 +455,11 @@ var (
 			[]string{"namespace", "type", "allSubjectTags", "propagate"},
 			[]string{"namespace", "fallback"},
 		},
+		"policygraph":    nil,
 		"policyrefresh":  nil,
 		"policyrenderer": nil,
 		"policyrule":     nil,
+		"policyttl":      nil,
 		"privatekey":     nil,
 		"processingunit": [][]string{
 			[]string{":shard", "zone", "zHash"},
@@ -665,12 +672,16 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewPoke()
 	case PolicyIdentity:
 		return NewPolicy()
+	case PolicyGraphIdentity:
+		return NewPolicyGraph()
 	case PolicyRefreshIdentity:
 		return NewPolicyRefresh()
 	case PolicyRendererIdentity:
 		return NewPolicyRenderer()
 	case PolicyRuleIdentity:
 		return NewPolicyRule()
+	case PolicyTTLIdentity:
+		return NewPolicyTTL()
 	case PrivateKeyIdentity:
 		return NewPrivateKey()
 	case ProcessingUnitIdentity:
@@ -860,12 +871,16 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparsePoke()
 	case PolicyIdentity:
 		return NewSparsePolicy()
+	case PolicyGraphIdentity:
+		return NewSparsePolicyGraph()
 	case PolicyRefreshIdentity:
 		return NewSparsePolicyRefresh()
 	case PolicyRendererIdentity:
 		return NewSparsePolicyRenderer()
 	case PolicyRuleIdentity:
 		return NewSparsePolicyRule()
+	case PolicyTTLIdentity:
+		return NewSparsePolicyTTL()
 	case PrivateKeyIdentity:
 		return NewSparsePrivateKey()
 	case ProcessingUnitIdentity:
@@ -1063,12 +1078,16 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &PokesList{}
 	case PolicyIdentity:
 		return &PoliciesList{}
+	case PolicyGraphIdentity:
+		return &PolicyGraphsList{}
 	case PolicyRefreshIdentity:
 		return &PolicyRefreshsList{}
 	case PolicyRendererIdentity:
 		return &PolicyRenderersList{}
 	case PolicyRuleIdentity:
 		return &PolicyRulesList{}
+	case PolicyTTLIdentity:
+		return &PolicyTTLsList{}
 	case PrivateKeyIdentity:
 		return &PrivateKeysList{}
 	case ProcessingUnitIdentity:
@@ -1256,12 +1275,16 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparsePokesList{}
 	case PolicyIdentity:
 		return &SparsePoliciesList{}
+	case PolicyGraphIdentity:
+		return &SparsePolicyGraphsList{}
 	case PolicyRefreshIdentity:
 		return &SparsePolicyRefreshsList{}
 	case PolicyRendererIdentity:
 		return &SparsePolicyRenderersList{}
 	case PolicyRuleIdentity:
 		return &SparsePolicyRulesList{}
+	case PolicyTTLIdentity:
+		return &SparsePolicyTTLsList{}
 	case PrivateKeyIdentity:
 		return &SparsePrivateKeysList{}
 	case ProcessingUnitIdentity:
@@ -1406,9 +1429,11 @@ func AllIdentities() []elemental.Identity {
 		PlanIdentity,
 		PokeIdentity,
 		PolicyIdentity,
+		PolicyGraphIdentity,
 		PolicyRefreshIdentity,
 		PolicyRendererIdentity,
 		PolicyRuleIdentity,
+		PolicyTTLIdentity,
 		PrivateKeyIdentity,
 		ProcessingUnitIdentity,
 		ProcessingUnitPolicyIdentity,
@@ -1636,11 +1661,17 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case PolicyIdentity:
 		return []string{}
+	case PolicyGraphIdentity:
+		return []string{
+			"polgraph",
+		}
 	case PolicyRefreshIdentity:
 		return []string{}
 	case PolicyRendererIdentity:
 		return []string{}
 	case PolicyRuleIdentity:
+		return []string{}
+	case PolicyTTLIdentity:
 		return []string{}
 	case PrivateKeyIdentity:
 		return []string{}

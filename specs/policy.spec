@@ -51,7 +51,7 @@ model:
   - '@base'
   - '@described'
   - '@disabled'
-  - '@identifiable-pk-stored'
+  - '@identifiable-stored'
   - '@metadatable'
   - '@named'
   - '@propagated'
@@ -82,6 +82,14 @@ attributes:
     type: list
     subtype: string
     stored: true
+
+  - name: expirationTime
+    description: If set the policy will be auto deleted at the given time.
+    type: time
+    exposed: true
+    stored: true
+    getter: true
+    setter: true
 
   - name: object
     description: |-

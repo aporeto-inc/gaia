@@ -59,13 +59,13 @@ attributes:
 
 # Relations
 relations:
+- rest_name: enforcer
+  get:
+    description: Returns the list of enforcers affected by an enforcer profile mapping
+      policy.
+
 - rest_name: enforcerprofile
   get:
     description: |-
       Returns the list of enforcer profiles that an enforcer profile mapping policy
       matches.
-
-- rest_name: enforcer
-  get:
-    description: Returns the list of enforcers affected by an enforcer profile mapping
-      policy.

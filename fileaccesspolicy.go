@@ -121,6 +121,9 @@ type FileAccessPolicy struct {
 	// EncryptionEnabled will enable the automatic encryption.
 	EncryptionEnabled bool `json:"encryptionEnabled" bson:"-" mapstructure:"encryptionEnabled,omitempty"`
 
+	// If set the policy will be auto deleted after the given time.
+	ExpirationTime time.Time `json:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
+
 	// Fallback indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
@@ -318,6 +321,18 @@ func (o *FileAccessPolicy) SetDisabled(disabled bool) {
 	o.Disabled = disabled
 }
 
+// GetExpirationTime returns the ExpirationTime of the receiver.
+func (o *FileAccessPolicy) GetExpirationTime() time.Time {
+
+	return o.ExpirationTime
+}
+
+// SetExpirationTime sets the property ExpirationTime of the receiver using the given value.
+func (o *FileAccessPolicy) SetExpirationTime(expirationTime time.Time) {
+
+	o.ExpirationTime = expirationTime
+}
+
 // GetFallback returns the Fallback of the receiver.
 func (o *FileAccessPolicy) GetFallback() bool {
 
@@ -451,6 +466,7 @@ func (o *FileAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentifiab
 			Description:       &o.Description,
 			Disabled:          &o.Disabled,
 			EncryptionEnabled: &o.EncryptionEnabled,
+			ExpirationTime:    &o.ExpirationTime,
 			Fallback:          &o.Fallback,
 			LogsEnabled:       &o.LogsEnabled,
 			Metadata:          &o.Metadata,
@@ -494,6 +510,8 @@ func (o *FileAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.Disabled = &(o.Disabled)
 		case "encryptionEnabled":
 			sp.EncryptionEnabled = &(o.EncryptionEnabled)
+		case "expirationTime":
+			sp.ExpirationTime = &(o.ExpirationTime)
 		case "fallback":
 			sp.Fallback = &(o.Fallback)
 		case "logsEnabled":
@@ -568,6 +586,9 @@ func (o *FileAccessPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.EncryptionEnabled != nil {
 		o.EncryptionEnabled = *so.EncryptionEnabled
+	}
+	if so.ExpirationTime != nil {
+		o.ExpirationTime = *so.ExpirationTime
 	}
 	if so.Fallback != nil {
 		o.Fallback = *so.Fallback
@@ -714,6 +735,8 @@ func (o *FileAccessPolicy) ValueForAttribute(name string) interface{} {
 		return o.Disabled
 	case "encryptionEnabled":
 		return o.EncryptionEnabled
+	case "expirationTime":
+		return o.ExpirationTime
 	case "fallback":
 		return o.Fallback
 	case "logsEnabled":
@@ -883,6 +906,17 @@ The policy will be active for the given activeDuration.`,
 		Name:           "encryptionEnabled",
 		Orderable:      true,
 		Type:           "boolean",
+	},
+	"ExpirationTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExpirationTime",
+		Description:    `If set the policy will be auto deleted after the given time.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "expirationTime",
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"Fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1194,6 +1228,17 @@ The policy will be active for the given activeDuration.`,
 		Orderable:      true,
 		Type:           "boolean",
 	},
+	"expirationtime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExpirationTime",
+		Description:    `If set the policy will be auto deleted after the given time.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "expirationTime",
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
+	},
 	"fallback": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Fallback",
@@ -1468,6 +1513,9 @@ type SparseFileAccessPolicy struct {
 	// EncryptionEnabled will enable the automatic encryption.
 	EncryptionEnabled *bool `json:"encryptionEnabled,omitempty" bson:"-" mapstructure:"encryptionEnabled,omitempty"`
 
+	// If set the policy will be auto deleted after the given time.
+	ExpirationTime *time.Time `json:"expirationTime,omitempty" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
+
 	// Fallback indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
@@ -1588,6 +1636,9 @@ func (o *SparseFileAccessPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.EncryptionEnabled != nil {
 		out.EncryptionEnabled = *o.EncryptionEnabled
+	}
+	if o.ExpirationTime != nil {
+		out.ExpirationTime = *o.ExpirationTime
 	}
 	if o.Fallback != nil {
 		out.Fallback = *o.Fallback
@@ -1714,6 +1765,18 @@ func (o *SparseFileAccessPolicy) GetDisabled() bool {
 func (o *SparseFileAccessPolicy) SetDisabled(disabled bool) {
 
 	o.Disabled = &disabled
+}
+
+// GetExpirationTime returns the ExpirationTime of the receiver.
+func (o *SparseFileAccessPolicy) GetExpirationTime() time.Time {
+
+	return *o.ExpirationTime
+}
+
+// SetExpirationTime sets the property ExpirationTime of the receiver using the address of the given value.
+func (o *SparseFileAccessPolicy) SetExpirationTime(expirationTime time.Time) {
+
+	o.ExpirationTime = &expirationTime
 }
 
 // GetFallback returns the Fallback of the receiver.

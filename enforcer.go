@@ -132,21 +132,17 @@ type Enforcer struct {
 	// Certificate is the certificate of the enforcer.
 	Certificate string `json:"certificate" bson:"certificate" mapstructure:"certificate,omitempty"`
 
-	// CertificateExpirationDate is the expiration date of the certificate.
-	CertificateExpirationDate time.Time `json:"certificateExpirationDate" bson:"certificateexpirationdate" mapstructure:"certificateExpirationDate,omitempty"`
+	// CertificateExpirationDate is the expiration date of the certificate. This is an
+	// internal attribute, not exposed in the API.
+	CertificateExpirationDate time.Time `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
-	// CertificateKey is the secret key of the enforcer. Returned only when a enforcer
-	// is created or the certificate is updated.
-	CertificateKey string `json:"certificateKey" bson:"-" mapstructure:"certificateKey,omitempty"`
+	// CertificateKey is the certificate key of the enforcer. This is an internal
+	// attribute, not exposed in the API.
+	CertificateKey string `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
-	// CertificateRequest can be used to generate a certificate from that CSR instead
-	// of letting the server generate your private key for you.
+	// If not empty during a create or update generation, the provided CSR will be
+	// validated and signed by the backend providing a renewed certificate.
 	CertificateRequest string `json:"certificateRequest" bson:"-" mapstructure:"certificateRequest,omitempty"`
-
-	// If set during creation,the server will not initially generate a certificate. In
-	// that case you have to provide a valid CSR through certificateRequest during an
-	// update.
-	CertificateRequestEnabled bool `json:"certificateRequestEnabled" bson:"certificaterequestenabled" mapstructure:"certificateRequestEnabled,omitempty"`
 
 	// CollectInfo indicates to the enforcer it needs to collect information.
 	CollectInfo bool `json:"collectInfo" bson:"collectinfo" mapstructure:"collectInfo,omitempty"`
@@ -166,9 +162,6 @@ type Enforcer struct {
 
 	// Status of enforcement for PU managed directly by enforcerd, like Host PUs.
 	EnforcementStatus EnforcerEnforcementStatusValue `json:"enforcementStatus" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
-
-	// Contains the ID of the profile used by the instance of enforcerd.
-	EnforcerProfileID string `json:"enforcerProfileID" bson:"enforcerprofileid" mapstructure:"enforcerProfileID,omitempty"`
 
 	// LastCollectionTime represents the date and time when the info have been
 	// collected.
@@ -248,8 +241,8 @@ func NewEnforcer() *Enforcer {
 		ModelVersion:          1,
 		Annotations:           map[string][]string{},
 		AssociatedTags:        []string{},
-		CollectedInfo:         map[string]string{},
 		EnforcementStatus:     EnforcerEnforcementStatusInactive,
+		CollectedInfo:         map[string]string{},
 		NormalizedTags:        []string{},
 		OperationalStatus:     EnforcerOperationalStatusRegistered,
 		Metadata:              []string{},
@@ -454,14 +447,12 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CertificateExpirationDate: &o.CertificateExpirationDate,
 			CertificateKey:            &o.CertificateKey,
 			CertificateRequest:        &o.CertificateRequest,
-			CertificateRequestEnabled: &o.CertificateRequestEnabled,
 			CollectInfo:               &o.CollectInfo,
 			CollectedInfo:             &o.CollectedInfo,
 			CreateTime:                &o.CreateTime,
 			CurrentVersion:            &o.CurrentVersion,
 			Description:               &o.Description,
 			EnforcementStatus:         &o.EnforcementStatus,
-			EnforcerProfileID:         &o.EnforcerProfileID,
 			LastCollectionTime:        &o.LastCollectionTime,
 			LastPokeTime:              &o.LastPokeTime,
 			LastSyncTime:              &o.LastSyncTime,
@@ -502,8 +493,6 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CertificateKey = &(o.CertificateKey)
 		case "certificateRequest":
 			sp.CertificateRequest = &(o.CertificateRequest)
-		case "certificateRequestEnabled":
-			sp.CertificateRequestEnabled = &(o.CertificateRequestEnabled)
 		case "collectInfo":
 			sp.CollectInfo = &(o.CollectInfo)
 		case "collectedInfo":
@@ -516,8 +505,6 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Description = &(o.Description)
 		case "enforcementStatus":
 			sp.EnforcementStatus = &(o.EnforcementStatus)
-		case "enforcerProfileID":
-			sp.EnforcerProfileID = &(o.EnforcerProfileID)
 		case "lastCollectionTime":
 			sp.LastCollectionTime = &(o.LastCollectionTime)
 		case "lastPokeTime":
@@ -591,9 +578,6 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CertificateRequest != nil {
 		o.CertificateRequest = *so.CertificateRequest
 	}
-	if so.CertificateRequestEnabled != nil {
-		o.CertificateRequestEnabled = *so.CertificateRequestEnabled
-	}
 	if so.CollectInfo != nil {
 		o.CollectInfo = *so.CollectInfo
 	}
@@ -611,9 +595,6 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.EnforcementStatus != nil {
 		o.EnforcementStatus = *so.EnforcementStatus
-	}
-	if so.EnforcerProfileID != nil {
-		o.EnforcerProfileID = *so.EnforcerProfileID
 	}
 	if so.LastCollectionTime != nil {
 		o.LastCollectionTime = *so.LastCollectionTime
@@ -775,8 +756,6 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.CertificateKey
 	case "certificateRequest":
 		return o.CertificateRequest
-	case "certificateRequestEnabled":
-		return o.CertificateRequestEnabled
 	case "collectInfo":
 		return o.CollectInfo
 	case "collectedInfo":
@@ -789,8 +768,6 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "enforcementStatus":
 		return o.EnforcementStatus
-	case "enforcerProfileID":
-		return o.EnforcerProfileID
 	case "lastCollectionTime":
 		return o.LastCollectionTime
 	case "lastPokeTime":
@@ -856,7 +833,6 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
@@ -899,47 +875,33 @@ var EnforcerAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 	"CertificateExpirationDate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
+		Autogenerated:  true,
 		ConvertedName:  "CertificateExpirationDate",
-		Description:    `CertificateExpirationDate is the expiration date of the certificate.`,
-		Exposed:        true,
-		Name:           "certificateExpirationDate",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "time",
+		Description: `CertificateExpirationDate is the expiration date of the certificate. This is an
+internal attribute, not exposed in the API.`,
+		Name:     "certificateExpirationDate",
+		ReadOnly: true,
+		Type:     "time",
 	},
 	"CertificateKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CertificateKey",
-		Description: `CertificateKey is the secret key of the enforcer. Returned only when a enforcer
-is created or the certificate is updated.`,
-		Exposed:   true,
-		Name:      "certificateKey",
-		Orderable: true,
-		ReadOnly:  true,
-		Type:      "string",
+		Description: `CertificateKey is the certificate key of the enforcer. This is an internal
+attribute, not exposed in the API.`,
+		Name:     "certificateKey",
+		ReadOnly: true,
+		Type:     "string",
 	},
 	"CertificateRequest": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateRequest",
-		Description: `CertificateRequest can be used to generate a certificate from that CSR instead
-of letting the server generate your private key for you.`,
+		Description: `If not empty during a create or update generation, the provided CSR will be
+validated and signed by the backend providing a renewed certificate.`,
 		Exposed:   true,
 		Name:      "certificateRequest",
 		Transient: true,
 		Type:      "string",
-	},
-	"CertificateRequestEnabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CertificateRequestEnabled",
-		CreationOnly:   true,
-		Description: `If set during creation,the server will not initially generate a certificate. In
-that case you have to provide a valid CSR through certificateRequest during an
-update.`,
-		Exposed: true,
-		Name:    "certificateRequestEnabled",
-		Stored:  true,
-		Type:    "boolean",
 	},
 	"CollectInfo": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1009,16 +971,6 @@ to this object.`,
 		Name:           "enforcementStatus",
 		Stored:         true,
 		Type:           "enum",
-	},
-	"EnforcerProfileID": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "EnforcerProfileID",
-		Description:    `Contains the ID of the profile used by the instance of enforcerd.`,
-		Exposed:        true,
-		Name:           "enforcerProfileID",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"LastCollectionTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1269,7 +1221,6 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Identifier:     true,
 		Name:           "ID",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
@@ -1312,47 +1263,33 @@ var EnforcerLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 	},
 	"certificateexpirationdate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
+		Autogenerated:  true,
 		ConvertedName:  "CertificateExpirationDate",
-		Description:    `CertificateExpirationDate is the expiration date of the certificate.`,
-		Exposed:        true,
-		Name:           "certificateExpirationDate",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "time",
+		Description: `CertificateExpirationDate is the expiration date of the certificate. This is an
+internal attribute, not exposed in the API.`,
+		Name:     "certificateExpirationDate",
+		ReadOnly: true,
+		Type:     "time",
 	},
 	"certificatekey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CertificateKey",
-		Description: `CertificateKey is the secret key of the enforcer. Returned only when a enforcer
-is created or the certificate is updated.`,
-		Exposed:   true,
-		Name:      "certificateKey",
-		Orderable: true,
-		ReadOnly:  true,
-		Type:      "string",
+		Description: `CertificateKey is the certificate key of the enforcer. This is an internal
+attribute, not exposed in the API.`,
+		Name:     "certificateKey",
+		ReadOnly: true,
+		Type:     "string",
 	},
 	"certificaterequest": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "CertificateRequest",
-		Description: `CertificateRequest can be used to generate a certificate from that CSR instead
-of letting the server generate your private key for you.`,
+		Description: `If not empty during a create or update generation, the provided CSR will be
+validated and signed by the backend providing a renewed certificate.`,
 		Exposed:   true,
 		Name:      "certificateRequest",
 		Transient: true,
 		Type:      "string",
-	},
-	"certificaterequestenabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CertificateRequestEnabled",
-		CreationOnly:   true,
-		Description: `If set during creation,the server will not initially generate a certificate. In
-that case you have to provide a valid CSR through certificateRequest during an
-update.`,
-		Exposed: true,
-		Name:    "certificateRequestEnabled",
-		Stored:  true,
-		Type:    "boolean",
 	},
 	"collectinfo": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1422,16 +1359,6 @@ to this object.`,
 		Name:           "enforcementStatus",
 		Stored:         true,
 		Type:           "enum",
-	},
-	"enforcerprofileid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "EnforcerProfileID",
-		Description:    `Contains the ID of the profile used by the instance of enforcerd.`,
-		Exposed:        true,
-		Name:           "enforcerProfileID",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"lastcollectiontime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1738,21 +1665,17 @@ type SparseEnforcer struct {
 	// Certificate is the certificate of the enforcer.
 	Certificate *string `json:"certificate,omitempty" bson:"certificate" mapstructure:"certificate,omitempty"`
 
-	// CertificateExpirationDate is the expiration date of the certificate.
-	CertificateExpirationDate *time.Time `json:"certificateExpirationDate,omitempty" bson:"certificateexpirationdate" mapstructure:"certificateExpirationDate,omitempty"`
+	// CertificateExpirationDate is the expiration date of the certificate. This is an
+	// internal attribute, not exposed in the API.
+	CertificateExpirationDate *time.Time `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
 
-	// CertificateKey is the secret key of the enforcer. Returned only when a enforcer
-	// is created or the certificate is updated.
-	CertificateKey *string `json:"certificateKey,omitempty" bson:"-" mapstructure:"certificateKey,omitempty"`
+	// CertificateKey is the certificate key of the enforcer. This is an internal
+	// attribute, not exposed in the API.
+	CertificateKey *string `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
 
-	// CertificateRequest can be used to generate a certificate from that CSR instead
-	// of letting the server generate your private key for you.
+	// If not empty during a create or update generation, the provided CSR will be
+	// validated and signed by the backend providing a renewed certificate.
 	CertificateRequest *string `json:"certificateRequest,omitempty" bson:"-" mapstructure:"certificateRequest,omitempty"`
-
-	// If set during creation,the server will not initially generate a certificate. In
-	// that case you have to provide a valid CSR through certificateRequest during an
-	// update.
-	CertificateRequestEnabled *bool `json:"certificateRequestEnabled,omitempty" bson:"certificaterequestenabled" mapstructure:"certificateRequestEnabled,omitempty"`
 
 	// CollectInfo indicates to the enforcer it needs to collect information.
 	CollectInfo *bool `json:"collectInfo,omitempty" bson:"collectinfo" mapstructure:"collectInfo,omitempty"`
@@ -1772,9 +1695,6 @@ type SparseEnforcer struct {
 
 	// Status of enforcement for PU managed directly by enforcerd, like Host PUs.
 	EnforcementStatus *EnforcerEnforcementStatusValue `json:"enforcementStatus,omitempty" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
-
-	// Contains the ID of the profile used by the instance of enforcerd.
-	EnforcerProfileID *string `json:"enforcerProfileID,omitempty" bson:"enforcerprofileid" mapstructure:"enforcerProfileID,omitempty"`
 
 	// LastCollectionTime represents the date and time when the info have been
 	// collected.
@@ -1907,9 +1827,6 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	if o.CertificateRequest != nil {
 		out.CertificateRequest = *o.CertificateRequest
 	}
-	if o.CertificateRequestEnabled != nil {
-		out.CertificateRequestEnabled = *o.CertificateRequestEnabled
-	}
 	if o.CollectInfo != nil {
 		out.CollectInfo = *o.CollectInfo
 	}
@@ -1927,9 +1844,6 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.EnforcementStatus != nil {
 		out.EnforcementStatus = *o.EnforcementStatus
-	}
-	if o.EnforcerProfileID != nil {
-		out.EnforcerProfileID = *o.EnforcerProfileID
 	}
 	if o.LastCollectionTime != nil {
 		out.LastCollectionTime = *o.LastCollectionTime

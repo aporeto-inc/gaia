@@ -40,7 +40,7 @@ model:
   - '@archivable'
   - '@base'
   - '@described'
-  - '@identifiable-pk-stored'
+  - '@identifiable-stored'
   - '@metadatable'
   - '@named'
   - '@zonable'

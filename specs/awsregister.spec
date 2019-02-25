@@ -7,7 +7,7 @@ model:
   group: none
   description: This api allows AWS customer to register with Aporeto SaaS for billing.
   extends:
-  - '@identifiable-pk-stored'
+  - '@identifiable-stored'
   - '@timeable'
 
 # Attributes

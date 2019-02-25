@@ -50,11 +50,11 @@ attributes:
 
 # Relations
 relations:
+- rest_name: processingunit
+  get:
+    description: Returns the list of Processing Units that depend on an service.
+
 - rest_name: service
   get:
     description: Returns the list of external services that are targets of service
       dependency.
-
-- rest_name: processingunit
-  get:
-    description: Returns the list of Processing Units that depend on an service.

@@ -111,6 +111,14 @@ attributes:
     example_value: https://hooks.hookserver.com/remoteprocessors
     orderable: true
 
+  - name: expirationTime
+    description: If set the policy will be auto deleted after the given time.
+    type: time
+    exposed: true
+    stored: true
+    getter: true
+    setter: true
+
   - name: mode
     description: Mode define the type of the hook.
     type: enum

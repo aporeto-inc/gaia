@@ -24,7 +24,7 @@ model:
   extends:
   - '@base'
   - '@described'
-  - '@identifiable-pk-stored'
+  - '@identifiable-stored'
   - '@named'
   - '@zonable'
 
