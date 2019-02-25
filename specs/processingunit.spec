@@ -185,6 +185,7 @@ attributes:
     - LinuxService
     - RKT
     - User
+    - SSH
     example_value: Docker
     filterable: true
 
