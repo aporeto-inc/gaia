@@ -2982,7 +2982,6 @@ Retrieves the list of apps.
 
 Parameters:
 
-- `tag` (`string`): List of tags to filter on. This parameter is deprecated.
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 
 #### Attributes
@@ -3125,6 +3124,7 @@ Retrieves the list of installed apps.
 
 Parameters:
 
+- `tag` (`string`): List of tags to filter on. This parameter is deprecated.
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 
 ##### `POST /installedapps`
