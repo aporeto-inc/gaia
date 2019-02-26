@@ -81,7 +81,9 @@ func (o InstalledAppsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o InstalledAppsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"name",
+	}
 }
 
 // ToSparse returns the InstalledAppsList converted to SparseInstalledAppsList.
@@ -104,14 +106,17 @@ func (o InstalledAppsList) Version() int {
 
 // InstalledApp represents the model of a installedapp
 type InstalledApp struct {
-	// ID of the installed app.
+	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// AccountName represents the vince account name.
-	AccountName string `json:"accountName" bson:"accountname" mapstructure:"accountName,omitempty"`
+	// Annotation stores additional information about an entity.
+	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// AppIdentifier retains the identifier for the app.
 	AppIdentifier string `json:"-" bson:"appidentifier" mapstructure:"-,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// CategoryID of the app.
 	CategoryID string `json:"categoryID" bson:"categoryid" mapstructure:"categoryID,omitempty"`
@@ -125,20 +130,29 @@ type InstalledApp struct {
 	// DeploymentCount represents the number of expected deployment for this app.
 	DeploymentCount int `json:"-" bson:"deploymentcount" mapstructure:"-,omitempty"`
 
-	// Name of the installed app.
+	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
-	// Namespace in which the app is running.
+	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Parameters is a list of parameters to start the app.
 	Parameters []*AppParameter `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Status of the app.
 	Status InstalledAppStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
 
 	// Reason for the status of the app.
 	StatusMessage string `json:"statusMessage" bson:"statusmessage" mapstructure:"statusMessage,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -149,9 +163,12 @@ type InstalledApp struct {
 func NewInstalledApp() *InstalledApp {
 
 	return &InstalledApp{
-		ModelVersion: 1,
-		Parameters:   []*AppParameter{},
-		Status:       InstalledAppStatusUnknown,
+		ModelVersion:   1,
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		NormalizedTags: []string{},
+		Parameters:     []*AppParameter{},
+		Status:         InstalledAppStatusUnknown,
 	}
 }
 
@@ -182,7 +199,9 @@ func (o *InstalledApp) Version() int {
 // DefaultOrder returns the list of default ordering fields.
 func (o *InstalledApp) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"name",
+	}
 }
 
 // Doc returns the documentation for the object
@@ -193,6 +212,30 @@ func (o *InstalledApp) Doc() string {
 func (o *InstalledApp) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// GetAnnotations returns the Annotations of the receiver.
+func (o *InstalledApp) GetAnnotations() map[string][]string {
+
+	return o.Annotations
+}
+
+// SetAnnotations sets the property Annotations of the receiver using the given value.
+func (o *InstalledApp) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = annotations
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *InstalledApp) GetAssociatedTags() []string {
+
+	return o.AssociatedTags
+}
+
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
+func (o *InstalledApp) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -207,6 +250,60 @@ func (o *InstalledApp) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetName returns the Name of the receiver.
+func (o *InstalledApp) GetName() string {
+
+	return o.Name
+}
+
+// SetName sets the property Name of the receiver using the given value.
+func (o *InstalledApp) SetName(name string) {
+
+	o.Name = name
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *InstalledApp) GetNamespace() string {
+
+	return o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the given value.
+func (o *InstalledApp) SetNamespace(namespace string) {
+
+	o.Namespace = namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *InstalledApp) GetNormalizedTags() []string {
+
+	return o.NormalizedTags
+}
+
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
+func (o *InstalledApp) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = normalizedTags
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *InstalledApp) GetProtected() bool {
+
+	return o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *InstalledApp) GetUpdateTime() time.Time {
+
+	return o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
+func (o *InstalledApp) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = updateTime
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -215,17 +312,21 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		// nolint: goimports
 		return &SparseInstalledApp{
 			ID:              &o.ID,
-			AccountName:     &o.AccountName,
+			Annotations:     &o.Annotations,
 			AppIdentifier:   &o.AppIdentifier,
+			AssociatedTags:  &o.AssociatedTags,
 			CategoryID:      &o.CategoryID,
 			CreateTime:      &o.CreateTime,
 			CurrentVersion:  &o.CurrentVersion,
 			DeploymentCount: &o.DeploymentCount,
 			Name:            &o.Name,
 			Namespace:       &o.Namespace,
+			NormalizedTags:  &o.NormalizedTags,
 			Parameters:      &o.Parameters,
+			Protected:       &o.Protected,
 			Status:          &o.Status,
 			StatusMessage:   &o.StatusMessage,
+			UpdateTime:      &o.UpdateTime,
 		}
 	}
 
@@ -234,10 +335,12 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
-		case "accountName":
-			sp.AccountName = &(o.AccountName)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
 		case "appIdentifier":
 			sp.AppIdentifier = &(o.AppIdentifier)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
 		case "categoryID":
 			sp.CategoryID = &(o.CategoryID)
 		case "createTime":
@@ -250,12 +353,18 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Name = &(o.Name)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
 		case "parameters":
 			sp.Parameters = &(o.Parameters)
+		case "protected":
+			sp.Protected = &(o.Protected)
 		case "status":
 			sp.Status = &(o.Status)
 		case "statusMessage":
 			sp.StatusMessage = &(o.StatusMessage)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
 		}
 	}
 
@@ -272,11 +381,14 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
-	if so.AccountName != nil {
-		o.AccountName = *so.AccountName
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
 	}
 	if so.AppIdentifier != nil {
 		o.AppIdentifier = *so.AppIdentifier
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
 	}
 	if so.CategoryID != nil {
 		o.CategoryID = *so.CategoryID
@@ -296,14 +408,23 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
 	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
 	if so.Parameters != nil {
 		o.Parameters = *so.Parameters
+	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
 	}
 	if so.Status != nil {
 		o.Status = *so.Status
 	}
 	if so.StatusMessage != nil {
 		o.StatusMessage = *so.StatusMessage
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
 	}
 }
 
@@ -336,6 +457,14 @@ func (o *InstalledApp) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
+	}
 
 	for _, sub := range o.Parameters {
 		if err := sub.Validate(); err != nil {
@@ -383,10 +512,12 @@ func (o *InstalledApp) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "ID":
 		return o.ID
-	case "accountName":
-		return o.AccountName
+	case "annotations":
+		return o.Annotations
 	case "appIdentifier":
 		return o.AppIdentifier
+	case "associatedTags":
+		return o.AssociatedTags
 	case "categoryID":
 		return o.CategoryID
 	case "createTime":
@@ -399,12 +530,18 @@ func (o *InstalledApp) ValueForAttribute(name string) interface{} {
 		return o.Name
 	case "namespace":
 		return o.Namespace
+	case "normalizedTags":
+		return o.NormalizedTags
 	case "parameters":
 		return o.Parameters
+	case "protected":
+		return o.Protected
 	case "status":
 		return o.Status
 	case "statusMessage":
 		return o.StatusMessage
+	case "updateTime":
+		return o.UpdateTime
 	}
 
 	return nil
@@ -416,24 +553,27 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID of the installed app.`,
+		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
+		Filterable:     true,
 		Identifier:     true,
 		Name:           "ID",
-		PrimaryKey:     true,
+		Orderable:      true,
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
 	},
-	"AccountName": elemental.AttributeSpecification{
+	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "AccountName",
-		CreationOnly:   true,
-		Description:    `AccountName represents the vince account name.`,
+		ConvertedName:  "Annotations",
+		Description:    `Annotation stores additional information about an entity.`,
 		Exposed:        true,
-		Name:           "accountName",
+		Getter:         true,
+		Name:           "annotations",
+		Setter:         true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "map[string][]string",
+		Type:           "external",
 	},
 	"AppIdentifier": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -442,6 +582,18 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "appIdentifier",
 		Stored:         true,
 		Type:           "string",
+	},
+	"AssociatedTags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssociatedTags",
+		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "associatedTags",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"CategoryID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -489,24 +641,50 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		CreationOnly:   true,
-		Description:    `Name of the installed app.`,
+		DefaultOrder:   true,
+		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
+		Required:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
 	"Namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
+		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		Description:    `Namespace in which the app is running.`,
+		CreationOnly:   true,
+		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
 		Name:           "namespace",
 		Orderable:      true,
+		PrimaryKey:     true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"NormalizedTags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "NormalizedTags",
+		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "normalizedTags",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		SubType:        "string",
+		Transient:      true,
+		Type:           "list",
 	},
 	"Parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -517,6 +695,17 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "appparameter",
 		Type:           "refList",
+	},
+	"Protected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Protected",
+		Description:    `Protected defines if the object is protected.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "protected",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"Status": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Unknown", "Deploying", "Initializing", "Running", "Undeploying", "Error"},
@@ -540,6 +729,20 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"UpdateTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateTime",
+		Description:    `UpdateTime is the time at which an entity was updated.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "updateTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
+	},
 }
 
 // InstalledAppLowerCaseAttributesMap represents the map of attribute for InstalledApp.
@@ -548,24 +751,27 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "ID",
-		Description:    `ID of the installed app.`,
+		Description:    `ID is the identifier of the object.`,
 		Exposed:        true,
+		Filterable:     true,
 		Identifier:     true,
 		Name:           "ID",
-		PrimaryKey:     true,
+		Orderable:      true,
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
 	},
-	"accountname": elemental.AttributeSpecification{
+	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "AccountName",
-		CreationOnly:   true,
-		Description:    `AccountName represents the vince account name.`,
+		ConvertedName:  "Annotations",
+		Description:    `Annotation stores additional information about an entity.`,
 		Exposed:        true,
-		Name:           "accountName",
+		Getter:         true,
+		Name:           "annotations",
+		Setter:         true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "map[string][]string",
+		Type:           "external",
 	},
 	"appidentifier": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -574,6 +780,18 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Name:           "appIdentifier",
 		Stored:         true,
 		Type:           "string",
+	},
+	"associatedtags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssociatedTags",
+		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "associatedTags",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"categoryid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -621,24 +839,50 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		CreationOnly:   true,
-		Description:    `Name of the installed app.`,
+		DefaultOrder:   true,
+		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
 		Orderable:      true,
+		Required:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
 	"namespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
+		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		Description:    `Namespace in which the app is running.`,
+		CreationOnly:   true,
+		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
 		Name:           "namespace",
 		Orderable:      true,
+		PrimaryKey:     true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"normalizedtags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "NormalizedTags",
+		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "normalizedTags",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		SubType:        "string",
+		Transient:      true,
+		Type:           "list",
 	},
 	"parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -649,6 +893,17 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		SubType:        "appparameter",
 		Type:           "refList",
+	},
+	"protected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Protected",
+		Description:    `Protected defines if the object is protected.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "protected",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"status": elemental.AttributeSpecification{
 		AllowedChoices: []string{"Unknown", "Deploying", "Initializing", "Running", "Undeploying", "Error"},
@@ -671,6 +926,20 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"updatetime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateTime",
+		Description:    `UpdateTime is the time at which an entity was updated.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "updateTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 }
 
@@ -715,7 +984,9 @@ func (o SparseInstalledAppsList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o SparseInstalledAppsList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"name",
+	}
 }
 
 // ToPlain returns the SparseInstalledAppsList converted to InstalledAppsList.
@@ -737,14 +1008,17 @@ func (o SparseInstalledAppsList) Version() int {
 
 // SparseInstalledApp represents the sparse version of a installedapp.
 type SparseInstalledApp struct {
-	// ID of the installed app.
+	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// AccountName represents the vince account name.
-	AccountName *string `json:"accountName,omitempty" bson:"accountname" mapstructure:"accountName,omitempty"`
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// AppIdentifier retains the identifier for the app.
 	AppIdentifier *string `json:"-,omitempty" bson:"appidentifier" mapstructure:"-,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// CategoryID of the app.
 	CategoryID *string `json:"categoryID,omitempty" bson:"categoryid" mapstructure:"categoryID,omitempty"`
@@ -758,20 +1032,29 @@ type SparseInstalledApp struct {
 	// DeploymentCount represents the number of expected deployment for this app.
 	DeploymentCount *int `json:"-,omitempty" bson:"deploymentcount" mapstructure:"-,omitempty"`
 
-	// Name of the installed app.
+	// Name is the name of the entity.
 	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
 
-	// Namespace in which the app is running.
+	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Parameters is a list of parameters to start the app.
 	Parameters *[]*AppParameter `json:"parameters,omitempty" bson:"parameters" mapstructure:"parameters,omitempty"`
+
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Status of the app.
 	Status *InstalledAppStatusValue `json:"status,omitempty" bson:"status" mapstructure:"status,omitempty"`
 
 	// Reason for the status of the app.
 	StatusMessage *string `json:"statusMessage,omitempty" bson:"statusmessage" mapstructure:"statusMessage,omitempty"`
+
+	// UpdateTime is the time at which an entity was updated.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -817,11 +1100,14 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
-	if o.AccountName != nil {
-		out.AccountName = *o.AccountName
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
 	}
 	if o.AppIdentifier != nil {
 		out.AppIdentifier = *o.AppIdentifier
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
 	}
 	if o.CategoryID != nil {
 		out.CategoryID = *o.CategoryID
@@ -841,8 +1127,14 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
 	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
 	if o.Parameters != nil {
 		out.Parameters = *o.Parameters
+	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
 	}
 	if o.Status != nil {
 		out.Status = *o.Status
@@ -850,8 +1142,35 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.StatusMessage != nil {
 		out.StatusMessage = *o.StatusMessage
 	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
+	}
 
 	return out
+}
+
+// GetAnnotations returns the Annotations of the receiver.
+func (o *SparseInstalledApp) GetAnnotations() map[string][]string {
+
+	return *o.Annotations
+}
+
+// SetAnnotations sets the property Annotations of the receiver using the address of the given value.
+func (o *SparseInstalledApp) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = &annotations
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *SparseInstalledApp) GetAssociatedTags() []string {
+
+	return *o.AssociatedTags
+}
+
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
+func (o *SparseInstalledApp) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -864,6 +1183,60 @@ func (o *SparseInstalledApp) GetCreateTime() time.Time {
 func (o *SparseInstalledApp) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseInstalledApp) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseInstalledApp) SetName(name string) {
+
+	o.Name = &name
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseInstalledApp) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseInstalledApp) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *SparseInstalledApp) GetNormalizedTags() []string {
+
+	return *o.NormalizedTags
+}
+
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
+func (o *SparseInstalledApp) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = &normalizedTags
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *SparseInstalledApp) GetProtected() bool {
+
+	return *o.Protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseInstalledApp) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseInstalledApp) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
 }
 
 // DeepCopy returns a deep copy if the SparseInstalledApp.
