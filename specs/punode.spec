@@ -7,15 +7,12 @@ model:
   group: visualization/depmaps
   description: Internal scaling down of a pu for dep map representation.
   private: true
+  extends:
+  - '@identifiable-not-stored'
 
 # Attributes
 attributes:
   v1:
-  - name: ID
-    description: Identifier of the pu.
-    type: string
-    exposed: true
-
   - name: enforcementStatus
     description: Enforcement status of the pu.
     type: string
