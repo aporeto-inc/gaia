@@ -89,6 +89,10 @@ type PolicyGraph struct {
 	// type of dependency map as created by other APIs.
 	DependencyMap *DependencyMap `json:"dependencyMap" bson:"-" mapstructure:"dependencyMap,omitempty"`
 
+	// Recursive will implement a recursive search through the namespaces for matching
+	// PUs.
+	Recursive bool `json:"recursive" bson:"-" mapstructure:"recursive,omitempty"`
+
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to evaluate policy for it.
 	Selectors [][]string `json:"selectors" bson:"-" mapstructure:"selectors,omitempty"`
@@ -163,6 +167,7 @@ func (o *PolicyGraph) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		return &SparsePolicyGraph{
 			PUIdentity:    &o.PUIdentity,
 			DependencyMap: &o.DependencyMap,
+			Recursive:     &o.Recursive,
 			Selectors:     &o.Selectors,
 		}
 	}
@@ -174,6 +179,8 @@ func (o *PolicyGraph) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.PUIdentity = &(o.PUIdentity)
 		case "dependencyMap":
 			sp.DependencyMap = &(o.DependencyMap)
+		case "recursive":
+			sp.Recursive = &(o.Recursive)
 		case "selectors":
 			sp.Selectors = &(o.Selectors)
 		}
@@ -194,6 +201,9 @@ func (o *PolicyGraph) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.DependencyMap != nil {
 		o.DependencyMap = *so.DependencyMap
+	}
+	if so.Recursive != nil {
+		o.Recursive = *so.Recursive
 	}
 	if so.Selectors != nil {
 		o.Selectors = *so.Selectors
@@ -272,6 +282,8 @@ func (o *PolicyGraph) ValueForAttribute(name string) interface{} {
 		return o.PUIdentity
 	case "dependencyMap":
 		return o.DependencyMap
+	case "recursive":
+		return o.Recursive
 	case "selectors":
 		return o.Selectors
 	}
@@ -301,6 +313,15 @@ type of dependency map as created by other APIs.`,
 		Name:    "dependencyMap",
 		SubType: "dependencymap",
 		Type:    "ref",
+	},
+	"Recursive": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Recursive",
+		Description: `Recursive will implement a recursive search through the namespaces for matching
+PUs.`,
+		Exposed: true,
+		Name:    "recursive",
+		Type:    "boolean",
 	},
 	"Selectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -336,6 +357,15 @@ type of dependency map as created by other APIs.`,
 		Name:    "dependencyMap",
 		SubType: "dependencymap",
 		Type:    "ref",
+	},
+	"recursive": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Recursive",
+		Description: `Recursive will implement a recursive search through the namespaces for matching
+PUs.`,
+		Exposed: true,
+		Name:    "recursive",
+		Type:    "boolean",
 	},
 	"selectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -421,6 +451,10 @@ type SparsePolicyGraph struct {
 	// type of dependency map as created by other APIs.
 	DependencyMap **DependencyMap `json:"dependencyMap,omitempty" bson:"-" mapstructure:"dependencyMap,omitempty"`
 
+	// Recursive will implement a recursive search through the namespaces for matching
+	// PUs.
+	Recursive *bool `json:"recursive,omitempty" bson:"-" mapstructure:"recursive,omitempty"`
+
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to evaluate policy for it.
 	Selectors *[][]string `json:"selectors,omitempty" bson:"-" mapstructure:"selectors,omitempty"`
@@ -467,6 +501,9 @@ func (o *SparsePolicyGraph) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.DependencyMap != nil {
 		out.DependencyMap = *o.DependencyMap
+	}
+	if o.Recursive != nil {
+		out.Recursive = *o.Recursive
 	}
 	if o.Selectors != nil {
 		out.Selectors = *o.Selectors
