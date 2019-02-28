@@ -53,7 +53,7 @@ type GraphNode struct {
 	Status string `json:"status" bson:"-" mapstructure:"status,omitempty"`
 
 	// Tags of object represented by the node.
-	Tags []string `json:"tags" bson:"-" mapstructure:"tags,omitempty"`
+	Tags []string `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Type of object represented by the node.
 	Type GraphNodeTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`

@@ -7707,10 +7707,6 @@ Namespace of object represented by the node.
 
 Status of object represented by the node.
 
-##### `tags` `[]string`
-
-Tags of object represented by the node.
-
 ##### `type` `emum(Docker | ExternalNetwork | Volume | Claim)`
 
 Type of object represented by the node.

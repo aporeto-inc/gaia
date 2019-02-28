@@ -54,7 +54,6 @@ attributes:
   - name: tags
     description: Tags of object represented by the node.
     type: list
-    exposed: true
     subtype: string
 
   - name: type
