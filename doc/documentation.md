@@ -2795,7 +2795,7 @@ Protected defines if the object is protected.
 
 Tracing indicates if this PU must be placed in tracing mode.
 
-##### `type` `emum(APIGateway | Docker | Host | HostService | LinuxService | RKT | User | SSH)` [`required`,`creation_only`]
+##### `type` `emum(APIGateway | Docker | Host | HostService | LinuxService | RKT | User | SSHSession)` [`required`,`creation_only`]
 
 Type of the container ecosystem.
 
