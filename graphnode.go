@@ -58,6 +58,9 @@ type GraphNode struct {
 	// Type of object represented by the node.
 	Type GraphNodeTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`
 
+	// Tags of object represented by the node.
+	VulnerabilityLevel string `json:"vulnerabilityLevel" bson:"-" mapstructure:"vulnerabilityLevel,omitempty"`
+
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
 	sync.Mutex `json:"-" bson:"-"`

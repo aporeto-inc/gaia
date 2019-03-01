@@ -65,3 +65,8 @@ attributes:
     - ExternalNetwork
     - Volume
     - Claim
+
+  - name: vulnerabilityLevel
+    description: Tags of object represented by the node.
+    type: string
+    exposed: true

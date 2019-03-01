@@ -7867,6 +7867,10 @@ Status of object represented by the node.
 
 Type of object represented by the node.
 
+##### `vulnerabilityLevel` `string`
+
+Tags of object represented by the node.
+
 ### GraphPolicyInfo
 
 Represents a policy information.
