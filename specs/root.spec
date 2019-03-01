@@ -322,6 +322,14 @@ relations:
   create:
     description: Imports data from a previous export.
 
+- rest_name: importrequest
+  get:
+    description: Retrieves the list of import requests.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new import request.
+
 - rest_name: installedapp
   get:
     description: Retrieves the list of installed apps.

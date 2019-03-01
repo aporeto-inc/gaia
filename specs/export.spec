@@ -29,7 +29,6 @@ attributes:
     type: list
     exposed: true
     subtype: string
-    stored: true
     example_value:
     - externalnetworks
     - networkaccesspolicies

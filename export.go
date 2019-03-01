@@ -87,7 +87,7 @@ type Export struct {
 	Data map[string][]map[string]interface{} `json:"data" bson:"-" mapstructure:"data,omitempty"`
 
 	// The list of identities to export.
-	Identities []string `json:"identities" bson:"identities" mapstructure:"identities,omitempty"`
+	Identities []string `json:"identities" bson:"-" mapstructure:"identities,omitempty"`
 
 	// Label allows to define a unique label for this export. When importing the
 	// content of the export, this label will be added as a tag that will be used to
@@ -305,7 +305,6 @@ var ExportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `The list of identities to export.`,
 		Exposed:        true,
 		Name:           "identities",
-		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -349,7 +348,6 @@ var ExportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `The list of identities to export.`,
 		Exposed:        true,
 		Name:           "identities",
-		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -435,7 +433,7 @@ type SparseExport struct {
 	Data *map[string][]map[string]interface{} `json:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
 	// The list of identities to export.
-	Identities *[]string `json:"identities,omitempty" bson:"identities" mapstructure:"identities,omitempty"`
+	Identities *[]string `json:"identities,omitempty" bson:"-" mapstructure:"identities,omitempty"`
 
 	// Label allows to define a unique label for this export. When importing the
 	// content of the export, this label will be added as a tag that will be used to
