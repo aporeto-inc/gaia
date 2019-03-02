@@ -417,7 +417,7 @@ func ValidateHostServices(hs *HostService) error {
 
 	// Constraint on regex is used because the enforcer is using the name as nativeContextID.
 	if !regHostServiceName.MatchString(hs.Name) {
-		return makeValidationError("services", "Host service name must be less than 12 characters and contains only alphanumeric or _")
+		return makeValidationError("name", "Host service name must be less than 12 characters and contains only alphanumeric or _")
 	}
 
 	if !hs.HostModeEnabled && len(hs.Services) == 0 {
