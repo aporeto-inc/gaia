@@ -13,20 +13,17 @@ import (
 type ImportRequestStatusValue string
 
 const (
-	// ImportRequestStatusAcknowledged represents the value Acknowledged.
-	ImportRequestStatusAcknowledged ImportRequestStatusValue = "Acknowledged"
-
 	// ImportRequestStatusApproved represents the value Approved.
 	ImportRequestStatusApproved ImportRequestStatusValue = "Approved"
 
-	// ImportRequestStatusChangeRequested represents the value ChangeRequested.
-	ImportRequestStatusChangeRequested ImportRequestStatusValue = "ChangeRequested"
-
-	// ImportRequestStatusPending represents the value Pending.
-	ImportRequestStatusPending ImportRequestStatusValue = "Pending"
+	// ImportRequestStatusDraft represents the value Draft.
+	ImportRequestStatusDraft ImportRequestStatusValue = "Draft"
 
 	// ImportRequestStatusRejected represents the value Rejected.
 	ImportRequestStatusRejected ImportRequestStatusValue = "Rejected"
+
+	// ImportRequestStatusSubmitted represents the value Submitted.
+	ImportRequestStatusSubmitted ImportRequestStatusValue = "Submitted"
 )
 
 // ImportRequestIdentity represents the Identity of the object.
@@ -139,16 +136,17 @@ type ImportRequest struct {
 	RequesterNamespace string `json:"requesterNamespace" bson:"requesternamespace" mapstructure:"requesterNamespace,omitempty"`
 
 	// The status of the request. The content of data can only be changed when the
-	// status is set to `+"`"+`ChangeRequested`+"`"+`. If the Status is set to `+"`"+`Approved`+"`"+` the data
-	// will be created immediately. If the status is set to `+"`"+`Rejected`+"`"+` the request
-	// cannot be changed anymore and ca be deleted. `+"`"+`Pending`+"`"+` and `+"`"+`Acknowledged`+"`"+` are
-	// just informational.
+	// status is set to `+"`"+`Draft`+"`"+` or `+"`"+`ChangeRequested`+"`"+`. When the status is changed to
+	// `+"`"+`Submitted`+"`"+`, the request will move to the target namespace for validation.
+	// If the Status is set to `+"`"+`Approved`+"`"+` the data will be created immediately.
+	// If the status is set to `+"`"+`Rejected`+"`"+` the request cannot be changed anymore and can
+	// be deleted.
 	Status ImportRequestStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
 
 	// The namespace where the request will be sent. The requester can set any
 	// namespace but he needs to have an autorization to post the request in that
 	// namespace.
-	TargetNamespace string `json:"targetNamespace" bson:"-" mapstructure:"targetNamespace,omitempty"`
+	TargetNamespace string `json:"targetNamespace" bson:"targetnamespace" mapstructure:"targetNamespace,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -176,7 +174,7 @@ func NewImportRequest() *ImportRequest {
 		Data:            map[string][]map[string]interface{}{},
 		NormalizedTags:  []string{},
 		RequesterClaims: []string{},
-		Status:          ImportRequestStatusPending,
+		Status:          ImportRequestStatusDraft,
 	}
 }
 
@@ -514,7 +512,7 @@ func (o *ImportRequest) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("status", string(o.Status), []string{"Pending", "Acknowledged", "ChangeRequested", "Approved", "Rejected"}, false); err != nil {
+	if err := elemental.ValidateStringInList("status", string(o.Status), []string{"Draft", "Submitted", "Approved", "Rejected"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -646,7 +644,6 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 	"Data": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Data",
-		CreationOnly:   true,
 		Description:    `The data to import.`,
 		Exposed:        true,
 		Name:           "data",
@@ -738,14 +735,15 @@ control plane.`,
 		Type:     "string",
 	},
 	"Status": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Pending", "Acknowledged", "ChangeRequested", "Approved", "Rejected"},
+		AllowedChoices: []string{"Draft", "Submitted", "Approved", "Rejected"},
 		ConvertedName:  "Status",
-		DefaultValue:   ImportRequestStatusPending,
+		DefaultValue:   ImportRequestStatusDraft,
 		Description: `The status of the request. The content of data can only be changed when the
-status is set to ` + "`" + `ChangeRequested` + "`" + `. If the Status is set to ` + "`" + `Approved` + "`" + ` the data
-will be created immediately. If the status is set to ` + "`" + `Rejected` + "`" + ` the request
-cannot be changed anymore and ca be deleted. ` + "`" + `Pending` + "`" + ` and ` + "`" + `Acknowledged` + "`" + ` are
-just informational.`,
+status is set to ` + "`" + `Draft` + "`" + ` or ` + "`" + `ChangeRequested` + "`" + `. When the status is changed to
+` + "`" + `Submitted` + "`" + `, the request will move to the target namespace for validation.
+If the Status is set to ` + "`" + `Approved` + "`" + ` the data will be created immediately.
+If the status is set to ` + "`" + `Rejected` + "`" + ` the request cannot be changed anymore and can
+be deleted.`,
 		Exposed: true,
 		Name:    "status",
 		Stored:  true,
@@ -761,6 +759,7 @@ namespace.`,
 		Exposed:   true,
 		Name:      "targetNamespace",
 		Required:  true,
+		Stored:    true,
 		Transient: true,
 		Type:      "string",
 	},
@@ -863,7 +862,6 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 	"data": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Data",
-		CreationOnly:   true,
 		Description:    `The data to import.`,
 		Exposed:        true,
 		Name:           "data",
@@ -955,14 +953,15 @@ control plane.`,
 		Type:     "string",
 	},
 	"status": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Pending", "Acknowledged", "ChangeRequested", "Approved", "Rejected"},
+		AllowedChoices: []string{"Draft", "Submitted", "Approved", "Rejected"},
 		ConvertedName:  "Status",
-		DefaultValue:   ImportRequestStatusPending,
+		DefaultValue:   ImportRequestStatusDraft,
 		Description: `The status of the request. The content of data can only be changed when the
-status is set to ` + "`" + `ChangeRequested` + "`" + `. If the Status is set to ` + "`" + `Approved` + "`" + ` the data
-will be created immediately. If the status is set to ` + "`" + `Rejected` + "`" + ` the request
-cannot be changed anymore and ca be deleted. ` + "`" + `Pending` + "`" + ` and ` + "`" + `Acknowledged` + "`" + ` are
-just informational.`,
+status is set to ` + "`" + `Draft` + "`" + ` or ` + "`" + `ChangeRequested` + "`" + `. When the status is changed to
+` + "`" + `Submitted` + "`" + `, the request will move to the target namespace for validation.
+If the Status is set to ` + "`" + `Approved` + "`" + ` the data will be created immediately.
+If the status is set to ` + "`" + `Rejected` + "`" + ` the request cannot be changed anymore and can
+be deleted.`,
 		Exposed: true,
 		Name:    "status",
 		Stored:  true,
@@ -978,6 +977,7 @@ namespace.`,
 		Exposed:   true,
 		Name:      "targetNamespace",
 		Required:  true,
+		Stored:    true,
 		Transient: true,
 		Type:      "string",
 	},
@@ -1124,16 +1124,17 @@ type SparseImportRequest struct {
 	RequesterNamespace *string `json:"requesterNamespace,omitempty" bson:"requesternamespace" mapstructure:"requesterNamespace,omitempty"`
 
 	// The status of the request. The content of data can only be changed when the
-	// status is set to `+"`"+`ChangeRequested`+"`"+`. If the Status is set to `+"`"+`Approved`+"`"+` the data
-	// will be created immediately. If the status is set to `+"`"+`Rejected`+"`"+` the request
-	// cannot be changed anymore and ca be deleted. `+"`"+`Pending`+"`"+` and `+"`"+`Acknowledged`+"`"+` are
-	// just informational.
+	// status is set to `+"`"+`Draft`+"`"+` or `+"`"+`ChangeRequested`+"`"+`. When the status is changed to
+	// `+"`"+`Submitted`+"`"+`, the request will move to the target namespace for validation.
+	// If the Status is set to `+"`"+`Approved`+"`"+` the data will be created immediately.
+	// If the status is set to `+"`"+`Rejected`+"`"+` the request cannot be changed anymore and can
+	// be deleted.
 	Status *ImportRequestStatusValue `json:"status,omitempty" bson:"status" mapstructure:"status,omitempty"`
 
 	// The namespace where the request will be sent. The requester can set any
 	// namespace but he needs to have an autorization to post the request in that
 	// namespace.
-	TargetNamespace *string `json:"targetNamespace,omitempty" bson:"-" mapstructure:"targetNamespace,omitempty"`
+	TargetNamespace *string `json:"targetNamespace,omitempty" bson:"targetnamespace" mapstructure:"targetNamespace,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`

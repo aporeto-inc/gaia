@@ -202,7 +202,7 @@ visible from both the requester's namespace and the target namespace.
     "@auth:realm=vince",
     "@auth:account=acme"
   ],
-  "status": "Pending",
+  "status": "Draft",
   "targetNamespace": "/acme/prod"
 }
 ```
@@ -251,7 +251,7 @@ AssociatedTags are the list of tags attached to an entity.
 
 CreatedTime is the time at which the object was created.
 
-##### `data` `map[string][]map[string]interface{}` [`required`,`creation_only`]
+##### `data` `map[string][]map[string]interface{}` [`required`]
 
 The data to import.
 
@@ -281,18 +281,19 @@ plane.
 The namespace from the request was created. This will be populated by the
 control plane.
 
-##### `status` `emum(Pending | Acknowledged | ChangeRequested | Approved | Rejected)`
+##### `status` `emum(Draft | Submitted | Approved | Rejected)`
 
 The status of the request. The content of data can only be changed when the
-status is set to `ChangeRequested`. If the Status is set to `Approved` the data
-will be created immediately. If the status is set to `Rejected` the request
-cannot be changed anymore and ca be deleted. `Pending` and `Acknowledged` are
-just informational.
+status is set to `Draft` or `ChangeRequested`. When the status is changed to
+`Submitted`, the request will move to the target namespace for validation.
+If the Status is set to `Approved` the data will be created immediately.
+If the status is set to `Rejected` the request cannot be changed anymore and can
+be deleted.
 
 Default value:
 
 ```json
-"Pending"
+"Draft"
 ```
 
 ##### `targetNamespace` `string` [`required`,`creation_only`]

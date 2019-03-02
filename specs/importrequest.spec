@@ -58,7 +58,6 @@ attributes:
     subtype: map[string][]map[string]interface{}
     stored: true
     required: true
-    creation_only: true
     example_value:
       networkaccesspolicies:
       - action: Allow
@@ -100,20 +99,20 @@ attributes:
   - name: status
     description: |-
       The status of the request. The content of data can only be changed when the
-      status is set to `ChangeRequested`. If the Status is set to `Approved` the data
-      will be created immediately. If the status is set to `Rejected` the request
-      cannot be changed anymore and ca be deleted. `Pending` and `Acknowledged` are
-      just informational.
+      status is set to `Draft` or `ChangeRequested`. When the status is changed to
+      `Submitted`, the request will move to the target namespace for validation.
+      If the Status is set to `Approved` the data will be created immediately.
+      If the status is set to `Rejected` the request cannot be changed anymore and can
+      be deleted.
     type: enum
     exposed: true
     stored: true
     allowed_choices:
-    - Pending
-    - Acknowledged
-    - ChangeRequested
+    - Draft
+    - Submitted
     - Approved
     - Rejected
-    default_value: Pending
+    default_value: Draft
 
   - name: targetNamespace
     description: |-
@@ -122,6 +121,7 @@ attributes:
       namespace.
     type: string
     exposed: true
+    stored: true
     required: true
     creation_only: true
     example_value: /acme/prod
