@@ -109,6 +109,12 @@ type ImportRequest struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// Post a new comment that will be added to the commentFeed.
+	Comment string `json:"comment" bson:"-" mapstructure:"comment,omitempty"`
+
+	// List of comments that have been added to that request.
+	CommentFeed []*Comment `json:"commentFeed" bson:"commentfeed" mapstructure:"commentFeed,omitempty"`
+
 	// CreatedTime is the time at which the object was created.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -143,6 +149,9 @@ type ImportRequest struct {
 	// be deleted.
 	Status ImportRequestStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
 
+	// Internal field to know if the request has been submit once.
+	SubmittedOnce bool `json:"-" bson:"submittedonce" mapstructure:"-,omitempty"`
+
 	// The namespace where the request will be sent. The requester can set any
 	// namespace but he needs to have an autorization to post the request in that
 	// namespace.
@@ -170,8 +179,9 @@ func NewImportRequest() *ImportRequest {
 	return &ImportRequest{
 		ModelVersion:    1,
 		Annotations:     map[string][]string{},
-		AssociatedTags:  []string{},
 		Data:            map[string][]map[string]interface{}{},
+		AssociatedTags:  []string{},
+		CommentFeed:     []*Comment{},
 		NormalizedTags:  []string{},
 		RequesterClaims: []string{},
 		Status:          ImportRequestStatusDraft,
@@ -212,23 +222,32 @@ func (o *ImportRequest) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *ImportRequest) Doc() string {
-	return `This API allows to send a request for creating a bunch of objects to a
-namespace. The request will be sent to the desired namespace is API
-auhorizations permit it. An approver will then need to review the request and
-can eventually approve it, which will result in the creation of requested
-objects if he has the permission to do so.
+	return `This API allows to send an import request to create objects to a namespace where
+the requester doesn't normally have the permission to do so (other than creating
+import requests).
 
-The Import Request is sent to the user namespace where he needs the permission
-to do so. The user must also set the ` + "`" + `targetNamespace` + "`" + ` attribute where he wants
-the objects to be created. He must also have the permission to do so in that
-namespace. Once all the appropriate check have been done, the Import request
-will be created in the ` + "`" + `targetNamespace` + "`" + `.
+The requester must have the permission to create the request in his namespace
+and the target namespace.
 
-The requester will no be able to change anything once created unless the
-Approver sets the status to ` + "`" + `ChangeRequested` + "`" + `.
+When the request is created, the status is set to ` + "`" + `Draft` + "`" + `. The requester can
+edit the content as much as he desires.
+When he's ready to send the request, he must update the status to be
+` + "`" + `Submitted` + "`" + `.
+The request will then be moved to the target namespace.
+At that point nobody can edit the content of the requests other than adding
+comments.
 
-The Import request will reside in the target namespace. However, it will be
-visible from both the requester's namespace and the target namespace.`
+The requestee will now see the request, and will either
+
+* Set the status as ` + "`" + `Approved` + "`" + `. This will create the objects in the target
+namespace.
+* Set the status as ` + "`" + `Rejected` + "`" + `. The request cannot be edited anymore and can be
+deleted.
+* Set the status back as ` + "`" + `Draft. The request will go back to the requester
+namespace so he can make changes. Once the change are ready, the requester will
+set back the status as ` + "`" + `Submitted` + "`" + `.
+
+The ` + "`" + `data` + "`" + ` format is the same an ` + "`" + `Export` + "`" + `.`
 }
 
 func (o *ImportRequest) String() string {
@@ -360,6 +379,8 @@ func (o *ImportRequest) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			ID:                 &o.ID,
 			Annotations:        &o.Annotations,
 			AssociatedTags:     &o.AssociatedTags,
+			Comment:            &o.Comment,
+			CommentFeed:        &o.CommentFeed,
 			CreateTime:         &o.CreateTime,
 			Data:               &o.Data,
 			Description:        &o.Description,
@@ -369,6 +390,7 @@ func (o *ImportRequest) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			RequesterClaims:    &o.RequesterClaims,
 			RequesterNamespace: &o.RequesterNamespace,
 			Status:             &o.Status,
+			SubmittedOnce:      &o.SubmittedOnce,
 			TargetNamespace:    &o.TargetNamespace,
 			UpdateTime:         &o.UpdateTime,
 			ZHash:              &o.ZHash,
@@ -385,6 +407,10 @@ func (o *ImportRequest) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
+		case "comment":
+			sp.Comment = &(o.Comment)
+		case "commentFeed":
+			sp.CommentFeed = &(o.CommentFeed)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "data":
@@ -403,6 +429,8 @@ func (o *ImportRequest) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.RequesterNamespace = &(o.RequesterNamespace)
 		case "status":
 			sp.Status = &(o.Status)
+		case "submittedOnce":
+			sp.SubmittedOnce = &(o.SubmittedOnce)
 		case "targetNamespace":
 			sp.TargetNamespace = &(o.TargetNamespace)
 		case "updateTime":
@@ -433,6 +461,12 @@ func (o *ImportRequest) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
 	}
+	if so.Comment != nil {
+		o.Comment = *so.Comment
+	}
+	if so.CommentFeed != nil {
+		o.CommentFeed = *so.CommentFeed
+	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
@@ -459,6 +493,9 @@ func (o *ImportRequest) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Status != nil {
 		o.Status = *so.Status
+	}
+	if so.SubmittedOnce != nil {
+		o.SubmittedOnce = *so.SubmittedOnce
 	}
 	if so.TargetNamespace != nil {
 		o.TargetNamespace = *so.TargetNamespace
@@ -556,6 +593,10 @@ func (o *ImportRequest) ValueForAttribute(name string) interface{} {
 		return o.Annotations
 	case "associatedTags":
 		return o.AssociatedTags
+	case "comment":
+		return o.Comment
+	case "commentFeed":
+		return o.CommentFeed
 	case "createTime":
 		return o.CreateTime
 	case "data":
@@ -574,6 +615,8 @@ func (o *ImportRequest) ValueForAttribute(name string) interface{} {
 		return o.RequesterNamespace
 	case "status":
 		return o.Status
+	case "submittedOnce":
+		return o.SubmittedOnce
 	case "targetNamespace":
 		return o.TargetNamespace
 	case "updateTime":
@@ -626,6 +669,28 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"Comment": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Comment",
+		Description:    `Post a new comment that will be added to the commentFeed.`,
+		Exposed:        true,
+		Name:           "comment",
+		Transient:      true,
+		Type:           "string",
+	},
+	"CommentFeed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CommentFeed",
+		Description:    `List of comments that have been added to that request.`,
+		Exposed:        true,
+		Name:           "commentFeed",
+		ReadOnly:       true,
+		Stored:         true,
+		SubType:        "comment",
+		Transient:      true,
+		Type:           "refList",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -749,6 +814,14 @@ be deleted.`,
 		Stored:  true,
 		Type:    "enum",
 	},
+	"SubmittedOnce": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SubmittedOnce",
+		Description:    `Internal field to know if the request has been submit once.`,
+		Name:           "submittedOnce",
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"TargetNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "TargetNamespace",
@@ -844,6 +917,28 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"comment": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Comment",
+		Description:    `Post a new comment that will be added to the commentFeed.`,
+		Exposed:        true,
+		Name:           "comment",
+		Transient:      true,
+		Type:           "string",
+	},
+	"commentfeed": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CommentFeed",
+		Description:    `List of comments that have been added to that request.`,
+		Exposed:        true,
+		Name:           "commentFeed",
+		ReadOnly:       true,
+		Stored:         true,
+		SubType:        "comment",
+		Transient:      true,
+		Type:           "refList",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -966,6 +1061,14 @@ be deleted.`,
 		Name:    "status",
 		Stored:  true,
 		Type:    "enum",
+	},
+	"submittedonce": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SubmittedOnce",
+		Description:    `Internal field to know if the request has been submit once.`,
+		Name:           "submittedOnce",
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"targetnamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1097,6 +1200,12 @@ type SparseImportRequest struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// Post a new comment that will be added to the commentFeed.
+	Comment *string `json:"comment,omitempty" bson:"-" mapstructure:"comment,omitempty"`
+
+	// List of comments that have been added to that request.
+	CommentFeed *[]*Comment `json:"commentFeed,omitempty" bson:"commentfeed" mapstructure:"commentFeed,omitempty"`
+
 	// CreatedTime is the time at which the object was created.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -1130,6 +1239,9 @@ type SparseImportRequest struct {
 	// If the status is set to `+"`"+`Rejected`+"`"+` the request cannot be changed anymore and can
 	// be deleted.
 	Status *ImportRequestStatusValue `json:"status,omitempty" bson:"status" mapstructure:"status,omitempty"`
+
+	// Internal field to know if the request has been submit once.
+	SubmittedOnce *bool `json:"-,omitempty" bson:"submittedonce" mapstructure:"-,omitempty"`
 
 	// The namespace where the request will be sent. The requester can set any
 	// namespace but he needs to have an autorization to post the request in that
@@ -1197,6 +1309,12 @@ func (o *SparseImportRequest) ToPlain() elemental.PlainIdentifiable {
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
+	if o.Comment != nil {
+		out.Comment = *o.Comment
+	}
+	if o.CommentFeed != nil {
+		out.CommentFeed = *o.CommentFeed
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1223,6 +1341,9 @@ func (o *SparseImportRequest) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Status != nil {
 		out.Status = *o.Status
+	}
+	if o.SubmittedOnce != nil {
+		out.SubmittedOnce = *o.SubmittedOnce
 	}
 	if o.TargetNamespace != nil {
 		out.TargetNamespace = *o.TargetNamespace
