@@ -3149,10 +3149,11 @@ List of all values.
 | Resource                      | Description                                          |
 | -                             | -                                                    |
 | [App](#app)                   | App represents an application that can be installed. |
-| [AppParameter](#appparameter) | Represents a parameter that can be passed to an app. |
 | [Category](#category)         | Category allows to categorized services.             |
 | [InstalledApp](#installedapp) | InstalledApps represents an installed application.   |
 | [Log](#log)                   | Retrieves the log of a deployed app.                 |
+| [UIParameter](#uiparameter)   | Represents a parameter that will be shown in the UI. |
+| [UIStep](#uistep)             | Represents a parameter that will be shown in the UI. |
 
 ### App
 
@@ -3207,69 +3208,13 @@ LongDescription contains a more detailed description of the app.
 
 Name is the name of the entity.
 
-##### `parameters` [`[]appparameter`](#appparameter)
+##### `steps` [`[]uistep`](#uistep)
 
-Parameters is a list of parameters available for the app.
+List of steps that contains parameters.
 
 ##### `title` `string`
 
 Title represents the title of the app.
-
-### AppParameter
-
-Represents a parameter that can be passed to an app.
-
-#### Example
-
-```json
-{
-  "advanced": false,
-  "optional": false,
-  "type": "Boolean"
-}
-```
-
-#### Attributes
-
-##### `advanced` `boolean`
-
-Defines if the parameter is an advanced one.
-
-##### `allowedValues` `[]object`
-
-List of values that can be used.
-
-##### `defaultValue` `object`
-
-Default value of the parameter.
-
-##### `description` `string`
-
-Description of the paramerter.
-
-##### `key` `string`
-
-Key identifying the parameter.
-
-##### `longDescription` `string`
-
-Long explanation of the parameter.
-
-##### `name` `string`
-
-Name of the paramerter.
-
-##### `optional` `boolean`
-
-Defines if the parameter is optional.
-
-##### `type` `emum(Boolean | Duration | Enum | IntegerSlice | Integer | Float | FloatSlice | Password | String | StringSlice | CVSSThreshold)`
-
-The type of the parameter.
-
-##### `value` `object`
-
-Value of the parameter.
 
 ### Category
 
@@ -3384,9 +3329,9 @@ Namespace tag attached to an entity.
 
 NormalizedTags contains the list of normalized tags of the entities.
 
-##### `parameters` [`[]appparameter`](#appparameter)
+##### `parameters` [`[]uiparameter`](#uiparameter)
 
-Parameters is a list of parameters to start the app.
+Parameters contains the computed parameters to start the app.
 
 ##### `protected` `boolean`
 
@@ -3426,14 +3371,112 @@ Returns the logs for a app.
 
 Data contains all logs data.
 
+### UIParameter
+
+Represents a parameter that will be shown in the UI.
+
+#### Example
+
+```json
+{
+  "advanced": false,
+  "optional": false,
+  "required": false,
+  "type": "String"
+}
+```
+
+#### Attributes
+
+##### `advanced` `boolean`
+
+Defines if the parameter is an advanced one.
+
+##### `allowedValues` `[]object`
+
+List of values that can be used.
+
+##### `defaultValue` `object`
+
+Default value of the parameter.
+
+##### `description` `string`
+
+Description of the paramerter.
+
+##### `key` `string`
+
+Key identifying the parameter.
+
+##### `longDescription` `string`
+
+Long explanation of the parameter.
+
+##### `name` `string`
+
+Name of the paramerter.
+
+##### `optional` `boolean`
+
+Defines if the parameter is optional.
+
+##### `required` `boolean`
+
+Set if the parameter must be set.
+
+##### `type` `emum(Boolean | Duration | Enum | IntegerSlice | Integer | Float | FloatSlice | Password | String | StringSlice | CVSSThreshold)` [`required`]
+
+The type of the parameter.
+
+##### `value` `object`
+
+Value of the parameter.
+
+### UIStep
+
+Represents a parameter that will be shown in the UI.
+
+#### Example
+
+```json
+{
+  "advanced": false
+}
+```
+
+#### Attributes
+
+##### `advanced` `boolean`
+
+Defines if the parameter is an advanced one.
+
+##### `description` `string`
+
+Description of the paramerter.
+
+##### `key` `string`
+
+Key identifying the parameter.
+
+##### `longDescription` `string`
+
+Long explanation of the parameter.
+
+##### `name` `string`
+
+Name of the paramerter.
+
+##### `parameters` [`[]uiparameter`](#uiparameter)
+
+List of parameters for this step.
+
 ## `integration/automation`
 
-| Resource                                                    | Description                                            |
-| -                                                           | -                                                      |
-| [Automation](#automation)                                   | An automation needs documentation.                     |
-| [AutomationTemplate](#automationtemplate)                   | Templates that ca be used in automations.              |
-| [AutomationTemplateParameter](#automationtemplateparameter) | Represents an Automation template parameter.           |
-| [Trigger](#trigger)                                         | Trigger can be used to remotely trigger an automation. |
+| Resource                                  | Description                                            |
+| -                                         | -                                                      |
+| [Automation](#automation)                 | An automation needs documentation.                     |
+| [AutomationTemplate](#automationtemplate) | Templates that ca be used in automations.              |
+| [Trigger](#trigger)                       | Trigger can be used to remotely trigger an automation. |
 
 ### Automation
 
@@ -3556,9 +3599,9 @@ Namespace tag attached to an entity.
 
 NormalizedTags contains the list of normalized tags of the entities.
 
-##### `parameters` `map[string]interface{}`
+##### `parameters` [`[]uiparameter`](#uiparameter)
 
-Parameters are passed to the functions.
+Parameters contains the computed parameters.
 
 ##### `protected` `boolean`
 
@@ -3572,6 +3615,10 @@ only applies if the trigger is set to Time.
 ##### `stdout` `string` [`autogenerated`,`read_only`]
 
 Stdout contains the last run standard output.
+
+##### `steps` [`[]uistep`](#uistep)
+
+Steps lists all the steps to contains the parameters.
 
 ##### `token` `string` [`autogenerated`,`creation_only`]
 
@@ -3651,53 +3698,13 @@ Default value:
 
 Name is the name of the entity.
 
-##### `parameters` [`map[string]automationtemplateparameter`](#automationtemplateparameter)
+##### `parameters` [`map[string]uiparameter`](#uiparameter)
 
-Parameters contains the parameter description of the function.
+Parameters contains the computed parameters.
 
-### AutomationTemplateParameter
+##### `steps` [`map[string]uistep`](#uistep)
 
-Represents an Automation template parameter.
-
-#### Example
-
-```json
-{
-  "name": "the name",
-  "required": false,
-  "type": "String"
-}
-```
-
-#### Attributes
-
-##### `allowedChoices` `map[string]interface{}`
-
-Set the possible values for the parameter.
-
-##### `defaultValue` `object`
-
-Default value of the parameter.
-
-##### `description` `string`
-
-Name of the parameter.
-
-##### `name` `string` [`required`,`max_length=256`]
-
-Name is the name of the entity.
-
-##### `position` `integer`
-
-Preferred position for the parameter.
-
-##### `required` `boolean`
-
-Set if the parameter must be set.
-
-##### `type` `emum(Array | Boolean | Enum | Filter | Float | Integer | Object | String)` [`required`]
-
-Type of the parameter.
+Steps contains all the steps with parameters.
 
 ### Trigger
 

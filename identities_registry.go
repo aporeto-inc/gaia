@@ -4,16 +4,15 @@ import "go.aporeto.io/elemental"
 
 var (
 	identityNamesMap = map[string]elemental.Identity{
-		"account":                AccountIdentity,
-		"accountcheck":           AccountCheckIdentity,
-		"activate":               ActivateIdentity,
-		"activity":               ActivityIdentity,
-		"alarm":                  AlarmIdentity,
-		"apiauthorizationpolicy": APIAuthorizationPolicyIdentity,
-		"apicheck":               APICheckIdentity,
-		"app":                    AppIdentity,
-		"appcredential":          AppCredentialIdentity,
-
+		"account":                   AccountIdentity,
+		"accountcheck":              AccountCheckIdentity,
+		"activate":                  ActivateIdentity,
+		"activity":                  ActivityIdentity,
+		"alarm":                     AlarmIdentity,
+		"apiauthorizationpolicy":    APIAuthorizationPolicyIdentity,
+		"apicheck":                  APICheckIdentity,
+		"app":                       AppIdentity,
+		"appcredential":             AppCredentialIdentity,
 		"auditprofile":              AuditProfileIdentity,
 		"auditprofilemappingpolicy": AuditProfileMappingPolicyIdentity,
 		"auditreport":               AuditReportIdentity,
@@ -21,11 +20,10 @@ var (
 		"authority":                 AuthorityIdentity,
 		"automation":                AutomationIdentity,
 		"automationtemplate":        AutomationTemplateIdentity,
-
-		"awsaccount":    AWSAccountIdentity,
-		"awsapigateway": AWSAPIGatewayIdentity,
-		"awsregister":   AWSRegisterIdentity,
-		"category":      CategoryIdentity,
+		"awsaccount":                AWSAccountIdentity,
+		"awsapigateway":             AWSAPIGatewayIdentity,
+		"awsregister":               AWSRegisterIdentity,
+		"category":                  CategoryIdentity,
 
 		"customer":      CustomerIdentity,
 		"dependencymap": DependencyMapIdentity,
@@ -104,23 +102,23 @@ var (
 		"token":            TokenIdentity,
 		"tokenscopepolicy": TokenScopePolicyIdentity,
 
-		"trigger":              TriggerIdentity,
+		"trigger": TriggerIdentity,
+
 		"vulnerability":        VulnerabilityIdentity,
 		"x509certificate":      X509CertificateIdentity,
 		"x509certificatecheck": X509CertificateCheckIdentity,
 	}
 
 	identitycategoriesMap = map[string]elemental.Identity{
-		"accounts":                 AccountIdentity,
-		"accountchecks":            AccountCheckIdentity,
-		"activate":                 ActivateIdentity,
-		"activities":               ActivityIdentity,
-		"alarms":                   AlarmIdentity,
-		"apiauthorizationpolicies": APIAuthorizationPolicyIdentity,
-		"apichecks":                APICheckIdentity,
-		"apps":                     AppIdentity,
-		"appcredentials":           AppCredentialIdentity,
-
+		"accounts":                    AccountIdentity,
+		"accountchecks":               AccountCheckIdentity,
+		"activate":                    ActivateIdentity,
+		"activities":                  ActivityIdentity,
+		"alarms":                      AlarmIdentity,
+		"apiauthorizationpolicies":    APIAuthorizationPolicyIdentity,
+		"apichecks":                   APICheckIdentity,
+		"apps":                        AppIdentity,
+		"appcredentials":              AppCredentialIdentity,
 		"auditprofiles":               AuditProfileIdentity,
 		"auditprofilemappingpolicies": AuditProfileMappingPolicyIdentity,
 		"auditreports":                AuditReportIdentity,
@@ -128,11 +126,10 @@ var (
 		"authorities":                 AuthorityIdentity,
 		"automations":                 AutomationIdentity,
 		"automationtemplates":         AutomationTemplateIdentity,
-
-		"awsaccounts":    AWSAccountIdentity,
-		"awsapigateways": AWSAPIGatewayIdentity,
-		"awsregister":    AWSRegisterIdentity,
-		"categories":     CategoryIdentity,
+		"awsaccounts":                 AWSAccountIdentity,
+		"awsapigateways":              AWSAPIGatewayIdentity,
+		"awsregister":                 AWSRegisterIdentity,
+		"categories":                  CategoryIdentity,
 
 		"customers":      CustomerIdentity,
 		"dependencymaps": DependencyMapIdentity,
@@ -211,7 +208,8 @@ var (
 		"tokens":             TokenIdentity,
 		"tokenscopepolicies": TokenScopePolicyIdentity,
 
-		"triggers":              TriggerIdentity,
+		"triggers": TriggerIdentity,
+
 		"vulnerabilities":       VulnerabilityIdentity,
 		"x509certificates":      X509CertificateIdentity,
 		"x509certificatechecks": X509CertificateCheckIdentity,

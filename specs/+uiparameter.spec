@@ -1,11 +1,11 @@
 # Model
 model:
-  rest_name: appparameter
-  resource_name: appparameters
-  entity_name: AppParameter
+  rest_name: uiparameter
+  resource_name: uiparameters
+  entity_name: UIParameter
   package: highwind
   group: integration/app
-  description: Represents a parameter that can be passed to an app.
+  description: Represents a parameter that will be shown in the UI.
   detached: true
 
 # Attributes
@@ -60,11 +60,18 @@ attributes:
     exposed: true
     stored: true
 
+  - name: required
+    description: Set if the parameter must be set.
+    type: boolean
+    exposed: true
+    stored: true
+
   - name: type
     description: The type of the parameter.
     type: enum
     exposed: true
     stored: true
+    required: true
     allowed_choices:
     - Boolean
     - Duration
@@ -77,6 +84,7 @@ attributes:
     - String
     - StringSlice
     - CVSSThreshold
+    example_value: String
 
   - name: value
     description: Value of the parameter.

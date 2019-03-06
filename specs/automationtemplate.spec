@@ -43,9 +43,17 @@ attributes:
     default_value: Condition
 
   - name: parameters
-    description: Parameters contains the parameter description of the function.
+    description: Parameters contains the computed parameters.
     type: refMap
     exposed: true
-    subtype: automationtemplateparameter
+    subtype: uiparameter
+    extensions:
+      refMode: pointer
+
+  - name: steps
+    description: Steps contains all the steps with parameters.
+    type: refMap
+    exposed: true
+    subtype: uistep
     extensions:
       refMode: pointer

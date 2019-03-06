@@ -55,10 +55,10 @@ attributes:
     read_only: true
 
   - name: parameters
-    description: Parameters is a list of parameters to start the app.
+    description: Parameters contains the computed parameters to start the app.
     type: refList
     exposed: true
-    subtype: appparameter
+    subtype: uiparameter
     stored: true
     extensions:
       refMode: pointer

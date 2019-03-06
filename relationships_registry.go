@@ -2,7 +2,7 @@ package gaia
 
 import "go.aporeto.io/elemental"
 
-const nodocString = "[nodoc]" // nolint: varcheck,deadcode
+const nodocString = "[nodoc]" // nolint: varcheck,deadcode,unused
 
 var relationshipsRegistry elemental.RelationshipsRegistry
 

@@ -103,8 +103,8 @@ type App struct {
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
-	// Parameters is a list of parameters available for the app.
-	Parameters []*AppParameter `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
+	// List of steps that contains parameters.
+	Steps []*UIStep `json:"steps" bson:"steps" mapstructure:"steps,omitempty"`
 
 	// Title represents the title of the app.
 	Title string `json:"title" bson:"-" mapstructure:"title,omitempty"`
@@ -127,7 +127,7 @@ func NewApp() *App {
 
 	return &App{
 		ModelVersion: 1,
-		Parameters:   []*AppParameter{},
+		Steps:        []*UIStep{},
 	}
 }
 
@@ -234,7 +234,7 @@ func (o *App) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			LatestVersion:   &o.LatestVersion,
 			LongDescription: &o.LongDescription,
 			Name:            &o.Name,
-			Parameters:      &o.Parameters,
+			Steps:           &o.Steps,
 			Title:           &o.Title,
 			ZHash:           &o.ZHash,
 			Zone:            &o.Zone,
@@ -258,8 +258,8 @@ func (o *App) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.LongDescription = &(o.LongDescription)
 		case "name":
 			sp.Name = &(o.Name)
-		case "parameters":
-			sp.Parameters = &(o.Parameters)
+		case "steps":
+			sp.Steps = &(o.Steps)
 		case "title":
 			sp.Title = &(o.Title)
 		case "zHash":
@@ -300,8 +300,8 @@ func (o *App) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Name != nil {
 		o.Name = *so.Name
 	}
-	if so.Parameters != nil {
-		o.Parameters = *so.Parameters
+	if so.Steps != nil {
+		o.Steps = *so.Steps
 	}
 	if so.Title != nil {
 		o.Title = *so.Title
@@ -356,7 +356,7 @@ func (o *App) Validate() error {
 		errors = append(errors, err)
 	}
 
-	for _, sub := range o.Parameters {
+	for _, sub := range o.Steps {
 		if err := sub.Validate(); err != nil {
 			errors = append(errors, err)
 		}
@@ -410,8 +410,8 @@ func (o *App) ValueForAttribute(name string) interface{} {
 		return o.LongDescription
 	case "name":
 		return o.Name
-	case "parameters":
-		return o.Parameters
+	case "steps":
+		return o.Steps
 	case "title":
 		return o.Title
 	case "zHash":
@@ -497,14 +497,14 @@ var AppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Parameters": elemental.AttributeSpecification{
+	"Steps": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Parameters",
-		Description:    `Parameters is a list of parameters available for the app.`,
+		ConvertedName:  "Steps",
+		Description:    `List of steps that contains parameters.`,
 		Exposed:        true,
-		Name:           "parameters",
+		Name:           "steps",
 		Stored:         true,
-		SubType:        "appparameter",
+		SubType:        "uistep",
 		Type:           "refList",
 	},
 	"Title": elemental.AttributeSpecification{
@@ -617,14 +617,14 @@ var AppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"parameters": elemental.AttributeSpecification{
+	"steps": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Parameters",
-		Description:    `Parameters is a list of parameters available for the app.`,
+		ConvertedName:  "Steps",
+		Description:    `List of steps that contains parameters.`,
 		Exposed:        true,
-		Name:           "parameters",
+		Name:           "steps",
 		Stored:         true,
-		SubType:        "appparameter",
+		SubType:        "uistep",
 		Type:           "refList",
 	},
 	"title": elemental.AttributeSpecification{
@@ -749,8 +749,8 @@ type SparseApp struct {
 	// Name is the name of the entity.
 	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
 
-	// Parameters is a list of parameters available for the app.
-	Parameters *[]*AppParameter `json:"parameters,omitempty" bson:"parameters" mapstructure:"parameters,omitempty"`
+	// List of steps that contains parameters.
+	Steps *[]*UIStep `json:"steps,omitempty" bson:"steps" mapstructure:"steps,omitempty"`
 
 	// Title represents the title of the app.
 	Title *string `json:"title,omitempty" bson:"-" mapstructure:"title,omitempty"`
@@ -821,8 +821,8 @@ func (o *SparseApp) ToPlain() elemental.PlainIdentifiable {
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
-	if o.Parameters != nil {
-		out.Parameters = *o.Parameters
+	if o.Steps != nil {
+		out.Steps = *o.Steps
 	}
 	if o.Title != nil {
 		out.Title = *o.Title

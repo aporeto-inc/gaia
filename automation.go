@@ -145,8 +145,8 @@ type Automation struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Parameters are passed to the functions.
-	Parameters map[string]interface{} `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
+	// Parameters contains the computed parameters.
+	Parameters []*UIParameter `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
@@ -157,6 +157,9 @@ type Automation struct {
 
 	// Stdout contains the last run standard output.
 	Stdout string `json:"stdout" bson:"stdout" mapstructure:"stdout,omitempty"`
+
+	// Steps lists all the steps to contains the parameters.
+	Steps []*UIStep `json:"steps" bson:"steps" mapstructure:"steps,omitempty"`
 
 	// Token holds the unique access token used as a password to trigger the
 	// authentication. It will be visible only after creation.
@@ -195,8 +198,9 @@ func NewAutomation() *Automation {
 		Events:         map[string][]elemental.EventType{},
 		Entitlements:   map[string][]elemental.Operation{},
 		Errors:         []string{},
+		Steps:          []*UIStep{},
 		NormalizedTags: []string{},
-		Parameters:     map[string]interface{}{},
+		Parameters:     []*UIParameter{},
 		Trigger:        AutomationTriggerTime,
 	}
 }
@@ -408,6 +412,7 @@ func (o *Automation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Protected:      &o.Protected,
 			Schedule:       &o.Schedule,
 			Stdout:         &o.Stdout,
+			Steps:          &o.Steps,
 			Token:          &o.Token,
 			TokenRenew:     &o.TokenRenew,
 			Trigger:        &o.Trigger,
@@ -458,6 +463,8 @@ func (o *Automation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Schedule = &(o.Schedule)
 		case "stdout":
 			sp.Stdout = &(o.Stdout)
+		case "steps":
+			sp.Steps = &(o.Steps)
 		case "token":
 			sp.Token = &(o.Token)
 		case "tokenRenew":
@@ -540,6 +547,9 @@ func (o *Automation) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Stdout != nil {
 		o.Stdout = *so.Stdout
 	}
+	if so.Steps != nil {
+		o.Steps = *so.Steps
+	}
 	if so.Token != nil {
 		o.Token = *so.Token
 	}
@@ -604,6 +614,18 @@ func (o *Automation) Validate() error {
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	for _, sub := range o.Parameters {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
+	for _, sub := range o.Steps {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
 	}
 
 	if err := elemental.ValidateStringInList("trigger", string(o.Trigger), []string{"Event", "RemoteCall", "Time"}, false); err != nil {
@@ -682,6 +704,8 @@ func (o *Automation) ValueForAttribute(name string) interface{} {
 		return o.Schedule
 	case "stdout":
 		return o.Stdout
+	case "steps":
+		return o.Steps
 	case "token":
 		return o.Token
 	case "tokenRenew":
@@ -895,12 +919,12 @@ automation.`,
 	"Parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters are passed to the functions.`,
+		Description:    `Parameters contains the computed parameters.`,
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
-		SubType:        "map[string]interface{}",
-		Type:           "external",
+		SubType:        "uiparameter",
+		Type:           "refList",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -933,6 +957,16 @@ only applies if the trigger is set to Time.`,
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"Steps": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Steps",
+		Description:    `Steps lists all the steps to contains the parameters.`,
+		Exposed:        true,
+		Name:           "steps",
+		Stored:         true,
+		SubType:        "uistep",
+		Type:           "refList",
 	},
 	"Token": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1203,12 +1237,12 @@ automation.`,
 	"parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters are passed to the functions.`,
+		Description:    `Parameters contains the computed parameters.`,
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
-		SubType:        "map[string]interface{}",
-		Type:           "external",
+		SubType:        "uiparameter",
+		Type:           "refList",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1241,6 +1275,16 @@ only applies if the trigger is set to Time.`,
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"steps": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Steps",
+		Description:    `Steps lists all the steps to contains the parameters.`,
+		Exposed:        true,
+		Name:           "steps",
+		Stored:         true,
+		SubType:        "uistep",
+		Type:           "refList",
 	},
 	"token": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1428,8 +1472,8 @@ type SparseAutomation struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Parameters are passed to the functions.
-	Parameters *map[string]interface{} `json:"parameters,omitempty" bson:"parameters" mapstructure:"parameters,omitempty"`
+	// Parameters contains the computed parameters.
+	Parameters *[]*UIParameter `json:"parameters,omitempty" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
@@ -1440,6 +1484,9 @@ type SparseAutomation struct {
 
 	// Stdout contains the last run standard output.
 	Stdout *string `json:"stdout,omitempty" bson:"stdout" mapstructure:"stdout,omitempty"`
+
+	// Steps lists all the steps to contains the parameters.
+	Steps *[]*UIStep `json:"steps,omitempty" bson:"steps" mapstructure:"steps,omitempty"`
 
 	// Token holds the unique access token used as a password to trigger the
 	// authentication. It will be visible only after creation.
@@ -1559,6 +1606,9 @@ func (o *SparseAutomation) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Stdout != nil {
 		out.Stdout = *o.Stdout
+	}
+	if o.Steps != nil {
+		out.Steps = *o.Steps
 	}
 	if o.Token != nil {
 		out.Token = *o.Token

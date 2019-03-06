@@ -111,8 +111,11 @@ type AutomationTemplate struct {
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
-	// Parameters contains the parameter description of the function.
-	Parameters map[string]*AutomationTemplateParameter `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
+	// Parameters contains the computed parameters.
+	Parameters map[string]*UIParameter `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
+
+	// Steps contains all the steps with parameters.
+	Steps map[string]*UIStep `json:"steps" bson:"-" mapstructure:"steps,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -126,7 +129,8 @@ func NewAutomationTemplate() *AutomationTemplate {
 		ModelVersion: 1,
 		Entitlements: map[string][]elemental.Operation{},
 		Kind:         AutomationTemplateKindCondition,
-		Parameters:   map[string]*AutomationTemplateParameter{},
+		Parameters:   map[string]*UIParameter{},
+		Steps:        map[string]*UIStep{},
 	}
 }
 
@@ -209,6 +213,7 @@ func (o *AutomationTemplate) ToSparse(fields ...string) elemental.SparseIdentifi
 			Kind:         &o.Kind,
 			Name:         &o.Name,
 			Parameters:   &o.Parameters,
+			Steps:        &o.Steps,
 		}
 	}
 
@@ -229,6 +234,8 @@ func (o *AutomationTemplate) ToSparse(fields ...string) elemental.SparseIdentifi
 			sp.Name = &(o.Name)
 		case "parameters":
 			sp.Parameters = &(o.Parameters)
+		case "steps":
+			sp.Steps = &(o.Steps)
 		}
 	}
 
@@ -262,6 +269,9 @@ func (o *AutomationTemplate) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Parameters != nil {
 		o.Parameters = *so.Parameters
+	}
+	if so.Steps != nil {
+		o.Steps = *so.Steps
 	}
 }
 
@@ -317,6 +327,12 @@ func (o *AutomationTemplate) Validate() error {
 		}
 	}
 
+	for _, sub := range o.Steps {
+		if err := sub.Validate(); err != nil {
+			errors = append(errors, err)
+		}
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -365,6 +381,8 @@ func (o *AutomationTemplate) ValueForAttribute(name string) interface{} {
 		return o.Name
 	case "parameters":
 		return o.Parameters
+	case "steps":
+		return o.Steps
 	}
 
 	return nil
@@ -438,10 +456,19 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 	"Parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters contains the parameter description of the function.`,
+		Description:    `Parameters contains the computed parameters.`,
 		Exposed:        true,
 		Name:           "parameters",
-		SubType:        "automationtemplateparameter",
+		SubType:        "uiparameter",
+		Type:           "refMap",
+	},
+	"Steps": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Steps",
+		Description:    `Steps contains all the steps with parameters.`,
+		Exposed:        true,
+		Name:           "steps",
+		SubType:        "uistep",
 		Type:           "refMap",
 	},
 }
@@ -514,10 +541,19 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 	"parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters contains the parameter description of the function.`,
+		Description:    `Parameters contains the computed parameters.`,
 		Exposed:        true,
 		Name:           "parameters",
-		SubType:        "automationtemplateparameter",
+		SubType:        "uiparameter",
+		Type:           "refMap",
+	},
+	"steps": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Steps",
+		Description:    `Steps contains all the steps with parameters.`,
+		Exposed:        true,
+		Name:           "steps",
+		SubType:        "uistep",
 		Type:           "refMap",
 	},
 }
@@ -605,8 +641,11 @@ type SparseAutomationTemplate struct {
 	// Name is the name of the entity.
 	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
 
-	// Parameters contains the parameter description of the function.
-	Parameters *map[string]*AutomationTemplateParameter `json:"parameters,omitempty" bson:"-" mapstructure:"parameters,omitempty"`
+	// Parameters contains the computed parameters.
+	Parameters *map[string]*UIParameter `json:"parameters,omitempty" bson:"-" mapstructure:"parameters,omitempty"`
+
+	// Steps contains all the steps with parameters.
+	Steps *map[string]*UIStep `json:"steps,omitempty" bson:"-" mapstructure:"steps,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -665,6 +704,9 @@ func (o *SparseAutomationTemplate) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Parameters != nil {
 		out.Parameters = *o.Parameters
+	}
+	if o.Steps != nil {
+		out.Steps = *o.Steps
 	}
 
 	return out
