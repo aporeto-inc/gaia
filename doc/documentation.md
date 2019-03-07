@@ -3448,23 +3448,23 @@ Represents a parameter that will be shown in the UI.
 
 ##### `advanced` `boolean`
 
-Defines if the parameter is an advanced one.
+Defines if the step is an advanced one.
 
 ##### `description` `string`
 
-Description of the paramerter.
+Description of the step.
 
 ##### `key` `string`
 
-Key identifying the parameter.
+Key identifying the step.
 
 ##### `longDescription` `string`
 
-Long explanation of the parameter.
+Long explanation of the step.
 
 ##### `name` `string`
 
-Name of the paramerter.
+Name of the step.
 
 ##### `parameters` [`[]uiparameter`](#uiparameter)
 

@@ -12,31 +12,31 @@ model:
 attributes:
   v1:
   - name: advanced
-    description: Defines if the parameter is an advanced one.
+    description: Defines if the step is an advanced one.
     type: boolean
     exposed: true
     stored: true
 
   - name: description
-    description: Description of the paramerter.
+    description: Description of the step.
     type: string
     exposed: true
     stored: true
 
   - name: key
-    description: Key identifying the parameter.
+    description: Key identifying the step.
     type: string
     exposed: true
     stored: true
 
   - name: longDescription
-    description: Long explanation of the parameter.
+    description: Long explanation of the step.
     type: string
     exposed: true
     stored: true
 
   - name: name
-    description: Name of the paramerter.
+    description: Name of the step.
     type: string
     exposed: true
     stored: true

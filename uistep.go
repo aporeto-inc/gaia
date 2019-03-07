@@ -10,19 +10,19 @@ import (
 
 // UIStep represents the model of a uistep
 type UIStep struct {
-	// Defines if the parameter is an advanced one.
+	// Defines if the step is an advanced one.
 	Advanced bool `json:"advanced" bson:"advanced" mapstructure:"advanced,omitempty"`
 
-	// Description of the paramerter.
+	// Description of the step.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Key identifying the parameter.
+	// Key identifying the step.
 	Key string `json:"key" bson:"key" mapstructure:"key,omitempty"`
 
-	// Long explanation of the parameter.
+	// Long explanation of the step.
 	LongDescription string `json:"longDescription" bson:"longdescription" mapstructure:"longDescription,omitempty"`
 
-	// Name of the paramerter.
+	// Name of the step.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// List of parameters for this step.
