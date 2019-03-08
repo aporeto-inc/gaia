@@ -3453,10 +3453,6 @@ Defines if the step is an advanced one.
 
 Description of the step.
 
-##### `longDescription` `string`
-
-Long explanation of the step.
-
 ##### `name` `string`
 
 Name of the step.
