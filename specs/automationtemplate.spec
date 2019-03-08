@@ -44,15 +44,13 @@ attributes:
 
   - name: parameters
     description: Parameters contains the computed parameters.
-    type: refMap
+    type: external
     exposed: true
-    subtype: uiparameter
-    extensions:
-      refMode: pointer
+    subtype: map[string]interface{}
 
   - name: steps
     description: Steps contains all the steps with parameters.
-    type: refMap
+    type: refList
     exposed: true
     subtype: uistep
     extensions:

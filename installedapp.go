@@ -141,7 +141,7 @@ type InstalledApp struct {
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Parameters contains the computed parameters to start the app.
-	Parameters []*UIParameter `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
+	Parameters map[string]interface{} `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
@@ -168,7 +168,7 @@ func NewInstalledApp() *InstalledApp {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		NormalizedTags: []string{},
-		Parameters:     []*UIParameter{},
+		Parameters:     map[string]interface{}{},
 		Status:         InstalledAppStatusUnknown,
 	}
 }
@@ -468,12 +468,6 @@ func (o *InstalledApp) Validate() error {
 		errors = append(errors, err)
 	}
 
-	for _, sub := range o.Parameters {
-		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
-		}
-	}
-
 	if err := elemental.ValidateStringInList("status", string(o.Status), []string{"Unknown", "Deploying", "Initializing", "Running", "Undeploying", "Error"}, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -696,8 +690,8 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
-		SubType:        "uiparameter",
-		Type:           "refList",
+		SubType:        "map[string]interface{}",
+		Type:           "external",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -895,8 +889,8 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
-		SubType:        "uiparameter",
-		Type:           "refList",
+		SubType:        "map[string]interface{}",
+		Type:           "external",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1047,7 +1041,7 @@ type SparseInstalledApp struct {
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Parameters contains the computed parameters to start the app.
-	Parameters *[]*UIParameter `json:"parameters,omitempty" bson:"parameters" mapstructure:"parameters,omitempty"`
+	Parameters *map[string]interface{} `json:"parameters,omitempty" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`

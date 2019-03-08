@@ -51,6 +51,9 @@ type UIParameter struct {
 	// Defines if the parameter is an advanced one.
 	Advanced bool `json:"advanced" bson:"advanced" mapstructure:"advanced,omitempty"`
 
+	// allowedChoices lists all the choices in case of an enum.
+	AllowedChoices map[string]string `json:"allowedChoices" bson:"allowedchoices" mapstructure:"allowedChoices,omitempty"`
+
 	// List of values that can be used.
 	AllowedValues []interface{} `json:"allowedValues" bson:"allowedvalues" mapstructure:"allowedValues,omitempty"`
 
@@ -72,9 +75,6 @@ type UIParameter struct {
 	// Defines if the parameter is optional.
 	Optional bool `json:"optional" bson:"optional" mapstructure:"optional,omitempty"`
 
-	// Set if the parameter must be set.
-	Required bool `json:"required" bson:"required" mapstructure:"required,omitempty"`
-
 	// The type of the parameter.
 	Type UIParameterTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
@@ -90,8 +90,9 @@ type UIParameter struct {
 func NewUIParameter() *UIParameter {
 
 	return &UIParameter{
-		ModelVersion:  1,
-		AllowedValues: []interface{}{},
+		ModelVersion:   1,
+		AllowedChoices: map[string]string{},
+		AllowedValues:  []interface{}{},
 	}
 }
 

@@ -16,9 +16,6 @@ type UIStep struct {
 	// Description of the step.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Key identifying the step.
-	Key string `json:"key" bson:"key" mapstructure:"key,omitempty"`
-
 	// Long explanation of the step.
 	LongDescription string `json:"longDescription" bson:"longdescription" mapstructure:"longDescription,omitempty"`
 

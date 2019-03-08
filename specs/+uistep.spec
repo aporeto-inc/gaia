@@ -23,12 +23,6 @@ attributes:
     exposed: true
     stored: true
 
-  - name: key
-    description: Key identifying the step.
-    type: string
-    exposed: true
-    stored: true
-
   - name: longDescription
     description: Long explanation of the step.
     type: string

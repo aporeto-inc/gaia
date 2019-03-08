@@ -112,10 +112,10 @@ type AutomationTemplate struct {
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Parameters contains the computed parameters.
-	Parameters map[string]*UIParameter `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
+	Parameters map[string]interface{} `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
 
 	// Steps contains all the steps with parameters.
-	Steps map[string]*UIStep `json:"steps" bson:"-" mapstructure:"steps,omitempty"`
+	Steps []*UIStep `json:"steps" bson:"-" mapstructure:"steps,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -129,8 +129,8 @@ func NewAutomationTemplate() *AutomationTemplate {
 		ModelVersion: 1,
 		Entitlements: map[string][]elemental.Operation{},
 		Kind:         AutomationTemplateKindCondition,
-		Parameters:   map[string]*UIParameter{},
-		Steps:        map[string]*UIStep{},
+		Parameters:   map[string]interface{}{},
+		Steps:        []*UIStep{},
 	}
 }
 
@@ -321,12 +321,6 @@ func (o *AutomationTemplate) Validate() error {
 		errors = append(errors, err)
 	}
 
-	for _, sub := range o.Parameters {
-		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
-		}
-	}
-
 	for _, sub := range o.Steps {
 		if err := sub.Validate(); err != nil {
 			errors = append(errors, err)
@@ -459,8 +453,8 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `Parameters contains the computed parameters.`,
 		Exposed:        true,
 		Name:           "parameters",
-		SubType:        "uiparameter",
-		Type:           "refMap",
+		SubType:        "map[string]interface{}",
+		Type:           "external",
 	},
 	"Steps": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -469,7 +463,7 @@ var AutomationTemplateAttributesMap = map[string]elemental.AttributeSpecificatio
 		Exposed:        true,
 		Name:           "steps",
 		SubType:        "uistep",
-		Type:           "refMap",
+		Type:           "refList",
 	},
 }
 
@@ -544,8 +538,8 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		Description:    `Parameters contains the computed parameters.`,
 		Exposed:        true,
 		Name:           "parameters",
-		SubType:        "uiparameter",
-		Type:           "refMap",
+		SubType:        "map[string]interface{}",
+		Type:           "external",
 	},
 	"steps": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -554,7 +548,7 @@ var AutomationTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpe
 		Exposed:        true,
 		Name:           "steps",
 		SubType:        "uistep",
-		Type:           "refMap",
+		Type:           "refList",
 	},
 }
 
@@ -642,10 +636,10 @@ type SparseAutomationTemplate struct {
 	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
 
 	// Parameters contains the computed parameters.
-	Parameters *map[string]*UIParameter `json:"parameters,omitempty" bson:"-" mapstructure:"parameters,omitempty"`
+	Parameters *map[string]interface{} `json:"parameters,omitempty" bson:"-" mapstructure:"parameters,omitempty"`
 
 	// Steps contains all the steps with parameters.
-	Steps *map[string]*UIStep `json:"steps,omitempty" bson:"-" mapstructure:"steps,omitempty"`
+	Steps *[]*UIStep `json:"steps,omitempty" bson:"-" mapstructure:"steps,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

@@ -56,12 +56,10 @@ attributes:
 
   - name: parameters
     description: Parameters contains the computed parameters to start the app.
-    type: refList
+    type: external
     exposed: true
-    subtype: uiparameter
+    subtype: map[string]interface{}
     stored: true
-    extensions:
-      refMode: pointer
 
   - name: status
     description: Status of the app.

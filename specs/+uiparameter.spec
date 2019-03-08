@@ -17,6 +17,13 @@ attributes:
     exposed: true
     stored: true
 
+  - name: allowedChoices
+    description: allowedChoices lists all the choices in case of an enum.
+    type: external
+    exposed: true
+    subtype: map[string]string
+    stored: true
+
   - name: allowedValues
     description: List of values that can be used.
     type: list
@@ -56,12 +63,6 @@ attributes:
 
   - name: optional
     description: Defines if the parameter is optional.
-    type: boolean
-    exposed: true
-    stored: true
-
-  - name: required
-    description: Set if the parameter must be set.
     type: boolean
     exposed: true
     stored: true
