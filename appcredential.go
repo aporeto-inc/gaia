@@ -567,10 +567,6 @@ func (o *AppCredential) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := o.Credentials.Validate(); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -776,8 +772,8 @@ the declared subnets.`,
 		Name:           "credentials",
 		Orderable:      true,
 		ReadOnly:       true,
-		Secret:         true,
 		SubType:        "credential",
+		Transient:      true,
 		Type:           "ref",
 	},
 	"Description": elemental.AttributeSpecification{
@@ -1061,8 +1057,8 @@ the declared subnets.`,
 		Name:           "credentials",
 		Orderable:      true,
 		ReadOnly:       true,
-		Secret:         true,
 		SubType:        "credential",
+		Transient:      true,
 		Type:           "ref",
 	},
 	"description": elemental.AttributeSpecification{
