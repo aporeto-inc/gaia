@@ -661,10 +661,6 @@ func (o *HookPolicy) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidateRequiredString("clientCertificateKey", o.ClientCertificateKey); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -847,6 +843,7 @@ to the remote endoint.`,
 		Required:       true,
 		Secret:         true,
 		Stored:         true,
+		Transient:      true,
 		Type:           "string",
 	},
 	"ContinueOnError": elemental.AttributeSpecification{
@@ -1171,6 +1168,7 @@ to the remote endoint.`,
 		Required:       true,
 		Secret:         true,
 		Stored:         true,
+		Transient:      true,
 		Type:           "string",
 	},
 	"continueonerror": elemental.AttributeSpecification{
