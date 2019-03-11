@@ -701,7 +701,11 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[DataPathCertificateIdentity] = &elemental.Relationship{}
+	relationshipsRegistry[DataPathCertificateIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+	}
 
 	relationshipsRegistry[DependencyMapIdentity] = &elemental.Relationship{
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
