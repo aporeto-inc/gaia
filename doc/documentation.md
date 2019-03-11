@@ -3423,7 +3423,7 @@ Name of the paramerter.
 
 Defines if the parameter is optional.
 
-##### `type` `emum(Boolean | Duration | Enum | IntegerSlice | Integer | Float | FloatSlice | Password | String | StringSlice | CVSSThreshold)` [`required`]
+##### `type` `emum(Boolean | Duration | Enum | IntegerSlice | Integer | Float | FloatSlice | Password | String | StringSlice | CVSSThreshold | JSON)` [`required`]
 
 The type of the parameter.
 

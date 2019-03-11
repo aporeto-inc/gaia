@@ -36,6 +36,9 @@ const (
 	// UIParameterTypeIntegerSlice represents the value IntegerSlice.
 	UIParameterTypeIntegerSlice UIParameterTypeValue = "IntegerSlice"
 
+	// UIParameterTypeJSON represents the value JSON.
+	UIParameterTypeJSON UIParameterTypeValue = "JSON"
+
 	// UIParameterTypePassword represents the value Password.
 	UIParameterTypePassword UIParameterTypeValue = "Password"
 
@@ -126,7 +129,7 @@ func (o *UIParameter) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Duration", "Enum", "IntegerSlice", "Integer", "Float", "FloatSlice", "Password", "String", "StringSlice", "CVSSThreshold"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Duration", "Enum", "IntegerSlice", "Integer", "Float", "FloatSlice", "Password", "String", "StringSlice", "CVSSThreshold", "JSON"}, false); err != nil {
 		errors = append(errors, err)
 	}
 

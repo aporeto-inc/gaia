@@ -85,6 +85,7 @@ attributes:
     - String
     - StringSlice
     - CVSSThreshold
+    - JSON
     example_value: String
 
   - name: value
