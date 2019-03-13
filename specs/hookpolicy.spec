@@ -93,6 +93,7 @@ attributes:
       -----END EC PRIVATE KEY-----
     orderable: true
     secret: true
+    transient: true
 
   - name: continueOnError
     description: |-

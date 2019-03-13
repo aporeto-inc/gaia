@@ -60,7 +60,6 @@ attributes:
     type: string
     stored: true
     read_only: true
-    secret: true
 
   - name: associatedSSHCAID
     description: associatedSSHCAID holds the remote ID of the SSH authority to use.
@@ -68,7 +67,6 @@ attributes:
     exposed: true
     stored: true
     read_only: true
-    secret: true
 
   - name: localCA
     description: LocalCA holds the eventual certificate authority used by this namespace.

@@ -171,6 +171,10 @@ relations:
   create:
     description: Creates a new aws registration for billing.
 
+- rest_name: datapathcertificate
+  create:
+    description: Creates a new Certificate for datapath.
+
 - rest_name: dependencymap
   get:
     description: Retrieves the dependencymap of a namespace.
