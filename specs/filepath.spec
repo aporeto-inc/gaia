@@ -27,6 +27,7 @@ model:
     description: Retrieves the object with the given ID.
     global_parameters:
     - $archivable
+    - $propagatable
   update:
     description: Updates the object with the given ID.
   delete:

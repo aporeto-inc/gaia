@@ -3812,6 +3812,7 @@ Retrieves the list of audit profiles.
 Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
+- `propagated` (`boolean`): Also retrieve the objects that propagate down.
 
 ##### `POST /auditprofiles`
 
@@ -3828,6 +3829,10 @@ Parameters:
 ##### `GET /auditprofiles/:id`
 
 Retrieves the object with the given ID.
+
+Parameters:
+
+- `propagated` (`boolean`): Also retrieve the objects that propagate down.
 
 ##### `PUT /auditprofiles/:id`
 
@@ -4673,6 +4678,7 @@ Retrieves the list of enforcer profiles.
 Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
+- `propagated` (`boolean`): Also retrieve the objects that propagate down.
 
 ##### `POST /enforcerprofiles`
 
@@ -4689,6 +4695,10 @@ Parameters:
 ##### `GET /enforcerprofiles/:id`
 
 Retrieves the object with the given ID.
+
+Parameters:
+
+- `propagated` (`boolean`): Also retrieve the objects that propagate down.
 
 ##### `PUT /enforcerprofiles/:id`
 
@@ -5192,6 +5202,7 @@ Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 - `archived` (`boolean`): Also retrieve the objects that have been archived.
+- `propagated` (`boolean`): Also retrieve the objects that propagate down.
 
 ##### `POST /filepaths`
 
@@ -5212,6 +5223,7 @@ Retrieves the object with the given ID.
 Parameters:
 
 - `archived` (`boolean`): Also retrieve the objects that have been archived.
+- `propagated` (`boolean`): Also retrieve the objects that propagate down.
 
 ##### `PUT /filepaths/:id`
 
@@ -5564,6 +5576,7 @@ Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 - `propagated` (`boolean`): Also retrieve the objects that propagate down.
+- `propagated` (`boolean`): Also retrieve the objects that propagate down.
 
 ##### `POST /hostservices`
 
@@ -5584,6 +5597,7 @@ Retrieves the object with the given ID.
 Parameters:
 
 - `archived` (`boolean`): Also retrieve the objects that have been archived.
+- `propagated` (`boolean`): Also retrieve the objects that propagate down.
 
 ##### `PUT /hostservices/:id`
 
@@ -5847,6 +5861,7 @@ Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 - `archived` (`boolean`): Also retrieve the objects that have been archived.
+- `propagated` (`boolean`): Also retrieve the objects that propagate down.
 
 ##### `POST /externalnetworks`
 
@@ -5867,6 +5882,7 @@ Retrieves the object with the given ID.
 Parameters:
 
 - `archived` (`boolean`): Also retrieve the objects that have been archived.
+- `propagated` (`boolean`): Also retrieve the objects that propagate down.
 
 ##### `PUT /externalnetworks/:id`
 
