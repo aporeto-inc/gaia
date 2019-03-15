@@ -19,6 +19,8 @@ model:
     - name
   get:
     description: Retrieves the object with the given ID.
+    global_parameters:
+    - $propagatable
   update:
     description: Updates the object with the given ID.
   delete:
@@ -31,6 +33,7 @@ model:
   - '@identifiable-stored'
   - '@named'
   - '@zonable'
+  - '@propagated'
 
 # Attributes
 attributes:
@@ -53,22 +56,6 @@ attributes:
     - Warning
     default_value: Info
     orderable: true
-
-  - name: local
-    description: If local is set, the message will only be visible in the current
-      namespace.
-    type: boolean
-    exposed: true
-    stored: true
-    orderable: true
-
-  - name: notifyByEmail
-    description: |-
-      If enabled, the message will be sent to the email associated in namespaces
-      annotations.
-    type: boolean
-    exposed: true
-    creation_only: true
 
   - name: validity
     description: |-

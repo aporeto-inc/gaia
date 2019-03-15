@@ -42,6 +42,7 @@ model:
   - '@named'
   - '@zonable'
   - '@archivable'
+  - '@propagated'
 
 # Attributes
 attributes:

@@ -113,8 +113,8 @@ type AuditProfile struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Propagated indicates if the audit profile is propagated.
-	Propagated bool `json:"propagated" bson:"propagated" mapstructure:"propagated,omitempty"`
+	// Propagate will propagate the policy to all of its children.
+	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
@@ -291,6 +291,18 @@ func (o *AuditProfile) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *AuditProfile) GetPropagate() bool {
+
+	return o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the given value.
+func (o *AuditProfile) SetPropagate(propagate bool) {
+
+	o.Propagate = propagate
+}
+
 // GetProtected returns the Protected of the receiver.
 func (o *AuditProfile) GetProtected() bool {
 
@@ -349,7 +361,7 @@ func (o *AuditProfile) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Name:           &o.Name,
 			Namespace:      &o.Namespace,
 			NormalizedTags: &o.NormalizedTags,
-			Propagated:     &o.Propagated,
+			Propagate:      &o.Propagate,
 			Protected:      &o.Protected,
 			Rules:          &o.Rules,
 			UpdateTime:     &o.UpdateTime,
@@ -379,8 +391,8 @@ func (o *AuditProfile) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
-		case "propagated":
-			sp.Propagated = &(o.Propagated)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "rules":
@@ -431,8 +443,8 @@ func (o *AuditProfile) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
 	}
-	if so.Propagated != nil {
-		o.Propagated = *so.Propagated
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -545,8 +557,8 @@ func (o *AuditProfile) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
-	case "propagated":
-		return o.Propagated
+	case "propagate":
+		return o.Propagate
 	case "protected":
 		return o.Protected
 	case "rules":
@@ -693,12 +705,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
-	"Propagated": elemental.AttributeSpecification{
+	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Propagated",
-		Description:    `Propagated indicates if the audit profile is propagated.`,
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
 		Exposed:        true,
-		Name:           "propagated",
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -896,12 +911,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
-	"propagated": elemental.AttributeSpecification{
+	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Propagated",
-		Description:    `Propagated indicates if the audit profile is propagated.`,
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
 		Exposed:        true,
-		Name:           "propagated",
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1062,8 +1080,8 @@ type SparseAuditProfile struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Propagated indicates if the audit profile is propagated.
-	Propagated *bool `json:"propagated,omitempty" bson:"propagated" mapstructure:"propagated,omitempty"`
+	// Propagate will propagate the policy to all of its children.
+	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
@@ -1150,8 +1168,8 @@ func (o *SparseAuditProfile) ToPlain() elemental.PlainIdentifiable {
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
 	}
-	if o.Propagated != nil {
-		out.Propagated = *o.Propagated
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -1266,6 +1284,18 @@ func (o *SparseAuditProfile) GetNormalizedTags() []string {
 func (o *SparseAuditProfile) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
+}
+
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseAuditProfile) GetPropagate() bool {
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseAuditProfile) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
 }
 
 // GetProtected returns the Protected of the receiver.

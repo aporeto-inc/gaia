@@ -39,6 +39,7 @@ model:
   - '@named'
   - '@metadatable'
   - '@zonable'
+  - '@propagated'
   validations:
   - $enforcerprofile
 

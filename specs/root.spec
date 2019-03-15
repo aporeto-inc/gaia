@@ -394,6 +394,7 @@ relations:
     description: Retrieves the list of messages.
     global_parameters:
     - $filtering
+    - $propagatable
   create:
     description: Creates a new message.
 
