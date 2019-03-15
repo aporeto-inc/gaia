@@ -1818,7 +1818,14 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		Retrieve: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
@@ -1827,6 +1834,10 @@ func init() {
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
 					},
 				},
 			},
@@ -1838,6 +1849,10 @@ func init() {
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
 					},
 				},
 			},
