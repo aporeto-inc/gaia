@@ -121,6 +121,9 @@ type ExternalNetwork struct {
 	// List of single ports or range (xx:yy).
 	Ports []string `json:"ports" bson:"ports" mapstructure:"ports,omitempty"`
 
+	// Propagate will propagate the policy to all of its children.
+	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
+
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -318,6 +321,18 @@ func (o *ExternalNetwork) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *ExternalNetwork) GetPropagate() bool {
+
+	return o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the given value.
+func (o *ExternalNetwork) SetPropagate(propagate bool) {
+
+	o.Propagate = propagate
+}
+
 // GetProtected returns the Protected of the receiver.
 func (o *ExternalNetwork) GetProtected() bool {
 
@@ -379,6 +394,7 @@ func (o *ExternalNetwork) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			Namespace:      &o.Namespace,
 			NormalizedTags: &o.NormalizedTags,
 			Ports:          &o.Ports,
+			Propagate:      &o.Propagate,
 			Protected:      &o.Protected,
 			Protocols:      &o.Protocols,
 			UpdateTime:     &o.UpdateTime,
@@ -414,6 +430,8 @@ func (o *ExternalNetwork) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "ports":
 			sp.Ports = &(o.Ports)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "protocols":
@@ -472,6 +490,9 @@ func (o *ExternalNetwork) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Ports != nil {
 		o.Ports = *so.Ports
+	}
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -602,6 +623,8 @@ func (o *ExternalNetwork) ValueForAttribute(name string) interface{} {
 		return o.NormalizedTags
 	case "ports":
 		return o.Ports
+	case "propagate":
+		return o.Propagate
 	case "protected":
 		return o.Protected
 	case "protocols":
@@ -780,6 +803,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:      true,
 		SubType:     "string",
 		Type:        "list",
+	},
+	"Propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1011,6 +1046,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:     "string",
 		Type:        "list",
 	},
+	"propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -1180,6 +1227,9 @@ type SparseExternalNetwork struct {
 	// List of single ports or range (xx:yy).
 	Ports *[]string `json:"ports,omitempty" bson:"ports" mapstructure:"ports,omitempty"`
 
+	// Propagate will propagate the policy to all of its children.
+	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
+
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -1273,6 +1323,9 @@ func (o *SparseExternalNetwork) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Ports != nil {
 		out.Ports = *o.Ports
+	}
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -1399,6 +1452,18 @@ func (o *SparseExternalNetwork) GetNormalizedTags() []string {
 func (o *SparseExternalNetwork) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
+}
+
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseExternalNetwork) GetPropagate() bool {
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseExternalNetwork) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
 }
 
 // GetProtected returns the Protected of the receiver.

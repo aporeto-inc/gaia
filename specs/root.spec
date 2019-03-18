@@ -101,6 +101,7 @@ relations:
     description: Retrieves the list of audit profiles.
     global_parameters:
     - $filtering
+    - $propagatable
   create:
     description: Creates a new audit profile.
 
@@ -215,6 +216,7 @@ relations:
     description: Retrieves the list of enforcer profiles.
     global_parameters:
     - $filtering
+    - $propagatable
   create:
     description: Creates a new enforcer profile.
 
@@ -256,6 +258,7 @@ relations:
     global_parameters:
     - $filtering
     - $archivable
+    - $propagatable
   create:
     description: Creates a new external network.
 
@@ -278,6 +281,7 @@ relations:
     global_parameters:
     - $filtering
     - $archivable
+    - $propagatable
   create:
     description: Create a new file path.
 
@@ -299,6 +303,7 @@ relations:
     description: Retrieves the list of host services.
     global_parameters:
     - $filtering
+    - $propagatable
     - $propagatable
   create:
     description: Creates a new host service.
