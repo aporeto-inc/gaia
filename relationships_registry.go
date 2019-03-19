@@ -1273,6 +1273,7 @@ func init() {
 			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"fileaccesspolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -1292,6 +1293,7 @@ func init() {
 			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
+			"fileaccesspolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -1828,6 +1830,7 @@ func init() {
 			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"processingunitpolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -1843,6 +1846,7 @@ func init() {
 			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
+			"processingunitpolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -2639,6 +2643,7 @@ func init() {
 			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"fileaccesspolicy": &elemental.RelationshipInfo{},
 			"networkaccesspolicy": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -2652,6 +2657,7 @@ func init() {
 					},
 				},
 			},
+			"processingunitpolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -2682,6 +2688,7 @@ func init() {
 			"vulnerability":     &elemental.RelationshipInfo{},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
+			"fileaccesspolicy": &elemental.RelationshipInfo{},
 			"networkaccesspolicy": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -2695,6 +2702,7 @@ func init() {
 					},
 				},
 			},
+			"processingunitpolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{

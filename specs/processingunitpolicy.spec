@@ -63,3 +63,14 @@ attributes:
     exposed: true
     subtype: '[][]string'
     stored: true
+
+# Relations
+relations:
+- rest_name: isolationprofile
+  get:
+    description: Returns the list of IsolationProfiles by a given processing unit
+      policies.
+
+- rest_name: processingunit
+  get:
+    description: Returns the list of ProcessingUnits by a given processing unit policies.

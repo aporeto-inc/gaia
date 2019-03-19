@@ -89,3 +89,13 @@ attributes:
     exposed: true
     subtype: '[][]string'
     orderable: true
+
+# Relations
+relations:
+- rest_name: filepath
+  get:
+    description: Returns the list of FilePaths that match the policy.
+
+- rest_name: processingunit
+  get:
+    description: Returns the list of ProcessingUnits that match the policy.
