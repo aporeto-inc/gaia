@@ -533,6 +533,10 @@ relations:
   create:
     description: Creates a new recipe.
 
+- rest_name: recipecook
+  create:
+    description: Creates a new recipe cook.
+
 - rest_name: remoteprocessor
   create:
     description: This should be be here.

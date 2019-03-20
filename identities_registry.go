@@ -80,6 +80,7 @@ var (
 		"quotacheck":             QuotaCheckIdentity,
 		"quotapolicy":            QuotaPolicyIdentity,
 		"recipe":                 RecipeIdentity,
+		"recipecook":             RecipeCookIdentity,
 		"remoteprocessor":        RemoteProcessorIdentity,
 		"renderedpolicy":         RenderedPolicyIdentity,
 		"report":                 ReportIdentity,
@@ -188,6 +189,7 @@ var (
 		"quotacheck":               QuotaCheckIdentity,
 		"quotapolicies":            QuotaPolicyIdentity,
 		"recipes":                  RecipeIdentity,
+		"recipecooks":              RecipeCookIdentity,
 		"remoteprocessors":         RemoteProcessorIdentity,
 		"renderedpolicies":         RenderedPolicyIdentity,
 		"reports":                  ReportIdentity,
@@ -281,6 +283,8 @@ var (
 		"quotapol":       QuotaPolicyIdentity,
 		"quotapols":      QuotaPolicyIdentity,
 		"rcp":            RecipeIdentity,
+		"rcpck":          RecipeCookIdentity,
+		"cook":           RecipeCookIdentity,
 		"hks":            RemoteProcessorIdentity,
 		"hk":             RemoteProcessorIdentity,
 		"rpol":           RenderedPolicyIdentity,
@@ -489,6 +493,7 @@ var (
 		"quotacheck":           nil,
 		"quotapolicy":          nil,
 		"recipe":               nil,
+		"recipecook":           nil,
 		"remoteprocessor":      nil,
 		"renderedpolicy":       nil,
 		"report":               nil,
@@ -716,6 +721,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewQuotaPolicy()
 	case RecipeIdentity:
 		return NewRecipe()
+	case RecipeCookIdentity:
+		return NewRecipeCook()
 	case RemoteProcessorIdentity:
 		return NewRemoteProcessor()
 	case RenderedPolicyIdentity:
@@ -921,6 +928,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseQuotaPolicy()
 	case RecipeIdentity:
 		return NewSparseRecipe()
+	case RecipeCookIdentity:
+		return NewSparseRecipeCook()
 	case RemoteProcessorIdentity:
 		return NewSparseRemoteProcessor()
 	case RenderedPolicyIdentity:
@@ -1134,6 +1143,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &QuotaPoliciesList{}
 	case RecipeIdentity:
 		return &RecipesList{}
+	case RecipeCookIdentity:
+		return &RecipeCooksList{}
 	case RemoteProcessorIdentity:
 		return &RemoteProcessorsList{}
 	case RenderedPolicyIdentity:
@@ -1337,6 +1348,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseQuotaPoliciesList{}
 	case RecipeIdentity:
 		return &SparseRecipesList{}
+	case RecipeCookIdentity:
+		return &SparseRecipeCooksList{}
 	case RemoteProcessorIdentity:
 		return &SparseRemoteProcessorsList{}
 	case RenderedPolicyIdentity:
@@ -1483,6 +1496,7 @@ func AllIdentities() []elemental.Identity {
 		QuotaCheckIdentity,
 		QuotaPolicyIdentity,
 		RecipeIdentity,
+		RecipeCookIdentity,
 		RemoteProcessorIdentity,
 		RenderedPolicyIdentity,
 		ReportIdentity,
@@ -1750,6 +1764,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case RecipeIdentity:
 		return []string{
 			"rcp",
+		}
+	case RecipeCookIdentity:
+		return []string{
+			"rcpck",
+			"cook",
 		}
 	case RemoteProcessorIdentity:
 		return []string{
