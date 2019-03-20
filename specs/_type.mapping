@@ -162,13 +162,7 @@ _rendered_policy:
   jsonschema:
     type: |-
       {
-        "type": "object",
-        "additionalProperties": {
-          "type": "array",
-          "items": {
-            "type": "gaia.json#/policyrule"
-          }
-        }
+        "$ref": "_lists.json#/properties/policyrules"
       }
 
 _syscall_action:
