@@ -523,6 +523,14 @@ relations:
   create:
     description: Creates a new quota policy.
 
+- rest_name: recipe
+  get:
+    description: Retrieves the list of recipes.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new recipe.
+
 - rest_name: remoteprocessor
   create:
     description: This should be be here.
