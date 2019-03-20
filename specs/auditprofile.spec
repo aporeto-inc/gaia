@@ -34,16 +34,11 @@ model:
   - '@metadatable'
   - '@named'
   - '@zonable'
+  - '@propagated'
 
 # Attributes
 attributes:
   v1:
-  - name: propagated
-    description: Propagated indicates if the audit profile is propagated.
-    type: boolean
-    exposed: true
-    stored: true
-
   - name: rules
     description: Rules is the list of audit policy rules associated with this policy.
     type: external

@@ -39,6 +39,7 @@ model:
   - '@named'
   - '@metadatable'
   - '@zonable'
+  - '@propagated'
   validations:
   - $enforcerprofile
 
@@ -71,6 +72,37 @@ attributes:
     exposed: true
     subtype: '[][]string'
     stored: true
+
+  - name: kubernetesMetadataExtractor
+    description: This field is kept for backward compatibiliy for enforcers <= 3.5.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - KubeSquall
+    - PodAtomic
+    - PodContainers
+    default_value: PodAtomic
+    deprecated: true
+
+  - name: kubernetesSupportEnabled
+    description: This field is kept for backward compatibiliy for enforcers <= 3.5.
+    type: boolean
+    exposed: true
+    stored: true
+    deprecated: true
+
+  - name: metadataExtractor
+    description: This field is kept for backward compatibiliy for enforcers <= 3.5.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Docker
+    - ECS
+    - Kubernetes
+    default_value: Docker
+    deprecated: true
 
   - name: targetNetworks
     description: TargetNetworks is the list of networks that authorization should

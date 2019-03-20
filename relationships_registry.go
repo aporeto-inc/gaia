@@ -1273,6 +1273,7 @@ func init() {
 			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"fileaccesspolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -1292,6 +1293,7 @@ func init() {
 			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
+			"fileaccesspolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -1818,9 +1820,17 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		Retrieve: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"processingunitpolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -1828,16 +1838,25 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
 				},
 			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
+			"processingunitpolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
 					},
 				},
 			},
@@ -1894,7 +1913,14 @@ func init() {
 			},
 		},
 		Retrieve: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
@@ -1903,6 +1929,10 @@ func init() {
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
 					},
 				},
 			},
@@ -1914,6 +1944,10 @@ func init() {
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
 					},
 				},
 			},
@@ -2609,6 +2643,7 @@ func init() {
 			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"fileaccesspolicy": &elemental.RelationshipInfo{},
 			"networkaccesspolicy": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -2622,6 +2657,7 @@ func init() {
 					},
 				},
 			},
+			"processingunitpolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -2652,6 +2688,7 @@ func init() {
 			"vulnerability":     &elemental.RelationshipInfo{},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
+			"fileaccesspolicy": &elemental.RelationshipInfo{},
 			"networkaccesspolicy": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -2665,6 +2702,7 @@ func init() {
 					},
 				},
 			},
+			"processingunitpolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{

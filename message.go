@@ -119,9 +119,6 @@ type Message struct {
 	// Level defines how the message is important.
 	Level MessageLevelValue `json:"level" bson:"level" mapstructure:"level,omitempty"`
 
-	// If local is set, the message will only be visible in the current namespace.
-	Local bool `json:"local" bson:"local" mapstructure:"local,omitempty"`
-
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
@@ -131,9 +128,8 @@ type Message struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// If enabled, the message will be sent to the email associated in namespaces
-	// annotations.
-	NotifyByEmail bool `json:"notifyByEmail" bson:"-" mapstructure:"notifyByEmail,omitempty"`
+	// Propagate will propagate the policy to all of its children.
+	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
@@ -298,6 +294,18 @@ func (o *Message) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *Message) GetPropagate() bool {
+
+	return o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the given value.
+func (o *Message) SetPropagate(propagate bool) {
+
+	o.Propagate = propagate
+}
+
 // GetProtected returns the Protected of the receiver.
 func (o *Message) GetProtected() bool {
 
@@ -354,11 +362,10 @@ func (o *Message) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Description:    &o.Description,
 			ExpirationTime: &o.ExpirationTime,
 			Level:          &o.Level,
-			Local:          &o.Local,
 			Name:           &o.Name,
 			Namespace:      &o.Namespace,
 			NormalizedTags: &o.NormalizedTags,
-			NotifyByEmail:  &o.NotifyByEmail,
+			Propagate:      &o.Propagate,
 			Protected:      &o.Protected,
 			UpdateTime:     &o.UpdateTime,
 			Validity:       &o.Validity,
@@ -384,16 +391,14 @@ func (o *Message) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ExpirationTime = &(o.ExpirationTime)
 		case "level":
 			sp.Level = &(o.Level)
-		case "local":
-			sp.Local = &(o.Local)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
-		case "notifyByEmail":
-			sp.NotifyByEmail = &(o.NotifyByEmail)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "updateTime":
@@ -438,9 +443,6 @@ func (o *Message) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Level != nil {
 		o.Level = *so.Level
 	}
-	if so.Local != nil {
-		o.Local = *so.Local
-	}
 	if so.Name != nil {
 		o.Name = *so.Name
 	}
@@ -450,8 +452,8 @@ func (o *Message) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
 	}
-	if so.NotifyByEmail != nil {
-		o.NotifyByEmail = *so.NotifyByEmail
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -568,16 +570,14 @@ func (o *Message) ValueForAttribute(name string) interface{} {
 		return o.ExpirationTime
 	case "level":
 		return o.Level
-	case "local":
-		return o.Local
 	case "name":
 		return o.Name
 	case "namespace":
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
-	case "notifyByEmail":
-		return o.NotifyByEmail
+	case "propagate":
+		return o.Propagate
 	case "protected":
 		return o.Protected
 	case "updateTime":
@@ -681,16 +681,6 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "enum",
 	},
-	"Local": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Local",
-		Description:    `If local is set, the message will only be visible in the current namespace.`,
-		Exposed:        true,
-		Name:           "local",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -740,15 +730,17 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		Transient:      true,
 		Type:           "list",
 	},
-	"NotifyByEmail": elemental.AttributeSpecification{
+	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "NotifyByEmail",
-		CreationOnly:   true,
-		Description: `If enabled, the message will be sent to the email associated in namespaces
-annotations.`,
-		Exposed: true,
-		Name:    "notifyByEmail",
-		Type:    "boolean",
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -902,16 +894,6 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "enum",
 	},
-	"local": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Local",
-		Description:    `If local is set, the message will only be visible in the current namespace.`,
-		Exposed:        true,
-		Name:           "local",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
@@ -961,15 +943,17 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Transient:      true,
 		Type:           "list",
 	},
-	"notifybyemail": elemental.AttributeSpecification{
+	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "NotifyByEmail",
-		CreationOnly:   true,
-		Description: `If enabled, the message will be sent to the email associated in namespaces
-annotations.`,
-		Exposed: true,
-		Name:    "notifyByEmail",
-		Type:    "boolean",
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1122,9 +1106,6 @@ type SparseMessage struct {
 	// Level defines how the message is important.
 	Level *MessageLevelValue `json:"level,omitempty" bson:"level" mapstructure:"level,omitempty"`
 
-	// If local is set, the message will only be visible in the current namespace.
-	Local *bool `json:"local,omitempty" bson:"local" mapstructure:"local,omitempty"`
-
 	// Name is the name of the entity.
 	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
 
@@ -1134,9 +1115,8 @@ type SparseMessage struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// If enabled, the message will be sent to the email associated in namespaces
-	// annotations.
-	NotifyByEmail *bool `json:"notifyByEmail,omitempty" bson:"-" mapstructure:"notifyByEmail,omitempty"`
+	// Propagate will propagate the policy to all of its children.
+	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
@@ -1218,9 +1198,6 @@ func (o *SparseMessage) ToPlain() elemental.PlainIdentifiable {
 	if o.Level != nil {
 		out.Level = *o.Level
 	}
-	if o.Local != nil {
-		out.Local = *o.Local
-	}
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
@@ -1230,8 +1207,8 @@ func (o *SparseMessage) ToPlain() elemental.PlainIdentifiable {
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
 	}
-	if o.NotifyByEmail != nil {
-		out.NotifyByEmail = *o.NotifyByEmail
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -1334,6 +1311,18 @@ func (o *SparseMessage) GetNormalizedTags() []string {
 func (o *SparseMessage) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
+}
+
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseMessage) GetPropagate() bool {
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseMessage) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
 }
 
 // GetProtected returns the Protected of the receiver.

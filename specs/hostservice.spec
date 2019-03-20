@@ -39,6 +39,7 @@ model:
   - '@metadatable'
   - '@named'
   - '@zonable'
+  - '@propagated'
   validations:
   - $hostservices
 

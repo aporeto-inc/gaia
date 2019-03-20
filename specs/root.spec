@@ -372,6 +372,7 @@ relations:
     description: Retrieves the list of isolation profiles.
     global_parameters:
     - $filtering
+    - $propagatable
   create:
     description: Creates a new isolation profile.
 
@@ -394,6 +395,7 @@ relations:
     description: Retrieves the list of messages.
     global_parameters:
     - $filtering
+    - $propagatable
   create:
     description: Creates a new message.
 

@@ -9,6 +9,34 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// EnforcerProfileKubernetesMetadataExtractorValue represents the possible values for attribute "kubernetesMetadataExtractor".
+type EnforcerProfileKubernetesMetadataExtractorValue string
+
+const (
+	// EnforcerProfileKubernetesMetadataExtractorKubeSquall represents the value KubeSquall.
+	EnforcerProfileKubernetesMetadataExtractorKubeSquall EnforcerProfileKubernetesMetadataExtractorValue = "KubeSquall"
+
+	// EnforcerProfileKubernetesMetadataExtractorPodAtomic represents the value PodAtomic.
+	EnforcerProfileKubernetesMetadataExtractorPodAtomic EnforcerProfileKubernetesMetadataExtractorValue = "PodAtomic"
+
+	// EnforcerProfileKubernetesMetadataExtractorPodContainers represents the value PodContainers.
+	EnforcerProfileKubernetesMetadataExtractorPodContainers EnforcerProfileKubernetesMetadataExtractorValue = "PodContainers"
+)
+
+// EnforcerProfileMetadataExtractorValue represents the possible values for attribute "metadataExtractor".
+type EnforcerProfileMetadataExtractorValue string
+
+const (
+	// EnforcerProfileMetadataExtractorDocker represents the value Docker.
+	EnforcerProfileMetadataExtractorDocker EnforcerProfileMetadataExtractorValue = "Docker"
+
+	// EnforcerProfileMetadataExtractorECS represents the value ECS.
+	EnforcerProfileMetadataExtractorECS EnforcerProfileMetadataExtractorValue = "ECS"
+
+	// EnforcerProfileMetadataExtractorKubernetes represents the value Kubernetes.
+	EnforcerProfileMetadataExtractorKubernetes EnforcerProfileMetadataExtractorValue = "Kubernetes"
+)
+
 // EnforcerProfileIdentity represents the Identity of the object.
 var EnforcerProfileIdentity = elemental.Identity{
 	Name:     "enforcerprofile",
@@ -110,9 +138,18 @@ type EnforcerProfile struct {
 	// docker container started with labels matching the rule.
 	IgnoreExpression [][]string `json:"ignoreExpression" bson:"ignoreexpression" mapstructure:"ignoreExpression,omitempty"`
 
+	// This field is kept for backward compatibiliy for enforcers <= 3.5.
+	KubernetesMetadataExtractor EnforcerProfileKubernetesMetadataExtractorValue `json:"kubernetesMetadataExtractor" bson:"kubernetesmetadataextractor" mapstructure:"kubernetesMetadataExtractor,omitempty"`
+
+	// This field is kept for backward compatibiliy for enforcers <= 3.5.
+	KubernetesSupportEnabled bool `json:"kubernetesSupportEnabled" bson:"kubernetessupportenabled" mapstructure:"kubernetesSupportEnabled,omitempty"`
+
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// This field is kept for backward compatibiliy for enforcers <= 3.5.
+	MetadataExtractor EnforcerProfileMetadataExtractorValue `json:"metadataExtractor" bson:"metadataextractor" mapstructure:"metadataExtractor,omitempty"`
 
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
@@ -122,6 +159,9 @@ type EnforcerProfile struct {
 
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Propagate will propagate the policy to all of its children.
+	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
@@ -156,17 +196,19 @@ type EnforcerProfile struct {
 func NewEnforcerProfile() *EnforcerProfile {
 
 	return &EnforcerProfile{
-		ModelVersion:       1,
-		Annotations:        map[string][]string{},
-		ExcludedNetworks:   []string{},
-		AssociatedTags:     []string{},
-		ExcludedInterfaces: []string{},
-		IgnoreExpression:   [][]string{},
-		Metadata:           []string{},
-		NormalizedTags:     []string{},
-		TargetNetworks:     []string{},
-		TargetUDPNetworks:  []string{},
-		TrustedCAs:         []string{},
+		ModelVersion:                1,
+		Annotations:                 map[string][]string{},
+		ExcludedNetworks:            []string{},
+		AssociatedTags:              []string{},
+		ExcludedInterfaces:          []string{},
+		MetadataExtractor:           EnforcerProfileMetadataExtractorDocker,
+		IgnoreExpression:            [][]string{},
+		NormalizedTags:              []string{},
+		KubernetesMetadataExtractor: EnforcerProfileKubernetesMetadataExtractorPodAtomic,
+		Metadata:                    []string{},
+		TargetNetworks:              []string{},
+		TargetUDPNetworks:           []string{},
+		TrustedCAs:                  []string{},
 	}
 }
 
@@ -312,6 +354,18 @@ func (o *EnforcerProfile) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *EnforcerProfile) GetPropagate() bool {
+
+	return o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the given value.
+func (o *EnforcerProfile) SetPropagate(propagate bool) {
+
+	o.Propagate = propagate
+}
+
 // GetProtected returns the Protected of the receiver.
 func (o *EnforcerProfile) GetProtected() bool {
 
@@ -361,25 +415,29 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseEnforcerProfile{
-			ID:                 &o.ID,
-			Annotations:        &o.Annotations,
-			AssociatedTags:     &o.AssociatedTags,
-			CreateTime:         &o.CreateTime,
-			Description:        &o.Description,
-			ExcludedInterfaces: &o.ExcludedInterfaces,
-			ExcludedNetworks:   &o.ExcludedNetworks,
-			IgnoreExpression:   &o.IgnoreExpression,
-			Metadata:           &o.Metadata,
-			Name:               &o.Name,
-			Namespace:          &o.Namespace,
-			NormalizedTags:     &o.NormalizedTags,
-			Protected:          &o.Protected,
-			TargetNetworks:     &o.TargetNetworks,
-			TargetUDPNetworks:  &o.TargetUDPNetworks,
-			TrustedCAs:         &o.TrustedCAs,
-			UpdateTime:         &o.UpdateTime,
-			ZHash:              &o.ZHash,
-			Zone:               &o.Zone,
+			ID:                          &o.ID,
+			Annotations:                 &o.Annotations,
+			AssociatedTags:              &o.AssociatedTags,
+			CreateTime:                  &o.CreateTime,
+			Description:                 &o.Description,
+			ExcludedInterfaces:          &o.ExcludedInterfaces,
+			ExcludedNetworks:            &o.ExcludedNetworks,
+			IgnoreExpression:            &o.IgnoreExpression,
+			KubernetesMetadataExtractor: &o.KubernetesMetadataExtractor,
+			KubernetesSupportEnabled:    &o.KubernetesSupportEnabled,
+			Metadata:                    &o.Metadata,
+			MetadataExtractor:           &o.MetadataExtractor,
+			Name:                        &o.Name,
+			Namespace:                   &o.Namespace,
+			NormalizedTags:              &o.NormalizedTags,
+			Propagate:                   &o.Propagate,
+			Protected:                   &o.Protected,
+			TargetNetworks:              &o.TargetNetworks,
+			TargetUDPNetworks:           &o.TargetUDPNetworks,
+			TrustedCAs:                  &o.TrustedCAs,
+			UpdateTime:                  &o.UpdateTime,
+			ZHash:                       &o.ZHash,
+			Zone:                        &o.Zone,
 		}
 	}
 
@@ -402,14 +460,22 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.ExcludedNetworks = &(o.ExcludedNetworks)
 		case "ignoreExpression":
 			sp.IgnoreExpression = &(o.IgnoreExpression)
+		case "kubernetesMetadataExtractor":
+			sp.KubernetesMetadataExtractor = &(o.KubernetesMetadataExtractor)
+		case "kubernetesSupportEnabled":
+			sp.KubernetesSupportEnabled = &(o.KubernetesSupportEnabled)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
+		case "metadataExtractor":
+			sp.MetadataExtractor = &(o.MetadataExtractor)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "targetNetworks":
@@ -461,8 +527,17 @@ func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
 	if so.IgnoreExpression != nil {
 		o.IgnoreExpression = *so.IgnoreExpression
 	}
+	if so.KubernetesMetadataExtractor != nil {
+		o.KubernetesMetadataExtractor = *so.KubernetesMetadataExtractor
+	}
+	if so.KubernetesSupportEnabled != nil {
+		o.KubernetesSupportEnabled = *so.KubernetesSupportEnabled
+	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
+	}
+	if so.MetadataExtractor != nil {
+		o.MetadataExtractor = *so.MetadataExtractor
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -472,6 +547,9 @@ func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -527,6 +605,14 @@ func (o *EnforcerProfile) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("kubernetesMetadataExtractor", string(o.KubernetesMetadataExtractor), []string{"KubeSquall", "PodAtomic", "PodContainers"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("metadataExtractor", string(o.MetadataExtractor), []string{"Docker", "ECS", "Kubernetes"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -600,14 +686,22 @@ func (o *EnforcerProfile) ValueForAttribute(name string) interface{} {
 		return o.ExcludedNetworks
 	case "ignoreExpression":
 		return o.IgnoreExpression
+	case "kubernetesMetadataExtractor":
+		return o.KubernetesMetadataExtractor
+	case "kubernetesSupportEnabled":
+		return o.KubernetesSupportEnabled
 	case "metadata":
 		return o.Metadata
+	case "metadataExtractor":
+		return o.MetadataExtractor
 	case "name":
 		return o.Name
 	case "namespace":
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
+	case "propagate":
+		return o.Propagate
 	case "protected":
 		return o.Protected
 	case "targetNetworks":
@@ -728,6 +822,27 @@ docker container started with labels matching the rule.`,
 		SubType: "[][]string",
 		Type:    "external",
 	},
+	"KubernetesMetadataExtractor": elemental.AttributeSpecification{
+		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
+		ConvertedName:  "KubernetesMetadataExtractor",
+		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorPodAtomic,
+		Deprecated:     true,
+		Description:    `This field is kept for backward compatibiliy for enforcers <= 3.5.`,
+		Exposed:        true,
+		Name:           "kubernetesMetadataExtractor",
+		Stored:         true,
+		Type:           "enum",
+	},
+	"KubernetesSupportEnabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "KubernetesSupportEnabled",
+		Deprecated:     true,
+		Description:    `This field is kept for backward compatibiliy for enforcers <= 3.5.`,
+		Exposed:        true,
+		Name:           "kubernetesSupportEnabled",
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -742,6 +857,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:     true,
 		SubType:    "string",
 		Type:       "list",
+	},
+	"MetadataExtractor": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Docker", "ECS", "Kubernetes"},
+		ConvertedName:  "MetadataExtractor",
+		DefaultValue:   EnforcerProfileMetadataExtractorDocker,
+		Deprecated:     true,
+		Description:    `This field is kept for backward compatibiliy for enforcers <= 3.5.`,
+		Exposed:        true,
+		Name:           "metadataExtractor",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -791,6 +917,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:        "string",
 		Transient:      true,
 		Type:           "list",
+	},
+	"Propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -979,6 +1117,27 @@ docker container started with labels matching the rule.`,
 		SubType: "[][]string",
 		Type:    "external",
 	},
+	"kubernetesmetadataextractor": elemental.AttributeSpecification{
+		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
+		ConvertedName:  "KubernetesMetadataExtractor",
+		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorPodAtomic,
+		Deprecated:     true,
+		Description:    `This field is kept for backward compatibiliy for enforcers <= 3.5.`,
+		Exposed:        true,
+		Name:           "kubernetesMetadataExtractor",
+		Stored:         true,
+		Type:           "enum",
+	},
+	"kubernetessupportenabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "KubernetesSupportEnabled",
+		Deprecated:     true,
+		Description:    `This field is kept for backward compatibiliy for enforcers <= 3.5.`,
+		Exposed:        true,
+		Name:           "kubernetesSupportEnabled",
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -993,6 +1152,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:     true,
 		SubType:    "string",
 		Type:       "list",
+	},
+	"metadataextractor": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Docker", "ECS", "Kubernetes"},
+		ConvertedName:  "MetadataExtractor",
+		DefaultValue:   EnforcerProfileMetadataExtractorDocker,
+		Deprecated:     true,
+		Description:    `This field is kept for backward compatibiliy for enforcers <= 3.5.`,
+		Exposed:        true,
+		Name:           "metadataExtractor",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1042,6 +1212,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:        "string",
 		Transient:      true,
 		Type:           "list",
+	},
+	"propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1221,9 +1403,18 @@ type SparseEnforcerProfile struct {
 	// docker container started with labels matching the rule.
 	IgnoreExpression *[][]string `json:"ignoreExpression,omitempty" bson:"ignoreexpression" mapstructure:"ignoreExpression,omitempty"`
 
+	// This field is kept for backward compatibiliy for enforcers <= 3.5.
+	KubernetesMetadataExtractor *EnforcerProfileKubernetesMetadataExtractorValue `json:"kubernetesMetadataExtractor,omitempty" bson:"kubernetesmetadataextractor" mapstructure:"kubernetesMetadataExtractor,omitempty"`
+
+	// This field is kept for backward compatibiliy for enforcers <= 3.5.
+	KubernetesSupportEnabled *bool `json:"kubernetesSupportEnabled,omitempty" bson:"kubernetessupportenabled" mapstructure:"kubernetesSupportEnabled,omitempty"`
+
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// This field is kept for backward compatibiliy for enforcers <= 3.5.
+	MetadataExtractor *EnforcerProfileMetadataExtractorValue `json:"metadataExtractor,omitempty" bson:"metadataextractor" mapstructure:"metadataExtractor,omitempty"`
 
 	// Name is the name of the entity.
 	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
@@ -1233,6 +1424,9 @@ type SparseEnforcerProfile struct {
 
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Propagate will propagate the policy to all of its children.
+	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
@@ -1323,8 +1517,17 @@ func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
 	if o.IgnoreExpression != nil {
 		out.IgnoreExpression = *o.IgnoreExpression
 	}
+	if o.KubernetesMetadataExtractor != nil {
+		out.KubernetesMetadataExtractor = *o.KubernetesMetadataExtractor
+	}
+	if o.KubernetesSupportEnabled != nil {
+		out.KubernetesSupportEnabled = *o.KubernetesSupportEnabled
+	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
+	}
+	if o.MetadataExtractor != nil {
+		out.MetadataExtractor = *o.MetadataExtractor
 	}
 	if o.Name != nil {
 		out.Name = *o.Name
@@ -1334,6 +1537,9 @@ func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -1454,6 +1660,18 @@ func (o *SparseEnforcerProfile) GetNormalizedTags() []string {
 func (o *SparseEnforcerProfile) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
+}
+
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseEnforcerProfile) GetPropagate() bool {
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseEnforcerProfile) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
 }
 
 // GetProtected returns the Protected of the receiver.
