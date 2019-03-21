@@ -138,6 +138,9 @@ type Recipe struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
+	// Propagate will propagate the policy to all of its children.
+	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
+
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -319,6 +322,18 @@ func (o *Recipe) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *Recipe) GetPropagate() bool {
+
+	return o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the given value.
+func (o *Recipe) SetPropagate(propagate bool) {
+
+	o.Propagate = propagate
+}
+
 // GetProtected returns the Protected of the receiver.
 func (o *Recipe) GetProtected() bool {
 
@@ -356,6 +371,7 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Name:           &o.Name,
 			Namespace:      &o.Namespace,
 			NormalizedTags: &o.NormalizedTags,
+			Propagate:      &o.Propagate,
 			Protected:      &o.Protected,
 			Steps:          &o.Steps,
 			Template:       &o.Template,
@@ -390,6 +406,8 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "steps":
@@ -446,6 +464,9 @@ func (o *Recipe) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -571,6 +592,8 @@ func (o *Recipe) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
+	case "propagate":
+		return o.Propagate
 	case "protected":
 		return o.Protected
 	case "steps":
@@ -744,6 +767,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:        "string",
 		Transient:      true,
 		Type:           "list",
+	},
+	"Propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -952,6 +987,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
+	"propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -1101,6 +1148,9 @@ type SparseRecipe struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
+	// Propagate will propagate the policy to all of its children.
+	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
+
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -1189,6 +1239,9 @@ func (o *SparseRecipe) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -1312,6 +1365,18 @@ func (o *SparseRecipe) GetNormalizedTags() []string {
 func (o *SparseRecipe) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
+}
+
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseRecipe) GetPropagate() bool {
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseRecipe) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
 }
 
 // GetProtected returns the Protected of the receiver.

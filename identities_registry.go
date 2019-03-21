@@ -80,9 +80,9 @@ var (
 		"quotacheck":             QuotaCheckIdentity,
 		"quotapolicy":            QuotaPolicyIdentity,
 		"recipe":                 RecipeIdentity,
-		"recipecook":             RecipeCookIdentity,
 		"remoteprocessor":        RemoteProcessorIdentity,
 		"renderedpolicy":         RenderedPolicyIdentity,
+		"rendertemplate":         RenderTemplateIdentity,
 		"report":                 ReportIdentity,
 		"revocation":             RevocationIdentity,
 		"role":                   RoleIdentity,
@@ -189,9 +189,9 @@ var (
 		"quotacheck":               QuotaCheckIdentity,
 		"quotapolicies":            QuotaPolicyIdentity,
 		"recipes":                  RecipeIdentity,
-		"recipecooks":              RecipeCookIdentity,
 		"remoteprocessors":         RemoteProcessorIdentity,
 		"renderedpolicies":         RenderedPolicyIdentity,
+		"rendertemplates":          RenderTemplateIdentity,
 		"reports":                  ReportIdentity,
 		"revocations":              RevocationIdentity,
 		"roles":                    RoleIdentity,
@@ -283,12 +283,12 @@ var (
 		"quotapol":       QuotaPolicyIdentity,
 		"quotapols":      QuotaPolicyIdentity,
 		"rcp":            RecipeIdentity,
-		"rcpck":          RecipeCookIdentity,
-		"cook":           RecipeCookIdentity,
 		"hks":            RemoteProcessorIdentity,
 		"hk":             RemoteProcessorIdentity,
 		"rpol":           RenderedPolicyIdentity,
 		"rpols":          RenderedPolicyIdentity,
+		"cook":           RenderTemplateIdentity,
+		"rtpl":           RenderTemplateIdentity,
 		"srv":            ServiceIdentity,
 		"srvdep":         ServiceDependencyIdentity,
 		"srvdeps":        ServiceDependencyIdentity,
@@ -493,9 +493,9 @@ var (
 		"quotacheck":           nil,
 		"quotapolicy":          nil,
 		"recipe":               nil,
-		"recipecook":           nil,
 		"remoteprocessor":      nil,
 		"renderedpolicy":       nil,
+		"rendertemplate":       nil,
 		"report":               nil,
 		"revocation": [][]string{
 			[]string{":shard", "$hashed:serialNumber"},
@@ -721,12 +721,12 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewQuotaPolicy()
 	case RecipeIdentity:
 		return NewRecipe()
-	case RecipeCookIdentity:
-		return NewRecipeCook()
 	case RemoteProcessorIdentity:
 		return NewRemoteProcessor()
 	case RenderedPolicyIdentity:
 		return NewRenderedPolicy()
+	case RenderTemplateIdentity:
+		return NewRenderTemplate()
 	case ReportIdentity:
 		return NewReport()
 	case RevocationIdentity:
@@ -928,12 +928,12 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseQuotaPolicy()
 	case RecipeIdentity:
 		return NewSparseRecipe()
-	case RecipeCookIdentity:
-		return NewSparseRecipeCook()
 	case RemoteProcessorIdentity:
 		return NewSparseRemoteProcessor()
 	case RenderedPolicyIdentity:
 		return NewSparseRenderedPolicy()
+	case RenderTemplateIdentity:
+		return NewSparseRenderTemplate()
 	case ReportIdentity:
 		return NewSparseReport()
 	case RevocationIdentity:
@@ -1143,12 +1143,12 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &QuotaPoliciesList{}
 	case RecipeIdentity:
 		return &RecipesList{}
-	case RecipeCookIdentity:
-		return &RecipeCooksList{}
 	case RemoteProcessorIdentity:
 		return &RemoteProcessorsList{}
 	case RenderedPolicyIdentity:
 		return &RenderedPoliciesList{}
+	case RenderTemplateIdentity:
+		return &RenderTemplatesList{}
 	case ReportIdentity:
 		return &ReportsList{}
 	case RevocationIdentity:
@@ -1348,12 +1348,12 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseQuotaPoliciesList{}
 	case RecipeIdentity:
 		return &SparseRecipesList{}
-	case RecipeCookIdentity:
-		return &SparseRecipeCooksList{}
 	case RemoteProcessorIdentity:
 		return &SparseRemoteProcessorsList{}
 	case RenderedPolicyIdentity:
 		return &SparseRenderedPoliciesList{}
+	case RenderTemplateIdentity:
+		return &SparseRenderTemplatesList{}
 	case ReportIdentity:
 		return &SparseReportsList{}
 	case RevocationIdentity:
@@ -1496,9 +1496,9 @@ func AllIdentities() []elemental.Identity {
 		QuotaCheckIdentity,
 		QuotaPolicyIdentity,
 		RecipeIdentity,
-		RecipeCookIdentity,
 		RemoteProcessorIdentity,
 		RenderedPolicyIdentity,
+		RenderTemplateIdentity,
 		ReportIdentity,
 		RevocationIdentity,
 		RoleIdentity,
@@ -1765,11 +1765,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"rcp",
 		}
-	case RecipeCookIdentity:
-		return []string{
-			"rcpck",
-			"cook",
-		}
 	case RemoteProcessorIdentity:
 		return []string{
 			"hks",
@@ -1779,6 +1774,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"rpol",
 			"rpols",
+		}
+	case RenderTemplateIdentity:
+		return []string{
+			"cook",
+			"rtpl",
 		}
 	case ReportIdentity:
 		return []string{}

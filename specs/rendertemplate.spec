@@ -1,18 +1,23 @@
 # Model
 model:
-  rest_name: recipecook
-  resource_name: recipecooks
-  entity_name: RecipeCook
+  rest_name: rendertemplate
+  resource_name: rendertemplates
+  entity_name: RenderTemplate
   package: ignis
   group: workflow
-  description: A RecipeCook cooks a recipe based on parameters.
+  description: A RenderTemplate cooks a template based some parameters.
   aliases:
-  - rcpck
   - cook
+  - rtpl
 
 # Attributes
 attributes:
   v1:
+  - name: ouput
+    description: Output holds the rendered template.
+    type: string
+    exposed: true
+
   - name: parameters
     description: Parameters contains the computed parameters.
     type: external

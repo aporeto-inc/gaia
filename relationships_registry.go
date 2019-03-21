@@ -2900,13 +2900,13 @@ func init() {
 		},
 	}
 
-	relationshipsRegistry[RecipeCookIdentity] = &elemental.Relationship{
+	relationshipsRegistry[RemoteProcessorIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
 		},
 	}
 
-	relationshipsRegistry[RemoteProcessorIdentity] = &elemental.Relationship{
+	relationshipsRegistry[RenderTemplateIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
 		},

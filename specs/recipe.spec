@@ -23,6 +23,7 @@ model:
   - '@named'
   - '@metadatable'
   - '@disabled'
+  - '@propagated'
 
 # Attributes
 attributes:

@@ -8396,10 +8396,10 @@ List of tags.
 
 ## `workflow`
 
-| Resource                  | Description                                            |
-| -                         | -                                                      |
-| [Recipe](#recipe)         | A Recipe defines a list of steps to define a workflow. |
-| [RecipeCook](#recipecook) | A RecipeCook cooks a recipe based on parameters.       |
+| Resource                          | Description                                              |
+| -                                 | -                                                        |
+| [Recipe](#recipe)                 | A Recipe defines a list of steps to define a workflow.   |
+| [RenderTemplate](#rendertemplate) | A RenderTemplate cooks a template based some parameters. |
 
 ### Recipe
 
@@ -8412,6 +8412,7 @@ A Recipe defines a list of steps to define a workflow.
   "category": "Official",
   "disabled": false,
   "name": "the name",
+  "propagate": false,
   "protected": false
 }
 ```
@@ -8497,6 +8498,10 @@ Namespace tag attached to an entity.
 
 NormalizedTags contains the list of normalized tags of the entities.
 
+##### `propagate` `boolean`
+
+Propagate will propagate the policy to all of its children.
+
 ##### `protected` `boolean`
 
 Protected defines if the object is protected.
@@ -8513,17 +8518,21 @@ Template of the recipe to import.
 
 UpdateTime is the time at which an entity was updated.
 
-### RecipeCook
+### RenderTemplate
 
-A RecipeCook cooks a recipe based on parameters.
+A RenderTemplate cooks a template based some parameters.
 
 #### Relations
 
-##### `POST /recipecooks`
+##### `POST /rendertemplates`
 
-Creates a new recipe cook.
+Renders a new template.
 
 #### Attributes
+
+##### `ouput` `string`
+
+Output holds the rendered template.
 
 ##### `parameters` `map[string]interface{}`
 
