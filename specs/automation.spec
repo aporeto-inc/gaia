@@ -31,6 +31,7 @@ model:
   - '@identifiable-stored'
   - '@named'
   - '@zonable'
+  - '@timeable'
 
 # Attributes
 attributes:

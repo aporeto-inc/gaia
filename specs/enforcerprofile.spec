@@ -40,6 +40,7 @@ model:
   - '@metadatable'
   - '@zonable'
   - '@propagated'
+  - '@timeable'
   validations:
   - $enforcerprofile
 

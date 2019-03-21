@@ -35,6 +35,7 @@ model:
   - '@fallback'
   - '@schedulable'
   - '@zonable'
+  - '@timeable'
 
 # Attributes
 attributes:

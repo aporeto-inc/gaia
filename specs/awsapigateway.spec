@@ -20,6 +20,7 @@ model:
   - '@identifiable-stored'
   - '@metadatable'
   - '@named'
+  - '@timeable'
 
 # Attributes
 attributes:

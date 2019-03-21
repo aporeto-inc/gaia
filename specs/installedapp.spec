@@ -24,6 +24,7 @@ model:
   - '@base'
   - '@identifiable-stored'
   - '@named'
+  - '@timeable'
 
 # Attributes
 attributes:

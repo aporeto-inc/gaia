@@ -171,6 +171,30 @@ func (o *OIDCProvider) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *OIDCProvider) GetCreateTime() time.Time {
+
+	return o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
+func (o *OIDCProvider) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = createTime
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *OIDCProvider) GetUpdateTime() time.Time {
+
+	return o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
+func (o *OIDCProvider) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = updateTime
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -415,9 +439,11 @@ var OIDCProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -493,9 +519,11 @@ given, the default will be used.`,
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -544,9 +572,11 @@ var OIDCProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -622,9 +652,11 @@ given, the default will be used.`,
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -804,6 +836,30 @@ func (o *SparseOIDCProvider) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseOIDCProvider) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseOIDCProvider) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseOIDCProvider) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseOIDCProvider) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
 }
 
 // DeepCopy returns a deep copy if the SparseOIDCProvider.

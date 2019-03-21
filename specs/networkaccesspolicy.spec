@@ -35,6 +35,7 @@ model:
   - '@negatable-object'
   - '@negatable-subject'
   - '@zonable'
+  - '@timeable'
 
 # Attributes
 attributes:

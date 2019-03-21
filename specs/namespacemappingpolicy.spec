@@ -38,6 +38,7 @@ model:
   - '@metadatable'
   - '@named'
   - '@zonable'
+  - '@timeable'
 
 # Attributes
 attributes:

@@ -43,6 +43,7 @@ model:
   - '@zonable'
   - '@archivable'
   - '@propagated'
+  - '@timeable'
 
 # Attributes
 attributes:

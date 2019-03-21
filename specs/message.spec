@@ -34,6 +34,7 @@ model:
   - '@named'
   - '@zonable'
   - '@propagated'
+  - '@timeable'
 
 # Attributes
 attributes:

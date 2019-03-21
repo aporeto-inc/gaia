@@ -33,6 +33,7 @@ model:
   - '@described'
   - '@identifiable-stored'
   - '@metadatable'
+  - '@timeable'
 
 # Attributes
 attributes:
