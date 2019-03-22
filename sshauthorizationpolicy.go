@@ -422,6 +422,12 @@ func (o *SSHAuthorizationPolicy) GetProtected() bool {
 	return o.Protected
 }
 
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *SSHAuthorizationPolicy) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *SSHAuthorizationPolicy) GetUpdateTime() time.Time {
 
@@ -1051,6 +1057,7 @@ set, the user's claim Subject will be used.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1380,6 +1387,7 @@ set, the user's claim Subject will be used.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1900,6 +1908,12 @@ func (o *SparseSSHAuthorizationPolicy) SetPropagate(propagate bool) {
 func (o *SparseSSHAuthorizationPolicy) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseSSHAuthorizationPolicy) SetProtected(protected bool) {
+
+	o.Protected = &protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

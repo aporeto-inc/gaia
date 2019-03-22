@@ -333,6 +333,12 @@ func (o *ImportRequest) GetProtected() bool {
 	return o.Protected
 }
 
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *ImportRequest) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *ImportRequest) GetUpdateTime() time.Time {
 
@@ -770,6 +776,7 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1017,6 +1024,7 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1435,6 +1443,12 @@ func (o *SparseImportRequest) SetNormalizedTags(normalizedTags []string) {
 func (o *SparseImportRequest) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseImportRequest) SetProtected(protected bool) {
+
+	o.Protected = &protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

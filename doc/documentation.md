@@ -2362,7 +2362,7 @@ Description is the description of the object.
 
 Disabled defines if the propert is disabled.
 
-##### `mappedNamespace` `string` [`required`]
+##### `mappedNamespace` `string` [`required`,`format=^[a-zA-Z0-9-_/]+$`]
 
 mappedNamespace is the mapped namespace.
 

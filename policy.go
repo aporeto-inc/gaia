@@ -490,6 +490,12 @@ func (o *Policy) GetProtected() bool {
 	return o.Protected
 }
 
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *Policy) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
 // GetSubject returns the Subject of the receiver.
 func (o *Policy) GetSubject() [][]string {
 
@@ -1137,6 +1143,7 @@ namespace, but still used for policy resolution.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1483,6 +1490,7 @@ namespace, but still used for policy resolution.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -2044,6 +2052,12 @@ func (o *SparsePolicy) SetPropagationHidden(propagationHidden bool) {
 func (o *SparsePolicy) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparsePolicy) SetProtected(protected bool) {
+
+	o.Protected = &protected
 }
 
 // GetSubject returns the Subject of the receiver.

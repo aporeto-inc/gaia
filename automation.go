@@ -346,6 +346,12 @@ func (o *Automation) GetProtected() bool {
 	return o.Protected
 }
 
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *Automation) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *Automation) GetUpdateTime() time.Time {
 
@@ -909,6 +915,7 @@ automation.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1216,6 +1223,7 @@ automation.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1680,6 +1688,12 @@ func (o *SparseAutomation) SetNormalizedTags(normalizedTags []string) {
 func (o *SparseAutomation) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseAutomation) SetProtected(protected bool) {
+
+	o.Protected = &protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

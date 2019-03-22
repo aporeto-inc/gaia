@@ -409,6 +409,12 @@ func (o *HookPolicy) GetProtected() bool {
 	return o.Protected
 }
 
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *HookPolicy) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *HookPolicy) GetUpdateTime() time.Time {
 
@@ -1038,6 +1044,7 @@ namespace, but still used for policy resolution.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1362,6 +1369,7 @@ namespace, but still used for policy resolution.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1849,6 +1857,12 @@ func (o *SparseHookPolicy) SetPropagationHidden(propagationHidden bool) {
 func (o *SparseHookPolicy) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseHookPolicy) SetProtected(protected bool) {
+
+	o.Protected = &protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

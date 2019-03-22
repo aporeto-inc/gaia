@@ -423,6 +423,12 @@ func (o *ProcessingUnit) GetProtected() bool {
 	return o.Protected
 }
 
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *ProcessingUnit) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *ProcessingUnit) GetUpdateTime() time.Time {
 
@@ -1090,6 +1096,7 @@ or by exposing the ports in a container manifest.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1429,6 +1436,7 @@ or by exposing the ports in a container manifest.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1895,6 +1903,12 @@ func (o *SparseProcessingUnit) SetNormalizedTags(normalizedTags []string) {
 func (o *SparseProcessingUnit) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseProcessingUnit) SetProtected(protected bool) {
+
+	o.Protected = &protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

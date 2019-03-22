@@ -320,6 +320,12 @@ func (o *NamespaceMappingPolicy) GetProtected() bool {
 	return o.Protected
 }
 
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *NamespaceMappingPolicy) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *NamespaceMappingPolicy) GetUpdateTime() time.Time {
 
@@ -518,6 +524,10 @@ func (o *NamespaceMappingPolicy) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
+	if err := elemental.ValidatePattern("mappedNamespace", o.MappedNamespace, `^[a-zA-Z0-9-_/]+$`, `must only contain alpha numerical characters, '-' or '_'`, true); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -676,6 +686,7 @@ var NamespaceMappingPolicyAttributesMap = map[string]elemental.AttributeSpecific
 		Type:           "boolean",
 	},
 	"MappedNamespace": elemental.AttributeSpecification{
+		AllowedChars:   `^[a-zA-Z0-9-_/]+$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "MappedNamespace",
 		Description:    `mappedNamespace is the mapped namespace.`,
@@ -757,6 +768,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -891,6 +903,7 @@ var NamespaceMappingPolicyLowerCaseAttributesMap = map[string]elemental.Attribut
 		Type:           "boolean",
 	},
 	"mappednamespace": elemental.AttributeSpecification{
+		AllowedChars:   `^[a-zA-Z0-9-_/]+$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "MappedNamespace",
 		Description:    `mappedNamespace is the mapped namespace.`,
@@ -972,6 +985,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1349,6 +1363,12 @@ func (o *SparseNamespaceMappingPolicy) SetNormalizedTags(normalizedTags []string
 func (o *SparseNamespaceMappingPolicy) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseNamespaceMappingPolicy) SetProtected(protected bool) {
+
+	o.Protected = &protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

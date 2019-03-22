@@ -378,6 +378,12 @@ func (o *QuotaPolicy) GetProtected() bool {
 	return o.Protected
 }
 
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *QuotaPolicy) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *QuotaPolicy) GetUpdateTime() time.Time {
 
@@ -909,6 +915,7 @@ namespace, but still used for policy resolution.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1183,6 +1190,7 @@ namespace, but still used for policy resolution.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1651,6 +1659,12 @@ func (o *SparseQuotaPolicy) SetPropagationHidden(propagationHidden bool) {
 func (o *SparseQuotaPolicy) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseQuotaPolicy) SetProtected(protected bool) {
+
+	o.Protected = &protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

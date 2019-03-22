@@ -304,6 +304,12 @@ func (o *Alarm) GetProtected() bool {
 	return o.Protected
 }
 
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *Alarm) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *Alarm) GetUpdateTime() time.Time {
 
@@ -766,6 +772,7 @@ identifier, then only the occurrence will be incremented.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -991,6 +998,7 @@ identifier, then only the occurrence will be incremented.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1351,6 +1359,12 @@ func (o *SparseAlarm) SetNormalizedTags(normalizedTags []string) {
 func (o *SparseAlarm) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseAlarm) SetProtected(protected bool) {
+
+	o.Protected = &protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

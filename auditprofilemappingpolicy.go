@@ -378,6 +378,12 @@ func (o *AuditProfileMappingPolicy) GetProtected() bool {
 	return o.Protected
 }
 
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *AuditProfileMappingPolicy) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *AuditProfileMappingPolicy) GetUpdateTime() time.Time {
 
@@ -897,6 +903,7 @@ based on this policy.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1162,6 +1169,7 @@ based on this policy.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1617,6 +1625,12 @@ func (o *SparseAuditProfileMappingPolicy) SetPropagate(propagate bool) {
 func (o *SparseAuditProfileMappingPolicy) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseAuditProfileMappingPolicy) SetProtected(protected bool) {
+
+	o.Protected = &protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

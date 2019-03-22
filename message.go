@@ -312,6 +312,12 @@ func (o *Message) GetProtected() bool {
 	return o.Protected
 }
 
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *Message) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *Message) GetUpdateTime() time.Time {
 
@@ -749,6 +755,7 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -961,6 +968,7 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1327,6 +1335,12 @@ func (o *SparseMessage) SetPropagate(propagate bool) {
 func (o *SparseMessage) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseMessage) SetProtected(protected bool) {
+
+	o.Protected = &protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

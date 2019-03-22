@@ -378,6 +378,12 @@ func (o *HostServiceMappingPolicy) GetProtected() bool {
 	return o.Protected
 }
 
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *HostServiceMappingPolicy) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *HostServiceMappingPolicy) GetUpdateTime() time.Time {
 
@@ -898,6 +904,7 @@ to this enforcer.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1165,6 +1172,7 @@ to this enforcer.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1621,6 +1629,12 @@ func (o *SparseHostServiceMappingPolicy) SetPropagate(propagate bool) {
 func (o *SparseHostServiceMappingPolicy) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseHostServiceMappingPolicy) SetProtected(protected bool) {
+
+	o.Protected = &protected
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
