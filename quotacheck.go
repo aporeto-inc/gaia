@@ -99,6 +99,7 @@ func NewQuotaCheck() *QuotaCheck {
 
 	return &QuotaCheck{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

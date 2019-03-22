@@ -105,6 +105,7 @@ func NewDependencyMap() *DependencyMap {
 
 	return &DependencyMap{
 		ModelVersion:    1,
+		Mutex:           &sync.Mutex{},
 		Claims:          map[string][]string{},
 		Edges:           map[string]*GraphEdge{},
 		Groups:          map[string]*GraphGroup{},

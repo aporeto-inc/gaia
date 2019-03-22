@@ -162,6 +162,7 @@ func NewAlarm() *Alarm {
 
 	return &Alarm{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Data:           []map[string]string{},

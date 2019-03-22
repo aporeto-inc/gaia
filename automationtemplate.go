@@ -124,6 +124,7 @@ func NewAutomationTemplate() *AutomationTemplate {
 
 	return &AutomationTemplate{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Entitlements: map[string][]elemental.Operation{},
 		Kind:         AutomationTemplateKindCondition,
 		Parameters:   map[string]*AutomationTemplateParameter{},

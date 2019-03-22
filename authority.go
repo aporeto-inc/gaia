@@ -109,6 +109,7 @@ func NewAuthority() *Authority {
 
 	return &Authority{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

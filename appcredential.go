@@ -170,6 +170,7 @@ func NewAppCredential() *AppCredential {
 
 	return &AppCredential{
 		ModelVersion:      1,
+		Mutex:             &sync.Mutex{},
 		AssociatedTags:    []string{},
 		Annotations:       map[string][]string{},
 		AuthorizedSubnets: []string{},

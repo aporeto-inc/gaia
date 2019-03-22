@@ -237,6 +237,7 @@ func NewPolicy() *Policy {
 
 	return &Policy{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
 		AllObjectTags:  []string{},
 		AllSubjectTags: []string{},

@@ -97,6 +97,7 @@ func NewPolicyTTL() *PolicyTTL {
 
 	return &PolicyTTL{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

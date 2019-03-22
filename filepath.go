@@ -148,6 +148,7 @@ func NewFilePath() *FilePath {
 
 	return &FilePath{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Metadata:       []string{},

@@ -96,6 +96,7 @@ func NewPolicyRefresh() *PolicyRefresh {
 
 	return &PolicyRefresh{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

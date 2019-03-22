@@ -123,6 +123,7 @@ func NewFileAccessReport() *FileAccessReport {
 
 	return &FileAccessReport{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Host:         "localhost",
 		Mode:         "rxw",
 		Path:         "/etc/passwd",

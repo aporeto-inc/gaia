@@ -119,6 +119,7 @@ func NewStatsInfo() *StatsInfo {
 
 	return &StatsInfo{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Fields:       map[string]string{},
 		Measurement:  StatsInfoMeasurementFlows,
 		Tags:         []string{},

@@ -108,6 +108,7 @@ func NewPlan() *Plan {
 
 	return &Plan{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

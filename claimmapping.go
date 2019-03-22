@@ -26,6 +26,7 @@ func NewClaimMapping() *ClaimMapping {
 
 	return &ClaimMapping{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

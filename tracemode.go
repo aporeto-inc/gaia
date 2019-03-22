@@ -35,6 +35,7 @@ func NewTraceMode() *TraceMode {
 
 	return &TraceMode{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Interval:     "10s",
 	}
 }

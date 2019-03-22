@@ -157,6 +157,7 @@ func NewPacketReport() *PacketReport {
 
 	return &PacketReport{
 		ModelVersion:  1,
+		Mutex:         &sync.Mutex{},
 		Claims:        []string{},
 		TriremePacket: true,
 	}

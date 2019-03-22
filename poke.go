@@ -90,6 +90,7 @@ func NewPoke() *Poke {
 
 	return &Poke{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

@@ -156,6 +156,7 @@ func NewIsolationProfile() *IsolationProfile {
 
 	return &IsolationProfile{
 		ModelVersion:        1,
+		Mutex:               &sync.Mutex{},
 		Annotations:         map[string][]string{},
 		AssociatedTags:      []string{},
 		CapabilitiesActions: types.CapabilitiesTypeMap{},

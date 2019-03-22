@@ -101,6 +101,7 @@ func NewCategory() *Category {
 
 	return &Category{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

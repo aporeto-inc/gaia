@@ -32,6 +32,7 @@ func NewTimeSeriesRow() *TimeSeriesRow {
 
 	return &TimeSeriesRow{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Columns:      []string{},
 		Tags:         map[string]string{},
 		Values:       [][]interface{}{},

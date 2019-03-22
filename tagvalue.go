@@ -96,6 +96,7 @@ func NewTagValue() *TagValue {
 
 	return &TagValue{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Values:       []string{},
 	}
 }

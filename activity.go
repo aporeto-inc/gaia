@@ -133,6 +133,7 @@ func NewActivity() *Activity {
 
 	return &Activity{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

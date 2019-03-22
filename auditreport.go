@@ -187,6 +187,7 @@ func NewAuditReport() *AuditReport {
 
 	return &AuditReport{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Success:      false,
 	}
 }

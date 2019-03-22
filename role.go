@@ -102,6 +102,7 @@ func NewRole() *Role {
 
 	return &Role{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		Authorizations: map[string][]string{},
 	}
 }

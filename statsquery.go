@@ -142,6 +142,7 @@ func NewStatsQuery() *StatsQuery {
 
 	return &StatsQuery{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Fields:       []string{},
 		Groups:       []string{},
 		Limit:        -1,

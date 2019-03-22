@@ -135,6 +135,7 @@ func NewAPICheck() *APICheck {
 
 	return &APICheck{
 		ModelVersion:     1,
+		Mutex:            &sync.Mutex{},
 		Authorized:       map[string]bool{},
 		Claims:           []string{},
 		TargetIdentities: []string{},

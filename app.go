@@ -127,6 +127,7 @@ func NewApp() *App {
 
 	return &App{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Parameters:   []*AppParameter{},
 	}
 }

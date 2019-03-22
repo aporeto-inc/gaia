@@ -165,6 +165,7 @@ func NewTokenScopePolicy() *TokenScopePolicy {
 
 	return &TokenScopePolicy{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
 		AssignedScopes: []string{},
 		AssociatedTags: []string{},

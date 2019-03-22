@@ -96,6 +96,7 @@ func NewPasswordReset() *PasswordReset {
 
 	return &PasswordReset{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

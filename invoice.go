@@ -123,6 +123,7 @@ func NewInvoice() *Invoice {
 
 	return &Invoice{
 		ModelVersion:     1,
+		Mutex:            &sync.Mutex{},
 		BilledToProvider: InvoiceBilledToProviderAporeto,
 	}
 }

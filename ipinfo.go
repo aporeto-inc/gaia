@@ -99,6 +99,7 @@ func NewIPInfo() *IPInfo {
 
 	return &IPInfo{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Records:      map[string]string{},
 	}
 }

@@ -142,6 +142,7 @@ func NewX509Certificate() *X509Certificate {
 
 	return &X509Certificate{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Extensions:   []string{},
 		Signer:       X509CertificateSignerPublic,
 		Usage:        X509CertificateUsageClient,

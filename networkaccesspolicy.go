@@ -230,6 +230,7 @@ func NewNetworkAccessPolicy() *NetworkAccessPolicy {
 
 	return &NetworkAccessPolicy{
 		ModelVersion:          1,
+		Mutex:                 &sync.Mutex{},
 		Action:                NetworkAccessPolicyActionAllow,
 		AssociatedTags:        []string{},
 		Annotations:           map[string][]string{},

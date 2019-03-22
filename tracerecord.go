@@ -63,6 +63,7 @@ func NewTraceRecord() *TraceRecord {
 
 	return &TraceRecord{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

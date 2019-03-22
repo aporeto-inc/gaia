@@ -30,6 +30,7 @@ func NewComment() *Comment {
 
 	return &Comment{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Claims:       []string{},
 	}
 }

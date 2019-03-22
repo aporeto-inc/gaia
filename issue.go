@@ -148,6 +148,7 @@ func NewIssue() *Issue {
 
 	return &Issue{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Metadata:     map[string]interface{}{},
 		Opaque:       map[string]string{},
 		Validity:     "24h",

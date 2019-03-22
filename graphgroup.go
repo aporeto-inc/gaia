@@ -35,6 +35,7 @@ func NewGraphGroup() *GraphGroup {
 
 	return &GraphGroup{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Match:        [][]string{},
 	}
 }

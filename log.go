@@ -93,6 +93,7 @@ func NewLog() *Log {
 
 	return &Log{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Data:         map[string]string{},
 	}
 }

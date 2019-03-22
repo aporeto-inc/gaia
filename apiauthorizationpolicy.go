@@ -175,6 +175,7 @@ func NewAPIAuthorizationPolicy() *APIAuthorizationPolicy {
 
 	return &APIAuthorizationPolicy{
 		ModelVersion:         1,
+		Mutex:                &sync.Mutex{},
 		Annotations:          map[string][]string{},
 		AssociatedTags:       []string{},
 		AuthorizedIdentities: []string{},

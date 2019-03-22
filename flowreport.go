@@ -250,6 +250,7 @@ func NewFlowReport() *FlowReport {
 
 	return &FlowReport{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		ServiceType:    FlowReportServiceTypeNotApplicable,
 		ObservedAction: FlowReportObservedActionNotApplicable,
 	}

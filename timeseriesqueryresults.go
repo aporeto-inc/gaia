@@ -23,6 +23,7 @@ func NewTimeSeriesQueryResults() *TimeSeriesQueryResults {
 
 	return &TimeSeriesQueryResults{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Rows:         []*TimeSeriesRow{},
 	}
 }

@@ -35,6 +35,7 @@ func NewEndpoint() *Endpoint {
 
 	return &Endpoint{
 		ModelVersion:  1,
+		Mutex:         &sync.Mutex{},
 		AllowedScopes: [][]string{},
 		Methods:       []string{},
 		Scopes:        []string{},

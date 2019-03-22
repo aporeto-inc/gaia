@@ -90,6 +90,7 @@ func NewAccountCheck() *AccountCheck {
 
 	return &AccountCheck{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

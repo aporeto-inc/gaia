@@ -132,6 +132,7 @@ func NewReport() *Report {
 
 	return &Report{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Fields:       map[string]interface{}{},
 		Tags:         map[string]string{},
 	}

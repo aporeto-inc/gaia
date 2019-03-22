@@ -139,6 +139,7 @@ func NewEventLog() *EventLog {
 
 	return &EventLog{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Level:        EventLogLevelInfo,
 	}
 }

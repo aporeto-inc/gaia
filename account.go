@@ -240,6 +240,7 @@ func NewAccount() *Account {
 
 	return &Account{
 		ModelVersion:             1,
+		Mutex:                    &sync.Mutex{},
 		AssociatedPlanKey:        "aporeto.plan.free",
 		AssociatedQuotaPolicies:  map[string]string{},
 		AssociatedAWSPolicies:    map[string]string{},

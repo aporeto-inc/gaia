@@ -105,6 +105,7 @@ func NewEnforcerTraceReport() *EnforcerTraceReport {
 
 	return &EnforcerTraceReport{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Records:      []*TraceRecord{},
 	}
 }

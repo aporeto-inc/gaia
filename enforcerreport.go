@@ -112,6 +112,7 @@ func NewEnforcerReport() *EnforcerReport {
 
 	return &EnforcerReport{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

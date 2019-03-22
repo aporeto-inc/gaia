@@ -94,6 +94,7 @@ func NewAuth() *Auth {
 
 	return &Auth{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Claims:       claims.NewMidgardClaims(),
 	}
 }

@@ -124,6 +124,7 @@ func NewAWSAccount() *AWSAccount {
 
 	return &AWSAccount{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

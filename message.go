@@ -159,6 +159,7 @@ func NewMessage() *Message {
 
 	return &Message{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Level:          MessageLevelInfo,

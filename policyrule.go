@@ -142,6 +142,7 @@ func NewPolicyRule() *PolicyRule {
 
 	return &PolicyRule{
 		ModelVersion:  1,
+		Mutex:         &sync.Mutex{},
 		HostServices:  HostServicesList{},
 		AuditProfiles: AuditProfilesList{},
 		Relation:      []string{},

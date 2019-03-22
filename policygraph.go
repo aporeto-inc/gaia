@@ -107,6 +107,7 @@ func NewPolicyGraph() *PolicyGraph {
 
 	return &PolicyGraph{
 		ModelVersion:  1,
+		Mutex:         &sync.Mutex{},
 		DependencyMap: NewDependencyMap(),
 		PUIdentity:    []string{},
 		Selectors:     [][]string{},

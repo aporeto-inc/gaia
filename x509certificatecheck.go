@@ -93,6 +93,7 @@ func NewX509CertificateCheck() *X509CertificateCheck {
 
 	return &X509CertificateCheck{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

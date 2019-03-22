@@ -99,6 +99,7 @@ func NewTagInject() *TagInject {
 
 	return &TagInject{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		AddedTags:    map[string]int{},
 		RemovedTags:  map[string]int{},
 	}

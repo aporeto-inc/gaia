@@ -126,6 +126,7 @@ func NewOIDCProvider() *OIDCProvider {
 
 	return &OIDCProvider{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Scopes:       []string{},
 	}
 }

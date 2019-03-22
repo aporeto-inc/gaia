@@ -125,6 +125,7 @@ func NewSSHCertificate() *SSHCertificate {
 
 	return &SSHCertificate{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Extensions:   map[string]string{},
 		Options:      map[string]string{},
 		Principals:   []string{},

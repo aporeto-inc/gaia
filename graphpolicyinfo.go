@@ -26,6 +26,7 @@ func NewGraphPolicyInfo() *GraphPolicyInfo {
 
 	return &GraphPolicyInfo{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

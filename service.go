@@ -325,6 +325,7 @@ func NewService() *Service {
 
 	return &Service{
 		ModelVersion:               1,
+		Mutex:                      &sync.Mutex{},
 		AllAPITags:                 []string{},
 		Annotations:                map[string][]string{},
 		AllServiceTags:             []string{},

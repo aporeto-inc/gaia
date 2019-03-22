@@ -93,6 +93,7 @@ func NewTrigger() *Trigger {
 
 	return &Trigger{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

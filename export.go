@@ -104,6 +104,7 @@ func NewExport() *Export {
 
 	return &Export{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Data:         map[string][]map[string]interface{}{},
 		Identities:   []string{},
 	}

@@ -100,6 +100,7 @@ func NewPrivateKey() *PrivateKey {
 
 	return &PrivateKey{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

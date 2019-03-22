@@ -151,6 +151,7 @@ func NewExternalNetwork() *ExternalNetwork {
 
 	return &ExternalNetwork{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
 		Entries:        []string{},
 		AssociatedTags: []string{},

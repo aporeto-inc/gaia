@@ -188,6 +188,7 @@ func NewSSHAuthorizationPolicy() *SSHAuthorizationPolicy {
 
 	return &SSHAuthorizationPolicy{
 		ModelVersion:      1,
+		Mutex:             &sync.Mutex{},
 		Annotations:       map[string][]string{},
 		AssociatedTags:    []string{},
 		AuthorizedSubnets: []string{},

@@ -29,6 +29,7 @@ func NewProcessingUnitService() *ProcessingUnitService {
 
 	return &ProcessingUnitService{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		TargetPorts:  []string{},
 	}
 }

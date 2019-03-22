@@ -107,6 +107,7 @@ func NewInvoiceRecord() *InvoiceRecord {
 
 	return &InvoiceRecord{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		InvoiceRecords: []string{},
 	}
 }

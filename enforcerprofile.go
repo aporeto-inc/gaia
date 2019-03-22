@@ -197,6 +197,7 @@ func NewEnforcerProfile() *EnforcerProfile {
 
 	return &EnforcerProfile{
 		ModelVersion:                1,
+		Mutex:                       &sync.Mutex{},
 		Annotations:                 map[string][]string{},
 		ExcludedNetworks:            []string{},
 		AssociatedTags:              []string{},

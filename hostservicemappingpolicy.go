@@ -163,6 +163,7 @@ func NewHostServiceMappingPolicy() *HostServiceMappingPolicy {
 
 	return &HostServiceMappingPolicy{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Metadata:       []string{},

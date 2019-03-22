@@ -164,6 +164,7 @@ func NewQuotaPolicy() *QuotaPolicy {
 
 	return &QuotaPolicy{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Metadata:       []string{},

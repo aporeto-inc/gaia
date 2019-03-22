@@ -93,6 +93,7 @@ func NewJaegerbatch() *Jaegerbatch {
 
 	return &Jaegerbatch{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

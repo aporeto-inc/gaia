@@ -41,6 +41,7 @@ func NewCredential() *Credential {
 
 	return &Credential{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

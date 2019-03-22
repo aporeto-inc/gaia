@@ -118,6 +118,7 @@ func NewPUNode() *PUNode {
 
 	return &PUNode{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Tags:         []string{},
 	}
 }

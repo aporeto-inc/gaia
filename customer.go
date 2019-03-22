@@ -141,6 +141,7 @@ func NewCustomer() *Customer {
 
 	return &Customer{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Provider:     CustomerProviderAporeto,
 		State:        CustomerStateSubscribePending,
 	}

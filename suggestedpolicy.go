@@ -93,6 +93,7 @@ func NewSuggestedPolicy() *SuggestedPolicy {
 
 	return &SuggestedPolicy{
 		ModelVersion:          1,
+		Mutex:                 &sync.Mutex{},
 		NetworkAccessPolicies: NetworkAccessPoliciesList{},
 	}
 }

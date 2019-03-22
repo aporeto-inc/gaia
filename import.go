@@ -111,6 +111,7 @@ func NewImport() *Import {
 
 	return &Import{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Data:         NewExport(),
 		Mode:         ImportModeImport,
 	}

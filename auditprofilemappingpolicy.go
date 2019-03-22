@@ -163,6 +163,7 @@ func NewAuditProfileMappingPolicy() *AuditProfileMappingPolicy {
 
 	return &AuditProfileMappingPolicy{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Metadata:       []string{},

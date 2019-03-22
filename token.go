@@ -105,6 +105,7 @@ func NewToken() *Token {
 
 	return &Token{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Tags:         []string{},
 	}
 }

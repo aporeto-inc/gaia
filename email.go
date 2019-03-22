@@ -126,6 +126,7 @@ func NewEmail() *Email {
 
 	return &Email{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Attachments:  map[string]string{},
 		Bcc:          []string{},
 		Cc:           []string{},

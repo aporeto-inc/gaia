@@ -107,6 +107,7 @@ func NewRevocation() *Revocation {
 
 	return &Revocation{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

@@ -102,6 +102,7 @@ func NewTag() *Tag {
 
 	return &Tag{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

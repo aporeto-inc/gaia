@@ -120,6 +120,7 @@ func NewDataPathCertificate() *DataPathCertificate {
 
 	return &DataPathCertificate{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

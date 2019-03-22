@@ -125,6 +125,7 @@ func NewSSHAuthority() *SSHAuthority {
 
 	return &SSHAuthority{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Alg:          SSHAuthorityAlgECDSA,
 	}
 }

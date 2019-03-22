@@ -156,6 +156,7 @@ func NewNamespace() *Namespace {
 
 	return &Namespace{
 		ModelVersion:               1,
+		Mutex:                      &sync.Mutex{},
 		AssociatedTags:             []string{},
 		Annotations:                map[string][]string{},
 		Metadata:                   []string{},

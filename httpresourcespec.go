@@ -145,6 +145,7 @@ func NewHTTPResourceSpec() *HTTPResourceSpec {
 
 	return &HTTPResourceSpec{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
 		Endpoints:      []*Endpoint{},
 		AssociatedTags: []string{},

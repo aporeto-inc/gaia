@@ -99,6 +99,7 @@ func NewSquallTag() *SquallTag {
 
 	return &SquallTag{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

@@ -189,6 +189,7 @@ func NewAutomation() *Automation {
 
 	return &Automation{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		Actions:        []string{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},

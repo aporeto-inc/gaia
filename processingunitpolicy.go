@@ -189,6 +189,7 @@ func NewProcessingUnitPolicy() *ProcessingUnitPolicy {
 
 	return &ProcessingUnitPolicy{
 		ModelVersion:             1,
+		Mutex:                    &sync.Mutex{},
 		Annotations:              map[string][]string{},
 		AssociatedTags:           []string{},
 		IsolationProfileSelector: [][]string{},

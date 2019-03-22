@@ -103,6 +103,7 @@ func NewAWSRegister() *AWSRegister {
 
 	return &AWSRegister{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

@@ -88,6 +88,7 @@ func NewAppParameter() *AppParameter {
 
 	return &AppParameter{
 		ModelVersion:  1,
+		Mutex:         &sync.Mutex{},
 		AllowedValues: []interface{}{},
 	}
 }

@@ -97,6 +97,7 @@ func NewSSHIdentity() *SSHIdentity {
 
 	return &SSHIdentity{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

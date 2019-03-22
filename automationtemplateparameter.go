@@ -70,6 +70,7 @@ func NewAutomationTemplateParameter() *AutomationTemplateParameter {
 
 	return &AutomationTemplateParameter{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		AllowedChoices: map[string]interface{}{},
 	}
 }

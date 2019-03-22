@@ -93,6 +93,7 @@ func NewActivate() *Activate {
 
 	return &Activate{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

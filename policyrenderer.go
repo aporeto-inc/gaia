@@ -152,6 +152,7 @@ func NewPolicyRenderer() *PolicyRenderer {
 
 	return &PolicyRenderer{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Policies:     PolicyRulesList{},
 		ProcessMode:  PolicyRendererProcessModeSubject,
 		Tags:         []string{},

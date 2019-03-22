@@ -178,6 +178,7 @@ func NewImportRequest() *ImportRequest {
 
 	return &ImportRequest{
 		ModelVersion:    1,
+		Mutex:           &sync.Mutex{},
 		Annotations:     map[string][]string{},
 		Data:            map[string][]map[string]interface{}{},
 		AssociatedTags:  []string{},
