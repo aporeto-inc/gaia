@@ -303,6 +303,10 @@ func (o *Issue) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateRequiredString("realm", string(o.Realm)); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC"}, false); err != nil {
 		errors = append(errors, err)
 	}
