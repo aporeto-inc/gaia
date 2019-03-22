@@ -101,7 +101,7 @@ type Authority struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAuthority returns a new *Authority
@@ -520,7 +520,7 @@ type SparseAuthority struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAuthority returns a new  SparseAuthority.

@@ -124,7 +124,7 @@ type Report struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewReport returns a new *Report
@@ -489,7 +489,7 @@ type SparseReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseReport returns a new  SparseReport.

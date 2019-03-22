@@ -18,7 +18,7 @@ type ClaimMapping struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewClaimMapping returns a new *ClaimMapping

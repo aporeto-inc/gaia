@@ -96,7 +96,7 @@ type Export struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewExport returns a new *Export
@@ -442,7 +442,7 @@ type SparseExport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseExport returns a new  SparseExport.

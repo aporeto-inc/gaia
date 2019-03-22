@@ -156,7 +156,7 @@ type QuotaPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewQuotaPolicy returns a new *QuotaPolicy
@@ -1387,7 +1387,7 @@ type SparseQuotaPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseQuotaPolicy returns a new  SparseQuotaPolicy.

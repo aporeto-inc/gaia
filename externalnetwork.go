@@ -143,7 +143,7 @@ type ExternalNetwork struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewExternalNetwork returns a new *ExternalNetwork
@@ -1249,7 +1249,7 @@ type SparseExternalNetwork struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseExternalNetwork returns a new  SparseExternalNetwork.

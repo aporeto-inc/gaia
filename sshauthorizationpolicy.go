@@ -180,7 +180,7 @@ type SSHAuthorizationPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSSHAuthorizationPolicy returns a new *SSHAuthorizationPolicy
@@ -1609,7 +1609,7 @@ type SparseSSHAuthorizationPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseSSHAuthorizationPolicy returns a new  SparseSSHAuthorizationPolicy.

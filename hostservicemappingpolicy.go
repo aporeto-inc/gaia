@@ -155,7 +155,7 @@ type HostServiceMappingPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewHostServiceMappingPolicy returns a new *HostServiceMappingPolicy
@@ -1360,7 +1360,7 @@ type SparseHostServiceMappingPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseHostServiceMappingPolicy returns a new  SparseHostServiceMappingPolicy.

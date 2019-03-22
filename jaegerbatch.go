@@ -85,7 +85,7 @@ type Jaegerbatch struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewJaegerbatch returns a new *Jaegerbatch
@@ -337,7 +337,7 @@ type SparseJaegerbatch struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseJaegerbatch returns a new  SparseJaegerbatch.

@@ -189,7 +189,7 @@ type EnforcerProfile struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewEnforcerProfile returns a new *EnforcerProfile
@@ -1454,7 +1454,7 @@ type SparseEnforcerProfile struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseEnforcerProfile returns a new  SparseEnforcerProfile.

@@ -27,7 +27,7 @@ type GraphGroup struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewGraphGroup returns a new *GraphGroup

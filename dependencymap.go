@@ -97,7 +97,7 @@ type DependencyMap struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewDependencyMap returns a new *DependencyMap
@@ -501,7 +501,7 @@ type SparseDependencyMap struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseDependencyMap returns a new  SparseDependencyMap.

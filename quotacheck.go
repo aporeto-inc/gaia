@@ -91,7 +91,7 @@ type QuotaCheck struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewQuotaCheck returns a new *QuotaCheck
@@ -409,7 +409,7 @@ type SparseQuotaCheck struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseQuotaCheck returns a new  SparseQuotaCheck.

@@ -21,7 +21,7 @@ type ProcessingUnitService struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewProcessingUnitService returns a new *ProcessingUnitService

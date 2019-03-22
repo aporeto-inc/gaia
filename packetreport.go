@@ -149,7 +149,7 @@ type PacketReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPacketReport returns a new *PacketReport
@@ -889,7 +889,7 @@ type SparsePacketReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePacketReport returns a new  SparsePacketReport.

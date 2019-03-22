@@ -117,7 +117,7 @@ type SSHAuthority struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSSHAuthority returns a new *SSHAuthority
@@ -614,7 +614,7 @@ type SparseSSHAuthority struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseSSHAuthority returns a new  SparseSSHAuthority.

@@ -167,7 +167,7 @@ type APIAuthorizationPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAPIAuthorizationPolicy returns a new *APIAuthorizationPolicy
@@ -1540,7 +1540,7 @@ type SparseAPIAuthorizationPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAPIAuthorizationPolicy returns a new  SparseAPIAuthorizationPolicy.

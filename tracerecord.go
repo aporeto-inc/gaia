@@ -55,7 +55,7 @@ type TraceRecord struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTraceRecord returns a new *TraceRecord

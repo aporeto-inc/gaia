@@ -99,7 +99,7 @@ type InvoiceRecord struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewInvoiceRecord returns a new *InvoiceRecord
@@ -488,7 +488,7 @@ type SparseInvoiceRecord struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseInvoiceRecord returns a new  SparseInvoiceRecord.

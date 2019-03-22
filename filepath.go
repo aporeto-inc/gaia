@@ -140,7 +140,7 @@ type FilePath struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewFilePath returns a new *FilePath
@@ -1186,7 +1186,7 @@ type SparseFilePath struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseFilePath returns a new  SparseFilePath.

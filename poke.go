@@ -82,7 +82,7 @@ func (o PokesList) Version() int {
 type Poke struct {
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPoke returns a new *Poke
@@ -295,7 +295,7 @@ func (o SparsePokesList) Version() int {
 type SparsePoke struct {
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePoke returns a new  SparsePoke.

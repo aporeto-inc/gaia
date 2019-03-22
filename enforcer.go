@@ -232,7 +232,7 @@ type Enforcer struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewEnforcer returns a new *Enforcer
@@ -1769,7 +1769,7 @@ type SparseEnforcer struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseEnforcer returns a new  SparseEnforcer.

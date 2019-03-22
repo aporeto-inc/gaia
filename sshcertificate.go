@@ -117,7 +117,7 @@ type SSHCertificate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSSHCertificate returns a new *SSHCertificate
@@ -592,7 +592,7 @@ type SparseSSHCertificate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseSSHCertificate returns a new  SparseSSHCertificate.

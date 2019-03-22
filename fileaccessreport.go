@@ -115,7 +115,7 @@ type FileAccessReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewFileAccessReport returns a new *FileAccessReport
@@ -575,7 +575,7 @@ type SparseFileAccessReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseFileAccessReport returns a new  SparseFileAccessReport.

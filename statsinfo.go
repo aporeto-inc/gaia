@@ -111,7 +111,7 @@ type StatsInfo struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewStatsInfo returns a new *StatsInfo
@@ -434,7 +434,7 @@ type SparseStatsInfo struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseStatsInfo returns a new  SparseStatsInfo.

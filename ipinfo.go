@@ -91,7 +91,7 @@ type IPInfo struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewIPInfo returns a new *IPInfo
@@ -407,7 +407,7 @@ type SparseIPInfo struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseIPInfo returns a new  SparseIPInfo.

@@ -112,7 +112,7 @@ type DataPathCertificate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewDataPathCertificate returns a new *DataPathCertificate
@@ -526,7 +526,7 @@ type SparseDataPathCertificate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseDataPathCertificate returns a new  SparseDataPathCertificate.

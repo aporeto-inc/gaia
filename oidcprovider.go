@@ -118,7 +118,7 @@ type OIDCProvider struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewOIDCProvider returns a new *OIDCProvider
@@ -730,7 +730,7 @@ type SparseOIDCProvider struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseOIDCProvider returns a new  SparseOIDCProvider.

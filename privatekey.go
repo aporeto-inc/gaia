@@ -92,7 +92,7 @@ type PrivateKey struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPrivateKey returns a new *PrivateKey
@@ -403,7 +403,7 @@ type SparsePrivateKey struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePrivateKey returns a new  SparsePrivateKey.

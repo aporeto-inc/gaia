@@ -170,7 +170,7 @@ type ImportRequest struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewImportRequest returns a new *ImportRequest
@@ -1261,7 +1261,7 @@ type SparseImportRequest struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseImportRequest returns a new  SparseImportRequest.

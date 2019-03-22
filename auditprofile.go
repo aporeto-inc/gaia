@@ -135,7 +135,7 @@ type AuditProfile struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAuditProfile returns a new *AuditProfile
@@ -1102,7 +1102,7 @@ type SparseAuditProfile struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAuditProfile returns a new  SparseAuditProfile.

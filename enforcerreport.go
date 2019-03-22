@@ -104,7 +104,7 @@ type EnforcerReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewEnforcerReport returns a new *EnforcerReport
@@ -537,7 +537,7 @@ type SparseEnforcerReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseEnforcerReport returns a new  SparseEnforcerReport.

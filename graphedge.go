@@ -81,7 +81,7 @@ type GraphEdge struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewGraphEdge returns a new *GraphEdge

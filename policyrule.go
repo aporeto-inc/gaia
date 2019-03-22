@@ -134,7 +134,7 @@ type PolicyRule struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPolicyRule returns a new *PolicyRule
@@ -915,7 +915,7 @@ type SparsePolicyRule struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePolicyRule returns a new  SparsePolicyRule.

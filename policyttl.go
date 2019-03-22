@@ -89,7 +89,7 @@ type PolicyTTL struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPolicyTTL returns a new *PolicyTTL
@@ -377,7 +377,7 @@ type SparsePolicyTTL struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePolicyTTL returns a new  SparsePolicyTTL.

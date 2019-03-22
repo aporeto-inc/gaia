@@ -134,7 +134,7 @@ type StatsQuery struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewStatsQuery returns a new *StatsQuery
@@ -610,7 +610,7 @@ type SparseStatsQuery struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseStatsQuery returns a new  SparseStatsQuery.

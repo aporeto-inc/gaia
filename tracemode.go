@@ -27,7 +27,7 @@ type TraceMode struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTraceMode returns a new *TraceMode

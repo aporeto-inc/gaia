@@ -118,7 +118,7 @@ type RemoteProcessor struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewRemoteProcessor returns a new *RemoteProcessor
@@ -605,7 +605,7 @@ type SparseRemoteProcessor struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseRemoteProcessor returns a new  SparseRemoteProcessor.

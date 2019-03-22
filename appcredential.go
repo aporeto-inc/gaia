@@ -162,7 +162,7 @@ type AppCredential struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAppCredential returns a new *AppCredential
@@ -1380,7 +1380,7 @@ type SparseAppCredential struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAppCredential returns a new  SparseAppCredential.

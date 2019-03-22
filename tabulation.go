@@ -91,7 +91,7 @@ type Tabulation struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTabulation returns a new *Tabulation
@@ -411,7 +411,7 @@ type SparseTabulation struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseTabulation returns a new  SparseTabulation.

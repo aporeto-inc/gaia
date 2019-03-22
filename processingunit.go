@@ -241,7 +241,7 @@ type ProcessingUnit struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewProcessingUnit returns a new *ProcessingUnit
@@ -1658,7 +1658,7 @@ type SparseProcessingUnit struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseProcessingUnit returns a new  SparseProcessingUnit.

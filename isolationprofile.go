@@ -148,7 +148,7 @@ type IsolationProfile struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewIsolationProfile returns a new *IsolationProfile
@@ -1227,7 +1227,7 @@ type SparseIsolationProfile struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseIsolationProfile returns a new  SparseIsolationProfile.

@@ -153,7 +153,7 @@ type ServiceDependency struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewServiceDependency returns a new *ServiceDependency
@@ -1352,7 +1352,7 @@ type SparseServiceDependency struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseServiceDependency returns a new  SparseServiceDependency.

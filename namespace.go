@@ -148,7 +148,7 @@ type Namespace struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewNamespace returns a new *Namespace
@@ -1210,7 +1210,7 @@ type SparseNamespace struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseNamespace returns a new  SparseNamespace.

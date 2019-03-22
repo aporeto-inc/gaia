@@ -155,7 +155,7 @@ type AuditProfileMappingPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAuditProfileMappingPolicy returns a new *AuditProfileMappingPolicy
@@ -1356,7 +1356,7 @@ type SparseAuditProfileMappingPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAuditProfileMappingPolicy returns a new  SparseAuditProfileMappingPolicy.

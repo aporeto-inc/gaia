@@ -222,7 +222,7 @@ type NetworkAccessPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewNetworkAccessPolicy returns a new *NetworkAccessPolicy
@@ -1761,7 +1761,7 @@ type SparseNetworkAccessPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseNetworkAccessPolicy returns a new  SparseNetworkAccessPolicy.

@@ -185,7 +185,7 @@ type HookPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewHookPolicy returns a new *HookPolicy
@@ -1573,7 +1573,7 @@ type SparseHookPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseHookPolicy returns a new  SparseHookPolicy.

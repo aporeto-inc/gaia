@@ -18,7 +18,7 @@ type GraphPolicyInfo struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewGraphPolicyInfo returns a new *GraphPolicyInfo

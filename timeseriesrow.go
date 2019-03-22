@@ -24,7 +24,7 @@ type TimeSeriesRow struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTimeSeriesRow returns a new *TimeSeriesRow

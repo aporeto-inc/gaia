@@ -116,7 +116,7 @@ type AWSAccount struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAWSAccount returns a new *AWSAccount
@@ -703,7 +703,7 @@ type SparseAWSAccount struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAWSAccount returns a new  SparseAWSAccount.

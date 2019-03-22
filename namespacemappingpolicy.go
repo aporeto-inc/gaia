@@ -137,7 +137,7 @@ type NamespaceMappingPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewNamespaceMappingPolicy returns a new *NamespaceMappingPolicy
@@ -1148,7 +1148,7 @@ type SparseNamespaceMappingPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseNamespaceMappingPolicy returns a new  SparseNamespaceMappingPolicy.

@@ -134,7 +134,7 @@ type X509Certificate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewX509Certificate returns a new *X509Certificate
@@ -620,7 +620,7 @@ type SparseX509Certificate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseX509Certificate returns a new  SparseX509Certificate.

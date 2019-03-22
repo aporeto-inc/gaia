@@ -144,7 +144,7 @@ type PolicyRenderer struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPolicyRenderer returns a new *PolicyRenderer
@@ -511,7 +511,7 @@ type SparsePolicyRenderer struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePolicyRenderer returns a new  SparsePolicyRenderer.

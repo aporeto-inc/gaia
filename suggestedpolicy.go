@@ -85,7 +85,7 @@ type SuggestedPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSuggestedPolicy returns a new *SuggestedPolicy
@@ -345,7 +345,7 @@ type SparseSuggestedPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseSuggestedPolicy returns a new  SparseSuggestedPolicy.

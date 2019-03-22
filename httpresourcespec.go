@@ -137,7 +137,7 @@ type HTTPResourceSpec struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewHTTPResourceSpec returns a new *HTTPResourceSpec
@@ -1153,7 +1153,7 @@ type SparseHTTPResourceSpec struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseHTTPResourceSpec returns a new  SparseHTTPResourceSpec.

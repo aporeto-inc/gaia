@@ -147,7 +147,7 @@ type AWSAPIGateway struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAWSAPIGateway returns a new *AWSAPIGateway
@@ -1181,7 +1181,7 @@ type SparseAWSAPIGateway struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAWSAPIGateway returns a new  SparseAWSAPIGateway.

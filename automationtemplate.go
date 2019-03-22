@@ -116,7 +116,7 @@ type AutomationTemplate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAutomationTemplate returns a new *AutomationTemplate
@@ -610,7 +610,7 @@ type SparseAutomationTemplate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAutomationTemplate returns a new  SparseAutomationTemplate.

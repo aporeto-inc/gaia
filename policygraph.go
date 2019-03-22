@@ -99,7 +99,7 @@ type PolicyGraph struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPolicyGraph returns a new *PolicyGraph
@@ -461,7 +461,7 @@ type SparsePolicyGraph struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePolicyGraph returns a new  SparsePolicyGraph.

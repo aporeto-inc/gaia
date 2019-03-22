@@ -157,7 +157,7 @@ type TokenScopePolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTokenScopePolicy returns a new *TokenScopePolicy
@@ -1409,7 +1409,7 @@ type SparseTokenScopePolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseTokenScopePolicy returns a new  SparseTokenScopePolicy.

@@ -157,7 +157,7 @@ type InstalledApp struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewInstalledApp returns a new *InstalledApp
@@ -1063,7 +1063,7 @@ type SparseInstalledApp struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseInstalledApp returns a new  SparseInstalledApp.

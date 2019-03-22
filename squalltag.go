@@ -91,7 +91,7 @@ type SquallTag struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSquallTag returns a new *SquallTag
@@ -399,7 +399,7 @@ type SparseSquallTag struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseSquallTag returns a new  SparseSquallTag.

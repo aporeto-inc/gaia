@@ -95,7 +95,7 @@ type AWSRegister struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAWSRegister returns a new *AWSRegister
@@ -452,7 +452,7 @@ type SparseAWSRegister struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAWSRegister returns a new  SparseAWSRegister.

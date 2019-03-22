@@ -242,7 +242,7 @@ type FlowReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewFlowReport returns a new *FlowReport
@@ -1327,7 +1327,7 @@ type SparseFlowReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseFlowReport returns a new  SparseFlowReport.
