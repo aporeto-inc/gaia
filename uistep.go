@@ -66,6 +66,10 @@ func (o *UIStep) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	for _, sub := range o.Parameters {
 		if err := sub.Validate(); err != nil {
 			errors = append(errors, err)

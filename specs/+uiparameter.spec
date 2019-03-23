@@ -48,6 +48,8 @@ attributes:
     type: string
     exposed: true
     stored: true
+    required: true
+    example_value: unique_key
 
   - name: longDescription
     description: Long explanation of the parameter.
@@ -88,8 +90,15 @@ attributes:
     - JSON
     example_value: String
 
+  - name: validationFunction
+    description: ValidationFunction represents the function to validate the parameter.
+    type: string
+    exposed: true
+    stored: true
+
   - name: value
-    description: Value of the parameter.
+    description: Value of the parameter (TODO-CS to remove).
     type: object
     exposed: true
     stored: true
+    deprecated: true

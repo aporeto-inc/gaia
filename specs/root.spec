@@ -776,6 +776,10 @@ relations:
   create:
     description: Creates a new token scope policy.
 
+- rest_name: validateuiparameter
+  create:
+    description: Validates some ui parameters.
+
 - rest_name: vulnerability
   get:
     description: Retrieves the list of vulnerabilities.

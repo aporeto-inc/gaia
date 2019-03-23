@@ -3447,6 +3447,7 @@ Represents a parameter that will be shown in the UI.
 ```json
 {
   "advanced": false,
+  "key": "unique_key",
   "optional": false,
   "type": "String"
 }
@@ -3474,7 +3475,7 @@ Default value of the parameter.
 
 Description of the paramerter.
 
-##### `key` `string`
+##### `key` `string` [`required`]
 
 Key identifying the parameter.
 
@@ -3494,9 +3495,15 @@ Defines if the parameter is optional.
 
 The type of the parameter.
 
+##### `validationFunction` `string`
+
+ValidationFunction represents the function to validate the parameter.
+
 ##### `value` `object`
 
-Value of the parameter.
+_This attribute is deprecated_.
+
+Value of the parameter (TODO-CS to remove).
 
 ### UIStep
 
@@ -3506,7 +3513,8 @@ Represents a parameter that will be shown in the UI.
 
 ```json
 {
-  "advanced": false
+  "advanced": false,
+  "name": "title of the step"
 }
 ```
 
@@ -3520,7 +3528,7 @@ Defines if the step is an advanced one.
 
 Description of the step.
 
-##### `name` `string`
+##### `name` `string` [`required`]
 
 Name of the step.
 
@@ -8396,10 +8404,11 @@ List of tags.
 
 ## `workflow`
 
-| Resource                          | Description                                              |
-| -                                 | -                                                        |
-| [Recipe](#recipe)                 | A Recipe defines a list of steps to define a workflow.   |
-| [RenderTemplate](#rendertemplate) | A RenderTemplate cooks a template based some parameters. |
+| Resource                                    | Description                                              |
+| -                                           | -                                                        |
+| [Recipe](#recipe)                           | A Recipe defines a list of steps to define a workflow.   |
+| [RenderTemplate](#rendertemplate)           | A RenderTemplate cooks a template based some parameters. |
+| [ValidateUIParameter](#validateuiparameter) | This api validates a list of UIParameters.               |
 
 ### Recipe
 
@@ -8530,7 +8539,7 @@ Renders a new template.
 
 #### Attributes
 
-##### `ouput` `string`
+##### `output` `string`
 
 Output holds the rendered template.
 
@@ -8541,3 +8550,27 @@ Parameters contains the computed parameters.
 ##### `template` `string`
 
 Template of the recipe.
+
+### ValidateUIParameter
+
+This api validates a list of UIParameters.
+
+#### Relations
+
+##### `POST /validateuiparameters`
+
+Validates some ui parameters.
+
+#### Attributes
+
+##### `errors` `map[string]string`
+
+Errors contains the list of errors.
+
+##### `parameters` [`[]uiparameter`](#uiparameter)
+
+List of parameters to validate.
+
+##### `values` `map[string]interface{}`
+
+Values contains the computed values.

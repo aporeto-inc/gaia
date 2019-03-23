@@ -81,7 +81,10 @@ type UIParameter struct {
 	// The type of the parameter.
 	Type UIParameterTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
-	// Value of the parameter.
+	// ValidationFunction represents the function to validate the parameter.
+	ValidationFunction string `json:"validationFunction" bson:"validationfunction" mapstructure:"validationFunction,omitempty"`
+
+	// Value of the parameter (TODO-CS to remove).
 	Value interface{} `json:"value" bson:"value" mapstructure:"value,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
@@ -128,6 +131,10 @@ func (o *UIParameter) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateRequiredString("key", o.Key); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Duration", "Enum", "IntegerSlice", "Integer", "Float", "FloatSlice", "Password", "String", "StringSlice", "CVSSThreshold", "JSON"}, false); err != nil {
 		errors = append(errors, err)

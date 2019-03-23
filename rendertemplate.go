@@ -81,7 +81,7 @@ func (o RenderTemplatesList) Version() int {
 // RenderTemplate represents the model of a rendertemplate
 type RenderTemplate struct {
 	// Output holds the rendered template.
-	Ouput string `json:"ouput" bson:"-" mapstructure:"ouput,omitempty"`
+	Output string `json:"output" bson:"-" mapstructure:"output,omitempty"`
 
 	// Parameters contains the computed parameters.
 	Parameters map[string]interface{} `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
@@ -149,7 +149,7 @@ func (o *RenderTemplate) ToSparse(fields ...string) elemental.SparseIdentifiable
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseRenderTemplate{
-			Ouput:      &o.Ouput,
+			Output:     &o.Output,
 			Parameters: &o.Parameters,
 			Template:   &o.Template,
 		}
@@ -158,8 +158,8 @@ func (o *RenderTemplate) ToSparse(fields ...string) elemental.SparseIdentifiable
 	sp := &SparseRenderTemplate{}
 	for _, f := range fields {
 		switch f {
-		case "ouput":
-			sp.Ouput = &(o.Ouput)
+		case "output":
+			sp.Output = &(o.Output)
 		case "parameters":
 			sp.Parameters = &(o.Parameters)
 		case "template":
@@ -177,8 +177,8 @@ func (o *RenderTemplate) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseRenderTemplate)
-	if so.Ouput != nil {
-		o.Ouput = *so.Ouput
+	if so.Output != nil {
+		o.Output = *so.Output
 	}
 	if so.Parameters != nil {
 		o.Parameters = *so.Parameters
@@ -252,8 +252,8 @@ func (*RenderTemplate) AttributeSpecifications() map[string]elemental.AttributeS
 func (o *RenderTemplate) ValueForAttribute(name string) interface{} {
 
 	switch name {
-	case "ouput":
-		return o.Ouput
+	case "output":
+		return o.Output
 	case "parameters":
 		return o.Parameters
 	case "template":
@@ -265,12 +265,12 @@ func (o *RenderTemplate) ValueForAttribute(name string) interface{} {
 
 // RenderTemplateAttributesMap represents the map of attribute for RenderTemplate.
 var RenderTemplateAttributesMap = map[string]elemental.AttributeSpecification{
-	"Ouput": elemental.AttributeSpecification{
+	"Output": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Ouput",
+		ConvertedName:  "Output",
 		Description:    `Output holds the rendered template.`,
 		Exposed:        true,
-		Name:           "ouput",
+		Name:           "output",
 		Type:           "string",
 	},
 	"Parameters": elemental.AttributeSpecification{
@@ -294,12 +294,12 @@ var RenderTemplateAttributesMap = map[string]elemental.AttributeSpecification{
 
 // RenderTemplateLowerCaseAttributesMap represents the map of attribute for RenderTemplate.
 var RenderTemplateLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"ouput": elemental.AttributeSpecification{
+	"output": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Ouput",
+		ConvertedName:  "Output",
 		Description:    `Output holds the rendered template.`,
 		Exposed:        true,
-		Name:           "ouput",
+		Name:           "output",
 		Type:           "string",
 	},
 	"parameters": elemental.AttributeSpecification{
@@ -385,7 +385,7 @@ func (o SparseRenderTemplatesList) Version() int {
 // SparseRenderTemplate represents the sparse version of a rendertemplate.
 type SparseRenderTemplate struct {
 	// Output holds the rendered template.
-	Ouput *string `json:"ouput,omitempty" bson:"-" mapstructure:"ouput,omitempty"`
+	Output *string `json:"output,omitempty" bson:"-" mapstructure:"output,omitempty"`
 
 	// Parameters contains the computed parameters.
 	Parameters *map[string]interface{} `json:"parameters,omitempty" bson:"-" mapstructure:"parameters,omitempty"`
@@ -430,8 +430,8 @@ func (o *SparseRenderTemplate) Version() int {
 func (o *SparseRenderTemplate) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewRenderTemplate()
-	if o.Ouput != nil {
-		out.Ouput = *o.Ouput
+	if o.Output != nil {
+		out.Output = *o.Output
 	}
 	if o.Parameters != nil {
 		out.Parameters = *o.Parameters

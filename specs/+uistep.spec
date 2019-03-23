@@ -29,6 +29,8 @@ attributes:
     type: string
     exposed: true
     stored: true
+    required: true
+    example_value: title of the step
 
   - name: parameters
     description: List of parameters for this step.

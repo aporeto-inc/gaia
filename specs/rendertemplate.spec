@@ -13,7 +13,7 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: ouput
+  - name: output
     description: Output holds the rendered template.
     type: string
     exposed: true
