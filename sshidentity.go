@@ -89,7 +89,7 @@ type SSHIdentity struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSSHIdentity returns a new *SSHIdentity
@@ -97,6 +97,7 @@ func NewSSHIdentity() *SSHIdentity {
 
 	return &SSHIdentity{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -377,7 +378,7 @@ type SparseSSHIdentity struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseSSHIdentity returns a new  SparseSSHIdentity.

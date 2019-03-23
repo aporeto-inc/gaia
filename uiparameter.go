@@ -89,7 +89,7 @@ type UIParameter struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewUIParameter returns a new *UIParameter
@@ -97,6 +97,7 @@ func NewUIParameter() *UIParameter {
 
 	return &UIParameter{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		AllowedChoices: map[string]string{},
 		AllowedValues:  []interface{}{},
 	}
@@ -133,6 +134,10 @@ func (o *UIParameter) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("key", o.Key); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("type", string(o.Type)); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 

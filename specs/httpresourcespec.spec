@@ -42,6 +42,7 @@ model:
   - '@propagated'
   - '@metadatable'
   - '@zonable'
+  - '@timeable'
 
 # Attributes
 attributes:

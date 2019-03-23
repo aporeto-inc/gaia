@@ -56,6 +56,7 @@ model:
   - '@timeable'
   - '@identifiable-stored'
   - '@zonable'
+  - '@timeable'
 
 # Attributes
 attributes:

@@ -110,7 +110,7 @@ type PUNode struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPUNode returns a new *PUNode
@@ -118,6 +118,7 @@ func NewPUNode() *PUNode {
 
 	return &PUNode{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Tags:         []string{},
 	}
 }
@@ -587,7 +588,7 @@ type SparsePUNode struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePUNode returns a new  SparsePUNode.

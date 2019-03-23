@@ -232,7 +232,7 @@ type Account struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAccount returns a new *Account
@@ -240,6 +240,7 @@ func NewAccount() *Account {
 
 	return &Account{
 		ModelVersion:             1,
+		Mutex:                    &sync.Mutex{},
 		AssociatedPlanKey:        "aporeto.plan.free",
 		AssociatedQuotaPolicies:  map[string]string{},
 		AssociatedAWSPolicies:    map[string]string{},
@@ -290,6 +291,30 @@ your name, password, enable 2 factor authentication.`
 func (o *Account) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *Account) GetCreateTime() time.Time {
+
+	return o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
+func (o *Account) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = createTime
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *Account) GetUpdateTime() time.Time {
+
+	return o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
+func (o *Account) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.
@@ -991,9 +1016,11 @@ also use any alternate key.`,
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -1102,9 +1129,11 @@ also use any alternate key.`,
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -1398,9 +1427,11 @@ also use any alternate key.`,
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -1509,9 +1540,11 @@ also use any alternate key.`,
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -1654,34 +1687,34 @@ type SparseAccount struct {
 	OTPQRCode *string `json:"OTPQRCode,omitempty" bson:"-" mapstructure:"OTPQRCode,omitempty"`
 
 	// Stores the 2 factor secret.
-	OTPSecret *string `json:"-,omitempty" bson:"otpsecret" mapstructure:"-,omitempty"`
+	OTPSecret *string `json:"-" bson:"otpsecret" mapstructure:"-,omitempty"`
 
 	// AccessEnabled defines if the account holder should have access to the systems.
 	AccessEnabled *bool `json:"accessEnabled,omitempty" bson:"accessenabled" mapstructure:"accessEnabled,omitempty"`
 
 	// ActivationExpiration contains the expiration date of the activation token.
-	ActivationExpiration *time.Time `json:"-,omitempty" bson:"activationexpiration" mapstructure:"-,omitempty"`
+	ActivationExpiration *time.Time `json:"-" bson:"activationexpiration" mapstructure:"-,omitempty"`
 
 	// ActivationToken contains the activation token.
 	ActivationToken *string `json:"activationToken,omitempty" bson:"activationtoken" mapstructure:"activationToken,omitempty"`
 
 	// AssociatedAPIAuthPolicyID holds the ID of the associated API auth policy.
-	AssociatedAPIAuthPolicyID *string `json:"-,omitempty" bson:"associatedapiauthpolicyid" mapstructure:"-,omitempty"`
+	AssociatedAPIAuthPolicyID *string `json:"-" bson:"associatedapiauthpolicyid" mapstructure:"-,omitempty"`
 
 	// AssociatedAWSPolicies contains a map of associated AWS Enforcerd Policies.
-	AssociatedAWSPolicies *map[string]string `json:"-,omitempty" bson:"associatedawspolicies" mapstructure:"-,omitempty"`
+	AssociatedAWSPolicies *map[string]string `json:"-" bson:"associatedawspolicies" mapstructure:"-,omitempty"`
 
 	// associatedBillingID holds the ID of the associated billing customer.
 	AssociatedBillingID *string `json:"associatedBillingID,omitempty" bson:"associatedbillingid" mapstructure:"associatedBillingID,omitempty"`
 
 	// AssociatedNamespaceID contains the ID of the associated namespace.
-	AssociatedNamespaceID *string `json:"-,omitempty" bson:"associatednamespaceid" mapstructure:"-,omitempty"`
+	AssociatedNamespaceID *string `json:"-" bson:"associatednamespaceid" mapstructure:"-,omitempty"`
 
 	// AssociatedPlanKey contains the plan key that is associated to this account.
 	AssociatedPlanKey *string `json:"associatedPlanKey,omitempty" bson:"associatedplankey" mapstructure:"associatedPlanKey,omitempty"`
 
 	// AssociatedQuotaPolicies contains a mapping to the associated quota pollicies.
-	AssociatedQuotaPolicies *map[string]string `json:"-,omitempty" bson:"associatedquotapolicies" mapstructure:"-,omitempty"`
+	AssociatedQuotaPolicies *map[string]string `json:"-" bson:"associatedquotapolicies" mapstructure:"-,omitempty"`
 
 	// Company of the account user.
 	Company *string `json:"company,omitempty" bson:"company" mapstructure:"company,omitempty"`
@@ -1708,10 +1741,10 @@ type SparseAccount struct {
 	ReCAPTCHAKey *string `json:"reCAPTCHAKey,omitempty" bson:"-" mapstructure:"reCAPTCHAKey,omitempty"`
 
 	// ResetPasswordExpiration contains the expiration time for reseting the password.
-	ResetPasswordExpiration *time.Time `json:"-,omitempty" bson:"resetpasswordexpiration" mapstructure:"-,omitempty"`
+	ResetPasswordExpiration *time.Time `json:"-" bson:"resetpasswordexpiration" mapstructure:"-,omitempty"`
 
 	// ResetPasswordToken contains the token to use for resetting password.
-	ResetPasswordToken *string `json:"-,omitempty" bson:"resetpasswordtoken" mapstructure:"-,omitempty"`
+	ResetPasswordToken *string `json:"-" bson:"resetpasswordtoken" mapstructure:"-,omitempty"`
 
 	// Status of the account.
 	Status *AccountStatusValue `json:"status,omitempty" bson:"status" mapstructure:"status,omitempty"`
@@ -1721,15 +1754,15 @@ type SparseAccount struct {
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-,omitempty" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-,omitempty" bson:"zone" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAccount returns a new  SparseAccount.
@@ -1881,6 +1914,30 @@ func (o *SparseAccount) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseAccount) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseAccount) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseAccount) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseAccount) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
 }
 
 // GetZHash returns the ZHash of the receiver.

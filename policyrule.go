@@ -134,7 +134,7 @@ type PolicyRule struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPolicyRule returns a new *PolicyRule
@@ -142,6 +142,7 @@ func NewPolicyRule() *PolicyRule {
 
 	return &PolicyRule{
 		ModelVersion:  1,
+		Mutex:         &sync.Mutex{},
 		HostServices:  HostServicesList{},
 		AuditProfiles: AuditProfilesList{},
 		Relation:      []string{},
@@ -915,7 +916,7 @@ type SparsePolicyRule struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePolicyRule returns a new  SparsePolicyRule.

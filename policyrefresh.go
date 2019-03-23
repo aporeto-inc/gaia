@@ -88,7 +88,7 @@ type PolicyRefresh struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPolicyRefresh returns a new *PolicyRefresh
@@ -96,6 +96,7 @@ func NewPolicyRefresh() *PolicyRefresh {
 
 	return &PolicyRefresh{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -375,7 +376,7 @@ type SparsePolicyRefresh struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePolicyRefresh returns a new  SparsePolicyRefresh.

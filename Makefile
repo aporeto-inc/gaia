@@ -30,6 +30,7 @@ lint:
 		--enable=goimports \
 		--enable=ineffassign \
 		--enable=golint \
+		--enable=govet \
 		--enable=structcheck \
 		--enable=varcheck \
 		--enable=ineffassign \

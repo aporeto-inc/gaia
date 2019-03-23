@@ -91,7 +91,7 @@ type RenderTemplate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewRenderTemplate returns a new *RenderTemplate
@@ -99,6 +99,7 @@ func NewRenderTemplate() *RenderTemplate {
 
 	return &RenderTemplate{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Parameters:   map[string]interface{}{},
 	}
 }
@@ -395,7 +396,7 @@ type SparseRenderTemplate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseRenderTemplate returns a new  SparseRenderTemplate.

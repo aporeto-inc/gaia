@@ -97,7 +97,7 @@ type DependencyMap struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewDependencyMap returns a new *DependencyMap
@@ -105,6 +105,7 @@ func NewDependencyMap() *DependencyMap {
 
 	return &DependencyMap{
 		ModelVersion:    1,
+		Mutex:           &sync.Mutex{},
 		Claims:          map[string][]string{},
 		Edges:           map[string]*GraphEdge{},
 		Groups:          map[string]*GraphGroup{},
@@ -501,7 +502,7 @@ type SparseDependencyMap struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseDependencyMap returns a new  SparseDependencyMap.

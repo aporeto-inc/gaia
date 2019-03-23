@@ -131,7 +131,7 @@ type EventLog struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewEventLog returns a new *EventLog
@@ -139,6 +139,7 @@ func NewEventLog() *EventLog {
 
 	return &EventLog{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Level:        EventLogLevelInfo,
 	}
 }
@@ -700,7 +701,7 @@ type SparseEventLog struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseEventLog returns a new  SparseEventLog.

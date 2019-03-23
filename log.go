@@ -85,7 +85,7 @@ type Log struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewLog returns a new *Log
@@ -93,6 +93,7 @@ func NewLog() *Log {
 
 	return &Log{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Data:         map[string]string{},
 	}
 }
@@ -339,7 +340,7 @@ type SparseLog struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseLog returns a new  SparseLog.

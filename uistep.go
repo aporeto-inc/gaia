@@ -24,7 +24,7 @@ type UIStep struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewUIStep returns a new *UIStep
@@ -32,6 +32,7 @@ func NewUIStep() *UIStep {
 
 	return &UIStep{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Parameters:   []*UIParameter{},
 	}
 }

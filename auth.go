@@ -86,7 +86,7 @@ type Auth struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAuth returns a new *Auth
@@ -94,6 +94,7 @@ func NewAuth() *Auth {
 
 	return &Auth{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Claims:       claims.NewMidgardClaims(),
 	}
 }
@@ -341,7 +342,7 @@ type SparseAuth struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAuth returns a new  SparseAuth.

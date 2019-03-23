@@ -100,7 +100,7 @@ type Plan struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPlan returns a new *Plan
@@ -108,6 +108,7 @@ func NewPlan() *Plan {
 
 	return &Plan{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -518,7 +519,7 @@ type SparsePlan struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePlan returns a new  SparsePlan.

@@ -91,7 +91,7 @@ type ValidateUIParameter struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewValidateUIParameter returns a new *ValidateUIParameter
@@ -99,6 +99,7 @@ func NewValidateUIParameter() *ValidateUIParameter {
 
 	return &ValidateUIParameter{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Errors:       map[string]string{},
 		Parameters:   []*UIParameter{},
 		Values:       map[string]interface{}{},
@@ -409,7 +410,7 @@ type SparseValidateUIParameter struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseValidateUIParameter returns a new  SparseValidateUIParameter.

@@ -144,7 +144,7 @@ type PolicyRenderer struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPolicyRenderer returns a new *PolicyRenderer
@@ -152,6 +152,7 @@ func NewPolicyRenderer() *PolicyRenderer {
 
 	return &PolicyRenderer{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Policies:     PolicyRulesList{},
 		ProcessMode:  PolicyRendererProcessModeSubject,
 		Tags:         []string{},
@@ -291,6 +292,10 @@ func (o *PolicyRenderer) Validate() error {
 	}
 
 	if err := elemental.ValidateRequiredExternal("tags", o.Tags); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("type", string(o.Type)); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
@@ -511,7 +516,7 @@ type SparsePolicyRenderer struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePolicyRenderer returns a new  SparsePolicyRenderer.

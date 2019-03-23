@@ -48,6 +48,7 @@ model:
   - '@metadatable'
   - '@disabled'
   - '@zonable'
+  - '@timeable'
   validations:
   - $serviceEntity
 

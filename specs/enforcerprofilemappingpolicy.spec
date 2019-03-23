@@ -31,6 +31,7 @@ model:
   - '@propagated'
   - '@fallback'
   - '@zonable'
+  - '@timeable'
 
 # Attributes
 attributes:

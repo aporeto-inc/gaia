@@ -149,7 +149,7 @@ type PacketReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPacketReport returns a new *PacketReport
@@ -157,6 +157,7 @@ func NewPacketReport() *PacketReport {
 
 	return &PacketReport{
 		ModelVersion:  1,
+		Mutex:         &sync.Mutex{},
 		Claims:        []string{},
 		TriremePacket: true,
 	}
@@ -363,6 +364,10 @@ func (o *PacketReport) Validate() error {
 
 	if err := elemental.ValidateMaximumInt("destinationPort", o.DestinationPort, int(65536), false); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("event", string(o.Event)); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateStringInList("event", string(o.Event), []string{"Received", "Transmitted", "Dropped"}, false); err != nil {
@@ -836,10 +841,10 @@ func (o SparsePacketReportsList) Version() int {
 // SparsePacketReport represents the sparse version of a packetreport.
 type SparsePacketReport struct {
 	// Flags are the TCP flags of the packet.
-	TCPFlags *int `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
+	TCPFlags *int `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Claims is the list of claims detected for the packet.
-	Claims *[]string `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
+	Claims *[]string `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// DestinationIP is the IP address of the destination.
 	DestinationIP *string `json:"destinationIP,omitempty" bson:"-" mapstructure:"destinationIP,omitempty"`
@@ -858,16 +863,16 @@ type SparsePacketReport struct {
 	Event *PacketReportEventValue `json:"event,omitempty" bson:"-" mapstructure:"event,omitempty"`
 
 	// Length is the length of the packet.
-	Length *int `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
+	Length *int `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Mark is the mark value of the packet.
-	Mark *int `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
+	Mark *int `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Namespace of the PU reporting the packet.
 	Namespace *string `json:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// PacketID is the ID from the IP header of the packet.
-	PacketID *int `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
+	PacketID *int `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Protocol number.
 	Protocol *int `json:"protocol,omitempty" bson:"-" mapstructure:"protocol,omitempty"`
@@ -889,7 +894,7 @@ type SparsePacketReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePacketReport returns a new  SparsePacketReport.

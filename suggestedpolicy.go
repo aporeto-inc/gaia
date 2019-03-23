@@ -85,7 +85,7 @@ type SuggestedPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSuggestedPolicy returns a new *SuggestedPolicy
@@ -93,6 +93,7 @@ func NewSuggestedPolicy() *SuggestedPolicy {
 
 	return &SuggestedPolicy{
 		ModelVersion:          1,
+		Mutex:                 &sync.Mutex{},
 		NetworkAccessPolicies: NetworkAccessPoliciesList{},
 	}
 }
@@ -345,7 +346,7 @@ type SparseSuggestedPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseSuggestedPolicy returns a new  SparseSuggestedPolicy.

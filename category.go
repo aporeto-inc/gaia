@@ -93,7 +93,7 @@ type Category struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewCategory returns a new *Category
@@ -101,6 +101,7 @@ func NewCategory() *Category {
 
 	return &Category{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -473,7 +474,7 @@ type SparseCategory struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseCategory returns a new  SparseCategory.

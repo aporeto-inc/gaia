@@ -32,6 +32,7 @@ model:
   - '@hidden'
   - '@fallback'
   - '@zonable'
+  - '@timeable'
 
 # Attributes
 attributes:

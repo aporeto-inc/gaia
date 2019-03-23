@@ -40,6 +40,7 @@ model:
   - '@named'
   - '@zonable'
   - '@propagated'
+  - '@timeable'
   validations:
   - $hostservices
 
