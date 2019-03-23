@@ -12,6 +12,14 @@ model:
 # Attributes
 attributes:
   v1:
+  - name: sourceID
+    description: SourceNamespace contains the original ID of the updated object.
+    type: string
+    exposed: true
+    stored: true
+    filterable: true
+    orderable: true
+
   - name: sourceNamespace
     description: SourceNamespace contains the original namespace of the updated object.
     type: string

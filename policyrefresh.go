@@ -80,6 +80,9 @@ func (o PolicyRefreshsList) Version() int {
 
 // PolicyRefresh represents the model of a policyrefresh
 type PolicyRefresh struct {
+	// SourceNamespace contains the original ID of the updated object.
+	SourceID string `json:"sourceID" bson:"sourceid" mapstructure:"sourceID,omitempty"`
+
 	// SourceNamespace contains the original namespace of the updated object.
 	SourceNamespace string `json:"sourceNamespace" bson:"sourcenamespace" mapstructure:"sourceNamespace,omitempty"`
 
@@ -147,6 +150,7 @@ func (o *PolicyRefresh) ToSparse(fields ...string) elemental.SparseIdentifiable 
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparsePolicyRefresh{
+			SourceID:        &o.SourceID,
 			SourceNamespace: &o.SourceNamespace,
 			Type:            &o.Type,
 		}
@@ -155,6 +159,8 @@ func (o *PolicyRefresh) ToSparse(fields ...string) elemental.SparseIdentifiable 
 	sp := &SparsePolicyRefresh{}
 	for _, f := range fields {
 		switch f {
+		case "sourceID":
+			sp.SourceID = &(o.SourceID)
 		case "sourceNamespace":
 			sp.SourceNamespace = &(o.SourceNamespace)
 		case "type":
@@ -172,6 +178,9 @@ func (o *PolicyRefresh) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparsePolicyRefresh)
+	if so.SourceID != nil {
+		o.SourceID = *so.SourceID
+	}
 	if so.SourceNamespace != nil {
 		o.SourceNamespace = *so.SourceNamespace
 	}
@@ -244,6 +253,8 @@ func (*PolicyRefresh) AttributeSpecifications() map[string]elemental.AttributeSp
 func (o *PolicyRefresh) ValueForAttribute(name string) interface{} {
 
 	switch name {
+	case "sourceID":
+		return o.SourceID
 	case "sourceNamespace":
 		return o.SourceNamespace
 	case "type":
@@ -255,6 +266,17 @@ func (o *PolicyRefresh) ValueForAttribute(name string) interface{} {
 
 // PolicyRefreshAttributesMap represents the map of attribute for PolicyRefresh.
 var PolicyRefreshAttributesMap = map[string]elemental.AttributeSpecification{
+	"SourceID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SourceID",
+		Description:    `SourceNamespace contains the original ID of the updated object.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "sourceID",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"SourceNamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceNamespace",
@@ -281,6 +303,17 @@ var PolicyRefreshAttributesMap = map[string]elemental.AttributeSpecification{
 
 // PolicyRefreshLowerCaseAttributesMap represents the map of attribute for PolicyRefresh.
 var PolicyRefreshLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+	"sourceid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SourceID",
+		Description:    `SourceNamespace contains the original ID of the updated object.`,
+		Exposed:        true,
+		Filterable:     true,
+		Name:           "sourceID",
+		Orderable:      true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"sourcenamespace": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SourceNamespace",
@@ -368,6 +401,9 @@ func (o SparsePolicyRefreshsList) Version() int {
 
 // SparsePolicyRefresh represents the sparse version of a policyrefresh.
 type SparsePolicyRefresh struct {
+	// SourceNamespace contains the original ID of the updated object.
+	SourceID *string `json:"sourceID,omitempty" bson:"sourceid" mapstructure:"sourceID,omitempty"`
+
 	// SourceNamespace contains the original namespace of the updated object.
 	SourceNamespace *string `json:"sourceNamespace,omitempty" bson:"sourcenamespace" mapstructure:"sourceNamespace,omitempty"`
 
@@ -411,6 +447,9 @@ func (o *SparsePolicyRefresh) Version() int {
 func (o *SparsePolicyRefresh) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewPolicyRefresh()
+	if o.SourceID != nil {
+		out.SourceID = *o.SourceID
+	}
 	if o.SourceNamespace != nil {
 		out.SourceNamespace = *o.SourceNamespace
 	}
