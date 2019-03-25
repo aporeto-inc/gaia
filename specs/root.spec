@@ -530,6 +530,7 @@ relations:
     description: Retrieves the list of recipes.
     global_parameters:
     - $filtering
+    - $propagatable
   create:
     description: Creates a new recipe.
 
