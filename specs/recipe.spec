@@ -24,6 +24,7 @@ model:
   - '@metadatable'
   - '@disabled'
   - '@propagated'
+  - '@hidden'
 
 # Attributes
 attributes:

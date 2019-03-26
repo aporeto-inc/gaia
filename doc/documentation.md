@@ -8422,6 +8422,7 @@ A Recipe defines a list of steps to define a workflow.
   "disabled": false,
   "name": "the name",
   "propagate": false,
+  "propagationHidden": false,
   "protected": false
 }
 ```
@@ -8507,6 +8508,11 @@ NormalizedTags contains the list of normalized tags of the entities.
 ##### `propagate` `boolean`
 
 Propagate will propagate the policy to all of its children.
+
+##### `propagationHidden` `boolean`
+
+If set to true while the policy is propagating, it won't be visible to children
+namespace, but still used for policy resolution.
 
 ##### `protected` `boolean`
 
