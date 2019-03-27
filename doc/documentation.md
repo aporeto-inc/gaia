@@ -2556,6 +2556,10 @@ needed on their side.
 
 #### Attributes
 
+##### `sourceID` `string`
+
+SourceNamespace contains the original ID of the updated object.
+
 ##### `sourceNamespace` `string`
 
 SourceNamespace contains the original namespace of the updated object.

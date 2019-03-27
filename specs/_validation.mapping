@@ -26,6 +26,10 @@ $optionalnetworks:
   elemental:
     name: ValidateOptionalNetworkList
 
+$pem:
+  elemental:
+    name: ValidatePEM
+
 $port:
   elemental:
     name: ValidatePortString

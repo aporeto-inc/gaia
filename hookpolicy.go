@@ -664,8 +664,16 @@ func (o *HookPolicy) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
+	if err := ValidatePEM("certificateAuthority", o.CertificateAuthority); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("clientCertificate", o.ClientCertificate); err != nil {
 		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := ValidatePEM("clientCertificate", o.ClientCertificate); err != nil {
+		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {

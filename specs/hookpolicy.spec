@@ -58,6 +58,8 @@ attributes:
       AiBl7/st9u/JpERjJgirxJxOgKNlV6pq9ti75EfQtZZcQA==
       -----END CERTIFICATE-----
     orderable: true
+    validations:
+    - $pem
 
   - name: clientCertificate
     description: |-
@@ -79,6 +81,8 @@ attributes:
       peGbBQIhAP+1OR8GFnn2PlacwHqWXHwkvy6CLPVikvgtwEdB6jH8
       -----END CERTIFICATE-----
     orderable: true
+    validations:
+    - $pem
 
   - name: clientCertificateKey
     description: ClientCertificateKey contains the key associated to the clientCertificate.
@@ -95,6 +99,8 @@ attributes:
     orderable: true
     secret: true
     transient: true
+    validations:
+    - $pem
 
   - name: continueOnError
     description: |-
