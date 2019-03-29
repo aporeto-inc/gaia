@@ -3,8 +3,8 @@ model:
   rest_name: uiparameter
   resource_name: uiparameters
   entity_name: UIParameter
-  package: highwind
-  group: integration/app
+  package: ignis
+  group: core/workflow
   description: Represents a parameter that will be shown in the UI.
   detached: true
 
@@ -97,7 +97,7 @@ attributes:
     stored: true
 
   - name: value
-    description: Value of the parameter (TODO-CS to remove).
+    description: Value of the parameter.
     type: object
     exposed: true
     stored: true

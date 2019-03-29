@@ -4,7 +4,7 @@ model:
   resource_name: validateuiparameters
   entity_name: ValidateUIParameter
   package: ignis
-  group: workflow
+  group: core/workflow
   description: This api validates a list of UIParameters.
   aliases:
   - validparam

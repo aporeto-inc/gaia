@@ -4,12 +4,25 @@ model:
   resource_name: recipes
   entity_name: Recipe
   package: ignis
-  group: workflow
+  group: core/workflow
   description: A Recipe defines a list of steps to define a workflow.
   aliases:
   - rcp
+  indexes:
+  - - :shard
+    - zone
+    - zHash
+  - - namespace
+  - - namespace
+    - name
+  - - namespace
+    - normalizedTags
+  - - namespace
+    - archived
   get:
     description: Retrieves the object with the given ID.
+    global_parameters:
+    - $propagatable
   update:
     description: Updates the object with the given ID.
   delete:
@@ -22,26 +35,14 @@ model:
   - '@identifiable-stored'
   - '@named'
   - '@metadatable'
-  - '@disabled'
   - '@propagated'
-  - '@hidden'
+  - '@timeable'
 
 # Attributes
 attributes:
   v1:
-  - name: category
-    description: Category indicates the category of the recipe.
-    type: enum
-    exposed: true
-    stored: true
-    allowed_choices:
-    - Official
-    - Users
-    - Network
-    - Service
-
   - name: icon
-    description: Icon contains a base64 image for the app.
+    description: Icon contains a base64 image for the recipe.
     type: string
     exposed: true
     stored: true

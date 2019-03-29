@@ -3,26 +3,10 @@ package gaia
 import (
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
-)
-
-// RecipeCategoryValue represents the possible values for attribute "category".
-type RecipeCategoryValue string
-
-const (
-	// RecipeCategoryNetwork represents the value Network.
-	RecipeCategoryNetwork RecipeCategoryValue = "Network"
-
-	// RecipeCategoryOfficial represents the value Official.
-	RecipeCategoryOfficial RecipeCategoryValue = "Official"
-
-	// RecipeCategoryService represents the value Service.
-	RecipeCategoryService RecipeCategoryValue = "Service"
-
-	// RecipeCategoryUsers represents the value Users.
-	RecipeCategoryUsers RecipeCategoryValue = "Users"
 )
 
 // RecipeIdentity represents the Identity of the object.
@@ -109,16 +93,13 @@ type Recipe struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// Category indicates the category of the recipe.
-	Category RecipeCategoryValue `json:"category" bson:"category" mapstructure:"category,omitempty"`
+	// Creation date of the object.
+	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
 	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
-	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
-
-	// Icon contains a base64 image for the app.
+	// Icon contains a base64 image for the recipe.
 	Icon string `json:"icon" bson:"icon" mapstructure:"icon,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -137,10 +118,6 @@ type Recipe struct {
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// If set to true while the policy is propagating, it won't be visible to children
-	// namespace, but still used for policy resolution.
-	PropagationHidden bool `json:"propagationHidden" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
-
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -149,6 +126,9 @@ type Recipe struct {
 
 	// Template of the recipe to import.
 	Template string `json:"template" bson:"template" mapstructure:"template,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -236,6 +216,18 @@ func (o *Recipe) SetAssociatedTags(associatedTags []string) {
 	o.AssociatedTags = associatedTags
 }
 
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *Recipe) GetCreateTime() time.Time {
+
+	return o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
+func (o *Recipe) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = createTime
+}
+
 // GetDescription returns the Description of the receiver.
 func (o *Recipe) GetDescription() string {
 
@@ -246,18 +238,6 @@ func (o *Recipe) GetDescription() string {
 func (o *Recipe) SetDescription(description string) {
 
 	o.Description = description
-}
-
-// GetDisabled returns the Disabled of the receiver.
-func (o *Recipe) GetDisabled() bool {
-
-	return o.Disabled
-}
-
-// SetDisabled sets the property Disabled of the receiver using the given value.
-func (o *Recipe) SetDisabled(disabled bool) {
-
-	o.Disabled = disabled
 }
 
 // GetMetadata returns the Metadata of the receiver.
@@ -320,18 +300,6 @@ func (o *Recipe) SetPropagate(propagate bool) {
 	o.Propagate = propagate
 }
 
-// GetPropagationHidden returns the PropagationHidden of the receiver.
-func (o *Recipe) GetPropagationHidden() bool {
-
-	return o.PropagationHidden
-}
-
-// SetPropagationHidden sets the property PropagationHidden of the receiver using the given value.
-func (o *Recipe) SetPropagationHidden(propagationHidden bool) {
-
-	o.PropagationHidden = propagationHidden
-}
-
 // GetProtected returns the Protected of the receiver.
 func (o *Recipe) GetProtected() bool {
 
@@ -344,6 +312,18 @@ func (o *Recipe) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *Recipe) GetUpdateTime() time.Time {
+
+	return o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
+func (o *Recipe) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = updateTime
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -351,22 +331,21 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseRecipe{
-			ID:                &o.ID,
-			Annotations:       &o.Annotations,
-			AssociatedTags:    &o.AssociatedTags,
-			Category:          &o.Category,
-			Description:       &o.Description,
-			Disabled:          &o.Disabled,
-			Icon:              &o.Icon,
-			Metadata:          &o.Metadata,
-			Name:              &o.Name,
-			Namespace:         &o.Namespace,
-			NormalizedTags:    &o.NormalizedTags,
-			Propagate:         &o.Propagate,
-			PropagationHidden: &o.PropagationHidden,
-			Protected:         &o.Protected,
-			Steps:             &o.Steps,
-			Template:          &o.Template,
+			ID:             &o.ID,
+			Annotations:    &o.Annotations,
+			AssociatedTags: &o.AssociatedTags,
+			CreateTime:     &o.CreateTime,
+			Description:    &o.Description,
+			Icon:           &o.Icon,
+			Metadata:       &o.Metadata,
+			Name:           &o.Name,
+			Namespace:      &o.Namespace,
+			NormalizedTags: &o.NormalizedTags,
+			Propagate:      &o.Propagate,
+			Protected:      &o.Protected,
+			Steps:          &o.Steps,
+			Template:       &o.Template,
+			UpdateTime:     &o.UpdateTime,
 		}
 	}
 
@@ -379,12 +358,10 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
-		case "category":
-			sp.Category = &(o.Category)
+		case "createTime":
+			sp.CreateTime = &(o.CreateTime)
 		case "description":
 			sp.Description = &(o.Description)
-		case "disabled":
-			sp.Disabled = &(o.Disabled)
 		case "icon":
 			sp.Icon = &(o.Icon)
 		case "metadata":
@@ -397,14 +374,14 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "propagate":
 			sp.Propagate = &(o.Propagate)
-		case "propagationHidden":
-			sp.PropagationHidden = &(o.PropagationHidden)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "steps":
 			sp.Steps = &(o.Steps)
 		case "template":
 			sp.Template = &(o.Template)
+		case "updateTime":
+			sp.UpdateTime = &(o.UpdateTime)
 		}
 	}
 
@@ -427,14 +404,11 @@ func (o *Recipe) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
 	}
-	if so.Category != nil {
-		o.Category = *so.Category
+	if so.CreateTime != nil {
+		o.CreateTime = *so.CreateTime
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
-	}
-	if so.Disabled != nil {
-		o.Disabled = *so.Disabled
 	}
 	if so.Icon != nil {
 		o.Icon = *so.Icon
@@ -454,9 +428,6 @@ func (o *Recipe) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Propagate != nil {
 		o.Propagate = *so.Propagate
 	}
-	if so.PropagationHidden != nil {
-		o.PropagationHidden = *so.PropagationHidden
-	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
@@ -465,6 +436,9 @@ func (o *Recipe) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Template != nil {
 		o.Template = *so.Template
+	}
+	if so.UpdateTime != nil {
+		o.UpdateTime = *so.UpdateTime
 	}
 }
 
@@ -497,10 +471,6 @@ func (o *Recipe) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
-
-	if err := elemental.ValidateStringInList("category", string(o.Category), []string{"Official", "Users", "Network", "Service"}, false); err != nil {
-		errors = append(errors, err)
-	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
@@ -560,12 +530,10 @@ func (o *Recipe) ValueForAttribute(name string) interface{} {
 		return o.Annotations
 	case "associatedTags":
 		return o.AssociatedTags
-	case "category":
-		return o.Category
+	case "createTime":
+		return o.CreateTime
 	case "description":
 		return o.Description
-	case "disabled":
-		return o.Disabled
 	case "icon":
 		return o.Icon
 	case "metadata":
@@ -578,14 +546,14 @@ func (o *Recipe) ValueForAttribute(name string) interface{} {
 		return o.NormalizedTags
 	case "propagate":
 		return o.Propagate
-	case "propagationHidden":
-		return o.PropagationHidden
 	case "protected":
 		return o.Protected
 	case "steps":
 		return o.Steps
 	case "template":
 		return o.Template
+	case "updateTime":
+		return o.UpdateTime
 	}
 
 	return nil
@@ -631,14 +599,19 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "list",
 	},
-	"Category": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Official", "Users", "Network", "Service"},
-		ConvertedName:  "Category",
-		Description:    `Category indicates the category of the recipe.`,
+	"CreateTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateTime",
+		Description:    `Creation date of the object.`,
 		Exposed:        true,
-		Name:           "category",
+		Getter:         true,
+		Name:           "createTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
-		Type:           "enum",
+		Type:           "time",
 	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -653,22 +626,10 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Disabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "disabled",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"Icon": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Icon",
-		Description:    `Icon contains a base64 image for the app.`,
+		Description:    `Icon contains a base64 image for the recipe.`,
 		Exposed:        true,
 		Name:           "icon",
 		Stored:         true,
@@ -749,19 +710,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"PropagationHidden": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PropagationHidden",
-		Description: `If set to true while the policy is propagating, it won't be visible to children
-namespace, but still used for policy resolution.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "propagationHidden",
-		Orderable: true,
-		Setter:    true,
-		Stored:    true,
-		Type:      "boolean",
-	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -792,6 +740,20 @@ namespace, but still used for policy resolution.`,
 		Name:           "template",
 		Stored:         true,
 		Type:           "string",
+	},
+	"UpdateTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateTime",
+		Description:    `Last update date of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "updateTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 }
 
@@ -835,14 +797,19 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "list",
 	},
-	"category": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Official", "Users", "Network", "Service"},
-		ConvertedName:  "Category",
-		Description:    `Category indicates the category of the recipe.`,
+	"createtime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateTime",
+		Description:    `Creation date of the object.`,
 		Exposed:        true,
-		Name:           "category",
+		Getter:         true,
+		Name:           "createTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
-		Type:           "enum",
+		Type:           "time",
 	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -857,22 +824,10 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"disabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Disabled",
-		Description:    `Disabled defines if the propert is disabled.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "disabled",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"icon": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Icon",
-		Description:    `Icon contains a base64 image for the app.`,
+		Description:    `Icon contains a base64 image for the recipe.`,
 		Exposed:        true,
 		Name:           "icon",
 		Stored:         true,
@@ -953,19 +908,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"propagationhidden": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "PropagationHidden",
-		Description: `If set to true while the policy is propagating, it won't be visible to children
-namespace, but still used for policy resolution.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "propagationHidden",
-		Orderable: true,
-		Setter:    true,
-		Stored:    true,
-		Type:      "boolean",
-	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -996,6 +938,20 @@ namespace, but still used for policy resolution.`,
 		Name:           "template",
 		Stored:         true,
 		Type:           "string",
+	},
+	"updatetime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateTime",
+		Description:    `Last update date of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "updateTime",
+		Orderable:      true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 }
 
@@ -1074,16 +1030,13 @@ type SparseRecipe struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// Category indicates the category of the recipe.
-	Category *RecipeCategoryValue `json:"category,omitempty" bson:"category" mapstructure:"category,omitempty"`
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
 
-	// Disabled defines if the propert is disabled.
-	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
-
-	// Icon contains a base64 image for the app.
+	// Icon contains a base64 image for the recipe.
 	Icon *string `json:"icon,omitempty" bson:"icon" mapstructure:"icon,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
@@ -1102,10 +1055,6 @@ type SparseRecipe struct {
 	// Propagate will propagate the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
 
-	// If set to true while the policy is propagating, it won't be visible to children
-	// namespace, but still used for policy resolution.
-	PropagationHidden *bool `json:"propagationHidden,omitempty" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
-
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
 
@@ -1114,6 +1063,9 @@ type SparseRecipe struct {
 
 	// Template of the recipe to import.
 	Template *string `json:"template,omitempty" bson:"template" mapstructure:"template,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -1165,14 +1117,11 @@ func (o *SparseRecipe) ToPlain() elemental.PlainIdentifiable {
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
-	if o.Category != nil {
-		out.Category = *o.Category
+	if o.CreateTime != nil {
+		out.CreateTime = *o.CreateTime
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
-	}
-	if o.Disabled != nil {
-		out.Disabled = *o.Disabled
 	}
 	if o.Icon != nil {
 		out.Icon = *o.Icon
@@ -1192,9 +1141,6 @@ func (o *SparseRecipe) ToPlain() elemental.PlainIdentifiable {
 	if o.Propagate != nil {
 		out.Propagate = *o.Propagate
 	}
-	if o.PropagationHidden != nil {
-		out.PropagationHidden = *o.PropagationHidden
-	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
 	}
@@ -1203,6 +1149,9 @@ func (o *SparseRecipe) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Template != nil {
 		out.Template = *o.Template
+	}
+	if o.UpdateTime != nil {
+		out.UpdateTime = *o.UpdateTime
 	}
 
 	return out
@@ -1232,6 +1181,18 @@ func (o *SparseRecipe) SetAssociatedTags(associatedTags []string) {
 	o.AssociatedTags = &associatedTags
 }
 
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseRecipe) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseRecipe) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
 // GetDescription returns the Description of the receiver.
 func (o *SparseRecipe) GetDescription() string {
 
@@ -1242,18 +1203,6 @@ func (o *SparseRecipe) GetDescription() string {
 func (o *SparseRecipe) SetDescription(description string) {
 
 	o.Description = &description
-}
-
-// GetDisabled returns the Disabled of the receiver.
-func (o *SparseRecipe) GetDisabled() bool {
-
-	return *o.Disabled
-}
-
-// SetDisabled sets the property Disabled of the receiver using the address of the given value.
-func (o *SparseRecipe) SetDisabled(disabled bool) {
-
-	o.Disabled = &disabled
 }
 
 // GetMetadata returns the Metadata of the receiver.
@@ -1316,18 +1265,6 @@ func (o *SparseRecipe) SetPropagate(propagate bool) {
 	o.Propagate = &propagate
 }
 
-// GetPropagationHidden returns the PropagationHidden of the receiver.
-func (o *SparseRecipe) GetPropagationHidden() bool {
-
-	return *o.PropagationHidden
-}
-
-// SetPropagationHidden sets the property PropagationHidden of the receiver using the address of the given value.
-func (o *SparseRecipe) SetPropagationHidden(propagationHidden bool) {
-
-	o.PropagationHidden = &propagationHidden
-}
-
 // GetProtected returns the Protected of the receiver.
 func (o *SparseRecipe) GetProtected() bool {
 
@@ -1338,6 +1275,18 @@ func (o *SparseRecipe) GetProtected() bool {
 func (o *SparseRecipe) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseRecipe) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseRecipe) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
 }
 
 // DeepCopy returns a deep copy if the SparseRecipe.

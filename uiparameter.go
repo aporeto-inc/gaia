@@ -84,7 +84,7 @@ type UIParameter struct {
 	// ValidationFunction represents the function to validate the parameter.
 	ValidationFunction string `json:"validationFunction" bson:"validationfunction" mapstructure:"validationFunction,omitempty"`
 
-	// Value of the parameter (TODO-CS to remove).
+	// Value of the parameter.
 	Value interface{} `json:"value" bson:"value" mapstructure:"value,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`

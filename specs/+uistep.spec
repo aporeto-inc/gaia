@@ -3,8 +3,8 @@ model:
   rest_name: uistep
   resource_name: uisteps
   entity_name: UIStep
-  package: highwind
-  group: integration/app
+  package: ignis
+  group: core/workflow
   description: Represents a parameter that will be shown in the UI.
   detached: true
 
@@ -30,7 +30,7 @@ attributes:
     exposed: true
     stored: true
     required: true
-    example_value: title of the step
+    example_value: General configuration
 
   - name: parameters
     description: List of parameters for this step.
