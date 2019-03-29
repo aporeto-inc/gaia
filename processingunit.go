@@ -41,6 +41,9 @@ const (
 
 	// ProcessingUnitOperationalStatusTerminated represents the value Terminated.
 	ProcessingUnitOperationalStatusTerminated ProcessingUnitOperationalStatusValue = "Terminated"
+
+	// ProcessingUnitOperationalStatusUnknown represents the value Unknown.
+	ProcessingUnitOperationalStatusUnknown ProcessingUnitOperationalStatusValue = "Unknown"
 )
 
 // ProcessingUnitTypeValue represents the possible values for attribute "type".
@@ -718,7 +721,7 @@ func (o *ProcessingUnit) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("operationalStatus", string(o.OperationalStatus), []string{"Initialized", "Paused", "Running", "Stopped", "Terminated"}, false); err != nil {
+	if err := elemental.ValidateStringInList("operationalStatus", string(o.OperationalStatus), []string{"Initialized", "Paused", "Running", "Stopped", "Terminated", "Unknown"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -1079,7 +1082,7 @@ or by exposing the ports in a container manifest.`,
 		Type:           "list",
 	},
 	"OperationalStatus": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Initialized", "Paused", "Running", "Stopped", "Terminated"},
+		AllowedChoices: []string{"Initialized", "Paused", "Running", "Stopped", "Terminated", "Unknown"},
 		ConvertedName:  "OperationalStatus",
 		DefaultValue:   ProcessingUnitOperationalStatusInitialized,
 		Description:    `OperationalStatus of the processing unit.`,
@@ -1418,7 +1421,7 @@ or by exposing the ports in a container manifest.`,
 		Type:           "list",
 	},
 	"operationalstatus": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Initialized", "Paused", "Running", "Stopped", "Terminated"},
+		AllowedChoices: []string{"Initialized", "Paused", "Running", "Stopped", "Terminated", "Unknown"},
 		ConvertedName:  "OperationalStatus",
 		DefaultValue:   ProcessingUnitOperationalStatusInitialized,
 		Description:    `OperationalStatus of the processing unit.`,
