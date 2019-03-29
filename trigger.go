@@ -85,7 +85,7 @@ type Trigger struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTrigger returns a new *Trigger
@@ -93,6 +93,7 @@ func NewTrigger() *Trigger {
 
 	return &Trigger{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -328,11 +329,11 @@ func (o SparseTriggersList) Version() int {
 // SparseTrigger represents the sparse version of a trigger.
 type SparseTrigger struct {
 	// Payload contains the eventual remote POST payload.
-	Payload *string `json:"-,omitempty" bson:"-" mapstructure:"-,omitempty"`
+	Payload *string `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseTrigger returns a new  SparseTrigger.

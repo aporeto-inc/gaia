@@ -15,7 +15,7 @@ type TimeSeriesQueryResults struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTimeSeriesQueryResults returns a new *TimeSeriesQueryResults
@@ -23,6 +23,7 @@ func NewTimeSeriesQueryResults() *TimeSeriesQueryResults {
 
 	return &TimeSeriesQueryResults{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Rows:         []*TimeSeriesRow{},
 	}
 }

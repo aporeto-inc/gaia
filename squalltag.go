@@ -91,7 +91,7 @@ type SquallTag struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSquallTag returns a new *SquallTag
@@ -99,6 +99,7 @@ func NewSquallTag() *SquallTag {
 
 	return &SquallTag{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -389,17 +390,17 @@ func (o SparseSquallTagsList) Version() int {
 // SparseSquallTag represents the sparse version of a squalltag.
 type SparseSquallTag struct {
 	// Number of time this tag is used.
-	Count *int `json:"count,omitempty" bson:"count" mapstructure:"count,omitempty"`
+	Count *int `json:"count,omitempty" bson:"count,omitempty" mapstructure:"count,omitempty"`
 
 	// namespace containing these tags.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Value of the tag.
-	Value *string `json:"value,omitempty" bson:"value" mapstructure:"value,omitempty"`
+	Value *string `json:"value,omitempty" bson:"value,omitempty" mapstructure:"value,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseSquallTag returns a new  SparseSquallTag.

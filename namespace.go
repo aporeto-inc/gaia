@@ -137,7 +137,7 @@ type Namespace struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewNamespace returns a new *Namespace
@@ -145,6 +145,7 @@ func NewNamespace() *Namespace {
 
 	return &Namespace{
 		ModelVersion:               1,
+		Mutex:                      &sync.Mutex{},
 		Annotations:                map[string][]string{},
 		AssociatedTags:             []string{},
 		Metadata:                   []string{},
@@ -582,6 +583,7 @@ var NamespaceAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `AssociatedLocalCAID holds the remote ID of the certificate authority to use.`,
 		Name:           "associatedLocalCAID",
 		ReadOnly:       true,
+		Secret:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -793,6 +795,7 @@ var NamespaceLowerCaseAttributesMap = map[string]elemental.AttributeSpecificatio
 		Description:    `AssociatedLocalCAID holds the remote ID of the certificate authority to use.`,
 		Name:           "associatedLocalCAID",
 		ReadOnly:       true,
+		Secret:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1039,57 +1042,57 @@ type SparseNamespace struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedLocalCAID holds the remote ID of the certificate authority to use.
-	AssociatedLocalCAID *string `json:"-,omitempty" bson:"associatedlocalcaid" mapstructure:"-,omitempty"`
+	AssociatedLocalCAID *string `json:"-" bson:"associatedlocalcaid,omitempty" mapstructure:"-,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// LocalCA holds the eventual certificate authority used by this namespace.
-	LocalCA *string `json:"localCA,omitempty" bson:"localca" mapstructure:"localCA,omitempty"`
+	LocalCA *string `json:"localCA,omitempty" bson:"localca,omitempty" mapstructure:"localCA,omitempty"`
 
 	// LocalCAEnabled defines if the namespace should use a local Certificate
 	// Authority. Switching it off and on again will regenerate a new CA.
-	LocalCAEnabled *bool `json:"localCAEnabled,omitempty" bson:"localcaenabled" mapstructure:"localCAEnabled,omitempty"`
+	LocalCAEnabled *bool `json:"localCAEnabled,omitempty" bson:"localcaenabled,omitempty" mapstructure:"localCAEnabled,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the namespace.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// List of tags that will be added to every `+"`"+`or`+"`"+` clause of all network access
 	// policies in the namespace and its children.
-	NetworkAccessPolicyTags *[]string `json:"networkAccessPolicyTags,omitempty" bson:"networkaccesspolicytags" mapstructure:"networkAccessPolicyTags,omitempty"`
+	NetworkAccessPolicyTags *[]string `json:"networkAccessPolicyTags,omitempty" bson:"networkaccesspolicytags,omitempty" mapstructure:"networkAccessPolicyTags,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// Determines the validity time of certificates issued in this namespace. Default
 	// value is 1 hour.
-	ServiceCertificateValidity *string `json:"serviceCertificateValidity,omitempty" bson:"servicecertificatevalidity" mapstructure:"serviceCertificateValidity,omitempty"`
+	ServiceCertificateValidity *string `json:"serviceCertificateValidity,omitempty" bson:"servicecertificatevalidity,omitempty" mapstructure:"serviceCertificateValidity,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseNamespace returns a new  SparseNamespace.

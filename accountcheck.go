@@ -82,7 +82,7 @@ func (o AccountChecksList) Version() int {
 type AccountCheck struct {
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAccountCheck returns a new *AccountCheck
@@ -90,6 +90,7 @@ func NewAccountCheck() *AccountCheck {
 
 	return &AccountCheck{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -294,7 +295,7 @@ func (o SparseAccountChecksList) Version() int {
 type SparseAccountCheck struct {
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAccountCheck returns a new  SparseAccountCheck.

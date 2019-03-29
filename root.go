@@ -23,7 +23,7 @@ type Root struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewRoot returns a new *Root
@@ -31,6 +31,7 @@ func NewRoot() *Root {
 
 	return &Root{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

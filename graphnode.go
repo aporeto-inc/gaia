@@ -60,7 +60,7 @@ type GraphNode struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewGraphNode returns a new *GraphNode
@@ -68,6 +68,7 @@ func NewGraphNode() *GraphNode {
 
 	return &GraphNode{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Tags:         []string{},
 	}
 }

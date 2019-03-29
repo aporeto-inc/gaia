@@ -127,7 +127,7 @@ type APICheck struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAPICheck returns a new *APICheck
@@ -135,6 +135,7 @@ func NewAPICheck() *APICheck {
 
 	return &APICheck{
 		ModelVersion:     1,
+		Mutex:            &sync.Mutex{},
 		Authorized:       map[string]bool{},
 		Claims:           []string{},
 		TargetIdentities: []string{},
@@ -546,7 +547,7 @@ type SparseAPICheck struct {
 	Namespace *string `json:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Operation is the operation you want to check.
-	Operation *APICheckOperationValue `json:"operation,omitempty" bson:"operation" mapstructure:"operation,omitempty"`
+	Operation *APICheckOperationValue `json:"operation,omitempty" bson:"operation,omitempty" mapstructure:"operation,omitempty"`
 
 	// TargetIdentities contains the list of identities you want to check the
 	// authorization.
@@ -557,7 +558,7 @@ type SparseAPICheck struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAPICheck returns a new  SparseAPICheck.

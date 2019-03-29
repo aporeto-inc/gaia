@@ -24,7 +24,7 @@ type TimeSeriesRow struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTimeSeriesRow returns a new *TimeSeriesRow
@@ -32,6 +32,7 @@ func NewTimeSeriesRow() *TimeSeriesRow {
 
 	return &TimeSeriesRow{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Columns:      []string{},
 		Tags:         map[string]string{},
 		Values:       [][]interface{}{},

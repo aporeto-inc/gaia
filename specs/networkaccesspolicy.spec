@@ -82,6 +82,8 @@ attributes:
     exposed: true
     subtype: list_of_lists_of_strings
     orderable: true
+    validations:
+    - $policyExpression
 
   - name: observationEnabled
     description: If set to true, the flow will be in observation mode.
@@ -107,6 +109,8 @@ attributes:
     exposed: true
     subtype: list_of_lists_of_strings
     orderable: true
+    validations:
+    - $policyExpression
 
 # Relations
 relations:

@@ -509,3 +509,85 @@ func ValidateAudience(attribute string, audience string) error {
 	// TODO: not liking the idea of importing addedeffect here
 	return nil
 }
+
+// ValidatePEM validates a string contains a PEM.
+func ValidatePEM(attribute string, pemdata string) error {
+
+	if pemdata == "" {
+		return nil
+	}
+
+	var i int
+	var block *pem.Block
+	rest := []byte(pemdata)
+
+	for {
+		block, rest = pem.Decode(rest)
+
+		if block == nil {
+			return makeValidationError(attribute, fmt.Sprintf("Unable to decode PEM number %d", i))
+		}
+
+		if len(rest) == 0 {
+			return nil
+		}
+		i++
+	}
+}
+
+// Constants to validate tags.
+const (
+	prefixDynamicTag  = "$"
+	prefixExpandedTag = "+"
+	prefixMetadata    = "@"
+)
+
+// validateTagStrings validates the given string and check if it can be a valid value for a Tag.
+func validateTagStrings(attribute string, acceptReservedPrefix bool, strs ...string) error {
+
+	for _, s := range strs {
+
+		if !acceptReservedPrefix && (strings.HasPrefix(s, prefixMetadata) || strings.HasPrefix(s, prefixDynamicTag) || strings.HasPrefix(s, prefixExpandedTag)) {
+			return makeValidationError(attribute, fmt.Sprintf("%s starts with an @, a $ or a + that is reserved", s))
+		}
+
+		if err := validateTag(s); err != nil {
+			return makeValidationError(attribute, fmt.Sprintf("invalid tag %s: %s", s, err))
+		}
+	}
+
+	return nil
+}
+
+func validateTag(tag string) error {
+	pattern := `^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@~<>#/-]+$`
+
+	re := regexp.MustCompile(pattern)
+
+	if !re.MatchString(tag) {
+		return fmt.Errorf("`%s must contain at least one '=' symbol separating two valid words", tag)
+	}
+
+	return nil
+}
+
+// ValidateTags validates a list of tags are valid. Accepts those with reserved prefix.
+func ValidateTags(attribute string, tags []string) error {
+	return validateTagStrings(attribute, true, tags...)
+}
+
+// ValidateTagsWithoutReservedPrefixes a list of tags are valid. Refuse those with reserved prefix.
+func ValidateTagsWithoutReservedPrefixes(attribute string, tags []string) error {
+	return validateTagStrings(attribute, false, tags...)
+}
+
+// ValidatePolicyExpression validates an [][]string is a valid policy expression
+func ValidatePolicyExpression(attribute string, expression [][]string) error {
+	for _, tags := range expression {
+		if err := ValidateTags(attribute, tags); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}

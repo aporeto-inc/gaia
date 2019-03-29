@@ -121,7 +121,7 @@ type RenderedPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewRenderedPolicy returns a new *RenderedPolicy
@@ -129,6 +129,7 @@ func NewRenderedPolicy() *RenderedPolicy {
 
 	return &RenderedPolicy{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		EgressPolicies: map[string]PolicyRulesList{
 			string(constants.RenderedPolicyTypeNetwork):   PolicyRulesList{},
 			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
@@ -729,11 +730,11 @@ type SparseRenderedPolicy struct {
 
 	// Scopes is the set of scopes granted to this processing unit that it has to
 	// present in HTTP requests.
-	Scopes *[]string `json:"scopes,omitempty" bson:"scopes" mapstructure:"scopes,omitempty"`
+	Scopes *[]string `json:"scopes,omitempty" bson:"scopes,omitempty" mapstructure:"scopes,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseRenderedPolicy returns a new  SparseRenderedPolicy.

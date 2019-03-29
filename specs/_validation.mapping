@@ -30,6 +30,14 @@ $optionalnetworks:
   elemental:
     name: ValidateOptionalNetworkList
 
+$pem:
+  elemental:
+    name: ValidatePEM
+
+$policyExpression:
+  elemental:
+    name: ValidatePolicyExpression
+
 $port:
   elemental:
     name: ValidatePortString
@@ -53,6 +61,14 @@ $protocols:
 $serviceEntity:
   elemental:
     name: ValidateServiceEntity
+
+$tagsExpression:
+  elemental:
+    name: ValidateTags
+
+$tagsExpressionWithoutReservedPrefixes:
+  elemental:
+    name: ValidateTagsWithoutReservedPrefixes
 
 $timeDuration:
   elemental:

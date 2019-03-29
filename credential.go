@@ -33,7 +33,7 @@ type Credential struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewCredential returns a new *Credential
@@ -41,6 +41,7 @@ func NewCredential() *Credential {
 
 	return &Credential{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 

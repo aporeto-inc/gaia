@@ -96,7 +96,7 @@ type Export struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewExport returns a new *Export
@@ -104,6 +104,7 @@ func NewExport() *Export {
 
 	return &Export{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Data:         map[string][]map[string]interface{}{},
 		Identities:   []string{},
 	}
@@ -439,7 +440,7 @@ type SparseExport struct {
 	Data *map[string][]map[string]interface{} `json:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
 	// The list of identities to export.
-	Identities *[]string `json:"identities,omitempty" bson:"identities" mapstructure:"identities,omitempty"`
+	Identities *[]string `json:"identities,omitempty" bson:"identities,omitempty" mapstructure:"identities,omitempty"`
 
 	// Label allows to define a unique label for this export. When importing the
 	// content of the export, this label will be added as a tag that will be used to
@@ -448,7 +449,7 @@ type SparseExport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseExport returns a new  SparseExport.

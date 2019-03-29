@@ -24,7 +24,7 @@ type DeprecatedHostService struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewDeprecatedHostService returns a new *DeprecatedHostService
@@ -32,6 +32,7 @@ func NewDeprecatedHostService() *DeprecatedHostService {
 
 	return &DeprecatedHostService{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		AssociatedTags: []string{},
 		Networkonly:    true,
 		Services:       []*ProcessingUnitService{},

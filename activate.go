@@ -85,7 +85,7 @@ type Activate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewActivate returns a new *Activate
@@ -93,6 +93,7 @@ func NewActivate() *Activate {
 
 	return &Activate{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -334,7 +335,7 @@ type SparseActivate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseActivate returns a new  SparseActivate.

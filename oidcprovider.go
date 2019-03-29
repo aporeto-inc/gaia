@@ -118,7 +118,7 @@ type OIDCProvider struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewOIDCProvider returns a new *OIDCProvider
@@ -126,6 +126,7 @@ func NewOIDCProvider() *OIDCProvider {
 
 	return &OIDCProvider{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Scopes:       []string{},
 	}
 }
@@ -406,6 +407,7 @@ var OIDCProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "clientSecret",
 		Required:       true,
+		Secret:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -535,6 +537,7 @@ var OIDCProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Exposed:        true,
 		Name:           "clientSecret",
 		Required:       true,
+		Secret:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -697,40 +700,40 @@ type SparseOIDCProvider struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Unique client ID.
-	ClientID *string `json:"clientID,omitempty" bson:"clientid" mapstructure:"clientID,omitempty"`
+	ClientID *string `json:"clientID,omitempty" bson:"clientid,omitempty" mapstructure:"clientID,omitempty"`
 
 	// Client secret associated with the client ID.
-	ClientSecret *string `json:"clientSecret,omitempty" bson:"clientsecret" mapstructure:"clientSecret,omitempty"`
+	ClientSecret *string `json:"clientSecret,omitempty" bson:"clientsecret,omitempty" mapstructure:"clientSecret,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// If set, this will be the default OIDCProvider. There can be only one default
 	// provider in your account. When logging in with OIDC, if not provider name is
 	// given, the default will be used.
-	Default *bool `json:"default,omitempty" bson:"default" mapstructure:"default,omitempty"`
+	Default *bool `json:"default,omitempty" bson:"default,omitempty" mapstructure:"default,omitempty"`
 
 	// OIDC information endpoint.
-	Endpoint *string `json:"endpoint,omitempty" bson:"endpoint" mapstructure:"endpoint,omitempty"`
+	Endpoint *string `json:"endpoint,omitempty" bson:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
 	// Name of the provider.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// ParentID contains the parent Vince account ID.
-	ParentID *string `json:"parentID,omitempty" bson:"parentid" mapstructure:"parentID,omitempty"`
+	ParentID *string `json:"parentID,omitempty" bson:"parentid,omitempty" mapstructure:"parentID,omitempty"`
 
 	// ParentName contains the name of the Vince parent Account.
-	ParentName *string `json:"parentName,omitempty" bson:"parentname" mapstructure:"parentName,omitempty"`
+	ParentName *string `json:"parentName,omitempty" bson:"parentname,omitempty" mapstructure:"parentName,omitempty"`
 
 	// List of scopes to allow.
-	Scopes *[]string `json:"scopes,omitempty" bson:"scopes" mapstructure:"scopes,omitempty"`
+	Scopes *[]string `json:"scopes,omitempty" bson:"scopes,omitempty" mapstructure:"scopes,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseOIDCProvider returns a new  SparseOIDCProvider.
