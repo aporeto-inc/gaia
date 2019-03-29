@@ -5915,6 +5915,18 @@ This API represents the claims that accessed a service.
 
 #### Relations
 
+##### `GET /claimsaccesses`
+
+Retrieves the list of claims accesses.
+
+Parameters:
+
+- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
+
+##### `POST /claimsaccesses`
+
+Creates a new claims access record.
+
 ##### `GET /claimsaccesses/:id`
 
 Retrieves the object with the given ID.
