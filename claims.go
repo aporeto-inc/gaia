@@ -9,43 +9,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// ClaimsAccessIdentity represents the Identity of the object.
-var ClaimsAccessIdentity = elemental.Identity{
-	Name:     "claimsaccess",
-	Category: "claimsaccesses",
+// ClaimsIdentity represents the Identity of the object.
+var ClaimsIdentity = elemental.Identity{
+	Name:     "claims",
+	Category: "claims",
 	Package:  "guy",
 	Private:  false,
 }
 
-// ClaimsAccessList represents a list of ClaimsAccess
-type ClaimsAccessList []*ClaimsAccess
+// ClaimsList represents a list of Claims
+type ClaimsList []*Claims
 
 // Identity returns the identity of the objects in the list.
-func (o ClaimsAccessList) Identity() elemental.Identity {
+func (o ClaimsList) Identity() elemental.Identity {
 
-	return ClaimsAccessIdentity
+	return ClaimsIdentity
 }
 
-// Copy returns a pointer to a copy the ClaimsAccessList.
-func (o ClaimsAccessList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the ClaimsList.
+func (o ClaimsList) Copy() elemental.Identifiables {
 
-	copy := append(ClaimsAccessList{}, o...)
+	copy := append(ClaimsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the ClaimsAccessList.
-func (o ClaimsAccessList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the ClaimsList.
+func (o ClaimsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(ClaimsAccessList{}, o...)
+	out := append(ClaimsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*ClaimsAccess))
+		out = append(out, obj.(*Claims))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o ClaimsAccessList) List() elemental.IdentifiablesList {
+func (o ClaimsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -56,16 +56,16 @@ func (o ClaimsAccessList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o ClaimsAccessList) DefaultOrder() []string {
+func (o ClaimsList) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
 	}
 }
 
-// ToSparse returns the ClaimsAccessList converted to SparseClaimsAccessList.
+// ToSparse returns the ClaimsList converted to SparseClaimsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ClaimsAccessList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o ClaimsList) ToSparse(fields ...string) elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -76,13 +76,13 @@ func (o ClaimsAccessList) ToSparse(fields ...string) elemental.IdentifiablesList
 }
 
 // Version returns the version of the content.
-func (o ClaimsAccessList) Version() int {
+func (o ClaimsList) Version() int {
 
 	return 1
 }
 
-// ClaimsAccess represents the model of a claimsaccess
-type ClaimsAccess struct {
+// Claims represents the model of a claims
+type Claims struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
@@ -126,10 +126,10 @@ type ClaimsAccess struct {
 	*sync.Mutex `json:"-" bson:"-"`
 }
 
-// NewClaimsAccess returns a new *ClaimsAccess
-func NewClaimsAccess() *ClaimsAccess {
+// NewClaims returns a new *Claims
+func NewClaims() *Claims {
 
-	return &ClaimsAccess{
+	return &Claims{
 		ModelVersion:   1,
 		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
@@ -140,31 +140,31 @@ func NewClaimsAccess() *ClaimsAccess {
 }
 
 // Identity returns the Identity of the object.
-func (o *ClaimsAccess) Identity() elemental.Identity {
+func (o *Claims) Identity() elemental.Identity {
 
-	return ClaimsAccessIdentity
+	return ClaimsIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *ClaimsAccess) Identifier() string {
+func (o *Claims) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *ClaimsAccess) SetIdentifier(id string) {
+func (o *Claims) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *ClaimsAccess) Version() int {
+func (o *Claims) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *ClaimsAccess) DefaultOrder() []string {
+func (o *Claims) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
@@ -172,106 +172,106 @@ func (o *ClaimsAccess) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *ClaimsAccess) Doc() string {
+func (o *Claims) Doc() string {
 	return `This API represents the claims that accessed a service.`
 }
 
-func (o *ClaimsAccess) String() string {
+func (o *Claims) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *ClaimsAccess) GetAnnotations() map[string][]string {
+func (o *Claims) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *ClaimsAccess) SetAnnotations(annotations map[string][]string) {
+func (o *Claims) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *ClaimsAccess) GetAssociatedTags() []string {
+func (o *Claims) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *ClaimsAccess) SetAssociatedTags(associatedTags []string) {
+func (o *Claims) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *ClaimsAccess) GetNamespace() string {
+func (o *Claims) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *ClaimsAccess) SetNamespace(namespace string) {
+func (o *Claims) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *ClaimsAccess) GetNormalizedTags() []string {
+func (o *Claims) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *ClaimsAccess) SetNormalizedTags(normalizedTags []string) {
+func (o *Claims) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *ClaimsAccess) GetProtected() bool {
+func (o *Claims) GetProtected() bool {
 
 	return o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the given value.
-func (o *ClaimsAccess) SetProtected(protected bool) {
+func (o *Claims) SetProtected(protected bool) {
 
 	o.Protected = protected
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *ClaimsAccess) GetZHash() int {
+func (o *Claims) GetZHash() int {
 
 	return o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the given value.
-func (o *ClaimsAccess) SetZHash(zHash int) {
+func (o *Claims) SetZHash(zHash int) {
 
 	o.ZHash = zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *ClaimsAccess) GetZone() int {
+func (o *Claims) GetZone() int {
 
 	return o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the given value.
-func (o *ClaimsAccess) SetZone(zone int) {
+func (o *Claims) SetZone(zone int) {
 
 	o.Zone = zone
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *ClaimsAccess) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *Claims) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseClaimsAccess{
+		return &SparseClaims{
 			ID:             &o.ID,
 			Annotations:    &o.Annotations,
 			AssociatedTags: &o.AssociatedTags,
@@ -287,7 +287,7 @@ func (o *ClaimsAccess) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		}
 	}
 
-	sp := &SparseClaimsAccess{}
+	sp := &SparseClaims{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
@@ -320,13 +320,13 @@ func (o *ClaimsAccess) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseClaimsAccess to the object.
-func (o *ClaimsAccess) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseClaims to the object.
+func (o *Claims) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseClaimsAccess)
+	so := sparse.(*SparseClaims)
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
@@ -365,32 +365,32 @@ func (o *ClaimsAccess) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the ClaimsAccess.
-func (o *ClaimsAccess) DeepCopy() *ClaimsAccess {
+// DeepCopy returns a deep copy if the Claims.
+func (o *Claims) DeepCopy() *Claims {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &ClaimsAccess{}
+	out := &Claims{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *ClaimsAccess.
-func (o *ClaimsAccess) DeepCopyInto(out *ClaimsAccess) {
+// DeepCopyInto copies the receiver into the given *Claims.
+func (o *Claims) DeepCopyInto(out *Claims) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy ClaimsAccess: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy Claims: %s", err))
 	}
 
-	*out = *target.(*ClaimsAccess)
+	*out = *target.(*Claims)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *ClaimsAccess) Validate() error {
+func (o *Claims) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -415,26 +415,26 @@ func (o *ClaimsAccess) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*ClaimsAccess) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*Claims) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := ClaimsAccessAttributesMap[name]; ok {
+	if v, ok := ClaimsAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return ClaimsAccessLowerCaseAttributesMap[name]
+	return ClaimsLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*ClaimsAccess) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*Claims) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return ClaimsAccessAttributesMap
+	return ClaimsAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *ClaimsAccess) ValueForAttribute(name string) interface{} {
+func (o *Claims) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
@@ -466,8 +466,8 @@ func (o *ClaimsAccess) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// ClaimsAccessAttributesMap represents the map of attribute for ClaimsAccess.
-var ClaimsAccessAttributesMap = map[string]elemental.AttributeSpecification{
+// ClaimsAttributesMap represents the map of attribute for Claims.
+var ClaimsAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -620,8 +620,8 @@ georedundancy.`,
 	},
 }
 
-// ClaimsAccessLowerCaseAttributesMap represents the map of attribute for ClaimsAccess.
-var ClaimsAccessLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// ClaimsLowerCaseAttributesMap represents the map of attribute for Claims.
+var ClaimsLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -774,35 +774,35 @@ georedundancy.`,
 	},
 }
 
-// SparseClaimsAccessList represents a list of SparseClaimsAccess
-type SparseClaimsAccessList []*SparseClaimsAccess
+// SparseClaimsList represents a list of SparseClaims
+type SparseClaimsList []*SparseClaims
 
 // Identity returns the identity of the objects in the list.
-func (o SparseClaimsAccessList) Identity() elemental.Identity {
+func (o SparseClaimsList) Identity() elemental.Identity {
 
-	return ClaimsAccessIdentity
+	return ClaimsIdentity
 }
 
-// Copy returns a pointer to a copy the SparseClaimsAccessList.
-func (o SparseClaimsAccessList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseClaimsList.
+func (o SparseClaimsList) Copy() elemental.Identifiables {
 
-	copy := append(SparseClaimsAccessList{}, o...)
+	copy := append(SparseClaimsList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseClaimsAccessList.
-func (o SparseClaimsAccessList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseClaimsList.
+func (o SparseClaimsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseClaimsAccessList{}, o...)
+	out := append(SparseClaimsList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseClaimsAccess))
+		out = append(out, obj.(*SparseClaims))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseClaimsAccessList) List() elemental.IdentifiablesList {
+func (o SparseClaimsList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -813,15 +813,15 @@ func (o SparseClaimsAccessList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseClaimsAccessList) DefaultOrder() []string {
+func (o SparseClaimsList) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
 	}
 }
 
-// ToPlain returns the SparseClaimsAccessList converted to ClaimsAccessList.
-func (o SparseClaimsAccessList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseClaimsList converted to ClaimsList.
+func (o SparseClaimsList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -832,13 +832,13 @@ func (o SparseClaimsAccessList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseClaimsAccessList) Version() int {
+func (o SparseClaimsList) Version() int {
 
 	return 1
 }
 
-// SparseClaimsAccess represents the sparse version of a claimsaccess.
-type SparseClaimsAccess struct {
+// SparseClaims represents the sparse version of a claims.
+type SparseClaims struct {
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
@@ -882,19 +882,19 @@ type SparseClaimsAccess struct {
 	*sync.Mutex `json:"-" bson:"-"`
 }
 
-// NewSparseClaimsAccess returns a new  SparseClaimsAccess.
-func NewSparseClaimsAccess() *SparseClaimsAccess {
-	return &SparseClaimsAccess{}
+// NewSparseClaims returns a new  SparseClaims.
+func NewSparseClaims() *SparseClaims {
+	return &SparseClaims{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseClaimsAccess) Identity() elemental.Identity {
+func (o *SparseClaims) Identity() elemental.Identity {
 
-	return ClaimsAccessIdentity
+	return ClaimsIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseClaimsAccess) Identifier() string {
+func (o *SparseClaims) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -903,21 +903,21 @@ func (o *SparseClaimsAccess) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseClaimsAccess) SetIdentifier(id string) {
+func (o *SparseClaims) SetIdentifier(id string) {
 
 	o.ID = &id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseClaimsAccess) Version() int {
+func (o *SparseClaims) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseClaimsAccess) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseClaims) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewClaimsAccess()
+	out := NewClaims()
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
@@ -959,109 +959,109 @@ func (o *SparseClaimsAccess) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseClaimsAccess) GetAnnotations() map[string][]string {
+func (o *SparseClaims) GetAnnotations() map[string][]string {
 
 	return *o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseClaimsAccess) SetAnnotations(annotations map[string][]string) {
+func (o *SparseClaims) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseClaimsAccess) GetAssociatedTags() []string {
+func (o *SparseClaims) GetAssociatedTags() []string {
 
 	return *o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseClaimsAccess) SetAssociatedTags(associatedTags []string) {
+func (o *SparseClaims) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseClaimsAccess) GetNamespace() string {
+func (o *SparseClaims) GetNamespace() string {
 
 	return *o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseClaimsAccess) SetNamespace(namespace string) {
+func (o *SparseClaims) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseClaimsAccess) GetNormalizedTags() []string {
+func (o *SparseClaims) GetNormalizedTags() []string {
 
 	return *o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseClaimsAccess) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseClaims) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseClaimsAccess) GetProtected() bool {
+func (o *SparseClaims) GetProtected() bool {
 
 	return *o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the address of the given value.
-func (o *SparseClaimsAccess) SetProtected(protected bool) {
+func (o *SparseClaims) SetProtected(protected bool) {
 
 	o.Protected = &protected
 }
 
 // GetZHash returns the ZHash of the receiver.
-func (o *SparseClaimsAccess) GetZHash() int {
+func (o *SparseClaims) GetZHash() int {
 
 	return *o.ZHash
 }
 
 // SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparseClaimsAccess) SetZHash(zHash int) {
+func (o *SparseClaims) SetZHash(zHash int) {
 
 	o.ZHash = &zHash
 }
 
 // GetZone returns the Zone of the receiver.
-func (o *SparseClaimsAccess) GetZone() int {
+func (o *SparseClaims) GetZone() int {
 
 	return *o.Zone
 }
 
 // SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparseClaimsAccess) SetZone(zone int) {
+func (o *SparseClaims) SetZone(zone int) {
 
 	o.Zone = &zone
 }
 
-// DeepCopy returns a deep copy if the SparseClaimsAccess.
-func (o *SparseClaimsAccess) DeepCopy() *SparseClaimsAccess {
+// DeepCopy returns a deep copy if the SparseClaims.
+func (o *SparseClaims) DeepCopy() *SparseClaims {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseClaimsAccess{}
+	out := &SparseClaims{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseClaimsAccess.
-func (o *SparseClaimsAccess) DeepCopyInto(out *SparseClaimsAccess) {
+// DeepCopyInto copies the receiver into the given *SparseClaims.
+func (o *SparseClaims) DeepCopyInto(out *SparseClaims) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseClaimsAccess: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseClaims: %s", err))
 	}
 
-	*out = *target.(*SparseClaimsAccess)
+	*out = *target.(*SparseClaims)
 }

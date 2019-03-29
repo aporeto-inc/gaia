@@ -693,7 +693,7 @@ func init() {
 
 	relationshipsRegistry[CategoryIdentity] = &elemental.Relationship{}
 
-	relationshipsRegistry[ClaimsAccessIdentity] = &elemental.Relationship{
+	relationshipsRegistry[ClaimsIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
 		},

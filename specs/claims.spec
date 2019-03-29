@@ -1,13 +1,11 @@
 # Model
 model:
-  rest_name: claimsaccess
-  resource_name: claimsaccesses
-  entity_name: ClaimsAccess
+  rest_name: claims
+  resource_name: claims
+  entity_name: Claims
   package: guy
   group: policy/networking
   description: This API represents the claims that accessed a service.
-  aliases:
-  - claims
   indexes:
   - - :shard
     - zone

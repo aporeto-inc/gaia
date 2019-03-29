@@ -5889,12 +5889,12 @@ Last update date of the object.
 
 | Resource                                    | Description                                                                         |
 | -                                           | -                                                                                   |
-| [ClaimsAccess](#claimsaccess)               | This API represents the claims that accessed a service.                             |
+| [Claims](#claims)                           | This API represents the claims that accessed a service.                             |
 | [ExternalNetwork](#externalnetwork)         | An External Network represents a random network or ip that is not managed by the... |
 | [FlowReport](#flowreport)                   | Post a new flow statistics report.                                                  |
 | [NetworkAccessPolicy](#networkaccesspolicy) | Allows to define networking policies to allow or prevent processing units           |
 
-### ClaimsAccess
+### Claims
 
 This API represents the claims that accessed a service.
 
@@ -5915,19 +5915,19 @@ This API represents the claims that accessed a service.
 
 #### Relations
 
-##### `GET /claimsaccesses`
+##### `GET /claims`
 
-Retrieves the list of claims accesses.
+Retrieves the list of claims.
 
 Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
 
-##### `POST /claimsaccesses`
+##### `POST /claims`
 
-Creates a new claims access record.
+Creates a new claims record.
 
-##### `GET /claimsaccesses/:id`
+##### `GET /claims/:id`
 
 Retrieves the object with the given ID.
 
