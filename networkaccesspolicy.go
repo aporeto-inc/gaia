@@ -784,7 +784,15 @@ func (o *NetworkAccessPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := ValidatePolicyExpression("object", o.Object); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateStringInList("observedTrafficAction", string(o.ObservedTrafficAction), []string{"Apply", "Continue"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidatePolicyExpression("subject", o.Subject); err != nil {
 		errors = append(errors, err)
 	}
 
