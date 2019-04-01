@@ -52,4 +52,4 @@ attributes:
     example_value:
     - - $identity=processingunit
     validations:
-    - $policyExpression
+    - $tagsExpression

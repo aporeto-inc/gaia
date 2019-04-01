@@ -415,7 +415,7 @@ func (o *PolicyRule) Validate() error {
 		}
 	}
 
-	if err := ValidatePolicyExpression("tagClauses", o.TagClauses); err != nil {
+	if err := ValidateTagsExpression("tagClauses", o.TagClauses); err != nil {
 		errors = append(errors, err)
 	}
 

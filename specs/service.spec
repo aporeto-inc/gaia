@@ -233,7 +233,7 @@ attributes:
     example_value:
     - - package=p1
     validations:
-    - $policyExpression
+    - $tagsExpression
 
   - name: exposedPort
     description: |-
@@ -325,7 +325,7 @@ attributes:
     example_value:
     - - $identity=processingunit
     validations:
-    - $policyExpression
+    - $tagsExpression
 
   - name: trustedCertificateAuthorities
     description: |-

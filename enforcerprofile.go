@@ -615,7 +615,7 @@ func (o *EnforcerProfile) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := ValidatePolicyExpression("ignoreExpression", o.IgnoreExpression); err != nil {
+	if err := ValidateTagsExpression("ignoreExpression", o.IgnoreExpression); err != nil {
 		errors = append(errors, err)
 	}
 

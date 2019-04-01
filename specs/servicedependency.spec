@@ -42,7 +42,7 @@ attributes:
     subtype: '[][]string'
     orderable: true
     validations:
-    - $policyExpression
+    - $tagsExpression
 
   - name: subject
     description: Subject of the policy.
@@ -51,7 +51,7 @@ attributes:
     subtype: '[][]string'
     orderable: true
     validations:
-    - $policyExpression
+    - $tagsExpression
 
 # Relations
 relations:

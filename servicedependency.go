@@ -613,11 +613,11 @@ func (o *ServiceDependency) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := ValidatePolicyExpression("object", o.Object); err != nil {
+	if err := ValidateTagsExpression("object", o.Object); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := ValidatePolicyExpression("subject", o.Subject); err != nil {
+	if err := ValidateTagsExpression("subject", o.Subject); err != nil {
 		errors = append(errors, err)
 	}
 

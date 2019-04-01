@@ -103,7 +103,7 @@ attributes:
     getter: true
     setter: true
     validations:
-    - $policyExpression
+    - $tagsExpression
 
   - name: relation
     description: |-
@@ -126,7 +126,7 @@ attributes:
     getter: true
     setter: true
     validations:
-    - $policyExpression
+    - $tagsExpression
 
   - name: type
     description: Type of the policy.

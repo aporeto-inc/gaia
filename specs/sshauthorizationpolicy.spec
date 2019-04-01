@@ -84,7 +84,7 @@ attributes:
     subtype: '[][]string'
     orderable: true
     validations:
-    - $policyExpression
+    - $tagsExpression
 
   - name: principals
     description: |-
@@ -104,7 +104,7 @@ attributes:
     subtype: '[][]string'
     orderable: true
     validations:
-    - $policyExpression
+    - $tagsExpression
 
   - name: validity
     description: Set the validity of the delivered SSH certificate.

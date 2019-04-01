@@ -63,4 +63,4 @@ attributes:
     - - color=blue
     orderable: true
     validations:
-    - $policyExpression
+    - $tagsExpression

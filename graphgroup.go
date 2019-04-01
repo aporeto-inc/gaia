@@ -70,7 +70,7 @@ func (o *GraphGroup) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := ValidatePolicyExpression("match", o.Match); err != nil {
+	if err := ValidateTagsExpression("match", o.Match); err != nil {
 		errors = append(errors, err)
 	}
 

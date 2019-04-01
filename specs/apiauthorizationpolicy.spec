@@ -83,4 +83,4 @@ attributes:
     subtype: '[][]string'
     orderable: true
     validations:
-    - $policyExpression
+    - $tagsExpression

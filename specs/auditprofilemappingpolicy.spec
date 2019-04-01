@@ -45,7 +45,7 @@ attributes:
     exposed: true
     subtype: '[][]string'
     validations:
-    - $policyExpression
+    - $tagsExpression
 
   - name: subject
     description: |-
@@ -55,7 +55,7 @@ attributes:
     exposed: true
     subtype: '[][]string'
     validations:
-    - $policyExpression
+    - $tagsExpression
 
 # Relations
 relations:

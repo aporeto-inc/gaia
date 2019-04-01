@@ -56,7 +56,7 @@ attributes:
     subtype: '[][]string'
     stored: true
     validations:
-    - $policyExpression
+    - $tagsExpression
 
   - name: subject
     description: |-
@@ -67,7 +67,7 @@ attributes:
     subtype: '[][]string'
     stored: true
     validations:
-    - $policyExpression
+    - $tagsExpression
 
 # Relations
 relations:

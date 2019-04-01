@@ -47,7 +47,7 @@ attributes:
       - b=b
     - - c=c
     validations:
-    - $policyExpression
+    - $tagsExpression
 
   - name: subject
     description: Subject is the subject of the policy.
@@ -60,7 +60,7 @@ attributes:
       - b=b
     - - c=c
     validations:
-    - $policyExpression
+    - $tagsExpression
 
 # Relations
 relations:

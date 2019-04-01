@@ -27,7 +27,7 @@ attributes:
     exposed: true
     subtype: '[][]string'
     validations:
-    - $policyExpression
+    - $tagsExpression
 
   - name: name
     description: Name of the group.

@@ -114,4 +114,4 @@ attributes:
     exposed: true
     subtype: '[][]string'
     validations:
-    - $policyExpression
+    - $tagsExpression

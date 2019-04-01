@@ -72,7 +72,7 @@ func (o *Endpoint) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := ValidatePolicyExpression("allowedScopes", o.AllowedScopes); err != nil {
+	if err := ValidateTagsExpression("allowedScopes", o.AllowedScopes); err != nil {
 		errors = append(errors, err)
 	}
 

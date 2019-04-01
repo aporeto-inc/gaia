@@ -642,7 +642,7 @@ func (o *ProcessingUnitPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := ValidatePolicyExpression("isolationProfileSelector", o.IsolationProfileSelector); err != nil {
+	if err := ValidateTagsExpression("isolationProfileSelector", o.IsolationProfileSelector); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -654,7 +654,7 @@ func (o *ProcessingUnitPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := ValidatePolicyExpression("subject", o.Subject); err != nil {
+	if err := ValidateTagsExpression("subject", o.Subject); err != nil {
 		errors = append(errors, err)
 	}
 

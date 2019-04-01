@@ -55,5 +55,3 @@ attributes:
     exposed: true
     stored: true
     creation_only: true
-    validations:
-    - $policyExpression

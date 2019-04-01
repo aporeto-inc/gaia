@@ -515,21 +515,22 @@ func validateTagStrings(attribute string, acceptReservedPrefix bool, strs ...str
 			return makeValidationError(attribute, fmt.Sprintf("%s starts with an @, a $ or a + that is reserved", s))
 		}
 
-		if err := validateTag(s); err != nil {
-			return makeValidationError(attribute, fmt.Sprintf("invalid tag %s: %s", s, err))
+		if err := ValidateTag(attribute, s); err != nil {
+			return err
 		}
 	}
 
 	return nil
 }
 
-func validateTag(tag string) error {
+// ValidateTag validates a single tag.
+func ValidateTag(attribute string, tag string) error {
 	pattern := `^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@~<>#/-]+$`
 
 	re := regexp.MustCompile(pattern)
 
 	if !re.MatchString(tag) {
-		return fmt.Errorf("`%s must contain at least one '=' symbol separating two valid words", tag)
+		return makeValidationError(attribute, fmt.Sprintf("`%s must contain at least one '=' symbol separating two valid words", tag))
 	}
 
 	return nil
@@ -545,8 +546,8 @@ func ValidateTagsWithoutReservedPrefixes(attribute string, tags []string) error 
 	return validateTagStrings(attribute, false, tags...)
 }
 
-// ValidatePolicyExpression validates an [][]string is a valid policy expression
-func ValidatePolicyExpression(attribute string, expression [][]string) error {
+// ValidateTagsExpression validates an [][]string is a valid policy expression
+func ValidateTagsExpression(attribute string, expression [][]string) error {
 	for _, tags := range expression {
 		if err := ValidateTags(attribute, tags); err != nil {
 			return err

@@ -895,7 +895,7 @@ func (o *Service) Validate() error {
 		}
 	}
 
-	if err := ValidatePolicyExpression("exposedAPIs", o.ExposedAPIs); err != nil {
+	if err := ValidateTagsExpression("exposedAPIs", o.ExposedAPIs); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -927,7 +927,7 @@ func (o *Service) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := ValidatePolicyExpression("selectors", o.Selectors); err != nil {
+	if err := ValidateTagsExpression("selectors", o.Selectors); err != nil {
 		errors = append(errors, err)
 	}
 

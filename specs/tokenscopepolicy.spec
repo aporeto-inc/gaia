@@ -61,4 +61,4 @@ attributes:
     stored: true
     orderable: true
     validations:
-    - $policyExpression
+    - $tagsExpression

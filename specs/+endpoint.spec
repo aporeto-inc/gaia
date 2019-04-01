@@ -25,7 +25,7 @@ attributes:
     stored: true
     orderable: true
     validations:
-    - $policyExpression
+    - $tagsExpression
 
   - name: methods
     description: methods exposed to access the API.

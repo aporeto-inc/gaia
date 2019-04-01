@@ -245,7 +245,7 @@ func (o *PolicyGraph) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := ValidatePolicyExpression("selectors", o.Selectors); err != nil {
+	if err := ValidateTagsExpression("selectors", o.Selectors); err != nil {
 		errors = append(errors, err)
 	}
 
