@@ -239,6 +239,10 @@ func (o *Revocation) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := ValidatePolicyExpression("subject", o.Subject); err != nil {
+		errors = append(errors, err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -468,16 +472,16 @@ type SparseRevocation struct {
 
 	// Contains the certificate expiration date. This will be used to clean up revoked
 	// certificates that have expired.
-	ExpirationDate *time.Time `json:"expirationDate,omitempty" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
+	ExpirationDate *time.Time `json:"expirationDate,omitempty" bson:"expirationdate,omitempty" mapstructure:"expirationDate,omitempty"`
 
 	// Set time from when the certificate will be revoked.
-	RevokeDate *time.Time `json:"revokeDate,omitempty" bson:"revokedate" mapstructure:"revokeDate,omitempty"`
+	RevokeDate *time.Time `json:"revokeDate,omitempty" bson:"revokedate,omitempty" mapstructure:"revokeDate,omitempty"`
 
 	// SerialNumber of the revoked certificate.
-	SerialNumber *string `json:"serialNumber,omitempty" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
+	SerialNumber *string `json:"serialNumber,omitempty" bson:"serialnumber,omitempty" mapstructure:"serialNumber,omitempty"`
 
 	// Subject of the certificate related to the revocation.
-	Subject *string `json:"subject,omitempty" bson:"subject" mapstructure:"subject,omitempty"`
+	Subject *string `json:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

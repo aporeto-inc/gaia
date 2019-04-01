@@ -599,7 +599,7 @@ type SparseRemoteProcessor struct {
 	Output *elemental.Identifiable `json:"output,omitempty" bson:"-" mapstructure:"output,omitempty"`
 
 	// RequestID gives the id of the request coming from the main server.
-	RequestID *string `json:"requestID,omitempty" bson:"requestid" mapstructure:"requestID,omitempty"`
+	RequestID *string `json:"requestID,omitempty" bson:"requestid,omitempty" mapstructure:"requestID,omitempty"`
 
 	// Represents the Identity name of the managed object.
 	TargetIdentity *string `json:"targetIdentity,omitempty" bson:"-" mapstructure:"targetIdentity,omitempty"`

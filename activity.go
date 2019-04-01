@@ -804,43 +804,43 @@ type SparseActivity struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Claims of the user who performed the operation.
-	Claims *interface{} `json:"claims,omitempty" bson:"claims" mapstructure:"claims,omitempty"`
+	Claims *interface{} `json:"claims,omitempty" bson:"claims,omitempty" mapstructure:"claims,omitempty"`
 
 	// Data of the notification.
-	Data *interface{} `json:"data,omitempty" bson:"data" mapstructure:"data,omitempty"`
+	Data *interface{} `json:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`
 
 	// Date of the notification.
-	Date *time.Time `json:"date,omitempty" bson:"date" mapstructure:"date,omitempty"`
+	Date *time.Time `json:"date,omitempty" bson:"date,omitempty" mapstructure:"date,omitempty"`
 
 	// Error contains the eventual error.
-	Error *interface{} `json:"error,omitempty" bson:"error" mapstructure:"error,omitempty"`
+	Error *interface{} `json:"error,omitempty" bson:"error,omitempty" mapstructure:"error,omitempty"`
 
 	// Message of the notification.
-	Message *string `json:"message,omitempty" bson:"message" mapstructure:"message,omitempty"`
+	Message *string `json:"message,omitempty" bson:"message,omitempty" mapstructure:"message,omitempty"`
 
 	// Namespace of the notification.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Operation describe what kind of operation the notification represents.
-	Operation *string `json:"operation,omitempty" bson:"operation" mapstructure:"operation,omitempty"`
+	Operation *string `json:"operation,omitempty" bson:"operation,omitempty" mapstructure:"operation,omitempty"`
 
 	// OriginalData contains the eventual original data of the object that has been
 	// modified.
-	OriginalData *interface{} `json:"originalData,omitempty" bson:"originaldata" mapstructure:"originalData,omitempty"`
+	OriginalData *interface{} `json:"originalData,omitempty" bson:"originaldata,omitempty" mapstructure:"originalData,omitempty"`
 
 	// Source contains meta information about the source.
-	Source *string `json:"source,omitempty" bson:"source" mapstructure:"source,omitempty"`
+	Source *string `json:"source,omitempty" bson:"source,omitempty" mapstructure:"source,omitempty"`
 
 	// TargetIdentity is the Identity of the related object.
-	TargetIdentity *string `json:"targetIdentity,omitempty" bson:"targetidentity" mapstructure:"targetIdentity,omitempty"`
+	TargetIdentity *string `json:"targetIdentity,omitempty" bson:"targetidentity,omitempty" mapstructure:"targetIdentity,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

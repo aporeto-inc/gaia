@@ -672,32 +672,32 @@ func (o SparseEventLogsList) Version() int {
 // SparseEventLog represents the sparse version of a eventlog.
 type SparseEventLog struct {
 	// Category of the log.
-	Category *string `json:"category,omitempty" bson:"category" mapstructure:"category,omitempty"`
+	Category *string `json:"category,omitempty" bson:"category,omitempty" mapstructure:"category,omitempty"`
 
 	// Content of the log.
-	Content *string `json:"content,omitempty" bson:"content" mapstructure:"content,omitempty"`
+	Content *string `json:"content,omitempty" bson:"content,omitempty" mapstructure:"content,omitempty"`
 
 	// Creation date of the eventlog.
-	Date *time.Time `json:"date,omitempty" bson:"date" mapstructure:"date,omitempty"`
+	Date *time.Time `json:"date,omitempty" bson:"date,omitempty" mapstructure:"date,omitempty"`
 
 	// Represent the level of the log .
-	Level *EventLogLevelValue `json:"level,omitempty" bson:"level" mapstructure:"level,omitempty"`
+	Level *EventLogLevelValue `json:"level,omitempty" bson:"level,omitempty" mapstructure:"level,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Opaque data that can attached to the log, for further machine processing.
-	Opaque *string `json:"opaque,omitempty" bson:"opaque" mapstructure:"opaque,omitempty"`
+	Opaque *string `json:"opaque,omitempty" bson:"opaque,omitempty" mapstructure:"opaque,omitempty"`
 
 	// ID of the object this eventlog is attached to. The object must be in the same
 	// namespace than the eventlog.
-	TargetID *string `json:"targetID,omitempty" bson:"targetid" mapstructure:"targetID,omitempty"`
+	TargetID *string `json:"targetID,omitempty" bson:"targetid,omitempty" mapstructure:"targetID,omitempty"`
 
 	// Identity of the object this eventlog is attached to.
-	TargetIdentity *string `json:"targetIdentity,omitempty" bson:"targetidentity" mapstructure:"targetIdentity,omitempty"`
+	TargetIdentity *string `json:"targetIdentity,omitempty" bson:"targetidentity,omitempty" mapstructure:"targetIdentity,omitempty"`
 
 	// Title of the eventlog.
-	Title *string `json:"title,omitempty" bson:"title" mapstructure:"title,omitempty"`
+	Title *string `json:"title,omitempty" bson:"title,omitempty" mapstructure:"title,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

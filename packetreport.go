@@ -890,7 +890,7 @@ type SparsePacketReport struct {
 	Timestamp *time.Time `json:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
 
 	// TriremePacket is set if the packet arrived with the Trireme options.
-	TriremePacket *bool `json:"triremePacket,omitempty" bson:"triremepacket" mapstructure:"triremePacket,omitempty"`
+	TriremePacket *bool `json:"triremePacket,omitempty" bson:"triremepacket,omitempty" mapstructure:"triremePacket,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

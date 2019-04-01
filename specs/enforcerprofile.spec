@@ -73,6 +73,8 @@ attributes:
     exposed: true
     subtype: '[][]string'
     stored: true
+    validations:
+    - $policyExpression
 
   - name: kubernetesMetadataExtractor
     description: This field is kept for backward compatibility for enforcers <= 3.5.

@@ -26,6 +26,8 @@ attributes:
     type: external
     exposed: true
     subtype: '[][]string'
+    validations:
+    - $policyExpression
 
   - name: name
     description: Name of the group.

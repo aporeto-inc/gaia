@@ -1202,42 +1202,42 @@ type SparseImportRequest struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// Post a new comment that will be added to the commentFeed.
 	Comment *string `json:"comment,omitempty" bson:"-" mapstructure:"comment,omitempty"`
 
 	// List of comments that have been added to that request.
-	CommentFeed *[]*Comment `json:"commentFeed,omitempty" bson:"commentfeed" mapstructure:"commentFeed,omitempty"`
+	CommentFeed *[]*Comment `json:"commentFeed,omitempty" bson:"commentfeed,omitempty" mapstructure:"commentFeed,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// The data to import.
-	Data *map[string][]map[string]interface{} `json:"data,omitempty" bson:"data" mapstructure:"data,omitempty"`
+	Data *map[string][]map[string]interface{} `json:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// The identity claims of the requester. This will be populated by the control
 	// plane.
-	RequesterClaims *[]string `json:"requesterClaims,omitempty" bson:"requesterclaims" mapstructure:"requesterClaims,omitempty"`
+	RequesterClaims *[]string `json:"requesterClaims,omitempty" bson:"requesterclaims,omitempty" mapstructure:"requesterClaims,omitempty"`
 
 	// The namespace from the request was created. This will be populated by the
 	// control plane.
-	RequesterNamespace *string `json:"requesterNamespace,omitempty" bson:"requesternamespace" mapstructure:"requesterNamespace,omitempty"`
+	RequesterNamespace *string `json:"requesterNamespace,omitempty" bson:"requesternamespace,omitempty" mapstructure:"requesterNamespace,omitempty"`
 
 	// The status of the request. The content of data can only be changed when the
 	// status is set to `+"`"+`Draft`+"`"+` or `+"`"+`ChangeRequested`+"`"+`. When the status is changed to
@@ -1245,26 +1245,26 @@ type SparseImportRequest struct {
 	// If the Status is set to `+"`"+`Approved`+"`"+` the data will be created immediately.
 	// If the status is set to `+"`"+`Rejected`+"`"+` the request cannot be changed anymore and can
 	// be deleted.
-	Status *ImportRequestStatusValue `json:"status,omitempty" bson:"status" mapstructure:"status,omitempty"`
+	Status *ImportRequestStatusValue `json:"status,omitempty" bson:"status,omitempty" mapstructure:"status,omitempty"`
 
 	// Internal field to know if the request has been submit once.
-	SubmittedOnce *bool `json:"-" bson:"submittedonce" mapstructure:"-,omitempty"`
+	SubmittedOnce *bool `json:"-" bson:"submittedonce,omitempty" mapstructure:"-,omitempty"`
 
 	// The namespace where the request will be sent. The requester can set any
 	// namespace but he needs to have an autorization to post the request in that
 	// namespace.
-	TargetNamespace *string `json:"targetNamespace,omitempty" bson:"targetnamespace" mapstructure:"targetNamespace,omitempty"`
+	TargetNamespace *string `json:"targetNamespace,omitempty" bson:"targetnamespace,omitempty" mapstructure:"targetNamespace,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

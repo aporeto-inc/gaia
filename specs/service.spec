@@ -232,6 +232,8 @@ attributes:
     stored: true
     example_value:
     - - package=p1
+    validations:
+    - $policyExpression
 
   - name: exposedPort
     description: |-
@@ -322,6 +324,8 @@ attributes:
     stored: true
     example_value:
     - - $identity=processingunit
+    validations:
+    - $policyExpression
 
   - name: trustedCertificateAuthorities
     description: |-

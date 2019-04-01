@@ -1643,122 +1643,122 @@ type SparseAccount struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// LDAPAddress holds the account authentication account's private ldap server.
-	LDAPAddress *string `json:"LDAPAddress,omitempty" bson:"ldapaddress" mapstructure:"LDAPAddress,omitempty"`
+	LDAPAddress *string `json:"LDAPAddress,omitempty" bson:"ldapaddress,omitempty" mapstructure:"LDAPAddress,omitempty"`
 
 	// LDAPBaseDN holds the base DN to use to ldap queries.
-	LDAPBaseDN *string `json:"LDAPBaseDN,omitempty" bson:"ldapbasedn" mapstructure:"LDAPBaseDN,omitempty"`
+	LDAPBaseDN *string `json:"LDAPBaseDN,omitempty" bson:"ldapbasedn,omitempty" mapstructure:"LDAPBaseDN,omitempty"`
 
 	// LDAPBindDN holds the account's internal LDAP bind dn for querying auth.
-	LDAPBindDN *string `json:"LDAPBindDN,omitempty" bson:"ldapbinddn" mapstructure:"LDAPBindDN,omitempty"`
+	LDAPBindDN *string `json:"LDAPBindDN,omitempty" bson:"ldapbinddn,omitempty" mapstructure:"LDAPBindDN,omitempty"`
 
 	// LDAPBindPassword holds the password to the LDAPBindDN.
-	LDAPBindPassword *string `json:"LDAPBindPassword,omitempty" bson:"ldapbindpassword" mapstructure:"LDAPBindPassword,omitempty"`
+	LDAPBindPassword *string `json:"LDAPBindPassword,omitempty" bson:"ldapbindpassword,omitempty" mapstructure:"LDAPBindPassword,omitempty"`
 
 	// LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
 	// Windows based systems, value may be `+"`"+`sAMAccountName={USERNAME}`+"`"+`. For Linux and
 	// other systems, value may be `+"`"+`uid={USERNAME}`+"`"+`.
-	LDAPBindSearchFilter *string `json:"LDAPBindSearchFilter,omitempty" bson:"ldapbindsearchfilter" mapstructure:"LDAPBindSearchFilter,omitempty"`
+	LDAPBindSearchFilter *string `json:"LDAPBindSearchFilter,omitempty" bson:"ldapbindsearchfilter,omitempty" mapstructure:"LDAPBindSearchFilter,omitempty"`
 
 	// LDAPCertificateAuthority contains the optional certificate author ity that will
 	// be used to connect to the LDAP server. It is not needed if the TLS certificate
 	// of the LDAP is issued from a public truster CA.
-	LDAPCertificateAuthority *string `json:"LDAPCertificateAuthority,omitempty" bson:"ldapcertificateauthority" mapstructure:"LDAPCertificateAuthority,omitempty"`
+	LDAPCertificateAuthority *string `json:"LDAPCertificateAuthority,omitempty" bson:"ldapcertificateauthority,omitempty" mapstructure:"LDAPCertificateAuthority,omitempty"`
 
 	// LDAPConnProtocol holds the connection type for the LDAP provider.
-	LDAPConnSecurityProtocol *AccountLDAPConnSecurityProtocolValue `json:"LDAPConnSecurityProtocol,omitempty" bson:"ldapconnsecurityprotocol" mapstructure:"LDAPConnSecurityProtocol,omitempty"`
+	LDAPConnSecurityProtocol *AccountLDAPConnSecurityProtocolValue `json:"LDAPConnSecurityProtocol,omitempty" bson:"ldapconnsecurityprotocol,omitempty" mapstructure:"LDAPConnSecurityProtocol,omitempty"`
 
 	// LDAPEnabled triggers if the account uses it's own LDAP for authentication.
-	LDAPEnabled *bool `json:"LDAPEnabled,omitempty" bson:"ldapenabled" mapstructure:"LDAPEnabled,omitempty"`
+	LDAPEnabled *bool `json:"LDAPEnabled,omitempty" bson:"ldapenabled,omitempty" mapstructure:"LDAPEnabled,omitempty"`
 
 	// LDAPIgnoredKeys holds a list of keys that must not be imported into Aporeto
 	// authorization system.
-	LDAPIgnoredKeys *[]string `json:"LDAPIgnoredKeys,omitempty" bson:"ldapignoredkeys" mapstructure:"LDAPIgnoredKeys,omitempty"`
+	LDAPIgnoredKeys *[]string `json:"LDAPIgnoredKeys,omitempty" bson:"ldapignoredkeys,omitempty" mapstructure:"LDAPIgnoredKeys,omitempty"`
 
 	// LDAPSubjectKey holds key to be used to populate the subject. If you want to
 	// use the user as a subject, for Windows based systems you may use
 	// 'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
 	// also use any alternate key.
-	LDAPSubjectKey *string `json:"LDAPSubjectKey,omitempty" bson:"ldapsubjectkey" mapstructure:"LDAPSubjectKey,omitempty"`
+	LDAPSubjectKey *string `json:"LDAPSubjectKey,omitempty" bson:"ldapsubjectkey,omitempty" mapstructure:"LDAPSubjectKey,omitempty"`
 
 	// Set to enable or disable two factor authentication.
-	OTPEnabled *bool `json:"OTPEnabled,omitempty" bson:"otpenabled" mapstructure:"OTPEnabled,omitempty"`
+	OTPEnabled *bool `json:"OTPEnabled,omitempty" bson:"otpenabled,omitempty" mapstructure:"OTPEnabled,omitempty"`
 
 	// Returns the base64 encoded QRCode for setting up 2 factor auth.
 	OTPQRCode *string `json:"OTPQRCode,omitempty" bson:"-" mapstructure:"OTPQRCode,omitempty"`
 
 	// Stores the 2 factor secret.
-	OTPSecret *string `json:"-" bson:"otpsecret" mapstructure:"-,omitempty"`
+	OTPSecret *string `json:"-" bson:"otpsecret,omitempty" mapstructure:"-,omitempty"`
 
 	// AccessEnabled defines if the account holder should have access to the systems.
-	AccessEnabled *bool `json:"accessEnabled,omitempty" bson:"accessenabled" mapstructure:"accessEnabled,omitempty"`
+	AccessEnabled *bool `json:"accessEnabled,omitempty" bson:"accessenabled,omitempty" mapstructure:"accessEnabled,omitempty"`
 
 	// ActivationExpiration contains the expiration date of the activation token.
-	ActivationExpiration *time.Time `json:"-" bson:"activationexpiration" mapstructure:"-,omitempty"`
+	ActivationExpiration *time.Time `json:"-" bson:"activationexpiration,omitempty" mapstructure:"-,omitempty"`
 
 	// ActivationToken contains the activation token.
-	ActivationToken *string `json:"activationToken,omitempty" bson:"activationtoken" mapstructure:"activationToken,omitempty"`
+	ActivationToken *string `json:"activationToken,omitempty" bson:"activationtoken,omitempty" mapstructure:"activationToken,omitempty"`
 
 	// AssociatedAPIAuthPolicyID holds the ID of the associated API auth policy.
-	AssociatedAPIAuthPolicyID *string `json:"-" bson:"associatedapiauthpolicyid" mapstructure:"-,omitempty"`
+	AssociatedAPIAuthPolicyID *string `json:"-" bson:"associatedapiauthpolicyid,omitempty" mapstructure:"-,omitempty"`
 
 	// AssociatedAWSPolicies contains a map of associated AWS Enforcerd Policies.
-	AssociatedAWSPolicies *map[string]string `json:"-" bson:"associatedawspolicies" mapstructure:"-,omitempty"`
+	AssociatedAWSPolicies *map[string]string `json:"-" bson:"associatedawspolicies,omitempty" mapstructure:"-,omitempty"`
 
 	// associatedBillingID holds the ID of the associated billing customer.
-	AssociatedBillingID *string `json:"associatedBillingID,omitempty" bson:"associatedbillingid" mapstructure:"associatedBillingID,omitempty"`
+	AssociatedBillingID *string `json:"associatedBillingID,omitempty" bson:"associatedbillingid,omitempty" mapstructure:"associatedBillingID,omitempty"`
 
 	// AssociatedNamespaceID contains the ID of the associated namespace.
-	AssociatedNamespaceID *string `json:"-" bson:"associatednamespaceid" mapstructure:"-,omitempty"`
+	AssociatedNamespaceID *string `json:"-" bson:"associatednamespaceid,omitempty" mapstructure:"-,omitempty"`
 
 	// AssociatedPlanKey contains the plan key that is associated to this account.
-	AssociatedPlanKey *string `json:"associatedPlanKey,omitempty" bson:"associatedplankey" mapstructure:"associatedPlanKey,omitempty"`
+	AssociatedPlanKey *string `json:"associatedPlanKey,omitempty" bson:"associatedplankey,omitempty" mapstructure:"associatedPlanKey,omitempty"`
 
 	// AssociatedQuotaPolicies contains a mapping to the associated quota pollicies.
-	AssociatedQuotaPolicies *map[string]string `json:"-" bson:"associatedquotapolicies" mapstructure:"-,omitempty"`
+	AssociatedQuotaPolicies *map[string]string `json:"-" bson:"associatedquotapolicies,omitempty" mapstructure:"-,omitempty"`
 
 	// Company of the account user.
-	Company *string `json:"company,omitempty" bson:"company" mapstructure:"company,omitempty"`
+	Company *string `json:"company,omitempty" bson:"company,omitempty" mapstructure:"company,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Email of the account holder.
-	Email *string `json:"email,omitempty" bson:"email" mapstructure:"email,omitempty"`
+	Email *string `json:"email,omitempty" bson:"email,omitempty" mapstructure:"email,omitempty"`
 
 	// First Name of the account user.
-	FirstName *string `json:"firstName,omitempty" bson:"firstname" mapstructure:"firstName,omitempty"`
+	FirstName *string `json:"firstName,omitempty" bson:"firstname,omitempty" mapstructure:"firstName,omitempty"`
 
 	// Last Name of the account user.
-	LastName *string `json:"lastName,omitempty" bson:"lastname" mapstructure:"lastName,omitempty"`
+	LastName *string `json:"lastName,omitempty" bson:"lastname,omitempty" mapstructure:"lastName,omitempty"`
 
 	// Name of the account.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Password for the account.
-	Password *string `json:"password,omitempty" bson:"password" mapstructure:"password,omitempty"`
+	Password *string `json:"password,omitempty" bson:"password,omitempty" mapstructure:"password,omitempty"`
 
 	// ReCAPTCHAKey contains the capcha validation if reCAPTCH is enabled.
 	ReCAPTCHAKey *string `json:"reCAPTCHAKey,omitempty" bson:"-" mapstructure:"reCAPTCHAKey,omitempty"`
 
 	// ResetPasswordExpiration contains the expiration time for reseting the password.
-	ResetPasswordExpiration *time.Time `json:"-" bson:"resetpasswordexpiration" mapstructure:"-,omitempty"`
+	ResetPasswordExpiration *time.Time `json:"-" bson:"resetpasswordexpiration,omitempty" mapstructure:"-,omitempty"`
 
 	// ResetPasswordToken contains the token to use for resetting password.
-	ResetPasswordToken *string `json:"-" bson:"resetpasswordtoken" mapstructure:"-,omitempty"`
+	ResetPasswordToken *string `json:"-" bson:"resetpasswordtoken,omitempty" mapstructure:"-,omitempty"`
 
 	// Status of the account.
-	Status *AccountStatusValue `json:"status,omitempty" bson:"status" mapstructure:"status,omitempty"`
+	Status *AccountStatusValue `json:"status,omitempty" bson:"status,omitempty" mapstructure:"status,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

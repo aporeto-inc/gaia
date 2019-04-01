@@ -334,7 +334,7 @@ func (o SparseJaegerbatchsList) Version() int {
 // SparseJaegerbatch represents the sparse version of a jaegerbatch.
 type SparseJaegerbatch struct {
 	// Represents a jaeger batch.
-	Batch *interface{} `json:"batch,omitempty" bson:"batch" mapstructure:"batch,omitempty"`
+	Batch *interface{} `json:"batch,omitempty" bson:"batch,omitempty" mapstructure:"batch,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

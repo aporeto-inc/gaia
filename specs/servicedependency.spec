@@ -41,6 +41,8 @@ attributes:
     exposed: true
     subtype: '[][]string'
     orderable: true
+    validations:
+    - $policyExpression
 
   - name: subject
     description: Subject of the policy.
@@ -48,6 +50,8 @@ attributes:
     exposed: true
     subtype: '[][]string'
     orderable: true
+    validations:
+    - $policyExpression
 
 # Relations
 relations:

@@ -102,6 +102,8 @@ attributes:
     stored: true
     getter: true
     setter: true
+    validations:
+    - $policyExpression
 
   - name: relation
     description: |-
@@ -123,6 +125,8 @@ attributes:
     stored: true
     getter: true
     setter: true
+    validations:
+    - $policyExpression
 
   - name: type
     description: Type of the policy.

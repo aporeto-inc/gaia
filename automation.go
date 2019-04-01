@@ -1392,82 +1392,82 @@ type SparseAutomation struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Action contains the code that will be executed if the condition is met.
-	Actions *[]string `json:"actions,omitempty" bson:"actions" mapstructure:"actions,omitempty"`
+	Actions *[]string `json:"actions,omitempty" bson:"actions,omitempty" mapstructure:"actions,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// Condition contains the code that will be executed to decide if any action should
 	// be taken.
-	Condition *string `json:"condition,omitempty" bson:"condition" mapstructure:"condition,omitempty"`
+	Condition *string `json:"condition,omitempty" bson:"condition,omitempty" mapstructure:"condition,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Disabled defines if the propert is disabled.
-	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
+	Disabled *bool `json:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
 	// Entitlements declares which operations are allowed on which identities.
-	Entitlements *map[string][]elemental.Operation `json:"entitlements,omitempty" bson:"entitlements" mapstructure:"entitlements,omitempty"`
+	Entitlements *map[string][]elemental.Operation `json:"entitlements,omitempty" bson:"entitlements,omitempty" mapstructure:"entitlements,omitempty"`
 
 	// Error contains the eventual error of the last run.
-	Errors *[]string `json:"errors,omitempty" bson:"errors" mapstructure:"errors,omitempty"`
+	Errors *[]string `json:"errors,omitempty" bson:"errors,omitempty" mapstructure:"errors,omitempty"`
 
 	// Events contains the identity and operation an event must have to trigger the
 	// automation.
-	Events *map[string][]elemental.EventType `json:"events,omitempty" bson:"events" mapstructure:"events,omitempty"`
+	Events *map[string][]elemental.EventType `json:"events,omitempty" bson:"events,omitempty" mapstructure:"events,omitempty"`
 
 	// LastExecTime holds the last successful execution tine.
-	LastExecTime *time.Time `json:"lastExecTime,omitempty" bson:"lastexectime" mapstructure:"lastExecTime,omitempty"`
+	LastExecTime *time.Time `json:"lastExecTime,omitempty" bson:"lastexectime,omitempty" mapstructure:"lastExecTime,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Parameters are passed to the functions.
-	Parameters *map[string]interface{} `json:"parameters,omitempty" bson:"parameters" mapstructure:"parameters,omitempty"`
+	Parameters *map[string]interface{} `json:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// Schedule tells when to run the automation. Must be a valid CRON format. This
 	// only applies if the trigger is set to Time.
-	Schedule *string `json:"schedule,omitempty" bson:"schedule" mapstructure:"schedule,omitempty"`
+	Schedule *string `json:"schedule,omitempty" bson:"schedule,omitempty" mapstructure:"schedule,omitempty"`
 
 	// Stdout contains the last run standard output.
-	Stdout *string `json:"stdout,omitempty" bson:"stdout" mapstructure:"stdout,omitempty"`
+	Stdout *string `json:"stdout,omitempty" bson:"stdout,omitempty" mapstructure:"stdout,omitempty"`
 
 	// Token holds the unique access token used as a password to trigger the
 	// authentication. It will be visible only after creation.
-	Token *string `json:"token,omitempty" bson:"token" mapstructure:"token,omitempty"`
+	Token *string `json:"token,omitempty" bson:"token,omitempty" mapstructure:"token,omitempty"`
 
 	// If set to true a new token will be issued, and the previous one invalidated.
 	TokenRenew *bool `json:"tokenRenew,omitempty" bson:"-" mapstructure:"tokenRenew,omitempty"`
 
 	// Trigger controls when the automation should be triggered.
-	Trigger *AutomationTriggerValue `json:"trigger,omitempty" bson:"trigger" mapstructure:"trigger,omitempty"`
+	Trigger *AutomationTriggerValue `json:"trigger,omitempty" bson:"trigger,omitempty" mapstructure:"trigger,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

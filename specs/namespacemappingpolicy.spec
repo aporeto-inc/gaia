@@ -62,3 +62,5 @@ attributes:
     example_value:
     - - color=blue
     orderable: true
+    validations:
+    - $policyExpression

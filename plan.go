@@ -500,22 +500,22 @@ func (o SparsePlansList) Version() int {
 // SparsePlan represents the sparse version of a plan.
 type SparsePlan struct {
 	// Description contains the description of the Plan.
-	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// EnforcerQuota contains the maximum number of enforcers available in the Plan.
-	EnforcersQuota *int `json:"enforcersQuota,omitempty" bson:"enforcersquota" mapstructure:"enforcersQuota,omitempty"`
+	EnforcersQuota *int `json:"enforcersQuota,omitempty" bson:"enforcersquota,omitempty" mapstructure:"enforcersQuota,omitempty"`
 
 	// Key contains the key identifier of the Plan.
-	Key *string `json:"key,omitempty" bson:"key" mapstructure:"key,omitempty"`
+	Key *string `json:"key,omitempty" bson:"key,omitempty" mapstructure:"key,omitempty"`
 
 	// Name contains the name of the Plan.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// PoliciesQuota contains the maximum number of policies available in the Plan.
-	PoliciesQuota *int `json:"policiesQuota,omitempty" bson:"policiesquota" mapstructure:"policiesQuota,omitempty"`
+	PoliciesQuota *int `json:"policiesQuota,omitempty" bson:"policiesquota,omitempty" mapstructure:"policiesQuota,omitempty"`
 
 	// ProcessingUnitsQuota contains the maximum PUs available in the Plan.
-	ProcessingUnitsQuota *int `json:"processingUnitsQuota,omitempty" bson:"processingunitsquota" mapstructure:"processingUnitsQuota,omitempty"`
+	ProcessingUnitsQuota *int `json:"processingUnitsQuota,omitempty" bson:"processingunitsquota,omitempty" mapstructure:"processingUnitsQuota,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

@@ -374,7 +374,7 @@ type SparsePolicyTTL struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Time when the policy must be deleted.
-	ExpirationTime *time.Time `json:"-" bson:"expirationtime" mapstructure:"-,omitempty"`
+	ExpirationTime *time.Time `json:"-" bson:"expirationtime,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

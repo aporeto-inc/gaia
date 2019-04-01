@@ -44,6 +44,8 @@ attributes:
     type: external
     exposed: true
     subtype: '[][]string'
+    validations:
+    - $policyExpression
 
   - name: subject
     description: |-
@@ -52,6 +54,8 @@ attributes:
     type: external
     exposed: true
     subtype: '[][]string'
+    validations:
+    - $policyExpression
 
 # Relations
 relations:

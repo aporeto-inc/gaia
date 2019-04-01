@@ -1663,19 +1663,19 @@ func (o SparseEnforcersList) Version() int {
 // SparseEnforcer represents the sparse version of a enforcer.
 type SparseEnforcer struct {
 	// FQDN contains the fqdn of the server where the enforcer is running.
-	FQDN *string `json:"FQDN,omitempty" bson:"fqdn" mapstructure:"FQDN,omitempty"`
+	FQDN *string `json:"FQDN,omitempty" bson:"fqdn,omitempty" mapstructure:"FQDN,omitempty"`
 
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// Certificate is the certificate of the enforcer.
-	Certificate *string `json:"certificate,omitempty" bson:"certificate" mapstructure:"certificate,omitempty"`
+	Certificate *string `json:"certificate,omitempty" bson:"certificate,omitempty" mapstructure:"certificate,omitempty"`
 
 	// CertificateExpirationDate is the expiration date of the certificate. This is an
 	// internal attribute, not exposed in the API.
@@ -1690,39 +1690,39 @@ type SparseEnforcer struct {
 	CertificateRequest *string `json:"certificateRequest,omitempty" bson:"-" mapstructure:"certificateRequest,omitempty"`
 
 	// CollectInfo indicates to the enforcer it needs to collect information.
-	CollectInfo *bool `json:"collectInfo,omitempty" bson:"collectinfo" mapstructure:"collectInfo,omitempty"`
+	CollectInfo *bool `json:"collectInfo,omitempty" bson:"collectinfo,omitempty" mapstructure:"collectInfo,omitempty"`
 
 	// CollectedInfo represents the latest info collected by the enforcer.
-	CollectedInfo *map[string]string `json:"collectedInfo,omitempty" bson:"collectedinfo" mapstructure:"collectedInfo,omitempty"`
+	CollectedInfo *map[string]string `json:"collectedInfo,omitempty" bson:"collectedinfo,omitempty" mapstructure:"collectedInfo,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// CurrentVersion holds the enforcerd binary version that is currently associated
 	// to this object.
-	CurrentVersion *string `json:"currentVersion,omitempty" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
+	CurrentVersion *string `json:"currentVersion,omitempty" bson:"currentversion,omitempty" mapstructure:"currentVersion,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Status of enforcement for PU managed directly by enforcerd, like Host PUs.
-	EnforcementStatus *EnforcerEnforcementStatusValue `json:"enforcementStatus,omitempty" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
+	EnforcementStatus *EnforcerEnforcementStatusValue `json:"enforcementStatus,omitempty" bson:"enforcementstatus,omitempty" mapstructure:"enforcementStatus,omitempty"`
 
 	// LastCollectionTime represents the date and time when the info have been
 	// collected.
-	LastCollectionTime *time.Time `json:"lastCollectionTime,omitempty" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
+	LastCollectionTime *time.Time `json:"lastCollectionTime,omitempty" bson:"lastcollectiontime,omitempty" mapstructure:"lastCollectionTime,omitempty"`
 
 	// Last poke is the time when the enforcer got last poked.
-	LastPokeTime *time.Time `json:"-" bson:"lastpoketime" mapstructure:"-,omitempty"`
+	LastPokeTime *time.Time `json:"-" bson:"lastpoketime,omitempty" mapstructure:"-,omitempty"`
 
 	// LastSyncTime holds the last heart beat time.
-	LastSyncTime *time.Time `json:"lastSyncTime,omitempty" bson:"lastsynctime" mapstructure:"lastSyncTime,omitempty"`
+	LastSyncTime *time.Time `json:"lastSyncTime,omitempty" bson:"lastsynctime,omitempty" mapstructure:"lastSyncTime,omitempty"`
 
 	// LastValidHostServices is a read only attribute that stores the list valid host
 	// services that have been applied to this enforcer. This list might be different
 	// from the list retrieved through policy, if the dynamically calculated list leads
 	// into conflicts.
-	LastValidHostServices *HostServicesList `json:"-" bson:"lastvalidhostservices" mapstructure:"-,omitempty"`
+	LastValidHostServices *HostServicesList `json:"-" bson:"lastvalidhostservices,omitempty" mapstructure:"-,omitempty"`
 
 	// LocalCA contains the initial chain of trust for the enforcer. This valud is only
 	// given when you retrieve a single enforcer.
@@ -1731,48 +1731,48 @@ type SparseEnforcer struct {
 	// MachineID holds a unique identifier for every machine as detected by the
 	// enforcer. It is based on hardware information such as the SMBIOS UUID, MAC
 	// addresses of interfaces or cloud provider IDs.
-	MachineID *string `json:"machineID,omitempty" bson:"machineid" mapstructure:"machineID,omitempty"`
+	MachineID *string `json:"machineID,omitempty" bson:"machineid,omitempty" mapstructure:"machineID,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// OperationalStatus tells the status of the enforcer.
-	OperationalStatus *EnforcerOperationalStatusValue `json:"operationalStatus,omitempty" bson:"operationalstatus" mapstructure:"operationalStatus,omitempty"`
+	OperationalStatus *EnforcerOperationalStatusValue `json:"operationalStatus,omitempty" bson:"operationalstatus,omitempty" mapstructure:"operationalStatus,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// PublicToken is the public token of the server that will be included in the
 	// datapath and its signed by the private CA.
-	PublicToken *string `json:"publicToken,omitempty" bson:"publictoken" mapstructure:"publicToken,omitempty"`
+	PublicToken *string `json:"publicToken,omitempty" bson:"publictoken,omitempty" mapstructure:"publicToken,omitempty"`
 
 	// startTime holds the time this enforcerd was started. This time-stamp is reported
 	// by the enforcer and is is preserved across disconnects.
-	StartTime *time.Time `json:"startTime,omitempty" bson:"starttime" mapstructure:"startTime,omitempty"`
+	StartTime *time.Time `json:"startTime,omitempty" bson:"starttime,omitempty" mapstructure:"startTime,omitempty"`
 
 	// Tells if the the version of enforcerd is outdated and should be updated.
-	UpdateAvailable *bool `json:"updateAvailable,omitempty" bson:"updateavailable" mapstructure:"updateAvailable,omitempty"`
+	UpdateAvailable *bool `json:"updateAvailable,omitempty" bson:"updateavailable,omitempty" mapstructure:"updateAvailable,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

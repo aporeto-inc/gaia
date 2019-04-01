@@ -24,6 +24,8 @@ attributes:
     subtype: '[][]string'
     stored: true
     orderable: true
+    validations:
+    - $policyExpression
 
   - name: methods
     description: methods exposed to access the API.

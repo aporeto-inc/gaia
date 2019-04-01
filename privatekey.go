@@ -397,10 +397,10 @@ type SparsePrivateKey struct {
 
 	// CertificateSerialNumber represents the certificate serial number associated to
 	// this key.
-	CertificateSerialNumber *string `json:"-" bson:"certificateserialnumber" mapstructure:"-,omitempty"`
+	CertificateSerialNumber *string `json:"-" bson:"certificateserialnumber,omitempty" mapstructure:"-,omitempty"`
 
 	// Data contains the privateKey data.
-	Data *string `json:"-" bson:"data" mapstructure:"-,omitempty"`
+	Data *string `json:"-" bson:"data,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

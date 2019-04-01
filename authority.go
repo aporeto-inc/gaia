@@ -505,19 +505,19 @@ type SparseAuthority struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// PEM encoded certificate data.
-	Certificate *string `json:"certificate,omitempty" bson:"certificate" mapstructure:"certificate,omitempty"`
+	Certificate *string `json:"certificate,omitempty" bson:"certificate,omitempty" mapstructure:"certificate,omitempty"`
 
 	// CommonName contains the common name of the CA.
-	CommonName *string `json:"commonName,omitempty" bson:"commonname" mapstructure:"commonName,omitempty"`
+	CommonName *string `json:"commonName,omitempty" bson:"commonname,omitempty" mapstructure:"commonName,omitempty"`
 
 	// Date of expiration of the authority.
-	ExpirationDate *time.Time `json:"expirationDate,omitempty" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
+	ExpirationDate *time.Time `json:"expirationDate,omitempty" bson:"expirationdate,omitempty" mapstructure:"expirationDate,omitempty"`
 
 	// Encrypted private key of the Authority.
-	Key *string `json:"-" bson:"key" mapstructure:"-,omitempty"`
+	Key *string `json:"-" bson:"key,omitempty" mapstructure:"-,omitempty"`
 
 	// serialNumber of the certificate.
-	SerialNumber *string `json:"serialNumber,omitempty" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
+	SerialNumber *string `json:"serialNumber,omitempty" bson:"serialnumber,omitempty" mapstructure:"serialNumber,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

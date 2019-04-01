@@ -83,6 +83,8 @@ attributes:
     exposed: true
     subtype: '[][]string'
     orderable: true
+    validations:
+    - $policyExpression
 
   - name: principals
     description: |-
@@ -101,6 +103,8 @@ attributes:
     exposed: true
     subtype: '[][]string'
     orderable: true
+    validations:
+    - $policyExpression
 
   - name: validity
     description: Set the validity of the delivered SSH certificate.
