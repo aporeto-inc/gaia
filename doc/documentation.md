@@ -3017,7 +3017,7 @@ or by exposing the ports in a container manifest.
 
 NormalizedTags contains the list of normalized tags of the entities.
 
-##### `operationalStatus` `emum(Initialized | Paused | Running | Stopped | Terminated)`
+##### `operationalStatus` `emum(Initialized | Paused | Running | Stopped | Terminated | Unknown)`
 
 OperationalStatus of the processing unit.
 

@@ -159,6 +159,7 @@ attributes:
     - Running
     - Stopped
     - Terminated
+    - Unknown
     default_value: Initialized
     filterable: true
 
