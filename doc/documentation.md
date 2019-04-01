@@ -7979,10 +7979,6 @@ Mandatory Parameters
 
 #### Attributes
 
-##### `claims` `map[string][]string` [`read_only`]
-
-claims represents a user or a script that have accessed an api.
-
 ##### `edges` [`map[string]graphedge`](#graphedge) [`read_only`]
 
 edges are the edges of the map.
