@@ -98,8 +98,10 @@ type Claims struct {
 	// firstSeen contains the date of the first appearance of the claims.
 	FirstSeen time.Time `json:"-" bson:"firstseen" mapstructure:"-,omitempty"`
 
-	// Unique hash of the claim access.
-	Hash string `json:"hash" bson:"hash" mapstructure:"hash,omitempty"`
+	// XXH64 of the claims content. It will be used as ID. To compute a correct hash,
+	// you must first clob Content as an string array in the form `+"`"+`key=value`+"`"+`, sort it
+	// then apply the xxhash function.
+	Hash string `json:"hash" bson:"-" mapstructure:"hash,omitempty"`
 
 	// lastSeen contains the date of the last appearance of the claims.
 	LastSeen time.Time `json:"-" bson:"lastseen" mapstructure:"-,omitempty"`
@@ -395,10 +397,6 @@ func (o *Claims) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateRequiredExternal("content", o.Content); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("hash", o.Hash); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -513,7 +511,6 @@ var ClaimsAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Content contains the raw JWT claims.`,
 		Exposed:        true,
 		Name:           "content",
-		Required:       true,
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
@@ -531,12 +528,13 @@ var ClaimsAttributesMap = map[string]elemental.AttributeSpecification{
 	"Hash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Hash",
-		Description:    `Unique hash of the claim access.`,
-		Exposed:        true,
-		Name:           "hash",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `XXH64 of the claims content. It will be used as ID. To compute a correct hash,
+you must first clob Content as an string array in the form ` + "`" + `key=value` + "`" + `, sort it
+then apply the xxhash function.`,
+		Exposed:  true,
+		Name:     "hash",
+		Required: true,
+		Type:     "string",
 	},
 	"LastSeen": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -667,7 +665,6 @@ var ClaimsLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Content contains the raw JWT claims.`,
 		Exposed:        true,
 		Name:           "content",
-		Required:       true,
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
@@ -685,12 +682,13 @@ var ClaimsLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"hash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Hash",
-		Description:    `Unique hash of the claim access.`,
-		Exposed:        true,
-		Name:           "hash",
-		Required:       true,
-		Stored:         true,
-		Type:           "string",
+		Description: `XXH64 of the claims content. It will be used as ID. To compute a correct hash,
+you must first clob Content as an string array in the form ` + "`" + `key=value` + "`" + `, sort it
+then apply the xxhash function.`,
+		Exposed:  true,
+		Name:     "hash",
+		Required: true,
+		Type:     "string",
 	},
 	"lastseen": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -854,8 +852,10 @@ type SparseClaims struct {
 	// firstSeen contains the date of the first appearance of the claims.
 	FirstSeen *time.Time `json:"-" bson:"firstseen,omitempty" mapstructure:"-,omitempty"`
 
-	// Unique hash of the claim access.
-	Hash *string `json:"hash,omitempty" bson:"hash,omitempty" mapstructure:"hash,omitempty"`
+	// XXH64 of the claims content. It will be used as ID. To compute a correct hash,
+	// you must first clob Content as an string array in the form `+"`"+`key=value`+"`"+`, sort it
+	// then apply the xxhash function.
+	Hash *string `json:"hash,omitempty" bson:"-" mapstructure:"hash,omitempty"`
 
 	// lastSeen contains the date of the last appearance of the claims.
 	LastSeen *time.Time `json:"-" bson:"lastseen,omitempty" mapstructure:"-,omitempty"`

@@ -364,9 +364,7 @@ var (
 		"category":           nil,
 		"claims": [][]string{
 			[]string{":shard", "zone", "zHash"},
-			[]string{":unique", "namespace", "hash"},
 			[]string{"namespace"},
-			[]string{"namespace", "hash"},
 			[]string{"namespace", "normalizedTags"},
 		},
 		"customer": [][]string{
