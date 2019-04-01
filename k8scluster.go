@@ -184,7 +184,7 @@ type K8SCluster struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewK8SCluster returns a new *K8SCluster
@@ -192,7 +192,6 @@ func NewK8SCluster() *K8SCluster {
 
 	return &K8SCluster{
 		ModelVersion:      1,
-		Mutex:             &sync.Mutex{},
 		Metadata:          []string{},
 		ActivationType:    K8SClusterActivationTypeKubeSquall,
 		Annotations:       map[string][]string{},
@@ -800,7 +799,6 @@ the aporeto side on your kubernetes Cluster.`,
 		Name:      "kubernetesDefinitions",
 		Orderable: true,
 		ReadOnly:  true,
-		Secret:    true,
 		Type:      "string",
 	},
 	"Metadata": elemental.AttributeSpecification{
@@ -1075,7 +1073,6 @@ the aporeto side on your kubernetes Cluster.`,
 		Name:      "kubernetesDefinitions",
 		Orderable: true,
 		ReadOnly:  true,
-		Secret:    true,
 		Type:      "string",
 	},
 	"metadata": elemental.AttributeSpecification{
@@ -1291,35 +1288,35 @@ func (o SparseK8SClustersList) Version() int {
 // SparseK8SCluster represents the sparse version of a k8scluster.
 type SparseK8SCluster struct {
 	// Link to the API authorization policy.
-	APIAuthorizationPolicyID *string `json:"-" bson:"apiauthorizationpolicyid,omitempty" mapstructure:"-,omitempty"`
+	APIAuthorizationPolicyID *string `json:"-,omitempty" bson:"apiauthorizationpolicyid" mapstructure:"-,omitempty"`
 
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Defines the mode of activation on the KubernetesCluster.
-	ActivationType *K8SClusterActivationTypeValue `json:"activationType,omitempty" bson:"activationtype,omitempty" mapstructure:"activationType,omitempty"`
+	ActivationType *K8SClusterActivationTypeValue `json:"activationType,omitempty" bson:"activationtype" mapstructure:"activationType,omitempty"`
 
 	// The email address that will receive a copy of the Kubernetes cluster YAMLs
 	// definition.
-	AdminEmail *string `json:"adminEmail,omitempty" bson:"adminemail,omitempty" mapstructure:"adminEmail,omitempty"`
+	AdminEmail *string `json:"adminEmail,omitempty" bson:"adminemail" mapstructure:"adminEmail,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// The string representation of the Certificate used by the Kubernetes cluster.
-	Certificate *string `json:"certificate,omitempty" bson:"certificate,omitempty" mapstructure:"certificate,omitempty"`
+	Certificate *string `json:"certificate,omitempty" bson:"certificate" mapstructure:"certificate,omitempty"`
 
 	// Link to the certificate created for this cluster.
-	CertificateSN *string `json:"-" bson:"certificatesn,omitempty" mapstructure:"-,omitempty"`
+	CertificateSN *string `json:"-,omitempty" bson:"certificatesn" mapstructure:"-,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
 
 	// base64 of the .tar.gz file that contains all the .YAMLs files needed to create
 	// the aporeto side on your kubernetes Cluster.
@@ -1327,46 +1324,46 @@ type SparseK8SCluster struct {
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// Link to the cluster namespace.
-	NamespaceID *string `json:"-" bson:"namespaceid,omitempty" mapstructure:"-,omitempty"`
+	NamespaceID *string `json:"-,omitempty" bson:"namespaceid" mapstructure:"-,omitempty"`
 
 	// Defines what type of network policy will be applied on your cluster.
 	// Kubernetes means that All the Kubernetes policies will be synced to Squall.
 	// No Policies means that policies are not synced and it's up to the user to create
 	// consistent policies in Squall.
-	NetworkPolicyType *K8SClusterNetworkPolicyTypeValue `json:"networkPolicyType,omitempty" bson:"networkpolicytype,omitempty" mapstructure:"networkPolicyType,omitempty"`
+	NetworkPolicyType *K8SClusterNetworkPolicyTypeValue `json:"networkPolicyType,omitempty" bson:"networkpolicytype" mapstructure:"networkPolicyType,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Regenerates the k8s files and certificates.
 	Regenerate *bool `json:"regenerate,omitempty" bson:"-" mapstructure:"regenerate,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-,omitempty" bson:"zhash" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
+	Zone *int `json:"-,omitempty" bson:"zone" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseK8SCluster returns a new  SparseK8SCluster.

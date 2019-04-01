@@ -55,7 +55,7 @@ type TraceRecord struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTraceRecord returns a new *TraceRecord
@@ -63,7 +63,6 @@ func NewTraceRecord() *TraceRecord {
 
 	return &TraceRecord{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 

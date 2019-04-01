@@ -316,7 +316,7 @@ type Service struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewService returns a new *Service
@@ -324,7 +324,6 @@ func NewService() *Service {
 
 	return &Service{
 		ModelVersion:               1,
-		Mutex:                      &sync.Mutex{},
 		AllAPITags:                 []string{},
 		Annotations:                map[string][]string{},
 		AllServiceTags:             []string{},
@@ -2170,44 +2169,44 @@ type SparseService struct {
 	// This is an optional attribute and is only required if no host names are
 	// provided.
 	// The system will automatically resolve IP addresses from host names otherwise.
-	IPs *[]string `json:"IPs,omitempty" bson:"ips,omitempty" mapstructure:"IPs,omitempty"`
+	IPs *[]string `json:"IPs,omitempty" bson:"ips" mapstructure:"IPs,omitempty"`
 
 	// PEM encoded certificate that will be used to validate user JWT in HTTP requests.
 	// This is an optional field, needed only if the `+"`"+`authorizationType`+"`"+`
 	// is set to `+"`"+`JWT`+"`"+`.
-	JWTSigningCertificate *string `json:"JWTSigningCertificate,omitempty" bson:"jwtsigningcertificate,omitempty" mapstructure:"JWTSigningCertificate,omitempty"`
+	JWTSigningCertificate *string `json:"JWTSigningCertificate,omitempty" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
 
 	// PEM encoded Certificate Authority to use to verify client
 	// certificates. This only applies if `+"`"+`authorizationType`+"`"+` is set to
 	// `+"`"+`MTLS`+"`"+`. If it is not set, Aporeto's Public Signing Certificate Authority will
 	// be used.
-	MTLSCertificateAuthority *string `json:"MTLSCertificateAuthority,omitempty" bson:"mtlscertificateauthority,omitempty" mapstructure:"MTLSCertificateAuthority,omitempty"`
+	MTLSCertificateAuthority *string `json:"MTLSCertificateAuthority,omitempty" bson:"mtlscertificateauthority" mapstructure:"MTLSCertificateAuthority,omitempty"`
 
 	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
 	// Aporeto will autodiscover it. It will be
 	// `+"`"+`https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback`+"`"+`.
-	OIDCCallbackURL *string `json:"OIDCCallbackURL,omitempty" bson:"oidccallbackurl,omitempty" mapstructure:"OIDCCallbackURL,omitempty"`
+	OIDCCallbackURL *string `json:"OIDCCallbackURL,omitempty" bson:"oidccallbackurl" mapstructure:"OIDCCallbackURL,omitempty"`
 
 	// OIDC Client ID. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
-	OIDCClientID *string `json:"OIDCClientID,omitempty" bson:"oidcclientid,omitempty" mapstructure:"OIDCClientID,omitempty"`
+	OIDCClientID *string `json:"OIDCClientID,omitempty" bson:"oidcclientid" mapstructure:"OIDCClientID,omitempty"`
 
 	// OIDC Client Secret. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
-	OIDCClientSecret *string `json:"OIDCClientSecret,omitempty" bson:"oidcclientsecret,omitempty" mapstructure:"OIDCClientSecret,omitempty"`
+	OIDCClientSecret *string `json:"OIDCClientSecret,omitempty" bson:"oidcclientsecret" mapstructure:"OIDCClientSecret,omitempty"`
 
 	// OIDC Provider URL. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
-	OIDCProviderURL *string `json:"OIDCProviderURL,omitempty" bson:"oidcproviderurl,omitempty" mapstructure:"OIDCProviderURL,omitempty"`
+	OIDCProviderURL *string `json:"OIDCProviderURL,omitempty" bson:"oidcproviderurl" mapstructure:"OIDCProviderURL,omitempty"`
 
 	// Configures the scopes you want to add to the OIDC provider. Only has effect if
 	// `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
-	OIDCScopes *[]string `json:"OIDCScopes,omitempty" bson:"oidcscopes,omitempty" mapstructure:"OIDCScopes,omitempty"`
+	OIDCScopes *[]string `json:"OIDCScopes,omitempty" bson:"oidcscopes" mapstructure:"OIDCScopes,omitempty"`
 
 	// PEM encoded certificate to expose to the clients for TLS. Only has effect and
 	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
-	TLSCertificate *string `json:"TLSCertificate,omitempty" bson:"tlscertificate,omitempty" mapstructure:"TLSCertificate,omitempty"`
+	TLSCertificate *string `json:"TLSCertificate,omitempty" bson:"tlscertificate" mapstructure:"TLSCertificate,omitempty"`
 
 	// PEM encoded certificate key associated to `+"`"+`TLSCertificate`+"`"+`. Only has effect and
 	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
-	TLSCertificateKey *string `json:"TLSCertificateKey,omitempty" bson:"tlscertificatekey,omitempty" mapstructure:"TLSCertificateKey,omitempty"`
+	TLSCertificateKey *string `json:"TLSCertificateKey,omitempty" bson:"tlscertificatekey" mapstructure:"TLSCertificateKey,omitempty"`
 
 	// Set how to provide a server certificate to the service.
 	//
@@ -2215,22 +2214,22 @@ type SparseService struct {
 	// - `+"`"+`LetsEncrypt`+"`"+`: Issue a certificate from letsencrypt.
 	// - `+"`"+`External`+"`"+`: : Let you define your own certificate and key to use.
 	// - `+"`"+`None`+"`"+`: : TLS is disabled (not recommended).
-	TLSType *ServiceTLSTypeValue `json:"TLSType,omitempty" bson:"tlstype,omitempty" mapstructure:"TLSType,omitempty"`
+	TLSType *ServiceTLSTypeValue `json:"TLSType,omitempty" bson:"tlstype" mapstructure:"TLSType,omitempty"`
 
 	// This is a set of all API tags for matching in the DB.
-	AllAPITags *[]string `json:"-" bson:"allapitags,omitempty" mapstructure:"-,omitempty"`
+	AllAPITags *[]string `json:"-,omitempty" bson:"allapitags" mapstructure:"-,omitempty"`
 
 	// This is a set of all selector tags for matching in the DB.
-	AllServiceTags *[]string `json:"-" bson:"allservicetags,omitempty" mapstructure:"-,omitempty"`
+	AllServiceTags *[]string `json:"-,omitempty" bson:"allservicetags" mapstructure:"-,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// Archived defines if the object is archived.
-	Archived *bool `json:"-" bson:"archived,omitempty" mapstructure:"-,omitempty"`
+	Archived *bool `json:"-,omitempty" bson:"archived" mapstructure:"-,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// AuthorizationType defines the user authorization type that should be used.
 	//
@@ -2242,21 +2241,21 @@ type SparseService struct {
 	// - `+"`"+`MTLS`+"`"+`: Configures Client Certificate authorization. Then you can optionaly
 	// `+"`"+`MTLSCertificateAuthority`+"`"+` otherwise Aporeto Public Signing Certificate will be
 	// used.
-	AuthorizationType *ServiceAuthorizationTypeValue `json:"authorizationType,omitempty" bson:"authorizationtype,omitempty" mapstructure:"authorizationType,omitempty"`
+	AuthorizationType *ServiceAuthorizationTypeValue `json:"authorizationType,omitempty" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
 
 	// Defines a list of mappings between claims and
 	// HTTP headers. When these mappings are defined, the enforcer will copy the
 	// values of the claims to the corresponding HTTP headers.
-	ClaimsToHTTPHeaderMappings *[]*ClaimMapping `json:"claimsToHTTPHeaderMappings,omitempty" bson:"claimstohttpheadermappings,omitempty" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
+	ClaimsToHTTPHeaderMappings *[]*ClaimMapping `json:"claimsToHTTPHeaderMappings,omitempty" bson:"claimstohttpheadermappings" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
 
 	// Disabled defines if the propert is disabled.
-	Disabled *bool `json:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
+	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
 
 	// Endpoints is a read only attribute that actually resolves the API
 	// endpoints that the service is exposing. Only valid during policy rendering.
@@ -2265,46 +2264,46 @@ type SparseService struct {
 	// ExposedAPIs contains a tag expression that will determine which
 	// APIs a service is exposing. The APIs can be defined as the RESTAPISpec or
 	// similar specifications for other L7 protocols.
-	ExposedAPIs *[][]string `json:"exposedAPIs,omitempty" bson:"exposedapis,omitempty" mapstructure:"exposedAPIs,omitempty"`
+	ExposedAPIs *[][]string `json:"exposedAPIs,omitempty" bson:"exposedapis" mapstructure:"exposedAPIs,omitempty"`
 
 	// ExposedPort is the port that the service can be accessed. Note that
 	// this is different from the Port attribute that describes the port that the
 	// service is actually listening. For example if a load balancer is used, the
 	// ExposedPort is the port that the load balancer is listening for the service,
 	// whereas the port that the implementation is listening can be different.
-	ExposedPort *int `json:"exposedPort,omitempty" bson:"exposedport,omitempty" mapstructure:"exposedPort,omitempty"`
+	ExposedPort *int `json:"exposedPort,omitempty" bson:"exposedport" mapstructure:"exposedPort,omitempty"`
 
 	// ExposedServiceIsTLS indicates that the exposed service is TLS. This means that
 	// the enforcer has to initiate a TLS session in order to forrward traffic to the
 	// service.
-	ExposedServiceIsTLS *bool `json:"exposedServiceIsTLS,omitempty" bson:"exposedserviceistls,omitempty" mapstructure:"exposedServiceIsTLS,omitempty"`
+	ExposedServiceIsTLS *bool `json:"exposedServiceIsTLS,omitempty" bson:"exposedserviceistls" mapstructure:"exposedServiceIsTLS,omitempty"`
 
 	// External is a boolean that indicates if this is an external service.
-	External *bool `json:"external,omitempty" bson:"external,omitempty" mapstructure:"external,omitempty"`
+	External *bool `json:"external,omitempty" bson:"external" mapstructure:"external,omitempty"`
 
 	// Hosts are the names that the service can be accessed with.
-	Hosts *[]string `json:"hosts,omitempty" bson:"hosts,omitempty" mapstructure:"hosts,omitempty"`
+	Hosts *[]string `json:"hosts,omitempty" bson:"hosts" mapstructure:"hosts,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Port is the port that the implementation of the service is listening to and
 	// it can be different than the exposedPorts describing the service. This is needed
 	// for port mapping use cases where there is private and public ports.
-	Port *int `json:"port,omitempty" bson:"port,omitempty" mapstructure:"port,omitempty"`
+	Port *int `json:"port,omitempty" bson:"port" mapstructure:"port,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// PublicApplicationPort is a new virtual port that the service can
 	// be accessed, using HTTPs. Since the enforcer transparently inserts TLS in the
@@ -2312,40 +2311,40 @@ type SparseService struct {
 	// listens for TLS. However, the application does not need to be modified and
 	// the enforcer will map the traffic to the correct application port. This useful
 	// when an application is being accessed from a public network.
-	PublicApplicationPort *int `json:"publicApplicationPort,omitempty" bson:"publicapplicationport,omitempty" mapstructure:"publicApplicationPort,omitempty"`
+	PublicApplicationPort *int `json:"publicApplicationPort,omitempty" bson:"publicapplicationport" mapstructure:"publicApplicationPort,omitempty"`
 
 	// If this is set, the user will be redirected to that URL in case of any
 	// authorization failure to let you chance to provide a nice message to the user.
 	// The query parameter `+"`"+`?failure_message=<message>`+"`"+` will be added to that url
 	// explaining the possible reasons of the failure.
-	RedirectURLOnAuthorizationFailure *string `json:"redirectURLOnAuthorizationFailure,omitempty" bson:"redirecturlonauthorizationfailure,omitempty" mapstructure:"redirectURLOnAuthorizationFailure,omitempty"`
+	RedirectURLOnAuthorizationFailure *string `json:"redirectURLOnAuthorizationFailure,omitempty" bson:"redirecturlonauthorizationfailure" mapstructure:"redirectURLOnAuthorizationFailure,omitempty"`
 
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to implement this particular service.
-	Selectors *[][]string `json:"selectors,omitempty" bson:"selectors,omitempty" mapstructure:"selectors,omitempty"`
+	Selectors *[][]string `json:"selectors,omitempty" bson:"selectors" mapstructure:"selectors,omitempty"`
 
 	// PEM encoded Certificate Authorities to trust when additional hops are needed. It
 	// must be set if the service must reach a Service marked as `+"`"+`external`+"`"+` or must go
 	// through an additional TLS termination point like a L7 Load Balancer.
-	TrustedCertificateAuthorities *string `json:"trustedCertificateAuthorities,omitempty" bson:"trustedcertificateauthorities,omitempty" mapstructure:"trustedCertificateAuthorities,omitempty"`
+	TrustedCertificateAuthorities *string `json:"trustedCertificateAuthorities,omitempty" bson:"trustedcertificateauthorities" mapstructure:"trustedCertificateAuthorities,omitempty"`
 
 	// Type is the type of the service.
-	Type *ServiceTypeValue `json:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
+	Type *ServiceTypeValue `json:"type,omitempty" bson:"type" mapstructure:"type,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-,omitempty" bson:"zhash" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
+	Zone *int `json:"-,omitempty" bson:"zone" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseService returns a new  SparseService.

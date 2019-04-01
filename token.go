@@ -97,7 +97,7 @@ type Token struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewToken returns a new *Token
@@ -105,7 +105,6 @@ func NewToken() *Token {
 
 	return &Token{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Tags:         []string{},
 	}
 }
@@ -461,7 +460,7 @@ type SparseToken struct {
 	Certificate *string `json:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// SigningKeyID holds the ID of the custom CA to use to sign the token.
-	SigningKeyID *string `json:"signingKeyID,omitempty" bson:"signingkeyid,omitempty" mapstructure:"signingKeyID,omitempty"`
+	SigningKeyID *string `json:"signingKeyID,omitempty" bson:"signingkeyid" mapstructure:"signingKeyID,omitempty"`
 
 	// Tags includes a list of tags that must be added to the token.
 	Tags *[]string `json:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
@@ -474,7 +473,7 @@ type SparseToken struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseToken returns a new  SparseToken.

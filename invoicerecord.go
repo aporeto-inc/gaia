@@ -99,7 +99,7 @@ type InvoiceRecord struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewInvoiceRecord returns a new *InvoiceRecord
@@ -107,7 +107,6 @@ func NewInvoiceRecord() *InvoiceRecord {
 
 	return &InvoiceRecord{
 		ModelVersion:   1,
-		Mutex:          &sync.Mutex{},
 		InvoiceRecords: []string{},
 	}
 }
@@ -472,24 +471,24 @@ func (o SparseInvoiceRecordsList) Version() int {
 // SparseInvoiceRecord represents the sparse version of a invoicerecord.
 type SparseInvoiceRecord struct {
 	// ID is the id of this invoice record.
-	ID *string `json:"ID,omitempty" bson:"id,omitempty" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" bson:"id" mapstructure:"ID,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// InvoiceID references the id of the invoice that this invoice record provides
 	// details for.
-	InvoiceID *string `json:"invoiceID,omitempty" bson:"invoiceid,omitempty" mapstructure:"invoiceID,omitempty"`
+	InvoiceID *string `json:"invoiceID,omitempty" bson:"invoiceid" mapstructure:"invoiceID,omitempty"`
 
 	// InvoiceRecords provides details about billing units.
-	InvoiceRecords *[]string `json:"invoiceRecords,omitempty" bson:"invoicerecords,omitempty" mapstructure:"invoiceRecords,omitempty"`
+	InvoiceRecords *[]string `json:"invoiceRecords,omitempty" bson:"invoicerecords" mapstructure:"invoiceRecords,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseInvoiceRecord returns a new  SparseInvoiceRecord.

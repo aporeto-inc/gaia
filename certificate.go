@@ -149,7 +149,7 @@ type Certificate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewCertificate returns a new *Certificate
@@ -157,7 +157,6 @@ func NewCertificate() *Certificate {
 
 	return &Certificate{
 		ModelVersion:        1,
-		Mutex:               &sync.Mutex{},
 		OrganizationalUnits: []string{},
 		Status:              CertificateStatusValid,
 	}
@@ -578,7 +577,6 @@ time.`,
 		Exposed:  true,
 		Name:     "key",
 		ReadOnly: true,
-		Secret:   true,
 		Type:     "string",
 	},
 	"Name": elemental.AttributeSpecification{
@@ -625,7 +623,6 @@ time.`,
 		Exposed:        true,
 		Name:           "passphrase",
 		Orderable:      true,
-		Secret:         true,
 		Type:           "string",
 	},
 	"SerialNumber": elemental.AttributeSpecification{
@@ -791,7 +788,6 @@ time.`,
 		Exposed:  true,
 		Name:     "key",
 		ReadOnly: true,
-		Secret:   true,
 		Type:     "string",
 	},
 	"name": elemental.AttributeSpecification{
@@ -838,7 +834,6 @@ time.`,
 		Exposed:        true,
 		Name:           "passphrase",
 		Orderable:      true,
-		Secret:         true,
 		Type:           "string",
 	},
 	"serialnumber": elemental.AttributeSpecification{
@@ -973,60 +968,60 @@ type SparseCertificate struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Admin determines if the certificate must be added to the admin list.
-	Admin *bool `json:"admin,omitempty" bson:"admin,omitempty" mapstructure:"admin,omitempty"`
+	Admin *bool `json:"admin,omitempty" bson:"admin" mapstructure:"admin,omitempty"`
 
 	// CommonName (CN) for the user certificate.
-	CommonName *string `json:"commonName,omitempty" bson:"commonname,omitempty" mapstructure:"commonName,omitempty"`
+	CommonName *string `json:"commonName,omitempty" bson:"commonname" mapstructure:"commonName,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Certificate provides a certificate for the user.
-	Data *string `json:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`
+	Data *string `json:"data,omitempty" bson:"data" mapstructure:"data,omitempty"`
 
 	// e-mail address of the user.
-	Email *string `json:"email,omitempty" bson:"email,omitempty" mapstructure:"email,omitempty"`
+	Email *string `json:"email,omitempty" bson:"email" mapstructure:"email,omitempty"`
 
 	// CertificateExpirationDate indicates the expiration day for the certificate.
-	ExpirationDate *time.Time `json:"expirationDate,omitempty" bson:"expirationdate,omitempty" mapstructure:"expirationDate,omitempty"`
+	ExpirationDate *time.Time `json:"expirationDate,omitempty" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
 
 	// CertificateKey provides the key for the user. Only available at create or update
 	// time.
 	Key *string `json:"key,omitempty" bson:"-" mapstructure:"key,omitempty"`
 
 	// Name of the certificate.
-	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
 
 	// OrganizationalUnits attribute for the generated certificates.
-	OrganizationalUnits *[]string `json:"organizationalUnits,omitempty" bson:"organizationalunits,omitempty" mapstructure:"organizationalUnits,omitempty"`
+	OrganizationalUnits *[]string `json:"organizationalUnits,omitempty" bson:"organizationalunits" mapstructure:"organizationalUnits,omitempty"`
 
 	// ParentID holds the parent account ID.
-	ParentID *string `json:"parentID,omitempty" bson:"parentid,omitempty" mapstructure:"parentID,omitempty"`
+	ParentID *string `json:"parentID,omitempty" bson:"parentid" mapstructure:"parentID,omitempty"`
 
 	// Passphrase to use for the generated p12.
 	Passphrase *string `json:"passphrase,omitempty" bson:"-" mapstructure:"passphrase,omitempty"`
 
 	// SerialNumber of the certificate.
-	SerialNumber *string `json:"serialNumber,omitempty" bson:"serialnumber,omitempty" mapstructure:"serialNumber,omitempty"`
+	SerialNumber *string `json:"serialNumber,omitempty" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
 
 	// CertificateStatus provides the status of the certificate. Update with RENEW to
 	// get a new certificate.
-	Status *CertificateStatusValue `json:"status,omitempty" bson:"status,omitempty" mapstructure:"status,omitempty"`
+	Status *CertificateStatusValue `json:"status,omitempty" bson:"status" mapstructure:"status,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-,omitempty" bson:"zhash" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
+	Zone *int `json:"-,omitempty" bson:"zone" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseCertificate returns a new  SparseCertificate.

@@ -103,7 +103,7 @@ type Import struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewImport returns a new *Import
@@ -111,7 +111,6 @@ func NewImport() *Import {
 
 	return &Import{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Data:         NewExport(),
 		Mode:         ImportModeImport,
 	}
@@ -397,7 +396,7 @@ type SparseImport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseImport returns a new  SparseImport.

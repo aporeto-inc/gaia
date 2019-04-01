@@ -179,7 +179,7 @@ type AuditReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAuditReport returns a new *AuditReport
@@ -187,7 +187,6 @@ func NewAuditReport() *AuditReport {
 
 	return &AuditReport{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Success:      false,
 	}
 }
@@ -1321,7 +1320,7 @@ type SparseAuditReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAuditReport returns a new  SparseAuditReport.

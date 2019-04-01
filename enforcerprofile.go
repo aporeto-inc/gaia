@@ -263,7 +263,7 @@ type EnforcerProfile struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewEnforcerProfile returns a new *EnforcerProfile
@@ -271,7 +271,6 @@ func NewEnforcerProfile() *EnforcerProfile {
 
 	return &EnforcerProfile{
 		ModelVersion:                  1,
-		Mutex:                         &sync.Mutex{},
 		ApplicationProxyPort:          20992,
 		AuditProfiles:                 AuditProfilesList{},
 		AuditProfileSelectors:         []string{},
@@ -2212,155 +2211,155 @@ type SparseEnforcerProfile struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// IptablesMarkValue is the mark value to be used in an iptables implementation.
-	IPTablesMarkValue *int `json:"IPTablesMarkValue,omitempty" bson:"iptablesmarkvalue,omitempty" mapstructure:"IPTablesMarkValue,omitempty"`
+	IPTablesMarkValue *int `json:"IPTablesMarkValue,omitempty" bson:"iptablesmarkvalue" mapstructure:"IPTablesMarkValue,omitempty"`
 
 	// PUBookkeepingInterval configures how often the PU will be synchronized.
-	PUBookkeepingInterval *string `json:"PUBookkeepingInterval,omitempty" bson:"pubookkeepinginterval,omitempty" mapstructure:"PUBookkeepingInterval,omitempty"`
+	PUBookkeepingInterval *string `json:"PUBookkeepingInterval,omitempty" bson:"pubookkeepinginterval" mapstructure:"PUBookkeepingInterval,omitempty"`
 
 	// PUHeartbeatInterval configures the heart beat interval.
-	PUHeartbeatInterval *string `json:"PUHeartbeatInterval,omitempty" bson:"puheartbeatinterval,omitempty" mapstructure:"PUHeartbeatInterval,omitempty"`
+	PUHeartbeatInterval *string `json:"PUHeartbeatInterval,omitempty" bson:"puheartbeatinterval" mapstructure:"PUHeartbeatInterval,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// Port used by aporeto application proxy.
-	ApplicationProxyPort *int `json:"applicationProxyPort,omitempty" bson:"applicationproxyport,omitempty" mapstructure:"applicationProxyPort,omitempty"`
+	ApplicationProxyPort *int `json:"applicationProxyPort,omitempty" bson:"applicationproxyport" mapstructure:"applicationProxyPort,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// AuditProfileSelectors is the list of tags (key/value pairs) that define the
 	// audit policies that must be implemented by this enforcer. The enforcer will
 	// implement all policies that match any of these tags.
-	AuditProfileSelectors *[]string `json:"auditProfileSelectors,omitempty" bson:"auditprofileselectors,omitempty" mapstructure:"auditProfileSelectors,omitempty"`
+	AuditProfileSelectors *[]string `json:"auditProfileSelectors,omitempty" bson:"auditprofileselectors" mapstructure:"auditProfileSelectors,omitempty"`
 
 	// AuditProfiles returns the audit rules associated with the enforcer profile. This
 	// is a read only attribute when an enforcer profile is resolved for an enforcer.
 	AuditProfiles *AuditProfilesList `json:"auditProfiles,omitempty" bson:"-" mapstructure:"auditProfiles,omitempty"`
 
 	// AuditSocketBufferSize is the size of the audit socket buffer. Default 16384.
-	AuditSocketBufferSize *int `json:"auditSocketBufferSize,omitempty" bson:"auditsocketbuffersize,omitempty" mapstructure:"auditSocketBufferSize,omitempty"`
+	AuditSocketBufferSize *int `json:"auditSocketBufferSize,omitempty" bson:"auditsocketbuffersize" mapstructure:"auditSocketBufferSize,omitempty"`
 
 	// CreatedTime is the time at which the object was created.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
 
 	// DockerSocketAddress is the address of the docker daemon.
-	DockerSocketAddress *string `json:"dockerSocketAddress,omitempty" bson:"dockersocketaddress,omitempty" mapstructure:"dockerSocketAddress,omitempty"`
+	DockerSocketAddress *string `json:"dockerSocketAddress,omitempty" bson:"dockersocketaddress" mapstructure:"dockerSocketAddress,omitempty"`
 
 	// ExcludedInterfaces is a list of interfaces that must be excluded.
-	ExcludedInterfaces *[]string `json:"excludedInterfaces,omitempty" bson:"excludedinterfaces,omitempty" mapstructure:"excludedInterfaces,omitempty"`
+	ExcludedInterfaces *[]string `json:"excludedInterfaces,omitempty" bson:"excludedinterfaces" mapstructure:"excludedInterfaces,omitempty"`
 
 	// ExcludedNetworks is the list of networks that must be excluded for this
 	// enforcer.
-	ExcludedNetworks *[]string `json:"excludedNetworks,omitempty" bson:"excludednetworks,omitempty" mapstructure:"excludedNetworks,omitempty"`
+	ExcludedNetworks *[]string `json:"excludedNetworks,omitempty" bson:"excludednetworks" mapstructure:"excludedNetworks,omitempty"`
 
 	// hostModeEnabled enables protection of the complete host. When this option is
 	// turned on, all incoming and outgoing flows will be monitored. Flows will
 	// be allowed if and only if a network policy has been created to allow the flow.
-	HostModeEnabled *bool `json:"hostModeEnabled,omitempty" bson:"hostmodeenabled,omitempty" mapstructure:"hostModeEnabled,omitempty"`
+	HostModeEnabled *bool `json:"hostModeEnabled,omitempty" bson:"hostmodeenabled" mapstructure:"hostModeEnabled,omitempty"`
 
 	// HostServices is a list of services that must be activated by default to all
 	// enforcers matching this profile.
-	HostServices *[]*DeprecatedHostService `json:"hostServices,omitempty" bson:"hostservices,omitempty" mapstructure:"hostServices,omitempty"`
+	HostServices *[]*DeprecatedHostService `json:"hostServices,omitempty" bson:"hostservices" mapstructure:"hostServices,omitempty"`
 
 	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
 	// docker container started with labels matching the rule.
-	IgnoreExpression *[][]string `json:"ignoreExpression,omitempty" bson:"ignoreexpression,omitempty" mapstructure:"ignoreExpression,omitempty"`
+	IgnoreExpression *[][]string `json:"ignoreExpression,omitempty" bson:"ignoreexpression" mapstructure:"ignoreExpression,omitempty"`
 
 	// KillContainersOnFailure will configure the enforcers to kill any containers if
 	// there are policy failures.
-	KillContainersOnFailure *bool `json:"killContainersOnFailure,omitempty" bson:"killcontainersonfailure,omitempty" mapstructure:"killContainersOnFailure,omitempty"`
+	KillContainersOnFailure *bool `json:"killContainersOnFailure,omitempty" bson:"killcontainersonfailure" mapstructure:"killContainersOnFailure,omitempty"`
 
 	// Select which metadata extractor to use to process new processing units from
 	// Kubernetes.
-	KubernetesMetadataExtractor *EnforcerProfileKubernetesMetadataExtractorValue `json:"kubernetesMetadataExtractor,omitempty" bson:"kubernetesmetadataextractor,omitempty" mapstructure:"kubernetesMetadataExtractor,omitempty"`
+	KubernetesMetadataExtractor *EnforcerProfileKubernetesMetadataExtractorValue `json:"kubernetesMetadataExtractor,omitempty" bson:"kubernetesmetadataextractor" mapstructure:"kubernetesMetadataExtractor,omitempty"`
 
 	// KubernetesSupportEnabled enables kubernetes mode for the enforcer.
-	KubernetesSupportEnabled *bool `json:"kubernetesSupportEnabled,omitempty" bson:"kubernetessupportenabled,omitempty" mapstructure:"kubernetesSupportEnabled,omitempty"`
+	KubernetesSupportEnabled *bool `json:"kubernetesSupportEnabled,omitempty" bson:"kubernetessupportenabled" mapstructure:"kubernetesSupportEnabled,omitempty"`
 
 	// LinuxProcessesSupportEnabled configures support for Linux processes.
-	LinuxProcessesSupportEnabled *bool `json:"linuxProcessesSupportEnabled,omitempty" bson:"linuxprocessessupportenabled,omitempty" mapstructure:"linuxProcessesSupportEnabled,omitempty"`
+	LinuxProcessesSupportEnabled *bool `json:"linuxProcessesSupportEnabled,omitempty" bson:"linuxprocessessupportenabled" mapstructure:"linuxProcessesSupportEnabled,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Select which metadata extractor to use to process new processing units.
-	MetadataExtractor *EnforcerProfileMetadataExtractorValue `json:"metadataExtractor,omitempty" bson:"metadataextractor,omitempty" mapstructure:"metadataExtractor,omitempty"`
+	MetadataExtractor *EnforcerProfileMetadataExtractorValue `json:"metadataExtractor,omitempty" bson:"metadataextractor" mapstructure:"metadataExtractor,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// PolicySynchronizationInterval configures how often the policy will be
 	// resynchronized.
-	PolicySynchronizationInterval *string `json:"policySynchronizationInterval,omitempty" bson:"policysynchronizationinterval,omitempty" mapstructure:"policySynchronizationInterval,omitempty"`
+	PolicySynchronizationInterval *string `json:"policySynchronizationInterval,omitempty" bson:"policysynchronizationinterval" mapstructure:"policySynchronizationInterval,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// ProxyListenAddress is the address the enforcer should use to listen for API
 	// calls. It can be a port (example :9443) or socket path
 	// example:
 	//   unix:///var/run/aporeto.sock.
-	ProxyListenAddress *string `json:"proxyListenAddress,omitempty" bson:"proxylistenaddress,omitempty" mapstructure:"proxyListenAddress,omitempty"`
+	ProxyListenAddress *string `json:"proxyListenAddress,omitempty" bson:"proxylistenaddress" mapstructure:"proxyListenAddress,omitempty"`
 
 	// ReceiverNumberOfQueues is the number of queues for the NFQUEUE of the network
 	// receiver starting at the ReceiverQueue.
-	ReceiverNumberOfQueues *int `json:"receiverNumberOfQueues,omitempty" bson:"receivernumberofqueues,omitempty" mapstructure:"receiverNumberOfQueues,omitempty"`
+	ReceiverNumberOfQueues *int `json:"receiverNumberOfQueues,omitempty" bson:"receivernumberofqueues" mapstructure:"receiverNumberOfQueues,omitempty"`
 
 	// ReceiverQueue is the base queue number for traffic from the network.
-	ReceiverQueue *int `json:"receiverQueue,omitempty" bson:"receiverqueue,omitempty" mapstructure:"receiverQueue,omitempty"`
+	ReceiverQueue *int `json:"receiverQueue,omitempty" bson:"receiverqueue" mapstructure:"receiverQueue,omitempty"`
 
 	// ReceiverQueueSize is the queue size of the receiver.
-	ReceiverQueueSize *int `json:"receiverQueueSize,omitempty" bson:"receiverqueuesize,omitempty" mapstructure:"receiverQueueSize,omitempty"`
+	ReceiverQueueSize *int `json:"receiverQueueSize,omitempty" bson:"receiverqueuesize" mapstructure:"receiverQueueSize,omitempty"`
 
 	// RemoteEnforcerEnabled inidicates whether a single enforcer should be used or a
 	// distributed enforcer. True means distributed.
-	RemoteEnforcerEnabled *bool `json:"remoteEnforcerEnabled,omitempty" bson:"remoteenforcerenabled,omitempty" mapstructure:"remoteEnforcerEnabled,omitempty"`
+	RemoteEnforcerEnabled *bool `json:"remoteEnforcerEnabled,omitempty" bson:"remoteenforcerenabled" mapstructure:"remoteEnforcerEnabled,omitempty"`
 
 	// TargetNetworks is the list of networks that authorization should be applied.
-	TargetNetworks *[]string `json:"targetNetworks,omitempty" bson:"targetnetworks,omitempty" mapstructure:"targetNetworks,omitempty"`
+	TargetNetworks *[]string `json:"targetNetworks,omitempty" bson:"targetnetworks" mapstructure:"targetNetworks,omitempty"`
 
 	// TargetUDPNetworks is the list of UDP networks that authorization should be
 	// applied.
-	TargetUDPNetworks *[]string `json:"targetUDPNetworks,omitempty" bson:"targetudpnetworks,omitempty" mapstructure:"targetUDPNetworks,omitempty"`
+	TargetUDPNetworks *[]string `json:"targetUDPNetworks,omitempty" bson:"targetudpnetworks" mapstructure:"targetUDPNetworks,omitempty"`
 
 	// TransmitterNumberOfQueues is the number of queues for application traffic.
-	TransmitterNumberOfQueues *int `json:"transmitterNumberOfQueues,omitempty" bson:"transmitternumberofqueues,omitempty" mapstructure:"transmitterNumberOfQueues,omitempty"`
+	TransmitterNumberOfQueues *int `json:"transmitterNumberOfQueues,omitempty" bson:"transmitternumberofqueues" mapstructure:"transmitterNumberOfQueues,omitempty"`
 
 	// TransmitterQueue is the queue number for traffic from the applications starting
 	// at the transmitterQueue.
-	TransmitterQueue *int `json:"transmitterQueue,omitempty" bson:"transmitterqueue,omitempty" mapstructure:"transmitterQueue,omitempty"`
+	TransmitterQueue *int `json:"transmitterQueue,omitempty" bson:"transmitterqueue" mapstructure:"transmitterQueue,omitempty"`
 
 	// TransmitterQueueSize is the size of the queue for application traffic.
-	TransmitterQueueSize *int `json:"transmitterQueueSize,omitempty" bson:"transmitterqueuesize,omitempty" mapstructure:"transmitterQueueSize,omitempty"`
+	TransmitterQueueSize *int `json:"transmitterQueueSize,omitempty" bson:"transmitterqueuesize" mapstructure:"transmitterQueueSize,omitempty"`
 
 	// List of trusted CA. If empty the main chain of trust will be used.
-	TrustedCAs *[]string `json:"trustedCAs,omitempty" bson:"trustedcas,omitempty" mapstructure:"trustedCAs,omitempty"`
+	TrustedCAs *[]string `json:"trustedCAs,omitempty" bson:"trustedcas" mapstructure:"trustedCAs,omitempty"`
 
 	// UpdateTime is the time at which an entity was updated.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-,omitempty" bson:"zhash" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
+	Zone *int `json:"-,omitempty" bson:"zone" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseEnforcerProfile returns a new  SparseEnforcerProfile.

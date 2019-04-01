@@ -88,7 +88,7 @@ type TagValue struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTagValue returns a new *TagValue
@@ -96,7 +96,6 @@ func NewTagValue() *TagValue {
 
 	return &TagValue{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Values:       []string{},
 	}
 }
@@ -374,7 +373,7 @@ type SparseTagValue struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseTagValue returns a new  SparseTagValue.

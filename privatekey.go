@@ -92,7 +92,7 @@ type PrivateKey struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPrivateKey returns a new *PrivateKey
@@ -100,7 +100,6 @@ func NewPrivateKey() *PrivateKey {
 
 	return &PrivateKey{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -393,18 +392,18 @@ func (o SparsePrivateKeysList) Version() int {
 // SparsePrivateKey represents the sparse version of a privatekey.
 type SparsePrivateKey struct {
 	// ID is the internal ID of the key.
-	ID *string `json:"-" bson:"_id" mapstructure:"-,omitempty"`
+	ID *string `json:"-,omitempty" bson:"_id" mapstructure:"-,omitempty"`
 
 	// CertificateSerialNumber represents the certificate serial number associated to
 	// this key.
-	CertificateSerialNumber *string `json:"-" bson:"certificateserialnumber,omitempty" mapstructure:"-,omitempty"`
+	CertificateSerialNumber *string `json:"-,omitempty" bson:"certificateserialnumber" mapstructure:"-,omitempty"`
 
 	// Data contains the privateKey data.
-	Data *string `json:"-" bson:"data,omitempty" mapstructure:"-,omitempty"`
+	Data *string `json:"-,omitempty" bson:"data" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePrivateKey returns a new  SparsePrivateKey.

@@ -133,7 +133,7 @@ type Customer struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewCustomer returns a new *Customer
@@ -141,7 +141,6 @@ func NewCustomer() *Customer {
 
 	return &Customer{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Provider:     CustomerProviderAporeto,
 		State:        CustomerStateSubscribePending,
 	}
@@ -560,24 +559,24 @@ type SparseCustomer struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Provider holds the name of the provider to be billed for this service.
-	Provider *CustomerProviderValue `json:"provider,omitempty" bson:"provider,omitempty" mapstructure:"provider,omitempty"`
+	Provider *CustomerProviderValue `json:"provider,omitempty" bson:"provider" mapstructure:"provider,omitempty"`
 
 	// ProviderCustomerID holds the customer id as used by the provider for this
 	// customer to enable provider billing.
-	ProviderCustomerID *string `json:"providerCustomerID,omitempty" bson:"providercustomerid,omitempty" mapstructure:"providerCustomerID,omitempty"`
+	ProviderCustomerID *string `json:"providerCustomerID,omitempty" bson:"providercustomerid" mapstructure:"providerCustomerID,omitempty"`
 
 	// State holds the status of the customer with the provider.
-	State *CustomerStateValue `json:"state,omitempty" bson:"state,omitempty" mapstructure:"state,omitempty"`
+	State *CustomerStateValue `json:"state,omitempty" bson:"state" mapstructure:"state,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseCustomer returns a new  SparseCustomer.

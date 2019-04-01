@@ -99,7 +99,7 @@ type Revocation struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewRevocation returns a new *Revocation
@@ -107,7 +107,6 @@ func NewRevocation() *Revocation {
 
 	return &Revocation{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -464,24 +463,24 @@ func (o SparseRevocationsList) Version() int {
 // SparseRevocation represents the sparse version of a revocation.
 type SparseRevocation struct {
 	// ID contains the ID of the revocation.
-	ID *string `json:"-" bson:"_id" mapstructure:"-,omitempty"`
+	ID *string `json:"-,omitempty" bson:"_id" mapstructure:"-,omitempty"`
 
 	// Contains the certificate expiration date. This will be used to clean up revoked
 	// certificates that have expired.
-	ExpirationDate *time.Time `json:"expirationDate,omitempty" bson:"expirationdate,omitempty" mapstructure:"expirationDate,omitempty"`
+	ExpirationDate *time.Time `json:"expirationDate,omitempty" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
 
 	// Set time from when the certificate will be revoked.
-	RevokeDate *time.Time `json:"revokeDate,omitempty" bson:"revokedate,omitempty" mapstructure:"revokeDate,omitempty"`
+	RevokeDate *time.Time `json:"revokeDate,omitempty" bson:"revokedate" mapstructure:"revokeDate,omitempty"`
 
 	// SerialNumber of the revoked certificate.
-	SerialNumber *string `json:"serialNumber,omitempty" bson:"serialnumber,omitempty" mapstructure:"serialNumber,omitempty"`
+	SerialNumber *string `json:"serialNumber,omitempty" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
 
 	// Subject of the certificate related to the revocation.
-	Subject *string `json:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
+	Subject *string `json:"subject,omitempty" bson:"subject" mapstructure:"subject,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseRevocation returns a new  SparseRevocation.

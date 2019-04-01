@@ -88,7 +88,7 @@ type PolicyRefresh struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPolicyRefresh returns a new *PolicyRefresh
@@ -96,7 +96,6 @@ func NewPolicyRefresh() *PolicyRefresh {
 
 	return &PolicyRefresh{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -369,14 +368,14 @@ func (o SparsePolicyRefreshsList) Version() int {
 // SparsePolicyRefresh represents the sparse version of a policyrefresh.
 type SparsePolicyRefresh struct {
 	// SourceNamespace contains the original namespace of the updated object.
-	SourceNamespace *string `json:"sourceNamespace,omitempty" bson:"sourcenamespace,omitempty" mapstructure:"sourceNamespace,omitempty"`
+	SourceNamespace *string `json:"sourceNamespace,omitempty" bson:"sourcenamespace" mapstructure:"sourceNamespace,omitempty"`
 
 	// Type contains the policy type that is affected.
-	Type *string `json:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
+	Type *string `json:"type,omitempty" bson:"type" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePolicyRefresh returns a new  SparsePolicyRefresh.

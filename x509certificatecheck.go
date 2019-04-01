@@ -85,7 +85,7 @@ type X509CertificateCheck struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewX509CertificateCheck returns a new *X509CertificateCheck
@@ -93,7 +93,6 @@ func NewX509CertificateCheck() *X509CertificateCheck {
 
 	return &X509CertificateCheck{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -342,7 +341,7 @@ type SparseX509CertificateCheck struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseX509CertificateCheck returns a new  SparseX509CertificateCheck.

@@ -27,7 +27,7 @@ type Endpoint struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewEndpoint returns a new *Endpoint
@@ -35,7 +35,6 @@ func NewEndpoint() *Endpoint {
 
 	return &Endpoint{
 		ModelVersion:  1,
-		Mutex:         &sync.Mutex{},
 		AllowedScopes: [][]string{},
 		Methods:       []string{},
 		Scopes:        []string{},

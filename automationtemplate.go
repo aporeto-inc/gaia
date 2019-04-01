@@ -116,7 +116,7 @@ type AutomationTemplate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAutomationTemplate returns a new *AutomationTemplate
@@ -124,7 +124,6 @@ func NewAutomationTemplate() *AutomationTemplate {
 
 	return &AutomationTemplate{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Entitlements: map[string][]elemental.Operation{},
 		Kind:         AutomationTemplateKindCondition,
 		Parameters:   map[string]*AutomationTemplateParameter{},
@@ -589,7 +588,7 @@ func (o SparseAutomationTemplatesList) Version() int {
 // SparseAutomationTemplate represents the sparse version of a automationtemplate.
 type SparseAutomationTemplate struct {
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
 
 	// Entitlements contains the entitlements needed for executing the function.
 	Entitlements *map[string][]elemental.Operation `json:"entitlements,omitempty" bson:"-" mapstructure:"entitlements,omitempty"`
@@ -604,14 +603,14 @@ type SparseAutomationTemplate struct {
 	Kind *AutomationTemplateKindValue `json:"kind,omitempty" bson:"-" mapstructure:"kind,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
 
 	// Parameters contains the parameter description of the function.
 	Parameters *map[string]*AutomationTemplateParameter `json:"parameters,omitempty" bson:"-" mapstructure:"parameters,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAutomationTemplate returns a new  SparseAutomationTemplate.

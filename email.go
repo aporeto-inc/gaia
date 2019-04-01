@@ -118,7 +118,7 @@ type Email struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewEmail returns a new *Email
@@ -126,7 +126,6 @@ func NewEmail() *Email {
 
 	return &Email{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Attachments:  map[string]string{},
 		Bcc:          []string{},
 		Cc:           []string{},
@@ -577,7 +576,7 @@ type SparseEmail struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseEmail returns a new  SparseEmail.

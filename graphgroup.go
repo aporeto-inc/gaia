@@ -27,7 +27,7 @@ type GraphGroup struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewGraphGroup returns a new *GraphGroup
@@ -35,7 +35,6 @@ func NewGraphGroup() *GraphGroup {
 
 	return &GraphGroup{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Match:        [][]string{},
 	}
 }

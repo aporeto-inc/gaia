@@ -115,7 +115,7 @@ type FileAccessReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewFileAccessReport returns a new *FileAccessReport
@@ -123,7 +123,6 @@ func NewFileAccessReport() *FileAccessReport {
 
 	return &FileAccessReport{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Host:         "localhost",
 		Mode:         "rxw",
 		Path:         "/etc/passwd",
@@ -268,10 +267,6 @@ func (o *FileAccessReport) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
-
-	if err := elemental.ValidateRequiredString("action", string(o.Action)); err != nil {
-		requiredErrors = append(requiredErrors, err)
-	}
 
 	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Accept", "Reject"}, false); err != nil {
 		errors = append(errors, err)
@@ -580,7 +575,7 @@ type SparseFileAccessReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseFileAccessReport returns a new  SparseFileAccessReport.
