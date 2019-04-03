@@ -2459,6 +2459,10 @@ func init() {
 						Type: "boolean",
 					},
 					elemental.ParameterDefinition{
+						Name: "notify",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
 						Name: "status",
 						Type: "enum",
 						AllowedChoices: []string{
@@ -2530,6 +2534,10 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name: "forceFullPoke",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name: "notify",
 						Type: "boolean",
 					},
 					elemental.ParameterDefinition{
@@ -2820,6 +2828,8 @@ func init() {
 			},
 		},
 	}
+
+	relationshipsRegistry[ProcessingUnitRefreshIdentity] = &elemental.Relationship{}
 
 	relationshipsRegistry[QuotaCheckIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{

@@ -69,17 +69,18 @@ var (
 		"packetreport":             PacketReportIdentity,
 		"passwordreset":            PasswordResetIdentity,
 
-		"plan":                 PlanIdentity,
-		"poke":                 PokeIdentity,
-		"policy":               PolicyIdentity,
-		"policygraph":          PolicyGraphIdentity,
-		"policyrefresh":        PolicyRefreshIdentity,
-		"policyrenderer":       PolicyRendererIdentity,
-		"policyrule":           PolicyRuleIdentity,
-		"policyttl":            PolicyTTLIdentity,
-		"privatekey":           PrivateKeyIdentity,
-		"processingunit":       ProcessingUnitIdentity,
-		"processingunitpolicy": ProcessingUnitPolicyIdentity,
+		"plan":                  PlanIdentity,
+		"poke":                  PokeIdentity,
+		"policy":                PolicyIdentity,
+		"policygraph":           PolicyGraphIdentity,
+		"policyrefresh":         PolicyRefreshIdentity,
+		"policyrenderer":        PolicyRendererIdentity,
+		"policyrule":            PolicyRuleIdentity,
+		"policyttl":             PolicyTTLIdentity,
+		"privatekey":            PrivateKeyIdentity,
+		"processingunit":        ProcessingUnitIdentity,
+		"processingunitpolicy":  ProcessingUnitPolicyIdentity,
+		"processingunitrefresh": ProcessingUnitRefreshIdentity,
 
 		"punode":                 PUNodeIdentity,
 		"quotacheck":             QuotaCheckIdentity,
@@ -191,6 +192,7 @@ var (
 		"privatekeys":            PrivateKeyIdentity,
 		"processingunits":        ProcessingUnitIdentity,
 		"processingunitpolicies": ProcessingUnitPolicyIdentity,
+		"processingunitrefreshs": ProcessingUnitRefreshIdentity,
 
 		"punodes":                  PUNodeIdentity,
 		"quotacheck":               QuotaCheckIdentity,
@@ -494,13 +496,14 @@ var (
 			[]string{"namespace", "operationalStatus", "archived"},
 			[]string{"namespace", "normalizedTags", "archived"},
 		},
-		"processingunitpolicy": nil,
-		"punode":               nil,
-		"quotacheck":           nil,
-		"quotapolicy":          nil,
-		"remoteprocessor":      nil,
-		"renderedpolicy":       nil,
-		"report":               nil,
+		"processingunitpolicy":  nil,
+		"processingunitrefresh": nil,
+		"punode":                nil,
+		"quotacheck":            nil,
+		"quotapolicy":           nil,
+		"remoteprocessor":       nil,
+		"renderedpolicy":        nil,
+		"report":                nil,
 		"revocation": [][]string{
 			[]string{":shard", "$hashed:serialNumber"},
 			[]string{":unique", "serialNumber"},
@@ -719,6 +722,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
 		return NewProcessingUnitPolicy()
+	case ProcessingUnitRefreshIdentity:
+		return NewProcessingUnitRefresh()
 	case PUNodeIdentity:
 		return NewPUNode()
 	case QuotaCheckIdentity:
@@ -924,6 +929,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
 		return NewSparseProcessingUnitPolicy()
+	case ProcessingUnitRefreshIdentity:
+		return NewSparseProcessingUnitRefresh()
 	case PUNodeIdentity:
 		return NewSparsePUNode()
 	case QuotaCheckIdentity:
@@ -1137,6 +1144,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
 		return &ProcessingUnitPoliciesList{}
+	case ProcessingUnitRefreshIdentity:
+		return &ProcessingUnitRefreshsList{}
 	case PUNodeIdentity:
 		return &PUNodesList{}
 	case QuotaCheckIdentity:
@@ -1340,6 +1349,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
 		return &SparseProcessingUnitPoliciesList{}
+	case ProcessingUnitRefreshIdentity:
+		return &SparseProcessingUnitRefreshsList{}
 	case PUNodeIdentity:
 		return &SparsePUNodesList{}
 	case QuotaCheckIdentity:
@@ -1489,6 +1500,7 @@ func AllIdentities() []elemental.Identity {
 		PrivateKeyIdentity,
 		ProcessingUnitIdentity,
 		ProcessingUnitPolicyIdentity,
+		ProcessingUnitRefreshIdentity,
 		PUNodeIdentity,
 		QuotaCheckIdentity,
 		QuotaPolicyIdentity,
@@ -1747,6 +1759,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"pup",
 		}
+	case ProcessingUnitRefreshIdentity:
+		return []string{}
 	case PUNodeIdentity:
 		return []string{}
 	case QuotaCheckIdentity:
