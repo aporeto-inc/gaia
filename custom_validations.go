@@ -12,6 +12,8 @@ import (
 	"strings"
 	"time"
 
+	"go.aporeto.io/gaia/constants"
+
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/portutils"
 	"go.aporeto.io/gaia/protocols"
@@ -523,13 +525,13 @@ func validateTagStrings(attribute string, acceptReservedPrefix bool, strs ...str
 	return nil
 }
 
+// tagRegex is the regular expression to check the format of a tag.
+var tagRegex = regexp.MustCompile(`^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@~<>#/-]+$`)
+
 // ValidateTag validates a single tag.
 func ValidateTag(attribute string, tag string) error {
-	pattern := `^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@~<>#/-]+$`
 
-	re := regexp.MustCompile(pattern)
-
-	if !re.MatchString(tag) {
+	if !tagRegex.MatchString(tag) {
 		return makeValidationError(attribute, fmt.Sprintf("`%s must contain at least one '=' symbol separating two valid words", tag))
 	}
 
@@ -546,10 +548,31 @@ func ValidateTagsWithoutReservedPrefixes(attribute string, tags []string) error 
 	return validateTagStrings(attribute, false, tags...)
 }
 
-// ValidateTagsExpression validates an [][]string is a valid policy expression
+// ValidateTagsExpression validates an [][]string is a valid tag expression.
 func ValidateTagsExpression(attribute string, expression [][]string) error {
 	for _, tags := range expression {
 		if err := ValidateTags(attribute, tags); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ValidateMetadata validates an []string is a valid list of metadata.
+func ValidateMetadata(attribute string, metadata []string) error {
+
+	for _, m := range metadata {
+
+		if !strings.HasPrefix(m, prefixMetadata) {
+			return makeValidationError(attribute, fmt.Sprintf("Metadata %s does not starts with an @, a $ or a + that is reserved", m))
+		}
+
+		if strings.HasPrefix(m, constants.AuthKey) {
+			return makeValidationError(attribute, fmt.Sprintf("Metadata %s is using @auth: which is reserverd", m))
+		}
+
+		if err := ValidateTag(attribute, m); err != nil {
 			return err
 		}
 	}

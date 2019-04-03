@@ -18,6 +18,8 @@ attributes:
     stored: true
     getter: true
     setter: true
+    validations:
+    - $tagsWithoutReservedPrefixes
 
   - name: namespace
     description: Namespace tag attached to an entity.

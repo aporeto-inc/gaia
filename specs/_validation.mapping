@@ -14,6 +14,10 @@ $httpMethods:
   elemental:
     name: ValidateHTTPMethods
 
+$metadata:
+  elemental:
+    name: ValidateMetadata
+
 $network:
   elemental:
     name: ValidateNetwork

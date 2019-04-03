@@ -611,6 +611,10 @@ func (o *EnforcerProfile) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -620,6 +624,10 @@ func (o *EnforcerProfile) Validate() error {
 	}
 
 	if err := elemental.ValidateStringInList("kubernetesMetadataExtractor", string(o.KubernetesMetadataExtractor), []string{"KubeSquall", "PodAtomic", "PodContainers"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = append(errors, err)
 	}
 
