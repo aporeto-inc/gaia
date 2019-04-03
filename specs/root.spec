@@ -172,6 +172,14 @@ relations:
   create:
     description: Creates a new aws registration for billing.
 
+- rest_name: claims
+  get:
+    description: Retrieves the list of claims.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new claims record.
+
 - rest_name: datapathcertificate
   create:
     description: Creates a new Certificate for datapath.

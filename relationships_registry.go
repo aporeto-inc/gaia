@@ -693,6 +693,37 @@ func init() {
 
 	relationshipsRegistry[CategoryIdentity] = &elemental.Relationship{}
 
+	relationshipsRegistry[ClaimsIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+	}
+
 	relationshipsRegistry[CustomerIdentity] = &elemental.Relationship{
 		Update: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
@@ -2428,6 +2459,10 @@ func init() {
 						Type: "boolean",
 					},
 					elemental.ParameterDefinition{
+						Name: "notify",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
 						Name: "status",
 						Type: "enum",
 						AllowedChoices: []string{
@@ -2499,6 +2534,10 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name: "forceFullPoke",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name: "notify",
 						Type: "boolean",
 					},
 					elemental.ParameterDefinition{
@@ -2789,6 +2828,8 @@ func init() {
 			},
 		},
 	}
+
+	relationshipsRegistry[ProcessingUnitRefreshIdentity] = &elemental.Relationship{}
 
 	relationshipsRegistry[QuotaCheckIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{

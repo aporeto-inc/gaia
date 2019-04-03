@@ -27,6 +27,8 @@ var (
 		"awsregister":   AWSRegisterIdentity,
 		"category":      CategoryIdentity,
 
+		"claims": ClaimsIdentity,
+
 		"customer":            CustomerIdentity,
 		"datapathcertificate": DataPathCertificateIdentity,
 		"dependencymap":       DependencyMapIdentity,
@@ -66,17 +68,19 @@ var (
 		"oidcprovider":             OIDCProviderIdentity,
 		"packetreport":             PacketReportIdentity,
 		"passwordreset":            PasswordResetIdentity,
-		"plan":                     PlanIdentity,
-		"poke":                     PokeIdentity,
-		"policy":                   PolicyIdentity,
-		"policygraph":              PolicyGraphIdentity,
-		"policyrefresh":            PolicyRefreshIdentity,
-		"policyrenderer":           PolicyRendererIdentity,
-		"policyrule":               PolicyRuleIdentity,
-		"policyttl":                PolicyTTLIdentity,
-		"privatekey":               PrivateKeyIdentity,
-		"processingunit":           ProcessingUnitIdentity,
-		"processingunitpolicy":     ProcessingUnitPolicyIdentity,
+
+		"plan":                  PlanIdentity,
+		"poke":                  PokeIdentity,
+		"policy":                PolicyIdentity,
+		"policygraph":           PolicyGraphIdentity,
+		"policyrefresh":         PolicyRefreshIdentity,
+		"policyrenderer":        PolicyRendererIdentity,
+		"policyrule":            PolicyRuleIdentity,
+		"policyttl":             PolicyTTLIdentity,
+		"privatekey":            PrivateKeyIdentity,
+		"processingunit":        ProcessingUnitIdentity,
+		"processingunitpolicy":  ProcessingUnitPolicyIdentity,
+		"processingunitrefresh": ProcessingUnitRefreshIdentity,
 
 		"punode":                 PUNodeIdentity,
 		"quotacheck":             QuotaCheckIdentity,
@@ -135,6 +139,8 @@ var (
 		"awsregister":    AWSRegisterIdentity,
 		"categories":     CategoryIdentity,
 
+		"claims": ClaimsIdentity,
+
 		"customers":            CustomerIdentity,
 		"datapathcertificates": DataPathCertificateIdentity,
 		"dependencymaps":       DependencyMapIdentity,
@@ -174,17 +180,19 @@ var (
 		"oidcproviders":              OIDCProviderIdentity,
 		"packetreports":              PacketReportIdentity,
 		"passwordreset":              PasswordResetIdentity,
-		"plans":                      PlanIdentity,
-		"poke":                       PokeIdentity,
-		"policies":                   PolicyIdentity,
-		"policygraphs":               PolicyGraphIdentity,
-		"policyrefreshs":             PolicyRefreshIdentity,
-		"policyrenderers":            PolicyRendererIdentity,
-		"policyrules":                PolicyRuleIdentity,
-		"policyttls":                 PolicyTTLIdentity,
-		"privatekeys":                PrivateKeyIdentity,
-		"processingunits":            ProcessingUnitIdentity,
-		"processingunitpolicies":     ProcessingUnitPolicyIdentity,
+
+		"plans":                  PlanIdentity,
+		"poke":                   PokeIdentity,
+		"policies":               PolicyIdentity,
+		"policygraphs":           PolicyGraphIdentity,
+		"policyrefreshs":         PolicyRefreshIdentity,
+		"policyrenderers":        PolicyRendererIdentity,
+		"policyrules":            PolicyRuleIdentity,
+		"policyttls":             PolicyTTLIdentity,
+		"privatekeys":            PrivateKeyIdentity,
+		"processingunits":        ProcessingUnitIdentity,
+		"processingunitpolicies": ProcessingUnitPolicyIdentity,
+		"processingunitrefreshs": ProcessingUnitRefreshIdentity,
 
 		"punodes":                  PUNodeIdentity,
 		"quotacheck":               QuotaCheckIdentity,
@@ -358,6 +366,11 @@ var (
 		"awsapigateway":      nil,
 		"awsregister":        nil,
 		"category":           nil,
+		"claims": [][]string{
+			[]string{":shard", "zone", "zHash"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+		},
 		"customer": [][]string{
 			[]string{"providerCustomerID"},
 		},
@@ -483,13 +496,14 @@ var (
 			[]string{"namespace", "operationalStatus", "archived"},
 			[]string{"namespace", "normalizedTags", "archived"},
 		},
-		"processingunitpolicy": nil,
-		"punode":               nil,
-		"quotacheck":           nil,
-		"quotapolicy":          nil,
-		"remoteprocessor":      nil,
-		"renderedpolicy":       nil,
-		"report":               nil,
+		"processingunitpolicy":  nil,
+		"processingunitrefresh": nil,
+		"punode":                nil,
+		"quotacheck":            nil,
+		"quotapolicy":           nil,
+		"remoteprocessor":       nil,
+		"renderedpolicy":        nil,
+		"report":                nil,
 		"revocation": [][]string{
 			[]string{":shard", "$hashed:serialNumber"},
 			[]string{":unique", "serialNumber"},
@@ -610,6 +624,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAWSRegister()
 	case CategoryIdentity:
 		return NewCategory()
+	case ClaimsIdentity:
+		return NewClaims()
 	case CustomerIdentity:
 		return NewCustomer()
 	case DataPathCertificateIdentity:
@@ -706,6 +722,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
 		return NewProcessingUnitPolicy()
+	case ProcessingUnitRefreshIdentity:
+		return NewProcessingUnitRefresh()
 	case PUNodeIdentity:
 		return NewPUNode()
 	case QuotaCheckIdentity:
@@ -813,6 +831,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAWSRegister()
 	case CategoryIdentity:
 		return NewSparseCategory()
+	case ClaimsIdentity:
+		return NewSparseClaims()
 	case CustomerIdentity:
 		return NewSparseCustomer()
 	case DataPathCertificateIdentity:
@@ -909,6 +929,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
 		return NewSparseProcessingUnitPolicy()
+	case ProcessingUnitRefreshIdentity:
+		return NewSparseProcessingUnitRefresh()
 	case PUNodeIdentity:
 		return NewSparsePUNode()
 	case QuotaCheckIdentity:
@@ -1024,6 +1046,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &AWSRegistersList{}
 	case CategoryIdentity:
 		return &CategoriesList{}
+	case ClaimsIdentity:
+		return &ClaimsList{}
 	case CustomerIdentity:
 		return &CustomersList{}
 	case DataPathCertificateIdentity:
@@ -1120,6 +1144,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
 		return &ProcessingUnitPoliciesList{}
+	case ProcessingUnitRefreshIdentity:
+		return &ProcessingUnitRefreshsList{}
 	case PUNodeIdentity:
 		return &PUNodesList{}
 	case QuotaCheckIdentity:
@@ -1225,6 +1251,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAWSRegistersList{}
 	case CategoryIdentity:
 		return &SparseCategoriesList{}
+	case ClaimsIdentity:
+		return &SparseClaimsList{}
 	case CustomerIdentity:
 		return &SparseCustomersList{}
 	case DataPathCertificateIdentity:
@@ -1321,6 +1349,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
 		return &SparseProcessingUnitPoliciesList{}
+	case ProcessingUnitRefreshIdentity:
+		return &SparseProcessingUnitRefreshsList{}
 	case PUNodeIdentity:
 		return &SparsePUNodesList{}
 	case QuotaCheckIdentity:
@@ -1421,6 +1451,7 @@ func AllIdentities() []elemental.Identity {
 		AWSAPIGatewayIdentity,
 		AWSRegisterIdentity,
 		CategoryIdentity,
+		ClaimsIdentity,
 		CustomerIdentity,
 		DataPathCertificateIdentity,
 		DependencyMapIdentity,
@@ -1469,6 +1500,7 @@ func AllIdentities() []elemental.Identity {
 		PrivateKeyIdentity,
 		ProcessingUnitIdentity,
 		ProcessingUnitPolicyIdentity,
+		ProcessingUnitRefreshIdentity,
 		PUNodeIdentity,
 		QuotaCheckIdentity,
 		QuotaPolicyIdentity,
@@ -1566,6 +1598,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case AWSRegisterIdentity:
 		return []string{}
 	case CategoryIdentity:
+		return []string{}
+	case ClaimsIdentity:
 		return []string{}
 	case CustomerIdentity:
 		return []string{}
@@ -1725,6 +1759,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"pup",
 		}
+	case ProcessingUnitRefreshIdentity:
+		return []string{}
 	case PUNodeIdentity:
 		return []string{}
 	case QuotaCheckIdentity:

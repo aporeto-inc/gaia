@@ -188,13 +188,15 @@ comments.
 
 The requestee will now see the request, and will either
 
-* Set the status as `Approved`. This will create the objects in the target
-namespace.
-* Set the status as `Rejected`. The request cannot be edited anymore and can be
-deleted.
-* Set the status back as `Draft. The request will go back to the requester
-namespace so he can make changes. Once the change are ready, the requester will
-set back the status as `Submitted`.
+- Set the status as `Approved`. This will create the objects in the target
+  namespace.
+
+- Set the status as `Rejected`. The request cannot be edited anymore and can be
+  deleted.
+
+- Set the status back as `Draft`. The request will go back to the requester
+  namespace so he can make changes. Once the change are ready, the requester
+  will set back the status as `Submitted`.
 
 The `data` format is the same an `Export`.
 
@@ -372,6 +374,7 @@ Parameters:
 
 - `enforcementStatus` (`enum`): If set, changes the enforcement status of the processing unit alongside with the poke.
 - `forceFullPoke` (`boolean`): If set, it will trigger a full poke (slower).
+- `notify` (`boolean`): Can be sent to trigger a ProcessingUnitRefresh event that will be handled by the enforcer. If this is set, all other additional parameters will be ignored.
 - `status` (`enum`): If set, changes the status of the processing unit alongside with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.
 
@@ -2397,12 +2400,13 @@ Last update date of the object.
 
 ## `core/policy`
 
-| Resource                          | Description                                                                   |
-| -                                 | -                                                                             |
-| [Policy](#policy)                 | Policy represents the policy primitive used by all aporeto policies.          |
-| [PolicyRefresh](#policyrefresh)   | PolicyRefresh is sent to client when as a push event when a policy refresh is |
-| [PolicyRule](#policyrule)         | PolicyRule is an internal policy resolution API. Services can use this API to |
-| [RenderedPolicy](#renderedpolicy) | Retrieve the aggregated policies applied to a particular processing unit.     |
+| Resource                                        | Description                                                                         |
+| -                                               | -                                                                                   |
+| [Policy](#policy)                               | Policy represents the policy primitive used by all aporeto policies.                |
+| [PolicyRefresh](#policyrefresh)                 | PolicyRefresh is sent to client when as a push event when a policy refresh is       |
+| [PolicyRule](#policyrule)                       | PolicyRule is an internal policy resolution API. Services can use this API to       |
+| [ProcessingUnitRefresh](#processingunitrefresh) | ProcessingUnitRefresh is sent to client when a poke has been triggered using the... |
+| [RenderedPolicy](#renderedpolicy)               | Retrieve the aggregated policies applied to a particular processing unit.           |
 
 ### Policy
 
@@ -2654,6 +2658,22 @@ Services provides the services of this policy rule.
 ##### `tagClauses` `[][]string`
 
 Policy target tags.
+
+### ProcessingUnitRefresh
+
+ProcessingUnitRefresh is sent to client when a poke has been triggered using the
+parameter `?notify=true`. This is used by instances of enforcerd to be notify an
+external change on the processing unit must be processed.
+
+#### Attributes
+
+##### `ID` `string`
+
+ID contains the original ID of the Processing Unit.
+
+##### `namespace` `string`
+
+Namespace contains the original namespace of the Processing Unit.
 
 ### RenderedPolicy
 
@@ -2908,6 +2928,7 @@ Parameters:
 
 - `enforcementStatus` (`enum`): If set, changes the enforcement status of the processing unit alongside with the poke.
 - `forceFullPoke` (`boolean`): If set, it will trigger a full poke (slower).
+- `notify` (`boolean`): Can be sent to trigger a ProcessingUnitRefresh event that will be handled by the enforcer. If this is set, all other additional parameters will be ignored.
 - `status` (`enum`): If set, changes the status of the processing unit alongside with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.
 
@@ -3785,6 +3806,50 @@ to `RemoteCall`.
 
 Allows a system to trigger the automation if its `triggerType` property is set
 to `RemoteCall`.
+
+## `internal/x509`
+
+| Resource              | Description             |
+| -                     | -                       |
+| [PKIXName](#pkixname) | Represents a PKIX.Name. |
+
+### PKIXName
+
+Represents a PKIX.Name.
+
+#### Attributes
+
+##### `commonName` `string`
+
+Represents the CommonName field.
+
+##### `country` `[]string`
+
+Represents the Country field.
+
+##### `locality` `[]string`
+
+Represents the Locality field.
+
+##### `organization` `[]string`
+
+Represents the Organization field.
+
+##### `organizationalUnit` `[]string`
+
+Represents the OrganizationalUnit field.
+
+##### `postalCode` `[]string`
+
+Represents the PostalCode field.
+
+##### `province` `[]string`
+
+Represents the Province field.
+
+##### `streetAddress` `[]string`
+
+Represents the StreetAddress field.
 
 ## `policy/audit`
 
@@ -5889,9 +5954,83 @@ Last update date of the object.
 
 | Resource                                    | Description                                                                         |
 | -                                           | -                                                                                   |
+| [Claims](#claims)                           | This API represents the claims that accessed a service.                             |
 | [ExternalNetwork](#externalnetwork)         | An External Network represents a random network or ip that is not managed by the... |
 | [FlowReport](#flowreport)                   | Post a new flow statistics report.                                                  |
 | [NetworkAccessPolicy](#networkaccesspolicy) | Allows to define networking policies to allow or prevent processing units           |
+
+### Claims
+
+This API represents the claims that accessed a service.
+
+#### Example
+
+```json
+{
+  "content": {
+    "exp": 1553899021,
+    "iat": 1553888221,
+    "iss": "https://accounts.acme.com",
+    "sub": "alice@acme.com"
+  },
+  "hash": "1134423925458173049",
+  "protected": false
+}
+```
+
+#### Relations
+
+##### `GET /claims`
+
+Retrieves the list of claims.
+
+Parameters:
+
+- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
+
+##### `POST /claims`
+
+Creates a new claims record.
+
+##### `GET /claims/:id`
+
+Retrieves the object with the given ID.
+
+#### Attributes
+
+##### `ID` `string` [`identifier`,`autogenerated`,`read_only`]
+
+ID is the identifier of the object.
+
+##### `annotations` `map[string][]string`
+
+Annotation stores additional information about an entity.
+
+##### `associatedTags` `[]string`
+
+AssociatedTags are the list of tags attached to an entity.
+
+##### `content` `map[string]string` [`creation_only`]
+
+Content contains the raw JWT claims.
+
+##### `hash` `string` [`required`]
+
+XXH64 of the claims content. It will be used as ID. To compute a correct hash,
+you must first clob Content as an string array in the form `key=value`, sort it
+then apply the xxhash function.
+
+##### `namespace` `string` [`autogenerated`,`read_only`]
+
+Namespace tag attached to an entity.
+
+##### `normalizedTags` `[]string` [`autogenerated`,`read_only`]
+
+NormalizedTags contains the list of normalized tags of the entities.
+
+##### `protected` `boolean`
+
+Protected defines if the object is protected.
 
 ### ExternalNetwork
 
@@ -7905,10 +8044,6 @@ Mandatory Parameters
 
 #### Attributes
 
-##### `claims` `map[string][]string` [`read_only`]
-
-claims represents a user or a script that have accessed an api.
-
 ##### `edges` [`map[string]graphedge`](#graphedge) [`read_only`]
 
 edges are the edges of the map.
@@ -7989,10 +8124,6 @@ edge.
 ##### `rejectedFlows` `integer`
 
 Number of rejected flows in the edge.
-
-##### `serviceIDs` `map[string]int`
-
-Map of ints...
 
 ##### `sourceID` `string`
 
@@ -8131,12 +8262,10 @@ List of DNS records associated to that IP.
 ### PolicyGraph
 
 This api returns a data structure representing the policy graph of all selected
-processing units
-and their possible connectivity based on the current policies associated with 
-the namespace. Users can define a selector of processing units for which they
-are interested
-or define the identity tags of a virtual processing unit that is not yet
-activated.
+processing units and their possible connectivity based on the current policies
+associated with the namespace. Users can define a selector of processing units
+for which theyare interestedor define the identity tags of a virtual processing
+unit that is not yetactivated.
 
 #### Example
 

@@ -212,6 +212,12 @@ relations:
         description: If set, it will trigger a full poke (slower).
         type: boolean
 
+      - name: notify
+        description: Can be sent to trigger a ProcessingUnitRefresh event that will
+          be handled by the enforcer. If this is set, all other additional parameters
+          will be ignored.
+        type: boolean
+
       - name: status
         description: If set, changes the status of the processing unit alongside with
           the poke.

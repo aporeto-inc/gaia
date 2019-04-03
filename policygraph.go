@@ -146,12 +146,10 @@ func (o *PolicyGraph) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *PolicyGraph) Doc() string {
 	return `This api returns a data structure representing the policy graph of all selected
-processing units
-and their possible connectivity based on the current policies associated with 
-the namespace. Users can define a selector of processing units for which they
-are interested
-or define the identity tags of a virtual processing unit that is not yet
-activated.`
+processing units and their possible connectivity based on the current policies
+associated with the namespace. Users can define a selector of processing units
+for which theyare interestedor define the identity tags of a virtual processing
+unit that is not yetactivated.`
 }
 
 func (o *PolicyGraph) String() string {
