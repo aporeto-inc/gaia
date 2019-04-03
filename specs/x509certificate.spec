@@ -77,6 +77,17 @@ attributes:
     - System
     default_value: Public
 
+  - name: subjectOverride
+    description: Additional subject information to use to override the ones in the
+      CSR.
+    type: ref
+    exposed: true
+    subtype: pkixname
+    creation_only: true
+    omit_empty: true
+    extensions:
+      refMode: pointer
+
   - name: unrevocable
     description: |-
       If set to true, the certificate is considered short lived and it will not be

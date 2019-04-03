@@ -125,6 +125,9 @@ type X509Certificate struct {
 	// Selects what CA should sign the certificate.
 	Signer X509CertificateSignerValue `json:"signer" bson:"-" mapstructure:"signer,omitempty"`
 
+	// Additional subject information to use to override the ones in the CSR.
+	SubjectOverride *PKIXName `json:"subjectOverride,omitempty" bson:"-" mapstructure:"subjectOverride,omitempty"`
+
 	// If set to true, the certificate is considered short lived and it will not be
 	// possible to revoke it.
 	Unrevocable bool `json:"unrevocable" bson:"-" mapstructure:"unrevocable,omitempty"`
@@ -141,11 +144,12 @@ type X509Certificate struct {
 func NewX509Certificate() *X509Certificate {
 
 	return &X509Certificate{
-		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
-		Extensions:   []string{},
-		Signer:       X509CertificateSignerPublic,
-		Usage:        X509CertificateUsageClient,
+		ModelVersion:    1,
+		Mutex:           &sync.Mutex{},
+		Extensions:      []string{},
+		Signer:          X509CertificateSignerPublic,
+		SubjectOverride: NewPKIXName(),
+		Usage:           X509CertificateUsageClient,
 	}
 }
 
@@ -196,14 +200,15 @@ func (o *X509Certificate) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseX509Certificate{
-			CSR:            &o.CSR,
-			ID:             &o.ID,
-			Certificate:    &o.Certificate,
-			ExpirationDate: &o.ExpirationDate,
-			Extensions:     &o.Extensions,
-			Signer:         &o.Signer,
-			Unrevocable:    &o.Unrevocable,
-			Usage:          &o.Usage,
+			CSR:             &o.CSR,
+			ID:              &o.ID,
+			Certificate:     &o.Certificate,
+			ExpirationDate:  &o.ExpirationDate,
+			Extensions:      &o.Extensions,
+			Signer:          &o.Signer,
+			SubjectOverride: &o.SubjectOverride,
+			Unrevocable:     &o.Unrevocable,
+			Usage:           &o.Usage,
 		}
 	}
 
@@ -222,6 +227,8 @@ func (o *X509Certificate) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.Extensions = &(o.Extensions)
 		case "signer":
 			sp.Signer = &(o.Signer)
+		case "subjectOverride":
+			sp.SubjectOverride = &(o.SubjectOverride)
 		case "unrevocable":
 			sp.Unrevocable = &(o.Unrevocable)
 		case "usage":
@@ -256,6 +263,9 @@ func (o *X509Certificate) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Signer != nil {
 		o.Signer = *so.Signer
+	}
+	if so.SubjectOverride != nil {
+		o.SubjectOverride = *so.SubjectOverride
 	}
 	if so.Unrevocable != nil {
 		o.Unrevocable = *so.Unrevocable
@@ -300,6 +310,10 @@ func (o *X509Certificate) Validate() error {
 	}
 
 	if err := elemental.ValidateStringInList("signer", string(o.Signer), []string{"Public", "System"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := o.SubjectOverride.Validate(); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -353,6 +367,8 @@ func (o *X509Certificate) ValueForAttribute(name string) interface{} {
 		return o.Extensions
 	case "signer":
 		return o.Signer
+	case "subjectOverride":
+		return o.SubjectOverride
 	case "unrevocable":
 		return o.Unrevocable
 	case "usage":
@@ -425,6 +441,16 @@ certificate.`,
 		Exposed:        true,
 		Name:           "signer",
 		Type:           "enum",
+	},
+	"SubjectOverride": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SubjectOverride",
+		CreationOnly:   true,
+		Description:    `Additional subject information to use to override the ones in the CSR.`,
+		Exposed:        true,
+		Name:           "subjectOverride",
+		SubType:        "pkixname",
+		Type:           "ref",
 	},
 	"Unrevocable": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -509,6 +535,16 @@ certificate.`,
 		Exposed:        true,
 		Name:           "signer",
 		Type:           "enum",
+	},
+	"subjectoverride": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SubjectOverride",
+		CreationOnly:   true,
+		Description:    `Additional subject information to use to override the ones in the CSR.`,
+		Exposed:        true,
+		Name:           "subjectOverride",
+		SubType:        "pkixname",
+		Type:           "ref",
 	},
 	"unrevocable": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -612,6 +648,9 @@ type SparseX509Certificate struct {
 	// Selects what CA should sign the certificate.
 	Signer *X509CertificateSignerValue `json:"signer,omitempty" bson:"-" mapstructure:"signer,omitempty"`
 
+	// Additional subject information to use to override the ones in the CSR.
+	SubjectOverride **PKIXName `json:"subjectOverride,omitempty" bson:"-" mapstructure:"subjectOverride,omitempty"`
+
 	// If set to true, the certificate is considered short lived and it will not be
 	// possible to revoke it.
 	Unrevocable *bool `json:"unrevocable,omitempty" bson:"-" mapstructure:"unrevocable,omitempty"`
@@ -677,6 +716,9 @@ func (o *SparseX509Certificate) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Signer != nil {
 		out.Signer = *o.Signer
+	}
+	if o.SubjectOverride != nil {
+		out.SubjectOverride = *o.SubjectOverride
 	}
 	if o.Unrevocable != nil {
 		out.Unrevocable = *o.Unrevocable

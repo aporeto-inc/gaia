@@ -3786,6 +3786,50 @@ to `RemoteCall`.
 Allows a system to trigger the automation if its `triggerType` property is set
 to `RemoteCall`.
 
+## `internal/x509`
+
+| Resource              | Description             |
+| -                     | -                       |
+| [PKIXName](#pkixname) | Represents a PKIX.Name. |
+
+### PKIXName
+
+Represents a PKIX.Name.
+
+#### Attributes
+
+##### `commonName` `string`
+
+Represents the CommonName field.
+
+##### `country` `[]string`
+
+Represents the Country field.
+
+##### `locality` `[]string`
+
+Represents the Locality field.
+
+##### `organization` `[]string`
+
+Represents the Organization field.
+
+##### `organizationalUnit` `[]string`
+
+Represents the OrganizationalUnit field.
+
+##### `postalCode` `[]string`
+
+Represents the PostalCode field.
+
+##### `province` `[]string`
+
+Represents the Province field.
+
+##### `streetAddress` `[]string`
+
+Represents the StreetAddress field.
+
 ## `policy/audit`
 
 | Resource                                                | Description                                                                         |
