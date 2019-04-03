@@ -188,13 +188,15 @@ comments.
 
 The requestee will now see the request, and will either
 
-* Set the status as `Approved`. This will create the objects in the target
-namespace.
-* Set the status as `Rejected`. The request cannot be edited anymore and can be
-deleted.
-* Set the status back as `Draft. The request will go back to the requester
-namespace so he can make changes. Once the change are ready, the requester will
-set back the status as `Submitted`.
+- Set the status as `Approved`. This will create the objects in the target
+  namespace.
+
+- Set the status as `Rejected`. The request cannot be edited anymore and can be
+  deleted.
+
+- Set the status back as `Draft`. The request will go back to the requester
+  namespace so he can make changes. Once the change are ready, the requester
+  will set back the status as `Submitted`.
 
 The `data` format is the same an `Export`.
 
@@ -8260,12 +8262,10 @@ List of DNS records associated to that IP.
 ### PolicyGraph
 
 This api returns a data structure representing the policy graph of all selected
-processing units
-and their possible connectivity based on the current policies associated with 
-the namespace. Users can define a selector of processing units for which they
-are interested
-or define the identity tags of a virtual processing unit that is not yet
-activated.
+processing units and their possible connectivity based on the current policies
+associated with the namespace. Users can define a selector of processing units
+for which theyare interestedor define the identity tags of a virtual processing
+unit that is not yetactivated.
 
 #### Example
 

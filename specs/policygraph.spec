@@ -5,11 +5,12 @@ model:
   entity_name: PolicyGraph
   package: yeul
   group: visualization/depmaps
-  description: "This api returns a data structure representing the policy graph of
-    all selected\nprocessing units\nand their possible connectivity based on the current
-    policies associated with \nthe namespace. Users can define a selector of processing
-    units for which they\nare interested\nor define the identity tags of a virtual
-    processing unit that is not yet\nactivated."
+  description: |-
+    This api returns a data structure representing the policy graph of all selected
+    processing units and their possible connectivity based on the current policies
+    associated with the namespace. Users can define a selector of processing units
+    for which theyare interestedor define the identity tags of a virtual processing
+    unit that is not yetactivated.
   aliases:
   - polgraph
 
