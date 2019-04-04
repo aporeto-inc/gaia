@@ -90,28 +90,28 @@ type PolicyRule struct {
 	Action map[string]map[string]interface{} `json:"action" bson:"-" mapstructure:"action,omitempty"`
 
 	// AuditProfiles provides the audit profiles that must be applied.
-	AuditProfiles AuditProfilesList `json:"auditProfiles" bson:"-" mapstructure:"auditProfiles,omitempty"`
+	AuditProfiles AuditProfilesList `json:"auditProfiles,omitempty" bson:"-" mapstructure:"auditProfiles,omitempty"`
 
 	// EnforcerProfiles provides the information about the server profile.
-	EnforcerProfiles EnforcerProfilesList `json:"enforcerProfiles" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
+	EnforcerProfiles EnforcerProfilesList `json:"enforcerProfiles,omitempty" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
 
 	// Policy target networks.
-	ExternalNetworks ExternalNetworksList `json:"externalNetworks" bson:"-" mapstructure:"externalNetworks,omitempty"`
+	ExternalNetworks ExternalNetworksList `json:"externalNetworks,omitempty" bson:"-" mapstructure:"externalNetworks,omitempty"`
 
 	// Policy target file paths.
-	FilePaths FilePathsList `json:"filePaths" bson:"-" mapstructure:"filePaths,omitempty"`
+	FilePaths FilePathsList `json:"filePaths,omitempty" bson:"-" mapstructure:"filePaths,omitempty"`
 
 	// HostServices provides the list of host services that must be instantiated.
-	HostServices HostServicesList `json:"hostServices" bson:"-" mapstructure:"hostServices,omitempty"`
+	HostServices HostServicesList `json:"hostServices,omitempty" bson:"-" mapstructure:"hostServices,omitempty"`
 
 	// IsolationProfiles are the isolation profiles of the rule.
-	IsolationProfiles IsolationProfilesList `json:"isolationProfiles" bson:"-" mapstructure:"isolationProfiles,omitempty"`
+	IsolationProfiles IsolationProfilesList `json:"isolationProfiles,omitempty" bson:"-" mapstructure:"isolationProfiles,omitempty"`
 
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Policy target namespaces.
-	Namespaces NamespacesList `json:"namespaces" bson:"-" mapstructure:"namespaces,omitempty"`
+	Namespaces NamespacesList `json:"namespaces,omitempty" bson:"-" mapstructure:"namespaces,omitempty"`
 
 	// PolicyNamespace is the namespace of the policy that created this rule.
 	PolicyNamespace string `json:"policyNamespace" bson:"-" mapstructure:"policyNamespace,omitempty"`
@@ -127,7 +127,7 @@ type PolicyRule struct {
 	Relation []string `json:"relation" bson:"-" mapstructure:"relation,omitempty"`
 
 	// Services provides the services of this policy rule.
-	Services ServicesList `json:"services" bson:"-" mapstructure:"services,omitempty"`
+	Services ServicesList `json:"services,omitempty" bson:"-" mapstructure:"services,omitempty"`
 
 	// Policy target tags.
 	TagClauses [][]string `json:"tagClauses" bson:"-" mapstructure:"tagClauses,omitempty"`

@@ -29,12 +29,14 @@ attributes:
     type: refList
     exposed: true
     subtype: auditprofile
+    omit_empty: true
 
   - name: enforcerProfiles
     description: EnforcerProfiles provides the information about the server profile.
     type: refList
     exposed: true
     subtype: enforcerprofile
+    omit_empty: true
     extensions:
       noInit: true
 
@@ -43,6 +45,7 @@ attributes:
     type: refList
     exposed: true
     subtype: externalnetwork
+    omit_empty: true
     extensions:
       noInit: true
 
@@ -51,6 +54,7 @@ attributes:
     type: refList
     exposed: true
     subtype: filepath
+    omit_empty: true
     extensions:
       noInit: true
 
@@ -59,12 +63,14 @@ attributes:
     type: refList
     exposed: true
     subtype: hostservice
+    omit_empty: true
 
   - name: isolationProfiles
     description: IsolationProfiles are the isolation profiles of the rule.
     type: refList
     exposed: true
     subtype: isolationprofile
+    omit_empty: true
     extensions:
       noInit: true
 
@@ -73,6 +79,7 @@ attributes:
     type: refList
     exposed: true
     subtype: namespace
+    omit_empty: true
     extensions:
       noInit: true
 
@@ -105,6 +112,7 @@ attributes:
     type: refList
     exposed: true
     subtype: service
+    omit_empty: true
     extensions:
       noInit: true
 
