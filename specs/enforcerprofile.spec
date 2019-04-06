@@ -64,6 +64,8 @@ attributes:
     exposed: true
     subtype: '[][]string'
     stored: true
+    validations:
+    - $tagsExpression
 
   - name: kubernetesMetadataExtractor
     description: This field is kept for backward compatibility for enforcers <= 3.5.

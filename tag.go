@@ -238,7 +238,7 @@ func (o *Tag) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
-	if err := elemental.ValidatePattern("value", o.Value, `^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@~<>#/-]+$`, `must contain at least one '=' symbol separating two valid words.`, true); err != nil {
+	if err := ValidateTag("value", o.Value); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -329,7 +329,6 @@ var TagAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"Value": elemental.AttributeSpecification{
-		AllowedChars:   `^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@~<>#/-]+$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Value",
 		CreationOnly:   true,
@@ -383,7 +382,6 @@ var TagLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"value": elemental.AttributeSpecification{
-		AllowedChars:   `^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@~<>#/-]+$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Value",
 		CreationOnly:   true,

@@ -703,6 +703,10 @@ func (o *HookPolicy) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("certificateAuthority", o.CertificateAuthority); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -727,6 +731,10 @@ func (o *HookPolicy) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
+	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateStringInList("mode", string(o.Mode), []string{"Both", "Post", "Pre"}, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -736,6 +744,10 @@ func (o *HookPolicy) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateTagsExpression("subject", o.Subject); err != nil {
 		errors = append(errors, err)
 	}
 

@@ -52,3 +52,5 @@ attributes:
     subtype: '[][]string'
     example_value:
     - - $identity=processingunit
+    validations:
+    - $tagsExpression

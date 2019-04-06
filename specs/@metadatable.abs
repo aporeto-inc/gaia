@@ -13,3 +13,5 @@ attributes:
     filterable: true
     getter: true
     setter: true
+    validations:
+    - $metadata

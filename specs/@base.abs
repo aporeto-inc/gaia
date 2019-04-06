@@ -26,6 +26,8 @@ attributes:
     stored: true
     getter: true
     setter: true
+    validations:
+    - $tagsWithoutReservedPrefixes
 
   - name: createIdempotencyKey
     description: internal idempotency key for a create operation.

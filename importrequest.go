@@ -593,6 +593,10 @@ func (o *ImportRequest) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredExternal("data", o.Data); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}

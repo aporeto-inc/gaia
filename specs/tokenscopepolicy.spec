@@ -64,3 +64,5 @@ attributes:
     subtype: '[][]string'
     stored: true
     orderable: true
+    validations:
+    - $tagsExpression

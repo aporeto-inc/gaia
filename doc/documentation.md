@@ -3204,7 +3204,7 @@ Count represents the number of time the tag is used.
 
 Namespace represents the namespace of the counted tag.
 
-##### `value` `string` [`required`,`creation_only`,`format=^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@~<>#/-]+$`]
+##### `value` `string` [`required`,`creation_only`]
 
 Value represents the value of the tag.
 

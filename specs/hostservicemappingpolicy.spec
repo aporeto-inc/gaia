@@ -49,6 +49,8 @@ attributes:
     exposed: true
     subtype: '[][]string'
     orderable: true
+    validations:
+    - $tagsExpression
 
   - name: subject
     description: |-
@@ -58,6 +60,8 @@ attributes:
     exposed: true
     subtype: '[][]string'
     orderable: true
+    validations:
+    - $tagsExpression
 
 # Relations
 relations:
