@@ -13,16 +13,6 @@ model:
   aliases:
   - fp
   - fps
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - name
-  - - namespace
-    - normalizedTags
-  - - archived
   get:
     description: Retrieves the object with the given ID.
     global_parameters:

@@ -1,3 +1,7 @@
+# Indexes
+indexes:
+- - parentID
+
 # Attributes
 attributes:
   v1:

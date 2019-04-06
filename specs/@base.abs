@@ -1,3 +1,11 @@
+# Indexes
+indexes:
+- - namespace
+- - namespace
+  - normalizedTags
+- - createIdempotencyKey
+- - updateIdempotencyKey
+
 # Attributes
 attributes:
   v1:

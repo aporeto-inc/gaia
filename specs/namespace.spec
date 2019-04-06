@@ -12,14 +12,6 @@ model:
     applications, services or any combination you like.
   aliases:
   - ns
-  indexes:
-  - - :shard
-    - $hashed:name
-  - - :unique
-    - name
-  - - namespace
-  - - namespace
-    - name
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -34,6 +26,13 @@ model:
   - '@identifiable-stored'
   - '@metadatable'
   - '@timeable'
+
+# Indexes
+indexes:
+- - :shard
+  - $hashed:name
+- - :unique
+  - name
 
 # Attributes
 attributes:

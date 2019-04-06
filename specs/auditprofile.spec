@@ -10,13 +10,6 @@ model:
     policy will determine that types of events that must be captured in the kernel.
   aliases:
   - ap
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - name
   get:
     description: Retrieves the object with the given ID.
     global_parameters:

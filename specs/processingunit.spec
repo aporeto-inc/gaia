@@ -15,21 +15,6 @@ model:
   aliases:
   - pu
   - pus
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - name
-  - - namespace
-    - archived
-  - - namespace
-    - operationalStatus
-    - archived
-  - - namespace
-    - normalizedTags
-    - archived
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
@@ -49,6 +34,15 @@ model:
   - '@named'
   - '@zonable'
   - '@timeable'
+
+# Indexes
+indexes:
+- - namespace
+  - operationalStatus
+  - archived
+- - namespace
+  - normalizedTags
+  - archived
 
 # Attributes
 attributes:
