@@ -217,6 +217,7 @@ relations:
           the poke.
         type: enum
         allowed_choices:
+        - Initialized
         - Paused
         - Running
         - Stopped

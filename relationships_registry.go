@@ -2464,6 +2464,7 @@ func init() {
 						Name: "status",
 						Type: "enum",
 						AllowedChoices: []string{
+							"Initialized",
 							"Paused",
 							"Running",
 							"Stopped",
@@ -2542,6 +2543,7 @@ func init() {
 						Name: "status",
 						Type: "enum",
 						AllowedChoices: []string{
+							"Initialized",
 							"Paused",
 							"Running",
 							"Stopped",
