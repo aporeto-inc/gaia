@@ -138,7 +138,6 @@ func (o *Role) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Role) Doc() string {
-
 	return `Roles returns the available roles that can be used with API Authorization
 Policies.`
 }

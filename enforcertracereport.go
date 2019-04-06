@@ -141,7 +141,6 @@ func (o *EnforcerTraceReport) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *EnforcerTraceReport) Doc() string {
-
 	return `Post a new enforcer trace that determines how packets are.`
 }
 

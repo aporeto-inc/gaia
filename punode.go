@@ -155,7 +155,6 @@ func (o *PUNode) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *PUNode) Doc() string {
-
 	return `Internal scaling down of a pu for dep map representation.`
 }
 

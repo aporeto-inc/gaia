@@ -128,7 +128,6 @@ func (o *Activate) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Activate) Doc() string {
-
 	return `Used to activate a pending account.`
 }
 

@@ -287,7 +287,6 @@ func (o *FlowReport) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *FlowReport) Doc() string {
-
 	return `Post a new flow statistics report.`
 }
 

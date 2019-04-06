@@ -2,6 +2,8 @@ package gaia
 
 import "go.aporeto.io/elemental"
 
+const nodocString = "[nodoc]" // nolint: varcheck,deadcode
+
 var relationshipsRegistry elemental.RelationshipsRegistry
 
 func init() {

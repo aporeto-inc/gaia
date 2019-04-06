@@ -24,8 +24,6 @@ attributes:
     subtype: '[][]string'
     stored: true
     orderable: true
-    validations:
-    - $tagsExpression
 
   - name: methods
     description: methods exposed to access the API.

@@ -186,7 +186,6 @@ func (o *Issue) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Issue) Doc() string {
-
 	return `This API issues a new token according to given data.`
 }
 

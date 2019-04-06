@@ -166,7 +166,6 @@ func (o *Email) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Email) Doc() string {
-
 	return `Email is a message that can be send via email.`
 }
 

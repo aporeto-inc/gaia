@@ -223,7 +223,6 @@ func (o *AuditReport) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *AuditReport) Doc() string {
-
 	return `Post a new audit statistics report.`
 }
 

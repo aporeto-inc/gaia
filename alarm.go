@@ -207,7 +207,6 @@ func (o *Alarm) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Alarm) Doc() string {
-
 	return `An alarm represents an event requiring attention.`
 }
 

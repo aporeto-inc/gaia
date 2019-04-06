@@ -169,7 +169,6 @@ func (o *Report) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Report) Doc() string {
-
 	return `Post a new statistics report.`
 }
 

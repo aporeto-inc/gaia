@@ -287,7 +287,6 @@ func (o *Enforcer) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Enforcer) Doc() string {
-
 	return `An Enforcer contains all parameters associated with a registered enforcer. The
 object is mainly by maintained by the enforcers themselves. Users can read the
 object in order to understand the current status of the enforcers.`

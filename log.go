@@ -129,7 +129,6 @@ func (o *Log) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Log) Doc() string {
-
 	return `Retrieves the log of a deployed app.`
 }
 

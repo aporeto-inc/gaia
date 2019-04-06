@@ -133,7 +133,6 @@ func (o *PolicyTTL) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *PolicyTTL) Doc() string {
-
 	return `This is an unexposed api that defines a helper document allowing to handle
 pushes on objects that are deleted by TTL.`
 }

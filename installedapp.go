@@ -209,7 +209,6 @@ func (o *InstalledApp) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *InstalledApp) Doc() string {
-
 	return `InstalledApps represents an installed application.`
 }
 

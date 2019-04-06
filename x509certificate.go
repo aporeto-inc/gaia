@@ -185,7 +185,6 @@ func (o *X509Certificate) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *X509Certificate) Doc() string {
-
 	return `This API allows to retrieve an client certifcate for api authentication.`
 }
 

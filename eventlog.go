@@ -175,7 +175,6 @@ func (o *EventLog) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *EventLog) Doc() string {
-
 	return `This api allows to report various event on any objects.`
 }
 

@@ -164,7 +164,6 @@ func (o *SSHAuthority) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *SSHAuthority) Doc() string {
-
 	return `Internal api to deliver SSH CA.`
 }
 

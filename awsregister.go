@@ -139,7 +139,6 @@ func (o *AWSRegister) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *AWSRegister) Doc() string {
-
 	return `This api allows AWS customer to register with Aporeto SaaS for billing.`
 }
 

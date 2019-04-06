@@ -237,7 +237,6 @@ func (o *Automation) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Automation) Doc() string {
-
 	return `An automation needs documentation.`
 }
 

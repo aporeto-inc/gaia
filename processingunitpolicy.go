@@ -234,7 +234,6 @@ func (o *ProcessingUnitPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *ProcessingUnitPolicy) Doc() string {
-
 	return `A ProcessingUnitPolicies needs a better description.`
 }
 

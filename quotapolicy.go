@@ -208,7 +208,6 @@ func (o *QuotaPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *QuotaPolicy) Doc() string {
-
 	return `Quotas Policies allows to set quotas on the number of objects that can be
 created in a namespace.`
 }

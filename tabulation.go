@@ -136,7 +136,6 @@ func (o *Tabulation) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Tabulation) Doc() string {
-
 	return `Tabulate API allows you to retrieve a custom table view for any identity using
 any tags you like as columns.`
 }

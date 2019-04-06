@@ -147,7 +147,6 @@ func (o *EnforcerReport) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *EnforcerReport) Doc() string {
-
 	return `Post a new enforcer statistics report.`
 }
 

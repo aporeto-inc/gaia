@@ -157,7 +157,6 @@ func (o *StatsInfo) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *StatsInfo) Doc() string {
-
 	return `StatsInfo API can be used to list the fields and tags available in a
 statistics measurement.`
 }

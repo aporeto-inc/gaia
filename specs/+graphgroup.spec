@@ -26,8 +26,6 @@ attributes:
     type: external
     exposed: true
     subtype: '[][]string'
-    validations:
-    - $tagsExpression
 
   - name: name
     description: Name of the group.

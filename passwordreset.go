@@ -131,7 +131,6 @@ func (o *PasswordReset) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *PasswordReset) Doc() string {
-
 	return `Used to reset an account password.`
 }
 

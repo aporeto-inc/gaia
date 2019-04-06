@@ -132,7 +132,6 @@ func (o *SSHIdentity) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *SSHIdentity) Doc() string {
-
 	return `Returns a SSH certificate containing the bearer claims. This SSH Certificate can
 be used to connect to a node where enforcer is protecting SSH sessions.`
 }

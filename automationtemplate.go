@@ -164,7 +164,6 @@ func (o *AutomationTemplate) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *AutomationTemplate) Doc() string {
-
 	return `Templates that ca be used in automations.`
 }
 
