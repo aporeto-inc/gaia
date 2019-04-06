@@ -300,6 +300,7 @@ func (o *ProcessingUnit) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *ProcessingUnit) Doc() string {
+
 	return `A Processing Unit reprents anything that can compute. It can be a Docker
 container, or a simple Unix process. They are created, updated and deleted by
 the system as they come and go. You can only modify its tags.  Processing Units

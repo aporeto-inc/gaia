@@ -136,6 +136,7 @@ func (o *PrivateKey) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *PrivateKey) Doc() string {
+
 	return `Internal representation of an private key.`
 }
 

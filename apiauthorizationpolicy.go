@@ -221,6 +221,7 @@ func (o *APIAuthorizationPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *APIAuthorizationPolicy) Doc() string {
+
 	return `An API Authorization Policy defines what kind of operations a user of a system
 can do in a namespace. The operations can be any combination of GET, POST, PUT,
 DELETE,PATCH or HEAD. By default, an API Authorization Policy will only give

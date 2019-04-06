@@ -191,6 +191,7 @@ func (o *FilePath) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *FilePath) Doc() string {
+
 	return `A File Path represents a random path to a file or a folder. They can be used in
 aFile Access Policiesin order to allow Processing Units to access them, using
 various modes (read, write, execute). You will need to use the File Paths tags

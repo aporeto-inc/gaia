@@ -162,6 +162,7 @@ func (o *RemoteProcessor) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *RemoteProcessor) Doc() string {
+
 	return `Hook to integrate an Aporeto service.`
 }
 

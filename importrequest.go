@@ -223,6 +223,7 @@ func (o *ImportRequest) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *ImportRequest) Doc() string {
+
 	return `This API allows to send an import request to create objects to a namespace where
 the requester doesn't normally have the permission to do so (other than creating
 import requests).

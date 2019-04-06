@@ -199,6 +199,7 @@ func (o *HostService) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *HostService) Doc() string {
+
 	return `Represents a set of services that a host must expose and protect.`
 }
 

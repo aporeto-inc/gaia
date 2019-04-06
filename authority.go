@@ -145,6 +145,7 @@ func (o *Authority) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Authority) Doc() string {
+
 	return `Authority represents a certificate authority.`
 }
 

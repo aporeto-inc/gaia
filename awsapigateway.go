@@ -198,6 +198,7 @@ func (o *AWSAPIGateway) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *AWSAPIGateway) Doc() string {
+
 	return `managed API decisions for the AWS API Gateway.`
 }
 

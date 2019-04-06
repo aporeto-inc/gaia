@@ -175,6 +175,7 @@ func (o *Claims) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Claims) Doc() string {
+
 	return `This API represents the claims that accessed a service.`
 }
 

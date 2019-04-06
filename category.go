@@ -139,6 +139,7 @@ func (o *Category) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Category) Doc() string {
+
 	return `Category allows to categorized services.`
 }
 

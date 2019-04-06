@@ -198,6 +198,7 @@ func (o *EnforcerProfileMappingPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *EnforcerProfileMappingPolicy) Doc() string {
+
 	return `A Enforcer Profile Mapping Policy will tell what Enforcer Profile should be used
 by and Aporeto Agent based on the Enforcer that have been used during the
 registration. The policy can also be propagated down to the child namespace.`

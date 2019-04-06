@@ -131,6 +131,7 @@ func (o *ProcessingUnitRefresh) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *ProcessingUnitRefresh) Doc() string {
+
 	return `ProcessingUnitRefresh is sent to client when a poke has been triggered using the
 parameter ` + "`" + `?notify=true` + "`" + `. This is used by instances of enforcerd to be notify an
 external change on the processing unit must be processed.`

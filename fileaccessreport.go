@@ -161,6 +161,7 @@ func (o *FileAccessReport) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *FileAccessReport) Doc() string {
+
 	return `Post a new file access statistics report.`
 }
 

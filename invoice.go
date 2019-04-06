@@ -159,6 +159,7 @@ func (o *Invoice) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Invoice) Doc() string {
+
 	return `This api allows to view invoices for Aporeto customers.`
 }
 

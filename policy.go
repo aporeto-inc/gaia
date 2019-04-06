@@ -285,6 +285,7 @@ func (o *Policy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Policy) Doc() string {
+
 	return `Policy represents the policy primitive used by all aporeto policies.`
 }
 

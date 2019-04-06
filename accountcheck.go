@@ -125,6 +125,7 @@ func (o *AccountCheck) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *AccountCheck) Doc() string {
+
 	return `Validates the password for an account.`
 }
 

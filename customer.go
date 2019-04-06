@@ -179,6 +179,7 @@ func (o *Customer) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Customer) Doc() string {
+
 	return `This api allows to view and manage basic information about customer profile for
 billing purposes.`
 }

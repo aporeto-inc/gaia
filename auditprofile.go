@@ -187,6 +187,7 @@ func (o *AuditProfile) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *AuditProfile) Doc() string {
+
 	return `AuditProfile is an audit policy that consists of a set of audit rules. An audit
 policy will determine that types of events that must be captured in the kernel.`
 }

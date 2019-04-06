@@ -173,6 +173,7 @@ func (o *RenderedPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *RenderedPolicy) Doc() string {
+
 	return `Retrieve the aggregated policies applied to a particular processing unit.`
 }
 

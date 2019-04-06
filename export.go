@@ -141,6 +141,7 @@ func (o *Export) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Export) Doc() string {
+
 	return `Export the policies and related objects in a given namespace.`
 }
 

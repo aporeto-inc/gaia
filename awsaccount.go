@@ -160,6 +160,7 @@ func (o *AWSAccount) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *AWSAccount) Doc() string {
+
 	return `Allows to bind an AWS account to your Aporeto account to allow auto registration
 of enforcers running on EC2.`
 }

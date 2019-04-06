@@ -189,6 +189,7 @@ func (o *HTTPResourceSpec) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *HTTPResourceSpec) Doc() string {
+
 	return `HTTPResourceSpec descibes an HTTP resource exposed by a service. These APIs
 can be associated with one or more services.`
 }

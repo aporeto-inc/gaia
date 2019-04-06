@@ -237,6 +237,7 @@ func (o *SSHAuthorizationPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *SSHAuthorizationPolicy) Doc() string {
+
 	return `An SSHAuthorizationPolicy allows to define the permissions for the owner
 of a SSH Identity Certificate. You can define if a user with some claims
 can connect to an sshd server managed by an instance of enforcerd according

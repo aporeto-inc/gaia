@@ -169,6 +169,7 @@ func (o *Activity) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Activity) Doc() string {
+
 	return `Contains all the activity log that happened in a namespace. All successful or
 failed actions will be available, and eventual errors as well as the claims of
 the user who triggered the actiions. This log is capped and only keeps the last

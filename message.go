@@ -202,6 +202,7 @@ func (o *Message) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Message) Doc() string {
+
 	return `The Message API allows to post public messages that will be visible through all
 children namespaces.`
 }

@@ -210,6 +210,7 @@ func (o *TokenScopePolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *TokenScopePolicy) Doc() string {
+
 	return `The TokenScopePolicy defines a set of policies that allow customization of the
 authorization tokens issued by the Aporeto service. This allows Aporeto
 generated tokens to be used by external applications.`

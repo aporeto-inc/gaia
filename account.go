@@ -284,6 +284,7 @@ func (o *Account) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Account) Doc() string {
+
 	return `This api allows to view and manage basic information about your account like
 your name, password, enable 2 factor authentication.`
 }

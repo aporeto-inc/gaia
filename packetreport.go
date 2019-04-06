@@ -194,6 +194,7 @@ func (o *PacketReport) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *PacketReport) Doc() string {
+
 	return `Post a new packet tracing report.`
 }
 

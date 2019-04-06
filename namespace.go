@@ -201,6 +201,7 @@ func (o *Namespace) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Namespace) Doc() string {
+
 	return `A Namespace represents the core organizational unit of the system. All objects
 always exists in a single namespace. A Namespace can also have child namespaces.
 They can be used to split the system into organizations, business units,

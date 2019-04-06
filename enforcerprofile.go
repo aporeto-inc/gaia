@@ -248,6 +248,7 @@ func (o *EnforcerProfile) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *EnforcerProfile) Doc() string {
+
 	return `Allows to create reusable configuration profile for your enforcers. Enforcer
 Profiles contains various startup information that can (for some) be updated
 live. Enforcer Profiles are assigned to some Enforcer using a Enforcer Profile

@@ -148,6 +148,7 @@ func (o *Import) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Import) Doc() string {
+
 	return `Imports an export of policies and related objects into the namespace.`
 }
 

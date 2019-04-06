@@ -165,6 +165,7 @@ func (o *App) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *App) Doc() string {
+
 	return `App represents an application that can be installed.`
 }
 

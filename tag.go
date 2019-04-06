@@ -138,6 +138,7 @@ func (o *Tag) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Tag) Doc() string {
+
 	return `A tag is a string in the form of "key=value" that can applied to all objects in
 the system. They are used for policy resolution. Tags starting by a "$" are
 derived from the property of an object (for instance an object with ID set to

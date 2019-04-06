@@ -238,6 +238,7 @@ func (o *HookPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *HookPolicy) Doc() string {
+
 	return `Hook allows to to define hooks to the write operations in squall. Hooks are sent
 to an external Rufus server that will do the processing and eventually return a
 modified version of the object before we save it.`

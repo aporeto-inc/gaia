@@ -278,6 +278,7 @@ func (o *NetworkAccessPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *NetworkAccessPolicy) Doc() string {
+
 	return `Allows to define networking policies to allow or prevent processing units
 identitied by their tags to talk to other processing units or external services
 (also identified by their tags).`

@@ -382,6 +382,7 @@ func (o *Service) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Service) Doc() string {
+
 	return `A Service defines a generic service object at L4 or L7 that encapsulates the
 description of a micro-service. A service exposes APIs and can be implemented
 through third party entities (such as a cloud provider) or through  processing

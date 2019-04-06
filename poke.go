@@ -125,6 +125,7 @@ func (o *Poke) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Poke) Doc() string {
+
 	return `When available, poke can be used to update various information about the parent.
 For instance, for enforcers, poke will be use as the heartbeat.`
 }

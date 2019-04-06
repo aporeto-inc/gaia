@@ -184,6 +184,7 @@ func (o *PolicyRule) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *PolicyRule) Doc() string {
+
 	return `PolicyRule is an internal policy resolution API. Services can use this API to
 retrieve a policy resolution.`
 }

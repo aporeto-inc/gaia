@@ -208,6 +208,7 @@ func (o *AuditProfileMappingPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *AuditProfileMappingPolicy) Doc() string {
+
 	return `Defines an audit policy that determine the sets of enforcers that must implement
 a specific audit profile.`
 }

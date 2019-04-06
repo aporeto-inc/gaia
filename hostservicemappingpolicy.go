@@ -208,6 +208,7 @@ func (o *HostServiceMappingPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *HostServiceMappingPolicy) Doc() string {
+
 	return `Defines a host service mapping policy that provides the relation between
 enforcers and host services that they must implement.`
 }

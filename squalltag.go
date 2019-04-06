@@ -134,6 +134,7 @@ func (o *SquallTag) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *SquallTag) Doc() string {
+
 	return `Internal api that retrieve all tags from squall and their count for given
 ` + "`" + `?identity=<identity>` + "`" + ` parameter with their counts.`
 }

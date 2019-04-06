@@ -129,6 +129,7 @@ func (o *SuggestedPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *SuggestedPolicy) Doc() string {
+
 	return `Allows to get policy suggestions.`
 }
 
