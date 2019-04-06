@@ -876,10 +876,6 @@ func (o *Service) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateStringInList("authorizationType", string(o.AuthorizationType), []string{"None", "JWT", "OIDC", "MTLS"}, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -900,19 +896,11 @@ func (o *Service) Validate() error {
 		}
 	}
 
-	if err := ValidateTagsExpression("exposedAPIs", o.ExposedAPIs); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateRequiredInt("exposedPort", o.ExposedPort); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateMaximumInt("exposedPort", o.ExposedPort, int(65535), false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -933,10 +921,6 @@ func (o *Service) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumInt("publicApplicationPort", o.PublicApplicationPort, int(65535), false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := ValidateTagsExpression("selectors", o.Selectors); err != nil {
 		errors = append(errors, err)
 	}
 

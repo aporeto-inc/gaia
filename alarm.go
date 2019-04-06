@@ -508,10 +508,6 @@ func (o *Alarm) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateRequiredString("content", o.Content); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}

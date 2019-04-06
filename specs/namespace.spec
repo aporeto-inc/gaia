@@ -111,8 +111,6 @@ attributes:
     exposed: true
     subtype: string
     stored: true
-    validations:
-    - $tagsWithoutReservedPrefixes
 
   - name: serviceCertificateValidity
     description: |-

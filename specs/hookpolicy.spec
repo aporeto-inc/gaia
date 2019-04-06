@@ -149,5 +149,3 @@ attributes:
     stored: true
     example_value:
     - - $identity=processingunit
-    validations:
-    - $tagsExpression

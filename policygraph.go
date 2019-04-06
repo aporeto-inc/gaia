@@ -244,10 +244,6 @@ func (o *PolicyGraph) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := ValidateTagsExpression("selectors", o.Selectors); err != nil {
-		errors = append(errors, err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}

@@ -625,15 +625,7 @@ func (o *TokenScopePolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = append(errors, err)
-	}
-
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -642,10 +634,6 @@ func (o *TokenScopePolicy) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
-	}
-
-	if err := ValidateTagsExpression("subject", o.Subject); err != nil {
 		errors = append(errors, err)
 	}
 
