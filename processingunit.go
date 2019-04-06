@@ -169,6 +169,9 @@ type ProcessingUnit struct {
 	// CollectedInfo represents the latest info collected by the enforcer for this PU.
 	CollectedInfo map[string]string `json:"collectedInfo" bson:"collectedinfo" mapstructure:"collectedInfo,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -231,6 +234,9 @@ type ProcessingUnit struct {
 	// Type of the container ecosystem.
 	Type ProcessingUnitTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
@@ -257,10 +263,10 @@ func NewProcessingUnit() *ProcessingUnit {
 		AssociatedTags:    []string{},
 		CollectedInfo:     map[string]string{},
 		EnforcementStatus: ProcessingUnitEnforcementStatusInactive,
-		NetworkServices:   []*ProcessingUnitService{},
 		NormalizedTags:    []string{},
 		OperationalStatus: ProcessingUnitOperationalStatusInitialized,
 		Metadata:          []string{},
+		NetworkServices:   []*ProcessingUnitService{},
 		Tracing:           NewTraceMode(),
 	}
 }
@@ -350,6 +356,18 @@ func (o *ProcessingUnit) SetAssociatedTags(associatedTags []string) {
 	o.AssociatedTags = associatedTags
 }
 
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *ProcessingUnit) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *ProcessingUnit) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
+}
+
 // GetCreateTime returns the CreateTime of the receiver.
 func (o *ProcessingUnit) GetCreateTime() time.Time {
 
@@ -434,6 +452,18 @@ func (o *ProcessingUnit) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *ProcessingUnit) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *ProcessingUnit) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *ProcessingUnit) GetUpdateTime() time.Time {
 
@@ -477,34 +507,36 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseProcessingUnit{
-			ID:                 &o.ID,
-			Annotations:        &o.Annotations,
-			Archived:           &o.Archived,
-			AssociatedTags:     &o.AssociatedTags,
-			CollectInfo:        &o.CollectInfo,
-			CollectedInfo:      &o.CollectedInfo,
-			CreateTime:         &o.CreateTime,
-			Description:        &o.Description,
-			EnforcementStatus:  &o.EnforcementStatus,
-			EnforcerID:         &o.EnforcerID,
-			EnforcerNamespace:  &o.EnforcerNamespace,
-			Image:              &o.Image,
-			LastCollectionTime: &o.LastCollectionTime,
-			LastPokeTime:       &o.LastPokeTime,
-			LastSyncTime:       &o.LastSyncTime,
-			Metadata:           &o.Metadata,
-			Name:               &o.Name,
-			Namespace:          &o.Namespace,
-			NativeContextID:    &o.NativeContextID,
-			NetworkServices:    &o.NetworkServices,
-			NormalizedTags:     &o.NormalizedTags,
-			OperationalStatus:  &o.OperationalStatus,
-			Protected:          &o.Protected,
-			Tracing:            &o.Tracing,
-			Type:               &o.Type,
-			UpdateTime:         &o.UpdateTime,
-			ZHash:              &o.ZHash,
-			Zone:               &o.Zone,
+			ID:                   &o.ID,
+			Annotations:          &o.Annotations,
+			Archived:             &o.Archived,
+			AssociatedTags:       &o.AssociatedTags,
+			CollectInfo:          &o.CollectInfo,
+			CollectedInfo:        &o.CollectedInfo,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CreateTime:           &o.CreateTime,
+			Description:          &o.Description,
+			EnforcementStatus:    &o.EnforcementStatus,
+			EnforcerID:           &o.EnforcerID,
+			EnforcerNamespace:    &o.EnforcerNamespace,
+			Image:                &o.Image,
+			LastCollectionTime:   &o.LastCollectionTime,
+			LastPokeTime:         &o.LastPokeTime,
+			LastSyncTime:         &o.LastSyncTime,
+			Metadata:             &o.Metadata,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NativeContextID:      &o.NativeContextID,
+			NetworkServices:      &o.NetworkServices,
+			NormalizedTags:       &o.NormalizedTags,
+			OperationalStatus:    &o.OperationalStatus,
+			Protected:            &o.Protected,
+			Tracing:              &o.Tracing,
+			Type:                 &o.Type,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			UpdateTime:           &o.UpdateTime,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
@@ -523,6 +555,8 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.CollectInfo = &(o.CollectInfo)
 		case "collectedInfo":
 			sp.CollectedInfo = &(o.CollectedInfo)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -561,6 +595,8 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.Tracing = &(o.Tracing)
 		case "type":
 			sp.Type = &(o.Type)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -597,6 +633,9 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CollectedInfo != nil {
 		o.CollectedInfo = *so.CollectedInfo
+	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -654,6 +693,9 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Type != nil {
 		o.Type = *so.Type
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -780,6 +822,8 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.CollectInfo
 	case "collectedInfo":
 		return o.CollectedInfo
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "description":
@@ -818,6 +862,8 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.Tracing
 	case "type":
 		return o.Type
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -898,6 +944,18 @@ PU.`,
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
+	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1126,6 +1184,18 @@ or by exposing the ports in a container manifest.`,
 		Stored:         true,
 		Type:           "enum",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1237,6 +1307,18 @@ PU.`,
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
+	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1465,6 +1547,18 @@ or by exposing the ports in a container manifest.`,
 		Stored:         true,
 		Type:           "enum",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1592,6 +1686,9 @@ type SparseProcessingUnit struct {
 	// CollectedInfo represents the latest info collected by the enforcer for this PU.
 	CollectedInfo *map[string]string `json:"collectedInfo,omitempty" bson:"collectedinfo,omitempty" mapstructure:"collectedInfo,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
@@ -1653,6 +1750,9 @@ type SparseProcessingUnit struct {
 
 	// Type of the container ecosystem.
 	Type *ProcessingUnitTypeValue `json:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
@@ -1724,6 +1824,9 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	if o.CollectedInfo != nil {
 		out.CollectedInfo = *o.CollectedInfo
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1781,6 +1884,9 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	if o.Type != nil {
 		out.Type = *o.Type
 	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
+	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
 	}
@@ -1828,6 +1934,18 @@ func (o *SparseProcessingUnit) GetAssociatedTags() []string {
 func (o *SparseProcessingUnit) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseProcessingUnit) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseProcessingUnit) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -1912,6 +2030,18 @@ func (o *SparseProcessingUnit) GetProtected() bool {
 func (o *SparseProcessingUnit) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseProcessingUnit) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseProcessingUnit) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

@@ -96,6 +96,9 @@ type ExternalNetwork struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -130,6 +133,9 @@ type ExternalNetwork struct {
 	// List of protocols (tcp, udp, or protocol number).
 	Protocols []string `json:"protocols" bson:"protocols" mapstructure:"protocols,omitempty"`
 
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
@@ -153,8 +159,8 @@ func NewExternalNetwork() *ExternalNetwork {
 		ModelVersion:   1,
 		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
-		Entries:        []string{},
 		AssociatedTags: []string{},
+		Entries:        []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
 		Ports: []string{
@@ -249,6 +255,18 @@ func (o *ExternalNetwork) GetAssociatedTags() []string {
 func (o *ExternalNetwork) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *ExternalNetwork) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *ExternalNetwork) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -347,6 +365,18 @@ func (o *ExternalNetwork) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *ExternalNetwork) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *ExternalNetwork) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *ExternalNetwork) GetUpdateTime() time.Time {
 
@@ -390,24 +420,26 @@ func (o *ExternalNetwork) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseExternalNetwork{
-			ID:             &o.ID,
-			Annotations:    &o.Annotations,
-			Archived:       &o.Archived,
-			AssociatedTags: &o.AssociatedTags,
-			CreateTime:     &o.CreateTime,
-			Description:    &o.Description,
-			Entries:        &o.Entries,
-			Metadata:       &o.Metadata,
-			Name:           &o.Name,
-			Namespace:      &o.Namespace,
-			NormalizedTags: &o.NormalizedTags,
-			Ports:          &o.Ports,
-			Propagate:      &o.Propagate,
-			Protected:      &o.Protected,
-			Protocols:      &o.Protocols,
-			UpdateTime:     &o.UpdateTime,
-			ZHash:          &o.ZHash,
-			Zone:           &o.Zone,
+			ID:                   &o.ID,
+			Annotations:          &o.Annotations,
+			Archived:             &o.Archived,
+			AssociatedTags:       &o.AssociatedTags,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CreateTime:           &o.CreateTime,
+			Description:          &o.Description,
+			Entries:              &o.Entries,
+			Metadata:             &o.Metadata,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NormalizedTags:       &o.NormalizedTags,
+			Ports:                &o.Ports,
+			Propagate:            &o.Propagate,
+			Protected:            &o.Protected,
+			Protocols:            &o.Protocols,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			UpdateTime:           &o.UpdateTime,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
@@ -422,6 +454,8 @@ func (o *ExternalNetwork) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.Archived = &(o.Archived)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -444,6 +478,8 @@ func (o *ExternalNetwork) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.Protected = &(o.Protected)
 		case "protocols":
 			sp.Protocols = &(o.Protocols)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -474,6 +510,9 @@ func (o *ExternalNetwork) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -507,6 +546,9 @@ func (o *ExternalNetwork) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Protocols != nil {
 		o.Protocols = *so.Protocols
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -615,6 +657,8 @@ func (o *ExternalNetwork) ValueForAttribute(name string) interface{} {
 		return o.Archived
 	case "associatedTags":
 		return o.AssociatedTags
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "description":
@@ -637,6 +681,8 @@ func (o *ExternalNetwork) ValueForAttribute(name string) interface{} {
 		return o.Protected
 	case "protocols":
 		return o.Protocols
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -697,6 +743,18 @@ var ExternalNetworkAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -848,6 +906,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:     "string",
 		Type:        "list",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -939,6 +1009,18 @@ var ExternalNetworkLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1090,6 +1172,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:     "string",
 		Type:        "list",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1210,6 +1304,9 @@ type SparseExternalNetwork struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
@@ -1243,6 +1340,9 @@ type SparseExternalNetwork struct {
 
 	// List of protocols (tcp, udp, or protocol number).
 	Protocols *[]string `json:"protocols,omitempty" bson:"protocols,omitempty" mapstructure:"protocols,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
@@ -1308,6 +1408,9 @@ func (o *SparseExternalNetwork) ToPlain() elemental.PlainIdentifiable {
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1340,6 +1443,9 @@ func (o *SparseExternalNetwork) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Protocols != nil {
 		out.Protocols = *o.Protocols
+	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
@@ -1388,6 +1494,18 @@ func (o *SparseExternalNetwork) GetAssociatedTags() []string {
 func (o *SparseExternalNetwork) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseExternalNetwork) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseExternalNetwork) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -1484,6 +1602,18 @@ func (o *SparseExternalNetwork) GetProtected() bool {
 func (o *SparseExternalNetwork) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseExternalNetwork) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseExternalNetwork) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
