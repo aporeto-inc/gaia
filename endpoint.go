@@ -72,6 +72,10 @@ func (o *Endpoint) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := ValidateTagsExpression("allowedScopes", o.AllowedScopes); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := ValidateHTTPMethods("methods", o.Methods); err != nil {
 		errors = append(errors, err)
 	}
