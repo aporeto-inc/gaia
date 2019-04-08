@@ -12,6 +12,8 @@ import (
 	"strings"
 	"time"
 
+	"go.aporeto.io/gaia/constants"
+
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/portutils"
 	"go.aporeto.io/gaia/protocols"
@@ -318,11 +320,11 @@ func ValidateProcessingUnitServicesListWithoutOverlap(svcs []*ProcessingUnitServ
 				}
 
 				if pr.HasOverlapWithPortsRanges(cpr) {
-					return nil, nil, fmt.Errorf("Port range overlaps with another range")
+					return nil, nil, fmt.Errorf("port range overlaps with another range")
 				}
 
 				if pr.HasOverlapWithPortsList(cpl) {
-					return nil, nil, fmt.Errorf("Port range overlaps with another port")
+					return nil, nil, fmt.Errorf("port range overlaps with another port")
 				}
 
 				*cpr = append(*cpr, pr)
@@ -338,11 +340,11 @@ func ValidateProcessingUnitServicesListWithoutOverlap(svcs []*ProcessingUnitServ
 			}
 
 			if pl.HasOverlapWithPortsList(cpl) {
-				return nil, nil, fmt.Errorf("Port overlaps with another port")
+				return nil, nil, fmt.Errorf("port overlaps with another port")
 			}
 
 			if pl.HasOverlapWithPortsRanges(cpr) {
-				return nil, nil, fmt.Errorf("Port overlaps with another port range")
+				return nil, nil, fmt.Errorf("port overlaps with another port range")
 			}
 
 			*cpl = append(*cpl, *pl...)
@@ -471,5 +473,109 @@ func ValidateHostServicesNonOverlapPorts(svcs []string) error {
 // ValidateAudience validates an audience string.
 func ValidateAudience(attribute string, audience string) error {
 	// TODO: not liking the idea of importing addedeffect here
+	return nil
+}
+
+// ValidatePEM validates a string contains a PEM.
+func ValidatePEM(attribute string, pemdata string) error {
+
+	if pemdata == "" {
+		return nil
+	}
+
+	var i int
+	var block *pem.Block
+	rest := []byte(pemdata)
+
+	for {
+		block, rest = pem.Decode(rest)
+
+		if block == nil {
+			return makeValidationError(attribute, fmt.Sprintf("Unable to decode PEM number %d", i))
+		}
+
+		if len(rest) == 0 {
+			return nil
+		}
+		i++
+	}
+}
+
+// Constants to validate tags.
+const (
+	prefixDynamicTag  = "$"
+	prefixExpandedTag = "+"
+	prefixMetadata    = "@"
+)
+
+// validateTagStrings validates the given string and check if it can be a valid value for a Tag.
+func validateTagStrings(attribute string, acceptReservedPrefix bool, strs ...string) error {
+
+	for _, s := range strs {
+
+		if !acceptReservedPrefix && (strings.HasPrefix(s, prefixMetadata) || strings.HasPrefix(s, prefixDynamicTag) || strings.HasPrefix(s, prefixExpandedTag)) {
+			return makeValidationError(attribute, fmt.Sprintf("%s starts with an @, a $ or a + that is reserved", s))
+		}
+
+		if err := ValidateTag(attribute, s); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// tagRegex is the regular expression to check the format of a tag.
+var tagRegex = regexp.MustCompile(`^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@~<>#/-]+$`)
+
+// ValidateTag validates a single tag.
+func ValidateTag(attribute string, tag string) error {
+
+	if !tagRegex.MatchString(tag) {
+		return makeValidationError(attribute, fmt.Sprintf("`%s must contain at least one '=' symbol separating two valid words", tag))
+	}
+
+	return nil
+}
+
+// ValidateTags validates a list of tags are valid. Accepts those with reserved prefix.
+func ValidateTags(attribute string, tags []string) error {
+	return validateTagStrings(attribute, true, tags...)
+}
+
+// ValidateTagsWithoutReservedPrefixes a list of tags are valid. Refuse those with reserved prefix.
+func ValidateTagsWithoutReservedPrefixes(attribute string, tags []string) error {
+	return validateTagStrings(attribute, false, tags...)
+}
+
+// ValidateTagsExpression validates an [][]string is a valid tag expression.
+func ValidateTagsExpression(attribute string, expression [][]string) error {
+	for _, tags := range expression {
+		if err := ValidateTags(attribute, tags); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ValidateMetadata validates an []string is a valid list of metadata.
+func ValidateMetadata(attribute string, metadata []string) error {
+
+	for _, m := range metadata {
+
+		if !strings.HasPrefix(m, prefixMetadata) {
+			return makeValidationError(attribute, fmt.Sprintf("Metadata %s does not starts with an @, a $ or a + that is reserved", m))
+		}
+
+		if strings.HasPrefix(m, constants.AuthKey) {
+			return makeValidationError(attribute, fmt.Sprintf("Metadata %s is using @auth: which is reserverd", m))
+		}
+
+		if err := ValidateTag(attribute, m); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }

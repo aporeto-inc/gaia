@@ -111,7 +111,10 @@ type APIAuthorizationPolicy struct {
 	// the declared subnets.
 	AuthorizedSubnets []string `json:"authorizedSubnets" bson:"-" mapstructure:"authorizedSubnets,omitempty"`
 
-	// CreatedTime is the time at which the object was created.
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
@@ -154,7 +157,10 @@ type APIAuthorizationPolicy struct {
 	// Subject is the subject.
 	Subject [][]string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
-	// UpdateTime is the time at which an entity was updated.
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+
+	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
@@ -167,7 +173,7 @@ type APIAuthorizationPolicy struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAPIAuthorizationPolicy returns a new *APIAuthorizationPolicy
@@ -175,6 +181,7 @@ func NewAPIAuthorizationPolicy() *APIAuthorizationPolicy {
 
 	return &APIAuthorizationPolicy{
 		ModelVersion:         1,
+		Mutex:                &sync.Mutex{},
 		Annotations:          map[string][]string{},
 		AssociatedTags:       []string{},
 		AuthorizedIdentities: []string{},
@@ -220,6 +227,7 @@ func (o *APIAuthorizationPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *APIAuthorizationPolicy) Doc() string {
+
 	return `An API Authorization Policy defines what kind of operations a user of a system
 can do in a namespace. The operations can be any combination of GET, POST, PUT,
 DELETE,PATCH or HEAD. By default, an API Authorization Policy will only give
@@ -280,6 +288,18 @@ func (o *APIAuthorizationPolicy) GetAssociatedTags() []string {
 func (o *APIAuthorizationPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *APIAuthorizationPolicy) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *APIAuthorizationPolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -420,6 +440,24 @@ func (o *APIAuthorizationPolicy) GetProtected() bool {
 	return o.Protected
 }
 
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *APIAuthorizationPolicy) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *APIAuthorizationPolicy) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *APIAuthorizationPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *APIAuthorizationPolicy) GetUpdateTime() time.Time {
 
@@ -471,6 +509,7 @@ func (o *APIAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 			AuthorizedIdentities: &o.AuthorizedIdentities,
 			AuthorizedNamespace:  &o.AuthorizedNamespace,
 			AuthorizedSubnets:    &o.AuthorizedSubnets,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
 			Description:          &o.Description,
 			Disabled:             &o.Disabled,
@@ -484,6 +523,7 @@ func (o *APIAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 			PropagationHidden:    &o.PropagationHidden,
 			Protected:            &o.Protected,
 			Subject:              &o.Subject,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
 			ZHash:                &o.ZHash,
 			Zone:                 &o.Zone,
@@ -509,6 +549,8 @@ func (o *APIAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 			sp.AuthorizedNamespace = &(o.AuthorizedNamespace)
 		case "authorizedSubnets":
 			sp.AuthorizedSubnets = &(o.AuthorizedSubnets)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -535,6 +577,8 @@ func (o *APIAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 			sp.Protected = &(o.Protected)
 		case "subject":
 			sp.Subject = &(o.Subject)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -578,6 +622,9 @@ func (o *APIAuthorizationPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AuthorizedSubnets != nil {
 		o.AuthorizedSubnets = *so.AuthorizedSubnets
 	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
+	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
@@ -616,6 +663,9 @@ func (o *APIAuthorizationPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Subject != nil {
 		o.Subject = *so.Subject
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -662,6 +712,10 @@ func (o *APIAuthorizationPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredExternal("authorizedIdentities", o.AuthorizedIdentities); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
@@ -678,11 +732,19 @@ func (o *APIAuthorizationPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateTagsExpression("subject", o.Subject); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -736,6 +798,8 @@ func (o *APIAuthorizationPolicy) ValueForAttribute(name string) interface{} {
 		return o.AuthorizedNamespace
 	case "authorizedSubnets":
 		return o.AuthorizedSubnets
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "description":
@@ -762,6 +826,8 @@ func (o *APIAuthorizationPolicy) ValueForAttribute(name string) interface{} {
 		return o.Protected
 	case "subject":
 		return o.Subject
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -866,11 +932,23 @@ the declared subnets.`,
 		SubType: "string",
 		Type:    "list",
 	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CreateTime",
-		Description:    `CreatedTime is the time at which the object was created.`,
+		Description:    `Creation date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "createTime",
@@ -965,7 +1043,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		CreationOnly:   true,
 		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
@@ -1027,6 +1104,7 @@ namespace, but still used for policy resolution.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1040,11 +1118,23 @@ namespace, but still used for policy resolution.`,
 		SubType:        "[][]string",
 		Type:           "external",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "UpdateTime",
-		Description:    `UpdateTime is the time at which an entity was updated.`,
+		Description:    `Last update date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "updateTime",
@@ -1175,11 +1265,23 @@ the declared subnets.`,
 		SubType: "string",
 		Type:    "list",
 	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CreateTime",
-		Description:    `CreatedTime is the time at which the object was created.`,
+		Description:    `Creation date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "createTime",
@@ -1274,7 +1376,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		CreationOnly:   true,
 		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
@@ -1336,6 +1437,7 @@ namespace, but still used for policy resolution.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1349,11 +1451,23 @@ namespace, but still used for policy resolution.`,
 		SubType:        "[][]string",
 		Type:           "external",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "UpdateTime",
-		Description:    `UpdateTime is the time at which an entity was updated.`,
+		Description:    `Last update date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "updateTime",
@@ -1462,17 +1576,17 @@ type SparseAPIAuthorizationPolicy struct {
 
 	// ActiveDuration defines for how long the policy will be active according to the
 	// activeSchedule.
-	ActiveDuration *string `json:"activeDuration,omitempty" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
+	ActiveDuration *string `json:"activeDuration,omitempty" bson:"activeduration,omitempty" mapstructure:"activeDuration,omitempty"`
 
 	// ActiveSchedule defines when the policy should be active using the cron notation.
 	// The policy will be active for the given activeDuration.
-	ActiveSchedule *string `json:"activeSchedule,omitempty" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
+	ActiveSchedule *string `json:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// AuthorizedIdentities defines the list of api identities the policy applies to.
 	AuthorizedIdentities *[]string `json:"authorizedIdentities,omitempty" bson:"-" mapstructure:"authorizedIdentities,omitempty"`
@@ -1484,63 +1598,69 @@ type SparseAPIAuthorizationPolicy struct {
 	// the declared subnets.
 	AuthorizedSubnets *[]string `json:"authorizedSubnets,omitempty" bson:"-" mapstructure:"authorizedSubnets,omitempty"`
 
-	// CreatedTime is the time at which the object was created.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Disabled defines if the propert is disabled.
-	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
+	Disabled *bool `json:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
 	// If set the policy will be auto deleted after the given time.
-	ExpirationTime *time.Time `json:"expirationTime,omitempty" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
+	ExpirationTime *time.Time `json:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
 	// Fallback indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
-	Fallback *bool `json:"fallback,omitempty" bson:"fallback" mapstructure:"fallback,omitempty"`
+	Fallback *bool `json:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
-	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
+	Propagate *bool `json:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
 	// If set to true while the policy is propagating, it won't be visible to children
 	// namespace, but still used for policy resolution.
-	PropagationHidden *bool `json:"propagationHidden,omitempty" bson:"propagationhidden" mapstructure:"propagationHidden,omitempty"`
+	PropagationHidden *bool `json:"propagationHidden,omitempty" bson:"propagationhidden,omitempty" mapstructure:"propagationHidden,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// Subject is the subject.
 	Subject *[][]string `json:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
-	// UpdateTime is the time at which an entity was updated.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-,omitempty" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-,omitempty" bson:"zone" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAPIAuthorizationPolicy returns a new  SparseAPIAuthorizationPolicy.
@@ -1603,6 +1723,9 @@ func (o *SparseAPIAuthorizationPolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.AuthorizedSubnets != nil {
 		out.AuthorizedSubnets = *o.AuthorizedSubnets
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1641,6 +1764,9 @@ func (o *SparseAPIAuthorizationPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Subject != nil {
 		out.Subject = *o.Subject
+	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
@@ -1701,6 +1827,18 @@ func (o *SparseAPIAuthorizationPolicy) GetAssociatedTags() []string {
 func (o *SparseAPIAuthorizationPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseAPIAuthorizationPolicy) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseAPIAuthorizationPolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -1839,6 +1977,24 @@ func (o *SparseAPIAuthorizationPolicy) SetPropagationHidden(propagationHidden bo
 func (o *SparseAPIAuthorizationPolicy) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseAPIAuthorizationPolicy) SetProtected(protected bool) {
+
+	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseAPIAuthorizationPolicy) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseAPIAuthorizationPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

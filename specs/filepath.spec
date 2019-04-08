@@ -13,20 +13,11 @@ model:
   aliases:
   - fp
   - fps
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - name
-  - - namespace
-    - normalizedTags
-  - - archived
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
     - $archivable
+    - $propagatable
   update:
     description: Updates the object with the given ID.
   delete:
@@ -41,6 +32,8 @@ model:
   - '@named'
   - '@zonable'
   - '@archivable'
+  - '@propagated'
+  - '@timeable'
 
 # Attributes
 attributes:

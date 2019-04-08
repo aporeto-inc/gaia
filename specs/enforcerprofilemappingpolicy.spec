@@ -31,6 +31,11 @@ model:
   - '@propagated'
   - '@fallback'
   - '@zonable'
+  - '@timeable'
+
+# Indexes
+indexes:
+- - :no-inherit
 
 # Attributes
 attributes:
@@ -45,6 +50,8 @@ attributes:
     - - a=a
       - b=b
     - - c=c
+    validations:
+    - $tagsExpression
 
   - name: subject
     description: Subject is the subject of the policy.
@@ -56,6 +63,8 @@ attributes:
     - - a=a
       - b=b
     - - c=c
+    validations:
+    - $tagsExpression
 
 # Relations
 relations:

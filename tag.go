@@ -94,7 +94,7 @@ type Tag struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTag returns a new *Tag
@@ -102,6 +102,7 @@ func NewTag() *Tag {
 
 	return &Tag{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -137,6 +138,7 @@ func (o *Tag) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Tag) Doc() string {
+
 	return `A tag is a string in the form of "key=value" that can applied to all objects in
 the system. They are used for policy resolution. Tags starting by a "$" are
 derived from the property of an object (for instance an object with ID set to
@@ -237,6 +239,10 @@ func (o *Tag) Validate() error {
 	}
 
 	if err := elemental.ValidatePattern("value", o.Value, `^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@~<>#/-]+$`, `must contain at least one '=' symbol separating two valid words.`, true); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateTag("value", o.Value); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -462,17 +468,17 @@ type SparseTag struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Count represents the number of time the tag is used.
-	Count *int `json:"count,omitempty" bson:"count" mapstructure:"count,omitempty"`
+	Count *int `json:"count,omitempty" bson:"count,omitempty" mapstructure:"count,omitempty"`
 
 	// Namespace represents the namespace of the counted tag.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Value represents the value of the tag.
-	Value *string `json:"value,omitempty" bson:"value" mapstructure:"value,omitempty"`
+	Value *string `json:"value,omitempty" bson:"value,omitempty" mapstructure:"value,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseTag returns a new  SparseTag.

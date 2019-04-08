@@ -221,7 +221,10 @@ type Service struct {
 	// values of the claims to the corresponding HTTP headers.
 	ClaimsToHTTPHeaderMappings []*ClaimMapping `json:"claimsToHTTPHeaderMappings" bson:"claimstohttpheadermappings" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
-	// CreatedTime is the time at which the object was created.
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
@@ -304,7 +307,10 @@ type Service struct {
 	// Type is the type of the service.
 	Type ServiceTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
-	// UpdateTime is the time at which an entity was updated.
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+
+	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
@@ -317,7 +323,7 @@ type Service struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewService returns a new *Service
@@ -325,24 +331,25 @@ func NewService() *Service {
 
 	return &Service{
 		ModelVersion:               1,
+		Mutex:                      &sync.Mutex{},
 		AllAPITags:                 []string{},
 		Annotations:                map[string][]string{},
 		AllServiceTags:             []string{},
-		AssociatedTags:             []string{},
+		AuthorizationType:          ServiceAuthorizationTypeNone,
 		ExposedAPIs:                [][]string{},
 		ExposedServiceIsTLS:        false,
 		External:                   false,
 		Hosts:                      []string{},
-		ClaimsToHTTPHeaderMappings: []*ClaimMapping{},
 		Endpoints:                  []*Endpoint{},
-		AuthorizationType:          ServiceAuthorizationTypeNone,
-		OIDCScopes:                 []string{},
+		ClaimsToHTTPHeaderMappings: []*ClaimMapping{},
+		AssociatedTags:             []string{},
+		TLSType:                    ServiceTLSTypeAporeto,
+		NormalizedTags:             []string{},
 		Selectors:                  [][]string{},
 		Type:                       ServiceTypeHTTP,
-		TLSType:                    ServiceTLSTypeAporeto,
-		Metadata:                   []string{},
 		IPs:                        []string{},
-		NormalizedTags:             []string{},
+		OIDCScopes:                 []string{},
+		Metadata:                   []string{},
 	}
 }
 
@@ -381,6 +388,7 @@ func (o *Service) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Service) Doc() string {
+
 	return `A Service defines a generic service object at L4 or L7 that encapsulates the
 description of a micro-service. A service exposes APIs and can be implemented
 through third party entities (such as a cloud provider) or through  processing
@@ -426,6 +434,18 @@ func (o *Service) GetAssociatedTags() []string {
 func (o *Service) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *Service) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *Service) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -518,6 +538,24 @@ func (o *Service) GetProtected() bool {
 	return o.Protected
 }
 
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *Service) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *Service) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *Service) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *Service) GetUpdateTime() time.Time {
 
@@ -580,6 +618,7 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			AssociatedTags:                    &o.AssociatedTags,
 			AuthorizationType:                 &o.AuthorizationType,
 			ClaimsToHTTPHeaderMappings:        &o.ClaimsToHTTPHeaderMappings,
+			CreateIdempotencyKey:              &o.CreateIdempotencyKey,
 			CreateTime:                        &o.CreateTime,
 			Description:                       &o.Description,
 			Disabled:                          &o.Disabled,
@@ -600,6 +639,7 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Selectors:                         &o.Selectors,
 			TrustedCertificateAuthorities:     &o.TrustedCertificateAuthorities,
 			Type:                              &o.Type,
+			UpdateIdempotencyKey:              &o.UpdateIdempotencyKey,
 			UpdateTime:                        &o.UpdateTime,
 			ZHash:                             &o.ZHash,
 			Zone:                              &o.Zone,
@@ -647,6 +687,8 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.AuthorizationType = &(o.AuthorizationType)
 		case "claimsToHTTPHeaderMappings":
 			sp.ClaimsToHTTPHeaderMappings = &(o.ClaimsToHTTPHeaderMappings)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -687,6 +729,8 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.TrustedCertificateAuthorities = &(o.TrustedCertificateAuthorities)
 		case "type":
 			sp.Type = &(o.Type)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -763,6 +807,9 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ClaimsToHTTPHeaderMappings != nil {
 		o.ClaimsToHTTPHeaderMappings = *so.ClaimsToHTTPHeaderMappings
 	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
+	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
@@ -823,6 +870,9 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Type != nil {
 		o.Type = *so.Type
 	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
+	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
@@ -868,6 +918,10 @@ func (o *Service) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateStringInList("authorizationType", string(o.AuthorizationType), []string{"None", "JWT", "OIDC", "MTLS"}, false); err != nil {
 		errors = append(errors, err)
 	}
@@ -888,11 +942,19 @@ func (o *Service) Validate() error {
 		}
 	}
 
+	if err := ValidateTagsExpression("exposedAPIs", o.ExposedAPIs); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateRequiredInt("exposedPort", o.ExposedPort); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateMaximumInt("exposedPort", o.ExposedPort, int(65535), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -913,6 +975,10 @@ func (o *Service) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumInt("publicApplicationPort", o.PublicApplicationPort, int(65535), false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateTagsExpression("selectors", o.Selectors); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -1004,6 +1070,8 @@ func (o *Service) ValueForAttribute(name string) interface{} {
 		return o.AuthorizationType
 	case "claimsToHTTPHeaderMappings":
 		return o.ClaimsToHTTPHeaderMappings
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "description":
@@ -1044,6 +1112,8 @@ func (o *Service) ValueForAttribute(name string) interface{} {
 		return o.TrustedCertificateAuthorities
 	case "type":
 		return o.Type
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -1276,11 +1346,23 @@ values of the claims to the corresponding HTTP headers.`,
 		SubType: "claimmapping",
 		Type:    "refList",
 	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CreateTime",
-		Description:    `CreatedTime is the time at which the object was created.`,
+		Description:    `Creation date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "createTime",
@@ -1423,7 +1505,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		CreationOnly:   true,
 		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
@@ -1473,6 +1554,7 @@ for port mapping use cases where there is private and public ports.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1535,11 +1617,23 @@ through an additional TLS termination point like a L7 Load Balancer.`,
 		Stored:         true,
 		Type:           "enum",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "UpdateTime",
-		Description:    `UpdateTime is the time at which an entity was updated.`,
+		Description:    `Last update date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "updateTime",
@@ -1798,11 +1892,23 @@ values of the claims to the corresponding HTTP headers.`,
 		SubType: "claimmapping",
 		Type:    "refList",
 	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CreateTime",
-		Description:    `CreatedTime is the time at which the object was created.`,
+		Description:    `Creation date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "createTime",
@@ -1945,7 +2051,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		CreationOnly:   true,
 		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
@@ -1995,6 +2100,7 @@ for port mapping use cases where there is private and public ports.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -2057,11 +2163,23 @@ through an additional TLS termination point like a L7 Load Balancer.`,
 		Stored:         true,
 		Type:           "enum",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "UpdateTime",
-		Description:    `UpdateTime is the time at which an entity was updated.`,
+		Description:    `Last update date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "updateTime",
@@ -2172,44 +2290,44 @@ type SparseService struct {
 	// This is an optional attribute and is only required if no host names are
 	// provided.
 	// The system will automatically resolve IP addresses from host names otherwise.
-	IPs *[]string `json:"IPs,omitempty" bson:"ips" mapstructure:"IPs,omitempty"`
+	IPs *[]string `json:"IPs,omitempty" bson:"ips,omitempty" mapstructure:"IPs,omitempty"`
 
 	// PEM encoded certificate that will be used to validate user JWT in HTTP requests.
 	// This is an optional field, needed only if the `+"`"+`authorizationType`+"`"+`
 	// is set to `+"`"+`JWT`+"`"+`.
-	JWTSigningCertificate *string `json:"JWTSigningCertificate,omitempty" bson:"jwtsigningcertificate" mapstructure:"JWTSigningCertificate,omitempty"`
+	JWTSigningCertificate *string `json:"JWTSigningCertificate,omitempty" bson:"jwtsigningcertificate,omitempty" mapstructure:"JWTSigningCertificate,omitempty"`
 
 	// PEM encoded Certificate Authority to use to verify client
 	// certificates. This only applies if `+"`"+`authorizationType`+"`"+` is set to
 	// `+"`"+`MTLS`+"`"+`. If it is not set, Aporeto's Public Signing Certificate Authority will
 	// be used.
-	MTLSCertificateAuthority *string `json:"MTLSCertificateAuthority,omitempty" bson:"mtlscertificateauthority" mapstructure:"MTLSCertificateAuthority,omitempty"`
+	MTLSCertificateAuthority *string `json:"MTLSCertificateAuthority,omitempty" bson:"mtlscertificateauthority,omitempty" mapstructure:"MTLSCertificateAuthority,omitempty"`
 
 	// This is an advanced setting. Optional OIDC callback URL. If you don't set it,
 	// Aporeto will autodiscover it. It will be
 	// `+"`"+`https://<hosts[0]|IPs[0]>/.aporeto/oidc/callback`+"`"+`.
-	OIDCCallbackURL *string `json:"OIDCCallbackURL,omitempty" bson:"oidccallbackurl" mapstructure:"OIDCCallbackURL,omitempty"`
+	OIDCCallbackURL *string `json:"OIDCCallbackURL,omitempty" bson:"oidccallbackurl,omitempty" mapstructure:"OIDCCallbackURL,omitempty"`
 
 	// OIDC Client ID. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
-	OIDCClientID *string `json:"OIDCClientID,omitempty" bson:"oidcclientid" mapstructure:"OIDCClientID,omitempty"`
+	OIDCClientID *string `json:"OIDCClientID,omitempty" bson:"oidcclientid,omitempty" mapstructure:"OIDCClientID,omitempty"`
 
 	// OIDC Client Secret. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
-	OIDCClientSecret *string `json:"OIDCClientSecret,omitempty" bson:"oidcclientsecret" mapstructure:"OIDCClientSecret,omitempty"`
+	OIDCClientSecret *string `json:"OIDCClientSecret,omitempty" bson:"oidcclientsecret,omitempty" mapstructure:"OIDCClientSecret,omitempty"`
 
 	// OIDC Provider URL. Only has effect if the `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
-	OIDCProviderURL *string `json:"OIDCProviderURL,omitempty" bson:"oidcproviderurl" mapstructure:"OIDCProviderURL,omitempty"`
+	OIDCProviderURL *string `json:"OIDCProviderURL,omitempty" bson:"oidcproviderurl,omitempty" mapstructure:"OIDCProviderURL,omitempty"`
 
 	// Configures the scopes you want to add to the OIDC provider. Only has effect if
 	// `+"`"+`authorizationType`+"`"+` is set to `+"`"+`OIDC`+"`"+`.
-	OIDCScopes *[]string `json:"OIDCScopes,omitempty" bson:"oidcscopes" mapstructure:"OIDCScopes,omitempty"`
+	OIDCScopes *[]string `json:"OIDCScopes,omitempty" bson:"oidcscopes,omitempty" mapstructure:"OIDCScopes,omitempty"`
 
 	// PEM encoded certificate to expose to the clients for TLS. Only has effect and
 	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
-	TLSCertificate *string `json:"TLSCertificate,omitempty" bson:"tlscertificate" mapstructure:"TLSCertificate,omitempty"`
+	TLSCertificate *string `json:"TLSCertificate,omitempty" bson:"tlscertificate,omitempty" mapstructure:"TLSCertificate,omitempty"`
 
 	// PEM encoded certificate key associated to `+"`"+`TLSCertificate`+"`"+`. Only has effect and
 	// required if `+"`"+`TLSType`+"`"+` is set to `+"`"+`External`+"`"+`.
-	TLSCertificateKey *string `json:"TLSCertificateKey,omitempty" bson:"tlscertificatekey" mapstructure:"TLSCertificateKey,omitempty"`
+	TLSCertificateKey *string `json:"TLSCertificateKey,omitempty" bson:"tlscertificatekey,omitempty" mapstructure:"TLSCertificateKey,omitempty"`
 
 	// Set how to provide a server certificate to the service.
 	//
@@ -2217,22 +2335,22 @@ type SparseService struct {
 	// - `+"`"+`LetsEncrypt`+"`"+`: Issue a certificate from letsencrypt.
 	// - `+"`"+`External`+"`"+`: : Let you define your own certificate and key to use.
 	// - `+"`"+`None`+"`"+`: : TLS is disabled (not recommended).
-	TLSType *ServiceTLSTypeValue `json:"TLSType,omitempty" bson:"tlstype" mapstructure:"TLSType,omitempty"`
+	TLSType *ServiceTLSTypeValue `json:"TLSType,omitempty" bson:"tlstype,omitempty" mapstructure:"TLSType,omitempty"`
 
 	// This is a set of all API tags for matching in the DB.
-	AllAPITags *[]string `json:"-,omitempty" bson:"allapitags" mapstructure:"-,omitempty"`
+	AllAPITags *[]string `json:"-" bson:"allapitags,omitempty" mapstructure:"-,omitempty"`
 
 	// This is a set of all selector tags for matching in the DB.
-	AllServiceTags *[]string `json:"-,omitempty" bson:"allservicetags" mapstructure:"-,omitempty"`
+	AllServiceTags *[]string `json:"-" bson:"allservicetags,omitempty" mapstructure:"-,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// Archived defines if the object is archived.
-	Archived *bool `json:"-,omitempty" bson:"archived" mapstructure:"-,omitempty"`
+	Archived *bool `json:"-" bson:"archived,omitempty" mapstructure:"-,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// AuthorizationType defines the user authorization type that should be used.
 	//
@@ -2244,21 +2362,24 @@ type SparseService struct {
 	// - `+"`"+`MTLS`+"`"+`: Configures Client Certificate authorization. Then you can optionaly
 	// `+"`"+`MTLSCertificateAuthority`+"`"+` otherwise Aporeto Public Signing Certificate will be
 	// used.
-	AuthorizationType *ServiceAuthorizationTypeValue `json:"authorizationType,omitempty" bson:"authorizationtype" mapstructure:"authorizationType,omitempty"`
+	AuthorizationType *ServiceAuthorizationTypeValue `json:"authorizationType,omitempty" bson:"authorizationtype,omitempty" mapstructure:"authorizationType,omitempty"`
 
 	// Defines a list of mappings between claims and
 	// HTTP headers. When these mappings are defined, the enforcer will copy the
 	// values of the claims to the corresponding HTTP headers.
-	ClaimsToHTTPHeaderMappings *[]*ClaimMapping `json:"claimsToHTTPHeaderMappings,omitempty" bson:"claimstohttpheadermappings" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
+	ClaimsToHTTPHeaderMappings *[]*ClaimMapping `json:"claimsToHTTPHeaderMappings,omitempty" bson:"claimstohttpheadermappings,omitempty" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
-	// CreatedTime is the time at which the object was created.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Disabled defines if the propert is disabled.
-	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
+	Disabled *bool `json:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
 	// Endpoints is a read only attribute that actually resolves the API
 	// endpoints that the service is exposing. Only valid during policy rendering.
@@ -2267,46 +2388,46 @@ type SparseService struct {
 	// ExposedAPIs contains a tag expression that will determine which
 	// APIs a service is exposing. The APIs can be defined as the RESTAPISpec or
 	// similar specifications for other L7 protocols.
-	ExposedAPIs *[][]string `json:"exposedAPIs,omitempty" bson:"exposedapis" mapstructure:"exposedAPIs,omitempty"`
+	ExposedAPIs *[][]string `json:"exposedAPIs,omitempty" bson:"exposedapis,omitempty" mapstructure:"exposedAPIs,omitempty"`
 
 	// ExposedPort is the port that the service can be accessed. Note that
 	// this is different from the Port attribute that describes the port that the
 	// service is actually listening. For example if a load balancer is used, the
 	// ExposedPort is the port that the load balancer is listening for the service,
 	// whereas the port that the implementation is listening can be different.
-	ExposedPort *int `json:"exposedPort,omitempty" bson:"exposedport" mapstructure:"exposedPort,omitempty"`
+	ExposedPort *int `json:"exposedPort,omitempty" bson:"exposedport,omitempty" mapstructure:"exposedPort,omitempty"`
 
 	// ExposedServiceIsTLS indicates that the exposed service is TLS. This means that
 	// the enforcer has to initiate a TLS session in order to forrward traffic to the
 	// service.
-	ExposedServiceIsTLS *bool `json:"exposedServiceIsTLS,omitempty" bson:"exposedserviceistls" mapstructure:"exposedServiceIsTLS,omitempty"`
+	ExposedServiceIsTLS *bool `json:"exposedServiceIsTLS,omitempty" bson:"exposedserviceistls,omitempty" mapstructure:"exposedServiceIsTLS,omitempty"`
 
 	// External is a boolean that indicates if this is an external service.
-	External *bool `json:"external,omitempty" bson:"external" mapstructure:"external,omitempty"`
+	External *bool `json:"external,omitempty" bson:"external,omitempty" mapstructure:"external,omitempty"`
 
 	// Hosts are the names that the service can be accessed with.
-	Hosts *[]string `json:"hosts,omitempty" bson:"hosts" mapstructure:"hosts,omitempty"`
+	Hosts *[]string `json:"hosts,omitempty" bson:"hosts,omitempty" mapstructure:"hosts,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Port is the port that the implementation of the service is listening to and
 	// it can be different than the exposedPorts describing the service. This is needed
 	// for port mapping use cases where there is private and public ports.
-	Port *int `json:"port,omitempty" bson:"port" mapstructure:"port,omitempty"`
+	Port *int `json:"port,omitempty" bson:"port,omitempty" mapstructure:"port,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// PublicApplicationPort is a new virtual port that the service can
 	// be accessed, using HTTPs. Since the enforcer transparently inserts TLS in the
@@ -2314,40 +2435,43 @@ type SparseService struct {
 	// listens for TLS. However, the application does not need to be modified and
 	// the enforcer will map the traffic to the correct application port. This useful
 	// when an application is being accessed from a public network.
-	PublicApplicationPort *int `json:"publicApplicationPort,omitempty" bson:"publicapplicationport" mapstructure:"publicApplicationPort,omitempty"`
+	PublicApplicationPort *int `json:"publicApplicationPort,omitempty" bson:"publicapplicationport,omitempty" mapstructure:"publicApplicationPort,omitempty"`
 
 	// If this is set, the user will be redirected to that URL in case of any
 	// authorization failure to let you chance to provide a nice message to the user.
 	// The query parameter `+"`"+`?failure_message=<message>`+"`"+` will be added to that url
 	// explaining the possible reasons of the failure.
-	RedirectURLOnAuthorizationFailure *string `json:"redirectURLOnAuthorizationFailure,omitempty" bson:"redirecturlonauthorizationfailure" mapstructure:"redirectURLOnAuthorizationFailure,omitempty"`
+	RedirectURLOnAuthorizationFailure *string `json:"redirectURLOnAuthorizationFailure,omitempty" bson:"redirecturlonauthorizationfailure,omitempty" mapstructure:"redirectURLOnAuthorizationFailure,omitempty"`
 
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to implement this particular service.
-	Selectors *[][]string `json:"selectors,omitempty" bson:"selectors" mapstructure:"selectors,omitempty"`
+	Selectors *[][]string `json:"selectors,omitempty" bson:"selectors,omitempty" mapstructure:"selectors,omitempty"`
 
 	// PEM encoded Certificate Authorities to trust when additional hops are needed. It
 	// must be set if the service must reach a Service marked as `+"`"+`external`+"`"+` or must go
 	// through an additional TLS termination point like a L7 Load Balancer.
-	TrustedCertificateAuthorities *string `json:"trustedCertificateAuthorities,omitempty" bson:"trustedcertificateauthorities" mapstructure:"trustedCertificateAuthorities,omitempty"`
+	TrustedCertificateAuthorities *string `json:"trustedCertificateAuthorities,omitempty" bson:"trustedcertificateauthorities,omitempty" mapstructure:"trustedCertificateAuthorities,omitempty"`
 
 	// Type is the type of the service.
-	Type *ServiceTypeValue `json:"type,omitempty" bson:"type" mapstructure:"type,omitempty"`
+	Type *ServiceTypeValue `json:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
 
-	// UpdateTime is the time at which an entity was updated.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-,omitempty" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-,omitempty" bson:"zone" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseService returns a new  SparseService.
@@ -2443,6 +2567,9 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.ClaimsToHTTPHeaderMappings != nil {
 		out.ClaimsToHTTPHeaderMappings = *o.ClaimsToHTTPHeaderMappings
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -2503,6 +2630,9 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.Type != nil {
 		out.Type = *o.Type
 	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
+	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
 	}
@@ -2550,6 +2680,18 @@ func (o *SparseService) GetAssociatedTags() []string {
 func (o *SparseService) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseService) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseService) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -2640,6 +2782,24 @@ func (o *SparseService) SetNormalizedTags(normalizedTags []string) {
 func (o *SparseService) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseService) SetProtected(protected bool) {
+
+	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseService) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseService) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

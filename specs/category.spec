@@ -10,3 +10,7 @@ model:
   - '@identifiable-stored'
   - '@named'
   - '@described'
+
+# Indexes
+indexes:
+- - :no-inherit

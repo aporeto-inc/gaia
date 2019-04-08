@@ -91,7 +91,7 @@ type IPInfo struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewIPInfo returns a new *IPInfo
@@ -99,6 +99,7 @@ func NewIPInfo() *IPInfo {
 
 	return &IPInfo{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Records:      map[string]string{},
 	}
 }
@@ -134,6 +135,7 @@ func (o *IPInfo) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *IPInfo) Doc() string {
+
 	return `This apis allows to resolve information from an IP address.`
 }
 
@@ -407,7 +409,7 @@ type SparseIPInfo struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseIPInfo returns a new  SparseIPInfo.

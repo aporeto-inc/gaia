@@ -80,7 +80,7 @@ type AppParameter struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAppParameter returns a new *AppParameter
@@ -88,6 +88,7 @@ func NewAppParameter() *AppParameter {
 
 	return &AppParameter{
 		ModelVersion:  1,
+		Mutex:         &sync.Mutex{},
 		AllowedValues: []interface{}{},
 	}
 }

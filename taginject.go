@@ -91,7 +91,7 @@ type TagInject struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTagInject returns a new *TagInject
@@ -99,6 +99,7 @@ func NewTagInject() *TagInject {
 
 	return &TagInject{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		AddedTags:    map[string]int{},
 		RemovedTags:  map[string]int{},
 	}
@@ -135,6 +136,7 @@ func (o *TagInject) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *TagInject) Doc() string {
+
 	return `This internal api is used to inject a new tag in the database.`
 }
 
@@ -404,7 +406,7 @@ type SparseTagInject struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseTagInject returns a new  SparseTagInject.

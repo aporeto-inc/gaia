@@ -9,9 +9,6 @@ model:
   aliases:
   - iapps
   - iapp
-  indexes:
-  - - accountName
-    - name
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -24,6 +21,7 @@ model:
   - '@base'
   - '@identifiable-stored'
   - '@named'
+  - '@timeable'
 
 # Attributes
 attributes:

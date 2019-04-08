@@ -62,7 +62,7 @@ type AutomationTemplateParameter struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAutomationTemplateParameter returns a new *AutomationTemplateParameter
@@ -70,6 +70,7 @@ func NewAutomationTemplateParameter() *AutomationTemplateParameter {
 
 	return &AutomationTemplateParameter{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		AllowedChoices: map[string]interface{}{},
 	}
 }
@@ -122,6 +123,10 @@ func (o *AutomationTemplateParameter) Validate() error {
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
 		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("type", string(o.Type)); err != nil {
+		requiredErrors = append(requiredErrors, err)
 	}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Array", "Boolean", "Enum", "Filter", "Float", "Integer", "Object", "String"}, false); err != nil {

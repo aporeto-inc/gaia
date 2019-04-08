@@ -79,7 +79,7 @@ attributes:
       configured max validity, it will be capped.
     type: string
     exposed: true
-    allowed_chars: ^([0-9]+h[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+h[0-9]+s|[0-9]+h[0-9]+m|[0-9]+s|[0-9]+h|[0-9]+m)$
-    allowed_chars_message: must be a valid duration like <n>s or <n>s or <n>h
     default_value: 24h
     orderable: true
+    validations:
+    - $timeDuration

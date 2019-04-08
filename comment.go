@@ -22,7 +22,7 @@ type Comment struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewComment returns a new *Comment
@@ -30,6 +30,7 @@ func NewComment() *Comment {
 
 	return &Comment{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Claims:       []string{},
 	}
 }

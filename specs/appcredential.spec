@@ -9,15 +9,6 @@ model:
   aliases:
   - appcred
   - appcreds
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - name
-  - - namespace
-    - normalizedTags
   get:
     description: Retrieves the object with the given ID.
   update:

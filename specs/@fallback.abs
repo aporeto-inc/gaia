@@ -1,3 +1,9 @@
+# Indexes
+indexes:
+- - fallback
+- - namespace
+  - fallback
+
 # Attributes
 attributes:
   v1:

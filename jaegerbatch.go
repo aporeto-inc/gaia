@@ -85,7 +85,7 @@ type Jaegerbatch struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewJaegerbatch returns a new *Jaegerbatch
@@ -93,6 +93,7 @@ func NewJaegerbatch() *Jaegerbatch {
 
 	return &Jaegerbatch{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -127,6 +128,7 @@ func (o *Jaegerbatch) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Jaegerbatch) Doc() string {
+
 	return `A jaegerbatch is a batch of jaeger spans. This is used by external service to
 post jaeger span in our private jaeger services.`
 }
@@ -333,11 +335,11 @@ func (o SparseJaegerbatchsList) Version() int {
 // SparseJaegerbatch represents the sparse version of a jaegerbatch.
 type SparseJaegerbatch struct {
 	// Represents a jaeger batch.
-	Batch *interface{} `json:"batch,omitempty" bson:"batch" mapstructure:"batch,omitempty"`
+	Batch *interface{} `json:"batch,omitempty" bson:"batch,omitempty" mapstructure:"batch,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseJaegerbatch returns a new  SparseJaegerbatch.

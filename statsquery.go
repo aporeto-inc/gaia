@@ -134,7 +134,7 @@ type StatsQuery struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewStatsQuery returns a new *StatsQuery
@@ -142,6 +142,7 @@ func NewStatsQuery() *StatsQuery {
 
 	return &StatsQuery{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Fields:       []string{},
 		Groups:       []string{},
 		Limit:        -1,
@@ -182,6 +183,7 @@ func (o *StatsQuery) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *StatsQuery) Doc() string {
+
 	return `StatsQuery is a generic API to retrieve time series data stored by the Aporeto
 system. The API allows different types of queries that are all protected within
 the namespace of the user.`
@@ -610,7 +612,7 @@ type SparseStatsQuery struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseStatsQuery returns a new  SparseStatsQuery.

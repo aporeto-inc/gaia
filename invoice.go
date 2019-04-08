@@ -115,7 +115,7 @@ type Invoice struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewInvoice returns a new *Invoice
@@ -123,6 +123,7 @@ func NewInvoice() *Invoice {
 
 	return &Invoice{
 		ModelVersion:     1,
+		Mutex:            &sync.Mutex{},
 		BilledToProvider: InvoiceBilledToProviderAporeto,
 	}
 }
@@ -158,12 +159,37 @@ func (o *Invoice) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Invoice) Doc() string {
+
 	return `This api allows to view invoices for Aporeto customers.`
 }
 
 func (o *Invoice) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *Invoice) GetCreateTime() time.Time {
+
+	return o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
+func (o *Invoice) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = createTime
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *Invoice) GetUpdateTime() time.Time {
+
+	return o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
+func (o *Invoice) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = updateTime
 }
 
 // ToSparse returns the sparse version of the model.
@@ -361,9 +387,11 @@ var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -393,9 +421,11 @@ var InvoiceAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -439,9 +469,11 @@ var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -471,9 +503,11 @@ var InvoiceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -543,29 +577,29 @@ func (o SparseInvoicesList) Version() int {
 // SparseInvoice represents the sparse version of a invoice.
 type SparseInvoice struct {
 	// ID is the id of the invoice.
-	ID *string `json:"ID,omitempty" bson:"id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" bson:"id,omitempty" mapstructure:"ID,omitempty"`
 
 	// AccountID references the id of the customer that this invoice belongs to.
-	AccountID *string `json:"accountID,omitempty" bson:"accountid" mapstructure:"accountID,omitempty"`
+	AccountID *string `json:"accountID,omitempty" bson:"accountid,omitempty" mapstructure:"accountID,omitempty"`
 
 	// BilledToProvider holds the name of the provider that this invoice was billed to.
-	BilledToProvider *InvoiceBilledToProviderValue `json:"billedToProvider,omitempty" bson:"billedtoprovider" mapstructure:"billedToProvider,omitempty"`
+	BilledToProvider *InvoiceBilledToProviderValue `json:"billedToProvider,omitempty" bson:"billedtoprovider,omitempty" mapstructure:"billedToProvider,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// EndDate holds the end date for this invoice.
-	EndDate *time.Time `json:"endDate,omitempty" bson:"enddate" mapstructure:"endDate,omitempty"`
+	EndDate *time.Time `json:"endDate,omitempty" bson:"enddate,omitempty" mapstructure:"endDate,omitempty"`
 
 	// StartDate holds the start date for this invoice.
-	StartDate *time.Time `json:"startDate,omitempty" bson:"startdate" mapstructure:"startDate,omitempty"`
+	StartDate *time.Time `json:"startDate,omitempty" bson:"startdate,omitempty" mapstructure:"startDate,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseInvoice returns a new  SparseInvoice.
@@ -623,6 +657,30 @@ func (o *SparseInvoice) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseInvoice) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseInvoice) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseInvoice) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseInvoice) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
 }
 
 // DeepCopy returns a deep copy if the SparseInvoice.

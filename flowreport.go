@@ -242,7 +242,7 @@ type FlowReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewFlowReport returns a new *FlowReport
@@ -250,6 +250,7 @@ func NewFlowReport() *FlowReport {
 
 	return &FlowReport{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		ServiceType:    FlowReportServiceTypeNotApplicable,
 		ObservedAction: FlowReportObservedActionNotApplicable,
 	}
@@ -286,6 +287,7 @@ func (o *FlowReport) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *FlowReport) Doc() string {
+
 	return `Post a new flow statistics report.`
 }
 
@@ -526,11 +528,19 @@ func (o *FlowReport) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateRequiredString("action", string(o.Action)); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Accept", "Reject"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateRequiredString("destinationID", o.DestinationID); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("destinationType", string(o.DestinationType)); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
@@ -563,6 +573,10 @@ func (o *FlowReport) Validate() error {
 	}
 
 	if err := elemental.ValidateRequiredString("sourceID", o.SourceID); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
+	if err := elemental.ValidateRequiredString("sourceType", string(o.SourceType)); err != nil {
 		requiredErrors = append(requiredErrors, err)
 	}
 
@@ -1327,7 +1341,7 @@ type SparseFlowReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseFlowReport returns a new  SparseFlowReport.

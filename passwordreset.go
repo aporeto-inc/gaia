@@ -88,7 +88,7 @@ type PasswordReset struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPasswordReset returns a new *PasswordReset
@@ -96,6 +96,7 @@ func NewPasswordReset() *PasswordReset {
 
 	return &PasswordReset{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -130,6 +131,7 @@ func (o *PasswordReset) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *PasswordReset) Doc() string {
+
 	return `Used to reset an account password.`
 }
 
@@ -374,7 +376,7 @@ type SparsePasswordReset struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePasswordReset returns a new  SparsePasswordReset.

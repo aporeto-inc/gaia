@@ -140,7 +140,7 @@ type Issue struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewIssue returns a new *Issue
@@ -148,6 +148,7 @@ func NewIssue() *Issue {
 
 	return &Issue{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Metadata:     map[string]interface{}{},
 		Opaque:       map[string]string{},
 		Validity:     "24h",
@@ -185,6 +186,7 @@ func (o *Issue) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Issue) Doc() string {
+
 	return `This API issues a new token according to given data.`
 }
 
@@ -303,11 +305,15 @@ func (o *Issue) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := elemental.ValidateRequiredString("realm", string(o.Realm)); err != nil {
+		requiredErrors = append(requiredErrors, err)
+	}
+
 	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("validity", o.Validity, `^([0-9]+h[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+h[0-9]+s|[0-9]+h[0-9]+m|[0-9]+s|[0-9]+h|[0-9]+m)$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
+	if err := ValidateTimeDuration("validity", o.Validity); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -434,7 +440,6 @@ that value.`,
 		Type:           "string",
 	},
 	"Validity": elemental.AttributeSpecification{
-		AllowedChars:   `^([0-9]+h[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+h[0-9]+s|[0-9]+h[0-9]+m|[0-9]+s|[0-9]+h|[0-9]+m)$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
 		DefaultValue:   "24h",
@@ -515,7 +520,6 @@ that value.`,
 		Type:           "string",
 	},
 	"validity": elemental.AttributeSpecification{
-		AllowedChars:   `^([0-9]+h[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+h[0-9]+s|[0-9]+h[0-9]+m|[0-9]+s|[0-9]+h|[0-9]+m)$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
 		DefaultValue:   "24h",
@@ -619,7 +623,7 @@ type SparseIssue struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseIssue returns a new  SparseIssue.

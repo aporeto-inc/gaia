@@ -12,17 +12,6 @@ model:
   - httpresource
   - resource
   - httpspec
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - name
-  - - namespace
-    - archived
-  - - namespace
-    - normalizedTags
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
@@ -42,6 +31,7 @@ model:
   - '@propagated'
   - '@metadatable'
   - '@zonable'
+  - '@timeable'
 
 # Attributes
 attributes:

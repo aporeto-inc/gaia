@@ -112,7 +112,7 @@ type DataPathCertificate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewDataPathCertificate returns a new *DataPathCertificate
@@ -120,6 +120,7 @@ func NewDataPathCertificate() *DataPathCertificate {
 
 	return &DataPathCertificate{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -154,6 +155,7 @@ func (o *DataPathCertificate) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *DataPathCertificate) Doc() string {
+
 	return `This API is used by instance of enforcers to retrieve various certificates used
 for the datapath.`
 }
@@ -526,7 +528,7 @@ type SparseDataPathCertificate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseDataPathCertificate returns a new  SparseDataPathCertificate.

@@ -91,7 +91,7 @@ type QuotaCheck struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewQuotaCheck returns a new *QuotaCheck
@@ -99,6 +99,7 @@ func NewQuotaCheck() *QuotaCheck {
 
 	return &QuotaCheck{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -133,6 +134,7 @@ func (o *QuotaCheck) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *QuotaCheck) Doc() string {
+
 	return `This api allows to verify the quota for a given identity in a given namespace
 with the given tags.`
 }
@@ -409,7 +411,7 @@ type SparseQuotaCheck struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseQuotaCheck returns a new  SparseQuotaCheck.

@@ -1,3 +1,9 @@
+# Indexes
+indexes:
+- - :shard
+  - zone
+  - zHash
+
 # Attributes
 attributes:
   v1:

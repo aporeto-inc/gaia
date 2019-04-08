@@ -110,7 +110,7 @@ type PUNode struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPUNode returns a new *PUNode
@@ -118,6 +118,7 @@ func NewPUNode() *PUNode {
 
 	return &PUNode{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Tags:         []string{},
 	}
 }
@@ -154,6 +155,7 @@ func (o *PUNode) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *PUNode) Doc() string {
+
 	return `Internal scaling down of a pu for dep map representation.`
 }
 
@@ -587,7 +589,7 @@ type SparsePUNode struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePUNode returns a new  SparsePUNode.

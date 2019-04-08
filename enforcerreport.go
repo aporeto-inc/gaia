@@ -104,7 +104,7 @@ type EnforcerReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewEnforcerReport returns a new *EnforcerReport
@@ -112,6 +112,7 @@ func NewEnforcerReport() *EnforcerReport {
 
 	return &EnforcerReport{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -146,6 +147,7 @@ func (o *EnforcerReport) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *EnforcerReport) Doc() string {
+
 	return `Post a new enforcer statistics report.`
 }
 
@@ -537,7 +539,7 @@ type SparseEnforcerReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseEnforcerReport returns a new  SparseEnforcerReport.

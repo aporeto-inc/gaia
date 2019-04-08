@@ -10,20 +10,19 @@ model:
     failed actions will be available, and eventual errors as well as the claims of
     the user who triggered the actiions. This log is capped and only keeps the last
     50k entries by default.
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - date
-  - - namespace
-    - operation
   get:
     description: Retrieves the object with the given ID.
   extends:
   - '@identifiable-stored'
   - '@zonable'
+
+# Indexes
+indexes:
+- - namespace
+- - namespace
+  - date
+- - namespace
+  - operation
 
 # Attributes
 attributes:

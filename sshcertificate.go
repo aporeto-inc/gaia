@@ -117,7 +117,7 @@ type SSHCertificate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSSHCertificate returns a new *SSHCertificate
@@ -125,6 +125,7 @@ func NewSSHCertificate() *SSHCertificate {
 
 	return &SSHCertificate{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Extensions:   map[string]string{},
 		Options:      map[string]string{},
 		Principals:   []string{},
@@ -164,6 +165,7 @@ func (o *SSHCertificate) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *SSHCertificate) Doc() string {
+
 	return `Internal api to deliver SSH certificate.`
 }
 
@@ -592,7 +594,7 @@ type SparseSSHCertificate struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseSSHCertificate returns a new  SparseSSHCertificate.

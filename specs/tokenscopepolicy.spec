@@ -30,6 +30,11 @@ model:
   - '@fallback'
   - '@schedulable'
   - '@zonable'
+  - '@timeable'
+
+# Indexes
+indexes:
+- - :no-inherit
 
 # Attributes
 attributes:
@@ -59,3 +64,5 @@ attributes:
     subtype: '[][]string'
     stored: true
     orderable: true
+    validations:
+    - $tagsExpression

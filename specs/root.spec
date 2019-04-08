@@ -101,6 +101,7 @@ relations:
     description: Retrieves the list of audit profiles.
     global_parameters:
     - $filtering
+    - $propagatable
   create:
     description: Creates a new audit profile.
 
@@ -171,6 +172,14 @@ relations:
   create:
     description: Creates a new aws registration for billing.
 
+- rest_name: claims
+  get:
+    description: Retrieves the list of claims.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new claims record.
+
 - rest_name: datapathcertificate
   create:
     description: Creates a new Certificate for datapath.
@@ -215,6 +224,7 @@ relations:
     description: Retrieves the list of enforcer profiles.
     global_parameters:
     - $filtering
+    - $propagatable
   create:
     description: Creates a new enforcer profile.
 
@@ -256,6 +266,7 @@ relations:
     global_parameters:
     - $filtering
     - $archivable
+    - $propagatable
   create:
     description: Creates a new external network.
 
@@ -278,6 +289,7 @@ relations:
     global_parameters:
     - $filtering
     - $archivable
+    - $propagatable
   create:
     description: Create a new file path.
 
@@ -299,6 +311,7 @@ relations:
     description: Retrieves the list of host services.
     global_parameters:
     - $filtering
+    - $propagatable
     - $propagatable
   create:
     description: Creates a new host service.
@@ -367,6 +380,7 @@ relations:
     description: Retrieves the list of isolation profiles.
     global_parameters:
     - $filtering
+    - $propagatable
   create:
     description: Creates a new isolation profile.
 
@@ -389,6 +403,7 @@ relations:
     description: Retrieves the list of messages.
     global_parameters:
     - $filtering
+    - $propagatable
   create:
     description: Creates a new message.
 

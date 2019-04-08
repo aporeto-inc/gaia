@@ -99,7 +99,7 @@ type PolicyGraph struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPolicyGraph returns a new *PolicyGraph
@@ -107,6 +107,7 @@ func NewPolicyGraph() *PolicyGraph {
 
 	return &PolicyGraph{
 		ModelVersion:  1,
+		Mutex:         &sync.Mutex{},
 		DependencyMap: NewDependencyMap(),
 		PUIdentity:    []string{},
 		Selectors:     [][]string{},
@@ -144,13 +145,12 @@ func (o *PolicyGraph) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *PolicyGraph) Doc() string {
+
 	return `This api returns a data structure representing the policy graph of all selected
-processing units
-and their possible connectivity based on the current policies associated with 
-the namespace. Users can define a selector of processing units for which they
-are interested
-or define the identity tags of a virtual processing unit that is not yet
-activated.`
+processing units and their possible connectivity based on the current policies
+associated with the namespace. Users can define a selector of processing units
+for which theyare interestedor define the identity tags of a virtual processing
+unit that is not yetactivated.`
 }
 
 func (o *PolicyGraph) String() string {
@@ -241,6 +241,10 @@ func (o *PolicyGraph) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := o.DependencyMap.Validate(); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateTagsExpression("selectors", o.Selectors); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -461,7 +465,7 @@ type SparsePolicyGraph struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePolicyGraph returns a new  SparsePolicyGraph.

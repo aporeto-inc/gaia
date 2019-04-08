@@ -38,6 +38,11 @@ model:
   - '@metadatable'
   - '@named'
   - '@zonable'
+  - '@timeable'
+
+# Indexes
+indexes:
+- - :no-inherit
 
 # Attributes
 attributes:
@@ -48,6 +53,8 @@ attributes:
     exposed: true
     stored: true
     required: true
+    allowed_chars: ^[a-zA-Z0-9-_/]+$
+    allowed_chars_message: must only contain alpha numerical characters, '-' or '_'
     example_value: /blue/namespace
     orderable: true
 
@@ -59,3 +66,5 @@ attributes:
     example_value:
     - - color=blue
     orderable: true
+    validations:
+    - $tagsExpression

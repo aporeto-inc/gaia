@@ -102,7 +102,10 @@ type AWSAPIGateway struct {
 	// The policy decision for this API flow.
 	Authorized bool `json:"authorized" bson:"-" mapstructure:"authorized,omitempty"`
 
-	// CreatedTime is the time at which the object was created.
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
@@ -142,12 +145,15 @@ type AWSAPIGateway struct {
 	// the JWT token that was optionally attached to this request.
 	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
 
-	// UpdateTime is the time at which an entity was updated.
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+
+	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAWSAPIGateway returns a new *AWSAPIGateway
@@ -155,10 +161,11 @@ func NewAWSAPIGateway() *AWSAPIGateway {
 
 	return &AWSAPIGateway{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		Metadata:       []string{},
 		NormalizedTags: []string{},
+		Metadata:       []string{},
 	}
 }
 
@@ -197,6 +204,7 @@ func (o *AWSAPIGateway) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *AWSAPIGateway) Doc() string {
+
 	return `managed API decisions for the AWS API Gateway.`
 }
 
@@ -227,6 +235,18 @@ func (o *AWSAPIGateway) GetAssociatedTags() []string {
 func (o *AWSAPIGateway) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *AWSAPIGateway) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *AWSAPIGateway) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -307,6 +327,24 @@ func (o *AWSAPIGateway) GetProtected() bool {
 	return o.Protected
 }
 
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *AWSAPIGateway) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *AWSAPIGateway) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *AWSAPIGateway) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *AWSAPIGateway) GetUpdateTime() time.Time {
 
@@ -326,26 +364,28 @@ func (o *AWSAPIGateway) ToSparse(fields ...string) elemental.SparseIdentifiable 
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseAWSAPIGateway{
-			APIID:          &o.APIID,
-			ID:             &o.ID,
-			AccountID:      &o.AccountID,
-			Annotations:    &o.Annotations,
-			AssociatedTags: &o.AssociatedTags,
-			Authorized:     &o.Authorized,
-			CreateTime:     &o.CreateTime,
-			Description:    &o.Description,
-			Metadata:       &o.Metadata,
-			Method:         &o.Method,
-			Name:           &o.Name,
-			Namespace:      &o.Namespace,
-			NamespaceID:    &o.NamespaceID,
-			NormalizedTags: &o.NormalizedTags,
-			Protected:      &o.Protected,
-			Resource:       &o.Resource,
-			SourceIP:       &o.SourceIP,
-			Stage:          &o.Stage,
-			Token:          &o.Token,
-			UpdateTime:     &o.UpdateTime,
+			APIID:                &o.APIID,
+			ID:                   &o.ID,
+			AccountID:            &o.AccountID,
+			Annotations:          &o.Annotations,
+			AssociatedTags:       &o.AssociatedTags,
+			Authorized:           &o.Authorized,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CreateTime:           &o.CreateTime,
+			Description:          &o.Description,
+			Metadata:             &o.Metadata,
+			Method:               &o.Method,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NamespaceID:          &o.NamespaceID,
+			NormalizedTags:       &o.NormalizedTags,
+			Protected:            &o.Protected,
+			Resource:             &o.Resource,
+			SourceIP:             &o.SourceIP,
+			Stage:                &o.Stage,
+			Token:                &o.Token,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			UpdateTime:           &o.UpdateTime,
 		}
 	}
 
@@ -364,6 +404,8 @@ func (o *AWSAPIGateway) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "authorized":
 			sp.Authorized = &(o.Authorized)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -390,6 +432,8 @@ func (o *AWSAPIGateway) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.Stage = &(o.Stage)
 		case "token":
 			sp.Token = &(o.Token)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		}
@@ -422,6 +466,9 @@ func (o *AWSAPIGateway) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Authorized != nil {
 		o.Authorized = *so.Authorized
+	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -462,6 +509,9 @@ func (o *AWSAPIGateway) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Token != nil {
 		o.Token = *so.Token
 	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
+	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
@@ -497,7 +547,15 @@ func (o *AWSAPIGateway) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -555,6 +613,8 @@ func (o *AWSAPIGateway) ValueForAttribute(name string) interface{} {
 		return o.AssociatedTags
 	case "authorized":
 		return o.Authorized
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "description":
@@ -581,6 +641,8 @@ func (o *AWSAPIGateway) ValueForAttribute(name string) interface{} {
 		return o.Stage
 	case "token":
 		return o.Token
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	}
@@ -654,11 +716,23 @@ var AWSAPIGatewayAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Type:           "boolean",
 	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CreateTime",
-		Description:    `CreatedTime is the time at which the object was created.`,
+		Description:    `Creation date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "createTime",
@@ -724,7 +798,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		CreationOnly:   true,
 		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
@@ -769,6 +842,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -804,11 +878,23 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:           "token",
 		Type:           "string",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "UpdateTime",
-		Description:    `UpdateTime is the time at which an entity was updated.`,
+		Description:    `Last update date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "updateTime",
@@ -886,11 +972,23 @@ var AWSAPIGatewayLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		ReadOnly:       true,
 		Type:           "boolean",
 	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CreateTime",
-		Description:    `CreatedTime is the time at which the object was created.`,
+		Description:    `Creation date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "createTime",
@@ -956,7 +1054,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		CreationOnly:   true,
 		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
@@ -1001,6 +1098,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1036,11 +1134,23 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:           "token",
 		Type:           "string",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "UpdateTime",
-		Description:    `UpdateTime is the time at which an entity was updated.`,
+		Description:    `Last update date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "updateTime",
@@ -1128,41 +1238,44 @@ type SparseAWSAPIGateway struct {
 	AccountID *string `json:"accountID,omitempty" bson:"-" mapstructure:"accountID,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// The policy decision for this API flow.
 	Authorized *bool `json:"authorized,omitempty" bson:"-" mapstructure:"authorized,omitempty"`
 
-	// CreatedTime is the time at which the object was created.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// API method that handled this request.
 	Method *string `json:"method,omitempty" bson:"-" mapstructure:"method,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Link to the cluster namespace where the AWS API gateway is defined.
 	NamespaceID *string `json:"namespaceID,omitempty" bson:"-" mapstructure:"namespaceID,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// API resource that handled this request.
 	Resource *string `json:"resource,omitempty" bson:"-" mapstructure:"resource,omitempty"`
@@ -1176,12 +1289,15 @@ type SparseAWSAPIGateway struct {
 	// the JWT token that was optionally attached to this request.
 	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
-	// UpdateTime is the time at which an entity was updated.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAWSAPIGateway returns a new  SparseAWSAPIGateway.
@@ -1238,6 +1354,9 @@ func (o *SparseAWSAPIGateway) ToPlain() elemental.PlainIdentifiable {
 	if o.Authorized != nil {
 		out.Authorized = *o.Authorized
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1277,6 +1396,9 @@ func (o *SparseAWSAPIGateway) ToPlain() elemental.PlainIdentifiable {
 	if o.Token != nil {
 		out.Token = *o.Token
 	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
+	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
 	}
@@ -1306,6 +1428,18 @@ func (o *SparseAWSAPIGateway) GetAssociatedTags() []string {
 func (o *SparseAWSAPIGateway) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseAWSAPIGateway) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseAWSAPIGateway) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -1384,6 +1518,24 @@ func (o *SparseAWSAPIGateway) SetNormalizedTags(normalizedTags []string) {
 func (o *SparseAWSAPIGateway) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseAWSAPIGateway) SetProtected(protected bool) {
+
+	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseAWSAPIGateway) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseAWSAPIGateway) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

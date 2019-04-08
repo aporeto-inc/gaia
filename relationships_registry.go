@@ -2,8 +2,6 @@ package gaia
 
 import "go.aporeto.io/elemental"
 
-const nodocString = "[nodoc]" // nolint: varcheck,deadcode
-
 var relationshipsRegistry elemental.RelationshipsRegistry
 
 func init() {
@@ -469,7 +467,14 @@ func init() {
 			},
 		},
 		Retrieve: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"auditprofilemappingpolicy": &elemental.RelationshipInfo{},
@@ -480,6 +485,10 @@ func init() {
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
 					},
 				},
 			},
@@ -493,6 +502,10 @@ func init() {
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
 					},
 				},
 			},
@@ -677,6 +690,37 @@ func init() {
 	}
 
 	relationshipsRegistry[CategoryIdentity] = &elemental.Relationship{}
+
+	relationshipsRegistry[ClaimsIdentity] = &elemental.Relationship{
+		Create: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		Retrieve: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{},
+		},
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name:     "q",
+						Type:     "string",
+						Multiple: true,
+					},
+				},
+			},
+		},
+	}
 
 	relationshipsRegistry[CustomerIdentity] = &elemental.Relationship{
 		Update: map[string]*elemental.RelationshipInfo{
@@ -926,7 +970,14 @@ func init() {
 			},
 		},
 		Retrieve: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"enforcer":                     &elemental.RelationshipInfo{},
@@ -937,6 +988,10 @@ func init() {
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
 					},
 				},
 			},
@@ -950,6 +1005,10 @@ func init() {
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
 					},
 				},
 			},
@@ -1072,6 +1131,10 @@ func init() {
 						Name: "archived",
 						Type: "boolean",
 					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
 				},
 			},
 		},
@@ -1100,6 +1163,10 @@ func init() {
 						Name: "archived",
 						Type: "boolean",
 					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
 				},
 			},
 		},
@@ -1126,6 +1193,10 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name: "archived",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
 						Type: "boolean",
 					},
 				},
@@ -1223,10 +1294,15 @@ func init() {
 						Name: "archived",
 						Type: "boolean",
 					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
 				},
 			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"fileaccesspolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -1238,10 +1314,15 @@ func init() {
 						Name: "archived",
 						Type: "boolean",
 					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
 				},
 			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
+			"fileaccesspolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -1251,6 +1332,10 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name: "archived",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
 						Type: "boolean",
 					},
 				},
@@ -1421,6 +1506,10 @@ func init() {
 						Name: "archived",
 						Type: "boolean",
 					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
 				},
 			},
 		},
@@ -1449,6 +1538,10 @@ func init() {
 						Name: "propagated",
 						Type: "boolean",
 					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
 				},
 			},
 		},
@@ -1472,6 +1565,10 @@ func init() {
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
 					},
 					elemental.ParameterDefinition{
 						Name: "propagated",
@@ -1752,9 +1849,17 @@ func init() {
 			"root": &elemental.RelationshipInfo{},
 		},
 		Retrieve: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"processingunitpolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -1762,16 +1867,25 @@ func init() {
 						Type:     "string",
 						Multiple: true,
 					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
 				},
 			},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
+			"processingunitpolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
 					},
 				},
 			},
@@ -1828,7 +1942,14 @@ func init() {
 			},
 		},
 		Retrieve: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
+			"root": &elemental.RelationshipInfo{
+				Parameters: []elemental.ParameterDefinition{
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
+					},
+				},
+			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{
@@ -1837,6 +1958,10 @@ func init() {
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
 					},
 				},
 			},
@@ -1848,6 +1973,10 @@ func init() {
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
+					},
+					elemental.ParameterDefinition{
+						Name: "propagated",
+						Type: "boolean",
 					},
 				},
 			},
@@ -2328,9 +2457,14 @@ func init() {
 						Type: "boolean",
 					},
 					elemental.ParameterDefinition{
+						Name: "notify",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
 						Name: "status",
 						Type: "enum",
 						AllowedChoices: []string{
+							"Initialized",
 							"Paused",
 							"Running",
 							"Stopped",
@@ -2402,9 +2536,14 @@ func init() {
 						Type: "boolean",
 					},
 					elemental.ParameterDefinition{
+						Name: "notify",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
 						Name: "status",
 						Type: "enum",
 						AllowedChoices: []string{
+							"Initialized",
 							"Paused",
 							"Running",
 							"Stopped",
@@ -2543,6 +2682,7 @@ func init() {
 			},
 		},
 		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"fileaccesspolicy": &elemental.RelationshipInfo{},
 			"networkaccesspolicy": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -2556,6 +2696,7 @@ func init() {
 					},
 				},
 			},
+			"processingunitpolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -2586,6 +2727,7 @@ func init() {
 			"vulnerability":     &elemental.RelationshipInfo{},
 		},
 		Info: map[string]*elemental.RelationshipInfo{
+			"fileaccesspolicy": &elemental.RelationshipInfo{},
 			"networkaccesspolicy": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -2599,6 +2741,7 @@ func init() {
 					},
 				},
 			},
+			"processingunitpolicy": &elemental.RelationshipInfo{},
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
@@ -2685,6 +2828,8 @@ func init() {
 			},
 		},
 	}
+
+	relationshipsRegistry[ProcessingUnitRefreshIdentity] = &elemental.Relationship{}
 
 	relationshipsRegistry[QuotaCheckIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{

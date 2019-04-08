@@ -8,17 +8,10 @@ model:
   description: An IsolationProfile needs documentation.
   aliases:
   - ip
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - name
-  - - namespace
-    - normalizedTags
   get:
     description: Retrieves the object with the given ID.
+    global_parameters:
+    - $propagatable
   update:
     description: Updates the object with the given ID.
   delete:
@@ -30,6 +23,8 @@ model:
   - '@metadatable'
   - '@named'
   - '@zonable'
+  - '@propagated'
+  - '@timeable'
 
 # Attributes
 attributes:

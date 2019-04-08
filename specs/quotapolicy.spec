@@ -32,6 +32,11 @@ model:
   - '@hidden'
   - '@fallback'
   - '@zonable'
+  - '@timeable'
+
+# Indexes
+indexes:
+- - :no-inherit
 
 # Attributes
 attributes:

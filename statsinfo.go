@@ -111,7 +111,7 @@ type StatsInfo struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewStatsInfo returns a new *StatsInfo
@@ -119,6 +119,7 @@ func NewStatsInfo() *StatsInfo {
 
 	return &StatsInfo{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Fields:       map[string]string{},
 		Measurement:  StatsInfoMeasurementFlows,
 		Tags:         []string{},
@@ -156,6 +157,7 @@ func (o *StatsInfo) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *StatsInfo) Doc() string {
+
 	return `StatsInfo API can be used to list the fields and tags available in a
 statistics measurement.`
 }
@@ -434,7 +436,7 @@ type SparseStatsInfo struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseStatsInfo returns a new  SparseStatsInfo.

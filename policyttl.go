@@ -89,7 +89,7 @@ type PolicyTTL struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPolicyTTL returns a new *PolicyTTL
@@ -97,6 +97,7 @@ func NewPolicyTTL() *PolicyTTL {
 
 	return &PolicyTTL{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -132,6 +133,7 @@ func (o *PolicyTTL) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *PolicyTTL) Doc() string {
+
 	return `This is an unexposed api that defines a helper document allowing to handle
 pushes on objects that are deleted by TTL.`
 }
@@ -373,11 +375,11 @@ type SparsePolicyTTL struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Time when the policy must be deleted.
-	ExpirationTime *time.Time `json:"-,omitempty" bson:"expirationtime" mapstructure:"-,omitempty"`
+	ExpirationTime *time.Time `json:"-" bson:"expirationtime,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePolicyTTL returns a new  SparsePolicyTTL.

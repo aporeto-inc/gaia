@@ -95,7 +95,7 @@ type AWSRegister struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAWSRegister returns a new *AWSRegister
@@ -103,6 +103,7 @@ func NewAWSRegister() *AWSRegister {
 
 	return &AWSRegister{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -138,12 +139,37 @@ func (o *AWSRegister) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *AWSRegister) Doc() string {
+
 	return `This api allows AWS customer to register with Aporeto SaaS for billing.`
 }
 
 func (o *AWSRegister) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *AWSRegister) GetCreateTime() time.Time {
+
+	return o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
+func (o *AWSRegister) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = createTime
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *AWSRegister) GetUpdateTime() time.Time {
+
+	return o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
+func (o *AWSRegister) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = updateTime
 }
 
 // ToSparse returns the sparse version of the model.
@@ -297,9 +323,11 @@ var AWSRegisterAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -317,9 +345,11 @@ var AWSRegisterAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -347,9 +377,11 @@ var AWSRegisterLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -367,9 +399,11 @@ var AWSRegisterLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -442,17 +476,17 @@ type SparseAWSRegister struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Token Provided by AWS.
 	Provider *string `json:"provider,omitempty" bson:"-" mapstructure:"provider,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAWSRegister returns a new  SparseAWSRegister.
@@ -505,6 +539,30 @@ func (o *SparseAWSRegister) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseAWSRegister) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseAWSRegister) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseAWSRegister) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseAWSRegister) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
 }
 
 // DeepCopy returns a deep copy if the SparseAWSRegister.

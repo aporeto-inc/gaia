@@ -27,6 +27,11 @@ model:
   - '@fallback'
   - '@schedulable'
   - '@zonable'
+  - '@timeable'
+
+# Indexes
+indexes:
+- - :no-inherit
 
 # Attributes
 attributes:
@@ -54,6 +59,8 @@ attributes:
     exposed: true
     subtype: '[][]string'
     stored: true
+    validations:
+    - $tagsExpression
 
   - name: subject
     description: |-
@@ -63,3 +70,16 @@ attributes:
     exposed: true
     subtype: '[][]string'
     stored: true
+    validations:
+    - $tagsExpression
+
+# Relations
+relations:
+- rest_name: isolationprofile
+  get:
+    description: Returns the list of IsolationProfiles by a given processing unit
+      policies.
+
+- rest_name: processingunit
+  get:
+    description: Returns the list of ProcessingUnits by a given processing unit policies.

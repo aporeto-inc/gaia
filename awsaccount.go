@@ -116,7 +116,7 @@ type AWSAccount struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAWSAccount returns a new *AWSAccount
@@ -124,6 +124,7 @@ func NewAWSAccount() *AWSAccount {
 
 	return &AWSAccount{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -159,6 +160,7 @@ func (o *AWSAccount) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *AWSAccount) Doc() string {
+
 	return `Allows to bind an AWS account to your Aporeto account to allow auto registration
 of enforcers running on EC2.`
 }
@@ -166,6 +168,30 @@ of enforcers running on EC2.`
 func (o *AWSAccount) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *AWSAccount) GetCreateTime() time.Time {
+
+	return o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the given value.
+func (o *AWSAccount) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = createTime
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *AWSAccount) GetUpdateTime() time.Time {
+
+	return o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the given value.
+func (o *AWSAccount) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = updateTime
 }
 
 // ToSparse returns the sparse version of the model.
@@ -413,9 +439,11 @@ id, and it not stored.`,
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -473,9 +501,11 @@ and it is not stored.`,
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -537,9 +567,11 @@ id, and it not stored.`,
 		ConvertedName:  "CreateTime",
 		Description:    `Creation date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "createTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -597,9 +629,11 @@ and it is not stored.`,
 		ConvertedName:  "UpdateTime",
 		Description:    `Last update date of the object.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "updateTime",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "time",
 	},
@@ -680,30 +714,30 @@ type SparseAWSAccount struct {
 	AccessToken *string `json:"accessToken,omitempty" bson:"-" mapstructure:"accessToken,omitempty"`
 
 	// accountID contains your verified accound id.
-	AccountID *string `json:"accountID,omitempty" bson:"accountid" mapstructure:"accountID,omitempty"`
+	AccountID *string `json:"accountID,omitempty" bson:"accountid,omitempty" mapstructure:"accountID,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// ParentID contains the parent Vince account ID.
-	ParentID *string `json:"parentID,omitempty" bson:"parentid" mapstructure:"parentID,omitempty"`
+	ParentID *string `json:"parentID,omitempty" bson:"parentid,omitempty" mapstructure:"parentID,omitempty"`
 
 	// ParentName contains the name of the Vince parent Account.
-	ParentName *string `json:"parentName,omitempty" bson:"parentname" mapstructure:"parentName,omitempty"`
+	ParentName *string `json:"parentName,omitempty" bson:"parentname,omitempty" mapstructure:"parentName,omitempty"`
 
 	// Region contains your the region where your AWS account is located.
-	Region *string `json:"region,omitempty" bson:"region" mapstructure:"region,omitempty"`
+	Region *string `json:"region,omitempty" bson:"region,omitempty" mapstructure:"region,omitempty"`
 
 	// secretAccessKey contains the secret key. It is used to retrieve your account id,
 	// and it is not stored.
 	SecretAccessKey *string `json:"secretAccessKey,omitempty" bson:"-" mapstructure:"secretAccessKey,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAWSAccount returns a new  SparseAWSAccount.
@@ -774,6 +808,30 @@ func (o *SparseAWSAccount) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetCreateTime returns the CreateTime of the receiver.
+func (o *SparseAWSAccount) GetCreateTime() time.Time {
+
+	return *o.CreateTime
+}
+
+// SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
+func (o *SparseAWSAccount) SetCreateTime(createTime time.Time) {
+
+	o.CreateTime = &createTime
+}
+
+// GetUpdateTime returns the UpdateTime of the receiver.
+func (o *SparseAWSAccount) GetUpdateTime() time.Time {
+
+	return *o.UpdateTime
+}
+
+// SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
+func (o *SparseAWSAccount) SetUpdateTime(updateTime time.Time) {
+
+	o.UpdateTime = &updateTime
 }
 
 // DeepCopy returns a deep copy if the SparseAWSAccount.

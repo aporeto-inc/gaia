@@ -106,7 +106,10 @@ type Namespace struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// CreatedTime is the time at which the object was created.
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
@@ -143,12 +146,15 @@ type Namespace struct {
 	// value is 1 hour.
 	ServiceCertificateValidity string `json:"serviceCertificateValidity" bson:"servicecertificatevalidity" mapstructure:"serviceCertificateValidity,omitempty"`
 
-	// UpdateTime is the time at which an entity was updated.
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+
+	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewNamespace returns a new *Namespace
@@ -156,6 +162,7 @@ func NewNamespace() *Namespace {
 
 	return &Namespace{
 		ModelVersion:               1,
+		Mutex:                      &sync.Mutex{},
 		AssociatedTags:             []string{},
 		Annotations:                map[string][]string{},
 		Metadata:                   []string{},
@@ -200,6 +207,7 @@ func (o *Namespace) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Namespace) Doc() string {
+
 	return `A Namespace represents the core organizational unit of the system. All objects
 always exists in a single namespace. A Namespace can also have child namespaces.
 They can be used to split the system into organizations, business units,
@@ -233,6 +241,18 @@ func (o *Namespace) GetAssociatedTags() []string {
 func (o *Namespace) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *Namespace) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *Namespace) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -277,6 +297,12 @@ func (o *Namespace) GetName() string {
 	return o.Name
 }
 
+// SetName sets the property Name of the receiver using the given value.
+func (o *Namespace) SetName(name string) {
+
+	o.Name = name
+}
+
 // GetNamespace returns the Namespace of the receiver.
 func (o *Namespace) GetNamespace() string {
 
@@ -307,6 +333,24 @@ func (o *Namespace) GetProtected() bool {
 	return o.Protected
 }
 
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *Namespace) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *Namespace) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *Namespace) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *Namespace) GetUpdateTime() time.Time {
 
@@ -333,6 +377,7 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			AssociatedLocalCAID:        &o.AssociatedLocalCAID,
 			AssociatedSSHCAID:          &o.AssociatedSSHCAID,
 			AssociatedTags:             &o.AssociatedTags,
+			CreateIdempotencyKey:       &o.CreateIdempotencyKey,
 			CreateTime:                 &o.CreateTime,
 			Description:                &o.Description,
 			LocalCA:                    &o.LocalCA,
@@ -344,6 +389,7 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			NormalizedTags:             &o.NormalizedTags,
 			Protected:                  &o.Protected,
 			ServiceCertificateValidity: &o.ServiceCertificateValidity,
+			UpdateIdempotencyKey:       &o.UpdateIdempotencyKey,
 			UpdateTime:                 &o.UpdateTime,
 		}
 	}
@@ -365,6 +411,8 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.AssociatedSSHCAID = &(o.AssociatedSSHCAID)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -387,6 +435,8 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Protected = &(o.Protected)
 		case "serviceCertificateValidity":
 			sp.ServiceCertificateValidity = &(o.ServiceCertificateValidity)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		}
@@ -423,6 +473,9 @@ func (o *Namespace) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
 	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
+	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
@@ -455,6 +508,9 @@ func (o *Namespace) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ServiceCertificateValidity != nil {
 		o.ServiceCertificateValidity = *so.ServiceCertificateValidity
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -491,7 +547,15 @@ func (o *Namespace) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -500,6 +564,10 @@ func (o *Namespace) Validate() error {
 	}
 
 	if err := elemental.ValidatePattern("name", o.Name, `^[a-zA-Z0-9-_/]+$`, `must only contain alpha numerical characters, '-' or '_'`, true); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateTagsWithoutReservedPrefixes("networkAccessPolicyTags", o.NetworkAccessPolicyTags); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -555,6 +623,8 @@ func (o *Namespace) ValueForAttribute(name string) interface{} {
 		return o.AssociatedSSHCAID
 	case "associatedTags":
 		return o.AssociatedTags
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "description":
@@ -577,6 +647,8 @@ func (o *Namespace) ValueForAttribute(name string) interface{} {
 		return o.Protected
 	case "serviceCertificateValidity":
 		return o.ServiceCertificateValidity
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	}
@@ -665,11 +737,23 @@ deployed in SSH server to validate SSH certificates issued by the platform.`,
 		SubType:        "string",
 		Type:           "list",
 	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CreateTime",
-		Description:    `CreatedTime is the time at which the object was created.`,
+		Description:    `Creation date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "createTime",
@@ -743,6 +827,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Orderable:      true,
 		PrimaryKey:     true,
 		Required:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -750,7 +835,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		CreationOnly:   true,
 		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
@@ -798,6 +882,7 @@ policies in the namespace and its children.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -812,11 +897,23 @@ value is 1 hour.`,
 		Stored:  true,
 		Type:    "string",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "UpdateTime",
-		Description:    `UpdateTime is the time at which an entity was updated.`,
+		Description:    `Last update date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "updateTime",
@@ -909,11 +1006,23 @@ deployed in SSH server to validate SSH certificates issued by the platform.`,
 		SubType:        "string",
 		Type:           "list",
 	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CreateTime",
-		Description:    `CreatedTime is the time at which the object was created.`,
+		Description:    `Creation date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "createTime",
@@ -987,6 +1096,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Orderable:      true,
 		PrimaryKey:     true,
 		Required:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -994,7 +1104,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		CreationOnly:   true,
 		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
@@ -1042,6 +1151,7 @@ policies in the namespace and its children.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1056,11 +1166,23 @@ value is 1 hour.`,
 		Stored:  true,
 		Type:    "string",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "UpdateTime",
-		Description:    `UpdateTime is the time at which an entity was updated.`,
+		Description:    `Last update date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "updateTime",
@@ -1142,67 +1264,73 @@ type SparseNamespace struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// SSHCA holds the eventual SSH authority used by this namespace.
-	SSHCA *string `json:"SSHCA,omitempty" bson:"sshca" mapstructure:"SSHCA,omitempty"`
+	SSHCA *string `json:"SSHCA,omitempty" bson:"sshca,omitempty" mapstructure:"SSHCA,omitempty"`
 
 	// If enabled, the a SSH CA will be generated for the namespace. This CA can be
 	// deployed in SSH server to validate SSH certificates issued by the platform.
-	SSHCAEnabled *bool `json:"SSHCAEnabled,omitempty" bson:"sshcaenabled" mapstructure:"SSHCAEnabled,omitempty"`
+	SSHCAEnabled *bool `json:"SSHCAEnabled,omitempty" bson:"sshcaenabled,omitempty" mapstructure:"SSHCAEnabled,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedLocalCAID holds the remote ID of the certificate authority to use.
-	AssociatedLocalCAID *string `json:"-,omitempty" bson:"associatedlocalcaid" mapstructure:"-,omitempty"`
+	AssociatedLocalCAID *string `json:"-" bson:"associatedlocalcaid,omitempty" mapstructure:"-,omitempty"`
 
 	// associatedSSHCAID holds the remote ID of the SSH authority to use.
-	AssociatedSSHCAID *string `json:"associatedSSHCAID,omitempty" bson:"associatedsshcaid" mapstructure:"associatedSSHCAID,omitempty"`
+	AssociatedSSHCAID *string `json:"associatedSSHCAID,omitempty" bson:"associatedsshcaid,omitempty" mapstructure:"associatedSSHCAID,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// CreatedTime is the time at which the object was created.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// LocalCA holds the eventual certificate authority used by this namespace.
-	LocalCA *string `json:"localCA,omitempty" bson:"localca" mapstructure:"localCA,omitempty"`
+	LocalCA *string `json:"localCA,omitempty" bson:"localca,omitempty" mapstructure:"localCA,omitempty"`
 
 	// LocalCAEnabled defines if the namespace should use a local Certificate
 	// Authority. Switching it off and on again will regenerate a new CA.
-	LocalCAEnabled *bool `json:"localCAEnabled,omitempty" bson:"localcaenabled" mapstructure:"localCAEnabled,omitempty"`
+	LocalCAEnabled *bool `json:"localCAEnabled,omitempty" bson:"localcaenabled,omitempty" mapstructure:"localCAEnabled,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the namespace.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// List of tags that will be added to every `+"`"+`or`+"`"+` clause of all network access
 	// policies in the namespace and its children.
-	NetworkAccessPolicyTags *[]string `json:"networkAccessPolicyTags,omitempty" bson:"networkaccesspolicytags" mapstructure:"networkAccessPolicyTags,omitempty"`
+	NetworkAccessPolicyTags *[]string `json:"networkAccessPolicyTags,omitempty" bson:"networkaccesspolicytags,omitempty" mapstructure:"networkAccessPolicyTags,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// Determines the validity time of certificates issued in this namespace. Default
 	// value is 1 hour.
-	ServiceCertificateValidity *string `json:"serviceCertificateValidity,omitempty" bson:"servicecertificatevalidity" mapstructure:"serviceCertificateValidity,omitempty"`
+	ServiceCertificateValidity *string `json:"serviceCertificateValidity,omitempty" bson:"servicecertificatevalidity,omitempty" mapstructure:"serviceCertificateValidity,omitempty"`
 
-	// UpdateTime is the time at which an entity was updated.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseNamespace returns a new  SparseNamespace.
@@ -1262,6 +1390,9 @@ func (o *SparseNamespace) ToPlain() elemental.PlainIdentifiable {
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1295,6 +1426,9 @@ func (o *SparseNamespace) ToPlain() elemental.PlainIdentifiable {
 	if o.ServiceCertificateValidity != nil {
 		out.ServiceCertificateValidity = *o.ServiceCertificateValidity
 	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
+	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
 	}
@@ -1324,6 +1458,18 @@ func (o *SparseNamespace) GetAssociatedTags() []string {
 func (o *SparseNamespace) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseNamespace) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseNamespace) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -1368,6 +1514,12 @@ func (o *SparseNamespace) GetName() string {
 	return *o.Name
 }
 
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseNamespace) SetName(name string) {
+
+	o.Name = &name
+}
+
 // GetNamespace returns the Namespace of the receiver.
 func (o *SparseNamespace) GetNamespace() string {
 
@@ -1396,6 +1548,24 @@ func (o *SparseNamespace) SetNormalizedTags(normalizedTags []string) {
 func (o *SparseNamespace) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseNamespace) SetProtected(protected bool) {
+
+	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseNamespace) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseNamespace) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

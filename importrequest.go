@@ -115,7 +115,10 @@ type ImportRequest struct {
 	// List of comments that have been added to that request.
 	CommentFeed []*Comment `json:"commentFeed" bson:"commentfeed" mapstructure:"commentFeed,omitempty"`
 
-	// CreatedTime is the time at which the object was created.
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// The data to import.
@@ -157,7 +160,10 @@ type ImportRequest struct {
 	// namespace.
 	TargetNamespace string `json:"targetNamespace" bson:"targetnamespace" mapstructure:"targetNamespace,omitempty"`
 
-	// UpdateTime is the time at which an entity was updated.
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+
+	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
@@ -170,7 +176,7 @@ type ImportRequest struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewImportRequest returns a new *ImportRequest
@@ -178,10 +184,11 @@ func NewImportRequest() *ImportRequest {
 
 	return &ImportRequest{
 		ModelVersion:    1,
+		Mutex:           &sync.Mutex{},
 		Annotations:     map[string][]string{},
-		Data:            map[string][]map[string]interface{}{},
 		AssociatedTags:  []string{},
 		CommentFeed:     []*Comment{},
+		Data:            map[string][]map[string]interface{}{},
 		NormalizedTags:  []string{},
 		RequesterClaims: []string{},
 		Status:          ImportRequestStatusDraft,
@@ -222,6 +229,7 @@ func (o *ImportRequest) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *ImportRequest) Doc() string {
+
 	return `This API allows to send an import request to create objects to a namespace where
 the requester doesn't normally have the permission to do so (other than creating
 import requests).
@@ -239,13 +247,15 @@ comments.
 
 The requestee will now see the request, and will either
 
-* Set the status as ` + "`" + `Approved` + "`" + `. This will create the objects in the target
-namespace.
-* Set the status as ` + "`" + `Rejected` + "`" + `. The request cannot be edited anymore and can be
-deleted.
-* Set the status back as ` + "`" + `Draft. The request will go back to the requester
-namespace so he can make changes. Once the change are ready, the requester will
-set back the status as ` + "`" + `Submitted` + "`" + `.
+- Set the status as ` + "`" + `Approved` + "`" + `. This will create the objects in the target
+  namespace.
+
+- Set the status as ` + "`" + `Rejected` + "`" + `. The request cannot be edited anymore and can be
+  deleted.
+
+- Set the status back as ` + "`" + `Draft` + "`" + `. The request will go back to the requester
+  namespace so he can make changes. Once the change are ready, the requester
+  will set back the status as ` + "`" + `Submitted` + "`" + `.
 
 The ` + "`" + `data` + "`" + ` format is the same an ` + "`" + `Export` + "`" + `.`
 }
@@ -277,6 +287,18 @@ func (o *ImportRequest) GetAssociatedTags() []string {
 func (o *ImportRequest) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *ImportRequest) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *ImportRequest) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -333,6 +355,24 @@ func (o *ImportRequest) GetProtected() bool {
 	return o.Protected
 }
 
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *ImportRequest) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *ImportRequest) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *ImportRequest) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *ImportRequest) GetUpdateTime() time.Time {
 
@@ -376,25 +416,27 @@ func (o *ImportRequest) ToSparse(fields ...string) elemental.SparseIdentifiable 
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseImportRequest{
-			ID:                 &o.ID,
-			Annotations:        &o.Annotations,
-			AssociatedTags:     &o.AssociatedTags,
-			Comment:            &o.Comment,
-			CommentFeed:        &o.CommentFeed,
-			CreateTime:         &o.CreateTime,
-			Data:               &o.Data,
-			Description:        &o.Description,
-			Namespace:          &o.Namespace,
-			NormalizedTags:     &o.NormalizedTags,
-			Protected:          &o.Protected,
-			RequesterClaims:    &o.RequesterClaims,
-			RequesterNamespace: &o.RequesterNamespace,
-			Status:             &o.Status,
-			SubmittedOnce:      &o.SubmittedOnce,
-			TargetNamespace:    &o.TargetNamespace,
-			UpdateTime:         &o.UpdateTime,
-			ZHash:              &o.ZHash,
-			Zone:               &o.Zone,
+			ID:                   &o.ID,
+			Annotations:          &o.Annotations,
+			AssociatedTags:       &o.AssociatedTags,
+			Comment:              &o.Comment,
+			CommentFeed:          &o.CommentFeed,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CreateTime:           &o.CreateTime,
+			Data:                 &o.Data,
+			Description:          &o.Description,
+			Namespace:            &o.Namespace,
+			NormalizedTags:       &o.NormalizedTags,
+			Protected:            &o.Protected,
+			RequesterClaims:      &o.RequesterClaims,
+			RequesterNamespace:   &o.RequesterNamespace,
+			Status:               &o.Status,
+			SubmittedOnce:        &o.SubmittedOnce,
+			TargetNamespace:      &o.TargetNamespace,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			UpdateTime:           &o.UpdateTime,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
@@ -411,6 +453,8 @@ func (o *ImportRequest) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.Comment = &(o.Comment)
 		case "commentFeed":
 			sp.CommentFeed = &(o.CommentFeed)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "data":
@@ -433,6 +477,8 @@ func (o *ImportRequest) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.SubmittedOnce = &(o.SubmittedOnce)
 		case "targetNamespace":
 			sp.TargetNamespace = &(o.TargetNamespace)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -467,6 +513,9 @@ func (o *ImportRequest) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CommentFeed != nil {
 		o.CommentFeed = *so.CommentFeed
 	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
+	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
@@ -499,6 +548,9 @@ func (o *ImportRequest) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.TargetNamespace != nil {
 		o.TargetNamespace = *so.TargetNamespace
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -540,6 +592,10 @@ func (o *ImportRequest) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = append(errors, err)
+	}
 
 	if err := elemental.ValidateRequiredExternal("data", o.Data); err != nil {
 		requiredErrors = append(requiredErrors, err)
@@ -597,6 +653,8 @@ func (o *ImportRequest) ValueForAttribute(name string) interface{} {
 		return o.Comment
 	case "commentFeed":
 		return o.CommentFeed
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "data":
@@ -619,6 +677,8 @@ func (o *ImportRequest) ValueForAttribute(name string) interface{} {
 		return o.SubmittedOnce
 	case "targetNamespace":
 		return o.TargetNamespace
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -692,11 +752,23 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 		Transient:      true,
 		Type:           "refList",
 	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CreateTime",
-		Description:    `CreatedTime is the time at which the object was created.`,
+		Description:    `Creation date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "createTime",
@@ -734,7 +806,6 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		CreationOnly:   true,
 		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
@@ -771,6 +842,7 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -836,11 +908,23 @@ namespace.`,
 		Transient: true,
 		Type:      "string",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "UpdateTime",
-		Description:    `UpdateTime is the time at which an entity was updated.`,
+		Description:    `Last update date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "updateTime",
@@ -940,11 +1024,23 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Transient:      true,
 		Type:           "refList",
 	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CreateTime",
-		Description:    `CreatedTime is the time at which the object was created.`,
+		Description:    `Creation date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "createTime",
@@ -982,7 +1078,6 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		CreationOnly:   true,
 		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
@@ -1019,6 +1114,7 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1084,11 +1180,23 @@ namespace.`,
 		Transient: true,
 		Type:      "string",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "UpdateTime",
-		Description:    `UpdateTime is the time at which an entity was updated.`,
+		Description:    `Last update date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "updateTime",
@@ -1195,42 +1303,45 @@ type SparseImportRequest struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// Post a new comment that will be added to the commentFeed.
 	Comment *string `json:"comment,omitempty" bson:"-" mapstructure:"comment,omitempty"`
 
 	// List of comments that have been added to that request.
-	CommentFeed *[]*Comment `json:"commentFeed,omitempty" bson:"commentfeed" mapstructure:"commentFeed,omitempty"`
+	CommentFeed *[]*Comment `json:"commentFeed,omitempty" bson:"commentfeed,omitempty" mapstructure:"commentFeed,omitempty"`
 
-	// CreatedTime is the time at which the object was created.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// The data to import.
-	Data *map[string][]map[string]interface{} `json:"data,omitempty" bson:"data" mapstructure:"data,omitempty"`
+	Data *map[string][]map[string]interface{} `json:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// The identity claims of the requester. This will be populated by the control
 	// plane.
-	RequesterClaims *[]string `json:"requesterClaims,omitempty" bson:"requesterclaims" mapstructure:"requesterClaims,omitempty"`
+	RequesterClaims *[]string `json:"requesterClaims,omitempty" bson:"requesterclaims,omitempty" mapstructure:"requesterClaims,omitempty"`
 
 	// The namespace from the request was created. This will be populated by the
 	// control plane.
-	RequesterNamespace *string `json:"requesterNamespace,omitempty" bson:"requesternamespace" mapstructure:"requesterNamespace,omitempty"`
+	RequesterNamespace *string `json:"requesterNamespace,omitempty" bson:"requesternamespace,omitempty" mapstructure:"requesterNamespace,omitempty"`
 
 	// The status of the request. The content of data can only be changed when the
 	// status is set to `+"`"+`Draft`+"`"+` or `+"`"+`ChangeRequested`+"`"+`. When the status is changed to
@@ -1238,30 +1349,33 @@ type SparseImportRequest struct {
 	// If the Status is set to `+"`"+`Approved`+"`"+` the data will be created immediately.
 	// If the status is set to `+"`"+`Rejected`+"`"+` the request cannot be changed anymore and can
 	// be deleted.
-	Status *ImportRequestStatusValue `json:"status,omitempty" bson:"status" mapstructure:"status,omitempty"`
+	Status *ImportRequestStatusValue `json:"status,omitempty" bson:"status,omitempty" mapstructure:"status,omitempty"`
 
 	// Internal field to know if the request has been submit once.
-	SubmittedOnce *bool `json:"-,omitempty" bson:"submittedonce" mapstructure:"-,omitempty"`
+	SubmittedOnce *bool `json:"-" bson:"submittedonce,omitempty" mapstructure:"-,omitempty"`
 
 	// The namespace where the request will be sent. The requester can set any
 	// namespace but he needs to have an autorization to post the request in that
 	// namespace.
-	TargetNamespace *string `json:"targetNamespace,omitempty" bson:"targetnamespace" mapstructure:"targetNamespace,omitempty"`
+	TargetNamespace *string `json:"targetNamespace,omitempty" bson:"targetnamespace,omitempty" mapstructure:"targetNamespace,omitempty"`
 
-	// UpdateTime is the time at which an entity was updated.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-,omitempty" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-,omitempty" bson:"zone" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseImportRequest returns a new  SparseImportRequest.
@@ -1315,6 +1429,9 @@ func (o *SparseImportRequest) ToPlain() elemental.PlainIdentifiable {
 	if o.CommentFeed != nil {
 		out.CommentFeed = *o.CommentFeed
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1347,6 +1464,9 @@ func (o *SparseImportRequest) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.TargetNamespace != nil {
 		out.TargetNamespace = *o.TargetNamespace
+	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
@@ -1383,6 +1503,18 @@ func (o *SparseImportRequest) GetAssociatedTags() []string {
 func (o *SparseImportRequest) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseImportRequest) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseImportRequest) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -1437,6 +1569,24 @@ func (o *SparseImportRequest) SetNormalizedTags(normalizedTags []string) {
 func (o *SparseImportRequest) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseImportRequest) SetProtected(protected bool) {
+
+	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseImportRequest) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseImportRequest) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

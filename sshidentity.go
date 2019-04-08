@@ -89,7 +89,7 @@ type SSHIdentity struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSSHIdentity returns a new *SSHIdentity
@@ -97,6 +97,7 @@ func NewSSHIdentity() *SSHIdentity {
 
 	return &SSHIdentity{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -131,6 +132,7 @@ func (o *SSHIdentity) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *SSHIdentity) Doc() string {
+
 	return `Returns a SSH certificate containing the bearer claims. This SSH Certificate can
 be used to connect to a node where enforcer is protecting SSH sessions.`
 }
@@ -377,7 +379,7 @@ type SparseSSHIdentity struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseSSHIdentity returns a new  SparseSSHIdentity.

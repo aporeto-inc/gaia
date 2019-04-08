@@ -91,7 +91,7 @@ type Tabulation struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTabulation returns a new *Tabulation
@@ -99,6 +99,7 @@ func NewTabulation() *Tabulation {
 
 	return &Tabulation{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Headers:      []string{},
 		Rows:         [][]interface{}{},
 	}
@@ -135,6 +136,7 @@ func (o *Tabulation) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Tabulation) Doc() string {
+
 	return `Tabulate API allows you to retrieve a custom table view for any identity using
 any tags you like as columns.`
 }
@@ -411,7 +413,7 @@ type SparseTabulation struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseTabulation returns a new  SparseTabulation.

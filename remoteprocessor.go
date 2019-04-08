@@ -118,7 +118,7 @@ type RemoteProcessor struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewRemoteProcessor returns a new *RemoteProcessor
@@ -126,6 +126,7 @@ func NewRemoteProcessor() *RemoteProcessor {
 
 	return &RemoteProcessor{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Claims:       []string{},
 	}
 }
@@ -161,6 +162,7 @@ func (o *RemoteProcessor) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *RemoteProcessor) Doc() string {
+
 	return `Hook to integrate an Aporeto service.`
 }
 
@@ -598,14 +600,14 @@ type SparseRemoteProcessor struct {
 	Output *elemental.Identifiable `json:"output,omitempty" bson:"-" mapstructure:"output,omitempty"`
 
 	// RequestID gives the id of the request coming from the main server.
-	RequestID *string `json:"requestID,omitempty" bson:"requestid" mapstructure:"requestID,omitempty"`
+	RequestID *string `json:"requestID,omitempty" bson:"requestid,omitempty" mapstructure:"requestID,omitempty"`
 
 	// Represents the Identity name of the managed object.
 	TargetIdentity *string `json:"targetIdentity,omitempty" bson:"-" mapstructure:"targetIdentity,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseRemoteProcessor returns a new  SparseRemoteProcessor.

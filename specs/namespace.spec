@@ -12,14 +12,6 @@ model:
     applications, services or any combination you like.
   aliases:
   - ns
-  indexes:
-  - - :shard
-    - $hashed:name
-  - - :unique
-    - name
-  - - namespace
-  - - namespace
-    - name
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -33,6 +25,14 @@ model:
   - '@described'
   - '@identifiable-stored'
   - '@metadatable'
+  - '@timeable'
+
+# Indexes
+indexes:
+- - :shard
+  - $hashed:name
+- - :unique
+  - name
 
 # Attributes
 attributes:
@@ -98,6 +98,7 @@ attributes:
     example_value: mynamespace
     filterable: true
     getter: true
+    setter: true
     orderable: true
     primary_key: true
 
@@ -109,6 +110,8 @@ attributes:
     exposed: true
     subtype: string
     stored: true
+    validations:
+    - $tagsWithoutReservedPrefixes
 
   - name: serviceCertificateValidity
     description: |-

@@ -15,21 +15,6 @@ model:
   aliases:
   - pu
   - pus
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - name
-  - - namespace
-    - archived
-  - - namespace
-    - operationalStatus
-    - archived
-  - - namespace
-    - normalizedTags
-    - archived
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
@@ -48,6 +33,16 @@ model:
   - '@metadatable'
   - '@named'
   - '@zonable'
+  - '@timeable'
+
+# Indexes
+indexes:
+- - namespace
+  - operationalStatus
+  - archived
+- - namespace
+  - normalizedTags
+  - archived
 
 # Attributes
 attributes:
@@ -158,6 +153,7 @@ attributes:
     - Running
     - Stopped
     - Terminated
+    - Unknown
     default_value: Initialized
     filterable: true
 
@@ -175,7 +171,6 @@ attributes:
     type: enum
     exposed: true
     stored: true
-    required: true
     creation_only: true
     allowed_choices:
     - APIGateway
@@ -211,11 +206,18 @@ relations:
         description: If set, it will trigger a full poke (slower).
         type: boolean
 
+      - name: notify
+        description: Can be sent to trigger a ProcessingUnitRefresh event that will
+          be handled by the enforcer. If this is set, all other additional parameters
+          will be ignored.
+        type: boolean
+
       - name: status
         description: If set, changes the status of the processing unit alongside with
           the poke.
         type: enum
         allowed_choices:
+        - Initialized
         - Paused
         - Running
         - Stopped

@@ -10,15 +10,10 @@ model:
     policy will determine that types of events that must be captured in the kernel.
   aliases:
   - ap
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - name
   get:
     description: Retrieves the object with the given ID.
+    global_parameters:
+    - $propagatable
   update:
     description: Updates the object with the given ID.
   delete:
@@ -32,16 +27,12 @@ model:
   - '@metadatable'
   - '@named'
   - '@zonable'
+  - '@propagated'
+  - '@timeable'
 
 # Attributes
 attributes:
   v1:
-  - name: propagated
-    description: Propagated indicates if the audit profile is propagated.
-    type: boolean
-    exposed: true
-    stored: true
-
   - name: rules
     description: Rules is the list of audit policy rules associated with this policy.
     type: external

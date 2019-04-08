@@ -86,7 +86,7 @@ type Auth struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAuth returns a new *Auth
@@ -94,6 +94,7 @@ func NewAuth() *Auth {
 
 	return &Auth{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Claims:       claims.NewMidgardClaims(),
 	}
 }
@@ -129,6 +130,7 @@ func (o *Auth) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Auth) Doc() string {
+
 	return `This API verifies if the given token is valid or not. If it is valid it will
 return the claims of the token.`
 }
@@ -341,7 +343,7 @@ type SparseAuth struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAuth returns a new  SparseAuth.

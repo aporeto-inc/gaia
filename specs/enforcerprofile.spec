@@ -13,17 +13,10 @@ model:
   aliases:
   - profile
   - profiles
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - name
-  - - namespace
-    - normalizedTags
   get:
     description: Retrieves the object with the given ID.
+    global_parameters:
+    - $propagatable
   update:
     description: Updates the object with the given ID.
   delete:
@@ -37,6 +30,8 @@ model:
   - '@named'
   - '@metadatable'
   - '@zonable'
+  - '@propagated'
+  - '@timeable'
   validations:
   - $enforcerprofile
 
@@ -69,6 +64,39 @@ attributes:
     exposed: true
     subtype: '[][]string'
     stored: true
+    validations:
+    - $tagsExpression
+
+  - name: kubernetesMetadataExtractor
+    description: This field is kept for backward compatibility for enforcers <= 3.5.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - KubeSquall
+    - PodAtomic
+    - PodContainers
+    default_value: PodAtomic
+    deprecated: true
+
+  - name: kubernetesSupportEnabled
+    description: This field is kept for backward compatibility for enforcers <= 3.5.
+    type: boolean
+    exposed: true
+    stored: true
+    deprecated: true
+
+  - name: metadataExtractor
+    description: This field is kept for backward compatibility for enforcers <= 3.5.
+    type: enum
+    exposed: true
+    stored: true
+    allowed_choices:
+    - Docker
+    - ECS
+    - Kubernetes
+    default_value: Docker
+    deprecated: true
 
   - name: targetNetworks
     description: TargetNetworks is the list of networks that authorization should

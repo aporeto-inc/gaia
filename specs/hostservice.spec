@@ -9,21 +9,11 @@ model:
   aliases:
   - hostsrv
   - hostsrvs
-  indexes:
-  - - :shard
-    - zone
-    - zhash
-  - - namespace
-  - - namespace
-    - name
-  - - namespace
-    - normalizedTags
-  - - namespace
-    - archived
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
     - $archivable
+    - $propagatable
   update:
     description: Updates the object with the given ID.
   delete:
@@ -38,6 +28,8 @@ model:
   - '@metadatable'
   - '@named'
   - '@zonable'
+  - '@propagated'
+  - '@timeable'
   validations:
   - $hostservices
 

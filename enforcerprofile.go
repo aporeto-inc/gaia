@@ -9,6 +9,34 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// EnforcerProfileKubernetesMetadataExtractorValue represents the possible values for attribute "kubernetesMetadataExtractor".
+type EnforcerProfileKubernetesMetadataExtractorValue string
+
+const (
+	// EnforcerProfileKubernetesMetadataExtractorKubeSquall represents the value KubeSquall.
+	EnforcerProfileKubernetesMetadataExtractorKubeSquall EnforcerProfileKubernetesMetadataExtractorValue = "KubeSquall"
+
+	// EnforcerProfileKubernetesMetadataExtractorPodAtomic represents the value PodAtomic.
+	EnforcerProfileKubernetesMetadataExtractorPodAtomic EnforcerProfileKubernetesMetadataExtractorValue = "PodAtomic"
+
+	// EnforcerProfileKubernetesMetadataExtractorPodContainers represents the value PodContainers.
+	EnforcerProfileKubernetesMetadataExtractorPodContainers EnforcerProfileKubernetesMetadataExtractorValue = "PodContainers"
+)
+
+// EnforcerProfileMetadataExtractorValue represents the possible values for attribute "metadataExtractor".
+type EnforcerProfileMetadataExtractorValue string
+
+const (
+	// EnforcerProfileMetadataExtractorDocker represents the value Docker.
+	EnforcerProfileMetadataExtractorDocker EnforcerProfileMetadataExtractorValue = "Docker"
+
+	// EnforcerProfileMetadataExtractorECS represents the value ECS.
+	EnforcerProfileMetadataExtractorECS EnforcerProfileMetadataExtractorValue = "ECS"
+
+	// EnforcerProfileMetadataExtractorKubernetes represents the value Kubernetes.
+	EnforcerProfileMetadataExtractorKubernetes EnforcerProfileMetadataExtractorValue = "Kubernetes"
+)
+
 // EnforcerProfileIdentity represents the Identity of the object.
 var EnforcerProfileIdentity = elemental.Identity{
 	Name:     "enforcerprofile",
@@ -93,7 +121,10 @@ type EnforcerProfile struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// CreatedTime is the time at which the object was created.
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
@@ -110,9 +141,18 @@ type EnforcerProfile struct {
 	// docker container started with labels matching the rule.
 	IgnoreExpression [][]string `json:"ignoreExpression" bson:"ignoreexpression" mapstructure:"ignoreExpression,omitempty"`
 
+	// This field is kept for backward compatibility for enforcers <= 3.5.
+	KubernetesMetadataExtractor EnforcerProfileKubernetesMetadataExtractorValue `json:"kubernetesMetadataExtractor" bson:"kubernetesmetadataextractor" mapstructure:"kubernetesMetadataExtractor,omitempty"`
+
+	// This field is kept for backward compatibility for enforcers <= 3.5.
+	KubernetesSupportEnabled bool `json:"kubernetesSupportEnabled" bson:"kubernetessupportenabled" mapstructure:"kubernetesSupportEnabled,omitempty"`
+
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+
+	// This field is kept for backward compatibility for enforcers <= 3.5.
+	MetadataExtractor EnforcerProfileMetadataExtractorValue `json:"metadataExtractor" bson:"metadataextractor" mapstructure:"metadataExtractor,omitempty"`
 
 	// Name is the name of the entity.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
@@ -122,6 +162,9 @@ type EnforcerProfile struct {
 
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
+	// Propagate will propagate the policy to all of its children.
+	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
@@ -136,7 +179,10 @@ type EnforcerProfile struct {
 	// List of trusted CA. If empty the main chain of trust will be used.
 	TrustedCAs []string `json:"trustedCAs" bson:"trustedcas" mapstructure:"trustedCAs,omitempty"`
 
-	// UpdateTime is the time at which an entity was updated.
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+
+	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
@@ -149,24 +195,27 @@ type EnforcerProfile struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewEnforcerProfile returns a new *EnforcerProfile
 func NewEnforcerProfile() *EnforcerProfile {
 
 	return &EnforcerProfile{
-		ModelVersion:       1,
-		Annotations:        map[string][]string{},
-		ExcludedNetworks:   []string{},
-		AssociatedTags:     []string{},
-		ExcludedInterfaces: []string{},
-		IgnoreExpression:   [][]string{},
-		Metadata:           []string{},
-		NormalizedTags:     []string{},
-		TargetNetworks:     []string{},
-		TargetUDPNetworks:  []string{},
-		TrustedCAs:         []string{},
+		ModelVersion:                1,
+		Mutex:                       &sync.Mutex{},
+		Annotations:                 map[string][]string{},
+		ExcludedInterfaces:          []string{},
+		AssociatedTags:              []string{},
+		ExcludedNetworks:            []string{},
+		MetadataExtractor:           EnforcerProfileMetadataExtractorDocker,
+		KubernetesMetadataExtractor: EnforcerProfileKubernetesMetadataExtractorPodAtomic,
+		TargetNetworks:              []string{},
+		Metadata:                    []string{},
+		NormalizedTags:              []string{},
+		IgnoreExpression:            [][]string{},
+		TargetUDPNetworks:           []string{},
+		TrustedCAs:                  []string{},
 	}
 }
 
@@ -205,6 +254,7 @@ func (o *EnforcerProfile) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *EnforcerProfile) Doc() string {
+
 	return `Allows to create reusable configuration profile for your enforcers. Enforcer
 Profiles contains various startup information that can (for some) be updated
 live. Enforcer Profiles are assigned to some Enforcer using a Enforcer Profile
@@ -238,6 +288,18 @@ func (o *EnforcerProfile) GetAssociatedTags() []string {
 func (o *EnforcerProfile) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *EnforcerProfile) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *EnforcerProfile) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -312,10 +374,40 @@ func (o *EnforcerProfile) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *EnforcerProfile) GetPropagate() bool {
+
+	return o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the given value.
+func (o *EnforcerProfile) SetPropagate(propagate bool) {
+
+	o.Propagate = propagate
+}
+
 // GetProtected returns the Protected of the receiver.
 func (o *EnforcerProfile) GetProtected() bool {
 
 	return o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *EnforcerProfile) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *EnforcerProfile) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *EnforcerProfile) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
@@ -361,25 +453,31 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseEnforcerProfile{
-			ID:                 &o.ID,
-			Annotations:        &o.Annotations,
-			AssociatedTags:     &o.AssociatedTags,
-			CreateTime:         &o.CreateTime,
-			Description:        &o.Description,
-			ExcludedInterfaces: &o.ExcludedInterfaces,
-			ExcludedNetworks:   &o.ExcludedNetworks,
-			IgnoreExpression:   &o.IgnoreExpression,
-			Metadata:           &o.Metadata,
-			Name:               &o.Name,
-			Namespace:          &o.Namespace,
-			NormalizedTags:     &o.NormalizedTags,
-			Protected:          &o.Protected,
-			TargetNetworks:     &o.TargetNetworks,
-			TargetUDPNetworks:  &o.TargetUDPNetworks,
-			TrustedCAs:         &o.TrustedCAs,
-			UpdateTime:         &o.UpdateTime,
-			ZHash:              &o.ZHash,
-			Zone:               &o.Zone,
+			ID:                          &o.ID,
+			Annotations:                 &o.Annotations,
+			AssociatedTags:              &o.AssociatedTags,
+			CreateIdempotencyKey:        &o.CreateIdempotencyKey,
+			CreateTime:                  &o.CreateTime,
+			Description:                 &o.Description,
+			ExcludedInterfaces:          &o.ExcludedInterfaces,
+			ExcludedNetworks:            &o.ExcludedNetworks,
+			IgnoreExpression:            &o.IgnoreExpression,
+			KubernetesMetadataExtractor: &o.KubernetesMetadataExtractor,
+			KubernetesSupportEnabled:    &o.KubernetesSupportEnabled,
+			Metadata:                    &o.Metadata,
+			MetadataExtractor:           &o.MetadataExtractor,
+			Name:                        &o.Name,
+			Namespace:                   &o.Namespace,
+			NormalizedTags:              &o.NormalizedTags,
+			Propagate:                   &o.Propagate,
+			Protected:                   &o.Protected,
+			TargetNetworks:              &o.TargetNetworks,
+			TargetUDPNetworks:           &o.TargetUDPNetworks,
+			TrustedCAs:                  &o.TrustedCAs,
+			UpdateIdempotencyKey:        &o.UpdateIdempotencyKey,
+			UpdateTime:                  &o.UpdateTime,
+			ZHash:                       &o.ZHash,
+			Zone:                        &o.Zone,
 		}
 	}
 
@@ -392,6 +490,8 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -402,14 +502,22 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.ExcludedNetworks = &(o.ExcludedNetworks)
 		case "ignoreExpression":
 			sp.IgnoreExpression = &(o.IgnoreExpression)
+		case "kubernetesMetadataExtractor":
+			sp.KubernetesMetadataExtractor = &(o.KubernetesMetadataExtractor)
+		case "kubernetesSupportEnabled":
+			sp.KubernetesSupportEnabled = &(o.KubernetesSupportEnabled)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
+		case "metadataExtractor":
+			sp.MetadataExtractor = &(o.MetadataExtractor)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "targetNetworks":
@@ -418,6 +526,8 @@ func (o *EnforcerProfile) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.TargetUDPNetworks = &(o.TargetUDPNetworks)
 		case "trustedCAs":
 			sp.TrustedCAs = &(o.TrustedCAs)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -446,6 +556,9 @@ func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
 	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
+	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
@@ -461,8 +574,17 @@ func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
 	if so.IgnoreExpression != nil {
 		o.IgnoreExpression = *so.IgnoreExpression
 	}
+	if so.KubernetesMetadataExtractor != nil {
+		o.KubernetesMetadataExtractor = *so.KubernetesMetadataExtractor
+	}
+	if so.KubernetesSupportEnabled != nil {
+		o.KubernetesSupportEnabled = *so.KubernetesSupportEnabled
+	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
+	}
+	if so.MetadataExtractor != nil {
+		o.MetadataExtractor = *so.MetadataExtractor
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -472,6 +594,9 @@ func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -484,6 +609,9 @@ func (o *EnforcerProfile) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.TrustedCAs != nil {
 		o.TrustedCAs = *so.TrustedCAs
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -526,7 +654,27 @@ func (o *EnforcerProfile) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateTagsExpression("ignoreExpression", o.IgnoreExpression); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("kubernetesMetadataExtractor", string(o.KubernetesMetadataExtractor), []string{"KubeSquall", "PodAtomic", "PodContainers"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := elemental.ValidateStringInList("metadataExtractor", string(o.MetadataExtractor), []string{"Docker", "ECS", "Kubernetes"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -590,6 +738,8 @@ func (o *EnforcerProfile) ValueForAttribute(name string) interface{} {
 		return o.Annotations
 	case "associatedTags":
 		return o.AssociatedTags
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "description":
@@ -600,14 +750,22 @@ func (o *EnforcerProfile) ValueForAttribute(name string) interface{} {
 		return o.ExcludedNetworks
 	case "ignoreExpression":
 		return o.IgnoreExpression
+	case "kubernetesMetadataExtractor":
+		return o.KubernetesMetadataExtractor
+	case "kubernetesSupportEnabled":
+		return o.KubernetesSupportEnabled
 	case "metadata":
 		return o.Metadata
+	case "metadataExtractor":
+		return o.MetadataExtractor
 	case "name":
 		return o.Name
 	case "namespace":
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
+	case "propagate":
+		return o.Propagate
 	case "protected":
 		return o.Protected
 	case "targetNetworks":
@@ -616,6 +774,8 @@ func (o *EnforcerProfile) ValueForAttribute(name string) interface{} {
 		return o.TargetUDPNetworks
 	case "trustedCAs":
 		return o.TrustedCAs
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -667,11 +827,23 @@ var EnforcerProfileAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "list",
 	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CreateTime",
-		Description:    `CreatedTime is the time at which the object was created.`,
+		Description:    `Creation date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "createTime",
@@ -728,6 +900,27 @@ docker container started with labels matching the rule.`,
 		SubType: "[][]string",
 		Type:    "external",
 	},
+	"KubernetesMetadataExtractor": elemental.AttributeSpecification{
+		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
+		ConvertedName:  "KubernetesMetadataExtractor",
+		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorPodAtomic,
+		Deprecated:     true,
+		Description:    `This field is kept for backward compatibility for enforcers <= 3.5.`,
+		Exposed:        true,
+		Name:           "kubernetesMetadataExtractor",
+		Stored:         true,
+		Type:           "enum",
+	},
+	"KubernetesSupportEnabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "KubernetesSupportEnabled",
+		Deprecated:     true,
+		Description:    `This field is kept for backward compatibility for enforcers <= 3.5.`,
+		Exposed:        true,
+		Name:           "kubernetesSupportEnabled",
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -742,6 +935,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:     true,
 		SubType:    "string",
 		Type:       "list",
+	},
+	"MetadataExtractor": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Docker", "ECS", "Kubernetes"},
+		ConvertedName:  "MetadataExtractor",
+		DefaultValue:   EnforcerProfileMetadataExtractorDocker,
+		Deprecated:     true,
+		Description:    `This field is kept for backward compatibility for enforcers <= 3.5.`,
+		Exposed:        true,
+		Name:           "metadataExtractor",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -763,7 +967,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		CreationOnly:   true,
 		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
@@ -792,6 +995,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
+	"Propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -800,6 +1015,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -836,11 +1052,23 @@ applied.`,
 		SubType:        "string",
 		Type:           "list",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "UpdateTime",
-		Description:    `UpdateTime is the time at which an entity was updated.`,
+		Description:    `Last update date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "updateTime",
@@ -918,11 +1146,23 @@ var EnforcerProfileLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		SubType:        "string",
 		Type:           "list",
 	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "CreateTime",
-		Description:    `CreatedTime is the time at which the object was created.`,
+		Description:    `Creation date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "createTime",
@@ -979,6 +1219,27 @@ docker container started with labels matching the rule.`,
 		SubType: "[][]string",
 		Type:    "external",
 	},
+	"kubernetesmetadataextractor": elemental.AttributeSpecification{
+		AllowedChoices: []string{"KubeSquall", "PodAtomic", "PodContainers"},
+		ConvertedName:  "KubernetesMetadataExtractor",
+		DefaultValue:   EnforcerProfileKubernetesMetadataExtractorPodAtomic,
+		Deprecated:     true,
+		Description:    `This field is kept for backward compatibility for enforcers <= 3.5.`,
+		Exposed:        true,
+		Name:           "kubernetesMetadataExtractor",
+		Stored:         true,
+		Type:           "enum",
+	},
+	"kubernetessupportenabled": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "KubernetesSupportEnabled",
+		Deprecated:     true,
+		Description:    `This field is kept for backward compatibility for enforcers <= 3.5.`,
+		Exposed:        true,
+		Name:           "kubernetesSupportEnabled",
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -993,6 +1254,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:     true,
 		SubType:    "string",
 		Type:       "list",
+	},
+	"metadataextractor": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Docker", "ECS", "Kubernetes"},
+		ConvertedName:  "MetadataExtractor",
+		DefaultValue:   EnforcerProfileMetadataExtractorDocker,
+		Deprecated:     true,
+		Description:    `This field is kept for backward compatibility for enforcers <= 3.5.`,
+		Exposed:        true,
+		Name:           "metadataExtractor",
+		Stored:         true,
+		Type:           "enum",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1014,7 +1286,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "Namespace",
-		CreationOnly:   true,
 		DefaultOrder:   true,
 		Description:    `Namespace tag attached to an entity.`,
 		Exposed:        true,
@@ -1043,6 +1314,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
+	"propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -1051,6 +1334,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "protected",
 		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
 	},
@@ -1087,11 +1371,23 @@ applied.`,
 		SubType:        "string",
 		Type:           "list",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
 		ConvertedName:  "UpdateTime",
-		Description:    `UpdateTime is the time at which an entity was updated.`,
+		Description:    `Last update date of the object.`,
 		Exposed:        true,
 		Getter:         true,
 		Name:           "updateTime",
@@ -1199,68 +1495,86 @@ type SparseEnforcerProfile struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// CreatedTime is the time at which the object was created.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Creation date of the object.
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// ExcludedInterfaces is a list of interfaces that must be excluded.
-	ExcludedInterfaces *[]string `json:"excludedInterfaces,omitempty" bson:"excludedinterfaces" mapstructure:"excludedInterfaces,omitempty"`
+	ExcludedInterfaces *[]string `json:"excludedInterfaces,omitempty" bson:"excludedinterfaces,omitempty" mapstructure:"excludedInterfaces,omitempty"`
 
 	// ExcludedNetworks is the list of networks that must be excluded for this
 	// enforcer.
-	ExcludedNetworks *[]string `json:"excludedNetworks,omitempty" bson:"excludednetworks" mapstructure:"excludedNetworks,omitempty"`
+	ExcludedNetworks *[]string `json:"excludedNetworks,omitempty" bson:"excludednetworks,omitempty" mapstructure:"excludedNetworks,omitempty"`
 
 	// IgnoreExpression allows to set a tag expression that will make Aporeto to ignore
 	// docker container started with labels matching the rule.
-	IgnoreExpression *[][]string `json:"ignoreExpression,omitempty" bson:"ignoreexpression" mapstructure:"ignoreExpression,omitempty"`
+	IgnoreExpression *[][]string `json:"ignoreExpression,omitempty" bson:"ignoreexpression,omitempty" mapstructure:"ignoreExpression,omitempty"`
+
+	// This field is kept for backward compatibility for enforcers <= 3.5.
+	KubernetesMetadataExtractor *EnforcerProfileKubernetesMetadataExtractorValue `json:"kubernetesMetadataExtractor,omitempty" bson:"kubernetesmetadataextractor,omitempty" mapstructure:"kubernetesMetadataExtractor,omitempty"`
+
+	// This field is kept for backward compatibility for enforcers <= 3.5.
+	KubernetesSupportEnabled *bool `json:"kubernetesSupportEnabled,omitempty" bson:"kubernetessupportenabled,omitempty" mapstructure:"kubernetesSupportEnabled,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
+
+	// This field is kept for backward compatibility for enforcers <= 3.5.
+	MetadataExtractor *EnforcerProfileMetadataExtractorValue `json:"metadataExtractor,omitempty" bson:"metadataextractor,omitempty" mapstructure:"metadataExtractor,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
+
+	// Propagate will propagate the policy to all of its children.
+	Propagate *bool `json:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// TargetNetworks is the list of networks that authorization should be applied.
-	TargetNetworks *[]string `json:"targetNetworks,omitempty" bson:"targetnetworks" mapstructure:"targetNetworks,omitempty"`
+	TargetNetworks *[]string `json:"targetNetworks,omitempty" bson:"targetnetworks,omitempty" mapstructure:"targetNetworks,omitempty"`
 
 	// TargetUDPNetworks is the list of UDP networks that authorization should be
 	// applied.
-	TargetUDPNetworks *[]string `json:"targetUDPNetworks,omitempty" bson:"targetudpnetworks" mapstructure:"targetUDPNetworks,omitempty"`
+	TargetUDPNetworks *[]string `json:"targetUDPNetworks,omitempty" bson:"targetudpnetworks,omitempty" mapstructure:"targetUDPNetworks,omitempty"`
 
 	// List of trusted CA. If empty the main chain of trust will be used.
-	TrustedCAs *[]string `json:"trustedCAs,omitempty" bson:"trustedcas" mapstructure:"trustedCAs,omitempty"`
+	TrustedCAs *[]string `json:"trustedCAs,omitempty" bson:"trustedcas,omitempty" mapstructure:"trustedCAs,omitempty"`
 
-	// UpdateTime is the time at which an entity was updated.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
+	// Last update date of the object.
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-,omitempty" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-,omitempty" bson:"zone" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseEnforcerProfile returns a new  SparseEnforcerProfile.
@@ -1308,6 +1622,9 @@ func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1323,8 +1640,17 @@ func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
 	if o.IgnoreExpression != nil {
 		out.IgnoreExpression = *o.IgnoreExpression
 	}
+	if o.KubernetesMetadataExtractor != nil {
+		out.KubernetesMetadataExtractor = *o.KubernetesMetadataExtractor
+	}
+	if o.KubernetesSupportEnabled != nil {
+		out.KubernetesSupportEnabled = *o.KubernetesSupportEnabled
+	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
+	}
+	if o.MetadataExtractor != nil {
+		out.MetadataExtractor = *o.MetadataExtractor
 	}
 	if o.Name != nil {
 		out.Name = *o.Name
@@ -1334,6 +1660,9 @@ func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -1346,6 +1675,9 @@ func (o *SparseEnforcerProfile) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.TrustedCAs != nil {
 		out.TrustedCAs = *o.TrustedCAs
+	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
@@ -1382,6 +1714,18 @@ func (o *SparseEnforcerProfile) GetAssociatedTags() []string {
 func (o *SparseEnforcerProfile) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseEnforcerProfile) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseEnforcerProfile) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -1456,10 +1800,40 @@ func (o *SparseEnforcerProfile) SetNormalizedTags(normalizedTags []string) {
 	o.NormalizedTags = &normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseEnforcerProfile) GetPropagate() bool {
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseEnforcerProfile) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
+}
+
 // GetProtected returns the Protected of the receiver.
 func (o *SparseEnforcerProfile) GetProtected() bool {
 
 	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseEnforcerProfile) SetProtected(protected bool) {
+
+	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseEnforcerProfile) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseEnforcerProfile) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

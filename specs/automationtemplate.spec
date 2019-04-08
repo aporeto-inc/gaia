@@ -14,6 +14,10 @@ model:
   - '@described'
   - '@named'
 
+# Indexes
+indexes:
+- - :no-inherit
+
 # Attributes
 attributes:
   v1:

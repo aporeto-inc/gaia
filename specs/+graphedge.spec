@@ -85,12 +85,6 @@ attributes:
     type: integer
     exposed: true
 
-  - name: serviceIDs
-    description: Map of ints...
-    type: external
-    exposed: true
-    subtype: map[string]int
-
   - name: sourceID
     description: ID of the source GraphNode of the edge.
     type: string

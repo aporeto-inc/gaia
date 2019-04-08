@@ -82,7 +82,7 @@ func (o PokesList) Version() int {
 type Poke struct {
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPoke returns a new *Poke
@@ -90,6 +90,7 @@ func NewPoke() *Poke {
 
 	return &Poke{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -124,6 +125,7 @@ func (o *Poke) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Poke) Doc() string {
+
 	return `When available, poke can be used to update various information about the parent.
 For instance, for enforcers, poke will be use as the heartbeat.`
 }
@@ -295,7 +297,7 @@ func (o SparsePokesList) Version() int {
 type SparsePoke struct {
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePoke returns a new  SparsePoke.

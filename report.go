@@ -124,7 +124,7 @@ type Report struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewReport returns a new *Report
@@ -132,6 +132,7 @@ func NewReport() *Report {
 
 	return &Report{
 		ModelVersion: 1,
+		Mutex:        &sync.Mutex{},
 		Fields:       map[string]interface{}{},
 		Tags:         map[string]string{},
 	}
@@ -168,6 +169,7 @@ func (o *Report) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Report) Doc() string {
+
 	return `Post a new statistics report.`
 }
 
@@ -489,7 +491,7 @@ type SparseReport struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseReport returns a new  SparseReport.

@@ -94,7 +94,7 @@ type Role struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewRole returns a new *Role
@@ -102,6 +102,7 @@ func NewRole() *Role {
 
 	return &Role{
 		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
 		Authorizations: map[string][]string{},
 	}
 }
@@ -137,6 +138,7 @@ func (o *Role) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Role) Doc() string {
+
 	return `Roles returns the available roles that can be used with API Authorization
 Policies.`
 }
@@ -442,7 +444,7 @@ type SparseRole struct {
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
-	sync.Mutex `json:"-" bson:"-"`
+	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseRole returns a new  SparseRole.

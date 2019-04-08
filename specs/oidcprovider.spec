@@ -8,10 +8,6 @@ model:
   description: |-
     Allows to declare a generic OpenID Connect provider that can be used in exchange
     for a Midgard token.
-  indexes:
-  - - :unique
-    - parentID
-    - name
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -23,6 +19,12 @@ model:
   extends:
   - '@identifiable-stored'
   - '@timeable'
+
+# Indexes
+indexes:
+- - :unique
+  - parentID
+  - name
 
 # Attributes
 attributes:
