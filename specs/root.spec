@@ -36,7 +36,7 @@ relations:
     description: Creates a new Account.
 
 - rest_name: accountcheck
-  get:
+  create:
     description: Verifies an account credentials.
 
 - rest_name: activate
