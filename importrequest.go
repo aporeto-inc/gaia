@@ -115,6 +115,9 @@ type ImportRequest struct {
 	// List of comments that have been added to that request.
 	CommentFeed []*Comment `json:"commentFeed" bson:"commentfeed" mapstructure:"commentFeed,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -157,6 +160,9 @@ type ImportRequest struct {
 	// namespace.
 	TargetNamespace string `json:"targetNamespace" bson:"targetnamespace" mapstructure:"targetNamespace,omitempty"`
 
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
@@ -180,9 +186,9 @@ func NewImportRequest() *ImportRequest {
 		ModelVersion:    1,
 		Mutex:           &sync.Mutex{},
 		Annotations:     map[string][]string{},
-		Data:            map[string][]map[string]interface{}{},
 		AssociatedTags:  []string{},
 		CommentFeed:     []*Comment{},
+		Data:            map[string][]map[string]interface{}{},
 		NormalizedTags:  []string{},
 		RequesterClaims: []string{},
 		Status:          ImportRequestStatusDraft,
@@ -283,6 +289,18 @@ func (o *ImportRequest) SetAssociatedTags(associatedTags []string) {
 	o.AssociatedTags = associatedTags
 }
 
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *ImportRequest) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *ImportRequest) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
+}
+
 // GetCreateTime returns the CreateTime of the receiver.
 func (o *ImportRequest) GetCreateTime() time.Time {
 
@@ -343,6 +361,18 @@ func (o *ImportRequest) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *ImportRequest) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *ImportRequest) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *ImportRequest) GetUpdateTime() time.Time {
 
@@ -386,25 +416,27 @@ func (o *ImportRequest) ToSparse(fields ...string) elemental.SparseIdentifiable 
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseImportRequest{
-			ID:                 &o.ID,
-			Annotations:        &o.Annotations,
-			AssociatedTags:     &o.AssociatedTags,
-			Comment:            &o.Comment,
-			CommentFeed:        &o.CommentFeed,
-			CreateTime:         &o.CreateTime,
-			Data:               &o.Data,
-			Description:        &o.Description,
-			Namespace:          &o.Namespace,
-			NormalizedTags:     &o.NormalizedTags,
-			Protected:          &o.Protected,
-			RequesterClaims:    &o.RequesterClaims,
-			RequesterNamespace: &o.RequesterNamespace,
-			Status:             &o.Status,
-			SubmittedOnce:      &o.SubmittedOnce,
-			TargetNamespace:    &o.TargetNamespace,
-			UpdateTime:         &o.UpdateTime,
-			ZHash:              &o.ZHash,
-			Zone:               &o.Zone,
+			ID:                   &o.ID,
+			Annotations:          &o.Annotations,
+			AssociatedTags:       &o.AssociatedTags,
+			Comment:              &o.Comment,
+			CommentFeed:          &o.CommentFeed,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CreateTime:           &o.CreateTime,
+			Data:                 &o.Data,
+			Description:          &o.Description,
+			Namespace:            &o.Namespace,
+			NormalizedTags:       &o.NormalizedTags,
+			Protected:            &o.Protected,
+			RequesterClaims:      &o.RequesterClaims,
+			RequesterNamespace:   &o.RequesterNamespace,
+			Status:               &o.Status,
+			SubmittedOnce:        &o.SubmittedOnce,
+			TargetNamespace:      &o.TargetNamespace,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			UpdateTime:           &o.UpdateTime,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
@@ -421,6 +453,8 @@ func (o *ImportRequest) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.Comment = &(o.Comment)
 		case "commentFeed":
 			sp.CommentFeed = &(o.CommentFeed)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "data":
@@ -443,6 +477,8 @@ func (o *ImportRequest) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.SubmittedOnce = &(o.SubmittedOnce)
 		case "targetNamespace":
 			sp.TargetNamespace = &(o.TargetNamespace)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -477,6 +513,9 @@ func (o *ImportRequest) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CommentFeed != nil {
 		o.CommentFeed = *so.CommentFeed
 	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
+	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
@@ -509,6 +548,9 @@ func (o *ImportRequest) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.TargetNamespace != nil {
 		o.TargetNamespace = *so.TargetNamespace
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -611,6 +653,8 @@ func (o *ImportRequest) ValueForAttribute(name string) interface{} {
 		return o.Comment
 	case "commentFeed":
 		return o.CommentFeed
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "data":
@@ -633,6 +677,8 @@ func (o *ImportRequest) ValueForAttribute(name string) interface{} {
 		return o.SubmittedOnce
 	case "targetNamespace":
 		return o.TargetNamespace
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -705,6 +751,18 @@ var ImportRequestAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "comment",
 		Transient:      true,
 		Type:           "refList",
+	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -850,6 +908,18 @@ namespace.`,
 		Transient: true,
 		Type:      "string",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -953,6 +1023,18 @@ var ImportRequestLowerCaseAttributesMap = map[string]elemental.AttributeSpecific
 		SubType:        "comment",
 		Transient:      true,
 		Type:           "refList",
+	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1098,6 +1180,18 @@ namespace.`,
 		Transient: true,
 		Type:      "string",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1220,6 +1314,9 @@ type SparseImportRequest struct {
 	// List of comments that have been added to that request.
 	CommentFeed *[]*Comment `json:"commentFeed,omitempty" bson:"commentfeed,omitempty" mapstructure:"commentFeed,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
@@ -1261,6 +1358,9 @@ type SparseImportRequest struct {
 	// namespace but he needs to have an autorization to post the request in that
 	// namespace.
 	TargetNamespace *string `json:"targetNamespace,omitempty" bson:"targetnamespace,omitempty" mapstructure:"targetNamespace,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
@@ -1329,6 +1429,9 @@ func (o *SparseImportRequest) ToPlain() elemental.PlainIdentifiable {
 	if o.CommentFeed != nil {
 		out.CommentFeed = *o.CommentFeed
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1361,6 +1464,9 @@ func (o *SparseImportRequest) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.TargetNamespace != nil {
 		out.TargetNamespace = *o.TargetNamespace
+	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
@@ -1397,6 +1503,18 @@ func (o *SparseImportRequest) GetAssociatedTags() []string {
 func (o *SparseImportRequest) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseImportRequest) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseImportRequest) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -1457,6 +1575,18 @@ func (o *SparseImportRequest) GetProtected() bool {
 func (o *SparseImportRequest) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseImportRequest) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseImportRequest) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

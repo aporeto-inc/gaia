@@ -110,6 +110,9 @@ type Alarm struct {
 	// Content of the alarm.
 	Content string `json:"content" bson:"content" mapstructure:"content,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -141,6 +144,9 @@ type Alarm struct {
 	// Status of the alarm.
 	Status AlarmStatusValue `json:"status" bson:"status" mapstructure:"status,omitempty"`
 
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
@@ -164,8 +170,8 @@ func NewAlarm() *Alarm {
 		ModelVersion:   1,
 		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
 		Data:           []map[string]string{},
+		AssociatedTags: []string{},
 		NormalizedTags: []string{},
 		Occurrences:    []time.Time{},
 		Status:         AlarmStatusOpen,
@@ -240,6 +246,18 @@ func (o *Alarm) SetAssociatedTags(associatedTags []string) {
 	o.AssociatedTags = associatedTags
 }
 
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *Alarm) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *Alarm) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
+}
+
 // GetCreateTime returns the CreateTime of the receiver.
 func (o *Alarm) GetCreateTime() time.Time {
 
@@ -312,6 +330,18 @@ func (o *Alarm) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *Alarm) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *Alarm) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *Alarm) GetUpdateTime() time.Time {
 
@@ -355,23 +385,25 @@ func (o *Alarm) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseAlarm{
-			ID:             &o.ID,
-			Annotations:    &o.Annotations,
-			AssociatedTags: &o.AssociatedTags,
-			Content:        &o.Content,
-			CreateTime:     &o.CreateTime,
-			Data:           &o.Data,
-			Description:    &o.Description,
-			Kind:           &o.Kind,
-			Name:           &o.Name,
-			Namespace:      &o.Namespace,
-			NormalizedTags: &o.NormalizedTags,
-			Occurrences:    &o.Occurrences,
-			Protected:      &o.Protected,
-			Status:         &o.Status,
-			UpdateTime:     &o.UpdateTime,
-			ZHash:          &o.ZHash,
-			Zone:           &o.Zone,
+			ID:                   &o.ID,
+			Annotations:          &o.Annotations,
+			AssociatedTags:       &o.AssociatedTags,
+			Content:              &o.Content,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CreateTime:           &o.CreateTime,
+			Data:                 &o.Data,
+			Description:          &o.Description,
+			Kind:                 &o.Kind,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NormalizedTags:       &o.NormalizedTags,
+			Occurrences:          &o.Occurrences,
+			Protected:            &o.Protected,
+			Status:               &o.Status,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			UpdateTime:           &o.UpdateTime,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
@@ -386,6 +418,8 @@ func (o *Alarm) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "content":
 			sp.Content = &(o.Content)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "data":
@@ -406,6 +440,8 @@ func (o *Alarm) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Protected = &(o.Protected)
 		case "status":
 			sp.Status = &(o.Status)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -437,6 +473,9 @@ func (o *Alarm) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Content != nil {
 		o.Content = *so.Content
 	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
+	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
@@ -466,6 +505,9 @@ func (o *Alarm) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Status != nil {
 		o.Status = *so.Status
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -578,6 +620,8 @@ func (o *Alarm) ValueForAttribute(name string) interface{} {
 		return o.AssociatedTags
 	case "content":
 		return o.Content
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "data":
@@ -598,6 +642,8 @@ func (o *Alarm) ValueForAttribute(name string) interface{} {
 		return o.Protected
 	case "status":
 		return o.Status
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -657,6 +703,18 @@ var AlarmAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "content",
 		Required:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -793,6 +851,18 @@ identifier, then only the occurrence will be incremented.`,
 		Stored:         true,
 		Type:           "enum",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -883,6 +953,18 @@ var AlarmLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "content",
 		Required:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1019,6 +1101,18 @@ identifier, then only the occurrence will be incremented.`,
 		Stored:         true,
 		Type:           "enum",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1139,6 +1233,9 @@ type SparseAlarm struct {
 	// Content of the alarm.
 	Content *string `json:"content,omitempty" bson:"content,omitempty" mapstructure:"content,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
@@ -1169,6 +1266,9 @@ type SparseAlarm struct {
 
 	// Status of the alarm.
 	Status *AlarmStatusValue `json:"status,omitempty" bson:"status,omitempty" mapstructure:"status,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
@@ -1234,6 +1334,9 @@ func (o *SparseAlarm) ToPlain() elemental.PlainIdentifiable {
 	if o.Content != nil {
 		out.Content = *o.Content
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1263,6 +1366,9 @@ func (o *SparseAlarm) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Status != nil {
 		out.Status = *o.Status
+	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
@@ -1299,6 +1405,18 @@ func (o *SparseAlarm) GetAssociatedTags() []string {
 func (o *SparseAlarm) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseAlarm) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseAlarm) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -1371,6 +1489,18 @@ func (o *SparseAlarm) GetProtected() bool {
 func (o *SparseAlarm) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseAlarm) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseAlarm) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

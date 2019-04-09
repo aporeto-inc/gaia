@@ -6,13 +6,6 @@ model:
   package: guy
   group: policy/networking
   description: This API represents the claims that accessed a service.
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - normalizedTags
   get:
     description: Retrieves the object with the given ID.
   extends:

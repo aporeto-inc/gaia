@@ -14,6 +14,10 @@ model:
   - '@identifiable-not-stored'
   - '@named'
 
+# Indexes
+indexes:
+- - :no-inherit
+
 # Attributes
 attributes:
   v1:

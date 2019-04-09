@@ -12,23 +12,6 @@ model:
     units.
   aliases:
   - srv
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - name
-  - - namespace
-    - archived
-  - - namespace
-    - normalizedTags
-  - - allAPITags
-  - - namespace
-    - allAPITags
-  - - allServiceTags
-  - - namespace
-    - allServiceTags
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
@@ -51,6 +34,15 @@ model:
   - '@timeable'
   validations:
   - $serviceEntity
+
+# Indexes
+indexes:
+- - allAPITags
+- - namespace
+  - allAPITags
+- - allServiceTags
+- - namespace
+  - allServiceTags
 
 # Attributes
 attributes:

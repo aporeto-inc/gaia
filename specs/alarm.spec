@@ -6,13 +6,6 @@ model:
   package: sephiroth
   group: core/monitoring
   description: An alarm represents an event requiring attention.
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - kind
   get:
     description: Retrieves the object with the given ID.
   update:
@@ -28,6 +21,11 @@ model:
   - '@named'
   - '@zonable'
   - '@timeable'
+
+# Indexes
+indexes:
+- - namespace
+  - kind
 
 # Attributes
 attributes:

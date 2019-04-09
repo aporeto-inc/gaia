@@ -122,6 +122,9 @@ type HookPolicy struct {
 	// calling the hook fails.
 	ContinueOnError bool `json:"continueOnError" bson:"continueonerror" mapstructure:"continueOnError,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -172,6 +175,9 @@ type HookPolicy struct {
 	// trigger the hook.
 	Subject [][]string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
@@ -196,9 +202,9 @@ func NewHookPolicy() *HookPolicy {
 		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		Metadata:       []string{},
 		Mode:           HookPolicyModePre,
 		NormalizedTags: []string{},
+		Metadata:       []string{},
 		Subject:        [][]string{},
 	}
 }
@@ -271,6 +277,18 @@ func (o *HookPolicy) GetAssociatedTags() []string {
 func (o *HookPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *HookPolicy) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *HookPolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -417,6 +435,18 @@ func (o *HookPolicy) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *HookPolicy) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *HookPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *HookPolicy) GetUpdateTime() time.Time {
 
@@ -467,6 +497,7 @@ func (o *HookPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ClientCertificate:    &o.ClientCertificate,
 			ClientCertificateKey: &o.ClientCertificateKey,
 			ContinueOnError:      &o.ContinueOnError,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
 			Description:          &o.Description,
 			Disabled:             &o.Disabled,
@@ -482,6 +513,7 @@ func (o *HookPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			PropagationHidden:    &o.PropagationHidden,
 			Protected:            &o.Protected,
 			Subject:              &o.Subject,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
 			ZHash:                &o.ZHash,
 			Zone:                 &o.Zone,
@@ -505,6 +537,8 @@ func (o *HookPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ClientCertificateKey = &(o.ClientCertificateKey)
 		case "continueOnError":
 			sp.ContinueOnError = &(o.ContinueOnError)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -535,6 +569,8 @@ func (o *HookPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Protected = &(o.Protected)
 		case "subject":
 			sp.Subject = &(o.Subject)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -574,6 +610,9 @@ func (o *HookPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ContinueOnError != nil {
 		o.ContinueOnError = *so.ContinueOnError
+	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -619,6 +658,9 @@ func (o *HookPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Subject != nil {
 		o.Subject = *so.Subject
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -757,6 +799,8 @@ func (o *HookPolicy) ValueForAttribute(name string) interface{} {
 		return o.ClientCertificateKey
 	case "continueOnError":
 		return o.ContinueOnError
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "description":
@@ -787,6 +831,8 @@ func (o *HookPolicy) ValueForAttribute(name string) interface{} {
 		return o.Protected
 	case "subject":
 		return o.Subject
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -883,6 +929,18 @@ calling the hook fails.`,
 		Name:    "continueOnError",
 		Stored:  true,
 		Type:    "boolean",
+	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1081,6 +1139,18 @@ trigger the hook.`,
 		SubType: "[][]string",
 		Type:    "external",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1208,6 +1278,18 @@ calling the hook fails.`,
 		Name:    "continueOnError",
 		Stored:  true,
 		Type:    "boolean",
+	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1406,6 +1488,18 @@ trigger the hook.`,
 		SubType: "[][]string",
 		Type:    "external",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1538,6 +1632,9 @@ type SparseHookPolicy struct {
 	// calling the hook fails.
 	ContinueOnError *bool `json:"continueOnError,omitempty" bson:"continueonerror,omitempty" mapstructure:"continueOnError,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
@@ -1587,6 +1684,9 @@ type SparseHookPolicy struct {
 	// Subject contains the tag expression that an object must match in order to
 	// trigger the hook.
 	Subject *[][]string `json:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
@@ -1661,6 +1761,9 @@ func (o *SparseHookPolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.ContinueOnError != nil {
 		out.ContinueOnError = *o.ContinueOnError
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1706,6 +1809,9 @@ func (o *SparseHookPolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.Subject != nil {
 		out.Subject = *o.Subject
 	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
+	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
 	}
@@ -1741,6 +1847,18 @@ func (o *SparseHookPolicy) GetAssociatedTags() []string {
 func (o *SparseHookPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseHookPolicy) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseHookPolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -1885,6 +2003,18 @@ func (o *SparseHookPolicy) GetProtected() bool {
 func (o *SparseHookPolicy) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseHookPolicy) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseHookPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

@@ -39,13 +39,6 @@ model:
   - reqs
   - ireq
   - ireqs
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - name
   get:
     description: Retrieve a single existing import request.
   update:

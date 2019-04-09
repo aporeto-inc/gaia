@@ -112,6 +112,9 @@ type AppCredential struct {
 	// Link to the certificate created for this application.
 	CertificateSN string `json:"-" bson:"certificatesn" mapstructure:"-,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -149,6 +152,9 @@ type AppCredential struct {
 	// List of roles to give the credentials.
 	Roles []string `json:"roles" bson:"roles" mapstructure:"roles,omitempty"`
 
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
@@ -175,8 +181,8 @@ func NewAppCredential() *AppCredential {
 		Annotations:       map[string][]string{},
 		AuthorizedSubnets: []string{},
 		NormalizedTags:    []string{},
-		Metadata:          []string{},
 		ParentIDs:         []string{},
+		Metadata:          []string{},
 		Roles:             []string{},
 	}
 }
@@ -247,6 +253,18 @@ func (o *AppCredential) GetAssociatedTags() []string {
 func (o *AppCredential) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *AppCredential) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *AppCredential) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -345,6 +363,18 @@ func (o *AppCredential) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *AppCredential) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *AppCredential) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *AppCredential) GetUpdateTime() time.Time {
 
@@ -388,28 +418,30 @@ func (o *AppCredential) ToSparse(fields ...string) elemental.SparseIdentifiable 
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseAppCredential{
-			CSR:               &o.CSR,
-			ID:                &o.ID,
-			Annotations:       &o.Annotations,
-			AssociatedTags:    &o.AssociatedTags,
-			AuthorizedSubnets: &o.AuthorizedSubnets,
-			Certificate:       &o.Certificate,
-			CertificateSN:     &o.CertificateSN,
-			CreateTime:        &o.CreateTime,
-			Credentials:       &o.Credentials,
-			Description:       &o.Description,
-			Disabled:          &o.Disabled,
-			Email:             &o.Email,
-			Metadata:          &o.Metadata,
-			Name:              &o.Name,
-			Namespace:         &o.Namespace,
-			NormalizedTags:    &o.NormalizedTags,
-			ParentIDs:         &o.ParentIDs,
-			Protected:         &o.Protected,
-			Roles:             &o.Roles,
-			UpdateTime:        &o.UpdateTime,
-			ZHash:             &o.ZHash,
-			Zone:              &o.Zone,
+			CSR:                  &o.CSR,
+			ID:                   &o.ID,
+			Annotations:          &o.Annotations,
+			AssociatedTags:       &o.AssociatedTags,
+			AuthorizedSubnets:    &o.AuthorizedSubnets,
+			Certificate:          &o.Certificate,
+			CertificateSN:        &o.CertificateSN,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CreateTime:           &o.CreateTime,
+			Credentials:          &o.Credentials,
+			Description:          &o.Description,
+			Disabled:             &o.Disabled,
+			Email:                &o.Email,
+			Metadata:             &o.Metadata,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NormalizedTags:       &o.NormalizedTags,
+			ParentIDs:            &o.ParentIDs,
+			Protected:            &o.Protected,
+			Roles:                &o.Roles,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			UpdateTime:           &o.UpdateTime,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
@@ -430,6 +462,8 @@ func (o *AppCredential) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.Certificate = &(o.Certificate)
 		case "certificateSN":
 			sp.CertificateSN = &(o.CertificateSN)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "credentials":
@@ -454,6 +488,8 @@ func (o *AppCredential) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.Protected = &(o.Protected)
 		case "roles":
 			sp.Roles = &(o.Roles)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -494,6 +530,9 @@ func (o *AppCredential) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CertificateSN != nil {
 		o.CertificateSN = *so.CertificateSN
 	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
+	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
@@ -529,6 +568,9 @@ func (o *AppCredential) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Roles != nil {
 		o.Roles = *so.Roles
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -647,6 +689,8 @@ func (o *AppCredential) ValueForAttribute(name string) interface{} {
 		return o.Certificate
 	case "certificateSN":
 		return o.CertificateSN
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "credentials":
@@ -671,6 +715,8 @@ func (o *AppCredential) ValueForAttribute(name string) interface{} {
 		return o.Protected
 	case "roles":
 		return o.Roles
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -762,6 +808,18 @@ the declared subnets.`,
 		ConvertedName:  "CertificateSN",
 		Description:    `Link to the certificate created for this application.`,
 		Name:           "certificateSN",
+		Stored:         true,
+		Type:           "string",
+	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -925,6 +983,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:        "string",
 		Type:           "list",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1047,6 +1117,18 @@ the declared subnets.`,
 		ConvertedName:  "CertificateSN",
 		Description:    `Link to the certificate created for this application.`,
 		Name:           "certificateSN",
+		Stored:         true,
+		Type:           "string",
+	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1210,6 +1292,18 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:        "string",
 		Type:           "list",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1346,6 +1440,9 @@ type SparseAppCredential struct {
 	// Link to the certificate created for this application.
 	CertificateSN *string `json:"-" bson:"certificatesn,omitempty" mapstructure:"-,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
@@ -1382,6 +1479,9 @@ type SparseAppCredential struct {
 
 	// List of roles to give the credentials.
 	Roles *[]string `json:"roles,omitempty" bson:"roles,omitempty" mapstructure:"roles,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
@@ -1456,6 +1556,9 @@ func (o *SparseAppCredential) ToPlain() elemental.PlainIdentifiable {
 	if o.CertificateSN != nil {
 		out.CertificateSN = *o.CertificateSN
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1492,6 +1595,9 @@ func (o *SparseAppCredential) ToPlain() elemental.PlainIdentifiable {
 	if o.Roles != nil {
 		out.Roles = *o.Roles
 	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
+	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
 	}
@@ -1527,6 +1633,18 @@ func (o *SparseAppCredential) GetAssociatedTags() []string {
 func (o *SparseAppCredential) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseAppCredential) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseAppCredential) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -1623,6 +1741,18 @@ func (o *SparseAppCredential) GetProtected() bool {
 func (o *SparseAppCredential) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseAppCredential) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseAppCredential) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

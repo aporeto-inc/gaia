@@ -1,3 +1,9 @@
+# Indexes
+indexes:
+- - archived
+- - namespace
+  - archived
+
 # Attributes
 attributes:
   v1:

@@ -221,6 +221,9 @@ type Service struct {
 	// values of the claims to the corresponding HTTP headers.
 	ClaimsToHTTPHeaderMappings []*ClaimMapping `json:"claimsToHTTPHeaderMappings" bson:"claimstohttpheadermappings" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -304,6 +307,9 @@ type Service struct {
 	// Type is the type of the service.
 	Type ServiceTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
@@ -329,21 +335,21 @@ func NewService() *Service {
 		AllAPITags:                 []string{},
 		Annotations:                map[string][]string{},
 		AllServiceTags:             []string{},
-		AssociatedTags:             []string{},
+		AuthorizationType:          ServiceAuthorizationTypeNone,
 		ExposedAPIs:                [][]string{},
 		ExposedServiceIsTLS:        false,
 		External:                   false,
 		Hosts:                      []string{},
-		ClaimsToHTTPHeaderMappings: []*ClaimMapping{},
 		Endpoints:                  []*Endpoint{},
-		AuthorizationType:          ServiceAuthorizationTypeNone,
-		OIDCScopes:                 []string{},
+		ClaimsToHTTPHeaderMappings: []*ClaimMapping{},
+		AssociatedTags:             []string{},
+		TLSType:                    ServiceTLSTypeAporeto,
+		NormalizedTags:             []string{},
 		Selectors:                  [][]string{},
 		Type:                       ServiceTypeHTTP,
-		TLSType:                    ServiceTLSTypeAporeto,
-		Metadata:                   []string{},
 		IPs:                        []string{},
-		NormalizedTags:             []string{},
+		OIDCScopes:                 []string{},
+		Metadata:                   []string{},
 	}
 }
 
@@ -428,6 +434,18 @@ func (o *Service) GetAssociatedTags() []string {
 func (o *Service) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *Service) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *Service) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -526,6 +544,18 @@ func (o *Service) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *Service) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *Service) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *Service) GetUpdateTime() time.Time {
 
@@ -588,6 +618,7 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			AssociatedTags:                    &o.AssociatedTags,
 			AuthorizationType:                 &o.AuthorizationType,
 			ClaimsToHTTPHeaderMappings:        &o.ClaimsToHTTPHeaderMappings,
+			CreateIdempotencyKey:              &o.CreateIdempotencyKey,
 			CreateTime:                        &o.CreateTime,
 			Description:                       &o.Description,
 			Disabled:                          &o.Disabled,
@@ -608,6 +639,7 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Selectors:                         &o.Selectors,
 			TrustedCertificateAuthorities:     &o.TrustedCertificateAuthorities,
 			Type:                              &o.Type,
+			UpdateIdempotencyKey:              &o.UpdateIdempotencyKey,
 			UpdateTime:                        &o.UpdateTime,
 			ZHash:                             &o.ZHash,
 			Zone:                              &o.Zone,
@@ -655,6 +687,8 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.AuthorizationType = &(o.AuthorizationType)
 		case "claimsToHTTPHeaderMappings":
 			sp.ClaimsToHTTPHeaderMappings = &(o.ClaimsToHTTPHeaderMappings)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -695,6 +729,8 @@ func (o *Service) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.TrustedCertificateAuthorities = &(o.TrustedCertificateAuthorities)
 		case "type":
 			sp.Type = &(o.Type)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -771,6 +807,9 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ClaimsToHTTPHeaderMappings != nil {
 		o.ClaimsToHTTPHeaderMappings = *so.ClaimsToHTTPHeaderMappings
 	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
+	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
@@ -830,6 +869,9 @@ func (o *Service) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Type != nil {
 		o.Type = *so.Type
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -1028,6 +1070,8 @@ func (o *Service) ValueForAttribute(name string) interface{} {
 		return o.AuthorizationType
 	case "claimsToHTTPHeaderMappings":
 		return o.ClaimsToHTTPHeaderMappings
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "description":
@@ -1068,6 +1112,8 @@ func (o *Service) ValueForAttribute(name string) interface{} {
 		return o.TrustedCertificateAuthorities
 	case "type":
 		return o.Type
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -1299,6 +1345,18 @@ values of the claims to the corresponding HTTP headers.`,
 		Stored:  true,
 		SubType: "claimmapping",
 		Type:    "refList",
+	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1558,6 +1616,18 @@ through an additional TLS termination point like a L7 Load Balancer.`,
 		Name:           "type",
 		Stored:         true,
 		Type:           "enum",
+	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1822,6 +1892,18 @@ values of the claims to the corresponding HTTP headers.`,
 		SubType: "claimmapping",
 		Type:    "refList",
 	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -2081,6 +2163,18 @@ through an additional TLS termination point like a L7 Load Balancer.`,
 		Stored:         true,
 		Type:           "enum",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -2275,6 +2369,9 @@ type SparseService struct {
 	// values of the claims to the corresponding HTTP headers.
 	ClaimsToHTTPHeaderMappings *[]*ClaimMapping `json:"claimsToHTTPHeaderMappings,omitempty" bson:"claimstohttpheadermappings,omitempty" mapstructure:"claimsToHTTPHeaderMappings,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
@@ -2357,6 +2454,9 @@ type SparseService struct {
 
 	// Type is the type of the service.
 	Type *ServiceTypeValue `json:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
@@ -2467,6 +2567,9 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.ClaimsToHTTPHeaderMappings != nil {
 		out.ClaimsToHTTPHeaderMappings = *o.ClaimsToHTTPHeaderMappings
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -2527,6 +2630,9 @@ func (o *SparseService) ToPlain() elemental.PlainIdentifiable {
 	if o.Type != nil {
 		out.Type = *o.Type
 	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
+	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
 	}
@@ -2574,6 +2680,18 @@ func (o *SparseService) GetAssociatedTags() []string {
 func (o *SparseService) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseService) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseService) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -2670,6 +2788,18 @@ func (o *SparseService) GetProtected() bool {
 func (o *SparseService) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseService) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseService) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

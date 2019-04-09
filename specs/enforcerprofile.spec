@@ -13,15 +13,6 @@ model:
   aliases:
   - profile
   - profiles
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - name
-  - - namespace
-    - normalizedTags
   get:
     description: Retrieves the object with the given ID.
     global_parameters:

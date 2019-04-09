@@ -95,6 +95,9 @@ type Claims struct {
 	// Content contains the raw JWT claims.
 	Content map[string]string `json:"content" bson:"content" mapstructure:"content,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
 	// firstSeen contains the date of the first appearance of the claims.
 	FirstSeen time.Time `json:"-" bson:"firstseen" mapstructure:"-,omitempty"`
 
@@ -114,6 +117,9 @@ type Claims struct {
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -208,6 +214,18 @@ func (o *Claims) SetAssociatedTags(associatedTags []string) {
 	o.AssociatedTags = associatedTags
 }
 
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *Claims) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *Claims) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
+}
+
 // GetNamespace returns the Namespace of the receiver.
 func (o *Claims) GetNamespace() string {
 
@@ -244,6 +262,18 @@ func (o *Claims) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *Claims) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *Claims) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetZHash returns the ZHash of the receiver.
 func (o *Claims) GetZHash() int {
 
@@ -275,18 +305,20 @@ func (o *Claims) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseClaims{
-			ID:             &o.ID,
-			Annotations:    &o.Annotations,
-			AssociatedTags: &o.AssociatedTags,
-			Content:        &o.Content,
-			FirstSeen:      &o.FirstSeen,
-			Hash:           &o.Hash,
-			LastSeen:       &o.LastSeen,
-			Namespace:      &o.Namespace,
-			NormalizedTags: &o.NormalizedTags,
-			Protected:      &o.Protected,
-			ZHash:          &o.ZHash,
-			Zone:           &o.Zone,
+			ID:                   &o.ID,
+			Annotations:          &o.Annotations,
+			AssociatedTags:       &o.AssociatedTags,
+			Content:              &o.Content,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			FirstSeen:            &o.FirstSeen,
+			Hash:                 &o.Hash,
+			LastSeen:             &o.LastSeen,
+			Namespace:            &o.Namespace,
+			NormalizedTags:       &o.NormalizedTags,
+			Protected:            &o.Protected,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
@@ -301,6 +333,8 @@ func (o *Claims) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "content":
 			sp.Content = &(o.Content)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "firstSeen":
 			sp.FirstSeen = &(o.FirstSeen)
 		case "hash":
@@ -313,6 +347,8 @@ func (o *Claims) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "protected":
 			sp.Protected = &(o.Protected)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "zHash":
 			sp.ZHash = &(o.ZHash)
 		case "zone":
@@ -342,6 +378,9 @@ func (o *Claims) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Content != nil {
 		o.Content = *so.Content
 	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
+	}
 	if so.FirstSeen != nil {
 		o.FirstSeen = *so.FirstSeen
 	}
@@ -359,6 +398,9 @@ func (o *Claims) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.ZHash != nil {
 		o.ZHash = *so.ZHash
@@ -448,6 +490,8 @@ func (o *Claims) ValueForAttribute(name string) interface{} {
 		return o.AssociatedTags
 	case "content":
 		return o.Content
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "firstSeen":
 		return o.FirstSeen
 	case "hash":
@@ -460,6 +504,8 @@ func (o *Claims) ValueForAttribute(name string) interface{} {
 		return o.NormalizedTags
 	case "protected":
 		return o.Protected
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "zHash":
 		return o.ZHash
 	case "zone":
@@ -519,6 +565,18 @@ var ClaimsAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
+	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"FirstSeen": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -594,6 +652,18 @@ then apply the xxhash function.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"ZHash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -674,6 +744,18 @@ var ClaimsLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "map[string]string",
 		Type:           "external",
 	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"firstseen": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -748,6 +830,18 @@ then apply the xxhash function.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"zhash": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -854,6 +948,9 @@ type SparseClaims struct {
 	// Content contains the raw JWT claims.
 	Content *map[string]string `json:"content,omitempty" bson:"content,omitempty" mapstructure:"content,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
 	// firstSeen contains the date of the first appearance of the claims.
 	FirstSeen *time.Time `json:"-" bson:"firstseen,omitempty" mapstructure:"-,omitempty"`
 
@@ -873,6 +970,9 @@ type SparseClaims struct {
 
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
@@ -935,6 +1035,9 @@ func (o *SparseClaims) ToPlain() elemental.PlainIdentifiable {
 	if o.Content != nil {
 		out.Content = *o.Content
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.FirstSeen != nil {
 		out.FirstSeen = *o.FirstSeen
 	}
@@ -952,6 +1055,9 @@ func (o *SparseClaims) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
+	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
 	if o.ZHash != nil {
 		out.ZHash = *o.ZHash
@@ -985,6 +1091,18 @@ func (o *SparseClaims) GetAssociatedTags() []string {
 func (o *SparseClaims) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseClaims) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseClaims) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetNamespace returns the Namespace of the receiver.
@@ -1021,6 +1139,18 @@ func (o *SparseClaims) GetProtected() bool {
 func (o *SparseClaims) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseClaims) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseClaims) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetZHash returns the ZHash of the receiver.

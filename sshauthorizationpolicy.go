@@ -105,6 +105,9 @@ type SSHAuthorizationPolicy struct {
 	// the declared subnets.
 	AuthorizedSubnets []string `json:"authorizedSubnets" bson:"-" mapstructure:"authorizedSubnets,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -163,6 +166,9 @@ type SSHAuthorizationPolicy struct {
 	// Subject contains the tag expression the authentication claims need to match for
 	// the policy to apply.
 	Subject [][]string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -298,6 +304,18 @@ func (o *SSHAuthorizationPolicy) SetAssociatedTags(associatedTags []string) {
 	o.AssociatedTags = associatedTags
 }
 
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SSHAuthorizationPolicy) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *SSHAuthorizationPolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
+}
+
 // GetCreateTime returns the CreateTime of the receiver.
 func (o *SSHAuthorizationPolicy) GetCreateTime() time.Time {
 
@@ -430,6 +448,18 @@ func (o *SSHAuthorizationPolicy) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SSHAuthorizationPolicy) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *SSHAuthorizationPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *SSHAuthorizationPolicy) GetUpdateTime() time.Time {
 
@@ -473,32 +503,34 @@ func (o *SSHAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseSSHAuthorizationPolicy{
-			ID:                &o.ID,
-			ActiveDuration:    &o.ActiveDuration,
-			ActiveSchedule:    &o.ActiveSchedule,
-			Annotations:       &o.Annotations,
-			AssociatedTags:    &o.AssociatedTags,
-			AuthorizedSubnets: &o.AuthorizedSubnets,
-			CreateTime:        &o.CreateTime,
-			Description:       &o.Description,
-			Disabled:          &o.Disabled,
-			ExpirationTime:    &o.ExpirationTime,
-			Extensions:        &o.Extensions,
-			Fallback:          &o.Fallback,
-			ForceCommand:      &o.ForceCommand,
-			Metadata:          &o.Metadata,
-			Name:              &o.Name,
-			Namespace:         &o.Namespace,
-			NormalizedTags:    &o.NormalizedTags,
-			Object:            &o.Object,
-			Principals:        &o.Principals,
-			Propagate:         &o.Propagate,
-			Protected:         &o.Protected,
-			Subject:           &o.Subject,
-			UpdateTime:        &o.UpdateTime,
-			Validity:          &o.Validity,
-			ZHash:             &o.ZHash,
-			Zone:              &o.Zone,
+			ID:                   &o.ID,
+			ActiveDuration:       &o.ActiveDuration,
+			ActiveSchedule:       &o.ActiveSchedule,
+			Annotations:          &o.Annotations,
+			AssociatedTags:       &o.AssociatedTags,
+			AuthorizedSubnets:    &o.AuthorizedSubnets,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CreateTime:           &o.CreateTime,
+			Description:          &o.Description,
+			Disabled:             &o.Disabled,
+			ExpirationTime:       &o.ExpirationTime,
+			Extensions:           &o.Extensions,
+			Fallback:             &o.Fallback,
+			ForceCommand:         &o.ForceCommand,
+			Metadata:             &o.Metadata,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NormalizedTags:       &o.NormalizedTags,
+			Object:               &o.Object,
+			Principals:           &o.Principals,
+			Propagate:            &o.Propagate,
+			Protected:            &o.Protected,
+			Subject:              &o.Subject,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			UpdateTime:           &o.UpdateTime,
+			Validity:             &o.Validity,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
@@ -517,6 +549,8 @@ func (o *SSHAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "authorizedSubnets":
 			sp.AuthorizedSubnets = &(o.AuthorizedSubnets)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -549,6 +583,8 @@ func (o *SSHAuthorizationPolicy) ToSparse(fields ...string) elemental.SparseIden
 			sp.Protected = &(o.Protected)
 		case "subject":
 			sp.Subject = &(o.Subject)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "validity":
@@ -587,6 +623,9 @@ func (o *SSHAuthorizationPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.AuthorizedSubnets != nil {
 		o.AuthorizedSubnets = *so.AuthorizedSubnets
+	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -635,6 +674,9 @@ func (o *SSHAuthorizationPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Subject != nil {
 		o.Subject = *so.Subject
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -766,6 +808,8 @@ func (o *SSHAuthorizationPolicy) ValueForAttribute(name string) interface{} {
 		return o.AssociatedTags
 	case "authorizedSubnets":
 		return o.AuthorizedSubnets
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "description":
@@ -798,6 +842,8 @@ func (o *SSHAuthorizationPolicy) ValueForAttribute(name string) interface{} {
 		return o.Protected
 	case "subject":
 		return o.Subject
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "validity":
@@ -884,6 +930,18 @@ the declared subnets.`,
 		Name:    "authorizedSubnets",
 		SubType: "string",
 		Type:    "list",
+	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1090,6 +1148,18 @@ the policy to apply.`,
 		SubType:   "[][]string",
 		Type:      "external",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1214,6 +1284,18 @@ the declared subnets.`,
 		Name:    "authorizedSubnets",
 		SubType: "string",
 		Type:    "list",
+	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1420,6 +1502,18 @@ the policy to apply.`,
 		SubType:   "[][]string",
 		Type:      "external",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1558,6 +1652,9 @@ type SparseSSHAuthorizationPolicy struct {
 	// the declared subnets.
 	AuthorizedSubnets *[]string `json:"authorizedSubnets,omitempty" bson:"-" mapstructure:"authorizedSubnets,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
@@ -1616,6 +1713,9 @@ type SparseSSHAuthorizationPolicy struct {
 	// Subject contains the tag expression the authentication claims need to match for
 	// the policy to apply.
 	Subject *[][]string `json:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
@@ -1690,6 +1790,9 @@ func (o *SparseSSHAuthorizationPolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.AuthorizedSubnets != nil {
 		out.AuthorizedSubnets = *o.AuthorizedSubnets
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1737,6 +1840,9 @@ func (o *SparseSSHAuthorizationPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Subject != nil {
 		out.Subject = *o.Subject
+	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
@@ -1800,6 +1906,18 @@ func (o *SparseSSHAuthorizationPolicy) GetAssociatedTags() []string {
 func (o *SparseSSHAuthorizationPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseSSHAuthorizationPolicy) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseSSHAuthorizationPolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -1932,6 +2050,18 @@ func (o *SparseSSHAuthorizationPolicy) GetProtected() bool {
 func (o *SparseSSHAuthorizationPolicy) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseSSHAuthorizationPolicy) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseSSHAuthorizationPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

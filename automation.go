@@ -114,6 +114,9 @@ type Automation struct {
 	// be taken.
 	Condition string `json:"condition" bson:"condition" mapstructure:"condition,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -167,6 +170,9 @@ type Automation struct {
 
 	// Trigger controls when the automation should be triggered.
 	Trigger AutomationTriggerValue `json:"trigger" bson:"trigger" mapstructure:"trigger,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -270,6 +276,18 @@ func (o *Automation) SetAssociatedTags(associatedTags []string) {
 	o.AssociatedTags = associatedTags
 }
 
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *Automation) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *Automation) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
+}
+
 // GetCreateTime returns the CreateTime of the receiver.
 func (o *Automation) GetCreateTime() time.Time {
 
@@ -354,6 +372,18 @@ func (o *Automation) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *Automation) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *Automation) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *Automation) GetUpdateTime() time.Time {
 
@@ -397,31 +427,33 @@ func (o *Automation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseAutomation{
-			ID:             &o.ID,
-			Actions:        &o.Actions,
-			Annotations:    &o.Annotations,
-			AssociatedTags: &o.AssociatedTags,
-			Condition:      &o.Condition,
-			CreateTime:     &o.CreateTime,
-			Description:    &o.Description,
-			Disabled:       &o.Disabled,
-			Entitlements:   &o.Entitlements,
-			Errors:         &o.Errors,
-			Events:         &o.Events,
-			LastExecTime:   &o.LastExecTime,
-			Name:           &o.Name,
-			Namespace:      &o.Namespace,
-			NormalizedTags: &o.NormalizedTags,
-			Parameters:     &o.Parameters,
-			Protected:      &o.Protected,
-			Schedule:       &o.Schedule,
-			Stdout:         &o.Stdout,
-			Token:          &o.Token,
-			TokenRenew:     &o.TokenRenew,
-			Trigger:        &o.Trigger,
-			UpdateTime:     &o.UpdateTime,
-			ZHash:          &o.ZHash,
-			Zone:           &o.Zone,
+			ID:                   &o.ID,
+			Actions:              &o.Actions,
+			Annotations:          &o.Annotations,
+			AssociatedTags:       &o.AssociatedTags,
+			Condition:            &o.Condition,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CreateTime:           &o.CreateTime,
+			Description:          &o.Description,
+			Disabled:             &o.Disabled,
+			Entitlements:         &o.Entitlements,
+			Errors:               &o.Errors,
+			Events:               &o.Events,
+			LastExecTime:         &o.LastExecTime,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NormalizedTags:       &o.NormalizedTags,
+			Parameters:           &o.Parameters,
+			Protected:            &o.Protected,
+			Schedule:             &o.Schedule,
+			Stdout:               &o.Stdout,
+			Token:                &o.Token,
+			TokenRenew:           &o.TokenRenew,
+			Trigger:              &o.Trigger,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			UpdateTime:           &o.UpdateTime,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
@@ -438,6 +470,8 @@ func (o *Automation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "condition":
 			sp.Condition = &(o.Condition)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -472,6 +506,8 @@ func (o *Automation) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.TokenRenew = &(o.TokenRenew)
 		case "trigger":
 			sp.Trigger = &(o.Trigger)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -505,6 +541,9 @@ func (o *Automation) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Condition != nil {
 		o.Condition = *so.Condition
+	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -556,6 +595,9 @@ func (o *Automation) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Trigger != nil {
 		o.Trigger = *so.Trigger
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -666,6 +708,8 @@ func (o *Automation) ValueForAttribute(name string) interface{} {
 		return o.AssociatedTags
 	case "condition":
 		return o.Condition
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "description":
@@ -700,6 +744,8 @@ func (o *Automation) ValueForAttribute(name string) interface{} {
 		return o.TokenRenew
 	case "trigger":
 		return o.Trigger
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -771,6 +817,18 @@ be taken.`,
 		Required: true,
 		Stored:   true,
 		Type:     "string",
+	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -977,6 +1035,18 @@ authentication. It will be visible only after creation.`,
 		Stored:         true,
 		Type:           "enum",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1079,6 +1149,18 @@ be taken.`,
 		Required: true,
 		Stored:   true,
 		Type:     "string",
+	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1285,6 +1367,18 @@ authentication. It will be visible only after creation.`,
 		Stored:         true,
 		Type:           "enum",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1409,6 +1503,9 @@ type SparseAutomation struct {
 	// be taken.
 	Condition *string `json:"condition,omitempty" bson:"condition,omitempty" mapstructure:"condition,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
@@ -1462,6 +1559,9 @@ type SparseAutomation struct {
 
 	// Trigger controls when the automation should be triggered.
 	Trigger *AutomationTriggerValue `json:"trigger,omitempty" bson:"trigger,omitempty" mapstructure:"trigger,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
@@ -1530,6 +1630,9 @@ func (o *SparseAutomation) ToPlain() elemental.PlainIdentifiable {
 	if o.Condition != nil {
 		out.Condition = *o.Condition
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1581,6 +1684,9 @@ func (o *SparseAutomation) ToPlain() elemental.PlainIdentifiable {
 	if o.Trigger != nil {
 		out.Trigger = *o.Trigger
 	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
+	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
 	}
@@ -1616,6 +1722,18 @@ func (o *SparseAutomation) GetAssociatedTags() []string {
 func (o *SparseAutomation) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseAutomation) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseAutomation) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -1700,6 +1818,18 @@ func (o *SparseAutomation) GetProtected() bool {
 func (o *SparseAutomation) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseAutomation) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseAutomation) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
