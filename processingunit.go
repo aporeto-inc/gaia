@@ -188,8 +188,12 @@ type ProcessingUnit struct {
 	// processing unit.
 	EnforcerNamespace string `json:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
 
-	// Docker image, or path to executable.
-	Image string `json:"image" bson:"image" mapstructure:"image,omitempty"`
+	// This field is deprecated and it is there for backward compatibility. Use
+	// `+"`"+`images`+"`"+` instead.
+	Image string `json:"image" bson:"-" mapstructure:"image,omitempty"`
+
+	// List of images or executable paths used by the Processing Unit.
+	Images []string `json:"images" bson:"images" mapstructure:"images,omitempty"`
 
 	// LastCollectionTime represents the date and time when the info have been
 	// collected.
@@ -263,10 +267,11 @@ func NewProcessingUnit() *ProcessingUnit {
 		AssociatedTags:    []string{},
 		CollectedInfo:     map[string]string{},
 		EnforcementStatus: ProcessingUnitEnforcementStatusInactive,
+		NetworkServices:   []*ProcessingUnitService{},
 		NormalizedTags:    []string{},
+		Images:            []string{},
 		OperationalStatus: ProcessingUnitOperationalStatusInitialized,
 		Metadata:          []string{},
-		NetworkServices:   []*ProcessingUnitService{},
 		Tracing:           NewTraceMode(),
 	}
 }
@@ -520,6 +525,7 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			EnforcerID:           &o.EnforcerID,
 			EnforcerNamespace:    &o.EnforcerNamespace,
 			Image:                &o.Image,
+			Images:               &o.Images,
 			LastCollectionTime:   &o.LastCollectionTime,
 			LastPokeTime:         &o.LastPokeTime,
 			LastSyncTime:         &o.LastSyncTime,
@@ -569,6 +575,8 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.EnforcerNamespace = &(o.EnforcerNamespace)
 		case "image":
 			sp.Image = &(o.Image)
+		case "images":
+			sp.Images = &(o.Images)
 		case "lastCollectionTime":
 			sp.LastCollectionTime = &(o.LastCollectionTime)
 		case "lastPokeTime":
@@ -654,6 +662,9 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Image != nil {
 		o.Image = *so.Image
+	}
+	if so.Images != nil {
+		o.Images = *so.Images
 	}
 	if so.LastCollectionTime != nil {
 		o.LastCollectionTime = *so.LastCollectionTime
@@ -844,6 +855,8 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.EnforcerNamespace
 	case "image":
 		return o.Image
+	case "images":
+		return o.Images
 	case "lastCollectionTime":
 		return o.LastCollectionTime
 	case "lastPokeTime":
@@ -1027,12 +1040,24 @@ processing unit.`,
 	"Image": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Image",
-		Description:    `Docker image, or path to executable.`,
+		Deprecated:     true,
+		Description: `This field is deprecated and it is there for backward compatibility. Use
+` + "`" + `images` + "`" + ` instead.`,
+		Exposed: true,
+		Name:    "image",
+		Type:    "string",
+	},
+	"Images": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Images",
+		Deprecated:     true,
+		Description:    `List of images or executable paths used by the Processing Unit.`,
 		Exposed:        true,
 		Filterable:     true,
-		Name:           "image",
+		Name:           "images",
 		Stored:         true,
-		Type:           "string",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"LastCollectionTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1390,12 +1415,24 @@ processing unit.`,
 	"image": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Image",
-		Description:    `Docker image, or path to executable.`,
+		Deprecated:     true,
+		Description: `This field is deprecated and it is there for backward compatibility. Use
+` + "`" + `images` + "`" + ` instead.`,
+		Exposed: true,
+		Name:    "image",
+		Type:    "string",
+	},
+	"images": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Images",
+		Deprecated:     true,
+		Description:    `List of images or executable paths used by the Processing Unit.`,
 		Exposed:        true,
 		Filterable:     true,
-		Name:           "image",
+		Name:           "images",
 		Stored:         true,
-		Type:           "string",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"lastcollectiontime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1713,8 +1750,12 @@ type SparseProcessingUnit struct {
 	// processing unit.
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
-	// Docker image, or path to executable.
-	Image *string `json:"image,omitempty" bson:"image,omitempty" mapstructure:"image,omitempty"`
+	// This field is deprecated and it is there for backward compatibility. Use
+	// `+"`"+`images`+"`"+` instead.
+	Image *string `json:"image,omitempty" bson:"-" mapstructure:"image,omitempty"`
+
+	// List of images or executable paths used by the Processing Unit.
+	Images *[]string `json:"images,omitempty" bson:"images,omitempty" mapstructure:"images,omitempty"`
 
 	// LastCollectionTime represents the date and time when the info have been
 	// collected.
@@ -1852,6 +1893,9 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Image != nil {
 		out.Image = *o.Image
+	}
+	if o.Images != nil {
+		out.Images = *o.Images
 	}
 	if o.LastCollectionTime != nil {
 		out.LastCollectionTime = *o.LastCollectionTime

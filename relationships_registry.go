@@ -239,10 +239,7 @@ func init() {
 	}
 
 	relationshipsRegistry[AccountCheckIdentity] = &elemental.Relationship{
-		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{},
-		},
-		Info: map[string]*elemental.RelationshipInfo{
+		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},
 		},
 	}

@@ -94,10 +94,20 @@ attributes:
     filterable: true
 
   - name: image
-    description: Docker image, or path to executable.
+    description: |-
+      This field is deprecated and it is there for backward compatibility. Use
+      `images` instead.
     type: string
     exposed: true
+    deprecated: true
+
+  - name: images
+    description: List of images or executable paths used by the Processing Unit.
+    type: list
+    exposed: true
+    subtype: string
     stored: true
+    deprecated: true
     filterable: true
 
   - name: lastCollectionTime

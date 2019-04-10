@@ -16,11 +16,6 @@ attributes:
     type: string
     exposed: true
 
-  - name: description
-    description: Description of object represented by the node.
-    type: string
-    exposed: true
-
   - name: enforcementStatus
     description: Enforcement status of processing unit represented by the node.
     type: string
@@ -30,6 +25,12 @@ attributes:
     description: ID of the group the node is eventually part of.
     type: string
     exposed: true
+
+  - name: images
+    description: List of images.
+    type: list
+    exposed: true
+    subtype: string
 
   - name: lastUpdate
     description: Last update of the node.

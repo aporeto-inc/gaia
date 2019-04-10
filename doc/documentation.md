@@ -3000,7 +3000,16 @@ processing unit.
 
 ##### `image` `string`
 
-Docker image, or path to executable.
+_This attribute is deprecated_.
+
+This field is deprecated and it is there for backward compatibility. Use
+`images` instead.
+
+##### `images` `[]string`
+
+_This attribute is deprecated_.
+
+List of images or executable paths used by the Processing Unit.
 
 ##### `lastCollectionTime` `time`
 
@@ -8177,10 +8186,6 @@ Represents an node from the dependency map.
 
 Identifier of object represented by the node.
 
-##### `description` `string`
-
-Description of object represented by the node.
-
 ##### `enforcementStatus` `string`
 
 Enforcement status of processing unit represented by the node.
@@ -8188,6 +8193,10 @@ Enforcement status of processing unit represented by the node.
 ##### `groupID` `string`
 
 ID of the group the node is eventually part of.
+
+##### `images` `[]string`
+
+List of images.
 
 ##### `lastUpdate` `time`
 

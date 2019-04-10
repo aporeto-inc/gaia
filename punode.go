@@ -87,8 +87,8 @@ type PUNode struct {
 	// Enforcement status of the pu.
 	EnforcementStatus string `json:"enforcementStatus" bson:"-" mapstructure:"enforcementStatus,omitempty"`
 
-	// Image of the pu.
-	Image string `json:"image" bson:"-" mapstructure:"image,omitempty"`
+	// Images of the pu.
+	Images []string `json:"images" bson:"-" mapstructure:"images,omitempty"`
 
 	// Last poke time of the pu.
 	LastPokeTime time.Time `json:"lastPokeTime" bson:"-" mapstructure:"lastPokeTime,omitempty"`
@@ -119,6 +119,7 @@ func NewPUNode() *PUNode {
 	return &PUNode{
 		ModelVersion: 1,
 		Mutex:        &sync.Mutex{},
+		Images:       []string{},
 		Tags:         []string{},
 	}
 }
@@ -173,7 +174,7 @@ func (o *PUNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		return &SparsePUNode{
 			ID:                &o.ID,
 			EnforcementStatus: &o.EnforcementStatus,
-			Image:             &o.Image,
+			Images:            &o.Images,
 			LastPokeTime:      &o.LastPokeTime,
 			Name:              &o.Name,
 			Namespace:         &o.Namespace,
@@ -190,8 +191,8 @@ func (o *PUNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ID = &(o.ID)
 		case "enforcementStatus":
 			sp.EnforcementStatus = &(o.EnforcementStatus)
-		case "image":
-			sp.Image = &(o.Image)
+		case "images":
+			sp.Images = &(o.Images)
 		case "lastPokeTime":
 			sp.LastPokeTime = &(o.LastPokeTime)
 		case "name":
@@ -223,8 +224,8 @@ func (o *PUNode) Patch(sparse elemental.SparseIdentifiable) {
 	if so.EnforcementStatus != nil {
 		o.EnforcementStatus = *so.EnforcementStatus
 	}
-	if so.Image != nil {
-		o.Image = *so.Image
+	if so.Images != nil {
+		o.Images = *so.Images
 	}
 	if so.LastPokeTime != nil {
 		o.LastPokeTime = *so.LastPokeTime
@@ -314,8 +315,8 @@ func (o *PUNode) ValueForAttribute(name string) interface{} {
 		return o.ID
 	case "enforcementStatus":
 		return o.EnforcementStatus
-	case "image":
-		return o.Image
+	case "images":
+		return o.Images
 	case "lastPokeTime":
 		return o.LastPokeTime
 	case "name":
@@ -356,13 +357,14 @@ var PUNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "enforcementStatus",
 		Type:           "string",
 	},
-	"Image": elemental.AttributeSpecification{
+	"Images": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Image",
-		Description:    `Image of the pu.`,
+		ConvertedName:  "Images",
+		Description:    `Images of the pu.`,
 		Exposed:        true,
-		Name:           "image",
-		Type:           "string",
+		Name:           "images",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"LastPokeTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -438,13 +440,14 @@ var PUNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "enforcementStatus",
 		Type:           "string",
 	},
-	"image": elemental.AttributeSpecification{
+	"images": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Image",
-		Description:    `Image of the pu.`,
+		ConvertedName:  "Images",
+		Description:    `Images of the pu.`,
 		Exposed:        true,
-		Name:           "image",
-		Type:           "string",
+		Name:           "images",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"lastpoketime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -566,8 +569,8 @@ type SparsePUNode struct {
 	// Enforcement status of the pu.
 	EnforcementStatus *string `json:"enforcementStatus,omitempty" bson:"-" mapstructure:"enforcementStatus,omitempty"`
 
-	// Image of the pu.
-	Image *string `json:"image,omitempty" bson:"-" mapstructure:"image,omitempty"`
+	// Images of the pu.
+	Images *[]string `json:"images,omitempty" bson:"-" mapstructure:"images,omitempty"`
 
 	// Last poke time of the pu.
 	LastPokeTime *time.Time `json:"lastPokeTime,omitempty" bson:"-" mapstructure:"lastPokeTime,omitempty"`
@@ -634,8 +637,8 @@ func (o *SparsePUNode) ToPlain() elemental.PlainIdentifiable {
 	if o.EnforcementStatus != nil {
 		out.EnforcementStatus = *o.EnforcementStatus
 	}
-	if o.Image != nil {
-		out.Image = *o.Image
+	if o.Images != nil {
+		out.Images = *o.Images
 	}
 	if o.LastPokeTime != nil {
 		out.LastPokeTime = *o.LastPokeTime
