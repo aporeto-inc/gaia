@@ -11,6 +11,10 @@ model:
   - '@named'
   - '@zonable'
 
+# Indexes
+indexes:
+- - :no-inherit
+
 # Attributes
 attributes:
   v1:

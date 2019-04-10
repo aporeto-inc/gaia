@@ -14,6 +14,10 @@ $httpMethods:
   elemental:
     name: ValidateHTTPMethods
 
+$metadata:
+  elemental:
+    name: ValidateMetadata
+
 $network:
   elemental:
     name: ValidateNetwork
@@ -53,6 +57,22 @@ $protocols:
 $serviceEntity:
   elemental:
     name: ValidateServiceEntity
+
+$tag:
+  elemental:
+    name: ValidateTag
+
+$tags:
+  elemental:
+    name: ValidateTags
+
+$tagsExpression:
+  elemental:
+    name: ValidateTagsExpression
+
+$tagsWithoutReservedPrefixes:
+  elemental:
+    name: ValidateTagsWithoutReservedPrefixes
 
 $timeDuration:
   elemental:

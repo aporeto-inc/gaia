@@ -135,6 +135,7 @@ func (o *IPInfo) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *IPInfo) Doc() string {
+
 	return `This apis allows to resolve information from an IP address.`
 }
 

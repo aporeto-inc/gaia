@@ -31,14 +31,14 @@ type GraphNode struct {
 	// Identifier of object represented by the node.
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	// Description of object represented by the node.
-	Description string `json:"description" bson:"-" mapstructure:"description,omitempty"`
-
 	// Enforcement status of processing unit represented by the node.
 	EnforcementStatus string `json:"enforcementStatus" bson:"-" mapstructure:"enforcementStatus,omitempty"`
 
 	// ID of the group the node is eventually part of.
 	GroupID string `json:"groupID" bson:"-" mapstructure:"groupID,omitempty"`
+
+	// List of images.
+	Images []string `json:"images" bson:"-" mapstructure:"images,omitempty"`
 
 	// Last update of the node.
 	LastUpdate time.Time `json:"lastUpdate" bson:"-" mapstructure:"lastUpdate,omitempty"`
@@ -72,6 +72,7 @@ func NewGraphNode() *GraphNode {
 	return &GraphNode{
 		ModelVersion: 1,
 		Mutex:        &sync.Mutex{},
+		Images:       []string{},
 		Tags:         []string{},
 	}
 }

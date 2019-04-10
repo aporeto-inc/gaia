@@ -35,6 +35,10 @@ model:
   - '@zonable'
   - '@timeable'
 
+# Indexes
+indexes:
+- - :no-inherit
+
 # Attributes
 attributes:
   v1:
@@ -149,3 +153,5 @@ attributes:
     stored: true
     example_value:
     - - $identity=processingunit
+    validations:
+    - $tagsExpression

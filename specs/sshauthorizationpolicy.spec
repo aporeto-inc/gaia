@@ -37,6 +37,10 @@ model:
   - '@zonable'
   - '@timeable'
 
+# Indexes
+indexes:
+- - :no-inherit
+
 # Attributes
 attributes:
   v1:
@@ -83,6 +87,8 @@ attributes:
     exposed: true
     subtype: '[][]string'
     orderable: true
+    validations:
+    - $tagsExpression
 
   - name: principals
     description: |-
@@ -101,6 +107,8 @@ attributes:
     exposed: true
     subtype: '[][]string'
     orderable: true
+    validations:
+    - $tagsExpression
 
   - name: validity
     description: Set the validity of the delivered SSH certificate.

@@ -70,9 +70,6 @@ type GraphEdge struct {
 	// Number of rejected flows in the edge.
 	RejectedFlows int `json:"rejectedFlows" bson:"-" mapstructure:"rejectedFlows,omitempty"`
 
-	// Map of ints...
-	ServiceIDs map[string]int `json:"serviceIDs" bson:"-" mapstructure:"serviceIDs,omitempty"`
-
 	// ID of the source GraphNode of the edge.
 	SourceID string `json:"sourceID" bson:"-" mapstructure:"sourceID,omitempty"`
 
@@ -93,7 +90,6 @@ func NewGraphEdge() *GraphEdge {
 		ObservedPolicyIDs:  map[string]*GraphPolicyInfo{},
 		ObservedServiceIDs: map[string]int{},
 		PolicyIDs:          map[string]*GraphPolicyInfo{},
-		ServiceIDs:         map[string]int{},
 	}
 }
 

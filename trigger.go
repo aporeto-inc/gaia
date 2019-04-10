@@ -128,6 +128,7 @@ func (o *Trigger) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Trigger) Doc() string {
+
 	return `Trigger can be used to remotely trigger an automation.`
 }
 

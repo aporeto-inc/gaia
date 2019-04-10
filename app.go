@@ -165,6 +165,7 @@ func (o *App) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *App) Doc() string {
+
 	return `App represents an application that can be installed.`
 }
 
@@ -736,7 +737,7 @@ type SparseApp struct {
 	CategoryID *string `json:"categoryID,omitempty" bson:"-" mapstructure:"categoryID,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Icon contains a base64 image for the app.
 	Icon *string `json:"icon,omitempty" bson:"-" mapstructure:"icon,omitempty"`
@@ -748,21 +749,21 @@ type SparseApp struct {
 	LongDescription *string `json:"longDescription,omitempty" bson:"-" mapstructure:"longDescription,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// List of steps that contains parameters.
-	Steps *[]*UIStep `json:"steps,omitempty" bson:"steps" mapstructure:"steps,omitempty"`
+	Steps *[]*UIStep `json:"steps,omitempty" bson:"steps,omitempty" mapstructure:"steps,omitempty"`
 
 	// Title represents the title of the app.
 	Title *string `json:"title,omitempty" bson:"-" mapstructure:"title,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

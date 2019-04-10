@@ -107,6 +107,9 @@ type Message struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -133,6 +136,9 @@ type Message struct {
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -202,6 +208,7 @@ func (o *Message) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Message) Doc() string {
+
 	return `The Message API allows to post public messages that will be visible through all
 children namespaces.`
 }
@@ -233,6 +240,18 @@ func (o *Message) GetAssociatedTags() []string {
 func (o *Message) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *Message) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *Message) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -319,6 +338,18 @@ func (o *Message) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *Message) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *Message) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *Message) GetUpdateTime() time.Time {
 
@@ -362,22 +393,24 @@ func (o *Message) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseMessage{
-			ID:             &o.ID,
-			Annotations:    &o.Annotations,
-			AssociatedTags: &o.AssociatedTags,
-			CreateTime:     &o.CreateTime,
-			Description:    &o.Description,
-			ExpirationTime: &o.ExpirationTime,
-			Level:          &o.Level,
-			Name:           &o.Name,
-			Namespace:      &o.Namespace,
-			NormalizedTags: &o.NormalizedTags,
-			Propagate:      &o.Propagate,
-			Protected:      &o.Protected,
-			UpdateTime:     &o.UpdateTime,
-			Validity:       &o.Validity,
-			ZHash:          &o.ZHash,
-			Zone:           &o.Zone,
+			ID:                   &o.ID,
+			Annotations:          &o.Annotations,
+			AssociatedTags:       &o.AssociatedTags,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CreateTime:           &o.CreateTime,
+			Description:          &o.Description,
+			ExpirationTime:       &o.ExpirationTime,
+			Level:                &o.Level,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NormalizedTags:       &o.NormalizedTags,
+			Propagate:            &o.Propagate,
+			Protected:            &o.Protected,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			UpdateTime:           &o.UpdateTime,
+			Validity:             &o.Validity,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
@@ -390,6 +423,8 @@ func (o *Message) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Annotations = &(o.Annotations)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -408,6 +443,8 @@ func (o *Message) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "validity":
@@ -438,6 +475,9 @@ func (o *Message) Patch(sparse elemental.SparseIdentifiable) {
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
 	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
+	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
@@ -464,6 +504,9 @@ func (o *Message) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -508,6 +551,10 @@ func (o *Message) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = append(errors, err)
+	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
@@ -569,6 +616,8 @@ func (o *Message) ValueForAttribute(name string) interface{} {
 		return o.Annotations
 	case "associatedTags":
 		return o.AssociatedTags
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "description":
@@ -587,6 +636,8 @@ func (o *Message) ValueForAttribute(name string) interface{} {
 		return o.Propagate
 	case "protected":
 		return o.Protected
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "validity":
@@ -639,6 +690,18 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -760,6 +823,18 @@ var MessageAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -852,6 +927,18 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -972,6 +1059,18 @@ var MessageLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1096,52 +1195,58 @@ type SparseMessage struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
+
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// expirationTime is the time after which the message will be deleted.
-	ExpirationTime *time.Time `json:"expirationTime,omitempty" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
+	ExpirationTime *time.Time `json:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
 	// Level defines how the message is important.
-	Level *MessageLevelValue `json:"level,omitempty" bson:"level" mapstructure:"level,omitempty"`
+	Level *MessageLevelValue `json:"level,omitempty" bson:"level,omitempty" mapstructure:"level,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
-	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
+	Propagate *bool `json:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// Validity set using golang time duration, when the message will be automatically
 	// deleted.
-	Validity *string `json:"validity,omitempty" bson:"validity" mapstructure:"validity,omitempty"`
+	Validity *string `json:"validity,omitempty" bson:"validity,omitempty" mapstructure:"validity,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -1193,6 +1298,9 @@ func (o *SparseMessage) ToPlain() elemental.PlainIdentifiable {
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1219,6 +1327,9 @@ func (o *SparseMessage) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
+	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
@@ -1258,6 +1369,18 @@ func (o *SparseMessage) GetAssociatedTags() []string {
 func (o *SparseMessage) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseMessage) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseMessage) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -1342,6 +1465,18 @@ func (o *SparseMessage) GetProtected() bool {
 func (o *SparseMessage) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseMessage) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseMessage) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

@@ -173,6 +173,7 @@ func (o *RenderedPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *RenderedPolicy) Doc() string {
+
 	return `Retrieve the aggregated policies applied to a particular processing unit.`
 }
 
@@ -689,7 +690,7 @@ type SparseRenderedPolicy struct {
 
 	// Scopes is the set of scopes granted to this processing unit that it has to
 	// present in HTTP requests.
-	Scopes *[]string `json:"scopes,omitempty" bson:"scopes" mapstructure:"scopes,omitempty"`
+	Scopes *[]string `json:"scopes,omitempty" bson:"scopes,omitempty" mapstructure:"scopes,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

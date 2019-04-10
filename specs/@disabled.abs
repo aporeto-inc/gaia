@@ -1,3 +1,9 @@
+# Indexes
+indexes:
+- - disabled
+- - namespace
+  - disabled
+
 # Attributes
 attributes:
   v1:

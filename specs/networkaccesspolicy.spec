@@ -37,6 +37,10 @@ model:
   - '@zonable'
   - '@timeable'
 
+# Indexes
+indexes:
+- - :no-inherit
+
 # Attributes
 attributes:
   v1:
@@ -91,6 +95,8 @@ attributes:
     exposed: true
     subtype: '[][]string'
     orderable: true
+    validations:
+    - $tagsExpression
 
   - name: observationEnabled
     description: If set to true, the flow will be in observation mode.
@@ -116,6 +122,8 @@ attributes:
     exposed: true
     subtype: '[][]string'
     orderable: true
+    validations:
+    - $tagsExpression
 
 # Relations
 relations:

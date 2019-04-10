@@ -135,6 +135,7 @@ func (o *RenderTemplate) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *RenderTemplate) Doc() string {
+
 	return `A RenderTemplate cooks a template based some parameters.`
 }
 

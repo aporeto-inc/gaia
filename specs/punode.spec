@@ -18,10 +18,11 @@ attributes:
     type: string
     exposed: true
 
-  - name: image
-    description: Image of the pu.
-    type: string
+  - name: images
+    description: Images of the pu.
+    type: list
     exposed: true
+    subtype: string
 
   - name: lastPokeTime
     description: Last poke time of the pu.

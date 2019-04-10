@@ -151,6 +151,9 @@ type Enforcer struct {
 	// CollectedInfo represents the latest info collected by the enforcer.
 	CollectedInfo map[string]string `json:"collectedInfo" bson:"collectedinfo" mapstructure:"collectedInfo,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -219,6 +222,9 @@ type Enforcer struct {
 	// Tells if the the version of enforcerd is outdated and should be updated.
 	UpdateAvailable bool `json:"updateAvailable" bson:"updateavailable" mapstructure:"updateAvailable,omitempty"`
 
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
@@ -243,12 +249,12 @@ func NewEnforcer() *Enforcer {
 		Mutex:                 &sync.Mutex{},
 		Annotations:           map[string][]string{},
 		AssociatedTags:        []string{},
-		EnforcementStatus:     EnforcerEnforcementStatusInactive,
 		CollectedInfo:         map[string]string{},
+		EnforcementStatus:     EnforcerEnforcementStatusInactive,
 		NormalizedTags:        []string{},
 		OperationalStatus:     EnforcerOperationalStatusRegistered,
-		Metadata:              []string{},
 		LastValidHostServices: HostServicesList{},
+		Metadata:              []string{},
 	}
 }
 
@@ -287,6 +293,7 @@ func (o *Enforcer) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Enforcer) Doc() string {
+
 	return `An Enforcer contains all parameters associated with a registered enforcer. The
 object is mainly by maintained by the enforcers themselves. Users can read the
 object in order to understand the current status of the enforcers.`
@@ -319,6 +326,18 @@ func (o *Enforcer) GetAssociatedTags() []string {
 func (o *Enforcer) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *Enforcer) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *Enforcer) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -405,6 +424,18 @@ func (o *Enforcer) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *Enforcer) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *Enforcer) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *Enforcer) GetUpdateTime() time.Time {
 
@@ -458,6 +489,7 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CertificateRequest:        &o.CertificateRequest,
 			CollectInfo:               &o.CollectInfo,
 			CollectedInfo:             &o.CollectedInfo,
+			CreateIdempotencyKey:      &o.CreateIdempotencyKey,
 			CreateTime:                &o.CreateTime,
 			CurrentVersion:            &o.CurrentVersion,
 			Description:               &o.Description,
@@ -477,6 +509,7 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			PublicToken:               &o.PublicToken,
 			StartTime:                 &o.StartTime,
 			UpdateAvailable:           &o.UpdateAvailable,
+			UpdateIdempotencyKey:      &o.UpdateIdempotencyKey,
 			UpdateTime:                &o.UpdateTime,
 			ZHash:                     &o.ZHash,
 			Zone:                      &o.Zone,
@@ -506,6 +539,8 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CollectInfo = &(o.CollectInfo)
 		case "collectedInfo":
 			sp.CollectedInfo = &(o.CollectedInfo)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "currentVersion":
@@ -544,6 +579,8 @@ func (o *Enforcer) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.StartTime = &(o.StartTime)
 		case "updateAvailable":
 			sp.UpdateAvailable = &(o.UpdateAvailable)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -592,6 +629,9 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CollectedInfo != nil {
 		o.CollectedInfo = *so.CollectedInfo
+	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -650,6 +690,9 @@ func (o *Enforcer) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateAvailable != nil {
 		o.UpdateAvailable = *so.UpdateAvailable
 	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
+	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
@@ -695,11 +738,19 @@ func (o *Enforcer) Validate() error {
 		requiredErrors = append(requiredErrors, err)
 	}
 
+	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateStringInList("enforcementStatus", string(o.EnforcementStatus), []string{"Inactive", "Active", "Failed"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -769,6 +820,8 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.CollectInfo
 	case "collectedInfo":
 		return o.CollectedInfo
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "currentVersion":
@@ -807,6 +860,8 @@ func (o *Enforcer) ValueForAttribute(name string) interface{} {
 		return o.StartTime
 	case "updateAvailable":
 		return o.UpdateAvailable
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -930,6 +985,18 @@ validated and signed by the backend providing a renewed certificate.`,
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
+	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1165,6 +1232,18 @@ by the enforcer and is is preserved across disconnects.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1319,6 +1398,18 @@ validated and signed by the backend providing a renewed certificate.`,
 		Stored:         true,
 		SubType:        "map[string]string",
 		Type:           "external",
+	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1554,6 +1645,18 @@ by the enforcer and is is preserved across disconnects.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1663,19 +1766,19 @@ func (o SparseEnforcersList) Version() int {
 // SparseEnforcer represents the sparse version of a enforcer.
 type SparseEnforcer struct {
 	// FQDN contains the fqdn of the server where the enforcer is running.
-	FQDN *string `json:"FQDN,omitempty" bson:"fqdn" mapstructure:"FQDN,omitempty"`
+	FQDN *string `json:"FQDN,omitempty" bson:"fqdn,omitempty" mapstructure:"FQDN,omitempty"`
 
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// Certificate is the certificate of the enforcer.
-	Certificate *string `json:"certificate,omitempty" bson:"certificate" mapstructure:"certificate,omitempty"`
+	Certificate *string `json:"certificate,omitempty" bson:"certificate,omitempty" mapstructure:"certificate,omitempty"`
 
 	// CertificateExpirationDate is the expiration date of the certificate. This is an
 	// internal attribute, not exposed in the API.
@@ -1690,39 +1793,42 @@ type SparseEnforcer struct {
 	CertificateRequest *string `json:"certificateRequest,omitempty" bson:"-" mapstructure:"certificateRequest,omitempty"`
 
 	// CollectInfo indicates to the enforcer it needs to collect information.
-	CollectInfo *bool `json:"collectInfo,omitempty" bson:"collectinfo" mapstructure:"collectInfo,omitempty"`
+	CollectInfo *bool `json:"collectInfo,omitempty" bson:"collectinfo,omitempty" mapstructure:"collectInfo,omitempty"`
 
 	// CollectedInfo represents the latest info collected by the enforcer.
-	CollectedInfo *map[string]string `json:"collectedInfo,omitempty" bson:"collectedinfo" mapstructure:"collectedInfo,omitempty"`
+	CollectedInfo *map[string]string `json:"collectedInfo,omitempty" bson:"collectedinfo,omitempty" mapstructure:"collectedInfo,omitempty"`
+
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// CurrentVersion holds the enforcerd binary version that is currently associated
 	// to this object.
-	CurrentVersion *string `json:"currentVersion,omitempty" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
+	CurrentVersion *string `json:"currentVersion,omitempty" bson:"currentversion,omitempty" mapstructure:"currentVersion,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Status of enforcement for PU managed directly by enforcerd, like Host PUs.
-	EnforcementStatus *EnforcerEnforcementStatusValue `json:"enforcementStatus,omitempty" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
+	EnforcementStatus *EnforcerEnforcementStatusValue `json:"enforcementStatus,omitempty" bson:"enforcementstatus,omitempty" mapstructure:"enforcementStatus,omitempty"`
 
 	// LastCollectionTime represents the date and time when the info have been
 	// collected.
-	LastCollectionTime *time.Time `json:"lastCollectionTime,omitempty" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
+	LastCollectionTime *time.Time `json:"lastCollectionTime,omitempty" bson:"lastcollectiontime,omitempty" mapstructure:"lastCollectionTime,omitempty"`
 
 	// Last poke is the time when the enforcer got last poked.
-	LastPokeTime *time.Time `json:"-" bson:"lastpoketime" mapstructure:"-,omitempty"`
+	LastPokeTime *time.Time `json:"-" bson:"lastpoketime,omitempty" mapstructure:"-,omitempty"`
 
 	// LastSyncTime holds the last heart beat time.
-	LastSyncTime *time.Time `json:"lastSyncTime,omitempty" bson:"lastsynctime" mapstructure:"lastSyncTime,omitempty"`
+	LastSyncTime *time.Time `json:"lastSyncTime,omitempty" bson:"lastsynctime,omitempty" mapstructure:"lastSyncTime,omitempty"`
 
 	// LastValidHostServices is a read only attribute that stores the list valid host
 	// services that have been applied to this enforcer. This list might be different
 	// from the list retrieved through policy, if the dynamically calculated list leads
 	// into conflicts.
-	LastValidHostServices *HostServicesList `json:"-" bson:"lastvalidhostservices" mapstructure:"-,omitempty"`
+	LastValidHostServices *HostServicesList `json:"-" bson:"lastvalidhostservices,omitempty" mapstructure:"-,omitempty"`
 
 	// LocalCA contains the initial chain of trust for the enforcer. This valud is only
 	// given when you retrieve a single enforcer.
@@ -1731,48 +1837,51 @@ type SparseEnforcer struct {
 	// MachineID holds a unique identifier for every machine as detected by the
 	// enforcer. It is based on hardware information such as the SMBIOS UUID, MAC
 	// addresses of interfaces or cloud provider IDs.
-	MachineID *string `json:"machineID,omitempty" bson:"machineid" mapstructure:"machineID,omitempty"`
+	MachineID *string `json:"machineID,omitempty" bson:"machineid,omitempty" mapstructure:"machineID,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// OperationalStatus tells the status of the enforcer.
-	OperationalStatus *EnforcerOperationalStatusValue `json:"operationalStatus,omitempty" bson:"operationalstatus" mapstructure:"operationalStatus,omitempty"`
+	OperationalStatus *EnforcerOperationalStatusValue `json:"operationalStatus,omitempty" bson:"operationalstatus,omitempty" mapstructure:"operationalStatus,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// PublicToken is the public token of the server that will be included in the
 	// datapath and its signed by the private CA.
-	PublicToken *string `json:"publicToken,omitempty" bson:"publictoken" mapstructure:"publicToken,omitempty"`
+	PublicToken *string `json:"publicToken,omitempty" bson:"publictoken,omitempty" mapstructure:"publicToken,omitempty"`
 
 	// startTime holds the time this enforcerd was started. This time-stamp is reported
 	// by the enforcer and is is preserved across disconnects.
-	StartTime *time.Time `json:"startTime,omitempty" bson:"starttime" mapstructure:"startTime,omitempty"`
+	StartTime *time.Time `json:"startTime,omitempty" bson:"starttime,omitempty" mapstructure:"startTime,omitempty"`
 
 	// Tells if the the version of enforcerd is outdated and should be updated.
-	UpdateAvailable *bool `json:"updateAvailable,omitempty" bson:"updateavailable" mapstructure:"updateAvailable,omitempty"`
+	UpdateAvailable *bool `json:"updateAvailable,omitempty" bson:"updateavailable,omitempty" mapstructure:"updateAvailable,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -1845,6 +1954,9 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	if o.CollectedInfo != nil {
 		out.CollectedInfo = *o.CollectedInfo
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1902,6 +2014,9 @@ func (o *SparseEnforcer) ToPlain() elemental.PlainIdentifiable {
 	if o.UpdateAvailable != nil {
 		out.UpdateAvailable = *o.UpdateAvailable
 	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
+	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
 	}
@@ -1937,6 +2052,18 @@ func (o *SparseEnforcer) GetAssociatedTags() []string {
 func (o *SparseEnforcer) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseEnforcer) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseEnforcer) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -2021,6 +2148,18 @@ func (o *SparseEnforcer) GetProtected() bool {
 func (o *SparseEnforcer) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseEnforcer) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseEnforcer) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

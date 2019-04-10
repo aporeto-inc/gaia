@@ -165,6 +165,7 @@ func (o *SSHCertificate) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *SSHCertificate) Doc() string {
+
 	return `Internal api to deliver SSH certificate.`
 }
 

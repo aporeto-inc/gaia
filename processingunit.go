@@ -41,6 +41,9 @@ const (
 
 	// ProcessingUnitOperationalStatusTerminated represents the value Terminated.
 	ProcessingUnitOperationalStatusTerminated ProcessingUnitOperationalStatusValue = "Terminated"
+
+	// ProcessingUnitOperationalStatusUnknown represents the value Unknown.
+	ProcessingUnitOperationalStatusUnknown ProcessingUnitOperationalStatusValue = "Unknown"
 )
 
 // ProcessingUnitTypeValue represents the possible values for attribute "type".
@@ -166,6 +169,9 @@ type ProcessingUnit struct {
 	// CollectedInfo represents the latest info collected by the enforcer for this PU.
 	CollectedInfo map[string]string `json:"collectedInfo" bson:"collectedinfo" mapstructure:"collectedInfo,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -182,8 +188,12 @@ type ProcessingUnit struct {
 	// processing unit.
 	EnforcerNamespace string `json:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
 
-	// Docker image, or path to executable.
-	Image string `json:"image" bson:"image" mapstructure:"image,omitempty"`
+	// This field is deprecated and it is there for backward compatibility. Use
+	// `+"`"+`images`+"`"+` instead.
+	Image string `json:"image" bson:"-" mapstructure:"image,omitempty"`
+
+	// List of images or executable paths used by the Processing Unit.
+	Images []string `json:"images" bson:"images" mapstructure:"images,omitempty"`
 
 	// LastCollectionTime represents the date and time when the info have been
 	// collected.
@@ -228,6 +238,9 @@ type ProcessingUnit struct {
 	// Type of the container ecosystem.
 	Type ProcessingUnitTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
@@ -256,6 +269,7 @@ func NewProcessingUnit() *ProcessingUnit {
 		EnforcementStatus: ProcessingUnitEnforcementStatusInactive,
 		NetworkServices:   []*ProcessingUnitService{},
 		NormalizedTags:    []string{},
+		Images:            []string{},
 		OperationalStatus: ProcessingUnitOperationalStatusInitialized,
 		Metadata:          []string{},
 		Tracing:           NewTraceMode(),
@@ -297,6 +311,7 @@ func (o *ProcessingUnit) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *ProcessingUnit) Doc() string {
+
 	return `A Processing Unit reprents anything that can compute. It can be a Docker
 container, or a simple Unix process. They are created, updated and deleted by
 the system as they come and go. You can only modify its tags.  Processing Units
@@ -344,6 +359,18 @@ func (o *ProcessingUnit) GetAssociatedTags() []string {
 func (o *ProcessingUnit) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *ProcessingUnit) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *ProcessingUnit) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -430,6 +457,18 @@ func (o *ProcessingUnit) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *ProcessingUnit) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *ProcessingUnit) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *ProcessingUnit) GetUpdateTime() time.Time {
 
@@ -473,34 +512,37 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseProcessingUnit{
-			ID:                 &o.ID,
-			Annotations:        &o.Annotations,
-			Archived:           &o.Archived,
-			AssociatedTags:     &o.AssociatedTags,
-			CollectInfo:        &o.CollectInfo,
-			CollectedInfo:      &o.CollectedInfo,
-			CreateTime:         &o.CreateTime,
-			Description:        &o.Description,
-			EnforcementStatus:  &o.EnforcementStatus,
-			EnforcerID:         &o.EnforcerID,
-			EnforcerNamespace:  &o.EnforcerNamespace,
-			Image:              &o.Image,
-			LastCollectionTime: &o.LastCollectionTime,
-			LastPokeTime:       &o.LastPokeTime,
-			LastSyncTime:       &o.LastSyncTime,
-			Metadata:           &o.Metadata,
-			Name:               &o.Name,
-			Namespace:          &o.Namespace,
-			NativeContextID:    &o.NativeContextID,
-			NetworkServices:    &o.NetworkServices,
-			NormalizedTags:     &o.NormalizedTags,
-			OperationalStatus:  &o.OperationalStatus,
-			Protected:          &o.Protected,
-			Tracing:            &o.Tracing,
-			Type:               &o.Type,
-			UpdateTime:         &o.UpdateTime,
-			ZHash:              &o.ZHash,
-			Zone:               &o.Zone,
+			ID:                   &o.ID,
+			Annotations:          &o.Annotations,
+			Archived:             &o.Archived,
+			AssociatedTags:       &o.AssociatedTags,
+			CollectInfo:          &o.CollectInfo,
+			CollectedInfo:        &o.CollectedInfo,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CreateTime:           &o.CreateTime,
+			Description:          &o.Description,
+			EnforcementStatus:    &o.EnforcementStatus,
+			EnforcerID:           &o.EnforcerID,
+			EnforcerNamespace:    &o.EnforcerNamespace,
+			Image:                &o.Image,
+			Images:               &o.Images,
+			LastCollectionTime:   &o.LastCollectionTime,
+			LastPokeTime:         &o.LastPokeTime,
+			LastSyncTime:         &o.LastSyncTime,
+			Metadata:             &o.Metadata,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NativeContextID:      &o.NativeContextID,
+			NetworkServices:      &o.NetworkServices,
+			NormalizedTags:       &o.NormalizedTags,
+			OperationalStatus:    &o.OperationalStatus,
+			Protected:            &o.Protected,
+			Tracing:              &o.Tracing,
+			Type:                 &o.Type,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			UpdateTime:           &o.UpdateTime,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
@@ -519,6 +561,8 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.CollectInfo = &(o.CollectInfo)
 		case "collectedInfo":
 			sp.CollectedInfo = &(o.CollectedInfo)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -531,6 +575,8 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.EnforcerNamespace = &(o.EnforcerNamespace)
 		case "image":
 			sp.Image = &(o.Image)
+		case "images":
+			sp.Images = &(o.Images)
 		case "lastCollectionTime":
 			sp.LastCollectionTime = &(o.LastCollectionTime)
 		case "lastPokeTime":
@@ -557,6 +603,8 @@ func (o *ProcessingUnit) ToSparse(fields ...string) elemental.SparseIdentifiable
 			sp.Tracing = &(o.Tracing)
 		case "type":
 			sp.Type = &(o.Type)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -594,6 +642,9 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CollectedInfo != nil {
 		o.CollectedInfo = *so.CollectedInfo
 	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
+	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
@@ -611,6 +662,9 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Image != nil {
 		o.Image = *so.Image
+	}
+	if so.Images != nil {
+		o.Images = *so.Images
 	}
 	if so.LastCollectionTime != nil {
 		o.LastCollectionTime = *so.LastCollectionTime
@@ -650,6 +704,9 @@ func (o *ProcessingUnit) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Type != nil {
 		o.Type = *so.Type
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -692,11 +749,19 @@ func (o *ProcessingUnit) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = append(errors, err)
 	}
 
 	if err := elemental.ValidateStringInList("enforcementStatus", string(o.EnforcementStatus), []string{"Active", "Failed", "Inactive"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -718,7 +783,7 @@ func (o *ProcessingUnit) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidateStringInList("operationalStatus", string(o.OperationalStatus), []string{"Initialized", "Paused", "Running", "Stopped", "Terminated"}, false); err != nil {
+	if err := elemental.ValidateStringInList("operationalStatus", string(o.OperationalStatus), []string{"Initialized", "Paused", "Running", "Stopped", "Terminated", "Unknown"}, false); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -776,6 +841,8 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.CollectInfo
 	case "collectedInfo":
 		return o.CollectedInfo
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "description":
@@ -788,6 +855,8 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.EnforcerNamespace
 	case "image":
 		return o.Image
+	case "images":
+		return o.Images
 	case "lastCollectionTime":
 		return o.LastCollectionTime
 	case "lastPokeTime":
@@ -814,6 +883,8 @@ func (o *ProcessingUnit) ValueForAttribute(name string) interface{} {
 		return o.Tracing
 	case "type":
 		return o.Type
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -895,6 +966,18 @@ PU.`,
 		SubType:        "map[string]string",
 		Type:           "external",
 	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -957,12 +1040,24 @@ processing unit.`,
 	"Image": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Image",
-		Description:    `Docker image, or path to executable.`,
+		Deprecated:     true,
+		Description: `This field is deprecated and it is there for backward compatibility. Use
+` + "`" + `images` + "`" + ` instead.`,
+		Exposed: true,
+		Name:    "image",
+		Type:    "string",
+	},
+	"Images": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Images",
+		Deprecated:     true,
+		Description:    `List of images or executable paths used by the Processing Unit.`,
 		Exposed:        true,
 		Filterable:     true,
-		Name:           "image",
+		Name:           "images",
 		Stored:         true,
-		Type:           "string",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"LastCollectionTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1079,7 +1174,7 @@ or by exposing the ports in a container manifest.`,
 		Type:           "list",
 	},
 	"OperationalStatus": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Initialized", "Paused", "Running", "Stopped", "Terminated"},
+		AllowedChoices: []string{"Initialized", "Paused", "Running", "Stopped", "Terminated", "Unknown"},
 		ConvertedName:  "OperationalStatus",
 		DefaultValue:   ProcessingUnitOperationalStatusInitialized,
 		Description:    `OperationalStatus of the processing unit.`,
@@ -1121,6 +1216,18 @@ or by exposing the ports in a container manifest.`,
 		Name:           "type",
 		Stored:         true,
 		Type:           "enum",
+	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1234,6 +1341,18 @@ PU.`,
 		SubType:        "map[string]string",
 		Type:           "external",
 	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1296,12 +1415,24 @@ processing unit.`,
 	"image": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Image",
-		Description:    `Docker image, or path to executable.`,
+		Deprecated:     true,
+		Description: `This field is deprecated and it is there for backward compatibility. Use
+` + "`" + `images` + "`" + ` instead.`,
+		Exposed: true,
+		Name:    "image",
+		Type:    "string",
+	},
+	"images": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Images",
+		Deprecated:     true,
+		Description:    `List of images or executable paths used by the Processing Unit.`,
 		Exposed:        true,
 		Filterable:     true,
-		Name:           "image",
+		Name:           "images",
 		Stored:         true,
-		Type:           "string",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"lastcollectiontime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1418,7 +1549,7 @@ or by exposing the ports in a container manifest.`,
 		Type:           "list",
 	},
 	"operationalstatus": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Initialized", "Paused", "Running", "Stopped", "Terminated"},
+		AllowedChoices: []string{"Initialized", "Paused", "Running", "Stopped", "Terminated", "Unknown"},
 		ConvertedName:  "OperationalStatus",
 		DefaultValue:   ProcessingUnitOperationalStatusInitialized,
 		Description:    `OperationalStatus of the processing unit.`,
@@ -1460,6 +1591,18 @@ or by exposing the ports in a container manifest.`,
 		Name:           "type",
 		Stored:         true,
 		Type:           "enum",
+	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1573,93 +1716,103 @@ type SparseProcessingUnit struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// Archived defines if the object is archived.
-	Archived *bool `json:"-" bson:"archived" mapstructure:"-,omitempty"`
+	Archived *bool `json:"-" bson:"archived,omitempty" mapstructure:"-,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// CollectInfo indicates to the enforcer it needs to collect information for this
 	// PU.
-	CollectInfo *bool `json:"collectInfo,omitempty" bson:"collectinfo" mapstructure:"collectInfo,omitempty"`
+	CollectInfo *bool `json:"collectInfo,omitempty" bson:"collectinfo,omitempty" mapstructure:"collectInfo,omitempty"`
 
 	// CollectedInfo represents the latest info collected by the enforcer for this PU.
-	CollectedInfo *map[string]string `json:"collectedInfo,omitempty" bson:"collectedinfo" mapstructure:"collectedInfo,omitempty"`
+	CollectedInfo *map[string]string `json:"collectedInfo,omitempty" bson:"collectedinfo,omitempty" mapstructure:"collectedInfo,omitempty"`
+
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// EnforcementStatus communicates the state of the enforcer for that PU.
-	EnforcementStatus *ProcessingUnitEnforcementStatusValue `json:"enforcementStatus,omitempty" bson:"enforcementstatus" mapstructure:"enforcementStatus,omitempty"`
+	EnforcementStatus *ProcessingUnitEnforcementStatusValue `json:"enforcementStatus,omitempty" bson:"enforcementstatus,omitempty" mapstructure:"enforcementStatus,omitempty"`
 
 	// EnforcerID is the ID of the enforcer associated with the processing unit.
-	EnforcerID *string `json:"enforcerID,omitempty" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
+	EnforcerID *string `json:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
 
 	// enforcerNamespace is the namespace of the enforcer associated with the
 	// processing unit.
-	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
+	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
-	// Docker image, or path to executable.
-	Image *string `json:"image,omitempty" bson:"image" mapstructure:"image,omitempty"`
+	// This field is deprecated and it is there for backward compatibility. Use
+	// `+"`"+`images`+"`"+` instead.
+	Image *string `json:"image,omitempty" bson:"-" mapstructure:"image,omitempty"`
+
+	// List of images or executable paths used by the Processing Unit.
+	Images *[]string `json:"images,omitempty" bson:"images,omitempty" mapstructure:"images,omitempty"`
 
 	// LastCollectionTime represents the date and time when the info have been
 	// collected.
-	LastCollectionTime *time.Time `json:"lastCollectionTime,omitempty" bson:"lastcollectiontime" mapstructure:"lastCollectionTime,omitempty"`
+	LastCollectionTime *time.Time `json:"lastCollectionTime,omitempty" bson:"lastcollectiontime,omitempty" mapstructure:"lastCollectionTime,omitempty"`
 
 	// Last poke is the time when the pu got last poked.
-	LastPokeTime *time.Time `json:"-" bson:"lastpoketime" mapstructure:"-,omitempty"`
+	LastPokeTime *time.Time `json:"-" bson:"lastpoketime,omitempty" mapstructure:"-,omitempty"`
 
 	// LastSyncTime is the time when the policy was last resolved.
-	LastSyncTime *time.Time `json:"lastSyncTime,omitempty" bson:"lastsynctime" mapstructure:"lastSyncTime,omitempty"`
+	LastSyncTime *time.Time `json:"lastSyncTime,omitempty" bson:"lastsynctime,omitempty" mapstructure:"lastSyncTime,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// NativeContextID is the Docker UUID or service PID.
-	NativeContextID *string `json:"nativeContextID,omitempty" bson:"nativecontextid" mapstructure:"nativeContextID,omitempty"`
+	NativeContextID *string `json:"nativeContextID,omitempty" bson:"nativecontextid,omitempty" mapstructure:"nativeContextID,omitempty"`
 
 	// NetworkServices is the list of services that this processing unit has declared
 	// that it will be listening to. This can happen either with an activation command
 	// or by exposing the ports in a container manifest.
-	NetworkServices *[]*ProcessingUnitService `json:"networkServices,omitempty" bson:"networkservices" mapstructure:"networkServices,omitempty"`
+	NetworkServices *[]*ProcessingUnitService `json:"networkServices,omitempty" bson:"networkservices,omitempty" mapstructure:"networkServices,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// OperationalStatus of the processing unit.
-	OperationalStatus *ProcessingUnitOperationalStatusValue `json:"operationalStatus,omitempty" bson:"operationalstatus" mapstructure:"operationalStatus,omitempty"`
+	OperationalStatus *ProcessingUnitOperationalStatusValue `json:"operationalStatus,omitempty" bson:"operationalstatus,omitempty" mapstructure:"operationalStatus,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// Tracing indicates if this PU must be placed in tracing mode.
-	Tracing **TraceMode `json:"tracing,omitempty" bson:"tracing" mapstructure:"tracing,omitempty"`
+	Tracing **TraceMode `json:"tracing,omitempty" bson:"tracing,omitempty" mapstructure:"tracing,omitempty"`
 
 	// Type of the container ecosystem.
-	Type *ProcessingUnitTypeValue `json:"type,omitempty" bson:"type" mapstructure:"type,omitempty"`
+	Type *ProcessingUnitTypeValue `json:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -1720,6 +1873,9 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	if o.CollectedInfo != nil {
 		out.CollectedInfo = *o.CollectedInfo
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1737,6 +1893,9 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Image != nil {
 		out.Image = *o.Image
+	}
+	if o.Images != nil {
+		out.Images = *o.Images
 	}
 	if o.LastCollectionTime != nil {
 		out.LastCollectionTime = *o.LastCollectionTime
@@ -1776,6 +1935,9 @@ func (o *SparseProcessingUnit) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Type != nil {
 		out.Type = *o.Type
+	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
@@ -1824,6 +1986,18 @@ func (o *SparseProcessingUnit) GetAssociatedTags() []string {
 func (o *SparseProcessingUnit) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseProcessingUnit) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseProcessingUnit) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -1908,6 +2082,18 @@ func (o *SparseProcessingUnit) GetProtected() bool {
 func (o *SparseProcessingUnit) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseProcessingUnit) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseProcessingUnit) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

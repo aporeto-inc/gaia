@@ -36,7 +36,7 @@ relations:
     description: Creates a new Account.
 
 - rest_name: accountcheck
-  get:
+  create:
     description: Verifies an account credentials.
 
 - rest_name: activate
@@ -171,6 +171,14 @@ relations:
 - rest_name: awsregister
   create:
     description: Creates a new aws registration for billing.
+
+- rest_name: claims
+  get:
+    description: Retrieves the list of claims.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new claims record.
 
 - rest_name: datapathcertificate
   create:

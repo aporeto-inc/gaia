@@ -9,16 +9,18 @@ model:
   aliases:
   - ca
   private: true
-  indexes:
-  - - :shard
-    - $hashed:serialNumber
-  - - :unique
-    - serialNumber
-  - - commonName
   delete:
     description: Deletes the object with the given ID.
     global_parameters:
     - $filtering
+
+# Indexes
+indexes:
+- - :shard
+  - $hashed:serialNumber
+- - :unique
+  - serialNumber
+- - commonName
 
 # Attributes
 attributes:

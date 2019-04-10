@@ -148,6 +148,9 @@ type NetworkAccessPolicy struct {
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -208,6 +211,9 @@ type NetworkAccessPolicy struct {
 
 	// Subject of the policy.
 	Subject [][]string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -278,6 +284,7 @@ func (o *NetworkAccessPolicy) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *NetworkAccessPolicy) Doc() string {
+
 	return `Allows to define networking policies to allow or prevent processing units
 identitied by their tags to talk to other processing units or external services
 (also identified by their tags).`
@@ -334,6 +341,18 @@ func (o *NetworkAccessPolicy) GetAssociatedTags() []string {
 func (o *NetworkAccessPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *NetworkAccessPolicy) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *NetworkAccessPolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -492,6 +511,18 @@ func (o *NetworkAccessPolicy) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *NetworkAccessPolicy) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *NetworkAccessPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *NetworkAccessPolicy) GetUpdateTime() time.Time {
 
@@ -542,6 +573,7 @@ func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentif
 			Annotations:           &o.Annotations,
 			ApplyPolicyMode:       &o.ApplyPolicyMode,
 			AssociatedTags:        &o.AssociatedTags,
+			CreateIdempotencyKey:  &o.CreateIdempotencyKey,
 			CreateTime:            &o.CreateTime,
 			Description:           &o.Description,
 			Disabled:              &o.Disabled,
@@ -561,6 +593,7 @@ func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentif
 			Propagate:             &o.Propagate,
 			Protected:             &o.Protected,
 			Subject:               &o.Subject,
+			UpdateIdempotencyKey:  &o.UpdateIdempotencyKey,
 			UpdateTime:            &o.UpdateTime,
 			ZHash:                 &o.ZHash,
 			Zone:                  &o.Zone,
@@ -584,6 +617,8 @@ func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentif
 			sp.ApplyPolicyMode = &(o.ApplyPolicyMode)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
@@ -622,6 +657,8 @@ func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentif
 			sp.Protected = &(o.Protected)
 		case "subject":
 			sp.Subject = &(o.Subject)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -661,6 +698,9 @@ func (o *NetworkAccessPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
+	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -719,6 +759,9 @@ func (o *NetworkAccessPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Subject != nil {
 		o.Subject = *so.Subject
 	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
+	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
@@ -772,7 +815,15 @@ func (o *NetworkAccessPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -784,7 +835,15 @@ func (o *NetworkAccessPolicy) Validate() error {
 		errors = append(errors, err)
 	}
 
+	if err := ValidateTagsExpression("object", o.Object); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateStringInList("observedTrafficAction", string(o.ObservedTrafficAction), []string{"Apply", "Continue"}, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateTagsExpression("subject", o.Subject); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -836,6 +895,8 @@ func (o *NetworkAccessPolicy) ValueForAttribute(name string) interface{} {
 		return o.ApplyPolicyMode
 	case "associatedTags":
 		return o.AssociatedTags
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "description":
@@ -874,6 +935,8 @@ func (o *NetworkAccessPolicy) ValueForAttribute(name string) interface{} {
 		return o.Protected
 	case "subject":
 		return o.Subject
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -970,6 +1033,18 @@ Default is both directions.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1202,6 +1277,18 @@ packets.`,
 		SubType:        "[][]string",
 		Type:           "external",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1329,6 +1416,18 @@ Default is both directions.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1561,6 +1660,18 @@ packets.`,
 		SubType:        "[][]string",
 		Type:           "external",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1677,14 +1788,14 @@ type SparseNetworkAccessPolicy struct {
 
 	// ActiveDuration defines for how long the policy will be active according to the
 	// activeSchedule.
-	ActiveDuration *string `json:"activeDuration,omitempty" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
+	ActiveDuration *string `json:"activeDuration,omitempty" bson:"activeduration,omitempty" mapstructure:"activeDuration,omitempty"`
 
 	// ActiveSchedule defines when the policy should be active using the cron notation.
 	// The policy will be active for the given activeDuration.
-	ActiveSchedule *string `json:"activeSchedule,omitempty" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
+	ActiveSchedule *string `json:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// applyPolicyMode determines if the policy has to be applied to the
 	// outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
@@ -1692,49 +1803,52 @@ type SparseNetworkAccessPolicy struct {
 	ApplyPolicyMode *NetworkAccessPolicyApplyPolicyModeValue `json:"applyPolicyMode,omitempty" bson:"-" mapstructure:"applyPolicyMode,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
+
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Disabled defines if the propert is disabled.
-	Disabled *bool `json:"disabled,omitempty" bson:"disabled" mapstructure:"disabled,omitempty"`
+	Disabled *bool `json:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
 	// EncryptionEnabled defines if the flow has to be encrypted.
 	EncryptionEnabled *bool `json:"encryptionEnabled,omitempty" bson:"-" mapstructure:"encryptionEnabled,omitempty"`
 
 	// If set the policy will be auto deleted after the given time.
-	ExpirationTime *time.Time `json:"expirationTime,omitempty" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
+	ExpirationTime *time.Time `json:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
 	// Fallback indicates that this is fallback policy. It will only be
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
-	Fallback *bool `json:"fallback,omitempty" bson:"fallback" mapstructure:"fallback,omitempty"`
+	Fallback *bool `json:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
 
 	// LogsEnabled defines if the flow has to be logged.
 	LogsEnabled *bool `json:"logsEnabled,omitempty" bson:"-" mapstructure:"logsEnabled,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Setting this to true will invert the object to find what is not matching.
-	NegateObject *bool `json:"negateObject,omitempty" bson:"negateobject" mapstructure:"negateObject,omitempty"`
+	NegateObject *bool `json:"negateObject,omitempty" bson:"negateobject,omitempty" mapstructure:"negateObject,omitempty"`
 
 	// Setting this to true will invert the subject to find what is not matching.
-	NegateSubject *bool `json:"negateSubject,omitempty" bson:"negatesubject" mapstructure:"negateSubject,omitempty"`
+	NegateSubject *bool `json:"negateSubject,omitempty" bson:"negatesubject,omitempty" mapstructure:"negateSubject,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Object of the policy.
 	Object *[][]string `json:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
@@ -1747,24 +1861,27 @@ type SparseNetworkAccessPolicy struct {
 	ObservedTrafficAction *NetworkAccessPolicyObservedTrafficActionValue `json:"observedTrafficAction,omitempty" bson:"-" mapstructure:"observedTrafficAction,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
-	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
+	Propagate *bool `json:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// Subject of the policy.
 	Subject *[][]string `json:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
+
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -1828,6 +1945,9 @@ func (o *SparseNetworkAccessPolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1884,6 +2004,9 @@ func (o *SparseNetworkAccessPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Subject != nil {
 		out.Subject = *o.Subject
+	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
@@ -1944,6 +2067,18 @@ func (o *SparseNetworkAccessPolicy) GetAssociatedTags() []string {
 func (o *SparseNetworkAccessPolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseNetworkAccessPolicy) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -2100,6 +2235,18 @@ func (o *SparseNetworkAccessPolicy) GetProtected() bool {
 func (o *SparseNetworkAccessPolicy) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseNetworkAccessPolicy) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseNetworkAccessPolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

@@ -122,6 +122,9 @@ type InstalledApp struct {
 	// CategoryID of the app.
 	CategoryID string `json:"categoryID" bson:"categoryid" mapstructure:"categoryID,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -151,6 +154,9 @@ type InstalledApp struct {
 
 	// Reason for the status of the app.
 	StatusMessage string `json:"statusMessage" bson:"statusmessage" mapstructure:"statusMessage,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -209,6 +215,7 @@ func (o *InstalledApp) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *InstalledApp) Doc() string {
+
 	return `InstalledApps represents an installed application.`
 }
 
@@ -239,6 +246,18 @@ func (o *InstalledApp) GetAssociatedTags() []string {
 func (o *InstalledApp) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *InstalledApp) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *InstalledApp) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -301,6 +320,18 @@ func (o *InstalledApp) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *InstalledApp) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *InstalledApp) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *InstalledApp) GetUpdateTime() time.Time {
 
@@ -320,22 +351,24 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseInstalledApp{
-			ID:              &o.ID,
-			Annotations:     &o.Annotations,
-			AppIdentifier:   &o.AppIdentifier,
-			AssociatedTags:  &o.AssociatedTags,
-			CategoryID:      &o.CategoryID,
-			CreateTime:      &o.CreateTime,
-			CurrentVersion:  &o.CurrentVersion,
-			DeploymentCount: &o.DeploymentCount,
-			Name:            &o.Name,
-			Namespace:       &o.Namespace,
-			NormalizedTags:  &o.NormalizedTags,
-			Parameters:      &o.Parameters,
-			Protected:       &o.Protected,
-			Status:          &o.Status,
-			StatusMessage:   &o.StatusMessage,
-			UpdateTime:      &o.UpdateTime,
+			ID:                   &o.ID,
+			Annotations:          &o.Annotations,
+			AppIdentifier:        &o.AppIdentifier,
+			AssociatedTags:       &o.AssociatedTags,
+			CategoryID:           &o.CategoryID,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CreateTime:           &o.CreateTime,
+			CurrentVersion:       &o.CurrentVersion,
+			DeploymentCount:      &o.DeploymentCount,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NormalizedTags:       &o.NormalizedTags,
+			Parameters:           &o.Parameters,
+			Protected:            &o.Protected,
+			Status:               &o.Status,
+			StatusMessage:        &o.StatusMessage,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			UpdateTime:           &o.UpdateTime,
 		}
 	}
 
@@ -352,6 +385,8 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "categoryID":
 			sp.CategoryID = &(o.CategoryID)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "currentVersion":
@@ -372,6 +407,8 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Status = &(o.Status)
 		case "statusMessage":
 			sp.StatusMessage = &(o.StatusMessage)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		}
@@ -402,6 +439,9 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CategoryID != nil {
 		o.CategoryID = *so.CategoryID
 	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
+	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
@@ -431,6 +471,9 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.StatusMessage != nil {
 		o.StatusMessage = *so.StatusMessage
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -466,6 +509,10 @@ func (o *InstalledApp) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = append(errors, err)
+	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = append(requiredErrors, err)
@@ -523,6 +570,8 @@ func (o *InstalledApp) ValueForAttribute(name string) interface{} {
 		return o.AssociatedTags
 	case "categoryID":
 		return o.CategoryID
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "currentVersion":
@@ -543,6 +592,8 @@ func (o *InstalledApp) ValueForAttribute(name string) interface{} {
 		return o.Status
 	case "statusMessage":
 		return o.StatusMessage
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	}
@@ -606,6 +657,18 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "categoryID",
 		Orderable:      true,
 		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -733,6 +796,18 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -805,6 +880,18 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Name:           "categoryID",
 		Orderable:      true,
 		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -932,6 +1019,18 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "string",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1018,49 +1117,55 @@ type SparseInstalledApp struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AppIdentifier retains the identifier for the app.
-	AppIdentifier *string `json:"-" bson:"appidentifier" mapstructure:"-,omitempty"`
+	AppIdentifier *string `json:"-" bson:"appidentifier,omitempty" mapstructure:"-,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// CategoryID of the app.
-	CategoryID *string `json:"categoryID,omitempty" bson:"categoryid" mapstructure:"categoryID,omitempty"`
+	CategoryID *string `json:"categoryID,omitempty" bson:"categoryid,omitempty" mapstructure:"categoryID,omitempty"`
+
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Version of the installed app.
-	CurrentVersion *string `json:"currentVersion,omitempty" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
+	CurrentVersion *string `json:"currentVersion,omitempty" bson:"currentversion,omitempty" mapstructure:"currentVersion,omitempty"`
 
 	// DeploymentCount represents the number of expected deployment for this app.
-	DeploymentCount *int `json:"-" bson:"deploymentcount" mapstructure:"-,omitempty"`
+	DeploymentCount *int `json:"-" bson:"deploymentcount,omitempty" mapstructure:"-,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Parameters contains the computed parameters to start the app.
-	Parameters *map[string]interface{} `json:"parameters,omitempty" bson:"parameters" mapstructure:"parameters,omitempty"`
+	Parameters *map[string]interface{} `json:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// Status of the app.
-	Status *InstalledAppStatusValue `json:"status,omitempty" bson:"status" mapstructure:"status,omitempty"`
+	Status *InstalledAppStatusValue `json:"status,omitempty" bson:"status,omitempty" mapstructure:"status,omitempty"`
 
 	// Reason for the status of the app.
-	StatusMessage *string `json:"statusMessage,omitempty" bson:"statusmessage" mapstructure:"statusMessage,omitempty"`
+	StatusMessage *string `json:"statusMessage,omitempty" bson:"statusmessage,omitempty" mapstructure:"statusMessage,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -1118,6 +1223,9 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.CategoryID != nil {
 		out.CategoryID = *o.CategoryID
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1148,6 +1256,9 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.StatusMessage != nil {
 		out.StatusMessage = *o.StatusMessage
 	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
+	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
 	}
@@ -1177,6 +1288,18 @@ func (o *SparseInstalledApp) GetAssociatedTags() []string {
 func (o *SparseInstalledApp) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseInstalledApp) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseInstalledApp) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -1237,6 +1360,18 @@ func (o *SparseInstalledApp) GetProtected() bool {
 func (o *SparseInstalledApp) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseInstalledApp) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseInstalledApp) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

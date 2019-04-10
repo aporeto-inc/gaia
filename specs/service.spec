@@ -12,23 +12,6 @@ model:
     units.
   aliases:
   - srv
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - name
-  - - namespace
-    - archived
-  - - namespace
-    - normalizedTags
-  - - allAPITags
-  - - namespace
-    - allAPITags
-  - - allServiceTags
-  - - namespace
-    - allServiceTags
   get:
     description: Retrieves the object with the given ID.
     global_parameters:
@@ -51,6 +34,15 @@ model:
   - '@timeable'
   validations:
   - $serviceEntity
+
+# Indexes
+indexes:
+- - allAPITags
+- - namespace
+  - allAPITags
+- - allServiceTags
+- - namespace
+  - allServiceTags
 
 # Attributes
 attributes:
@@ -232,6 +224,8 @@ attributes:
     stored: true
     example_value:
     - - package=p1
+    validations:
+    - $tagsExpression
 
   - name: exposedPort
     description: |-
@@ -322,6 +316,8 @@ attributes:
     stored: true
     example_value:
     - - $identity=processingunit
+    validations:
+    - $tagsExpression
 
   - name: trustedCertificateAuthorities
     description: |-

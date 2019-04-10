@@ -129,6 +129,7 @@ func (o *X509CertificateCheck) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *X509CertificateCheck) Doc() string {
+
 	return `Verifies a certificate has not been revoked.`
 }
 

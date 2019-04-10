@@ -137,6 +137,7 @@ func (o *ValidateUIParameter) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *ValidateUIParameter) Doc() string {
+
 	return `This api validates a list of UIParameters.`
 }
 
@@ -403,7 +404,7 @@ type SparseValidateUIParameter struct {
 	Errors *map[string]string `json:"errors,omitempty" bson:"-" mapstructure:"errors,omitempty"`
 
 	// List of parameters to validate.
-	Parameters *[]*UIParameter `json:"parameters,omitempty" bson:"parameters" mapstructure:"parameters,omitempty"`
+	Parameters *[]*UIParameter `json:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
 
 	// Values contains the computed values.
 	Values *map[string]interface{} `json:"values,omitempty" bson:"-" mapstructure:"values,omitempty"`

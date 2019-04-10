@@ -98,6 +98,9 @@ type IsolationProfile struct {
 	// from the processing unit.
 	CapabilitiesActions types.CapabilitiesTypeMap `json:"capabilitiesActions" bson:"capabilitiesactions" mapstructure:"capabilitiesActions,omitempty"`
 
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
@@ -134,6 +137,9 @@ type IsolationProfile struct {
 	// TargetArchitectures is the target processor architectures where this profile can
 	// be applied. Default all.
 	TargetArchitectures types.ArchitecturesTypeList `json:"targetArchitectures" bson:"targetarchitectures" mapstructure:"targetArchitectures,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -202,6 +208,7 @@ func (o *IsolationProfile) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *IsolationProfile) Doc() string {
+
 	return `An IsolationProfile needs documentation.`
 }
 
@@ -232,6 +239,18 @@ func (o *IsolationProfile) GetAssociatedTags() []string {
 func (o *IsolationProfile) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *IsolationProfile) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *IsolationProfile) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -330,6 +349,18 @@ func (o *IsolationProfile) SetProtected(protected bool) {
 	o.Protected = protected
 }
 
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *IsolationProfile) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *IsolationProfile) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
+}
+
 // GetUpdateTime returns the UpdateTime of the receiver.
 func (o *IsolationProfile) GetUpdateTime() time.Time {
 
@@ -377,6 +408,7 @@ func (o *IsolationProfile) ToSparse(fields ...string) elemental.SparseIdentifiab
 			Annotations:          &o.Annotations,
 			AssociatedTags:       &o.AssociatedTags,
 			CapabilitiesActions:  &o.CapabilitiesActions,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
 			DefaultSyscallAction: &o.DefaultSyscallAction,
 			Description:          &o.Description,
@@ -388,6 +420,7 @@ func (o *IsolationProfile) ToSparse(fields ...string) elemental.SparseIdentifiab
 			Protected:            &o.Protected,
 			SyscallRules:         &o.SyscallRules,
 			TargetArchitectures:  &o.TargetArchitectures,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
 			ZHash:                &o.ZHash,
 			Zone:                 &o.Zone,
@@ -405,6 +438,8 @@ func (o *IsolationProfile) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "capabilitiesActions":
 			sp.CapabilitiesActions = &(o.CapabilitiesActions)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "defaultSyscallAction":
@@ -427,6 +462,8 @@ func (o *IsolationProfile) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.SyscallRules = &(o.SyscallRules)
 		case "targetArchitectures":
 			sp.TargetArchitectures = &(o.TargetArchitectures)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		case "zHash":
@@ -457,6 +494,9 @@ func (o *IsolationProfile) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CapabilitiesActions != nil {
 		o.CapabilitiesActions = *so.CapabilitiesActions
+	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -490,6 +530,9 @@ func (o *IsolationProfile) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.TargetArchitectures != nil {
 		o.TargetArchitectures = *so.TargetArchitectures
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -532,7 +575,15 @@ func (o *IsolationProfile) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = append(errors, err)
+	}
+
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = append(errors, err)
+	}
+
+	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -586,6 +637,8 @@ func (o *IsolationProfile) ValueForAttribute(name string) interface{} {
 		return o.AssociatedTags
 	case "capabilitiesActions":
 		return o.CapabilitiesActions
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "defaultSyscallAction":
@@ -608,6 +661,8 @@ func (o *IsolationProfile) ValueForAttribute(name string) interface{} {
 		return o.SyscallRules
 	case "targetArchitectures":
 		return o.TargetArchitectures
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	case "zHash":
@@ -670,6 +725,18 @@ from the processing unit.`,
 		Stored:    true,
 		SubType:   "_cap_map",
 		Type:      "external",
+	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"CreateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -820,6 +887,18 @@ be applied. Default all.`,
 		SubType:   "_arch_list",
 		Type:      "external",
 	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -913,6 +992,18 @@ from the processing unit.`,
 		Stored:    true,
 		SubType:   "_cap_map",
 		Type:      "external",
+	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"createtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1063,6 +1154,18 @@ be applied. Default all.`,
 		SubType:   "_arch_list",
 		Type:      "external",
 	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1175,62 +1278,68 @@ type SparseIsolationProfile struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// CapabilitiesActions identifies the capabilities that should be added or removed
 	// from the processing unit.
-	CapabilitiesActions *types.CapabilitiesTypeMap `json:"capabilitiesActions,omitempty" bson:"capabilitiesactions" mapstructure:"capabilitiesActions,omitempty"`
+	CapabilitiesActions *types.CapabilitiesTypeMap `json:"capabilitiesActions,omitempty" bson:"capabilitiesactions,omitempty" mapstructure:"capabilitiesActions,omitempty"`
+
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// DefaultAction is the default action applied to all syscalls of this profile.
 	// Default is "Allow".
-	DefaultSyscallAction *types.SyscallEnforcementAction `json:"defaultSyscallAction,omitempty" bson:"defaultsyscallaction" mapstructure:"defaultSyscallAction,omitempty"`
+	DefaultSyscallAction *types.SyscallEnforcementAction `json:"defaultSyscallAction,omitempty" bson:"defaultsyscallaction,omitempty" mapstructure:"defaultSyscallAction,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" bson:"metadata" mapstructure:"metadata,omitempty"`
+	Metadata *[]string `json:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
-	Propagate *bool `json:"propagate,omitempty" bson:"propagate" mapstructure:"propagate,omitempty"`
+	Propagate *bool `json:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// SyscallRules is a list of syscall rules that identify actions for particular
 	// syscalls.
-	SyscallRules *types.SyscallEnforcementRulesMap `json:"syscallRules,omitempty" bson:"syscallrules" mapstructure:"syscallRules,omitempty"`
+	SyscallRules *types.SyscallEnforcementRulesMap `json:"syscallRules,omitempty" bson:"syscallrules,omitempty" mapstructure:"syscallRules,omitempty"`
 
 	// TargetArchitectures is the target processor architectures where this profile can
 	// be applied. Default all.
-	TargetArchitectures *types.ArchitecturesTypeList `json:"targetArchitectures,omitempty" bson:"targetarchitectures" mapstructure:"targetArchitectures,omitempty"`
+	TargetArchitectures *types.ArchitecturesTypeList `json:"targetArchitectures,omitempty" bson:"targetarchitectures,omitempty" mapstructure:"targetArchitectures,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
@@ -1285,6 +1394,9 @@ func (o *SparseIsolationProfile) ToPlain() elemental.PlainIdentifiable {
 	if o.CapabilitiesActions != nil {
 		out.CapabilitiesActions = *o.CapabilitiesActions
 	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
+	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
@@ -1317,6 +1429,9 @@ func (o *SparseIsolationProfile) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.TargetArchitectures != nil {
 		out.TargetArchitectures = *o.TargetArchitectures
+	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
@@ -1353,6 +1468,18 @@ func (o *SparseIsolationProfile) GetAssociatedTags() []string {
 func (o *SparseIsolationProfile) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseIsolationProfile) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseIsolationProfile) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -1449,6 +1576,18 @@ func (o *SparseIsolationProfile) GetProtected() bool {
 func (o *SparseIsolationProfile) SetProtected(protected bool) {
 
 	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseIsolationProfile) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseIsolationProfile) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

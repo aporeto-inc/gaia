@@ -8,6 +8,8 @@ PROJECT_RELEASE ?= dev
 ci: init lint test codecov
 
 init:
+	go get -u github.com/aporeto-inc/go-bindata/...
+	go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
 	dep ensure
 	dep status
 
@@ -23,6 +25,7 @@ codegen:
 	rm -rf codegen
 
 lint:
+	# --enable=unparam
 	golangci-lint run \
 		--disable-all \
 		--exclude-use-default=false \
@@ -30,14 +33,15 @@ lint:
 		--enable=goimports \
 		--enable=ineffassign \
 		--enable=golint \
-		--enable=govet \
+		--enable=unused \
 		--enable=structcheck \
+		--enable=staticcheck \
 		--enable=varcheck \
-		--enable=ineffassign \
 		--enable=deadcode \
 		--enable=unconvert \
 		--enable=misspell \
-		--enable=unparam \
+		--enable=prealloc \
+		--enable=nakedret \
 		./...
 
 .PHONY: test

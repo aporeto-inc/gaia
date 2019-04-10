@@ -34,6 +34,10 @@ model:
   - '@zonable'
   - '@timeable'
 
+# Indexes
+indexes:
+- - :no-inherit
+
 # Attributes
 attributes:
   v1:
@@ -44,6 +48,8 @@ attributes:
     type: external
     exposed: true
     subtype: '[][]string'
+    validations:
+    - $tagsExpression
 
   - name: subject
     description: |-
@@ -52,6 +58,8 @@ attributes:
     type: external
     exposed: true
     subtype: '[][]string'
+    validations:
+    - $tagsExpression
 
 # Relations
 relations:

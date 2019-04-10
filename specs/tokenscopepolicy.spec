@@ -32,6 +32,10 @@ model:
   - '@zonable'
   - '@timeable'
 
+# Indexes
+indexes:
+- - :no-inherit
+
 # Attributes
 attributes:
   v1:
@@ -60,3 +64,5 @@ attributes:
     subtype: '[][]string'
     stored: true
     orderable: true
+    validations:
+    - $tagsExpression

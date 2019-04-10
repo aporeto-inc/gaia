@@ -134,6 +134,7 @@ func (o *QuotaCheck) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *QuotaCheck) Doc() string {
+
 	return `This api allows to verify the quota for a given identity in a given namespace
 with the given tags.`
 }

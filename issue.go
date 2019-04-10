@@ -186,6 +186,7 @@ func (o *Issue) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *Issue) Doc() string {
+
 	return `This API issues a new token according to given data.`
 }
 
@@ -312,7 +313,7 @@ func (o *Issue) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := elemental.ValidatePattern("validity", o.Validity, `^([0-9]+h[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+h[0-9]+s|[0-9]+h[0-9]+m|[0-9]+s|[0-9]+h|[0-9]+m)$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
+	if err := ValidateTimeDuration("validity", o.Validity); err != nil {
 		errors = append(errors, err)
 	}
 
@@ -439,7 +440,6 @@ that value.`,
 		Type:           "string",
 	},
 	"Validity": elemental.AttributeSpecification{
-		AllowedChars:   `^([0-9]+h[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+h[0-9]+s|[0-9]+h[0-9]+m|[0-9]+s|[0-9]+h|[0-9]+m)$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
 		DefaultValue:   "24h",
@@ -520,7 +520,6 @@ that value.`,
 		Type:           "string",
 	},
 	"validity": elemental.AttributeSpecification{
-		AllowedChars:   `^([0-9]+h[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+m[0-9]+s|[0-9]+h[0-9]+s|[0-9]+h[0-9]+m|[0-9]+s|[0-9]+h|[0-9]+m)$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Validity",
 		DefaultValue:   "24h",

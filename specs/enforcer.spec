@@ -9,15 +9,6 @@ model:
     An Enforcer contains all parameters associated with a registered enforcer. The
     object is mainly by maintained by the enforcers themselves. Users can read the
     object in order to understand the current status of the enforcers.
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - name
-  - - namespace
-    - normalizedTags
   get:
     description: Retrieves the object with the given ID.
   update:

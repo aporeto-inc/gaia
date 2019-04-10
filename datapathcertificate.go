@@ -155,6 +155,7 @@ func (o *DataPathCertificate) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *DataPathCertificate) Doc() string {
+
 	return `This API is used by instance of enforcers to retrieve various certificates used
 for the datapath.`
 }

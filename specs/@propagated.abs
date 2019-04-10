@@ -1,3 +1,7 @@
+# Indexes
+indexes:
+- - propagate
+
 # Attributes
 attributes:
   v1:

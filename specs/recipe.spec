@@ -8,17 +8,6 @@ model:
   description: A Recipe defines a list of steps to define a workflow.
   aliases:
   - rcp
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-  - - namespace
-    - name
-  - - namespace
-    - normalizedTags
-  - - namespace
-    - archived
   get:
     description: Retrieves the object with the given ID.
     global_parameters:

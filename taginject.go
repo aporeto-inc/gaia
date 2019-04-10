@@ -136,6 +136,7 @@ func (o *TagInject) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *TagInject) Doc() string {
+
 	return `This internal api is used to inject a new tag in the database.`
 }
 

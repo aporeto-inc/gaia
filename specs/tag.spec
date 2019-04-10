@@ -47,3 +47,5 @@ attributes:
       words.
     example_value: key=value
     primary_key: true
+    validations:
+    - $tag

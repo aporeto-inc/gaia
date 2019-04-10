@@ -80,9 +80,6 @@ func (o DependencyMapsList) Version() int {
 
 // DependencyMap represents the model of a dependencymap
 type DependencyMap struct {
-	// claims represents a user or a script that have accessed an api.
-	Claims map[string][]string `json:"claims" bson:"-" mapstructure:"claims,omitempty"`
-
 	// edges are the edges of the map.
 	Edges map[string]*GraphEdge `json:"edges" bson:"-" mapstructure:"edges,omitempty"`
 
@@ -106,7 +103,6 @@ func NewDependencyMap() *DependencyMap {
 	return &DependencyMap{
 		ModelVersion:    1,
 		Mutex:           &sync.Mutex{},
-		Claims:          map[string][]string{},
 		Edges:           map[string]*GraphEdge{},
 		Groups:          map[string]*GraphGroup{},
 		Nodes:           map[string]*GraphNode{},
@@ -145,6 +141,7 @@ func (o *DependencyMap) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *DependencyMap) Doc() string {
+
 	return `This api returns a data structure representing the graph of all processing units
 and their connections in a particular namespace, in a given time window. To pass
 the time window you can use the query parameters 'startAbsolute', 'endAbsolute',
@@ -166,7 +163,6 @@ func (o *DependencyMap) ToSparse(fields ...string) elemental.SparseIdentifiable 
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseDependencyMap{
-			Claims:          &o.Claims,
 			Edges:           &o.Edges,
 			Groups:          &o.Groups,
 			Nodes:           &o.Nodes,
@@ -177,8 +173,6 @@ func (o *DependencyMap) ToSparse(fields ...string) elemental.SparseIdentifiable 
 	sp := &SparseDependencyMap{}
 	for _, f := range fields {
 		switch f {
-		case "claims":
-			sp.Claims = &(o.Claims)
 		case "edges":
 			sp.Edges = &(o.Edges)
 		case "groups":
@@ -200,9 +194,6 @@ func (o *DependencyMap) Patch(sparse elemental.SparseIdentifiable) {
 	}
 
 	so := sparse.(*SparseDependencyMap)
-	if so.Claims != nil {
-		o.Claims = *so.Claims
-	}
 	if so.Edges != nil {
 		o.Edges = *so.Edges
 	}
@@ -299,8 +290,6 @@ func (*DependencyMap) AttributeSpecifications() map[string]elemental.AttributeSp
 func (o *DependencyMap) ValueForAttribute(name string) interface{} {
 
 	switch name {
-	case "claims":
-		return o.Claims
 	case "edges":
 		return o.Edges
 	case "groups":
@@ -316,16 +305,6 @@ func (o *DependencyMap) ValueForAttribute(name string) interface{} {
 
 // DependencyMapAttributesMap represents the map of attribute for DependencyMap.
 var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
-	"Claims": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Claims",
-		Description:    `claims represents a user or a script that have accessed an api.`,
-		Exposed:        true,
-		Name:           "claims",
-		ReadOnly:       true,
-		SubType:        "map[string][]string",
-		Type:           "external",
-	},
 	"Edges": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Edges",
@@ -370,16 +349,6 @@ var DependencyMapAttributesMap = map[string]elemental.AttributeSpecification{
 
 // DependencyMapLowerCaseAttributesMap represents the map of attribute for DependencyMap.
 var DependencyMapLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
-	"claims": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Claims",
-		Description:    `claims represents a user or a script that have accessed an api.`,
-		Exposed:        true,
-		Name:           "claims",
-		ReadOnly:       true,
-		SubType:        "map[string][]string",
-		Type:           "external",
-	},
 	"edges": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Edges",
@@ -485,9 +454,6 @@ func (o SparseDependencyMapsList) Version() int {
 
 // SparseDependencyMap represents the sparse version of a dependencymap.
 type SparseDependencyMap struct {
-	// claims represents a user or a script that have accessed an api.
-	Claims *map[string][]string `json:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
-
 	// edges are the edges of the map.
 	Edges *map[string]*GraphEdge `json:"edges,omitempty" bson:"-" mapstructure:"edges,omitempty"`
 
@@ -537,9 +503,6 @@ func (o *SparseDependencyMap) Version() int {
 func (o *SparseDependencyMap) ToPlain() elemental.PlainIdentifiable {
 
 	out := NewDependencyMap()
-	if o.Claims != nil {
-		out.Claims = *o.Claims
-	}
 	if o.Edges != nil {
 		out.Edges = *o.Edges
 	}

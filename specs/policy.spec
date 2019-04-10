@@ -6,41 +6,6 @@ model:
   package: squall
   group: core/policy
   description: Policy represents the policy primitive used by all aporeto policies.
-  indexes:
-  - - :shard
-    - zone
-    - zHash
-  - - namespace
-    - name
-  - - namespace
-  - - namespace
-    - type
-  - - namespace
-    - normalizedTags
-  - - namespace
-    - type
-    - allObjectTags
-  - - namespace
-    - type
-    - allSubjectTags
-  - - namespace
-    - type
-    - allObjectTags
-    - disabled
-  - - namespace
-    - type
-    - allSubjectTags
-    - disabled
-  - - namespace
-    - type
-    - allObjectTags
-    - propagate
-  - - namespace
-    - type
-    - allSubjectTags
-    - propagate
-  - - namespace
-    - fallback
   get:
     description: Retrieves the object with the given ID.
   delete:
@@ -60,6 +25,33 @@ model:
   - '@schedulable'
   - '@zonable'
   - '@timeable'
+
+# Indexes
+indexes:
+- - namespace
+  - type
+- - namespace
+  - type
+  - allObjectTags
+- - namespace
+  - type
+  - allSubjectTags
+- - namespace
+  - type
+  - allObjectTags
+  - disabled
+- - namespace
+  - type
+  - allSubjectTags
+  - disabled
+- - namespace
+  - type
+  - allObjectTags
+  - propagate
+- - namespace
+  - type
+  - allSubjectTags
+  - propagate
 
 # Attributes
 attributes:
@@ -102,6 +94,8 @@ attributes:
     stored: true
     getter: true
     setter: true
+    validations:
+    - $tagsExpression
 
   - name: relation
     description: |-
@@ -123,6 +117,8 @@ attributes:
     stored: true
     getter: true
     setter: true
+    validations:
+    - $tagsExpression
 
   - name: type
     description: Type of the policy.

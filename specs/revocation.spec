@@ -7,13 +7,15 @@ model:
   group: internal/x509
   description: Used to revoke a certificate.
   private: true
-  indexes:
-  - - :shard
-    - $hashed:serialNumber
-  - - :unique
-    - serialNumber
   update:
     description: Updates the object with the given ID.
+
+# Indexes
+indexes:
+- - :shard
+  - $hashed:serialNumber
+- - :unique
+  - serialNumber
 
 # Attributes
 attributes:

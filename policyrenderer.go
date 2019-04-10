@@ -190,6 +190,7 @@ func (o *PolicyRenderer) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *PolicyRenderer) Doc() string {
+
 	return `Render is a low level api that allows to render policies of given tyoe for a
 given set of tags.`
 }

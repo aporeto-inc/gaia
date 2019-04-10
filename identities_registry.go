@@ -25,6 +25,8 @@ var (
 		"awsregister":               AWSRegisterIdentity,
 		"category":                  CategoryIdentity,
 
+		"claims": ClaimsIdentity,
+
 		"customer":            CustomerIdentity,
 		"datapathcertificate": DataPathCertificateIdentity,
 		"dependencymap":       DependencyMapIdentity,
@@ -64,17 +66,19 @@ var (
 		"oidcprovider":             OIDCProviderIdentity,
 		"packetreport":             PacketReportIdentity,
 		"passwordreset":            PasswordResetIdentity,
-		"plan":                     PlanIdentity,
-		"poke":                     PokeIdentity,
-		"policy":                   PolicyIdentity,
-		"policygraph":              PolicyGraphIdentity,
-		"policyrefresh":            PolicyRefreshIdentity,
-		"policyrenderer":           PolicyRendererIdentity,
-		"policyrule":               PolicyRuleIdentity,
-		"policyttl":                PolicyTTLIdentity,
-		"privatekey":               PrivateKeyIdentity,
-		"processingunit":           ProcessingUnitIdentity,
-		"processingunitpolicy":     ProcessingUnitPolicyIdentity,
+
+		"plan":                  PlanIdentity,
+		"poke":                  PokeIdentity,
+		"policy":                PolicyIdentity,
+		"policygraph":           PolicyGraphIdentity,
+		"policyrefresh":         PolicyRefreshIdentity,
+		"policyrenderer":        PolicyRendererIdentity,
+		"policyrule":            PolicyRuleIdentity,
+		"policyttl":             PolicyTTLIdentity,
+		"privatekey":            PrivateKeyIdentity,
+		"processingunit":        ProcessingUnitIdentity,
+		"processingunitpolicy":  ProcessingUnitPolicyIdentity,
+		"processingunitrefresh": ProcessingUnitRefreshIdentity,
 
 		"punode":                 PUNodeIdentity,
 		"quotacheck":             QuotaCheckIdentity,
@@ -135,6 +139,8 @@ var (
 		"awsregister":                 AWSRegisterIdentity,
 		"categories":                  CategoryIdentity,
 
+		"claims": ClaimsIdentity,
+
 		"customers":            CustomerIdentity,
 		"datapathcertificates": DataPathCertificateIdentity,
 		"dependencymaps":       DependencyMapIdentity,
@@ -174,17 +180,19 @@ var (
 		"oidcproviders":              OIDCProviderIdentity,
 		"packetreports":              PacketReportIdentity,
 		"passwordreset":              PasswordResetIdentity,
-		"plans":                      PlanIdentity,
-		"poke":                       PokeIdentity,
-		"policies":                   PolicyIdentity,
-		"policygraphs":               PolicyGraphIdentity,
-		"policyrefreshs":             PolicyRefreshIdentity,
-		"policyrenderers":            PolicyRendererIdentity,
-		"policyrules":                PolicyRuleIdentity,
-		"policyttls":                 PolicyTTLIdentity,
-		"privatekeys":                PrivateKeyIdentity,
-		"processingunits":            ProcessingUnitIdentity,
-		"processingunitpolicies":     ProcessingUnitPolicyIdentity,
+
+		"plans":                  PlanIdentity,
+		"poke":                   PokeIdentity,
+		"policies":               PolicyIdentity,
+		"policygraphs":           PolicyGraphIdentity,
+		"policyrefreshs":         PolicyRefreshIdentity,
+		"policyrenderers":        PolicyRendererIdentity,
+		"policyrules":            PolicyRuleIdentity,
+		"policyttls":             PolicyTTLIdentity,
+		"privatekeys":            PrivateKeyIdentity,
+		"processingunits":        ProcessingUnitIdentity,
+		"processingunitpolicies": ProcessingUnitPolicyIdentity,
+		"processingunitrefreshs": ProcessingUnitRefreshIdentity,
 
 		"punodes":                  PUNodeIdentity,
 		"quotacheck":               QuotaCheckIdentity,
@@ -318,54 +326,89 @@ var (
 		"account": [][]string{
 			[]string{":unique", "name"},
 			[]string{":unique", "email"},
-			[]string{"activationToken"},
 			[]string{"resetPasswordToken"},
+			[]string{"activationToken"},
 		},
 		"accountcheck": nil,
 		"activate":     nil,
 		"activity": [][]string{
-			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace"},
 			[]string{"namespace", "date"},
 			[]string{"namespace", "operation"},
+			[]string{":shard", "zone", "zHash"},
 		},
 		"alarm": [][]string{
 			[]string{":shard", "zone", "zHash"},
-			[]string{"namespace"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"namespace", "name"},
+			[]string{"namespace", "normalizedTags"},
 			[]string{"namespace", "kind"},
+			[]string{"namespace"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
 		},
 		"apiauthorizationpolicy": nil,
 		"apicheck":               nil,
 		"app":                    nil,
 		"appcredential": [][]string{
 			[]string{":shard", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
 			[]string{"namespace"},
+			[]string{"namespace", "disabled"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags"},
+			[]string{"name"},
+			[]string{"disabled"},
+			[]string{"createIdempotencyKey"},
 		},
 		"auditprofile": [][]string{
 			[]string{":shard", "zone", "zHash"},
-			[]string{"namespace"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"propagate"},
 			[]string{"namespace", "name"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
 		},
 		"auditprofilemappingpolicy": nil,
 		"auditreport":               nil,
 		"auth":                      nil,
 		"authority": [][]string{
-			[]string{":shard", "$hashed:serialNumber"},
 			[]string{":unique", "serialNumber"},
+			[]string{":shard", "$hashed:serialNumber"},
 			[]string{"commonName"},
 		},
 		"automation": [][]string{
 			[]string{":shard", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
+			[]string{"namespace", "disabled"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"name"},
+			[]string{"disabled"},
+			[]string{"createIdempotencyKey"},
 		},
 		"automationtemplate": nil,
 		"awsaccount":         nil,
-		"awsapigateway":      nil,
-		"awsregister":        nil,
-		"category":           nil,
+		"awsapigateway": [][]string{
+			[]string{"updateIdempotencyKey"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "name"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
+		},
+		"awsregister": nil,
+		"category":    nil,
+		"claims": [][]string{
+			[]string{"updateIdempotencyKey"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"createIdempotencyKey"},
+			[]string{":shard", "zone", "zHash"},
+		},
 		"customer": [][]string{
 			[]string{"providerCustomerID"},
 		},
@@ -373,16 +416,23 @@ var (
 		"dependencymap":       nil,
 		"email":               nil,
 		"enforcer": [][]string{
-			[]string{":shard", "zone", "zHash"},
-			[]string{"namespace"},
-			[]string{"namespace", "name"},
+			[]string{"updateIdempotencyKey"},
 			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "name"},
+			[]string{"namespace"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
+			[]string{":shard", "zone", "zHash"},
 		},
 		"enforcerprofile": [][]string{
 			[]string{":shard", "zone", "zHash"},
-			[]string{"namespace"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"propagate"},
 			[]string{"namespace", "name"},
+			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
 		},
 		"enforcerprofilemappingpolicy": nil,
 		"enforcerreport":               nil,
@@ -391,68 +441,106 @@ var (
 		"export":                       nil,
 		"externalnetwork": [][]string{
 			[]string{":shard", "zone", "zHash"},
-			[]string{"namespace"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"propagate"},
 			[]string{"namespace", "name"},
-			[]string{"namespace", "normalizedTags"},
 			[]string{"namespace", "archived"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
+			[]string{"archived"},
 		},
 		"fileaccesspolicy": nil,
 		"fileaccessreport": nil,
 		"filepath": [][]string{
 			[]string{":shard", "zone", "zHash"},
-			[]string{"namespace"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"propagate"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "archived"},
+			[]string{"namespace"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
 			[]string{"archived"},
 		},
 		"flowreport": nil,
 		"hookpolicy": nil,
 		"hostservice": [][]string{
-			[]string{":shard", "zone", "zhash"},
-			[]string{"namespace"},
+			[]string{":shard", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"propagate"},
 			[]string{"namespace", "name"},
-			[]string{"namespace", "normalizedTags"},
 			[]string{"namespace", "archived"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
+			[]string{"archived"},
 		},
 		"hostservicemappingpolicy": nil,
 		"httpresourcespec": [][]string{
 			[]string{":shard", "zone", "zHash"},
-			[]string{"namespace"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"propagate"},
 			[]string{"namespace", "name"},
 			[]string{"namespace", "archived"},
+			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
+			[]string{"archived"},
 		},
 		"import": nil,
 		"importrequest": [][]string{
-			[]string{":shard", "zone", "zHash"},
+			[]string{"updateIdempotencyKey"},
 			[]string{"namespace"},
-			[]string{"namespace", "name"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"createIdempotencyKey"},
+			[]string{":shard", "zone", "zHash"},
 		},
 		"installedapp": [][]string{
-			[]string{"accountName", "name"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "name"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
 		},
 		"invoice":       nil,
 		"invoicerecord": nil,
 		"ipinfo":        nil,
 		"isolationprofile": [][]string{
 			[]string{":shard", "zone", "zHash"},
-			[]string{"namespace"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"propagate"},
 			[]string{"namespace", "name"},
+			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
 		},
 		"issue":       nil,
 		"jaegerbatch": nil,
 		"log":         nil,
 		"message": [][]string{
 			[]string{":shard", "zone", "zHash"},
-			[]string{"namespace"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"propagate"},
 			[]string{"namespace", "name"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
 		},
 		"namespace": [][]string{
-			[]string{":shard", "$hashed:name"},
 			[]string{":unique", "name"},
+			[]string{":shard", "$hashed:name"},
+			[]string{"updateIdempotencyKey"},
 			[]string{"namespace"},
-			[]string{"namespace", "name"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"createIdempotencyKey"},
 		},
 		"namespacemappingpolicy": nil,
 		"networkaccesspolicy":    nil,
@@ -465,17 +553,24 @@ var (
 		"poke":          nil,
 		"policy": [][]string{
 			[]string{":shard", "zone", "zHash"},
-			[]string{"namespace", "name"},
-			[]string{"namespace"},
-			[]string{"namespace", "type"},
-			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "type", "allObjectTags"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"propagate"},
 			[]string{"namespace", "type", "allSubjectTags"},
 			[]string{"namespace", "type", "allObjectTags", "disabled"},
 			[]string{"namespace", "type", "allSubjectTags", "disabled"},
 			[]string{"namespace", "type", "allObjectTags", "propagate"},
-			[]string{"namespace", "type", "allSubjectTags", "propagate"},
 			[]string{"namespace", "fallback"},
+			[]string{"namespace", "type"},
+			[]string{"namespace"},
+			[]string{"namespace", "name"},
+			[]string{"namespace", "type", "allObjectTags"},
+			[]string{"namespace", "disabled"},
+			[]string{"namespace", "type", "allSubjectTags", "propagate"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"name"},
+			[]string{"fallback"},
+			[]string{"disabled"},
+			[]string{"createIdempotencyKey"},
 		},
 		"policygraph":    nil,
 		"policyrefresh":  nil,
@@ -485,47 +580,64 @@ var (
 		"privatekey":     nil,
 		"processingunit": [][]string{
 			[]string{":shard", "zone", "zHash"},
-			[]string{"namespace"},
-			[]string{"namespace", "name"},
-			[]string{"namespace", "archived"},
+			[]string{"updateIdempotencyKey"},
 			[]string{"namespace", "operationalStatus", "archived"},
+			[]string{"namespace", "normalizedTags"},
 			[]string{"namespace", "normalizedTags", "archived"},
-		},
-		"processingunitpolicy": nil,
-		"punode":               nil,
-		"quotacheck":           nil,
-		"quotapolicy":          nil,
-		"recipe": [][]string{
-			[]string{":shard", "zone", "zHash"},
+			[]string{"namespace", "archived"},
 			[]string{"namespace"},
 			[]string{"namespace", "name"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
+			[]string{"archived"},
+		},
+		"processingunitpolicy":  nil,
+		"processingunitrefresh": nil,
+		"punode":                nil,
+		"quotacheck":            nil,
+		"quotapolicy":           nil,
+		"recipe": [][]string{
+			[]string{"updateIdempotencyKey"},
+			[]string{"propagate"},
 			[]string{"namespace", "normalizedTags"},
-			[]string{"namespace", "archived"},
+			[]string{"namespace", "name"},
+			[]string{"namespace"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
 		},
 		"remoteprocessor": nil,
 		"renderedpolicy":  nil,
 		"rendertemplate":  nil,
 		"report":          nil,
 		"revocation": [][]string{
-			[]string{":shard", "$hashed:serialNumber"},
 			[]string{":unique", "serialNumber"},
+			[]string{":shard", "$hashed:serialNumber"},
 		},
 		"role": nil,
 		"root": nil,
 		"service": [][]string{
 			[]string{":shard", "zone", "zHash"},
-			[]string{"namespace"},
-			[]string{"namespace", "name"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"namespace", "allAPITags"},
+			[]string{"namespace", "allServiceTags"},
+			[]string{"namespace", "disabled"},
 			[]string{"namespace", "archived"},
 			[]string{"namespace", "normalizedTags"},
-			[]string{"allAPITags"},
-			[]string{"namespace", "allAPITags"},
+			[]string{"namespace"},
+			[]string{"namespace", "name"},
+			[]string{"name"},
+			[]string{"disabled"},
+			[]string{"createIdempotencyKey"},
+			[]string{"archived"},
 			[]string{"allServiceTags"},
-			[]string{"namespace", "allServiceTags"},
+			[]string{"allAPITags"},
 		},
-		"servicedependency":      nil,
-		"squalltag":              nil,
-		"sshauthority":           nil,
+		"servicedependency": nil,
+		"squalltag":         nil,
+		"sshauthority": [][]string{
+			[]string{"namespace", "name"},
+			[]string{"name"},
+		},
 		"sshauthorizationpolicy": nil,
 		"sshcertificate":         nil,
 		"sshidentity":            nil,
@@ -542,8 +654,16 @@ var (
 		"validateuiparameter":    nil,
 		"vulnerability": [][]string{
 			[]string{":shard", "zone", "zHash"},
-			[]string{"namespace"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"severity"},
 			[]string{"namespace", "name"},
+			[]string{"namespace", "CVSS2Score"},
+			[]string{"namespace", "severity"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
+			[]string{"CVSS2Score"},
 		},
 		"x509certificate":      nil,
 		"x509certificatecheck": nil,
@@ -627,6 +747,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewAWSRegister()
 	case CategoryIdentity:
 		return NewCategory()
+	case ClaimsIdentity:
+		return NewClaims()
 	case CustomerIdentity:
 		return NewCustomer()
 	case DataPathCertificateIdentity:
@@ -723,6 +845,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
 		return NewProcessingUnitPolicy()
+	case ProcessingUnitRefreshIdentity:
+		return NewProcessingUnitRefresh()
 	case PUNodeIdentity:
 		return NewPUNode()
 	case QuotaCheckIdentity:
@@ -836,6 +960,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseAWSRegister()
 	case CategoryIdentity:
 		return NewSparseCategory()
+	case ClaimsIdentity:
+		return NewSparseClaims()
 	case CustomerIdentity:
 		return NewSparseCustomer()
 	case DataPathCertificateIdentity:
@@ -932,6 +1058,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseProcessingUnit()
 	case ProcessingUnitPolicyIdentity:
 		return NewSparseProcessingUnitPolicy()
+	case ProcessingUnitRefreshIdentity:
+		return NewSparseProcessingUnitRefresh()
 	case PUNodeIdentity:
 		return NewSparsePUNode()
 	case QuotaCheckIdentity:
@@ -1053,6 +1181,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &AWSRegistersList{}
 	case CategoryIdentity:
 		return &CategoriesList{}
+	case ClaimsIdentity:
+		return &ClaimsList{}
 	case CustomerIdentity:
 		return &CustomersList{}
 	case DataPathCertificateIdentity:
@@ -1149,6 +1279,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
 		return &ProcessingUnitPoliciesList{}
+	case ProcessingUnitRefreshIdentity:
+		return &ProcessingUnitRefreshsList{}
 	case PUNodeIdentity:
 		return &PUNodesList{}
 	case QuotaCheckIdentity:
@@ -1260,6 +1392,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseAWSRegistersList{}
 	case CategoryIdentity:
 		return &SparseCategoriesList{}
+	case ClaimsIdentity:
+		return &SparseClaimsList{}
 	case CustomerIdentity:
 		return &SparseCustomersList{}
 	case DataPathCertificateIdentity:
@@ -1356,6 +1490,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseProcessingUnitsList{}
 	case ProcessingUnitPolicyIdentity:
 		return &SparseProcessingUnitPoliciesList{}
+	case ProcessingUnitRefreshIdentity:
+		return &SparseProcessingUnitRefreshsList{}
 	case PUNodeIdentity:
 		return &SparsePUNodesList{}
 	case QuotaCheckIdentity:
@@ -1462,6 +1598,7 @@ func AllIdentities() []elemental.Identity {
 		AWSAPIGatewayIdentity,
 		AWSRegisterIdentity,
 		CategoryIdentity,
+		ClaimsIdentity,
 		CustomerIdentity,
 		DataPathCertificateIdentity,
 		DependencyMapIdentity,
@@ -1510,6 +1647,7 @@ func AllIdentities() []elemental.Identity {
 		PrivateKeyIdentity,
 		ProcessingUnitIdentity,
 		ProcessingUnitPolicyIdentity,
+		ProcessingUnitRefreshIdentity,
 		PUNodeIdentity,
 		QuotaCheckIdentity,
 		QuotaPolicyIdentity,
@@ -1610,6 +1748,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 	case AWSRegisterIdentity:
 		return []string{}
 	case CategoryIdentity:
+		return []string{}
+	case ClaimsIdentity:
 		return []string{}
 	case CustomerIdentity:
 		return []string{}
@@ -1769,6 +1909,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"pup",
 		}
+	case ProcessingUnitRefreshIdentity:
+		return []string{}
 	case PUNodeIdentity:
 		return []string{}
 	case QuotaCheckIdentity:

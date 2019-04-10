@@ -139,6 +139,7 @@ func (o *AWSRegister) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *AWSRegister) Doc() string {
+
 	return `This api allows AWS customer to register with Aporeto SaaS for billing.`
 }
 
@@ -475,13 +476,13 @@ type SparseAWSRegister struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Token Provided by AWS.
 	Provider *string `json:"provider,omitempty" bson:"-" mapstructure:"provider,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 

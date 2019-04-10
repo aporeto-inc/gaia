@@ -132,6 +132,7 @@ func (o *TagValue) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *TagValue) Doc() string {
+
 	return `Represents all values associated to tag key.`
 }
 

@@ -133,6 +133,7 @@ func (o *PolicyTTL) DefaultOrder() []string {
 
 // Doc returns the documentation for the object
 func (o *PolicyTTL) Doc() string {
+
 	return `This is an unexposed api that defines a helper document allowing to handle
 pushes on objects that are deleted by TTL.`
 }
@@ -374,7 +375,7 @@ type SparsePolicyTTL struct {
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Time when the policy must be deleted.
-	ExpirationTime *time.Time `json:"-" bson:"expirationtime" mapstructure:"-,omitempty"`
+	ExpirationTime *time.Time `json:"-" bson:"expirationtime,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
