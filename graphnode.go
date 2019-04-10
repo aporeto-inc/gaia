@@ -58,6 +58,9 @@ type GraphNode struct {
 	// Type of object represented by the node.
 	Type GraphNodeTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`
 
+	// If true the node is marked as unreachable.
+	Unreachable bool `json:"unreachable" bson:"-" mapstructure:"unreachable,omitempty"`
+
 	// Tags of object represented by the node.
 	VulnerabilityLevel string `json:"vulnerabilityLevel" bson:"-" mapstructure:"vulnerabilityLevel,omitempty"`
 

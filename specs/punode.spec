@@ -54,3 +54,8 @@ attributes:
     description: Type of the pu.
     type: string
     exposed: true
+
+  - name: unreachable
+    description: If true, the pu is unreachable.
+    type: boolean
+    exposed: true

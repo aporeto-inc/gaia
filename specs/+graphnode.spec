@@ -67,6 +67,11 @@ attributes:
     - Volume
     - Claim
 
+  - name: unreachable
+    description: If true the node is marked as unreachable.
+    type: boolean
+    exposed: true
+
   - name: vulnerabilityLevel
     description: Tags of object represented by the node.
     type: string

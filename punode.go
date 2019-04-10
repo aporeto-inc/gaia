@@ -108,6 +108,9 @@ type PUNode struct {
 	// Type of the pu.
 	Type string `json:"type" bson:"-" mapstructure:"type,omitempty"`
 
+	// If true, the pu is unreachable.
+	Unreachable bool `json:"unreachable" bson:"-" mapstructure:"unreachable,omitempty"`
+
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
 	*sync.Mutex `json:"-" bson:"-"`
@@ -181,6 +184,7 @@ func (o *PUNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Status:            &o.Status,
 			Tags:              &o.Tags,
 			Type:              &o.Type,
+			Unreachable:       &o.Unreachable,
 		}
 	}
 
@@ -205,6 +209,8 @@ func (o *PUNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Tags = &(o.Tags)
 		case "type":
 			sp.Type = &(o.Type)
+		case "unreachable":
+			sp.Unreachable = &(o.Unreachable)
 		}
 	}
 
@@ -244,6 +250,9 @@ func (o *PUNode) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Type != nil {
 		o.Type = *so.Type
+	}
+	if so.Unreachable != nil {
+		o.Unreachable = *so.Unreachable
 	}
 }
 
@@ -329,6 +338,8 @@ func (o *PUNode) ValueForAttribute(name string) interface{} {
 		return o.Tags
 	case "type":
 		return o.Type
+	case "unreachable":
+		return o.Unreachable
 	}
 
 	return nil
@@ -415,6 +426,14 @@ var PUNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "type",
 		Type:           "string",
 	},
+	"Unreachable": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Unreachable",
+		Description:    `If true, the pu is unreachable.`,
+		Exposed:        true,
+		Name:           "unreachable",
+		Type:           "boolean",
+	},
 }
 
 // PUNodeLowerCaseAttributesMap represents the map of attribute for PUNode.
@@ -497,6 +516,14 @@ var PUNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "type",
 		Type:           "string",
+	},
+	"unreachable": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Unreachable",
+		Description:    `If true, the pu is unreachable.`,
+		Exposed:        true,
+		Name:           "unreachable",
+		Type:           "boolean",
 	},
 }
 
@@ -590,6 +617,9 @@ type SparsePUNode struct {
 	// Type of the pu.
 	Type *string `json:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
 
+	// If true, the pu is unreachable.
+	Unreachable *bool `json:"unreachable,omitempty" bson:"-" mapstructure:"unreachable,omitempty"`
+
 	ModelVersion int `json:"-" bson:"_modelversion"`
 
 	*sync.Mutex `json:"-" bson:"-"`
@@ -657,6 +687,9 @@ func (o *SparsePUNode) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Type != nil {
 		out.Type = *o.Type
+	}
+	if o.Unreachable != nil {
+		out.Unreachable = *o.Unreachable
 	}
 
 	return out
