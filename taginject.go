@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o TagInjectsList) DefaultOrder() []string {
 
 // ToSparse returns the TagInjectsList converted to SparseTagInjectsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o TagInjectsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o TagInjectsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseTagInjectsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseTagInject)
 	}
 
 	return out
@@ -90,8 +89,6 @@ type TagInject struct {
 	TargetNamespace string `json:"targetNamespace" bson:"-" mapstructure:"targetNamespace,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTagInject returns a new *TagInject
@@ -99,7 +96,6 @@ func NewTagInject() *TagInject {
 
 	return &TagInject{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		AddedTags:    map[string]int{},
 		RemovedTags:  map[string]int{},
 	}
@@ -222,7 +218,7 @@ func (o *TagInject) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("targetNamespace", o.TargetNamespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -405,8 +401,6 @@ type SparseTagInject struct {
 	TargetNamespace *string `json:"targetNamespace,omitempty" bson:"-" mapstructure:"targetNamespace,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseTagInject returns a new  SparseTagInject.

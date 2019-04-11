@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -82,11 +81,11 @@ func (o StatsInfosList) DefaultOrder() []string {
 
 // ToSparse returns the StatsInfosList converted to SparseStatsInfosList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o StatsInfosList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o StatsInfosList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseStatsInfosList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseStatsInfo)
 	}
 
 	return out
@@ -110,8 +109,6 @@ type StatsInfo struct {
 	Tags []string `json:"tags" bson:"-" mapstructure:"tags,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewStatsInfo returns a new *StatsInfo
@@ -119,7 +116,6 @@ func NewStatsInfo() *StatsInfo {
 
 	return &StatsInfo{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Fields:       map[string]string{},
 		Measurement:  StatsInfoMeasurementFlows,
 		Tags:         []string{},
@@ -244,7 +240,7 @@ func (o *StatsInfo) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -435,8 +431,6 @@ type SparseStatsInfo struct {
 	Tags *[]string `json:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseStatsInfo returns a new  SparseStatsInfo.

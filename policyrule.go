@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -65,11 +64,11 @@ func (o PolicyRulesList) DefaultOrder() []string {
 
 // ToSparse returns the PolicyRulesList converted to SparsePolicyRulesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PolicyRulesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o PolicyRulesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparsePolicyRulesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparsePolicyRule)
 	}
 
 	return out
@@ -133,8 +132,6 @@ type PolicyRule struct {
 	TagClauses [][]string `json:"tagClauses" bson:"-" mapstructure:"tagClauses,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPolicyRule returns a new *PolicyRule
@@ -142,7 +139,6 @@ func NewPolicyRule() *PolicyRule {
 
 	return &PolicyRule{
 		ModelVersion:  1,
-		Mutex:         &sync.Mutex{},
 		HostServices:  HostServicesList{},
 		AuditProfiles: AuditProfilesList{},
 		Relation:      []string{},
@@ -362,62 +358,62 @@ func (o *PolicyRule) Validate() error {
 
 	for _, sub := range o.AuditProfiles {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.EnforcerProfiles {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.ExternalNetworks {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.FilePaths {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.HostServices {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.IsolationProfiles {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	for _, sub := range o.Namespaces {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.Services {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	if err := ValidateTagsExpression("tagClauses", o.TagClauses); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -920,8 +916,6 @@ type SparsePolicyRule struct {
 	TagClauses *[][]string `json:"tagClauses,omitempty" bson:"-" mapstructure:"tagClauses,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePolicyRule returns a new  SparsePolicyRule.

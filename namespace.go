@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -66,11 +65,11 @@ func (o NamespacesList) DefaultOrder() []string {
 
 // ToSparse returns the NamespacesList converted to SparseNamespacesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o NamespacesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o NamespacesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseNamespacesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseNamespace)
 	}
 
 	return out
@@ -153,8 +152,6 @@ type Namespace struct {
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewNamespace returns a new *Namespace
@@ -162,7 +159,6 @@ func NewNamespace() *Namespace {
 
 	return &Namespace{
 		ModelVersion:               1,
-		Mutex:                      &sync.Mutex{},
 		AssociatedTags:             []string{},
 		Annotations:                map[string][]string{},
 		Metadata:                   []string{},
@@ -548,31 +544,31 @@ func (o *Namespace) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidatePattern("name", o.Name, `^[a-zA-Z0-9-_/]+$`, `must only contain alpha numerical characters, '-' or '_'`, true); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTagsWithoutReservedPrefixes("networkAccessPolicyTags", o.NetworkAccessPolicyTags); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTimeDuration("serviceCertificateValidity", o.ServiceCertificateValidity); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -1329,8 +1325,6 @@ type SparseNamespace struct {
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseNamespace returns a new  SparseNamespace.

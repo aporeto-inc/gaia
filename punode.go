@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -63,11 +62,11 @@ func (o PUNodesList) DefaultOrder() []string {
 
 // ToSparse returns the PUNodesList converted to SparsePUNodesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PUNodesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o PUNodesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparsePUNodesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparsePUNode)
 	}
 
 	return out
@@ -112,8 +111,6 @@ type PUNode struct {
 	Unreachable bool `json:"unreachable" bson:"-" mapstructure:"unreachable,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPUNode returns a new *PUNode
@@ -121,7 +118,6 @@ func NewPUNode() *PUNode {
 
 	return &PUNode{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Images:       []string{},
 		Tags:         []string{},
 	}
@@ -621,8 +617,6 @@ type SparsePUNode struct {
 	Unreachable *bool `json:"unreachable,omitempty" bson:"-" mapstructure:"unreachable,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePUNode returns a new  SparsePUNode.

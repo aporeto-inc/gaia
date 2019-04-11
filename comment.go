@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -21,8 +20,6 @@ type Comment struct {
 	Date time.Time `json:"date" bson:"date" mapstructure:"date,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewComment returns a new *Comment
@@ -30,7 +27,6 @@ func NewComment() *Comment {
 
 	return &Comment{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Claims:       []string{},
 	}
 }

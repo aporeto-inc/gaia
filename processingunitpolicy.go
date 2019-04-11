@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -89,11 +88,11 @@ func (o ProcessingUnitPoliciesList) DefaultOrder() []string {
 
 // ToSparse returns the ProcessingUnitPoliciesList converted to SparseProcessingUnitPoliciesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ProcessingUnitPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o ProcessingUnitPoliciesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseProcessingUnitPoliciesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseProcessingUnitPolicy)
 	}
 
 	return out
@@ -186,8 +185,6 @@ type ProcessingUnitPolicy struct {
 	Zone int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewProcessingUnitPolicy returns a new *ProcessingUnitPolicy
@@ -195,7 +192,6 @@ func NewProcessingUnitPolicy() *ProcessingUnitPolicy {
 
 	return &ProcessingUnitPolicy{
 		ModelVersion:             1,
-		Mutex:                    &sync.Mutex{},
 		Annotations:              map[string][]string{},
 		AssociatedTags:           []string{},
 		IsolationProfileSelector: [][]string{},
@@ -674,39 +670,39 @@ func (o *ProcessingUnitPolicy) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Delete", "Enforce", "LogCompliance", "Reject", "Snapshot", "Stop"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTagsExpression("isolationProfileSelector", o.IsolationProfileSelector); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTagsExpression("subject", o.Subject); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -1543,8 +1539,6 @@ type SparseProcessingUnitPolicy struct {
 	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseProcessingUnitPolicy returns a new  SparseProcessingUnitPolicy.

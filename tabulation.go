@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o TabulationsList) DefaultOrder() []string {
 
 // ToSparse returns the TabulationsList converted to SparseTabulationsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o TabulationsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o TabulationsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseTabulationsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseTabulation)
 	}
 
 	return out
@@ -90,8 +89,6 @@ type Tabulation struct {
 	TargetIdentity string `json:"targetIdentity" bson:"-" mapstructure:"targetIdentity,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTabulation returns a new *Tabulation
@@ -99,7 +96,6 @@ func NewTabulation() *Tabulation {
 
 	return &Tabulation{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Headers:      []string{},
 		Rows:         [][]interface{}{},
 	}
@@ -412,8 +408,6 @@ type SparseTabulation struct {
 	TargetIdentity *string `json:"targetIdentity,omitempty" bson:"-" mapstructure:"targetIdentity,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseTabulation returns a new  SparseTabulation.

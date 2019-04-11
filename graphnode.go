@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -65,8 +64,6 @@ type GraphNode struct {
 	VulnerabilityLevel string `json:"vulnerabilityLevel" bson:"-" mapstructure:"vulnerabilityLevel,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewGraphNode returns a new *GraphNode
@@ -74,7 +71,6 @@ func NewGraphNode() *GraphNode {
 
 	return &GraphNode{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Images:       []string{},
 		Tags:         []string{},
 	}
@@ -111,7 +107,7 @@ func (o *GraphNode) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Docker", "ExternalNetwork", "Volume", "Claim"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {

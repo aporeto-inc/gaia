@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o LogsList) DefaultOrder() []string {
 
 // ToSparse returns the LogsList converted to SparseLogsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o LogsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o LogsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseLogsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseLog)
 	}
 
 	return out
@@ -84,8 +83,6 @@ type Log struct {
 	Data map[string]string `json:"data" bson:"-" mapstructure:"data,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewLog returns a new *Log
@@ -93,7 +90,6 @@ func NewLog() *Log {
 
 	return &Log{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Data:         map[string]string{},
 	}
 }
@@ -340,8 +336,6 @@ type SparseLog struct {
 	Data *map[string]string `json:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseLog returns a new  SparseLog.

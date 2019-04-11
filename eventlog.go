@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -83,11 +82,11 @@ func (o EventLogsList) DefaultOrder() []string {
 
 // ToSparse returns the EventLogsList converted to SparseEventLogsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o EventLogsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o EventLogsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseEventLogsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseEventLog)
 	}
 
 	return out
@@ -130,8 +129,6 @@ type EventLog struct {
 	Title string `json:"title" bson:"title" mapstructure:"title,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewEventLog returns a new *EventLog
@@ -139,7 +136,6 @@ func NewEventLog() *EventLog {
 
 	return &EventLog{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Level:        EventLogLevelInfo,
 	}
 }
@@ -309,27 +305,27 @@ func (o *EventLog) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("category", o.Category); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("content", o.Content); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("level", string(o.Level), []string{"Debug", "Info", "Warning", "Error", "Critical"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("targetID", o.TargetID); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("targetIdentity", o.TargetIdentity); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("title", o.Title); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -701,8 +697,6 @@ type SparseEventLog struct {
 	Title *string `json:"title,omitempty" bson:"title,omitempty" mapstructure:"title,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseEventLog returns a new  SparseEventLog.

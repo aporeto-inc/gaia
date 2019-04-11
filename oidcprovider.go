@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -63,11 +62,11 @@ func (o OIDCProvidersList) DefaultOrder() []string {
 
 // ToSparse returns the OIDCProvidersList converted to SparseOIDCProvidersList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o OIDCProvidersList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o OIDCProvidersList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseOIDCProvidersList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseOIDCProvider)
 	}
 
 	return out
@@ -117,8 +116,6 @@ type OIDCProvider struct {
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewOIDCProvider returns a new *OIDCProvider
@@ -126,7 +123,6 @@ func NewOIDCProvider() *OIDCProvider {
 
 	return &OIDCProvider{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Scopes:       []string{},
 	}
 }
@@ -322,19 +318,19 @@ func (o *OIDCProvider) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("clientID", o.ClientID); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("clientSecret", o.ClientSecret); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("endpoint", o.Endpoint); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -761,8 +757,6 @@ type SparseOIDCProvider struct {
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseOIDCProvider returns a new  SparseOIDCProvider.

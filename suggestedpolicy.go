@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o SuggestedPoliciesList) DefaultOrder() []string {
 
 // ToSparse returns the SuggestedPoliciesList converted to SparseSuggestedPoliciesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o SuggestedPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o SuggestedPoliciesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseSuggestedPoliciesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseSuggestedPolicy)
 	}
 
 	return out
@@ -84,8 +83,6 @@ type SuggestedPolicy struct {
 	NetworkAccessPolicies NetworkAccessPoliciesList `json:"networkAccessPolicies" bson:"networkaccesspolicies" mapstructure:"networkAccessPolicies,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSuggestedPolicy returns a new *SuggestedPolicy
@@ -93,7 +90,6 @@ func NewSuggestedPolicy() *SuggestedPolicy {
 
 	return &SuggestedPolicy{
 		ModelVersion:          1,
-		Mutex:                 &sync.Mutex{},
 		NetworkAccessPolicies: NetworkAccessPoliciesList{},
 	}
 }
@@ -204,7 +200,7 @@ func (o *SuggestedPolicy) Validate() error {
 
 	for _, sub := range o.NetworkAccessPolicies {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
@@ -346,8 +342,6 @@ type SparseSuggestedPolicy struct {
 	NetworkAccessPolicies *NetworkAccessPoliciesList `json:"networkAccessPolicies,omitempty" bson:"networkaccesspolicies,omitempty" mapstructure:"networkAccessPolicies,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseSuggestedPolicy returns a new  SparseSuggestedPolicy.

@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -73,11 +72,11 @@ func (o SSHCertificatesList) DefaultOrder() []string {
 
 // ToSparse returns the SSHCertificatesList converted to SparseSSHCertificatesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o SSHCertificatesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o SSHCertificatesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseSSHCertificatesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseSSHCertificate)
 	}
 
 	return out
@@ -116,8 +115,6 @@ type SSHCertificate struct {
 	Validity string `json:"validity" bson:"-" mapstructure:"validity,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSSHCertificate returns a new *SSHCertificate
@@ -125,7 +122,6 @@ func NewSSHCertificate() *SSHCertificate {
 
 	return &SSHCertificate{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Extensions:   map[string]string{},
 		Options:      map[string]string{},
 		Principals:   []string{},
@@ -281,19 +277,19 @@ func (o *SSHCertificate) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("publicKey", o.PublicKey); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("signerID", o.SignerID); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"User", "Host"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTimeDuration("validity", o.Validity); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -593,8 +589,6 @@ type SparseSSHCertificate struct {
 	Validity *string `json:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseSSHCertificate returns a new  SparseSSHCertificate.

@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o PrivateKeysList) DefaultOrder() []string {
 
 // ToSparse returns the PrivateKeysList converted to SparsePrivateKeysList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PrivateKeysList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o PrivateKeysList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparsePrivateKeysList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparsePrivateKey)
 	}
 
 	return out
@@ -91,8 +90,6 @@ type PrivateKey struct {
 	Data string `json:"-" bson:"data" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPrivateKey returns a new *PrivateKey
@@ -100,7 +97,6 @@ func NewPrivateKey() *PrivateKey {
 
 	return &PrivateKey{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -404,8 +400,6 @@ type SparsePrivateKey struct {
 	Data *string `json:"-" bson:"data,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePrivateKey returns a new  SparsePrivateKey.

@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -79,8 +78,6 @@ type AppParameter struct {
 	Value interface{} `json:"value" bson:"value" mapstructure:"value,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAppParameter returns a new *AppParameter
@@ -88,7 +85,6 @@ func NewAppParameter() *AppParameter {
 
 	return &AppParameter{
 		ModelVersion:  1,
-		Mutex:         &sync.Mutex{},
 		AllowedValues: []interface{}{},
 	}
 }
@@ -124,7 +120,7 @@ func (o *AppParameter) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Duration", "Enum", "IntegerSlice", "Integer", "Float", "FloatSlice", "Password", "String", "StringSlice", "CVSSThreshold"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {

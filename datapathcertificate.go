@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -73,11 +72,11 @@ func (o DataPathCertificatesList) DefaultOrder() []string {
 
 // ToSparse returns the DataPathCertificatesList converted to SparseDataPathCertificatesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o DataPathCertificatesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o DataPathCertificatesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseDataPathCertificatesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseDataPathCertificate)
 	}
 
 	return out
@@ -111,8 +110,6 @@ type DataPathCertificate struct {
 	Type DataPathCertificateTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewDataPathCertificate returns a new *DataPathCertificate
@@ -120,7 +117,6 @@ func NewDataPathCertificate() *DataPathCertificate {
 
 	return &DataPathCertificate{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -260,15 +256,15 @@ func (o *DataPathCertificate) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("CSR", o.CSR); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("objectID", o.ObjectID); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Enforcer", "Service"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -527,8 +523,6 @@ type SparseDataPathCertificate struct {
 	Type *DataPathCertificateTypeValue `json:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseDataPathCertificate returns a new  SparseDataPathCertificate.

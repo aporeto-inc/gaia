@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -88,11 +87,11 @@ func (o StatsQueriesList) DefaultOrder() []string {
 
 // ToSparse returns the StatsQueriesList converted to SparseStatsQueriesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o StatsQueriesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o StatsQueriesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseStatsQueriesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseStatsQuery)
 	}
 
 	return out
@@ -133,8 +132,6 @@ type StatsQuery struct {
 	Results []*TimeSeriesQueryResults `json:"results" bson:"-" mapstructure:"results,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewStatsQuery returns a new *StatsQuery
@@ -142,7 +139,6 @@ func NewStatsQuery() *StatsQuery {
 
 	return &StatsQuery{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Fields:       []string{},
 		Groups:       []string{},
 		Limit:        -1,
@@ -301,12 +297,12 @@ func (o *StatsQuery) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	for _, sub := range o.Results {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
@@ -611,8 +607,6 @@ type SparseStatsQuery struct {
 	Results *[]*TimeSeriesQueryResults `json:"results,omitempty" bson:"-" mapstructure:"results,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseStatsQuery returns a new  SparseStatsQuery.

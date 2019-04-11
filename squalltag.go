@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o SquallTagsList) DefaultOrder() []string {
 
 // ToSparse returns the SquallTagsList converted to SparseSquallTagsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o SquallTagsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o SquallTagsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseSquallTagsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseSquallTag)
 	}
 
 	return out
@@ -90,8 +89,6 @@ type SquallTag struct {
 	Value string `json:"value" bson:"value" mapstructure:"value,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSquallTag returns a new *SquallTag
@@ -99,7 +96,6 @@ func NewSquallTag() *SquallTag {
 
 	return &SquallTag{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -400,8 +396,6 @@ type SparseSquallTag struct {
 	Value *string `json:"value,omitempty" bson:"value,omitempty" mapstructure:"value,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseSquallTag returns a new  SparseSquallTag.

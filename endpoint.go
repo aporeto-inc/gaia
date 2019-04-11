@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -26,8 +25,6 @@ type Endpoint struct {
 	Scopes []string `json:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewEndpoint returns a new *Endpoint
@@ -35,7 +32,6 @@ func NewEndpoint() *Endpoint {
 
 	return &Endpoint{
 		ModelVersion:  1,
-		Mutex:         &sync.Mutex{},
 		AllowedScopes: [][]string{},
 		Methods:       []string{},
 		Scopes:        []string{},
@@ -73,7 +69,7 @@ func (o *Endpoint) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := ValidateHTTPMethods("methods", o.Methods); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {

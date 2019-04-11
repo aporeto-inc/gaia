@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o RolesList) DefaultOrder() []string {
 
 // ToSparse returns the RolesList converted to SparseRolesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o RolesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o RolesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseRolesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseRole)
 	}
 
 	return out
@@ -93,8 +92,6 @@ type Role struct {
 	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewRole returns a new *Role
@@ -102,7 +99,6 @@ func NewRole() *Role {
 
 	return &Role{
 		ModelVersion:   1,
-		Mutex:          &sync.Mutex{},
 		Authorizations: map[string][]string{},
 	}
 }
@@ -443,8 +439,6 @@ type SparseRole struct {
 	Name *string `json:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseRole returns a new  SparseRole.

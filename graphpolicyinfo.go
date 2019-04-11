@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -17,8 +16,6 @@ type GraphPolicyInfo struct {
 	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewGraphPolicyInfo returns a new *GraphPolicyInfo
@@ -26,7 +23,6 @@ func NewGraphPolicyInfo() *GraphPolicyInfo {
 
 	return &GraphPolicyInfo{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 

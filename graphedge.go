@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -77,8 +76,6 @@ type GraphEdge struct {
 	SourceType GraphEdgeSourceTypeValue `json:"sourceType" bson:"-" mapstructure:"sourceType,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewGraphEdge returns a new *GraphEdge
@@ -86,7 +83,6 @@ func NewGraphEdge() *GraphEdge {
 
 	return &GraphEdge{
 		ModelVersion:       1,
-		Mutex:              &sync.Mutex{},
 		ObservedPolicyIDs:  map[string]*GraphPolicyInfo{},
 		ObservedServiceIDs: map[string]int{},
 		PolicyIDs:          map[string]*GraphPolicyInfo{},
@@ -124,23 +120,23 @@ func (o *GraphEdge) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("destinationType", string(o.DestinationType), []string{"ProcessingUnit", "ExternalNetwork"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	for _, sub := range o.ObservedPolicyIDs {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.PolicyIDs {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	if err := elemental.ValidateStringInList("sourceType", string(o.SourceType), []string{"ProcessingUnit", "ExternalNetwork"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {

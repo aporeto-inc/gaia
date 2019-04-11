@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o AccountChecksList) DefaultOrder() []string {
 
 // ToSparse returns the AccountChecksList converted to SparseAccountChecksList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o AccountChecksList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o AccountChecksList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseAccountChecksList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseAccountCheck)
 	}
 
 	return out
@@ -99,8 +98,6 @@ type AccountCheck struct {
 	Password string `json:"password" bson:"-" mapstructure:"password,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAccountCheck returns a new *AccountCheck
@@ -108,7 +105,6 @@ func NewAccountCheck() *AccountCheck {
 
 	return &AccountCheck{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -247,11 +243,11 @@ func (o *AccountCheck) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("handle", o.Handle); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("password", o.Password); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -507,8 +503,6 @@ type SparseAccountCheck struct {
 	Password *string `json:"password,omitempty" bson:"-" mapstructure:"password,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAccountCheck returns a new  SparseAccountCheck.

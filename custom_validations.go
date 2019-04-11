@@ -156,36 +156,36 @@ func ValidateServiceEntity(service *Service) error {
 	case ServiceAuthorizationTypeOIDC:
 
 		if service.OIDCProviderURL == "" {
-			errs = append(errs, makeValidationError("OIDCProviderURL", "`OIDCProviderURL` is required when `authorizationType` is set to `OIDC`"))
+			errs = errs.Append(makeValidationError("OIDCProviderURL", "`OIDCProviderURL` is required when `authorizationType` is set to `OIDC`"))
 		}
 
 		if u, err := url.Parse(service.OIDCProviderURL); err != nil || u == nil || u.Scheme != "https" {
-			errs = append(errs, makeValidationError("OIDCProviderURL", "`OIDCProviderURL` must be a valid HTTPS URL: example https://xxx.yyy"))
+			errs = errs.Append(makeValidationError("OIDCProviderURL", "`OIDCProviderURL` must be a valid HTTPS URL: example https://xxx.yyy"))
 		}
 
 		if service.OIDCClientID == "" {
-			errs = append(errs, makeValidationError("OIDCClientID", "`OIDCClientID` is required when `authorizationType` is set to `OIDC`"))
+			errs = errs.Append(makeValidationError("OIDCClientID", "`OIDCClientID` is required when `authorizationType` is set to `OIDC`"))
 		}
 
 		if service.OIDCClientSecret == "" {
-			errs = append(errs, makeValidationError("OIDCClientSecret", "`OIDCClientSecret` is required when `authorizationType` is set to `OIDC`"))
+			errs = errs.Append(makeValidationError("OIDCClientSecret", "`OIDCClientSecret` is required when `authorizationType` is set to `OIDC`"))
 		}
 
 	case ServiceAuthorizationTypeJWT:
 
 		if service.JWTSigningCertificate == "" {
-			errs = append(errs, makeValidationError("JWTSigningCertificate", "`JWTSigningCertificate` is required when `authorizationType` is set to `JWT`"))
+			errs = errs.Append(makeValidationError("JWTSigningCertificate", "`JWTSigningCertificate` is required when `authorizationType` is set to `JWT`"))
 		}
 	}
 
 	if service.TLSType == ServiceTLSTypeExternal {
 
 		if service.TLSCertificate == "" {
-			errs = append(errs, makeValidationError("TLSCertificate", "`TLSCertificate` is required when `TLSType` is set to `External`"))
+			errs = errs.Append(makeValidationError("TLSCertificate", "`TLSCertificate` is required when `TLSType` is set to `External`"))
 		}
 
 		if service.TLSCertificateKey == "" {
-			errs = append(errs, makeValidationError("TLSCertificateKey", "`TLSCertificateKey` is required when `TLSType` is set to `External`"))
+			errs = errs.Append(makeValidationError("TLSCertificateKey", "`TLSCertificateKey` is required when `TLSType` is set to `External`"))
 		}
 	}
 
@@ -193,12 +193,12 @@ func ValidateServiceEntity(service *Service) error {
 	for i, ip := range service.IPs {
 		ipNet, err := ipNetFromString(ip)
 		if err != nil {
-			errs = append(errs, err)
+			errs = errs.Append(err)
 			continue
 		}
 		for j := 0; j < i; j++ {
 			if allSubnets[j].Contains(ipNet.IP) || ipNet.Contains(allSubnets[j].IP) {
-				errs = append(errs, makeValidationError("IPs", "subnets cannot overlap"))
+				errs = errs.Append(makeValidationError("IPs", "subnets cannot overlap"))
 			}
 		}
 		allSubnets = append(allSubnets, ipNet)
@@ -207,16 +207,16 @@ func ValidateServiceEntity(service *Service) error {
 	allHosts := map[string]bool{}
 	for _, name := range service.Hosts {
 		if !isFQDN(name) {
-			errs = append(errs, makeValidationError("Hosts", "`Hosts` must be a valid hostname or FQDN, compliant with RF952"))
+			errs = errs.Append(makeValidationError("Hosts", "`Hosts` must be a valid hostname or FQDN, compliant with RF952"))
 		}
 		if _, ok := allHosts[name]; ok {
-			errs = append(errs, makeValidationError("Hosts", "`Hosts` must be unique"))
+			errs = errs.Append(makeValidationError("Hosts", "`Hosts` must be unique"))
 		}
 		allHosts[name] = true
 	}
 
 	if len(service.Hosts) == 0 && len(service.IPs) == 0 {
-		errs = append(errs, makeValidationError("", "You must set at least one value in `hosts` or `IPs`"))
+		errs = errs.Append(makeValidationError("", "You must set at least one value in `hosts` or `IPs`"))
 	}
 
 	if len(errs) > 0 {
@@ -226,7 +226,7 @@ func ValidateServiceEntity(service *Service) error {
 	return nil
 }
 
-func makeValidationError(attribute string, message string) error {
+func makeValidationError(attribute string, message string) elemental.Error {
 
 	err := elemental.NewError(
 		"Validation Error",

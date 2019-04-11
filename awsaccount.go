@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -63,11 +62,11 @@ func (o AWSAccountsList) DefaultOrder() []string {
 
 // ToSparse returns the AWSAccountsList converted to SparseAWSAccountsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o AWSAccountsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o AWSAccountsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseAWSAccountsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseAWSAccount)
 	}
 
 	return out
@@ -115,8 +114,6 @@ type AWSAccount struct {
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAWSAccount returns a new *AWSAccount
@@ -124,7 +121,6 @@ func NewAWSAccount() *AWSAccount {
 
 	return &AWSAccount{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -313,15 +309,15 @@ func (o *AWSAccount) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("accessKeyID", o.AccessKeyID); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("region", o.Region); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("secretAccessKey", o.SecretAccessKey); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -736,8 +732,6 @@ type SparseAWSAccount struct {
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAWSAccount returns a new  SparseAWSAccount.

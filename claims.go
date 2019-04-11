@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -65,11 +64,11 @@ func (o ClaimsList) DefaultOrder() []string {
 
 // ToSparse returns the ClaimsList converted to SparseClaimsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ClaimsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o ClaimsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseClaimsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseClaims)
 	}
 
 	return out
@@ -130,8 +129,6 @@ type Claims struct {
 	Zone int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewClaims returns a new *Claims
@@ -139,7 +136,6 @@ func NewClaims() *Claims {
 
 	return &Claims{
 		ModelVersion:   1,
-		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Content:        map[string]string{},
@@ -441,11 +437,11 @@ func (o *Claims) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("hash", o.Hash); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -983,8 +979,6 @@ type SparseClaims struct {
 	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseClaims returns a new  SparseClaims.

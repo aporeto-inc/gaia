@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -63,11 +62,11 @@ func (o AuthoritiesList) DefaultOrder() []string {
 
 // ToSparse returns the AuthoritiesList converted to SparseAuthoritiesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o AuthoritiesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o AuthoritiesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseAuthoritiesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseAuthority)
 	}
 
 	return out
@@ -100,8 +99,6 @@ type Authority struct {
 	SerialNumber string `json:"serialNumber" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAuthority returns a new *Authority
@@ -109,7 +106,6 @@ func NewAuthority() *Authority {
 
 	return &Authority{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -249,7 +245,7 @@ func (o *Authority) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("commonName", o.CommonName); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -521,8 +517,6 @@ type SparseAuthority struct {
 	SerialNumber *string `json:"serialNumber,omitempty" bson:"serialnumber,omitempty" mapstructure:"serialNumber,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAuthority returns a new  SparseAuthority.

@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -63,11 +62,11 @@ func (o ActivitiesList) DefaultOrder() []string {
 
 // ToSparse returns the ActivitiesList converted to SparseActivitiesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ActivitiesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o ActivitiesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseActivitiesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseActivity)
 	}
 
 	return out
@@ -124,8 +123,6 @@ type Activity struct {
 	Zone int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewActivity returns a new *Activity
@@ -133,7 +130,6 @@ func NewActivity() *Activity {
 
 	return &Activity{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -844,8 +840,6 @@ type SparseActivity struct {
 	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseActivity returns a new  SparseActivity.

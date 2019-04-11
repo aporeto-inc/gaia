@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -94,11 +93,11 @@ func (o EnforcerProfilesList) DefaultOrder() []string {
 
 // ToSparse returns the EnforcerProfilesList converted to SparseEnforcerProfilesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o EnforcerProfilesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o EnforcerProfilesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseEnforcerProfilesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseEnforcerProfile)
 	}
 
 	return out
@@ -194,8 +193,6 @@ type EnforcerProfile struct {
 	Zone int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewEnforcerProfile returns a new *EnforcerProfile
@@ -203,7 +200,6 @@ func NewEnforcerProfile() *EnforcerProfile {
 
 	return &EnforcerProfile{
 		ModelVersion:                1,
-		Mutex:                       &sync.Mutex{},
 		Annotations:                 map[string][]string{},
 		ExcludedInterfaces:          []string{},
 		AssociatedTags:              []string{},
@@ -655,47 +651,40 @@ func (o *EnforcerProfile) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTagsExpression("ignoreExpression", o.IgnoreExpression); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("kubernetesMetadataExtractor", string(o.KubernetesMetadataExtractor), []string{"KubeSquall", "PodAtomic", "PodContainers"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("metadataExtractor", string(o.MetadataExtractor), []string{"Docker", "ECS", "Kubernetes"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	// Custom object validation.
 	if err := ValidateEnforcerProfile(o); err != nil {
-		switch e := err.(type) {
-		case elemental.Errors:
-			errors = append(errors, e...)
-		case elemental.Error:
-			errors = append(errors, e)
-		default:
-			errors = append(errors, e)
-		}
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -1573,8 +1562,6 @@ type SparseEnforcerProfile struct {
 	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseEnforcerProfile returns a new  SparseEnforcerProfile.

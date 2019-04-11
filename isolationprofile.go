@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -67,11 +66,11 @@ func (o IsolationProfilesList) DefaultOrder() []string {
 
 // ToSparse returns the IsolationProfilesList converted to SparseIsolationProfilesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o IsolationProfilesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o IsolationProfilesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseIsolationProfilesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseIsolationProfile)
 	}
 
 	return out
@@ -153,8 +152,6 @@ type IsolationProfile struct {
 	Zone int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewIsolationProfile returns a new *IsolationProfile
@@ -162,7 +159,6 @@ func NewIsolationProfile() *IsolationProfile {
 
 	return &IsolationProfile{
 		ModelVersion:        1,
-		Mutex:               &sync.Mutex{},
 		Annotations:         map[string][]string{},
 		AssociatedTags:      []string{},
 		CapabilitiesActions: types.CapabilitiesTypeMap{},
@@ -576,23 +572,23 @@ func (o *IsolationProfile) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -1342,8 +1338,6 @@ type SparseIsolationProfile struct {
 	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseIsolationProfile returns a new  SparseIsolationProfile.

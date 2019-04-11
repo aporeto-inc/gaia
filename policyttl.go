@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -63,11 +62,11 @@ func (o PolicyTTLsList) DefaultOrder() []string {
 
 // ToSparse returns the PolicyTTLsList converted to SparsePolicyTTLsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PolicyTTLsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o PolicyTTLsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparsePolicyTTLsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparsePolicyTTL)
 	}
 
 	return out
@@ -88,8 +87,6 @@ type PolicyTTL struct {
 	ExpirationTime time.Time `json:"-" bson:"expirationtime" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPolicyTTL returns a new *PolicyTTL
@@ -97,7 +94,6 @@ func NewPolicyTTL() *PolicyTTL {
 
 	return &PolicyTTL{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -378,8 +374,6 @@ type SparsePolicyTTL struct {
 	ExpirationTime *time.Time `json:"-" bson:"expirationtime,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePolicyTTL returns a new  SparsePolicyTTL.

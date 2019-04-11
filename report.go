@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -89,11 +88,11 @@ func (o ReportsList) DefaultOrder() []string {
 
 // ToSparse returns the ReportsList converted to SparseReportsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ReportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o ReportsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseReportsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseReport)
 	}
 
 	return out
@@ -123,8 +122,6 @@ type Report struct {
 	Value float64 `json:"value" bson:"-" mapstructure:"value,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewReport returns a new *Report
@@ -132,7 +129,6 @@ func NewReport() *Report {
 
 	return &Report{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Fields:       map[string]interface{}{},
 		Tags:         map[string]string{},
 	}
@@ -267,7 +263,7 @@ func (o *Report) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("kind", string(o.Kind), []string{"Audit", "Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall", "Claims"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -490,8 +486,6 @@ type SparseReport struct {
 	Value *float64 `json:"value,omitempty" bson:"-" mapstructure:"value,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseReport returns a new  SparseReport.

@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -63,11 +62,11 @@ func (o InvoiceRecordsList) DefaultOrder() []string {
 
 // ToSparse returns the InvoiceRecordsList converted to SparseInvoiceRecordsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o InvoiceRecordsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o InvoiceRecordsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseInvoiceRecordsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseInvoiceRecord)
 	}
 
 	return out
@@ -98,8 +97,6 @@ type InvoiceRecord struct {
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewInvoiceRecord returns a new *InvoiceRecord
@@ -107,7 +104,6 @@ func NewInvoiceRecord() *InvoiceRecord {
 
 	return &InvoiceRecord{
 		ModelVersion:   1,
-		Mutex:          &sync.Mutex{},
 		InvoiceRecords: []string{},
 	}
 }
@@ -521,8 +517,6 @@ type SparseInvoiceRecord struct {
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseInvoiceRecord returns a new  SparseInvoiceRecord.

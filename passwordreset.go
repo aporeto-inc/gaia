@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o PasswordResetsList) DefaultOrder() []string {
 
 // ToSparse returns the PasswordResetsList converted to SparsePasswordResetsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PasswordResetsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o PasswordResetsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparsePasswordResetsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparsePasswordReset)
 	}
 
 	return out
@@ -87,8 +86,6 @@ type PasswordReset struct {
 	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPasswordReset returns a new *PasswordReset
@@ -96,7 +93,6 @@ func NewPasswordReset() *PasswordReset {
 
 	return &PasswordReset{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -211,11 +207,11 @@ func (o *PasswordReset) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("password", o.Password); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("token", o.Token); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -375,8 +371,6 @@ type SparsePasswordReset struct {
 	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePasswordReset returns a new  SparsePasswordReset.

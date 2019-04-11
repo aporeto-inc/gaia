@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -66,11 +65,11 @@ func (o SSHAuthorizationPoliciesList) DefaultOrder() []string {
 
 // ToSparse returns the SSHAuthorizationPoliciesList converted to SparseSSHAuthorizationPoliciesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o SSHAuthorizationPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o SSHAuthorizationPoliciesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseSSHAuthorizationPoliciesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseSSHAuthorizationPolicy)
 	}
 
 	return out
@@ -185,8 +184,6 @@ type SSHAuthorizationPolicy struct {
 	Zone int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSSHAuthorizationPolicy returns a new *SSHAuthorizationPolicy
@@ -194,7 +191,6 @@ func NewSSHAuthorizationPolicy() *SSHAuthorizationPolicy {
 
 	return &SSHAuthorizationPolicy{
 		ModelVersion:      1,
-		Mutex:             &sync.Mutex{},
 		Annotations:       map[string][]string{},
 		AssociatedTags:    []string{},
 		AuthorizedSubnets: []string{},
@@ -723,43 +719,43 @@ func (o *SSHAuthorizationPolicy) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateOptionalNetworkList("authorizedSubnets", o.AuthorizedSubnets); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTagsExpression("object", o.Object); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTagsExpression("subject", o.Subject); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTimeDuration("validity", o.Validity); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -1732,8 +1728,6 @@ type SparseSSHAuthorizationPolicy struct {
 	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseSSHAuthorizationPolicy returns a new  SparseSSHAuthorizationPolicy.

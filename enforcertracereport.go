@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o EnforcerTraceReportsList) DefaultOrder() []string {
 
 // ToSparse returns the EnforcerTraceReportsList converted to SparseEnforcerTraceReportsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o EnforcerTraceReportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o EnforcerTraceReportsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseEnforcerTraceReportsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseEnforcerTraceReport)
 	}
 
 	return out
@@ -96,8 +95,6 @@ type EnforcerTraceReport struct {
 	Records []*TraceRecord `json:"-" bson:"records" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewEnforcerTraceReport returns a new *EnforcerTraceReport
@@ -105,7 +102,6 @@ func NewEnforcerTraceReport() *EnforcerTraceReport {
 
 	return &EnforcerTraceReport{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Records:      []*TraceRecord{},
 	}
 }
@@ -239,19 +235,19 @@ func (o *EnforcerTraceReport) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("enforcerID", o.EnforcerID); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("enforcerNamespace", o.EnforcerNamespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("puID", o.PuID); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -488,8 +484,6 @@ type SparseEnforcerTraceReport struct {
 	Records *[]*TraceRecord `json:"-" bson:"records,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseEnforcerTraceReport returns a new  SparseEnforcerTraceReport.

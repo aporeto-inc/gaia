@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -75,11 +74,11 @@ func (o AutomationTemplatesList) DefaultOrder() []string {
 
 // ToSparse returns the AutomationTemplatesList converted to SparseAutomationTemplatesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o AutomationTemplatesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o AutomationTemplatesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseAutomationTemplatesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseAutomationTemplate)
 	}
 
 	return out
@@ -115,8 +114,6 @@ type AutomationTemplate struct {
 	Parameters map[string]*AutomationTemplateParameter `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAutomationTemplate returns a new *AutomationTemplate
@@ -124,7 +121,6 @@ func NewAutomationTemplate() *AutomationTemplate {
 
 	return &AutomationTemplate{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Entitlements: map[string][]elemental.Operation{},
 		Kind:         AutomationTemplateKindCondition,
 		Parameters:   map[string]*AutomationTemplateParameter{},
@@ -298,24 +294,24 @@ func (o *AutomationTemplate) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("kind", string(o.Kind), []string{"Action", "Condition"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	for _, sub := range o.Parameters {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
@@ -611,8 +607,6 @@ type SparseAutomationTemplate struct {
 	Parameters *map[string]*AutomationTemplateParameter `json:"parameters,omitempty" bson:"-" mapstructure:"parameters,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAutomationTemplate returns a new  SparseAutomationTemplate.

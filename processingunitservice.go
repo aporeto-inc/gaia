@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -20,8 +19,6 @@ type ProcessingUnitService struct {
 	TargetPorts []string `json:"targetPorts" bson:"targetports" mapstructure:"targetPorts,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewProcessingUnitService returns a new *ProcessingUnitService
@@ -29,7 +26,6 @@ func NewProcessingUnitService() *ProcessingUnitService {
 
 	return &ProcessingUnitService{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		TargetPorts:  []string{},
 	}
 }
@@ -65,7 +61,7 @@ func (o *ProcessingUnitService) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := ValidatePortStringList("targetPorts", o.TargetPorts); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {

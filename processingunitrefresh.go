@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o ProcessingUnitRefreshsList) DefaultOrder() []string {
 
 // ToSparse returns the ProcessingUnitRefreshsList converted to SparseProcessingUnitRefreshsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ProcessingUnitRefreshsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o ProcessingUnitRefreshsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseProcessingUnitRefreshsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseProcessingUnitRefresh)
 	}
 
 	return out
@@ -87,8 +86,6 @@ type ProcessingUnitRefresh struct {
 	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewProcessingUnitRefresh returns a new *ProcessingUnitRefresh
@@ -96,7 +93,6 @@ func NewProcessingUnitRefresh() *ProcessingUnitRefresh {
 
 	return &ProcessingUnitRefresh{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -377,8 +373,6 @@ type SparseProcessingUnitRefresh struct {
 	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseProcessingUnitRefresh returns a new  SparseProcessingUnitRefresh.

@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -32,8 +31,6 @@ type Credential struct {
 	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewCredential returns a new *Credential
@@ -41,7 +38,6 @@ func NewCredential() *Credential {
 
 	return &Credential{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 

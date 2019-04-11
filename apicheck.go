@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -88,11 +87,11 @@ func (o APIChecksList) DefaultOrder() []string {
 
 // ToSparse returns the APIChecksList converted to SparseAPIChecksList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o APIChecksList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o APIChecksList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseAPIChecksList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseAPICheck)
 	}
 
 	return out
@@ -126,8 +125,6 @@ type APICheck struct {
 	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAPICheck returns a new *APICheck
@@ -135,7 +132,6 @@ func NewAPICheck() *APICheck {
 
 	return &APICheck{
 		ModelVersion:     1,
-		Mutex:            &sync.Mutex{},
 		Authorized:       map[string]bool{},
 		Claims:           []string{},
 		TargetIdentities: []string{},
@@ -279,19 +275,19 @@ func (o *APICheck) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("operation", string(o.Operation), []string{"Create", "Delete", "Info", "Patch", "Retrieve", "RetrieveMany", "Update"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredExternal("targetIdentities", o.TargetIdentities); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("token", o.Token); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -558,8 +554,6 @@ type SparseAPICheck struct {
 	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAPICheck returns a new  SparseAPICheck.

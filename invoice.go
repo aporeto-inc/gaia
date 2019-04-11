@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -74,11 +73,11 @@ func (o InvoicesList) DefaultOrder() []string {
 
 // ToSparse returns the InvoicesList converted to SparseInvoicesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o InvoicesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o InvoicesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseInvoicesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseInvoice)
 	}
 
 	return out
@@ -114,8 +113,6 @@ type Invoice struct {
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewInvoice returns a new *Invoice
@@ -123,7 +120,6 @@ func NewInvoice() *Invoice {
 
 	return &Invoice{
 		ModelVersion:     1,
-		Mutex:            &sync.Mutex{},
 		BilledToProvider: InvoiceBilledToProviderAporeto,
 	}
 }
@@ -293,7 +289,7 @@ func (o *Invoice) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("billedToProvider", string(o.BilledToProvider), []string{"Aporeto", "AWS"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -598,8 +594,6 @@ type SparseInvoice struct {
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseInvoice returns a new  SparseInvoice.

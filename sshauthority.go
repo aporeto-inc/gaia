@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -76,11 +75,11 @@ func (o SSHAuthoritiesList) DefaultOrder() []string {
 
 // ToSparse returns the SSHAuthoritiesList converted to SparseSSHAuthoritiesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o SSHAuthoritiesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o SSHAuthoritiesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseSSHAuthoritiesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseSSHAuthority)
 	}
 
 	return out
@@ -116,8 +115,6 @@ type SSHAuthority struct {
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSSHAuthority returns a new *SSHAuthority
@@ -125,7 +122,6 @@ func NewSSHAuthority() *SSHAuthority {
 
 	return &SSHAuthority{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Alg:          SSHAuthorityAlgECDSA,
 	}
 }
@@ -310,15 +306,15 @@ func (o *SSHAuthority) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("alg", string(o.Alg), []string{"RSA", "ECDSA"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -647,8 +643,6 @@ type SparseSSHAuthority struct {
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseSSHAuthority returns a new  SparseSSHAuthority.

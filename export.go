@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o ExportsList) DefaultOrder() []string {
 
 // ToSparse returns the ExportsList converted to SparseExportsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ExportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o ExportsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseExportsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseExport)
 	}
 
 	return out
@@ -95,8 +94,6 @@ type Export struct {
 	Label string `json:"label" bson:"-" mapstructure:"label,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewExport returns a new *Export
@@ -104,7 +101,6 @@ func NewExport() *Export {
 
 	return &Export{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Data:         map[string][]map[string]interface{}{},
 		Identities:   []string{},
 	}
@@ -443,8 +439,6 @@ type SparseExport struct {
 	Label *string `json:"label,omitempty" bson:"-" mapstructure:"label,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseExport returns a new  SparseExport.

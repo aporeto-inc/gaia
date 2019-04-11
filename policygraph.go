@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o PolicyGraphsList) DefaultOrder() []string {
 
 // ToSparse returns the PolicyGraphsList converted to SparsePolicyGraphsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PolicyGraphsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o PolicyGraphsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparsePolicyGraphsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparsePolicyGraph)
 	}
 
 	return out
@@ -98,8 +97,6 @@ type PolicyGraph struct {
 	Selectors [][]string `json:"selectors" bson:"-" mapstructure:"selectors,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPolicyGraph returns a new *PolicyGraph
@@ -107,7 +104,6 @@ func NewPolicyGraph() *PolicyGraph {
 
 	return &PolicyGraph{
 		ModelVersion:  1,
-		Mutex:         &sync.Mutex{},
 		DependencyMap: NewDependencyMap(),
 		PUIdentity:    []string{},
 		Selectors:     [][]string{},
@@ -241,11 +237,11 @@ func (o *PolicyGraph) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := o.DependencyMap.Validate(); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTagsExpression("selectors", o.Selectors); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -464,8 +460,6 @@ type SparsePolicyGraph struct {
 	Selectors *[][]string `json:"selectors,omitempty" bson:"-" mapstructure:"selectors,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePolicyGraph returns a new  SparsePolicyGraph.

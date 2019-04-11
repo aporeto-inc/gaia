@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -63,11 +62,11 @@ func (o AWSRegistersList) DefaultOrder() []string {
 
 // ToSparse returns the AWSRegistersList converted to SparseAWSRegistersList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o AWSRegistersList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o AWSRegistersList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseAWSRegistersList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseAWSRegister)
 	}
 
 	return out
@@ -94,8 +93,6 @@ type AWSRegister struct {
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAWSRegister returns a new *AWSRegister
@@ -103,7 +100,6 @@ func NewAWSRegister() *AWSRegister {
 
 	return &AWSRegister{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -485,8 +481,6 @@ type SparseAWSRegister struct {
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseAWSRegister returns a new  SparseAWSRegister.

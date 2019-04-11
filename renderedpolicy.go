@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -63,11 +62,11 @@ func (o RenderedPoliciesList) DefaultOrder() []string {
 
 // ToSparse returns the RenderedPoliciesList converted to SparseRenderedPoliciesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o RenderedPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o RenderedPoliciesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseRenderedPoliciesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseRenderedPolicy)
 	}
 
 	return out
@@ -116,8 +115,6 @@ type RenderedPolicy struct {
 	Scopes []string `json:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewRenderedPolicy returns a new *RenderedPolicy
@@ -125,7 +122,6 @@ func NewRenderedPolicy() *RenderedPolicy {
 
 	return &RenderedPolicy{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		EgressPolicies: map[string]PolicyRulesList{
 			string(constants.RenderedPolicyTypeNetwork):   PolicyRulesList{},
 			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
@@ -302,18 +298,18 @@ func (o *RenderedPolicy) Validate() error {
 
 	for _, sub := range o.DependendServices {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.ExposedServices {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	if err := o.ProcessingUnit.Validate(); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -693,8 +689,6 @@ type SparseRenderedPolicy struct {
 	Scopes *[]string `json:"scopes,omitempty" bson:"scopes,omitempty" mapstructure:"scopes,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseRenderedPolicy returns a new  SparseRenderedPolicy.

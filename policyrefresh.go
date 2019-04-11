@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o PolicyRefreshsList) DefaultOrder() []string {
 
 // ToSparse returns the PolicyRefreshsList converted to SparsePolicyRefreshsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PolicyRefreshsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o PolicyRefreshsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparsePolicyRefreshsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparsePolicyRefresh)
 	}
 
 	return out
@@ -90,8 +89,6 @@ type PolicyRefresh struct {
 	Type string `json:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPolicyRefresh returns a new *PolicyRefresh
@@ -99,7 +96,6 @@ func NewPolicyRefresh() *PolicyRefresh {
 
 	return &PolicyRefresh{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -412,8 +408,6 @@ type SparsePolicyRefresh struct {
 	Type *string `json:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePolicyRefresh returns a new  SparsePolicyRefresh.

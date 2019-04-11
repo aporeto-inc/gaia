@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -61,8 +60,6 @@ type AutomationTemplateParameter struct {
 	Type AutomationTemplateParameterTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewAutomationTemplateParameter returns a new *AutomationTemplateParameter
@@ -70,7 +67,6 @@ func NewAutomationTemplateParameter() *AutomationTemplateParameter {
 
 	return &AutomationTemplateParameter{
 		ModelVersion:   1,
-		Mutex:          &sync.Mutex{},
 		AllowedChoices: map[string]interface{}{},
 	}
 }
@@ -118,19 +114,19 @@ func (o *AutomationTemplateParameter) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("type", string(o.Type)); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Array", "Boolean", "Enum", "Filter", "Float", "Integer", "Object", "String"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {

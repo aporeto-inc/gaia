@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o PlansList) DefaultOrder() []string {
 
 // ToSparse returns the PlansList converted to SparsePlansList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PlansList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o PlansList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparsePlansList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparsePlan)
 	}
 
 	return out
@@ -99,8 +98,6 @@ type Plan struct {
 	ProcessingUnitsQuota int `json:"processingUnitsQuota" bson:"processingunitsquota" mapstructure:"processingUnitsQuota,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPlan returns a new *Plan
@@ -108,7 +105,6 @@ func NewPlan() *Plan {
 
 	return &Plan{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -519,8 +515,6 @@ type SparsePlan struct {
 	ProcessingUnitsQuota *int `json:"processingUnitsQuota,omitempty" bson:"processingunitsquota,omitempty" mapstructure:"processingUnitsQuota,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparsePlan returns a new  SparsePlan.

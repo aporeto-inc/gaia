@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o TokensList) DefaultOrder() []string {
 
 // ToSparse returns the TokensList converted to SparseTokensList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o TokensList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o TokensList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseTokensList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseToken)
 	}
 
 	return out
@@ -96,8 +95,6 @@ type Token struct {
 	Validity string `json:"validity" bson:"-" mapstructure:"validity,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewToken returns a new *Token
@@ -105,7 +102,6 @@ func NewToken() *Token {
 
 	return &Token{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Tags:         []string{},
 	}
 }
@@ -239,7 +235,7 @@ func (o *Token) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("certificate", o.Certificate); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -474,8 +470,6 @@ type SparseToken struct {
 	Validity *string `json:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseToken returns a new  SparseToken.

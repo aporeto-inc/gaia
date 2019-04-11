@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -82,11 +81,11 @@ func (o ImportRequestsList) DefaultOrder() []string {
 
 // ToSparse returns the ImportRequestsList converted to SparseImportRequestsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ImportRequestsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o ImportRequestsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseImportRequestsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseImportRequest)
 	}
 
 	return out
@@ -175,8 +174,6 @@ type ImportRequest struct {
 	Zone int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewImportRequest returns a new *ImportRequest
@@ -184,7 +181,6 @@ func NewImportRequest() *ImportRequest {
 
 	return &ImportRequest{
 		ModelVersion:    1,
-		Mutex:           &sync.Mutex{},
 		Annotations:     map[string][]string{},
 		AssociatedTags:  []string{},
 		CommentFeed:     []*Comment{},
@@ -594,19 +590,19 @@ func (o *ImportRequest) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredExternal("data", o.Data); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("status", string(o.Status), []string{"Draft", "Submitted", "Approved", "Rejected"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -1374,8 +1370,6 @@ type SparseImportRequest struct {
 	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseImportRequest returns a new  SparseImportRequest.

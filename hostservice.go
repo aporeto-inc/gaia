@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -66,11 +65,11 @@ func (o HostServicesList) DefaultOrder() []string {
 
 // ToSparse returns the HostServicesList converted to SparseHostServicesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o HostServicesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o HostServicesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseHostServicesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseHostService)
 	}
 
 	return out
@@ -152,8 +151,6 @@ type HostService struct {
 	Zone int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewHostService returns a new *HostService
@@ -161,7 +158,6 @@ func NewHostService() *HostService {
 
 	return &HostService{
 		ModelVersion:   1,
-		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Metadata:       []string{},
@@ -579,35 +575,28 @@ func (o *HostService) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	// Custom object validation.
 	if err := ValidateHostServices(o); err != nil {
-		switch e := err.(type) {
-		case elemental.Errors:
-			errors = append(errors, e...)
-		case elemental.Error:
-			errors = append(errors, e)
-		default:
-			errors = append(errors, e)
-		}
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -1335,8 +1324,6 @@ type SparseHostService struct {
 	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseHostService returns a new  SparseHostService.

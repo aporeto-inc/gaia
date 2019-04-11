@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -73,11 +72,11 @@ func (o EmailsList) DefaultOrder() []string {
 
 // ToSparse returns the EmailsList converted to SparseEmailsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o EmailsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o EmailsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseEmailsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseEmail)
 	}
 
 	return out
@@ -117,8 +116,6 @@ type Email struct {
 	Type EmailTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewEmail returns a new *Email
@@ -126,7 +123,6 @@ func NewEmail() *Email {
 
 	return &Email{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Attachments:  map[string]string{},
 		Bcc:          []string{},
 		Cc:           []string{},
@@ -282,7 +278,7 @@ func (o *Email) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"HTML", "Plain"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -577,8 +573,6 @@ type SparseEmail struct {
 	Type *EmailTypeValue `json:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseEmail returns a new  SparseEmail.

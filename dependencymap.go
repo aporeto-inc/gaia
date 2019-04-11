@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o DependencyMapsList) DefaultOrder() []string {
 
 // ToSparse returns the DependencyMapsList converted to SparseDependencyMapsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o DependencyMapsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o DependencyMapsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseDependencyMapsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseDependencyMap)
 	}
 
 	return out
@@ -93,8 +92,6 @@ type DependencyMap struct {
 	ViewSuggestions []string `json:"viewSuggestions" bson:"-" mapstructure:"viewSuggestions,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewDependencyMap returns a new *DependencyMap
@@ -102,7 +99,6 @@ func NewDependencyMap() *DependencyMap {
 
 	return &DependencyMap{
 		ModelVersion:    1,
-		Mutex:           &sync.Mutex{},
 		Edges:           map[string]*GraphEdge{},
 		Groups:          map[string]*GraphGroup{},
 		Nodes:           map[string]*GraphNode{},
@@ -240,19 +236,19 @@ func (o *DependencyMap) Validate() error {
 
 	for _, sub := range o.Edges {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.Groups {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.Nodes {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
@@ -467,8 +463,6 @@ type SparseDependencyMap struct {
 	ViewSuggestions *[]string `json:"viewSuggestions,omitempty" bson:"-" mapstructure:"viewSuggestions,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseDependencyMap returns a new  SparseDependencyMap.

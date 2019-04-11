@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -26,8 +25,6 @@ type TraceMode struct {
 	NetworkConnections bool `json:"networkConnections" bson:"networkconnections" mapstructure:"networkConnections,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTraceMode returns a new *TraceMode
@@ -35,7 +32,6 @@ func NewTraceMode() *TraceMode {
 
 	return &TraceMode{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Interval:     "10s",
 	}
 }

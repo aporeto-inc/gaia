@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o TriggersList) DefaultOrder() []string {
 
 // ToSparse returns the TriggersList converted to SparseTriggersList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o TriggersList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o TriggersList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseTriggersList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseTrigger)
 	}
 
 	return out
@@ -84,8 +83,6 @@ type Trigger struct {
 	Payload string `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewTrigger returns a new *Trigger
@@ -93,7 +90,6 @@ func NewTrigger() *Trigger {
 
 	return &Trigger{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -333,8 +329,6 @@ type SparseTrigger struct {
 	Payload *string `json:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseTrigger returns a new  SparseTrigger.

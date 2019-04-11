@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -88,11 +87,11 @@ func (o X509CertificatesList) DefaultOrder() []string {
 
 // ToSparse returns the X509CertificatesList converted to SparseX509CertificatesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o X509CertificatesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o X509CertificatesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseX509CertificatesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseX509Certificate)
 	}
 
 	return out
@@ -136,8 +135,6 @@ type X509Certificate struct {
 	Usage X509CertificateUsageValue `json:"usage" bson:"-" mapstructure:"usage,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewX509Certificate returns a new *X509Certificate
@@ -145,7 +142,6 @@ func NewX509Certificate() *X509Certificate {
 
 	return &X509Certificate{
 		ModelVersion:    1,
-		Mutex:           &sync.Mutex{},
 		Extensions:      []string{},
 		Signer:          X509CertificateSignerPublic,
 		SubjectOverride: NewPKIXName(),
@@ -307,19 +303,19 @@ func (o *X509Certificate) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("CSR", o.CSR); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("signer", string(o.Signer), []string{"Public", "System"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := o.SubjectOverride.Validate(); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("usage", string(o.Usage), []string{"Client", "Server", "ServerClient"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -660,8 +656,6 @@ type SparseX509Certificate struct {
 	Usage *X509CertificateUsageValue `json:"usage,omitempty" bson:"-" mapstructure:"usage,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseX509Certificate returns a new  SparseX509Certificate.

@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o JaegerbatchsList) DefaultOrder() []string {
 
 // ToSparse returns the JaegerbatchsList converted to SparseJaegerbatchsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o JaegerbatchsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o JaegerbatchsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseJaegerbatchsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseJaegerbatch)
 	}
 
 	return out
@@ -84,8 +83,6 @@ type Jaegerbatch struct {
 	Batch interface{} `json:"batch" bson:"batch" mapstructure:"batch,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewJaegerbatch returns a new *Jaegerbatch
@@ -93,7 +90,6 @@ func NewJaegerbatch() *Jaegerbatch {
 
 	return &Jaegerbatch{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -338,8 +334,6 @@ type SparseJaegerbatch struct {
 	Batch *interface{} `json:"batch,omitempty" bson:"batch,omitempty" mapstructure:"batch,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseJaegerbatch returns a new  SparseJaegerbatch.

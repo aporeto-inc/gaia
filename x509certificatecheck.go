@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o X509CertificateChecksList) DefaultOrder() []string {
 
 // ToSparse returns the X509CertificateChecksList converted to SparseX509CertificateChecksList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o X509CertificateChecksList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o X509CertificateChecksList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseX509CertificateChecksList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseX509CertificateCheck)
 	}
 
 	return out
@@ -84,8 +83,6 @@ type X509CertificateCheck struct {
 	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewX509CertificateCheck returns a new *X509CertificateCheck
@@ -93,7 +90,6 @@ func NewX509CertificateCheck() *X509CertificateCheck {
 
 	return &X509CertificateCheck{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -203,7 +199,7 @@ func (o *X509CertificateCheck) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("ID", o.ID); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -342,8 +338,6 @@ type SparseX509CertificateCheck struct {
 	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseX509CertificateCheck returns a new  SparseX509CertificateCheck.

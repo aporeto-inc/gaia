@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o QuotaChecksList) DefaultOrder() []string {
 
 // ToSparse returns the QuotaChecksList converted to SparseQuotaChecksList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o QuotaChecksList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o QuotaChecksList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseQuotaChecksList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseQuotaCheck)
 	}
 
 	return out
@@ -90,8 +89,6 @@ type QuotaCheck struct {
 	TargetNamespace string `json:"targetNamespace" bson:"-" mapstructure:"targetNamespace,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewQuotaCheck returns a new *QuotaCheck
@@ -99,7 +96,6 @@ func NewQuotaCheck() *QuotaCheck {
 
 	return &QuotaCheck{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -221,11 +217,11 @@ func (o *QuotaCheck) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("targetIdentity", o.TargetIdentity); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("targetNamespace", o.TargetNamespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -410,8 +406,6 @@ type SparseQuotaCheck struct {
 	TargetNamespace *string `json:"targetNamespace,omitempty" bson:"-" mapstructure:"targetNamespace,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseQuotaCheck returns a new  SparseQuotaCheck.

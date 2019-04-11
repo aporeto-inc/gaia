@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o ActivatesList) DefaultOrder() []string {
 
 // ToSparse returns the ActivatesList converted to SparseActivatesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ActivatesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o ActivatesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseActivatesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseActivate)
 	}
 
 	return out
@@ -84,8 +83,6 @@ type Activate struct {
 	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewActivate returns a new *Activate
@@ -93,7 +90,6 @@ func NewActivate() *Activate {
 
 	return &Activate{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -335,8 +331,6 @@ type SparseActivate struct {
 	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseActivate returns a new  SparseActivate.

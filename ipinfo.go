@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o IPInfosList) DefaultOrder() []string {
 
 // ToSparse returns the IPInfosList converted to SparseIPInfosList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o IPInfosList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o IPInfosList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseIPInfosList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseIPInfo)
 	}
 
 	return out
@@ -90,8 +89,6 @@ type IPInfo struct {
 	Records map[string]string `json:"records" bson:"-" mapstructure:"records,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewIPInfo returns a new *IPInfo
@@ -99,7 +96,6 @@ func NewIPInfo() *IPInfo {
 
 	return &IPInfo{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Records:      map[string]string{},
 	}
 }
@@ -408,8 +404,6 @@ type SparseIPInfo struct {
 	Records *map[string]string `json:"records,omitempty" bson:"-" mapstructure:"records,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseIPInfo returns a new  SparseIPInfo.

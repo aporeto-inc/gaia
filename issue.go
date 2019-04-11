@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -94,11 +93,11 @@ func (o IssuesList) DefaultOrder() []string {
 
 // ToSparse returns the IssuesList converted to SparseIssuesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o IssuesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o IssuesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseIssuesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseIssue)
 	}
 
 	return out
@@ -139,8 +138,6 @@ type Issue struct {
 	Validity string `json:"validity" bson:"-" mapstructure:"validity,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewIssue returns a new *Issue
@@ -148,7 +145,6 @@ func NewIssue() *Issue {
 
 	return &Issue{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Metadata:     map[string]interface{}{},
 		Opaque:       map[string]string{},
 		Validity:     "24h",
@@ -302,19 +298,19 @@ func (o *Issue) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := ValidateAudience("audience", o.Audience); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("realm", string(o.Realm)); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTimeDuration("validity", o.Validity); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -622,8 +618,6 @@ type SparseIssue struct {
 	Validity *string `json:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseIssue returns a new  SparseIssue.

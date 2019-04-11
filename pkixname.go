@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -35,8 +34,6 @@ type PKIXName struct {
 	StreetAddress []string `json:"streetAddress" bson:"-" mapstructure:"streetAddress,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewPKIXName returns a new *PKIXName
@@ -44,7 +41,6 @@ func NewPKIXName() *PKIXName {
 
 	return &PKIXName{
 		ModelVersion:       1,
-		Mutex:              &sync.Mutex{},
 		Country:            []string{},
 		Locality:           []string{},
 		Organization:       []string{},

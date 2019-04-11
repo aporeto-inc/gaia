@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -63,11 +62,11 @@ func (o RevocationsList) DefaultOrder() []string {
 
 // ToSparse returns the RevocationsList converted to SparseRevocationsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o RevocationsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o RevocationsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseRevocationsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseRevocation)
 	}
 
 	return out
@@ -98,8 +97,6 @@ type Revocation struct {
 	Subject string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewRevocation returns a new *Revocation
@@ -107,7 +104,6 @@ func NewRevocation() *Revocation {
 
 	return &Revocation{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -481,8 +477,6 @@ type SparseRevocation struct {
 	Subject *string `json:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 
 	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
 }
 
 // NewSparseRevocation returns a new  SparseRevocation.
