@@ -80,15 +80,15 @@ func (o QuotaChecksList) Version() int {
 // QuotaCheck represents the model of a quotacheck
 type QuotaCheck struct {
 	// Contains the maximum number of matching entities that can be created.
-	Quota int `json:"quota" bson:"-" mapstructure:"quota,omitempty"`
+	Quota int `json:"quota" msgpack:"quota" bson:"-" mapstructure:"quota,omitempty"`
 
 	// The identity name of the object you want to check the quota on.
-	TargetIdentity string `json:"targetIdentity" bson:"-" mapstructure:"targetIdentity,omitempty"`
+	TargetIdentity string `json:"targetIdentity" msgpack:"targetIdentity" bson:"-" mapstructure:"targetIdentity,omitempty"`
 
 	// The namespace from which you want to check the quota on.
-	TargetNamespace string `json:"targetNamespace" bson:"-" mapstructure:"targetNamespace,omitempty"`
+	TargetNamespace string `json:"targetNamespace" msgpack:"targetNamespace" bson:"-" mapstructure:"targetNamespace,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewQuotaCheck returns a new *QuotaCheck
@@ -397,15 +397,15 @@ func (o SparseQuotaChecksList) Version() int {
 // SparseQuotaCheck represents the sparse version of a quotacheck.
 type SparseQuotaCheck struct {
 	// Contains the maximum number of matching entities that can be created.
-	Quota *int `json:"quota,omitempty" bson:"-" mapstructure:"quota,omitempty"`
+	Quota *int `json:"quota,omitempty" msgpack:"quota,omitempty" bson:"-" mapstructure:"quota,omitempty"`
 
 	// The identity name of the object you want to check the quota on.
-	TargetIdentity *string `json:"targetIdentity,omitempty" bson:"-" mapstructure:"targetIdentity,omitempty"`
+	TargetIdentity *string `json:"targetIdentity,omitempty" msgpack:"targetIdentity,omitempty" bson:"-" mapstructure:"targetIdentity,omitempty"`
 
 	// The namespace from which you want to check the quota on.
-	TargetNamespace *string `json:"targetNamespace,omitempty" bson:"-" mapstructure:"targetNamespace,omitempty"`
+	TargetNamespace *string `json:"targetNamespace,omitempty" msgpack:"targetNamespace,omitempty" bson:"-" mapstructure:"targetNamespace,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseQuotaCheck returns a new  SparseQuotaCheck.

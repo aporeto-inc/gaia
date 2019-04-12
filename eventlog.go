@@ -101,34 +101,34 @@ func (o EventLogsList) Version() int {
 // EventLog represents the model of a eventlog
 type EventLog struct {
 	// Category of the log.
-	Category string `json:"category" bson:"category" mapstructure:"category,omitempty"`
+	Category string `json:"category" msgpack:"category" bson:"category" mapstructure:"category,omitempty"`
 
 	// Content of the log.
-	Content string `json:"content" bson:"content" mapstructure:"content,omitempty"`
+	Content string `json:"content" msgpack:"content" bson:"content" mapstructure:"content,omitempty"`
 
 	// Creation date of the eventlog.
-	Date time.Time `json:"date" bson:"date" mapstructure:"date,omitempty"`
+	Date time.Time `json:"date" msgpack:"date" bson:"date" mapstructure:"date,omitempty"`
 
 	// Represent the level of the log .
-	Level EventLogLevelValue `json:"level" bson:"level" mapstructure:"level,omitempty"`
+	Level EventLogLevelValue `json:"level" msgpack:"level" bson:"level" mapstructure:"level,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// Opaque data that can attached to the log, for further machine processing.
-	Opaque string `json:"opaque" bson:"opaque" mapstructure:"opaque,omitempty"`
+	Opaque string `json:"opaque" msgpack:"opaque" bson:"opaque" mapstructure:"opaque,omitempty"`
 
 	// ID of the object this eventlog is attached to. The object must be in the same
 	// namespace than the eventlog.
-	TargetID string `json:"targetID" bson:"targetid" mapstructure:"targetID,omitempty"`
+	TargetID string `json:"targetID" msgpack:"targetID" bson:"targetid" mapstructure:"targetID,omitempty"`
 
 	// Identity of the object this eventlog is attached to.
-	TargetIdentity string `json:"targetIdentity" bson:"targetidentity" mapstructure:"targetIdentity,omitempty"`
+	TargetIdentity string `json:"targetIdentity" msgpack:"targetIdentity" bson:"targetidentity" mapstructure:"targetIdentity,omitempty"`
 
 	// Title of the eventlog.
-	Title string `json:"title" bson:"title" mapstructure:"title,omitempty"`
+	Title string `json:"title" msgpack:"title" bson:"title" mapstructure:"title,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewEventLog returns a new *EventLog
@@ -669,34 +669,34 @@ func (o SparseEventLogsList) Version() int {
 // SparseEventLog represents the sparse version of a eventlog.
 type SparseEventLog struct {
 	// Category of the log.
-	Category *string `json:"category,omitempty" bson:"category,omitempty" mapstructure:"category,omitempty"`
+	Category *string `json:"category,omitempty" msgpack:"category,omitempty" bson:"category,omitempty" mapstructure:"category,omitempty"`
 
 	// Content of the log.
-	Content *string `json:"content,omitempty" bson:"content,omitempty" mapstructure:"content,omitempty"`
+	Content *string `json:"content,omitempty" msgpack:"content,omitempty" bson:"content,omitempty" mapstructure:"content,omitempty"`
 
 	// Creation date of the eventlog.
-	Date *time.Time `json:"date,omitempty" bson:"date,omitempty" mapstructure:"date,omitempty"`
+	Date *time.Time `json:"date,omitempty" msgpack:"date,omitempty" bson:"date,omitempty" mapstructure:"date,omitempty"`
 
 	// Represent the level of the log .
-	Level *EventLogLevelValue `json:"level,omitempty" bson:"level,omitempty" mapstructure:"level,omitempty"`
+	Level *EventLogLevelValue `json:"level,omitempty" msgpack:"level,omitempty" bson:"level,omitempty" mapstructure:"level,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Opaque data that can attached to the log, for further machine processing.
-	Opaque *string `json:"opaque,omitempty" bson:"opaque,omitempty" mapstructure:"opaque,omitempty"`
+	Opaque *string `json:"opaque,omitempty" msgpack:"opaque,omitempty" bson:"opaque,omitempty" mapstructure:"opaque,omitempty"`
 
 	// ID of the object this eventlog is attached to. The object must be in the same
 	// namespace than the eventlog.
-	TargetID *string `json:"targetID,omitempty" bson:"targetid,omitempty" mapstructure:"targetID,omitempty"`
+	TargetID *string `json:"targetID,omitempty" msgpack:"targetID,omitempty" bson:"targetid,omitempty" mapstructure:"targetID,omitempty"`
 
 	// Identity of the object this eventlog is attached to.
-	TargetIdentity *string `json:"targetIdentity,omitempty" bson:"targetidentity,omitempty" mapstructure:"targetIdentity,omitempty"`
+	TargetIdentity *string `json:"targetIdentity,omitempty" msgpack:"targetIdentity,omitempty" bson:"targetidentity,omitempty" mapstructure:"targetIdentity,omitempty"`
 
 	// Title of the eventlog.
-	Title *string `json:"title,omitempty" bson:"title,omitempty" mapstructure:"title,omitempty"`
+	Title *string `json:"title,omitempty" msgpack:"title,omitempty" bson:"title,omitempty" mapstructure:"title,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseEventLog returns a new  SparseEventLog.

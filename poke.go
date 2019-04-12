@@ -79,7 +79,7 @@ func (o PokesList) Version() int {
 
 // Poke represents the model of a poke
 type Poke struct {
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewPoke returns a new *Poke
@@ -291,7 +291,7 @@ func (o SparsePokesList) Version() int {
 
 // SparsePoke represents the sparse version of a poke.
 type SparsePoke struct {
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparsePoke returns a new  SparsePoke.

@@ -94,13 +94,13 @@ func (o ImportsList) Version() int {
 // Import represents the model of a import
 type Import struct {
 	// The data to import.
-	Data *Export `json:"data" bson:"-" mapstructure:"data,omitempty"`
+	Data *Export `json:"data" msgpack:"data" bson:"-" mapstructure:"data,omitempty"`
 
 	// How to import the data. ReplacePartial is deprecated and should be Import. Right
 	// now the API considers both equivalent.
-	Mode ImportModeValue `json:"mode" bson:"-" mapstructure:"mode,omitempty"`
+	Mode ImportModeValue `json:"mode" msgpack:"mode" bson:"-" mapstructure:"mode,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewImport returns a new *Import
@@ -386,13 +386,13 @@ func (o SparseImportsList) Version() int {
 // SparseImport represents the sparse version of a import.
 type SparseImport struct {
 	// The data to import.
-	Data **Export `json:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
+	Data **Export `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
 	// How to import the data. ReplacePartial is deprecated and should be Import. Right
 	// now the API considers both equivalent.
-	Mode *ImportModeValue `json:"mode,omitempty" bson:"-" mapstructure:"mode,omitempty"`
+	Mode *ImportModeValue `json:"mode,omitempty" msgpack:"mode,omitempty" bson:"-" mapstructure:"mode,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseImport returns a new  SparseImport.

@@ -80,18 +80,18 @@ func (o RolesList) Version() int {
 // Role represents the model of a role
 type Role struct {
 	// Authorizations of the role.
-	Authorizations map[string][]string `json:"authorizations" bson:"-" mapstructure:"authorizations,omitempty"`
+	Authorizations map[string][]string `json:"authorizations" msgpack:"authorizations" bson:"-" mapstructure:"authorizations,omitempty"`
 
 	// Description is the description of the role.
-	Description string `json:"description" bson:"-" mapstructure:"description,omitempty"`
+	Description string `json:"description" msgpack:"description" bson:"-" mapstructure:"description,omitempty"`
 
 	// Key is the of the role.
-	Key string `json:"key" bson:"-" mapstructure:"key,omitempty"`
+	Key string `json:"key" msgpack:"key" bson:"-" mapstructure:"key,omitempty"`
 
 	// Name of the role.
-	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewRole returns a new *Role
@@ -427,18 +427,18 @@ func (o SparseRolesList) Version() int {
 // SparseRole represents the sparse version of a role.
 type SparseRole struct {
 	// Authorizations of the role.
-	Authorizations *map[string][]string `json:"authorizations,omitempty" bson:"-" mapstructure:"authorizations,omitempty"`
+	Authorizations *map[string][]string `json:"authorizations,omitempty" msgpack:"authorizations,omitempty" bson:"-" mapstructure:"authorizations,omitempty"`
 
 	// Description is the description of the role.
-	Description *string `json:"description,omitempty" bson:"-" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"-" mapstructure:"description,omitempty"`
 
 	// Key is the of the role.
-	Key *string `json:"key,omitempty" bson:"-" mapstructure:"key,omitempty"`
+	Key *string `json:"key,omitempty" msgpack:"key,omitempty" bson:"-" mapstructure:"key,omitempty"`
 
 	// Name of the role.
-	Name *string `json:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseRole returns a new  SparseRole.

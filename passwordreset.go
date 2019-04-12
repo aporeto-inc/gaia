@@ -80,12 +80,12 @@ func (o PasswordResetsList) Version() int {
 // PasswordReset represents the model of a passwordreset
 type PasswordReset struct {
 	// Password contains the new password.
-	Password string `json:"password" bson:"-" mapstructure:"password,omitempty"`
+	Password string `json:"password" msgpack:"password" bson:"-" mapstructure:"password,omitempty"`
 
 	// Token contains the reset password token.
-	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
+	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewPasswordReset returns a new *PasswordReset
@@ -365,12 +365,12 @@ func (o SparsePasswordResetsList) Version() int {
 // SparsePasswordReset represents the sparse version of a passwordreset.
 type SparsePasswordReset struct {
 	// Password contains the new password.
-	Password *string `json:"password,omitempty" bson:"-" mapstructure:"password,omitempty"`
+	Password *string `json:"password,omitempty" msgpack:"password,omitempty" bson:"-" mapstructure:"password,omitempty"`
 
 	// Token contains the reset password token.
-	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
+	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparsePasswordReset returns a new  SparsePasswordReset.

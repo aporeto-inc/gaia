@@ -113,31 +113,31 @@ func (o IssuesList) Version() int {
 type Issue struct {
 	// If given, the issued token will only be valid from that namespace declared in
 	// that value.
-	Audience string `json:"audience" bson:"-" mapstructure:"audience,omitempty"`
+	Audience string `json:"audience" msgpack:"audience" bson:"-" mapstructure:"audience,omitempty"`
 
 	// Data contains additional data. The value depends on the issuer type.
-	Data string `json:"data" bson:"-" mapstructure:"data,omitempty"`
+	Data string `json:"data" msgpack:"data" bson:"-" mapstructure:"data,omitempty"`
 
 	// Metadata contains various additional information. Meaning depends on the realm.
-	Metadata map[string]interface{} `json:"metadata" bson:"-" mapstructure:"metadata,omitempty"`
+	Metadata map[string]interface{} `json:"metadata" msgpack:"metadata" bson:"-" mapstructure:"metadata,omitempty"`
 
 	// Opaque data that will be included in the issued token.
-	Opaque map[string]string `json:"opaque" bson:"-" mapstructure:"opaque,omitempty"`
+	Opaque map[string]string `json:"opaque" msgpack:"opaque" bson:"-" mapstructure:"opaque,omitempty"`
 
 	// Restricts the number of time the issued token should be used.
-	Quota int `json:"quota" bson:"-" mapstructure:"quota,omitempty"`
+	Quota int `json:"quota" msgpack:"quota" bson:"-" mapstructure:"quota,omitempty"`
 
 	// Realm is the authentication realm.
-	Realm IssueRealmValue `json:"realm" bson:"-" mapstructure:"realm,omitempty"`
+	Realm IssueRealmValue `json:"realm" msgpack:"realm" bson:"-" mapstructure:"realm,omitempty"`
 
 	// Token is the token to use for the registration.
-	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
+	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	// Validity configures the max validity time for a token. If it is bigger than the
 	// configured max validity, it will be capped.
-	Validity string `json:"validity" bson:"-" mapstructure:"validity,omitempty"`
+	Validity string `json:"validity" msgpack:"validity" bson:"-" mapstructure:"validity,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewIssue returns a new *Issue
@@ -593,31 +593,31 @@ func (o SparseIssuesList) Version() int {
 type SparseIssue struct {
 	// If given, the issued token will only be valid from that namespace declared in
 	// that value.
-	Audience *string `json:"audience,omitempty" bson:"-" mapstructure:"audience,omitempty"`
+	Audience *string `json:"audience,omitempty" msgpack:"audience,omitempty" bson:"-" mapstructure:"audience,omitempty"`
 
 	// Data contains additional data. The value depends on the issuer type.
-	Data *string `json:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
+	Data *string `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
 	// Metadata contains various additional information. Meaning depends on the realm.
-	Metadata *map[string]interface{} `json:"metadata,omitempty" bson:"-" mapstructure:"metadata,omitempty"`
+	Metadata *map[string]interface{} `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"-" mapstructure:"metadata,omitempty"`
 
 	// Opaque data that will be included in the issued token.
-	Opaque *map[string]string `json:"opaque,omitempty" bson:"-" mapstructure:"opaque,omitempty"`
+	Opaque *map[string]string `json:"opaque,omitempty" msgpack:"opaque,omitempty" bson:"-" mapstructure:"opaque,omitempty"`
 
 	// Restricts the number of time the issued token should be used.
-	Quota *int `json:"quota,omitempty" bson:"-" mapstructure:"quota,omitempty"`
+	Quota *int `json:"quota,omitempty" msgpack:"quota,omitempty" bson:"-" mapstructure:"quota,omitempty"`
 
 	// Realm is the authentication realm.
-	Realm *IssueRealmValue `json:"realm,omitempty" bson:"-" mapstructure:"realm,omitempty"`
+	Realm *IssueRealmValue `json:"realm,omitempty" msgpack:"realm,omitempty" bson:"-" mapstructure:"realm,omitempty"`
 
 	// Token is the token to use for the registration.
-	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
+	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
 	// Validity configures the max validity time for a token. If it is bigger than the
 	// configured max validity, it will be capped.
-	Validity *string `json:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
+	Validity *string `json:"validity,omitempty" msgpack:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseIssue returns a new  SparseIssue.

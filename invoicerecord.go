@@ -81,22 +81,22 @@ func (o InvoiceRecordsList) Version() int {
 // InvoiceRecord represents the model of a invoicerecord
 type InvoiceRecord struct {
 	// ID is the id of this invoice record.
-	ID string `json:"ID" bson:"id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"id" mapstructure:"ID,omitempty"`
 
 	// Creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// InvoiceID references the id of the invoice that this invoice record provides
 	// details for.
-	InvoiceID string `json:"invoiceID" bson:"invoiceid" mapstructure:"invoiceID,omitempty"`
+	InvoiceID string `json:"invoiceID" msgpack:"invoiceID" bson:"invoiceid" mapstructure:"invoiceID,omitempty"`
 
 	// InvoiceRecords provides details about billing units.
-	InvoiceRecords []string `json:"invoiceRecords" bson:"invoicerecords" mapstructure:"invoiceRecords,omitempty"`
+	InvoiceRecords []string `json:"invoiceRecords" msgpack:"invoiceRecords" bson:"invoicerecords" mapstructure:"invoiceRecords,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewInvoiceRecord returns a new *InvoiceRecord
@@ -501,22 +501,22 @@ func (o SparseInvoiceRecordsList) Version() int {
 // SparseInvoiceRecord represents the sparse version of a invoicerecord.
 type SparseInvoiceRecord struct {
 	// ID is the id of this invoice record.
-	ID *string `json:"ID,omitempty" bson:"id,omitempty" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"id,omitempty" mapstructure:"ID,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// InvoiceID references the id of the invoice that this invoice record provides
 	// details for.
-	InvoiceID *string `json:"invoiceID,omitempty" bson:"invoiceid,omitempty" mapstructure:"invoiceID,omitempty"`
+	InvoiceID *string `json:"invoiceID,omitempty" msgpack:"invoiceID,omitempty" bson:"invoiceid,omitempty" mapstructure:"invoiceID,omitempty"`
 
 	// InvoiceRecords provides details about billing units.
-	InvoiceRecords *[]string `json:"invoiceRecords,omitempty" bson:"invoicerecords,omitempty" mapstructure:"invoiceRecords,omitempty"`
+	InvoiceRecords *[]string `json:"invoiceRecords,omitempty" msgpack:"invoiceRecords,omitempty" bson:"invoicerecords,omitempty" mapstructure:"invoiceRecords,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseInvoiceRecord returns a new  SparseInvoiceRecord.

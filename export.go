@@ -80,20 +80,20 @@ func (o ExportsList) Version() int {
 // Export represents the model of a export
 type Export struct {
 	// APIVersion of the api used for the exported data.
-	APIVersion int `json:"APIVersion" bson:"-" mapstructure:"APIVersion,omitempty"`
+	APIVersion int `json:"APIVersion" msgpack:"APIVersion" bson:"-" mapstructure:"APIVersion,omitempty"`
 
 	// List of all exported data.
-	Data map[string][]map[string]interface{} `json:"data" bson:"-" mapstructure:"data,omitempty"`
+	Data map[string][]map[string]interface{} `json:"data" msgpack:"data" bson:"-" mapstructure:"data,omitempty"`
 
 	// The list of identities to export.
-	Identities []string `json:"identities" bson:"-" mapstructure:"identities,omitempty"`
+	Identities []string `json:"identities" msgpack:"identities" bson:"-" mapstructure:"identities,omitempty"`
 
 	// Label allows to define a unique label for this export. When importing the
 	// content of the export, this label will be added as a tag that will be used to
 	// recognize imported object in a later import.
-	Label string `json:"label" bson:"-" mapstructure:"label,omitempty"`
+	Label string `json:"label" msgpack:"label" bson:"-" mapstructure:"label,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewExport returns a new *Export
@@ -425,20 +425,20 @@ func (o SparseExportsList) Version() int {
 // SparseExport represents the sparse version of a export.
 type SparseExport struct {
 	// APIVersion of the api used for the exported data.
-	APIVersion *int `json:"APIVersion,omitempty" bson:"-" mapstructure:"APIVersion,omitempty"`
+	APIVersion *int `json:"APIVersion,omitempty" msgpack:"APIVersion,omitempty" bson:"-" mapstructure:"APIVersion,omitempty"`
 
 	// List of all exported data.
-	Data *map[string][]map[string]interface{} `json:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
+	Data *map[string][]map[string]interface{} `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
 	// The list of identities to export.
-	Identities *[]string `json:"identities,omitempty" bson:"-" mapstructure:"identities,omitempty"`
+	Identities *[]string `json:"identities,omitempty" msgpack:"identities,omitempty" bson:"-" mapstructure:"identities,omitempty"`
 
 	// Label allows to define a unique label for this export. When importing the
 	// content of the export, this label will be added as a tag that will be used to
 	// recognize imported object in a later import.
-	Label *string `json:"label,omitempty" bson:"-" mapstructure:"label,omitempty"`
+	Label *string `json:"label,omitempty" msgpack:"label,omitempty" bson:"-" mapstructure:"label,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseExport returns a new  SparseExport.

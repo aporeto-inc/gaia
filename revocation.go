@@ -81,22 +81,22 @@ func (o RevocationsList) Version() int {
 // Revocation represents the model of a revocation
 type Revocation struct {
 	// ID contains the ID of the revocation.
-	ID string `json:"-" bson:"_id" mapstructure:"-,omitempty"`
+	ID string `json:"-" msgpack:"-" bson:"_id" mapstructure:"-,omitempty"`
 
 	// Contains the certificate expiration date. This will be used to clean up revoked
 	// certificates that have expired.
-	ExpirationDate time.Time `json:"expirationDate" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
+	ExpirationDate time.Time `json:"expirationDate" msgpack:"expirationDate" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
 
 	// Set time from when the certificate will be revoked.
-	RevokeDate time.Time `json:"revokeDate" bson:"revokedate" mapstructure:"revokeDate,omitempty"`
+	RevokeDate time.Time `json:"revokeDate" msgpack:"revokeDate" bson:"revokedate" mapstructure:"revokeDate,omitempty"`
 
 	// SerialNumber of the revoked certificate.
-	SerialNumber string `json:"serialNumber" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
+	SerialNumber string `json:"serialNumber" msgpack:"serialNumber" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
 
 	// Subject of the certificate related to the revocation.
-	Subject string `json:"subject" bson:"subject" mapstructure:"subject,omitempty"`
+	Subject string `json:"subject" msgpack:"subject" bson:"subject" mapstructure:"subject,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewRevocation returns a new *Revocation
@@ -461,22 +461,22 @@ func (o SparseRevocationsList) Version() int {
 // SparseRevocation represents the sparse version of a revocation.
 type SparseRevocation struct {
 	// ID contains the ID of the revocation.
-	ID *string `json:"-" bson:"_id" mapstructure:"-,omitempty"`
+	ID *string `json:"-" msgpack:"-" bson:"_id" mapstructure:"-,omitempty"`
 
 	// Contains the certificate expiration date. This will be used to clean up revoked
 	// certificates that have expired.
-	ExpirationDate *time.Time `json:"expirationDate,omitempty" bson:"expirationdate,omitempty" mapstructure:"expirationDate,omitempty"`
+	ExpirationDate *time.Time `json:"expirationDate,omitempty" msgpack:"expirationDate,omitempty" bson:"expirationdate,omitempty" mapstructure:"expirationDate,omitempty"`
 
 	// Set time from when the certificate will be revoked.
-	RevokeDate *time.Time `json:"revokeDate,omitempty" bson:"revokedate,omitempty" mapstructure:"revokeDate,omitempty"`
+	RevokeDate *time.Time `json:"revokeDate,omitempty" msgpack:"revokeDate,omitempty" bson:"revokedate,omitempty" mapstructure:"revokeDate,omitempty"`
 
 	// SerialNumber of the revoked certificate.
-	SerialNumber *string `json:"serialNumber,omitempty" bson:"serialnumber,omitempty" mapstructure:"serialNumber,omitempty"`
+	SerialNumber *string `json:"serialNumber,omitempty" msgpack:"serialNumber,omitempty" bson:"serialnumber,omitempty" mapstructure:"serialNumber,omitempty"`
 
 	// Subject of the certificate related to the revocation.
-	Subject *string `json:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
+	Subject *string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"subject,omitempty" mapstructure:"subject,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseRevocation returns a new  SparseRevocation.

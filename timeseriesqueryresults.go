@@ -10,9 +10,9 @@ import (
 // TimeSeriesQueryResults represents the model of a timeseriesqueryresults
 type TimeSeriesQueryResults struct {
 	// List of rows.
-	Rows []*TimeSeriesRow `json:"rows" bson:"-" mapstructure:"rows,omitempty"`
+	Rows []*TimeSeriesRow `json:"rows" msgpack:"rows" bson:"-" mapstructure:"rows,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewTimeSeriesQueryResults returns a new *TimeSeriesQueryResults

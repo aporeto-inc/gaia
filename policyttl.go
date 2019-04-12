@@ -81,12 +81,12 @@ func (o PolicyTTLsList) Version() int {
 // PolicyTTL represents the model of a policyttl
 type PolicyTTL struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Time when the policy must be deleted.
-	ExpirationTime time.Time `json:"-" bson:"expirationtime" mapstructure:"-,omitempty"`
+	ExpirationTime time.Time `json:"-" msgpack:"-" bson:"expirationtime" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewPolicyTTL returns a new *PolicyTTL
@@ -368,12 +368,12 @@ func (o SparsePolicyTTLsList) Version() int {
 // SparsePolicyTTL represents the sparse version of a policyttl.
 type SparsePolicyTTL struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Time when the policy must be deleted.
-	ExpirationTime *time.Time `json:"-" bson:"expirationtime,omitempty" mapstructure:"-,omitempty"`
+	ExpirationTime *time.Time `json:"-" msgpack:"-" bson:"expirationtime,omitempty" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparsePolicyTTL returns a new  SparsePolicyTTL.

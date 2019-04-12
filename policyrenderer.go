@@ -129,19 +129,19 @@ func (o PolicyRenderersList) Version() int {
 // PolicyRenderer represents the model of a policyrenderer
 type PolicyRenderer struct {
 	// List of policies rendered for the given set of tags.
-	Policies PolicyRulesList `json:"policies" bson:"-" mapstructure:"policies,omitempty"`
+	Policies PolicyRulesList `json:"policies" msgpack:"policies" bson:"-" mapstructure:"policies,omitempty"`
 
 	// Define if the processMode should be using the object or subject. This only has
 	// effect when rendering a SSHAuthorizationPolicy for now.
-	ProcessMode PolicyRendererProcessModeValue `json:"processMode" bson:"-" mapstructure:"processMode,omitempty"`
+	ProcessMode PolicyRendererProcessModeValue `json:"processMode" msgpack:"processMode" bson:"-" mapstructure:"processMode,omitempty"`
 
 	// List of tags of the object to render the hook policy for.
-	Tags []string `json:"tags" bson:"-" mapstructure:"tags,omitempty"`
+	Tags []string `json:"tags" msgpack:"tags" bson:"-" mapstructure:"tags,omitempty"`
 
 	// Type of the policy to render.
-	Type PolicyRendererTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`
+	Type PolicyRendererTypeValue `json:"type" msgpack:"type" bson:"-" mapstructure:"type,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewPolicyRenderer returns a new *PolicyRenderer
@@ -499,19 +499,19 @@ func (o SparsePolicyRenderersList) Version() int {
 // SparsePolicyRenderer represents the sparse version of a policyrenderer.
 type SparsePolicyRenderer struct {
 	// List of policies rendered for the given set of tags.
-	Policies *PolicyRulesList `json:"policies,omitempty" bson:"-" mapstructure:"policies,omitempty"`
+	Policies *PolicyRulesList `json:"policies,omitempty" msgpack:"policies,omitempty" bson:"-" mapstructure:"policies,omitempty"`
 
 	// Define if the processMode should be using the object or subject. This only has
 	// effect when rendering a SSHAuthorizationPolicy for now.
-	ProcessMode *PolicyRendererProcessModeValue `json:"processMode,omitempty" bson:"-" mapstructure:"processMode,omitempty"`
+	ProcessMode *PolicyRendererProcessModeValue `json:"processMode,omitempty" msgpack:"processMode,omitempty" bson:"-" mapstructure:"processMode,omitempty"`
 
 	// List of tags of the object to render the hook policy for.
-	Tags *[]string `json:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
+	Tags *[]string `json:"tags,omitempty" msgpack:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
 
 	// Type of the policy to render.
-	Type *PolicyRendererTypeValue `json:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
+	Type *PolicyRendererTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparsePolicyRenderer returns a new  SparsePolicyRenderer.

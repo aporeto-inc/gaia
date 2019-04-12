@@ -80,12 +80,12 @@ func (o TagValuesList) Version() int {
 // TagValue represents the model of a tagvalue
 type TagValue struct {
 	// The requested key.
-	Key string `json:"key" bson:"-" mapstructure:"key,omitempty"`
+	Key string `json:"key" msgpack:"key" bson:"-" mapstructure:"key,omitempty"`
 
 	// List of all values.
-	Values []string `json:"values" bson:"-" mapstructure:"values,omitempty"`
+	Values []string `json:"values" msgpack:"values" bson:"-" mapstructure:"values,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewTagValue returns a new *TagValue
@@ -364,12 +364,12 @@ func (o SparseTagValuesList) Version() int {
 // SparseTagValue represents the sparse version of a tagvalue.
 type SparseTagValue struct {
 	// The requested key.
-	Key *string `json:"key,omitempty" bson:"-" mapstructure:"key,omitempty"`
+	Key *string `json:"key,omitempty" msgpack:"key,omitempty" bson:"-" mapstructure:"key,omitempty"`
 
 	// List of all values.
-	Values *[]string `json:"values,omitempty" bson:"-" mapstructure:"values,omitempty"`
+	Values *[]string `json:"values,omitempty" msgpack:"values,omitempty" bson:"-" mapstructure:"values,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseTagValue returns a new  SparseTagValue.

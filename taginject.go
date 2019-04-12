@@ -80,15 +80,15 @@ func (o TagInjectsList) Version() int {
 // TagInject represents the model of a taginject
 type TagInject struct {
 	// List of tags to be added.
-	AddedTags map[string]int `json:"addedTags" bson:"-" mapstructure:"addedTags,omitempty"`
+	AddedTags map[string]int `json:"addedTags" msgpack:"addedTags" bson:"-" mapstructure:"addedTags,omitempty"`
 
 	// List of tags to be removed.
-	RemovedTags map[string]int `json:"removedTags" bson:"-" mapstructure:"removedTags,omitempty"`
+	RemovedTags map[string]int `json:"removedTags" msgpack:"removedTags" bson:"-" mapstructure:"removedTags,omitempty"`
 
 	// List of tags to inject.
-	TargetNamespace string `json:"targetNamespace" bson:"-" mapstructure:"targetNamespace,omitempty"`
+	TargetNamespace string `json:"targetNamespace" msgpack:"targetNamespace" bson:"-" mapstructure:"targetNamespace,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewTagInject returns a new *TagInject
@@ -392,15 +392,15 @@ func (o SparseTagInjectsList) Version() int {
 // SparseTagInject represents the sparse version of a taginject.
 type SparseTagInject struct {
 	// List of tags to be added.
-	AddedTags *map[string]int `json:"addedTags,omitempty" bson:"-" mapstructure:"addedTags,omitempty"`
+	AddedTags *map[string]int `json:"addedTags,omitempty" msgpack:"addedTags,omitempty" bson:"-" mapstructure:"addedTags,omitempty"`
 
 	// List of tags to be removed.
-	RemovedTags *map[string]int `json:"removedTags,omitempty" bson:"-" mapstructure:"removedTags,omitempty"`
+	RemovedTags *map[string]int `json:"removedTags,omitempty" msgpack:"removedTags,omitempty" bson:"-" mapstructure:"removedTags,omitempty"`
 
 	// List of tags to inject.
-	TargetNamespace *string `json:"targetNamespace,omitempty" bson:"-" mapstructure:"targetNamespace,omitempty"`
+	TargetNamespace *string `json:"targetNamespace,omitempty" msgpack:"targetNamespace,omitempty" bson:"-" mapstructure:"targetNamespace,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseTagInject returns a new  SparseTagInject.

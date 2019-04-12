@@ -80,9 +80,9 @@ func (o JaegerbatchsList) Version() int {
 // Jaegerbatch represents the model of a jaegerbatch
 type Jaegerbatch struct {
 	// Represents a jaeger batch.
-	Batch interface{} `json:"batch" bson:"batch" mapstructure:"batch,omitempty"`
+	Batch interface{} `json:"batch" msgpack:"batch" bson:"batch" mapstructure:"batch,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewJaegerbatch returns a new *Jaegerbatch
@@ -331,9 +331,9 @@ func (o SparseJaegerbatchsList) Version() int {
 // SparseJaegerbatch represents the sparse version of a jaegerbatch.
 type SparseJaegerbatch struct {
 	// Represents a jaeger batch.
-	Batch *interface{} `json:"batch,omitempty" bson:"batch,omitempty" mapstructure:"batch,omitempty"`
+	Batch *interface{} `json:"batch,omitempty" msgpack:"batch,omitempty" bson:"batch,omitempty" mapstructure:"batch,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseJaegerbatch returns a new  SparseJaegerbatch.

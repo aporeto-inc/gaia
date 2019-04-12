@@ -80,9 +80,9 @@ func (o SuggestedPoliciesList) Version() int {
 // SuggestedPolicy represents the model of a suggestedpolicy
 type SuggestedPolicy struct {
 	// List of suggested network access policies.
-	NetworkAccessPolicies NetworkAccessPoliciesList `json:"networkAccessPolicies" bson:"networkaccesspolicies" mapstructure:"networkAccessPolicies,omitempty"`
+	NetworkAccessPolicies NetworkAccessPoliciesList `json:"networkAccessPolicies" msgpack:"networkAccessPolicies" bson:"networkaccesspolicies" mapstructure:"networkAccessPolicies,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSuggestedPolicy returns a new *SuggestedPolicy
@@ -339,9 +339,9 @@ func (o SparseSuggestedPoliciesList) Version() int {
 // SparseSuggestedPolicy represents the sparse version of a suggestedpolicy.
 type SparseSuggestedPolicy struct {
 	// List of suggested network access policies.
-	NetworkAccessPolicies *NetworkAccessPoliciesList `json:"networkAccessPolicies,omitempty" bson:"networkaccesspolicies,omitempty" mapstructure:"networkAccessPolicies,omitempty"`
+	NetworkAccessPolicies *NetworkAccessPoliciesList `json:"networkAccessPolicies,omitempty" msgpack:"networkAccessPolicies,omitempty" bson:"networkaccesspolicies,omitempty" mapstructure:"networkAccessPolicies,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseSuggestedPolicy returns a new  SparseSuggestedPolicy.

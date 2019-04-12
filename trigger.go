@@ -80,9 +80,9 @@ func (o TriggersList) Version() int {
 // Trigger represents the model of a trigger
 type Trigger struct {
 	// Payload contains the eventual remote POST payload.
-	Payload string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Payload string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewTrigger returns a new *Trigger
@@ -326,9 +326,9 @@ func (o SparseTriggersList) Version() int {
 // SparseTrigger represents the sparse version of a trigger.
 type SparseTrigger struct {
 	// Payload contains the eventual remote POST payload.
-	Payload *string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Payload *string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseTrigger returns a new  SparseTrigger.

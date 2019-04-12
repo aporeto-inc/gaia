@@ -91,30 +91,30 @@ func (o SSHCertificatesList) Version() int {
 // SSHCertificate represents the model of a sshcertificate
 type SSHCertificate struct {
 	// Contains the signed SSH certificate in OpenSSH Format.
-	Certificate string `json:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
+	Certificate string `json:"certificate" msgpack:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// List of extensions to set in the ssh certificate.
-	Extensions map[string]string `json:"extensions" bson:"-" mapstructure:"extensions,omitempty"`
+	Extensions map[string]string `json:"extensions" msgpack:"extensions" bson:"-" mapstructure:"extensions,omitempty"`
 
 	// List of options to set in the ssh certificate.
-	Options map[string]string `json:"options" bson:"-" mapstructure:"options,omitempty"`
+	Options map[string]string `json:"options" msgpack:"options" bson:"-" mapstructure:"options,omitempty"`
 
 	// List of principals to set in the ssh certificate.
-	Principals []string `json:"principals" bson:"-" mapstructure:"principals,omitempty"`
+	Principals []string `json:"principals" msgpack:"principals" bson:"-" mapstructure:"principals,omitempty"`
 
 	// Contains the public key to sign in OpenSSH Format.
-	PublicKey string `json:"publicKey" bson:"-" mapstructure:"publicKey,omitempty"`
+	PublicKey string `json:"publicKey" msgpack:"publicKey" bson:"-" mapstructure:"publicKey,omitempty"`
 
 	// The identifier of the CA to use to sign the certificate.
-	SignerID string `json:"signerID" bson:"-" mapstructure:"signerID,omitempty"`
+	SignerID string `json:"signerID" msgpack:"signerID" bson:"-" mapstructure:"signerID,omitempty"`
 
 	// Type of SSH certificate.
-	Type SSHCertificateTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`
+	Type SSHCertificateTypeValue `json:"type" msgpack:"type" bson:"-" mapstructure:"type,omitempty"`
 
 	// Set the validity of the SSH certificate.
-	Validity string `json:"validity" bson:"-" mapstructure:"validity,omitempty"`
+	Validity string `json:"validity" msgpack:"validity" bson:"-" mapstructure:"validity,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSSHCertificate returns a new *SSHCertificate
@@ -565,30 +565,30 @@ func (o SparseSSHCertificatesList) Version() int {
 // SparseSSHCertificate represents the sparse version of a sshcertificate.
 type SparseSSHCertificate struct {
 	// Contains the signed SSH certificate in OpenSSH Format.
-	Certificate *string `json:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
+	Certificate *string `json:"certificate,omitempty" msgpack:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// List of extensions to set in the ssh certificate.
-	Extensions *map[string]string `json:"extensions,omitempty" bson:"-" mapstructure:"extensions,omitempty"`
+	Extensions *map[string]string `json:"extensions,omitempty" msgpack:"extensions,omitempty" bson:"-" mapstructure:"extensions,omitempty"`
 
 	// List of options to set in the ssh certificate.
-	Options *map[string]string `json:"options,omitempty" bson:"-" mapstructure:"options,omitempty"`
+	Options *map[string]string `json:"options,omitempty" msgpack:"options,omitempty" bson:"-" mapstructure:"options,omitempty"`
 
 	// List of principals to set in the ssh certificate.
-	Principals *[]string `json:"principals,omitempty" bson:"-" mapstructure:"principals,omitempty"`
+	Principals *[]string `json:"principals,omitempty" msgpack:"principals,omitempty" bson:"-" mapstructure:"principals,omitempty"`
 
 	// Contains the public key to sign in OpenSSH Format.
-	PublicKey *string `json:"publicKey,omitempty" bson:"-" mapstructure:"publicKey,omitempty"`
+	PublicKey *string `json:"publicKey,omitempty" msgpack:"publicKey,omitempty" bson:"-" mapstructure:"publicKey,omitempty"`
 
 	// The identifier of the CA to use to sign the certificate.
-	SignerID *string `json:"signerID,omitempty" bson:"-" mapstructure:"signerID,omitempty"`
+	SignerID *string `json:"signerID,omitempty" msgpack:"signerID,omitempty" bson:"-" mapstructure:"signerID,omitempty"`
 
 	// Type of SSH certificate.
-	Type *SSHCertificateTypeValue `json:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
+	Type *SSHCertificateTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
 
 	// Set the validity of the SSH certificate.
-	Validity *string `json:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
+	Validity *string `json:"validity,omitempty" msgpack:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseSSHCertificate returns a new  SparseSSHCertificate.

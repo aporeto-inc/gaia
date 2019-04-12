@@ -80,21 +80,21 @@ func (o EnforcerTraceReportsList) Version() int {
 // EnforcerTraceReport represents the model of a enforcertracereport
 type EnforcerTraceReport struct {
 	// EnforcerID of the enforcer where the trace was collected.
-	EnforcerID string `json:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
+	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"enforcerid" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the enforcer where the trace was collected.
-	EnforcerNamespace string `json:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
+	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"enforcernamespace" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Namespace of the PU where the trace was collected.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// ID of the pu where the trace was collected.
-	PuID string `json:"puID" bson:"puid" mapstructure:"puID,omitempty"`
+	PuID string `json:"puID" msgpack:"puID" bson:"puid" mapstructure:"puID,omitempty"`
 
 	// List of iptables trace records collected.
-	Records []*TraceRecord `json:"-" bson:"records" mapstructure:"-,omitempty"`
+	Records []*TraceRecord `json:"-" msgpack:"-" bson:"records" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewEnforcerTraceReport returns a new *EnforcerTraceReport
@@ -469,21 +469,21 @@ func (o SparseEnforcerTraceReportsList) Version() int {
 // SparseEnforcerTraceReport represents the sparse version of a enforcertracereport.
 type SparseEnforcerTraceReport struct {
 	// EnforcerID of the enforcer where the trace was collected.
-	EnforcerID *string `json:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
+	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"enforcerid,omitempty" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the enforcer where the trace was collected.
-	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
+	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"enforcernamespace,omitempty" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Namespace of the PU where the trace was collected.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// ID of the pu where the trace was collected.
-	PuID *string `json:"puID,omitempty" bson:"puid,omitempty" mapstructure:"puID,omitempty"`
+	PuID *string `json:"puID,omitempty" msgpack:"puID,omitempty" bson:"puid,omitempty" mapstructure:"puID,omitempty"`
 
 	// List of iptables trace records collected.
-	Records *[]*TraceRecord `json:"-" bson:"records,omitempty" mapstructure:"-,omitempty"`
+	Records *[]*TraceRecord `json:"-" msgpack:"-" bson:"records,omitempty" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseEnforcerTraceReport returns a new  SparseEnforcerTraceReport.

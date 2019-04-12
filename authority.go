@@ -81,24 +81,24 @@ func (o AuthoritiesList) Version() int {
 // Authority represents the model of a authority
 type Authority struct {
 	// ID is the identitfier of the Authority.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// PEM encoded certificate data.
-	Certificate string `json:"certificate" bson:"certificate" mapstructure:"certificate,omitempty"`
+	Certificate string `json:"certificate" msgpack:"certificate" bson:"certificate" mapstructure:"certificate,omitempty"`
 
 	// CommonName contains the common name of the CA.
-	CommonName string `json:"commonName" bson:"commonname" mapstructure:"commonName,omitempty"`
+	CommonName string `json:"commonName" msgpack:"commonName" bson:"commonname" mapstructure:"commonName,omitempty"`
 
 	// Date of expiration of the authority.
-	ExpirationDate time.Time `json:"expirationDate" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
+	ExpirationDate time.Time `json:"expirationDate" msgpack:"expirationDate" bson:"expirationdate" mapstructure:"expirationDate,omitempty"`
 
 	// Encrypted private key of the Authority.
-	Key string `json:"-" bson:"key" mapstructure:"-,omitempty"`
+	Key string `json:"-" msgpack:"-" bson:"key" mapstructure:"-,omitempty"`
 
 	// serialNumber of the certificate.
-	SerialNumber string `json:"serialNumber" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
+	SerialNumber string `json:"serialNumber" msgpack:"serialNumber" bson:"serialnumber" mapstructure:"serialNumber,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewAuthority returns a new *Authority
@@ -499,24 +499,24 @@ func (o SparseAuthoritiesList) Version() int {
 // SparseAuthority represents the sparse version of a authority.
 type SparseAuthority struct {
 	// ID is the identitfier of the Authority.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// PEM encoded certificate data.
-	Certificate *string `json:"certificate,omitempty" bson:"certificate,omitempty" mapstructure:"certificate,omitempty"`
+	Certificate *string `json:"certificate,omitempty" msgpack:"certificate,omitempty" bson:"certificate,omitempty" mapstructure:"certificate,omitempty"`
 
 	// CommonName contains the common name of the CA.
-	CommonName *string `json:"commonName,omitempty" bson:"commonname,omitempty" mapstructure:"commonName,omitempty"`
+	CommonName *string `json:"commonName,omitempty" msgpack:"commonName,omitempty" bson:"commonname,omitempty" mapstructure:"commonName,omitempty"`
 
 	// Date of expiration of the authority.
-	ExpirationDate *time.Time `json:"expirationDate,omitempty" bson:"expirationdate,omitempty" mapstructure:"expirationDate,omitempty"`
+	ExpirationDate *time.Time `json:"expirationDate,omitempty" msgpack:"expirationDate,omitempty" bson:"expirationdate,omitempty" mapstructure:"expirationDate,omitempty"`
 
 	// Encrypted private key of the Authority.
-	Key *string `json:"-" bson:"key,omitempty" mapstructure:"-,omitempty"`
+	Key *string `json:"-" msgpack:"-" bson:"key,omitempty" mapstructure:"-,omitempty"`
 
 	// serialNumber of the certificate.
-	SerialNumber *string `json:"serialNumber,omitempty" bson:"serialnumber,omitempty" mapstructure:"serialNumber,omitempty"`
+	SerialNumber *string `json:"serialNumber,omitempty" msgpack:"serialNumber,omitempty" bson:"serialnumber,omitempty" mapstructure:"serialNumber,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseAuthority returns a new  SparseAuthority.

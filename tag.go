@@ -80,18 +80,18 @@ func (o TagsList) Version() int {
 // Tag represents the model of a tag
 type Tag struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Count represents the number of time the tag is used.
-	Count int `json:"count" bson:"count" mapstructure:"count,omitempty"`
+	Count int `json:"count" msgpack:"count" bson:"count" mapstructure:"count,omitempty"`
 
 	// Namespace represents the namespace of the counted tag.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// Value represents the value of the tag.
-	Value string `json:"value" bson:"value" mapstructure:"value,omitempty"`
+	Value string `json:"value" msgpack:"value" bson:"value" mapstructure:"value,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewTag returns a new *Tag
@@ -461,18 +461,18 @@ func (o SparseTagsList) Version() int {
 // SparseTag represents the sparse version of a tag.
 type SparseTag struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Count represents the number of time the tag is used.
-	Count *int `json:"count,omitempty" bson:"count,omitempty" mapstructure:"count,omitempty"`
+	Count *int `json:"count,omitempty" msgpack:"count,omitempty" bson:"count,omitempty" mapstructure:"count,omitempty"`
 
 	// Namespace represents the namespace of the counted tag.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Value represents the value of the tag.
-	Value *string `json:"value,omitempty" bson:"value,omitempty" mapstructure:"value,omitempty"`
+	Value *string `json:"value,omitempty" msgpack:"value,omitempty" bson:"value,omitempty" mapstructure:"value,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseTag returns a new  SparseTag.

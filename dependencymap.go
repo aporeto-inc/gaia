@@ -80,18 +80,18 @@ func (o DependencyMapsList) Version() int {
 // DependencyMap represents the model of a dependencymap
 type DependencyMap struct {
 	// edges are the edges of the map.
-	Edges map[string]*GraphEdge `json:"edges" bson:"-" mapstructure:"edges,omitempty"`
+	Edges map[string]*GraphEdge `json:"edges" msgpack:"edges" bson:"-" mapstructure:"edges,omitempty"`
 
 	// Groups provide information about the group values.
-	Groups map[string]*GraphGroup `json:"groups" bson:"-" mapstructure:"groups,omitempty"`
+	Groups map[string]*GraphGroup `json:"groups" msgpack:"groups" bson:"-" mapstructure:"groups,omitempty"`
 
 	// nodes refers to the nodes of the map.
-	Nodes map[string]*GraphNode `json:"nodes" bson:"-" mapstructure:"nodes,omitempty"`
+	Nodes map[string]*GraphNode `json:"nodes" msgpack:"nodes" bson:"-" mapstructure:"nodes,omitempty"`
 
 	// viewSuggestions provides suggestion of views based on relevant tags.
-	ViewSuggestions []string `json:"viewSuggestions" bson:"-" mapstructure:"viewSuggestions,omitempty"`
+	ViewSuggestions []string `json:"viewSuggestions" msgpack:"viewSuggestions" bson:"-" mapstructure:"viewSuggestions,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewDependencyMap returns a new *DependencyMap
@@ -451,18 +451,18 @@ func (o SparseDependencyMapsList) Version() int {
 // SparseDependencyMap represents the sparse version of a dependencymap.
 type SparseDependencyMap struct {
 	// edges are the edges of the map.
-	Edges *map[string]*GraphEdge `json:"edges,omitempty" bson:"-" mapstructure:"edges,omitempty"`
+	Edges *map[string]*GraphEdge `json:"edges,omitempty" msgpack:"edges,omitempty" bson:"-" mapstructure:"edges,omitempty"`
 
 	// Groups provide information about the group values.
-	Groups *map[string]*GraphGroup `json:"groups,omitempty" bson:"-" mapstructure:"groups,omitempty"`
+	Groups *map[string]*GraphGroup `json:"groups,omitempty" msgpack:"groups,omitempty" bson:"-" mapstructure:"groups,omitempty"`
 
 	// nodes refers to the nodes of the map.
-	Nodes *map[string]*GraphNode `json:"nodes,omitempty" bson:"-" mapstructure:"nodes,omitempty"`
+	Nodes *map[string]*GraphNode `json:"nodes,omitempty" msgpack:"nodes,omitempty" bson:"-" mapstructure:"nodes,omitempty"`
 
 	// viewSuggestions provides suggestion of views based on relevant tags.
-	ViewSuggestions *[]string `json:"viewSuggestions,omitempty" bson:"-" mapstructure:"viewSuggestions,omitempty"`
+	ViewSuggestions *[]string `json:"viewSuggestions,omitempty" msgpack:"viewSuggestions,omitempty" bson:"-" mapstructure:"viewSuggestions,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseDependencyMap returns a new  SparseDependencyMap.

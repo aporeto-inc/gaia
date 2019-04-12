@@ -10,15 +10,15 @@ import (
 // ProcessingUnitService represents the model of a processingunitservice
 type ProcessingUnitService struct {
 	// ports contains the list of allowed ports and ranges.
-	Ports string `json:"ports" bson:"ports" mapstructure:"ports,omitempty"`
+	Ports string `json:"ports" msgpack:"ports" bson:"ports" mapstructure:"ports,omitempty"`
 
 	// Protocol used by the service.
-	Protocol int `json:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
+	Protocol int `json:"protocol" msgpack:"protocol" bson:"protocol" mapstructure:"protocol,omitempty"`
 
 	// List of single ports or range (xx:yy).
-	TargetPorts []string `json:"targetPorts" bson:"targetports" mapstructure:"targetPorts,omitempty"`
+	TargetPorts []string `json:"targetPorts" msgpack:"targetPorts" bson:"targetports" mapstructure:"targetPorts,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewProcessingUnitService returns a new *ProcessingUnitService

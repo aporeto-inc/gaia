@@ -80,12 +80,12 @@ func (o ProcessingUnitRefreshsList) Version() int {
 // ProcessingUnitRefresh represents the model of a processingunitrefresh
 type ProcessingUnitRefresh struct {
 	// ID contains the original ID of the Processing Unit.
-	ID string `json:"ID" bson:"id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"id" mapstructure:"ID,omitempty"`
 
 	// Namespace contains the original namespace of the Processing Unit.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewProcessingUnitRefresh returns a new *ProcessingUnitRefresh
@@ -367,12 +367,12 @@ func (o SparseProcessingUnitRefreshsList) Version() int {
 // SparseProcessingUnitRefresh represents the sparse version of a processingunitrefresh.
 type SparseProcessingUnitRefresh struct {
 	// ID contains the original ID of the Processing Unit.
-	ID *string `json:"ID,omitempty" bson:"id,omitempty" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"id,omitempty" mapstructure:"ID,omitempty"`
 
 	// Namespace contains the original namespace of the Processing Unit.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseProcessingUnitRefresh returns a new  SparseProcessingUnitRefresh.

@@ -81,22 +81,22 @@ func (o PolicyGraphsList) Version() int {
 type PolicyGraph struct {
 	// puIdentity is the set of tags that a future activated PU will have for which the
 	// user wants to evaluate policies and understand its connectivity options.
-	PUIdentity []string `json:"PUIdentity" bson:"-" mapstructure:"PUIdentity,omitempty"`
+	PUIdentity []string `json:"PUIdentity" msgpack:"PUIdentity" bson:"-" mapstructure:"PUIdentity,omitempty"`
 
 	// The dependencyMap contains the output of the policy evalation, and it is the
 	// same
 	// type of dependency map as created by other APIs.
-	DependencyMap *DependencyMap `json:"dependencyMap" bson:"-" mapstructure:"dependencyMap,omitempty"`
+	DependencyMap *DependencyMap `json:"dependencyMap" msgpack:"dependencyMap" bson:"-" mapstructure:"dependencyMap,omitempty"`
 
 	// Recursive will implement a recursive search through the namespaces for matching
 	// PUs.
-	Recursive bool `json:"recursive" bson:"-" mapstructure:"recursive,omitempty"`
+	Recursive bool `json:"recursive" msgpack:"recursive" bson:"-" mapstructure:"recursive,omitempty"`
 
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to evaluate policy for it.
-	Selectors [][]string `json:"selectors" bson:"-" mapstructure:"selectors,omitempty"`
+	Selectors [][]string `json:"selectors" msgpack:"selectors" bson:"-" mapstructure:"selectors,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewPolicyGraph returns a new *PolicyGraph
@@ -444,22 +444,22 @@ func (o SparsePolicyGraphsList) Version() int {
 type SparsePolicyGraph struct {
 	// puIdentity is the set of tags that a future activated PU will have for which the
 	// user wants to evaluate policies and understand its connectivity options.
-	PUIdentity *[]string `json:"PUIdentity,omitempty" bson:"-" mapstructure:"PUIdentity,omitempty"`
+	PUIdentity *[]string `json:"PUIdentity,omitempty" msgpack:"PUIdentity,omitempty" bson:"-" mapstructure:"PUIdentity,omitempty"`
 
 	// The dependencyMap contains the output of the policy evalation, and it is the
 	// same
 	// type of dependency map as created by other APIs.
-	DependencyMap **DependencyMap `json:"dependencyMap,omitempty" bson:"-" mapstructure:"dependencyMap,omitempty"`
+	DependencyMap **DependencyMap `json:"dependencyMap,omitempty" msgpack:"dependencyMap,omitempty" bson:"-" mapstructure:"dependencyMap,omitempty"`
 
 	// Recursive will implement a recursive search through the namespaces for matching
 	// PUs.
-	Recursive *bool `json:"recursive,omitempty" bson:"-" mapstructure:"recursive,omitempty"`
+	Recursive *bool `json:"recursive,omitempty" msgpack:"recursive,omitempty" bson:"-" mapstructure:"recursive,omitempty"`
 
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to evaluate policy for it.
-	Selectors *[][]string `json:"selectors,omitempty" bson:"-" mapstructure:"selectors,omitempty"`
+	Selectors *[][]string `json:"selectors,omitempty" msgpack:"selectors,omitempty" bson:"-" mapstructure:"selectors,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparsePolicyGraph returns a new  SparsePolicyGraph.

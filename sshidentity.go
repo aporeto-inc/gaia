@@ -80,13 +80,13 @@ func (o SSHIdentitiesList) Version() int {
 // SSHIdentity represents the model of a sshidentity
 type SSHIdentity struct {
 	// Contains the signed SSH certificate in OpenSSH Format.
-	Certificate string `json:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
+	Certificate string `json:"certificate" msgpack:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// Contains the public key to sign in OpenSSH Format. You can generate a SSH public
 	// key with the standard `+"`"+`ssh-keygen`+"`"+` tool.
-	PublicKey string `json:"publicKey" bson:"-" mapstructure:"publicKey,omitempty"`
+	PublicKey string `json:"publicKey" msgpack:"publicKey" bson:"-" mapstructure:"publicKey,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSSHIdentity returns a new *SSHIdentity
@@ -367,13 +367,13 @@ func (o SparseSSHIdentitiesList) Version() int {
 // SparseSSHIdentity represents the sparse version of a sshidentity.
 type SparseSSHIdentity struct {
 	// Contains the signed SSH certificate in OpenSSH Format.
-	Certificate *string `json:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
+	Certificate *string `json:"certificate,omitempty" msgpack:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// Contains the public key to sign in OpenSSH Format. You can generate a SSH public
 	// key with the standard `+"`"+`ssh-keygen`+"`"+` tool.
-	PublicKey *string `json:"publicKey,omitempty" bson:"-" mapstructure:"publicKey,omitempty"`
+	PublicKey *string `json:"publicKey,omitempty" msgpack:"publicKey,omitempty" bson:"-" mapstructure:"publicKey,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseSSHIdentity returns a new  SparseSSHIdentity.

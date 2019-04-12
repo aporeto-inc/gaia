@@ -80,9 +80,9 @@ func (o ActivatesList) Version() int {
 // Activate represents the model of a activate
 type Activate struct {
 	// Token contains the activation token.
-	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
+	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewActivate returns a new *Activate
@@ -328,9 +328,9 @@ func (o SparseActivatesList) Version() int {
 // SparseActivate represents the sparse version of a activate.
 type SparseActivate struct {
 	// Token contains the activation token.
-	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
+	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseActivate returns a new  SparseActivate.

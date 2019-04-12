@@ -80,15 +80,15 @@ func (o TabulationsList) Version() int {
 // Tabulation represents the model of a tabulation
 type Tabulation struct {
 	// Headers contains the requests headers that matched.
-	Headers []string `json:"headers" bson:"-" mapstructure:"headers,omitempty"`
+	Headers []string `json:"headers" msgpack:"headers" bson:"-" mapstructure:"headers,omitempty"`
 
 	// Rows contains the tabulated data.
-	Rows [][]interface{} `json:"rows" bson:"-" mapstructure:"rows,omitempty"`
+	Rows [][]interface{} `json:"rows" msgpack:"rows" bson:"-" mapstructure:"rows,omitempty"`
 
 	// TargetIdentity contains the requested target identity.
-	TargetIdentity string `json:"targetIdentity" bson:"-" mapstructure:"targetIdentity,omitempty"`
+	TargetIdentity string `json:"targetIdentity" msgpack:"targetIdentity" bson:"-" mapstructure:"targetIdentity,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewTabulation returns a new *Tabulation
@@ -399,15 +399,15 @@ func (o SparseTabulationsList) Version() int {
 // SparseTabulation represents the sparse version of a tabulation.
 type SparseTabulation struct {
 	// Headers contains the requests headers that matched.
-	Headers *[]string `json:"headers,omitempty" bson:"-" mapstructure:"headers,omitempty"`
+	Headers *[]string `json:"headers,omitempty" msgpack:"headers,omitempty" bson:"-" mapstructure:"headers,omitempty"`
 
 	// Rows contains the tabulated data.
-	Rows *[][]interface{} `json:"rows,omitempty" bson:"-" mapstructure:"rows,omitempty"`
+	Rows *[][]interface{} `json:"rows,omitempty" msgpack:"rows,omitempty" bson:"-" mapstructure:"rows,omitempty"`
 
 	// TargetIdentity contains the requested target identity.
-	TargetIdentity *string `json:"targetIdentity,omitempty" bson:"-" mapstructure:"targetIdentity,omitempty"`
+	TargetIdentity *string `json:"targetIdentity,omitempty" msgpack:"targetIdentity,omitempty" bson:"-" mapstructure:"targetIdentity,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseTabulation returns a new  SparseTabulation.

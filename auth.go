@@ -81,9 +81,9 @@ func (o AuthsList) Version() int {
 // Auth represents the model of a auth
 type Auth struct {
 	// Claims are the claims.
-	Claims *claims.MidgardClaims `json:"claims" bson:"-" mapstructure:"claims,omitempty"`
+	Claims *claims.MidgardClaims `json:"claims" msgpack:"claims" bson:"-" mapstructure:"claims,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewAuth returns a new *Auth
@@ -335,9 +335,9 @@ func (o SparseAuthsList) Version() int {
 // SparseAuth represents the sparse version of a auth.
 type SparseAuth struct {
 	// Claims are the claims.
-	Claims **claims.MidgardClaims `json:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
+	Claims **claims.MidgardClaims `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseAuth returns a new  SparseAuth.

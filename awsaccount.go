@@ -81,39 +81,39 @@ func (o AWSAccountsList) Version() int {
 // AWSAccount represents the model of a awsaccount
 type AWSAccount struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// AccessKeyID contains the aws access key ID. This is used to retrieve your
 	// account id, and it is not stored.
-	AccessKeyID string `json:"accessKeyID" bson:"-" mapstructure:"accessKeyID,omitempty"`
+	AccessKeyID string `json:"accessKeyID" msgpack:"accessKeyID" bson:"-" mapstructure:"accessKeyID,omitempty"`
 
 	// AccessToken contains your aws access token. It is used to retrieve your account
 	// id, and it not stored.
-	AccessToken string `json:"accessToken" bson:"-" mapstructure:"accessToken,omitempty"`
+	AccessToken string `json:"accessToken" msgpack:"accessToken" bson:"-" mapstructure:"accessToken,omitempty"`
 
 	// accountID contains your verified accound id.
-	AccountID string `json:"accountID" bson:"accountid" mapstructure:"accountID,omitempty"`
+	AccountID string `json:"accountID" msgpack:"accountID" bson:"accountid" mapstructure:"accountID,omitempty"`
 
 	// Creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// ParentID contains the parent Vince account ID.
-	ParentID string `json:"parentID" bson:"parentid" mapstructure:"parentID,omitempty"`
+	ParentID string `json:"parentID" msgpack:"parentID" bson:"parentid" mapstructure:"parentID,omitempty"`
 
 	// ParentName contains the name of the Vince parent Account.
-	ParentName string `json:"parentName" bson:"parentname" mapstructure:"parentName,omitempty"`
+	ParentName string `json:"parentName" msgpack:"parentName" bson:"parentname" mapstructure:"parentName,omitempty"`
 
 	// Region contains your the region where your AWS account is located.
-	Region string `json:"region" bson:"region" mapstructure:"region,omitempty"`
+	Region string `json:"region" msgpack:"region" bson:"region" mapstructure:"region,omitempty"`
 
 	// secretAccessKey contains the secret key. It is used to retrieve your account id,
 	// and it is not stored.
-	SecretAccessKey string `json:"secretAccessKey" bson:"-" mapstructure:"secretAccessKey,omitempty"`
+	SecretAccessKey string `json:"secretAccessKey" msgpack:"secretAccessKey" bson:"-" mapstructure:"secretAccessKey,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewAWSAccount returns a new *AWSAccount
@@ -699,39 +699,39 @@ func (o SparseAWSAccountsList) Version() int {
 // SparseAWSAccount represents the sparse version of a awsaccount.
 type SparseAWSAccount struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// AccessKeyID contains the aws access key ID. This is used to retrieve your
 	// account id, and it is not stored.
-	AccessKeyID *string `json:"accessKeyID,omitempty" bson:"-" mapstructure:"accessKeyID,omitempty"`
+	AccessKeyID *string `json:"accessKeyID,omitempty" msgpack:"accessKeyID,omitempty" bson:"-" mapstructure:"accessKeyID,omitempty"`
 
 	// AccessToken contains your aws access token. It is used to retrieve your account
 	// id, and it not stored.
-	AccessToken *string `json:"accessToken,omitempty" bson:"-" mapstructure:"accessToken,omitempty"`
+	AccessToken *string `json:"accessToken,omitempty" msgpack:"accessToken,omitempty" bson:"-" mapstructure:"accessToken,omitempty"`
 
 	// accountID contains your verified accound id.
-	AccountID *string `json:"accountID,omitempty" bson:"accountid,omitempty" mapstructure:"accountID,omitempty"`
+	AccountID *string `json:"accountID,omitempty" msgpack:"accountID,omitempty" bson:"accountid,omitempty" mapstructure:"accountID,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// ParentID contains the parent Vince account ID.
-	ParentID *string `json:"parentID,omitempty" bson:"parentid,omitempty" mapstructure:"parentID,omitempty"`
+	ParentID *string `json:"parentID,omitempty" msgpack:"parentID,omitempty" bson:"parentid,omitempty" mapstructure:"parentID,omitempty"`
 
 	// ParentName contains the name of the Vince parent Account.
-	ParentName *string `json:"parentName,omitempty" bson:"parentname,omitempty" mapstructure:"parentName,omitempty"`
+	ParentName *string `json:"parentName,omitempty" msgpack:"parentName,omitempty" bson:"parentname,omitempty" mapstructure:"parentName,omitempty"`
 
 	// Region contains your the region where your AWS account is located.
-	Region *string `json:"region,omitempty" bson:"region,omitempty" mapstructure:"region,omitempty"`
+	Region *string `json:"region,omitempty" msgpack:"region,omitempty" bson:"region,omitempty" mapstructure:"region,omitempty"`
 
 	// secretAccessKey contains the secret key. It is used to retrieve your account id,
 	// and it is not stored.
-	SecretAccessKey *string `json:"secretAccessKey,omitempty" bson:"-" mapstructure:"secretAccessKey,omitempty"`
+	SecretAccessKey *string `json:"secretAccessKey,omitempty" msgpack:"secretAccessKey,omitempty" bson:"-" mapstructure:"secretAccessKey,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseAWSAccount returns a new  SparseAWSAccount.

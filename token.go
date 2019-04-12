@@ -80,21 +80,21 @@ func (o TokensList) Version() int {
 // Token represents the model of a token
 type Token struct {
 	// Certificate contains the client certificate to use to create a token.
-	Certificate string `json:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
+	Certificate string `json:"certificate" msgpack:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// SigningKeyID holds the ID of the custom CA to use to sign the token.
-	SigningKeyID string `json:"signingKeyID" bson:"signingkeyid" mapstructure:"signingKeyID,omitempty"`
+	SigningKeyID string `json:"signingKeyID" msgpack:"signingKeyID" bson:"signingkeyid" mapstructure:"signingKeyID,omitempty"`
 
 	// Tags includes a list of tags that must be added to the token.
-	Tags []string `json:"tags" bson:"-" mapstructure:"tags,omitempty"`
+	Tags []string `json:"tags" msgpack:"tags" bson:"-" mapstructure:"tags,omitempty"`
 
 	// Token contains the generated token.
-	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
+	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	// Validity contains the token validity duration.
-	Validity string `json:"validity" bson:"-" mapstructure:"validity,omitempty"`
+	Validity string `json:"validity" msgpack:"validity" bson:"-" mapstructure:"validity,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewToken returns a new *Token
@@ -455,21 +455,21 @@ func (o SparseTokensList) Version() int {
 // SparseToken represents the sparse version of a token.
 type SparseToken struct {
 	// Certificate contains the client certificate to use to create a token.
-	Certificate *string `json:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
+	Certificate *string `json:"certificate,omitempty" msgpack:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// SigningKeyID holds the ID of the custom CA to use to sign the token.
-	SigningKeyID *string `json:"signingKeyID,omitempty" bson:"signingkeyid,omitempty" mapstructure:"signingKeyID,omitempty"`
+	SigningKeyID *string `json:"signingKeyID,omitempty" msgpack:"signingKeyID,omitempty" bson:"signingkeyid,omitempty" mapstructure:"signingKeyID,omitempty"`
 
 	// Tags includes a list of tags that must be added to the token.
-	Tags *[]string `json:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
+	Tags *[]string `json:"tags,omitempty" msgpack:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
 
 	// Token contains the generated token.
-	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
+	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
 	// Validity contains the token validity duration.
-	Validity *string `json:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
+	Validity *string `json:"validity,omitempty" msgpack:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseToken returns a new  SparseToken.

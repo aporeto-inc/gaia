@@ -80,9 +80,9 @@ func (o X509CertificateChecksList) Version() int {
 // X509CertificateCheck represents the model of a x509certificatecheck
 type X509CertificateCheck struct {
 	// ID contains the certificate serialNumber.
-	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewX509CertificateCheck returns a new *X509CertificateCheck
@@ -335,9 +335,9 @@ func (o SparseX509CertificateChecksList) Version() int {
 // SparseX509CertificateCheck represents the sparse version of a x509certificatecheck.
 type SparseX509CertificateCheck struct {
 	// ID contains the certificate serialNumber.
-	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseX509CertificateCheck returns a new  SparseX509CertificateCheck.

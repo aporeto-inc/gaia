@@ -80,9 +80,9 @@ func (o LogsList) Version() int {
 // Log represents the model of a log
 type Log struct {
 	// Data contains all logs data.
-	Data map[string]string `json:"data" bson:"-" mapstructure:"data,omitempty"`
+	Data map[string]string `json:"data" msgpack:"data" bson:"-" mapstructure:"data,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewLog returns a new *Log
@@ -333,9 +333,9 @@ func (o SparseLogsList) Version() int {
 // SparseLog represents the sparse version of a log.
 type SparseLog struct {
 	// Data contains all logs data.
-	Data *map[string]string `json:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
+	Data *map[string]string `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseLog returns a new  SparseLog.

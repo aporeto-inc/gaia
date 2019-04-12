@@ -10,21 +10,21 @@ import (
 // Endpoint represents the model of a endpoint
 type Endpoint struct {
 	// URI of the exposed API.
-	URI string `json:"URI" bson:"uri" mapstructure:"URI,omitempty"`
+	URI string `json:"URI" msgpack:"URI" bson:"uri" mapstructure:"URI,omitempty"`
 
 	// AllowedScopes authorized to access the API.
-	AllowedScopes [][]string `json:"allowedScopes" bson:"allowedscopes" mapstructure:"allowedScopes,omitempty"`
+	AllowedScopes [][]string `json:"allowedScopes" msgpack:"allowedScopes" bson:"allowedscopes" mapstructure:"allowedScopes,omitempty"`
 
 	// methods exposed to access the API.
-	Methods []string `json:"methods" bson:"methods" mapstructure:"methods,omitempty"`
+	Methods []string `json:"methods" msgpack:"methods" bson:"methods" mapstructure:"methods,omitempty"`
 
 	// public defines if the api is public or not.
-	Public bool `json:"public" bson:"public" mapstructure:"public,omitempty"`
+	Public bool `json:"public" msgpack:"public" bson:"public" mapstructure:"public,omitempty"`
 
 	// Scopes is deprecated.
-	Scopes []string `json:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
+	Scopes []string `json:"scopes" msgpack:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewEndpoint returns a new *Endpoint

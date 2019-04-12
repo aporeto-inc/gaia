@@ -80,15 +80,15 @@ func (o IPInfosList) Version() int {
 // IPInfo represents the model of a ipinfo
 type IPInfo struct {
 	// The IP resolved.
-	IP string `json:"IP" bson:"-" mapstructure:"IP,omitempty"`
+	IP string `json:"IP" msgpack:"IP" bson:"-" mapstructure:"IP,omitempty"`
 
 	// Eventual error that happened during resolution.
-	Error string `json:"error" bson:"-" mapstructure:"error,omitempty"`
+	Error string `json:"error" msgpack:"error" bson:"-" mapstructure:"error,omitempty"`
 
 	// List of DNS records associated to that IP.
-	Records map[string]string `json:"records" bson:"-" mapstructure:"records,omitempty"`
+	Records map[string]string `json:"records" msgpack:"records" bson:"-" mapstructure:"records,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewIPInfo returns a new *IPInfo
@@ -395,15 +395,15 @@ func (o SparseIPInfosList) Version() int {
 // SparseIPInfo represents the sparse version of a ipinfo.
 type SparseIPInfo struct {
 	// The IP resolved.
-	IP *string `json:"IP,omitempty" bson:"-" mapstructure:"IP,omitempty"`
+	IP *string `json:"IP,omitempty" msgpack:"IP,omitempty" bson:"-" mapstructure:"IP,omitempty"`
 
 	// Eventual error that happened during resolution.
-	Error *string `json:"error,omitempty" bson:"-" mapstructure:"error,omitempty"`
+	Error *string `json:"error,omitempty" msgpack:"error,omitempty" bson:"-" mapstructure:"error,omitempty"`
 
 	// List of DNS records associated to that IP.
-	Records *map[string]string `json:"records,omitempty" bson:"-" mapstructure:"records,omitempty"`
+	Records *map[string]string `json:"records,omitempty" msgpack:"records,omitempty" bson:"-" mapstructure:"records,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseIPInfo returns a new  SparseIPInfo.
