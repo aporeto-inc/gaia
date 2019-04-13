@@ -13,7 +13,7 @@ import (
 var OIDCProviderIdentity = elemental.Identity{
 	Name:     "oidcprovider",
 	Category: "oidcproviders",
-	Package:  "vince",
+	Package:  "cactuar",
 	Private:  false,
 }
 
