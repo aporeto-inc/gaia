@@ -1136,3 +1136,74 @@ ADAKBggqhkjOPQQDAgNJADBGAiEAm1u2T1vRooIy3rd0BmBSAa6WR6BtHl9nDbGN
 		})
 	}
 }
+
+func TestValidateTag(t *testing.T) {
+	type args struct {
+		tag string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// simple
+		{
+			"simple tag a=a",
+			args{
+				"a=a",
+			},
+			false,
+		},
+		{
+			"tag name=toto",
+			args{
+				"name=toto",
+			},
+			false,
+		},
+		{
+			"tag value is complex",
+			args{
+				"name:toto=value",
+			},
+			false,
+		},
+		{
+			"tag value is complex",
+			args{
+				"Name=aporeliable-arvind-2",
+			},
+			false,
+		},
+		{
+			"tag value has space",
+			args{
+				"Name=aporeliable-arvind-2 (ubuntu-18-04)",
+			},
+			false,
+		},
+
+		// Error
+		{
+			"just a word",
+			args{
+				"justaword",
+			},
+			true,
+		},
+		{
+			"key contains spaces",
+			args{
+				"a key=a value",
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateTag("tag", tt.args.tag); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateTag() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
