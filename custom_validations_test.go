@@ -1155,30 +1155,37 @@ func TestValidateTag(t *testing.T) {
 			false,
 		},
 		{
-			"tag name=toto",
+			"value is string",
 			args{
-				"name=toto",
+				"name=value",
 			},
 			false,
 		},
 		{
-			"tag value is complex",
+			"value is number",
 			args{
-				"name:toto=value",
+				"name=123.12",
 			},
 			false,
 		},
 		{
-			"tag value is complex",
+			"value is has space",
 			args{
-				"Name=aporeliable-arvind-2",
+				"name=test 1",
 			},
 			false,
 		},
 		{
-			"tag value has space",
+			"tag value is utf8 character",
 			args{
-				"Name=aporeliable-arvind-2 (ubuntu-18-04)",
+				"name=utf8-_!@#%&\" (*)+.,/$!:;<>=?{}~",
+			},
+			false,
+		},
+		{
+			"key contains hyphen and underscore",
+			args{
+				"internal_name:demo-1234=aporeliable_arvind_@",
 			},
 			false,
 		},
@@ -1194,7 +1201,7 @@ func TestValidateTag(t *testing.T) {
 		{
 			"key contains spaces",
 			args{
-				"a key=a value",
+				"the key=value",
 			},
 			true,
 		},
