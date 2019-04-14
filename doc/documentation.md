@@ -364,6 +364,7 @@ Parameters:
 - `processes` (`integer`): If set, defines the number of current processes.
 - `status` (`enum`): If set, changes the status of the enforcer alongside with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.
+- `version` (`string`): If set, version of the current running enforcer.
 
 ##### `GET /processingunits/:id/poke`
 
@@ -1296,6 +1297,7 @@ Parameters:
 - `processes` (`integer`): If set, defines the number of current processes.
 - `status` (`enum`): If set, changes the status of the enforcer alongside with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.
+- `version` (`string`): If set, version of the current running enforcer.
 
 #### Attributes
 
