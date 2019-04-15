@@ -58,7 +58,9 @@ func (o OIDCProvidersList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o OIDCProvidersList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"namespace",
+	}
 }
 
 // ToSparse returns the OIDCProvidersList converted to SparseOIDCProvidersList.
@@ -84,11 +86,20 @@ type OIDCProvider struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
+	// Annotation stores additional information about an entity.
+	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+
 	// Unique client ID.
 	ClientID string `json:"clientID" bson:"clientid" mapstructure:"clientID,omitempty"`
 
 	// Client secret associated with the client ID.
 	ClientSecret string `json:"clientSecret" bson:"clientsecret" mapstructure:"clientSecret,omitempty"`
+
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
@@ -104,14 +115,26 @@ type OIDCProvider struct {
 	// Name of the provider.
 	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
 
+	// Namespace tag attached to an entity.
+	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+
 	// ParentID contains the parent Vince account ID.
 	ParentID string `json:"parentID" bson:"parentid" mapstructure:"parentID,omitempty"`
 
 	// ParentName contains the name of the Vince parent Account.
 	ParentName string `json:"parentName" bson:"parentname" mapstructure:"parentName,omitempty"`
 
+	// Protected defines if the object is protected.
+	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
+
 	// List of scopes to allow.
 	Scopes []string `json:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
@@ -125,9 +148,12 @@ type OIDCProvider struct {
 func NewOIDCProvider() *OIDCProvider {
 
 	return &OIDCProvider{
-		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
-		Scopes:       []string{},
+		ModelVersion:   1,
+		Mutex:          &sync.Mutex{},
+		Annotations:    map[string][]string{},
+		AssociatedTags: []string{},
+		NormalizedTags: []string{},
+		Scopes:         []string{},
 	}
 }
 
@@ -158,7 +184,9 @@ func (o *OIDCProvider) Version() int {
 // DefaultOrder returns the list of default ordering fields.
 func (o *OIDCProvider) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"namespace",
+	}
 }
 
 // Doc returns the documentation for the object
@@ -173,6 +201,42 @@ func (o *OIDCProvider) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetAnnotations returns the Annotations of the receiver.
+func (o *OIDCProvider) GetAnnotations() map[string][]string {
+
+	return o.Annotations
+}
+
+// SetAnnotations sets the property Annotations of the receiver using the given value.
+func (o *OIDCProvider) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = annotations
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *OIDCProvider) GetAssociatedTags() []string {
+
+	return o.AssociatedTags
+}
+
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
+func (o *OIDCProvider) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *OIDCProvider) GetCreateIdempotencyKey() string {
+
+	return o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
+func (o *OIDCProvider) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = createIdempotencyKey
+}
+
 // GetCreateTime returns the CreateTime of the receiver.
 func (o *OIDCProvider) GetCreateTime() time.Time {
 
@@ -183,6 +247,54 @@ func (o *OIDCProvider) GetCreateTime() time.Time {
 func (o *OIDCProvider) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *OIDCProvider) GetNamespace() string {
+
+	return o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the given value.
+func (o *OIDCProvider) SetNamespace(namespace string) {
+
+	o.Namespace = namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *OIDCProvider) GetNormalizedTags() []string {
+
+	return o.NormalizedTags
+}
+
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
+func (o *OIDCProvider) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = normalizedTags
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *OIDCProvider) GetProtected() bool {
+
+	return o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the given value.
+func (o *OIDCProvider) SetProtected(protected bool) {
+
+	o.Protected = protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *OIDCProvider) GetUpdateIdempotencyKey() string {
+
+	return o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
+func (o *OIDCProvider) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
@@ -204,17 +316,24 @@ func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseOIDCProvider{
-			ID:           &o.ID,
-			ClientID:     &o.ClientID,
-			ClientSecret: &o.ClientSecret,
-			CreateTime:   &o.CreateTime,
-			Default:      &o.Default,
-			Endpoint:     &o.Endpoint,
-			Name:         &o.Name,
-			ParentID:     &o.ParentID,
-			ParentName:   &o.ParentName,
-			Scopes:       &o.Scopes,
-			UpdateTime:   &o.UpdateTime,
+			ID:                   &o.ID,
+			Annotations:          &o.Annotations,
+			AssociatedTags:       &o.AssociatedTags,
+			ClientID:             &o.ClientID,
+			ClientSecret:         &o.ClientSecret,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CreateTime:           &o.CreateTime,
+			Default:              &o.Default,
+			Endpoint:             &o.Endpoint,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NormalizedTags:       &o.NormalizedTags,
+			ParentID:             &o.ParentID,
+			ParentName:           &o.ParentName,
+			Protected:            &o.Protected,
+			Scopes:               &o.Scopes,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			UpdateTime:           &o.UpdateTime,
 		}
 	}
 
@@ -223,10 +342,16 @@ func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
+		case "annotations":
+			sp.Annotations = &(o.Annotations)
+		case "associatedTags":
+			sp.AssociatedTags = &(o.AssociatedTags)
 		case "clientID":
 			sp.ClientID = &(o.ClientID)
 		case "clientSecret":
 			sp.ClientSecret = &(o.ClientSecret)
+		case "createIdempotencyKey":
+			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "default":
@@ -235,12 +360,20 @@ func (o *OIDCProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Endpoint = &(o.Endpoint)
 		case "name":
 			sp.Name = &(o.Name)
+		case "namespace":
+			sp.Namespace = &(o.Namespace)
+		case "normalizedTags":
+			sp.NormalizedTags = &(o.NormalizedTags)
 		case "parentID":
 			sp.ParentID = &(o.ParentID)
 		case "parentName":
 			sp.ParentName = &(o.ParentName)
+		case "protected":
+			sp.Protected = &(o.Protected)
 		case "scopes":
 			sp.Scopes = &(o.Scopes)
+		case "updateIdempotencyKey":
+			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
 		}
@@ -259,11 +392,20 @@ func (o *OIDCProvider) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
+	if so.Annotations != nil {
+		o.Annotations = *so.Annotations
+	}
+	if so.AssociatedTags != nil {
+		o.AssociatedTags = *so.AssociatedTags
+	}
 	if so.ClientID != nil {
 		o.ClientID = *so.ClientID
 	}
 	if so.ClientSecret != nil {
 		o.ClientSecret = *so.ClientSecret
+	}
+	if so.CreateIdempotencyKey != nil {
+		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
@@ -277,14 +419,26 @@ func (o *OIDCProvider) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Name != nil {
 		o.Name = *so.Name
 	}
+	if so.Namespace != nil {
+		o.Namespace = *so.Namespace
+	}
+	if so.NormalizedTags != nil {
+		o.NormalizedTags = *so.NormalizedTags
+	}
 	if so.ParentID != nil {
 		o.ParentID = *so.ParentID
 	}
 	if so.ParentName != nil {
 		o.ParentName = *so.ParentName
 	}
+	if so.Protected != nil {
+		o.Protected = *so.Protected
+	}
 	if so.Scopes != nil {
 		o.Scopes = *so.Scopes
+	}
+	if so.UpdateIdempotencyKey != nil {
+		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
@@ -320,6 +474,10 @@ func (o *OIDCProvider) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = append(errors, err)
+	}
 
 	if err := elemental.ValidateRequiredString("clientID", o.ClientID); err != nil {
 		requiredErrors = append(requiredErrors, err)
@@ -373,10 +531,16 @@ func (o *OIDCProvider) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "ID":
 		return o.ID
+	case "annotations":
+		return o.Annotations
+	case "associatedTags":
+		return o.AssociatedTags
 	case "clientID":
 		return o.ClientID
 	case "clientSecret":
 		return o.ClientSecret
+	case "createIdempotencyKey":
+		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
 	case "default":
@@ -385,12 +549,20 @@ func (o *OIDCProvider) ValueForAttribute(name string) interface{} {
 		return o.Endpoint
 	case "name":
 		return o.Name
+	case "namespace":
+		return o.Namespace
+	case "normalizedTags":
+		return o.NormalizedTags
 	case "parentID":
 		return o.ParentID
 	case "parentName":
 		return o.ParentName
+	case "protected":
+		return o.Protected
 	case "scopes":
 		return o.Scopes
+	case "updateIdempotencyKey":
+		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
 	}
@@ -414,6 +586,30 @@ var OIDCProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"Annotations": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Annotations",
+		Description:    `Annotation stores additional information about an entity.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "annotations",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string][]string",
+		Type:           "external",
+	},
+	"AssociatedTags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssociatedTags",
+		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "associatedTags",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"ClientID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientID",
@@ -431,6 +627,18 @@ var OIDCProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "clientSecret",
 		Required:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"CreateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -480,6 +688,38 @@ given, the default will be used.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"Namespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Namespace",
+		DefaultOrder:   true,
+		Description:    `Namespace tag attached to an entity.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "namespace",
+		Orderable:      true,
+		PrimaryKey:     true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"NormalizedTags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "NormalizedTags",
+		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "normalizedTags",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		SubType:        "string",
+		Transient:      true,
+		Type:           "list",
+	},
 	"ParentID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -504,6 +744,18 @@ given, the default will be used.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"Protected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Protected",
+		Description:    `Protected defines if the object is protected.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "protected",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"Scopes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Scopes",
@@ -513,6 +765,18 @@ given, the default will be used.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"UpdateIdempotencyKey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"UpdateTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -546,6 +810,30 @@ var OIDCProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "string",
 	},
+	"annotations": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Annotations",
+		Description:    `Annotation stores additional information about an entity.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "annotations",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "map[string][]string",
+		Type:           "external",
+	},
+	"associatedtags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "AssociatedTags",
+		Description:    `AssociatedTags are the list of tags attached to an entity.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "associatedTags",
+		Setter:         true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"clientid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientID",
@@ -563,6 +851,18 @@ var OIDCProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Exposed:        true,
 		Name:           "clientSecret",
 		Required:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"createidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "CreateIdempotencyKey",
+		Description:    `internal idempotency key for a create operation.`,
+		Getter:         true,
+		Name:           "createIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -612,6 +912,38 @@ given, the default will be used.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"namespace": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Namespace",
+		DefaultOrder:   true,
+		Description:    `Namespace tag attached to an entity.`,
+		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		Name:           "namespace",
+		Orderable:      true,
+		PrimaryKey:     true,
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"normalizedtags": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "NormalizedTags",
+		Description:    `NormalizedTags contains the list of normalized tags of the entities.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "normalizedTags",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		SubType:        "string",
+		Transient:      true,
+		Type:           "list",
+	},
 	"parentid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -636,6 +968,18 @@ given, the default will be used.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"protected": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Protected",
+		Description:    `Protected defines if the object is protected.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "protected",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
+	},
 	"scopes": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Scopes",
@@ -645,6 +989,18 @@ given, the default will be used.`,
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
+	},
+	"updateidempotencykey": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "UpdateIdempotencyKey",
+		Description:    `internal idempotency key for a update operation.`,
+		Getter:         true,
+		Name:           "updateIdempotencyKey",
+		ReadOnly:       true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"updatetime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -703,7 +1059,9 @@ func (o SparseOIDCProvidersList) List() elemental.IdentifiablesList {
 // DefaultOrder returns the default ordering fields of the content.
 func (o SparseOIDCProvidersList) DefaultOrder() []string {
 
-	return []string{}
+	return []string{
+		"namespace",
+	}
 }
 
 // ToPlain returns the SparseOIDCProvidersList converted to OIDCProvidersList.
@@ -728,11 +1086,20 @@ type SparseOIDCProvider struct {
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
+	// Annotation stores additional information about an entity.
+	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+
+	// AssociatedTags are the list of tags attached to an entity.
+	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
+
 	// Unique client ID.
 	ClientID *string `json:"clientID,omitempty" bson:"clientid,omitempty" mapstructure:"clientID,omitempty"`
 
 	// Client secret associated with the client ID.
 	ClientSecret *string `json:"clientSecret,omitempty" bson:"clientsecret,omitempty" mapstructure:"clientSecret,omitempty"`
+
+	// internal idempotency key for a create operation.
+	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
@@ -748,14 +1115,26 @@ type SparseOIDCProvider struct {
 	// Name of the provider.
 	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
+	// Namespace tag attached to an entity.
+	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+
+	// NormalizedTags contains the list of normalized tags of the entities.
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
+
 	// ParentID contains the parent Vince account ID.
 	ParentID *string `json:"parentID,omitempty" bson:"parentid,omitempty" mapstructure:"parentID,omitempty"`
 
 	// ParentName contains the name of the Vince parent Account.
 	ParentName *string `json:"parentName,omitempty" bson:"parentname,omitempty" mapstructure:"parentName,omitempty"`
 
+	// Protected defines if the object is protected.
+	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+
 	// List of scopes to allow.
 	Scopes *[]string `json:"scopes,omitempty" bson:"scopes,omitempty" mapstructure:"scopes,omitempty"`
+
+	// internal idempotency key for a update operation.
+	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
@@ -804,11 +1183,20 @@ func (o *SparseOIDCProvider) ToPlain() elemental.PlainIdentifiable {
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
+	if o.Annotations != nil {
+		out.Annotations = *o.Annotations
+	}
+	if o.AssociatedTags != nil {
+		out.AssociatedTags = *o.AssociatedTags
+	}
 	if o.ClientID != nil {
 		out.ClientID = *o.ClientID
 	}
 	if o.ClientSecret != nil {
 		out.ClientSecret = *o.ClientSecret
+	}
+	if o.CreateIdempotencyKey != nil {
+		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
@@ -822,20 +1210,68 @@ func (o *SparseOIDCProvider) ToPlain() elemental.PlainIdentifiable {
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
+	if o.Namespace != nil {
+		out.Namespace = *o.Namespace
+	}
+	if o.NormalizedTags != nil {
+		out.NormalizedTags = *o.NormalizedTags
+	}
 	if o.ParentID != nil {
 		out.ParentID = *o.ParentID
 	}
 	if o.ParentName != nil {
 		out.ParentName = *o.ParentName
 	}
+	if o.Protected != nil {
+		out.Protected = *o.Protected
+	}
 	if o.Scopes != nil {
 		out.Scopes = *o.Scopes
+	}
+	if o.UpdateIdempotencyKey != nil {
+		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
 	}
 
 	return out
+}
+
+// GetAnnotations returns the Annotations of the receiver.
+func (o *SparseOIDCProvider) GetAnnotations() map[string][]string {
+
+	return *o.Annotations
+}
+
+// SetAnnotations sets the property Annotations of the receiver using the address of the given value.
+func (o *SparseOIDCProvider) SetAnnotations(annotations map[string][]string) {
+
+	o.Annotations = &annotations
+}
+
+// GetAssociatedTags returns the AssociatedTags of the receiver.
+func (o *SparseOIDCProvider) GetAssociatedTags() []string {
+
+	return *o.AssociatedTags
+}
+
+// SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
+func (o *SparseOIDCProvider) SetAssociatedTags(associatedTags []string) {
+
+	o.AssociatedTags = &associatedTags
+}
+
+// GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
+func (o *SparseOIDCProvider) GetCreateIdempotencyKey() string {
+
+	return *o.CreateIdempotencyKey
+}
+
+// SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseOIDCProvider) SetCreateIdempotencyKey(createIdempotencyKey string) {
+
+	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
@@ -848,6 +1284,54 @@ func (o *SparseOIDCProvider) GetCreateTime() time.Time {
 func (o *SparseOIDCProvider) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseOIDCProvider) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseOIDCProvider) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
+}
+
+// GetNormalizedTags returns the NormalizedTags of the receiver.
+func (o *SparseOIDCProvider) GetNormalizedTags() []string {
+
+	return *o.NormalizedTags
+}
+
+// SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
+func (o *SparseOIDCProvider) SetNormalizedTags(normalizedTags []string) {
+
+	o.NormalizedTags = &normalizedTags
+}
+
+// GetProtected returns the Protected of the receiver.
+func (o *SparseOIDCProvider) GetProtected() bool {
+
+	return *o.Protected
+}
+
+// SetProtected sets the property Protected of the receiver using the address of the given value.
+func (o *SparseOIDCProvider) SetProtected(protected bool) {
+
+	o.Protected = &protected
+}
+
+// GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
+func (o *SparseOIDCProvider) GetUpdateIdempotencyKey() string {
+
+	return *o.UpdateIdempotencyKey
+}
+
+// SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
+func (o *SparseOIDCProvider) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+
+	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.

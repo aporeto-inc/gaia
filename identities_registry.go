@@ -538,6 +538,10 @@ var (
 		"networkaccesspolicy":    nil,
 		"oidcprovider": [][]string{
 			[]string{":unique", "parentID", "name"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"namespace"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"createIdempotencyKey"},
 		},
 		"packetreport":  nil,
 		"passwordreset": nil,

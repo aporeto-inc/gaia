@@ -19,6 +19,7 @@ model:
   extends:
   - '@identifiable-stored'
   - '@timeable'
+  - '@base'
 
 # Indexes
 indexes:
