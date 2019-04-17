@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o PokesList) DefaultOrder() []string {
 
 // ToSparse returns the PokesList converted to SparsePokesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PokesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o PokesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparsePokesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparsePoke)
 	}
 
 	return out
@@ -80,9 +79,7 @@ func (o PokesList) Version() int {
 
 // Poke represents the model of a poke
 type Poke struct {
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewPoke returns a new *Poke
@@ -90,7 +87,6 @@ func NewPoke() *Poke {
 
 	return &Poke{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -295,9 +291,7 @@ func (o SparsePokesList) Version() int {
 
 // SparsePoke represents the sparse version of a poke.
 type SparsePoke struct {
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparsePoke returns a new  SparsePoke.

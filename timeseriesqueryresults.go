@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -11,11 +10,9 @@ import (
 // TimeSeriesQueryResults represents the model of a timeseriesqueryresults
 type TimeSeriesQueryResults struct {
 	// List of rows.
-	Rows []*TimeSeriesRow `json:"rows" bson:"-" mapstructure:"rows,omitempty"`
+	Rows []*TimeSeriesRow `json:"rows" msgpack:"rows" bson:"-" mapstructure:"rows,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewTimeSeriesQueryResults returns a new *TimeSeriesQueryResults
@@ -23,7 +20,6 @@ func NewTimeSeriesQueryResults() *TimeSeriesQueryResults {
 
 	return &TimeSeriesQueryResults{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Rows:         []*TimeSeriesRow{},
 	}
 }
@@ -60,7 +56,7 @@ func (o *TimeSeriesQueryResults) Validate() error {
 
 	for _, sub := range o.Rows {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 

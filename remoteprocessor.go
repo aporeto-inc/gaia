@@ -3,7 +3,6 @@ package gaia
 import (
 	"encoding/json"
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -74,11 +73,11 @@ func (o RemoteProcessorsList) DefaultOrder() []string {
 
 // ToSparse returns the RemoteProcessorsList converted to SparseRemoteProcessorsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o RemoteProcessorsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o RemoteProcessorsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseRemoteProcessorsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseRemoteProcessor)
 	}
 
 	return out
@@ -93,32 +92,30 @@ func (o RemoteProcessorsList) Version() int {
 // RemoteProcessor represents the model of a remoteprocessor
 type RemoteProcessor struct {
 	// Represents the claims of the currently managed object.
-	Claims []string `json:"claims" bson:"-" mapstructure:"claims,omitempty"`
+	Claims []string `json:"claims" msgpack:"claims" bson:"-" mapstructure:"claims,omitempty"`
 
 	// Represents data received from the service.
-	Input json.RawMessage `json:"input" bson:"-" mapstructure:"input,omitempty"`
+	Input json.RawMessage `json:"input" msgpack:"input" bson:"-" mapstructure:"input,omitempty"`
 
 	// Node defines the type of the hook.
-	Mode RemoteProcessorModeValue `json:"mode" bson:"-" mapstructure:"mode,omitempty"`
+	Mode RemoteProcessorModeValue `json:"mode" msgpack:"mode" bson:"-" mapstructure:"mode,omitempty"`
 
 	// Represents the current namespace.
-	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Define the operation that is currently handled by the service.
-	Operation elemental.Operation `json:"operation" bson:"-" mapstructure:"operation,omitempty"`
+	Operation elemental.Operation `json:"operation" msgpack:"operation" bson:"-" mapstructure:"operation,omitempty"`
 
 	// Returns the OutputData filled with the processor information.
-	Output elemental.Identifiable `json:"output" bson:"-" mapstructure:"output,omitempty"`
+	Output elemental.Identifiable `json:"output" msgpack:"output" bson:"-" mapstructure:"output,omitempty"`
 
 	// RequestID gives the id of the request coming from the main server.
-	RequestID string `json:"requestID" bson:"requestid" mapstructure:"requestID,omitempty"`
+	RequestID string `json:"requestID" msgpack:"requestID" bson:"requestid" mapstructure:"requestID,omitempty"`
 
 	// Represents the Identity name of the managed object.
-	TargetIdentity string `json:"targetIdentity" bson:"-" mapstructure:"targetIdentity,omitempty"`
+	TargetIdentity string `json:"targetIdentity" msgpack:"targetIdentity" bson:"-" mapstructure:"targetIdentity,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewRemoteProcessor returns a new *RemoteProcessor
@@ -126,7 +123,6 @@ func NewRemoteProcessor() *RemoteProcessor {
 
 	return &RemoteProcessor{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Claims:       []string{},
 	}
 }
@@ -278,27 +274,27 @@ func (o *RemoteProcessor) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredExternal("claims", o.Claims); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredExternal("input", o.Input); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("mode", string(o.Mode), []string{"Post", "Pre"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredExternal("operation", o.Operation); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("targetIdentity", o.TargetIdentity); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -582,32 +578,30 @@ func (o SparseRemoteProcessorsList) Version() int {
 // SparseRemoteProcessor represents the sparse version of a remoteprocessor.
 type SparseRemoteProcessor struct {
 	// Represents the claims of the currently managed object.
-	Claims *[]string `json:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
+	Claims *[]string `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
 
 	// Represents data received from the service.
-	Input *json.RawMessage `json:"input,omitempty" bson:"-" mapstructure:"input,omitempty"`
+	Input *json.RawMessage `json:"input,omitempty" msgpack:"input,omitempty" bson:"-" mapstructure:"input,omitempty"`
 
 	// Node defines the type of the hook.
-	Mode *RemoteProcessorModeValue `json:"mode,omitempty" bson:"-" mapstructure:"mode,omitempty"`
+	Mode *RemoteProcessorModeValue `json:"mode,omitempty" msgpack:"mode,omitempty" bson:"-" mapstructure:"mode,omitempty"`
 
 	// Represents the current namespace.
-	Namespace *string `json:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Define the operation that is currently handled by the service.
-	Operation *elemental.Operation `json:"operation,omitempty" bson:"-" mapstructure:"operation,omitempty"`
+	Operation *elemental.Operation `json:"operation,omitempty" msgpack:"operation,omitempty" bson:"-" mapstructure:"operation,omitempty"`
 
 	// Returns the OutputData filled with the processor information.
-	Output *elemental.Identifiable `json:"output,omitempty" bson:"-" mapstructure:"output,omitempty"`
+	Output *elemental.Identifiable `json:"output,omitempty" msgpack:"output,omitempty" bson:"-" mapstructure:"output,omitempty"`
 
 	// RequestID gives the id of the request coming from the main server.
-	RequestID *string `json:"requestID,omitempty" bson:"requestid,omitempty" mapstructure:"requestID,omitempty"`
+	RequestID *string `json:"requestID,omitempty" msgpack:"requestID,omitempty" bson:"requestid,omitempty" mapstructure:"requestID,omitempty"`
 
 	// Represents the Identity name of the managed object.
-	TargetIdentity *string `json:"targetIdentity,omitempty" bson:"-" mapstructure:"targetIdentity,omitempty"`
+	TargetIdentity *string `json:"targetIdentity,omitempty" msgpack:"targetIdentity,omitempty" bson:"-" mapstructure:"targetIdentity,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseRemoteProcessor returns a new  SparseRemoteProcessor.

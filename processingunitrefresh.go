@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o ProcessingUnitRefreshsList) DefaultOrder() []string {
 
 // ToSparse returns the ProcessingUnitRefreshsList converted to SparseProcessingUnitRefreshsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ProcessingUnitRefreshsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o ProcessingUnitRefreshsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseProcessingUnitRefreshsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseProcessingUnitRefresh)
 	}
 
 	return out
@@ -81,14 +80,12 @@ func (o ProcessingUnitRefreshsList) Version() int {
 // ProcessingUnitRefresh represents the model of a processingunitrefresh
 type ProcessingUnitRefresh struct {
 	// ID contains the original ID of the Processing Unit.
-	ID string `json:"ID" bson:"id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"id" mapstructure:"ID,omitempty"`
 
 	// Namespace contains the original namespace of the Processing Unit.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewProcessingUnitRefresh returns a new *ProcessingUnitRefresh
@@ -96,7 +93,6 @@ func NewProcessingUnitRefresh() *ProcessingUnitRefresh {
 
 	return &ProcessingUnitRefresh{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -371,14 +367,12 @@ func (o SparseProcessingUnitRefreshsList) Version() int {
 // SparseProcessingUnitRefresh represents the sparse version of a processingunitrefresh.
 type SparseProcessingUnitRefresh struct {
 	// ID contains the original ID of the Processing Unit.
-	ID *string `json:"ID,omitempty" bson:"id,omitempty" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"id,omitempty" mapstructure:"ID,omitempty"`
 
 	// Namespace contains the original namespace of the Processing Unit.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseProcessingUnitRefresh returns a new  SparseProcessingUnitRefresh.

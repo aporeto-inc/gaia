@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -63,11 +62,11 @@ func (o AuditReportsList) DefaultOrder() []string {
 
 // ToSparse returns the AuditReportsList converted to SparseAuditReportsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o AuditReportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o AuditReportsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseAuditReportsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseAuditReport)
 	}
 
 	return out
@@ -82,104 +81,102 @@ func (o AuditReportsList) Version() int {
 // AuditReport represents the model of a auditreport
 type AuditReport struct {
 	// Needs documentation.
-	AUID string `json:"AUID" bson:"-" mapstructure:"AUID,omitempty"`
+	AUID string `json:"AUID" msgpack:"AUID" bson:"-" mapstructure:"AUID,omitempty"`
 
 	// Command working directory.
-	CWD string `json:"CWD" bson:"-" mapstructure:"CWD,omitempty"`
+	CWD string `json:"CWD" msgpack:"CWD" bson:"-" mapstructure:"CWD,omitempty"`
 
 	// Needs documentation.
-	EGID int `json:"EGID" bson:"-" mapstructure:"EGID,omitempty"`
+	EGID int `json:"EGID" msgpack:"EGID" bson:"-" mapstructure:"EGID,omitempty"`
 
 	// Needs documentation.
-	EUID int `json:"EUID" bson:"-" mapstructure:"EUID,omitempty"`
+	EUID int `json:"EUID" msgpack:"EUID" bson:"-" mapstructure:"EUID,omitempty"`
 
 	// Path to the executable.
-	EXE string `json:"EXE" bson:"-" mapstructure:"EXE,omitempty"`
+	EXE string `json:"EXE" msgpack:"EXE" bson:"-" mapstructure:"EXE,omitempty"`
 
 	// Needs documentation.
-	FSGID int `json:"FSGID" bson:"-" mapstructure:"FSGID,omitempty"`
+	FSGID int `json:"FSGID" msgpack:"FSGID" bson:"-" mapstructure:"FSGID,omitempty"`
 
 	// Needs documentation.
-	FSUID int `json:"FSUID" bson:"-" mapstructure:"FSUID,omitempty"`
+	FSUID int `json:"FSUID" msgpack:"FSUID" bson:"-" mapstructure:"FSUID,omitempty"`
 
 	// Needs documentation.
-	GID int `json:"GID" bson:"-" mapstructure:"GID,omitempty"`
+	GID int `json:"GID" msgpack:"GID" bson:"-" mapstructure:"GID,omitempty"`
 
 	// Needs documentation.
-	PER int `json:"PER" bson:"-" mapstructure:"PER,omitempty"`
+	PER int `json:"PER" msgpack:"PER" bson:"-" mapstructure:"PER,omitempty"`
 
 	// PID of the executable.
-	PID int `json:"PID" bson:"-" mapstructure:"PID,omitempty"`
+	PID int `json:"PID" msgpack:"PID" bson:"-" mapstructure:"PID,omitempty"`
 
 	// PID of the parent executable.
-	PPID int `json:"PPID" bson:"-" mapstructure:"PPID,omitempty"`
+	PPID int `json:"PPID" msgpack:"PPID" bson:"-" mapstructure:"PPID,omitempty"`
 
 	// Needs documentation.
-	SGID int `json:"SGID" bson:"-" mapstructure:"SGID,omitempty"`
+	SGID int `json:"SGID" msgpack:"SGID" bson:"-" mapstructure:"SGID,omitempty"`
 
 	// Needs documentation.
-	SUID int `json:"SUID" bson:"-" mapstructure:"SUID,omitempty"`
+	SUID int `json:"SUID" msgpack:"SUID" bson:"-" mapstructure:"SUID,omitempty"`
 
 	// Needs documentation.
-	UID int `json:"UID" bson:"-" mapstructure:"UID,omitempty"`
+	UID int `json:"UID" msgpack:"UID" bson:"-" mapstructure:"UID,omitempty"`
 
 	// Needs documentation.
-	A0 string `json:"a0" bson:"-" mapstructure:"a0,omitempty"`
+	A0 string `json:"a0" msgpack:"a0" bson:"-" mapstructure:"a0,omitempty"`
 
 	// Needs documentation.
-	A1 string `json:"a1" bson:"-" mapstructure:"a1,omitempty"`
+	A1 string `json:"a1" msgpack:"a1" bson:"-" mapstructure:"a1,omitempty"`
 
 	// Needs documentation.
-	A2 string `json:"a2" bson:"-" mapstructure:"a2,omitempty"`
+	A2 string `json:"a2" msgpack:"a2" bson:"-" mapstructure:"a2,omitempty"`
 
 	// Needs documentation.
-	A3 string `json:"a3" bson:"-" mapstructure:"a3,omitempty"`
+	A3 string `json:"a3" msgpack:"a3" bson:"-" mapstructure:"a3,omitempty"`
 
 	// Architecture of the system where the syscall happened.
-	Arch string `json:"arch" bson:"-" mapstructure:"arch,omitempty"`
+	Arch string `json:"arch" msgpack:"arch" bson:"-" mapstructure:"arch,omitempty"`
 
 	// ID the audit profile that triggered the report.
-	AuditProfileID string `json:"auditProfileID" bson:"-" mapstructure:"auditProfileID,omitempty"`
+	AuditProfileID string `json:"auditProfileID" msgpack:"auditProfileID" bson:"-" mapstructure:"auditProfileID,omitempty"`
 
 	// Namespace the audit profile that triggered the report.
-	AuditProfileNamespace string `json:"auditProfileNamespace" bson:"-" mapstructure:"auditProfileNamespace,omitempty"`
+	AuditProfileNamespace string `json:"auditProfileNamespace" msgpack:"auditProfileNamespace" bson:"-" mapstructure:"auditProfileNamespace,omitempty"`
 
 	// Command issued.
-	Command string `json:"command" bson:"-" mapstructure:"command,omitempty"`
+	Command string `json:"command" msgpack:"command" bson:"-" mapstructure:"command,omitempty"`
 
 	// ID of the enforcer reporting.
-	EnforcerID string `json:"enforcerID" bson:"-" mapstructure:"enforcerID,omitempty"`
+	EnforcerID string `json:"enforcerID" msgpack:"enforcerID" bson:"-" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the enforcer reporting.
-	EnforcerNamespace string `json:"enforcerNamespace" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
+	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Exit code of the executable.
-	Exit int `json:"exit" bson:"-" mapstructure:"exit,omitempty"`
+	Exit int `json:"exit" msgpack:"exit" bson:"-" mapstructure:"exit,omitempty"`
 
 	// ID of the processing unit originating the report.
-	ProcessingUnitID string `json:"processingUnitID" bson:"-" mapstructure:"processingUnitID,omitempty"`
+	ProcessingUnitID string `json:"processingUnitID" msgpack:"processingUnitID" bson:"-" mapstructure:"processingUnitID,omitempty"`
 
 	// Namespace of the processing unit originating the report.
-	ProcessingUnitNamespace string `json:"processingUnitNamespace" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
+	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// Type of record.
-	RecordType string `json:"recordType" bson:"-" mapstructure:"recordType,omitempty"`
+	RecordType string `json:"recordType" msgpack:"recordType" bson:"-" mapstructure:"recordType,omitempty"`
 
 	// Needs documentation.
-	Sequence int `json:"sequence" bson:"-" mapstructure:"sequence,omitempty"`
+	Sequence int `json:"sequence" msgpack:"sequence" bson:"-" mapstructure:"sequence,omitempty"`
 
 	// Tells if the operation has been a success of a failure.
-	Success bool `json:"success" bson:"-" mapstructure:"success,omitempty"`
+	Success bool `json:"success" msgpack:"success" bson:"-" mapstructure:"success,omitempty"`
 
 	// Syscall name.
-	Syscall string `json:"syscall" bson:"-" mapstructure:"syscall,omitempty"`
+	Syscall string `json:"syscall" msgpack:"syscall" bson:"-" mapstructure:"syscall,omitempty"`
 
 	// Date of the report.
-	Timestamp time.Time `json:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
+	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewAuditReport returns a new *AuditReport
@@ -187,7 +184,6 @@ func NewAuditReport() *AuditReport {
 
 	return &AuditReport{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Success:      false,
 	}
 }
@@ -483,39 +479,39 @@ func (o *AuditReport) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("auditProfileID", o.AuditProfileID); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("auditProfileNamespace", o.AuditProfileNamespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("enforcerID", o.EnforcerID); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("enforcerNamespace", o.EnforcerNamespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("processingUnitID", o.ProcessingUnitID); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("processingUnitNamespace", o.ProcessingUnitNamespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("recordType", o.RecordType); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("syscall", o.Syscall); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredTime("timestamp", o.Timestamp); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -1225,104 +1221,102 @@ func (o SparseAuditReportsList) Version() int {
 // SparseAuditReport represents the sparse version of a auditreport.
 type SparseAuditReport struct {
 	// Needs documentation.
-	AUID *string `json:"AUID,omitempty" bson:"-" mapstructure:"AUID,omitempty"`
+	AUID *string `json:"AUID,omitempty" msgpack:"AUID,omitempty" bson:"-" mapstructure:"AUID,omitempty"`
 
 	// Command working directory.
-	CWD *string `json:"CWD,omitempty" bson:"-" mapstructure:"CWD,omitempty"`
+	CWD *string `json:"CWD,omitempty" msgpack:"CWD,omitempty" bson:"-" mapstructure:"CWD,omitempty"`
 
 	// Needs documentation.
-	EGID *int `json:"EGID,omitempty" bson:"-" mapstructure:"EGID,omitempty"`
+	EGID *int `json:"EGID,omitempty" msgpack:"EGID,omitempty" bson:"-" mapstructure:"EGID,omitempty"`
 
 	// Needs documentation.
-	EUID *int `json:"EUID,omitempty" bson:"-" mapstructure:"EUID,omitempty"`
+	EUID *int `json:"EUID,omitempty" msgpack:"EUID,omitempty" bson:"-" mapstructure:"EUID,omitempty"`
 
 	// Path to the executable.
-	EXE *string `json:"EXE,omitempty" bson:"-" mapstructure:"EXE,omitempty"`
+	EXE *string `json:"EXE,omitempty" msgpack:"EXE,omitempty" bson:"-" mapstructure:"EXE,omitempty"`
 
 	// Needs documentation.
-	FSGID *int `json:"FSGID,omitempty" bson:"-" mapstructure:"FSGID,omitempty"`
+	FSGID *int `json:"FSGID,omitempty" msgpack:"FSGID,omitempty" bson:"-" mapstructure:"FSGID,omitempty"`
 
 	// Needs documentation.
-	FSUID *int `json:"FSUID,omitempty" bson:"-" mapstructure:"FSUID,omitempty"`
+	FSUID *int `json:"FSUID,omitempty" msgpack:"FSUID,omitempty" bson:"-" mapstructure:"FSUID,omitempty"`
 
 	// Needs documentation.
-	GID *int `json:"GID,omitempty" bson:"-" mapstructure:"GID,omitempty"`
+	GID *int `json:"GID,omitempty" msgpack:"GID,omitempty" bson:"-" mapstructure:"GID,omitempty"`
 
 	// Needs documentation.
-	PER *int `json:"PER,omitempty" bson:"-" mapstructure:"PER,omitempty"`
+	PER *int `json:"PER,omitempty" msgpack:"PER,omitempty" bson:"-" mapstructure:"PER,omitempty"`
 
 	// PID of the executable.
-	PID *int `json:"PID,omitempty" bson:"-" mapstructure:"PID,omitempty"`
+	PID *int `json:"PID,omitempty" msgpack:"PID,omitempty" bson:"-" mapstructure:"PID,omitempty"`
 
 	// PID of the parent executable.
-	PPID *int `json:"PPID,omitempty" bson:"-" mapstructure:"PPID,omitempty"`
+	PPID *int `json:"PPID,omitempty" msgpack:"PPID,omitempty" bson:"-" mapstructure:"PPID,omitempty"`
 
 	// Needs documentation.
-	SGID *int `json:"SGID,omitempty" bson:"-" mapstructure:"SGID,omitempty"`
+	SGID *int `json:"SGID,omitempty" msgpack:"SGID,omitempty" bson:"-" mapstructure:"SGID,omitempty"`
 
 	// Needs documentation.
-	SUID *int `json:"SUID,omitempty" bson:"-" mapstructure:"SUID,omitempty"`
+	SUID *int `json:"SUID,omitempty" msgpack:"SUID,omitempty" bson:"-" mapstructure:"SUID,omitempty"`
 
 	// Needs documentation.
-	UID *int `json:"UID,omitempty" bson:"-" mapstructure:"UID,omitempty"`
+	UID *int `json:"UID,omitempty" msgpack:"UID,omitempty" bson:"-" mapstructure:"UID,omitempty"`
 
 	// Needs documentation.
-	A0 *string `json:"a0,omitempty" bson:"-" mapstructure:"a0,omitempty"`
+	A0 *string `json:"a0,omitempty" msgpack:"a0,omitempty" bson:"-" mapstructure:"a0,omitempty"`
 
 	// Needs documentation.
-	A1 *string `json:"a1,omitempty" bson:"-" mapstructure:"a1,omitempty"`
+	A1 *string `json:"a1,omitempty" msgpack:"a1,omitempty" bson:"-" mapstructure:"a1,omitempty"`
 
 	// Needs documentation.
-	A2 *string `json:"a2,omitempty" bson:"-" mapstructure:"a2,omitempty"`
+	A2 *string `json:"a2,omitempty" msgpack:"a2,omitempty" bson:"-" mapstructure:"a2,omitempty"`
 
 	// Needs documentation.
-	A3 *string `json:"a3,omitempty" bson:"-" mapstructure:"a3,omitempty"`
+	A3 *string `json:"a3,omitempty" msgpack:"a3,omitempty" bson:"-" mapstructure:"a3,omitempty"`
 
 	// Architecture of the system where the syscall happened.
-	Arch *string `json:"arch,omitempty" bson:"-" mapstructure:"arch,omitempty"`
+	Arch *string `json:"arch,omitempty" msgpack:"arch,omitempty" bson:"-" mapstructure:"arch,omitempty"`
 
 	// ID the audit profile that triggered the report.
-	AuditProfileID *string `json:"auditProfileID,omitempty" bson:"-" mapstructure:"auditProfileID,omitempty"`
+	AuditProfileID *string `json:"auditProfileID,omitempty" msgpack:"auditProfileID,omitempty" bson:"-" mapstructure:"auditProfileID,omitempty"`
 
 	// Namespace the audit profile that triggered the report.
-	AuditProfileNamespace *string `json:"auditProfileNamespace,omitempty" bson:"-" mapstructure:"auditProfileNamespace,omitempty"`
+	AuditProfileNamespace *string `json:"auditProfileNamespace,omitempty" msgpack:"auditProfileNamespace,omitempty" bson:"-" mapstructure:"auditProfileNamespace,omitempty"`
 
 	// Command issued.
-	Command *string `json:"command,omitempty" bson:"-" mapstructure:"command,omitempty"`
+	Command *string `json:"command,omitempty" msgpack:"command,omitempty" bson:"-" mapstructure:"command,omitempty"`
 
 	// ID of the enforcer reporting.
-	EnforcerID *string `json:"enforcerID,omitempty" bson:"-" mapstructure:"enforcerID,omitempty"`
+	EnforcerID *string `json:"enforcerID,omitempty" msgpack:"enforcerID,omitempty" bson:"-" mapstructure:"enforcerID,omitempty"`
 
 	// Namespace of the enforcer reporting.
-	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
+	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
 
 	// Exit code of the executable.
-	Exit *int `json:"exit,omitempty" bson:"-" mapstructure:"exit,omitempty"`
+	Exit *int `json:"exit,omitempty" msgpack:"exit,omitempty" bson:"-" mapstructure:"exit,omitempty"`
 
 	// ID of the processing unit originating the report.
-	ProcessingUnitID *string `json:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
+	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
 
 	// Namespace of the processing unit originating the report.
-	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
+	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// Type of record.
-	RecordType *string `json:"recordType,omitempty" bson:"-" mapstructure:"recordType,omitempty"`
+	RecordType *string `json:"recordType,omitempty" msgpack:"recordType,omitempty" bson:"-" mapstructure:"recordType,omitempty"`
 
 	// Needs documentation.
-	Sequence *int `json:"sequence,omitempty" bson:"-" mapstructure:"sequence,omitempty"`
+	Sequence *int `json:"sequence,omitempty" msgpack:"sequence,omitempty" bson:"-" mapstructure:"sequence,omitempty"`
 
 	// Tells if the operation has been a success of a failure.
-	Success *bool `json:"success,omitempty" bson:"-" mapstructure:"success,omitempty"`
+	Success *bool `json:"success,omitempty" msgpack:"success,omitempty" bson:"-" mapstructure:"success,omitempty"`
 
 	// Syscall name.
-	Syscall *string `json:"syscall,omitempty" bson:"-" mapstructure:"syscall,omitempty"`
+	Syscall *string `json:"syscall,omitempty" msgpack:"syscall,omitempty" bson:"-" mapstructure:"syscall,omitempty"`
 
 	// Date of the report.
-	Timestamp *time.Time `json:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
+	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseAuditReport returns a new  SparseAuditReport.

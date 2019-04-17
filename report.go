@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -89,11 +88,11 @@ func (o ReportsList) DefaultOrder() []string {
 
 // ToSparse returns the ReportsList converted to SparseReportsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ReportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o ReportsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseReportsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseReport)
 	}
 
 	return out
@@ -108,23 +107,21 @@ func (o ReportsList) Version() int {
 // Report represents the model of a report
 type Report struct {
 	// TSDB Fields to set for the report.
-	Fields map[string]interface{} `json:"fields" bson:"-" mapstructure:"fields,omitempty"`
+	Fields map[string]interface{} `json:"fields" msgpack:"fields" bson:"-" mapstructure:"fields,omitempty"`
 
 	// Kind contains the kind of report.
-	Kind ReportKindValue `json:"kind" bson:"-" mapstructure:"kind,omitempty"`
+	Kind ReportKindValue `json:"kind" msgpack:"kind" bson:"-" mapstructure:"kind,omitempty"`
 
 	// Tags contains the tags associated to the data point.
-	Tags map[string]string `json:"tags" bson:"-" mapstructure:"tags,omitempty"`
+	Tags map[string]string `json:"tags" msgpack:"tags" bson:"-" mapstructure:"tags,omitempty"`
 
 	// Timestamp contains the time for the report.
-	Timestamp time.Time `json:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
+	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
 	// Value contains the value for the report.
-	Value float64 `json:"value" bson:"-" mapstructure:"value,omitempty"`
+	Value float64 `json:"value" msgpack:"value" bson:"-" mapstructure:"value,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewReport returns a new *Report
@@ -132,7 +129,6 @@ func NewReport() *Report {
 
 	return &Report{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Fields:       map[string]interface{}{},
 		Tags:         map[string]string{},
 	}
@@ -267,7 +263,7 @@ func (o *Report) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("kind", string(o.Kind), []string{"Audit", "Enforcer", "FileAccess", "Flow", "ProcessingUnit", "Syscall", "Claims"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -475,23 +471,21 @@ func (o SparseReportsList) Version() int {
 // SparseReport represents the sparse version of a report.
 type SparseReport struct {
 	// TSDB Fields to set for the report.
-	Fields *map[string]interface{} `json:"fields,omitempty" bson:"-" mapstructure:"fields,omitempty"`
+	Fields *map[string]interface{} `json:"fields,omitempty" msgpack:"fields,omitempty" bson:"-" mapstructure:"fields,omitempty"`
 
 	// Kind contains the kind of report.
-	Kind *ReportKindValue `json:"kind,omitempty" bson:"-" mapstructure:"kind,omitempty"`
+	Kind *ReportKindValue `json:"kind,omitempty" msgpack:"kind,omitempty" bson:"-" mapstructure:"kind,omitempty"`
 
 	// Tags contains the tags associated to the data point.
-	Tags *map[string]string `json:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
+	Tags *map[string]string `json:"tags,omitempty" msgpack:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
 
 	// Timestamp contains the time for the report.
-	Timestamp *time.Time `json:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
+	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
 
 	// Value contains the value for the report.
-	Value *float64 `json:"value,omitempty" bson:"-" mapstructure:"value,omitempty"`
+	Value *float64 `json:"value,omitempty" msgpack:"value,omitempty" bson:"-" mapstructure:"value,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseReport returns a new  SparseReport.

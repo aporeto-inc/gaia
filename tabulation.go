@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o TabulationsList) DefaultOrder() []string {
 
 // ToSparse returns the TabulationsList converted to SparseTabulationsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o TabulationsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o TabulationsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseTabulationsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseTabulation)
 	}
 
 	return out
@@ -81,17 +80,15 @@ func (o TabulationsList) Version() int {
 // Tabulation represents the model of a tabulation
 type Tabulation struct {
 	// Headers contains the requests headers that matched.
-	Headers []string `json:"headers" bson:"-" mapstructure:"headers,omitempty"`
+	Headers []string `json:"headers" msgpack:"headers" bson:"-" mapstructure:"headers,omitempty"`
 
 	// Rows contains the tabulated data.
-	Rows [][]interface{} `json:"rows" bson:"-" mapstructure:"rows,omitempty"`
+	Rows [][]interface{} `json:"rows" msgpack:"rows" bson:"-" mapstructure:"rows,omitempty"`
 
 	// TargetIdentity contains the requested target identity.
-	TargetIdentity string `json:"targetIdentity" bson:"-" mapstructure:"targetIdentity,omitempty"`
+	TargetIdentity string `json:"targetIdentity" msgpack:"targetIdentity" bson:"-" mapstructure:"targetIdentity,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewTabulation returns a new *Tabulation
@@ -99,7 +96,6 @@ func NewTabulation() *Tabulation {
 
 	return &Tabulation{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Headers:      []string{},
 		Rows:         [][]interface{}{},
 	}
@@ -403,17 +399,15 @@ func (o SparseTabulationsList) Version() int {
 // SparseTabulation represents the sparse version of a tabulation.
 type SparseTabulation struct {
 	// Headers contains the requests headers that matched.
-	Headers *[]string `json:"headers,omitempty" bson:"-" mapstructure:"headers,omitempty"`
+	Headers *[]string `json:"headers,omitempty" msgpack:"headers,omitempty" bson:"-" mapstructure:"headers,omitempty"`
 
 	// Rows contains the tabulated data.
-	Rows *[][]interface{} `json:"rows,omitempty" bson:"-" mapstructure:"rows,omitempty"`
+	Rows *[][]interface{} `json:"rows,omitempty" msgpack:"rows,omitempty" bson:"-" mapstructure:"rows,omitempty"`
 
 	// TargetIdentity contains the requested target identity.
-	TargetIdentity *string `json:"targetIdentity,omitempty" bson:"-" mapstructure:"targetIdentity,omitempty"`
+	TargetIdentity *string `json:"targetIdentity,omitempty" msgpack:"targetIdentity,omitempty" bson:"-" mapstructure:"targetIdentity,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseTabulation returns a new  SparseTabulation.

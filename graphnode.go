@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -29,44 +28,42 @@ const (
 // GraphNode represents the model of a graphnode
 type GraphNode struct {
 	// Identifier of object represented by the node.
-	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Enforcement status of processing unit represented by the node.
-	EnforcementStatus string `json:"enforcementStatus" bson:"-" mapstructure:"enforcementStatus,omitempty"`
+	EnforcementStatus string `json:"enforcementStatus" msgpack:"enforcementStatus" bson:"-" mapstructure:"enforcementStatus,omitempty"`
 
 	// ID of the group the node is eventually part of.
-	GroupID string `json:"groupID" bson:"-" mapstructure:"groupID,omitempty"`
+	GroupID string `json:"groupID" msgpack:"groupID" bson:"-" mapstructure:"groupID,omitempty"`
 
 	// List of images.
-	Images []string `json:"images" bson:"-" mapstructure:"images,omitempty"`
+	Images []string `json:"images" msgpack:"images" bson:"-" mapstructure:"images,omitempty"`
 
 	// Last update of the node.
-	LastUpdate time.Time `json:"lastUpdate" bson:"-" mapstructure:"lastUpdate,omitempty"`
+	LastUpdate time.Time `json:"lastUpdate" msgpack:"lastUpdate" bson:"-" mapstructure:"lastUpdate,omitempty"`
 
 	// Name of object represented by the node.
-	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
 
 	// Namespace of object represented by the node.
-	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Status of object represented by the node.
-	Status string `json:"status" bson:"-" mapstructure:"status,omitempty"`
+	Status string `json:"status" msgpack:"status" bson:"-" mapstructure:"status,omitempty"`
 
 	// Tags of object represented by the node.
-	Tags []string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Tags []string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Type of object represented by the node.
-	Type GraphNodeTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`
+	Type GraphNodeTypeValue `json:"type" msgpack:"type" bson:"-" mapstructure:"type,omitempty"`
 
 	// If true the node is marked as unreachable.
-	Unreachable bool `json:"unreachable" bson:"-" mapstructure:"unreachable,omitempty"`
+	Unreachable bool `json:"unreachable" msgpack:"unreachable" bson:"-" mapstructure:"unreachable,omitempty"`
 
 	// Tags of object represented by the node.
-	VulnerabilityLevel string `json:"vulnerabilityLevel" bson:"-" mapstructure:"vulnerabilityLevel,omitempty"`
+	VulnerabilityLevel string `json:"vulnerabilityLevel" msgpack:"vulnerabilityLevel" bson:"-" mapstructure:"vulnerabilityLevel,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewGraphNode returns a new *GraphNode
@@ -74,7 +71,6 @@ func NewGraphNode() *GraphNode {
 
 	return &GraphNode{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Images:       []string{},
 		Tags:         []string{},
 	}
@@ -111,7 +107,7 @@ func (o *GraphNode) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Docker", "ExternalNetwork", "Volume", "Claim"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {

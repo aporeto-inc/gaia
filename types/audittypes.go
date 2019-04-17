@@ -41,9 +41,9 @@ const (
 
 // AuditProfileRule is a generic audit rule
 type AuditProfileRule struct {
-	Type     AuditProfileRuleType `json:"type"`
-	Files    *FileWatchRule       `json:"files,omitempty"`
-	Syscalls *SyscallRule         `json:"syscalls,omitempty"`
+	Type     AuditProfileRuleType `msgpack:"type" json:"type"`
+	Files    *FileWatchRule       `msgpack:"files,omitempty" json:"files,omitempty"`
+	Syscalls *SyscallRule         `msgpack:"syscalls,omitempty" json:"syscalls,omitempty"`
 }
 
 // Validate validates an audit rule
@@ -78,8 +78,8 @@ func (a *AuditProfileRule) Validate() error {
 // FileWatchRule is used to audit access to particular files or directories
 // that you may be interested in.
 type FileWatchRule struct {
-	Path        string                 `json:"path" bson:"path"`
-	Permissions []AuditFilePermissions `json:"permissions" bson:"permissions"`
+	Path        string                 `msgpack:"path" bson:"path" json:"path" bson:"path"`
+	Permissions []AuditFilePermissions `msgpack:"permissions" bson:"permissions" json:"permissions" bson:"permissions"`
 }
 
 // Validate validates the filewathc rule.
@@ -110,10 +110,10 @@ func (r *FileWatchRule) Validate() error {
 
 // SyscallRule is used to audit invocations of specific syscalls.
 type SyscallRule struct {
-	List     AuditFilterListType   `json:"list"`
-	Action   AuditFilterActionType `json:"action"`
-	Filters  []AuditFilterSpec     `json:"filters"`
-	Syscalls []AuditSystemCallType `json:"syscalls"`
+	List     AuditFilterListType   `msgpack:"list" json:"list"`
+	Action   AuditFilterActionType `msgpack:"action" json:"action"`
+	Filters  []AuditFilterSpec     `msgpack:"filters" json:"filters"`
+	Syscalls []AuditSystemCallType `msgpack:"syscalls" json:"syscalls"`
 }
 
 // Validate validates the filewathc rule.
@@ -165,10 +165,10 @@ func AuditFilterKindFromInt(value int) (AuditFilterKind, error) {
 
 // AuditFilterSpec defines a filter to apply to a syscall rule.
 type AuditFilterSpec struct {
-	Kind       AuditFilterKind     `json:"kind"`
-	LHS        AuditFilterType     `json:"lhs"`
-	Comparator AuditFilterOperator `json:"comparator"`
-	RHS        string              `json:"rhs"`
+	Kind       AuditFilterKind     `msgpack:"kind" json:"kind"`
+	LHS        AuditFilterType     `msgpack:"lhs" json:"lhs"`
+	Comparator AuditFilterOperator `msgpack:"comparator" json:"comparator"`
+	RHS        string              `msgpack:"rhs" json:"rhs"`
 }
 
 // Validate validates and AuditFilterSpec

@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o PasswordResetsList) DefaultOrder() []string {
 
 // ToSparse returns the PasswordResetsList converted to SparsePasswordResetsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PasswordResetsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o PasswordResetsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparsePasswordResetsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparsePasswordReset)
 	}
 
 	return out
@@ -81,14 +80,12 @@ func (o PasswordResetsList) Version() int {
 // PasswordReset represents the model of a passwordreset
 type PasswordReset struct {
 	// Password contains the new password.
-	Password string `json:"password" bson:"-" mapstructure:"password,omitempty"`
+	Password string `json:"password" msgpack:"password" bson:"-" mapstructure:"password,omitempty"`
 
 	// Token contains the reset password token.
-	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
+	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewPasswordReset returns a new *PasswordReset
@@ -96,7 +93,6 @@ func NewPasswordReset() *PasswordReset {
 
 	return &PasswordReset{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -211,11 +207,11 @@ func (o *PasswordReset) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("password", o.Password); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("token", o.Token); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -369,14 +365,12 @@ func (o SparsePasswordResetsList) Version() int {
 // SparsePasswordReset represents the sparse version of a passwordreset.
 type SparsePasswordReset struct {
 	// Password contains the new password.
-	Password *string `json:"password,omitempty" bson:"-" mapstructure:"password,omitempty"`
+	Password *string `json:"password,omitempty" msgpack:"password,omitempty" bson:"-" mapstructure:"password,omitempty"`
 
 	// Token contains the reset password token.
-	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
+	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparsePasswordReset returns a new  SparsePasswordReset.

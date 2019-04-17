@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -66,11 +65,11 @@ func (o NamespacesList) DefaultOrder() []string {
 
 // ToSparse returns the NamespacesList converted to SparseNamespacesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o NamespacesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o NamespacesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseNamespacesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseNamespace)
 	}
 
 	return out
@@ -85,76 +84,74 @@ func (o NamespacesList) Version() int {
 // Namespace represents the model of a namespace
 type Namespace struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// SSHCA holds the eventual SSH authority used by this namespace.
-	SSHCA string `json:"SSHCA" bson:"sshca" mapstructure:"SSHCA,omitempty"`
+	SSHCA string `json:"SSHCA" msgpack:"SSHCA" bson:"sshca" mapstructure:"SSHCA,omitempty"`
 
 	// If enabled, the a SSH CA will be generated for the namespace. This CA can be
 	// deployed in SSH server to validate SSH certificates issued by the platform.
-	SSHCAEnabled bool `json:"SSHCAEnabled" bson:"sshcaenabled" mapstructure:"SSHCAEnabled,omitempty"`
+	SSHCAEnabled bool `json:"SSHCAEnabled" msgpack:"SSHCAEnabled" bson:"sshcaenabled" mapstructure:"SSHCAEnabled,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// AssociatedLocalCAID holds the remote ID of the certificate authority to use.
-	AssociatedLocalCAID string `json:"-" bson:"associatedlocalcaid" mapstructure:"-,omitempty"`
+	AssociatedLocalCAID string `json:"-" msgpack:"-" bson:"associatedlocalcaid" mapstructure:"-,omitempty"`
 
 	// associatedSSHCAID holds the remote ID of the SSH authority to use.
-	AssociatedSSHCAID string `json:"associatedSSHCAID" bson:"associatedsshcaid" mapstructure:"associatedSSHCAID,omitempty"`
+	AssociatedSSHCAID string `json:"associatedSSHCAID" msgpack:"associatedSSHCAID" bson:"associatedsshcaid" mapstructure:"associatedSSHCAID,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
-	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// LocalCA holds the eventual certificate authority used by this namespace.
-	LocalCA string `json:"localCA" bson:"localca" mapstructure:"localCA,omitempty"`
+	LocalCA string `json:"localCA" msgpack:"localCA" bson:"localca" mapstructure:"localCA,omitempty"`
 
 	// LocalCAEnabled defines if the namespace should use a local Certificate
 	// Authority. Switching it off and on again will regenerate a new CA.
-	LocalCAEnabled bool `json:"localCAEnabled" bson:"localcaenabled" mapstructure:"localCAEnabled,omitempty"`
+	LocalCAEnabled bool `json:"localCAEnabled" msgpack:"localCAEnabled" bson:"localcaenabled" mapstructure:"localCAEnabled,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the namespace.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// List of tags that will be added to every `+"`"+`or`+"`"+` clause of all network access
 	// policies in the namespace and its children.
-	NetworkAccessPolicyTags []string `json:"networkAccessPolicyTags" bson:"networkaccesspolicytags" mapstructure:"networkAccessPolicyTags,omitempty"`
+	NetworkAccessPolicyTags []string `json:"networkAccessPolicyTags" msgpack:"networkAccessPolicyTags" bson:"networkaccesspolicytags" mapstructure:"networkAccessPolicyTags,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Determines the validity time of certificates issued in this namespace. Default
 	// value is 1 hour.
-	ServiceCertificateValidity string `json:"serviceCertificateValidity" bson:"servicecertificatevalidity" mapstructure:"serviceCertificateValidity,omitempty"`
+	ServiceCertificateValidity string `json:"serviceCertificateValidity" msgpack:"serviceCertificateValidity" bson:"servicecertificatevalidity" mapstructure:"serviceCertificateValidity,omitempty"`
 
 	// internal idempotency key for a update operation.
-	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewNamespace returns a new *Namespace
@@ -162,7 +159,6 @@ func NewNamespace() *Namespace {
 
 	return &Namespace{
 		ModelVersion:               1,
-		Mutex:                      &sync.Mutex{},
 		AssociatedTags:             []string{},
 		Annotations:                map[string][]string{},
 		Metadata:                   []string{},
@@ -548,31 +544,31 @@ func (o *Namespace) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidatePattern("name", o.Name, `^[a-zA-Z0-9-_/]+$`, `must only contain alpha numerical characters, '-' or '_'`, true); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTags("networkAccessPolicyTags", o.NetworkAccessPolicyTags); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTimeDuration("serviceCertificateValidity", o.ServiceCertificateValidity); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -1261,76 +1257,74 @@ func (o SparseNamespacesList) Version() int {
 // SparseNamespace represents the sparse version of a namespace.
 type SparseNamespace struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// SSHCA holds the eventual SSH authority used by this namespace.
-	SSHCA *string `json:"SSHCA,omitempty" bson:"sshca,omitempty" mapstructure:"SSHCA,omitempty"`
+	SSHCA *string `json:"SSHCA,omitempty" msgpack:"SSHCA,omitempty" bson:"sshca,omitempty" mapstructure:"SSHCA,omitempty"`
 
 	// If enabled, the a SSH CA will be generated for the namespace. This CA can be
 	// deployed in SSH server to validate SSH certificates issued by the platform.
-	SSHCAEnabled *bool `json:"SSHCAEnabled,omitempty" bson:"sshcaenabled,omitempty" mapstructure:"SSHCAEnabled,omitempty"`
+	SSHCAEnabled *bool `json:"SSHCAEnabled,omitempty" msgpack:"SSHCAEnabled,omitempty" bson:"sshcaenabled,omitempty" mapstructure:"SSHCAEnabled,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedLocalCAID holds the remote ID of the certificate authority to use.
-	AssociatedLocalCAID *string `json:"-" bson:"associatedlocalcaid,omitempty" mapstructure:"-,omitempty"`
+	AssociatedLocalCAID *string `json:"-" msgpack:"-" bson:"associatedlocalcaid,omitempty" mapstructure:"-,omitempty"`
 
 	// associatedSSHCAID holds the remote ID of the SSH authority to use.
-	AssociatedSSHCAID *string `json:"associatedSSHCAID,omitempty" bson:"associatedsshcaid,omitempty" mapstructure:"associatedSSHCAID,omitempty"`
+	AssociatedSSHCAID *string `json:"associatedSSHCAID,omitempty" msgpack:"associatedSSHCAID,omitempty" bson:"associatedsshcaid,omitempty" mapstructure:"associatedSSHCAID,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
-	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// LocalCA holds the eventual certificate authority used by this namespace.
-	LocalCA *string `json:"localCA,omitempty" bson:"localca,omitempty" mapstructure:"localCA,omitempty"`
+	LocalCA *string `json:"localCA,omitempty" msgpack:"localCA,omitempty" bson:"localca,omitempty" mapstructure:"localCA,omitempty"`
 
 	// LocalCAEnabled defines if the namespace should use a local Certificate
 	// Authority. Switching it off and on again will regenerate a new CA.
-	LocalCAEnabled *bool `json:"localCAEnabled,omitempty" bson:"localcaenabled,omitempty" mapstructure:"localCAEnabled,omitempty"`
+	LocalCAEnabled *bool `json:"localCAEnabled,omitempty" msgpack:"localCAEnabled,omitempty" bson:"localcaenabled,omitempty" mapstructure:"localCAEnabled,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
+	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the namespace.
-	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// List of tags that will be added to every `+"`"+`or`+"`"+` clause of all network access
 	// policies in the namespace and its children.
-	NetworkAccessPolicyTags *[]string `json:"networkAccessPolicyTags,omitempty" bson:"networkaccesspolicytags,omitempty" mapstructure:"networkAccessPolicyTags,omitempty"`
+	NetworkAccessPolicyTags *[]string `json:"networkAccessPolicyTags,omitempty" msgpack:"networkAccessPolicyTags,omitempty" bson:"networkaccesspolicytags,omitempty" mapstructure:"networkAccessPolicyTags,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// Determines the validity time of certificates issued in this namespace. Default
 	// value is 1 hour.
-	ServiceCertificateValidity *string `json:"serviceCertificateValidity,omitempty" bson:"servicecertificatevalidity,omitempty" mapstructure:"serviceCertificateValidity,omitempty"`
+	ServiceCertificateValidity *string `json:"serviceCertificateValidity,omitempty" msgpack:"serviceCertificateValidity,omitempty" bson:"servicecertificatevalidity,omitempty" mapstructure:"serviceCertificateValidity,omitempty"`
 
 	// internal idempotency key for a update operation.
-	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
+	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseNamespace returns a new  SparseNamespace.

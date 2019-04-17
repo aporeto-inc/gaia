@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -11,14 +10,12 @@ import (
 // ClaimMapping represents the model of a claimmapping
 type ClaimMapping struct {
 	// Claim name is the name of the claim that must be mapped to an HTTP header.
-	ClaimName string `json:"claimName" bson:"claimname" mapstructure:"claimName,omitempty"`
+	ClaimName string `json:"claimName" msgpack:"claimName" bson:"claimname" mapstructure:"claimName,omitempty"`
 
 	// The target HTTP header where this claim name must be mapped.
-	TargetHTTPHeader string `json:"targetHTTPHeader" bson:"targethttpheader" mapstructure:"targetHTTPHeader,omitempty"`
+	TargetHTTPHeader string `json:"targetHTTPHeader" msgpack:"targetHTTPHeader" bson:"targethttpheader" mapstructure:"targetHTTPHeader,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewClaimMapping returns a new *ClaimMapping
@@ -26,7 +23,6 @@ func NewClaimMapping() *ClaimMapping {
 
 	return &ClaimMapping{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -61,19 +57,19 @@ func (o *ClaimMapping) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("claimName", o.ClaimName); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidatePattern("claimName", o.ClaimName, `^[a-zA-Z0-9-_/*#&@\+\$~:]+$`, `must be an alpha numerical character or '-', '_', '/', '*', '#', '&', '@', '_', '$' ~ or ':'`, true); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("targetHTTPHeader", o.TargetHTTPHeader); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidatePattern("targetHTTPHeader", o.TargetHTTPHeader, `^[a-zA-Z0-9-_/*#&@\+\$~:]+$`, `must be an alpha numerical character or '-', '_', '/', '*', '#', '&', '@', '_', '$' ~ or ':'`, true); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {

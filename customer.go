@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -94,11 +93,11 @@ func (o CustomersList) DefaultOrder() []string {
 
 // ToSparse returns the CustomersList converted to SparseCustomersList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o CustomersList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o CustomersList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseCustomersList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseCustomer)
 	}
 
 	return out
@@ -113,27 +112,25 @@ func (o CustomersList) Version() int {
 // Customer represents the model of a customer
 type Customer struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Provider holds the name of the provider to be billed for this service.
-	Provider CustomerProviderValue `json:"provider" bson:"provider" mapstructure:"provider,omitempty"`
+	Provider CustomerProviderValue `json:"provider" msgpack:"provider" bson:"provider" mapstructure:"provider,omitempty"`
 
 	// ProviderCustomerID holds the customer id as used by the provider for this
 	// customer to enable provider billing.
-	ProviderCustomerID string `json:"providerCustomerID" bson:"providercustomerid" mapstructure:"providerCustomerID,omitempty"`
+	ProviderCustomerID string `json:"providerCustomerID" msgpack:"providerCustomerID" bson:"providercustomerid" mapstructure:"providerCustomerID,omitempty"`
 
 	// State holds the status of the customer with the provider.
-	State CustomerStateValue `json:"state" bson:"state" mapstructure:"state,omitempty"`
+	State CustomerStateValue `json:"state" msgpack:"state" bson:"state" mapstructure:"state,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewCustomer returns a new *Customer
@@ -141,7 +138,6 @@ func NewCustomer() *Customer {
 
 	return &Customer{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Provider:     CustomerProviderAporeto,
 		State:        CustomerStateSubscribePending,
 	}
@@ -308,11 +304,11 @@ func (o *Customer) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("provider", string(o.Provider), []string{"Aporeto", "AWS"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("state", string(o.State), []string{"SubscribePending", "SubscribeFailed", "SubscribeSuccess", "UnsubscribePending", "UnsubscribeSuccess"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -588,27 +584,25 @@ func (o SparseCustomersList) Version() int {
 // SparseCustomer represents the sparse version of a customer.
 type SparseCustomer struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Provider holds the name of the provider to be billed for this service.
-	Provider *CustomerProviderValue `json:"provider,omitempty" bson:"provider,omitempty" mapstructure:"provider,omitempty"`
+	Provider *CustomerProviderValue `json:"provider,omitempty" msgpack:"provider,omitempty" bson:"provider,omitempty" mapstructure:"provider,omitempty"`
 
 	// ProviderCustomerID holds the customer id as used by the provider for this
 	// customer to enable provider billing.
-	ProviderCustomerID *string `json:"providerCustomerID,omitempty" bson:"providercustomerid,omitempty" mapstructure:"providerCustomerID,omitempty"`
+	ProviderCustomerID *string `json:"providerCustomerID,omitempty" msgpack:"providerCustomerID,omitempty" bson:"providercustomerid,omitempty" mapstructure:"providerCustomerID,omitempty"`
 
 	// State holds the status of the customer with the provider.
-	State *CustomerStateValue `json:"state,omitempty" bson:"state,omitempty" mapstructure:"state,omitempty"`
+	State *CustomerStateValue `json:"state,omitempty" msgpack:"state,omitempty" bson:"state,omitempty" mapstructure:"state,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseCustomer returns a new  SparseCustomer.

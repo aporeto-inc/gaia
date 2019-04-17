@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -74,11 +73,11 @@ func (o InvoicesList) DefaultOrder() []string {
 
 // ToSparse returns the InvoicesList converted to SparseInvoicesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o InvoicesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o InvoicesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseInvoicesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseInvoice)
 	}
 
 	return out
@@ -93,29 +92,27 @@ func (o InvoicesList) Version() int {
 // Invoice represents the model of a invoice
 type Invoice struct {
 	// ID is the id of the invoice.
-	ID string `json:"ID" bson:"id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"id" mapstructure:"ID,omitempty"`
 
 	// AccountID references the id of the customer that this invoice belongs to.
-	AccountID string `json:"accountID" bson:"accountid" mapstructure:"accountID,omitempty"`
+	AccountID string `json:"accountID" msgpack:"accountID" bson:"accountid" mapstructure:"accountID,omitempty"`
 
 	// BilledToProvider holds the name of the provider that this invoice was billed to.
-	BilledToProvider InvoiceBilledToProviderValue `json:"billedToProvider" bson:"billedtoprovider" mapstructure:"billedToProvider,omitempty"`
+	BilledToProvider InvoiceBilledToProviderValue `json:"billedToProvider" msgpack:"billedToProvider" bson:"billedtoprovider" mapstructure:"billedToProvider,omitempty"`
 
 	// Creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// EndDate holds the end date for this invoice.
-	EndDate time.Time `json:"endDate" bson:"enddate" mapstructure:"endDate,omitempty"`
+	EndDate time.Time `json:"endDate" msgpack:"endDate" bson:"enddate" mapstructure:"endDate,omitempty"`
 
 	// StartDate holds the start date for this invoice.
-	StartDate time.Time `json:"startDate" bson:"startdate" mapstructure:"startDate,omitempty"`
+	StartDate time.Time `json:"startDate" msgpack:"startDate" bson:"startdate" mapstructure:"startDate,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewInvoice returns a new *Invoice
@@ -123,7 +120,6 @@ func NewInvoice() *Invoice {
 
 	return &Invoice{
 		ModelVersion:     1,
-		Mutex:            &sync.Mutex{},
 		BilledToProvider: InvoiceBilledToProviderAporeto,
 	}
 }
@@ -293,7 +289,7 @@ func (o *Invoice) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("billedToProvider", string(o.BilledToProvider), []string{"Aporeto", "AWS"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -577,29 +573,27 @@ func (o SparseInvoicesList) Version() int {
 // SparseInvoice represents the sparse version of a invoice.
 type SparseInvoice struct {
 	// ID is the id of the invoice.
-	ID *string `json:"ID,omitempty" bson:"id,omitempty" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"id,omitempty" mapstructure:"ID,omitempty"`
 
 	// AccountID references the id of the customer that this invoice belongs to.
-	AccountID *string `json:"accountID,omitempty" bson:"accountid,omitempty" mapstructure:"accountID,omitempty"`
+	AccountID *string `json:"accountID,omitempty" msgpack:"accountID,omitempty" bson:"accountid,omitempty" mapstructure:"accountID,omitempty"`
 
 	// BilledToProvider holds the name of the provider that this invoice was billed to.
-	BilledToProvider *InvoiceBilledToProviderValue `json:"billedToProvider,omitempty" bson:"billedtoprovider,omitempty" mapstructure:"billedToProvider,omitempty"`
+	BilledToProvider *InvoiceBilledToProviderValue `json:"billedToProvider,omitempty" msgpack:"billedToProvider,omitempty" bson:"billedtoprovider,omitempty" mapstructure:"billedToProvider,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// EndDate holds the end date for this invoice.
-	EndDate *time.Time `json:"endDate,omitempty" bson:"enddate,omitempty" mapstructure:"endDate,omitempty"`
+	EndDate *time.Time `json:"endDate,omitempty" msgpack:"endDate,omitempty" bson:"enddate,omitempty" mapstructure:"endDate,omitempty"`
 
 	// StartDate holds the start date for this invoice.
-	StartDate *time.Time `json:"startDate,omitempty" bson:"startdate,omitempty" mapstructure:"startDate,omitempty"`
+	StartDate *time.Time `json:"startDate,omitempty" msgpack:"startDate,omitempty" bson:"startdate,omitempty" mapstructure:"startDate,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseInvoice returns a new  SparseInvoice.
