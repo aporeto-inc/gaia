@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -11,32 +10,30 @@ import (
 // PKIXName represents the model of a pkixname
 type PKIXName struct {
 	// Represents the CommonName field.
-	CommonName string `json:"commonName" bson:"-" mapstructure:"commonName,omitempty"`
+	CommonName string `json:"commonName" msgpack:"commonName" bson:"-" mapstructure:"commonName,omitempty"`
 
 	// Represents the Country field.
-	Country []string `json:"country" bson:"-" mapstructure:"country,omitempty"`
+	Country []string `json:"country" msgpack:"country" bson:"-" mapstructure:"country,omitempty"`
 
 	// Represents the Locality field.
-	Locality []string `json:"locality" bson:"-" mapstructure:"locality,omitempty"`
+	Locality []string `json:"locality" msgpack:"locality" bson:"-" mapstructure:"locality,omitempty"`
 
 	// Represents the Organization field.
-	Organization []string `json:"organization" bson:"-" mapstructure:"organization,omitempty"`
+	Organization []string `json:"organization" msgpack:"organization" bson:"-" mapstructure:"organization,omitempty"`
 
 	// Represents the OrganizationalUnit field.
-	OrganizationalUnit []string `json:"organizationalUnit" bson:"-" mapstructure:"organizationalUnit,omitempty"`
+	OrganizationalUnit []string `json:"organizationalUnit" msgpack:"organizationalUnit" bson:"-" mapstructure:"organizationalUnit,omitempty"`
 
 	// Represents the PostalCode field.
-	PostalCode []string `json:"postalCode" bson:"-" mapstructure:"postalCode,omitempty"`
+	PostalCode []string `json:"postalCode" msgpack:"postalCode" bson:"-" mapstructure:"postalCode,omitempty"`
 
 	// Represents the Province field.
-	Province []string `json:"province" bson:"-" mapstructure:"province,omitempty"`
+	Province []string `json:"province" msgpack:"province" bson:"-" mapstructure:"province,omitempty"`
 
 	// Represents the StreetAddress field.
-	StreetAddress []string `json:"streetAddress" bson:"-" mapstructure:"streetAddress,omitempty"`
+	StreetAddress []string `json:"streetAddress" msgpack:"streetAddress" bson:"-" mapstructure:"streetAddress,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewPKIXName returns a new *PKIXName
@@ -44,7 +41,6 @@ func NewPKIXName() *PKIXName {
 
 	return &PKIXName{
 		ModelVersion:       1,
-		Mutex:              &sync.Mutex{},
 		Country:            []string{},
 		Locality:           []string{},
 		Organization:       []string{},

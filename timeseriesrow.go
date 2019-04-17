@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -11,20 +10,18 @@ import (
 // TimeSeriesRow represents the model of a timeseriesrow
 type TimeSeriesRow struct {
 	// colums of the row.
-	Columns []string `json:"columns" bson:"-" mapstructure:"columns,omitempty"`
+	Columns []string `json:"columns" msgpack:"columns" bson:"-" mapstructure:"columns,omitempty"`
 
 	// the name of row.
-	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
 
 	// List of tags.
-	Tags map[string]string `json:"tags" bson:"-" mapstructure:"tags,omitempty"`
+	Tags map[string]string `json:"tags" msgpack:"tags" bson:"-" mapstructure:"tags,omitempty"`
 
 	// List of tags.
-	Values [][]interface{} `json:"values" bson:"-" mapstructure:"values,omitempty"`
+	Values [][]interface{} `json:"values" msgpack:"values" bson:"-" mapstructure:"values,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewTimeSeriesRow returns a new *TimeSeriesRow
@@ -32,7 +29,6 @@ func NewTimeSeriesRow() *TimeSeriesRow {
 
 	return &TimeSeriesRow{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Columns:      []string{},
 		Tags:         map[string]string{},
 		Values:       [][]interface{}{},

@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -76,11 +75,11 @@ func (o ImportsList) DefaultOrder() []string {
 
 // ToSparse returns the ImportsList converted to SparseImportsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ImportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o ImportsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseImportsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseImport)
 	}
 
 	return out
@@ -95,15 +94,13 @@ func (o ImportsList) Version() int {
 // Import represents the model of a import
 type Import struct {
 	// The data to import.
-	Data *Export `json:"data" bson:"-" mapstructure:"data,omitempty"`
+	Data *Export `json:"data" msgpack:"data" bson:"-" mapstructure:"data,omitempty"`
 
 	// How to import the data. ReplacePartial is deprecated and should be Import. Right
 	// now the API considers both equivalent.
-	Mode ImportModeValue `json:"mode" bson:"-" mapstructure:"mode,omitempty"`
+	Mode ImportModeValue `json:"mode" msgpack:"mode" bson:"-" mapstructure:"mode,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewImport returns a new *Import
@@ -111,7 +108,6 @@ func NewImport() *Import {
 
 	return &Import{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Data:         NewExport(),
 		Mode:         ImportModeImport,
 	}
@@ -228,11 +224,11 @@ func (o *Import) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := o.Data.Validate(); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("mode", string(o.Mode), []string{"ReplacePartial", "Import", "Remove"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -390,15 +386,13 @@ func (o SparseImportsList) Version() int {
 // SparseImport represents the sparse version of a import.
 type SparseImport struct {
 	// The data to import.
-	Data **Export `json:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
+	Data **Export `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
 	// How to import the data. ReplacePartial is deprecated and should be Import. Right
 	// now the API considers both equivalent.
-	Mode *ImportModeValue `json:"mode,omitempty" bson:"-" mapstructure:"mode,omitempty"`
+	Mode *ImportModeValue `json:"mode,omitempty" msgpack:"mode,omitempty" bson:"-" mapstructure:"mode,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseImport returns a new  SparseImport.

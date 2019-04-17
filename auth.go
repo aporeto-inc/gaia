@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -63,11 +62,11 @@ func (o AuthsList) DefaultOrder() []string {
 
 // ToSparse returns the AuthsList converted to SparseAuthsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o AuthsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o AuthsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseAuthsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseAuth)
 	}
 
 	return out
@@ -82,11 +81,9 @@ func (o AuthsList) Version() int {
 // Auth represents the model of a auth
 type Auth struct {
 	// Claims are the claims.
-	Claims *claims.MidgardClaims `json:"claims" bson:"-" mapstructure:"claims,omitempty"`
+	Claims *claims.MidgardClaims `json:"claims" msgpack:"claims" bson:"-" mapstructure:"claims,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewAuth returns a new *Auth
@@ -94,7 +91,6 @@ func NewAuth() *Auth {
 
 	return &Auth{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Claims:       claims.NewMidgardClaims(),
 	}
 }
@@ -339,11 +335,9 @@ func (o SparseAuthsList) Version() int {
 // SparseAuth represents the sparse version of a auth.
 type SparseAuth struct {
 	// Claims are the claims.
-	Claims **claims.MidgardClaims `json:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
+	Claims **claims.MidgardClaims `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseAuth returns a new  SparseAuth.

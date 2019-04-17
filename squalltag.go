@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o SquallTagsList) DefaultOrder() []string {
 
 // ToSparse returns the SquallTagsList converted to SparseSquallTagsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o SquallTagsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o SquallTagsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseSquallTagsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseSquallTag)
 	}
 
 	return out
@@ -81,17 +80,15 @@ func (o SquallTagsList) Version() int {
 // SquallTag represents the model of a squalltag
 type SquallTag struct {
 	// Number of time this tag is used.
-	Count int `json:"count" bson:"count" mapstructure:"count,omitempty"`
+	Count int `json:"count" msgpack:"count" bson:"count" mapstructure:"count,omitempty"`
 
 	// namespace containing these tags.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// Value of the tag.
-	Value string `json:"value" bson:"value" mapstructure:"value,omitempty"`
+	Value string `json:"value" msgpack:"value" bson:"value" mapstructure:"value,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSquallTag returns a new *SquallTag
@@ -99,7 +96,6 @@ func NewSquallTag() *SquallTag {
 
 	return &SquallTag{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -391,17 +387,15 @@ func (o SparseSquallTagsList) Version() int {
 // SparseSquallTag represents the sparse version of a squalltag.
 type SparseSquallTag struct {
 	// Number of time this tag is used.
-	Count *int `json:"count,omitempty" bson:"count,omitempty" mapstructure:"count,omitempty"`
+	Count *int `json:"count,omitempty" msgpack:"count,omitempty" bson:"count,omitempty" mapstructure:"count,omitempty"`
 
 	// namespace containing these tags.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Value of the tag.
-	Value *string `json:"value,omitempty" bson:"value,omitempty" mapstructure:"value,omitempty"`
+	Value *string `json:"value,omitempty" msgpack:"value,omitempty" bson:"value,omitempty" mapstructure:"value,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseSquallTag returns a new  SparseSquallTag.

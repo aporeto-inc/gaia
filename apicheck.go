@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -88,11 +87,11 @@ func (o APIChecksList) DefaultOrder() []string {
 
 // ToSparse returns the APIChecksList converted to SparseAPIChecksList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o APIChecksList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o APIChecksList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseAPIChecksList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseAPICheck)
 	}
 
 	return out
@@ -107,27 +106,25 @@ func (o APIChecksList) Version() int {
 // APICheck represents the model of a apicheck
 type APICheck struct {
 	// Authorized contains the results of the check.
-	Authorized map[string]bool `json:"authorized" bson:"-" mapstructure:"authorized,omitempty"`
+	Authorized map[string]bool `json:"authorized" msgpack:"authorized" bson:"-" mapstructure:"authorized,omitempty"`
 
 	// Claims contains the decoded claims used.
-	Claims []string `json:"claims" bson:"-" mapstructure:"claims,omitempty"`
+	Claims []string `json:"claims" msgpack:"claims" bson:"-" mapstructure:"claims,omitempty"`
 
 	// Namespace is the namespace to use to check the api authentication.
-	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Operation is the operation you want to check.
-	Operation APICheckOperationValue `json:"operation" bson:"operation" mapstructure:"operation,omitempty"`
+	Operation APICheckOperationValue `json:"operation" msgpack:"operation" bson:"operation" mapstructure:"operation,omitempty"`
 
 	// TargetIdentities contains the list of identities you want to check the
 	// authorization.
-	TargetIdentities []string `json:"targetIdentities" bson:"-" mapstructure:"targetIdentities,omitempty"`
+	TargetIdentities []string `json:"targetIdentities" msgpack:"targetIdentities" bson:"-" mapstructure:"targetIdentities,omitempty"`
 
 	// Token is the token to use to check api authentication.
-	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
+	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewAPICheck returns a new *APICheck
@@ -135,7 +132,6 @@ func NewAPICheck() *APICheck {
 
 	return &APICheck{
 		ModelVersion:     1,
-		Mutex:            &sync.Mutex{},
 		Authorized:       map[string]bool{},
 		Claims:           []string{},
 		TargetIdentities: []string{},
@@ -279,19 +275,19 @@ func (o *APICheck) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("operation", string(o.Operation), []string{"Create", "Delete", "Info", "Patch", "Retrieve", "RetrieveMany", "Update"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredExternal("targetIdentities", o.TargetIdentities); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("token", o.Token); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -539,27 +535,25 @@ func (o SparseAPIChecksList) Version() int {
 // SparseAPICheck represents the sparse version of a apicheck.
 type SparseAPICheck struct {
 	// Authorized contains the results of the check.
-	Authorized *map[string]bool `json:"authorized,omitempty" bson:"-" mapstructure:"authorized,omitempty"`
+	Authorized *map[string]bool `json:"authorized,omitempty" msgpack:"authorized,omitempty" bson:"-" mapstructure:"authorized,omitempty"`
 
 	// Claims contains the decoded claims used.
-	Claims *[]string `json:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
+	Claims *[]string `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"-" mapstructure:"claims,omitempty"`
 
 	// Namespace is the namespace to use to check the api authentication.
-	Namespace *string `json:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Operation is the operation you want to check.
-	Operation *APICheckOperationValue `json:"operation,omitempty" bson:"operation,omitempty" mapstructure:"operation,omitempty"`
+	Operation *APICheckOperationValue `json:"operation,omitempty" msgpack:"operation,omitempty" bson:"operation,omitempty" mapstructure:"operation,omitempty"`
 
 	// TargetIdentities contains the list of identities you want to check the
 	// authorization.
-	TargetIdentities *[]string `json:"targetIdentities,omitempty" bson:"-" mapstructure:"targetIdentities,omitempty"`
+	TargetIdentities *[]string `json:"targetIdentities,omitempty" msgpack:"targetIdentities,omitempty" bson:"-" mapstructure:"targetIdentities,omitempty"`
 
 	// Token is the token to use to check api authentication.
-	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
+	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseAPICheck returns a new  SparseAPICheck.

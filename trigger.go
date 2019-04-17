@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o TriggersList) DefaultOrder() []string {
 
 // ToSparse returns the TriggersList converted to SparseTriggersList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o TriggersList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o TriggersList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseTriggersList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseTrigger)
 	}
 
 	return out
@@ -81,11 +80,9 @@ func (o TriggersList) Version() int {
 // Trigger represents the model of a trigger
 type Trigger struct {
 	// Payload contains the eventual remote POST payload.
-	Payload string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Payload string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewTrigger returns a new *Trigger
@@ -93,7 +90,6 @@ func NewTrigger() *Trigger {
 
 	return &Trigger{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -330,11 +326,9 @@ func (o SparseTriggersList) Version() int {
 // SparseTrigger represents the sparse version of a trigger.
 type SparseTrigger struct {
 	// Payload contains the eventual remote POST payload.
-	Payload *string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Payload *string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseTrigger returns a new  SparseTrigger.

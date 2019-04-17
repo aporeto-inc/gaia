@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o PrivateKeysList) DefaultOrder() []string {
 
 // ToSparse returns the PrivateKeysList converted to SparsePrivateKeysList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PrivateKeysList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o PrivateKeysList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparsePrivateKeysList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparsePrivateKey)
 	}
 
 	return out
@@ -81,18 +80,16 @@ func (o PrivateKeysList) Version() int {
 // PrivateKey represents the model of a privatekey
 type PrivateKey struct {
 	// ID is the internal ID of the key.
-	ID string `json:"-" bson:"_id" mapstructure:"-,omitempty"`
+	ID string `json:"-" msgpack:"-" bson:"_id" mapstructure:"-,omitempty"`
 
 	// CertificateSerialNumber represents the certificate serial number associated to
 	// this key.
-	CertificateSerialNumber string `json:"-" bson:"certificateserialnumber" mapstructure:"-,omitempty"`
+	CertificateSerialNumber string `json:"-" msgpack:"-" bson:"certificateserialnumber" mapstructure:"-,omitempty"`
 
 	// Data contains the privateKey data.
-	Data string `json:"-" bson:"data" mapstructure:"-,omitempty"`
+	Data string `json:"-" msgpack:"-" bson:"data" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewPrivateKey returns a new *PrivateKey
@@ -100,7 +97,6 @@ func NewPrivateKey() *PrivateKey {
 
 	return &PrivateKey{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -394,18 +390,16 @@ func (o SparsePrivateKeysList) Version() int {
 // SparsePrivateKey represents the sparse version of a privatekey.
 type SparsePrivateKey struct {
 	// ID is the internal ID of the key.
-	ID *string `json:"-" bson:"_id" mapstructure:"-,omitempty"`
+	ID *string `json:"-" msgpack:"-" bson:"_id" mapstructure:"-,omitempty"`
 
 	// CertificateSerialNumber represents the certificate serial number associated to
 	// this key.
-	CertificateSerialNumber *string `json:"-" bson:"certificateserialnumber,omitempty" mapstructure:"-,omitempty"`
+	CertificateSerialNumber *string `json:"-" msgpack:"-" bson:"certificateserialnumber,omitempty" mapstructure:"-,omitempty"`
 
 	// Data contains the privateKey data.
-	Data *string `json:"-" bson:"data,omitempty" mapstructure:"-,omitempty"`
+	Data *string `json:"-" msgpack:"-" bson:"data,omitempty" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparsePrivateKey returns a new  SparsePrivateKey.

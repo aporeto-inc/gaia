@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o PlansList) DefaultOrder() []string {
 
 // ToSparse returns the PlansList converted to SparsePlansList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PlansList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o PlansList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparsePlansList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparsePlan)
 	}
 
 	return out
@@ -81,23 +80,21 @@ func (o PlansList) Version() int {
 // Plan represents the model of a plan
 type Plan struct {
 	// Description contains the description of the Plan.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Key contains the key identifier of the Plan.
-	Key string `json:"key" bson:"key" mapstructure:"key,omitempty"`
+	Key string `json:"key" msgpack:"key" bson:"key" mapstructure:"key,omitempty"`
 
 	// Name contains the name of the Plan.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Quotas defines the quota for each identity.
-	Quotas map[string]int `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Quotas map[string]int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Roles defines the roles given to the account.
-	Roles []string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Roles []string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewPlan returns a new *Plan
@@ -105,7 +102,6 @@ func NewPlan() *Plan {
 
 	return &Plan{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Quotas:       map[string]int{},
 		Roles:        []string{},
 	}
@@ -466,23 +462,21 @@ func (o SparsePlansList) Version() int {
 // SparsePlan represents the sparse version of a plan.
 type SparsePlan struct {
 	// Description contains the description of the Plan.
-	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Key contains the key identifier of the Plan.
-	Key *string `json:"key,omitempty" bson:"key,omitempty" mapstructure:"key,omitempty"`
+	Key *string `json:"key,omitempty" msgpack:"key,omitempty" bson:"key,omitempty" mapstructure:"key,omitempty"`
 
 	// Name contains the name of the Plan.
-	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Quotas defines the quota for each identity.
-	Quotas *map[string]int `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Quotas *map[string]int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Roles defines the roles given to the account.
-	Roles *[]string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Roles *[]string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparsePlan returns a new  SparsePlan.

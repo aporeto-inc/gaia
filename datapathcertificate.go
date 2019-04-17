@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -73,11 +72,11 @@ func (o DataPathCertificatesList) DefaultOrder() []string {
 
 // ToSparse returns the DataPathCertificatesList converted to SparseDataPathCertificatesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o DataPathCertificatesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o DataPathCertificatesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseDataPathCertificatesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseDataPathCertificate)
 	}
 
 	return out
@@ -93,26 +92,24 @@ func (o DataPathCertificatesList) Version() int {
 type DataPathCertificate struct {
 	// Contains the CSR the enforcer wants control plane to sign. Depending on the
 	// Certificate there will be various requirement for the CSR to be accepted.
-	CSR string `json:"CSR" bson:"-" mapstructure:"CSR,omitempty"`
+	CSR string `json:"CSR" msgpack:"CSR" bson:"-" mapstructure:"CSR,omitempty"`
 
 	// The certificate.
-	Certificate string `json:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
+	Certificate string `json:"certificate" msgpack:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// ID of the object you want to issue a certificate for.
-	ObjectID string `json:"objectID" bson:"-" mapstructure:"objectID,omitempty"`
+	ObjectID string `json:"objectID" msgpack:"objectID" bson:"-" mapstructure:"objectID,omitempty"`
 
 	// Contains a the CA that signed the delivered certificates.
-	Signer string `json:"signer" bson:"-" mapstructure:"signer,omitempty"`
+	Signer string `json:"signer" msgpack:"signer" bson:"-" mapstructure:"signer,omitempty"`
 
 	// Contains a crypto token.
-	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
+	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	// Type of certificate.
-	Type DataPathCertificateTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`
+	Type DataPathCertificateTypeValue `json:"type" msgpack:"type" bson:"-" mapstructure:"type,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewDataPathCertificate returns a new *DataPathCertificate
@@ -120,7 +117,6 @@ func NewDataPathCertificate() *DataPathCertificate {
 
 	return &DataPathCertificate{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -260,15 +256,15 @@ func (o *DataPathCertificate) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("CSR", o.CSR); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("objectID", o.ObjectID); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Enforcer", "Service"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -509,26 +505,24 @@ func (o SparseDataPathCertificatesList) Version() int {
 type SparseDataPathCertificate struct {
 	// Contains the CSR the enforcer wants control plane to sign. Depending on the
 	// Certificate there will be various requirement for the CSR to be accepted.
-	CSR *string `json:"CSR,omitempty" bson:"-" mapstructure:"CSR,omitempty"`
+	CSR *string `json:"CSR,omitempty" msgpack:"CSR,omitempty" bson:"-" mapstructure:"CSR,omitempty"`
 
 	// The certificate.
-	Certificate *string `json:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
+	Certificate *string `json:"certificate,omitempty" msgpack:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// ID of the object you want to issue a certificate for.
-	ObjectID *string `json:"objectID,omitempty" bson:"-" mapstructure:"objectID,omitempty"`
+	ObjectID *string `json:"objectID,omitempty" msgpack:"objectID,omitempty" bson:"-" mapstructure:"objectID,omitempty"`
 
 	// Contains a the CA that signed the delivered certificates.
-	Signer *string `json:"signer,omitempty" bson:"-" mapstructure:"signer,omitempty"`
+	Signer *string `json:"signer,omitempty" msgpack:"signer,omitempty" bson:"-" mapstructure:"signer,omitempty"`
 
 	// Contains a crypto token.
-	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
+	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
 	// Type of certificate.
-	Type *DataPathCertificateTypeValue `json:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
+	Type *DataPathCertificateTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseDataPathCertificate returns a new  SparseDataPathCertificate.

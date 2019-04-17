@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o AccountChecksList) DefaultOrder() []string {
 
 // ToSparse returns the AccountChecksList converted to SparseAccountChecksList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o AccountChecksList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o AccountChecksList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseAccountChecksList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseAccountCheck)
 	}
 
 	return out
@@ -81,26 +80,24 @@ func (o AccountChecksList) Version() int {
 // AccountCheck represents the model of a accountcheck
 type AccountCheck struct {
 	// ID of the account if validated.
-	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// eventual otp.
-	OTP string `json:"OTP" bson:"-" mapstructure:"OTP,omitempty"`
+	OTP string `json:"OTP" msgpack:"OTP" bson:"-" mapstructure:"OTP,omitempty"`
 
 	// email of the account if validated.
-	Email string `json:"email" bson:"-" mapstructure:"email,omitempty"`
+	Email string `json:"email" msgpack:"email" bson:"-" mapstructure:"email,omitempty"`
 
 	// Account name of email.
-	Handle string `json:"handle" bson:"-" mapstructure:"handle,omitempty"`
+	Handle string `json:"handle" msgpack:"handle" bson:"-" mapstructure:"handle,omitempty"`
 
 	// name of the account.
-	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
 
 	// provided password.
-	Password string `json:"password" bson:"-" mapstructure:"password,omitempty"`
+	Password string `json:"password" msgpack:"password" bson:"-" mapstructure:"password,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewAccountCheck returns a new *AccountCheck
@@ -108,7 +105,6 @@ func NewAccountCheck() *AccountCheck {
 
 	return &AccountCheck{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -247,11 +243,11 @@ func (o *AccountCheck) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("handle", o.Handle); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("password", o.Password); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -489,26 +485,24 @@ func (o SparseAccountChecksList) Version() int {
 // SparseAccountCheck represents the sparse version of a accountcheck.
 type SparseAccountCheck struct {
 	// ID of the account if validated.
-	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// eventual otp.
-	OTP *string `json:"OTP,omitempty" bson:"-" mapstructure:"OTP,omitempty"`
+	OTP *string `json:"OTP,omitempty" msgpack:"OTP,omitempty" bson:"-" mapstructure:"OTP,omitempty"`
 
 	// email of the account if validated.
-	Email *string `json:"email,omitempty" bson:"-" mapstructure:"email,omitempty"`
+	Email *string `json:"email,omitempty" msgpack:"email,omitempty" bson:"-" mapstructure:"email,omitempty"`
 
 	// Account name of email.
-	Handle *string `json:"handle,omitempty" bson:"-" mapstructure:"handle,omitempty"`
+	Handle *string `json:"handle,omitempty" msgpack:"handle,omitempty" bson:"-" mapstructure:"handle,omitempty"`
 
 	// name of the account.
-	Name *string `json:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
 	// provided password.
-	Password *string `json:"password,omitempty" bson:"-" mapstructure:"password,omitempty"`
+	Password *string `json:"password,omitempty" msgpack:"password,omitempty" bson:"-" mapstructure:"password,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseAccountCheck returns a new  SparseAccountCheck.

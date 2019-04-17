@@ -28,8 +28,8 @@ func (s SyscallEnforcementRulesMap) Validate() error {
 
 // SyscallEnforcementRule  is a rule to match a syscall in Seccomp.
 type SyscallEnforcementRule struct {
-	DefaultAction SyscallEnforcementAction  `json:"action"`
-	Args          []*SyscallEnforcermentArg `json:"args"`
+	DefaultAction SyscallEnforcementAction  `msgpack:"action" json:"action"`
+	Args          []*SyscallEnforcermentArg `msgpack:"args" json:"args"`
 }
 
 // Validate validates a syscall enforcement rule.
@@ -55,9 +55,9 @@ func (s *SyscallEnforcementRule) Validate() error {
 // SyscallEnforcermentArg is a rule to match a specific syscall argument in Seccomp.
 type SyscallEnforcermentArg struct {
 	Index    uint
-	Value    uint64                     `json:"value"`
-	ValueTwo uint64                     `json:"valueTwo"`
-	Op       SyscallEnforcementOperator `json:"op"`
+	Value    uint64                     `msgpack:"value" json:"value"`
+	ValueTwo uint64                     `msgpack:"valueTwo" json:"valueTwo"`
+	Op       SyscallEnforcementOperator `msgpack:"op" json:"op"`
 	Action   SyscallEnforcementAction
 }
 

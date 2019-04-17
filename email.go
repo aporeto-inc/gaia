@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -73,11 +72,11 @@ func (o EmailsList) DefaultOrder() []string {
 
 // ToSparse returns the EmailsList converted to SparseEmailsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o EmailsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o EmailsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseEmailsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseEmail)
 	}
 
 	return out
@@ -92,33 +91,31 @@ func (o EmailsList) Version() int {
 // Email represents the model of a email
 type Email struct {
 	// Attachments is a list of attachments to send.
-	Attachments map[string]string `json:"attachments" bson:"-" mapstructure:"attachments,omitempty"`
+	Attachments map[string]string `json:"attachments" msgpack:"attachments" bson:"-" mapstructure:"attachments,omitempty"`
 
 	// Bcc represents email that should be in copy but hidden.
-	Bcc []string `json:"bcc" bson:"-" mapstructure:"bcc,omitempty"`
+	Bcc []string `json:"bcc" msgpack:"bcc" bson:"-" mapstructure:"bcc,omitempty"`
 
 	// Cc represents the addresses that should be in copy.
-	Cc []string `json:"cc" bson:"-" mapstructure:"cc,omitempty"`
+	Cc []string `json:"cc" msgpack:"cc" bson:"-" mapstructure:"cc,omitempty"`
 
 	// Content of the email to send.
-	Content string `json:"content" bson:"-" mapstructure:"content,omitempty"`
+	Content string `json:"content" msgpack:"content" bson:"-" mapstructure:"content,omitempty"`
 
 	// From represents the sender of the email. If not set, the default sender will be
 	// used.
-	From string `json:"from" bson:"-" mapstructure:"from,omitempty"`
+	From string `json:"from" msgpack:"from" bson:"-" mapstructure:"from,omitempty"`
 
 	// Subject represents the subject of the email.
-	Subject string `json:"subject" bson:"-" mapstructure:"subject,omitempty"`
+	Subject string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// To represents receivers of the email.
-	To []string `json:"to" bson:"-" mapstructure:"to,omitempty"`
+	To []string `json:"to" msgpack:"to" bson:"-" mapstructure:"to,omitempty"`
 
 	// Type represents the type of the content.
-	Type EmailTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`
+	Type EmailTypeValue `json:"type" msgpack:"type" bson:"-" mapstructure:"type,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewEmail returns a new *Email
@@ -126,7 +123,6 @@ func NewEmail() *Email {
 
 	return &Email{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Attachments:  map[string]string{},
 		Bcc:          []string{},
 		Cc:           []string{},
@@ -282,7 +278,7 @@ func (o *Email) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"HTML", "Plain"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -552,33 +548,31 @@ func (o SparseEmailsList) Version() int {
 // SparseEmail represents the sparse version of a email.
 type SparseEmail struct {
 	// Attachments is a list of attachments to send.
-	Attachments *map[string]string `json:"attachments,omitempty" bson:"-" mapstructure:"attachments,omitempty"`
+	Attachments *map[string]string `json:"attachments,omitempty" msgpack:"attachments,omitempty" bson:"-" mapstructure:"attachments,omitempty"`
 
 	// Bcc represents email that should be in copy but hidden.
-	Bcc *[]string `json:"bcc,omitempty" bson:"-" mapstructure:"bcc,omitempty"`
+	Bcc *[]string `json:"bcc,omitempty" msgpack:"bcc,omitempty" bson:"-" mapstructure:"bcc,omitempty"`
 
 	// Cc represents the addresses that should be in copy.
-	Cc *[]string `json:"cc,omitempty" bson:"-" mapstructure:"cc,omitempty"`
+	Cc *[]string `json:"cc,omitempty" msgpack:"cc,omitempty" bson:"-" mapstructure:"cc,omitempty"`
 
 	// Content of the email to send.
-	Content *string `json:"content,omitempty" bson:"-" mapstructure:"content,omitempty"`
+	Content *string `json:"content,omitempty" msgpack:"content,omitempty" bson:"-" mapstructure:"content,omitempty"`
 
 	// From represents the sender of the email. If not set, the default sender will be
 	// used.
-	From *string `json:"from,omitempty" bson:"-" mapstructure:"from,omitempty"`
+	From *string `json:"from,omitempty" msgpack:"from,omitempty" bson:"-" mapstructure:"from,omitempty"`
 
 	// Subject represents the subject of the email.
-	Subject *string `json:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
+	Subject *string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
 	// To represents receivers of the email.
-	To *[]string `json:"to,omitempty" bson:"-" mapstructure:"to,omitempty"`
+	To *[]string `json:"to,omitempty" msgpack:"to,omitempty" bson:"-" mapstructure:"to,omitempty"`
 
 	// Type represents the type of the content.
-	Type *EmailTypeValue `json:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
+	Type *EmailTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseEmail returns a new  SparseEmail.

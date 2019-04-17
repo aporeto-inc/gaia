@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -40,29 +39,27 @@ const (
 // AutomationTemplateParameter represents the model of a automationtemplateparameter
 type AutomationTemplateParameter struct {
 	// Set the possible values for the parameter.
-	AllowedChoices map[string]interface{} `json:"allowedChoices" bson:"-" mapstructure:"allowedChoices,omitempty"`
+	AllowedChoices map[string]interface{} `json:"allowedChoices" msgpack:"allowedChoices" bson:"-" mapstructure:"allowedChoices,omitempty"`
 
 	// Default value of the parameter.
-	DefaultValue interface{} `json:"defaultValue" bson:"-" mapstructure:"defaultValue,omitempty"`
+	DefaultValue interface{} `json:"defaultValue" msgpack:"defaultValue" bson:"-" mapstructure:"defaultValue,omitempty"`
 
 	// Name of the parameter.
-	Description string `json:"description" bson:"-" mapstructure:"description,omitempty"`
+	Description string `json:"description" msgpack:"description" bson:"-" mapstructure:"description,omitempty"`
 
 	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Preferred position for the parameter.
-	Position int `json:"position" bson:"-" mapstructure:"position,omitempty"`
+	Position int `json:"position" msgpack:"position" bson:"-" mapstructure:"position,omitempty"`
 
 	// Set if the parameter must be set.
-	Required bool `json:"required" bson:"-" mapstructure:"required,omitempty"`
+	Required bool `json:"required" msgpack:"required" bson:"-" mapstructure:"required,omitempty"`
 
 	// Type of the parameter.
-	Type AutomationTemplateParameterTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`
+	Type AutomationTemplateParameterTypeValue `json:"type" msgpack:"type" bson:"-" mapstructure:"type,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewAutomationTemplateParameter returns a new *AutomationTemplateParameter
@@ -70,7 +67,6 @@ func NewAutomationTemplateParameter() *AutomationTemplateParameter {
 
 	return &AutomationTemplateParameter{
 		ModelVersion:   1,
-		Mutex:          &sync.Mutex{},
 		AllowedChoices: map[string]interface{}{},
 	}
 }
@@ -118,19 +114,19 @@ func (o *AutomationTemplateParameter) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("type", string(o.Type)); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Array", "Boolean", "Enum", "Filter", "Float", "Integer", "Object", "String"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {

@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o TagValuesList) DefaultOrder() []string {
 
 // ToSparse returns the TagValuesList converted to SparseTagValuesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o TagValuesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o TagValuesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseTagValuesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseTagValue)
 	}
 
 	return out
@@ -81,14 +80,12 @@ func (o TagValuesList) Version() int {
 // TagValue represents the model of a tagvalue
 type TagValue struct {
 	// The requested key.
-	Key string `json:"key" bson:"-" mapstructure:"key,omitempty"`
+	Key string `json:"key" msgpack:"key" bson:"-" mapstructure:"key,omitempty"`
 
 	// List of all values.
-	Values []string `json:"values" bson:"-" mapstructure:"values,omitempty"`
+	Values []string `json:"values" msgpack:"values" bson:"-" mapstructure:"values,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewTagValue returns a new *TagValue
@@ -96,7 +93,6 @@ func NewTagValue() *TagValue {
 
 	return &TagValue{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Values:       []string{},
 	}
 }
@@ -368,14 +364,12 @@ func (o SparseTagValuesList) Version() int {
 // SparseTagValue represents the sparse version of a tagvalue.
 type SparseTagValue struct {
 	// The requested key.
-	Key *string `json:"key,omitempty" bson:"-" mapstructure:"key,omitempty"`
+	Key *string `json:"key,omitempty" msgpack:"key,omitempty" bson:"-" mapstructure:"key,omitempty"`
 
 	// List of all values.
-	Values *[]string `json:"values,omitempty" bson:"-" mapstructure:"values,omitempty"`
+	Values *[]string `json:"values,omitempty" msgpack:"values,omitempty" bson:"-" mapstructure:"values,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseTagValue returns a new  SparseTagValue.
