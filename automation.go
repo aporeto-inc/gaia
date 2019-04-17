@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -80,11 +79,11 @@ func (o AutomationsList) DefaultOrder() []string {
 
 // ToSparse returns the AutomationsList converted to SparseAutomationsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o AutomationsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o AutomationsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseAutomationsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseAutomation)
 	}
 
 	return out
@@ -99,95 +98,93 @@ func (o AutomationsList) Version() int {
 // Automation represents the model of a automation
 type Automation struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Action contains the code that will be executed if the condition is met.
-	Actions []string `json:"actions" bson:"actions" mapstructure:"actions,omitempty"`
+	Actions []string `json:"actions" msgpack:"actions" bson:"actions" mapstructure:"actions,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// Condition contains the code that will be executed to decide if any action should
 	// be taken.
-	Condition string `json:"condition" bson:"condition" mapstructure:"condition,omitempty"`
+	Condition string `json:"condition" msgpack:"condition" bson:"condition" mapstructure:"condition,omitempty"`
 
 	// internal idempotency key for a create operation.
-	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Disabled defines if the propert is disabled.
-	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
+	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
 	// Entitlements declares which operations are allowed on which identities.
-	Entitlements map[string][]elemental.Operation `json:"entitlements" bson:"entitlements" mapstructure:"entitlements,omitempty"`
+	Entitlements map[string][]elemental.Operation `json:"entitlements" msgpack:"entitlements" bson:"entitlements" mapstructure:"entitlements,omitempty"`
 
 	// Error contains the eventual error of the last run.
-	Errors []string `json:"errors" bson:"errors" mapstructure:"errors,omitempty"`
+	Errors []string `json:"errors" msgpack:"errors" bson:"errors" mapstructure:"errors,omitempty"`
 
 	// Events contains the identity and operation an event must have to trigger the
 	// automation.
-	Events map[string][]elemental.EventType `json:"events" bson:"events" mapstructure:"events,omitempty"`
+	Events map[string][]elemental.EventType `json:"events" msgpack:"events" bson:"events" mapstructure:"events,omitempty"`
 
 	// LastExecTime holds the last successful execution tine.
-	LastExecTime time.Time `json:"lastExecTime" bson:"lastexectime" mapstructure:"lastExecTime,omitempty"`
+	LastExecTime time.Time `json:"lastExecTime" msgpack:"lastExecTime" bson:"lastexectime" mapstructure:"lastExecTime,omitempty"`
 
 	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Parameters are passed to the functions.
-	Parameters map[string]interface{} `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
+	Parameters map[string]interface{} `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// Schedule tells when to run the automation. Must be a valid CRON format. This
 	// only applies if the trigger is set to Time.
-	Schedule string `json:"schedule" bson:"schedule" mapstructure:"schedule,omitempty"`
+	Schedule string `json:"schedule" msgpack:"schedule" bson:"schedule" mapstructure:"schedule,omitempty"`
 
 	// Stdout contains the last run standard output.
-	Stdout string `json:"stdout" bson:"stdout" mapstructure:"stdout,omitempty"`
+	Stdout string `json:"stdout" msgpack:"stdout" bson:"stdout" mapstructure:"stdout,omitempty"`
 
 	// Token holds the unique access token used as a password to trigger the
 	// authentication. It will be visible only after creation.
-	Token string `json:"token" bson:"token" mapstructure:"token,omitempty"`
+	Token string `json:"token" msgpack:"token" bson:"token" mapstructure:"token,omitempty"`
 
 	// If set to true a new token will be issued, and the previous one invalidated.
-	TokenRenew bool `json:"tokenRenew" bson:"-" mapstructure:"tokenRenew,omitempty"`
+	TokenRenew bool `json:"tokenRenew" msgpack:"tokenRenew" bson:"-" mapstructure:"tokenRenew,omitempty"`
 
 	// Trigger controls when the automation should be triggered.
-	Trigger AutomationTriggerValue `json:"trigger" bson:"trigger" mapstructure:"trigger,omitempty"`
+	Trigger AutomationTriggerValue `json:"trigger" msgpack:"trigger" bson:"trigger" mapstructure:"trigger,omitempty"`
 
 	// internal idempotency key for a update operation.
-	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone int `json:"-" msgpack:"-" bson:"zone" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewAutomation returns a new *Automation
@@ -195,7 +192,6 @@ func NewAutomation() *Automation {
 
 	return &Automation{
 		ModelVersion:   1,
-		Mutex:          &sync.Mutex{},
 		Actions:        []string{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
@@ -641,27 +637,27 @@ func (o *Automation) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("condition", o.Condition); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("trigger", string(o.Trigger), []string{"Event", "RemoteCall", "Time"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -1488,95 +1484,93 @@ func (o SparseAutomationsList) Version() int {
 // SparseAutomation represents the sparse version of a automation.
 type SparseAutomation struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Action contains the code that will be executed if the condition is met.
-	Actions *[]string `json:"actions,omitempty" bson:"actions,omitempty" mapstructure:"actions,omitempty"`
+	Actions *[]string `json:"actions,omitempty" msgpack:"actions,omitempty" bson:"actions,omitempty" mapstructure:"actions,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// Condition contains the code that will be executed to decide if any action should
 	// be taken.
-	Condition *string `json:"condition,omitempty" bson:"condition,omitempty" mapstructure:"condition,omitempty"`
+	Condition *string `json:"condition,omitempty" msgpack:"condition,omitempty" bson:"condition,omitempty" mapstructure:"condition,omitempty"`
 
 	// internal idempotency key for a create operation.
-	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Disabled defines if the propert is disabled.
-	Disabled *bool `json:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
+	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
 	// Entitlements declares which operations are allowed on which identities.
-	Entitlements *map[string][]elemental.Operation `json:"entitlements,omitempty" bson:"entitlements,omitempty" mapstructure:"entitlements,omitempty"`
+	Entitlements *map[string][]elemental.Operation `json:"entitlements,omitempty" msgpack:"entitlements,omitempty" bson:"entitlements,omitempty" mapstructure:"entitlements,omitempty"`
 
 	// Error contains the eventual error of the last run.
-	Errors *[]string `json:"errors,omitempty" bson:"errors,omitempty" mapstructure:"errors,omitempty"`
+	Errors *[]string `json:"errors,omitempty" msgpack:"errors,omitempty" bson:"errors,omitempty" mapstructure:"errors,omitempty"`
 
 	// Events contains the identity and operation an event must have to trigger the
 	// automation.
-	Events *map[string][]elemental.EventType `json:"events,omitempty" bson:"events,omitempty" mapstructure:"events,omitempty"`
+	Events *map[string][]elemental.EventType `json:"events,omitempty" msgpack:"events,omitempty" bson:"events,omitempty" mapstructure:"events,omitempty"`
 
 	// LastExecTime holds the last successful execution tine.
-	LastExecTime *time.Time `json:"lastExecTime,omitempty" bson:"lastexectime,omitempty" mapstructure:"lastExecTime,omitempty"`
+	LastExecTime *time.Time `json:"lastExecTime,omitempty" msgpack:"lastExecTime,omitempty" bson:"lastexectime,omitempty" mapstructure:"lastExecTime,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Parameters are passed to the functions.
-	Parameters *map[string]interface{} `json:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
+	Parameters *map[string]interface{} `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// Schedule tells when to run the automation. Must be a valid CRON format. This
 	// only applies if the trigger is set to Time.
-	Schedule *string `json:"schedule,omitempty" bson:"schedule,omitempty" mapstructure:"schedule,omitempty"`
+	Schedule *string `json:"schedule,omitempty" msgpack:"schedule,omitempty" bson:"schedule,omitempty" mapstructure:"schedule,omitempty"`
 
 	// Stdout contains the last run standard output.
-	Stdout *string `json:"stdout,omitempty" bson:"stdout,omitempty" mapstructure:"stdout,omitempty"`
+	Stdout *string `json:"stdout,omitempty" msgpack:"stdout,omitempty" bson:"stdout,omitempty" mapstructure:"stdout,omitempty"`
 
 	// Token holds the unique access token used as a password to trigger the
 	// authentication. It will be visible only after creation.
-	Token *string `json:"token,omitempty" bson:"token,omitempty" mapstructure:"token,omitempty"`
+	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"token,omitempty" mapstructure:"token,omitempty"`
 
 	// If set to true a new token will be issued, and the previous one invalidated.
-	TokenRenew *bool `json:"tokenRenew,omitempty" bson:"-" mapstructure:"tokenRenew,omitempty"`
+	TokenRenew *bool `json:"tokenRenew,omitempty" msgpack:"tokenRenew,omitempty" bson:"-" mapstructure:"tokenRenew,omitempty"`
 
 	// Trigger controls when the automation should be triggered.
-	Trigger *AutomationTriggerValue `json:"trigger,omitempty" bson:"trigger,omitempty" mapstructure:"trigger,omitempty"`
+	Trigger *AutomationTriggerValue `json:"trigger,omitempty" msgpack:"trigger,omitempty" bson:"trigger,omitempty" mapstructure:"trigger,omitempty"`
 
 	// internal idempotency key for a update operation.
-	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
+	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" msgpack:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseAutomation returns a new  SparseAutomation.

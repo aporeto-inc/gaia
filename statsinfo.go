@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -82,11 +81,11 @@ func (o StatsInfosList) DefaultOrder() []string {
 
 // ToSparse returns the StatsInfosList converted to SparseStatsInfosList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o StatsInfosList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o StatsInfosList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseStatsInfosList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseStatsInfo)
 	}
 
 	return out
@@ -101,17 +100,15 @@ func (o StatsInfosList) Version() int {
 // StatsInfo represents the model of a statsinfo
 type StatsInfo struct {
 	// Contains the list of fields. You cannot group by these fields.
-	Fields map[string]string `json:"fields" bson:"-" mapstructure:"fields,omitempty"`
+	Fields map[string]string `json:"fields" msgpack:"fields" bson:"-" mapstructure:"fields,omitempty"`
 
 	// Name of the measurement.
-	Measurement StatsInfoMeasurementValue `json:"measurement" bson:"-" mapstructure:"measurement,omitempty"`
+	Measurement StatsInfoMeasurementValue `json:"measurement" msgpack:"measurement" bson:"-" mapstructure:"measurement,omitempty"`
 
 	// Contains the list of tags. You can group by these tags.
-	Tags []string `json:"tags" bson:"-" mapstructure:"tags,omitempty"`
+	Tags []string `json:"tags" msgpack:"tags" bson:"-" mapstructure:"tags,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewStatsInfo returns a new *StatsInfo
@@ -119,7 +116,6 @@ func NewStatsInfo() *StatsInfo {
 
 	return &StatsInfo{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Fields:       map[string]string{},
 		Measurement:  StatsInfoMeasurementFlows,
 		Tags:         []string{},
@@ -244,7 +240,7 @@ func (o *StatsInfo) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -426,17 +422,15 @@ func (o SparseStatsInfosList) Version() int {
 // SparseStatsInfo represents the sparse version of a statsinfo.
 type SparseStatsInfo struct {
 	// Contains the list of fields. You cannot group by these fields.
-	Fields *map[string]string `json:"fields,omitempty" bson:"-" mapstructure:"fields,omitempty"`
+	Fields *map[string]string `json:"fields,omitempty" msgpack:"fields,omitempty" bson:"-" mapstructure:"fields,omitempty"`
 
 	// Name of the measurement.
-	Measurement *StatsInfoMeasurementValue `json:"measurement,omitempty" bson:"-" mapstructure:"measurement,omitempty"`
+	Measurement *StatsInfoMeasurementValue `json:"measurement,omitempty" msgpack:"measurement,omitempty" bson:"-" mapstructure:"measurement,omitempty"`
 
 	// Contains the list of tags. You can group by these tags.
-	Tags *[]string `json:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
+	Tags *[]string `json:"tags,omitempty" msgpack:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseStatsInfo returns a new  SparseStatsInfo.

@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -77,11 +76,11 @@ func (o PacketReportsList) DefaultOrder() []string {
 
 // ToSparse returns the PacketReportsList converted to SparsePacketReportsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PacketReportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o PacketReportsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparsePacketReportsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparsePacketReport)
 	}
 
 	return out
@@ -96,60 +95,58 @@ func (o PacketReportsList) Version() int {
 // PacketReport represents the model of a packetreport
 type PacketReport struct {
 	// Flags are the TCP flags of the packet.
-	TCPFlags int `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	TCPFlags int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Claims is the list of claims detected for the packet.
-	Claims []string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Claims []string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// DestinationIP is the IP address of the destination.
-	DestinationIP string `json:"destinationIP" bson:"-" mapstructure:"destinationIP,omitempty"`
+	DestinationIP string `json:"destinationIP" msgpack:"destinationIP" bson:"-" mapstructure:"destinationIP,omitempty"`
 
 	// DestinationPort is the destination port of a TCP or UDP packet.
-	DestinationPort int `json:"destinationPort" bson:"-" mapstructure:"destinationPort,omitempty"`
+	DestinationPort int `json:"destinationPort" msgpack:"destinationPort" bson:"-" mapstructure:"destinationPort,omitempty"`
 
 	// This field is only set if 'event' is set to 'Dropped' and specifies the reason
 	// for the drop.
-	DropReason string `json:"dropReason" bson:"-" mapstructure:"dropReason,omitempty"`
+	DropReason string `json:"dropReason" msgpack:"dropReason" bson:"-" mapstructure:"dropReason,omitempty"`
 
 	// Encrypt indicates that the packet was encrypted.
-	Encrypt bool `json:"encrypt" bson:"-" mapstructure:"encrypt,omitempty"`
+	Encrypt bool `json:"encrypt" msgpack:"encrypt" bson:"-" mapstructure:"encrypt,omitempty"`
 
 	// Event is the event that triggered the report.
-	Event PacketReportEventValue `json:"event" bson:"-" mapstructure:"event,omitempty"`
+	Event PacketReportEventValue `json:"event" msgpack:"event" bson:"-" mapstructure:"event,omitempty"`
 
 	// Length is the length of the packet.
-	Length int `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Length int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Mark is the mark value of the packet.
-	Mark int `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Mark int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Namespace of the PU reporting the packet.
-	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// PacketID is the ID from the IP header of the packet.
-	PacketID int `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	PacketID int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Protocol number.
-	Protocol int `json:"protocol" bson:"-" mapstructure:"protocol,omitempty"`
+	Protocol int `json:"protocol" msgpack:"protocol" bson:"-" mapstructure:"protocol,omitempty"`
 
 	// PUID is the ID of the PU reporting the packet.
-	PuID string `json:"puID" bson:"-" mapstructure:"puID,omitempty"`
+	PuID string `json:"puID" msgpack:"puID" bson:"-" mapstructure:"puID,omitempty"`
 
 	// SourceIP is the source IP address of the packet.
-	SourceIP string `json:"sourceIP" bson:"-" mapstructure:"sourceIP,omitempty"`
+	SourceIP string `json:"sourceIP" msgpack:"sourceIP" bson:"-" mapstructure:"sourceIP,omitempty"`
 
 	// SourcePort is the source port of the packet.
-	SourcePort int `json:"sourcePort" bson:"-" mapstructure:"sourcePort,omitempty"`
+	SourcePort int `json:"sourcePort" msgpack:"sourcePort" bson:"-" mapstructure:"sourcePort,omitempty"`
 
 	// Timestamp is the date of the report.
-	Timestamp time.Time `json:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
+	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
 	// TriremePacket is set if the packet arrived with the Trireme options.
-	TriremePacket bool `json:"triremePacket" bson:"triremepacket" mapstructure:"triremePacket,omitempty"`
+	TriremePacket bool `json:"triremePacket" msgpack:"triremePacket" bson:"triremepacket" mapstructure:"triremePacket,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewPacketReport returns a new *PacketReport
@@ -157,7 +154,6 @@ func NewPacketReport() *PacketReport {
 
 	return &PacketReport{
 		ModelVersion:  1,
-		Mutex:         &sync.Mutex{},
 		Claims:        []string{},
 		TriremePacket: true,
 	}
@@ -364,39 +360,39 @@ func (o *PacketReport) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateMaximumInt("destinationPort", o.DestinationPort, int(65536), false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("event", string(o.Event)); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("event", string(o.Event), []string{"Received", "Transmitted", "Dropped"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredInt("protocol", o.Protocol); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumInt("protocol", o.Protocol, int(255), false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("puID", o.PuID); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumInt("sourcePort", o.SourcePort, int(65536), false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredTime("timestamp", o.Timestamp); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -842,60 +838,58 @@ func (o SparsePacketReportsList) Version() int {
 // SparsePacketReport represents the sparse version of a packetreport.
 type SparsePacketReport struct {
 	// Flags are the TCP flags of the packet.
-	TCPFlags *int `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	TCPFlags *int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Claims is the list of claims detected for the packet.
-	Claims *[]string `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Claims *[]string `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// DestinationIP is the IP address of the destination.
-	DestinationIP *string `json:"destinationIP,omitempty" bson:"-" mapstructure:"destinationIP,omitempty"`
+	DestinationIP *string `json:"destinationIP,omitempty" msgpack:"destinationIP,omitempty" bson:"-" mapstructure:"destinationIP,omitempty"`
 
 	// DestinationPort is the destination port of a TCP or UDP packet.
-	DestinationPort *int `json:"destinationPort,omitempty" bson:"-" mapstructure:"destinationPort,omitempty"`
+	DestinationPort *int `json:"destinationPort,omitempty" msgpack:"destinationPort,omitempty" bson:"-" mapstructure:"destinationPort,omitempty"`
 
 	// This field is only set if 'event' is set to 'Dropped' and specifies the reason
 	// for the drop.
-	DropReason *string `json:"dropReason,omitempty" bson:"-" mapstructure:"dropReason,omitempty"`
+	DropReason *string `json:"dropReason,omitempty" msgpack:"dropReason,omitempty" bson:"-" mapstructure:"dropReason,omitempty"`
 
 	// Encrypt indicates that the packet was encrypted.
-	Encrypt *bool `json:"encrypt,omitempty" bson:"-" mapstructure:"encrypt,omitempty"`
+	Encrypt *bool `json:"encrypt,omitempty" msgpack:"encrypt,omitempty" bson:"-" mapstructure:"encrypt,omitempty"`
 
 	// Event is the event that triggered the report.
-	Event *PacketReportEventValue `json:"event,omitempty" bson:"-" mapstructure:"event,omitempty"`
+	Event *PacketReportEventValue `json:"event,omitempty" msgpack:"event,omitempty" bson:"-" mapstructure:"event,omitempty"`
 
 	// Length is the length of the packet.
-	Length *int `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Length *int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Mark is the mark value of the packet.
-	Mark *int `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	Mark *int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Namespace of the PU reporting the packet.
-	Namespace *string `json:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// PacketID is the ID from the IP header of the packet.
-	PacketID *int `json:"-" bson:"-" mapstructure:"-,omitempty"`
+	PacketID *int `json:"-" msgpack:"-" bson:"-" mapstructure:"-,omitempty"`
 
 	// Protocol number.
-	Protocol *int `json:"protocol,omitempty" bson:"-" mapstructure:"protocol,omitempty"`
+	Protocol *int `json:"protocol,omitempty" msgpack:"protocol,omitempty" bson:"-" mapstructure:"protocol,omitempty"`
 
 	// PUID is the ID of the PU reporting the packet.
-	PuID *string `json:"puID,omitempty" bson:"-" mapstructure:"puID,omitempty"`
+	PuID *string `json:"puID,omitempty" msgpack:"puID,omitempty" bson:"-" mapstructure:"puID,omitempty"`
 
 	// SourceIP is the source IP address of the packet.
-	SourceIP *string `json:"sourceIP,omitempty" bson:"-" mapstructure:"sourceIP,omitempty"`
+	SourceIP *string `json:"sourceIP,omitempty" msgpack:"sourceIP,omitempty" bson:"-" mapstructure:"sourceIP,omitempty"`
 
 	// SourcePort is the source port of the packet.
-	SourcePort *int `json:"sourcePort,omitempty" bson:"-" mapstructure:"sourcePort,omitempty"`
+	SourcePort *int `json:"sourcePort,omitempty" msgpack:"sourcePort,omitempty" bson:"-" mapstructure:"sourcePort,omitempty"`
 
 	// Timestamp is the date of the report.
-	Timestamp *time.Time `json:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
+	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
 
 	// TriremePacket is set if the packet arrived with the Trireme options.
-	TriremePacket *bool `json:"triremePacket,omitempty" bson:"triremepacket,omitempty" mapstructure:"triremePacket,omitempty"`
+	TriremePacket *bool `json:"triremePacket,omitempty" msgpack:"triremePacket,omitempty" bson:"triremepacket,omitempty" mapstructure:"triremePacket,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparsePacketReport returns a new  SparsePacketReport.

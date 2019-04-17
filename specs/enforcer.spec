@@ -290,3 +290,8 @@ relations:
       - name: ts
         description: time of report. If not set, local server time will be used.
         type: time
+
+      - name: version
+        description: If set, version of the current running enforcer.
+        type: string
+        example_value: v1.10

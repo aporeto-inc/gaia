@@ -2436,6 +2436,10 @@ func init() {
 						Name: "ts",
 						Type: "time",
 					},
+					elemental.ParameterDefinition{
+						Name: "version",
+						Type: "string",
+					},
 				},
 			},
 			"processingunit": &elemental.RelationshipInfo{
@@ -2514,6 +2518,10 @@ func init() {
 					elemental.ParameterDefinition{
 						Name: "ts",
 						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "version",
+						Type: "string",
 					},
 				},
 			},

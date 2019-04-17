@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -75,11 +74,11 @@ func (o AutomationTemplatesList) DefaultOrder() []string {
 
 // ToSparse returns the AutomationTemplatesList converted to SparseAutomationTemplatesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o AutomationTemplatesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o AutomationTemplatesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseAutomationTemplatesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseAutomationTemplate)
 	}
 
 	return out
@@ -94,29 +93,27 @@ func (o AutomationTemplatesList) Version() int {
 // AutomationTemplate represents the model of a automationtemplate
 type AutomationTemplate struct {
 	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Entitlements contains the entitlements needed for executing the function.
-	Entitlements map[string][]elemental.Operation `json:"entitlements" bson:"-" mapstructure:"entitlements,omitempty"`
+	Entitlements map[string][]elemental.Operation `json:"entitlements" msgpack:"entitlements" bson:"-" mapstructure:"entitlements,omitempty"`
 
 	// Function contains the code.
-	Function string `json:"function" bson:"-" mapstructure:"function,omitempty"`
+	Function string `json:"function" msgpack:"function" bson:"-" mapstructure:"function,omitempty"`
 
 	// Key contains the unique identifier key for the template.
-	Key string `json:"key" bson:"-" mapstructure:"key,omitempty"`
+	Key string `json:"key" msgpack:"key" bson:"-" mapstructure:"key,omitempty"`
 
 	// Kind represents the kind of template.
-	Kind AutomationTemplateKindValue `json:"kind" bson:"-" mapstructure:"kind,omitempty"`
+	Kind AutomationTemplateKindValue `json:"kind" msgpack:"kind" bson:"-" mapstructure:"kind,omitempty"`
 
 	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Parameters contains the parameter description of the function.
-	Parameters map[string]*AutomationTemplateParameter `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
+	Parameters map[string]*AutomationTemplateParameter `json:"parameters" msgpack:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewAutomationTemplate returns a new *AutomationTemplate
@@ -124,7 +121,6 @@ func NewAutomationTemplate() *AutomationTemplate {
 
 	return &AutomationTemplate{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Entitlements: map[string][]elemental.Operation{},
 		Kind:         AutomationTemplateKindCondition,
 		Parameters:   map[string]*AutomationTemplateParameter{},
@@ -298,24 +294,24 @@ func (o *AutomationTemplate) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("kind", string(o.Kind), []string{"Action", "Condition"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	for _, sub := range o.Parameters {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
@@ -590,29 +586,27 @@ func (o SparseAutomationTemplatesList) Version() int {
 // SparseAutomationTemplate represents the sparse version of a automationtemplate.
 type SparseAutomationTemplate struct {
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Entitlements contains the entitlements needed for executing the function.
-	Entitlements *map[string][]elemental.Operation `json:"entitlements,omitempty" bson:"-" mapstructure:"entitlements,omitempty"`
+	Entitlements *map[string][]elemental.Operation `json:"entitlements,omitempty" msgpack:"entitlements,omitempty" bson:"-" mapstructure:"entitlements,omitempty"`
 
 	// Function contains the code.
-	Function *string `json:"function,omitempty" bson:"-" mapstructure:"function,omitempty"`
+	Function *string `json:"function,omitempty" msgpack:"function,omitempty" bson:"-" mapstructure:"function,omitempty"`
 
 	// Key contains the unique identifier key for the template.
-	Key *string `json:"key,omitempty" bson:"-" mapstructure:"key,omitempty"`
+	Key *string `json:"key,omitempty" msgpack:"key,omitempty" bson:"-" mapstructure:"key,omitempty"`
 
 	// Kind represents the kind of template.
-	Kind *AutomationTemplateKindValue `json:"kind,omitempty" bson:"-" mapstructure:"kind,omitempty"`
+	Kind *AutomationTemplateKindValue `json:"kind,omitempty" msgpack:"kind,omitempty" bson:"-" mapstructure:"kind,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Parameters contains the parameter description of the function.
-	Parameters *map[string]*AutomationTemplateParameter `json:"parameters,omitempty" bson:"-" mapstructure:"parameters,omitempty"`
+	Parameters *map[string]*AutomationTemplateParameter `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"-" mapstructure:"parameters,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseAutomationTemplate returns a new  SparseAutomationTemplate.

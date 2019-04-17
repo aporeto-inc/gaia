@@ -1136,3 +1136,81 @@ ADAKBggqhkjOPQQDAgNJADBGAiEAm1u2T1vRooIy3rd0BmBSAa6WR6BtHl9nDbGN
 		})
 	}
 }
+
+func TestValidateTag(t *testing.T) {
+	type args struct {
+		tag string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// simple
+		{
+			"simple tag a=a",
+			args{
+				"a=a",
+			},
+			false,
+		},
+		{
+			"value is string",
+			args{
+				"name=value",
+			},
+			false,
+		},
+		{
+			"value is number",
+			args{
+				"name=123.12",
+			},
+			false,
+		},
+		{
+			"value is has space",
+			args{
+				"name=test 1",
+			},
+			false,
+		},
+		{
+			"tag value is utf8 character",
+			args{
+				"name=utf8-_!@#%&\" (*)+.,/$!:;<>=?{}~",
+			},
+			false,
+		},
+		{
+			"key contains hyphen and underscore",
+			args{
+				"internal_name:demo-1234=aporeliable_arvind_@",
+			},
+			false,
+		},
+
+		// Error
+		{
+			"just a word",
+			args{
+				"justaword",
+			},
+			true,
+		},
+		{
+			"key contains spaces",
+			args{
+				"the key=value",
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateTag("tag", tt.args.tag); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateTag() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}

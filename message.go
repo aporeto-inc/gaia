@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -80,11 +79,11 @@ func (o MessagesList) DefaultOrder() []string {
 
 // ToSparse returns the MessagesList converted to SparseMessagesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o MessagesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o MessagesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseMessagesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseMessage)
 	}
 
 	return out
@@ -99,65 +98,63 @@ func (o MessagesList) Version() int {
 // Message represents the model of a message
 type Message struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
-	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// expirationTime is the time after which the message will be deleted.
-	ExpirationTime time.Time `json:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
+	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
 	// Level defines how the message is important.
-	Level MessageLevelValue `json:"level" bson:"level" mapstructure:"level,omitempty"`
+	Level MessageLevelValue `json:"level" msgpack:"level" bson:"level" mapstructure:"level,omitempty"`
 
 	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
-	Propagate bool `json:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
+	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// internal idempotency key for a update operation.
-	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// Validity set using golang time duration, when the message will be automatically
 	// deleted.
-	Validity string `json:"validity" bson:"validity" mapstructure:"validity,omitempty"`
+	Validity string `json:"validity" msgpack:"validity" bson:"validity" mapstructure:"validity,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone int `json:"-" msgpack:"-" bson:"zone" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewMessage returns a new *Message
@@ -165,7 +162,6 @@ func NewMessage() *Message {
 
 	return &Message{
 		ModelVersion:   1,
-		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Level:          MessageLevelInfo,
@@ -553,27 +549,27 @@ func (o *Message) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("level", string(o.Level), []string{"Danger", "Info", "Warning"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidatePattern("validity", o.Validity, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -1192,65 +1188,63 @@ func (o SparseMessagesList) Version() int {
 // SparseMessage represents the sparse version of a message.
 type SparseMessage struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// internal idempotency key for a create operation.
-	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// expirationTime is the time after which the message will be deleted.
-	ExpirationTime *time.Time `json:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
+	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
 	// Level defines how the message is important.
-	Level *MessageLevelValue `json:"level,omitempty" bson:"level,omitempty" mapstructure:"level,omitempty"`
+	Level *MessageLevelValue `json:"level,omitempty" msgpack:"level,omitempty" bson:"level,omitempty" mapstructure:"level,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
-	Propagate *bool `json:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
+	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// internal idempotency key for a update operation.
-	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
+	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// Validity set using golang time duration, when the message will be automatically
 	// deleted.
-	Validity *string `json:"validity,omitempty" bson:"validity,omitempty" mapstructure:"validity,omitempty"`
+	Validity *string `json:"validity,omitempty" msgpack:"validity,omitempty" bson:"validity,omitempty" mapstructure:"validity,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" msgpack:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseMessage returns a new  SparseMessage.

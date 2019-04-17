@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -65,11 +64,11 @@ func (o ClaimsList) DefaultOrder() []string {
 
 // ToSparse returns the ClaimsList converted to SparseClaimsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ClaimsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o ClaimsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseClaimsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseClaims)
 	}
 
 	return out
@@ -84,54 +83,52 @@ func (o ClaimsList) Version() int {
 // Claims represents the model of a claims
 type Claims struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// Content contains the raw JWT claims.
-	Content map[string]string `json:"content" bson:"content" mapstructure:"content,omitempty"`
+	Content map[string]string `json:"content" msgpack:"content" bson:"content" mapstructure:"content,omitempty"`
 
 	// internal idempotency key for a create operation.
-	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
 
 	// firstSeen contains the date of the first appearance of the claims.
-	FirstSeen time.Time `json:"-" bson:"firstseen" mapstructure:"-,omitempty"`
+	FirstSeen time.Time `json:"-" msgpack:"-" bson:"firstseen" mapstructure:"-,omitempty"`
 
 	// XXH64 of the claims content. It will be used as ID. To compute a correct hash,
 	// you must first clob Content as an string array in the form `+"`"+`key=value`+"`"+`, sort it
 	// then apply the xxhash function.
-	Hash string `json:"hash" bson:"-" mapstructure:"hash,omitempty"`
+	Hash string `json:"hash" msgpack:"hash" bson:"-" mapstructure:"hash,omitempty"`
 
 	// lastSeen contains the date of the last appearance of the claims.
-	LastSeen time.Time `json:"-" bson:"lastseen" mapstructure:"-,omitempty"`
+	LastSeen time.Time `json:"-" msgpack:"-" bson:"lastseen" mapstructure:"-,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// internal idempotency key for a update operation.
-	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone int `json:"-" msgpack:"-" bson:"zone" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewClaims returns a new *Claims
@@ -139,7 +136,6 @@ func NewClaims() *Claims {
 
 	return &Claims{
 		ModelVersion:   1,
-		Mutex:          &sync.Mutex{},
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Content:        map[string]string{},
@@ -441,11 +437,11 @@ func (o *Claims) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("hash", o.Hash); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -937,54 +933,52 @@ func (o SparseClaimsList) Version() int {
 // SparseClaims represents the sparse version of a claims.
 type SparseClaims struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// Content contains the raw JWT claims.
-	Content *map[string]string `json:"content,omitempty" bson:"content,omitempty" mapstructure:"content,omitempty"`
+	Content *map[string]string `json:"content,omitempty" msgpack:"content,omitempty" bson:"content,omitempty" mapstructure:"content,omitempty"`
 
 	// internal idempotency key for a create operation.
-	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// firstSeen contains the date of the first appearance of the claims.
-	FirstSeen *time.Time `json:"-" bson:"firstseen,omitempty" mapstructure:"-,omitempty"`
+	FirstSeen *time.Time `json:"-" msgpack:"-" bson:"firstseen,omitempty" mapstructure:"-,omitempty"`
 
 	// XXH64 of the claims content. It will be used as ID. To compute a correct hash,
 	// you must first clob Content as an string array in the form `+"`"+`key=value`+"`"+`, sort it
 	// then apply the xxhash function.
-	Hash *string `json:"hash,omitempty" bson:"-" mapstructure:"hash,omitempty"`
+	Hash *string `json:"hash,omitempty" msgpack:"hash,omitempty" bson:"-" mapstructure:"hash,omitempty"`
 
 	// lastSeen contains the date of the last appearance of the claims.
-	LastSeen *time.Time `json:"-" bson:"lastseen,omitempty" mapstructure:"-,omitempty"`
+	LastSeen *time.Time `json:"-" msgpack:"-" bson:"lastseen,omitempty" mapstructure:"-,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// internal idempotency key for a update operation.
-	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
+	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" msgpack:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseClaims returns a new  SparseClaims.

@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -94,11 +93,11 @@ func (o IssuesList) DefaultOrder() []string {
 
 // ToSparse returns the IssuesList converted to SparseIssuesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o IssuesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o IssuesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseIssuesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseIssue)
 	}
 
 	return out
@@ -114,33 +113,31 @@ func (o IssuesList) Version() int {
 type Issue struct {
 	// If given, the issued token will only be valid from that namespace declared in
 	// that value.
-	Audience string `json:"audience" bson:"-" mapstructure:"audience,omitempty"`
+	Audience string `json:"audience" msgpack:"audience" bson:"-" mapstructure:"audience,omitempty"`
 
 	// Data contains additional data. The value depends on the issuer type.
-	Data string `json:"data" bson:"-" mapstructure:"data,omitempty"`
+	Data string `json:"data" msgpack:"data" bson:"-" mapstructure:"data,omitempty"`
 
 	// Metadata contains various additional information. Meaning depends on the realm.
-	Metadata map[string]interface{} `json:"metadata" bson:"-" mapstructure:"metadata,omitempty"`
+	Metadata map[string]interface{} `json:"metadata" msgpack:"metadata" bson:"-" mapstructure:"metadata,omitempty"`
 
 	// Opaque data that will be included in the issued token.
-	Opaque map[string]string `json:"opaque" bson:"-" mapstructure:"opaque,omitempty"`
+	Opaque map[string]string `json:"opaque" msgpack:"opaque" bson:"-" mapstructure:"opaque,omitempty"`
 
 	// Restricts the number of time the issued token should be used.
-	Quota int `json:"quota" bson:"-" mapstructure:"quota,omitempty"`
+	Quota int `json:"quota" msgpack:"quota" bson:"-" mapstructure:"quota,omitempty"`
 
 	// Realm is the authentication realm.
-	Realm IssueRealmValue `json:"realm" bson:"-" mapstructure:"realm,omitempty"`
+	Realm IssueRealmValue `json:"realm" msgpack:"realm" bson:"-" mapstructure:"realm,omitempty"`
 
 	// Token is the token to use for the registration.
-	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
+	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	// Validity configures the max validity time for a token. If it is bigger than the
 	// configured max validity, it will be capped.
-	Validity string `json:"validity" bson:"-" mapstructure:"validity,omitempty"`
+	Validity string `json:"validity" msgpack:"validity" bson:"-" mapstructure:"validity,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewIssue returns a new *Issue
@@ -148,7 +145,6 @@ func NewIssue() *Issue {
 
 	return &Issue{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Metadata:     map[string]interface{}{},
 		Opaque:       map[string]string{},
 		Validity:     "24h",
@@ -302,19 +298,19 @@ func (o *Issue) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := ValidateAudience("audience", o.Audience); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("realm", string(o.Realm)); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("realm", string(o.Realm), []string{"AWSIdentityDocument", "AWSSecurityToken", "Certificate", "Google", "LDAP", "Vince", "GCPIdentityToken", "AzureIdentityToken", "OIDC"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTimeDuration("validity", o.Validity); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -597,33 +593,31 @@ func (o SparseIssuesList) Version() int {
 type SparseIssue struct {
 	// If given, the issued token will only be valid from that namespace declared in
 	// that value.
-	Audience *string `json:"audience,omitempty" bson:"-" mapstructure:"audience,omitempty"`
+	Audience *string `json:"audience,omitempty" msgpack:"audience,omitempty" bson:"-" mapstructure:"audience,omitempty"`
 
 	// Data contains additional data. The value depends on the issuer type.
-	Data *string `json:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
+	Data *string `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
 
 	// Metadata contains various additional information. Meaning depends on the realm.
-	Metadata *map[string]interface{} `json:"metadata,omitempty" bson:"-" mapstructure:"metadata,omitempty"`
+	Metadata *map[string]interface{} `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"-" mapstructure:"metadata,omitempty"`
 
 	// Opaque data that will be included in the issued token.
-	Opaque *map[string]string `json:"opaque,omitempty" bson:"-" mapstructure:"opaque,omitempty"`
+	Opaque *map[string]string `json:"opaque,omitempty" msgpack:"opaque,omitempty" bson:"-" mapstructure:"opaque,omitempty"`
 
 	// Restricts the number of time the issued token should be used.
-	Quota *int `json:"quota,omitempty" bson:"-" mapstructure:"quota,omitempty"`
+	Quota *int `json:"quota,omitempty" msgpack:"quota,omitempty" bson:"-" mapstructure:"quota,omitempty"`
 
 	// Realm is the authentication realm.
-	Realm *IssueRealmValue `json:"realm,omitempty" bson:"-" mapstructure:"realm,omitempty"`
+	Realm *IssueRealmValue `json:"realm,omitempty" msgpack:"realm,omitempty" bson:"-" mapstructure:"realm,omitempty"`
 
 	// Token is the token to use for the registration.
-	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
+	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
 	// Validity configures the max validity time for a token. If it is bigger than the
 	// configured max validity, it will be capped.
-	Validity *string `json:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
+	Validity *string `json:"validity,omitempty" msgpack:"validity,omitempty" bson:"-" mapstructure:"validity,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseIssue returns a new  SparseIssue.

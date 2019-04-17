@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o PolicyRefreshsList) DefaultOrder() []string {
 
 // ToSparse returns the PolicyRefreshsList converted to SparsePolicyRefreshsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PolicyRefreshsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o PolicyRefreshsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparsePolicyRefreshsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparsePolicyRefresh)
 	}
 
 	return out
@@ -81,17 +80,15 @@ func (o PolicyRefreshsList) Version() int {
 // PolicyRefresh represents the model of a policyrefresh
 type PolicyRefresh struct {
 	// SourceNamespace contains the original ID of the updated object.
-	SourceID string `json:"sourceID" bson:"sourceid" mapstructure:"sourceID,omitempty"`
+	SourceID string `json:"sourceID" msgpack:"sourceID" bson:"sourceid" mapstructure:"sourceID,omitempty"`
 
 	// SourceNamespace contains the original namespace of the updated object.
-	SourceNamespace string `json:"sourceNamespace" bson:"sourcenamespace" mapstructure:"sourceNamespace,omitempty"`
+	SourceNamespace string `json:"sourceNamespace" msgpack:"sourceNamespace" bson:"sourcenamespace" mapstructure:"sourceNamespace,omitempty"`
 
 	// Type contains the policy type that is affected.
-	Type string `json:"type" bson:"type" mapstructure:"type,omitempty"`
+	Type string `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewPolicyRefresh returns a new *PolicyRefresh
@@ -99,7 +96,6 @@ func NewPolicyRefresh() *PolicyRefresh {
 
 	return &PolicyRefresh{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -403,17 +399,15 @@ func (o SparsePolicyRefreshsList) Version() int {
 // SparsePolicyRefresh represents the sparse version of a policyrefresh.
 type SparsePolicyRefresh struct {
 	// SourceNamespace contains the original ID of the updated object.
-	SourceID *string `json:"sourceID,omitempty" bson:"sourceid,omitempty" mapstructure:"sourceID,omitempty"`
+	SourceID *string `json:"sourceID,omitempty" msgpack:"sourceID,omitempty" bson:"sourceid,omitempty" mapstructure:"sourceID,omitempty"`
 
 	// SourceNamespace contains the original namespace of the updated object.
-	SourceNamespace *string `json:"sourceNamespace,omitempty" bson:"sourcenamespace,omitempty" mapstructure:"sourceNamespace,omitempty"`
+	SourceNamespace *string `json:"sourceNamespace,omitempty" msgpack:"sourceNamespace,omitempty" bson:"sourcenamespace,omitempty" mapstructure:"sourceNamespace,omitempty"`
 
 	// Type contains the policy type that is affected.
-	Type *string `json:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
+	Type *string `json:"type,omitempty" msgpack:"type,omitempty" bson:"type,omitempty" mapstructure:"type,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparsePolicyRefresh returns a new  SparsePolicyRefresh.

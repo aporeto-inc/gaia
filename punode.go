@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -63,11 +62,11 @@ func (o PUNodesList) DefaultOrder() []string {
 
 // ToSparse returns the PUNodesList converted to SparsePUNodesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PUNodesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o PUNodesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparsePUNodesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparsePUNode)
 	}
 
 	return out
@@ -82,35 +81,36 @@ func (o PUNodesList) Version() int {
 // PUNode represents the model of a punode
 type PUNode struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Enforcement status of the pu.
-	EnforcementStatus string `json:"enforcementStatus" bson:"-" mapstructure:"enforcementStatus,omitempty"`
+	EnforcementStatus string `json:"enforcementStatus" msgpack:"enforcementStatus" bson:"-" mapstructure:"enforcementStatus,omitempty"`
 
 	// Images of the pu.
-	Images []string `json:"images" bson:"-" mapstructure:"images,omitempty"`
+	Images []string `json:"images" msgpack:"images" bson:"-" mapstructure:"images,omitempty"`
 
 	// Last poke time of the pu.
-	LastPokeTime time.Time `json:"lastPokeTime" bson:"-" mapstructure:"lastPokeTime,omitempty"`
+	LastPokeTime time.Time `json:"lastPokeTime" msgpack:"lastPokeTime" bson:"-" mapstructure:"lastPokeTime,omitempty"`
 
 	// Name of the pu.
-	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
 
 	// Namespace of the pu.
-	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Status of the pu.
-	Status string `json:"status" bson:"-" mapstructure:"status,omitempty"`
+	Status string `json:"status" msgpack:"status" bson:"-" mapstructure:"status,omitempty"`
 
 	// Tags of the pu.
-	Tags []string `json:"tags" bson:"-" mapstructure:"tags,omitempty"`
+	Tags []string `json:"tags" msgpack:"tags" bson:"-" mapstructure:"tags,omitempty"`
 
 	// Type of the pu.
-	Type string `json:"type" bson:"-" mapstructure:"type,omitempty"`
+	Type string `json:"type" msgpack:"type" bson:"-" mapstructure:"type,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	// If true, the pu is unreachable.
+	Unreachable bool `json:"unreachable" msgpack:"unreachable" bson:"-" mapstructure:"unreachable,omitempty"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewPUNode returns a new *PUNode
@@ -118,7 +118,6 @@ func NewPUNode() *PUNode {
 
 	return &PUNode{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Images:       []string{},
 		Tags:         []string{},
 	}
@@ -181,6 +180,7 @@ func (o *PUNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Status:            &o.Status,
 			Tags:              &o.Tags,
 			Type:              &o.Type,
+			Unreachable:       &o.Unreachable,
 		}
 	}
 
@@ -205,6 +205,8 @@ func (o *PUNode) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Tags = &(o.Tags)
 		case "type":
 			sp.Type = &(o.Type)
+		case "unreachable":
+			sp.Unreachable = &(o.Unreachable)
 		}
 	}
 
@@ -244,6 +246,9 @@ func (o *PUNode) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Type != nil {
 		o.Type = *so.Type
+	}
+	if so.Unreachable != nil {
+		o.Unreachable = *so.Unreachable
 	}
 }
 
@@ -329,6 +334,8 @@ func (o *PUNode) ValueForAttribute(name string) interface{} {
 		return o.Tags
 	case "type":
 		return o.Type
+	case "unreachable":
+		return o.Unreachable
 	}
 
 	return nil
@@ -415,6 +422,14 @@ var PUNodeAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "type",
 		Type:           "string",
 	},
+	"Unreachable": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Unreachable",
+		Description:    `If true, the pu is unreachable.`,
+		Exposed:        true,
+		Name:           "unreachable",
+		Type:           "boolean",
+	},
 }
 
 // PUNodeLowerCaseAttributesMap represents the map of attribute for PUNode.
@@ -498,6 +513,14 @@ var PUNodeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "type",
 		Type:           "string",
 	},
+	"unreachable": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Unreachable",
+		Description:    `If true, the pu is unreachable.`,
+		Exposed:        true,
+		Name:           "unreachable",
+		Type:           "boolean",
+	},
 }
 
 // SparsePUNodesList represents a list of SparsePUNodes
@@ -564,35 +587,36 @@ func (o SparsePUNodesList) Version() int {
 // SparsePUNode represents the sparse version of a punode.
 type SparsePUNode struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Enforcement status of the pu.
-	EnforcementStatus *string `json:"enforcementStatus,omitempty" bson:"-" mapstructure:"enforcementStatus,omitempty"`
+	EnforcementStatus *string `json:"enforcementStatus,omitempty" msgpack:"enforcementStatus,omitempty" bson:"-" mapstructure:"enforcementStatus,omitempty"`
 
 	// Images of the pu.
-	Images *[]string `json:"images,omitempty" bson:"-" mapstructure:"images,omitempty"`
+	Images *[]string `json:"images,omitempty" msgpack:"images,omitempty" bson:"-" mapstructure:"images,omitempty"`
 
 	// Last poke time of the pu.
-	LastPokeTime *time.Time `json:"lastPokeTime,omitempty" bson:"-" mapstructure:"lastPokeTime,omitempty"`
+	LastPokeTime *time.Time `json:"lastPokeTime,omitempty" msgpack:"lastPokeTime,omitempty" bson:"-" mapstructure:"lastPokeTime,omitempty"`
 
 	// Name of the pu.
-	Name *string `json:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
 	// Namespace of the pu.
-	Namespace *string `json:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Status of the pu.
-	Status *string `json:"status,omitempty" bson:"-" mapstructure:"status,omitempty"`
+	Status *string `json:"status,omitempty" msgpack:"status,omitempty" bson:"-" mapstructure:"status,omitempty"`
 
 	// Tags of the pu.
-	Tags *[]string `json:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
+	Tags *[]string `json:"tags,omitempty" msgpack:"tags,omitempty" bson:"-" mapstructure:"tags,omitempty"`
 
 	// Type of the pu.
-	Type *string `json:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
+	Type *string `json:"type,omitempty" msgpack:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
+	// If true, the pu is unreachable.
+	Unreachable *bool `json:"unreachable,omitempty" msgpack:"unreachable,omitempty" bson:"-" mapstructure:"unreachable,omitempty"`
 
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparsePUNode returns a new  SparsePUNode.
@@ -657,6 +681,9 @@ func (o *SparsePUNode) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Type != nil {
 		out.Type = *o.Type
+	}
+	if o.Unreachable != nil {
+		out.Unreachable = *o.Unreachable
 	}
 
 	return out

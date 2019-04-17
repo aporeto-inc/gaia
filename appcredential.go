@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -66,11 +65,11 @@ func (o AppCredentialsList) DefaultOrder() []string {
 
 // ToSparse returns the AppCredentialsList converted to SparseAppCredentialsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o AppCredentialsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o AppCredentialsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseAppCredentialsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseAppCredential)
 	}
 
 	return out
@@ -91,84 +90,82 @@ type AppCredential struct {
 	// - The O **MUST** be the namespace of the appcred
 	//
 	// If you send anything else, the signing request will be rejected.
-	CSR string `json:"CSR" bson:"-" mapstructure:"CSR,omitempty"`
+	CSR string `json:"CSR" msgpack:"CSR" bson:"-" mapstructure:"CSR,omitempty"`
 
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations map[string][]string `json:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
+	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags []string `json:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
 	// If set, the it will only be valid if the request comes from one
 	// the declared subnets.
-	AuthorizedSubnets []string `json:"authorizedSubnets" bson:"authorizedsubnets" mapstructure:"authorizedSubnets,omitempty"`
+	AuthorizedSubnets []string `json:"authorizedSubnets" msgpack:"authorizedSubnets" bson:"authorizedsubnets" mapstructure:"authorizedSubnets,omitempty"`
 
 	// The string representation of the Certificate used by the application.
-	Certificate string `json:"certificate" bson:"certificate" mapstructure:"certificate,omitempty"`
+	Certificate string `json:"certificate" msgpack:"certificate" bson:"certificate" mapstructure:"certificate,omitempty"`
 
 	// Link to the certificate created for this application.
-	CertificateSN string `json:"-" bson:"certificatesn" mapstructure:"-,omitempty"`
+	CertificateSN string `json:"-" msgpack:"-" bson:"certificatesn" mapstructure:"-,omitempty"`
 
 	// internal idempotency key for a create operation.
-	CreateIdempotencyKey string `json:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
+	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// The credential data.
-	Credentials *Credential `json:"credentials" bson:"-" mapstructure:"credentials,omitempty"`
+	Credentials *Credential `json:"credentials" msgpack:"credentials" bson:"-" mapstructure:"credentials,omitempty"`
 
 	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Disabled defines if the propert is disabled.
-	Disabled bool `json:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
+	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
 	// The email address that will receive a copy of the application credentials.
-	Email string `json:"email" bson:"email" mapstructure:"email,omitempty"`
+	Email string `json:"email" msgpack:"email" bson:"email" mapstructure:"email,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata []string `json:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
+	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags []string `json:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
 	// Contains the ID of the parent Appcred if this is a derived appcred.
-	ParentIDs []string `json:"parentIDs" bson:"parentids" mapstructure:"parentIDs,omitempty"`
+	ParentIDs []string `json:"parentIDs" msgpack:"parentIDs" bson:"parentids" mapstructure:"parentIDs,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected bool `json:"protected" bson:"protected" mapstructure:"protected,omitempty"`
+	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
 	// List of roles to give the credentials.
-	Roles []string `json:"roles" bson:"roles" mapstructure:"roles,omitempty"`
+	Roles []string `json:"roles" msgpack:"roles" bson:"roles" mapstructure:"roles,omitempty"`
 
 	// internal idempotency key for a update operation.
-	UpdateIdempotencyKey string `json:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
+	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone int `json:"-" msgpack:"-" bson:"zone" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewAppCredential returns a new *AppCredential
@@ -176,7 +173,6 @@ func NewAppCredential() *AppCredential {
 
 	return &AppCredential{
 		ModelVersion:      1,
-		Mutex:             &sync.Mutex{},
 		AssociatedTags:    []string{},
 		Annotations:       map[string][]string{},
 		AuthorizedSubnets: []string{},
@@ -614,31 +610,31 @@ func (o *AppCredential) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateOptionalNetworkList("authorizedSubnets", o.AuthorizedSubnets); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredExternal("roles", o.Roles); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -1419,84 +1415,82 @@ type SparseAppCredential struct {
 	// - The O **MUST** be the namespace of the appcred
 	//
 	// If you send anything else, the signing request will be rejected.
-	CSR *string `json:"CSR,omitempty" bson:"-" mapstructure:"CSR,omitempty"`
+	CSR *string `json:"CSR,omitempty" msgpack:"CSR,omitempty" bson:"-" mapstructure:"CSR,omitempty"`
 
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
-	Annotations *map[string][]string `json:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
-	AssociatedTags *[]string `json:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
+	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
 	// If set, the it will only be valid if the request comes from one
 	// the declared subnets.
-	AuthorizedSubnets *[]string `json:"authorizedSubnets,omitempty" bson:"authorizedsubnets,omitempty" mapstructure:"authorizedSubnets,omitempty"`
+	AuthorizedSubnets *[]string `json:"authorizedSubnets,omitempty" msgpack:"authorizedSubnets,omitempty" bson:"authorizedsubnets,omitempty" mapstructure:"authorizedSubnets,omitempty"`
 
 	// The string representation of the Certificate used by the application.
-	Certificate *string `json:"certificate,omitempty" bson:"certificate,omitempty" mapstructure:"certificate,omitempty"`
+	Certificate *string `json:"certificate,omitempty" msgpack:"certificate,omitempty" bson:"certificate,omitempty" mapstructure:"certificate,omitempty"`
 
 	// Link to the certificate created for this application.
-	CertificateSN *string `json:"-" bson:"certificatesn,omitempty" mapstructure:"-,omitempty"`
+	CertificateSN *string `json:"-" msgpack:"-" bson:"certificatesn,omitempty" mapstructure:"-,omitempty"`
 
 	// internal idempotency key for a create operation.
-	CreateIdempotencyKey *string `json:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
+	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// The credential data.
-	Credentials **Credential `json:"credentials,omitempty" bson:"-" mapstructure:"credentials,omitempty"`
+	Credentials **Credential `json:"credentials,omitempty" msgpack:"credentials,omitempty" bson:"-" mapstructure:"credentials,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Disabled defines if the propert is disabled.
-	Disabled *bool `json:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
+	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
 	// The email address that will receive a copy of the application credentials.
-	Email *string `json:"email,omitempty" bson:"email,omitempty" mapstructure:"email,omitempty"`
+	Email *string `json:"email,omitempty" msgpack:"email,omitempty" bson:"email,omitempty" mapstructure:"email,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
-	Metadata *[]string `json:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
+	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// NormalizedTags contains the list of normalized tags of the entities.
-	NormalizedTags *[]string `json:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
+	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
 	// Contains the ID of the parent Appcred if this is a derived appcred.
-	ParentIDs *[]string `json:"parentIDs,omitempty" bson:"parentids,omitempty" mapstructure:"parentIDs,omitempty"`
+	ParentIDs *[]string `json:"parentIDs,omitempty" msgpack:"parentIDs,omitempty" bson:"parentids,omitempty" mapstructure:"parentIDs,omitempty"`
 
 	// Protected defines if the object is protected.
-	Protected *bool `json:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
 	// List of roles to give the credentials.
-	Roles *[]string `json:"roles,omitempty" bson:"roles,omitempty" mapstructure:"roles,omitempty"`
+	Roles *[]string `json:"roles,omitempty" msgpack:"roles,omitempty" bson:"roles,omitempty" mapstructure:"roles,omitempty"`
 
 	// internal idempotency key for a update operation.
-	UpdateIdempotencyKey *string `json:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
+	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" msgpack:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseAppCredential returns a new  SparseAppCredential.

@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -63,11 +62,11 @@ func (o EnforcerReportsList) DefaultOrder() []string {
 
 // ToSparse returns the EnforcerReportsList converted to SparseEnforcerReportsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o EnforcerReportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o EnforcerReportsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseEnforcerReportsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseEnforcerReport)
 	}
 
 	return out
@@ -82,29 +81,27 @@ func (o EnforcerReportsList) Version() int {
 // EnforcerReport represents the model of a enforcerreport
 type EnforcerReport struct {
 	// Total CPU utilization of the enforcer as a percentage of vCPUs.
-	CPULoad float64 `json:"CPULoad" bson:"-" mapstructure:"CPULoad,omitempty"`
+	CPULoad float64 `json:"CPULoad" msgpack:"CPULoad" bson:"-" mapstructure:"CPULoad,omitempty"`
 
 	// ID of the enforcer to report.
-	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Total resident memory used by the enforcer in bytes.
-	Memory int `json:"memory" bson:"-" mapstructure:"memory,omitempty"`
+	Memory int `json:"memory" msgpack:"memory" bson:"-" mapstructure:"memory,omitempty"`
 
 	// Name of the enforcer to report.
-	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
 
 	// Namespace of the enforcer to report.
-	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Number of active processes of the enforcer.
-	Processes int `json:"processes" bson:"-" mapstructure:"processes,omitempty"`
+	Processes int `json:"processes" msgpack:"processes" bson:"-" mapstructure:"processes,omitempty"`
 
 	// Date of the report.
-	Timestamp time.Time `json:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
+	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewEnforcerReport returns a new *EnforcerReport
@@ -112,7 +109,6 @@ func NewEnforcerReport() *EnforcerReport {
 
 	return &EnforcerReport{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -257,19 +253,19 @@ func (o *EnforcerReport) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("ID", o.ID); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("namespace", o.Namespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredTime("timestamp", o.Timestamp); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -517,29 +513,27 @@ func (o SparseEnforcerReportsList) Version() int {
 // SparseEnforcerReport represents the sparse version of a enforcerreport.
 type SparseEnforcerReport struct {
 	// Total CPU utilization of the enforcer as a percentage of vCPUs.
-	CPULoad *float64 `json:"CPULoad,omitempty" bson:"-" mapstructure:"CPULoad,omitempty"`
+	CPULoad *float64 `json:"CPULoad,omitempty" msgpack:"CPULoad,omitempty" bson:"-" mapstructure:"CPULoad,omitempty"`
 
 	// ID of the enforcer to report.
-	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Total resident memory used by the enforcer in bytes.
-	Memory *int `json:"memory,omitempty" bson:"-" mapstructure:"memory,omitempty"`
+	Memory *int `json:"memory,omitempty" msgpack:"memory,omitempty" bson:"-" mapstructure:"memory,omitempty"`
 
 	// Name of the enforcer to report.
-	Name *string `json:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"-" mapstructure:"name,omitempty"`
 
 	// Namespace of the enforcer to report.
-	Namespace *string `json:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"-" mapstructure:"namespace,omitempty"`
 
 	// Number of active processes of the enforcer.
-	Processes *int `json:"processes,omitempty" bson:"-" mapstructure:"processes,omitempty"`
+	Processes *int `json:"processes,omitempty" msgpack:"processes,omitempty" bson:"-" mapstructure:"processes,omitempty"`
 
 	// Date of the report.
-	Timestamp *time.Time `json:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
+	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseEnforcerReport returns a new  SparseEnforcerReport.

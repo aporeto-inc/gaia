@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -63,11 +62,11 @@ func (o OIDCProvidersList) DefaultOrder() []string {
 
 // ToSparse returns the OIDCProvidersList converted to SparseOIDCProvidersList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o OIDCProvidersList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o OIDCProvidersList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseOIDCProvidersList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseOIDCProvider)
 	}
 
 	return out
@@ -82,43 +81,41 @@ func (o OIDCProvidersList) Version() int {
 // OIDCProvider represents the model of a oidcprovider
 type OIDCProvider struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Unique client ID.
-	ClientID string `json:"clientID" bson:"clientid" mapstructure:"clientID,omitempty"`
+	ClientID string `json:"clientID" msgpack:"clientID" bson:"clientid" mapstructure:"clientID,omitempty"`
 
 	// Client secret associated with the client ID.
-	ClientSecret string `json:"clientSecret" bson:"clientsecret" mapstructure:"clientSecret,omitempty"`
+	ClientSecret string `json:"clientSecret" msgpack:"clientSecret" bson:"clientsecret" mapstructure:"clientSecret,omitempty"`
 
 	// Creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// If set, this will be the default OIDCProvider. There can be only one default
 	// provider in your account. When logging in with OIDC, if not provider name is
 	// given, the default will be used.
-	Default bool `json:"default" bson:"default" mapstructure:"default,omitempty"`
+	Default bool `json:"default" msgpack:"default" bson:"default" mapstructure:"default,omitempty"`
 
 	// OIDC information endpoint.
-	Endpoint string `json:"endpoint" bson:"endpoint" mapstructure:"endpoint,omitempty"`
+	Endpoint string `json:"endpoint" msgpack:"endpoint" bson:"endpoint" mapstructure:"endpoint,omitempty"`
 
 	// Name of the provider.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// ParentID contains the parent Vince account ID.
-	ParentID string `json:"parentID" bson:"parentid" mapstructure:"parentID,omitempty"`
+	ParentID string `json:"parentID" msgpack:"parentID" bson:"parentid" mapstructure:"parentID,omitempty"`
 
 	// ParentName contains the name of the Vince parent Account.
-	ParentName string `json:"parentName" bson:"parentname" mapstructure:"parentName,omitempty"`
+	ParentName string `json:"parentName" msgpack:"parentName" bson:"parentname" mapstructure:"parentName,omitempty"`
 
 	// List of scopes to allow.
-	Scopes []string `json:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
+	Scopes []string `json:"scopes" msgpack:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewOIDCProvider returns a new *OIDCProvider
@@ -126,7 +123,6 @@ func NewOIDCProvider() *OIDCProvider {
 
 	return &OIDCProvider{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Scopes:       []string{},
 	}
 }
@@ -322,19 +318,19 @@ func (o *OIDCProvider) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("clientID", o.ClientID); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("clientSecret", o.ClientSecret); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("endpoint", o.Endpoint); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -726,43 +722,41 @@ func (o SparseOIDCProvidersList) Version() int {
 // SparseOIDCProvider represents the sparse version of a oidcprovider.
 type SparseOIDCProvider struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Unique client ID.
-	ClientID *string `json:"clientID,omitempty" bson:"clientid,omitempty" mapstructure:"clientID,omitempty"`
+	ClientID *string `json:"clientID,omitempty" msgpack:"clientID,omitempty" bson:"clientid,omitempty" mapstructure:"clientID,omitempty"`
 
 	// Client secret associated with the client ID.
-	ClientSecret *string `json:"clientSecret,omitempty" bson:"clientsecret,omitempty" mapstructure:"clientSecret,omitempty"`
+	ClientSecret *string `json:"clientSecret,omitempty" msgpack:"clientSecret,omitempty" bson:"clientsecret,omitempty" mapstructure:"clientSecret,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// If set, this will be the default OIDCProvider. There can be only one default
 	// provider in your account. When logging in with OIDC, if not provider name is
 	// given, the default will be used.
-	Default *bool `json:"default,omitempty" bson:"default,omitempty" mapstructure:"default,omitempty"`
+	Default *bool `json:"default,omitempty" msgpack:"default,omitempty" bson:"default,omitempty" mapstructure:"default,omitempty"`
 
 	// OIDC information endpoint.
-	Endpoint *string `json:"endpoint,omitempty" bson:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
+	Endpoint *string `json:"endpoint,omitempty" msgpack:"endpoint,omitempty" bson:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
 	// Name of the provider.
-	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// ParentID contains the parent Vince account ID.
-	ParentID *string `json:"parentID,omitempty" bson:"parentid,omitempty" mapstructure:"parentID,omitempty"`
+	ParentID *string `json:"parentID,omitempty" msgpack:"parentID,omitempty" bson:"parentid,omitempty" mapstructure:"parentID,omitempty"`
 
 	// ParentName contains the name of the Vince parent Account.
-	ParentName *string `json:"parentName,omitempty" bson:"parentname,omitempty" mapstructure:"parentName,omitempty"`
+	ParentName *string `json:"parentName,omitempty" msgpack:"parentName,omitempty" bson:"parentname,omitempty" mapstructure:"parentName,omitempty"`
 
 	// List of scopes to allow.
-	Scopes *[]string `json:"scopes,omitempty" bson:"scopes,omitempty" mapstructure:"scopes,omitempty"`
+	Scopes *[]string `json:"scopes,omitempty" msgpack:"scopes,omitempty" bson:"scopes,omitempty" mapstructure:"scopes,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseOIDCProvider returns a new  SparseOIDCProvider.

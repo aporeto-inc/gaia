@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -64,11 +63,11 @@ func (o AppsList) DefaultOrder() []string {
 
 // ToSparse returns the AppsList converted to SparseAppsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o AppsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o AppsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseAppsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseApp)
 	}
 
 	return out
@@ -83,43 +82,41 @@ func (o AppsList) Version() int {
 // App represents the model of a app
 type App struct {
 	// Beta indicates if the app is in a beta version.
-	Beta bool `json:"beta" bson:"-" mapstructure:"beta,omitempty"`
+	Beta bool `json:"beta" msgpack:"beta" bson:"-" mapstructure:"beta,omitempty"`
 
 	// CategoryID of the app.
-	CategoryID string `json:"categoryID" bson:"-" mapstructure:"categoryID,omitempty"`
+	CategoryID string `json:"categoryID" msgpack:"categoryID" bson:"-" mapstructure:"categoryID,omitempty"`
 
 	// Description is the description of the object.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Icon contains a base64 image for the app.
-	Icon string `json:"icon" bson:"-" mapstructure:"icon,omitempty"`
+	Icon string `json:"icon" msgpack:"icon" bson:"-" mapstructure:"icon,omitempty"`
 
 	// LatestVersion represents the latest version available of the app.
-	LatestVersion string `json:"latestVersion" bson:"-" mapstructure:"latestVersion,omitempty"`
+	LatestVersion string `json:"latestVersion" msgpack:"latestVersion" bson:"-" mapstructure:"latestVersion,omitempty"`
 
 	// LongDescription contains a more detailed description of the app.
-	LongDescription string `json:"longDescription" bson:"-" mapstructure:"longDescription,omitempty"`
+	LongDescription string `json:"longDescription" msgpack:"longDescription" bson:"-" mapstructure:"longDescription,omitempty"`
 
 	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Parameters is a list of parameters available for the app.
-	Parameters []*AppParameter `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
+	Parameters []*AppParameter `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// Title represents the title of the app.
-	Title string `json:"title" bson:"-" mapstructure:"title,omitempty"`
+	Title string `json:"title" msgpack:"title" bson:"-" mapstructure:"title,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone int `json:"-" msgpack:"-" bson:"zone" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewApp returns a new *App
@@ -127,7 +124,6 @@ func NewApp() *App {
 
 	return &App{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Parameters:   []*AppParameter{},
 	}
 }
@@ -347,20 +343,20 @@ func (o *App) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	for _, sub := range o.Parameters {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
@@ -731,43 +727,41 @@ func (o SparseAppsList) Version() int {
 // SparseApp represents the sparse version of a app.
 type SparseApp struct {
 	// Beta indicates if the app is in a beta version.
-	Beta *bool `json:"beta,omitempty" bson:"-" mapstructure:"beta,omitempty"`
+	Beta *bool `json:"beta,omitempty" msgpack:"beta,omitempty" bson:"-" mapstructure:"beta,omitempty"`
 
 	// CategoryID of the app.
-	CategoryID *string `json:"categoryID,omitempty" bson:"-" mapstructure:"categoryID,omitempty"`
+	CategoryID *string `json:"categoryID,omitempty" msgpack:"categoryID,omitempty" bson:"-" mapstructure:"categoryID,omitempty"`
 
 	// Description is the description of the object.
-	Description *string `json:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
+	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
 	// Icon contains a base64 image for the app.
-	Icon *string `json:"icon,omitempty" bson:"-" mapstructure:"icon,omitempty"`
+	Icon *string `json:"icon,omitempty" msgpack:"icon,omitempty" bson:"-" mapstructure:"icon,omitempty"`
 
 	// LatestVersion represents the latest version available of the app.
-	LatestVersion *string `json:"latestVersion,omitempty" bson:"-" mapstructure:"latestVersion,omitempty"`
+	LatestVersion *string `json:"latestVersion,omitempty" msgpack:"latestVersion,omitempty" bson:"-" mapstructure:"latestVersion,omitempty"`
 
 	// LongDescription contains a more detailed description of the app.
-	LongDescription *string `json:"longDescription,omitempty" bson:"-" mapstructure:"longDescription,omitempty"`
+	LongDescription *string `json:"longDescription,omitempty" msgpack:"longDescription,omitempty" bson:"-" mapstructure:"longDescription,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Parameters is a list of parameters available for the app.
-	Parameters *[]*AppParameter `json:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
+	Parameters *[]*AppParameter `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
 
 	// Title represents the title of the app.
-	Title *string `json:"title,omitempty" bson:"-" mapstructure:"title,omitempty"`
+	Title *string `json:"title,omitempty" msgpack:"title,omitempty" bson:"-" mapstructure:"title,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" msgpack:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseApp returns a new  SparseApp.
