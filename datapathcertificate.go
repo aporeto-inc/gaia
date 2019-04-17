@@ -100,6 +100,9 @@ type DataPathCertificate struct {
 	// ID of the object you want to issue a certificate for.
 	ObjectID string `json:"objectID" msgpack:"objectID" bson:"-" mapstructure:"objectID,omitempty"`
 
+	// Provides the session ID of the enforcer when retrieving a datapath certificate.
+	SessionID string `json:"sessionID" msgpack:"sessionID" bson:"-" mapstructure:"sessionID,omitempty"`
+
 	// Contains a the CA that signed the delivered certificates.
 	Signer string `json:"signer" msgpack:"signer" bson:"-" mapstructure:"signer,omitempty"`
 
@@ -171,6 +174,7 @@ func (o *DataPathCertificate) ToSparse(fields ...string) elemental.SparseIdentif
 			CSR:         &o.CSR,
 			Certificate: &o.Certificate,
 			ObjectID:    &o.ObjectID,
+			SessionID:   &o.SessionID,
 			Signer:      &o.Signer,
 			Token:       &o.Token,
 			Type:        &o.Type,
@@ -186,6 +190,8 @@ func (o *DataPathCertificate) ToSparse(fields ...string) elemental.SparseIdentif
 			sp.Certificate = &(o.Certificate)
 		case "objectID":
 			sp.ObjectID = &(o.ObjectID)
+		case "sessionID":
+			sp.SessionID = &(o.SessionID)
 		case "signer":
 			sp.Signer = &(o.Signer)
 		case "token":
@@ -213,6 +219,9 @@ func (o *DataPathCertificate) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ObjectID != nil {
 		o.ObjectID = *so.ObjectID
+	}
+	if so.SessionID != nil {
+		o.SessionID = *so.SessionID
 	}
 	if so.Signer != nil {
 		o.Signer = *so.Signer
@@ -307,6 +316,8 @@ func (o *DataPathCertificate) ValueForAttribute(name string) interface{} {
 		return o.Certificate
 	case "objectID":
 		return o.ObjectID
+	case "sessionID":
+		return o.SessionID
 	case "signer":
 		return o.Signer
 	case "token":
@@ -347,6 +358,14 @@ Certificate there will be various requirement for the CSR to be accepted.`,
 		Exposed:        true,
 		Name:           "objectID",
 		Required:       true,
+		Type:           "string",
+	},
+	"SessionID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SessionID",
+		Description:    `Provides the session ID of the enforcer when retrieving a datapath certificate.`,
+		Exposed:        true,
+		Name:           "sessionID",
 		Type:           "string",
 	},
 	"Signer": elemental.AttributeSpecification{
@@ -408,6 +427,14 @@ Certificate there will be various requirement for the CSR to be accepted.`,
 		Exposed:        true,
 		Name:           "objectID",
 		Required:       true,
+		Type:           "string",
+	},
+	"sessionid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SessionID",
+		Description:    `Provides the session ID of the enforcer when retrieving a datapath certificate.`,
+		Exposed:        true,
+		Name:           "sessionID",
 		Type:           "string",
 	},
 	"signer": elemental.AttributeSpecification{
@@ -513,6 +540,9 @@ type SparseDataPathCertificate struct {
 	// ID of the object you want to issue a certificate for.
 	ObjectID *string `json:"objectID,omitempty" msgpack:"objectID,omitempty" bson:"-" mapstructure:"objectID,omitempty"`
 
+	// Provides the session ID of the enforcer when retrieving a datapath certificate.
+	SessionID *string `json:"sessionID,omitempty" msgpack:"sessionID,omitempty" bson:"-" mapstructure:"sessionID,omitempty"`
+
 	// Contains a the CA that signed the delivered certificates.
 	Signer *string `json:"signer,omitempty" msgpack:"signer,omitempty" bson:"-" mapstructure:"signer,omitempty"`
 
@@ -565,6 +595,9 @@ func (o *SparseDataPathCertificate) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ObjectID != nil {
 		out.ObjectID = *o.ObjectID
+	}
+	if o.SessionID != nil {
+		out.SessionID = *o.SessionID
 	}
 	if o.Signer != nil {
 		out.Signer = *o.Signer

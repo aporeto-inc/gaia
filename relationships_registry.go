@@ -2424,6 +2424,14 @@ func init() {
 						Type: "integer",
 					},
 					elemental.ParameterDefinition{
+						Name: "sessionClose",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "sessionID",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
 						Name: "status",
 						Type: "enum",
 						AllowedChoices: []string{
@@ -2505,6 +2513,14 @@ func init() {
 					elemental.ParameterDefinition{
 						Name: "processes",
 						Type: "integer",
+					},
+					elemental.ParameterDefinition{
+						Name: "sessionClose",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
+						Name: "sessionID",
+						Type: "string",
 					},
 					elemental.ParameterDefinition{
 						Name: "status",

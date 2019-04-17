@@ -52,6 +52,13 @@ attributes:
     required: true
     example_value: 5c83035648675400019ab901
 
+  - name: sessionID
+    description: Provides the session ID of the enforcer when retrieving a datapath
+      certificate.
+    type: string
+    exposed: true
+    example_value: 5c83035648675400019ab901
+
   - name: signer
     description: Contains a the CA that signed the delivered certificates.
     type: string
