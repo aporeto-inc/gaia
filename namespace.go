@@ -567,7 +567,7 @@ func (o *Namespace) Validate() error {
 		errors = append(errors, err)
 	}
 
-	if err := ValidateTagsWithoutReservedPrefixes("networkAccessPolicyTags", o.NetworkAccessPolicyTags); err != nil {
+	if err := ValidateTags("networkAccessPolicyTags", o.NetworkAccessPolicyTags); err != nil {
 		errors = append(errors, err)
 	}
 
