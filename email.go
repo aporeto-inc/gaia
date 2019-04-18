@@ -102,10 +102,6 @@ type Email struct {
 	// Content of the email to send.
 	Content string `json:"content" msgpack:"content" bson:"-" mapstructure:"content,omitempty"`
 
-	// From represents the sender of the email. If not set, the default sender will be
-	// used.
-	From string `json:"from" msgpack:"from" bson:"-" mapstructure:"from,omitempty"`
-
 	// Subject represents the subject of the email.
 	Subject string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
@@ -182,7 +178,6 @@ func (o *Email) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Bcc:         &o.Bcc,
 			Cc:          &o.Cc,
 			Content:     &o.Content,
-			From:        &o.From,
 			Subject:     &o.Subject,
 			To:          &o.To,
 			Type:        &o.Type,
@@ -200,8 +195,6 @@ func (o *Email) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Cc = &(o.Cc)
 		case "content":
 			sp.Content = &(o.Content)
-		case "from":
-			sp.From = &(o.From)
 		case "subject":
 			sp.Subject = &(o.Subject)
 		case "to":
@@ -232,9 +225,6 @@ func (o *Email) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Content != nil {
 		o.Content = *so.Content
-	}
-	if so.From != nil {
-		o.From = *so.From
 	}
 	if so.Subject != nil {
 		o.Subject = *so.Subject
@@ -323,8 +313,6 @@ func (o *Email) ValueForAttribute(name string) interface{} {
 		return o.Cc
 	case "content":
 		return o.Content
-	case "from":
-		return o.From
 	case "subject":
 		return o.Subject
 	case "to":
@@ -372,15 +360,6 @@ var EmailAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "content",
 		Type:           "string",
-	},
-	"From": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "From",
-		Description: `From represents the sender of the email. If not set, the default sender will be
-used.`,
-		Exposed: true,
-		Name:    "from",
-		Type:    "string",
 	},
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -446,15 +425,6 @@ var EmailLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "content",
 		Type:           "string",
-	},
-	"from": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "From",
-		Description: `From represents the sender of the email. If not set, the default sender will be
-used.`,
-		Exposed: true,
-		Name:    "from",
-		Type:    "string",
 	},
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -559,10 +529,6 @@ type SparseEmail struct {
 	// Content of the email to send.
 	Content *string `json:"content,omitempty" msgpack:"content,omitempty" bson:"-" mapstructure:"content,omitempty"`
 
-	// From represents the sender of the email. If not set, the default sender will be
-	// used.
-	From *string `json:"from,omitempty" msgpack:"from,omitempty" bson:"-" mapstructure:"from,omitempty"`
-
 	// Subject represents the subject of the email.
 	Subject *string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
@@ -618,9 +584,6 @@ func (o *SparseEmail) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Content != nil {
 		out.Content = *o.Content
-	}
-	if o.From != nil {
-		out.From = *o.From
 	}
 	if o.Subject != nil {
 		out.Subject = *o.Subject

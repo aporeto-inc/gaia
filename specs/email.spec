@@ -34,14 +34,6 @@ attributes:
     type: string
     exposed: true
 
-  - name: from
-    description: |-
-      From represents the sender of the email. If not set, the default sender will be
-      used.
-    type: string
-    exposed: true
-    example_value: sender@server.com
-
   - name: subject
     description: Subject represents the subject of the email.
     type: string
