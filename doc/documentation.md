@@ -604,7 +604,7 @@ AssociatedPlanKey contains the plan key that is associated to this account.
 Default value:
 
 ```json
-"aporeto.plan.free"
+"aporeto.plan.enterprise"
 ```
 
 ##### `company` `string`
