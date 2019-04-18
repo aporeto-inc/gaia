@@ -362,7 +362,7 @@ Parameters:
 - `forceFullPoke` (`boolean`): If set, it will trigger a full poke (slower).
 - `memory` (`integer`): Deprecated.
 - `processes` (`integer`): Deprecated.
-- `sessionClose` (`string`): If set, terminates a session for an enforcer.
+- `sessionClose` (`boolean`): If set, terminates a session for an enforcer.
 - `sessionID` (`string`): If set, sends the current session ID of an enforcer.
 - `status` (`enum`): If set, changes the status of the enforcer alongside with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.
@@ -1297,7 +1297,7 @@ Parameters:
 - `forceFullPoke` (`boolean`): If set, it will trigger a full poke (slower).
 - `memory` (`integer`): Deprecated.
 - `processes` (`integer`): Deprecated.
-- `sessionClose` (`string`): If set, terminates a session for an enforcer.
+- `sessionClose` (`boolean`): If set, terminates a session for an enforcer.
 - `sessionID` (`string`): If set, sends the current session ID of an enforcer.
 - `status` (`enum`): If set, changes the status of the enforcer alongside with the poke.
 - `ts` (`time`): time of report. If not set, local server time will be used.

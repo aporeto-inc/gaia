@@ -2425,7 +2425,7 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name: "sessionClose",
-						Type: "string",
+						Type: "boolean",
 					},
 					elemental.ParameterDefinition{
 						Name: "sessionID",
@@ -2516,7 +2516,7 @@ func init() {
 					},
 					elemental.ParameterDefinition{
 						Name: "sessionClose",
-						Type: "string",
+						Type: "boolean",
 					},
 					elemental.ParameterDefinition{
 						Name: "sessionID",

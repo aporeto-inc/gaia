@@ -280,8 +280,7 @@ relations:
 
       - name: sessionClose
         description: If set, terminates a session for an enforcer.
-        type: string
-        example_value: "1233"
+        type: boolean
 
       - name: sessionID
         description: If set, sends the current session ID of an enforcer.
