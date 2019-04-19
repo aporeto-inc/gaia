@@ -2179,7 +2179,7 @@ func init() {
 						Type: "string",
 					},
 					elemental.ParameterDefinition{
-						Name: "accountID",
+						Name: "namespace",
 						Type: "string",
 					},
 					elemental.ParameterDefinition{
@@ -2198,7 +2198,7 @@ func init() {
 						Type: "string",
 					},
 					elemental.ParameterDefinition{
-						Name: "accountID",
+						Name: "namespace",
 						Type: "string",
 					},
 					elemental.ParameterDefinition{

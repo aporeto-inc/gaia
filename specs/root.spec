@@ -450,10 +450,10 @@ relations:
         type: string
         example_value: okta
 
-      - name: accountID
-        description: Aporeto Account ID.
+      - name: namespace
+        description: Namespace of the oidc provider.
         type: string
-        example_value: aporeto
+        example_value: /aporeto
   create:
     description: Creates a new OIDC provider.
 
