@@ -19,18 +19,6 @@ $flowoffset:
     type: duration
     example_value: -3s
 
-$offset:
-  entries:
-  - name: limit
-    description: Maximum number of results.
-    type: integer
-    example_value: 100
-
-  - name: offset
-    description: Maximum number of results.
-    type: integer
-    example_value: 100
-
 $propagatable:
   entries:
   - name: propagated

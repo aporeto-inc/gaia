@@ -251,7 +251,7 @@ relations:
     parameters:
       entries:
       - name: cpuload
-        description: If set, provides the total cpu usage in percentage of vCPUs.
+        description: Deprecated.
         type: float
         example_value: 1000
 
@@ -269,14 +269,23 @@ relations:
         type: boolean
 
       - name: memory
-        description: If set, provides the total resident memory used in bytes.
+        description: Deprecated.
         type: integer
         example_value: 1000
 
       - name: processes
-        description: If set, defines the number of current processes.
+        description: Deprecated.
         type: integer
         example_value: 10
+
+      - name: sessionClose
+        description: If set, terminates a session for an enforcer.
+        type: boolean
+
+      - name: sessionID
+        description: If set, sends the current session ID of an enforcer.
+        type: string
+        example_value: "1233"
 
       - name: status
         description: If set, changes the status of the enforcer alongside with the
