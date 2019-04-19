@@ -3,3 +3,4 @@ vendor
 *.lock
 *.cov
 artifacts
+values_codecgen.go
