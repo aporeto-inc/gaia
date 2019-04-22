@@ -537,7 +537,7 @@ var (
 		"namespacemappingpolicy": nil,
 		"networkaccesspolicy":    nil,
 		"oidcprovider": [][]string{
-			[]string{":unique", "parentID", "name"},
+			[]string{":unique", "namespace", "name"},
 			[]string{"updateIdempotencyKey"},
 			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},

@@ -24,7 +24,7 @@ model:
 # Indexes
 indexes:
 - - :unique
-  - parentID
+  - namespace
   - name
 
 # Attributes
