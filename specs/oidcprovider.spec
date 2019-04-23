@@ -3,7 +3,7 @@ model:
   rest_name: oidcprovider
   resource_name: oidcproviders
   entity_name: OIDCProvider
-  package: cactuar
+  package: vince
   group: core/authentication
   description: |-
     Allows to declare a generic OpenID Connect provider that can be used in exchange
@@ -19,13 +19,6 @@ model:
   extends:
   - '@identifiable-stored'
   - '@timeable'
-  - '@base'
-
-# Indexes
-indexes:
-- - :unique
-  - namespace
-  - name
 
 # Attributes
 attributes:
