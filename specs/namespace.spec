@@ -110,6 +110,8 @@ attributes:
     exposed: true
     subtype: string
     stored: true
+    read_only: true
+    deprecated: true
     validations:
     - $tags
 
