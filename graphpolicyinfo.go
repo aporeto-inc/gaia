@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -11,14 +10,12 @@ import (
 // GraphPolicyInfo represents the model of a graphpolicyinfo
 type GraphPolicyInfo struct {
 	// Number of time the policy has been hit.
-	Count int `json:"count" bson:"-" mapstructure:"count,omitempty"`
+	Count int `json:"count" msgpack:"count" bson:"-" mapstructure:"count,omitempty"`
 
 	// Namespace of the policy.
-	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewGraphPolicyInfo returns a new *GraphPolicyInfo
@@ -26,7 +23,6 @@ func NewGraphPolicyInfo() *GraphPolicyInfo {
 
 	return &GraphPolicyInfo{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 

@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o TagsList) DefaultOrder() []string {
 
 // ToSparse returns the TagsList converted to SparseTagsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o TagsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o TagsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseTagsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseTag)
 	}
 
 	return out
@@ -81,20 +80,18 @@ func (o TagsList) Version() int {
 // Tag represents the model of a tag
 type Tag struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Count represents the number of time the tag is used.
-	Count int `json:"count" bson:"count" mapstructure:"count,omitempty"`
+	Count int `json:"count" msgpack:"count" bson:"count" mapstructure:"count,omitempty"`
 
 	// Namespace represents the namespace of the counted tag.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// Value represents the value of the tag.
-	Value string `json:"value" bson:"value" mapstructure:"value,omitempty"`
+	Value string `json:"value" msgpack:"value" bson:"value" mapstructure:"value,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewTag returns a new *Tag
@@ -102,7 +99,6 @@ func NewTag() *Tag {
 
 	return &Tag{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -235,15 +231,15 @@ func (o *Tag) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("value", o.Value); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidatePattern("value", o.Value, `^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@~<>#/-]+$`, `must contain at least one '=' symbol separating two valid words.`, true); err != nil {
-		errors = append(errors, err)
+	if err := elemental.ValidatePattern("value", o.Value, `^[\w\d\*\$\+\.:,|@<>/-]+=[= \/\"\!\?\{\}\(\)\w\d\*\$\+\.:;,|@%&~<>#/-]+$`, `must contain at least one '=' symbol separating two valid words.`, true); err != nil {
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTag("value", o.Value); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -333,7 +329,7 @@ var TagAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"Value": elemental.AttributeSpecification{
-		AllowedChars:   `^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@~<>#/-]+$`,
+		AllowedChars:   `^[\w\d\*\$\+\.:,|@<>/-]+=[= \/\"\!\?\{\}\(\)\w\d\*\$\+\.:;,|@%&~<>#/-]+$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Value",
 		CreationOnly:   true,
@@ -387,7 +383,7 @@ var TagLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Type:           "string",
 	},
 	"value": elemental.AttributeSpecification{
-		AllowedChars:   `^[\w\d\*\$\+\.:,|@<>/-]+=[= \w\d\*\$\+\.:,|@~<>#/-]+$`,
+		AllowedChars:   `^[\w\d\*\$\+\.:,|@<>/-]+=[= \/\"\!\?\{\}\(\)\w\d\*\$\+\.:;,|@%&~<>#/-]+$`,
 		AllowedChoices: []string{},
 		ConvertedName:  "Value",
 		CreationOnly:   true,
@@ -465,20 +461,18 @@ func (o SparseTagsList) Version() int {
 // SparseTag represents the sparse version of a tag.
 type SparseTag struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Count represents the number of time the tag is used.
-	Count *int `json:"count,omitempty" bson:"count,omitempty" mapstructure:"count,omitempty"`
+	Count *int `json:"count,omitempty" msgpack:"count,omitempty" bson:"count,omitempty" mapstructure:"count,omitempty"`
 
 	// Namespace represents the namespace of the counted tag.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Value represents the value of the tag.
-	Value *string `json:"value,omitempty" bson:"value,omitempty" mapstructure:"value,omitempty"`
+	Value *string `json:"value,omitempty" msgpack:"value,omitempty" bson:"value,omitempty" mapstructure:"value,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseTag returns a new  SparseTag.

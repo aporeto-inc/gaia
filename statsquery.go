@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -88,11 +87,11 @@ func (o StatsQueriesList) DefaultOrder() []string {
 
 // ToSparse returns the StatsQueriesList converted to SparseStatsQueriesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o StatsQueriesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o StatsQueriesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseStatsQueriesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseStatsQuery)
 	}
 
 	return out
@@ -107,34 +106,32 @@ func (o StatsQueriesList) Version() int {
 // StatsQuery represents the model of a statsquery
 type StatsQuery struct {
 	// If set, the results will be order by time from the most recent to the oldest.
-	Descending bool `json:"descending" bson:"-" mapstructure:"descending,omitempty"`
+	Descending bool `json:"descending" msgpack:"descending" bson:"-" mapstructure:"descending,omitempty"`
 
 	// List of fields to extract. If you don't pass anything, all available fields will
 	// be returned. It is also possible to use function like `+"`"+`sum(value)`+"`"+`.
-	Fields []string `json:"fields" bson:"-" mapstructure:"fields,omitempty"`
+	Fields []string `json:"fields" msgpack:"fields" bson:"-" mapstructure:"fields,omitempty"`
 
 	// Apply a filter to the query.
-	Filter string `json:"filter" bson:"-" mapstructure:"filter,omitempty"`
+	Filter string `json:"filter" msgpack:"filter" bson:"-" mapstructure:"filter,omitempty"`
 
 	// Group results by the provided values. Note that not all fields can be used to
 	// group the results.
-	Groups []string `json:"groups" bson:"-" mapstructure:"groups,omitempty"`
+	Groups []string `json:"groups" msgpack:"groups" bson:"-" mapstructure:"groups,omitempty"`
 
 	// Limits the number of results. -1 means no limit.
-	Limit int `json:"limit" bson:"-" mapstructure:"limit,omitempty"`
+	Limit int `json:"limit" msgpack:"limit" bson:"-" mapstructure:"limit,omitempty"`
 
 	// Name of the measurement.
-	Measurement StatsQueryMeasurementValue `json:"measurement" bson:"-" mapstructure:"measurement,omitempty"`
+	Measurement StatsQueryMeasurementValue `json:"measurement" msgpack:"measurement" bson:"-" mapstructure:"measurement,omitempty"`
 
 	// Offsets the of results. -1 means no offset.
-	Offset int `json:"offset" bson:"-" mapstructure:"offset,omitempty"`
+	Offset int `json:"offset" msgpack:"offset" bson:"-" mapstructure:"offset,omitempty"`
 
 	// Results contains the result of the query.
-	Results []*TimeSeriesQueryResults `json:"results" bson:"-" mapstructure:"results,omitempty"`
+	Results []*TimeSeriesQueryResults `json:"results" msgpack:"results" bson:"-" mapstructure:"results,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewStatsQuery returns a new *StatsQuery
@@ -142,7 +139,6 @@ func NewStatsQuery() *StatsQuery {
 
 	return &StatsQuery{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Fields:       []string{},
 		Groups:       []string{},
 		Limit:        -1,
@@ -301,12 +297,12 @@ func (o *StatsQuery) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("measurement", string(o.Measurement), []string{"Flows", "Audit", "Enforcers", "Files", "EventLogs", "Packets", "EnforcerTraces"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	for _, sub := range o.Results {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
@@ -585,34 +581,32 @@ func (o SparseStatsQueriesList) Version() int {
 // SparseStatsQuery represents the sparse version of a statsquery.
 type SparseStatsQuery struct {
 	// If set, the results will be order by time from the most recent to the oldest.
-	Descending *bool `json:"descending,omitempty" bson:"-" mapstructure:"descending,omitempty"`
+	Descending *bool `json:"descending,omitempty" msgpack:"descending,omitempty" bson:"-" mapstructure:"descending,omitempty"`
 
 	// List of fields to extract. If you don't pass anything, all available fields will
 	// be returned. It is also possible to use function like `+"`"+`sum(value)`+"`"+`.
-	Fields *[]string `json:"fields,omitempty" bson:"-" mapstructure:"fields,omitempty"`
+	Fields *[]string `json:"fields,omitempty" msgpack:"fields,omitempty" bson:"-" mapstructure:"fields,omitempty"`
 
 	// Apply a filter to the query.
-	Filter *string `json:"filter,omitempty" bson:"-" mapstructure:"filter,omitempty"`
+	Filter *string `json:"filter,omitempty" msgpack:"filter,omitempty" bson:"-" mapstructure:"filter,omitempty"`
 
 	// Group results by the provided values. Note that not all fields can be used to
 	// group the results.
-	Groups *[]string `json:"groups,omitempty" bson:"-" mapstructure:"groups,omitempty"`
+	Groups *[]string `json:"groups,omitempty" msgpack:"groups,omitempty" bson:"-" mapstructure:"groups,omitempty"`
 
 	// Limits the number of results. -1 means no limit.
-	Limit *int `json:"limit,omitempty" bson:"-" mapstructure:"limit,omitempty"`
+	Limit *int `json:"limit,omitempty" msgpack:"limit,omitempty" bson:"-" mapstructure:"limit,omitempty"`
 
 	// Name of the measurement.
-	Measurement *StatsQueryMeasurementValue `json:"measurement,omitempty" bson:"-" mapstructure:"measurement,omitempty"`
+	Measurement *StatsQueryMeasurementValue `json:"measurement,omitempty" msgpack:"measurement,omitempty" bson:"-" mapstructure:"measurement,omitempty"`
 
 	// Offsets the of results. -1 means no offset.
-	Offset *int `json:"offset,omitempty" bson:"-" mapstructure:"offset,omitempty"`
+	Offset *int `json:"offset,omitempty" msgpack:"offset,omitempty" bson:"-" mapstructure:"offset,omitempty"`
 
 	// Results contains the result of the query.
-	Results *[]*TimeSeriesQueryResults `json:"results,omitempty" bson:"-" mapstructure:"results,omitempty"`
+	Results *[]*TimeSeriesQueryResults `json:"results,omitempty" msgpack:"results,omitempty" bson:"-" mapstructure:"results,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseStatsQuery returns a new  SparseStatsQuery.

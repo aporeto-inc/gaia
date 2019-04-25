@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -88,11 +87,11 @@ func (o X509CertificatesList) DefaultOrder() []string {
 
 // ToSparse returns the X509CertificatesList converted to SparseX509CertificatesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o X509CertificatesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o X509CertificatesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseX509CertificatesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseX509Certificate)
 	}
 
 	return out
@@ -107,37 +106,35 @@ func (o X509CertificatesList) Version() int {
 // X509Certificate represents the model of a x509certificate
 type X509Certificate struct {
 	// CSR contains the Certificate Signing Request as a PEM encoded string.
-	CSR string `json:"CSR" bson:"-" mapstructure:"CSR,omitempty"`
+	CSR string `json:"CSR" msgpack:"CSR" bson:"-" mapstructure:"CSR,omitempty"`
 
 	// ID contains the identifier of the certificate.
-	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Certificate contains the certificate data in PEM format.
-	Certificate string `json:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
+	Certificate string `json:"certificate" msgpack:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// ExpirationDate contains the requested expiration date.
-	ExpirationDate time.Time `json:"expirationDate" bson:"-" mapstructure:"expirationDate,omitempty"`
+	ExpirationDate time.Time `json:"expirationDate" msgpack:"expirationDate" bson:"-" mapstructure:"expirationDate,omitempty"`
 
 	// Extensions is a list of extensions that can be added as SAN extensions to the
 	// certificate.
-	Extensions []string `json:"extensions" bson:"-" mapstructure:"extensions,omitempty"`
+	Extensions []string `json:"extensions" msgpack:"extensions" bson:"-" mapstructure:"extensions,omitempty"`
 
 	// Selects what CA should sign the certificate.
-	Signer X509CertificateSignerValue `json:"signer" bson:"-" mapstructure:"signer,omitempty"`
+	Signer X509CertificateSignerValue `json:"signer" msgpack:"signer" bson:"-" mapstructure:"signer,omitempty"`
 
 	// Additional subject information to use to override the ones in the CSR.
-	SubjectOverride *PKIXName `json:"subjectOverride,omitempty" bson:"-" mapstructure:"subjectOverride,omitempty"`
+	SubjectOverride *PKIXName `json:"subjectOverride,omitempty" msgpack:"subjectOverride,omitempty" bson:"-" mapstructure:"subjectOverride,omitempty"`
 
 	// If set to true, the certificate is considered short lived and it will not be
 	// possible to revoke it.
-	Unrevocable bool `json:"unrevocable" bson:"-" mapstructure:"unrevocable,omitempty"`
+	Unrevocable bool `json:"unrevocable" msgpack:"unrevocable" bson:"-" mapstructure:"unrevocable,omitempty"`
 
 	// Usage defines the requested key usage.
-	Usage X509CertificateUsageValue `json:"usage" bson:"-" mapstructure:"usage,omitempty"`
+	Usage X509CertificateUsageValue `json:"usage" msgpack:"usage" bson:"-" mapstructure:"usage,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewX509Certificate returns a new *X509Certificate
@@ -145,7 +142,6 @@ func NewX509Certificate() *X509Certificate {
 
 	return &X509Certificate{
 		ModelVersion:    1,
-		Mutex:           &sync.Mutex{},
 		Extensions:      []string{},
 		Signer:          X509CertificateSignerPublic,
 		SubjectOverride: NewPKIXName(),
@@ -307,19 +303,19 @@ func (o *X509Certificate) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("CSR", o.CSR); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("signer", string(o.Signer), []string{"Public", "System"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := o.SubjectOverride.Validate(); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("usage", string(o.Usage), []string{"Client", "Server", "ServerClient"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -631,37 +627,35 @@ func (o SparseX509CertificatesList) Version() int {
 // SparseX509Certificate represents the sparse version of a x509certificate.
 type SparseX509Certificate struct {
 	// CSR contains the Certificate Signing Request as a PEM encoded string.
-	CSR *string `json:"CSR,omitempty" bson:"-" mapstructure:"CSR,omitempty"`
+	CSR *string `json:"CSR,omitempty" msgpack:"CSR,omitempty" bson:"-" mapstructure:"CSR,omitempty"`
 
 	// ID contains the identifier of the certificate.
-	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Certificate contains the certificate data in PEM format.
-	Certificate *string `json:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
+	Certificate *string `json:"certificate,omitempty" msgpack:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// ExpirationDate contains the requested expiration date.
-	ExpirationDate *time.Time `json:"expirationDate,omitempty" bson:"-" mapstructure:"expirationDate,omitempty"`
+	ExpirationDate *time.Time `json:"expirationDate,omitempty" msgpack:"expirationDate,omitempty" bson:"-" mapstructure:"expirationDate,omitempty"`
 
 	// Extensions is a list of extensions that can be added as SAN extensions to the
 	// certificate.
-	Extensions *[]string `json:"extensions,omitempty" bson:"-" mapstructure:"extensions,omitempty"`
+	Extensions *[]string `json:"extensions,omitempty" msgpack:"extensions,omitempty" bson:"-" mapstructure:"extensions,omitempty"`
 
 	// Selects what CA should sign the certificate.
-	Signer *X509CertificateSignerValue `json:"signer,omitempty" bson:"-" mapstructure:"signer,omitempty"`
+	Signer *X509CertificateSignerValue `json:"signer,omitempty" msgpack:"signer,omitempty" bson:"-" mapstructure:"signer,omitempty"`
 
 	// Additional subject information to use to override the ones in the CSR.
-	SubjectOverride **PKIXName `json:"subjectOverride,omitempty" bson:"-" mapstructure:"subjectOverride,omitempty"`
+	SubjectOverride **PKIXName `json:"subjectOverride,omitempty" msgpack:"subjectOverride,omitempty" bson:"-" mapstructure:"subjectOverride,omitempty"`
 
 	// If set to true, the certificate is considered short lived and it will not be
 	// possible to revoke it.
-	Unrevocable *bool `json:"unrevocable,omitempty" bson:"-" mapstructure:"unrevocable,omitempty"`
+	Unrevocable *bool `json:"unrevocable,omitempty" msgpack:"unrevocable,omitempty" bson:"-" mapstructure:"unrevocable,omitempty"`
 
 	// Usage defines the requested key usage.
-	Usage *X509CertificateUsageValue `json:"usage,omitempty" bson:"-" mapstructure:"usage,omitempty"`
+	Usage *X509CertificateUsageValue `json:"usage,omitempty" msgpack:"usage,omitempty" bson:"-" mapstructure:"usage,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseX509Certificate returns a new  SparseX509Certificate.

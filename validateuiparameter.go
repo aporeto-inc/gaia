@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o ValidateUIParametersList) DefaultOrder() []string {
 
 // ToSparse returns the ValidateUIParametersList converted to SparseValidateUIParametersList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ValidateUIParametersList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o ValidateUIParametersList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseValidateUIParametersList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseValidateUIParameter)
 	}
 
 	return out
@@ -81,17 +80,15 @@ func (o ValidateUIParametersList) Version() int {
 // ValidateUIParameter represents the model of a validateuiparameter
 type ValidateUIParameter struct {
 	// Errors contains the list of errors.
-	Errors map[string]string `json:"errors" bson:"-" mapstructure:"errors,omitempty"`
+	Errors map[string]string `json:"errors" msgpack:"errors" bson:"-" mapstructure:"errors,omitempty"`
 
 	// List of parameters to validate.
-	Parameters []*UIParameter `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
+	Parameters []*UIParameter `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// Values contains the computed values.
-	Values map[string]interface{} `json:"values" bson:"-" mapstructure:"values,omitempty"`
+	Values map[string]interface{} `json:"values" msgpack:"values" bson:"-" mapstructure:"values,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewValidateUIParameter returns a new *ValidateUIParameter
@@ -99,7 +96,6 @@ func NewValidateUIParameter() *ValidateUIParameter {
 
 	return &ValidateUIParameter{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Errors:       map[string]string{},
 		Parameters:   []*UIParameter{},
 		Values:       map[string]interface{}{},
@@ -224,7 +220,7 @@ func (o *ValidateUIParameter) Validate() error {
 
 	for _, sub := range o.Parameters {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
@@ -401,17 +397,15 @@ func (o SparseValidateUIParametersList) Version() int {
 // SparseValidateUIParameter represents the sparse version of a validateuiparameter.
 type SparseValidateUIParameter struct {
 	// Errors contains the list of errors.
-	Errors *map[string]string `json:"errors,omitempty" bson:"-" mapstructure:"errors,omitempty"`
+	Errors *map[string]string `json:"errors,omitempty" msgpack:"errors,omitempty" bson:"-" mapstructure:"errors,omitempty"`
 
 	// List of parameters to validate.
-	Parameters *[]*UIParameter `json:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
+	Parameters *[]*UIParameter `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
 
 	// Values contains the computed values.
-	Values *map[string]interface{} `json:"values,omitempty" bson:"-" mapstructure:"values,omitempty"`
+	Values *map[string]interface{} `json:"values,omitempty" msgpack:"values,omitempty" bson:"-" mapstructure:"values,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseValidateUIParameter returns a new  SparseValidateUIParameter.

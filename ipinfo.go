@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o IPInfosList) DefaultOrder() []string {
 
 // ToSparse returns the IPInfosList converted to SparseIPInfosList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o IPInfosList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o IPInfosList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseIPInfosList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseIPInfo)
 	}
 
 	return out
@@ -81,17 +80,15 @@ func (o IPInfosList) Version() int {
 // IPInfo represents the model of a ipinfo
 type IPInfo struct {
 	// The IP resolved.
-	IP string `json:"IP" bson:"-" mapstructure:"IP,omitempty"`
+	IP string `json:"IP" msgpack:"IP" bson:"-" mapstructure:"IP,omitempty"`
 
 	// Eventual error that happened during resolution.
-	Error string `json:"error" bson:"-" mapstructure:"error,omitempty"`
+	Error string `json:"error" msgpack:"error" bson:"-" mapstructure:"error,omitempty"`
 
 	// List of DNS records associated to that IP.
-	Records map[string]string `json:"records" bson:"-" mapstructure:"records,omitempty"`
+	Records map[string]string `json:"records" msgpack:"records" bson:"-" mapstructure:"records,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewIPInfo returns a new *IPInfo
@@ -99,7 +96,6 @@ func NewIPInfo() *IPInfo {
 
 	return &IPInfo{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Records:      map[string]string{},
 	}
 }
@@ -399,17 +395,15 @@ func (o SparseIPInfosList) Version() int {
 // SparseIPInfo represents the sparse version of a ipinfo.
 type SparseIPInfo struct {
 	// The IP resolved.
-	IP *string `json:"IP,omitempty" bson:"-" mapstructure:"IP,omitempty"`
+	IP *string `json:"IP,omitempty" msgpack:"IP,omitempty" bson:"-" mapstructure:"IP,omitempty"`
 
 	// Eventual error that happened during resolution.
-	Error *string `json:"error,omitempty" bson:"-" mapstructure:"error,omitempty"`
+	Error *string `json:"error,omitempty" msgpack:"error,omitempty" bson:"-" mapstructure:"error,omitempty"`
 
 	// List of DNS records associated to that IP.
-	Records *map[string]string `json:"records,omitempty" bson:"-" mapstructure:"records,omitempty"`
+	Records *map[string]string `json:"records,omitempty" msgpack:"records,omitempty" bson:"-" mapstructure:"records,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseIPInfo returns a new  SparseIPInfo.

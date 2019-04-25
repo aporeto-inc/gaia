@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -52,44 +51,42 @@ const (
 // UIParameter represents the model of a uiparameter
 type UIParameter struct {
 	// Defines if the parameter is an advanced one.
-	Advanced bool `json:"advanced" bson:"advanced" mapstructure:"advanced,omitempty"`
+	Advanced bool `json:"advanced" msgpack:"advanced" bson:"advanced" mapstructure:"advanced,omitempty"`
 
 	// allowedChoices lists all the choices in case of an enum.
-	AllowedChoices map[string]string `json:"allowedChoices" bson:"allowedchoices" mapstructure:"allowedChoices,omitempty"`
+	AllowedChoices map[string]string `json:"allowedChoices" msgpack:"allowedChoices" bson:"allowedchoices" mapstructure:"allowedChoices,omitempty"`
 
 	// List of values that can be used.
-	AllowedValues []interface{} `json:"allowedValues" bson:"allowedvalues" mapstructure:"allowedValues,omitempty"`
+	AllowedValues []interface{} `json:"allowedValues" msgpack:"allowedValues" bson:"allowedvalues" mapstructure:"allowedValues,omitempty"`
 
 	// Default value of the parameter.
-	DefaultValue interface{} `json:"defaultValue" bson:"defaultvalue" mapstructure:"defaultValue,omitempty"`
+	DefaultValue interface{} `json:"defaultValue" msgpack:"defaultValue" bson:"defaultvalue" mapstructure:"defaultValue,omitempty"`
 
 	// Description of the paramerter.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Key identifying the parameter.
-	Key string `json:"key" bson:"key" mapstructure:"key,omitempty"`
+	Key string `json:"key" msgpack:"key" bson:"key" mapstructure:"key,omitempty"`
 
 	// Long explanation of the parameter.
-	LongDescription string `json:"longDescription" bson:"longdescription" mapstructure:"longDescription,omitempty"`
+	LongDescription string `json:"longDescription" msgpack:"longDescription" bson:"longdescription" mapstructure:"longDescription,omitempty"`
 
 	// Name of the paramerter.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Defines if the parameter is optional.
-	Optional bool `json:"optional" bson:"optional" mapstructure:"optional,omitempty"`
+	Optional bool `json:"optional" msgpack:"optional" bson:"optional" mapstructure:"optional,omitempty"`
 
 	// The type of the parameter.
-	Type UIParameterTypeValue `json:"type" bson:"type" mapstructure:"type,omitempty"`
+	Type UIParameterTypeValue `json:"type" msgpack:"type" bson:"type" mapstructure:"type,omitempty"`
 
 	// ValidationFunction represents the function to validate the parameter.
-	ValidationFunction string `json:"validationFunction" bson:"validationfunction" mapstructure:"validationFunction,omitempty"`
+	ValidationFunction string `json:"validationFunction" msgpack:"validationFunction" bson:"validationfunction" mapstructure:"validationFunction,omitempty"`
 
 	// Value of the parameter.
-	Value interface{} `json:"value" bson:"value" mapstructure:"value,omitempty"`
+	Value interface{} `json:"value" msgpack:"value" bson:"value" mapstructure:"value,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewUIParameter returns a new *UIParameter
@@ -97,7 +94,6 @@ func NewUIParameter() *UIParameter {
 
 	return &UIParameter{
 		ModelVersion:   1,
-		Mutex:          &sync.Mutex{},
 		AllowedChoices: map[string]string{},
 		AllowedValues:  []interface{}{},
 	}
@@ -134,15 +130,15 @@ func (o *UIParameter) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("key", o.Key); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("type", string(o.Type)); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Duration", "Enum", "IntegerSlice", "Integer", "Float", "FloatSlice", "Password", "String", "StringSlice", "CVSSThreshold", "JSON"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {

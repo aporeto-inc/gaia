@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -73,11 +72,11 @@ func (o DataPathCertificatesList) DefaultOrder() []string {
 
 // ToSparse returns the DataPathCertificatesList converted to SparseDataPathCertificatesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o DataPathCertificatesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o DataPathCertificatesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseDataPathCertificatesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseDataPathCertificate)
 	}
 
 	return out
@@ -93,26 +92,27 @@ func (o DataPathCertificatesList) Version() int {
 type DataPathCertificate struct {
 	// Contains the CSR the enforcer wants control plane to sign. Depending on the
 	// Certificate there will be various requirement for the CSR to be accepted.
-	CSR string `json:"CSR" bson:"-" mapstructure:"CSR,omitempty"`
+	CSR string `json:"CSR" msgpack:"CSR" bson:"-" mapstructure:"CSR,omitempty"`
 
 	// The certificate.
-	Certificate string `json:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
+	Certificate string `json:"certificate" msgpack:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// ID of the object you want to issue a certificate for.
-	ObjectID string `json:"objectID" bson:"-" mapstructure:"objectID,omitempty"`
+	ObjectID string `json:"objectID" msgpack:"objectID" bson:"-" mapstructure:"objectID,omitempty"`
+
+	// Provides the session ID of the enforcer when retrieving a datapath certificate.
+	SessionID string `json:"sessionID" msgpack:"sessionID" bson:"-" mapstructure:"sessionID,omitempty"`
 
 	// Contains a the CA that signed the delivered certificates.
-	Signer string `json:"signer" bson:"-" mapstructure:"signer,omitempty"`
+	Signer string `json:"signer" msgpack:"signer" bson:"-" mapstructure:"signer,omitempty"`
 
 	// Contains a crypto token.
-	Token string `json:"token" bson:"-" mapstructure:"token,omitempty"`
+	Token string `json:"token" msgpack:"token" bson:"-" mapstructure:"token,omitempty"`
 
 	// Type of certificate.
-	Type DataPathCertificateTypeValue `json:"type" bson:"-" mapstructure:"type,omitempty"`
+	Type DataPathCertificateTypeValue `json:"type" msgpack:"type" bson:"-" mapstructure:"type,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewDataPathCertificate returns a new *DataPathCertificate
@@ -120,7 +120,6 @@ func NewDataPathCertificate() *DataPathCertificate {
 
 	return &DataPathCertificate{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -175,6 +174,7 @@ func (o *DataPathCertificate) ToSparse(fields ...string) elemental.SparseIdentif
 			CSR:         &o.CSR,
 			Certificate: &o.Certificate,
 			ObjectID:    &o.ObjectID,
+			SessionID:   &o.SessionID,
 			Signer:      &o.Signer,
 			Token:       &o.Token,
 			Type:        &o.Type,
@@ -190,6 +190,8 @@ func (o *DataPathCertificate) ToSparse(fields ...string) elemental.SparseIdentif
 			sp.Certificate = &(o.Certificate)
 		case "objectID":
 			sp.ObjectID = &(o.ObjectID)
+		case "sessionID":
+			sp.SessionID = &(o.SessionID)
 		case "signer":
 			sp.Signer = &(o.Signer)
 		case "token":
@@ -217,6 +219,9 @@ func (o *DataPathCertificate) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ObjectID != nil {
 		o.ObjectID = *so.ObjectID
+	}
+	if so.SessionID != nil {
+		o.SessionID = *so.SessionID
 	}
 	if so.Signer != nil {
 		o.Signer = *so.Signer
@@ -260,15 +265,15 @@ func (o *DataPathCertificate) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("CSR", o.CSR); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("objectID", o.ObjectID); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Enforcer", "Service"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -311,6 +316,8 @@ func (o *DataPathCertificate) ValueForAttribute(name string) interface{} {
 		return o.Certificate
 	case "objectID":
 		return o.ObjectID
+	case "sessionID":
+		return o.SessionID
 	case "signer":
 		return o.Signer
 	case "token":
@@ -351,6 +358,14 @@ Certificate there will be various requirement for the CSR to be accepted.`,
 		Exposed:        true,
 		Name:           "objectID",
 		Required:       true,
+		Type:           "string",
+	},
+	"SessionID": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SessionID",
+		Description:    `Provides the session ID of the enforcer when retrieving a datapath certificate.`,
+		Exposed:        true,
+		Name:           "sessionID",
 		Type:           "string",
 	},
 	"Signer": elemental.AttributeSpecification{
@@ -412,6 +427,14 @@ Certificate there will be various requirement for the CSR to be accepted.`,
 		Exposed:        true,
 		Name:           "objectID",
 		Required:       true,
+		Type:           "string",
+	},
+	"sessionid": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SessionID",
+		Description:    `Provides the session ID of the enforcer when retrieving a datapath certificate.`,
+		Exposed:        true,
+		Name:           "sessionID",
 		Type:           "string",
 	},
 	"signer": elemental.AttributeSpecification{
@@ -509,26 +532,27 @@ func (o SparseDataPathCertificatesList) Version() int {
 type SparseDataPathCertificate struct {
 	// Contains the CSR the enforcer wants control plane to sign. Depending on the
 	// Certificate there will be various requirement for the CSR to be accepted.
-	CSR *string `json:"CSR,omitempty" bson:"-" mapstructure:"CSR,omitempty"`
+	CSR *string `json:"CSR,omitempty" msgpack:"CSR,omitempty" bson:"-" mapstructure:"CSR,omitempty"`
 
 	// The certificate.
-	Certificate *string `json:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
+	Certificate *string `json:"certificate,omitempty" msgpack:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// ID of the object you want to issue a certificate for.
-	ObjectID *string `json:"objectID,omitempty" bson:"-" mapstructure:"objectID,omitempty"`
+	ObjectID *string `json:"objectID,omitempty" msgpack:"objectID,omitempty" bson:"-" mapstructure:"objectID,omitempty"`
+
+	// Provides the session ID of the enforcer when retrieving a datapath certificate.
+	SessionID *string `json:"sessionID,omitempty" msgpack:"sessionID,omitempty" bson:"-" mapstructure:"sessionID,omitempty"`
 
 	// Contains a the CA that signed the delivered certificates.
-	Signer *string `json:"signer,omitempty" bson:"-" mapstructure:"signer,omitempty"`
+	Signer *string `json:"signer,omitempty" msgpack:"signer,omitempty" bson:"-" mapstructure:"signer,omitempty"`
 
 	// Contains a crypto token.
-	Token *string `json:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
+	Token *string `json:"token,omitempty" msgpack:"token,omitempty" bson:"-" mapstructure:"token,omitempty"`
 
 	// Type of certificate.
-	Type *DataPathCertificateTypeValue `json:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
+	Type *DataPathCertificateTypeValue `json:"type,omitempty" msgpack:"type,omitempty" bson:"-" mapstructure:"type,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseDataPathCertificate returns a new  SparseDataPathCertificate.
@@ -571,6 +595,9 @@ func (o *SparseDataPathCertificate) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ObjectID != nil {
 		out.ObjectID = *o.ObjectID
+	}
+	if o.SessionID != nil {
+		out.SessionID = *o.SessionID
 	}
 	if o.Signer != nil {
 		out.Signer = *o.Signer

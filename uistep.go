@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -11,20 +10,18 @@ import (
 // UIStep represents the model of a uistep
 type UIStep struct {
 	// Defines if the step is an advanced one.
-	Advanced bool `json:"advanced" bson:"advanced" mapstructure:"advanced,omitempty"`
+	Advanced bool `json:"advanced" msgpack:"advanced" bson:"advanced" mapstructure:"advanced,omitempty"`
 
 	// Description of the step.
-	Description string `json:"description" bson:"description" mapstructure:"description,omitempty"`
+	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
 	// Name of the step.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// List of parameters for this step.
-	Parameters []*UIParameter `json:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
+	Parameters []*UIParameter `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewUIStep returns a new *UIStep
@@ -32,7 +29,6 @@ func NewUIStep() *UIStep {
 
 	return &UIStep{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Parameters:   []*UIParameter{},
 	}
 }
@@ -68,12 +64,12 @@ func (o *UIStep) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	for _, sub := range o.Parameters {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 

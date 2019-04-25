@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -11,29 +10,27 @@ import (
 // Credential represents the model of a credential
 type Credential struct {
 	// The Aporeto API URL.
-	APIURL string `json:"APIURL" bson:"-" mapstructure:"APIURL,omitempty"`
+	APIURL string `json:"APIURL" msgpack:"APIURL" bson:"-" mapstructure:"APIURL,omitempty"`
 
 	// The ID of app credential.
-	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// The certificate data encoded in base64.
-	Certificate string `json:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
+	Certificate string `json:"certificate" msgpack:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// The certificate authority data encoded in base64.
-	CertificateAuthority string `json:"certificateAuthority" bson:"-" mapstructure:"certificateAuthority,omitempty"`
+	CertificateAuthority string `json:"certificateAuthority" msgpack:"certificateAuthority" bson:"-" mapstructure:"certificateAuthority,omitempty"`
 
 	// The certificate key data encoded in base64.
-	CertificateKey string `json:"certificateKey" bson:"-" mapstructure:"certificateKey,omitempty"`
+	CertificateKey string `json:"certificateKey" msgpack:"certificateKey" bson:"-" mapstructure:"certificateKey,omitempty"`
 
 	// The name of app credential.
-	Name string `json:"name" bson:"-" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"-" mapstructure:"name,omitempty"`
 
 	// The namespace of app credential.
-	Namespace string `json:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"-" mapstructure:"namespace,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewCredential returns a new *Credential
@@ -41,7 +38,6 @@ func NewCredential() *Credential {
 
 	return &Credential{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 

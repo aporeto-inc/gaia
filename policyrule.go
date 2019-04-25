@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -65,11 +64,11 @@ func (o PolicyRulesList) DefaultOrder() []string {
 
 // ToSparse returns the PolicyRulesList converted to SparsePolicyRulesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PolicyRulesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o PolicyRulesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparsePolicyRulesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparsePolicyRule)
 	}
 
 	return out
@@ -84,57 +83,55 @@ func (o PolicyRulesList) Version() int {
 // PolicyRule represents the model of a policyrule
 type PolicyRule struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"-" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Action defines set of actions that must be enforced when a dependency is met.
-	Action map[string]map[string]interface{} `json:"action" bson:"-" mapstructure:"action,omitempty"`
+	Action map[string]map[string]interface{} `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
 	// AuditProfiles provides the audit profiles that must be applied.
-	AuditProfiles AuditProfilesList `json:"auditProfiles,omitempty" bson:"-" mapstructure:"auditProfiles,omitempty"`
+	AuditProfiles AuditProfilesList `json:"auditProfiles,omitempty" msgpack:"auditProfiles,omitempty" bson:"-" mapstructure:"auditProfiles,omitempty"`
 
 	// EnforcerProfiles provides the information about the server profile.
-	EnforcerProfiles EnforcerProfilesList `json:"enforcerProfiles,omitempty" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
+	EnforcerProfiles EnforcerProfilesList `json:"enforcerProfiles,omitempty" msgpack:"enforcerProfiles,omitempty" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
 
 	// Policy target networks.
-	ExternalNetworks ExternalNetworksList `json:"externalNetworks,omitempty" bson:"-" mapstructure:"externalNetworks,omitempty"`
+	ExternalNetworks ExternalNetworksList `json:"externalNetworks,omitempty" msgpack:"externalNetworks,omitempty" bson:"-" mapstructure:"externalNetworks,omitempty"`
 
 	// Policy target file paths.
-	FilePaths FilePathsList `json:"filePaths,omitempty" bson:"-" mapstructure:"filePaths,omitempty"`
+	FilePaths FilePathsList `json:"filePaths,omitempty" msgpack:"filePaths,omitempty" bson:"-" mapstructure:"filePaths,omitempty"`
 
 	// HostServices provides the list of host services that must be instantiated.
-	HostServices HostServicesList `json:"hostServices,omitempty" bson:"-" mapstructure:"hostServices,omitempty"`
+	HostServices HostServicesList `json:"hostServices,omitempty" msgpack:"hostServices,omitempty" bson:"-" mapstructure:"hostServices,omitempty"`
 
 	// IsolationProfiles are the isolation profiles of the rule.
-	IsolationProfiles IsolationProfilesList `json:"isolationProfiles,omitempty" bson:"-" mapstructure:"isolationProfiles,omitempty"`
+	IsolationProfiles IsolationProfilesList `json:"isolationProfiles,omitempty" msgpack:"isolationProfiles,omitempty" bson:"-" mapstructure:"isolationProfiles,omitempty"`
 
 	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Policy target namespaces.
-	Namespaces NamespacesList `json:"namespaces,omitempty" bson:"-" mapstructure:"namespaces,omitempty"`
+	Namespaces NamespacesList `json:"namespaces,omitempty" msgpack:"namespaces,omitempty" bson:"-" mapstructure:"namespaces,omitempty"`
 
 	// PolicyNamespace is the namespace of the policy that created this rule.
-	PolicyNamespace string `json:"policyNamespace" bson:"-" mapstructure:"policyNamespace,omitempty"`
+	PolicyNamespace string `json:"policyNamespace" msgpack:"policyNamespace" bson:"-" mapstructure:"policyNamespace,omitempty"`
 
 	// Last time the policy was updated.
-	PolicyUpdateTime time.Time `json:"policyUpdateTime" bson:"-" mapstructure:"policyUpdateTime,omitempty"`
+	PolicyUpdateTime time.Time `json:"policyUpdateTime" msgpack:"policyUpdateTime" bson:"-" mapstructure:"policyUpdateTime,omitempty"`
 
 	// Propagated indicates if the policy is propagated.
-	Propagated bool `json:"propagated" bson:"-" mapstructure:"propagated,omitempty"`
+	Propagated bool `json:"propagated" msgpack:"propagated" bson:"-" mapstructure:"propagated,omitempty"`
 
 	// Relation describes the required operation to be performed between subjects and
 	// objects.
-	Relation []string `json:"relation" bson:"-" mapstructure:"relation,omitempty"`
+	Relation []string `json:"relation" msgpack:"relation" bson:"-" mapstructure:"relation,omitempty"`
 
 	// Services provides the services of this policy rule.
-	Services ServicesList `json:"services,omitempty" bson:"-" mapstructure:"services,omitempty"`
+	Services ServicesList `json:"services,omitempty" msgpack:"services,omitempty" bson:"-" mapstructure:"services,omitempty"`
 
 	// Policy target tags.
-	TagClauses [][]string `json:"tagClauses" bson:"-" mapstructure:"tagClauses,omitempty"`
+	TagClauses [][]string `json:"tagClauses" msgpack:"tagClauses" bson:"-" mapstructure:"tagClauses,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewPolicyRule returns a new *PolicyRule
@@ -142,7 +139,6 @@ func NewPolicyRule() *PolicyRule {
 
 	return &PolicyRule{
 		ModelVersion:  1,
-		Mutex:         &sync.Mutex{},
 		HostServices:  HostServicesList{},
 		AuditProfiles: AuditProfilesList{},
 		Relation:      []string{},
@@ -362,62 +358,62 @@ func (o *PolicyRule) Validate() error {
 
 	for _, sub := range o.AuditProfiles {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.EnforcerProfiles {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.ExternalNetworks {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.FilePaths {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.HostServices {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.IsolationProfiles {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	for _, sub := range o.Namespaces {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.Services {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	if err := ValidateTagsExpression("tagClauses", o.TagClauses); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -871,57 +867,55 @@ func (o SparsePolicyRulesList) Version() int {
 // SparsePolicyRule represents the sparse version of a policyrule.
 type SparsePolicyRule struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
 
 	// Action defines set of actions that must be enforced when a dependency is met.
-	Action *map[string]map[string]interface{} `json:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
+	Action *map[string]map[string]interface{} `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
 
 	// AuditProfiles provides the audit profiles that must be applied.
-	AuditProfiles *AuditProfilesList `json:"auditProfiles,omitempty" bson:"-" mapstructure:"auditProfiles,omitempty"`
+	AuditProfiles *AuditProfilesList `json:"auditProfiles,omitempty" msgpack:"auditProfiles,omitempty" bson:"-" mapstructure:"auditProfiles,omitempty"`
 
 	// EnforcerProfiles provides the information about the server profile.
-	EnforcerProfiles *EnforcerProfilesList `json:"enforcerProfiles,omitempty" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
+	EnforcerProfiles *EnforcerProfilesList `json:"enforcerProfiles,omitempty" msgpack:"enforcerProfiles,omitempty" bson:"-" mapstructure:"enforcerProfiles,omitempty"`
 
 	// Policy target networks.
-	ExternalNetworks *ExternalNetworksList `json:"externalNetworks,omitempty" bson:"-" mapstructure:"externalNetworks,omitempty"`
+	ExternalNetworks *ExternalNetworksList `json:"externalNetworks,omitempty" msgpack:"externalNetworks,omitempty" bson:"-" mapstructure:"externalNetworks,omitempty"`
 
 	// Policy target file paths.
-	FilePaths *FilePathsList `json:"filePaths,omitempty" bson:"-" mapstructure:"filePaths,omitempty"`
+	FilePaths *FilePathsList `json:"filePaths,omitempty" msgpack:"filePaths,omitempty" bson:"-" mapstructure:"filePaths,omitempty"`
 
 	// HostServices provides the list of host services that must be instantiated.
-	HostServices *HostServicesList `json:"hostServices,omitempty" bson:"-" mapstructure:"hostServices,omitempty"`
+	HostServices *HostServicesList `json:"hostServices,omitempty" msgpack:"hostServices,omitempty" bson:"-" mapstructure:"hostServices,omitempty"`
 
 	// IsolationProfiles are the isolation profiles of the rule.
-	IsolationProfiles *IsolationProfilesList `json:"isolationProfiles,omitempty" bson:"-" mapstructure:"isolationProfiles,omitempty"`
+	IsolationProfiles *IsolationProfilesList `json:"isolationProfiles,omitempty" msgpack:"isolationProfiles,omitempty" bson:"-" mapstructure:"isolationProfiles,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Policy target namespaces.
-	Namespaces *NamespacesList `json:"namespaces,omitempty" bson:"-" mapstructure:"namespaces,omitempty"`
+	Namespaces *NamespacesList `json:"namespaces,omitempty" msgpack:"namespaces,omitempty" bson:"-" mapstructure:"namespaces,omitempty"`
 
 	// PolicyNamespace is the namespace of the policy that created this rule.
-	PolicyNamespace *string `json:"policyNamespace,omitempty" bson:"-" mapstructure:"policyNamespace,omitempty"`
+	PolicyNamespace *string `json:"policyNamespace,omitempty" msgpack:"policyNamespace,omitempty" bson:"-" mapstructure:"policyNamespace,omitempty"`
 
 	// Last time the policy was updated.
-	PolicyUpdateTime *time.Time `json:"policyUpdateTime,omitempty" bson:"-" mapstructure:"policyUpdateTime,omitempty"`
+	PolicyUpdateTime *time.Time `json:"policyUpdateTime,omitempty" msgpack:"policyUpdateTime,omitempty" bson:"-" mapstructure:"policyUpdateTime,omitempty"`
 
 	// Propagated indicates if the policy is propagated.
-	Propagated *bool `json:"propagated,omitempty" bson:"-" mapstructure:"propagated,omitempty"`
+	Propagated *bool `json:"propagated,omitempty" msgpack:"propagated,omitempty" bson:"-" mapstructure:"propagated,omitempty"`
 
 	// Relation describes the required operation to be performed between subjects and
 	// objects.
-	Relation *[]string `json:"relation,omitempty" bson:"-" mapstructure:"relation,omitempty"`
+	Relation *[]string `json:"relation,omitempty" msgpack:"relation,omitempty" bson:"-" mapstructure:"relation,omitempty"`
 
 	// Services provides the services of this policy rule.
-	Services *ServicesList `json:"services,omitempty" bson:"-" mapstructure:"services,omitempty"`
+	Services *ServicesList `json:"services,omitempty" msgpack:"services,omitempty" bson:"-" mapstructure:"services,omitempty"`
 
 	// Policy target tags.
-	TagClauses *[][]string `json:"tagClauses,omitempty" bson:"-" mapstructure:"tagClauses,omitempty"`
+	TagClauses *[][]string `json:"tagClauses,omitempty" msgpack:"tagClauses,omitempty" bson:"-" mapstructure:"tagClauses,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparsePolicyRule returns a new  SparsePolicyRule.

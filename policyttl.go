@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -63,11 +62,11 @@ func (o PolicyTTLsList) DefaultOrder() []string {
 
 // ToSparse returns the PolicyTTLsList converted to SparsePolicyTTLsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o PolicyTTLsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o PolicyTTLsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparsePolicyTTLsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparsePolicyTTL)
 	}
 
 	return out
@@ -82,14 +81,12 @@ func (o PolicyTTLsList) Version() int {
 // PolicyTTL represents the model of a policyttl
 type PolicyTTL struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Time when the policy must be deleted.
-	ExpirationTime time.Time `json:"-" bson:"expirationtime" mapstructure:"-,omitempty"`
+	ExpirationTime time.Time `json:"-" msgpack:"-" bson:"expirationtime" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewPolicyTTL returns a new *PolicyTTL
@@ -97,7 +94,6 @@ func NewPolicyTTL() *PolicyTTL {
 
 	return &PolicyTTL{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -372,14 +368,12 @@ func (o SparsePolicyTTLsList) Version() int {
 // SparsePolicyTTL represents the sparse version of a policyttl.
 type SparsePolicyTTL struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Time when the policy must be deleted.
-	ExpirationTime *time.Time `json:"-" bson:"expirationtime,omitempty" mapstructure:"-,omitempty"`
+	ExpirationTime *time.Time `json:"-" msgpack:"-" bson:"expirationtime,omitempty" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparsePolicyTTL returns a new  SparsePolicyTTL.

@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -76,11 +75,11 @@ func (o SSHAuthoritiesList) DefaultOrder() []string {
 
 // ToSparse returns the SSHAuthoritiesList converted to SparseSSHAuthoritiesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o SSHAuthoritiesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o SSHAuthoritiesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseSSHAuthoritiesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseSSHAuthority)
 	}
 
 	return out
@@ -95,29 +94,27 @@ func (o SSHAuthoritiesList) Version() int {
 // SSHAuthority represents the model of a sshauthority
 type SSHAuthority struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Algorithm to use for the CA.
-	Alg SSHAuthorityAlgValue `json:"alg" bson:"alg" mapstructure:"alg,omitempty"`
+	Alg SSHAuthorityAlgValue `json:"alg" msgpack:"alg" bson:"alg" mapstructure:"alg,omitempty"`
 
 	// Creation date of the object.
-	CreateTime time.Time `json:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
+	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
 	// Name is the name of the entity.
-	Name string `json:"name" bson:"name" mapstructure:"name,omitempty"`
+	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Contains the private key of the CA.
-	PrivateKey string `json:"-" bson:"privatekey" mapstructure:"-,omitempty"`
+	PrivateKey string `json:"-" msgpack:"-" bson:"privatekey" mapstructure:"-,omitempty"`
 
 	// Contains the public key of the CA.
-	PublicKey string `json:"publicKey" bson:"publickey" mapstructure:"publicKey,omitempty"`
+	PublicKey string `json:"publicKey" msgpack:"publicKey" bson:"publickey" mapstructure:"publicKey,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime time.Time `json:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
+	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSSHAuthority returns a new *SSHAuthority
@@ -125,7 +122,6 @@ func NewSSHAuthority() *SSHAuthority {
 
 	return &SSHAuthority{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Alg:          SSHAuthorityAlgECDSA,
 	}
 }
@@ -310,15 +306,15 @@ func (o *SSHAuthority) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateStringInList("alg", string(o.Alg), []string{"RSA", "ECDSA"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -626,29 +622,27 @@ func (o SparseSSHAuthoritiesList) Version() int {
 // SparseSSHAuthority represents the sparse version of a sshauthority.
 type SparseSSHAuthority struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Algorithm to use for the CA.
-	Alg *SSHAuthorityAlgValue `json:"alg,omitempty" bson:"alg,omitempty" mapstructure:"alg,omitempty"`
+	Alg *SSHAuthorityAlgValue `json:"alg,omitempty" msgpack:"alg,omitempty" bson:"alg,omitempty" mapstructure:"alg,omitempty"`
 
 	// Creation date of the object.
-	CreateTime *time.Time `json:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// Name is the name of the entity.
-	Name *string `json:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
+	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Contains the private key of the CA.
-	PrivateKey *string `json:"-" bson:"privatekey,omitempty" mapstructure:"-,omitempty"`
+	PrivateKey *string `json:"-" msgpack:"-" bson:"privatekey,omitempty" mapstructure:"-,omitempty"`
 
 	// Contains the public key of the CA.
-	PublicKey *string `json:"publicKey,omitempty" bson:"publickey,omitempty" mapstructure:"publicKey,omitempty"`
+	PublicKey *string `json:"publicKey,omitempty" msgpack:"publicKey,omitempty" bson:"publickey,omitempty" mapstructure:"publicKey,omitempty"`
 
 	// Last update date of the object.
-	UpdateTime *time.Time `json:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseSSHAuthority returns a new  SparseSSHAuthority.

@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -63,11 +62,11 @@ func (o ActivitiesList) DefaultOrder() []string {
 
 // ToSparse returns the ActivitiesList converted to SparseActivitiesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o ActivitiesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o ActivitiesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseActivitiesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseActivity)
 	}
 
 	return out
@@ -82,50 +81,48 @@ func (o ActivitiesList) Version() int {
 // Activity represents the model of a activity
 type Activity struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Claims of the user who performed the operation.
-	Claims interface{} `json:"claims" bson:"claims" mapstructure:"claims,omitempty"`
+	Claims interface{} `json:"claims" msgpack:"claims" bson:"claims" mapstructure:"claims,omitempty"`
 
 	// Data of the notification.
-	Data interface{} `json:"data" bson:"data" mapstructure:"data,omitempty"`
+	Data interface{} `json:"data" msgpack:"data" bson:"data" mapstructure:"data,omitempty"`
 
 	// Date of the notification.
-	Date time.Time `json:"date" bson:"date" mapstructure:"date,omitempty"`
+	Date time.Time `json:"date" msgpack:"date" bson:"date" mapstructure:"date,omitempty"`
 
 	// Error contains the eventual error.
-	Error interface{} `json:"error" bson:"error" mapstructure:"error,omitempty"`
+	Error interface{} `json:"error" msgpack:"error" bson:"error" mapstructure:"error,omitempty"`
 
 	// Message of the notification.
-	Message string `json:"message" bson:"message" mapstructure:"message,omitempty"`
+	Message string `json:"message" msgpack:"message" bson:"message" mapstructure:"message,omitempty"`
 
 	// Namespace of the notification.
-	Namespace string `json:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
+	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
 	// Operation describe what kind of operation the notification represents.
-	Operation string `json:"operation" bson:"operation" mapstructure:"operation,omitempty"`
+	Operation string `json:"operation" msgpack:"operation" bson:"operation" mapstructure:"operation,omitempty"`
 
 	// OriginalData contains the eventual original data of the object that has been
 	// modified.
-	OriginalData interface{} `json:"originalData" bson:"originaldata" mapstructure:"originalData,omitempty"`
+	OriginalData interface{} `json:"originalData" msgpack:"originalData" bson:"originaldata" mapstructure:"originalData,omitempty"`
 
 	// Source contains meta information about the source.
-	Source string `json:"source" bson:"source" mapstructure:"source,omitempty"`
+	Source string `json:"source" msgpack:"source" bson:"source" mapstructure:"source,omitempty"`
 
 	// TargetIdentity is the Identity of the related object.
-	TargetIdentity string `json:"targetIdentity" bson:"targetidentity" mapstructure:"targetIdentity,omitempty"`
+	TargetIdentity string `json:"targetIdentity" msgpack:"targetIdentity" bson:"targetidentity" mapstructure:"targetIdentity,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash int `json:"-" bson:"zhash" mapstructure:"-,omitempty"`
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone int `json:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone int `json:"-" msgpack:"-" bson:"zone" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewActivity returns a new *Activity
@@ -133,7 +130,6 @@ func NewActivity() *Activity {
 
 	return &Activity{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -802,50 +798,48 @@ func (o SparseActivitiesList) Version() int {
 // SparseActivity represents the sparse version of a activity.
 type SparseActivity struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Claims of the user who performed the operation.
-	Claims *interface{} `json:"claims,omitempty" bson:"claims,omitempty" mapstructure:"claims,omitempty"`
+	Claims *interface{} `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"claims,omitempty" mapstructure:"claims,omitempty"`
 
 	// Data of the notification.
-	Data *interface{} `json:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`
+	Data *interface{} `json:"data,omitempty" msgpack:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`
 
 	// Date of the notification.
-	Date *time.Time `json:"date,omitempty" bson:"date,omitempty" mapstructure:"date,omitempty"`
+	Date *time.Time `json:"date,omitempty" msgpack:"date,omitempty" bson:"date,omitempty" mapstructure:"date,omitempty"`
 
 	// Error contains the eventual error.
-	Error *interface{} `json:"error,omitempty" bson:"error,omitempty" mapstructure:"error,omitempty"`
+	Error *interface{} `json:"error,omitempty" msgpack:"error,omitempty" bson:"error,omitempty" mapstructure:"error,omitempty"`
 
 	// Message of the notification.
-	Message *string `json:"message,omitempty" bson:"message,omitempty" mapstructure:"message,omitempty"`
+	Message *string `json:"message,omitempty" msgpack:"message,omitempty" bson:"message,omitempty" mapstructure:"message,omitempty"`
 
 	// Namespace of the notification.
-	Namespace *string `json:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
 	// Operation describe what kind of operation the notification represents.
-	Operation *string `json:"operation,omitempty" bson:"operation,omitempty" mapstructure:"operation,omitempty"`
+	Operation *string `json:"operation,omitempty" msgpack:"operation,omitempty" bson:"operation,omitempty" mapstructure:"operation,omitempty"`
 
 	// OriginalData contains the eventual original data of the object that has been
 	// modified.
-	OriginalData *interface{} `json:"originalData,omitempty" bson:"originaldata,omitempty" mapstructure:"originalData,omitempty"`
+	OriginalData *interface{} `json:"originalData,omitempty" msgpack:"originalData,omitempty" bson:"originaldata,omitempty" mapstructure:"originalData,omitempty"`
 
 	// Source contains meta information about the source.
-	Source *string `json:"source,omitempty" bson:"source,omitempty" mapstructure:"source,omitempty"`
+	Source *string `json:"source,omitempty" msgpack:"source,omitempty" bson:"source,omitempty" mapstructure:"source,omitempty"`
 
 	// TargetIdentity is the Identity of the related object.
-	TargetIdentity *string `json:"targetIdentity,omitempty" bson:"targetidentity,omitempty" mapstructure:"targetIdentity,omitempty"`
+	TargetIdentity *string `json:"targetIdentity,omitempty" msgpack:"targetIdentity,omitempty" bson:"targetidentity,omitempty" mapstructure:"targetIdentity,omitempty"`
 
 	// geographical hash of the data. This is used for sharding and
 	// georedundancy.
-	ZHash *int `json:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
+	Zone *int `json:"-" msgpack:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseActivity returns a new  SparseActivity.

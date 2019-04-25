@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o DependencyMapsList) DefaultOrder() []string {
 
 // ToSparse returns the DependencyMapsList converted to SparseDependencyMapsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o DependencyMapsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o DependencyMapsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseDependencyMapsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseDependencyMap)
 	}
 
 	return out
@@ -81,20 +80,18 @@ func (o DependencyMapsList) Version() int {
 // DependencyMap represents the model of a dependencymap
 type DependencyMap struct {
 	// edges are the edges of the map.
-	Edges map[string]*GraphEdge `json:"edges" bson:"-" mapstructure:"edges,omitempty"`
+	Edges map[string]*GraphEdge `json:"edges" msgpack:"edges" bson:"-" mapstructure:"edges,omitempty"`
 
 	// Groups provide information about the group values.
-	Groups map[string]*GraphGroup `json:"groups" bson:"-" mapstructure:"groups,omitempty"`
+	Groups map[string]*GraphGroup `json:"groups" msgpack:"groups" bson:"-" mapstructure:"groups,omitempty"`
 
 	// nodes refers to the nodes of the map.
-	Nodes map[string]*GraphNode `json:"nodes" bson:"-" mapstructure:"nodes,omitempty"`
+	Nodes map[string]*GraphNode `json:"nodes" msgpack:"nodes" bson:"-" mapstructure:"nodes,omitempty"`
 
 	// viewSuggestions provides suggestion of views based on relevant tags.
-	ViewSuggestions []string `json:"viewSuggestions" bson:"-" mapstructure:"viewSuggestions,omitempty"`
+	ViewSuggestions []string `json:"viewSuggestions" msgpack:"viewSuggestions" bson:"-" mapstructure:"viewSuggestions,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewDependencyMap returns a new *DependencyMap
@@ -102,7 +99,6 @@ func NewDependencyMap() *DependencyMap {
 
 	return &DependencyMap{
 		ModelVersion:    1,
-		Mutex:           &sync.Mutex{},
 		Edges:           map[string]*GraphEdge{},
 		Groups:          map[string]*GraphGroup{},
 		Nodes:           map[string]*GraphNode{},
@@ -240,19 +236,19 @@ func (o *DependencyMap) Validate() error {
 
 	for _, sub := range o.Edges {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.Groups {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.Nodes {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
@@ -455,20 +451,18 @@ func (o SparseDependencyMapsList) Version() int {
 // SparseDependencyMap represents the sparse version of a dependencymap.
 type SparseDependencyMap struct {
 	// edges are the edges of the map.
-	Edges *map[string]*GraphEdge `json:"edges,omitempty" bson:"-" mapstructure:"edges,omitempty"`
+	Edges *map[string]*GraphEdge `json:"edges,omitempty" msgpack:"edges,omitempty" bson:"-" mapstructure:"edges,omitempty"`
 
 	// Groups provide information about the group values.
-	Groups *map[string]*GraphGroup `json:"groups,omitempty" bson:"-" mapstructure:"groups,omitempty"`
+	Groups *map[string]*GraphGroup `json:"groups,omitempty" msgpack:"groups,omitempty" bson:"-" mapstructure:"groups,omitempty"`
 
 	// nodes refers to the nodes of the map.
-	Nodes *map[string]*GraphNode `json:"nodes,omitempty" bson:"-" mapstructure:"nodes,omitempty"`
+	Nodes *map[string]*GraphNode `json:"nodes,omitempty" msgpack:"nodes,omitempty" bson:"-" mapstructure:"nodes,omitempty"`
 
 	// viewSuggestions provides suggestion of views based on relevant tags.
-	ViewSuggestions *[]string `json:"viewSuggestions,omitempty" bson:"-" mapstructure:"viewSuggestions,omitempty"`
+	ViewSuggestions *[]string `json:"viewSuggestions,omitempty" msgpack:"viewSuggestions,omitempty" bson:"-" mapstructure:"viewSuggestions,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseDependencyMap returns a new  SparseDependencyMap.

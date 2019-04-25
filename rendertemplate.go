@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o RenderTemplatesList) DefaultOrder() []string {
 
 // ToSparse returns the RenderTemplatesList converted to SparseRenderTemplatesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o RenderTemplatesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o RenderTemplatesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseRenderTemplatesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseRenderTemplate)
 	}
 
 	return out
@@ -81,17 +80,15 @@ func (o RenderTemplatesList) Version() int {
 // RenderTemplate represents the model of a rendertemplate
 type RenderTemplate struct {
 	// Output holds the rendered template.
-	Output string `json:"output" bson:"-" mapstructure:"output,omitempty"`
+	Output string `json:"output" msgpack:"output" bson:"-" mapstructure:"output,omitempty"`
 
 	// Parameters contains the computed parameters.
-	Parameters map[string]interface{} `json:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
+	Parameters map[string]interface{} `json:"parameters" msgpack:"parameters" bson:"-" mapstructure:"parameters,omitempty"`
 
 	// Template of the recipe.
-	Template string `json:"template" bson:"-" mapstructure:"template,omitempty"`
+	Template string `json:"template" msgpack:"template" bson:"-" mapstructure:"template,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewRenderTemplate returns a new *RenderTemplate
@@ -99,7 +96,6 @@ func NewRenderTemplate() *RenderTemplate {
 
 	return &RenderTemplate{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Parameters:   map[string]interface{}{},
 	}
 }
@@ -387,17 +383,15 @@ func (o SparseRenderTemplatesList) Version() int {
 // SparseRenderTemplate represents the sparse version of a rendertemplate.
 type SparseRenderTemplate struct {
 	// Output holds the rendered template.
-	Output *string `json:"output,omitempty" bson:"-" mapstructure:"output,omitempty"`
+	Output *string `json:"output,omitempty" msgpack:"output,omitempty" bson:"-" mapstructure:"output,omitempty"`
 
 	// Parameters contains the computed parameters.
-	Parameters *map[string]interface{} `json:"parameters,omitempty" bson:"-" mapstructure:"parameters,omitempty"`
+	Parameters *map[string]interface{} `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"-" mapstructure:"parameters,omitempty"`
 
 	// Template of the recipe.
-	Template *string `json:"template,omitempty" bson:"-" mapstructure:"template,omitempty"`
+	Template *string `json:"template,omitempty" msgpack:"template,omitempty" bson:"-" mapstructure:"template,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseRenderTemplate returns a new  SparseRenderTemplate.

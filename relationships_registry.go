@@ -2424,6 +2424,14 @@ func init() {
 						Type: "integer",
 					},
 					elemental.ParameterDefinition{
+						Name: "sessionClose",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name: "sessionID",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
 						Name: "status",
 						Type: "enum",
 						AllowedChoices: []string{
@@ -2435,6 +2443,10 @@ func init() {
 					elemental.ParameterDefinition{
 						Name: "ts",
 						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "version",
+						Type: "string",
 					},
 				},
 			},
@@ -2503,6 +2515,14 @@ func init() {
 						Type: "integer",
 					},
 					elemental.ParameterDefinition{
+						Name: "sessionClose",
+						Type: "boolean",
+					},
+					elemental.ParameterDefinition{
+						Name: "sessionID",
+						Type: "string",
+					},
+					elemental.ParameterDefinition{
 						Name: "status",
 						Type: "enum",
 						AllowedChoices: []string{
@@ -2514,6 +2534,10 @@ func init() {
 					elemental.ParameterDefinition{
 						Name: "ts",
 						Type: "time",
+					},
+					elemental.ParameterDefinition{
+						Name: "version",
+						Type: "string",
 					},
 				},
 			},
@@ -3378,232 +3402,6 @@ func init() {
 						Name:     "q",
 						Type:     "string",
 						Multiple: true,
-					},
-				},
-			},
-		},
-		RetrieveMany: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				RequiredParameters: elemental.NewParametersRequirement(
-					[][][]string{
-						[][]string{
-							[]string{
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-							},
-							[]string{
-								"startRelative",
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-								"endAbsolute",
-							},
-							[]string{
-								"startAbsolute",
-								"endRelative",
-							},
-							[]string{
-								"startAbsolute",
-								"endAbsolute",
-							},
-						},
-					},
-				),
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:     "field",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "function",
-						Type: "enum",
-						AllowedChoices: []string{
-							"count",
-							"mean",
-							"median",
-							"sum",
-							"first",
-							"last",
-							"max",
-							"min",
-							"distinct",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name:     "groupBy",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "interval",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name:         "measurement",
-						Type:         "enum",
-						DefaultValue: "flows",
-						AllowedChoices: []string{
-							"flows",
-							"audit",
-							"enforcers",
-							"files",
-							"eventlogs",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name: "query",
-						Type: "string",
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "where",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "endAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "endRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "startAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "startRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "limit",
-						Type: "integer",
-					},
-					elemental.ParameterDefinition{
-						Name: "offset",
-						Type: "integer",
-					},
-				},
-			},
-		},
-		Info: map[string]*elemental.RelationshipInfo{
-			"root": &elemental.RelationshipInfo{
-				RequiredParameters: elemental.NewParametersRequirement(
-					[][][]string{
-						[][]string{
-							[]string{
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-							},
-							[]string{
-								"startRelative",
-								"endRelative",
-							},
-							[]string{
-								"startRelative",
-								"endAbsolute",
-							},
-							[]string{
-								"startAbsolute",
-								"endRelative",
-							},
-							[]string{
-								"startAbsolute",
-								"endAbsolute",
-							},
-						},
-					},
-				),
-				Parameters: []elemental.ParameterDefinition{
-					elemental.ParameterDefinition{
-						Name:     "field",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "function",
-						Type: "enum",
-						AllowedChoices: []string{
-							"count",
-							"mean",
-							"median",
-							"sum",
-							"first",
-							"last",
-							"max",
-							"min",
-							"distinct",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name:     "groupBy",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "interval",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name:         "measurement",
-						Type:         "enum",
-						DefaultValue: "flows",
-						AllowedChoices: []string{
-							"flows",
-							"audit",
-							"enforcers",
-							"files",
-							"eventlogs",
-						},
-					},
-					elemental.ParameterDefinition{
-						Name: "query",
-						Type: "string",
-					},
-					elemental.ParameterDefinition{
-						Name:     "tag",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name:     "where",
-						Type:     "string",
-						Multiple: true,
-					},
-					elemental.ParameterDefinition{
-						Name: "endAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "endRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "startAbsolute",
-						Type: "time",
-					},
-					elemental.ParameterDefinition{
-						Name: "startRelative",
-						Type: "duration",
-					},
-					elemental.ParameterDefinition{
-						Name: "limit",
-						Type: "integer",
-					},
-					elemental.ParameterDefinition{
-						Name: "offset",
-						Type: "integer",
 					},
 				},
 			},

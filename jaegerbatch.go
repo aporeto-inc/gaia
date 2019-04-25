@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -62,11 +61,11 @@ func (o JaegerbatchsList) DefaultOrder() []string {
 
 // ToSparse returns the JaegerbatchsList converted to SparseJaegerbatchsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o JaegerbatchsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o JaegerbatchsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseJaegerbatchsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseJaegerbatch)
 	}
 
 	return out
@@ -81,11 +80,9 @@ func (o JaegerbatchsList) Version() int {
 // Jaegerbatch represents the model of a jaegerbatch
 type Jaegerbatch struct {
 	// Represents a jaeger batch.
-	Batch interface{} `json:"batch" bson:"batch" mapstructure:"batch,omitempty"`
+	Batch interface{} `json:"batch" msgpack:"batch" bson:"batch" mapstructure:"batch,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewJaegerbatch returns a new *Jaegerbatch
@@ -93,7 +90,6 @@ func NewJaegerbatch() *Jaegerbatch {
 
 	return &Jaegerbatch{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 	}
 }
 
@@ -335,11 +331,9 @@ func (o SparseJaegerbatchsList) Version() int {
 // SparseJaegerbatch represents the sparse version of a jaegerbatch.
 type SparseJaegerbatch struct {
 	// Represents a jaeger batch.
-	Batch *interface{} `json:"batch,omitempty" bson:"batch,omitempty" mapstructure:"batch,omitempty"`
+	Batch *interface{} `json:"batch,omitempty" msgpack:"batch,omitempty" bson:"batch,omitempty" mapstructure:"batch,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseJaegerbatch returns a new  SparseJaegerbatch.

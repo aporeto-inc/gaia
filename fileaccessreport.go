@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/mitchellh/copystructure"
@@ -74,11 +73,11 @@ func (o FileAccessReportsList) DefaultOrder() []string {
 
 // ToSparse returns the FileAccessReportsList converted to SparseFileAccessReportsList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o FileAccessReportsList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o FileAccessReportsList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseFileAccessReportsList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseFileAccessReport)
 	}
 
 	return out
@@ -93,29 +92,27 @@ func (o FileAccessReportsList) Version() int {
 // FileAccessReport represents the model of a fileaccessreport
 type FileAccessReport struct {
 	// Action taken.
-	Action FileAccessReportActionValue `json:"action" bson:"-" mapstructure:"action,omitempty"`
+	Action FileAccessReportActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
 
 	// Host of the file.
-	Host string `json:"host" bson:"-" mapstructure:"host,omitempty"`
+	Host string `json:"host" msgpack:"host" bson:"-" mapstructure:"host,omitempty"`
 
 	// Mode of the file access.
-	Mode string `json:"mode" bson:"-" mapstructure:"mode,omitempty"`
+	Mode string `json:"mode" msgpack:"mode" bson:"-" mapstructure:"mode,omitempty"`
 
 	// Path of the file.
-	Path string `json:"path" bson:"-" mapstructure:"path,omitempty"`
+	Path string `json:"path" msgpack:"path" bson:"-" mapstructure:"path,omitempty"`
 
 	// ID of the processing unit.
-	ProcessingUnitID string `json:"processingUnitID" bson:"-" mapstructure:"processingUnitID,omitempty"`
+	ProcessingUnitID string `json:"processingUnitID" msgpack:"processingUnitID" bson:"-" mapstructure:"processingUnitID,omitempty"`
 
 	// Namespace of the processing unit.
-	ProcessingUnitNamespace string `json:"processingUnitNamespace" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
+	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// Date of the report.
-	Timestamp time.Time `json:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
+	Timestamp time.Time `json:"timestamp" msgpack:"timestamp" bson:"-" mapstructure:"timestamp,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewFileAccessReport returns a new *FileAccessReport
@@ -123,7 +120,6 @@ func NewFileAccessReport() *FileAccessReport {
 
 	return &FileAccessReport{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		Host:         "localhost",
 		Mode:         "rxw",
 		Path:         "/etc/passwd",
@@ -271,35 +267,35 @@ func (o *FileAccessReport) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	if err := elemental.ValidateRequiredString("action", string(o.Action)); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Accept", "Reject"}, false); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("host", o.Host); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("mode", o.Mode); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("path", o.Path); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("processingUnitID", o.ProcessingUnitID); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredString("processingUnitNamespace", o.ProcessingUnitNamespace); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateRequiredTime("timestamp", o.Timestamp); err != nil {
-		requiredErrors = append(requiredErrors, err)
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -559,29 +555,27 @@ func (o SparseFileAccessReportsList) Version() int {
 // SparseFileAccessReport represents the sparse version of a fileaccessreport.
 type SparseFileAccessReport struct {
 	// Action taken.
-	Action *FileAccessReportActionValue `json:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
+	Action *FileAccessReportActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
 
 	// Host of the file.
-	Host *string `json:"host,omitempty" bson:"-" mapstructure:"host,omitempty"`
+	Host *string `json:"host,omitempty" msgpack:"host,omitempty" bson:"-" mapstructure:"host,omitempty"`
 
 	// Mode of the file access.
-	Mode *string `json:"mode,omitempty" bson:"-" mapstructure:"mode,omitempty"`
+	Mode *string `json:"mode,omitempty" msgpack:"mode,omitempty" bson:"-" mapstructure:"mode,omitempty"`
 
 	// Path of the file.
-	Path *string `json:"path,omitempty" bson:"-" mapstructure:"path,omitempty"`
+	Path *string `json:"path,omitempty" msgpack:"path,omitempty" bson:"-" mapstructure:"path,omitempty"`
 
 	// ID of the processing unit.
-	ProcessingUnitID *string `json:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
+	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
 
 	// Namespace of the processing unit.
-	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
+	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
 
 	// Date of the report.
-	Timestamp *time.Time `json:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
+	Timestamp *time.Time `json:"timestamp,omitempty" msgpack:"timestamp,omitempty" bson:"-" mapstructure:"timestamp,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseFileAccessReport returns a new  SparseFileAccessReport.

@@ -2,7 +2,6 @@ package gaia
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/mitchellh/copystructure"
 	"go.aporeto.io/elemental"
@@ -63,11 +62,11 @@ func (o RenderedPoliciesList) DefaultOrder() []string {
 
 // ToSparse returns the RenderedPoliciesList converted to SparseRenderedPoliciesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o RenderedPoliciesList) ToSparse(fields ...string) elemental.IdentifiablesList {
+func (o RenderedPoliciesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(elemental.IdentifiablesList, len(o))
+	out := make(SparseRenderedPoliciesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...)
+		out[i] = o[i].ToSparse(fields...).(*SparseRenderedPolicy)
 	}
 
 	return out
@@ -83,41 +82,39 @@ func (o RenderedPoliciesList) Version() int {
 type RenderedPolicy struct {
 	// Certificate is the certificate associated with this PU. It will identify the PU
 	// to any internal or external services.
-	Certificate string `json:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
+	Certificate string `json:"certificate" msgpack:"certificate" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// DependendServices is the list of services that this processing unit depends on.
-	DependendServices ServicesList `json:"dependendServices" bson:"-" mapstructure:"dependendServices,omitempty"`
+	DependendServices ServicesList `json:"dependendServices" msgpack:"dependendServices" bson:"-" mapstructure:"dependendServices,omitempty"`
 
 	// EgressPolicies lists all the egress policies attached to processing unit.
-	EgressPolicies map[string]PolicyRulesList `json:"egressPolicies" bson:"-" mapstructure:"egressPolicies,omitempty"`
+	EgressPolicies map[string]PolicyRulesList `json:"egressPolicies" msgpack:"egressPolicies" bson:"-" mapstructure:"egressPolicies,omitempty"`
 
 	// ExposedServices is the list of services that this processing unit is
 	// implementing.
-	ExposedServices ServicesList `json:"exposedServices" bson:"-" mapstructure:"exposedServices,omitempty"`
+	ExposedServices ServicesList `json:"exposedServices" msgpack:"exposedServices" bson:"-" mapstructure:"exposedServices,omitempty"`
 
 	// hashedTags contains the list of tags that matched the policies and their hashes.
-	HashedTags map[string]string `json:"hashedTags" bson:"-" mapstructure:"hashedTags,omitempty"`
+	HashedTags map[string]string `json:"hashedTags" msgpack:"hashedTags" bson:"-" mapstructure:"hashedTags,omitempty"`
 
 	// IngressPolicies lists all the ingress policies attached to processing unit.
-	IngressPolicies map[string]PolicyRulesList `json:"ingressPolicies" bson:"-" mapstructure:"ingressPolicies,omitempty"`
+	IngressPolicies map[string]PolicyRulesList `json:"ingressPolicies" msgpack:"ingressPolicies" bson:"-" mapstructure:"ingressPolicies,omitempty"`
 
 	// MatchingTags contains the list of tags that matched the policies.
-	MatchingTags []string `json:"matchingTags" bson:"-" mapstructure:"matchingTags,omitempty"`
+	MatchingTags []string `json:"matchingTags" msgpack:"matchingTags" bson:"-" mapstructure:"matchingTags,omitempty"`
 
 	// Can be set during a POST operation to render a policy on a Processing Unit that
 	// has not been created yet.
-	ProcessingUnit *ProcessingUnit `json:"processingUnit" bson:"-" mapstructure:"processingUnit,omitempty"`
+	ProcessingUnit *ProcessingUnit `json:"processingUnit" msgpack:"processingUnit" bson:"-" mapstructure:"processingUnit,omitempty"`
 
 	// Identifier of the processing unit.
-	ProcessingUnitID string `json:"processingUnitID" bson:"-" mapstructure:"processingUnitID,omitempty"`
+	ProcessingUnitID string `json:"processingUnitID" msgpack:"processingUnitID" bson:"-" mapstructure:"processingUnitID,omitempty"`
 
 	// Scopes is the set of scopes granted to this processing unit that it has to
 	// present in HTTP requests.
-	Scopes []string `json:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
+	Scopes []string `json:"scopes" msgpack:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewRenderedPolicy returns a new *RenderedPolicy
@@ -125,7 +122,6 @@ func NewRenderedPolicy() *RenderedPolicy {
 
 	return &RenderedPolicy{
 		ModelVersion: 1,
-		Mutex:        &sync.Mutex{},
 		EgressPolicies: map[string]PolicyRulesList{
 			string(constants.RenderedPolicyTypeNetwork):   PolicyRulesList{},
 			string(constants.RenderedPolicyTypeFile):      PolicyRulesList{},
@@ -302,18 +298,18 @@ func (o *RenderedPolicy) Validate() error {
 
 	for _, sub := range o.DependendServices {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.ExposedServices {
 		if err := sub.Validate(); err != nil {
-			errors = append(errors, err)
+			errors = errors.Append(err)
 		}
 	}
 
 	if err := o.ProcessingUnit.Validate(); err != nil {
-		errors = append(errors, err)
+		errors = errors.Append(err)
 	}
 
 	if len(requiredErrors) > 0 {
@@ -660,41 +656,39 @@ func (o SparseRenderedPoliciesList) Version() int {
 type SparseRenderedPolicy struct {
 	// Certificate is the certificate associated with this PU. It will identify the PU
 	// to any internal or external services.
-	Certificate *string `json:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
+	Certificate *string `json:"certificate,omitempty" msgpack:"certificate,omitempty" bson:"-" mapstructure:"certificate,omitempty"`
 
 	// DependendServices is the list of services that this processing unit depends on.
-	DependendServices *ServicesList `json:"dependendServices,omitempty" bson:"-" mapstructure:"dependendServices,omitempty"`
+	DependendServices *ServicesList `json:"dependendServices,omitempty" msgpack:"dependendServices,omitempty" bson:"-" mapstructure:"dependendServices,omitempty"`
 
 	// EgressPolicies lists all the egress policies attached to processing unit.
-	EgressPolicies *map[string]PolicyRulesList `json:"egressPolicies,omitempty" bson:"-" mapstructure:"egressPolicies,omitempty"`
+	EgressPolicies *map[string]PolicyRulesList `json:"egressPolicies,omitempty" msgpack:"egressPolicies,omitempty" bson:"-" mapstructure:"egressPolicies,omitempty"`
 
 	// ExposedServices is the list of services that this processing unit is
 	// implementing.
-	ExposedServices *ServicesList `json:"exposedServices,omitempty" bson:"-" mapstructure:"exposedServices,omitempty"`
+	ExposedServices *ServicesList `json:"exposedServices,omitempty" msgpack:"exposedServices,omitempty" bson:"-" mapstructure:"exposedServices,omitempty"`
 
 	// hashedTags contains the list of tags that matched the policies and their hashes.
-	HashedTags *map[string]string `json:"hashedTags,omitempty" bson:"-" mapstructure:"hashedTags,omitempty"`
+	HashedTags *map[string]string `json:"hashedTags,omitempty" msgpack:"hashedTags,omitempty" bson:"-" mapstructure:"hashedTags,omitempty"`
 
 	// IngressPolicies lists all the ingress policies attached to processing unit.
-	IngressPolicies *map[string]PolicyRulesList `json:"ingressPolicies,omitempty" bson:"-" mapstructure:"ingressPolicies,omitempty"`
+	IngressPolicies *map[string]PolicyRulesList `json:"ingressPolicies,omitempty" msgpack:"ingressPolicies,omitempty" bson:"-" mapstructure:"ingressPolicies,omitempty"`
 
 	// MatchingTags contains the list of tags that matched the policies.
-	MatchingTags *[]string `json:"matchingTags,omitempty" bson:"-" mapstructure:"matchingTags,omitempty"`
+	MatchingTags *[]string `json:"matchingTags,omitempty" msgpack:"matchingTags,omitempty" bson:"-" mapstructure:"matchingTags,omitempty"`
 
 	// Can be set during a POST operation to render a policy on a Processing Unit that
 	// has not been created yet.
-	ProcessingUnit **ProcessingUnit `json:"processingUnit,omitempty" bson:"-" mapstructure:"processingUnit,omitempty"`
+	ProcessingUnit **ProcessingUnit `json:"processingUnit,omitempty" msgpack:"processingUnit,omitempty" bson:"-" mapstructure:"processingUnit,omitempty"`
 
 	// Identifier of the processing unit.
-	ProcessingUnitID *string `json:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
+	ProcessingUnitID *string `json:"processingUnitID,omitempty" msgpack:"processingUnitID,omitempty" bson:"-" mapstructure:"processingUnitID,omitempty"`
 
 	// Scopes is the set of scopes granted to this processing unit that it has to
 	// present in HTTP requests.
-	Scopes *[]string `json:"scopes,omitempty" bson:"scopes,omitempty" mapstructure:"scopes,omitempty"`
+	Scopes *[]string `json:"scopes,omitempty" msgpack:"scopes,omitempty" bson:"scopes,omitempty" mapstructure:"scopes,omitempty"`
 
-	ModelVersion int `json:"-" bson:"_modelversion"`
-
-	*sync.Mutex `json:"-" bson:"-"`
+	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
 // NewSparseRenderedPolicy returns a new  SparseRenderedPolicy.
