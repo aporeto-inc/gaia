@@ -2257,7 +2257,7 @@ Name is the name of the namespace.
 
 Namespace tag attached to an entity.
 
-##### `networkAccessPolicyTags` `[]string` [`read_only`]
+##### `networkAccessPolicyTags` `[]string`
 
 _This attribute is deprecated_.
 
