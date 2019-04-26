@@ -526,7 +526,7 @@ func validateTagStrings(attribute string, acceptReservedPrefix bool, strs ...str
 }
 
 // tagRegex is the regular expression to check the format of a tag.
-var tagRegex = regexp.MustCompile(`^[\w\d\*\$\+\.:,|@<>/-]+=[= \/\"\!\?\{\}\(\)\w\d\*\$\+\.:;,|@%&~<>#/-]+$`)
+var tagRegex = regexp.MustCompile(`^[^= ]+=.+`)
 
 // ValidateTag validates a single tag.
 func ValidateTag(attribute string, tag string) error {

@@ -1189,6 +1189,27 @@ func TestValidateTag(t *testing.T) {
 			},
 			false,
 		},
+		{
+			"tag contains 2 equals",
+			args{
+				"a=a=b",
+			},
+			false,
+		},
+		{
+			"tag contains 2 touching equals",
+			args{
+				"a==b",
+			},
+			false,
+		},
+		{
+			"complex key",
+			args{
+				`utf8-_!@#%&"(*)+.,/$!:;<>=?{}~=utf8-_!@#%&" (*)+.,/$!:;<>=?{}~`,
+			},
+			false,
+		},
 
 		// Error
 		{
@@ -1202,6 +1223,13 @@ func TestValidateTag(t *testing.T) {
 			"key contains spaces",
 			args{
 				"the key=value",
+			},
+			true,
+		},
+		{
+			"key starts with =",
+			args{
+				"=thekey=value",
 			},
 			true,
 		},
