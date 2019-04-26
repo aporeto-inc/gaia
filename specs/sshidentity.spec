@@ -1,7 +1,7 @@
 # Model
 model:
   rest_name: sshidentity
-  resource_name: sshidentitiess
+  resource_name: sshidentities
   entity_name: SSHIdentity
   package: cactuar
   group: policy/ssh

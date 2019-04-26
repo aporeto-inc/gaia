@@ -209,7 +209,7 @@ var (
 		"sshauthorities":           SSHAuthorityIdentity,
 		"sshauthorizationpolicies": SSHAuthorizationPolicyIdentity,
 		"sshcertificates":          SSHCertificateIdentity,
-		"sshidentitiess":           SSHIdentityIdentity,
+		"sshidentities":            SSHIdentityIdentity,
 		"statsinfo":                StatsInfoIdentity,
 		"statsqueries":             StatsQueryIdentity,
 		"suggestedpolicies":        SuggestedPolicyIdentity,

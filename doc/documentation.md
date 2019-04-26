@@ -8016,7 +8016,7 @@ be used to connect to a node where enforcer is protecting SSH sessions.
 
 #### Relations
 
-##### `POST /sshidentitiess`
+##### `POST /sshidentities`
 
 Creates a new SSH Identity Certificate.
 
