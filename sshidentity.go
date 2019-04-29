@@ -10,7 +10,7 @@ import (
 // SSHIdentityIdentity represents the Identity of the object.
 var SSHIdentityIdentity = elemental.Identity{
 	Name:     "sshidentity",
-	Category: "sshidentitiess",
+	Category: "sshidentities",
 	Package:  "cactuar",
 	Private:  false,
 }

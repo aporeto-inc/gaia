@@ -98,3 +98,13 @@ attributes:
     example_value:
     - email
     - profile
+
+  - name: subjects
+    description: Subjects is the list of claims that will provide the subject.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    example_value:
+    - email
+    - profile

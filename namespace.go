@@ -847,6 +847,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"NetworkAccessPolicyTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NetworkAccessPolicyTags",
+		Deprecated:     true,
 		Description: `List of tags that will be added to every ` + "`" + `or` + "`" + ` clause of all network access
 policies in the namespace and its children.`,
 		Exposed: true,
@@ -1116,6 +1117,7 @@ with the '@' prefix, and should only be used by external systems.`,
 	"networkaccesspolicytags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NetworkAccessPolicyTags",
+		Deprecated:     true,
 		Description: `List of tags that will be added to every ` + "`" + `or` + "`" + ` clause of all network access
 policies in the namespace and its children.`,
 		Exposed: true,
