@@ -104,14 +104,6 @@ attributes:
     filterable: true
     orderable: true
 
-  - name: Enabled
-    description: Enabled determines if the account uses it's own LDAP for authentication.
-    type: boolean
-    exposed: true
-    stored: true
-    filterable: true
-    orderable: true
-
   - name: IgnoredKeys
     description: |-
       IgnoredKeys holds a list of keys that must not be imported into Aporeto

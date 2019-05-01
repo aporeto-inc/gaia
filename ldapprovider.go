@@ -118,9 +118,6 @@ type LDAPProvider struct {
 	// ConnSecurityProtocol holds the connection type for the LDAP provider.
 	ConnSecurityProtocol LDAPProviderConnSecurityProtocolValue `json:"ConnSecurityProtocol" msgpack:"ConnSecurityProtocol" bson:"connsecurityprotocol" mapstructure:"ConnSecurityProtocol,omitempty"`
 
-	// Enabled determines if the account uses it's own LDAP for authentication.
-	Enabled bool `json:"Enabled" msgpack:"Enabled" bson:"enabled" mapstructure:"Enabled,omitempty"`
-
 	// ID is the identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
@@ -173,8 +170,8 @@ func NewLDAPProvider() *LDAPProvider {
 		Annotations:          map[string][]string{},
 		AssociatedTags:       []string{},
 		BindSearchFilter:     "uid={USERNAME}",
-		ConnSecurityProtocol: LDAPProviderConnSecurityProtocolInbandTLS,
 		IgnoredKeys:          []string{},
+		ConnSecurityProtocol: LDAPProviderConnSecurityProtocolInbandTLS,
 		NormalizedTags:       []string{},
 	}
 }
@@ -345,7 +342,6 @@ func (o *LDAPProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			BindSearchFilter:     &o.BindSearchFilter,
 			CertificateAuthority: &o.CertificateAuthority,
 			ConnSecurityProtocol: &o.ConnSecurityProtocol,
-			Enabled:              &o.Enabled,
 			ID:                   &o.ID,
 			IgnoredKeys:          &o.IgnoredKeys,
 			SubjectKey:           &o.SubjectKey,
@@ -378,8 +374,6 @@ func (o *LDAPProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CertificateAuthority = &(o.CertificateAuthority)
 		case "ConnSecurityProtocol":
 			sp.ConnSecurityProtocol = &(o.ConnSecurityProtocol)
-		case "Enabled":
-			sp.Enabled = &(o.Enabled)
 		case "ID":
 			sp.ID = &(o.ID)
 		case "IgnoredKeys":
@@ -437,9 +431,6 @@ func (o *LDAPProvider) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.ConnSecurityProtocol != nil {
 		o.ConnSecurityProtocol = *so.ConnSecurityProtocol
-	}
-	if so.Enabled != nil {
-		o.Enabled = *so.Enabled
 	}
 	if so.ID != nil {
 		o.ID = *so.ID
@@ -565,8 +556,6 @@ func (o *LDAPProvider) ValueForAttribute(name string) interface{} {
 		return o.CertificateAuthority
 	case "ConnSecurityProtocol":
 		return o.ConnSecurityProtocol
-	case "Enabled":
-		return o.Enabled
 	case "ID":
 		return o.ID
 	case "IgnoredKeys":
@@ -677,17 +666,6 @@ of the LDAP is issued from a public truster CA.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "enum",
-	},
-	"Enabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Enabled",
-		Description:    `Enabled determines if the account uses it's own LDAP for authentication.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "Enabled",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -932,17 +910,6 @@ of the LDAP is issued from a public truster CA.`,
 		Orderable:      true,
 		Stored:         true,
 		Type:           "enum",
-	},
-	"enabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Enabled",
-		Description:    `Enabled determines if the account uses it's own LDAP for authentication.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "Enabled",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1196,9 +1163,6 @@ type SparseLDAPProvider struct {
 	// ConnSecurityProtocol holds the connection type for the LDAP provider.
 	ConnSecurityProtocol *LDAPProviderConnSecurityProtocolValue `json:"ConnSecurityProtocol,omitempty" msgpack:"ConnSecurityProtocol,omitempty" bson:"connsecurityprotocol,omitempty" mapstructure:"ConnSecurityProtocol,omitempty"`
 
-	// Enabled determines if the account uses it's own LDAP for authentication.
-	Enabled *bool `json:"Enabled,omitempty" msgpack:"Enabled,omitempty" bson:"enabled,omitempty" mapstructure:"Enabled,omitempty"`
-
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
@@ -1298,9 +1262,6 @@ func (o *SparseLDAPProvider) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.ConnSecurityProtocol != nil {
 		out.ConnSecurityProtocol = *o.ConnSecurityProtocol
-	}
-	if o.Enabled != nil {
-		out.Enabled = *o.Enabled
 	}
 	if o.ID != nil {
 		out.ID = *o.ID
