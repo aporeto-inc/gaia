@@ -133,6 +133,9 @@ type LDAPProvider struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// Description is the description of the object.
+	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
+
 	// IgnoredKeys holds a list of keys that must not be imported into Aporeto
 	// authorization system.
 	IgnoredKeys []string `json:"ignoredKeys" msgpack:"ignoredKeys" bson:"ignoredkeys" mapstructure:"ignoredKeys,omitempty"`
@@ -271,6 +274,18 @@ func (o *LDAPProvider) SetCreateTime(createTime time.Time) {
 	o.CreateTime = createTime
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *LDAPProvider) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *LDAPProvider) SetDescription(description string) {
+
+	o.Description = description
+}
+
 // GetNamespace returns the Namespace of the receiver.
 func (o *LDAPProvider) GetNamespace() string {
 
@@ -350,6 +365,7 @@ func (o *LDAPProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ConnSecurityProtocol: &o.ConnSecurityProtocol,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
+			Description:          &o.Description,
 			IgnoredKeys:          &o.IgnoredKeys,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
@@ -388,6 +404,8 @@ func (o *LDAPProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
+		case "description":
+			sp.Description = &(o.Description)
 		case "ignoredKeys":
 			sp.IgnoredKeys = &(o.IgnoredKeys)
 		case "name":
@@ -453,6 +471,9 @@ func (o *LDAPProvider) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
 	if so.IgnoredKeys != nil {
 		o.IgnoredKeys = *so.IgnoredKeys
 	}
@@ -514,6 +535,10 @@ func (o *LDAPProvider) Validate() error {
 	}
 
 	if err := elemental.ValidateStringInList("connSecurityProtocol", string(o.ConnSecurityProtocol), []string{"TLS", "InbandTLS"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -579,6 +604,8 @@ func (o *LDAPProvider) ValueForAttribute(name string) interface{} {
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
+	case "description":
+		return o.Description
 	case "ignoredKeys":
 		return o.IgnoredKeys
 	case "name":
@@ -745,6 +772,19 @@ of the LDAP is issued from a public truster CA.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"Description": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Description",
+		Description:    `Description is the description of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		MaxLength:      1024,
+		Name:           "description",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
 	},
 	"IgnoredKeys": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1001,6 +1041,19 @@ of the LDAP is issued from a public truster CA.`,
 		Stored:         true,
 		Type:           "time",
 	},
+	"description": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Description",
+		Description:    `Description is the description of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		MaxLength:      1024,
+		Name:           "description",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"ignoredkeys": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "IgnoredKeys",
@@ -1215,6 +1268,9 @@ type SparseLDAPProvider struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
+
 	// IgnoredKeys holds a list of keys that must not be imported into Aporeto
 	// authorization system.
 	IgnoredKeys *[]string `json:"ignoredKeys,omitempty" msgpack:"ignoredKeys,omitempty" bson:"ignoredkeys,omitempty" mapstructure:"ignoredKeys,omitempty"`
@@ -1318,6 +1374,9 @@ func (o *SparseLDAPProvider) ToPlain() elemental.PlainIdentifiable {
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
 	if o.IgnoredKeys != nil {
 		out.IgnoredKeys = *o.IgnoredKeys
 	}
@@ -1392,6 +1451,18 @@ func (o *SparseLDAPProvider) GetCreateTime() time.Time {
 func (o *SparseLDAPProvider) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetDescription returns the Description of the receiver.
+func (o *SparseLDAPProvider) GetDescription() string {
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseLDAPProvider) SetDescription(description string) {
+
+	o.Description = &description
 }
 
 // GetNamespace returns the Namespace of the receiver.

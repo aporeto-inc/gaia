@@ -17,9 +17,10 @@ model:
     global_parameters:
     - $filtering
   extends:
+  - '@base'
+  - '@described'
   - '@identifiable-stored'
   - '@timeable'
-  - '@base'
 
 # Attributes
 attributes:
