@@ -24,7 +24,7 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: Address
+  - name: address
     description: Address holds the account authentication account's private LDAP
       server.
     type: string
@@ -34,7 +34,7 @@ attributes:
     filterable: true
     orderable: true
 
-  - name: BaseDN
+  - name: baseDN
     description: BaseDN holds the base DN to use to LDAP queries.
     type: string
     exposed: true
@@ -43,7 +43,7 @@ attributes:
     filterable: true
     orderable: true
 
-  - name: BindDN
+  - name: bindDN
     description: BindDN holds the account's internal LDAP bind DN for querying
       auth.
     type: string
@@ -53,7 +53,7 @@ attributes:
     filterable: true
     orderable: true
 
-  - name: BindPassword
+  - name: bindPassword
     description: BindPassword holds the password to the LDAP bind DN.
     type: string
     exposed: true
@@ -61,7 +61,7 @@ attributes:
     example_value: s3cr3t
     orderable: true
 
-  - name: BindSearchFilter
+  - name: bindSearchFilter
     description: |-
       BindSearchFilter holds filter to be used to uniquely search a user. For
       Windows based systems, value may be `sAMAccountName={USERNAME}`. For Linux and
@@ -72,7 +72,7 @@ attributes:
     default_value: uid={USERNAME}
     orderable: true
 
-  - name: CertificateAuthority
+  - name: certificateAuthority
     description: |-
       CertificateAuthority contains the optional certificate authority that will
       be used to connect to the LDAP server. It is not needed if the TLS certificate
@@ -92,7 +92,7 @@ attributes:
       -----END CERTIFICATE-----
     orderable: true
 
-  - name: ConnSecurityProtocol
+  - name: connSecurityProtocol
     description: ConnSecurityProtocol holds the connection type for the LDAP provider.
     type: enum
     exposed: true
@@ -104,7 +104,7 @@ attributes:
     filterable: true
     orderable: true
 
-  - name: IgnoredKeys
+  - name: ignoredKeys
     description: |-
       IgnoredKeys holds a list of keys that must not be imported into Aporeto
       authorization system.
@@ -114,7 +114,16 @@ attributes:
     stored: true
     orderable: true
 
-  - name: SubjectKey
+  - name: name
+    description: Name of the provider.
+    type: string
+    exposed: true
+    stored: true
+    required: true
+    creation_only: true
+    example_value: oldap
+
+  - name: subjectKey
     description: |-
       SubjectKey holds key to be used to populate the subject. If you want to
       use the user as a subject, for Windows based systems you may use
