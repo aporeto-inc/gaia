@@ -4188,7 +4188,7 @@ Create a audit statistics report.
 
 ##### `AUID` `string`
 
-Needs documentation.
+The Audit User ID that is the loginID of the user.
 
 ##### `CWD` `string`
 
@@ -4196,11 +4196,11 @@ Command working directory.
 
 ##### `EGID` `integer`
 
-Needs documentation.
+Effective group ID of the user who started the analyzed process.
 
 ##### `EUID` `integer`
 
-Needs documentation.
+Effective user ID of the user who started the analyzed process.
 
 ##### `EXE` `string`
 
@@ -4208,15 +4208,15 @@ Path to the executable.
 
 ##### `FSGID` `integer`
 
-Needs documentation.
+File system group ID of the user who started the analyzed process.
 
 ##### `FSUID` `integer`
 
-Needs documentation.
+File system user ID of the user who started the analyzed process.
 
 ##### `GID` `integer`
 
-Needs documentation.
+Group ID of the user who started the analyzed process.
 
 ##### `PER` `integer`
 
@@ -4232,35 +4232,35 @@ PID of the parent executable.
 
 ##### `SGID` `integer`
 
-Needs documentation.
+Set group ID of the user who started the analyzed process.
 
 ##### `SUID` `integer`
 
-Needs documentation.
+Set user ID of the user who started the analyzed process.
 
 ##### `UID` `integer`
 
-Needs documentation.
+User ID.
 
 ##### `a0` `string`
 
-Needs documentation.
+First argument of the executed system call.
 
 ##### `a1` `string`
 
-Needs documentation.
+Second argument of the executed system call.
 
 ##### `a2` `string`
 
-Needs documentation.
+Third argument of the executed system call.
 
 ##### `a3` `string`
 
-Needs documentation.
+Fourth argument of the executed system call.
 
 ##### `arch` `string`
 
-Architecture of the system where the syscall happened.
+Architecture of the system of the monitored process.
 
 ##### `auditProfileID` `string` [`required`]
 
@@ -4284,7 +4284,7 @@ Namespace of the enforcer reporting.
 
 ##### `exit` `integer`
 
-Exit code of the executable.
+Exit code of the executed system call.
 
 ##### `processingUnitID` `string` [`required`]
 
@@ -4296,7 +4296,7 @@ Namespace of the processing unit originating the report.
 
 ##### `recordType` `string` [`required`]
 
-Type of record.
+Type of Audit Record.
 
 ##### `sequence` `integer`
 
@@ -4308,7 +4308,7 @@ Tells if the operation has been a success of a failure.
 
 ##### `syscall` `string`
 
-Syscall name.
+Syscall executed.
 
 ##### `timestamp` `time` [`required`]
 
