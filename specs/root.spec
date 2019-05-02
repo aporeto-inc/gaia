@@ -339,6 +339,14 @@ relations:
   create:
     description: Imports data from a previous export.
 
+- rest_name: importreference
+  get:
+    description: Retrieves the list of import references.
+    global_parameters:
+    - $filtering
+  create:
+    description: Imports data from a previous export and keep a reference.
+
 - rest_name: importrequest
   get:
     description: Retrieves the list of import requests.

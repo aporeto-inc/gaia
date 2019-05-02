@@ -50,6 +50,7 @@ var (
 		"hostservicemappingpolicy": HostServiceMappingPolicyIdentity,
 		"httpresourcespec":         HTTPResourceSpecIdentity,
 		"import":                   ImportIdentity,
+		"importreference":          ImportReferenceIdentity,
 		"importrequest":            ImportRequestIdentity,
 		"installedapp":             InstalledAppIdentity,
 		"invoice":                  InvoiceIdentity,
@@ -164,6 +165,7 @@ var (
 		"hostservicemappingpolicies": HostServiceMappingPolicyIdentity,
 		"httpresourcespecs":          HTTPResourceSpecIdentity,
 		"import":                     ImportIdentity,
+		"importreferences":           ImportReferenceIdentity,
 		"importrequests":             ImportRequestIdentity,
 		"installedapps":              InstalledAppIdentity,
 		"invoices":                   InvoiceIdentity,
@@ -268,6 +270,8 @@ var (
 		"httpresource":   HTTPResourceSpecIdentity,
 		"resource":       HTTPResourceSpecIdentity,
 		"httpspec":       HTTPResourceSpecIdentity,
+		"importref":      ImportReferenceIdentity,
+		"impref":         ImportReferenceIdentity,
 		"req":            ImportRequestIdentity,
 		"reqs":           ImportRequestIdentity,
 		"ireq":           ImportRequestIdentity,
@@ -493,6 +497,15 @@ var (
 			[]string{"archived"},
 		},
 		"import": nil,
+		"importreference": [][]string{
+			[]string{"updateIdempotencyKey"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "name"},
+			[]string{"namespace"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
+			[]string{":shard", "zone", "zHash"},
+		},
 		"importrequest": [][]string{
 			[]string{"updateIdempotencyKey"},
 			[]string{"namespace"},
@@ -791,6 +804,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewHTTPResourceSpec()
 	case ImportIdentity:
 		return NewImport()
+	case ImportReferenceIdentity:
+		return NewImportReference()
 	case ImportRequestIdentity:
 		return NewImportRequest()
 	case InstalledAppIdentity:
@@ -1004,6 +1019,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseHTTPResourceSpec()
 	case ImportIdentity:
 		return NewSparseImport()
+	case ImportReferenceIdentity:
+		return NewSparseImportReference()
 	case ImportRequestIdentity:
 		return NewSparseImportRequest()
 	case InstalledAppIdentity:
@@ -1225,6 +1242,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &HTTPResourceSpecsList{}
 	case ImportIdentity:
 		return &ImportsList{}
+	case ImportReferenceIdentity:
+		return &ImportReferencesList{}
 	case ImportRequestIdentity:
 		return &ImportRequestsList{}
 	case InstalledAppIdentity:
@@ -1436,6 +1455,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseHTTPResourceSpecsList{}
 	case ImportIdentity:
 		return &SparseImportsList{}
+	case ImportReferenceIdentity:
+		return &SparseImportReferencesList{}
 	case ImportRequestIdentity:
 		return &SparseImportRequestsList{}
 	case InstalledAppIdentity:
@@ -1620,6 +1641,7 @@ func AllIdentities() []elemental.Identity {
 		HostServiceMappingPolicyIdentity,
 		HTTPResourceSpecIdentity,
 		ImportIdentity,
+		ImportReferenceIdentity,
 		ImportRequestIdentity,
 		InstalledAppIdentity,
 		InvoiceIdentity,
@@ -1824,6 +1846,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case ImportIdentity:
 		return []string{}
+	case ImportReferenceIdentity:
+		return []string{
+			"importref",
+			"impref",
+		}
 	case ImportRequestIdentity:
 		return []string{
 			"req",
