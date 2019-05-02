@@ -190,13 +190,13 @@ func ValidateServiceEntity(service *Service) error {
 	}
 
 	allSubnets := []*net.IPNet{}
-	for i, ip := range service.IPs {
+	for _, ip := range service.IPs {
 		ipNet, err := ipNetFromString(ip)
 		if err != nil {
 			errs = errs.Append(err)
 			continue
 		}
-		for j := 0; j < i; j++ {
+		for j := 0; j < len(allSubnets); j++ {
 			if allSubnets[j].Contains(ipNet.IP) || ipNet.Contains(allSubnets[j].IP) {
 				errs = errs.Append(makeValidationError("IPs", "subnets cannot overlap"))
 			}

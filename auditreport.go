@@ -184,7 +184,6 @@ func NewAuditReport() *AuditReport {
 
 	return &AuditReport{
 		ModelVersion: 1,
-		Success:      false,
 	}
 }
 
@@ -503,10 +502,6 @@ func (o *AuditReport) Validate() error {
 	}
 
 	if err := elemental.ValidateRequiredString("recordType", o.RecordType); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
-	if err := elemental.ValidateRequiredString("syscall", o.Syscall); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
@@ -864,7 +859,6 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Tells if the operation has been a success of a failure.`,
 		Exposed:        true,
 		Name:           "success",
-		Required:       true,
 		Type:           "boolean",
 	},
 	"Syscall": elemental.AttributeSpecification{
@@ -873,7 +867,6 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Syscall name.`,
 		Exposed:        true,
 		Name:           "syscall",
-		Required:       true,
 		Type:           "string",
 	},
 	"Timestamp": elemental.AttributeSpecification{
@@ -1134,7 +1127,6 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `Tells if the operation has been a success of a failure.`,
 		Exposed:        true,
 		Name:           "success",
-		Required:       true,
 		Type:           "boolean",
 	},
 	"syscall": elemental.AttributeSpecification{
@@ -1143,7 +1135,6 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Description:    `Syscall name.`,
 		Exposed:        true,
 		Name:           "syscall",
-		Required:       true,
 		Type:           "string",
 	},
 	"timestamp": elemental.AttributeSpecification{

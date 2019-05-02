@@ -23,6 +23,14 @@ indexes:
   - date
 - - namespace
   - operation
+- - namespace
+  - error.code
+- - namespace
+  - targetIdentity
+- - namespace
+  - data.ID
+- - namespace
+  - originalData.ID
 
 # Attributes
 attributes:

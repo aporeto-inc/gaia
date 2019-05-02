@@ -789,6 +789,28 @@ func TestValidateServiceEntity(t *testing.T) {
 			},
 			true,
 		},
+		{
+			"service with multiple IPs and multiple error case",
+			args{
+				&Service{
+					IPs:               []string{"10.11.0.1234/24", "10.1.0.0/16", "10.1.0.3/24"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeNone,
+				},
+			},
+			true,
+		},
+		{
+			"service with multiple IPs positive case",
+			args{
+				&Service{
+					IPs:               []string{"10.11.0.123/24", "10.1.0.0/16", "10.19.0.33/24"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeNone,
+				},
+			},
+			false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

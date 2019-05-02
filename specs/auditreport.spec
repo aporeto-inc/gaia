@@ -182,14 +182,11 @@ attributes:
     description: Tells if the operation has been a success of a failure.
     type: boolean
     exposed: true
-    required: true
-    default_value: false
 
   - name: syscall
     description: Syscall name.
     type: string
     exposed: true
-    required: true
     example_value: execve
 
   - name: timestamp
