@@ -36,6 +36,12 @@ attributes:
     exposed: true
     stored: true
 
+  - name: longDescription
+    description: LongDescription provides a long description of the recipe.
+    type: string
+    exposed: true
+    stored: true
+
   - name: steps
     description: Steps contains all the steps with parameters to follow for the recipe.
     type: refList

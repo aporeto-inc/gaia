@@ -3505,6 +3505,10 @@ Description is the description of the object.
 
 Icon contains a base64 image for the recipe.
 
+##### `longDescription` `string`
+
+LongDescription provides a long description of the recipe.
+
 ##### `metadata` `[]string` [`creation_only`]
 
 Metadata contains tags that can only be set during creation. They must all start

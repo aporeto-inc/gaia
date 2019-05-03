@@ -104,6 +104,9 @@ type Recipe struct {
 	// Icon contains a base64 image for the recipe.
 	Icon string `json:"icon" msgpack:"icon" bson:"icon" mapstructure:"icon,omitempty"`
 
+	// LongDescription provides a long description of the recipe.
+	LongDescription string `json:"longDescription" msgpack:"longDescription" bson:"longdescription" mapstructure:"longDescription,omitempty"`
+
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
@@ -365,6 +368,7 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CreateTime:           &o.CreateTime,
 			Description:          &o.Description,
 			Icon:                 &o.Icon,
+			LongDescription:      &o.LongDescription,
 			Metadata:             &o.Metadata,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
@@ -395,6 +399,8 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Description = &(o.Description)
 		case "icon":
 			sp.Icon = &(o.Icon)
+		case "longDescription":
+			sp.LongDescription = &(o.LongDescription)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "name":
@@ -448,6 +454,9 @@ func (o *Recipe) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Icon != nil {
 		o.Icon = *so.Icon
+	}
+	if so.LongDescription != nil {
+		o.LongDescription = *so.LongDescription
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -585,6 +594,8 @@ func (o *Recipe) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "icon":
 		return o.Icon
+	case "longDescription":
+		return o.LongDescription
 	case "metadata":
 		return o.Metadata
 	case "name":
@@ -695,6 +706,15 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Icon contains a base64 image for the recipe.`,
 		Exposed:        true,
 		Name:           "icon",
+		Stored:         true,
+		Type:           "string",
+	},
+	"LongDescription": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LongDescription",
+		Description:    `LongDescription provides a long description of the recipe.`,
+		Exposed:        true,
+		Name:           "longDescription",
 		Stored:         true,
 		Type:           "string",
 	},
@@ -920,6 +940,15 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"longdescription": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LongDescription",
+		Description:    `LongDescription provides a long description of the recipe.`,
+		Exposed:        true,
+		Name:           "longDescription",
+		Stored:         true,
+		Type:           "string",
+	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -1141,6 +1170,9 @@ type SparseRecipe struct {
 	// Icon contains a base64 image for the recipe.
 	Icon *string `json:"icon,omitempty" msgpack:"icon,omitempty" bson:"icon,omitempty" mapstructure:"icon,omitempty"`
 
+	// LongDescription provides a long description of the recipe.
+	LongDescription *string `json:"longDescription,omitempty" msgpack:"longDescription,omitempty" bson:"longdescription,omitempty" mapstructure:"longDescription,omitempty"`
+
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
@@ -1231,6 +1263,9 @@ func (o *SparseRecipe) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Icon != nil {
 		out.Icon = *o.Icon
+	}
+	if o.LongDescription != nil {
+		out.LongDescription = *o.LongDescription
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
