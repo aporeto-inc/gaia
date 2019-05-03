@@ -405,8 +405,8 @@ relations:
     - $filtering
     parameters:
       entries:
-      - name: LDAPProviderName
-        description: LDAPProvider name.
+      - name: name
+        description: LDAP provider name.
         type: string
         example_value: oldap
 

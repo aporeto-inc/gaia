@@ -1936,7 +1936,7 @@ func init() {
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
-						Name: "LDAPProviderName",
+						Name: "name",
 						Type: "string",
 					},
 					elemental.ParameterDefinition{
@@ -1955,7 +1955,7 @@ func init() {
 			"root": &elemental.RelationshipInfo{
 				Parameters: []elemental.ParameterDefinition{
 					elemental.ParameterDefinition{
-						Name: "LDAPProviderName",
+						Name: "name",
 						Type: "string",
 					},
 					elemental.ParameterDefinition{
