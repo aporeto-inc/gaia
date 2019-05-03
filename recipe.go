@@ -104,6 +104,9 @@ type Recipe struct {
 	// Icon contains a base64 image for the recipe.
 	Icon string `json:"icon" msgpack:"icon" bson:"icon" mapstructure:"icon,omitempty"`
 
+	// Label of the recipe.
+	Label string `json:"label" msgpack:"label" bson:"label" mapstructure:"label,omitempty"`
+
 	// LongDescription provides a long description of the recipe.
 	LongDescription string `json:"longDescription" msgpack:"longDescription" bson:"longdescription" mapstructure:"longDescription,omitempty"`
 
@@ -150,6 +153,7 @@ func NewRecipe() *Recipe {
 		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
+		Label:          "magicpanda",
 		Steps:          []*UIStep{},
 	}
 }
@@ -368,6 +372,7 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CreateTime:           &o.CreateTime,
 			Description:          &o.Description,
 			Icon:                 &o.Icon,
+			Label:                &o.Label,
 			LongDescription:      &o.LongDescription,
 			Metadata:             &o.Metadata,
 			Name:                 &o.Name,
@@ -399,6 +404,8 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Description = &(o.Description)
 		case "icon":
 			sp.Icon = &(o.Icon)
+		case "label":
+			sp.Label = &(o.Label)
 		case "longDescription":
 			sp.LongDescription = &(o.LongDescription)
 		case "metadata":
@@ -454,6 +461,9 @@ func (o *Recipe) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Icon != nil {
 		o.Icon = *so.Icon
+	}
+	if so.Label != nil {
+		o.Label = *so.Label
 	}
 	if so.LongDescription != nil {
 		o.LongDescription = *so.LongDescription
@@ -528,6 +538,10 @@ func (o *Recipe) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := elemental.ValidateRequiredString("label", o.Label); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = errors.Append(err)
 	}
@@ -594,6 +608,8 @@ func (o *Recipe) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "icon":
 		return o.Icon
+	case "label":
+		return o.Label
 	case "longDescription":
 		return o.LongDescription
 	case "metadata":
@@ -706,6 +722,18 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Icon contains a base64 image for the recipe.`,
 		Exposed:        true,
 		Name:           "icon",
+		Stored:         true,
+		Type:           "string",
+	},
+	"Label": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Label",
+		CreationOnly:   true,
+		DefaultValue:   "magicpanda",
+		Description:    `Label of the recipe.`,
+		Exposed:        true,
+		Name:           "label",
+		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -940,6 +968,18 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"label": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Label",
+		CreationOnly:   true,
+		DefaultValue:   "magicpanda",
+		Description:    `Label of the recipe.`,
+		Exposed:        true,
+		Name:           "label",
+		Required:       true,
+		Stored:         true,
+		Type:           "string",
+	},
 	"longdescription": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "LongDescription",
@@ -1170,6 +1210,9 @@ type SparseRecipe struct {
 	// Icon contains a base64 image for the recipe.
 	Icon *string `json:"icon,omitempty" msgpack:"icon,omitempty" bson:"icon,omitempty" mapstructure:"icon,omitempty"`
 
+	// Label of the recipe.
+	Label *string `json:"label,omitempty" msgpack:"label,omitempty" bson:"label,omitempty" mapstructure:"label,omitempty"`
+
 	// LongDescription provides a long description of the recipe.
 	LongDescription *string `json:"longDescription,omitempty" msgpack:"longDescription,omitempty" bson:"longdescription,omitempty" mapstructure:"longDescription,omitempty"`
 
@@ -1263,6 +1306,9 @@ func (o *SparseRecipe) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Icon != nil {
 		out.Icon = *o.Icon
+	}
+	if o.Label != nil {
+		out.Label = *o.Label
 	}
 	if o.LongDescription != nil {
 		out.LongDescription = *o.LongDescription

@@ -36,6 +36,15 @@ attributes:
     exposed: true
     stored: true
 
+  - name: label
+    description: Label of the recipe.
+    type: string
+    exposed: true
+    stored: true
+    required: true
+    creation_only: true
+    default_value: magicpanda
+
   - name: longDescription
     description: LongDescription provides a long description of the recipe.
     type: string

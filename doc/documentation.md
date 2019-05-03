@@ -3438,6 +3438,7 @@ A Recipe defines a list of steps to define a workflow.
 
 ```json
 {
+  "label": "magicpanda",
   "name": "the name",
   "propagate": false,
   "protected": false
@@ -3504,6 +3505,16 @@ Description is the description of the object.
 ##### `icon` `string`
 
 Icon contains a base64 image for the recipe.
+
+##### `label` `string` [`required`,`creation_only`]
+
+Label of the recipe.
+
+Default value:
+
+```json
+"magicpanda"
+```
 
 ##### `longDescription` `string`
 
