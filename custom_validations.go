@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"go.aporeto.io/gaia/constants"
+	"gopkg.in/yaml.v2"
 
 	"go.aporeto.io/elemental"
 	"go.aporeto.io/gaia/portutils"
@@ -577,5 +578,14 @@ func ValidateMetadata(attribute string, metadata []string) error {
 		}
 	}
 
+	return nil
+}
+
+// ValidateYAMLString validates the given data is a correct YAML string.
+func ValidateYAMLString(attribute, data string) error {
+
+	if err := yaml.Unmarshal([]byte(data), &map[string]interface{}{}); err != nil {
+		return makeValidationError(attribute, fmt.Sprintf("not a valid yaml: %s", err))
+	}
 	return nil
 }
