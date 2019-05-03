@@ -107,6 +107,9 @@ type Recipe struct {
 	// Key is the unique key of the recipe.
 	Key string `json:"key" msgpack:"key" bson:"key" mapstructure:"key,omitempty"`
 
+	// Label defines the recipe.
+	Label string `json:"label" msgpack:"label" bson:"label" mapstructure:"label,omitempty"`
+
 	// LongDescription provides a long description of the recipe.
 	LongDescription string `json:"longDescription" msgpack:"longDescription" bson:"longdescription" mapstructure:"longDescription,omitempty"`
 
@@ -153,7 +156,7 @@ func NewRecipe() *Recipe {
 		AssociatedTags: []string{},
 		Metadata:       []string{},
 		NormalizedTags: []string{},
-		Key:            "magicpanda",
+		Label:          "magicpanda",
 		Steps:          []*UIStep{},
 	}
 }
@@ -373,6 +376,7 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Description:          &o.Description,
 			Icon:                 &o.Icon,
 			Key:                  &o.Key,
+			Label:                &o.Label,
 			LongDescription:      &o.LongDescription,
 			Metadata:             &o.Metadata,
 			Name:                 &o.Name,
@@ -406,6 +410,8 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Icon = &(o.Icon)
 		case "key":
 			sp.Key = &(o.Key)
+		case "label":
+			sp.Label = &(o.Label)
 		case "longDescription":
 			sp.LongDescription = &(o.LongDescription)
 		case "metadata":
@@ -464,6 +470,9 @@ func (o *Recipe) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Key != nil {
 		o.Key = *so.Key
+	}
+	if so.Label != nil {
+		o.Label = *so.Label
 	}
 	if so.LongDescription != nil {
 		o.LongDescription = *so.LongDescription
@@ -538,7 +547,7 @@ func (o *Recipe) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("key", o.Key); err != nil {
+	if err := elemental.ValidateRequiredString("label", o.Label); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
@@ -610,6 +619,8 @@ func (o *Recipe) ValueForAttribute(name string) interface{} {
 		return o.Icon
 	case "key":
 		return o.Key
+	case "label":
+		return o.Label
 	case "longDescription":
 		return o.LongDescription
 	case "metadata":
@@ -728,11 +739,21 @@ var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 	"Key": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Key",
-		CreationOnly:   true,
-		DefaultValue:   "magicpanda",
 		Description:    `Key is the unique key of the recipe.`,
 		Exposed:        true,
 		Name:           "key",
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"Label": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Label",
+		CreationOnly:   true,
+		DefaultValue:   "magicpanda",
+		Description:    `Label defines the recipe.`,
+		Exposed:        true,
+		Name:           "label",
 		Required:       true,
 		Stored:         true,
 		Type:           "string",
@@ -971,11 +992,21 @@ var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"key": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Key",
-		CreationOnly:   true,
-		DefaultValue:   "magicpanda",
 		Description:    `Key is the unique key of the recipe.`,
 		Exposed:        true,
 		Name:           "key",
+		ReadOnly:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"label": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Label",
+		CreationOnly:   true,
+		DefaultValue:   "magicpanda",
+		Description:    `Label defines the recipe.`,
+		Exposed:        true,
+		Name:           "label",
 		Required:       true,
 		Stored:         true,
 		Type:           "string",
@@ -1213,6 +1244,9 @@ type SparseRecipe struct {
 	// Key is the unique key of the recipe.
 	Key *string `json:"key,omitempty" msgpack:"key,omitempty" bson:"key,omitempty" mapstructure:"key,omitempty"`
 
+	// Label defines the recipe.
+	Label *string `json:"label,omitempty" msgpack:"label,omitempty" bson:"label,omitempty" mapstructure:"label,omitempty"`
+
 	// LongDescription provides a long description of the recipe.
 	LongDescription *string `json:"longDescription,omitempty" msgpack:"longDescription,omitempty" bson:"longdescription,omitempty" mapstructure:"longDescription,omitempty"`
 
@@ -1309,6 +1343,9 @@ func (o *SparseRecipe) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Key != nil {
 		out.Key = *o.Key
+	}
+	if o.Label != nil {
+		out.Label = *o.Label
 	}
 	if o.LongDescription != nil {
 		out.LongDescription = *o.LongDescription

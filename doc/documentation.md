@@ -3438,7 +3438,7 @@ A Recipe defines a list of steps to define a workflow.
 
 ```json
 {
-  "key": "magicpanda",
+  "label": "magicpanda",
   "name": "the name",
   "propagate": false,
   "protected": false
@@ -3506,9 +3506,13 @@ Description is the description of the object.
 
 Icon contains a base64 image for the recipe.
 
-##### `key` `string` [`required`,`creation_only`]
+##### `key` `string` [`read_only`]
 
 Key is the unique key of the recipe.
+
+##### `label` `string` [`required`,`creation_only`]
+
+Label defines the recipe.
 
 Default value:
 

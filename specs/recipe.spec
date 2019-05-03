@@ -47,6 +47,13 @@ attributes:
     type: string
     exposed: true
     stored: true
+    read_only: true
+
+  - name: label
+    description: Label defines the recipe.
+    type: string
+    exposed: true
+    stored: true
     required: true
     creation_only: true
     default_value: magicpanda
