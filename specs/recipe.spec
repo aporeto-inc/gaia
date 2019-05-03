@@ -31,6 +31,7 @@ model:
 indexes:
 - - :unique
   - key
+  - namespace
 
 # Attributes
 attributes:
