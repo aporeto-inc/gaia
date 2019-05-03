@@ -80,7 +80,7 @@ func (o ExportsList) Version() int {
 // Export represents the model of a export
 type Export struct {
 	// APIVersion of the api used for the exported data.
-	APIVersion int `json:"APIVersion" msgpack:"APIVersion" bson:"-" mapstructure:"APIVersion,omitempty"`
+	APIVersion int `json:"APIVersion" msgpack:"APIVersion" bson:"apiversion" mapstructure:"APIVersion,omitempty"`
 
 	// List of all exported data.
 	Data map[string][]map[string]interface{} `json:"data" msgpack:"data" bson:"data" mapstructure:"data,omitempty"`
@@ -285,6 +285,7 @@ var ExportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "APIVersion",
 		ReadOnly:       true,
+		Stored:         true,
 		Type:           "integer",
 	},
 	"Data": elemental.AttributeSpecification{
@@ -331,6 +332,7 @@ var ExportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "APIVersion",
 		ReadOnly:       true,
+		Stored:         true,
 		Type:           "integer",
 	},
 	"data": elemental.AttributeSpecification{
@@ -431,7 +433,7 @@ func (o SparseExportsList) Version() int {
 // SparseExport represents the sparse version of a export.
 type SparseExport struct {
 	// APIVersion of the api used for the exported data.
-	APIVersion *int `json:"APIVersion,omitempty" msgpack:"APIVersion,omitempty" bson:"-" mapstructure:"APIVersion,omitempty"`
+	APIVersion *int `json:"APIVersion,omitempty" msgpack:"APIVersion,omitempty" bson:"apiversion,omitempty" mapstructure:"APIVersion,omitempty"`
 
 	// List of all exported data.
 	Data *map[string][]map[string]interface{} `json:"data,omitempty" msgpack:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`

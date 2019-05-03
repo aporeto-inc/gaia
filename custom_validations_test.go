@@ -1264,3 +1264,44 @@ func TestValidateTag(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateYAMLString(t *testing.T) {
+	type args struct {
+		attribute string
+		data      string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			"valid yaml",
+			args{
+				"prop",
+				`
+hello: world
+things:
+- stuff
+- trucs
+`,
+			},
+			false,
+		},
+		{
+			"invalid yaml",
+			args{
+				"prop",
+				`not a yaml`,
+			},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateYAMLString(tt.args.attribute, tt.args.data); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateYAMLString() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}

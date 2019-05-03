@@ -77,3 +77,7 @@ $tagsWithoutReservedPrefixes:
 $timeDuration:
   elemental:
     name: ValidateTimeDuration
+
+$yaml:
+  elemental:
+    name: ValidateYAMLString
