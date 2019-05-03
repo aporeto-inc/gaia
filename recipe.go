@@ -569,10 +569,6 @@ func (o *Recipe) Validate() error {
 		}
 	}
 
-	if err := ValidateYAMLString("template", o.Template); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}

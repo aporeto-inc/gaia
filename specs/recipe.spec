@@ -78,5 +78,3 @@ attributes:
     type: string
     exposed: true
     stored: true
-    validations:
-    - $yaml
