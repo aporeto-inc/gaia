@@ -27,7 +27,7 @@ model:
 # Attributes
 attributes:
   v1:
-  - name: importData
+  - name: data
     description: The data to import.
     type: ref
     exposed: true

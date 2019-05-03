@@ -78,3 +78,10 @@ attributes:
     type: string
     exposed: true
     stored: true
+
+  - name: templateHash
+    description: templateHash is a hash of the template.
+    type: string
+    exposed: true
+    stored: true
+    read_only: true

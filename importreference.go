@@ -98,11 +98,11 @@ type ImportReference struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// The data to import.
+	Data *Export `json:"data" msgpack:"data" bson:"data" mapstructure:"data,omitempty"`
+
 	// Description is the description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
-
-	// The data to import.
-	ImportData *Export `json:"importData" msgpack:"importData" bson:"importdata" mapstructure:"importData,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -144,7 +144,7 @@ func NewImportReference() *ImportReference {
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		ImportData:     NewExport(),
+		Data:           NewExport(),
 		Metadata:       []string{},
 		NormalizedTags: []string{},
 	}
@@ -374,8 +374,8 @@ func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			AssociatedTags:       &o.AssociatedTags,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
+			Data:                 &o.Data,
 			Description:          &o.Description,
-			ImportData:           &o.ImportData,
 			Metadata:             &o.Metadata,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
@@ -401,10 +401,10 @@ func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiabl
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
+		case "data":
+			sp.Data = &(o.Data)
 		case "description":
 			sp.Description = &(o.Description)
-		case "importData":
-			sp.ImportData = &(o.ImportData)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "name":
@@ -451,11 +451,11 @@ func (o *ImportReference) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
+	if so.Data != nil {
+		o.Data = *so.Data
+	}
 	if so.Description != nil {
 		o.Description = *so.Description
-	}
-	if so.ImportData != nil {
-		o.ImportData = *so.ImportData
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -520,11 +520,11 @@ func (o *ImportReference) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+	if err := o.Data.Validate(); err != nil {
 		errors = errors.Append(err)
 	}
 
-	if err := o.ImportData.Validate(); err != nil {
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -584,10 +584,10 @@ func (o *ImportReference) ValueForAttribute(name string) interface{} {
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
+	case "data":
+		return o.Data
 	case "description":
 		return o.Description
-	case "importData":
-		return o.ImportData
 	case "metadata":
 		return o.Metadata
 	case "name":
@@ -677,6 +677,17 @@ var ImportReferenceAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "time",
 	},
+	"Data": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Data",
+		Description:    `The data to import.`,
+		Exposed:        true,
+		Name:           "data",
+		Required:       true,
+		Stored:         true,
+		SubType:        "export",
+		Type:           "ref",
+	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -689,17 +700,6 @@ var ImportReferenceAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"ImportData": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ImportData",
-		Description:    `The data to import.`,
-		Exposed:        true,
-		Name:           "importData",
-		Required:       true,
-		Stored:         true,
-		SubType:        "export",
-		Type:           "ref",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -896,6 +896,17 @@ var ImportReferenceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Stored:         true,
 		Type:           "time",
 	},
+	"data": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Data",
+		Description:    `The data to import.`,
+		Exposed:        true,
+		Name:           "data",
+		Required:       true,
+		Stored:         true,
+		SubType:        "export",
+		Type:           "ref",
+	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -908,17 +919,6 @@ var ImportReferenceLowerCaseAttributesMap = map[string]elemental.AttributeSpecif
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"importdata": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ImportData",
-		Description:    `The data to import.`,
-		Exposed:        true,
-		Name:           "importData",
-		Required:       true,
-		Stored:         true,
-		SubType:        "export",
-		Type:           "ref",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1130,11 +1130,11 @@ type SparseImportReference struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
+	// The data to import.
+	Data **Export `json:"data,omitempty" msgpack:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`
+
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
-
-	// The data to import.
-	ImportData **Export `json:"importData,omitempty" msgpack:"importData,omitempty" bson:"importdata,omitempty" mapstructure:"importData,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -1220,11 +1220,11 @@ func (o *SparseImportReference) ToPlain() elemental.PlainIdentifiable {
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
+	if o.Data != nil {
+		out.Data = *o.Data
+	}
 	if o.Description != nil {
 		out.Description = *o.Description
-	}
-	if o.ImportData != nil {
-		out.ImportData = *o.ImportData
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
