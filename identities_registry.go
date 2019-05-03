@@ -614,10 +614,11 @@ var (
 		"quotacheck":            nil,
 		"quotapolicy":           nil,
 		"recipe": [][]string{
+			[]string{":unique", "key"},
 			[]string{"updateIdempotencyKey"},
 			[]string{"propagate"},
-			[]string{"namespace", "normalizedTags"},
 			[]string{"namespace", "name"},
+			[]string{"namespace", "normalizedTags"},
 			[]string{"namespace"},
 			[]string{"name"},
 			[]string{"createIdempotencyKey"},

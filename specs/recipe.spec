@@ -27,6 +27,11 @@ model:
   - '@propagated'
   - '@timeable'
 
+# Indexes
+indexes:
+- - :unique
+  - key
+
 # Attributes
 attributes:
   v1:
@@ -36,8 +41,8 @@ attributes:
     exposed: true
     stored: true
 
-  - name: label
-    description: Label of the recipe.
+  - name: key
+    description: Key is the unique key of the recipe.
     type: string
     exposed: true
     stored: true
