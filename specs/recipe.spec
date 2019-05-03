@@ -30,8 +30,8 @@ model:
 # Indexes
 indexes:
 - - :unique
-  - key
   - namespace
+  - key
 
 # Attributes
 attributes:

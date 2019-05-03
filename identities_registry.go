@@ -614,7 +614,7 @@ var (
 		"quotacheck":            nil,
 		"quotapolicy":           nil,
 		"recipe": [][]string{
-			[]string{":unique", "key", "namespace"},
+			[]string{":unique", "namespace", "key"},
 			[]string{"updateIdempotencyKey"},
 			[]string{"propagate"},
 			[]string{"namespace", "name"},
