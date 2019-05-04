@@ -789,6 +789,28 @@ func TestValidateServiceEntity(t *testing.T) {
 			},
 			true,
 		},
+		{
+			"service with multiple IPs and multiple error case",
+			args{
+				&Service{
+					IPs:               []string{"10.11.0.1234/24", "10.1.0.0/16", "10.1.0.3/24"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeNone,
+				},
+			},
+			true,
+		},
+		{
+			"service with multiple IPs positive case",
+			args{
+				&Service{
+					IPs:               []string{"10.11.0.123/24", "10.1.0.0/16", "10.19.0.33/24"},
+					AuthorizationType: ServiceAuthorizationTypeMTLS,
+					TLSType:           ServiceTLSTypeNone,
+				},
+			},
+			false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -1189,6 +1211,27 @@ func TestValidateTag(t *testing.T) {
 			},
 			false,
 		},
+		{
+			"tag contains 2 equals",
+			args{
+				"a=a=b",
+			},
+			false,
+		},
+		{
+			"tag contains 2 touching equals",
+			args{
+				"a==b",
+			},
+			false,
+		},
+		{
+			"complex key",
+			args{
+				`utf8-_!@#%&"(*)+.,/$!:;<>=?{}~=utf8-_!@#%&" (*)+.,/$!:;<>=?{}~`,
+			},
+			false,
+		},
 
 		// Error
 		{
@@ -1202,6 +1245,13 @@ func TestValidateTag(t *testing.T) {
 			"key contains spaces",
 			args{
 				"the key=value",
+			},
+			true,
+		},
+		{
+			"key starts with =",
+			args{
+				"=thekey=value",
 			},
 			true,
 		},
