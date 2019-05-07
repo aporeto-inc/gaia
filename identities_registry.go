@@ -326,12 +326,12 @@ var (
 		"activity": [][]string{
 			[]string{"namespace"},
 			[]string{"namespace", "date"},
-			[]string{"namespace", "operation"},
-			[]string{"namespace", "error.code"},
-			[]string{"namespace", "targetIdentity"},
-			[]string{"namespace", "data.ID"},
-			[]string{"namespace", "originalData.ID"},
 			[]string{":shard", "zone", "zHash"},
+			[]string{":background", "namespace", "targetIdentity"},
+			[]string{":background", "namespace", "data.ID"},
+			[]string{"namespace", "operation"},
+			[]string{":background", "namespace", "originalData.ID"},
+			[]string{":background", "namespace", "error.code"},
 		},
 		"alarm": [][]string{
 			[]string{":shard", "zone", "zHash"},
