@@ -24,7 +24,7 @@ codegen:
 	mv codegen/elemental/*.go ./
 	rm -rf codegen
 	data=$$(rego doc -d specs || exit 1) && \
-		echo "$${data}" > doc/documentation.md
+		echo -e "$${data}" > doc/documentation.md
 
 lint:
 	# --enable=unparam
