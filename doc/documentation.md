@@ -41,7 +41,13 @@ Export the policies and related objects in a given namespace.
 #### Example
 
 ```json
-{\n  "identities": [\n    "externalnetworks",\n    "networkaccesspolicies"\n  ],\n  "label": "my-import-name"\n}
+{
+  "identities": [
+    "externalnetworks",
+    "networkaccesspolicies"
+  ],
+  "label": "my-import-name"
+}
 ```
 
 #### Relations
@@ -81,7 +87,63 @@ Imports an export of policies and related objects into the namespace.
 #### Example
 
 ```json
-{\n  "data": {\n    "externalnetworks": [\n      {\n        "associatedTags": [\n          "ext:net=tcp"\n        ],\n        "description": "Represents all TCP traffic on any port",\n        "entries": [\n          "0.0.0.0/0"\n        ],\n        "name": "all-tcp",\n        "protocols": [\n          "tcp"\n        ]\n      },\n      {\n        "associatedTags": [\n          "ext:net=udp"\n        ],\n        "description": "Represents all UDP traffic on any port",\n        "entries": [\n          "0.0.0.0/0"\n        ],\n        "name": "all-udp",\n        "protocols": [\n          "udp"\n        ]\n      }\n    ],\n    "networkaccesspolicies": [\n      {\n        "action": "Allow",\n        "description": "Allows all communication from pu to pu, tcp and udp",\n        "logsEnabled": true,\n        "name": "allow-all-communication",\n        "object": [\n          [\n            "$identity=processingunit"\n          ],\n          [\n            "ext:net=tcp"\n          ],\n          [\n            "ext:net=udp"\n          ]\n        ],\n        "subject": [\n          [\n            "$identity=processingunit"\n          ]\n        ]\n      }\n    ]\n  },\n  "mode": "Import"\n}
+{
+  "data": {
+    "externalnetworks": [
+      {
+        "associatedTags": [
+          "ext:net=tcp"
+        ],
+        "description": "Represents all TCP traffic on any port",
+        "entries": [
+          "0.0.0.0/0"
+        ],
+        "name": "all-tcp",
+        "protocols": [
+          "tcp"
+        ]
+      },
+      {
+        "associatedTags": [
+          "ext:net=udp"
+        ],
+        "description": "Represents all UDP traffic on any port",
+        "entries": [
+          "0.0.0.0/0"
+        ],
+        "name": "all-udp",
+        "protocols": [
+          "udp"
+        ]
+      }
+    ],
+    "networkaccesspolicies": [
+      {
+        "action": "Allow",
+        "description": "Allows all communication from pu to pu, tcp and udp",
+        "logsEnabled": true,
+        "name": "allow-all-communication",
+        "object": [
+          [
+            "$identity=processingunit"
+          ],
+          [
+            "ext:net=tcp"
+          ],
+          [
+            "ext:net=udp"
+          ]
+        ],
+        "subject": [
+          [
+            "$identity=processingunit"
+          ]
+        ]
+      }
+    ]
+  },
+  "mode": "Import"
+}
 ```
 
 #### Relations
@@ -141,7 +203,38 @@ The `data` format is the same an `Export`.
 #### Example
 
 ```json
-{\n  "data": {\n    "networkaccesspolicies": [\n      {\n        "action": "Allow",\n        "description": "Allows Acme to access service A",\n        "logsEnabled": true,\n        "name": "allow-acme",\n        "object": [\n          [\n            "$identity=processingunit",\n            "$namespace=/acme/prod",\n            "app=query"\n          ]\n        ],\n        "subject": [\n          [\n            "$identity=processingunit",\n            "app=partner-data"\n          ]\n        ]\n      }\n    ]\n  },\n  "protected": false,\n  "requesterClaims": [\n    "@auth:realm=vince",\n    "@auth:account=acme"\n  ],\n  "status": "Draft",\n  "targetNamespace": "/acme/prod"\n}
+{
+  "data": {
+    "networkaccesspolicies": [
+      {
+        "action": "Allow",
+        "description": "Allows Acme to access service A",
+        "logsEnabled": true,
+        "name": "allow-acme",
+        "object": [
+          [
+            "$identity=processingunit",
+            "$namespace=/acme/prod",
+            "app=query"
+          ]
+        ],
+        "subject": [
+          [
+            "$identity=processingunit",
+            "app=partner-data"
+          ]
+        ]
+      }
+    ]
+  },
+  "protected": false,
+  "requesterClaims": [
+    "@auth:realm=vince",
+    "@auth:account=acme"
+  ],
+  "status": "Draft",
+  "targetNamespace": "/acme/prod"
+}
 ```
 
 #### Relations
@@ -296,7 +389,14 @@ given set of tags.
 #### Example
 
 ```json
-{\n  "processMode": "Subject",\n  "tags": [\n    "a=a",\n    "b=b"\n  ],\n  "type": "APIAuthorization"\n}
+{
+  "processMode": "Subject",
+  "tags": [
+    "a=a",
+    "b=b"
+  ],
+  "type": "APIAuthorization"
+}
 ```
 
 #### Relations
@@ -346,7 +446,32 @@ your name, password, enable 2 factor authentication.
 #### Example
 
 ```json
-{\n  "LDAPAddress": "ldap.company.com",\n  "LDAPBaseDN": "dc=universe,dc=io",\n  "LDAPBindDN": "cn=readonly,dc=universe,dc=io",\n  "LDAPBindPassword": "s3cr3t",\n  "LDAPBindSearchFilter": "uid={USERNAME}",\n  "LDAPCertificateAuthority": "-----BEGIN CERTIFICATE-----\nMIIBPzCB5qADAgECAhEAwbx3c+QW24ePXyD94geytzAKBggqhkjOPQQDAjAPMQ0w\nCwYDVQQDEwR0b3RvMB4XDTE5MDIyMjIzNDA1MFoXDTI4MTIzMTIzNDA1MFowDzEN\nMAsGA1UEAxMEdG90bzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJi6CwRDeKks\nXb3pDEslmFGR7k9Aeh5RK+XmdqKKPGb3NQWEFPGolnqOR34iVuf7KSxTuzaaVWfu\nXEa94faUQEqjIzAhMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MAoG\nCCqGSM49BAMCA0gAMEUCIQD+nL9RF9EvQXHyYuJ31Lz9yWd9hsK91stnpAs890gS\n/AIgQIKjBBpiyQNZZWso5H04qke9QYMVPegiQQufFFBj32c=\n-----END CERTIFICATE-----",\n  "LDAPConnSecurityProtocol": "InbandTLS",\n  "LDAPEnabled": false,\n  "LDAPSubjectKey": "uid",\n  "OTPEnabled": false,\n  "accessEnabled": false,\n  "company": "Acme",\n  "email": "user@acme.com",\n  "firstName": "John",\n  "lastName": "Doe",\n  "name": "acme"\n}
+{
+  "LDAPAddress": "ldap.company.com",
+  "LDAPBaseDN": "dc=universe,dc=io",
+  "LDAPBindDN": "cn=readonly,dc=universe,dc=io",
+  "LDAPBindPassword": "s3cr3t",
+  "LDAPBindSearchFilter": "uid={USERNAME}",
+  "LDAPCertificateAuthority": "-----BEGIN CERTIFICATE-----
+MIIBPzCB5qADAgECAhEAwbx3c+QW24ePXyD94geytzAKBggqhkjOPQQDAjAPMQ0w
+CwYDVQQDEwR0b3RvMB4XDTE5MDIyMjIzNDA1MFoXDTI4MTIzMTIzNDA1MFowDzEN
+MAsGA1UEAxMEdG90bzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJi6CwRDeKks
+Xb3pDEslmFGR7k9Aeh5RK+XmdqKKPGb3NQWEFPGolnqOR34iVuf7KSxTuzaaVWfu
+XEa94faUQEqjIzAhMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MAoG
+CCqGSM49BAMCA0gAMEUCIQD+nL9RF9EvQXHyYuJ31Lz9yWd9hsK91stnpAs890gS
+/AIgQIKjBBpiyQNZZWso5H04qke9QYMVPegiQQufFFBj32c=
+-----END CERTIFICATE-----",
+  "LDAPConnSecurityProtocol": "InbandTLS",
+  "LDAPEnabled": false,
+  "LDAPSubjectKey": "uid",
+  "OTPEnabled": false,
+  "accessEnabled": false,
+  "company": "Acme",
+  "email": "user@acme.com",
+  "firstName": "John",
+  "lastName": "Doe",
+  "name": "acme"
+}
 ```
 
 #### Relations
@@ -537,7 +662,9 @@ Used to activate a pending account.
 #### Example
 
 ```json
-{\n  "token": "2BB3D52C-DE26-406A-8821-613F102282B0"\n}
+{
+  "token": "2BB3D52C-DE26-406A-8821-613F102282B0"
+}
 ```
 
 #### Relations
@@ -568,7 +695,10 @@ Used to reset an account password.
 #### Example
 
 ```json
-{\n  "password": "NewPassword123@",\n  "token": "436676D4-7ECA-4853-A572-0644EE9D89EF"\n}
+{
+  "password": "NewPassword123@",
+  "token": "436676D4-7ECA-4853-A572-0644EE9D89EF"
+}
 ```
 
 #### Relations
@@ -637,7 +767,11 @@ of enforcers running on EC2.
 #### Example
 
 ```json
-{\n  "accessKeyID": "AKIAIOSFODNN7EXAMPLE",\n  "region": "us-west-2",\n  "secretAccessKey": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"\n}
+{
+  "accessKeyID": "AKIAIOSFODNN7EXAMPLE",
+  "region": "us-west-2",
+  "secretAccessKey": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+}
 ```
 
 #### Relations
@@ -719,7 +853,15 @@ This API issues a new token according to given data.
 #### Example
 
 ```json
-{\n  "metadata": {\n    "vinceAccount": "acme",\n    "vinceOTP": 665435,\n    "vincePassword": "s3cr3t"\n  },\n  "realm": "Vince",\n  "validity": "24h"\n}
+{
+  "metadata": {
+    "vinceAccount": "acme",
+    "vinceOTP": 665435,
+    "vincePassword": "s3cr3t"
+  },
+  "realm": "Vince",
+  "validity": "24h"
+}
 ```
 
 #### Relations
@@ -784,7 +926,21 @@ for a Midgard token.
 #### Example
 
 ```json
-{\n  "clientID": "6195189841830-0644ee9d89ef0644ee9d89examle.apps.googleusercontent.com",\n  "clientSecret": "Ytgbfjtj4652jHDFGls99jF",\n  "default": false,\n  "endpoint": "https://accounts.google.com",\n  "name": "google",\n  "scopes": [\n    "email",\n    "profile"\n  ],\n  "subjects": [\n    "email",\n    "profile"\n  ]\n}
+{
+  "clientID": "6195189841830-0644ee9d89ef0644ee9d89examle.apps.googleusercontent.com",
+  "clientSecret": "Ytgbfjtj4652jHDFGls99jF",
+  "default": false,
+  "endpoint": "https://accounts.google.com",
+  "name": "google",
+  "scopes": [
+    "email",
+    "profile"
+  ],
+  "subjects": [
+    "email",
+    "profile"
+  ]
+}
 ```
 
 #### Relations
@@ -886,7 +1042,9 @@ This api allows to view invoices for Aporeto customers.
 #### Example
 
 ```json
-{\n  "billedToProvider": "Aporeto"\n}
+{
+  "billedToProvider": "Aporeto"
+}
 ```
 
 #### Relations
@@ -1048,7 +1206,33 @@ object in order to understand the current status of the enforcers.
 #### Example
 
 ```json
-{\n  "FQDN": "server1.domain.com",\n  "certificateRequest": "-----BEGIN CERTIFICATE REQUEST-----\nMIICvDCCAaQCAQAwdzELMAkGA1UEBhMCVVMxDTALBgNVBAgMBFV0YWgxDzANBgNV\nBAcMBkxpbmRvbjEWMBQGA1UECgwNRGlnaUNlcnQgSW5jLjERMA8GA1UECwwIRGln\naUNlcnQxHTAbBgNVBAMMFGV4YW1wbGUuZGlnaWNlcnQuY29tMIIBIjANBgkqhkiG\n9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8+To7d+2kPWeBv/orU3LVbJwDrSQbeKamCmo\nwp5bqDxIwV20zqRb7APUOKYoVEFFOEQs6T6gImnIolhbiH6m4zgZ/CPvWBOkZc+c\n1Po2EmvBz+AD5sBdT5kzGQA6NbWyZGldxRthNLOs1efOhdnWFuhI162qmcflgpiI\nWDuwq4C9f+YkeJhNn9dF5+owm8cOQmDrV8NNdiTqin8q3qYAHHJRW28glJUCZkTZ\nwIaSR6crBQ8TbYNE0dc+Caa3DOIkz1EOsHWzTx+n0zKfqcbgXi4DJx+C1bjptYPR\nBPZL8DAeWuA8ebudVT44yEp82G96/Ggcf7F33xMxe0yc+Xa6owIDAQABoAAwDQYJ\nKoZIhvcNAQEFBQADggEBAB0kcrFccSmFDmxox0Ne01UIqSsDqHgL+XmHTXJwre6D\nhJSZwbvEtOK0G3+dr4Fs11WuUNt5qcLsx5a8uk4G6AKHMzuhLsJ7XZjgmQXGECpY\nQ4mC3yT3ZoCGpIXbw+iP3lmEEXgaQL0Tx5LFl/okKbKYwIqNiyKWOMj7ZR/wxWg/\nZDGRs55xuoeLDJ/ZRFf9bI+IaCUd1YrfYcHIl3G87Av+r49YVwqRDT0VDV7uLgqn\n29XI1PpVUNCPQGn9p/eX6Qo7vpDaPybRtA2R7XLKjQaF9oXWeCUqy1hvJac9QFO2\n97Ob1alpHPoZ7mWiEuJwjBPii6a9M9G30nUo39lBi1w=\n-----END CERTIFICATE REQUEST-----",\n  "collectInfo": false,\n  "enforcementStatus": "Inactive",\n  "machineID": "3F23E8DF-C56D-45CF-89B8-A867F3956409",\n  "name": "the name",\n  "operationalStatus": "Registered",\n  "protected": false,\n  "updateAvailable": false\n}
+{
+  "FQDN": "server1.domain.com",
+  "certificateRequest": "-----BEGIN CERTIFICATE REQUEST-----
+MIICvDCCAaQCAQAwdzELMAkGA1UEBhMCVVMxDTALBgNVBAgMBFV0YWgxDzANBgNV
+BAcMBkxpbmRvbjEWMBQGA1UECgwNRGlnaUNlcnQgSW5jLjERMA8GA1UECwwIRGln
+aUNlcnQxHTAbBgNVBAMMFGV4YW1wbGUuZGlnaWNlcnQuY29tMIIBIjANBgkqhkiG
+9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8+To7d+2kPWeBv/orU3LVbJwDrSQbeKamCmo
+wp5bqDxIwV20zqRb7APUOKYoVEFFOEQs6T6gImnIolhbiH6m4zgZ/CPvWBOkZc+c
+1Po2EmvBz+AD5sBdT5kzGQA6NbWyZGldxRthNLOs1efOhdnWFuhI162qmcflgpiI
+WDuwq4C9f+YkeJhNn9dF5+owm8cOQmDrV8NNdiTqin8q3qYAHHJRW28glJUCZkTZ
+wIaSR6crBQ8TbYNE0dc+Caa3DOIkz1EOsHWzTx+n0zKfqcbgXi4DJx+C1bjptYPR
+BPZL8DAeWuA8ebudVT44yEp82G96/Ggcf7F33xMxe0yc+Xa6owIDAQABoAAwDQYJ
+KoZIhvcNAQEFBQADggEBAB0kcrFccSmFDmxox0Ne01UIqSsDqHgL+XmHTXJwre6D
+hJSZwbvEtOK0G3+dr4Fs11WuUNt5qcLsx5a8uk4G6AKHMzuhLsJ7XZjgmQXGECpY
+Q4mC3yT3ZoCGpIXbw+iP3lmEEXgaQL0Tx5LFl/okKbKYwIqNiyKWOMj7ZR/wxWg/
+ZDGRs55xuoeLDJ/ZRFf9bI+IaCUd1YrfYcHIl3G87Av+r49YVwqRDT0VDV7uLgqn
+29XI1PpVUNCPQGn9p/eX6Qo7vpDaPybRtA2R7XLKjQaF9oXWeCUqy1hvJac9QFO2
+97Ob1alpHPoZ7mWiEuJwjBPii6a9M9G30nUo39lBi1w=
+-----END CERTIFICATE REQUEST-----",
+  "collectInfo": false,
+  "enforcementStatus": "Inactive",
+  "machineID": "3F23E8DF-C56D-45CF-89B8-A867F3956409",
+  "name": "the name",
+  "operationalStatus": "Registered",
+  "protected": false,
+  "updateAvailable": false
+}
 ```
 
 #### Relations
@@ -1266,7 +1450,15 @@ Post a new enforcer statistics report.
 #### Example
 
 ```json
-{\n  "CPULoad": 10,\n  "ID": "xxx-xxx-xxx-xxx",\n  "memory": 10000,\n  "name": "aporeto-enforcerd-xxx",\n  "namespace": "/my/ns",\n  "processes": 10,\n  "timestamp": "2018-06-14T23:10:46.420397985Z"\n}
+{
+  "CPULoad": 10,
+  "ID": "xxx-xxx-xxx-xxx",
+  "memory": 10000,
+  "name": "aporeto-enforcerd-xxx",
+  "namespace": "/my/ns",
+  "processes": 10,
+  "timestamp": "2018-06-14T23:10:46.420397985Z"
+}
 ```
 
 #### Relations
@@ -1312,7 +1504,12 @@ Post a new enforcer trace that determines how packets are.
 #### Example
 
 ```json
-{\n  "enforcerID": "5c6cce207ddf1fc159a104bf",\n  "enforcerNamespace": "/acme/prod",\n  "namespace": "/acme/prod/database",\n  "puID": "5c6ccd947ddf1fc159a104b7"\n}
+{
+  "enforcerID": "5c6cce207ddf1fc159a104bf",
+  "enforcerNamespace": "/acme/prod",
+  "namespace": "/acme/prod/database",
+  "puID": "5c6ccd947ddf1fc159a104b7"
+}
 ```
 
 #### Relations
@@ -1346,7 +1543,17 @@ Post a new packet tracing report.
 #### Example
 
 ```json
-{\n  "destinationPort": 11000,\n  "encrypt": false,\n  "event": "Rcv",\n  "namespace": "/my/namespace",\n  "protocol": 6,\n  "puID": "xxx-xxx-xxx",\n  "sourcePort": 80,\n  "timestamp": "2018-06-14T23:10:46.420397985Z",\n  "triremePacket": true\n}
+{
+  "destinationPort": 11000,
+  "encrypt": false,
+  "event": "Rcv",
+  "namespace": "/my/namespace",
+  "protocol": 6,
+  "puID": "xxx-xxx-xxx",
+  "sourcePort": 80,
+  "timestamp": "2018-06-14T23:10:46.420397985Z",
+  "triremePacket": true
+}
 ```
 
 #### Relations
@@ -1419,7 +1626,12 @@ TraceMode is the tracing mode that must be applied to a PU.
 #### Example
 
 ```json
-{\n  "IPTables": false,\n  "applicationConnections": false,\n  "interval": "10s",\n  "networkConnections": false\n}
+{
+  "IPTables": false,
+  "applicationConnections": false,
+  "interval": "10s",
+  "networkConnections": false
+}
 ```
 
 #### Attributes
@@ -1456,7 +1668,22 @@ Represents a single trace record from the enforcer.
 #### Example
 
 ```json
-{\n  "TTL": 64,\n  "chain": "PREROUTING",\n  "destinationIP": "10.1.1.30",\n  "destinationInterface": "en0",\n  "destinationPort": 80,\n  "length": 98,\n  "packetID": 10,\n  "protocol": 80,\n  "ruleID": 10,\n  "sourceIP": "10.1.1.30",\n  "sourceInterface": "en0",\n  "sourcePort": 80,\n  "tableName": "raw",\n  "timestamp": "2018-06-14T23:10:46.420397985Z"\n}
+{
+  "TTL": 64,
+  "chain": "PREROUTING",
+  "destinationIP": "10.1.1.30",
+  "destinationInterface": "en0",
+  "destinationPort": 80,
+  "length": 98,
+  "packetID": 10,
+  "protocol": 80,
+  "ruleID": 10,
+  "sourceIP": "10.1.1.30",
+  "sourceInterface": "en0",
+  "sourcePort": 80,
+  "tableName": "raw",
+  "timestamp": "2018-06-14T23:10:46.420397985Z"
+}
 ```
 
 #### Attributes
@@ -1602,7 +1829,17 @@ An alarm represents an event requiring attention.
 #### Example
 
 ```json
-{\n  "content": "This is an alarm",\n  "emails": [\n    "amir@aporeto.com",\n    "john@aporeto.com"\n  ],\n  "kind": "aporeto.alarm.kind",\n  "name": "the name",\n  "protected": false,\n  "status": "Open"\n}
+{
+  "content": "This is an alarm",
+  "emails": [
+    "amir@aporeto.com",
+    "john@aporeto.com"
+  ],
+  "kind": "aporeto.alarm.kind",
+  "name": "the name",
+  "protected": false,
+  "status": "Open"
+}
 ```
 
 #### Relations
@@ -1716,7 +1953,14 @@ This api allows to report various event on any objects.
 #### Example
 
 ```json
-{\n  "category": "enforcerd:policy",\n  "content": "Unable to activate docker container xyz because abc.",\n  "level": "Info",\n  "targetID": "xxx-xxx-xxx-xxx",\n  "targetIdentity": "processingunit",\n  "title": "Error while activating processing unit."\n}
+{
+  "category": "enforcerd:policy",
+  "content": "Unable to activate docker container xyz because abc.",
+  "level": "Info",
+  "targetID": "xxx-xxx-xxx-xxx",
+  "targetIdentity": "processingunit",
+  "title": "Error while activating processing unit."
+}
 ```
 
 #### Relations
@@ -1778,7 +2022,12 @@ children namespaces.
 #### Example
 
 ```json
-{\n  "level": "Info",\n  "name": "the name",\n  "propagate": false,\n  "protected": false\n}
+{
+  "level": "Info",
+  "name": "the name",
+  "propagate": false,
+  "protected": false
+}
 ```
 
 #### Relations
@@ -1933,7 +2182,13 @@ applications, services or any combination you like.
 #### Example
 
 ```json
-{\n  "SSHCAEnabled": false,\n  "localCAEnabled": false,\n  "name": "mynamespace",\n  "protected": false,\n  "serviceCertificateValidity": "1h"\n}
+{
+  "SSHCAEnabled": false,
+  "localCAEnabled": false,
+  "name": "mynamespace",
+  "protected": false,
+  "serviceCertificateValidity": "1h"
+}
 ```
 
 #### Relations
@@ -2071,7 +2326,17 @@ vulnerabilities for instances.
 #### Example
 
 ```json
-{\n  "disabled": false,\n  "mappedNamespace": "/blue/namespace",\n  "name": "the name",\n  "protected": false,\n  "subject": [\n    [\n      "color=blue"\n    ]\n  ]\n}
+{
+  "disabled": false,
+  "mappedNamespace": "/blue/namespace",
+  "name": "the name",
+  "protected": false,
+  "subject": [
+    [
+      "color=blue"
+    ]
+  ]
+}
 ```
 
 #### Relations
@@ -2180,7 +2445,15 @@ Policy represents the policy primitive used by all aporeto policies.
 #### Example
 
 ```json
-{\n  "disabled": false,\n  "fallback": false,\n  "name": "the name",\n  "propagate": false,\n  "propagationHidden": false,\n  "protected": false,\n  "type": "APIAuthorization"\n}
+{
+  "disabled": false,
+  "fallback": false,
+  "name": "the name",
+  "propagate": false,
+  "propagationHidden": false,
+  "protected": false,
+  "type": "APIAuthorization"
+}
 ```
 
 #### Relations
@@ -2337,7 +2610,10 @@ retrieve a policy resolution.
 #### Example
 
 ```json
-{\n  "name": "the name",\n  "propagated": false\n}
+{
+  "name": "the name",
+  "propagated": false
+}
 ```
 
 #### Relations
@@ -2436,7 +2712,16 @@ Retrieve the aggregated policies applied to a particular processing unit.
 #### Example
 
 ```json
-{\n  "processingUnit": "{\n  \"name\": \"pu\",\n  \"type\": \"Docker\",\n  \"normalizedTags\": [\n    \"a=a\",\n    \"b=b\"\n  ]\n}"\n}
+{
+  "processingUnit": "{
+  \"name\": \"pu\",
+  \"type\": \"Docker\",
+  \"normalizedTags\": [
+    \"a=a\",
+    \"b=b\"
+  ]
+}"
+}
 ```
 
 #### Relations
@@ -2519,7 +2804,28 @@ for the datapath.
 #### Example
 
 ```json
-{\n  "CSR": "-----BEGIN CERTIFICATE REQUEST-----\nMIICvDCCAaQCAQAwdzELMAkGA1UEBhMCVVMxDTALBgNVBAgMBFV0YWgxDzANBgNV\nBAcMBkxpbmRvbjEWMBQGA1UECgwNRGlnaUNlcnQgSW5jLjERMA8GA1UECwwIRGln\naUNlcnQxHTAbBgNVBAMMFGV4YW1wbGUuZGlnaWNlcnQuY29tMIIBIjANBgkqhkiG\n9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8+To7d+2kPWeBv/orU3LVbJwDrSQbeKamCmo\nwp5bqDxIwV20zqRb7APUOKYoVEFFOEQs6T6gImnIolhbiH6m4zgZ/CPvWBOkZc+c\n1Po2EmvBz+AD5sBdT5kzGQA6NbWyZGldxRthNLOs1efOhdnWFuhI162qmcflgpiI\nWDuwq4C9f+YkeJhNn9dF5+owm8cOQmDrV8NNdiTqin8q3qYAHHJRW28glJUCZkTZ\nwIaSR6crBQ8TbYNE0dc+Caa3DOIkz1EOsHWzTx+n0zKfqcbgXi4DJx+C1bjptYPR\nBPZL8DAeWuA8ebudVT44yEp82G96/Ggcf7F33xMxe0yc+Xa6owIDAQABoAAwDQYJ\nKoZIhvcNAQEFBQADggEBAB0kcrFccSmFDmxox0Ne01UIqSsDqHgL+XmHTXJwre6D\nhJSZwbvEtOK0G3+dr4Fs11WuUNt5qcLsx5a8uk4G6AKHMzuhLsJ7XZjgmQXGECpY\nQ4mC3yT3ZoCGpIXbw+iP3lmEEXgaQL0Tx5LFl/okKbKYwIqNiyKWOMj7ZR/wxWg/\nZDGRs55xuoeLDJ/ZRFf9bI+IaCUd1YrfYcHIl3G87Av+r49YVwqRDT0VDV7uLgqn\n29XI1PpVUNCPQGn9p/eX6Qo7vpDaPybRtA2R7XLKjQaF9oXWeCUqy1hvJac9QFO2\n97Ob1alpHPoZ7mWiEuJwjBPii6a9M9G30nUo39lBi1w=\n-----END CERTIFICATE REQUEST-----",\n  "objectID": "5c83035648675400019ab901",\n  "sessionID": "5c83035648675400019ab901",\n  "type": "Service"\n}
+{
+  "CSR": "-----BEGIN CERTIFICATE REQUEST-----
+MIICvDCCAaQCAQAwdzELMAkGA1UEBhMCVVMxDTALBgNVBAgMBFV0YWgxDzANBgNV
+BAcMBkxpbmRvbjEWMBQGA1UECgwNRGlnaUNlcnQgSW5jLjERMA8GA1UECwwIRGln
+aUNlcnQxHTAbBgNVBAMMFGV4YW1wbGUuZGlnaWNlcnQuY29tMIIBIjANBgkqhkiG
+9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8+To7d+2kPWeBv/orU3LVbJwDrSQbeKamCmo
+wp5bqDxIwV20zqRb7APUOKYoVEFFOEQs6T6gImnIolhbiH6m4zgZ/CPvWBOkZc+c
+1Po2EmvBz+AD5sBdT5kzGQA6NbWyZGldxRthNLOs1efOhdnWFuhI162qmcflgpiI
+WDuwq4C9f+YkeJhNn9dF5+owm8cOQmDrV8NNdiTqin8q3qYAHHJRW28glJUCZkTZ
+wIaSR6crBQ8TbYNE0dc+Caa3DOIkz1EOsHWzTx+n0zKfqcbgXi4DJx+C1bjptYPR
+BPZL8DAeWuA8ebudVT44yEp82G96/Ggcf7F33xMxe0yc+Xa6owIDAQABoAAwDQYJ
+KoZIhvcNAQEFBQADggEBAB0kcrFccSmFDmxox0Ne01UIqSsDqHgL+XmHTXJwre6D
+hJSZwbvEtOK0G3+dr4Fs11WuUNt5qcLsx5a8uk4G6AKHMzuhLsJ7XZjgmQXGECpY
+Q4mC3yT3ZoCGpIXbw+iP3lmEEXgaQL0Tx5LFl/okKbKYwIqNiyKWOMj7ZR/wxWg/
+ZDGRs55xuoeLDJ/ZRFf9bI+IaCUd1YrfYcHIl3G87Av+r49YVwqRDT0VDV7uLgqn
+29XI1PpVUNCPQGn9p/eX6Qo7vpDaPybRtA2R7XLKjQaF9oXWeCUqy1hvJac9QFO2
+97Ob1alpHPoZ7mWiEuJwjBPii6a9M9G30nUo39lBi1w=
+-----END CERTIFICATE REQUEST-----",
+  "objectID": "5c83035648675400019ab901",
+  "sessionID": "5c83035648675400019ab901",
+  "type": "Service"
+}
 ```
 
 #### Relations
@@ -2571,7 +2877,14 @@ Paths they can use.
 #### Example
 
 ```json
-{\n  "collectInfo": false,\n  "enforcementStatus": "Inactive",\n  "name": "the name",\n  "operationalStatus": "Initialized",\n  "protected": false,\n  "type": "Docker"\n}
+{
+  "collectInfo": false,
+  "enforcementStatus": "Inactive",
+  "name": "the name",
+  "operationalStatus": "Initialized",
+  "protected": false,
+  "type": "Docker"
+}
 ```
 
 #### Relations
@@ -2807,7 +3120,13 @@ A vulnerabily represents a particular CVE.
 #### Example
 
 ```json
-{\n  "CVSS2Score": 3.2,\n  "link": "https://cve.com/CVE-1234",\n  "name": "the name",\n  "protected": false,\n  "severity": 3\n}
+{
+  "CVSS2Score": 3.2,
+  "link": "https://cve.com/CVE-1234",
+  "name": "the name",
+  "protected": false,
+  "severity": 3
+}
 ```
 
 #### Relations
@@ -2909,7 +3228,9 @@ system.
 #### Example
 
 ```json
-{\n  "value": "key=value"\n}
+{
+  "value": "key=value"
+}
 ```
 
 #### Relations
@@ -2981,7 +3302,10 @@ App represents an application that can be installed.
 #### Example
 
 ```json
-{\n  "beta": false,\n  "name": "the name"\n}
+{
+  "beta": false,
+  "name": "the name"
+}
 ```
 
 #### Relations
@@ -3039,7 +3363,11 @@ Represents a parameter that can be passed to an app.
 #### Example
 
 ```json
-{\n  "advanced": false,\n  "optional": false,\n  "type": "Boolean"\n}
+{
+  "advanced": false,
+  "optional": false,
+  "type": "Boolean"
+}
 ```
 
 #### Attributes
@@ -3091,7 +3419,9 @@ Category allows to categorized services.
 #### Example
 
 ```json
-{\n  "name": "the name"\n}
+{
+  "name": "the name"
+}
 ```
 
 #### Attributes
@@ -3115,7 +3445,11 @@ InstalledApps represents an installed application.
 #### Example
 
 ```json
-{\n  "name": "the name",\n  "protected": false,\n  "status": "Unknown"\n}
+{
+  "name": "the name",
+  "protected": false,
+  "status": "Unknown"
+}
 ```
 
 #### Relations
@@ -3249,7 +3583,14 @@ An automation needs documentation.
 #### Example
 
 ```json
-{\n  "condition": "function when(m, params) { return { continue: true }}",\n  "disabled": false,\n  "name": "the name",\n  "protected": false,\n  "tokenRenew": false,\n  "trigger": "Time"\n}
+{
+  "condition": "function when(m, params) { return { continue: true }}",
+  "disabled": false,
+  "name": "the name",
+  "protected": false,
+  "tokenRenew": false,
+  "trigger": "Time"
+}
 ```
 
 #### Relations
@@ -3403,7 +3744,10 @@ Templates that ca be used in automations.
 #### Example
 
 ```json
-{\n  "kind": "Condition",\n  "name": "the name"\n}
+{
+  "kind": "Condition",
+  "name": "the name"
+}
 ```
 
 #### Relations
@@ -3459,7 +3803,11 @@ Represents an Automation template parameter.
 #### Example
 
 ```json
-{\n  "name": "the name",\n  "required": false,\n  "type": "String"\n}
+{
+  "name": "the name",
+  "required": false,
+  "type": "String"
+}
 ```
 
 #### Attributes
@@ -3568,7 +3916,11 @@ policy will determine that types of events that must be captured in the kernel.
 #### Example
 
 ```json
-{\n  "name": "the name",\n  "propagate": false,\n  "protected": false\n}
+{
+  "name": "the name",
+  "propagate": false,
+  "protected": false
+}
 ```
 
 #### Relations
@@ -3677,7 +4029,13 @@ a specific audit profile.
 #### Example
 
 ```json
-{\n  "disabled": false,\n  "fallback": false,\n  "name": "the name",\n  "propagate": false,\n  "protected": false\n}
+{
+  "disabled": false,
+  "fallback": false,
+  "name": "the name",
+  "propagate": false,
+  "protected": false
+}
 ```
 
 #### Relations
@@ -3811,7 +4169,27 @@ Post a new audit statistics report.
 #### Example
 
 ```json
-{\n  "AUID": "xxx-xxx",\n  "CWD": "/etc",\n  "EXE": "/bin/ls",\n  "a0": "xxx-xxx",\n  "a1": "xxx-xxx",\n  "a2": "xxx-xxx",\n  "a3": "xxx-xxx",\n  "arch": "x86_64",\n  "auditProfileID": "xxx-xxx-xxx-xxx",\n  "auditProfileNamespace": "/my/ns",\n  "command": "ls",\n  "enforcerID": "xxx-xxx-xxx-xxx",\n  "enforcerNamespace": "/my/ns",\n  "processingUnitID": "xxx-xxx-xxx-xxx",\n  "processingUnitNamespace": "/my/ns",\n  "recordType": "Syscall",\n  "success": false,\n  "syscall": "execve",\n  "timestamp": "2018-06-14T23:10:46.420397985Z"\n}
+{
+  "AUID": "xxx-xxx",
+  "CWD": "/etc",
+  "EXE": "/bin/ls",
+  "a0": "xxx-xxx",
+  "a1": "xxx-xxx",
+  "a2": "xxx-xxx",
+  "a3": "xxx-xxx",
+  "arch": "x86_64",
+  "auditProfileID": "xxx-xxx-xxx-xxx",
+  "auditProfileNamespace": "/my/ns",
+  "command": "ls",
+  "enforcerID": "xxx-xxx-xxx-xxx",
+  "enforcerNamespace": "/my/ns",
+  "processingUnitID": "xxx-xxx-xxx-xxx",
+  "processingUnitNamespace": "/my/ns",
+  "recordType": "Syscall",
+  "success": false,
+  "syscall": "execve",
+  "timestamp": "2018-06-14T23:10:46.420397985Z"
+}
 ```
 
 #### Relations
@@ -3973,7 +4351,18 @@ identities.
 #### Example
 
 ```json
-{\n  "authorizedIdentities": [\n    "@auth:role=namespace.editor"\n  ],\n  "authorizedNamespace": "/namespace",\n  "disabled": false,\n  "fallback": false,\n  "name": "the name",\n  "propagate": false,\n  "propagationHidden": false,\n  "protected": false\n}
+{
+  "authorizedIdentities": [
+    "@auth:role=namespace.editor"
+  ],
+  "authorizedNamespace": "/namespace",
+  "disabled": false,
+  "fallback": false,
+  "name": "the name",
+  "propagate": false,
+  "propagationHidden": false,
+  "protected": false
+}
 ```
 
 #### Relations
@@ -4113,7 +4502,15 @@ impersonate a user and ensure a proxfied request should be allowed.
 #### Example
 
 ```json
-{\n  "namespace": "/namespace",\n  "operation": "Create",\n  "targetIdentities": [\n    "processingunit",\n    "enforcer"\n  ],\n  "token": "valid.jwt.token"\n}
+{
+  "namespace": "/namespace",
+  "operation": "Create",
+  "targetIdentities": [
+    "processingunit",
+    "enforcer"
+  ],
+  "token": "valid.jwt.token"
+}
 ```
 
 #### Relations
@@ -4156,7 +4553,32 @@ Create a credential for an application.
 #### Example
 
 ```json
-{\n  "CSR": "-----BEGIN CERTIFICATE REQUEST-----\nMIICvDCCAaQCAQAwdzELMAkGA1UEBhMCVVMxDTALBgNVBAgMBFV0YWgxDzANBgNV\nBAcMBkxpbmRvbjEWMBQGA1UECgwNRGlnaUNlcnQgSW5jLjERMA8GA1UECwwIRGln\naUNlcnQxHTAbBgNVBAMMFGV4YW1wbGUuZGlnaWNlcnQuY29tMIIBIjANBgkqhkiG\n9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8+To7d+2kPWeBv/orU3LVbJwDrSQbeKamCmo\nwp5bqDxIwV20zqRb7APUOKYoVEFFOEQs6T6gImnIolhbiH6m4zgZ/CPvWBOkZc+c\n1Po2EmvBz+AD5sBdT5kzGQA6NbWyZGldxRthNLOs1efOhdnWFuhI162qmcflgpiI\nWDuwq4C9f+YkeJhNn9dF5+owm8cOQmDrV8NNdiTqin8q3qYAHHJRW28glJUCZkTZ\nwIaSR6crBQ8TbYNE0dc+Caa3DOIkz1EOsHWzTx+n0zKfqcbgXi4DJx+C1bjptYPR\nBPZL8DAeWuA8ebudVT44yEp82G96/Ggcf7F33xMxe0yc+Xa6owIDAQABoAAwDQYJ\nKoZIhvcNAQEFBQADggEBAB0kcrFccSmFDmxox0Ne01UIqSsDqHgL+XmHTXJwre6D\nhJSZwbvEtOK0G3+dr4Fs11WuUNt5qcLsx5a8uk4G6AKHMzuhLsJ7XZjgmQXGECpY\nQ4mC3yT3ZoCGpIXbw+iP3lmEEXgaQL0Tx5LFl/okKbKYwIqNiyKWOMj7ZR/wxWg/\nZDGRs55xuoeLDJ/ZRFf9bI+IaCUd1YrfYcHIl3G87Av+r49YVwqRDT0VDV7uLgqn\n29XI1PpVUNCPQGn9p/eX6Qo7vpDaPybRtA2R7XLKjQaF9oXWeCUqy1hvJac9QFO2\n97Ob1alpHPoZ7mWiEuJwjBPii6a9M9G30nUo39lBi1w=\n-----END CERTIFICATE REQUEST-----",\n  "disabled": false,\n  "name": "the name",\n  "protected": false,\n  "roles": [\n    "@auth:role=enforcer",\n    "@auth:role=kubesquall"\n  ]\n}
+{
+  "CSR": "-----BEGIN CERTIFICATE REQUEST-----
+MIICvDCCAaQCAQAwdzELMAkGA1UEBhMCVVMxDTALBgNVBAgMBFV0YWgxDzANBgNV
+BAcMBkxpbmRvbjEWMBQGA1UECgwNRGlnaUNlcnQgSW5jLjERMA8GA1UECwwIRGln
+aUNlcnQxHTAbBgNVBAMMFGV4YW1wbGUuZGlnaWNlcnQuY29tMIIBIjANBgkqhkiG
+9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8+To7d+2kPWeBv/orU3LVbJwDrSQbeKamCmo
+wp5bqDxIwV20zqRb7APUOKYoVEFFOEQs6T6gImnIolhbiH6m4zgZ/CPvWBOkZc+c
+1Po2EmvBz+AD5sBdT5kzGQA6NbWyZGldxRthNLOs1efOhdnWFuhI162qmcflgpiI
+WDuwq4C9f+YkeJhNn9dF5+owm8cOQmDrV8NNdiTqin8q3qYAHHJRW28glJUCZkTZ
+wIaSR6crBQ8TbYNE0dc+Caa3DOIkz1EOsHWzTx+n0zKfqcbgXi4DJx+C1bjptYPR
+BPZL8DAeWuA8ebudVT44yEp82G96/Ggcf7F33xMxe0yc+Xa6owIDAQABoAAwDQYJ
+KoZIhvcNAQEFBQADggEBAB0kcrFccSmFDmxox0Ne01UIqSsDqHgL+XmHTXJwre6D
+hJSZwbvEtOK0G3+dr4Fs11WuUNt5qcLsx5a8uk4G6AKHMzuhLsJ7XZjgmQXGECpY
+Q4mC3yT3ZoCGpIXbw+iP3lmEEXgaQL0Tx5LFl/okKbKYwIqNiyKWOMj7ZR/wxWg/
+ZDGRs55xuoeLDJ/ZRFf9bI+IaCUd1YrfYcHIl3G87Av+r49YVwqRDT0VDV7uLgqn
+29XI1PpVUNCPQGn9p/eX6Qo7vpDaPybRtA2R7XLKjQaF9oXWeCUqy1hvJac9QFO2
+97Ob1alpHPoZ7mWiEuJwjBPii6a9M9G30nUo39lBi1w=
+-----END CERTIFICATE REQUEST-----",
+  "disabled": false,
+  "name": "the name",
+  "protected": false,
+  "roles": [
+    "@auth:role=enforcer",
+    "@auth:role=kubesquall"
+  ]
+}
 ```
 
 #### Relations
@@ -4355,7 +4777,14 @@ Mapping Policy.
 #### Example
 
 ```json
-{\n  "kubernetesMetadataExtractor": "PodAtomic",\n  "kubernetesSupportEnabled": false,\n  "metadataExtractor": "Docker",\n  "name": "the name",\n  "propagate": false,\n  "protected": false\n}
+{
+  "kubernetesMetadataExtractor": "PodAtomic",
+  "kubernetesSupportEnabled": false,
+  "metadataExtractor": "Docker",
+  "name": "the name",
+  "propagate": false,
+  "protected": false
+}
 ```
 
 #### Relations
@@ -4519,7 +4948,31 @@ registration. The policy can also be propagated down to the child namespace.
 #### Example
 
 ```json
-{\n  "disabled": false,\n  "fallback": false,\n  "name": "the name",\n  "object": [\n    [\n      "a=a",\n      "b=b"\n    ],\n    [\n      "c=c"\n    ]\n  ],\n  "propagate": false,\n  "protected": false,\n  "subject": [\n    [\n      "a=a",\n      "b=b"\n    ],\n    [\n      "c=c"\n    ]\n  ]\n}
+{
+  "disabled": false,
+  "fallback": false,
+  "name": "the name",
+  "object": [
+    [
+      "a=a",
+      "b=b"
+    ],
+    [
+      "c=c"
+    ]
+  ],
+  "propagate": false,
+  "protected": false,
+  "subject": [
+    [
+      "a=a",
+      "b=b"
+    ],
+    [
+      "c=c"
+    ]
+  ]
+}
 ```
 
 #### Relations
@@ -4654,7 +5107,18 @@ File path are not supported yet for standard Linux processes.
 #### Example
 
 ```json
-{\n  "allowsExecute": false,\n  "allowsRead": false,\n  "allowsWrite": false,\n  "disabled": false,\n  "encryptionEnabled": false,\n  "fallback": false,\n  "logsEnabled": false,\n  "name": "the name",\n  "propagate": false,\n  "protected": false\n}
+{
+  "allowsExecute": false,
+  "allowsRead": false,
+  "allowsWrite": false,
+  "disabled": false,
+  "encryptionEnabled": false,
+  "fallback": false,
+  "logsEnabled": false,
+  "name": "the name",
+  "propagate": false,
+  "protected": false
+}
 ```
 
 #### Relations
@@ -4806,7 +5270,15 @@ Post a new file access statistics report.
 #### Example
 
 ```json
-{\n  "action": "Accepted",\n  "host": "localhost",\n  "mode": "rxw",\n  "path": "/etc/passwd",\n  "processingUnitID": "xxx-xxx-xxx-xxx",\n  "processingUnitNamespace": "/my/ns",\n  "timestamp": "2018-06-14T23:10:46.420397985Z"\n}
+{
+  "action": "Accepted",
+  "host": "localhost",
+  "mode": "rxw",
+  "path": "/etc/passwd",
+  "processingUnitID": "xxx-xxx-xxx-xxx",
+  "processingUnitNamespace": "/my/ns",
+  "timestamp": "2018-06-14T23:10:46.420397985Z"
+}
 ```
 
 #### Relations
@@ -4873,7 +5345,12 @@ to set some policies. A good example would bevolume=web or file=/etc/passwd.
 #### Example
 
 ```json
-{\n  "filepath": "/etc/passwd",\n  "name": "the name",\n  "propagate": false,\n  "protected": false\n}
+{
+  "filepath": "/etc/passwd",
+  "name": "the name",
+  "propagate": false,
+  "protected": false
+}
 ```
 
 #### Relations
@@ -4992,7 +5469,47 @@ modified version of the object before we save it.
 #### Example
 
 ```json
-{\n  "certificateAuthority": "-----BEGIN CERTIFICATE-----\nMIIBbjCCARSgAwIBAgIRANRbvVzTzBZOvMCb8BiKCLowCgYIKoZIzj0EAwIwJjEN\nMAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNTE4\nNDgwN1oXDTI3MTEyNDE4NDgwN1owJjENMAsGA1UEChMEQWNtZTEVMBMGA1UEAxMM\nQWNtZSBSb290IENBMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJ/80HR51+vau\n7XH7zS7b8ABA0e/TdBOg1NznbnXdXil1tDvWloWuH5+/bbaiEg54wksJHFXaukw8\njhTLU7zT56MjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wCgYI\nKoZIzj0EAwIDSAAwRQIhALwAZh2KLFFC1qfb5CqFHExlXS0PUltax9PvQCN9P0vl\nAiBl7/st9u/JpERjJgirxJxOgKNlV6pq9ti75EfQtZZcQA==\n-----END CERTIFICATE-----",\n  "clientCertificate": "-----BEGIN CERTIFICATE-----\nMIIBczCCARigAwIBAgIRALD3Vz81Pq10g7n4eAkOsCYwCgYIKoZIzj0EAwIwJjEN\nMAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNzA2\nNTM1MloXDTI3MTEyNjA2NTM1MlowGDEWMBQGA1UEAxMNY2xhaXJlLWNsaWVudDBZ\nMBMGByqGSM49AgEGCCqGSM49AwEHA0IABOmzPJj+t25T148eQH5gVrZ7nHwckF5O\nevJQ3CjSEMesjZ/u7cW8IBfXlxZKHxl91IEbbB3svci4c8pycUNZ2kujNTAzMA4G\nA1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggrBgEFBQcDAjAMBgNVHRMBAf8EAjAA\nMAoGCCqGSM49BAMCA0kAMEYCIQCjAAmkQpTua0HR4q6jnePaFBp/JMXwTXTxzbV6\npeGbBQIhAP+1OR8GFnn2PlacwHqWXHwkvy6CLPVikvgtwEdB6jH8\n-----END CERTIFICATE-----",\n  "clientCertificateKey": "-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIGOXJI/123456789oamOu4tQAIKFdbyvkIJg9GME0mHzoAoGCCqGSM49\nAwEHoUQDQgAE6bM8mP123456789AfmBWtnucfByQXk568lDcKNIQx6yNn+7txbwg\nF9eXFkofGX3UgRtsHe123456789xQ1naSw==\n-----END EC PRIVATE KEY-----",\n  "continueOnError": false,\n  "disabled": false,\n  "endpoint": "https://hooks.hookserver.com/remoteprocessors",\n  "fallback": false,\n  "mode": "Pre",\n  "name": "the name",\n  "propagate": false,\n  "propagationHidden": false,\n  "protected": false,\n  "subject": [\n    [\n      "$identity=processingunit"\n    ]\n  ]\n}
+{
+  "certificateAuthority": "-----BEGIN CERTIFICATE-----
+MIIBbjCCARSgAwIBAgIRANRbvVzTzBZOvMCb8BiKCLowCgYIKoZIzj0EAwIwJjEN
+MAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNTE4
+NDgwN1oXDTI3MTEyNDE4NDgwN1owJjENMAsGA1UEChMEQWNtZTEVMBMGA1UEAxMM
+QWNtZSBSb290IENBMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJ/80HR51+vau
+7XH7zS7b8ABA0e/TdBOg1NznbnXdXil1tDvWloWuH5+/bbaiEg54wksJHFXaukw8
+jhTLU7zT56MjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wCgYI
+KoZIzj0EAwIDSAAwRQIhALwAZh2KLFFC1qfb5CqFHExlXS0PUltax9PvQCN9P0vl
+AiBl7/st9u/JpERjJgirxJxOgKNlV6pq9ti75EfQtZZcQA==
+-----END CERTIFICATE-----",
+  "clientCertificate": "-----BEGIN CERTIFICATE-----
+MIIBczCCARigAwIBAgIRALD3Vz81Pq10g7n4eAkOsCYwCgYIKoZIzj0EAwIwJjEN
+MAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNzA2
+NTM1MloXDTI3MTEyNjA2NTM1MlowGDEWMBQGA1UEAxMNY2xhaXJlLWNsaWVudDBZ
+MBMGByqGSM49AgEGCCqGSM49AwEHA0IABOmzPJj+t25T148eQH5gVrZ7nHwckF5O
+evJQ3CjSEMesjZ/u7cW8IBfXlxZKHxl91IEbbB3svci4c8pycUNZ2kujNTAzMA4G
+A1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggrBgEFBQcDAjAMBgNVHRMBAf8EAjAA
+MAoGCCqGSM49BAMCA0kAMEYCIQCjAAmkQpTua0HR4q6jnePaFBp/JMXwTXTxzbV6
+peGbBQIhAP+1OR8GFnn2PlacwHqWXHwkvy6CLPVikvgtwEdB6jH8
+-----END CERTIFICATE-----",
+  "clientCertificateKey": "-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIGOXJI/123456789oamOu4tQAIKFdbyvkIJg9GME0mHzoAoGCCqGSM49
+AwEHoUQDQgAE6bM8mP123456789AfmBWtnucfByQXk568lDcKNIQx6yNn+7txbwg
+F9eXFkofGX3UgRtsHe123456789xQ1naSw==
+-----END EC PRIVATE KEY-----",
+  "continueOnError": false,
+  "disabled": false,
+  "endpoint": "https://hooks.hookserver.com/remoteprocessors",
+  "fallback": false,
+  "mode": "Pre",
+  "name": "the name",
+  "propagate": false,
+  "propagationHidden": false,
+  "protected": false,
+  "subject": [
+    [
+      "$identity=processingunit"
+    ]
+  ]
+}
 ```
 
 #### Relations
@@ -5141,7 +5658,20 @@ Hook to integrate an Aporeto service.
 #### Example
 
 ```json
-{\n  "claims": [\n    "@auth:realm=certificate",\n    "@auth:commonname=john"\n  ],\n  "input": "{\n  \"name\": \"hello\",\n  \"description\": \"hello\",\n}",\n  "mode": "Pre",\n  "namespace": "/my/namespace",\n  "operation": "create",\n  "targetIdentity": "processingunit"\n}
+{
+  "claims": [
+    "@auth:realm=certificate",
+    "@auth:commonname=john"
+  ],
+  "input": "{
+  \"name\": \"hello\",
+  \"description\": \"hello\",
+}",
+  "mode": "Pre",
+  "namespace": "/my/namespace",
+  "operation": "create",
+  "targetIdentity": "processingunit"
+}
 ```
 
 #### Relations
@@ -5198,7 +5728,12 @@ Represents a set of services that a host must expose and protect.
 #### Example
 
 ```json
-{\n  "hostModeEnabled": false,\n  "name": "the name",\n  "propagate": false,\n  "protected": false\n}
+{
+  "hostModeEnabled": false,
+  "name": "the name",
+  "propagate": false,
+  "protected": false
+}
 ```
 
 #### Relations
@@ -5325,7 +5860,13 @@ enforcers and host services that they must implement.
 #### Example
 
 ```json
-{\n  "disabled": false,\n  "fallback": false,\n  "name": "the name",\n  "propagate": false,\n  "protected": false\n}
+{
+  "disabled": false,
+  "fallback": false,
+  "name": "the name",
+  "propagate": false,
+  "protected": false
+}
 ```
 
 #### Relations
@@ -5468,7 +6009,16 @@ This API represents the claims that accessed a service.
 #### Example
 
 ```json
-{\n  "content": {\n    "exp": 1553899021,\n    "iat": 1553888221,\n    "iss": "https://accounts.acme.com",\n    "sub": "alice@acme.com"\n  },\n  "hash": "1134423925458173049",\n  "protected": false\n}
+{
+  "content": {
+    "exp": 1553899021,
+    "iat": 1553888221,
+    "iss": "https://accounts.acme.com",
+    "sub": "alice@acme.com"
+  },
+  "hash": "1134423925458173049",
+  "protected": false
+}
 ```
 
 #### Relations
@@ -5537,7 +6087,17 @@ Services tags to set some policies.
 #### Example
 
 ```json
-{\n  "name": "the name",\n  "ports": [\n    "1:65535"\n  ],\n  "propagate": false,\n  "protected": false,\n  "protocols": [\n    "tcp"\n  ]\n}
+{
+  "name": "the name",
+  "ports": [
+    "1:65535"
+  ],
+  "propagate": false,
+  "protected": false,
+  "protocols": [
+    "tcp"
+  ]
+}
 ```
 
 #### Relations
@@ -5671,7 +6231,27 @@ Post a new flow statistics report.
 #### Example
 
 ```json
-{\n  "action": "Accept",\n  "destinationID": "xxx-xxx-xxx",\n  "destinationNamespace": "/my/namespace",\n  "destinationType": "ProcessingUnit",\n  "encrypted": false,\n  "namespace": "/my/namespace",\n  "observed": false,\n  "observedAction": "NotApplicable",\n  "observedEncrypted": false,\n  "observedPolicyID": "xxx-xxx-xxx",\n  "observedPolicyNamespace": "/my/namespace",\n  "policyID": "xxx-xxx-xxx",\n  "policyNamespace": "/my/namespace",\n  "protocol": 6,\n  "serviceType": "NotApplicable",\n  "sourceID": "xxx-xxx-xxx",\n  "sourceNamespace": "/my/namespace",\n  "sourceType": "ProcessingUnit",\n  "value": 1\n}
+{
+  "action": "Accept",
+  "destinationID": "xxx-xxx-xxx",
+  "destinationNamespace": "/my/namespace",
+  "destinationType": "ProcessingUnit",
+  "encrypted": false,
+  "namespace": "/my/namespace",
+  "observed": false,
+  "observedAction": "NotApplicable",
+  "observedEncrypted": false,
+  "observedPolicyID": "xxx-xxx-xxx",
+  "observedPolicyNamespace": "/my/namespace",
+  "policyID": "xxx-xxx-xxx",
+  "policyNamespace": "/my/namespace",
+  "protocol": 6,
+  "serviceType": "NotApplicable",
+  "sourceID": "xxx-xxx-xxx",
+  "sourceNamespace": "/my/namespace",
+  "sourceType": "ProcessingUnit",
+  "value": 1
+}
 ```
 
 #### Relations
@@ -5823,7 +6403,21 @@ identitied by their tags to talk to other processing units or external services
 #### Example
 
 ```json
-{\n  "action": "Allow",\n  "applyPolicyMode": "Bidirectional",\n  "disabled": false,\n  "encryptionEnabled": false,\n  "fallback": false,\n  "logsEnabled": false,\n  "name": "the name",\n  "negateObject": false,\n  "negateSubject": false,\n  "observationEnabled": false,\n  "observedTrafficAction": "Continue",\n  "propagate": false,\n  "protected": false\n}
+{
+  "action": "Allow",
+  "applyPolicyMode": "Bidirectional",
+  "disabled": false,
+  "encryptionEnabled": false,
+  "fallback": false,
+  "logsEnabled": false,
+  "name": "the name",
+  "negateObject": false,
+  "negateSubject": false,
+  "observationEnabled": false,
+  "observedTrafficAction": "Continue",
+  "propagate": false,
+  "protected": false
+}
 ```
 
 #### Relations
@@ -6036,7 +6630,11 @@ An IsolationProfile needs documentation.
 #### Example
 
 ```json
-{\n  "name": "the name",\n  "propagate": false,\n  "protected": false\n}
+{
+  "name": "the name",
+  "propagate": false,
+  "protected": false
+}
 ```
 
 #### Relations
@@ -6152,7 +6750,14 @@ A ProcessingUnitPolicies needs a better description.
 #### Example
 
 ```json
-{\n  "action": "Delete",\n  "disabled": false,\n  "fallback": false,\n  "name": "the name",\n  "propagate": false,\n  "protected": false\n}
+{
+  "action": "Delete",
+  "disabled": false,
+  "fallback": false,
+  "name": "the name",
+  "propagate": false,
+  "protected": false
+}
 ```
 
 #### Relations
@@ -6313,7 +6918,19 @@ created in a namespace.
 #### Example
 
 ```json
-{\n  "disabled": false,\n  "fallback": false,\n  "identities": [\n    "processingunit",\n    "enforcer"\n  ],\n  "name": "the name",\n  "propagate": false,\n  "propagationHidden": false,\n  "protected": false,\n  "targetNamespace": "/my/namespace"\n}
+{
+  "disabled": false,
+  "fallback": false,
+  "identities": [
+    "processingunit",
+    "enforcer"
+  ],
+  "name": "the name",
+  "propagate": false,
+  "propagationHidden": false,
+  "protected": false,
+  "targetNamespace": "/my/namespace"
+}
 ```
 
 #### Relations
@@ -6448,7 +7065,10 @@ Represents a mapping from a claim name to an HTTP header.
 #### Example
 
 ```json
-{\n  "claimName": "email",\n  "targetHTTPHeader": "X-Username"\n}
+{
+  "claimName": "email",
+  "targetHTTPHeader": "X-Username"
+}
 ```
 
 #### Attributes
@@ -6468,7 +7088,9 @@ Represents an HTTP endpoint.
 #### Example
 
 ```json
-{\n  "public": false\n}
+{
+  "public": false
+}
 ```
 
 #### Attributes
@@ -6503,7 +7125,11 @@ can be associated with one or more services.
 #### Example
 
 ```json
-{\n  "name": "the name",\n  "propagate": false,\n  "protected": false\n}
+{
+  "name": "the name",
+  "propagate": false,
+  "protected": false
+}
 ```
 
 #### Relations
@@ -6611,7 +7237,34 @@ units.
 #### Example
 
 ```json
-{\n  "OIDCProviderURL": "https://accounts.google.com",\n  "OIDCScopes": [\n    "email",\n    "profile"\n  ],\n  "TLSType": "Aporeto",\n  "authorizationType": "None",\n  "disabled": false,\n  "exposedAPIs": [\n    [\n      "package=p1"\n    ]\n  ],\n  "exposedPort": 443,\n  "exposedServiceIsTLS": false,\n  "external": false,\n  "name": "the name",\n  "port": 443,\n  "protected": false,\n  "publicApplicationPort": 443,\n  "selectors": [\n    [\n      "$identity=processingunit"\n    ]\n  ],\n  "type": "HTTP"\n}
+{
+  "OIDCProviderURL": "https://accounts.google.com",
+  "OIDCScopes": [
+    "email",
+    "profile"
+  ],
+  "TLSType": "Aporeto",
+  "authorizationType": "None",
+  "disabled": false,
+  "exposedAPIs": [
+    [
+      "package=p1"
+    ]
+  ],
+  "exposedPort": 443,
+  "exposedServiceIsTLS": false,
+  "external": false,
+  "name": "the name",
+  "port": 443,
+  "protected": false,
+  "publicApplicationPort": 443,
+  "selectors": [
+    [
+      "$identity=processingunit"
+    ]
+  ],
+  "type": "HTTP"
+}
 ```
 
 #### Relations
@@ -6917,7 +7570,13 @@ by their tags require access to specific services.
 #### Example
 
 ```json
-{\n  "disabled": false,\n  "fallback": false,\n  "name": "the name",\n  "propagate": false,\n  "protected": false\n}
+{
+  "disabled": false,
+  "fallback": false,
+  "name": "the name",
+  "propagate": false,
+  "protected": false
+}
 ```
 
 #### Relations
@@ -7047,7 +7706,13 @@ generated tokens to be used by external applications.
 #### Example
 
 ```json
-{\n  "disabled": false,\n  "fallback": false,\n  "name": "the name",\n  "propagate": false,\n  "protected": false\n}
+{
+  "disabled": false,
+  "fallback": false,
+  "name": "the name",
+  "propagate": false,
+  "protected": false
+}
 ```
 
 #### Relations
@@ -7183,7 +7848,14 @@ certificates are valid.
 #### Example
 
 ```json
-{\n  "disabled": false,\n  "fallback": false,\n  "name": "the name",\n  "propagate": false,\n  "protected": false,\n  "validity": "1h"\n}
+{
+  "disabled": false,
+  "fallback": false,
+  "name": "the name",
+  "propagate": false,
+  "protected": false,
+  "validity": "1h"
+}
 ```
 
 #### Relations
@@ -7347,7 +8019,9 @@ be used to connect to a node where enforcer is protecting SSH sessions.
 #### Example
 
 ```json
-{\n  "publicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCytT my key"\n}
+{
+  "publicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCytT my key"
+}
 ```
 
 #### Relations
@@ -7436,7 +8110,10 @@ Represents an edge from the dependency map.
 #### Example
 
 ```json
-{\n  "destinationType": "ProcessingUnit",\n  "sourceType": "ProcessingUnit"\n}
+{
+  "destinationType": "ProcessingUnit",
+  "sourceType": "ProcessingUnit"
+}
 ```
 
 #### Attributes
@@ -7532,7 +8209,10 @@ Represents an node from the dependency map.
 #### Example
 
 ```json
-{\n  "type": "Docker",\n  "unreachable": false\n}
+{
+  "type": "Docker",
+  "unreachable": false
+}
 ```
 
 #### Attributes
@@ -7638,7 +8318,14 @@ unit that is not yetactivated.
 #### Example
 
 ```json
-{\n  "recursive": false,\n  "selectors": [\n    [\n      "$identity=processingunit"\n    ]\n  ]\n}
+{
+  "recursive": false,
+  "selectors": [
+    [
+      "$identity=processingunit"
+    ]
+  ]
+}
 ```
 
 #### Relations
@@ -7717,7 +8404,9 @@ statistics measurement.
 #### Example
 
 ```json
-{\n  "measurement": "Flows"\n}
+{
+  "measurement": "Flows"
+}
 ```
 
 #### Relations
@@ -7755,7 +8444,12 @@ the namespace of the user.
 #### Example
 
 ```json
-{\n  "descending": false,\n  "limit": -1,\n  "measurement": "Flows",\n  "offset": -1\n}
+{
+  "descending": false,
+  "limit": -1,
+  "measurement": "Flows",
+  "offset": -1
+}
 ```
 
 #### Relations
