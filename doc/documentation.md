@@ -930,7 +930,26 @@ for a Midgard token.
 #### Example
 
 ```json
-{\n  "address": "ldap.company.com",\n  "baseDN": "dc=universe,dc=io",\n  "bindDN": "cn=readonly,dc=universe,dc=io",\n  "bindPassword": "s3cr3t",\n  "bindSearchFilter": "uid={USERNAME}",\n  "certificateAuthority": "-----BEGIN CERTIFICATE-----\nMIIBPzCB5qADAgECAhEAwbx3c+QW24ePXyD94geytzAKBggqhkjOPQQDAjAPMQ0w\nCwYDVQQDEwR0b3RvMB4XDTE5MDIyMjIzNDA1MFoXDTI4MTIzMTIzNDA1MFowDzEN\nMAsGA1UEAxMEdG90bzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJi6CwRDeKks\nXb3pDEslmFGR7k9Aeh5RK+XmdqKKPGb3NQWEFPGolnqOR34iVuf7KSxTuzaaVWfu\nXEa94faUQEqjIzAhMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MAoG\nCCqGSM49BAMCA0gAMEUCIQD+nL9RF9EvQXHyYuJ31Lz9yWd9hsK91stnpAs890gS\n/AIgQIKjBBpiyQNZZWso5H04qke9QYMVPegiQQufFFBj32c=\n-----END CERTIFICATE-----",\n  "connSecurityProtocol": "InbandTLS",\n  "name": "oldap",\n  "protected": false,\n  "subjectKey": "uid"\n}
+{
+  "address": "ldap.company.com",
+  "baseDN": "dc=universe,dc=io",
+  "bindDN": "cn=readonly,dc=universe,dc=io",
+  "bindPassword": "s3cr3t",
+  "bindSearchFilter": "uid={USERNAME}",
+  "certificateAuthority": "-----BEGIN CERTIFICATE-----
+MIIBPzCB5qADAgECAhEAwbx3c+QW24ePXyD94geytzAKBggqhkjOPQQDAjAPMQ0w
+CwYDVQQDEwR0b3RvMB4XDTE5MDIyMjIzNDA1MFoXDTI4MTIzMTIzNDA1MFowDzEN
+MAsGA1UEAxMEdG90bzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJi6CwRDeKks
+Xb3pDEslmFGR7k9Aeh5RK+XmdqKKPGb3NQWEFPGolnqOR34iVuf7KSxTuzaaVWfu
+XEa94faUQEqjIzAhMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MAoG
+CCqGSM49BAMCA0gAMEUCIQD+nL9RF9EvQXHyYuJ31Lz9yWd9hsK91stnpAs890gS
+/AIgQIKjBBpiyQNZZWso5H04qke9QYMVPegiQQufFFBj32c=
+-----END CERTIFICATE-----",
+  "connSecurityProtocol": "InbandTLS",
+  "name": "oldap",
+  "protected": false,
+  "subjectKey": "uid"
+}
 ```
 
 #### Relations
