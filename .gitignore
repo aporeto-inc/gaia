@@ -3,4 +3,5 @@ vendor
 *.lock
 *.cov
 artifacts
+.idea/*
 values_codecgen.go
