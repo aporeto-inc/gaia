@@ -81,10 +81,11 @@ var (
 		"processingunitpolicy":  ProcessingUnitPolicyIdentity,
 		"processingunitrefresh": ProcessingUnitRefreshIdentity,
 
-		"punode":                 PUNodeIdentity,
-		"quotacheck":             QuotaCheckIdentity,
-		"quotapolicy":            QuotaPolicyIdentity,
-		"recipe":                 RecipeIdentity,
+		"punode":      PUNodeIdentity,
+		"quotacheck":  QuotaCheckIdentity,
+		"quotapolicy": QuotaPolicyIdentity,
+		"recipe":      RecipeIdentity,
+
 		"remoteprocessor":        RemoteProcessorIdentity,
 		"renderedpolicy":         RenderedPolicyIdentity,
 		"rendertemplate":         RenderTemplateIdentity,
@@ -196,10 +197,11 @@ var (
 		"processingunitpolicies": ProcessingUnitPolicyIdentity,
 		"processingunitrefreshs": ProcessingUnitRefreshIdentity,
 
-		"punodes":                  PUNodeIdentity,
-		"quotacheck":               QuotaCheckIdentity,
-		"quotapolicies":            QuotaPolicyIdentity,
-		"recipes":                  RecipeIdentity,
+		"punodes":       PUNodeIdentity,
+		"quotacheck":    QuotaCheckIdentity,
+		"quotapolicies": QuotaPolicyIdentity,
+		"recipes":       RecipeIdentity,
+
 		"remoteprocessors":         RemoteProcessorIdentity,
 		"renderedpolicies":         RenderedPolicyIdentity,
 		"rendertemplates":          RenderTemplateIdentity,

@@ -126,6 +126,9 @@ type Recipe struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
+	// Options of the recipe.
+	Options *RecipeOptions `json:"options" msgpack:"options" bson:"options" mapstructure:"options,omitempty"`
+
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
@@ -157,9 +160,10 @@ func NewRecipe() *Recipe {
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
+		Options:        NewRecipeOptions(),
+		Label:          "magicpanda",
 		Metadata:       []string{},
 		NormalizedTags: []string{},
-		Label:          "magicpanda",
 		Steps:          []*UIStep{},
 	}
 }
@@ -385,6 +389,7 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
+			Options:              &o.Options,
 			Propagate:            &o.Propagate,
 			Protected:            &o.Protected,
 			Steps:                &o.Steps,
@@ -426,6 +431,8 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
+		case "options":
+			sp.Options = &(o.Options)
 		case "propagate":
 			sp.Propagate = &(o.Propagate)
 		case "protected":
@@ -494,6 +501,9 @@ func (o *Recipe) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
+	}
+	if so.Options != nil {
+		o.Options = *so.Options
 	}
 	if so.Propagate != nil {
 		o.Propagate = *so.Propagate
@@ -572,6 +582,10 @@ func (o *Recipe) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := o.Options.Validate(); err != nil {
+		errors = errors.Append(err)
+	}
+
 	for _, sub := range o.Steps {
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
@@ -640,6 +654,8 @@ func (o *Recipe) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
+	case "options":
+		return o.Options
 	case "propagate":
 		return o.Propagate
 	case "protected":
@@ -840,6 +856,16 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:        "string",
 		Transient:      true,
 		Type:           "list",
+	},
+	"Options": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Options",
+		Description:    `Options of the recipe.`,
+		Exposed:        true,
+		Name:           "options",
+		Stored:         true,
+		SubType:        "recipeoptions",
+		Type:           "ref",
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1104,6 +1130,16 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
+	"options": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Options",
+		Description:    `Options of the recipe.`,
+		Exposed:        true,
+		Name:           "options",
+		Stored:         true,
+		SubType:        "recipeoptions",
+		Type:           "ref",
+	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
@@ -1294,6 +1330,9 @@ type SparseRecipe struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
+	// Options of the recipe.
+	Options **RecipeOptions `json:"options,omitempty" msgpack:"options,omitempty" bson:"options,omitempty" mapstructure:"options,omitempty"`
+
 	// Propagate will propagate the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
@@ -1395,6 +1434,9 @@ func (o *SparseRecipe) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
+	}
+	if o.Options != nil {
+		out.Options = *o.Options
 	}
 	if o.Propagate != nil {
 		out.Propagate = *o.Propagate

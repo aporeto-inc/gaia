@@ -3545,6 +3545,10 @@ Namespace tag attached to an entity.
 
 NormalizedTags contains the list of normalized tags of the entities.
 
+##### `options` [`recipeoptions`](#recipeoptions)
+
+Options of the recipe.
+
 ##### `propagate` `boolean`
 
 Propagate will propagate the policy to all of its children.
@@ -8348,6 +8352,30 @@ Contains the signed SSH certificate in OpenSSH Format.
 
 Contains the public key to sign in OpenSSH Format. You can generate a SSH public
 key with the standard `ssh-keygen` tool.
+
+## `recipes`
+
+| Resource                        | Description                  |
+| -                               | -                            |
+| [RecipeOptions](#recipeoptions) | Represents a Recipe Options. |
+
+### RecipeOptions
+
+Represents a Recipe Options.
+
+#### Example
+
+```json
+{
+  "appCrendentialFormat": "JSON"
+}
+```
+
+#### Attributes
+
+##### `appCrendentialFormat` `emum(JSON | YAML)`
+
+AppCrendentialFormat indicates the format of the AppCredential.
 
 ## `visualization/depmaps`
 

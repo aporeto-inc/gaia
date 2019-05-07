@@ -64,6 +64,15 @@ attributes:
     exposed: true
     stored: true
 
+  - name: options
+    description: Options of the recipe.
+    type: ref
+    exposed: true
+    subtype: recipeoptions
+    stored: true
+    extensions:
+      refMode: pointer
+
   - name: steps
     description: Steps contains all the steps with parameters to follow for the recipe.
     type: refList
