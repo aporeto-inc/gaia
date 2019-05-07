@@ -46,6 +46,18 @@ attributes:
     subtype: '[]map[string]string'
     stored: true
 
+  - name: emails
+    description: |-
+      Emails is a list of recipients that should be emailed when this alarm is
+      created.
+    type: list
+    exposed: true
+    subtype: string
+    stored: true
+    example_value:
+    - amir@aporeto.com
+    - john@aporeto.com
+
   - name: kind
     description: |-
       Kind identifies the kind of alarms. If two alarms are created with the same

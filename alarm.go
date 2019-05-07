@@ -121,6 +121,10 @@ type Alarm struct {
 	// Description is the description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
+	// Emails is a list of recipients that should be emailed when this alarm is
+	// created.
+	Emails []string `json:"emails" msgpack:"emails" bson:"emails" mapstructure:"emails,omitempty"`
+
 	// Kind identifies the kind of alarms. If two alarms are created with the same
 	// identifier, then only the occurrence will be incremented.
 	Kind string `json:"kind" msgpack:"kind" bson:"kind" mapstructure:"kind,omitempty"`
@@ -168,6 +172,7 @@ func NewAlarm() *Alarm {
 		Annotations:    map[string][]string{},
 		Data:           []map[string]string{},
 		AssociatedTags: []string{},
+		Emails:         []string{},
 		NormalizedTags: []string{},
 		Occurrences:    []time.Time{},
 		Status:         AlarmStatusOpen,
@@ -389,6 +394,7 @@ func (o *Alarm) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			CreateTime:           &o.CreateTime,
 			Data:                 &o.Data,
 			Description:          &o.Description,
+			Emails:               &o.Emails,
 			Kind:                 &o.Kind,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
@@ -422,6 +428,8 @@ func (o *Alarm) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Data = &(o.Data)
 		case "description":
 			sp.Description = &(o.Description)
+		case "emails":
+			sp.Emails = &(o.Emails)
 		case "kind":
 			sp.Kind = &(o.Kind)
 		case "name":
@@ -480,6 +488,9 @@ func (o *Alarm) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
+	}
+	if so.Emails != nil {
+		o.Emails = *so.Emails
 	}
 	if so.Kind != nil {
 		o.Kind = *so.Kind
@@ -624,6 +635,8 @@ func (o *Alarm) ValueForAttribute(name string) interface{} {
 		return o.Data
 	case "description":
 		return o.Description
+	case "emails":
+		return o.Emails
 	case "kind":
 		return o.Kind
 	case "name":
@@ -750,6 +763,17 @@ var AlarmAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
+	},
+	"Emails": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Emails",
+		Description: `Emails is a list of recipients that should be emailed when this alarm is
+created.`,
+		Exposed: true,
+		Name:    "emails",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
 	},
 	"Kind": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1001,6 +1025,17 @@ var AlarmLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
+	"emails": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Emails",
+		Description: `Emails is a list of recipients that should be emailed when this alarm is
+created.`,
+		Exposed: true,
+		Name:    "emails",
+		Stored:  true,
+		SubType: "string",
+		Type:    "list",
+	},
 	"kind": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Kind",
@@ -1241,6 +1276,10 @@ type SparseAlarm struct {
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
+	// Emails is a list of recipients that should be emailed when this alarm is
+	// created.
+	Emails *[]string `json:"emails,omitempty" msgpack:"emails,omitempty" bson:"emails,omitempty" mapstructure:"emails,omitempty"`
+
 	// Kind identifies the kind of alarms. If two alarms are created with the same
 	// identifier, then only the occurrence will be incremented.
 	Kind *string `json:"kind,omitempty" msgpack:"kind,omitempty" bson:"kind,omitempty" mapstructure:"kind,omitempty"`
@@ -1339,6 +1378,9 @@ func (o *SparseAlarm) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
+	}
+	if o.Emails != nil {
+		out.Emails = *o.Emails
 	}
 	if o.Kind != nil {
 		out.Kind = *o.Kind
