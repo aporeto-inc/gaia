@@ -23,13 +23,17 @@ indexes:
   - date
 - - namespace
   - operation
-- - namespace
+- - :background
+  - namespace
   - error.code
-- - namespace
+- - :background
+  - namespace
   - targetIdentity
-- - namespace
+- - :background
+  - namespace
   - data.ID
-- - namespace
+- - :background
+  - namespace
   - originalData.ID
 
 # Attributes

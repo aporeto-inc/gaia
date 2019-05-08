@@ -1980,6 +1980,10 @@ An alarm represents an event requiring attention.
 ```json
 {
   "content": "This is an alarm",
+  "emails": [
+    "amir@aporeto.com",
+    "john@aporeto.com"
+  ],
   "kind": "aporeto.alarm.kind",
   "name": "the name",
   "protected": false,
@@ -2046,6 +2050,11 @@ Data represent user data related to the alams.
 ##### `description` `string` [`max_length=1024`]
 
 Description is the description of the object.
+
+##### `emails` `[]string`
+
+Emails is a list of recipients that should be emailed when this alarm is
+created.
 
 ##### `kind` `string` [`required`,`creation_only`]
 

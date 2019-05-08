@@ -23,6 +23,8 @@ codegen:
 	mv custom_validations_test.go.keep custom_validations_test.go
 	mv codegen/elemental/*.go ./
 	rm -rf codegen
+	data=$$(rego doc -d specs || exit 1) && \
+		echo -e "$${data}" > doc/documentation.md
 
 lint:
 	# --enable=unparam
