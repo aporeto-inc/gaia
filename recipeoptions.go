@@ -30,7 +30,8 @@ type RecipeOptions struct {
 func NewRecipeOptions() *RecipeOptions {
 
 	return &RecipeOptions{
-		ModelVersion: 1,
+		ModelVersion:         1,
+		AppCrendentialFormat: RecipeOptionsAppCrendentialFormatJSON,
 	}
 }
 

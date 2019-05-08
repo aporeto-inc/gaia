@@ -19,3 +19,4 @@ attributes:
     allowed_choices:
     - JSON
     - YAML
+    default_value: JSON

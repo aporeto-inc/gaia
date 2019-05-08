@@ -8377,6 +8377,12 @@ Represents a Recipe Options.
 
 AppCrendentialFormat indicates the format of the AppCredential.
 
+Default value:
+
+```json
+"JSON"
+```
+
 ## `visualization/depmaps`
 
 | Resource                            | Description                                                                         |
