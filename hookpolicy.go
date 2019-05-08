@@ -133,7 +133,7 @@ type HookPolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// Endpoint contains the full address of the remote processor endoint.
+	// Endpoint contains the full address of the remote processor endpoint.
 	Endpoint string `json:"endpoint" msgpack:"endpoint" bson:"endpoint" mapstructure:"endpoint,omitempty"`
 
 	// If set the policy will be auto deleted after the given time.
@@ -969,7 +969,7 @@ calling the hook fails.`,
 	"Endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoint",
-		Description:    `Endpoint contains the full address of the remote processor endoint.`,
+		Description:    `Endpoint contains the full address of the remote processor endpoint.`,
 		Exposed:        true,
 		Name:           "endpoint",
 		Orderable:      true,
@@ -1315,7 +1315,7 @@ calling the hook fails.`,
 	"endpoint": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Endpoint",
-		Description:    `Endpoint contains the full address of the remote processor endoint.`,
+		Description:    `Endpoint contains the full address of the remote processor endpoint.`,
 		Exposed:        true,
 		Name:           "endpoint",
 		Orderable:      true,
@@ -1626,7 +1626,7 @@ type SparseHookPolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// Endpoint contains the full address of the remote processor endoint.
+	// Endpoint contains the full address of the remote processor endpoint.
 	Endpoint *string `json:"endpoint,omitempty" msgpack:"endpoint,omitempty" bson:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
 	// If set the policy will be auto deleted after the given time.

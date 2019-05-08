@@ -112,7 +112,7 @@ attributes:
     stored: true
 
   - name: endpoint
-    description: Endpoint contains the full address of the remote processor endoint.
+    description: Endpoint contains the full address of the remote processor endpoint.
     type: string
     exposed: true
     stored: true

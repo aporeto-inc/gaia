@@ -6161,7 +6161,7 @@ Disabled defines if the propert is disabled.
 
 ##### `endpoint` `string` [`required`]
 
-Endpoint contains the full address of the remote processor endoint.
+Endpoint contains the full address of the remote processor endpoint.
 
 ##### `expirationTime` `time`
 
