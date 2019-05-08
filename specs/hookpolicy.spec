@@ -49,7 +49,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    required: true
     example_value: |-
       -----BEGIN CERTIFICATE-----
       MIIBbjCCARSgAwIBAgIRANRbvVzTzBZOvMCb8BiKCLowCgYIKoZIzj0EAwIwJjEN
@@ -72,7 +71,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    required: true
     example_value: |-
       -----BEGIN CERTIFICATE-----
       MIIBczCCARigAwIBAgIRALD3Vz81Pq10g7n4eAkOsCYwCgYIKoZIzj0EAwIwJjEN
@@ -93,7 +91,6 @@ attributes:
     type: string
     exposed: true
     stored: true
-    required: true
     example_value: |-
       -----BEGIN EC PRIVATE KEY-----
       MHcCAQEEIGOXJI/123456789oamOu4tQAIKFdbyvkIJg9GME0mHzoAoGCCqGSM49

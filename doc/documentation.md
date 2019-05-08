@@ -6128,17 +6128,17 @@ Annotation stores additional information about an entity.
 
 AssociatedTags are the list of tags attached to an entity.
 
-##### `certificateAuthority` `string` [`required`]
+##### `certificateAuthority` `string`
 
 CertificateAuthority contains the pem block of the certificate authority used by
 the remote endpoint.
 
-##### `clientCertificate` `string` [`required`]
+##### `clientCertificate` `string`
 
 ClientCertificate contains the client certificate that will be used to connect
 to the remote endoint.
 
-##### `clientCertificateKey` `string` [`required`]
+##### `clientCertificateKey` `string`
 
 ClientCertificateKey contains the key associated to the clientCertificate.
 

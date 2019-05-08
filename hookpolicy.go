@@ -703,16 +703,8 @@ func (o *HookPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateRequiredString("certificateAuthority", o.CertificateAuthority); err != nil {
-		requiredErrors = requiredErrors.Append(err)
-	}
-
 	if err := ValidatePEM("certificateAuthority", o.CertificateAuthority); err != nil {
 		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateRequiredString("clientCertificate", o.ClientCertificate); err != nil {
-		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := ValidatePEM("clientCertificate", o.ClientCertificate); err != nil {
@@ -887,7 +879,6 @@ the remote endpoint.`,
 		Exposed:   true,
 		Name:      "certificateAuthority",
 		Orderable: true,
-		Required:  true,
 		Stored:    true,
 		Type:      "string",
 	},
@@ -899,7 +890,6 @@ to the remote endoint.`,
 		Exposed:   true,
 		Name:      "clientCertificate",
 		Orderable: true,
-		Required:  true,
 		Stored:    true,
 		Type:      "string",
 	},
@@ -910,7 +900,6 @@ to the remote endoint.`,
 		Exposed:        true,
 		Name:           "clientCertificateKey",
 		Orderable:      true,
-		Required:       true,
 		Secret:         true,
 		Stored:         true,
 		Transient:      true,
@@ -1236,7 +1225,6 @@ the remote endpoint.`,
 		Exposed:   true,
 		Name:      "certificateAuthority",
 		Orderable: true,
-		Required:  true,
 		Stored:    true,
 		Type:      "string",
 	},
@@ -1248,7 +1236,6 @@ to the remote endoint.`,
 		Exposed:   true,
 		Name:      "clientCertificate",
 		Orderable: true,
-		Required:  true,
 		Stored:    true,
 		Type:      "string",
 	},
@@ -1259,7 +1246,6 @@ to the remote endoint.`,
 		Exposed:        true,
 		Name:           "clientCertificateKey",
 		Orderable:      true,
-		Required:       true,
 		Secret:         true,
 		Stored:         true,
 		Transient:      true,
