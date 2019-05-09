@@ -34,6 +34,8 @@ model:
   - '@fallback'
   - '@zonable'
   - '@timeable'
+  validations:
+  - $hookpolicies
 
 # Indexes
 indexes:
