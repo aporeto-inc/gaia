@@ -82,6 +82,12 @@ attributes:
     extensions:
       refMode: pointer
 
+  - name: successfullMessage
+    description: successfullMessage is presented if present and success.
+    type: string
+    exposed: true
+    stored: true
+
   - name: template
     description: Template of the recipe to import.
     type: string
