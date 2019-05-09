@@ -439,20 +439,18 @@ type attrInfo struct {
 //
 // which will return an error because Attr2 was empty and Attr1 was set.
 func validateAllOrNoneAttrGrouping(attrs ...attrInfo) error {
+
 	var missing, provided []string
-	var nonEmptyAttrExists, emptyAttrExists bool
 
 	for _, attr := range attrs {
 		if attr.value == "" {
-			nonEmptyAttrExists = true
 			provided = append(provided, attr.name)
 		} else {
-			emptyAttrExists = true
 			missing = append(missing, attr.name)
 		}
 	}
 
-	if nonEmptyAttrExists && emptyAttrExists {
+	if len(missing) > 0 && len(provided) > 0 {
 		return elemental.NewError(
 			"Validation Error",
 			fmt.Sprintf("Attribute(s) [%s] are required because attribute(s) [%s] were provided", strings.Join(missing, ", "), strings.Join(provided, ", ")),
