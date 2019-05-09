@@ -69,7 +69,9 @@ attributes:
   - name: clientCertificate
     description: |-
       ClientCertificate contains the client certificate that will be used to connect
-      to the remote endoint.
+      to the remote endpoint. If provided, the private key associated with this
+      certificate must
+      also be configured.
     type: string
     exposed: true
     stored: true
@@ -89,7 +91,10 @@ attributes:
     - $pem
 
   - name: clientCertificateKey
-    description: ClientCertificateKey contains the key associated to the clientCertificate.
+    description: |-
+      ClientCertificateKey contains the key associated to the clientCertificate. Must
+      be provided only when
+      ClientCertificate has been configured.
     type: string
     exposed: true
     stored: true
