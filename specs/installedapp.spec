@@ -53,13 +53,11 @@ attributes:
     read_only: true
 
   - name: parameters
-    description: Parameters is a list of parameters to start the app.
-    type: refList
+    description: Parameters contains the computed parameters to start the app.
+    type: external
     exposed: true
-    subtype: appparameter
+    subtype: map[string]interface{}
     stored: true
-    extensions:
-      refMode: pointer
 
   - name: status
     description: Status of the app.

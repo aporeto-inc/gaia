@@ -8,66 +8,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// InstalledAppStatusValue represents the possible values for attribute "status".
-type InstalledAppStatusValue string
-
-const (
-	// InstalledAppStatusDeploying represents the value Deploying.
-	InstalledAppStatusDeploying InstalledAppStatusValue = "Deploying"
-
-	// InstalledAppStatusError represents the value Error.
-	InstalledAppStatusError InstalledAppStatusValue = "Error"
-
-	// InstalledAppStatusInitializing represents the value Initializing.
-	InstalledAppStatusInitializing InstalledAppStatusValue = "Initializing"
-
-	// InstalledAppStatusRunning represents the value Running.
-	InstalledAppStatusRunning InstalledAppStatusValue = "Running"
-
-	// InstalledAppStatusUndeploying represents the value Undeploying.
-	InstalledAppStatusUndeploying InstalledAppStatusValue = "Undeploying"
-
-	// InstalledAppStatusUnknown represents the value Unknown.
-	InstalledAppStatusUnknown InstalledAppStatusValue = "Unknown"
-)
-
-// InstalledAppIdentity represents the Identity of the object.
-var InstalledAppIdentity = elemental.Identity{
-	Name:     "installedapp",
-	Category: "installedapps",
-	Package:  "highwind",
+// ImportReferenceIdentity represents the Identity of the object.
+var ImportReferenceIdentity = elemental.Identity{
+	Name:     "importreference",
+	Category: "importreferences",
+	Package:  "Yuna",
 	Private:  false,
 }
 
-// InstalledAppsList represents a list of InstalledApps
-type InstalledAppsList []*InstalledApp
+// ImportReferencesList represents a list of ImportReferences
+type ImportReferencesList []*ImportReference
 
 // Identity returns the identity of the objects in the list.
-func (o InstalledAppsList) Identity() elemental.Identity {
+func (o ImportReferencesList) Identity() elemental.Identity {
 
-	return InstalledAppIdentity
+	return ImportReferenceIdentity
 }
 
-// Copy returns a pointer to a copy the InstalledAppsList.
-func (o InstalledAppsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the ImportReferencesList.
+func (o ImportReferencesList) Copy() elemental.Identifiables {
 
-	copy := append(InstalledAppsList{}, o...)
+	copy := append(ImportReferencesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the InstalledAppsList.
-func (o InstalledAppsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the ImportReferencesList.
+func (o ImportReferencesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(InstalledAppsList{}, o...)
+	out := append(ImportReferencesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*InstalledApp))
+		out = append(out, obj.(*ImportReference))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o InstalledAppsList) List() elemental.IdentifiablesList {
+func (o ImportReferencesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -78,7 +55,7 @@ func (o InstalledAppsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o InstalledAppsList) DefaultOrder() []string {
+func (o ImportReferencesList) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
@@ -86,40 +63,37 @@ func (o InstalledAppsList) DefaultOrder() []string {
 	}
 }
 
-// ToSparse returns the InstalledAppsList converted to SparseInstalledAppsList.
+// ToSparse returns the ImportReferencesList converted to SparseImportReferencesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o InstalledAppsList) ToSparse(fields ...string) elemental.Identifiables {
+func (o ImportReferencesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseInstalledAppsList, len(o))
+	out := make(SparseImportReferencesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseInstalledApp)
+		out[i] = o[i].ToSparse(fields...).(*SparseImportReference)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o InstalledAppsList) Version() int {
+func (o ImportReferencesList) Version() int {
 
 	return 1
 }
 
-// InstalledApp represents the model of a installedapp
-type InstalledApp struct {
+// ImportReference represents the model of a importreference
+type ImportReference struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// AppIdentifier retains the identifier for the app.
-	AppIdentifier string `json:"-" msgpack:"-" bson:"appidentifier" mapstructure:"-,omitempty"`
-
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
 
-	// CategoryID of the app.
-	CategoryID string `json:"categoryID" msgpack:"categoryID" bson:"categoryid" mapstructure:"categoryID,omitempty"`
+	// Contains the claims of the client that performed the import.
+	Claims []string `json:"claims" msgpack:"claims" bson:"claims" mapstructure:"claims,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
@@ -127,11 +101,15 @@ type InstalledApp struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Version of the installed app.
-	CurrentVersion string `json:"currentVersion" msgpack:"currentVersion" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
+	// The data to import.
+	Data *Export `json:"data" msgpack:"data" bson:"data" mapstructure:"data,omitempty"`
 
-	// DeploymentCount represents the number of expected deployment for this app.
-	DeploymentCount int `json:"-" msgpack:"-" bson:"deploymentcount" mapstructure:"-,omitempty"`
+	// Description is the description of the object.
+	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
@@ -142,17 +120,8 @@ type InstalledApp struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Parameters contains the computed parameters to start the app.
-	Parameters map[string]interface{} `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
-
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
-
-	// Status of the app.
-	Status InstalledAppStatusValue `json:"status" msgpack:"status" bson:"status" mapstructure:"status,omitempty"`
-
-	// Reason for the status of the app.
-	StatusMessage string `json:"statusMessage" msgpack:"statusMessage" bson:"statusmessage" mapstructure:"statusMessage,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
@@ -160,48 +129,57 @@ type InstalledApp struct {
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
+
+	// geographical zone. This is used for sharding and
+	// georedundancy.
+	Zone int `json:"-" msgpack:"-" bson:"zone" mapstructure:"-,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewInstalledApp returns a new *InstalledApp
-func NewInstalledApp() *InstalledApp {
+// NewImportReference returns a new *ImportReference
+func NewImportReference() *ImportReference {
 
-	return &InstalledApp{
+	return &ImportReference{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
+		Data:           NewExport(),
 		AssociatedTags: []string{},
+		Claims:         []string{},
+		Metadata:       []string{},
 		NormalizedTags: []string{},
-		Parameters:     map[string]interface{}{},
-		Status:         InstalledAppStatusUnknown,
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *InstalledApp) Identity() elemental.Identity {
+func (o *ImportReference) Identity() elemental.Identity {
 
-	return InstalledAppIdentity
+	return ImportReferenceIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *InstalledApp) Identifier() string {
+func (o *ImportReference) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *InstalledApp) SetIdentifier(id string) {
+func (o *ImportReference) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *InstalledApp) Version() int {
+func (o *ImportReference) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *InstalledApp) DefaultOrder() []string {
+func (o *ImportReference) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
@@ -210,230 +188,272 @@ func (o *InstalledApp) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *InstalledApp) Doc() string {
+func (o *ImportReference) Doc() string {
 
-	return `InstalledApps represents an installed application.`
+	return `Import and keep a reference.`
 }
 
-func (o *InstalledApp) String() string {
+func (o *ImportReference) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *InstalledApp) GetAnnotations() map[string][]string {
+func (o *ImportReference) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *InstalledApp) SetAnnotations(annotations map[string][]string) {
+func (o *ImportReference) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *InstalledApp) GetAssociatedTags() []string {
+func (o *ImportReference) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *InstalledApp) SetAssociatedTags(associatedTags []string) {
+func (o *ImportReference) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *InstalledApp) GetCreateIdempotencyKey() string {
+func (o *ImportReference) GetCreateIdempotencyKey() string {
 
 	return o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
-func (o *InstalledApp) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *ImportReference) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *InstalledApp) GetCreateTime() time.Time {
+func (o *ImportReference) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *InstalledApp) SetCreateTime(createTime time.Time) {
+func (o *ImportReference) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *ImportReference) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *ImportReference) SetDescription(description string) {
+
+	o.Description = description
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *ImportReference) GetMetadata() []string {
+
+	return o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the given value.
+func (o *ImportReference) SetMetadata(metadata []string) {
+
+	o.Metadata = metadata
+}
+
 // GetName returns the Name of the receiver.
-func (o *InstalledApp) GetName() string {
+func (o *ImportReference) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *InstalledApp) SetName(name string) {
+func (o *ImportReference) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *InstalledApp) GetNamespace() string {
+func (o *ImportReference) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *InstalledApp) SetNamespace(namespace string) {
+func (o *ImportReference) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *InstalledApp) GetNormalizedTags() []string {
+func (o *ImportReference) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *InstalledApp) SetNormalizedTags(normalizedTags []string) {
+func (o *ImportReference) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *InstalledApp) GetProtected() bool {
+func (o *ImportReference) GetProtected() bool {
 
 	return o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the given value.
-func (o *InstalledApp) SetProtected(protected bool) {
+func (o *ImportReference) SetProtected(protected bool) {
 
 	o.Protected = protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *InstalledApp) GetUpdateIdempotencyKey() string {
+func (o *ImportReference) GetUpdateIdempotencyKey() string {
 
 	return o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
-func (o *InstalledApp) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *ImportReference) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *InstalledApp) GetUpdateTime() time.Time {
+func (o *ImportReference) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *InstalledApp) SetUpdateTime(updateTime time.Time) {
+func (o *ImportReference) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
+// GetZHash returns the ZHash of the receiver.
+func (o *ImportReference) GetZHash() int {
+
+	return o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the given value.
+func (o *ImportReference) SetZHash(zHash int) {
+
+	o.ZHash = zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *ImportReference) GetZone() int {
+
+	return o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the given value.
+func (o *ImportReference) SetZone(zone int) {
+
+	o.Zone = zone
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *ImportReference) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseInstalledApp{
+		return &SparseImportReference{
 			ID:                   &o.ID,
 			Annotations:          &o.Annotations,
-			AppIdentifier:        &o.AppIdentifier,
 			AssociatedTags:       &o.AssociatedTags,
-			CategoryID:           &o.CategoryID,
+			Claims:               &o.Claims,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
-			CurrentVersion:       &o.CurrentVersion,
-			DeploymentCount:      &o.DeploymentCount,
+			Data:                 &o.Data,
+			Description:          &o.Description,
+			Metadata:             &o.Metadata,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
-			Parameters:           &o.Parameters,
 			Protected:            &o.Protected,
-			Status:               &o.Status,
-			StatusMessage:        &o.StatusMessage,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
-	sp := &SparseInstalledApp{}
+	sp := &SparseImportReference{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
-		case "appIdentifier":
-			sp.AppIdentifier = &(o.AppIdentifier)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
-		case "categoryID":
-			sp.CategoryID = &(o.CategoryID)
+		case "claims":
+			sp.Claims = &(o.Claims)
 		case "createIdempotencyKey":
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
-		case "currentVersion":
-			sp.CurrentVersion = &(o.CurrentVersion)
-		case "deploymentCount":
-			sp.DeploymentCount = &(o.DeploymentCount)
+		case "data":
+			sp.Data = &(o.Data)
+		case "description":
+			sp.Description = &(o.Description)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
-		case "parameters":
-			sp.Parameters = &(o.Parameters)
 		case "protected":
 			sp.Protected = &(o.Protected)
-		case "status":
-			sp.Status = &(o.Status)
-		case "statusMessage":
-			sp.StatusMessage = &(o.StatusMessage)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
+		case "zHash":
+			sp.ZHash = &(o.ZHash)
+		case "zone":
+			sp.Zone = &(o.Zone)
 		}
 	}
 
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseInstalledApp to the object.
-func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseImportReference to the object.
+func (o *ImportReference) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseInstalledApp)
+	so := sparse.(*SparseImportReference)
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
 	}
-	if so.AppIdentifier != nil {
-		o.AppIdentifier = *so.AppIdentifier
-	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
 	}
-	if so.CategoryID != nil {
-		o.CategoryID = *so.CategoryID
+	if so.Claims != nil {
+		o.Claims = *so.Claims
 	}
 	if so.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
@@ -441,11 +461,14 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
-	if so.CurrentVersion != nil {
-		o.CurrentVersion = *so.CurrentVersion
+	if so.Data != nil {
+		o.Data = *so.Data
 	}
-	if so.DeploymentCount != nil {
-		o.DeploymentCount = *so.DeploymentCount
+	if so.Description != nil {
+		o.Description = *so.Description
+	}
+	if so.Metadata != nil {
+		o.Metadata = *so.Metadata
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -456,17 +479,8 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
 	}
-	if so.Parameters != nil {
-		o.Parameters = *so.Parameters
-	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
-	}
-	if so.Status != nil {
-		o.Status = *so.Status
-	}
-	if so.StatusMessage != nil {
-		o.StatusMessage = *so.StatusMessage
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
@@ -474,34 +488,40 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
+	if so.ZHash != nil {
+		o.ZHash = *so.ZHash
+	}
+	if so.Zone != nil {
+		o.Zone = *so.Zone
+	}
 }
 
-// DeepCopy returns a deep copy if the InstalledApp.
-func (o *InstalledApp) DeepCopy() *InstalledApp {
+// DeepCopy returns a deep copy if the ImportReference.
+func (o *ImportReference) DeepCopy() *ImportReference {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &InstalledApp{}
+	out := &ImportReference{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *InstalledApp.
-func (o *InstalledApp) DeepCopyInto(out *InstalledApp) {
+// DeepCopyInto copies the receiver into the given *ImportReference.
+func (o *ImportReference) DeepCopyInto(out *ImportReference) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy InstalledApp: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy ImportReference: %s", err))
 	}
 
-	*out = *target.(*InstalledApp)
+	*out = *target.(*ImportReference)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *InstalledApp) Validate() error {
+func (o *ImportReference) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
@@ -510,15 +530,23 @@ func (o *InstalledApp) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := o.Data.Validate(); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := elemental.ValidateRequiredString("name", o.Name); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
-		errors = errors.Append(err)
-	}
-
-	if err := elemental.ValidateStringInList("status", string(o.Status), []string{"Unknown", "Deploying", "Initializing", "Running", "Undeploying", "Error"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -534,71 +562,69 @@ func (o *InstalledApp) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*InstalledApp) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*ImportReference) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := InstalledAppAttributesMap[name]; ok {
+	if v, ok := ImportReferenceAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return InstalledAppLowerCaseAttributesMap[name]
+	return ImportReferenceLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*InstalledApp) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*ImportReference) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return InstalledAppAttributesMap
+	return ImportReferenceAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *InstalledApp) ValueForAttribute(name string) interface{} {
+func (o *ImportReference) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
 		return o.ID
 	case "annotations":
 		return o.Annotations
-	case "appIdentifier":
-		return o.AppIdentifier
 	case "associatedTags":
 		return o.AssociatedTags
-	case "categoryID":
-		return o.CategoryID
+	case "claims":
+		return o.Claims
 	case "createIdempotencyKey":
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
-	case "currentVersion":
-		return o.CurrentVersion
-	case "deploymentCount":
-		return o.DeploymentCount
+	case "data":
+		return o.Data
+	case "description":
+		return o.Description
+	case "metadata":
+		return o.Metadata
 	case "name":
 		return o.Name
 	case "namespace":
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
-	case "parameters":
-		return o.Parameters
 	case "protected":
 		return o.Protected
-	case "status":
-		return o.Status
-	case "statusMessage":
-		return o.StatusMessage
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
+	case "zHash":
+		return o.ZHash
+	case "zone":
+		return o.Zone
 	}
 
 	return nil
 }
 
-// InstalledAppAttributesMap represents the map of attribute for InstalledApp.
-var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
+// ImportReferenceAttributesMap represents the map of attribute for ImportReference.
+var ImportReferenceAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -625,14 +651,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "map[string][]string",
 		Type:           "external",
 	},
-	"AppIdentifier": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AppIdentifier",
-		Description:    `AppIdentifier retains the identifier for the app.`,
-		Name:           "appIdentifier",
-		Stored:         true,
-		Type:           "string",
-	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
@@ -645,16 +663,17 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "string",
 		Type:           "list",
 	},
-	"CategoryID": elemental.AttributeSpecification{
+	"Claims": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "CategoryID",
-		Description:    `CategoryID of the app.`,
+		Autogenerated:  true,
+		ConvertedName:  "Claims",
+		Description:    `Contains the claims of the client that performed the import.`,
 		Exposed:        true,
-		Name:           "categoryID",
-		Orderable:      true,
+		Name:           "claims",
 		ReadOnly:       true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"CreateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -682,23 +701,44 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "time",
 	},
-	"CurrentVersion": elemental.AttributeSpecification{
+	"Data": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "CurrentVersion",
-		Description:    `Version of the installed app.`,
+		ConvertedName:  "Data",
+		Description:    `The data to import.`,
 		Exposed:        true,
-		Name:           "currentVersion",
+		Name:           "data",
+		Required:       true,
+		Stored:         true,
+		SubType:        "export",
+		Type:           "ref",
+	},
+	"Description": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Description",
+		Description:    `Description is the description of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		MaxLength:      1024,
+		Name:           "description",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
-	"DeploymentCount": elemental.AttributeSpecification{
+	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "DeploymentCount",
-		Description:    `DeploymentCount represents the number of expected deployment for this app.`,
-		Name:           "deploymentCount",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "integer",
+		ConvertedName:  "Metadata",
+		CreationOnly:   true,
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "string",
+		Type:       "list",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -748,16 +788,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Transient:      true,
 		Type:           "list",
 	},
-	"Parameters": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Parameters",
-		Description:    `Parameters contains the computed parameters to start the app.`,
-		Exposed:        true,
-		Name:           "parameters",
-		Stored:         true,
-		SubType:        "map[string]interface{}",
-		Type:           "external",
-	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -769,28 +799,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
-	},
-	"Status": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Unknown", "Deploying", "Initializing", "Running", "Undeploying", "Error"},
-		ConvertedName:  "Status",
-		DefaultValue:   InstalledAppStatusUnknown,
-		Description:    `Status of the app.`,
-		Exposed:        true,
-		Name:           "status",
-		Orderable:      true,
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "enum",
-	},
-	"StatusMessage": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "StatusMessage",
-		Description:    `Reason for the status of the app.`,
-		Exposed:        true,
-		Name:           "statusMessage",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"UpdateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -818,10 +826,36 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "time",
 	},
+	"ZHash": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"Zone": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Zone",
+		Description: `geographical zone. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zone",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
 }
 
-// InstalledAppLowerCaseAttributesMap represents the map of attribute for InstalledApp.
-var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// ImportReferenceLowerCaseAttributesMap represents the map of attribute for ImportReference.
+var ImportReferenceLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -848,14 +882,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		SubType:        "map[string][]string",
 		Type:           "external",
 	},
-	"appidentifier": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AppIdentifier",
-		Description:    `AppIdentifier retains the identifier for the app.`,
-		Name:           "appIdentifier",
-		Stored:         true,
-		Type:           "string",
-	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
@@ -868,16 +894,17 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		SubType:        "string",
 		Type:           "list",
 	},
-	"categoryid": elemental.AttributeSpecification{
+	"claims": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "CategoryID",
-		Description:    `CategoryID of the app.`,
+		Autogenerated:  true,
+		ConvertedName:  "Claims",
+		Description:    `Contains the claims of the client that performed the import.`,
 		Exposed:        true,
-		Name:           "categoryID",
-		Orderable:      true,
+		Name:           "claims",
 		ReadOnly:       true,
 		Stored:         true,
-		Type:           "string",
+		SubType:        "string",
+		Type:           "list",
 	},
 	"createidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -905,23 +932,44 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "time",
 	},
-	"currentversion": elemental.AttributeSpecification{
+	"data": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "CurrentVersion",
-		Description:    `Version of the installed app.`,
+		ConvertedName:  "Data",
+		Description:    `The data to import.`,
 		Exposed:        true,
-		Name:           "currentVersion",
+		Name:           "data",
+		Required:       true,
+		Stored:         true,
+		SubType:        "export",
+		Type:           "ref",
+	},
+	"description": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Description",
+		Description:    `Description is the description of the object.`,
+		Exposed:        true,
+		Getter:         true,
+		MaxLength:      1024,
+		Name:           "description",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
-	"deploymentcount": elemental.AttributeSpecification{
+	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "DeploymentCount",
-		Description:    `DeploymentCount represents the number of expected deployment for this app.`,
-		Name:           "deploymentCount",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "integer",
+		ConvertedName:  "Metadata",
+		CreationOnly:   true,
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "string",
+		Type:       "list",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -971,16 +1019,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Transient:      true,
 		Type:           "list",
 	},
-	"parameters": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Parameters",
-		Description:    `Parameters contains the computed parameters to start the app.`,
-		Exposed:        true,
-		Name:           "parameters",
-		Stored:         true,
-		SubType:        "map[string]interface{}",
-		Type:           "external",
-	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Protected",
@@ -992,28 +1030,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
-	},
-	"status": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Unknown", "Deploying", "Initializing", "Running", "Undeploying", "Error"},
-		ConvertedName:  "Status",
-		DefaultValue:   InstalledAppStatusUnknown,
-		Description:    `Status of the app.`,
-		Exposed:        true,
-		Name:           "status",
-		Orderable:      true,
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "enum",
-	},
-	"statusmessage": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "StatusMessage",
-		Description:    `Reason for the status of the app.`,
-		Exposed:        true,
-		Name:           "statusMessage",
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"updateidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1041,37 +1057,63 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "time",
 	},
+	"zhash": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"zone": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Zone",
+		Description: `geographical zone. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zone",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
 }
 
-// SparseInstalledAppsList represents a list of SparseInstalledApps
-type SparseInstalledAppsList []*SparseInstalledApp
+// SparseImportReferencesList represents a list of SparseImportReferences
+type SparseImportReferencesList []*SparseImportReference
 
 // Identity returns the identity of the objects in the list.
-func (o SparseInstalledAppsList) Identity() elemental.Identity {
+func (o SparseImportReferencesList) Identity() elemental.Identity {
 
-	return InstalledAppIdentity
+	return ImportReferenceIdentity
 }
 
-// Copy returns a pointer to a copy the SparseInstalledAppsList.
-func (o SparseInstalledAppsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseImportReferencesList.
+func (o SparseImportReferencesList) Copy() elemental.Identifiables {
 
-	copy := append(SparseInstalledAppsList{}, o...)
+	copy := append(SparseImportReferencesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseInstalledAppsList.
-func (o SparseInstalledAppsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseImportReferencesList.
+func (o SparseImportReferencesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseInstalledAppsList{}, o...)
+	out := append(SparseImportReferencesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseInstalledApp))
+		out = append(out, obj.(*SparseImportReference))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseInstalledAppsList) List() elemental.IdentifiablesList {
+func (o SparseImportReferencesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1082,7 +1124,7 @@ func (o SparseInstalledAppsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseInstalledAppsList) DefaultOrder() []string {
+func (o SparseImportReferencesList) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
@@ -1090,8 +1132,8 @@ func (o SparseInstalledAppsList) DefaultOrder() []string {
 	}
 }
 
-// ToPlain returns the SparseInstalledAppsList converted to InstalledAppsList.
-func (o SparseInstalledAppsList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseImportReferencesList converted to ImportReferencesList.
+func (o SparseImportReferencesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1102,27 +1144,24 @@ func (o SparseInstalledAppsList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseInstalledAppsList) Version() int {
+func (o SparseImportReferencesList) Version() int {
 
 	return 1
 }
 
-// SparseInstalledApp represents the sparse version of a installedapp.
-type SparseInstalledApp struct {
+// SparseImportReference represents the sparse version of a importreference.
+type SparseImportReference struct {
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// AppIdentifier retains the identifier for the app.
-	AppIdentifier *string `json:"-" msgpack:"-" bson:"appidentifier,omitempty" mapstructure:"-,omitempty"`
-
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
 
-	// CategoryID of the app.
-	CategoryID *string `json:"categoryID,omitempty" msgpack:"categoryID,omitempty" bson:"categoryid,omitempty" mapstructure:"categoryID,omitempty"`
+	// Contains the claims of the client that performed the import.
+	Claims *[]string `json:"claims,omitempty" msgpack:"claims,omitempty" bson:"claims,omitempty" mapstructure:"claims,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1130,11 +1169,15 @@ type SparseInstalledApp struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Version of the installed app.
-	CurrentVersion *string `json:"currentVersion,omitempty" msgpack:"currentVersion,omitempty" bson:"currentversion,omitempty" mapstructure:"currentVersion,omitempty"`
+	// The data to import.
+	Data **Export `json:"data,omitempty" msgpack:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`
 
-	// DeploymentCount represents the number of expected deployment for this app.
-	DeploymentCount *int `json:"-" msgpack:"-" bson:"deploymentcount,omitempty" mapstructure:"-,omitempty"`
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
@@ -1145,17 +1188,8 @@ type SparseInstalledApp struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Parameters contains the computed parameters to start the app.
-	Parameters *map[string]interface{} `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
-
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
-
-	// Status of the app.
-	Status *InstalledAppStatusValue `json:"status,omitempty" msgpack:"status,omitempty" bson:"status,omitempty" mapstructure:"status,omitempty"`
-
-	// Reason for the status of the app.
-	StatusMessage *string `json:"statusMessage,omitempty" msgpack:"statusMessage,omitempty" bson:"statusmessage,omitempty" mapstructure:"statusMessage,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1163,22 +1197,30 @@ type SparseInstalledApp struct {
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+
+	// geographical zone. This is used for sharding and
+	// georedundancy.
+	Zone *int `json:"-" msgpack:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseInstalledApp returns a new  SparseInstalledApp.
-func NewSparseInstalledApp() *SparseInstalledApp {
-	return &SparseInstalledApp{}
+// NewSparseImportReference returns a new  SparseImportReference.
+func NewSparseImportReference() *SparseImportReference {
+	return &SparseImportReference{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseInstalledApp) Identity() elemental.Identity {
+func (o *SparseImportReference) Identity() elemental.Identity {
 
-	return InstalledAppIdentity
+	return ImportReferenceIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseInstalledApp) Identifier() string {
+func (o *SparseImportReference) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1187,35 +1229,32 @@ func (o *SparseInstalledApp) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseInstalledApp) SetIdentifier(id string) {
+func (o *SparseImportReference) SetIdentifier(id string) {
 
 	o.ID = &id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseInstalledApp) Version() int {
+func (o *SparseImportReference) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseImportReference) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewInstalledApp()
+	out := NewImportReference()
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
 	}
-	if o.AppIdentifier != nil {
-		out.AppIdentifier = *o.AppIdentifier
-	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
 	}
-	if o.CategoryID != nil {
-		out.CategoryID = *o.CategoryID
+	if o.Claims != nil {
+		out.Claims = *o.Claims
 	}
 	if o.CreateIdempotencyKey != nil {
 		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
@@ -1223,11 +1262,14 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
-	if o.CurrentVersion != nil {
-		out.CurrentVersion = *o.CurrentVersion
+	if o.Data != nil {
+		out.Data = *o.Data
 	}
-	if o.DeploymentCount != nil {
-		out.DeploymentCount = *o.DeploymentCount
+	if o.Description != nil {
+		out.Description = *o.Description
+	}
+	if o.Metadata != nil {
+		out.Metadata = *o.Metadata
 	}
 	if o.Name != nil {
 		out.Name = *o.Name
@@ -1238,17 +1280,8 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
 	}
-	if o.Parameters != nil {
-		out.Parameters = *o.Parameters
-	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
-	}
-	if o.Status != nil {
-		out.Status = *o.Status
-	}
-	if o.StatusMessage != nil {
-		out.StatusMessage = *o.StatusMessage
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
@@ -1256,150 +1289,204 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
 	}
+	if o.ZHash != nil {
+		out.ZHash = *o.ZHash
+	}
+	if o.Zone != nil {
+		out.Zone = *o.Zone
+	}
 
 	return out
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseInstalledApp) GetAnnotations() map[string][]string {
+func (o *SparseImportReference) GetAnnotations() map[string][]string {
 
 	return *o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetAnnotations(annotations map[string][]string) {
+func (o *SparseImportReference) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseInstalledApp) GetAssociatedTags() []string {
+func (o *SparseImportReference) GetAssociatedTags() []string {
 
 	return *o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetAssociatedTags(associatedTags []string) {
+func (o *SparseImportReference) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseInstalledApp) GetCreateIdempotencyKey() string {
+func (o *SparseImportReference) GetCreateIdempotencyKey() string {
 
 	return *o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *SparseImportReference) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseInstalledApp) GetCreateTime() time.Time {
+func (o *SparseImportReference) GetCreateTime() time.Time {
 
 	return *o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetCreateTime(createTime time.Time) {
+func (o *SparseImportReference) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *SparseImportReference) GetDescription() string {
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseImportReference) SetDescription(description string) {
+
+	o.Description = &description
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *SparseImportReference) GetMetadata() []string {
+
+	return *o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the address of the given value.
+func (o *SparseImportReference) SetMetadata(metadata []string) {
+
+	o.Metadata = &metadata
+}
+
 // GetName returns the Name of the receiver.
-func (o *SparseInstalledApp) GetName() string {
+func (o *SparseImportReference) GetName() string {
 
 	return *o.Name
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetName(name string) {
+func (o *SparseImportReference) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseInstalledApp) GetNamespace() string {
+func (o *SparseImportReference) GetNamespace() string {
 
 	return *o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetNamespace(namespace string) {
+func (o *SparseImportReference) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseInstalledApp) GetNormalizedTags() []string {
+func (o *SparseImportReference) GetNormalizedTags() []string {
 
 	return *o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseImportReference) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
 // GetProtected returns the Protected of the receiver.
-func (o *SparseInstalledApp) GetProtected() bool {
+func (o *SparseImportReference) GetProtected() bool {
 
 	return *o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetProtected(protected bool) {
+func (o *SparseImportReference) SetProtected(protected bool) {
 
 	o.Protected = &protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseInstalledApp) GetUpdateIdempotencyKey() string {
+func (o *SparseImportReference) GetUpdateIdempotencyKey() string {
 
 	return *o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *SparseImportReference) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseInstalledApp) GetUpdateTime() time.Time {
+func (o *SparseImportReference) GetUpdateTime() time.Time {
 
 	return *o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetUpdateTime(updateTime time.Time) {
+func (o *SparseImportReference) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
-// DeepCopy returns a deep copy if the SparseInstalledApp.
-func (o *SparseInstalledApp) DeepCopy() *SparseInstalledApp {
+// GetZHash returns the ZHash of the receiver.
+func (o *SparseImportReference) GetZHash() int {
+
+	return *o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the address of the given value.
+func (o *SparseImportReference) SetZHash(zHash int) {
+
+	o.ZHash = &zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *SparseImportReference) GetZone() int {
+
+	return *o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the address of the given value.
+func (o *SparseImportReference) SetZone(zone int) {
+
+	o.Zone = &zone
+}
+
+// DeepCopy returns a deep copy if the SparseImportReference.
+func (o *SparseImportReference) DeepCopy() *SparseImportReference {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseInstalledApp{}
+	out := &SparseImportReference{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseInstalledApp.
-func (o *SparseInstalledApp) DeepCopyInto(out *SparseInstalledApp) {
+// DeepCopyInto copies the receiver into the given *SparseImportReference.
+func (o *SparseImportReference) DeepCopyInto(out *SparseImportReference) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseInstalledApp: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseImportReference: %s", err))
 	}
 
-	*out = *target.(*SparseInstalledApp)
+	*out = *target.(*SparseImportReference)
 }
