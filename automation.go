@@ -147,7 +147,7 @@ type Automation struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Parameters are passed to the functions.
+	// Parameters contains the computed parameters.
 	Parameters map[string]interface{} `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
 
 	// Protected defines if the object is protected.
@@ -960,7 +960,7 @@ automation.`,
 	"Parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters are passed to the functions.`,
+		Description:    `Parameters contains the computed parameters.`,
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
@@ -1292,7 +1292,7 @@ automation.`,
 	"parameters": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Parameters",
-		Description:    `Parameters are passed to the functions.`,
+		Description:    `Parameters contains the computed parameters.`,
 		Exposed:        true,
 		Name:           "parameters",
 		Stored:         true,
@@ -1533,7 +1533,7 @@ type SparseAutomation struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Parameters are passed to the functions.
+	// Parameters contains the computed parameters.
 	Parameters *map[string]interface{} `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
 
 	// Protected defines if the object is protected.

@@ -46,11 +46,11 @@ attributes:
     type: string
     exposed: true
 
-  - name: parameters
-    description: Parameters is a list of parameters available for the app.
+  - name: steps
+    description: List of steps that contains parameters.
     type: refList
     exposed: true
-    subtype: appparameter
+    subtype: uistep
     stored: true
     extensions:
       refMode: pointer

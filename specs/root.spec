@@ -339,6 +339,14 @@ relations:
   create:
     description: Imports data from a previous export.
 
+- rest_name: importreference
+  get:
+    description: Retrieves the list of import references.
+    global_parameters:
+    - $filtering
+  create:
+    description: Imports data from a previous export and keep a reference.
+
 - rest_name: importrequest
   get:
     description: Retrieves the list of import requests.
@@ -533,6 +541,15 @@ relations:
   create:
     description: Creates a new quota policy.
 
+- rest_name: recipe
+  get:
+    description: Retrieves the list of recipes.
+    global_parameters:
+    - $filtering
+    - $propagatable
+  create:
+    description: Creates a new recipe.
+
 - rest_name: remoteprocessor
   create:
     description: This should be be here.
@@ -549,6 +566,10 @@ relations:
           --- BEGIN CSR ---
           xxx-xxx-xxx-xxx
           --- END CSR ---
+
+- rest_name: rendertemplate
+  create:
+    description: Renders a new template.
 
 - rest_name: report
   create:
@@ -702,6 +723,10 @@ relations:
     - $propagatable
   create:
     description: Creates a new token scope policy.
+
+- rest_name: validateuiparameter
+  create:
+    description: Validates some ui parameters.
 
 - rest_name: vulnerability
   get:

@@ -80,18 +80,18 @@ func (o ExportsList) Version() int {
 // Export represents the model of a export
 type Export struct {
 	// APIVersion of the api used for the exported data.
-	APIVersion int `json:"APIVersion" msgpack:"APIVersion" bson:"-" mapstructure:"APIVersion,omitempty"`
+	APIVersion int `json:"APIVersion" msgpack:"APIVersion" bson:"apiversion" mapstructure:"APIVersion,omitempty"`
 
 	// List of all exported data.
-	Data map[string][]map[string]interface{} `json:"data" msgpack:"data" bson:"-" mapstructure:"data,omitempty"`
+	Data map[string][]map[string]interface{} `json:"data" msgpack:"data" bson:"data" mapstructure:"data,omitempty"`
 
 	// The list of identities to export.
-	Identities []string `json:"identities" msgpack:"identities" bson:"-" mapstructure:"identities,omitempty"`
+	Identities []string `json:"identities" msgpack:"identities" bson:"identities" mapstructure:"identities,omitempty"`
 
 	// Label allows to define a unique label for this export. When importing the
 	// content of the export, this label will be added as a tag that will be used to
 	// recognize imported object in a later import.
-	Label string `json:"label" msgpack:"label" bson:"-" mapstructure:"label,omitempty"`
+	Label string `json:"label" msgpack:"label" bson:"label" mapstructure:"label,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -285,6 +285,7 @@ var ExportAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "APIVersion",
 		ReadOnly:       true,
+		Stored:         true,
 		Type:           "integer",
 	},
 	"Data": elemental.AttributeSpecification{
@@ -294,6 +295,7 @@ var ExportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `List of all exported data.`,
 		Exposed:        true,
 		Name:           "data",
+		Stored:         true,
 		SubType:        "map[string][]map[string]interface{}",
 		Type:           "external",
 	},
@@ -303,6 +305,7 @@ var ExportAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `The list of identities to export.`,
 		Exposed:        true,
 		Name:           "identities",
+		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -314,6 +317,7 @@ content of the export, this label will be added as a tag that will be used to
 recognize imported object in a later import.`,
 		Exposed: true,
 		Name:    "label",
+		Stored:  true,
 		Type:    "string",
 	},
 }
@@ -328,6 +332,7 @@ var ExportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "APIVersion",
 		ReadOnly:       true,
+		Stored:         true,
 		Type:           "integer",
 	},
 	"data": elemental.AttributeSpecification{
@@ -337,6 +342,7 @@ var ExportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `List of all exported data.`,
 		Exposed:        true,
 		Name:           "data",
+		Stored:         true,
 		SubType:        "map[string][]map[string]interface{}",
 		Type:           "external",
 	},
@@ -346,6 +352,7 @@ var ExportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `The list of identities to export.`,
 		Exposed:        true,
 		Name:           "identities",
+		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -357,6 +364,7 @@ content of the export, this label will be added as a tag that will be used to
 recognize imported object in a later import.`,
 		Exposed: true,
 		Name:    "label",
+		Stored:  true,
 		Type:    "string",
 	},
 }
@@ -425,18 +433,18 @@ func (o SparseExportsList) Version() int {
 // SparseExport represents the sparse version of a export.
 type SparseExport struct {
 	// APIVersion of the api used for the exported data.
-	APIVersion *int `json:"APIVersion,omitempty" msgpack:"APIVersion,omitempty" bson:"-" mapstructure:"APIVersion,omitempty"`
+	APIVersion *int `json:"APIVersion,omitempty" msgpack:"APIVersion,omitempty" bson:"apiversion,omitempty" mapstructure:"APIVersion,omitempty"`
 
 	// List of all exported data.
-	Data *map[string][]map[string]interface{} `json:"data,omitempty" msgpack:"data,omitempty" bson:"-" mapstructure:"data,omitempty"`
+	Data *map[string][]map[string]interface{} `json:"data,omitempty" msgpack:"data,omitempty" bson:"data,omitempty" mapstructure:"data,omitempty"`
 
 	// The list of identities to export.
-	Identities *[]string `json:"identities,omitempty" msgpack:"identities,omitempty" bson:"-" mapstructure:"identities,omitempty"`
+	Identities *[]string `json:"identities,omitempty" msgpack:"identities,omitempty" bson:"identities,omitempty" mapstructure:"identities,omitempty"`
 
 	// Label allows to define a unique label for this export. When importing the
 	// content of the export, this label will be added as a tag that will be used to
 	// recognize imported object in a later import.
-	Label *string `json:"label,omitempty" msgpack:"label,omitempty" bson:"-" mapstructure:"label,omitempty"`
+	Label *string `json:"label,omitempty" msgpack:"label,omitempty" bson:"label,omitempty" mapstructure:"label,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }

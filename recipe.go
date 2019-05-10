@@ -8,66 +8,43 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// InstalledAppStatusValue represents the possible values for attribute "status".
-type InstalledAppStatusValue string
-
-const (
-	// InstalledAppStatusDeploying represents the value Deploying.
-	InstalledAppStatusDeploying InstalledAppStatusValue = "Deploying"
-
-	// InstalledAppStatusError represents the value Error.
-	InstalledAppStatusError InstalledAppStatusValue = "Error"
-
-	// InstalledAppStatusInitializing represents the value Initializing.
-	InstalledAppStatusInitializing InstalledAppStatusValue = "Initializing"
-
-	// InstalledAppStatusRunning represents the value Running.
-	InstalledAppStatusRunning InstalledAppStatusValue = "Running"
-
-	// InstalledAppStatusUndeploying represents the value Undeploying.
-	InstalledAppStatusUndeploying InstalledAppStatusValue = "Undeploying"
-
-	// InstalledAppStatusUnknown represents the value Unknown.
-	InstalledAppStatusUnknown InstalledAppStatusValue = "Unknown"
-)
-
-// InstalledAppIdentity represents the Identity of the object.
-var InstalledAppIdentity = elemental.Identity{
-	Name:     "installedapp",
-	Category: "installedapps",
-	Package:  "highwind",
+// RecipeIdentity represents the Identity of the object.
+var RecipeIdentity = elemental.Identity{
+	Name:     "recipe",
+	Category: "recipes",
+	Package:  "ignis",
 	Private:  false,
 }
 
-// InstalledAppsList represents a list of InstalledApps
-type InstalledAppsList []*InstalledApp
+// RecipesList represents a list of Recipes
+type RecipesList []*Recipe
 
 // Identity returns the identity of the objects in the list.
-func (o InstalledAppsList) Identity() elemental.Identity {
+func (o RecipesList) Identity() elemental.Identity {
 
-	return InstalledAppIdentity
+	return RecipeIdentity
 }
 
-// Copy returns a pointer to a copy the InstalledAppsList.
-func (o InstalledAppsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the RecipesList.
+func (o RecipesList) Copy() elemental.Identifiables {
 
-	copy := append(InstalledAppsList{}, o...)
+	copy := append(RecipesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the InstalledAppsList.
-func (o InstalledAppsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the RecipesList.
+func (o RecipesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(InstalledAppsList{}, o...)
+	out := append(RecipesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*InstalledApp))
+		out = append(out, obj.(*Recipe))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o InstalledAppsList) List() elemental.IdentifiablesList {
+func (o RecipesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -78,7 +55,7 @@ func (o InstalledAppsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o InstalledAppsList) DefaultOrder() []string {
+func (o RecipesList) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
@@ -86,40 +63,34 @@ func (o InstalledAppsList) DefaultOrder() []string {
 	}
 }
 
-// ToSparse returns the InstalledAppsList converted to SparseInstalledAppsList.
+// ToSparse returns the RecipesList converted to SparseRecipesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o InstalledAppsList) ToSparse(fields ...string) elemental.Identifiables {
+func (o RecipesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseInstalledAppsList, len(o))
+	out := make(SparseRecipesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseInstalledApp)
+		out[i] = o[i].ToSparse(fields...).(*SparseRecipe)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o InstalledAppsList) Version() int {
+func (o RecipesList) Version() int {
 
 	return 1
 }
 
-// InstalledApp represents the model of a installedapp
-type InstalledApp struct {
+// Recipe represents the model of a recipe
+type Recipe struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// AppIdentifier retains the identifier for the app.
-	AppIdentifier string `json:"-" msgpack:"-" bson:"appidentifier" mapstructure:"-,omitempty"`
-
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
-
-	// CategoryID of the app.
-	CategoryID string `json:"categoryID" msgpack:"categoryID" bson:"categoryid" mapstructure:"categoryID,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey string `json:"-" msgpack:"-" bson:"createidempotencykey" mapstructure:"-,omitempty"`
@@ -127,11 +98,24 @@ type InstalledApp struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
-	// Version of the installed app.
-	CurrentVersion string `json:"currentVersion" msgpack:"currentVersion" bson:"currentversion" mapstructure:"currentVersion,omitempty"`
+	// Description is the description of the object.
+	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// DeploymentCount represents the number of expected deployment for this app.
-	DeploymentCount int `json:"-" msgpack:"-" bson:"deploymentcount" mapstructure:"-,omitempty"`
+	// Icon contains a base64 image for the recipe.
+	Icon string `json:"icon" msgpack:"icon" bson:"icon" mapstructure:"icon,omitempty"`
+
+	// Key is the unique key of the recipe.
+	Key string `json:"key" msgpack:"key" bson:"key" mapstructure:"key,omitempty"`
+
+	// Label defines the recipe.
+	Label string `json:"label" msgpack:"label" bson:"label" mapstructure:"label,omitempty"`
+
+	// LongDescription provides a long description of the recipe.
+	LongDescription string `json:"longDescription" msgpack:"longDescription" bson:"longdescription" mapstructure:"longDescription,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
@@ -142,17 +126,23 @@ type InstalledApp struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Parameters contains the computed parameters to start the app.
-	Parameters map[string]interface{} `json:"parameters" msgpack:"parameters" bson:"parameters" mapstructure:"parameters,omitempty"`
+	// Options of the recipe.
+	Options *RecipeOptions `json:"options" msgpack:"options" bson:"options" mapstructure:"options,omitempty"`
+
+	// Propagate will propagate the policy to all of its children.
+	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
-	// Status of the app.
-	Status InstalledAppStatusValue `json:"status" msgpack:"status" bson:"status" mapstructure:"status,omitempty"`
+	// Steps contains all the steps with parameters to follow for the recipe.
+	Steps []*UIStep `json:"steps" msgpack:"steps" bson:"steps" mapstructure:"steps,omitempty"`
 
-	// Reason for the status of the app.
-	StatusMessage string `json:"statusMessage" msgpack:"statusMessage" bson:"statusmessage" mapstructure:"statusMessage,omitempty"`
+	// Template of the recipe to import.
+	Template string `json:"template" msgpack:"template" bson:"template" mapstructure:"template,omitempty"`
+
+	// templateHash is a hash of the template.
+	TemplateHash string `json:"templateHash" msgpack:"templateHash" bson:"templatehash" mapstructure:"templateHash,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
@@ -163,45 +153,47 @@ type InstalledApp struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewInstalledApp returns a new *InstalledApp
-func NewInstalledApp() *InstalledApp {
+// NewRecipe returns a new *Recipe
+func NewRecipe() *Recipe {
 
-	return &InstalledApp{
+	return &Recipe{
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
+		Options:        NewRecipeOptions(),
+		Label:          "magicpanda",
+		Metadata:       []string{},
 		NormalizedTags: []string{},
-		Parameters:     map[string]interface{}{},
-		Status:         InstalledAppStatusUnknown,
+		Steps:          []*UIStep{},
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *InstalledApp) Identity() elemental.Identity {
+func (o *Recipe) Identity() elemental.Identity {
 
-	return InstalledAppIdentity
+	return RecipeIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *InstalledApp) Identifier() string {
+func (o *Recipe) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *InstalledApp) SetIdentifier(id string) {
+func (o *Recipe) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *InstalledApp) Version() int {
+func (o *Recipe) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *InstalledApp) DefaultOrder() []string {
+func (o *Recipe) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
@@ -210,199 +202,247 @@ func (o *InstalledApp) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *InstalledApp) Doc() string {
+func (o *Recipe) Doc() string {
 
-	return `InstalledApps represents an installed application.`
+	return `A Recipe defines a list of steps to define a workflow.`
 }
 
-func (o *InstalledApp) String() string {
+func (o *Recipe) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *InstalledApp) GetAnnotations() map[string][]string {
+func (o *Recipe) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *InstalledApp) SetAnnotations(annotations map[string][]string) {
+func (o *Recipe) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *InstalledApp) GetAssociatedTags() []string {
+func (o *Recipe) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *InstalledApp) SetAssociatedTags(associatedTags []string) {
+func (o *Recipe) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *InstalledApp) GetCreateIdempotencyKey() string {
+func (o *Recipe) GetCreateIdempotencyKey() string {
 
 	return o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
-func (o *InstalledApp) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *Recipe) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *InstalledApp) GetCreateTime() time.Time {
+func (o *Recipe) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *InstalledApp) SetCreateTime(createTime time.Time) {
+func (o *Recipe) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *Recipe) GetDescription() string {
+
+	return o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the given value.
+func (o *Recipe) SetDescription(description string) {
+
+	o.Description = description
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *Recipe) GetMetadata() []string {
+
+	return o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the given value.
+func (o *Recipe) SetMetadata(metadata []string) {
+
+	o.Metadata = metadata
+}
+
 // GetName returns the Name of the receiver.
-func (o *InstalledApp) GetName() string {
+func (o *Recipe) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *InstalledApp) SetName(name string) {
+func (o *Recipe) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *InstalledApp) GetNamespace() string {
+func (o *Recipe) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *InstalledApp) SetNamespace(namespace string) {
+func (o *Recipe) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *InstalledApp) GetNormalizedTags() []string {
+func (o *Recipe) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *InstalledApp) SetNormalizedTags(normalizedTags []string) {
+func (o *Recipe) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *Recipe) GetPropagate() bool {
+
+	return o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the given value.
+func (o *Recipe) SetPropagate(propagate bool) {
+
+	o.Propagate = propagate
+}
+
 // GetProtected returns the Protected of the receiver.
-func (o *InstalledApp) GetProtected() bool {
+func (o *Recipe) GetProtected() bool {
 
 	return o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the given value.
-func (o *InstalledApp) SetProtected(protected bool) {
+func (o *Recipe) SetProtected(protected bool) {
 
 	o.Protected = protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *InstalledApp) GetUpdateIdempotencyKey() string {
+func (o *Recipe) GetUpdateIdempotencyKey() string {
 
 	return o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
-func (o *InstalledApp) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *Recipe) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *InstalledApp) GetUpdateTime() time.Time {
+func (o *Recipe) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *InstalledApp) SetUpdateTime(updateTime time.Time) {
+func (o *Recipe) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseInstalledApp{
+		return &SparseRecipe{
 			ID:                   &o.ID,
 			Annotations:          &o.Annotations,
-			AppIdentifier:        &o.AppIdentifier,
 			AssociatedTags:       &o.AssociatedTags,
-			CategoryID:           &o.CategoryID,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
-			CurrentVersion:       &o.CurrentVersion,
-			DeploymentCount:      &o.DeploymentCount,
+			Description:          &o.Description,
+			Icon:                 &o.Icon,
+			Key:                  &o.Key,
+			Label:                &o.Label,
+			LongDescription:      &o.LongDescription,
+			Metadata:             &o.Metadata,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
-			Parameters:           &o.Parameters,
+			Options:              &o.Options,
+			Propagate:            &o.Propagate,
 			Protected:            &o.Protected,
-			Status:               &o.Status,
-			StatusMessage:        &o.StatusMessage,
+			Steps:                &o.Steps,
+			Template:             &o.Template,
+			TemplateHash:         &o.TemplateHash,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
 		}
 	}
 
-	sp := &SparseInstalledApp{}
+	sp := &SparseRecipe{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
-		case "appIdentifier":
-			sp.AppIdentifier = &(o.AppIdentifier)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
-		case "categoryID":
-			sp.CategoryID = &(o.CategoryID)
 		case "createIdempotencyKey":
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
-		case "currentVersion":
-			sp.CurrentVersion = &(o.CurrentVersion)
-		case "deploymentCount":
-			sp.DeploymentCount = &(o.DeploymentCount)
+		case "description":
+			sp.Description = &(o.Description)
+		case "icon":
+			sp.Icon = &(o.Icon)
+		case "key":
+			sp.Key = &(o.Key)
+		case "label":
+			sp.Label = &(o.Label)
+		case "longDescription":
+			sp.LongDescription = &(o.LongDescription)
+		case "metadata":
+			sp.Metadata = &(o.Metadata)
 		case "name":
 			sp.Name = &(o.Name)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
-		case "parameters":
-			sp.Parameters = &(o.Parameters)
+		case "options":
+			sp.Options = &(o.Options)
+		case "propagate":
+			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
-		case "status":
-			sp.Status = &(o.Status)
-		case "statusMessage":
-			sp.StatusMessage = &(o.StatusMessage)
+		case "steps":
+			sp.Steps = &(o.Steps)
+		case "template":
+			sp.Template = &(o.Template)
+		case "templateHash":
+			sp.TemplateHash = &(o.TemplateHash)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
@@ -413,27 +453,21 @@ func (o *InstalledApp) ToSparse(fields ...string) elemental.SparseIdentifiable {
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseInstalledApp to the object.
-func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseRecipe to the object.
+func (o *Recipe) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseInstalledApp)
+	so := sparse.(*SparseRecipe)
 	if so.ID != nil {
 		o.ID = *so.ID
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
 	}
-	if so.AppIdentifier != nil {
-		o.AppIdentifier = *so.AppIdentifier
-	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
-	}
-	if so.CategoryID != nil {
-		o.CategoryID = *so.CategoryID
 	}
 	if so.CreateIdempotencyKey != nil {
 		o.CreateIdempotencyKey = *so.CreateIdempotencyKey
@@ -441,11 +475,23 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
-	if so.CurrentVersion != nil {
-		o.CurrentVersion = *so.CurrentVersion
+	if so.Description != nil {
+		o.Description = *so.Description
 	}
-	if so.DeploymentCount != nil {
-		o.DeploymentCount = *so.DeploymentCount
+	if so.Icon != nil {
+		o.Icon = *so.Icon
+	}
+	if so.Key != nil {
+		o.Key = *so.Key
+	}
+	if so.Label != nil {
+		o.Label = *so.Label
+	}
+	if so.LongDescription != nil {
+		o.LongDescription = *so.LongDescription
+	}
+	if so.Metadata != nil {
+		o.Metadata = *so.Metadata
 	}
 	if so.Name != nil {
 		o.Name = *so.Name
@@ -456,17 +502,23 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
 	}
-	if so.Parameters != nil {
-		o.Parameters = *so.Parameters
+	if so.Options != nil {
+		o.Options = *so.Options
+	}
+	if so.Propagate != nil {
+		o.Propagate = *so.Propagate
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
 	}
-	if so.Status != nil {
-		o.Status = *so.Status
+	if so.Steps != nil {
+		o.Steps = *so.Steps
 	}
-	if so.StatusMessage != nil {
-		o.StatusMessage = *so.StatusMessage
+	if so.Template != nil {
+		o.Template = *so.Template
+	}
+	if so.TemplateHash != nil {
+		o.TemplateHash = *so.TemplateHash
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
@@ -476,37 +528,49 @@ func (o *InstalledApp) Patch(sparse elemental.SparseIdentifiable) {
 	}
 }
 
-// DeepCopy returns a deep copy if the InstalledApp.
-func (o *InstalledApp) DeepCopy() *InstalledApp {
+// DeepCopy returns a deep copy if the Recipe.
+func (o *Recipe) DeepCopy() *Recipe {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &InstalledApp{}
+	out := &Recipe{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *InstalledApp.
-func (o *InstalledApp) DeepCopyInto(out *InstalledApp) {
+// DeepCopyInto copies the receiver into the given *Recipe.
+func (o *Recipe) DeepCopyInto(out *Recipe) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy InstalledApp: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy Recipe: %s", err))
 	}
 
-	*out = *target.(*InstalledApp)
+	*out = *target.(*Recipe)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *InstalledApp) Validate() error {
+func (o *Recipe) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredString("label", o.Label); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -518,8 +582,14 @@ func (o *InstalledApp) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("status", string(o.Status), []string{"Unknown", "Deploying", "Initializing", "Running", "Undeploying", "Error"}, false); err != nil {
+	if err := o.Options.Validate(); err != nil {
 		errors = errors.Append(err)
+	}
+
+	for _, sub := range o.Steps {
+		if err := sub.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
 	}
 
 	if len(requiredErrors) > 0 {
@@ -534,60 +604,68 @@ func (o *InstalledApp) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*InstalledApp) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*Recipe) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := InstalledAppAttributesMap[name]; ok {
+	if v, ok := RecipeAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return InstalledAppLowerCaseAttributesMap[name]
+	return RecipeLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*InstalledApp) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*Recipe) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return InstalledAppAttributesMap
+	return RecipeAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *InstalledApp) ValueForAttribute(name string) interface{} {
+func (o *Recipe) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
 		return o.ID
 	case "annotations":
 		return o.Annotations
-	case "appIdentifier":
-		return o.AppIdentifier
 	case "associatedTags":
 		return o.AssociatedTags
-	case "categoryID":
-		return o.CategoryID
 	case "createIdempotencyKey":
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
-	case "currentVersion":
-		return o.CurrentVersion
-	case "deploymentCount":
-		return o.DeploymentCount
+	case "description":
+		return o.Description
+	case "icon":
+		return o.Icon
+	case "key":
+		return o.Key
+	case "label":
+		return o.Label
+	case "longDescription":
+		return o.LongDescription
+	case "metadata":
+		return o.Metadata
 	case "name":
 		return o.Name
 	case "namespace":
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
-	case "parameters":
-		return o.Parameters
+	case "options":
+		return o.Options
+	case "propagate":
+		return o.Propagate
 	case "protected":
 		return o.Protected
-	case "status":
-		return o.Status
-	case "statusMessage":
-		return o.StatusMessage
+	case "steps":
+		return o.Steps
+	case "template":
+		return o.Template
+	case "templateHash":
+		return o.TemplateHash
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "updateTime":
@@ -597,8 +675,8 @@ func (o *InstalledApp) ValueForAttribute(name string) interface{} {
 	return nil
 }
 
-// InstalledAppAttributesMap represents the map of attribute for InstalledApp.
-var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
+// RecipeAttributesMap represents the map of attribute for Recipe.
+var RecipeAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -625,14 +703,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "map[string][]string",
 		Type:           "external",
 	},
-	"AppIdentifier": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AppIdentifier",
-		Description:    `AppIdentifier retains the identifier for the app.`,
-		Name:           "appIdentifier",
-		Stored:         true,
-		Type:           "string",
-	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
@@ -644,17 +714,6 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
-	},
-	"CategoryID": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CategoryID",
-		Description:    `CategoryID of the app.`,
-		Exposed:        true,
-		Name:           "categoryID",
-		Orderable:      true,
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"CreateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -682,23 +741,73 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "time",
 	},
-	"CurrentVersion": elemental.AttributeSpecification{
+	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "CurrentVersion",
-		Description:    `Version of the installed app.`,
+		ConvertedName:  "Description",
+		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Name:           "currentVersion",
+		Getter:         true,
+		MaxLength:      1024,
+		Name:           "description",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
-	"DeploymentCount": elemental.AttributeSpecification{
+	"Icon": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "DeploymentCount",
-		Description:    `DeploymentCount represents the number of expected deployment for this app.`,
-		Name:           "deploymentCount",
+		ConvertedName:  "Icon",
+		Description:    `Icon contains a base64 image for the recipe.`,
+		Exposed:        true,
+		Name:           "icon",
+		Stored:         true,
+		Type:           "string",
+	},
+	"Key": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Key",
+		Description:    `Key is the unique key of the recipe.`,
+		Exposed:        true,
+		Name:           "key",
 		ReadOnly:       true,
 		Stored:         true,
-		Type:           "integer",
+		Type:           "string",
+	},
+	"Label": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Label",
+		CreationOnly:   true,
+		DefaultValue:   "magicpanda",
+		Description:    `Label defines the recipe.`,
+		Exposed:        true,
+		Name:           "label",
+		Required:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"LongDescription": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LongDescription",
+		Description:    `LongDescription provides a long description of the recipe.`,
+		Exposed:        true,
+		Name:           "longDescription",
+		Stored:         true,
+		Type:           "string",
+	},
+	"Metadata": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Metadata",
+		CreationOnly:   true,
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "string",
+		Type:       "list",
 	},
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -748,15 +857,27 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Transient:      true,
 		Type:           "list",
 	},
-	"Parameters": elemental.AttributeSpecification{
+	"Options": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Parameters",
-		Description:    `Parameters contains the computed parameters to start the app.`,
+		ConvertedName:  "Options",
+		Description:    `Options of the recipe.`,
 		Exposed:        true,
-		Name:           "parameters",
+		Name:           "options",
 		Stored:         true,
-		SubType:        "map[string]interface{}",
-		Type:           "external",
+		SubType:        "recipeoptions",
+		Type:           "ref",
+	},
+	"Propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -770,24 +891,31 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"Status": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Unknown", "Deploying", "Initializing", "Running", "Undeploying", "Error"},
-		ConvertedName:  "Status",
-		DefaultValue:   InstalledAppStatusUnknown,
-		Description:    `Status of the app.`,
-		Exposed:        true,
-		Name:           "status",
-		Orderable:      true,
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "enum",
-	},
-	"StatusMessage": elemental.AttributeSpecification{
+	"Steps": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "StatusMessage",
-		Description:    `Reason for the status of the app.`,
+		ConvertedName:  "Steps",
+		Description:    `Steps contains all the steps with parameters to follow for the recipe.`,
 		Exposed:        true,
-		Name:           "statusMessage",
+		Name:           "steps",
+		Stored:         true,
+		SubType:        "uistep",
+		Type:           "refList",
+	},
+	"Template": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Template",
+		Description:    `Template of the recipe to import.`,
+		Exposed:        true,
+		Name:           "template",
+		Stored:         true,
+		Type:           "string",
+	},
+	"TemplateHash": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TemplateHash",
+		Description:    `templateHash is a hash of the template.`,
+		Exposed:        true,
+		Name:           "templateHash",
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
@@ -820,8 +948,8 @@ var InstalledAppAttributesMap = map[string]elemental.AttributeSpecification{
 	},
 }
 
-// InstalledAppLowerCaseAttributesMap represents the map of attribute for InstalledApp.
-var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// RecipeLowerCaseAttributesMap represents the map of attribute for Recipe.
+var RecipeLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -848,14 +976,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		SubType:        "map[string][]string",
 		Type:           "external",
 	},
-	"appidentifier": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "AppIdentifier",
-		Description:    `AppIdentifier retains the identifier for the app.`,
-		Name:           "appIdentifier",
-		Stored:         true,
-		Type:           "string",
-	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AssociatedTags",
@@ -867,17 +987,6 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
-	},
-	"categoryid": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "CategoryID",
-		Description:    `CategoryID of the app.`,
-		Exposed:        true,
-		Name:           "categoryID",
-		Orderable:      true,
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "string",
 	},
 	"createidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -905,23 +1014,73 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "time",
 	},
-	"currentversion": elemental.AttributeSpecification{
+	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "CurrentVersion",
-		Description:    `Version of the installed app.`,
+		ConvertedName:  "Description",
+		Description:    `Description is the description of the object.`,
 		Exposed:        true,
-		Name:           "currentVersion",
+		Getter:         true,
+		MaxLength:      1024,
+		Name:           "description",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
-	"deploymentcount": elemental.AttributeSpecification{
+	"icon": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "DeploymentCount",
-		Description:    `DeploymentCount represents the number of expected deployment for this app.`,
-		Name:           "deploymentCount",
+		ConvertedName:  "Icon",
+		Description:    `Icon contains a base64 image for the recipe.`,
+		Exposed:        true,
+		Name:           "icon",
+		Stored:         true,
+		Type:           "string",
+	},
+	"key": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Key",
+		Description:    `Key is the unique key of the recipe.`,
+		Exposed:        true,
+		Name:           "key",
 		ReadOnly:       true,
 		Stored:         true,
-		Type:           "integer",
+		Type:           "string",
+	},
+	"label": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Label",
+		CreationOnly:   true,
+		DefaultValue:   "magicpanda",
+		Description:    `Label defines the recipe.`,
+		Exposed:        true,
+		Name:           "label",
+		Required:       true,
+		Stored:         true,
+		Type:           "string",
+	},
+	"longdescription": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "LongDescription",
+		Description:    `LongDescription provides a long description of the recipe.`,
+		Exposed:        true,
+		Name:           "longDescription",
+		Stored:         true,
+		Type:           "string",
+	},
+	"metadata": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Metadata",
+		CreationOnly:   true,
+		Description: `Metadata contains tags that can only be set during creation. They must all start
+with the '@' prefix, and should only be used by external systems.`,
+		Exposed:    true,
+		Filterable: true,
+		Getter:     true,
+		Name:       "metadata",
+		Setter:     true,
+		Stored:     true,
+		SubType:    "string",
+		Type:       "list",
 	},
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -971,15 +1130,27 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Transient:      true,
 		Type:           "list",
 	},
-	"parameters": elemental.AttributeSpecification{
+	"options": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Parameters",
-		Description:    `Parameters contains the computed parameters to start the app.`,
+		ConvertedName:  "Options",
+		Description:    `Options of the recipe.`,
 		Exposed:        true,
-		Name:           "parameters",
+		Name:           "options",
 		Stored:         true,
-		SubType:        "map[string]interface{}",
-		Type:           "external",
+		SubType:        "recipeoptions",
+		Type:           "ref",
+	},
+	"propagate": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Propagate",
+		Description:    `Propagate will propagate the policy to all of its children.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "propagate",
+		Orderable:      true,
+		Setter:         true,
+		Stored:         true,
+		Type:           "boolean",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -993,24 +1164,31 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"status": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Unknown", "Deploying", "Initializing", "Running", "Undeploying", "Error"},
-		ConvertedName:  "Status",
-		DefaultValue:   InstalledAppStatusUnknown,
-		Description:    `Status of the app.`,
-		Exposed:        true,
-		Name:           "status",
-		Orderable:      true,
-		ReadOnly:       true,
-		Stored:         true,
-		Type:           "enum",
-	},
-	"statusmessage": elemental.AttributeSpecification{
+	"steps": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "StatusMessage",
-		Description:    `Reason for the status of the app.`,
+		ConvertedName:  "Steps",
+		Description:    `Steps contains all the steps with parameters to follow for the recipe.`,
 		Exposed:        true,
-		Name:           "statusMessage",
+		Name:           "steps",
+		Stored:         true,
+		SubType:        "uistep",
+		Type:           "refList",
+	},
+	"template": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Template",
+		Description:    `Template of the recipe to import.`,
+		Exposed:        true,
+		Name:           "template",
+		Stored:         true,
+		Type:           "string",
+	},
+	"templatehash": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TemplateHash",
+		Description:    `templateHash is a hash of the template.`,
+		Exposed:        true,
+		Name:           "templateHash",
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
@@ -1043,35 +1221,35 @@ var InstalledAppLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 	},
 }
 
-// SparseInstalledAppsList represents a list of SparseInstalledApps
-type SparseInstalledAppsList []*SparseInstalledApp
+// SparseRecipesList represents a list of SparseRecipes
+type SparseRecipesList []*SparseRecipe
 
 // Identity returns the identity of the objects in the list.
-func (o SparseInstalledAppsList) Identity() elemental.Identity {
+func (o SparseRecipesList) Identity() elemental.Identity {
 
-	return InstalledAppIdentity
+	return RecipeIdentity
 }
 
-// Copy returns a pointer to a copy the SparseInstalledAppsList.
-func (o SparseInstalledAppsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseRecipesList.
+func (o SparseRecipesList) Copy() elemental.Identifiables {
 
-	copy := append(SparseInstalledAppsList{}, o...)
+	copy := append(SparseRecipesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseInstalledAppsList.
-func (o SparseInstalledAppsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseRecipesList.
+func (o SparseRecipesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseInstalledAppsList{}, o...)
+	out := append(SparseRecipesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseInstalledApp))
+		out = append(out, obj.(*SparseRecipe))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseInstalledAppsList) List() elemental.IdentifiablesList {
+func (o SparseRecipesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1082,7 +1260,7 @@ func (o SparseInstalledAppsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseInstalledAppsList) DefaultOrder() []string {
+func (o SparseRecipesList) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
@@ -1090,8 +1268,8 @@ func (o SparseInstalledAppsList) DefaultOrder() []string {
 	}
 }
 
-// ToPlain returns the SparseInstalledAppsList converted to InstalledAppsList.
-func (o SparseInstalledAppsList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseRecipesList converted to RecipesList.
+func (o SparseRecipesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1102,27 +1280,21 @@ func (o SparseInstalledAppsList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseInstalledAppsList) Version() int {
+func (o SparseRecipesList) Version() int {
 
 	return 1
 }
 
-// SparseInstalledApp represents the sparse version of a installedapp.
-type SparseInstalledApp struct {
+// SparseRecipe represents the sparse version of a recipe.
+type SparseRecipe struct {
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// AppIdentifier retains the identifier for the app.
-	AppIdentifier *string `json:"-" msgpack:"-" bson:"appidentifier,omitempty" mapstructure:"-,omitempty"`
-
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
-
-	// CategoryID of the app.
-	CategoryID *string `json:"categoryID,omitempty" msgpack:"categoryID,omitempty" bson:"categoryid,omitempty" mapstructure:"categoryID,omitempty"`
 
 	// internal idempotency key for a create operation.
 	CreateIdempotencyKey *string `json:"-" msgpack:"-" bson:"createidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1130,11 +1302,24 @@ type SparseInstalledApp struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
-	// Version of the installed app.
-	CurrentVersion *string `json:"currentVersion,omitempty" msgpack:"currentVersion,omitempty" bson:"currentversion,omitempty" mapstructure:"currentVersion,omitempty"`
+	// Description is the description of the object.
+	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// DeploymentCount represents the number of expected deployment for this app.
-	DeploymentCount *int `json:"-" msgpack:"-" bson:"deploymentcount,omitempty" mapstructure:"-,omitempty"`
+	// Icon contains a base64 image for the recipe.
+	Icon *string `json:"icon,omitempty" msgpack:"icon,omitempty" bson:"icon,omitempty" mapstructure:"icon,omitempty"`
+
+	// Key is the unique key of the recipe.
+	Key *string `json:"key,omitempty" msgpack:"key,omitempty" bson:"key,omitempty" mapstructure:"key,omitempty"`
+
+	// Label defines the recipe.
+	Label *string `json:"label,omitempty" msgpack:"label,omitempty" bson:"label,omitempty" mapstructure:"label,omitempty"`
+
+	// LongDescription provides a long description of the recipe.
+	LongDescription *string `json:"longDescription,omitempty" msgpack:"longDescription,omitempty" bson:"longdescription,omitempty" mapstructure:"longDescription,omitempty"`
+
+	// Metadata contains tags that can only be set during creation. They must all start
+	// with the '@' prefix, and should only be used by external systems.
+	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
 
 	// Name is the name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
@@ -1145,17 +1330,23 @@ type SparseInstalledApp struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Parameters contains the computed parameters to start the app.
-	Parameters *map[string]interface{} `json:"parameters,omitempty" msgpack:"parameters,omitempty" bson:"parameters,omitempty" mapstructure:"parameters,omitempty"`
+	// Options of the recipe.
+	Options **RecipeOptions `json:"options,omitempty" msgpack:"options,omitempty" bson:"options,omitempty" mapstructure:"options,omitempty"`
+
+	// Propagate will propagate the policy to all of its children.
+	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
-	// Status of the app.
-	Status *InstalledAppStatusValue `json:"status,omitempty" msgpack:"status,omitempty" bson:"status,omitempty" mapstructure:"status,omitempty"`
+	// Steps contains all the steps with parameters to follow for the recipe.
+	Steps *[]*UIStep `json:"steps,omitempty" msgpack:"steps,omitempty" bson:"steps,omitempty" mapstructure:"steps,omitempty"`
 
-	// Reason for the status of the app.
-	StatusMessage *string `json:"statusMessage,omitempty" msgpack:"statusMessage,omitempty" bson:"statusmessage,omitempty" mapstructure:"statusMessage,omitempty"`
+	// Template of the recipe to import.
+	Template *string `json:"template,omitempty" msgpack:"template,omitempty" bson:"template,omitempty" mapstructure:"template,omitempty"`
+
+	// templateHash is a hash of the template.
+	TemplateHash *string `json:"templateHash,omitempty" msgpack:"templateHash,omitempty" bson:"templatehash,omitempty" mapstructure:"templateHash,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1166,19 +1357,19 @@ type SparseInstalledApp struct {
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseInstalledApp returns a new  SparseInstalledApp.
-func NewSparseInstalledApp() *SparseInstalledApp {
-	return &SparseInstalledApp{}
+// NewSparseRecipe returns a new  SparseRecipe.
+func NewSparseRecipe() *SparseRecipe {
+	return &SparseRecipe{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseInstalledApp) Identity() elemental.Identity {
+func (o *SparseRecipe) Identity() elemental.Identity {
 
-	return InstalledAppIdentity
+	return RecipeIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseInstalledApp) Identifier() string {
+func (o *SparseRecipe) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1187,35 +1378,29 @@ func (o *SparseInstalledApp) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseInstalledApp) SetIdentifier(id string) {
+func (o *SparseRecipe) SetIdentifier(id string) {
 
 	o.ID = &id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseInstalledApp) Version() int {
+func (o *SparseRecipe) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseRecipe) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewInstalledApp()
+	out := NewRecipe()
 	if o.ID != nil {
 		out.ID = *o.ID
 	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
 	}
-	if o.AppIdentifier != nil {
-		out.AppIdentifier = *o.AppIdentifier
-	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
-	}
-	if o.CategoryID != nil {
-		out.CategoryID = *o.CategoryID
 	}
 	if o.CreateIdempotencyKey != nil {
 		out.CreateIdempotencyKey = *o.CreateIdempotencyKey
@@ -1223,11 +1408,23 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
-	if o.CurrentVersion != nil {
-		out.CurrentVersion = *o.CurrentVersion
+	if o.Description != nil {
+		out.Description = *o.Description
 	}
-	if o.DeploymentCount != nil {
-		out.DeploymentCount = *o.DeploymentCount
+	if o.Icon != nil {
+		out.Icon = *o.Icon
+	}
+	if o.Key != nil {
+		out.Key = *o.Key
+	}
+	if o.Label != nil {
+		out.Label = *o.Label
+	}
+	if o.LongDescription != nil {
+		out.LongDescription = *o.LongDescription
+	}
+	if o.Metadata != nil {
+		out.Metadata = *o.Metadata
 	}
 	if o.Name != nil {
 		out.Name = *o.Name
@@ -1238,17 +1435,23 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
 	}
-	if o.Parameters != nil {
-		out.Parameters = *o.Parameters
+	if o.Options != nil {
+		out.Options = *o.Options
+	}
+	if o.Propagate != nil {
+		out.Propagate = *o.Propagate
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
 	}
-	if o.Status != nil {
-		out.Status = *o.Status
+	if o.Steps != nil {
+		out.Steps = *o.Steps
 	}
-	if o.StatusMessage != nil {
-		out.StatusMessage = *o.StatusMessage
+	if o.Template != nil {
+		out.Template = *o.Template
+	}
+	if o.TemplateHash != nil {
+		out.TemplateHash = *o.TemplateHash
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
@@ -1261,145 +1464,181 @@ func (o *SparseInstalledApp) ToPlain() elemental.PlainIdentifiable {
 }
 
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseInstalledApp) GetAnnotations() map[string][]string {
+func (o *SparseRecipe) GetAnnotations() map[string][]string {
 
 	return *o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetAnnotations(annotations map[string][]string) {
+func (o *SparseRecipe) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseInstalledApp) GetAssociatedTags() []string {
+func (o *SparseRecipe) GetAssociatedTags() []string {
 
 	return *o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetAssociatedTags(associatedTags []string) {
+func (o *SparseRecipe) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseInstalledApp) GetCreateIdempotencyKey() string {
+func (o *SparseRecipe) GetCreateIdempotencyKey() string {
 
 	return *o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *SparseRecipe) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseInstalledApp) GetCreateTime() time.Time {
+func (o *SparseRecipe) GetCreateTime() time.Time {
 
 	return *o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetCreateTime(createTime time.Time) {
+func (o *SparseRecipe) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
+// GetDescription returns the Description of the receiver.
+func (o *SparseRecipe) GetDescription() string {
+
+	return *o.Description
+}
+
+// SetDescription sets the property Description of the receiver using the address of the given value.
+func (o *SparseRecipe) SetDescription(description string) {
+
+	o.Description = &description
+}
+
+// GetMetadata returns the Metadata of the receiver.
+func (o *SparseRecipe) GetMetadata() []string {
+
+	return *o.Metadata
+}
+
+// SetMetadata sets the property Metadata of the receiver using the address of the given value.
+func (o *SparseRecipe) SetMetadata(metadata []string) {
+
+	o.Metadata = &metadata
+}
+
 // GetName returns the Name of the receiver.
-func (o *SparseInstalledApp) GetName() string {
+func (o *SparseRecipe) GetName() string {
 
 	return *o.Name
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetName(name string) {
+func (o *SparseRecipe) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseInstalledApp) GetNamespace() string {
+func (o *SparseRecipe) GetNamespace() string {
 
 	return *o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetNamespace(namespace string) {
+func (o *SparseRecipe) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseInstalledApp) GetNormalizedTags() []string {
+func (o *SparseRecipe) GetNormalizedTags() []string {
 
 	return *o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseRecipe) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
+// GetPropagate returns the Propagate of the receiver.
+func (o *SparseRecipe) GetPropagate() bool {
+
+	return *o.Propagate
+}
+
+// SetPropagate sets the property Propagate of the receiver using the address of the given value.
+func (o *SparseRecipe) SetPropagate(propagate bool) {
+
+	o.Propagate = &propagate
+}
+
 // GetProtected returns the Protected of the receiver.
-func (o *SparseInstalledApp) GetProtected() bool {
+func (o *SparseRecipe) GetProtected() bool {
 
 	return *o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetProtected(protected bool) {
+func (o *SparseRecipe) SetProtected(protected bool) {
 
 	o.Protected = &protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseInstalledApp) GetUpdateIdempotencyKey() string {
+func (o *SparseRecipe) GetUpdateIdempotencyKey() string {
 
 	return *o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *SparseRecipe) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseInstalledApp) GetUpdateTime() time.Time {
+func (o *SparseRecipe) GetUpdateTime() time.Time {
 
 	return *o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparseInstalledApp) SetUpdateTime(updateTime time.Time) {
+func (o *SparseRecipe) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
-// DeepCopy returns a deep copy if the SparseInstalledApp.
-func (o *SparseInstalledApp) DeepCopy() *SparseInstalledApp {
+// DeepCopy returns a deep copy if the SparseRecipe.
+func (o *SparseRecipe) DeepCopy() *SparseRecipe {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseInstalledApp{}
+	out := &SparseRecipe{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseInstalledApp.
-func (o *SparseInstalledApp) DeepCopyInto(out *SparseInstalledApp) {
+// DeepCopyInto copies the receiver into the given *SparseRecipe.
+func (o *SparseRecipe) DeepCopyInto(out *SparseRecipe) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseInstalledApp: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseRecipe: %s", err))
 	}
 
-	*out = *target.(*SparseInstalledApp)
+	*out = *target.(*SparseRecipe)
 }

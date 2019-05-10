@@ -1,11 +1,11 @@
 # Model
 model:
-  rest_name: appparameter
-  resource_name: appparameters
-  entity_name: AppParameter
-  package: highwind
-  group: integration/app
-  description: Represents a parameter that can be passed to an app.
+  rest_name: uiparameter
+  resource_name: uiparameters
+  entity_name: UIParameter
+  package: ignis
+  group: core/workflow
+  description: Represents a parameter that will be shown in the UI.
   detached: true
 
 # Attributes
@@ -15,6 +15,13 @@ attributes:
     description: Defines if the parameter is an advanced one.
     type: boolean
     exposed: true
+    stored: true
+
+  - name: allowedChoices
+    description: allowedChoices lists all the choices in case of an enum.
+    type: external
+    exposed: true
+    subtype: map[string]string
     stored: true
 
   - name: allowedValues
@@ -41,6 +48,8 @@ attributes:
     type: string
     exposed: true
     stored: true
+    required: true
+    example_value: unique_key
 
   - name: longDescription
     description: Long explanation of the parameter.
@@ -65,6 +74,7 @@ attributes:
     type: enum
     exposed: true
     stored: true
+    required: true
     allowed_choices:
     - Boolean
     - Duration
@@ -77,9 +87,18 @@ attributes:
     - String
     - StringSlice
     - CVSSThreshold
+    - JSON
+    example_value: String
+
+  - name: validationFunction
+    description: ValidationFunction represents the function to validate the parameter.
+    type: string
+    exposed: true
+    stored: true
 
   - name: value
     description: Value of the parameter.
     type: object
     exposed: true
     stored: true
+    deprecated: true

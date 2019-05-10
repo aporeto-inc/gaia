@@ -4,16 +4,15 @@ import "go.aporeto.io/elemental"
 
 var (
 	identityNamesMap = map[string]elemental.Identity{
-		"account":                AccountIdentity,
-		"accountcheck":           AccountCheckIdentity,
-		"activate":               ActivateIdentity,
-		"activity":               ActivityIdentity,
-		"alarm":                  AlarmIdentity,
-		"apiauthorizationpolicy": APIAuthorizationPolicyIdentity,
-		"apicheck":               APICheckIdentity,
-		"app":                    AppIdentity,
-		"appcredential":          AppCredentialIdentity,
-
+		"account":                   AccountIdentity,
+		"accountcheck":              AccountCheckIdentity,
+		"activate":                  ActivateIdentity,
+		"activity":                  ActivityIdentity,
+		"alarm":                     AlarmIdentity,
+		"apiauthorizationpolicy":    APIAuthorizationPolicyIdentity,
+		"apicheck":                  APICheckIdentity,
+		"app":                       AppIdentity,
+		"appcredential":             AppCredentialIdentity,
 		"auditprofile":              AuditProfileIdentity,
 		"auditprofilemappingpolicy": AuditProfileMappingPolicyIdentity,
 		"auditreport":               AuditReportIdentity,
@@ -21,11 +20,10 @@ var (
 		"authority":                 AuthorityIdentity,
 		"automation":                AutomationIdentity,
 		"automationtemplate":        AutomationTemplateIdentity,
-
-		"awsaccount":    AWSAccountIdentity,
-		"awsapigateway": AWSAPIGatewayIdentity,
-		"awsregister":   AWSRegisterIdentity,
-		"category":      CategoryIdentity,
+		"awsaccount":                AWSAccountIdentity,
+		"awsapigateway":             AWSAPIGatewayIdentity,
+		"awsregister":               AWSRegisterIdentity,
+		"category":                  CategoryIdentity,
 
 		"claims": ClaimsIdentity,
 
@@ -52,6 +50,7 @@ var (
 		"hostservicemappingpolicy": HostServiceMappingPolicyIdentity,
 		"httpresourcespec":         HTTPResourceSpecIdentity,
 		"import":                   ImportIdentity,
+		"importreference":          ImportReferenceIdentity,
 		"importrequest":            ImportRequestIdentity,
 		"installedapp":             InstalledAppIdentity,
 		"invoice":                  InvoiceIdentity,
@@ -82,11 +81,14 @@ var (
 		"processingunitpolicy":  ProcessingUnitPolicyIdentity,
 		"processingunitrefresh": ProcessingUnitRefreshIdentity,
 
-		"punode":                 PUNodeIdentity,
-		"quotacheck":             QuotaCheckIdentity,
-		"quotapolicy":            QuotaPolicyIdentity,
+		"punode":      PUNodeIdentity,
+		"quotacheck":  QuotaCheckIdentity,
+		"quotapolicy": QuotaPolicyIdentity,
+		"recipe":      RecipeIdentity,
+
 		"remoteprocessor":        RemoteProcessorIdentity,
 		"renderedpolicy":         RenderedPolicyIdentity,
+		"rendertemplate":         RenderTemplateIdentity,
 		"report":                 ReportIdentity,
 		"revocation":             RevocationIdentity,
 		"role":                   RoleIdentity,
@@ -109,23 +111,24 @@ var (
 		"token":            TokenIdentity,
 		"tokenscopepolicy": TokenScopePolicyIdentity,
 
-		"trigger":              TriggerIdentity,
+		"trigger": TriggerIdentity,
+
+		"validateuiparameter":  ValidateUIParameterIdentity,
 		"vulnerability":        VulnerabilityIdentity,
 		"x509certificate":      X509CertificateIdentity,
 		"x509certificatecheck": X509CertificateCheckIdentity,
 	}
 
 	identitycategoriesMap = map[string]elemental.Identity{
-		"accounts":                 AccountIdentity,
-		"accountchecks":            AccountCheckIdentity,
-		"activate":                 ActivateIdentity,
-		"activities":               ActivityIdentity,
-		"alarms":                   AlarmIdentity,
-		"apiauthorizationpolicies": APIAuthorizationPolicyIdentity,
-		"apichecks":                APICheckIdentity,
-		"apps":                     AppIdentity,
-		"appcredentials":           AppCredentialIdentity,
-
+		"accounts":                    AccountIdentity,
+		"accountchecks":               AccountCheckIdentity,
+		"activate":                    ActivateIdentity,
+		"activities":                  ActivityIdentity,
+		"alarms":                      AlarmIdentity,
+		"apiauthorizationpolicies":    APIAuthorizationPolicyIdentity,
+		"apichecks":                   APICheckIdentity,
+		"apps":                        AppIdentity,
+		"appcredentials":              AppCredentialIdentity,
 		"auditprofiles":               AuditProfileIdentity,
 		"auditprofilemappingpolicies": AuditProfileMappingPolicyIdentity,
 		"auditreports":                AuditReportIdentity,
@@ -133,11 +136,10 @@ var (
 		"authorities":                 AuthorityIdentity,
 		"automations":                 AutomationIdentity,
 		"automationtemplates":         AutomationTemplateIdentity,
-
-		"awsaccounts":    AWSAccountIdentity,
-		"awsapigateways": AWSAPIGatewayIdentity,
-		"awsregister":    AWSRegisterIdentity,
-		"categories":     CategoryIdentity,
+		"awsaccounts":                 AWSAccountIdentity,
+		"awsapigateways":              AWSAPIGatewayIdentity,
+		"awsregister":                 AWSRegisterIdentity,
+		"categories":                  CategoryIdentity,
 
 		"claims": ClaimsIdentity,
 
@@ -164,6 +166,7 @@ var (
 		"hostservicemappingpolicies": HostServiceMappingPolicyIdentity,
 		"httpresourcespecs":          HTTPResourceSpecIdentity,
 		"import":                     ImportIdentity,
+		"importreferences":           ImportReferenceIdentity,
 		"importrequests":             ImportRequestIdentity,
 		"installedapps":              InstalledAppIdentity,
 		"invoices":                   InvoiceIdentity,
@@ -194,11 +197,14 @@ var (
 		"processingunitpolicies": ProcessingUnitPolicyIdentity,
 		"processingunitrefreshs": ProcessingUnitRefreshIdentity,
 
-		"punodes":                  PUNodeIdentity,
-		"quotacheck":               QuotaCheckIdentity,
-		"quotapolicies":            QuotaPolicyIdentity,
+		"punodes":       PUNodeIdentity,
+		"quotacheck":    QuotaCheckIdentity,
+		"quotapolicies": QuotaPolicyIdentity,
+		"recipes":       RecipeIdentity,
+
 		"remoteprocessors":         RemoteProcessorIdentity,
 		"renderedpolicies":         RenderedPolicyIdentity,
+		"rendertemplates":          RenderTemplateIdentity,
 		"reports":                  ReportIdentity,
 		"revocations":              RevocationIdentity,
 		"roles":                    RoleIdentity,
@@ -221,7 +227,9 @@ var (
 		"tokens":             TokenIdentity,
 		"tokenscopepolicies": TokenScopePolicyIdentity,
 
-		"triggers":              TriggerIdentity,
+		"triggers": TriggerIdentity,
+
+		"validateuiparameters":  ValidateUIParameterIdentity,
 		"vulnerabilities":       VulnerabilityIdentity,
 		"x509certificates":      X509CertificateIdentity,
 		"x509certificatechecks": X509CertificateCheckIdentity,
@@ -264,6 +272,8 @@ var (
 		"httpresource":   HTTPResourceSpecIdentity,
 		"resource":       HTTPResourceSpecIdentity,
 		"httpspec":       HTTPResourceSpecIdentity,
+		"importref":      ImportReferenceIdentity,
+		"impref":         ImportReferenceIdentity,
 		"req":            ImportRequestIdentity,
 		"reqs":           ImportRequestIdentity,
 		"ireq":           ImportRequestIdentity,
@@ -288,10 +298,13 @@ var (
 		"quotas":         QuotaPolicyIdentity,
 		"quotapol":       QuotaPolicyIdentity,
 		"quotapols":      QuotaPolicyIdentity,
+		"rcp":            RecipeIdentity,
 		"hks":            RemoteProcessorIdentity,
 		"hk":             RemoteProcessorIdentity,
 		"rpol":           RenderedPolicyIdentity,
 		"rpols":          RenderedPolicyIdentity,
+		"cook":           RenderTemplateIdentity,
+		"rtpl":           RenderTemplateIdentity,
 		"srv":            ServiceIdentity,
 		"srvdep":         ServiceDependencyIdentity,
 		"srvdeps":        ServiceDependencyIdentity,
@@ -308,6 +321,7 @@ var (
 		"tabs":           TabulationIdentity,
 		"tab":            TabulationIdentity,
 		"tsp":            TokenScopePolicyIdentity,
+		"validparam":     ValidateUIParameterIdentity,
 		"vulns":          VulnerabilityIdentity,
 		"vul":            VulnerabilityIdentity,
 		"vuln":           VulnerabilityIdentity,
@@ -326,12 +340,12 @@ var (
 		"activity": [][]string{
 			[]string{"namespace"},
 			[]string{"namespace", "date"},
-			[]string{"namespace", "operation"},
-			[]string{"namespace", "error.code"},
-			[]string{"namespace", "targetIdentity"},
-			[]string{"namespace", "data.ID"},
-			[]string{"namespace", "originalData.ID"},
 			[]string{":shard", "zone", "zHash"},
+			[]string{":background", "namespace", "targetIdentity"},
+			[]string{":background", "namespace", "data.ID"},
+			[]string{"namespace", "operation"},
+			[]string{":background", "namespace", "originalData.ID"},
+			[]string{":background", "namespace", "error.code"},
 		},
 		"alarm": [][]string{
 			[]string{":shard", "zone", "zHash"},
@@ -489,6 +503,15 @@ var (
 			[]string{"archived"},
 		},
 		"import": nil,
+		"importreference": [][]string{
+			[]string{"updateIdempotencyKey"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "name"},
+			[]string{"namespace"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
+			[]string{":shard", "zone", "zHash"},
+		},
 		"importrequest": [][]string{
 			[]string{"updateIdempotencyKey"},
 			[]string{"namespace"},
@@ -595,9 +618,20 @@ var (
 		"punode":                nil,
 		"quotacheck":            nil,
 		"quotapolicy":           nil,
-		"remoteprocessor":       nil,
-		"renderedpolicy":        nil,
-		"report":                nil,
+		"recipe": [][]string{
+			[]string{":unique", "namespace", "key"},
+			[]string{"updateIdempotencyKey"},
+			[]string{"propagate"},
+			[]string{"namespace", "name"},
+			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace"},
+			[]string{"name"},
+			[]string{"createIdempotencyKey"},
+		},
+		"remoteprocessor": nil,
+		"renderedpolicy":  nil,
+		"rendertemplate":  nil,
+		"report":          nil,
 		"revocation": [][]string{
 			[]string{":unique", "serialNumber"},
 			[]string{":shard", "$hashed:serialNumber"},
@@ -640,6 +674,7 @@ var (
 		"token":                  nil,
 		"tokenscopepolicy":       nil,
 		"trigger":                nil,
+		"validateuiparameter":    nil,
 		"vulnerability": [][]string{
 			[]string{":shard", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -779,6 +814,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewHTTPResourceSpec()
 	case ImportIdentity:
 		return NewImport()
+	case ImportReferenceIdentity:
+		return NewImportReference()
 	case ImportRequestIdentity:
 		return NewImportRequest()
 	case InstalledAppIdentity:
@@ -841,10 +878,14 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewQuotaCheck()
 	case QuotaPolicyIdentity:
 		return NewQuotaPolicy()
+	case RecipeIdentity:
+		return NewRecipe()
 	case RemoteProcessorIdentity:
 		return NewRemoteProcessor()
 	case RenderedPolicyIdentity:
 		return NewRenderedPolicy()
+	case RenderTemplateIdentity:
+		return NewRenderTemplate()
 	case ReportIdentity:
 		return NewReport()
 	case RevocationIdentity:
@@ -887,6 +928,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewTokenScopePolicy()
 	case TriggerIdentity:
 		return NewTrigger()
+	case ValidateUIParameterIdentity:
+		return NewValidateUIParameter()
 	case VulnerabilityIdentity:
 		return NewVulnerability()
 	case X509CertificateIdentity:
@@ -986,6 +1029,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseHTTPResourceSpec()
 	case ImportIdentity:
 		return NewSparseImport()
+	case ImportReferenceIdentity:
+		return NewSparseImportReference()
 	case ImportRequestIdentity:
 		return NewSparseImportRequest()
 	case InstalledAppIdentity:
@@ -1048,10 +1093,14 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseQuotaCheck()
 	case QuotaPolicyIdentity:
 		return NewSparseQuotaPolicy()
+	case RecipeIdentity:
+		return NewSparseRecipe()
 	case RemoteProcessorIdentity:
 		return NewSparseRemoteProcessor()
 	case RenderedPolicyIdentity:
 		return NewSparseRenderedPolicy()
+	case RenderTemplateIdentity:
+		return NewSparseRenderTemplate()
 	case ReportIdentity:
 		return NewSparseReport()
 	case RevocationIdentity:
@@ -1092,6 +1141,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseTokenScopePolicy()
 	case TriggerIdentity:
 		return NewSparseTrigger()
+	case ValidateUIParameterIdentity:
+		return NewSparseValidateUIParameter()
 	case VulnerabilityIdentity:
 		return NewSparseVulnerability()
 	case X509CertificateIdentity:
@@ -1201,6 +1252,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &HTTPResourceSpecsList{}
 	case ImportIdentity:
 		return &ImportsList{}
+	case ImportReferenceIdentity:
+		return &ImportReferencesList{}
 	case ImportRequestIdentity:
 		return &ImportRequestsList{}
 	case InstalledAppIdentity:
@@ -1263,10 +1316,14 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &QuotaChecksList{}
 	case QuotaPolicyIdentity:
 		return &QuotaPoliciesList{}
+	case RecipeIdentity:
+		return &RecipesList{}
 	case RemoteProcessorIdentity:
 		return &RemoteProcessorsList{}
 	case RenderedPolicyIdentity:
 		return &RenderedPoliciesList{}
+	case RenderTemplateIdentity:
+		return &RenderTemplatesList{}
 	case ReportIdentity:
 		return &ReportsList{}
 	case RevocationIdentity:
@@ -1307,6 +1364,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &TokenScopePoliciesList{}
 	case TriggerIdentity:
 		return &TriggersList{}
+	case ValidateUIParameterIdentity:
+		return &ValidateUIParametersList{}
 	case VulnerabilityIdentity:
 		return &VulnerabilitiesList{}
 	case X509CertificateIdentity:
@@ -1406,6 +1465,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseHTTPResourceSpecsList{}
 	case ImportIdentity:
 		return &SparseImportsList{}
+	case ImportReferenceIdentity:
+		return &SparseImportReferencesList{}
 	case ImportRequestIdentity:
 		return &SparseImportRequestsList{}
 	case InstalledAppIdentity:
@@ -1468,10 +1529,14 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseQuotaChecksList{}
 	case QuotaPolicyIdentity:
 		return &SparseQuotaPoliciesList{}
+	case RecipeIdentity:
+		return &SparseRecipesList{}
 	case RemoteProcessorIdentity:
 		return &SparseRemoteProcessorsList{}
 	case RenderedPolicyIdentity:
 		return &SparseRenderedPoliciesList{}
+	case RenderTemplateIdentity:
+		return &SparseRenderTemplatesList{}
 	case ReportIdentity:
 		return &SparseReportsList{}
 	case RevocationIdentity:
@@ -1512,6 +1577,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseTokenScopePoliciesList{}
 	case TriggerIdentity:
 		return &SparseTriggersList{}
+	case ValidateUIParameterIdentity:
+		return &SparseValidateUIParametersList{}
 	case VulnerabilityIdentity:
 		return &SparseVulnerabilitiesList{}
 	case X509CertificateIdentity:
@@ -1584,6 +1651,7 @@ func AllIdentities() []elemental.Identity {
 		HostServiceMappingPolicyIdentity,
 		HTTPResourceSpecIdentity,
 		ImportIdentity,
+		ImportReferenceIdentity,
 		ImportRequestIdentity,
 		InstalledAppIdentity,
 		InvoiceIdentity,
@@ -1615,8 +1683,10 @@ func AllIdentities() []elemental.Identity {
 		PUNodeIdentity,
 		QuotaCheckIdentity,
 		QuotaPolicyIdentity,
+		RecipeIdentity,
 		RemoteProcessorIdentity,
 		RenderedPolicyIdentity,
+		RenderTemplateIdentity,
 		ReportIdentity,
 		RevocationIdentity,
 		RoleIdentity,
@@ -1638,6 +1708,7 @@ func AllIdentities() []elemental.Identity {
 		TokenIdentity,
 		TokenScopePolicyIdentity,
 		TriggerIdentity,
+		ValidateUIParameterIdentity,
 		VulnerabilityIdentity,
 		X509CertificateIdentity,
 		X509CertificateCheckIdentity,
@@ -1785,6 +1856,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case ImportIdentity:
 		return []string{}
+	case ImportReferenceIdentity:
+		return []string{
+			"importref",
+			"impref",
+		}
 	case ImportRequestIdentity:
 		return []string{
 			"req",
@@ -1883,6 +1959,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"quotapol",
 			"quotapols",
 		}
+	case RecipeIdentity:
+		return []string{
+			"rcp",
+		}
 	case RemoteProcessorIdentity:
 		return []string{
 			"hks",
@@ -1892,6 +1972,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{
 			"rpol",
 			"rpols",
+		}
+	case RenderTemplateIdentity:
+		return []string{
+			"cook",
+			"rtpl",
 		}
 	case ReportIdentity:
 		return []string{}
@@ -1959,6 +2044,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case TriggerIdentity:
 		return []string{}
+	case ValidateUIParameterIdentity:
+		return []string{
+			"validparam",
+		}
 	case VulnerabilityIdentity:
 		return []string{
 			"vulns",
