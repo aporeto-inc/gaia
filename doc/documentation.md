@@ -1406,7 +1406,7 @@ Namespace tag attached to an entity.
 
 NormalizedTags contains the list of normalized tags of the entities.
 
-##### `operationalStatus` `emum(Registered | Connected | Disconnected | Initialized)`
+##### `operationalStatus` `emum(Registered | Connected | Disconnected | Initialized | Unknown)`
 
 OperationalStatus tells the status of the enforcer.
 
