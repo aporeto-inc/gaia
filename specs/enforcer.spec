@@ -187,6 +187,7 @@ attributes:
     - Connected
     - Disconnected
     - Initialized
+    - Unknown
     default_value: Registered
     filterable: true
 
