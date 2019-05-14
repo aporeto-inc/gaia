@@ -3749,6 +3749,10 @@ Protected defines if the object is protected.
 
 Steps contains all the steps with parameters to follow for the recipe.
 
+##### `successfullMessage` `string`
+
+successfullMessage is presented if present and success.
+
 ##### `template` `string`
 
 Template of the recipe to import.
