@@ -1139,7 +1139,7 @@ Updates the object with the given ID.
 
 ID is the identifier of the object.
 
-##### `address` `string`
+##### `address` `string` [`required`]
 
 Address holds the account authentication account's private LDAP server.
 
@@ -1151,15 +1151,15 @@ Annotation stores additional information about an entity.
 
 AssociatedTags are the list of tags attached to an entity.
 
-##### `baseDN` `string`
+##### `baseDN` `string` [`required`]
 
 BaseDN holds the base DN to use to LDAP queries.
 
-##### `bindDN` `string`
+##### `bindDN` `string` [`required`]
 
 BindDN holds the account's internal LDAP bind DN for querying auth.
 
-##### `bindPassword` `string`
+##### `bindPassword` `string` [`required`]
 
 BindPassword holds the password to the LDAP bind DN.
 

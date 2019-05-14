@@ -31,6 +31,7 @@ attributes:
     type: string
     exposed: true
     stored: true
+    required: true
     example_value: ldap.company.com
     filterable: true
     orderable: true
@@ -40,6 +41,7 @@ attributes:
     type: string
     exposed: true
     stored: true
+    required: true
     example_value: dc=universe,dc=io
     filterable: true
     orderable: true
@@ -50,6 +52,7 @@ attributes:
     type: string
     exposed: true
     stored: true
+    required: true
     example_value: cn=readonly,dc=universe,dc=io
     filterable: true
     orderable: true
@@ -59,6 +62,7 @@ attributes:
     type: string
     exposed: true
     stored: true
+    required: true
     example_value: s3cr3t
     orderable: true
 

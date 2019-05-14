@@ -530,8 +530,24 @@ func (o *LDAPProvider) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
+	if err := elemental.ValidateRequiredString("address", o.Address); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
 		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredString("baseDN", o.BaseDN); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredString("bindDN", o.BindDN); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
+	if err := elemental.ValidateRequiredString("bindPassword", o.BindPassword); err != nil {
+		requiredErrors = requiredErrors.Append(err)
 	}
 
 	if err := elemental.ValidateStringInList("connSecurityProtocol", string(o.ConnSecurityProtocol), []string{"TLS", "InbandTLS"}, false); err != nil {
@@ -651,6 +667,7 @@ var LDAPProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		Filterable:     true,
 		Name:           "address",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -686,6 +703,7 @@ var LDAPProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		Filterable:     true,
 		Name:           "baseDN",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -697,6 +715,7 @@ var LDAPProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		Filterable:     true,
 		Name:           "bindDN",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -707,6 +726,7 @@ var LDAPProviderAttributesMap = map[string]elemental.AttributeSpecification{
 		Exposed:        true,
 		Name:           "bindPassword",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -919,6 +939,7 @@ var LDAPProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Filterable:     true,
 		Name:           "address",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -954,6 +975,7 @@ var LDAPProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Filterable:     true,
 		Name:           "baseDN",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -965,6 +987,7 @@ var LDAPProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Filterable:     true,
 		Name:           "bindDN",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -975,6 +998,7 @@ var LDAPProviderLowerCaseAttributesMap = map[string]elemental.AttributeSpecifica
 		Exposed:        true,
 		Name:           "bindPassword",
 		Orderable:      true,
+		Required:       true,
 		Stored:         true,
 		Type:           "string",
 	},
