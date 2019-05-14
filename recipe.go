@@ -138,6 +138,9 @@ type Recipe struct {
 	// Steps contains all the steps with parameters to follow for the recipe.
 	Steps []*UIStep `json:"steps" msgpack:"steps" bson:"steps" mapstructure:"steps,omitempty"`
 
+	// successfullMessage is presented if present and success.
+	SuccessfullMessage string `json:"successfullMessage" msgpack:"successfullMessage" bson:"successfullmessage" mapstructure:"successfullMessage,omitempty"`
+
 	// Template of the recipe to import.
 	Template string `json:"template" msgpack:"template" bson:"template" mapstructure:"template,omitempty"`
 
@@ -161,9 +164,9 @@ func NewRecipe() *Recipe {
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
 		Options:        NewRecipeOptions(),
+		NormalizedTags: []string{},
 		Label:          "magicpanda",
 		Metadata:       []string{},
-		NormalizedTags: []string{},
 		Steps:          []*UIStep{},
 	}
 }
@@ -393,6 +396,7 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Propagate:            &o.Propagate,
 			Protected:            &o.Protected,
 			Steps:                &o.Steps,
+			SuccessfullMessage:   &o.SuccessfullMessage,
 			Template:             &o.Template,
 			TemplateHash:         &o.TemplateHash,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
@@ -439,6 +443,8 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Protected = &(o.Protected)
 		case "steps":
 			sp.Steps = &(o.Steps)
+		case "successfullMessage":
+			sp.SuccessfullMessage = &(o.SuccessfullMessage)
 		case "template":
 			sp.Template = &(o.Template)
 		case "templateHash":
@@ -513,6 +519,9 @@ func (o *Recipe) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Steps != nil {
 		o.Steps = *so.Steps
+	}
+	if so.SuccessfullMessage != nil {
+		o.SuccessfullMessage = *so.SuccessfullMessage
 	}
 	if so.Template != nil {
 		o.Template = *so.Template
@@ -662,6 +671,8 @@ func (o *Recipe) ValueForAttribute(name string) interface{} {
 		return o.Protected
 	case "steps":
 		return o.Steps
+	case "successfullMessage":
+		return o.SuccessfullMessage
 	case "template":
 		return o.Template
 	case "templateHash":
@@ -900,6 +911,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		SubType:        "uistep",
 		Type:           "refList",
+	},
+	"SuccessfullMessage": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SuccessfullMessage",
+		Description:    `successfullMessage is presented if present and success.`,
+		Exposed:        true,
+		Name:           "successfullMessage",
+		Stored:         true,
+		Type:           "string",
 	},
 	"Template": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1174,6 +1194,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		SubType:        "uistep",
 		Type:           "refList",
 	},
+	"successfullmessage": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "SuccessfullMessage",
+		Description:    `successfullMessage is presented if present and success.`,
+		Exposed:        true,
+		Name:           "successfullMessage",
+		Stored:         true,
+		Type:           "string",
+	},
 	"template": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Template",
@@ -1342,6 +1371,9 @@ type SparseRecipe struct {
 	// Steps contains all the steps with parameters to follow for the recipe.
 	Steps *[]*UIStep `json:"steps,omitempty" msgpack:"steps,omitempty" bson:"steps,omitempty" mapstructure:"steps,omitempty"`
 
+	// successfullMessage is presented if present and success.
+	SuccessfullMessage *string `json:"successfullMessage,omitempty" msgpack:"successfullMessage,omitempty" bson:"successfullmessage,omitempty" mapstructure:"successfullMessage,omitempty"`
+
 	// Template of the recipe to import.
 	Template *string `json:"template,omitempty" msgpack:"template,omitempty" bson:"template,omitempty" mapstructure:"template,omitempty"`
 
@@ -1446,6 +1478,9 @@ func (o *SparseRecipe) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Steps != nil {
 		out.Steps = *o.Steps
+	}
+	if o.SuccessfullMessage != nil {
+		out.SuccessfullMessage = *o.SuccessfullMessage
 	}
 	if o.Template != nil {
 		out.Template = *o.Template
