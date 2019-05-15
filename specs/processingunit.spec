@@ -43,6 +43,10 @@ indexes:
 - - namespace
   - normalizedTags
   - archived
+- - namespace
+  - archived
+  - createTime
+  - lastPokeTime
 
 # Attributes
 attributes:
