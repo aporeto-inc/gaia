@@ -45,7 +45,6 @@ attributes:
     type: list
     exposed: true
     subtype: string
-    stored: true
     read_only: true
     deprecated: true
     orderable: true
