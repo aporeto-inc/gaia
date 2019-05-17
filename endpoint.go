@@ -22,7 +22,7 @@ type Endpoint struct {
 	Public bool `json:"public" msgpack:"public" bson:"public" mapstructure:"public,omitempty"`
 
 	// Scopes is deprecated.
-	Scopes []string `json:"scopes" msgpack:"scopes" bson:"scopes" mapstructure:"scopes,omitempty"`
+	Scopes []string `json:"scopes" msgpack:"scopes" bson:"-" mapstructure:"scopes,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
