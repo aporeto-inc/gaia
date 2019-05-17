@@ -133,6 +133,11 @@ type LDAPProvider struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// If set, this will be the default LDAP provider. There can be only one default
+	// provider in your account. When logging in with LDAP, if no provider name is
+	// given, the default will be used.
+	Default bool `json:"default" msgpack:"default" bson:"default" mapstructure:"default,omitempty"`
+
 	// Description is the description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
@@ -365,6 +370,7 @@ func (o *LDAPProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ConnSecurityProtocol: &o.ConnSecurityProtocol,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
+			Default:              &o.Default,
 			Description:          &o.Description,
 			IgnoredKeys:          &o.IgnoredKeys,
 			Name:                 &o.Name,
@@ -404,6 +410,8 @@ func (o *LDAPProvider) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
+		case "default":
+			sp.Default = &(o.Default)
 		case "description":
 			sp.Description = &(o.Description)
 		case "ignoredKeys":
@@ -470,6 +478,9 @@ func (o *LDAPProvider) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
+	}
+	if so.Default != nil {
+		o.Default = *so.Default
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
@@ -620,6 +631,8 @@ func (o *LDAPProvider) ValueForAttribute(name string) interface{} {
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
+	case "default":
+		return o.Default
 	case "description":
 		return o.Description
 	case "ignoredKeys":
@@ -792,6 +805,17 @@ of the LDAP is issued from a public truster CA.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"Default": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Default",
+		Description: `If set, this will be the default LDAP provider. There can be only one default
+provider in your account. When logging in with LDAP, if no provider name is
+given, the default will be used.`,
+		Exposed: true,
+		Name:    "default",
+		Stored:  true,
+		Type:    "boolean",
 	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1065,6 +1089,17 @@ of the LDAP is issued from a public truster CA.`,
 		Stored:         true,
 		Type:           "time",
 	},
+	"default": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Default",
+		Description: `If set, this will be the default LDAP provider. There can be only one default
+provider in your account. When logging in with LDAP, if no provider name is
+given, the default will be used.`,
+		Exposed: true,
+		Name:    "default",
+		Stored:  true,
+		Type:    "boolean",
+	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -1292,6 +1327,11 @@ type SparseLDAPProvider struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
+	// If set, this will be the default LDAP provider. There can be only one default
+	// provider in your account. When logging in with LDAP, if no provider name is
+	// given, the default will be used.
+	Default *bool `json:"default,omitempty" msgpack:"default,omitempty" bson:"default,omitempty" mapstructure:"default,omitempty"`
+
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
@@ -1397,6 +1437,9 @@ func (o *SparseLDAPProvider) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
+	}
+	if o.Default != nil {
+		out.Default = *o.Default
 	}
 	if o.Description != nil {
 		out.Description = *o.Description

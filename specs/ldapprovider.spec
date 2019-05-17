@@ -109,6 +109,15 @@ attributes:
     filterable: true
     orderable: true
 
+  - name: default
+    description: |-
+      If set, this will be the default LDAP provider. There can be only one default
+      provider in your account. When logging in with LDAP, if no provider name is
+      given, the default will be used.
+    type: boolean
+    exposed: true
+    stored: true
+
   - name: ignoredKeys
     description: |-
       IgnoredKeys holds a list of keys that must not be imported into Aporeto
