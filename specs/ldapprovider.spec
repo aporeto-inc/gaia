@@ -3,7 +3,7 @@ model:
   rest_name: ldapprovider
   resource_name: ldapproviders
   entity_name: LDAPProvider
-  package: vince
+  package: cactuar
   group: core/authentication
   description: |-
     Allows to declare a generic LDAP provider that can be used in exchange

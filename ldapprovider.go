@@ -23,7 +23,7 @@ const (
 var LDAPProviderIdentity = elemental.Identity{
 	Name:     "ldapprovider",
 	Category: "ldapproviders",
-	Package:  "vince",
+	Package:  "cactuar",
 	Private:  false,
 }
 
