@@ -70,6 +70,7 @@ func (o LDAPProvidersList) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
+		"name",
 	}
 }
 
@@ -145,7 +146,7 @@ type LDAPProvider struct {
 	// authorization system.
 	IgnoredKeys []string `json:"ignoredKeys" msgpack:"ignoredKeys" bson:"ignoredkeys" mapstructure:"ignoredKeys,omitempty"`
 
-	// Name of the provider.
+	// Name is the name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
@@ -216,6 +217,7 @@ func (o *LDAPProvider) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
+		"name",
 	}
 }
 
@@ -289,6 +291,18 @@ func (o *LDAPProvider) GetDescription() string {
 func (o *LDAPProvider) SetDescription(description string) {
 
 	o.Description = description
+}
+
+// GetName returns the Name of the receiver.
+func (o *LDAPProvider) GetName() string {
+
+	return o.Name
+}
+
+// SetName sets the property Name of the receiver using the given value.
+func (o *LDAPProvider) SetName(name string) {
+
+	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
@@ -573,6 +587,10 @@ func (o *LDAPProvider) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
+	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -845,11 +863,16 @@ authorization system.`,
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		CreationOnly:   true,
-		Description:    `Name of the provider.`,
+		DefaultOrder:   true,
+		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
+		Orderable:      true,
 		Required:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1128,11 +1151,16 @@ authorization system.`,
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		CreationOnly:   true,
-		Description:    `Name of the provider.`,
+		DefaultOrder:   true,
+		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
+		Orderable:      true,
 		Required:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1265,6 +1293,7 @@ func (o SparseLDAPProvidersList) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
+		"name",
 	}
 }
 
@@ -1339,7 +1368,7 @@ type SparseLDAPProvider struct {
 	// authorization system.
 	IgnoredKeys *[]string `json:"ignoredKeys,omitempty" msgpack:"ignoredKeys,omitempty" bson:"ignoredkeys,omitempty" mapstructure:"ignoredKeys,omitempty"`
 
-	// Name of the provider.
+	// Name is the name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
@@ -1530,6 +1559,18 @@ func (o *SparseLDAPProvider) GetDescription() string {
 func (o *SparseLDAPProvider) SetDescription(description string) {
 
 	o.Description = &description
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseLDAPProvider) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseLDAPProvider) SetName(name string) {
+
+	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.

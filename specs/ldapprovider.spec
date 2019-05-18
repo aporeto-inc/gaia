@@ -21,6 +21,7 @@ model:
   - '@described'
   - '@identifiable-stored'
   - '@timeable'
+  - '@named'
 
 # Attributes
 attributes:
@@ -127,15 +128,6 @@ attributes:
     subtype: string
     stored: true
     orderable: true
-
-  - name: name
-    description: Name of the provider.
-    type: string
-    exposed: true
-    stored: true
-    required: true
-    creation_only: true
-    example_value: oldap
 
   - name: subjectKey
     description: |-

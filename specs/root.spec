@@ -411,17 +411,6 @@ relations:
     description: Retrieves the list of the account LDAP providers.
     global_parameters:
     - $filtering
-    parameters:
-      entries:
-      - name: name
-        description: LDAP provider name.
-        type: string
-        example_value: oldap
-
-      - name: namespace
-        description: Namespace of the LDAP provider.
-        type: string
-        example_value: /aporeto
   create:
     description: Creates a new LDAP provider.
 
