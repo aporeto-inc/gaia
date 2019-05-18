@@ -459,17 +459,6 @@ relations:
     description: Retrieves the list of the account OIDC provider.
     global_parameters:
     - $filtering
-    parameters:
-      entries:
-      - name: OIDCProviderName
-        description: OIDCProvider name.
-        type: string
-        example_value: okta
-
-      - name: namespace
-        description: Namespace of the oidc provider.
-        type: string
-        example_value: /aporeto
   create:
     description: Creates a new OIDC provider.
 
