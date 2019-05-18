@@ -20,6 +20,7 @@ model:
   - '@identifiable-stored'
   - '@timeable'
   - '@base'
+  - '@named'
 
 # Attributes
 attributes:
@@ -56,15 +57,6 @@ attributes:
     stored: true
     required: true
     example_value: https://accounts.google.com
-
-  - name: name
-    description: Name of the provider.
-    type: string
-    exposed: true
-    stored: true
-    required: true
-    creation_only: true
-    example_value: google
 
   - name: parentID
     description: ParentID contains the parent Vince account ID.

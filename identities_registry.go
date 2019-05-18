@@ -567,6 +567,8 @@ var (
 			[]string{"updateIdempotencyKey"},
 			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
+			[]string{"namespace", "name"},
+			[]string{"name"},
 			[]string{"createIdempotencyKey"},
 		},
 		"packetreport":  nil,

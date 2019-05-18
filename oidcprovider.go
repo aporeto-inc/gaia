@@ -59,6 +59,7 @@ func (o OIDCProvidersList) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
+		"name",
 	}
 }
 
@@ -111,7 +112,7 @@ type OIDCProvider struct {
 	// OIDC information endpoint.
 	Endpoint string `json:"endpoint" msgpack:"endpoint" bson:"endpoint" mapstructure:"endpoint,omitempty"`
 
-	// Name of the provider.
+	// Name is the name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
@@ -186,6 +187,7 @@ func (o *OIDCProvider) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
+		"name",
 	}
 }
 
@@ -247,6 +249,18 @@ func (o *OIDCProvider) GetCreateTime() time.Time {
 func (o *OIDCProvider) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
+}
+
+// GetName returns the Name of the receiver.
+func (o *OIDCProvider) GetName() string {
+
+	return o.Name
+}
+
+// SetName sets the property Name of the receiver using the given value.
+func (o *OIDCProvider) SetName(name string) {
+
+	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
@@ -501,6 +515,10 @@ func (o *OIDCProvider) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
+	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -688,11 +706,16 @@ given, the default will be used.`,
 	"Name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		CreationOnly:   true,
-		Description:    `Name of the provider.`,
+		DefaultOrder:   true,
+		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
+		Orderable:      true,
 		Required:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -922,11 +945,16 @@ given, the default will be used.`,
 	"name": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Name",
-		CreationOnly:   true,
-		Description:    `Name of the provider.`,
+		DefaultOrder:   true,
+		Description:    `Name is the name of the entity.`,
 		Exposed:        true,
+		Filterable:     true,
+		Getter:         true,
+		MaxLength:      256,
 		Name:           "name",
+		Orderable:      true,
 		Required:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -1089,6 +1117,7 @@ func (o SparseOIDCProvidersList) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
+		"name",
 	}
 }
 
@@ -1140,7 +1169,7 @@ type SparseOIDCProvider struct {
 	// OIDC information endpoint.
 	Endpoint *string `json:"endpoint,omitempty" msgpack:"endpoint,omitempty" bson:"endpoint,omitempty" mapstructure:"endpoint,omitempty"`
 
-	// Name of the provider.
+	// Name is the name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
 	// Namespace tag attached to an entity.
@@ -1316,6 +1345,18 @@ func (o *SparseOIDCProvider) GetCreateTime() time.Time {
 func (o *SparseOIDCProvider) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
+}
+
+// GetName returns the Name of the receiver.
+func (o *SparseOIDCProvider) GetName() string {
+
+	return *o.Name
+}
+
+// SetName sets the property Name of the receiver using the address of the given value.
+func (o *SparseOIDCProvider) SetName(name string) {
+
+	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
