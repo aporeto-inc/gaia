@@ -211,7 +211,7 @@ attributes:
     orderable: true
 
   - name: subnets
-    description: Local subnets of the enforcer running.
+    description: Local subnets of this enforcer.
     type: list
     exposed: true
     subtype: string

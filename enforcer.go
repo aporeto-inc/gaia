@@ -215,7 +215,7 @@ type Enforcer struct {
 	// by the enforcer and is is preserved across disconnects.
 	StartTime time.Time `json:"startTime" msgpack:"startTime" bson:"starttime" mapstructure:"startTime,omitempty"`
 
-	// Local subnets of the enforcer running.
+	// Local subnets of this enforcer.
 	Subnets []string `json:"subnets" msgpack:"subnets" bson:"-" mapstructure:"subnets,omitempty"`
 
 	// Control plane will set this value to true if it hasn't heard from the enforcer
@@ -1242,7 +1242,7 @@ by the enforcer and is is preserved across disconnects.`,
 	"Subnets": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subnets",
-		Description:    `Local subnets of the enforcer running.`,
+		Description:    `Local subnets of this enforcer.`,
 		Exposed:        true,
 		Name:           "subnets",
 		SubType:        "string",
@@ -1676,7 +1676,7 @@ by the enforcer and is is preserved across disconnects.`,
 	"subnets": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subnets",
-		Description:    `Local subnets of the enforcer running.`,
+		Description:    `Local subnets of this enforcer.`,
 		Exposed:        true,
 		Name:           "subnets",
 		SubType:        "string",
@@ -1925,7 +1925,7 @@ type SparseEnforcer struct {
 	// by the enforcer and is is preserved across disconnects.
 	StartTime *time.Time `json:"startTime,omitempty" msgpack:"startTime,omitempty" bson:"starttime,omitempty" mapstructure:"startTime,omitempty"`
 
-	// Local subnets of the enforcer running.
+	// Local subnets of this enforcer.
 	Subnets *[]string `json:"subnets,omitempty" msgpack:"subnets,omitempty" bson:"-" mapstructure:"subnets,omitempty"`
 
 	// Control plane will set this value to true if it hasn't heard from the enforcer
