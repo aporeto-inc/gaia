@@ -210,6 +210,12 @@ attributes:
     stored: true
     orderable: true
 
+  - name: subnets
+    description: Local subnets of the enforcer running.
+    type: list
+    exposed: true
+    subtype: string
+
   - name: unreachable
     description: |-
       Control plane will set this value to true if it hasn't heard from the enforcer
