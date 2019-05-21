@@ -215,6 +215,7 @@ attributes:
     type: list
     exposed: true
     subtype: string
+    stored: true
 
   - name: unreachable
     description: |-
