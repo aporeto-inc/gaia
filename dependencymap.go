@@ -235,18 +235,27 @@ func (o *DependencyMap) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	for _, sub := range o.Edges {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.Groups {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.Nodes {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}

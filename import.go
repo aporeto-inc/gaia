@@ -223,8 +223,10 @@ func (o *Import) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := o.Data.Validate(); err != nil {
-		errors = errors.Append(err)
+	if o.Data != nil {
+		if err := o.Data.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
 	}
 
 	if err := elemental.ValidateStringInList("mode", string(o.Mode), []string{"ReplacePartial", "Import", "Remove"}, false); err != nil {

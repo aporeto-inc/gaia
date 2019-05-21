@@ -357,36 +357,54 @@ func (o *PolicyRule) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	for _, sub := range o.AuditProfiles {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.EnforcerProfiles {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.ExternalNetworks {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.FilePaths {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.HostServices {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.IsolationProfiles {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
@@ -401,12 +419,18 @@ func (o *PolicyRule) Validate() error {
 	}
 
 	for _, sub := range o.Namespaces {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.Services {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}

@@ -124,12 +124,18 @@ func (o *GraphEdge) Validate() error {
 	}
 
 	for _, sub := range o.ObservedPolicyIDs {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.PolicyIDs {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}

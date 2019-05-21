@@ -777,6 +777,9 @@ func (o *ProcessingUnit) Validate() error {
 	}
 
 	for _, sub := range o.NetworkServices {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
@@ -790,8 +793,10 @@ func (o *ProcessingUnit) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := o.Tracing.Validate(); err != nil {
-		errors = errors.Append(err)
+	if o.Tracing != nil {
+		if err := o.Tracing.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
 	}
 
 	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIGateway", "Docker", "Host", "HostService", "LinuxService", "RKT", "User", "SSHSession"}, false); err != nil {

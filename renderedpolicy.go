@@ -297,19 +297,27 @@ func (o *RenderedPolicy) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	for _, sub := range o.DependendServices {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
 	}
 
 	for _, sub := range o.ExposedServices {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
 	}
 
-	if err := o.ProcessingUnit.Validate(); err != nil {
-		errors = errors.Append(err)
+	if o.ProcessingUnit != nil {
+		if err := o.ProcessingUnit.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
 	}
 
 	if len(requiredErrors) > 0 {
