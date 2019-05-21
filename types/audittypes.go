@@ -16,6 +16,11 @@ func (a AuditProfileRuleList) Validate() error {
 	errs := []error{}
 
 	for _, r := range a {
+		if r == nil {
+			errs = append(errs, elemental.NewError("Validation Error", "One entry is nil", "gaia", http.StatusUnprocessableEntity))
+			continue
+		}
+
 		if err := r.Validate(); err != nil {
 			errs = append(errs, err)
 		}
