@@ -183,6 +183,10 @@ const (
 
 	// StatsTagKeyClaimsID represents claims ID for the flow
 	StatsTagKeyClaimsID = "@claimid"
+
+	// StatsTagValueAuditSystemDefault is the default value for system default
+	// audit rules
+	StatsTagValueAuditSystemDefault = "system-audit"
 )
 
 // Shared Policy constants
