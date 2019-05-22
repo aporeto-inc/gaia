@@ -236,8 +236,10 @@ func (o *PolicyGraph) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := o.DependencyMap.Validate(); err != nil {
-		errors = errors.Append(err)
+	if o.DependencyMap != nil {
+		if err := o.DependencyMap.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
 	}
 
 	if err := ValidateTagsExpression("selectors", o.Selectors); err != nil {

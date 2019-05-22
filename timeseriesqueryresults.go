@@ -55,6 +55,9 @@ func (o *TimeSeriesQueryResults) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	for _, sub := range o.Rows {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}

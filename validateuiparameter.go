@@ -219,6 +219,9 @@ func (o *ValidateUIParameter) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	for _, sub := range o.Parameters {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}

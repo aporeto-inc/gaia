@@ -923,6 +923,9 @@ func (o *Service) Validate() error {
 	}
 
 	for _, sub := range o.ClaimsToHTTPHeaderMappings {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
@@ -933,6 +936,9 @@ func (o *Service) Validate() error {
 	}
 
 	for _, sub := range o.Endpoints {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}

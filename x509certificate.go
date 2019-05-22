@@ -310,8 +310,10 @@ func (o *X509Certificate) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := o.SubjectOverride.Validate(); err != nil {
-		errors = errors.Append(err)
+	if o.SubjectOverride != nil {
+		if err := o.SubjectOverride.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
 	}
 
 	if err := elemental.ValidateStringInList("usage", string(o.Usage), []string{"Client", "Server", "ServerClient"}, false); err != nil {

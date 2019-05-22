@@ -530,8 +530,10 @@ func (o *ImportReference) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := o.Data.Validate(); err != nil {
-		errors = errors.Append(err)
+	if o.Data != nil {
+		if err := o.Data.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
 	}
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
