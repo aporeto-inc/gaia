@@ -46,6 +46,9 @@ const (
 
 	// UIParameterTypeStringSlice represents the value StringSlice.
 	UIParameterTypeStringSlice UIParameterTypeValue = "StringSlice"
+
+	// UIParameterTypeTagsExpression represents the value TagsExpression.
+	UIParameterTypeTagsExpression UIParameterTypeValue = "TagsExpression"
 )
 
 // UIParameter represents the model of a uiparameter
@@ -86,6 +89,10 @@ type UIParameter struct {
 	// Value of the parameter.
 	Value interface{} `json:"value" msgpack:"value" bson:"value" mapstructure:"value,omitempty"`
 
+	// List of ors of ands of uiparametervisibility that must be verified for the
+	// parameter to be displayed to the user.
+	VisibilityCondition [][]*UIParameterVisibility `json:"visibilityCondition" msgpack:"visibilityCondition" bson:"visibilitycondition" mapstructure:"visibilityCondition,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -93,9 +100,10 @@ type UIParameter struct {
 func NewUIParameter() *UIParameter {
 
 	return &UIParameter{
-		ModelVersion:   1,
-		AllowedChoices: map[string]string{},
-		AllowedValues:  []interface{}{},
+		ModelVersion:        1,
+		AllowedChoices:      map[string]string{},
+		AllowedValues:       []interface{}{},
+		VisibilityCondition: [][]*UIParameterVisibility{},
 	}
 }
 
@@ -137,7 +145,7 @@ func (o *UIParameter) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Duration", "Enum", "IntegerSlice", "Integer", "Float", "FloatSlice", "Password", "String", "StringSlice", "CVSSThreshold", "JSON"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Boolean", "Duration", "Enum", "IntegerSlice", "Integer", "Float", "FloatSlice", "Password", "String", "StringSlice", "CVSSThreshold", "JSON", "TagsExpression"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 

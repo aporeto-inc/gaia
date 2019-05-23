@@ -3440,12 +3440,13 @@ List of all values.
 
 ## `core/workflow`
 
-| Resource                                    | Description                                            |
-| -                                           | -                                                      |
-| [Recipe](#recipe)                           | A Recipe defines a list of steps to define a workflow. |
-| [UIParameter](#uiparameter)                 | Represents a parameter that will be shown in the UI.   |
-| [UIStep](#uistep)                           | Represents a parameter that will be shown in the UI.   |
-| [ValidateUIParameter](#validateuiparameter) | This api validates a list of UIParameters.             |
+| Resource                                        | Description                                            |
+| -                                               | -                                                      |
+| [Recipe](#recipe)                               | A Recipe defines a list of steps to define a workflow. |
+| [UIParameter](#uiparameter)                     | Represents a parameter that will be shown in the UI.   |
+| [UIParameterVisibility](#uiparametervisibility) | Represent a visibility condition for a uiparameter.    |
+| [UIStep](#uistep)                               | Represents a parameter that will be shown in the UI.   |
+| [ValidateUIParameter](#validateuiparameter)     | This api validates a list of UIParameters.             |
 
 ### Recipe
 
@@ -3643,7 +3644,7 @@ Name of the paramerter.
 
 Defines if the parameter is optional.
 
-##### `type` `emum(Boolean | Duration | Enum | IntegerSlice | Integer | Float | FloatSlice | Password | String | StringSlice | CVSSThreshold | JSON)` [`required`]
+##### `type` `emum(Boolean | Duration | Enum | IntegerSlice | Integer | Float | FloatSlice | Password | String | StringSlice | CVSSThreshold | JSON | TagsExpression)` [`required`]
 
 The type of the parameter.
 
@@ -3656,6 +3657,39 @@ ValidationFunction represents the function to validate the parameter.
 _This attribute is deprecated_.
 
 Value of the parameter.
+
+##### `visibilityCondition` `uiparametersexpression`
+
+List of ors of ands of uiparametervisibility that must be verified for the
+parameter to be displayed to the user.
+
+### UIParameterVisibility
+
+Represent a visibility condition for a uiparameter.
+
+#### Example
+
+```json
+{
+  "key": "enableThing",
+  "operator": "Equal",
+  "value": true
+}
+```
+
+#### Attributes
+
+##### `key` `string` [`required`]
+
+Key holding the value to compare.
+
+##### `operator` `emum(Equal | NotEqual | GreaterThan | LesserThan | Defined | Undefined)`
+
+Operator to apply.
+
+##### `value` `object` [`required`]
+
+Values that must match the key.
 
 ### UIStep
 
