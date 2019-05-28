@@ -591,11 +591,16 @@ func (o *Recipe) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := o.Options.Validate(); err != nil {
-		errors = errors.Append(err)
+	if o.Options != nil {
+		if err := o.Options.Validate(); err != nil {
+			errors = errors.Append(err)
+		}
 	}
 
 	for _, sub := range o.Steps {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}

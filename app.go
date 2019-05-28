@@ -355,6 +355,9 @@ func (o *App) Validate() error {
 	}
 
 	for _, sub := range o.Steps {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}

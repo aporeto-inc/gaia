@@ -279,6 +279,9 @@ func (o *PolicyRenderer) Validate() error {
 	requiredErrors := elemental.Errors{}
 
 	for _, sub := range o.Policies {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}

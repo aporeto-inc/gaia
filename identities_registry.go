@@ -671,6 +671,7 @@ var (
 		"servicedependency": nil,
 		"squalltag":         nil,
 		"sshauthority": [][]string{
+			[]string{":shard", "$hashed:_id"},
 			[]string{"namespace", "name"},
 			[]string{"name"},
 		},

@@ -313,3 +313,19 @@ map[string]string:
           "type": "string"
         }
       }
+
+uiparametersexpression:
+  elemental:
+    type: '[][]*UIParameterVisibility'
+    init: '[][]*UIParameterVisibility{}'
+  jsonschema:
+    type: |-
+      {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "uiparametervisibility.json"
+          }
+        }
+      }

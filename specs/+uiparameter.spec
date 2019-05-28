@@ -88,6 +88,7 @@ attributes:
     - StringSlice
     - CVSSThreshold
     - JSON
+    - TagsExpression
     example_value: String
 
   - name: validationFunction
@@ -102,3 +103,12 @@ attributes:
     exposed: true
     stored: true
     deprecated: true
+
+  - name: visibilityCondition
+    description: |-
+      List of ors of ands of uiparametervisibility that must be verified for the
+      parameter to be displayed to the user.
+    type: external
+    exposed: true
+    subtype: uiparametersexpression
+    stored: true

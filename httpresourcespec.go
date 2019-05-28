@@ -568,6 +568,9 @@ func (o *HTTPResourceSpec) Validate() error {
 	}
 
 	for _, sub := range o.Endpoints {
+		if sub == nil {
+			continue
+		}
 		if err := sub.Validate(); err != nil {
 			errors = errors.Append(err)
 		}

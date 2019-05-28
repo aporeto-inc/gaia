@@ -14,6 +14,11 @@ model:
   - '@timeable'
   - '@identifiable-stored'
 
+# Indexes
+indexes:
+- - :shard
+  - $hashed:_id
+
 # Attributes
 attributes:
   v1:

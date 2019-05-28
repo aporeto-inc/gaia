@@ -3,7 +3,7 @@ model:
   rest_name: importreference
   resource_name: importreferences
   entity_name: ImportReference
-  package: Yuna
+  package: yuna
   group: core
   description: Import and keep a reference.
   aliases:

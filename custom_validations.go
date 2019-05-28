@@ -293,7 +293,11 @@ func ValidateProcessingUnitServicesList(attribute string, svcs []*ProcessingUnit
 // ValidateProcessingUnitServicesListWithoutOverlap validates a list of processing unit services has no overlap with any given parameter.
 func ValidateProcessingUnitServicesListWithoutOverlap(svcs []*ProcessingUnitService, cachePortsList map[int]*portutils.PortsList, cacheRanges map[int]*portutils.PortsRangeList) (map[int]*portutils.PortsList, map[int]*portutils.PortsRangeList, error) {
 
-	for _, svc := range svcs {
+	for i, svc := range svcs {
+
+		if svc == nil {
+			return nil, nil, fmt.Errorf("nil processingunitservice in list at index %d", i)
+		}
 
 		var cpl *portutils.PortsList
 		var cpr *portutils.PortsRangeList
@@ -408,7 +412,7 @@ func ValidateHTTPMethods(attribute string, methods []string) error {
 			mu != http.MethodHead &&
 			mu != http.MethodPatch {
 
-			return fmt.Errorf("invalid HTTP method %s", m)
+			return makeValidationError(attribute, fmt.Sprintf("invalid HTTP method %s", m))
 		}
 	}
 
