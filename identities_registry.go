@@ -546,11 +546,12 @@ var (
 		"jaegerbatch": nil,
 		"ldapprovider": [][]string{
 			[]string{"updateIdempotencyKey"},
-			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
 			[]string{"namespace", "name"},
+			[]string{"namespace"},
 			[]string{"name"},
 			[]string{"createIdempotencyKey"},
+			[]string{":shard", "zone", "zHash"},
 		},
 		"log": nil,
 		"message": [][]string{
@@ -575,11 +576,12 @@ var (
 		"networkaccesspolicy":    nil,
 		"oidcprovider": [][]string{
 			[]string{"updateIdempotencyKey"},
-			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
 			[]string{"namespace", "name"},
+			[]string{"namespace"},
 			[]string{"name"},
 			[]string{"createIdempotencyKey"},
+			[]string{":shard", "zone", "zHash"},
 		},
 		"packetreport":  nil,
 		"passwordreset": nil,

@@ -21,6 +21,7 @@ model:
   - '@timeable'
   - '@base'
   - '@named'
+  - '@zonable'
 
 # Attributes
 attributes:
