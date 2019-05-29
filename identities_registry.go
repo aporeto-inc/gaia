@@ -29,6 +29,7 @@ var (
 
 		"customer":            CustomerIdentity,
 		"datapathcertificate": DataPathCertificateIdentity,
+		"dbversion":           DBVersionIdentity,
 		"dependencymap":       DependencyMapIdentity,
 		"email":               EmailIdentity,
 
@@ -146,6 +147,7 @@ var (
 
 		"customers":            CustomerIdentity,
 		"datapathcertificates": DataPathCertificateIdentity,
+		"dbversions":           DBVersionIdentity,
 		"dependencymaps":       DependencyMapIdentity,
 		"emails":               EmailIdentity,
 
@@ -252,6 +254,7 @@ var (
 		"aws":            AWSAccountIdentity,
 		"awsaccs":        AWSAccountIdentity,
 		"awsacc":         AWSAccountIdentity,
+		"dbvers":         DBVersionIdentity,
 		"depmaps":        DependencyMapIdentity,
 		"depmap":         DependencyMapIdentity,
 		"profile":        EnforcerProfileIdentity,
@@ -425,6 +428,7 @@ var (
 			[]string{"providerCustomerID"},
 		},
 		"datapathcertificate": nil,
+		"dbversion":           nil,
 		"dependencymap":       nil,
 		"email":               nil,
 		"enforcer": [][]string{
@@ -792,6 +796,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewCustomer()
 	case DataPathCertificateIdentity:
 		return NewDataPathCertificate()
+	case DBVersionIdentity:
+		return NewDBVersion()
 	case DependencyMapIdentity:
 		return NewDependencyMap()
 	case EmailIdentity:
@@ -1009,6 +1015,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseCustomer()
 	case DataPathCertificateIdentity:
 		return NewSparseDataPathCertificate()
+	case DBVersionIdentity:
+		return NewSparseDBVersion()
 	case DependencyMapIdentity:
 		return NewSparseDependencyMap()
 	case EmailIdentity:
@@ -1234,6 +1242,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &CustomersList{}
 	case DataPathCertificateIdentity:
 		return &DataPathCertificatesList{}
+	case DBVersionIdentity:
+		return &DBVersionsList{}
 	case DependencyMapIdentity:
 		return &DependencyMapsList{}
 	case EmailIdentity:
@@ -1449,6 +1459,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseCustomersList{}
 	case DataPathCertificateIdentity:
 		return &SparseDataPathCertificatesList{}
+	case DBVersionIdentity:
+		return &SparseDBVersionsList{}
 	case DependencyMapIdentity:
 		return &SparseDependencyMapsList{}
 	case EmailIdentity:
@@ -1656,6 +1668,7 @@ func AllIdentities() []elemental.Identity {
 		ClaimsIdentity,
 		CustomerIdentity,
 		DataPathCertificateIdentity,
+		DBVersionIdentity,
 		DependencyMapIdentity,
 		EmailIdentity,
 		EnforcerIdentity,
@@ -1812,6 +1825,10 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		return []string{}
 	case DataPathCertificateIdentity:
 		return []string{}
+	case DBVersionIdentity:
+		return []string{
+			"dbvers",
+		}
 	case DependencyMapIdentity:
 		return []string{
 			"depmaps",

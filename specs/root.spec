@@ -184,6 +184,10 @@ relations:
   create:
     description: Creates a new Certificate for datapath.
 
+- rest_name: dbversion
+  get:
+    description: Retrieves the list of db versions.
+
 - rest_name: dependencymap
   get:
     description: Retrieves the dependencymap of a namespace.

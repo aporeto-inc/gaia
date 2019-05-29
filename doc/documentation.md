@@ -3928,6 +3928,32 @@ List of parameters to validate.
 
 Values contains the computed values.
 
+## `infra/dbversions`
+
+| Resource                | Description                                      |
+| -                       | -                                                |
+| [DBVersion](#dbversion) | A DBVersion shows the versions of each database. |
+
+### DBVersion
+
+A DBVersion shows the versions of each database.
+
+#### Relations
+
+##### `GET /dbversions`
+
+Retrieves the list of db versions.
+
+#### Attributes
+
+##### `name` `string`
+
+Name of the service.
+
+##### `versionNumber` `integer`
+
+Version of the database.
+
 ## `integration/app`
 
 | Resource                      | Description                                          |
