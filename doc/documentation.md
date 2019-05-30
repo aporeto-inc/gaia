@@ -3193,9 +3193,7 @@ _This attribute is deprecated_.
 This field is deprecated and it is there for backward compatibility. Use
 `images` instead.
 
-##### `images` `[]string`
-
-_This attribute is deprecated_.
+##### `images` `[]string` [`creation_only`]
 
 List of images or executable paths used by the Processing Unit.
 
