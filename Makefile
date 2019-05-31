@@ -5,7 +5,7 @@ PROJECT_SHA ?= $(shell git rev-parse HEAD)
 PROJECT_VERSION ?= $(lastword $(shell git tag --sort version:refname --merged $(shell git rev-parse --abbrev-ref HEAD)))
 PROJECT_RELEASE ?= dev
 
-ci: init lint test codecov
+ci: init lint test
 
 init:
 	go get -u github.com/aporeto-inc/go-bindata/...
@@ -53,16 +53,6 @@ test:
 		go test -race -coverprofile=profile.out -covermode=atomic "$$d"; \
 		if [ -f profile.out ]; then tail -q -n +2 profile.out >> unit_coverage.cov; rm -f profile.out; fi; \
 	done;
-
-coverage_aggregate:
-	@ mkdir -p artifacts
-	@ for f in `find . -maxdepth 1 -name '*.cov' -type f`; do \
-		filename="$${f##*/}" && \
-		go tool cover -html=$$f -o artifacts/$${filename%.*}.html; \
-	done;
-
-codecov: coverage_aggregate
-	bash <(curl -s https://codecov.io/bash)
 
 codecgen:
 	rm -f values_codecgen.go ; codecgen -o values_codecgen.go *.go;
