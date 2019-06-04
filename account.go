@@ -8,17 +8,6 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// AccountLDAPConnSecurityProtocolValue represents the possible values for attribute "LDAPConnSecurityProtocol".
-type AccountLDAPConnSecurityProtocolValue string
-
-const (
-	// AccountLDAPConnSecurityProtocolInbandTLS represents the value InbandTLS.
-	AccountLDAPConnSecurityProtocolInbandTLS AccountLDAPConnSecurityProtocolValue = "InbandTLS"
-
-	// AccountLDAPConnSecurityProtocolTLS represents the value TLS.
-	AccountLDAPConnSecurityProtocolTLS AccountLDAPConnSecurityProtocolValue = "TLS"
-)
-
 // AccountStatusValue represents the possible values for attribute "status".
 type AccountStatusValue string
 
@@ -111,44 +100,6 @@ type Account struct {
 	// ID is the identifier of the object.
 	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// LDAPAddress holds the account authentication account's private ldap server.
-	LDAPAddress string `json:"LDAPAddress" msgpack:"LDAPAddress" bson:"ldapaddress" mapstructure:"LDAPAddress,omitempty"`
-
-	// LDAPBaseDN holds the base DN to use to ldap queries.
-	LDAPBaseDN string `json:"LDAPBaseDN" msgpack:"LDAPBaseDN" bson:"ldapbasedn" mapstructure:"LDAPBaseDN,omitempty"`
-
-	// LDAPBindDN holds the account's internal LDAP bind dn for querying auth.
-	LDAPBindDN string `json:"LDAPBindDN" msgpack:"LDAPBindDN" bson:"ldapbinddn" mapstructure:"LDAPBindDN,omitempty"`
-
-	// LDAPBindPassword holds the password to the LDAPBindDN.
-	LDAPBindPassword string `json:"LDAPBindPassword" msgpack:"LDAPBindPassword" bson:"ldapbindpassword" mapstructure:"LDAPBindPassword,omitempty"`
-
-	// LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
-	// Windows based systems, value may be `+"`"+`sAMAccountName={USERNAME}`+"`"+`. For Linux and
-	// other systems, value may be `+"`"+`uid={USERNAME}`+"`"+`.
-	LDAPBindSearchFilter string `json:"LDAPBindSearchFilter" msgpack:"LDAPBindSearchFilter" bson:"ldapbindsearchfilter" mapstructure:"LDAPBindSearchFilter,omitempty"`
-
-	// LDAPCertificateAuthority contains the optional certificate author ity that will
-	// be used to connect to the LDAP server. It is not needed if the TLS certificate
-	// of the LDAP is issued from a public truster CA.
-	LDAPCertificateAuthority string `json:"LDAPCertificateAuthority" msgpack:"LDAPCertificateAuthority" bson:"ldapcertificateauthority" mapstructure:"LDAPCertificateAuthority,omitempty"`
-
-	// LDAPConnProtocol holds the connection type for the LDAP provider.
-	LDAPConnSecurityProtocol AccountLDAPConnSecurityProtocolValue `json:"LDAPConnSecurityProtocol" msgpack:"LDAPConnSecurityProtocol" bson:"ldapconnsecurityprotocol" mapstructure:"LDAPConnSecurityProtocol,omitempty"`
-
-	// LDAPEnabled triggers if the account uses it's own LDAP for authentication.
-	LDAPEnabled bool `json:"LDAPEnabled" msgpack:"LDAPEnabled" bson:"ldapenabled" mapstructure:"LDAPEnabled,omitempty"`
-
-	// LDAPIgnoredKeys holds a list of keys that must not be imported into Aporeto
-	// authorization system.
-	LDAPIgnoredKeys []string `json:"LDAPIgnoredKeys" msgpack:"LDAPIgnoredKeys" bson:"ldapignoredkeys" mapstructure:"LDAPIgnoredKeys,omitempty"`
-
-	// LDAPSubjectKey holds key to be used to populate the subject. If you want to
-	// use the user as a subject, for Windows based systems you may use
-	// 'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
-	// also use any alternate key.
-	LDAPSubjectKey string `json:"LDAPSubjectKey" msgpack:"LDAPSubjectKey" bson:"ldapsubjectkey" mapstructure:"LDAPSubjectKey,omitempty"`
-
 	// Set to enable or disable two factor authentication.
 	OTPEnabled bool `json:"OTPEnabled" msgpack:"OTPEnabled" bson:"otpenabled" mapstructure:"OTPEnabled,omitempty"`
 
@@ -234,14 +185,10 @@ type Account struct {
 func NewAccount() *Account {
 
 	return &Account{
-		ModelVersion:             1,
-		AssociatedQuotaPolicies:  map[string]string{},
-		AssociatedAWSPolicies:    map[string]string{},
-		LDAPIgnoredKeys:          []string{},
-		LDAPSubjectKey:           "uid",
-		LDAPBindSearchFilter:     "uid={USERNAME}",
-		LDAPConnSecurityProtocol: AccountLDAPConnSecurityProtocolInbandTLS,
-		Status:                   AccountStatusPending,
+		ModelVersion:            1,
+		AssociatedAWSPolicies:   map[string]string{},
+		AssociatedQuotaPolicies: map[string]string{},
+		Status:                  AccountStatusPending,
 	}
 }
 
@@ -319,16 +266,6 @@ func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		// nolint: goimports
 		return &SparseAccount{
 			ID:                        &o.ID,
-			LDAPAddress:               &o.LDAPAddress,
-			LDAPBaseDN:                &o.LDAPBaseDN,
-			LDAPBindDN:                &o.LDAPBindDN,
-			LDAPBindPassword:          &o.LDAPBindPassword,
-			LDAPBindSearchFilter:      &o.LDAPBindSearchFilter,
-			LDAPCertificateAuthority:  &o.LDAPCertificateAuthority,
-			LDAPConnSecurityProtocol:  &o.LDAPConnSecurityProtocol,
-			LDAPEnabled:               &o.LDAPEnabled,
-			LDAPIgnoredKeys:           &o.LDAPIgnoredKeys,
-			LDAPSubjectKey:            &o.LDAPSubjectKey,
 			OTPEnabled:                &o.OTPEnabled,
 			OTPQRCode:                 &o.OTPQRCode,
 			OTPSecret:                 &o.OTPSecret,
@@ -363,26 +300,6 @@ func (o *Account) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
-		case "LDAPAddress":
-			sp.LDAPAddress = &(o.LDAPAddress)
-		case "LDAPBaseDN":
-			sp.LDAPBaseDN = &(o.LDAPBaseDN)
-		case "LDAPBindDN":
-			sp.LDAPBindDN = &(o.LDAPBindDN)
-		case "LDAPBindPassword":
-			sp.LDAPBindPassword = &(o.LDAPBindPassword)
-		case "LDAPBindSearchFilter":
-			sp.LDAPBindSearchFilter = &(o.LDAPBindSearchFilter)
-		case "LDAPCertificateAuthority":
-			sp.LDAPCertificateAuthority = &(o.LDAPCertificateAuthority)
-		case "LDAPConnSecurityProtocol":
-			sp.LDAPConnSecurityProtocol = &(o.LDAPConnSecurityProtocol)
-		case "LDAPEnabled":
-			sp.LDAPEnabled = &(o.LDAPEnabled)
-		case "LDAPIgnoredKeys":
-			sp.LDAPIgnoredKeys = &(o.LDAPIgnoredKeys)
-		case "LDAPSubjectKey":
-			sp.LDAPSubjectKey = &(o.LDAPSubjectKey)
 		case "OTPEnabled":
 			sp.OTPEnabled = &(o.OTPEnabled)
 		case "OTPQRCode":
@@ -450,36 +367,6 @@ func (o *Account) Patch(sparse elemental.SparseIdentifiable) {
 	so := sparse.(*SparseAccount)
 	if so.ID != nil {
 		o.ID = *so.ID
-	}
-	if so.LDAPAddress != nil {
-		o.LDAPAddress = *so.LDAPAddress
-	}
-	if so.LDAPBaseDN != nil {
-		o.LDAPBaseDN = *so.LDAPBaseDN
-	}
-	if so.LDAPBindDN != nil {
-		o.LDAPBindDN = *so.LDAPBindDN
-	}
-	if so.LDAPBindPassword != nil {
-		o.LDAPBindPassword = *so.LDAPBindPassword
-	}
-	if so.LDAPBindSearchFilter != nil {
-		o.LDAPBindSearchFilter = *so.LDAPBindSearchFilter
-	}
-	if so.LDAPCertificateAuthority != nil {
-		o.LDAPCertificateAuthority = *so.LDAPCertificateAuthority
-	}
-	if so.LDAPConnSecurityProtocol != nil {
-		o.LDAPConnSecurityProtocol = *so.LDAPConnSecurityProtocol
-	}
-	if so.LDAPEnabled != nil {
-		o.LDAPEnabled = *so.LDAPEnabled
-	}
-	if so.LDAPIgnoredKeys != nil {
-		o.LDAPIgnoredKeys = *so.LDAPIgnoredKeys
-	}
-	if so.LDAPSubjectKey != nil {
-		o.LDAPSubjectKey = *so.LDAPSubjectKey
 	}
 	if so.OTPEnabled != nil {
 		o.OTPEnabled = *so.OTPEnabled
@@ -591,10 +478,6 @@ func (o *Account) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("LDAPConnSecurityProtocol", string(o.LDAPConnSecurityProtocol), []string{"TLS", "InbandTLS"}, false); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if err := elemental.ValidateRequiredString("email", o.Email); err != nil {
 		requiredErrors = requiredErrors.Append(err)
 	}
@@ -647,26 +530,6 @@ func (o *Account) ValueForAttribute(name string) interface{} {
 	switch name {
 	case "ID":
 		return o.ID
-	case "LDAPAddress":
-		return o.LDAPAddress
-	case "LDAPBaseDN":
-		return o.LDAPBaseDN
-	case "LDAPBindDN":
-		return o.LDAPBindDN
-	case "LDAPBindPassword":
-		return o.LDAPBindPassword
-	case "LDAPBindSearchFilter":
-		return o.LDAPBindSearchFilter
-	case "LDAPCertificateAuthority":
-		return o.LDAPCertificateAuthority
-	case "LDAPConnSecurityProtocol":
-		return o.LDAPConnSecurityProtocol
-	case "LDAPEnabled":
-		return o.LDAPEnabled
-	case "LDAPIgnoredKeys":
-		return o.LDAPIgnoredKeys
-	case "LDAPSubjectKey":
-		return o.LDAPSubjectKey
 	case "OTPEnabled":
 		return o.OTPEnabled
 	case "OTPQRCode":
@@ -739,123 +602,6 @@ var AccountAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"LDAPAddress": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPAddress",
-		Description:    `LDAPAddress holds the account authentication account's private ldap server.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "LDAPAddress",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"LDAPBaseDN": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPBaseDN",
-		Description:    `LDAPBaseDN holds the base DN to use to ldap queries.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "LDAPBaseDN",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"LDAPBindDN": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPBindDN",
-		Description:    `LDAPBindDN holds the account's internal LDAP bind dn for querying auth.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "LDAPBindDN",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"LDAPBindPassword": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPBindPassword",
-		Description:    `LDAPBindPassword holds the password to the LDAPBindDN.`,
-		Exposed:        true,
-		Name:           "LDAPBindPassword",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"LDAPBindSearchFilter": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPBindSearchFilter",
-		DefaultValue:   "uid={USERNAME}",
-		Description: `LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
-Windows based systems, value may be ` + "`" + `sAMAccountName={USERNAME}` + "`" + `. For Linux and
-other systems, value may be ` + "`" + `uid={USERNAME}` + "`" + `.`,
-		Exposed:   true,
-		Name:      "LDAPBindSearchFilter",
-		Orderable: true,
-		Stored:    true,
-		Type:      "string",
-	},
-	"LDAPCertificateAuthority": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPCertificateAuthority",
-		Description: `LDAPCertificateAuthority contains the optional certificate author ity that will
-be used to connect to the LDAP server. It is not needed if the TLS certificate
-of the LDAP is issued from a public truster CA.`,
-		Exposed:   true,
-		Name:      "LDAPCertificateAuthority",
-		Orderable: true,
-		Stored:    true,
-		Type:      "string",
-	},
-	"LDAPConnSecurityProtocol": elemental.AttributeSpecification{
-		AllowedChoices: []string{"TLS", "InbandTLS"},
-		ConvertedName:  "LDAPConnSecurityProtocol",
-		DefaultValue:   AccountLDAPConnSecurityProtocolInbandTLS,
-		Description:    `LDAPConnProtocol holds the connection type for the LDAP provider.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "LDAPConnSecurityProtocol",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
-	},
-	"LDAPEnabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPEnabled",
-		Description:    `LDAPEnabled triggers if the account uses it's own LDAP for authentication.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "LDAPEnabled",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
-	},
-	"LDAPIgnoredKeys": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPIgnoredKeys",
-		Description: `LDAPIgnoredKeys holds a list of keys that must not be imported into Aporeto
-authorization system.`,
-		Exposed:   true,
-		Name:      "LDAPIgnoredKeys",
-		Orderable: true,
-		Stored:    true,
-		SubType:   "string",
-		Type:      "list",
-	},
-	"LDAPSubjectKey": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPSubjectKey",
-		DefaultValue:   "uid",
-		Description: `LDAPSubjectKey holds key to be used to populate the subject. If you want to
-use the user as a subject, for Windows based systems you may use
-'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
-also use any alternate key.`,
-		Exposed:   true,
-		Name:      "LDAPSubjectKey",
-		Orderable: true,
-		Stored:    true,
-		Type:      "string",
 	},
 	"OTPEnabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1141,123 +887,6 @@ var AccountLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ReadOnly:       true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"ldapaddress": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPAddress",
-		Description:    `LDAPAddress holds the account authentication account's private ldap server.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "LDAPAddress",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"ldapbasedn": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPBaseDN",
-		Description:    `LDAPBaseDN holds the base DN to use to ldap queries.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "LDAPBaseDN",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"ldapbinddn": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPBindDN",
-		Description:    `LDAPBindDN holds the account's internal LDAP bind dn for querying auth.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "LDAPBindDN",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"ldapbindpassword": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPBindPassword",
-		Description:    `LDAPBindPassword holds the password to the LDAPBindDN.`,
-		Exposed:        true,
-		Name:           "LDAPBindPassword",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "string",
-	},
-	"ldapbindsearchfilter": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPBindSearchFilter",
-		DefaultValue:   "uid={USERNAME}",
-		Description: `LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
-Windows based systems, value may be ` + "`" + `sAMAccountName={USERNAME}` + "`" + `. For Linux and
-other systems, value may be ` + "`" + `uid={USERNAME}` + "`" + `.`,
-		Exposed:   true,
-		Name:      "LDAPBindSearchFilter",
-		Orderable: true,
-		Stored:    true,
-		Type:      "string",
-	},
-	"ldapcertificateauthority": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPCertificateAuthority",
-		Description: `LDAPCertificateAuthority contains the optional certificate author ity that will
-be used to connect to the LDAP server. It is not needed if the TLS certificate
-of the LDAP is issued from a public truster CA.`,
-		Exposed:   true,
-		Name:      "LDAPCertificateAuthority",
-		Orderable: true,
-		Stored:    true,
-		Type:      "string",
-	},
-	"ldapconnsecurityprotocol": elemental.AttributeSpecification{
-		AllowedChoices: []string{"TLS", "InbandTLS"},
-		ConvertedName:  "LDAPConnSecurityProtocol",
-		DefaultValue:   AccountLDAPConnSecurityProtocolInbandTLS,
-		Description:    `LDAPConnProtocol holds the connection type for the LDAP provider.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "LDAPConnSecurityProtocol",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "enum",
-	},
-	"ldapenabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPEnabled",
-		Description:    `LDAPEnabled triggers if the account uses it's own LDAP for authentication.`,
-		Exposed:        true,
-		Filterable:     true,
-		Name:           "LDAPEnabled",
-		Orderable:      true,
-		Stored:         true,
-		Type:           "boolean",
-	},
-	"ldapignoredkeys": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPIgnoredKeys",
-		Description: `LDAPIgnoredKeys holds a list of keys that must not be imported into Aporeto
-authorization system.`,
-		Exposed:   true,
-		Name:      "LDAPIgnoredKeys",
-		Orderable: true,
-		Stored:    true,
-		SubType:   "string",
-		Type:      "list",
-	},
-	"ldapsubjectkey": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LDAPSubjectKey",
-		DefaultValue:   "uid",
-		Description: `LDAPSubjectKey holds key to be used to populate the subject. If you want to
-use the user as a subject, for Windows based systems you may use
-'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
-also use any alternate key.`,
-		Exposed:   true,
-		Name:      "LDAPSubjectKey",
-		Orderable: true,
-		Stored:    true,
-		Type:      "string",
 	},
 	"otpenabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1594,44 +1223,6 @@ type SparseAccount struct {
 	// ID is the identifier of the object.
 	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
 
-	// LDAPAddress holds the account authentication account's private ldap server.
-	LDAPAddress *string `json:"LDAPAddress,omitempty" msgpack:"LDAPAddress,omitempty" bson:"ldapaddress,omitempty" mapstructure:"LDAPAddress,omitempty"`
-
-	// LDAPBaseDN holds the base DN to use to ldap queries.
-	LDAPBaseDN *string `json:"LDAPBaseDN,omitempty" msgpack:"LDAPBaseDN,omitempty" bson:"ldapbasedn,omitempty" mapstructure:"LDAPBaseDN,omitempty"`
-
-	// LDAPBindDN holds the account's internal LDAP bind dn for querying auth.
-	LDAPBindDN *string `json:"LDAPBindDN,omitempty" msgpack:"LDAPBindDN,omitempty" bson:"ldapbinddn,omitempty" mapstructure:"LDAPBindDN,omitempty"`
-
-	// LDAPBindPassword holds the password to the LDAPBindDN.
-	LDAPBindPassword *string `json:"LDAPBindPassword,omitempty" msgpack:"LDAPBindPassword,omitempty" bson:"ldapbindpassword,omitempty" mapstructure:"LDAPBindPassword,omitempty"`
-
-	// LDAPBindSearchFilter holds filter to be used to uniquely search a user. For
-	// Windows based systems, value may be `+"`"+`sAMAccountName={USERNAME}`+"`"+`. For Linux and
-	// other systems, value may be `+"`"+`uid={USERNAME}`+"`"+`.
-	LDAPBindSearchFilter *string `json:"LDAPBindSearchFilter,omitempty" msgpack:"LDAPBindSearchFilter,omitempty" bson:"ldapbindsearchfilter,omitempty" mapstructure:"LDAPBindSearchFilter,omitempty"`
-
-	// LDAPCertificateAuthority contains the optional certificate author ity that will
-	// be used to connect to the LDAP server. It is not needed if the TLS certificate
-	// of the LDAP is issued from a public truster CA.
-	LDAPCertificateAuthority *string `json:"LDAPCertificateAuthority,omitempty" msgpack:"LDAPCertificateAuthority,omitempty" bson:"ldapcertificateauthority,omitempty" mapstructure:"LDAPCertificateAuthority,omitempty"`
-
-	// LDAPConnProtocol holds the connection type for the LDAP provider.
-	LDAPConnSecurityProtocol *AccountLDAPConnSecurityProtocolValue `json:"LDAPConnSecurityProtocol,omitempty" msgpack:"LDAPConnSecurityProtocol,omitempty" bson:"ldapconnsecurityprotocol,omitempty" mapstructure:"LDAPConnSecurityProtocol,omitempty"`
-
-	// LDAPEnabled triggers if the account uses it's own LDAP for authentication.
-	LDAPEnabled *bool `json:"LDAPEnabled,omitempty" msgpack:"LDAPEnabled,omitempty" bson:"ldapenabled,omitempty" mapstructure:"LDAPEnabled,omitempty"`
-
-	// LDAPIgnoredKeys holds a list of keys that must not be imported into Aporeto
-	// authorization system.
-	LDAPIgnoredKeys *[]string `json:"LDAPIgnoredKeys,omitempty" msgpack:"LDAPIgnoredKeys,omitempty" bson:"ldapignoredkeys,omitempty" mapstructure:"LDAPIgnoredKeys,omitempty"`
-
-	// LDAPSubjectKey holds key to be used to populate the subject. If you want to
-	// use the user as a subject, for Windows based systems you may use
-	// 'sAMAccountName' and for Linux and other systems, value may be 'uid'. You can
-	// also use any alternate key.
-	LDAPSubjectKey *string `json:"LDAPSubjectKey,omitempty" msgpack:"LDAPSubjectKey,omitempty" bson:"ldapsubjectkey,omitempty" mapstructure:"LDAPSubjectKey,omitempty"`
-
 	// Set to enable or disable two factor authentication.
 	OTPEnabled *bool `json:"OTPEnabled,omitempty" msgpack:"OTPEnabled,omitempty" bson:"otpenabled,omitempty" mapstructure:"OTPEnabled,omitempty"`
 
@@ -1751,36 +1342,6 @@ func (o *SparseAccount) ToPlain() elemental.PlainIdentifiable {
 	out := NewAccount()
 	if o.ID != nil {
 		out.ID = *o.ID
-	}
-	if o.LDAPAddress != nil {
-		out.LDAPAddress = *o.LDAPAddress
-	}
-	if o.LDAPBaseDN != nil {
-		out.LDAPBaseDN = *o.LDAPBaseDN
-	}
-	if o.LDAPBindDN != nil {
-		out.LDAPBindDN = *o.LDAPBindDN
-	}
-	if o.LDAPBindPassword != nil {
-		out.LDAPBindPassword = *o.LDAPBindPassword
-	}
-	if o.LDAPBindSearchFilter != nil {
-		out.LDAPBindSearchFilter = *o.LDAPBindSearchFilter
-	}
-	if o.LDAPCertificateAuthority != nil {
-		out.LDAPCertificateAuthority = *o.LDAPCertificateAuthority
-	}
-	if o.LDAPConnSecurityProtocol != nil {
-		out.LDAPConnSecurityProtocol = *o.LDAPConnSecurityProtocol
-	}
-	if o.LDAPEnabled != nil {
-		out.LDAPEnabled = *o.LDAPEnabled
-	}
-	if o.LDAPIgnoredKeys != nil {
-		out.LDAPIgnoredKeys = *o.LDAPIgnoredKeys
-	}
-	if o.LDAPSubjectKey != nil {
-		out.LDAPSubjectKey = *o.LDAPSubjectKey
 	}
 	if o.OTPEnabled != nil {
 		out.OTPEnabled = *o.OTPEnabled
