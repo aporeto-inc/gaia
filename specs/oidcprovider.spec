@@ -23,6 +23,12 @@ model:
   - '@named'
   - '@zonable'
 
+# Indexes
+indexes:
+- - :unique
+  - namespace
+  - name
+
 # Attributes
 attributes:
   v1:
