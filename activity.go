@@ -177,6 +177,18 @@ func (o *Activity) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetNamespace returns the Namespace of the receiver.
+func (o *Activity) GetNamespace() string {
+
+	return o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the given value.
+func (o *Activity) SetNamespace(namespace string) {
+
+	o.Namespace = namespace
+}
+
 // GetZHash returns the ZHash of the receiver.
 func (o *Activity) GetZHash() int {
 
@@ -483,9 +495,11 @@ var ActivityAttributesMap = map[string]elemental.AttributeSpecification{
 		Description:    `Namespace of the notification.`,
 		Exposed:        true,
 		Filterable:     true,
+		Getter:         true,
 		Name:           "namespace",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -649,9 +663,11 @@ var ActivityLowerCaseAttributesMap = map[string]elemental.AttributeSpecification
 		Description:    `Namespace of the notification.`,
 		Exposed:        true,
 		Filterable:     true,
+		Getter:         true,
 		Name:           "namespace",
 		Orderable:      true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -919,6 +935,18 @@ func (o *SparseActivity) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseActivity) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseActivity) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
 }
 
 // GetZHash returns the ZHash of the receiver.

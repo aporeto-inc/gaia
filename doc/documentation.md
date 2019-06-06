@@ -2644,6 +2644,10 @@ Default value:
 
 Last update date of the object.
 
+##### `zoning` `integer` [`creation_only`]
+
+Defines what zone the namespace should live in.
+
 ### NamespaceMappingPolicy
 
 A Namespace Mapping Policy defines in which namespace a Processing Unit should

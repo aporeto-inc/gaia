@@ -13,11 +13,7 @@ model:
   - '@named'
   - '@timeable'
   - '@identifiable-stored'
-
-# Indexes
-indexes:
-- - :shard
-  - $hashed:_id
+  - '@zonable'
 
 # Attributes
 attributes:

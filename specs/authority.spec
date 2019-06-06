@@ -13,14 +13,15 @@ model:
     description: Deletes the object with the given ID.
     global_parameters:
     - $filtering
+  extends:
+  - '@zonable'
 
 # Indexes
 indexes:
-- - :shard
-  - $hashed:serialNumber
 - - :unique
-  - serialNumber
+  - zHash
 - - commonName
+- - serialNumber
 
 # Attributes
 attributes:

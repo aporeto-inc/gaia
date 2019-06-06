@@ -390,8 +390,9 @@ var (
 		"auditreport":               nil,
 		"auth":                      nil,
 		"authority": [][]string{
-			[]string{":unique", "serialNumber"},
-			[]string{":shard", "$hashed:serialNumber"},
+			[]string{":unique", "zHash"},
+			[]string{":shard", "zone", "zHash"},
+			[]string{"serialNumber"},
 			[]string{"commonName"},
 		},
 		"automation": [][]string{
@@ -569,8 +570,8 @@ var (
 			[]string{"createIdempotencyKey"},
 		},
 		"namespace": [][]string{
-			[]string{":unique", "name"},
-			[]string{":shard", "$hashed:name"},
+			[]string{":unique", "zHash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
 			[]string{"namespace"},
 			[]string{"namespace", "normalizedTags"},
@@ -652,8 +653,8 @@ var (
 		"rendertemplate":  nil,
 		"report":          nil,
 		"revocation": [][]string{
-			[]string{":unique", "serialNumber"},
-			[]string{":shard", "$hashed:serialNumber"},
+			[]string{":unique", "zHash"},
+			[]string{"serialNumber"},
 		},
 		"role": nil,
 		"root": nil,
@@ -677,9 +678,9 @@ var (
 		"servicedependency": nil,
 		"squalltag":         nil,
 		"sshauthority": [][]string{
-			[]string{":shard", "$hashed:_id"},
 			[]string{"namespace", "name"},
 			[]string{"name"},
+			[]string{":shard", "zone", "zHash"},
 		},
 		"sshauthorizationpolicy": nil,
 		"sshcertificate":         nil,

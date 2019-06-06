@@ -12,10 +12,9 @@ model:
 
 # Indexes
 indexes:
-- - :shard
-  - $hashed:serialNumber
 - - :unique
-  - serialNumber
+  - zHash
+- - serialNumber
 
 # Attributes
 attributes:

@@ -26,13 +26,12 @@ model:
   - '@identifiable-stored'
   - '@metadatable'
   - '@timeable'
+  - '@zonable'
 
 # Indexes
 indexes:
-- - :shard
-  - $hashed:name
 - - :unique
-  - name
+  - zHash
 
 # Attributes
 attributes:
@@ -124,3 +123,10 @@ attributes:
     default_value: 1h
     validations:
     - $timeDuration
+
+  - name: zoning
+    description: Defines what zone the namespace should live in.
+    type: integer
+    exposed: true
+    stored: true
+    creation_only: true

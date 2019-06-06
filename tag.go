@@ -148,6 +148,18 @@ func (o *Tag) String() string {
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetNamespace returns the Namespace of the receiver.
+func (o *Tag) GetNamespace() string {
+
+	return o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the given value.
+func (o *Tag) SetNamespace(namespace string) {
+
+	o.Namespace = namespace
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *Tag) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -318,9 +330,11 @@ var TagAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Namespace",
 		Description:    `Namespace represents the namespace of the counted tag.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "namespace",
 		PrimaryKey:     true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -371,9 +385,11 @@ var TagLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 		ConvertedName:  "Namespace",
 		Description:    `Namespace represents the namespace of the counted tag.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "namespace",
 		PrimaryKey:     true,
 		ReadOnly:       true,
+		Setter:         true,
 		Stored:         true,
 		Type:           "string",
 	},
@@ -519,6 +535,18 @@ func (o *SparseTag) ToPlain() elemental.PlainIdentifiable {
 	}
 
 	return out
+}
+
+// GetNamespace returns the Namespace of the receiver.
+func (o *SparseTag) GetNamespace() string {
+
+	return *o.Namespace
+}
+
+// SetNamespace sets the property Namespace of the receiver using the address of the given value.
+func (o *SparseTag) SetNamespace(namespace string) {
+
+	o.Namespace = &namespace
 }
 
 // DeepCopy returns a deep copy if the SparseTag.
