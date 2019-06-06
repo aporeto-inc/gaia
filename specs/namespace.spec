@@ -99,7 +99,6 @@ attributes:
     getter: true
     setter: true
     orderable: true
-    primary_key: true
 
   - name: networkAccessPolicyTags
     description: |-
@@ -130,3 +129,5 @@ attributes:
     exposed: true
     stored: true
     creation_only: true
+    getter: true
+    setter: true

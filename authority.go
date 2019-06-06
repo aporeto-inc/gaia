@@ -106,6 +106,9 @@ type Authority struct {
 	// georedundancy.
 	Zone int `json:"-" msgpack:"-" bson:"zone" mapstructure:"-,omitempty"`
 
+	// Defines what zone the CA should live in.
+	Zoning int `json:"zoning" msgpack:"zoning" bson:"zoning" mapstructure:"zoning,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -182,6 +185,18 @@ func (o *Authority) SetZone(zone int) {
 	o.Zone = zone
 }
 
+// GetZoning returns the Zoning of the receiver.
+func (o *Authority) GetZoning() int {
+
+	return o.Zoning
+}
+
+// SetZoning sets the property Zoning of the receiver using the given value.
+func (o *Authority) SetZoning(zoning int) {
+
+	o.Zoning = zoning
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *Authority) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -197,6 +212,7 @@ func (o *Authority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			SerialNumber:   &o.SerialNumber,
 			ZHash:          &o.ZHash,
 			Zone:           &o.Zone,
+			Zoning:         &o.Zoning,
 		}
 	}
 
@@ -219,6 +235,8 @@ func (o *Authority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ZHash = &(o.ZHash)
 		case "zone":
 			sp.Zone = &(o.Zone)
+		case "zoning":
+			sp.Zoning = &(o.Zoning)
 		}
 	}
 
@@ -255,6 +273,9 @@ func (o *Authority) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Zone != nil {
 		o.Zone = *so.Zone
+	}
+	if so.Zoning != nil {
+		o.Zoning = *so.Zoning
 	}
 }
 
@@ -342,6 +363,8 @@ func (o *Authority) ValueForAttribute(name string) interface{} {
 		return o.ZHash
 	case "zone":
 		return o.Zone
+	case "zoning":
+		return o.Zoning
 	}
 
 	return nil
@@ -439,6 +462,18 @@ georedundancy.`,
 		Stored:   true,
 		Type:     "integer",
 	},
+	"Zoning": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Zoning",
+		CreationOnly:   true,
+		Description:    `Defines what zone the CA should live in.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zoning",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
+	},
 }
 
 // AuthorityLowerCaseAttributesMap represents the map of attribute for Authority.
@@ -533,6 +568,18 @@ georedundancy.`,
 		Stored:   true,
 		Type:     "integer",
 	},
+	"zoning": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Zoning",
+		CreationOnly:   true,
+		Description:    `Defines what zone the CA should live in.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zoning",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
+	},
 }
 
 // SparseAuthoritiesList represents a list of SparseAuthorities
@@ -624,6 +671,9 @@ type SparseAuthority struct {
 	// georedundancy.
 	Zone *int `json:"-" msgpack:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
+	// Defines what zone the CA should live in.
+	Zoning *int `json:"zoning,omitempty" msgpack:"zoning,omitempty" bson:"zoning,omitempty" mapstructure:"zoning,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -687,6 +737,9 @@ func (o *SparseAuthority) ToPlain() elemental.PlainIdentifiable {
 	if o.Zone != nil {
 		out.Zone = *o.Zone
 	}
+	if o.Zoning != nil {
+		out.Zoning = *o.Zoning
+	}
 
 	return out
 }
@@ -713,6 +766,18 @@ func (o *SparseAuthority) GetZone() int {
 func (o *SparseAuthority) SetZone(zone int) {
 
 	o.Zone = &zone
+}
+
+// GetZoning returns the Zoning of the receiver.
+func (o *SparseAuthority) GetZoning() int {
+
+	return *o.Zoning
+}
+
+// SetZoning sets the property Zoning of the receiver using the address of the given value.
+func (o *SparseAuthority) SetZoning(zoning int) {
+
+	o.Zoning = &zoning
 }
 
 // DeepCopy returns a deep copy if the SparseAuthority.

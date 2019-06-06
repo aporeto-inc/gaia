@@ -394,6 +394,18 @@ func (o *Namespace) SetZone(zone int) {
 	o.Zone = zone
 }
 
+// GetZoning returns the Zoning of the receiver.
+func (o *Namespace) GetZoning() int {
+
+	return o.Zoning
+}
+
+// SetZoning sets the property Zoning of the receiver using the given value.
+func (o *Namespace) SetZoning(zoning int) {
+
+	o.Zoning = zoning
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -880,7 +892,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "name",
 		Orderable:      true,
-		PrimaryKey:     true,
 		Required:       true,
 		Setter:         true,
 		Stored:         true,
@@ -897,7 +908,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "namespace",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
@@ -1011,7 +1021,9 @@ georedundancy.`,
 		CreationOnly:   true,
 		Description:    `Defines what zone the namespace should live in.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "zoning",
+		Setter:         true,
 		Stored:         true,
 		Type:           "integer",
 	},
@@ -1186,7 +1198,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "name",
 		Orderable:      true,
-		PrimaryKey:     true,
 		Required:       true,
 		Setter:         true,
 		Stored:         true,
@@ -1203,7 +1214,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "namespace",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
@@ -1317,7 +1327,9 @@ georedundancy.`,
 		CreationOnly:   true,
 		Description:    `Defines what zone the namespace should live in.`,
 		Exposed:        true,
+		Getter:         true,
 		Name:           "zoning",
+		Setter:         true,
 		Stored:         true,
 		Type:           "integer",
 	},
@@ -1749,6 +1761,18 @@ func (o *SparseNamespace) GetZone() int {
 func (o *SparseNamespace) SetZone(zone int) {
 
 	o.Zone = &zone
+}
+
+// GetZoning returns the Zoning of the receiver.
+func (o *SparseNamespace) GetZoning() int {
+
+	return *o.Zoning
+}
+
+// SetZoning sets the property Zoning of the receiver using the address of the given value.
+func (o *SparseNamespace) SetZoning(zoning int) {
+
+	o.Zoning = &zoning
 }
 
 // DeepCopy returns a deep copy if the SparseNamespace.

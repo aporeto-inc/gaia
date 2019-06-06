@@ -50,7 +50,6 @@ attributes:
     getter: true
     setter: true
     orderable: true
-    primary_key: true
 
   - name: normalizedTags
     description: NormalizedTags contains the list of normalized tags of the entities.

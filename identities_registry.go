@@ -653,8 +653,7 @@ var (
 		"rendertemplate":  nil,
 		"report":          nil,
 		"revocation": [][]string{
-			[]string{":unique", "zHash"},
-			[]string{"serialNumber"},
+			[]string{":unique", "serialNumber"},
 		},
 		"role": nil,
 		"root": nil,
@@ -678,9 +677,10 @@ var (
 		"servicedependency": nil,
 		"squalltag":         nil,
 		"sshauthority": [][]string{
+			[]string{":unique", "zHash"},
+			[]string{":shard", "zone", "zHash"},
 			[]string{"namespace", "name"},
 			[]string{"name"},
-			[]string{":shard", "zone", "zHash"},
 		},
 		"sshauthorizationpolicy": nil,
 		"sshcertificate":         nil,

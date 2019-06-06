@@ -122,6 +122,9 @@ type SSHAuthority struct {
 	// georedundancy.
 	Zone int `json:"-" msgpack:"-" bson:"zone" mapstructure:"-,omitempty"`
 
+	// Defines what zone the SSH CA should live in.
+	Zoning int `json:"zoning" msgpack:"zoning" bson:"zoning" mapstructure:"zoning,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -237,6 +240,18 @@ func (o *SSHAuthority) SetZone(zone int) {
 	o.Zone = zone
 }
 
+// GetZoning returns the Zoning of the receiver.
+func (o *SSHAuthority) GetZoning() int {
+
+	return o.Zoning
+}
+
+// SetZoning sets the property Zoning of the receiver using the given value.
+func (o *SSHAuthority) SetZoning(zoning int) {
+
+	o.Zoning = zoning
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *SSHAuthority) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -253,6 +268,7 @@ func (o *SSHAuthority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			UpdateTime: &o.UpdateTime,
 			ZHash:      &o.ZHash,
 			Zone:       &o.Zone,
+			Zoning:     &o.Zoning,
 		}
 	}
 
@@ -277,6 +293,8 @@ func (o *SSHAuthority) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.ZHash = &(o.ZHash)
 		case "zone":
 			sp.Zone = &(o.Zone)
+		case "zoning":
+			sp.Zoning = &(o.Zoning)
 		}
 	}
 
@@ -316,6 +334,9 @@ func (o *SSHAuthority) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Zone != nil {
 		o.Zone = *so.Zone
+	}
+	if so.Zoning != nil {
+		o.Zoning = *so.Zoning
 	}
 }
 
@@ -413,6 +434,8 @@ func (o *SSHAuthority) ValueForAttribute(name string) interface{} {
 		return o.ZHash
 	case "zone":
 		return o.Zone
+	case "zoning":
+		return o.Zoning
 	}
 
 	return nil
@@ -535,6 +558,18 @@ georedundancy.`,
 		Stored:   true,
 		Type:     "integer",
 	},
+	"Zoning": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Zoning",
+		CreationOnly:   true,
+		Description:    `Defines what zone the SSH CA should live in.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zoning",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
+	},
 }
 
 // SSHAuthorityLowerCaseAttributesMap represents the map of attribute for SSHAuthority.
@@ -654,6 +689,18 @@ georedundancy.`,
 		Stored:   true,
 		Type:     "integer",
 	},
+	"zoning": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Zoning",
+		CreationOnly:   true,
+		Description:    `Defines what zone the SSH CA should live in.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zoning",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
+	},
 }
 
 // SparseSSHAuthoritiesList represents a list of SparseSSHAuthorities
@@ -750,6 +797,9 @@ type SparseSSHAuthority struct {
 	// georedundancy.
 	Zone *int `json:"-" msgpack:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
+	// Defines what zone the SSH CA should live in.
+	Zoning *int `json:"zoning,omitempty" msgpack:"zoning,omitempty" bson:"zoning,omitempty" mapstructure:"zoning,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -816,6 +866,9 @@ func (o *SparseSSHAuthority) ToPlain() elemental.PlainIdentifiable {
 	if o.Zone != nil {
 		out.Zone = *o.Zone
 	}
+	if o.Zoning != nil {
+		out.Zoning = *o.Zoning
+	}
 
 	return out
 }
@@ -878,6 +931,18 @@ func (o *SparseSSHAuthority) GetZone() int {
 func (o *SparseSSHAuthority) SetZone(zone int) {
 
 	o.Zone = &zone
+}
+
+// GetZoning returns the Zoning of the receiver.
+func (o *SparseSSHAuthority) GetZoning() int {
+
+	return *o.Zoning
+}
+
+// SetZoning sets the property Zoning of the receiver using the address of the given value.
+func (o *SparseSSHAuthority) SetZoning(zoning int) {
+
+	o.Zoning = &zoning
 }
 
 // DeepCopy returns a deep copy if the SparseSSHAuthority.
