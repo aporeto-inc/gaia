@@ -2910,7 +2910,7 @@ Subject represent sets of entities that will have a dependency other entities.
 Subjects are defined as logical operations on tags. Logical operations can
 includes AND/OR.
 
-##### `type` `emum(APIAuthorization | AuditProfileMapping | EnforcerProfile | File | Hook | HostServiceMapping | NamespaceMapping | Network | ProcessingUnit | Quota | Service | ServiceDependency | Syscall | TokenScope | SSHAuthorization)` [`creation_only`]
+##### `type` `emum(APIAuthorization | AuditProfileMapping | EnforcerProfile | File | Hook | HostServiceMapping | Infrastructure | NamespaceMapping | Network | ProcessingUnit | Quota | Service | ServiceDependency | Syscall | TokenScope | SSHAuthorization)` [`creation_only`]
 
 Type of the policy.
 
@@ -6995,14 +6995,10 @@ identified by their tags to talk to other processing units or external services
   "action": "Allow",
   "applyPolicyMode": "Bidirectional",
   "disabled": false,
-  "encryptionEnabled": false,
   "fallback": false,
-  "logsEnabled": false,
   "name": "the name",
   "negateObject": false,
   "negateSubject": false,
-  "observationEnabled": false,
-  "observedTrafficAction": "Continue",
   "propagate": false,
   "protected": false
 }
@@ -7112,10 +7108,6 @@ Description is the description of the object.
 
 Disabled defines if the propert is disabled.
 
-##### `encryptionEnabled` `boolean`
-
-EncryptionEnabled defines if the flow has to be encrypted.
-
 ##### `expirationTime` `time`
 
 If set the policy will be auto deleted after the given time.
@@ -7125,10 +7117,6 @@ If set the policy will be auto deleted after the given time.
 Fallback indicates that this is fallback policy. It will only be
 applied if no other policies have been resolved. If the policy is also
 propagated it will become a fallback for children namespaces.
-
-##### `logsEnabled` `boolean`
-
-LogsEnabled defines if the flow has to be logged.
 
 ##### `metadata` `[]string` [`creation_only`]
 
@@ -7158,21 +7146,6 @@ NormalizedTags contains the list of normalized tags of the entities.
 ##### `object` `[][]string`
 
 Object of the policy.
-
-##### `observationEnabled` `boolean`
-
-If set to true, the flow will be in observation mode.
-
-##### `observedTrafficAction` `emum(Apply | Continue)`
-
-If observationEnabled is set to true, this will be the final action taken on the
-packets.
-
-Default value:
-
-```json
-"Continue"
-```
 
 ##### `propagate` `boolean`
 

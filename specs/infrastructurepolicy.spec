@@ -69,12 +69,6 @@ attributes:
     default_value: Bidirectional
     orderable: true
 
-  - name: encryptionEnabled
-    description: EncryptionEnabled defines if the flow has to be encrypted.
-    type: boolean
-    exposed: true
-    orderable: true
-
   - name: expirationTime
     description: If set the policy will be auto deleted after the given time.
     type: time
@@ -82,12 +76,6 @@ attributes:
     stored: true
     getter: true
     setter: true
-
-  - name: logsEnabled
-    description: LogsEnabled defines if the flow has to be logged.
-    type: boolean
-    exposed: true
-    orderable: true
 
   - name: object
     description: Object of the policy.
@@ -97,24 +85,6 @@ attributes:
     orderable: true
     validations:
     - $tagsExpression
-
-  - name: observationEnabled
-    description: If set to true, the flow will be in observation mode.
-    type: boolean
-    exposed: true
-    orderable: true
-
-  - name: observedTrafficAction
-    description: |-
-      If observationEnabled is set to true, this will be the final action taken on the
-      packets.
-    type: enum
-    exposed: true
-    allowed_choices:
-    - Apply
-    - Continue
-    default_value: Continue
-    orderable: true
 
   - name: subject
     description: Subject of the policy.

@@ -36,17 +36,6 @@ const (
 	InfrastructurePolicyApplyPolicyModeOutgoingTraffic InfrastructurePolicyApplyPolicyModeValue = "OutgoingTraffic"
 )
 
-// InfrastructurePolicyObservedTrafficActionValue represents the possible values for attribute "observedTrafficAction".
-type InfrastructurePolicyObservedTrafficActionValue string
-
-const (
-	// InfrastructurePolicyObservedTrafficActionApply represents the value Apply.
-	InfrastructurePolicyObservedTrafficActionApply InfrastructurePolicyObservedTrafficActionValue = "Apply"
-
-	// InfrastructurePolicyObservedTrafficActionContinue represents the value Continue.
-	InfrastructurePolicyObservedTrafficActionContinue InfrastructurePolicyObservedTrafficActionValue = "Continue"
-)
-
 // InfrastructurePolicyIdentity represents the Identity of the object.
 var InfrastructurePolicyIdentity = elemental.Identity{
 	Name:     "infrastructurepolicy",
@@ -159,9 +148,6 @@ type InfrastructurePolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
 
-	// EncryptionEnabled defines if the flow has to be encrypted.
-	EncryptionEnabled bool `json:"encryptionEnabled" msgpack:"encryptionEnabled" bson:"-" mapstructure:"encryptionEnabled,omitempty"`
-
 	// If set the policy will be auto deleted after the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
@@ -169,9 +155,6 @@ type InfrastructurePolicy struct {
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
-
-	// LogsEnabled defines if the flow has to be logged.
-	LogsEnabled bool `json:"logsEnabled" msgpack:"logsEnabled" bson:"-" mapstructure:"logsEnabled,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -194,13 +177,6 @@ type InfrastructurePolicy struct {
 
 	// Object of the policy.
 	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
-
-	// If set to true, the flow will be in observation mode.
-	ObservationEnabled bool `json:"observationEnabled" msgpack:"observationEnabled" bson:"-" mapstructure:"observationEnabled,omitempty"`
-
-	// If observationEnabled is set to true, this will be the final action taken on the
-	// packets.
-	ObservedTrafficAction InfrastructurePolicyObservedTrafficActionValue `json:"observedTrafficAction" msgpack:"observedTrafficAction" bson:"-" mapstructure:"observedTrafficAction,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
@@ -232,16 +208,15 @@ type InfrastructurePolicy struct {
 func NewInfrastructurePolicy() *InfrastructurePolicy {
 
 	return &InfrastructurePolicy{
-		ModelVersion:          1,
-		Action:                InfrastructurePolicyActionAllow,
-		AssociatedTags:        []string{},
-		Annotations:           map[string][]string{},
-		ApplyPolicyMode:       InfrastructurePolicyApplyPolicyModeBidirectional,
-		Metadata:              []string{},
-		ObservedTrafficAction: InfrastructurePolicyObservedTrafficActionContinue,
-		NormalizedTags:        []string{},
-		Object:                [][]string{},
-		Subject:               [][]string{},
+		ModelVersion:    1,
+		Action:          InfrastructurePolicyActionAllow,
+		AssociatedTags:  []string{},
+		Annotations:     map[string][]string{},
+		ApplyPolicyMode: InfrastructurePolicyApplyPolicyModeBidirectional,
+		Metadata:        []string{},
+		NormalizedTags:  []string{},
+		Object:          [][]string{},
+		Subject:         [][]string{},
 	}
 }
 
@@ -562,37 +537,33 @@ func (o *InfrastructurePolicy) ToSparse(fields ...string) elemental.SparseIdenti
 	if len(fields) == 0 {
 		// nolint: goimports
 		return &SparseInfrastructurePolicy{
-			ID:                    &o.ID,
-			Action:                &o.Action,
-			ActiveDuration:        &o.ActiveDuration,
-			ActiveSchedule:        &o.ActiveSchedule,
-			Annotations:           &o.Annotations,
-			ApplyPolicyMode:       &o.ApplyPolicyMode,
-			AssociatedTags:        &o.AssociatedTags,
-			CreateIdempotencyKey:  &o.CreateIdempotencyKey,
-			CreateTime:            &o.CreateTime,
-			Description:           &o.Description,
-			Disabled:              &o.Disabled,
-			EncryptionEnabled:     &o.EncryptionEnabled,
-			ExpirationTime:        &o.ExpirationTime,
-			Fallback:              &o.Fallback,
-			LogsEnabled:           &o.LogsEnabled,
-			Metadata:              &o.Metadata,
-			Name:                  &o.Name,
-			Namespace:             &o.Namespace,
-			NegateObject:          &o.NegateObject,
-			NegateSubject:         &o.NegateSubject,
-			NormalizedTags:        &o.NormalizedTags,
-			Object:                &o.Object,
-			ObservationEnabled:    &o.ObservationEnabled,
-			ObservedTrafficAction: &o.ObservedTrafficAction,
-			Propagate:             &o.Propagate,
-			Protected:             &o.Protected,
-			Subject:               &o.Subject,
-			UpdateIdempotencyKey:  &o.UpdateIdempotencyKey,
-			UpdateTime:            &o.UpdateTime,
-			ZHash:                 &o.ZHash,
-			Zone:                  &o.Zone,
+			ID:                   &o.ID,
+			Action:               &o.Action,
+			ActiveDuration:       &o.ActiveDuration,
+			ActiveSchedule:       &o.ActiveSchedule,
+			Annotations:          &o.Annotations,
+			ApplyPolicyMode:      &o.ApplyPolicyMode,
+			AssociatedTags:       &o.AssociatedTags,
+			CreateIdempotencyKey: &o.CreateIdempotencyKey,
+			CreateTime:           &o.CreateTime,
+			Description:          &o.Description,
+			Disabled:             &o.Disabled,
+			ExpirationTime:       &o.ExpirationTime,
+			Fallback:             &o.Fallback,
+			Metadata:             &o.Metadata,
+			Name:                 &o.Name,
+			Namespace:            &o.Namespace,
+			NegateObject:         &o.NegateObject,
+			NegateSubject:        &o.NegateSubject,
+			NormalizedTags:       &o.NormalizedTags,
+			Object:               &o.Object,
+			Propagate:            &o.Propagate,
+			Protected:            &o.Protected,
+			Subject:              &o.Subject,
+			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
+			UpdateTime:           &o.UpdateTime,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
@@ -621,14 +592,10 @@ func (o *InfrastructurePolicy) ToSparse(fields ...string) elemental.SparseIdenti
 			sp.Description = &(o.Description)
 		case "disabled":
 			sp.Disabled = &(o.Disabled)
-		case "encryptionEnabled":
-			sp.EncryptionEnabled = &(o.EncryptionEnabled)
 		case "expirationTime":
 			sp.ExpirationTime = &(o.ExpirationTime)
 		case "fallback":
 			sp.Fallback = &(o.Fallback)
-		case "logsEnabled":
-			sp.LogsEnabled = &(o.LogsEnabled)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "name":
@@ -643,10 +610,6 @@ func (o *InfrastructurePolicy) ToSparse(fields ...string) elemental.SparseIdenti
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "object":
 			sp.Object = &(o.Object)
-		case "observationEnabled":
-			sp.ObservationEnabled = &(o.ObservationEnabled)
-		case "observedTrafficAction":
-			sp.ObservedTrafficAction = &(o.ObservedTrafficAction)
 		case "propagate":
 			sp.Propagate = &(o.Propagate)
 		case "protected":
@@ -707,17 +670,11 @@ func (o *InfrastructurePolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Disabled != nil {
 		o.Disabled = *so.Disabled
 	}
-	if so.EncryptionEnabled != nil {
-		o.EncryptionEnabled = *so.EncryptionEnabled
-	}
 	if so.ExpirationTime != nil {
 		o.ExpirationTime = *so.ExpirationTime
 	}
 	if so.Fallback != nil {
 		o.Fallback = *so.Fallback
-	}
-	if so.LogsEnabled != nil {
-		o.LogsEnabled = *so.LogsEnabled
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -739,12 +696,6 @@ func (o *InfrastructurePolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Object != nil {
 		o.Object = *so.Object
-	}
-	if so.ObservationEnabled != nil {
-		o.ObservationEnabled = *so.ObservationEnabled
-	}
-	if so.ObservedTrafficAction != nil {
-		o.ObservedTrafficAction = *so.ObservedTrafficAction
 	}
 	if so.Propagate != nil {
 		o.Propagate = *so.Propagate
@@ -835,10 +786,6 @@ func (o *InfrastructurePolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("observedTrafficAction", string(o.ObservedTrafficAction), []string{"Apply", "Continue"}, false); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if err := ValidateTagsExpression("subject", o.Subject); err != nil {
 		errors = errors.Append(err)
 	}
@@ -899,14 +846,10 @@ func (o *InfrastructurePolicy) ValueForAttribute(name string) interface{} {
 		return o.Description
 	case "disabled":
 		return o.Disabled
-	case "encryptionEnabled":
-		return o.EncryptionEnabled
 	case "expirationTime":
 		return o.ExpirationTime
 	case "fallback":
 		return o.Fallback
-	case "logsEnabled":
-		return o.LogsEnabled
 	case "metadata":
 		return o.Metadata
 	case "name":
@@ -921,10 +864,6 @@ func (o *InfrastructurePolicy) ValueForAttribute(name string) interface{} {
 		return o.NormalizedTags
 	case "object":
 		return o.Object
-	case "observationEnabled":
-		return o.ObservationEnabled
-	case "observedTrafficAction":
-		return o.ObservedTrafficAction
 	case "propagate":
 		return o.Propagate
 	case "protected":
@@ -1081,15 +1020,6 @@ Default is both directions.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"EncryptionEnabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "EncryptionEnabled",
-		Description:    `EncryptionEnabled defines if the flow has to be encrypted.`,
-		Exposed:        true,
-		Name:           "encryptionEnabled",
-		Orderable:      true,
-		Type:           "boolean",
-	},
 	"ExpirationTime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
@@ -1114,15 +1044,6 @@ propagated it will become a fallback for children namespaces.`,
 		Setter:    true,
 		Stored:    true,
 		Type:      "boolean",
-	},
-	"LogsEnabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LogsEnabled",
-		Description:    `LogsEnabled defines if the flow has to be logged.`,
-		Exposed:        true,
-		Name:           "logsEnabled",
-		Orderable:      true,
-		Type:           "boolean",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1218,26 +1139,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Orderable:      true,
 		SubType:        "[][]string",
 		Type:           "external",
-	},
-	"ObservationEnabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ObservationEnabled",
-		Description:    `If set to true, the flow will be in observation mode.`,
-		Exposed:        true,
-		Name:           "observationEnabled",
-		Orderable:      true,
-		Type:           "boolean",
-	},
-	"ObservedTrafficAction": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Apply", "Continue"},
-		ConvertedName:  "ObservedTrafficAction",
-		DefaultValue:   InfrastructurePolicyObservedTrafficActionContinue,
-		Description: `If observationEnabled is set to true, this will be the final action taken on the
-packets.`,
-		Exposed:   true,
-		Name:      "observedTrafficAction",
-		Orderable: true,
-		Type:      "enum",
 	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1464,15 +1365,6 @@ Default is both directions.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
-	"encryptionenabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "EncryptionEnabled",
-		Description:    `EncryptionEnabled defines if the flow has to be encrypted.`,
-		Exposed:        true,
-		Name:           "encryptionEnabled",
-		Orderable:      true,
-		Type:           "boolean",
-	},
 	"expirationtime": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ExpirationTime",
@@ -1497,15 +1389,6 @@ propagated it will become a fallback for children namespaces.`,
 		Setter:    true,
 		Stored:    true,
 		Type:      "boolean",
-	},
-	"logsenabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "LogsEnabled",
-		Description:    `LogsEnabled defines if the flow has to be logged.`,
-		Exposed:        true,
-		Name:           "logsEnabled",
-		Orderable:      true,
-		Type:           "boolean",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1601,26 +1484,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Orderable:      true,
 		SubType:        "[][]string",
 		Type:           "external",
-	},
-	"observationenabled": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "ObservationEnabled",
-		Description:    `If set to true, the flow will be in observation mode.`,
-		Exposed:        true,
-		Name:           "observationEnabled",
-		Orderable:      true,
-		Type:           "boolean",
-	},
-	"observedtrafficaction": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Apply", "Continue"},
-		ConvertedName:  "ObservedTrafficAction",
-		DefaultValue:   InfrastructurePolicyObservedTrafficActionContinue,
-		Description: `If observationEnabled is set to true, this will be the final action taken on the
-packets.`,
-		Exposed:   true,
-		Name:      "observedTrafficAction",
-		Orderable: true,
-		Type:      "enum",
 	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1813,9 +1676,6 @@ type SparseInfrastructurePolicy struct {
 	// Disabled defines if the propert is disabled.
 	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
 
-	// EncryptionEnabled defines if the flow has to be encrypted.
-	EncryptionEnabled *bool `json:"encryptionEnabled,omitempty" msgpack:"encryptionEnabled,omitempty" bson:"-" mapstructure:"encryptionEnabled,omitempty"`
-
 	// If set the policy will be auto deleted after the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
@@ -1823,9 +1683,6 @@ type SparseInfrastructurePolicy struct {
 	// applied if no other policies have been resolved. If the policy is also
 	// propagated it will become a fallback for children namespaces.
 	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
-
-	// LogsEnabled defines if the flow has to be logged.
-	LogsEnabled *bool `json:"logsEnabled,omitempty" msgpack:"logsEnabled,omitempty" bson:"-" mapstructure:"logsEnabled,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -1848,13 +1705,6 @@ type SparseInfrastructurePolicy struct {
 
 	// Object of the policy.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
-
-	// If set to true, the flow will be in observation mode.
-	ObservationEnabled *bool `json:"observationEnabled,omitempty" msgpack:"observationEnabled,omitempty" bson:"-" mapstructure:"observationEnabled,omitempty"`
-
-	// If observationEnabled is set to true, this will be the final action taken on the
-	// packets.
-	ObservedTrafficAction *InfrastructurePolicyObservedTrafficActionValue `json:"observedTrafficAction,omitempty" msgpack:"observedTrafficAction,omitempty" bson:"-" mapstructure:"observedTrafficAction,omitempty"`
 
 	// Propagate will propagate the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
@@ -1951,17 +1801,11 @@ func (o *SparseInfrastructurePolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.Disabled != nil {
 		out.Disabled = *o.Disabled
 	}
-	if o.EncryptionEnabled != nil {
-		out.EncryptionEnabled = *o.EncryptionEnabled
-	}
 	if o.ExpirationTime != nil {
 		out.ExpirationTime = *o.ExpirationTime
 	}
 	if o.Fallback != nil {
 		out.Fallback = *o.Fallback
-	}
-	if o.LogsEnabled != nil {
-		out.LogsEnabled = *o.LogsEnabled
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
@@ -1983,12 +1827,6 @@ func (o *SparseInfrastructurePolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Object != nil {
 		out.Object = *o.Object
-	}
-	if o.ObservationEnabled != nil {
-		out.ObservationEnabled = *o.ObservationEnabled
-	}
-	if o.ObservedTrafficAction != nil {
-		out.ObservedTrafficAction = *o.ObservedTrafficAction
 	}
 	if o.Propagate != nil {
 		out.Propagate = *o.Propagate
