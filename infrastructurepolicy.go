@@ -15,9 +15,6 @@ const (
 	// InfrastructurePolicyActionAllow represents the value Allow.
 	InfrastructurePolicyActionAllow InfrastructurePolicyActionValue = "Allow"
 
-	// InfrastructurePolicyActionContinue represents the value Continue.
-	InfrastructurePolicyActionContinue InfrastructurePolicyActionValue = "Continue"
-
 	// InfrastructurePolicyActionReject represents the value Reject.
 	InfrastructurePolicyActionReject InfrastructurePolicyActionValue = "Reject"
 )
@@ -26,9 +23,6 @@ const (
 type InfrastructurePolicyApplyPolicyModeValue string
 
 const (
-	// InfrastructurePolicyApplyPolicyModeBidirectional represents the value Bidirectional.
-	InfrastructurePolicyApplyPolicyModeBidirectional InfrastructurePolicyApplyPolicyModeValue = "Bidirectional"
-
 	// InfrastructurePolicyApplyPolicyModeIncomingTraffic represents the value IncomingTraffic.
 	InfrastructurePolicyApplyPolicyModeIncomingTraffic InfrastructurePolicyApplyPolicyModeValue = "IncomingTraffic"
 
@@ -212,7 +206,7 @@ func NewInfrastructurePolicy() *InfrastructurePolicy {
 		Action:          InfrastructurePolicyActionAllow,
 		AssociatedTags:  []string{},
 		Annotations:     map[string][]string{},
-		ApplyPolicyMode: InfrastructurePolicyApplyPolicyModeBidirectional,
+		ApplyPolicyMode: InfrastructurePolicyApplyPolicyModeOutgoingTraffic,
 		Metadata:        []string{},
 		NormalizedTags:  []string{},
 		Object:          [][]string{},
@@ -256,9 +250,11 @@ func (o *InfrastructurePolicy) DefaultOrder() []string {
 // Doc returns the documentation for the object
 func (o *InfrastructurePolicy) Doc() string {
 
-	return `Allows defining infrastructure policies to allow or prevent processing units
-identified by their tags to talk to other processing units or external services
-(also identified by their tags).`
+	return `Infrastructure policies capture the network access rules of the underlying
+infrastructure and can be used to model cloud security groups, firewalls or
+other ACL based mechanisms. They are not used in the identity-based network
+authorization of Aporeto, but they can affect traffic flows in the underlying
+infrastructure.`
 }
 
 func (o *InfrastructurePolicy) String() string {
@@ -750,7 +746,7 @@ func (o *InfrastructurePolicy) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Allow", "Reject", "Continue"}, false); err != nil {
+	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Allow", "Reject"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -758,7 +754,7 @@ func (o *InfrastructurePolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("applyPolicyMode", string(o.ApplyPolicyMode), []string{"OutgoingTraffic", "IncomingTraffic", "Bidirectional"}, false); err != nil {
+	if err := elemental.ValidateStringInList("applyPolicyMode", string(o.ApplyPolicyMode), []string{"OutgoingTraffic", "IncomingTraffic"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -899,7 +895,7 @@ var InfrastructurePolicyAttributesMap = map[string]elemental.AttributeSpecificat
 		Type:           "string",
 	},
 	"Action": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Allow", "Reject", "Continue"},
+		AllowedChoices: []string{"Allow", "Reject"},
 		ConvertedName:  "Action",
 		DefaultValue:   InfrastructurePolicyActionAllow,
 		Description:    `Action defines the action to apply to a flow.`,
@@ -946,9 +942,9 @@ The policy will be active for the given activeDuration.`,
 		Type:           "external",
 	},
 	"ApplyPolicyMode": elemental.AttributeSpecification{
-		AllowedChoices: []string{"OutgoingTraffic", "IncomingTraffic", "Bidirectional"},
+		AllowedChoices: []string{"OutgoingTraffic", "IncomingTraffic"},
 		ConvertedName:  "ApplyPolicyMode",
-		DefaultValue:   InfrastructurePolicyApplyPolicyModeBidirectional,
+		DefaultValue:   InfrastructurePolicyApplyPolicyModeOutgoingTraffic,
 		Description: `applyPolicyMode determines if the policy has to be applied to the
 outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
 Default is both directions.`,
@@ -1244,7 +1240,7 @@ var InfrastructurePolicyLowerCaseAttributesMap = map[string]elemental.AttributeS
 		Type:           "string",
 	},
 	"action": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Allow", "Reject", "Continue"},
+		AllowedChoices: []string{"Allow", "Reject"},
 		ConvertedName:  "Action",
 		DefaultValue:   InfrastructurePolicyActionAllow,
 		Description:    `Action defines the action to apply to a flow.`,
@@ -1291,9 +1287,9 @@ The policy will be active for the given activeDuration.`,
 		Type:           "external",
 	},
 	"applypolicymode": elemental.AttributeSpecification{
-		AllowedChoices: []string{"OutgoingTraffic", "IncomingTraffic", "Bidirectional"},
+		AllowedChoices: []string{"OutgoingTraffic", "IncomingTraffic"},
 		ConvertedName:  "ApplyPolicyMode",
-		DefaultValue:   InfrastructurePolicyApplyPolicyModeBidirectional,
+		DefaultValue:   InfrastructurePolicyApplyPolicyModeOutgoingTraffic,
 		Description: `applyPolicyMode determines if the policy has to be applied to the
 outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
 Default is both directions.`,

@@ -6,9 +6,11 @@ model:
   package: squall
   group: policy/networking
   description: |-
-    Allows defining infrastructure policies to allow or prevent processing units
-    identified by their tags to talk to other processing units or external services
-    (also identified by their tags).
+    Infrastructure policies capture the network access rules of the underlying
+    infrastructure and can be used to model cloud security groups, firewalls or
+    other ACL based mechanisms. They are not used in the identity-based network
+    authorization of Aporeto, but they can affect traffic flows in the underlying
+    infrastructure.
   aliases:
   - infrapol
   - infrapols
@@ -51,7 +53,6 @@ attributes:
     allowed_choices:
     - Allow
     - Reject
-    - Continue
     default_value: Allow
     orderable: true
 
@@ -65,8 +66,7 @@ attributes:
     allowed_choices:
     - OutgoingTraffic
     - IncomingTraffic
-    - Bidirectional
-    default_value: Bidirectional
+    default_value: OutgoingTraffic
     orderable: true
 
   - name: expirationTime

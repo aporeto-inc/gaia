@@ -6496,7 +6496,7 @@ Last update date of the object.
 | [Claims](#claims)                             | This API represents the claims that accessed a service.                             |
 | [ExternalNetwork](#externalnetwork)           | An External Network represents a random network or ip that is not managed by the... |
 | [FlowReport](#flowreport)                     | Post a new flow statistics report.                                                  |
-| [InfrastructurePolicy](#infrastructurepolicy) | Allows defining infrastructure policies to allow or prevent processing units        |
+| [InfrastructurePolicy](#infrastructurepolicy) | Infrastructure policies capture the network access rules of the underlying          |
 | [NetworkAccessPolicy](#networkaccesspolicy)   | Allows to define networking policies to allow or prevent processing units           |
 
 ### Claims
@@ -6901,16 +6901,18 @@ Number of flows in the report.
 
 ### InfrastructurePolicy
 
-Allows defining infrastructure policies to allow or prevent processing units
-identified by their tags to talk to other processing units or external services
-(also identified by their tags).
+Infrastructure policies capture the network access rules of the underlying
+infrastructure and can be used to model cloud security groups, firewalls or
+other ACL based mechanisms. They are not used in the identity-based network
+authorization of Aporeto, but they can affect traffic flows in the underlying
+infrastructure.
 
 #### Example
 
 ```json
 {
   "action": "Allow",
-  "applyPolicyMode": "Bidirectional",
+  "applyPolicyMode": "OutgoingTraffic",
   "disabled": false,
   "fallback": false,
   "name": "the name",
@@ -6986,7 +6988,7 @@ Parameters:
 
 ID is the identifier of the object.
 
-##### `action` `emum(Allow | Reject | Continue)`
+##### `action` `emum(Allow | Reject)`
 
 Action defines the action to apply to a flow.
 
@@ -7010,7 +7012,7 @@ The policy will be active for the given activeDuration.
 
 Annotation stores additional information about an entity.
 
-##### `applyPolicyMode` `emum(OutgoingTraffic | IncomingTraffic | Bidirectional)`
+##### `applyPolicyMode` `emum(OutgoingTraffic | IncomingTraffic)`
 
 applyPolicyMode determines if the policy has to be applied to the
 outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
@@ -7019,7 +7021,7 @@ Default is both directions.
 Default value:
 
 ```json
-"Bidirectional"
+"OutgoingTraffic"
 ```
 
 ##### `associatedTags` `[]string`
