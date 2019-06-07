@@ -34,8 +34,6 @@ model:
   - '@propagated'
   - '@fallback'
   - '@schedulable'
-  - '@negatable-object'
-  - '@negatable-subject'
   - '@zonable'
   - '@timeable'
 

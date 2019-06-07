@@ -160,12 +160,6 @@ type InfrastructurePolicy struct {
 	// Namespace tag attached to an entity.
 	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
 
-	// Setting this to true will invert the object to find what is not matching.
-	NegateObject bool `json:"negateObject" msgpack:"negateObject" bson:"negateobject" mapstructure:"negateObject,omitempty"`
-
-	// Setting this to true will invert the subject to find what is not matching.
-	NegateSubject bool `json:"negateSubject" msgpack:"negateSubject" bson:"negatesubject" mapstructure:"negateSubject,omitempty"`
-
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
@@ -418,30 +412,6 @@ func (o *InfrastructurePolicy) SetNamespace(namespace string) {
 	o.Namespace = namespace
 }
 
-// GetNegateObject returns the NegateObject of the receiver.
-func (o *InfrastructurePolicy) GetNegateObject() bool {
-
-	return o.NegateObject
-}
-
-// SetNegateObject sets the property NegateObject of the receiver using the given value.
-func (o *InfrastructurePolicy) SetNegateObject(negateObject bool) {
-
-	o.NegateObject = negateObject
-}
-
-// GetNegateSubject returns the NegateSubject of the receiver.
-func (o *InfrastructurePolicy) GetNegateSubject() bool {
-
-	return o.NegateSubject
-}
-
-// SetNegateSubject sets the property NegateSubject of the receiver using the given value.
-func (o *InfrastructurePolicy) SetNegateSubject(negateSubject bool) {
-
-	o.NegateSubject = negateSubject
-}
-
 // GetNormalizedTags returns the NormalizedTags of the receiver.
 func (o *InfrastructurePolicy) GetNormalizedTags() []string {
 
@@ -549,8 +519,6 @@ func (o *InfrastructurePolicy) ToSparse(fields ...string) elemental.SparseIdenti
 			Metadata:             &o.Metadata,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
-			NegateObject:         &o.NegateObject,
-			NegateSubject:        &o.NegateSubject,
 			NormalizedTags:       &o.NormalizedTags,
 			Object:               &o.Object,
 			Propagate:            &o.Propagate,
@@ -598,10 +566,6 @@ func (o *InfrastructurePolicy) ToSparse(fields ...string) elemental.SparseIdenti
 			sp.Name = &(o.Name)
 		case "namespace":
 			sp.Namespace = &(o.Namespace)
-		case "negateObject":
-			sp.NegateObject = &(o.NegateObject)
-		case "negateSubject":
-			sp.NegateSubject = &(o.NegateSubject)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "object":
@@ -680,12 +644,6 @@ func (o *InfrastructurePolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Namespace != nil {
 		o.Namespace = *so.Namespace
-	}
-	if so.NegateObject != nil {
-		o.NegateObject = *so.NegateObject
-	}
-	if so.NegateSubject != nil {
-		o.NegateSubject = *so.NegateSubject
 	}
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
@@ -852,10 +810,6 @@ func (o *InfrastructurePolicy) ValueForAttribute(name string) interface{} {
 		return o.Name
 	case "namespace":
 		return o.Namespace
-	case "negateObject":
-		return o.NegateObject
-	case "negateSubject":
-		return o.NegateSubject
 	case "normalizedTags":
 		return o.NormalizedTags
 	case "object":
@@ -1088,28 +1042,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "string",
-	},
-	"NegateObject": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "NegateObject",
-		Description:    `Setting this to true will invert the object to find what is not matching.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "negateObject",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
-	"NegateSubject": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "NegateSubject",
-		Description:    `Setting this to true will invert the subject to find what is not matching.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "negateSubject",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"NormalizedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1434,28 +1366,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"negateobject": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "NegateObject",
-		Description:    `Setting this to true will invert the object to find what is not matching.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "negateObject",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
-	"negatesubject": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "NegateSubject",
-		Description:    `Setting this to true will invert the subject to find what is not matching.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "negateSubject",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
-	},
 	"normalizedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -1690,12 +1600,6 @@ type SparseInfrastructurePolicy struct {
 	// Namespace tag attached to an entity.
 	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
 
-	// Setting this to true will invert the object to find what is not matching.
-	NegateObject *bool `json:"negateObject,omitempty" msgpack:"negateObject,omitempty" bson:"negateobject,omitempty" mapstructure:"negateObject,omitempty"`
-
-	// Setting this to true will invert the subject to find what is not matching.
-	NegateSubject *bool `json:"negateSubject,omitempty" msgpack:"negateSubject,omitempty" bson:"negatesubject,omitempty" mapstructure:"negateSubject,omitempty"`
-
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
@@ -1811,12 +1715,6 @@ func (o *SparseInfrastructurePolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Namespace != nil {
 		out.Namespace = *o.Namespace
-	}
-	if o.NegateObject != nil {
-		out.NegateObject = *o.NegateObject
-	}
-	if o.NegateSubject != nil {
-		out.NegateSubject = *o.NegateSubject
 	}
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
@@ -2003,30 +1901,6 @@ func (o *SparseInfrastructurePolicy) GetNamespace() string {
 func (o *SparseInfrastructurePolicy) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
-}
-
-// GetNegateObject returns the NegateObject of the receiver.
-func (o *SparseInfrastructurePolicy) GetNegateObject() bool {
-
-	return *o.NegateObject
-}
-
-// SetNegateObject sets the property NegateObject of the receiver using the address of the given value.
-func (o *SparseInfrastructurePolicy) SetNegateObject(negateObject bool) {
-
-	o.NegateObject = &negateObject
-}
-
-// GetNegateSubject returns the NegateSubject of the receiver.
-func (o *SparseInfrastructurePolicy) GetNegateSubject() bool {
-
-	return *o.NegateSubject
-}
-
-// SetNegateSubject sets the property NegateSubject of the receiver using the address of the given value.
-func (o *SparseInfrastructurePolicy) SetNegateSubject(negateSubject bool) {
-
-	o.NegateSubject = &negateSubject
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
