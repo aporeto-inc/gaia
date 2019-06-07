@@ -46,11 +46,12 @@ model:
   delete:
     description: Delete an existing import request.
   extends:
+  - '@zoned'
   - '@base'
+  - '@namespaced'
   - '@described'
   - '@timeable'
   - '@identifiable-stored'
-  - '@zonable'
   - '@timeable'
 
 # Attributes

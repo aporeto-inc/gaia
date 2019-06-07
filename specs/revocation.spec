@@ -9,11 +9,8 @@ model:
   private: true
   update:
     description: Updates the object with the given ID.
-
-# Indexes
-indexes:
-- - :unique
-  - serialNumber
+  extends:
+  - '@zoned'
 
 # Attributes
 attributes:

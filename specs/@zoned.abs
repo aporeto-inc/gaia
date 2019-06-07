@@ -1,6 +1,7 @@
 # Indexes
 indexes:
 - - :shard
+  - :unique
   - zone
   - zHash
 

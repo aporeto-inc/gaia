@@ -17,15 +17,14 @@ model:
     global_parameters:
     - $filtering
   extends:
+  - '@zoned'
   - '@identifiable-stored'
   - '@timeable'
 
 # Indexes
 indexes:
-- - :unique
-  - name
-- - :unique
-  - email
+- - name
+- - email
 - - activationToken
 - - resetPasswordToken
 

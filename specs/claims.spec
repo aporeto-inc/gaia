@@ -9,9 +9,10 @@ model:
   get:
     description: Retrieves the object with the given ID.
   extends:
+  - '@zoned'
   - '@base'
+  - '@namespaced'
   - '@identifiable-stored'
-  - '@zonable'
 
 # Attributes
 attributes:

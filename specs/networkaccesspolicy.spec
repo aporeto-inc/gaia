@@ -24,6 +24,7 @@ model:
     - $filtering
   extends:
   - '@base'
+  - '@namespaced'
   - '@described'
   - '@disabled'
   - '@identifiable-not-stored'
@@ -34,7 +35,6 @@ model:
   - '@schedulable'
   - '@negatable-object'
   - '@negatable-subject'
-  - '@zonable'
   - '@timeable'
 
 # Indexes
