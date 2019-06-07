@@ -7006,6 +7006,19 @@ identified by their tags to talk to other processing units or external services
 
 #### Relations
 
+##### `GET /infrastructurepolicies`
+
+Retrieves the list of infrastructure policies.
+
+Parameters:
+
+- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
+- `propagated` (`boolean`): Also retrieve the objects that propagate down.
+
+##### `POST /infrastructurepolicies`
+
+Creates a new infrastructure policy.
+
 ##### `DELETE /infrastructurepolicies/:id`
 
 Deletes the object with the given ID.
