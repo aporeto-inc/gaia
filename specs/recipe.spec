@@ -88,6 +88,17 @@ attributes:
     exposed: true
     stored: true
 
+  - name: targetIdentities
+    description: TargetIdentities contains the list of identities the recipes will
+      try to create.
+    type: list
+    exposed: true
+    subtype: string
+    required: true
+    example_value:
+    - processingunit
+    - enforcer
+
   - name: template
     description: Template of the recipe to import.
     type: string
