@@ -7095,6 +7095,10 @@ Propagate will propagate the policy to all of its children.
 
 Protected defines if the object is protected.
 
+##### `restrictedServices` `[]string`
+
+Represents the ports that the policy applies to.
+
 ##### `subject` `[][]string`
 
 Subject of the policy.

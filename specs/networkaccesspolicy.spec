@@ -116,6 +116,13 @@ attributes:
     default_value: Continue
     orderable: true
 
+  - name: restrictedServices
+    description: Represents the ports that the policy applies to.
+    type: list
+    exposed: true
+    subtype: string
+    orderable: true
+
   - name: subject
     description: Subject of the policy.
     type: external

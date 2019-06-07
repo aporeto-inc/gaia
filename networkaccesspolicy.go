@@ -208,6 +208,9 @@ type NetworkAccessPolicy struct {
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
 
+	// Represents the ports that the policy applies to.
+	RestrictedServices []string `json:"restrictedServices" msgpack:"restrictedServices" bson:"-" mapstructure:"restrictedServices,omitempty"`
+
 	// Subject of the policy.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
@@ -237,10 +240,11 @@ func NewNetworkAccessPolicy() *NetworkAccessPolicy {
 		AssociatedTags:        []string{},
 		Annotations:           map[string][]string{},
 		ApplyPolicyMode:       NetworkAccessPolicyApplyPolicyModeBidirectional,
-		Metadata:              []string{},
 		ObservedTrafficAction: NetworkAccessPolicyObservedTrafficActionContinue,
 		NormalizedTags:        []string{},
 		Object:                [][]string{},
+		Metadata:              []string{},
+		RestrictedServices:    []string{},
 		Subject:               [][]string{},
 	}
 }
@@ -588,6 +592,7 @@ func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentif
 			ObservedTrafficAction: &o.ObservedTrafficAction,
 			Propagate:             &o.Propagate,
 			Protected:             &o.Protected,
+			RestrictedServices:    &o.RestrictedServices,
 			Subject:               &o.Subject,
 			UpdateIdempotencyKey:  &o.UpdateIdempotencyKey,
 			UpdateTime:            &o.UpdateTime,
@@ -651,6 +656,8 @@ func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentif
 			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
+		case "restrictedServices":
+			sp.RestrictedServices = &(o.RestrictedServices)
 		case "subject":
 			sp.Subject = &(o.Subject)
 		case "updateIdempotencyKey":
@@ -751,6 +758,9 @@ func (o *NetworkAccessPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
+	}
+	if so.RestrictedServices != nil {
+		o.RestrictedServices = *so.RestrictedServices
 	}
 	if so.Subject != nil {
 		o.Subject = *so.Subject
@@ -929,6 +939,8 @@ func (o *NetworkAccessPolicy) ValueForAttribute(name string) interface{} {
 		return o.Propagate
 	case "protected":
 		return o.Protected
+	case "restrictedServices":
+		return o.RestrictedServices
 	case "subject":
 		return o.Subject
 	case "updateIdempotencyKey":
@@ -1262,6 +1274,16 @@ packets.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"RestrictedServices": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedServices",
+		Description:    `Represents the ports that the policy applies to.`,
+		Exposed:        true,
+		Name:           "restrictedServices",
+		Orderable:      true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1646,6 +1668,16 @@ packets.`,
 		Stored:         true,
 		Type:           "boolean",
 	},
+	"restrictedservices": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "RestrictedServices",
+		Description:    `Represents the ports that the policy applies to.`,
+		Exposed:        true,
+		Name:           "restrictedServices",
+		Orderable:      true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Subject",
@@ -1862,6 +1894,9 @@ type SparseNetworkAccessPolicy struct {
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
 
+	// Represents the ports that the policy applies to.
+	RestrictedServices *[]string `json:"restrictedServices,omitempty" msgpack:"restrictedServices,omitempty" bson:"-" mapstructure:"restrictedServices,omitempty"`
+
 	// Subject of the policy.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
@@ -1995,6 +2030,9 @@ func (o *SparseNetworkAccessPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
+	}
+	if o.RestrictedServices != nil {
+		out.RestrictedServices = *o.RestrictedServices
 	}
 	if o.Subject != nil {
 		out.Subject = *o.Subject
