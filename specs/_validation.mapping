@@ -54,6 +54,10 @@ $protocols:
   elemental:
     name: ValidateProtocolList
 
+$restrictedservices:
+  elemental:
+    name: ValidateRestrictedServices
+
 $serviceEntity:
   elemental:
     name: ValidateServiceEntity

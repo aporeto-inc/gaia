@@ -438,6 +438,31 @@ func ValidateHostServices(hs *HostService) error {
 	return nil
 }
 
+// ValidateRestrictedServices validates a list of restricted services.
+func ValidateRestrictedServices(attribute string, services []string) error {
+
+	for _, service := range services {
+
+		upperService := strings.ToUpper(service)
+		var portSubString string
+
+		if strings.HasPrefix(upperService, protocols.L4ProtocolUDP+"/") {
+			portSubString = upperService[4:]
+		} else if strings.HasPrefix(upperService, protocols.L4ProtocolTCP+"/") {
+			portSubString = upperService[4:]
+		} else {
+			return makeValidationError(attribute, fmt.Sprintf("restriced service is not in the right format: %s", service))
+		}
+
+		_, err := portutils.ConvertToSinglePort(portSubString)
+		if err != nil {
+			return makeValidationError(attribute, fmt.Sprintf("invalid port: %s", portSubString))
+		}
+	}
+
+	return nil
+}
+
 // ValidateHostServicesNonOverlapPorts validates a list of processing unit services has no overlap with any given parameter.
 func ValidateHostServicesNonOverlapPorts(svcs []string) error {
 

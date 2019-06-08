@@ -122,6 +122,8 @@ attributes:
     exposed: true
     subtype: string
     orderable: true
+    validations:
+    - $restrictedservices
 
   - name: subject
     description: Subject of the policy.

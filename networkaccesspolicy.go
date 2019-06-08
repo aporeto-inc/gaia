@@ -849,6 +849,10 @@ func (o *NetworkAccessPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
+	if err := ValidateRestrictedServices("restrictedServices", o.RestrictedServices); err != nil {
+		errors = errors.Append(err)
+	}
+
 	if err := ValidateTagsExpression("subject", o.Subject); err != nil {
 		errors = errors.Append(err)
 	}
