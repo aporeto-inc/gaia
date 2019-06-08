@@ -80,28 +80,28 @@ func (o AuditReportsList) Version() int {
 
 // AuditReport represents the model of a auditreport
 type AuditReport struct {
-	// Needs documentation.
+	// The Audit User ID that is the loginID of the user.
 	AUID string `json:"AUID" msgpack:"AUID" bson:"-" mapstructure:"AUID,omitempty"`
 
 	// Command working directory.
 	CWD string `json:"CWD" msgpack:"CWD" bson:"-" mapstructure:"CWD,omitempty"`
 
-	// Needs documentation.
+	// Effective group ID of the user who started the analyzed process.
 	EGID int `json:"EGID" msgpack:"EGID" bson:"-" mapstructure:"EGID,omitempty"`
 
-	// Needs documentation.
+	// Effective user ID of the user who started the analyzed process.
 	EUID int `json:"EUID" msgpack:"EUID" bson:"-" mapstructure:"EUID,omitempty"`
 
 	// Path to the executable.
 	EXE string `json:"EXE" msgpack:"EXE" bson:"-" mapstructure:"EXE,omitempty"`
 
-	// Needs documentation.
+	// File system group ID of the user who started the analyzed process.
 	FSGID int `json:"FSGID" msgpack:"FSGID" bson:"-" mapstructure:"FSGID,omitempty"`
 
-	// Needs documentation.
+	// File system user ID of the user who started the analyzed process.
 	FSUID int `json:"FSUID" msgpack:"FSUID" bson:"-" mapstructure:"FSUID,omitempty"`
 
-	// Needs documentation.
+	// Group ID of the user who started the analyzed process.
 	GID int `json:"GID" msgpack:"GID" bson:"-" mapstructure:"GID,omitempty"`
 
 	// Needs documentation.
@@ -113,28 +113,28 @@ type AuditReport struct {
 	// PID of the parent executable.
 	PPID int `json:"PPID" msgpack:"PPID" bson:"-" mapstructure:"PPID,omitempty"`
 
-	// Needs documentation.
+	// Set group ID of the user who started the analyzed process.
 	SGID int `json:"SGID" msgpack:"SGID" bson:"-" mapstructure:"SGID,omitempty"`
 
-	// Needs documentation.
+	// Set user ID of the user who started the analyzed process.
 	SUID int `json:"SUID" msgpack:"SUID" bson:"-" mapstructure:"SUID,omitempty"`
 
-	// Needs documentation.
+	// User ID.
 	UID int `json:"UID" msgpack:"UID" bson:"-" mapstructure:"UID,omitempty"`
 
-	// Needs documentation.
+	// First argument of the executed system call.
 	A0 string `json:"a0" msgpack:"a0" bson:"-" mapstructure:"a0,omitempty"`
 
-	// Needs documentation.
+	// Second argument of the executed system call.
 	A1 string `json:"a1" msgpack:"a1" bson:"-" mapstructure:"a1,omitempty"`
 
-	// Needs documentation.
+	// Third argument of the executed system call.
 	A2 string `json:"a2" msgpack:"a2" bson:"-" mapstructure:"a2,omitempty"`
 
-	// Needs documentation.
+	// Fourth argument of the executed system call.
 	A3 string `json:"a3" msgpack:"a3" bson:"-" mapstructure:"a3,omitempty"`
 
-	// Architecture of the system where the syscall happened.
+	// Architecture of the system of the monitored process.
 	Arch string `json:"arch" msgpack:"arch" bson:"-" mapstructure:"arch,omitempty"`
 
 	// ID the audit profile that triggered the report.
@@ -152,7 +152,7 @@ type AuditReport struct {
 	// Namespace of the enforcer reporting.
 	EnforcerNamespace string `json:"enforcerNamespace" msgpack:"enforcerNamespace" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
 
-	// Exit code of the executable.
+	// Exit code of the executed system call.
 	Exit int `json:"exit" msgpack:"exit" bson:"-" mapstructure:"exit,omitempty"`
 
 	// ID of the processing unit originating the report.
@@ -161,7 +161,7 @@ type AuditReport struct {
 	// Namespace of the processing unit originating the report.
 	ProcessingUnitNamespace string `json:"processingUnitNamespace" msgpack:"processingUnitNamespace" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
 
-	// Type of record.
+	// Type of Audit Record.
 	RecordType string `json:"recordType" msgpack:"recordType" bson:"-" mapstructure:"recordType,omitempty"`
 
 	// Needs documentation.
@@ -170,7 +170,7 @@ type AuditReport struct {
 	// Tells if the operation has been a success of a failure.
 	Success bool `json:"success" msgpack:"success" bson:"-" mapstructure:"success,omitempty"`
 
-	// Syscall name.
+	// Syscall executed.
 	Syscall string `json:"syscall" msgpack:"syscall" bson:"-" mapstructure:"syscall,omitempty"`
 
 	// Date of the report.
@@ -617,7 +617,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"AUID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AUID",
-		Description:    `Needs documentation.`,
+		Description:    `The Audit User ID that is the loginID of the user.`,
 		Exposed:        true,
 		Name:           "AUID",
 		Type:           "string",
@@ -633,7 +633,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"EGID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EGID",
-		Description:    `Needs documentation.`,
+		Description:    `Effective group ID of the user who started the analyzed process.`,
 		Exposed:        true,
 		Name:           "EGID",
 		Type:           "integer",
@@ -641,7 +641,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"EUID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EUID",
-		Description:    `Needs documentation.`,
+		Description:    `Effective user ID of the user who started the analyzed process.`,
 		Exposed:        true,
 		Name:           "EUID",
 		Type:           "integer",
@@ -657,7 +657,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"FSGID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FSGID",
-		Description:    `Needs documentation.`,
+		Description:    `File system group ID of the user who started the analyzed process.`,
 		Exposed:        true,
 		Name:           "FSGID",
 		Type:           "integer",
@@ -665,7 +665,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"FSUID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FSUID",
-		Description:    `Needs documentation.`,
+		Description:    `File system user ID of the user who started the analyzed process.`,
 		Exposed:        true,
 		Name:           "FSUID",
 		Type:           "integer",
@@ -673,7 +673,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"GID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "GID",
-		Description:    `Needs documentation.`,
+		Description:    `Group ID of the user who started the analyzed process.`,
 		Exposed:        true,
 		Name:           "GID",
 		Type:           "integer",
@@ -705,7 +705,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"SGID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SGID",
-		Description:    `Needs documentation.`,
+		Description:    `Set group ID of the user who started the analyzed process.`,
 		Exposed:        true,
 		Name:           "SGID",
 		Type:           "integer",
@@ -713,7 +713,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"SUID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SUID",
-		Description:    `Needs documentation.`,
+		Description:    `Set user ID of the user who started the analyzed process.`,
 		Exposed:        true,
 		Name:           "SUID",
 		Type:           "integer",
@@ -721,7 +721,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"UID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "UID",
-		Description:    `Needs documentation.`,
+		Description:    `User ID.`,
 		Exposed:        true,
 		Name:           "UID",
 		Type:           "integer",
@@ -729,7 +729,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"A0": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "A0",
-		Description:    `Needs documentation.`,
+		Description:    `First argument of the executed system call.`,
 		Exposed:        true,
 		Name:           "a0",
 		Type:           "string",
@@ -737,7 +737,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"A1": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "A1",
-		Description:    `Needs documentation.`,
+		Description:    `Second argument of the executed system call.`,
 		Exposed:        true,
 		Name:           "a1",
 		Type:           "string",
@@ -745,7 +745,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"A2": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "A2",
-		Description:    `Needs documentation.`,
+		Description:    `Third argument of the executed system call.`,
 		Exposed:        true,
 		Name:           "a2",
 		Type:           "string",
@@ -753,7 +753,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"A3": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "A3",
-		Description:    `Needs documentation.`,
+		Description:    `Fourth argument of the executed system call.`,
 		Exposed:        true,
 		Name:           "a3",
 		Type:           "string",
@@ -761,7 +761,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"Arch": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Arch",
-		Description:    `Architecture of the system where the syscall happened.`,
+		Description:    `Architecture of the system of the monitored process.`,
 		Exposed:        true,
 		Name:           "arch",
 		Type:           "string",
@@ -813,7 +813,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"Exit": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Exit",
-		Description:    `Exit code of the executable.`,
+		Description:    `Exit code of the executed system call.`,
 		Exposed:        true,
 		Name:           "exit",
 		Type:           "integer",
@@ -839,7 +839,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"RecordType": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "RecordType",
-		Description:    `Type of record.`,
+		Description:    `Type of Audit Record.`,
 		Exposed:        true,
 		Name:           "recordType",
 		Required:       true,
@@ -864,7 +864,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"Syscall": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Syscall",
-		Description:    `Syscall name.`,
+		Description:    `Syscall executed.`,
 		Exposed:        true,
 		Name:           "syscall",
 		Type:           "string",
@@ -885,7 +885,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"auid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "AUID",
-		Description:    `Needs documentation.`,
+		Description:    `The Audit User ID that is the loginID of the user.`,
 		Exposed:        true,
 		Name:           "AUID",
 		Type:           "string",
@@ -901,7 +901,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"egid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EGID",
-		Description:    `Needs documentation.`,
+		Description:    `Effective group ID of the user who started the analyzed process.`,
 		Exposed:        true,
 		Name:           "EGID",
 		Type:           "integer",
@@ -909,7 +909,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"euid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "EUID",
-		Description:    `Needs documentation.`,
+		Description:    `Effective user ID of the user who started the analyzed process.`,
 		Exposed:        true,
 		Name:           "EUID",
 		Type:           "integer",
@@ -925,7 +925,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"fsgid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FSGID",
-		Description:    `Needs documentation.`,
+		Description:    `File system group ID of the user who started the analyzed process.`,
 		Exposed:        true,
 		Name:           "FSGID",
 		Type:           "integer",
@@ -933,7 +933,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"fsuid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "FSUID",
-		Description:    `Needs documentation.`,
+		Description:    `File system user ID of the user who started the analyzed process.`,
 		Exposed:        true,
 		Name:           "FSUID",
 		Type:           "integer",
@@ -941,7 +941,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"gid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "GID",
-		Description:    `Needs documentation.`,
+		Description:    `Group ID of the user who started the analyzed process.`,
 		Exposed:        true,
 		Name:           "GID",
 		Type:           "integer",
@@ -973,7 +973,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"sgid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SGID",
-		Description:    `Needs documentation.`,
+		Description:    `Set group ID of the user who started the analyzed process.`,
 		Exposed:        true,
 		Name:           "SGID",
 		Type:           "integer",
@@ -981,7 +981,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"suid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "SUID",
-		Description:    `Needs documentation.`,
+		Description:    `Set user ID of the user who started the analyzed process.`,
 		Exposed:        true,
 		Name:           "SUID",
 		Type:           "integer",
@@ -989,7 +989,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"uid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "UID",
-		Description:    `Needs documentation.`,
+		Description:    `User ID.`,
 		Exposed:        true,
 		Name:           "UID",
 		Type:           "integer",
@@ -997,7 +997,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"a0": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "A0",
-		Description:    `Needs documentation.`,
+		Description:    `First argument of the executed system call.`,
 		Exposed:        true,
 		Name:           "a0",
 		Type:           "string",
@@ -1005,7 +1005,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"a1": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "A1",
-		Description:    `Needs documentation.`,
+		Description:    `Second argument of the executed system call.`,
 		Exposed:        true,
 		Name:           "a1",
 		Type:           "string",
@@ -1013,7 +1013,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"a2": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "A2",
-		Description:    `Needs documentation.`,
+		Description:    `Third argument of the executed system call.`,
 		Exposed:        true,
 		Name:           "a2",
 		Type:           "string",
@@ -1021,7 +1021,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"a3": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "A3",
-		Description:    `Needs documentation.`,
+		Description:    `Fourth argument of the executed system call.`,
 		Exposed:        true,
 		Name:           "a3",
 		Type:           "string",
@@ -1029,7 +1029,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"arch": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Arch",
-		Description:    `Architecture of the system where the syscall happened.`,
+		Description:    `Architecture of the system of the monitored process.`,
 		Exposed:        true,
 		Name:           "arch",
 		Type:           "string",
@@ -1081,7 +1081,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"exit": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Exit",
-		Description:    `Exit code of the executable.`,
+		Description:    `Exit code of the executed system call.`,
 		Exposed:        true,
 		Name:           "exit",
 		Type:           "integer",
@@ -1107,7 +1107,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"recordtype": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "RecordType",
-		Description:    `Type of record.`,
+		Description:    `Type of Audit Record.`,
 		Exposed:        true,
 		Name:           "recordType",
 		Required:       true,
@@ -1132,7 +1132,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"syscall": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Syscall",
-		Description:    `Syscall name.`,
+		Description:    `Syscall executed.`,
 		Exposed:        true,
 		Name:           "syscall",
 		Type:           "string",
@@ -1211,28 +1211,28 @@ func (o SparseAuditReportsList) Version() int {
 
 // SparseAuditReport represents the sparse version of a auditreport.
 type SparseAuditReport struct {
-	// Needs documentation.
+	// The Audit User ID that is the loginID of the user.
 	AUID *string `json:"AUID,omitempty" msgpack:"AUID,omitempty" bson:"-" mapstructure:"AUID,omitempty"`
 
 	// Command working directory.
 	CWD *string `json:"CWD,omitempty" msgpack:"CWD,omitempty" bson:"-" mapstructure:"CWD,omitempty"`
 
-	// Needs documentation.
+	// Effective group ID of the user who started the analyzed process.
 	EGID *int `json:"EGID,omitempty" msgpack:"EGID,omitempty" bson:"-" mapstructure:"EGID,omitempty"`
 
-	// Needs documentation.
+	// Effective user ID of the user who started the analyzed process.
 	EUID *int `json:"EUID,omitempty" msgpack:"EUID,omitempty" bson:"-" mapstructure:"EUID,omitempty"`
 
 	// Path to the executable.
 	EXE *string `json:"EXE,omitempty" msgpack:"EXE,omitempty" bson:"-" mapstructure:"EXE,omitempty"`
 
-	// Needs documentation.
+	// File system group ID of the user who started the analyzed process.
 	FSGID *int `json:"FSGID,omitempty" msgpack:"FSGID,omitempty" bson:"-" mapstructure:"FSGID,omitempty"`
 
-	// Needs documentation.
+	// File system user ID of the user who started the analyzed process.
 	FSUID *int `json:"FSUID,omitempty" msgpack:"FSUID,omitempty" bson:"-" mapstructure:"FSUID,omitempty"`
 
-	// Needs documentation.
+	// Group ID of the user who started the analyzed process.
 	GID *int `json:"GID,omitempty" msgpack:"GID,omitempty" bson:"-" mapstructure:"GID,omitempty"`
 
 	// Needs documentation.
@@ -1244,28 +1244,28 @@ type SparseAuditReport struct {
 	// PID of the parent executable.
 	PPID *int `json:"PPID,omitempty" msgpack:"PPID,omitempty" bson:"-" mapstructure:"PPID,omitempty"`
 
-	// Needs documentation.
+	// Set group ID of the user who started the analyzed process.
 	SGID *int `json:"SGID,omitempty" msgpack:"SGID,omitempty" bson:"-" mapstructure:"SGID,omitempty"`
 
-	// Needs documentation.
+	// Set user ID of the user who started the analyzed process.
 	SUID *int `json:"SUID,omitempty" msgpack:"SUID,omitempty" bson:"-" mapstructure:"SUID,omitempty"`
 
-	// Needs documentation.
+	// User ID.
 	UID *int `json:"UID,omitempty" msgpack:"UID,omitempty" bson:"-" mapstructure:"UID,omitempty"`
 
-	// Needs documentation.
+	// First argument of the executed system call.
 	A0 *string `json:"a0,omitempty" msgpack:"a0,omitempty" bson:"-" mapstructure:"a0,omitempty"`
 
-	// Needs documentation.
+	// Second argument of the executed system call.
 	A1 *string `json:"a1,omitempty" msgpack:"a1,omitempty" bson:"-" mapstructure:"a1,omitempty"`
 
-	// Needs documentation.
+	// Third argument of the executed system call.
 	A2 *string `json:"a2,omitempty" msgpack:"a2,omitempty" bson:"-" mapstructure:"a2,omitempty"`
 
-	// Needs documentation.
+	// Fourth argument of the executed system call.
 	A3 *string `json:"a3,omitempty" msgpack:"a3,omitempty" bson:"-" mapstructure:"a3,omitempty"`
 
-	// Architecture of the system where the syscall happened.
+	// Architecture of the system of the monitored process.
 	Arch *string `json:"arch,omitempty" msgpack:"arch,omitempty" bson:"-" mapstructure:"arch,omitempty"`
 
 	// ID the audit profile that triggered the report.
@@ -1283,7 +1283,7 @@ type SparseAuditReport struct {
 	// Namespace of the enforcer reporting.
 	EnforcerNamespace *string `json:"enforcerNamespace,omitempty" msgpack:"enforcerNamespace,omitempty" bson:"-" mapstructure:"enforcerNamespace,omitempty"`
 
-	// Exit code of the executable.
+	// Exit code of the executed system call.
 	Exit *int `json:"exit,omitempty" msgpack:"exit,omitempty" bson:"-" mapstructure:"exit,omitempty"`
 
 	// ID of the processing unit originating the report.
@@ -1292,7 +1292,7 @@ type SparseAuditReport struct {
 	// Namespace of the processing unit originating the report.
 	ProcessingUnitNamespace *string `json:"processingUnitNamespace,omitempty" msgpack:"processingUnitNamespace,omitempty" bson:"-" mapstructure:"processingUnitNamespace,omitempty"`
 
-	// Type of record.
+	// Type of Audit Record.
 	RecordType *string `json:"recordType,omitempty" msgpack:"recordType,omitempty" bson:"-" mapstructure:"recordType,omitempty"`
 
 	// Needs documentation.
@@ -1301,7 +1301,7 @@ type SparseAuditReport struct {
 	// Tells if the operation has been a success of a failure.
 	Success *bool `json:"success,omitempty" msgpack:"success,omitempty" bson:"-" mapstructure:"success,omitempty"`
 
-	// Syscall name.
+	// Syscall executed.
 	Syscall *string `json:"syscall,omitempty" msgpack:"syscall,omitempty" bson:"-" mapstructure:"syscall,omitempty"`
 
 	// Date of the report.

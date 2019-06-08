@@ -111,7 +111,7 @@ attributes:
     exposed: true
     subtype: string
     stored: true
-    deprecated: true
+    creation_only: true
     filterable: true
 
   - name: lastCollectionTime

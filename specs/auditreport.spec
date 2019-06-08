@@ -11,7 +11,7 @@ model:
 attributes:
   v1:
   - name: AUID
-    description: Needs documentation.
+    description: The Audit User ID that is the loginID of the user.
     type: string
     exposed: true
     example_value: xxx-xxx
@@ -23,12 +23,12 @@ attributes:
     example_value: /etc
 
   - name: EGID
-    description: Needs documentation.
+    description: Effective group ID of the user who started the analyzed process.
     type: integer
     exposed: true
 
   - name: EUID
-    description: Needs documentation.
+    description: Effective user ID of the user who started the analyzed process.
     type: integer
     exposed: true
 
@@ -39,17 +39,17 @@ attributes:
     example_value: /bin/ls
 
   - name: FSGID
-    description: Needs documentation.
+    description: File system group ID of the user who started the analyzed process.
     type: integer
     exposed: true
 
   - name: FSUID
-    description: Needs documentation.
+    description: File system user ID of the user who started the analyzed process.
     type: integer
     exposed: true
 
   - name: GID
-    description: Needs documentation.
+    description: Group ID of the user who started the analyzed process.
     type: integer
     exposed: true
 
@@ -69,46 +69,46 @@ attributes:
     exposed: true
 
   - name: SGID
-    description: Needs documentation.
+    description: Set group ID of the user who started the analyzed process.
     type: integer
     exposed: true
 
   - name: SUID
-    description: Needs documentation.
+    description: Set user ID of the user who started the analyzed process.
     type: integer
     exposed: true
 
   - name: UID
-    description: Needs documentation.
+    description: User ID.
     type: integer
     exposed: true
 
   - name: a0
-    description: Needs documentation.
+    description: First argument of the executed system call.
     type: string
     exposed: true
     example_value: xxx-xxx
 
   - name: a1
-    description: Needs documentation.
+    description: Second argument of the executed system call.
     type: string
     exposed: true
     example_value: xxx-xxx
 
   - name: a2
-    description: Needs documentation.
+    description: Third argument of the executed system call.
     type: string
     exposed: true
     example_value: xxx-xxx
 
   - name: a3
-    description: Needs documentation.
+    description: Fourth argument of the executed system call.
     type: string
     exposed: true
     example_value: xxx-xxx
 
   - name: arch
-    description: Architecture of the system where the syscall happened.
+    description: Architecture of the system of the monitored process.
     type: string
     exposed: true
     example_value: x86_64
@@ -148,7 +148,7 @@ attributes:
     example_value: /my/ns
 
   - name: exit
-    description: Exit code of the executable.
+    description: Exit code of the executed system call.
     type: integer
     exposed: true
 
@@ -167,7 +167,7 @@ attributes:
     example_value: /my/ns
 
   - name: recordType
-    description: Type of record.
+    description: Type of Audit Record.
     type: string
     exposed: true
     required: true
@@ -184,7 +184,7 @@ attributes:
     exposed: true
 
   - name: syscall
-    description: Syscall name.
+    description: Syscall executed.
     type: string
     exposed: true
     example_value: execve
