@@ -456,7 +456,7 @@ func ValidateRestrictedServices(attribute string, services []string) error {
 
 		_, err := portutils.ConvertToSinglePort(portSubString)
 		if err != nil {
-			return makeValidationError(attribute, fmt.Sprintf("invalid port: %s", portSubString))
+			return makeValidationError(attribute, fmt.Sprintf("invalid port: %s", err))
 		}
 	}
 
