@@ -52,6 +52,7 @@ var (
 		"import":                   ImportIdentity,
 		"importreference":          ImportReferenceIdentity,
 		"importrequest":            ImportRequestIdentity,
+		"infrastructurepolicy":     InfrastructurePolicyIdentity,
 		"installedapp":             InstalledAppIdentity,
 		"invoice":                  InvoiceIdentity,
 		"invoicerecord":            InvoiceRecordIdentity,
@@ -169,6 +170,7 @@ var (
 		"import":                     ImportIdentity,
 		"importreferences":           ImportReferenceIdentity,
 		"importrequests":             ImportRequestIdentity,
+		"infrastructurepolicies":     InfrastructurePolicyIdentity,
 		"installedapps":              InstalledAppIdentity,
 		"invoices":                   InvoiceIdentity,
 		"invoicerecords":             InvoiceRecordIdentity,
@@ -280,6 +282,8 @@ var (
 		"reqs":           ImportRequestIdentity,
 		"ireq":           ImportRequestIdentity,
 		"ireqs":          ImportRequestIdentity,
+		"infrapol":       InfrastructurePolicyIdentity,
+		"infrapols":      InfrastructurePolicyIdentity,
 		"iapps":          InstalledAppIdentity,
 		"iapp":           InstalledAppIdentity,
 		"ip":             IsolationProfileIdentity,
@@ -523,6 +527,7 @@ var (
 			[]string{"namespace", "normalizedTags"},
 			[]string{"createIdempotencyKey"},
 		},
+		"infrastructurepolicy": nil,
 		"installedapp": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
 			[]string{"updateIdempotencyKey"},
@@ -838,6 +843,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewImportReference()
 	case ImportRequestIdentity:
 		return NewImportRequest()
+	case InfrastructurePolicyIdentity:
+		return NewInfrastructurePolicy()
 	case InstalledAppIdentity:
 		return NewInstalledApp()
 	case InvoiceIdentity:
@@ -1055,6 +1062,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseImportReference()
 	case ImportRequestIdentity:
 		return NewSparseImportRequest()
+	case InfrastructurePolicyIdentity:
+		return NewSparseInfrastructurePolicy()
 	case InstalledAppIdentity:
 		return NewSparseInstalledApp()
 	case InvoiceIdentity:
@@ -1280,6 +1289,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &ImportReferencesList{}
 	case ImportRequestIdentity:
 		return &ImportRequestsList{}
+	case InfrastructurePolicyIdentity:
+		return &InfrastructurePoliciesList{}
 	case InstalledAppIdentity:
 		return &InstalledAppsList{}
 	case InvoiceIdentity:
@@ -1495,6 +1506,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseImportReferencesList{}
 	case ImportRequestIdentity:
 		return &SparseImportRequestsList{}
+	case InfrastructurePolicyIdentity:
+		return &SparseInfrastructurePoliciesList{}
 	case InstalledAppIdentity:
 		return &SparseInstalledAppsList{}
 	case InvoiceIdentity:
@@ -1681,6 +1694,7 @@ func AllIdentities() []elemental.Identity {
 		ImportIdentity,
 		ImportReferenceIdentity,
 		ImportRequestIdentity,
+		InfrastructurePolicyIdentity,
 		InstalledAppIdentity,
 		InvoiceIdentity,
 		InvoiceRecordIdentity,
@@ -1896,6 +1910,11 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"reqs",
 			"ireq",
 			"ireqs",
+		}
+	case InfrastructurePolicyIdentity:
+		return []string{
+			"infrapol",
+			"infrapols",
 		}
 	case InstalledAppIdentity:
 		return []string{
