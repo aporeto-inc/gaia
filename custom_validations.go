@@ -451,7 +451,7 @@ func ValidateRestrictedServices(attribute string, services []string) error {
 		} else if strings.HasPrefix(upperService, protocols.L4ProtocolTCP+"/") {
 			portSubString = upperService[4:]
 		} else {
-			return makeValidationError(attribute, fmt.Sprintf("restriced service is not in the right format: %s", service))
+			return makeValidationError(attribute, fmt.Sprintf("invalid restricted service: %s", service))
 		}
 
 		_, err := portutils.ConvertToSinglePort(portSubString)
