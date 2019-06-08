@@ -133,7 +133,6 @@ attributes:
     - File
     - Hook
     - HostServiceMapping
-    - Infrastructure
     - NamespaceMapping
     - Network
     - ProcessingUnit

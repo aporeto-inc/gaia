@@ -359,15 +359,6 @@ relations:
   create:
     description: Creates a new import request.
 
-- rest_name: infrastructurepolicy
-  get:
-    description: Retrieves the list of infrastructure policies.
-    global_parameters:
-    - $filtering
-    - $propagatable
-  create:
-    description: Creates a new infrastructure policy.
-
 - rest_name: installedapp
   get:
     description: Retrieves the list of installed apps.
