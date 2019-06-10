@@ -2489,7 +2489,8 @@ applications, services or any combination you like.
   "localCAEnabled": false,
   "name": "mynamespace",
   "protected": false,
-  "serviceCertificateValidity": "1h"
+  "serviceCertificateValidity": "1h",
+  "zoning": -1
 }
 ```
 
@@ -2619,6 +2620,12 @@ georedundancy.
 ##### `zoning` `integer` [`creation_only`]
 
 Defines what zone the namespace should live in.
+
+Default value:
+
+```json
+-1
+```
 
 ### NamespaceMappingPolicy
 

@@ -125,5 +125,6 @@ attributes:
     exposed: true
     stored: true
     creation_only: true
+    default_value: -1
     getter: true
     setter: true
