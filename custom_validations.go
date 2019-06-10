@@ -574,7 +574,7 @@ func ValidateMetadata(attribute string, metadata []string) error {
 		}
 
 		if strings.HasPrefix(m, constants.AuthKey) {
-			return makeValidationError(attribute, fmt.Sprintf("Metadata %s is using @auth: which is reserverd", m))
+			return makeValidationError(attribute, fmt.Sprintf("Metadata %s is using @auth: which is reserved", m))
 		}
 
 		if err := ValidateTag(attribute, m); err != nil {
