@@ -2831,7 +2831,7 @@ Subject represent sets of entities that will have a dependency other entities.
 Subjects are defined as logical operations on tags. Logical operations can
 includes AND/OR.
 
-##### `type` `emum(APIAuthorization | AuditProfileMapping | EnforcerProfile | File | Hook | HostServiceMapping | Infrastructure | NamespaceMapping | Network | ProcessingUnit | Quota | Service | ServiceDependency | Syscall | TokenScope | SSHAuthorization)` [`creation_only`]
+##### `type` `emum(APIAuthorization | AuditProfileMapping | EnforcerProfile | File | Hook | HostServiceMapping | NamespaceMapping | Network | ProcessingUnit | Quota | Service | ServiceDependency | Syscall | TokenScope | SSHAuthorization)` [`creation_only`]
 
 Type of the policy.
 
@@ -3182,14 +3182,6 @@ Updates the object with the given ID.
 
 Returns the list of ProcessingUnits that match the policy.
 
-##### `GET /infrastructurepolicies/:id/processingunits`
-
-Returns the list of Processing Units affected by an infrastructure policy.
-
-Parameters:
-
-- `mode` (`enum`): Matching mode.
-
 ##### `GET /networkaccesspolicies/:id/processingunits`
 
 Returns the list of Processing Units affected by a network access policy.
@@ -3304,9 +3296,7 @@ _This attribute is deprecated_.
 This field is deprecated and it is there for backward compatibility. Use
 `images` instead.
 
-##### `images` `[]string`
-
-_This attribute is deprecated_.
+##### `images` `[]string` [`creation_only`]
 
 List of images or executable paths used by the Processing Unit.
 
@@ -4676,7 +4666,7 @@ Create a audit statistics report.
 
 ##### `AUID` `string`
 
-Needs documentation.
+The Audit User ID that is the loginID of the user.
 
 ##### `CWD` `string`
 
@@ -4684,11 +4674,11 @@ Command working directory.
 
 ##### `EGID` `integer`
 
-Needs documentation.
+Effective group ID of the user who started the analyzed process.
 
 ##### `EUID` `integer`
 
-Needs documentation.
+Effective user ID of the user who started the analyzed process.
 
 ##### `EXE` `string`
 
@@ -4696,15 +4686,15 @@ Path to the executable.
 
 ##### `FSGID` `integer`
 
-Needs documentation.
+File system group ID of the user who started the analyzed process.
 
 ##### `FSUID` `integer`
 
-Needs documentation.
+File system user ID of the user who started the analyzed process.
 
 ##### `GID` `integer`
 
-Needs documentation.
+Group ID of the user who started the analyzed process.
 
 ##### `PER` `integer`
 
@@ -4720,35 +4710,35 @@ PID of the parent executable.
 
 ##### `SGID` `integer`
 
-Needs documentation.
+Set group ID of the user who started the analyzed process.
 
 ##### `SUID` `integer`
 
-Needs documentation.
+Set user ID of the user who started the analyzed process.
 
 ##### `UID` `integer`
 
-Needs documentation.
+User ID.
 
 ##### `a0` `string`
 
-Needs documentation.
+First argument of the executed system call.
 
 ##### `a1` `string`
 
-Needs documentation.
+Second argument of the executed system call.
 
 ##### `a2` `string`
 
-Needs documentation.
+Third argument of the executed system call.
 
 ##### `a3` `string`
 
-Needs documentation.
+Fourth argument of the executed system call.
 
 ##### `arch` `string`
 
-Architecture of the system where the syscall happened.
+Architecture of the system of the monitored process.
 
 ##### `auditProfileID` `string` [`required`]
 
@@ -4772,7 +4762,7 @@ Namespace of the enforcer reporting.
 
 ##### `exit` `integer`
 
-Exit code of the executable.
+Exit code of the executed system call.
 
 ##### `processingUnitID` `string` [`required`]
 
@@ -4784,7 +4774,7 @@ Namespace of the processing unit originating the report.
 
 ##### `recordType` `string` [`required`]
 
-Type of record.
+Type of Audit Record.
 
 ##### `sequence` `integer`
 
@@ -4796,7 +4786,7 @@ Tells if the operation has been a success of a failure.
 
 ##### `syscall` `string`
 
-Syscall name.
+Syscall executed.
 
 ##### `timestamp` `time` [`required`]
 
@@ -6469,13 +6459,12 @@ Last update date of the object.
 
 ## `policy/networking`
 
-| Resource                                      | Description                                                                         |
-| -                                             | -                                                                                   |
-| [Claims](#claims)                             | This API represents the claims that accessed a service.                             |
-| [ExternalNetwork](#externalnetwork)           | An External Network represents a random network or ip that is not managed by the... |
-| [FlowReport](#flowreport)                     | Post a new flow statistics report.                                                  |
-| [InfrastructurePolicy](#infrastructurepolicy) | Infrastructure policies capture the network access rules of the underlying          |
-| [NetworkAccessPolicy](#networkaccesspolicy)   | Allows to define networking policies to allow or prevent processing units           |
+| Resource                                    | Description                                                                         |
+| -                                           | -                                                                                   |
+| [Claims](#claims)                           | This API represents the claims that accessed a service.                             |
+| [ExternalNetwork](#externalnetwork)         | An External Network represents a random network or ip that is not managed by the... |
+| [FlowReport](#flowreport)                   | Post a new flow statistics report.                                                  |
+| [NetworkAccessPolicy](#networkaccesspolicy) | Allows to define networking policies to allow or prevent processing units           |
 
 ### Claims
 
@@ -6611,14 +6600,6 @@ Parameters:
 ##### `PUT /externalnetworks/:id`
 
 Updates the object with the given ID.
-
-##### `GET /infrastructurepolicies/:id/externalnetworks`
-
-Returns the list of external networks affected by an infrastructure policy.
-
-Parameters:
-
-- `mode` (`enum`): Matching mode.
 
 ##### `GET /networkaccesspolicies/:id/externalnetworks`
 
@@ -6876,175 +6857,6 @@ Date of the report.
 ##### `value` `integer` [`required`]
 
 Number of flows in the report.
-
-### InfrastructurePolicy
-
-Infrastructure policies capture the network access rules of the underlying
-infrastructure and can be used to model cloud security groups, firewalls or
-other ACL based mechanisms. They are not used in the identity-based network
-authorization of Aporeto, but they can affect traffic flows in the underlying
-infrastructure.
-
-#### Example
-
-```json
-{
-  "action": "Allow",
-  "applyPolicyMode": "OutgoingTraffic",
-  "disabled": false,
-  "name": "the name",
-  "propagate": false,
-  "protected": false
-}
-```
-
-#### Relations
-
-##### `GET /infrastructurepolicies`
-
-Retrieves the list of infrastructure policies.
-
-Parameters:
-
-- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
-- `propagated` (`boolean`): Also retrieve the objects that propagate down.
-
-##### `POST /infrastructurepolicies`
-
-Creates a new infrastructure policy.
-
-##### `DELETE /infrastructurepolicies/:id`
-
-Deletes the object with the given ID.
-
-Parameters:
-
-- `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
-
-##### `GET /infrastructurepolicies/:id`
-
-Retrieves the object with the given ID.
-
-Parameters:
-
-- `propagated` (`boolean`): Also retrieve the objects that propagate down.
-
-##### `PUT /infrastructurepolicies/:id`
-
-Updates the object with the given ID.
-
-##### `GET /infrastructurepolicies/:id/externalnetworks`
-
-Returns the list of external networks affected by an infrastructure policy.
-
-Parameters:
-
-- `mode` (`enum`): Matching mode.
-
-##### `GET /infrastructurepolicies/:id/processingunits`
-
-Returns the list of Processing Units affected by an infrastructure policy.
-
-Parameters:
-
-- `mode` (`enum`): Matching mode.
-
-##### `GET /infrastructurepolicies/:id/services`
-
-Returns the list of services affected by an infrastructure policy.
-
-Parameters:
-
-- `mode` (`enum`): Matching mode.
-
-#### Attributes
-
-##### `ID` `string` [`identifier`,`autogenerated`,`read_only`]
-
-ID is the identifier of the object.
-
-##### `action` `emum(Allow | Reject)`
-
-Action defines the action to apply to a flow.
-
-Default value:
-
-```json
-"Allow"
-```
-
-##### `annotations` `map[string][]string`
-
-Annotation stores additional information about an entity.
-
-##### `applyPolicyMode` `emum(OutgoingTraffic | IncomingTraffic)`
-
-applyPolicyMode determines if the policy has to be applied to the
-outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
-Default is both directions.
-
-Default value:
-
-```json
-"OutgoingTraffic"
-```
-
-##### `associatedTags` `[]string`
-
-AssociatedTags are the list of tags attached to an entity.
-
-##### `createTime` `time` [`autogenerated`,`read_only`]
-
-Creation date of the object.
-
-##### `description` `string` [`max_length=1024`]
-
-Description is the description of the object.
-
-##### `disabled` `boolean`
-
-Disabled defines if the propert is disabled.
-
-##### `expirationTime` `time`
-
-If set the policy will be auto deleted after the given time.
-
-##### `metadata` `[]string` [`creation_only`]
-
-Metadata contains tags that can only be set during creation. They must all start
-with the '@' prefix, and should only be used by external systems.
-
-##### `name` `string` [`required`,`max_length=256`]
-
-Name is the name of the entity.
-
-##### `namespace` `string` [`autogenerated`,`read_only`]
-
-Namespace tag attached to an entity.
-
-##### `normalizedTags` `[]string` [`autogenerated`,`read_only`]
-
-NormalizedTags contains the list of normalized tags of the entities.
-
-##### `object` `[][]string`
-
-Object of the policy.
-
-##### `propagate` `boolean`
-
-Propagate will propagate the policy to all of its children.
-
-##### `protected` `boolean`
-
-Protected defines if the object is protected.
-
-##### `subject` `[][]string`
-
-Subject of the policy.
-
-##### `updateTime` `time` [`autogenerated`,`read_only`]
-
-Last update date of the object.
 
 ### NetworkAccessPolicy
 
@@ -7953,14 +7765,6 @@ Parameters:
 ##### `PUT /services/:id`
 
 Updates the object with the given ID.
-
-##### `GET /infrastructurepolicies/:id/services`
-
-Returns the list of services affected by an infrastructure policy.
-
-Parameters:
-
-- `mode` (`enum`): Matching mode.
 
 ##### `GET /networkaccesspolicies/:id/services`
 
