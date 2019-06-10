@@ -142,7 +142,7 @@ type Recipe struct {
 	SuccessfullMessage string `json:"successfullMessage" msgpack:"successfullMessage" bson:"successfullmessage" mapstructure:"successfullMessage,omitempty"`
 
 	// TargetIdentities contains the list of identities the recipes will try to create.
-	TargetIdentities []string `json:"targetIdentities" msgpack:"targetIdentities" bson:"-" mapstructure:"targetIdentities,omitempty"`
+	TargetIdentities []string `json:"targetIdentities" msgpack:"targetIdentities" bson:"targetidentities" mapstructure:"targetIdentities,omitempty"`
 
 	// Template of the recipe to import.
 	Template string `json:"template" msgpack:"template" bson:"template" mapstructure:"template,omitempty"`
@@ -949,6 +949,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Exposed:        true,
 		Name:           "targetIdentities",
 		Required:       true,
+		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -1241,6 +1242,7 @@ with the '@' prefix, and should only be used by external systems.`,
 		Exposed:        true,
 		Name:           "targetIdentities",
 		Required:       true,
+		Stored:         true,
 		SubType:        "string",
 		Type:           "list",
 	},
@@ -1416,7 +1418,7 @@ type SparseRecipe struct {
 	SuccessfullMessage *string `json:"successfullMessage,omitempty" msgpack:"successfullMessage,omitempty" bson:"successfullmessage,omitempty" mapstructure:"successfullMessage,omitempty"`
 
 	// TargetIdentities contains the list of identities the recipes will try to create.
-	TargetIdentities *[]string `json:"targetIdentities,omitempty" msgpack:"targetIdentities,omitempty" bson:"-" mapstructure:"targetIdentities,omitempty"`
+	TargetIdentities *[]string `json:"targetIdentities,omitempty" msgpack:"targetIdentities,omitempty" bson:"targetidentities,omitempty" mapstructure:"targetIdentities,omitempty"`
 
 	// Template of the recipe to import.
 	Template *string `json:"template,omitempty" msgpack:"template,omitempty" bson:"template,omitempty" mapstructure:"template,omitempty"`

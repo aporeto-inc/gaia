@@ -94,6 +94,7 @@ attributes:
     type: list
     exposed: true
     subtype: string
+    stored: true
     required: true
     example_value:
     - processingunit
