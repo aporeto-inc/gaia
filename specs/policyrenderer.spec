@@ -51,6 +51,7 @@ attributes:
     - EnforcerProfile
     - File
     - Hook
+    - Infrastructure
     - NamespaceMapping
     - Network
     - ProcessingUnit

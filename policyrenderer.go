@@ -34,6 +34,9 @@ const (
 	// PolicyRendererTypeHook represents the value Hook.
 	PolicyRendererTypeHook PolicyRendererTypeValue = "Hook"
 
+	// PolicyRendererTypeInfrastructure represents the value Infrastructure.
+	PolicyRendererTypeInfrastructure PolicyRendererTypeValue = "Infrastructure"
+
 	// PolicyRendererTypeNamespaceMapping represents the value NamespaceMapping.
 	PolicyRendererTypeNamespaceMapping PolicyRendererTypeValue = "NamespaceMapping"
 
@@ -299,7 +302,7 @@ func (o *PolicyRenderer) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope", "SSHAuthorization"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "Infrastructure", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope", "SSHAuthorization"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -384,7 +387,7 @@ effect when rendering a SSHAuthorizationPolicy for now.`,
 		Type:           "list",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope", "SSHAuthorization"},
+		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "Infrastructure", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope", "SSHAuthorization"},
 		ConvertedName:  "Type",
 		Description:    `Type of the policy to render.`,
 		Exposed:        true,
@@ -428,7 +431,7 @@ effect when rendering a SSHAuthorizationPolicy for now.`,
 		Type:           "list",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope", "SSHAuthorization"},
+		AllowedChoices: []string{"APIAuthorization", "EnforcerProfile", "File", "Hook", "Infrastructure", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Syscall", "TokenScope", "SSHAuthorization"},
 		ConvertedName:  "Type",
 		Description:    `Type of the policy to render.`,
 		Exposed:        true,

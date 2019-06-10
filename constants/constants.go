@@ -33,12 +33,14 @@ const (
 type RenderedPolicyType string
 
 const (
-	// RenderedPolicyTypeNetwork that the RenderedPolicyType is network
-	RenderedPolicyTypeNetwork RenderedPolicyType = "networkPolicyRules"
 	// RenderedPolicyTypeFile that the RenderedPolicyType is file
 	RenderedPolicyTypeFile RenderedPolicyType = "filePolicyRules"
+	// RenderedPolicyTypeInfrastructure that the RenderedPolicyType is infrastructure
+	RenderedPolicyTypeInfrastructure RenderedPolicyType = "infrastructurePolicyRules"
 	// RenderedPolicyTypeIsolation that the RenderedPolicyType for isolation policies
 	RenderedPolicyTypeIsolation RenderedPolicyType = "isolationPolicyRules"
+	// RenderedPolicyTypeNetwork that the RenderedPolicyType is network
+	RenderedPolicyTypeNetwork RenderedPolicyType = "networkPolicyRules"
 )
 
 const (
