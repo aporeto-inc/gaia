@@ -442,7 +442,7 @@ func ValidateHostServices(hs *HostService) error {
 func ValidateProtoPorts(attribute string, services []string) error {
 
 	for _, service := range services {
-		if err := ValidateProtoPort(service); err != nil {
+		if err := ValidateProtoPort(attribute, service); err != nil {
 			return makeValidationError(attribute, fmt.Sprintf("%s", err))
 		}
 	}
@@ -451,16 +451,16 @@ func ValidateProtoPorts(attribute string, services []string) error {
 }
 
 // ValidateProtoPort validates protocol/port.
-func ValidateProtoPort(service string) error {
+func ValidateProtoPort(attribute string, service string) error {
 
 	portSubString, _, err := portutils.ExtractPortsAndProtocol(service)
 	if err != nil {
-		return fmt.Errorf("invalid format: %s", service)
+		return makeValidationError(attribute, fmt.Sprintf("invalid format: %s", err))
 	}
 
 	_, err = portutils.ConvertToSinglePort(portSubString)
 	if err != nil {
-		return fmt.Errorf("invalid port: %s", err)
+		return makeValidationError(attribute, fmt.Sprintf("invalid port: %s", err))
 	}
 
 	return nil

@@ -123,7 +123,7 @@ attributes:
     subtype: string
     orderable: true
     validations:
-    - $protoPorts
+    - $protoports
 
   - name: subject
     description: Subject of the policy.
