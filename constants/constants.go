@@ -257,7 +257,7 @@ const (
 	ActionTokenScope = "action=scope"
 
 	// ActionProtoPortsString is the system created restriction=ports tag.
-	ActionProtoPortsTagString = "restriction=ports"
+	ActionProtoPortsTagString = "action=restrictports"
 )
 
 const (
