@@ -33,14 +33,12 @@ const (
 type RenderedPolicyType string
 
 const (
-	// RenderedPolicyTypeFile that the RenderedPolicyType is file
-	RenderedPolicyTypeFile RenderedPolicyType = "filePolicyRules"
-	// RenderedPolicyTypeInfrastructure that the RenderedPolicyType is infrastructure
-	RenderedPolicyTypeInfrastructure RenderedPolicyType = "infrastructurePolicyRules"
-	// RenderedPolicyTypeIsolation that the RenderedPolicyType for isolation policies
-	RenderedPolicyTypeIsolation RenderedPolicyType = "isolationPolicyRules"
 	// RenderedPolicyTypeNetwork that the RenderedPolicyType is network
 	RenderedPolicyTypeNetwork RenderedPolicyType = "networkPolicyRules"
+	// RenderedPolicyTypeFile that the RenderedPolicyType is file
+	RenderedPolicyTypeFile RenderedPolicyType = "filePolicyRules"
+	// RenderedPolicyTypeIsolation that the RenderedPolicyType for isolation policies
+	RenderedPolicyTypeIsolation RenderedPolicyType = "isolationPolicyRules"
 )
 
 const (
@@ -207,8 +205,8 @@ const (
 	// RelationApplySubject is the system create relation=apply-subject
 	RelationApplySubjectOnly = "relation=apply-subject"
 
-	// RelationApplyObject is the system create relation=apply-object
-	RelationApplyObjectOnly = "relation=apply-object"
+	// RelationApplyObject is the system create relation-apply-object
+	RelationApplyObjectOnly = "relation-apply=object"
 
 	// ActionAllowTagString is the system created action=allow tag.
 	ActionAllowTagString = "action=allow"
