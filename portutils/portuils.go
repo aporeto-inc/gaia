@@ -65,6 +65,8 @@ func ConvertToSinglePort(port string) (int64, error) {
 }
 
 // ExtractPortsAndProtocol extracts ports and protocol from the service
+// NOTE: The protocol should be in uppercase to match our list of protocols here
+// https://github.com/aporeto-inc/gaia/blob/master/protocols/protocols.go
 func ExtractPortsAndProtocol(service string) (string, string, error) {
 
 	upperService := strings.ToUpper(service)
@@ -86,6 +88,8 @@ func ExtractPortsAndProtocol(service string) (string, string, error) {
 
 // ExtractPortsAndProtocolFromHostService extracts the port range and the protocol from a host service like tcp/80:100.
 // If the prefix is neither tcp or udp it will return an error.
+// NOTE: The protocol should be in uppercase to match our list of protocols here
+// https://github.com/aporeto-inc/gaia/blob/master/protocols/protocols.go
 func ExtractPortsAndProtocolFromHostService(service string) (*PortsRange, string, error) {
 
 	proto := ""
