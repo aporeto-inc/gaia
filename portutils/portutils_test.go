@@ -82,7 +82,7 @@ func Test_ConvertToPortsList(t *testing.T) {
 			false,
 		},
 		{
-			"mutliple ports",
+			"multiple ports",
 			args{"80,443,1200"},
 			nil,
 			true,
