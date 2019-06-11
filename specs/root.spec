@@ -364,7 +364,6 @@ relations:
     description: Retrieves the list of infrastructure policies.
     global_parameters:
     - $filtering
-    - $propagatable
   create:
     description: Creates a new infrastructure policy.
 

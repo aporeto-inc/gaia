@@ -6926,7 +6926,6 @@ Retrieves the list of infrastructure policies.
 Parameters:
 
 - `q` (`string`): Filtering query. Consequent `q` parameters will form an or.
-- `propagated` (`boolean`): Also retrieve the objects that propagate down.
 
 ##### `POST /infrastructurepolicies`
 
@@ -6943,10 +6942,6 @@ Parameters:
 ##### `GET /infrastructurepolicies/:id`
 
 Retrieves the object with the given ID.
-
-Parameters:
-
-- `propagated` (`boolean`): Also retrieve the objects that propagate down.
 
 ##### `PUT /infrastructurepolicies/:id`
 
