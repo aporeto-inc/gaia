@@ -207,8 +207,8 @@ const (
 	// RelationApplySubject is the system create relation=apply-subject
 	RelationApplySubjectOnly = "relation=apply-subject"
 
-	// RelationApplyObject is the system create relation-apply-object
-	RelationApplyObjectOnly = "relation-apply=object"
+	// RelationApplyObject is the system create relation=apply-object
+	RelationApplyObjectOnly = "relation=apply-object"
 
 	// ActionAllowTagString is the system created action=allow tag.
 	ActionAllowTagString = "action=allow"
