@@ -145,11 +145,6 @@ type InfrastructurePolicy struct {
 	// If set the policy will be auto deleted after the given time.
 	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
-	// Fallback indicates that this is fallback policy. It will only be
-	// applied if no other policies have been resolved. If the policy is also
-	// propagated it will become a fallback for children namespaces.
-	Fallback bool `json:"fallback" msgpack:"fallback" bson:"fallback" mapstructure:"fallback,omitempty"`
-
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata []string `json:"metadata" msgpack:"metadata" bson:"metadata" mapstructure:"metadata,omitempty"`
@@ -165,9 +160,6 @@ type InfrastructurePolicy struct {
 
 	// Object of the policy.
 	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
-
-	// Propagate will propagate the policy to all of its children.
-	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
@@ -364,18 +356,6 @@ func (o *InfrastructurePolicy) SetExpirationTime(expirationTime time.Time) {
 	o.ExpirationTime = expirationTime
 }
 
-// GetFallback returns the Fallback of the receiver.
-func (o *InfrastructurePolicy) GetFallback() bool {
-
-	return o.Fallback
-}
-
-// SetFallback sets the property Fallback of the receiver using the given value.
-func (o *InfrastructurePolicy) SetFallback(fallback bool) {
-
-	o.Fallback = fallback
-}
-
 // GetMetadata returns the Metadata of the receiver.
 func (o *InfrastructurePolicy) GetMetadata() []string {
 
@@ -422,18 +402,6 @@ func (o *InfrastructurePolicy) GetNormalizedTags() []string {
 func (o *InfrastructurePolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
-}
-
-// GetPropagate returns the Propagate of the receiver.
-func (o *InfrastructurePolicy) GetPropagate() bool {
-
-	return o.Propagate
-}
-
-// SetPropagate sets the property Propagate of the receiver using the given value.
-func (o *InfrastructurePolicy) SetPropagate(propagate bool) {
-
-	o.Propagate = propagate
 }
 
 // GetProtected returns the Protected of the receiver.
@@ -515,13 +483,11 @@ func (o *InfrastructurePolicy) ToSparse(fields ...string) elemental.SparseIdenti
 			Description:          &o.Description,
 			Disabled:             &o.Disabled,
 			ExpirationTime:       &o.ExpirationTime,
-			Fallback:             &o.Fallback,
 			Metadata:             &o.Metadata,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
 			Object:               &o.Object,
-			Propagate:            &o.Propagate,
 			Protected:            &o.Protected,
 			Subject:              &o.Subject,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
@@ -558,8 +524,6 @@ func (o *InfrastructurePolicy) ToSparse(fields ...string) elemental.SparseIdenti
 			sp.Disabled = &(o.Disabled)
 		case "expirationTime":
 			sp.ExpirationTime = &(o.ExpirationTime)
-		case "fallback":
-			sp.Fallback = &(o.Fallback)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "name":
@@ -570,8 +534,6 @@ func (o *InfrastructurePolicy) ToSparse(fields ...string) elemental.SparseIdenti
 			sp.NormalizedTags = &(o.NormalizedTags)
 		case "object":
 			sp.Object = &(o.Object)
-		case "propagate":
-			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
 		case "subject":
@@ -633,9 +595,6 @@ func (o *InfrastructurePolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ExpirationTime != nil {
 		o.ExpirationTime = *so.ExpirationTime
 	}
-	if so.Fallback != nil {
-		o.Fallback = *so.Fallback
-	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
 	}
@@ -650,9 +609,6 @@ func (o *InfrastructurePolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.Object != nil {
 		o.Object = *so.Object
-	}
-	if so.Propagate != nil {
-		o.Propagate = *so.Propagate
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
@@ -802,8 +758,6 @@ func (o *InfrastructurePolicy) ValueForAttribute(name string) interface{} {
 		return o.Disabled
 	case "expirationTime":
 		return o.ExpirationTime
-	case "fallback":
-		return o.Fallback
 	case "metadata":
 		return o.Metadata
 	case "name":
@@ -814,8 +768,6 @@ func (o *InfrastructurePolicy) ValueForAttribute(name string) interface{} {
 		return o.NormalizedTags
 	case "object":
 		return o.Object
-	case "propagate":
-		return o.Propagate
 	case "protected":
 		return o.Protected
 	case "subject":
@@ -981,20 +933,6 @@ Default is both directions.`,
 		Stored:         true,
 		Type:           "time",
 	},
-	"Fallback": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
-applied if no other policies have been resolved. If the policy is also
-propagated it will become a fallback for children namespaces.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "fallback",
-		Orderable: true,
-		Setter:    true,
-		Stored:    true,
-		Type:      "boolean",
-	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -1067,18 +1005,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Orderable:      true,
 		SubType:        "[][]string",
 		Type:           "external",
-	},
-	"Propagate": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "propagate",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1304,20 +1230,6 @@ Default is both directions.`,
 		Stored:         true,
 		Type:           "time",
 	},
-	"fallback": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Fallback",
-		Description: `Fallback indicates that this is fallback policy. It will only be
-applied if no other policies have been resolved. If the policy is also
-propagated it will become a fallback for children namespaces.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "fallback",
-		Orderable: true,
-		Setter:    true,
-		Stored:    true,
-		Type:      "boolean",
-	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Metadata",
@@ -1390,18 +1302,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Orderable:      true,
 		SubType:        "[][]string",
 		Type:           "external",
-	},
-	"propagate": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
-		Exposed:        true,
-		Getter:         true,
-		Name:           "propagate",
-		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1585,11 +1485,6 @@ type SparseInfrastructurePolicy struct {
 	// If set the policy will be auto deleted after the given time.
 	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
-	// Fallback indicates that this is fallback policy. It will only be
-	// applied if no other policies have been resolved. If the policy is also
-	// propagated it will become a fallback for children namespaces.
-	Fallback *bool `json:"fallback,omitempty" msgpack:"fallback,omitempty" bson:"fallback,omitempty" mapstructure:"fallback,omitempty"`
-
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
 	Metadata *[]string `json:"metadata,omitempty" msgpack:"metadata,omitempty" bson:"metadata,omitempty" mapstructure:"metadata,omitempty"`
@@ -1605,9 +1500,6 @@ type SparseInfrastructurePolicy struct {
 
 	// Object of the policy.
 	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
-
-	// Propagate will propagate the policy to all of its children.
-	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
@@ -1704,9 +1596,6 @@ func (o *SparseInfrastructurePolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.ExpirationTime != nil {
 		out.ExpirationTime = *o.ExpirationTime
 	}
-	if o.Fallback != nil {
-		out.Fallback = *o.Fallback
-	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
 	}
@@ -1721,9 +1610,6 @@ func (o *SparseInfrastructurePolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.Object != nil {
 		out.Object = *o.Object
-	}
-	if o.Propagate != nil {
-		out.Propagate = *o.Propagate
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
@@ -1855,18 +1741,6 @@ func (o *SparseInfrastructurePolicy) SetExpirationTime(expirationTime time.Time)
 	o.ExpirationTime = &expirationTime
 }
 
-// GetFallback returns the Fallback of the receiver.
-func (o *SparseInfrastructurePolicy) GetFallback() bool {
-
-	return *o.Fallback
-}
-
-// SetFallback sets the property Fallback of the receiver using the address of the given value.
-func (o *SparseInfrastructurePolicy) SetFallback(fallback bool) {
-
-	o.Fallback = &fallback
-}
-
 // GetMetadata returns the Metadata of the receiver.
 func (o *SparseInfrastructurePolicy) GetMetadata() []string {
 
@@ -1913,18 +1787,6 @@ func (o *SparseInfrastructurePolicy) GetNormalizedTags() []string {
 func (o *SparseInfrastructurePolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
-}
-
-// GetPropagate returns the Propagate of the receiver.
-func (o *SparseInfrastructurePolicy) GetPropagate() bool {
-
-	return *o.Propagate
-}
-
-// SetPropagate sets the property Propagate of the receiver using the address of the given value.
-func (o *SparseInfrastructurePolicy) SetPropagate(propagate bool) {
-
-	o.Propagate = &propagate
 }
 
 // GetProtected returns the Protected of the receiver.

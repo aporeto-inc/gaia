@@ -6912,9 +6912,7 @@ infrastructure.
   "action": "Allow",
   "applyPolicyMode": "OutgoingTraffic",
   "disabled": false,
-  "fallback": false,
   "name": "the name",
-  "propagate": false,
   "protected": false
 }
 ```
@@ -7040,12 +7038,6 @@ Disabled defines if the propert is disabled.
 
 If set the policy will be auto deleted after the given time.
 
-##### `fallback` `boolean`
-
-Fallback indicates that this is fallback policy. It will only be
-applied if no other policies have been resolved. If the policy is also
-propagated it will become a fallback for children namespaces.
-
 ##### `metadata` `[]string` [`creation_only`]
 
 Metadata contains tags that can only be set during creation. They must all start
@@ -7066,10 +7058,6 @@ NormalizedTags contains the list of normalized tags of the entities.
 ##### `object` `[][]string`
 
 Object of the policy.
-
-##### `propagate` `boolean`
-
-Propagate will propagate the policy to all of its children.
 
 ##### `protected` `boolean`
 

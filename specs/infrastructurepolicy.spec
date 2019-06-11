@@ -31,8 +31,6 @@ model:
   - '@identifiable-not-stored'
   - '@metadatable'
   - '@named'
-  - '@propagated'
-  - '@fallback'
   - '@schedulable'
   - '@zonable'
   - '@timeable'
