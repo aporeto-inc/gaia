@@ -94,7 +94,7 @@ func ExtractPortsAndProtocolFromHostService(service string) (*PortsRange, string
 	portSubString, proto, err := ExtractPortsAndProtocol(service)
 	if err != nil {
 		proto = protocols.L4ProtocolTCP
-		portSubString = service
+		portSubString = strings.ToUpper(service)
 	}
 
 	if strings.Contains(portSubString, ":") {
