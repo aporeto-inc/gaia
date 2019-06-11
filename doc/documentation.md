@@ -2486,11 +2486,11 @@ applications, services or any combination you like.
 ```json
 {
   "SSHCAEnabled": false,
+  "customZoning": false,
   "localCAEnabled": false,
   "name": "mynamespace",
   "protected": false,
-  "serviceCertificateValidity": "1h",
-  "zoning": -1
+  "serviceCertificateValidity": "1h"
 }
 ```
 
@@ -2556,6 +2556,12 @@ AssociatedTags are the list of tags attached to an entity.
 
 Creation date of the object.
 
+##### `customZoning` `boolean` [`creation_only`]
+
+Defines if the namespace should inherit its parent zone. If this property is set
+to false, the `zoning` property will be ignored and the namespace will have the
+same zone as its parent.
+
 ##### `description` `string` [`max_length=1024`]
 
 Description is the description of the object.
@@ -2620,12 +2626,6 @@ georedundancy.
 ##### `zoning` `integer` [`creation_only`]
 
 Defines what zone the namespace should live in.
-
-Default value:
-
-```json
--1
-```
 
 ### NamespaceMappingPolicy
 

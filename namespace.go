@@ -111,6 +111,11 @@ type Namespace struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// Defines if the namespace should inherit its parent zone. If this property is set
+	// to false, the `+"`"+`zoning`+"`"+` property will be ignored and the namespace will have the
+	// same zone as its parent.
+	CustomZoning bool `json:"customZoning" msgpack:"customZoning" bson:"customzoning" mapstructure:"customZoning,omitempty"`
+
 	// Description is the description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
@@ -172,11 +177,10 @@ func NewNamespace() *Namespace {
 		ModelVersion:               1,
 		AssociatedTags:             []string{},
 		Annotations:                map[string][]string{},
-		Metadata:                   []string{},
 		NormalizedTags:             []string{},
+		Metadata:                   []string{},
 		NetworkAccessPolicyTags:    []string{},
 		ServiceCertificateValidity: "1h",
-		Zoning:                     -1,
 	}
 }
 
@@ -423,6 +427,7 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			AssociatedTags:             &o.AssociatedTags,
 			CreateIdempotencyKey:       &o.CreateIdempotencyKey,
 			CreateTime:                 &o.CreateTime,
+			CustomZoning:               &o.CustomZoning,
 			Description:                &o.Description,
 			LocalCA:                    &o.LocalCA,
 			LocalCAEnabled:             &o.LocalCAEnabled,
@@ -462,6 +467,8 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
+		case "customZoning":
+			sp.CustomZoning = &(o.CustomZoning)
 		case "description":
 			sp.Description = &(o.Description)
 		case "localCA":
@@ -531,6 +538,9 @@ func (o *Namespace) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
+	}
+	if so.CustomZoning != nil {
+		o.CustomZoning = *so.CustomZoning
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
@@ -689,6 +699,8 @@ func (o *Namespace) ValueForAttribute(name string) interface{} {
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
+	case "customZoning":
+		return o.CustomZoning
 	case "description":
 		return o.Description
 	case "localCA":
@@ -830,6 +842,18 @@ deployed in SSH server to validate SSH certificates issued by the platform.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"CustomZoning": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CustomZoning",
+		CreationOnly:   true,
+		Description: `Defines if the namespace should inherit its parent zone. If this property is set
+to false, the ` + "`" + `zoning` + "`" + ` property will be ignored and the namespace will have the
+same zone as its parent.`,
+		Exposed: true,
+		Name:    "customZoning",
+		Stored:  true,
+		Type:    "boolean",
 	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1009,20 +1033,18 @@ georedundancy.`,
 		ConvertedName:  "Zone",
 		Description: `geographical zone. This is used for sharding and
 georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Exposed:  true,
+		Getter:   true,
+		Name:     "zone",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
 	},
 	"Zoning": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Zoning",
 		CreationOnly:   true,
-		DefaultValue:   -1,
 		Description:    `Defines what zone the namespace should live in.`,
 		Exposed:        true,
 		Getter:         true,
@@ -1139,6 +1161,18 @@ deployed in SSH server to validate SSH certificates issued by the platform.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"customzoning": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CustomZoning",
+		CreationOnly:   true,
+		Description: `Defines if the namespace should inherit its parent zone. If this property is set
+to false, the ` + "`" + `zoning` + "`" + ` property will be ignored and the namespace will have the
+same zone as its parent.`,
+		Exposed: true,
+		Name:    "customZoning",
+		Stored:  true,
+		Type:    "boolean",
 	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1318,20 +1352,18 @@ georedundancy.`,
 		ConvertedName:  "Zone",
 		Description: `geographical zone. This is used for sharding and
 georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
+		Exposed:  true,
+		Getter:   true,
+		Name:     "zone",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
 	},
 	"zoning": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Zoning",
 		CreationOnly:   true,
-		DefaultValue:   -1,
 		Description:    `Defines what zone the namespace should live in.`,
 		Exposed:        true,
 		Getter:         true,
@@ -1435,6 +1467,11 @@ type SparseNamespace struct {
 
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
+
+	// Defines if the namespace should inherit its parent zone. If this property is set
+	// to false, the `+"`"+`zoning`+"`"+` property will be ignored and the namespace will have the
+	// same zone as its parent.
+	CustomZoning *bool `json:"customZoning,omitempty" msgpack:"customZoning,omitempty" bson:"customzoning,omitempty" mapstructure:"customZoning,omitempty"`
 
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
@@ -1552,6 +1589,9 @@ func (o *SparseNamespace) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
+	}
+	if o.CustomZoning != nil {
+		out.CustomZoning = *o.CustomZoning
 	}
 	if o.Description != nil {
 		out.Description = *o.Description
