@@ -989,6 +989,53 @@ func TestValidateHostService(t *testing.T) {
 	}
 }
 
+func TestValidateProtoPorts(t *testing.T) {
+	tests := []struct {
+		name     string
+		services []string
+		wantErr  bool
+	}{
+		{
+			"valid services",
+			[]string{"tcp/80", "udp/80"},
+			false,
+		},
+		{
+			"invalid protocol",
+			[]string{"tcp/80", "bro/80"},
+			true,
+		},
+		{
+			"invalid port format",
+			[]string{"tcp/80", "bro/code"},
+			true,
+		},
+		{
+			"invalid port number",
+			[]string{"tcp/80", "bro/10000"},
+			true,
+		},
+		{
+			"nil services",
+			nil,
+			false,
+		},
+		{
+			"empty services",
+			[]string{},
+			false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateProtoPorts("ports", tt.services); (err != nil) != tt.wantErr {
+				t.Errorf("TestValidateProtoPorts() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
 func Test_isFQDN(t *testing.T) {
 	type args struct {
 		name string
