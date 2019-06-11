@@ -443,7 +443,7 @@ func ValidateProtoPorts(attribute string, services []string) error {
 
 	for _, service := range services {
 		if err := ValidateProtoPort(attribute, service); err != nil {
-			return makeValidationError(attribute, fmt.Sprintf("%s", err))
+			return err
 		}
 	}
 
