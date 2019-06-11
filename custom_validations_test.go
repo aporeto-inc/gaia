@@ -989,7 +989,7 @@ func TestValidateHostService(t *testing.T) {
 	}
 }
 
-func TestValidateRestrictedServices(t *testing.T) {
+func TestValidateProtoPorts(t *testing.T) {
 	tests := []struct {
 		name     string
 		services []string
@@ -1029,8 +1029,8 @@ func TestValidateRestrictedServices(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := ValidateRestrictedServices("restrictedServices", tt.services); (err != nil) != tt.wantErr {
-				t.Errorf("TestValidateRestrictedServices() error = %v, wantErr %v", err, tt.wantErr)
+			if err := ValidateProtoPorts("ports", tt.services); (err != nil) != tt.wantErr {
+				t.Errorf("TestValidateProtoPorts() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

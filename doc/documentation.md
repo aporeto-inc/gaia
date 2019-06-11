@@ -7085,6 +7085,10 @@ Default value:
 "Continue"
 ```
 
+##### `ports` `[]string`
+
+Represents the ports and protocols this policy applies to.
+
 ##### `propagate` `boolean`
 
 Propagate will propagate the policy to all of its children.
@@ -7092,10 +7096,6 @@ Propagate will propagate the policy to all of its children.
 ##### `protected` `boolean`
 
 Protected defines if the object is protected.
-
-##### `restrictedServices` `[]string`
-
-Represents the ports that the policy applies to.
 
 ##### `subject` `[][]string`
 

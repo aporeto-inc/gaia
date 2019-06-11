@@ -202,14 +202,14 @@ type NetworkAccessPolicy struct {
 	// packets.
 	ObservedTrafficAction NetworkAccessPolicyObservedTrafficActionValue `json:"observedTrafficAction" msgpack:"observedTrafficAction" bson:"-" mapstructure:"observedTrafficAction,omitempty"`
 
+	// Represents the ports and protocols this policy applies to.
+	Ports []string `json:"ports" msgpack:"ports" bson:"-" mapstructure:"ports,omitempty"`
+
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
-
-	// Represents the ports that the policy applies to.
-	RestrictedServices []string `json:"restrictedServices" msgpack:"restrictedServices" bson:"-" mapstructure:"restrictedServices,omitempty"`
 
 	// Subject of the policy.
 	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
@@ -241,10 +241,10 @@ func NewNetworkAccessPolicy() *NetworkAccessPolicy {
 		Annotations:           map[string][]string{},
 		ApplyPolicyMode:       NetworkAccessPolicyApplyPolicyModeBidirectional,
 		ObservedTrafficAction: NetworkAccessPolicyObservedTrafficActionContinue,
+		Ports:                 []string{},
 		NormalizedTags:        []string{},
 		Object:                [][]string{},
 		Metadata:              []string{},
-		RestrictedServices:    []string{},
 		Subject:               [][]string{},
 	}
 }
@@ -590,9 +590,9 @@ func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentif
 			Object:                &o.Object,
 			ObservationEnabled:    &o.ObservationEnabled,
 			ObservedTrafficAction: &o.ObservedTrafficAction,
+			Ports:                 &o.Ports,
 			Propagate:             &o.Propagate,
 			Protected:             &o.Protected,
-			RestrictedServices:    &o.RestrictedServices,
 			Subject:               &o.Subject,
 			UpdateIdempotencyKey:  &o.UpdateIdempotencyKey,
 			UpdateTime:            &o.UpdateTime,
@@ -652,12 +652,12 @@ func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentif
 			sp.ObservationEnabled = &(o.ObservationEnabled)
 		case "observedTrafficAction":
 			sp.ObservedTrafficAction = &(o.ObservedTrafficAction)
+		case "ports":
+			sp.Ports = &(o.Ports)
 		case "propagate":
 			sp.Propagate = &(o.Propagate)
 		case "protected":
 			sp.Protected = &(o.Protected)
-		case "restrictedServices":
-			sp.RestrictedServices = &(o.RestrictedServices)
 		case "subject":
 			sp.Subject = &(o.Subject)
 		case "updateIdempotencyKey":
@@ -753,14 +753,14 @@ func (o *NetworkAccessPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ObservedTrafficAction != nil {
 		o.ObservedTrafficAction = *so.ObservedTrafficAction
 	}
+	if so.Ports != nil {
+		o.Ports = *so.Ports
+	}
 	if so.Propagate != nil {
 		o.Propagate = *so.Propagate
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
-	}
-	if so.RestrictedServices != nil {
-		o.RestrictedServices = *so.RestrictedServices
 	}
 	if so.Subject != nil {
 		o.Subject = *so.Subject
@@ -849,7 +849,7 @@ func (o *NetworkAccessPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := ValidateRestrictedServices("restrictedServices", o.RestrictedServices); err != nil {
+	if err := ValidateProtoPorts("ports", o.Ports); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -939,12 +939,12 @@ func (o *NetworkAccessPolicy) ValueForAttribute(name string) interface{} {
 		return o.ObservationEnabled
 	case "observedTrafficAction":
 		return o.ObservedTrafficAction
+	case "ports":
+		return o.Ports
 	case "propagate":
 		return o.Propagate
 	case "protected":
 		return o.Protected
-	case "restrictedServices":
-		return o.RestrictedServices
 	case "subject":
 		return o.Subject
 	case "updateIdempotencyKey":
@@ -1255,6 +1255,16 @@ packets.`,
 		Orderable: true,
 		Type:      "enum",
 	},
+	"Ports": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Ports",
+		Description:    `Represents the ports and protocols this policy applies to.`,
+		Exposed:        true,
+		Name:           "ports",
+		Orderable:      true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
@@ -1278,16 +1288,6 @@ packets.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
-	},
-	"RestrictedServices": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "RestrictedServices",
-		Description:    `Represents the ports that the policy applies to.`,
-		Exposed:        true,
-		Name:           "restrictedServices",
-		Orderable:      true,
-		SubType:        "string",
-		Type:           "list",
 	},
 	"Subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1648,6 +1648,16 @@ packets.`,
 		Orderable: true,
 		Type:      "enum",
 	},
+	"ports": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Ports",
+		Description:    `Represents the ports and protocols this policy applies to.`,
+		Exposed:        true,
+		Name:           "ports",
+		Orderable:      true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
@@ -1671,16 +1681,6 @@ packets.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
-	},
-	"restrictedservices": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "RestrictedServices",
-		Description:    `Represents the ports that the policy applies to.`,
-		Exposed:        true,
-		Name:           "restrictedServices",
-		Orderable:      true,
-		SubType:        "string",
-		Type:           "list",
 	},
 	"subject": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1892,14 +1892,14 @@ type SparseNetworkAccessPolicy struct {
 	// packets.
 	ObservedTrafficAction *NetworkAccessPolicyObservedTrafficActionValue `json:"observedTrafficAction,omitempty" msgpack:"observedTrafficAction,omitempty" bson:"-" mapstructure:"observedTrafficAction,omitempty"`
 
+	// Represents the ports and protocols this policy applies to.
+	Ports *[]string `json:"ports,omitempty" msgpack:"ports,omitempty" bson:"-" mapstructure:"ports,omitempty"`
+
 	// Propagate will propagate the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
-
-	// Represents the ports that the policy applies to.
-	RestrictedServices *[]string `json:"restrictedServices,omitempty" msgpack:"restrictedServices,omitempty" bson:"-" mapstructure:"restrictedServices,omitempty"`
 
 	// Subject of the policy.
 	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
@@ -2029,14 +2029,14 @@ func (o *SparseNetworkAccessPolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.ObservedTrafficAction != nil {
 		out.ObservedTrafficAction = *o.ObservedTrafficAction
 	}
+	if o.Ports != nil {
+		out.Ports = *o.Ports
+	}
 	if o.Propagate != nil {
 		out.Propagate = *o.Propagate
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
-	}
-	if o.RestrictedServices != nil {
-		out.RestrictedServices = *o.RestrictedServices
 	}
 	if o.Subject != nil {
 		out.Subject = *o.Subject

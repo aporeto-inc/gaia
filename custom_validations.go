@@ -438,26 +438,30 @@ func ValidateHostServices(hs *HostService) error {
 	return nil
 }
 
-// ValidateRestrictedServices validates a list of restricted services.
-func ValidateRestrictedServices(attribute string, services []string) error {
+// ValidateProtoPorts validates a list of protocol/ports.
+func ValidateProtoPorts(attribute string, services []string) error {
 
 	for _, service := range services {
 
-		upperService := strings.ToUpper(service)
-		var portSubString string
-
-		if strings.HasPrefix(upperService, protocols.L4ProtocolUDP+"/") {
-			portSubString = upperService[4:]
-		} else if strings.HasPrefix(upperService, protocols.L4ProtocolTCP+"/") {
-			portSubString = upperService[4:]
-		} else {
-			return makeValidationError(attribute, fmt.Sprintf("invalid restricted service: %s", service))
+		if err := ValidateProtoPort(service); err != nil {
+			return makeValidationError(attribute, fmt.Sprintf("%s", err))
 		}
+	}
 
-		_, err := portutils.ConvertToSinglePort(portSubString)
-		if err != nil {
-			return makeValidationError(attribute, fmt.Sprintf("invalid port: %s", err))
-		}
+	return nil
+}
+
+// ValidateProtoPort validates protocol/port.
+func ValidateProtoPort(service string) error {
+
+	portSubString, _, err := portutils.ExtractPortsAndProtocol(service)
+	if err != nil {
+		return fmt.Errorf("invalid format: %s", service)
+	}
+
+	_, err = portutils.ConvertToSinglePort(portSubString)
+	if err != nil {
+		return fmt.Errorf("invalid port: %s", err)
 	}
 
 	return nil

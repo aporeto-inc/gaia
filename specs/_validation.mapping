@@ -46,6 +46,10 @@ $processingunitservices:
   elemental:
     name: ValidateProcessingUnitServicesList
 
+$protoPorts:
+  elemental:
+    name: ValidateProtoPorts
+
 $protocol:
   elemental:
     name: ValidateProtocol
@@ -53,10 +57,6 @@ $protocol:
 $protocols:
   elemental:
     name: ValidateProtocolList
-
-$restrictedservices:
-  elemental:
-    name: ValidateRestrictedServices
 
 $serviceEntity:
   elemental:

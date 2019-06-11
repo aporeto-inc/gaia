@@ -116,14 +116,14 @@ attributes:
     default_value: Continue
     orderable: true
 
-  - name: restrictedServices
-    description: Represents the ports that the policy applies to.
+  - name: ports
+    description: Represents the ports and protocols this policy applies to.
     type: list
     exposed: true
     subtype: string
     orderable: true
     validations:
-    - $restrictedservices
+    - $protoPorts
 
   - name: subject
     description: Subject of the policy.
