@@ -442,7 +442,6 @@ func ValidateHostServices(hs *HostService) error {
 func ValidateProtoPorts(attribute string, services []string) error {
 
 	for _, service := range services {
-
 		if err := ValidateProtoPort(service); err != nil {
 			return makeValidationError(attribute, fmt.Sprintf("%s", err))
 		}
