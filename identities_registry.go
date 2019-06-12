@@ -114,7 +114,6 @@ var (
 
 		"trigger": TriggerIdentity,
 
-		"useraccesspolicy":     UserAccessPolicyIdentity,
 		"validateuiparameter":  ValidateUIParameterIdentity,
 		"vulnerability":        VulnerabilityIdentity,
 		"x509certificate":      X509CertificateIdentity,
@@ -232,7 +231,6 @@ var (
 
 		"triggers": TriggerIdentity,
 
-		"useraccesspolicies":    UserAccessPolicyIdentity,
 		"validateuiparameters":  ValidateUIParameterIdentity,
 		"vulnerabilities":       VulnerabilityIdentity,
 		"x509certificates":      X509CertificateIdentity,
@@ -325,8 +323,6 @@ var (
 		"tabs":           TabulationIdentity,
 		"tab":            TabulationIdentity,
 		"tsp":            TokenScopePolicyIdentity,
-		"usrpol":         UserAccessPolicyIdentity,
-		"usrpols":        UserAccessPolicyIdentity,
 		"validparam":     ValidateUIParameterIdentity,
 		"vulns":          VulnerabilityIdentity,
 		"vul":            VulnerabilityIdentity,
@@ -698,7 +694,6 @@ var (
 		"token":               nil,
 		"tokenscopepolicy":    nil,
 		"trigger":             nil,
-		"useraccesspolicy":    nil,
 		"validateuiparameter": nil,
 		"vulnerability": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
@@ -955,8 +950,6 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewTokenScopePolicy()
 	case TriggerIdentity:
 		return NewTrigger()
-	case UserAccessPolicyIdentity:
-		return NewUserAccessPolicy()
 	case ValidateUIParameterIdentity:
 		return NewValidateUIParameter()
 	case VulnerabilityIdentity:
@@ -1172,8 +1165,6 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseTokenScopePolicy()
 	case TriggerIdentity:
 		return NewSparseTrigger()
-	case UserAccessPolicyIdentity:
-		return NewSparseUserAccessPolicy()
 	case ValidateUIParameterIdentity:
 		return NewSparseValidateUIParameter()
 	case VulnerabilityIdentity:
@@ -1399,8 +1390,6 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &TokenScopePoliciesList{}
 	case TriggerIdentity:
 		return &TriggersList{}
-	case UserAccessPolicyIdentity:
-		return &UserAccessPoliciesList{}
 	case ValidateUIParameterIdentity:
 		return &ValidateUIParametersList{}
 	case VulnerabilityIdentity:
@@ -1616,8 +1605,6 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseTokenScopePoliciesList{}
 	case TriggerIdentity:
 		return &SparseTriggersList{}
-	case UserAccessPolicyIdentity:
-		return &SparseUserAccessPoliciesList{}
 	case ValidateUIParameterIdentity:
 		return &SparseValidateUIParametersList{}
 	case VulnerabilityIdentity:
@@ -1750,7 +1737,6 @@ func AllIdentities() []elemental.Identity {
 		TokenIdentity,
 		TokenScopePolicyIdentity,
 		TriggerIdentity,
-		UserAccessPolicyIdentity,
 		ValidateUIParameterIdentity,
 		VulnerabilityIdentity,
 		X509CertificateIdentity,
@@ -2089,11 +2075,6 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 		}
 	case TriggerIdentity:
 		return []string{}
-	case UserAccessPolicyIdentity:
-		return []string{
-			"usrpol",
-			"usrpols",
-		}
 	case ValidateUIParameterIdentity:
 		return []string{
 			"validparam",
