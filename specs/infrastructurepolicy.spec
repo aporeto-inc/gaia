@@ -24,13 +24,13 @@ model:
     - $filtering
   extends:
   - '@base'
+  - '@namespaced'
   - '@described'
   - '@disabled'
   - '@identifiable-not-stored'
   - '@metadatable'
   - '@named'
   - '@schedulable'
-  - '@zonable'
   - '@timeable'
 
 # Indexes
