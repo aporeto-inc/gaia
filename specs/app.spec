@@ -9,7 +9,6 @@ model:
   extends:
   - '@described'
   - '@named'
-  - '@zonable'
 
 # Indexes
 indexes:

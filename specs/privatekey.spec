@@ -24,7 +24,6 @@ attributes:
     type: string
     stored: true
     identifier: true
-    primary_key: true
 
   - name: certificateSerialNumber
     description: |-

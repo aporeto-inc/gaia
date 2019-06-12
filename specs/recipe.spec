@@ -19,19 +19,15 @@ model:
     global_parameters:
     - $filtering
   extends:
+  - '@zoned'
   - '@base'
+  - '@namespaced'
   - '@described'
   - '@identifiable-stored'
   - '@named'
   - '@metadatable'
   - '@propagated'
   - '@timeable'
-
-# Indexes
-indexes:
-- - :unique
-  - namespace
-  - key
 
 # Attributes
 attributes:

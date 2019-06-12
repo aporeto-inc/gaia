@@ -62,7 +62,6 @@ attributes:
     getter: true
     setter: true
     orderable: true
-    primary_key: true
 
   - name: opaque
     description: Opaque data that can attached to the log, for further machine processing.

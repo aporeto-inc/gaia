@@ -19,6 +19,7 @@ model:
     global_parameters:
     - $filtering
   extends:
+  - '@zoned'
   - '@identifiable-stored'
   - '@timeable'
 

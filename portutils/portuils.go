@@ -64,9 +64,10 @@ func ConvertToSinglePort(port string) (int64, error) {
 	return p, nil
 }
 
-// ExtractPortsAndProtocolFromHostService extracts the port range and the protocol from a host service like tcp/80:100.
-// If the prefix is neither tcp or udp it will return an error.
-func ExtractPortsAndProtocolFromHostService(service string) (*PortsRange, string, error) {
+// ExtractPortsAndProtocol extracts ports and protocol from the service
+// NOTE: The protocol should be in uppercase to match our list of protocols here
+// https://github.com/aporeto-inc/gaia/blob/master/protocols/protocols.go
+func ExtractPortsAndProtocol(service string) (string, string, error) {
 
 	upperService := strings.ToUpper(service)
 	proto := ""
@@ -79,15 +80,32 @@ func ExtractPortsAndProtocolFromHostService(service string) (*PortsRange, string
 		proto = protocols.L4ProtocolTCP
 		portSubString = upperService[4:]
 	} else {
+		return "", "", fmt.Errorf("invalid protocol/ports: %s", service)
+	}
+
+	return portSubString, proto, nil
+}
+
+// ExtractPortsAndProtocolFromHostService extracts the port range and the protocol from a host service like tcp/80:100.
+// If the prefix is neither tcp or udp it will return an error.
+// NOTE: The protocol should be in uppercase to match our list of protocols here
+// https://github.com/aporeto-inc/gaia/blob/master/protocols/protocols.go
+func ExtractPortsAndProtocolFromHostService(service string) (*PortsRange, string, error) {
+
+	proto := ""
+	var portSubString string
+
+	portSubString, proto, err := ExtractPortsAndProtocol(service)
+	if err != nil {
 		proto = protocols.L4ProtocolTCP
-		portSubString = upperService
+		portSubString = strings.ToUpper(service)
 	}
 
 	if strings.Contains(portSubString, ":") {
 
 		parts := strings.SplitN(portSubString, ":", 2)
 		if len(parts) != 2 {
-			return nil, "", fmt.Errorf("%s does not have a valid port range", upperService)
+			return nil, "", fmt.Errorf("%s does not have a valid port range", service)
 		}
 
 		min, err := ConvertToSinglePort(parts[0])

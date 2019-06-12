@@ -438,6 +438,34 @@ func ValidateHostServices(hs *HostService) error {
 	return nil
 }
 
+// ValidateProtoPorts validates a list of protocol/ports.
+func ValidateProtoPorts(attribute string, services []string) error {
+
+	for _, service := range services {
+		if err := ValidateProtoPort(attribute, service); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ValidateProtoPort validates protocol/port.
+func ValidateProtoPort(attribute string, service string) error {
+
+	portSubString, _, err := portutils.ExtractPortsAndProtocol(service)
+	if err != nil {
+		return makeValidationError(attribute, fmt.Sprintf("invalid format: %s", err))
+	}
+
+	_, err = portutils.ConvertToSinglePort(portSubString)
+	if err != nil {
+		return makeValidationError(attribute, fmt.Sprintf("invalid port: %s", err))
+	}
+
+	return nil
+}
+
 // ValidateHostServicesNonOverlapPorts validates a list of processing unit services has no overlap with any given parameter.
 func ValidateHostServicesNonOverlapPorts(svcs []string) error {
 
@@ -574,7 +602,7 @@ func ValidateMetadata(attribute string, metadata []string) error {
 		}
 
 		if strings.HasPrefix(m, constants.AuthKey) {
-			return makeValidationError(attribute, fmt.Sprintf("Metadata %s is using @auth: which is reserverd", m))
+			return makeValidationError(attribute, fmt.Sprintf("Metadata %s is using @auth: which is reserved", m))
 		}
 
 		if err := ValidateTag(attribute, m); err != nil {

@@ -10,14 +10,10 @@ model:
   delete:
     description: Deletes the SSH CA with the given ID.
   extends:
+  - '@zoned'
   - '@named'
   - '@timeable'
   - '@identifiable-stored'
-
-# Indexes
-indexes:
-- - :shard
-  - $hashed:_id
 
 # Attributes
 attributes:

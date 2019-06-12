@@ -202,6 +202,9 @@ type NetworkAccessPolicy struct {
 	// packets.
 	ObservedTrafficAction NetworkAccessPolicyObservedTrafficActionValue `json:"observedTrafficAction" msgpack:"observedTrafficAction" bson:"-" mapstructure:"observedTrafficAction,omitempty"`
 
+	// Represents the ports and protocols this policy applies to.
+	Ports []string `json:"ports" msgpack:"ports" bson:"-" mapstructure:"ports,omitempty"`
+
 	// Propagate will propagate the policy to all of its children.
 	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
 
@@ -216,14 +219,6 @@ type NetworkAccessPolicy struct {
 
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
-
-	// geographical hash of the data. This is used for sharding and
-	// georedundancy.
-	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
-
-	// geographical zone. This is used for sharding and
-	// georedundancy.
-	Zone int `json:"-" msgpack:"-" bson:"zone" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -241,6 +236,7 @@ func NewNetworkAccessPolicy() *NetworkAccessPolicy {
 		ObservedTrafficAction: NetworkAccessPolicyObservedTrafficActionContinue,
 		NormalizedTags:        []string{},
 		Object:                [][]string{},
+		Ports:                 []string{},
 		Subject:               [][]string{},
 	}
 }
@@ -531,30 +527,6 @@ func (o *NetworkAccessPolicy) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
-// GetZHash returns the ZHash of the receiver.
-func (o *NetworkAccessPolicy) GetZHash() int {
-
-	return o.ZHash
-}
-
-// SetZHash sets the property ZHash of the receiver using the given value.
-func (o *NetworkAccessPolicy) SetZHash(zHash int) {
-
-	o.ZHash = zHash
-}
-
-// GetZone returns the Zone of the receiver.
-func (o *NetworkAccessPolicy) GetZone() int {
-
-	return o.Zone
-}
-
-// SetZone sets the property Zone of the receiver using the given value.
-func (o *NetworkAccessPolicy) SetZone(zone int) {
-
-	o.Zone = zone
-}
-
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -586,13 +558,12 @@ func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentif
 			Object:                &o.Object,
 			ObservationEnabled:    &o.ObservationEnabled,
 			ObservedTrafficAction: &o.ObservedTrafficAction,
+			Ports:                 &o.Ports,
 			Propagate:             &o.Propagate,
 			Protected:             &o.Protected,
 			Subject:               &o.Subject,
 			UpdateIdempotencyKey:  &o.UpdateIdempotencyKey,
 			UpdateTime:            &o.UpdateTime,
-			ZHash:                 &o.ZHash,
-			Zone:                  &o.Zone,
 		}
 	}
 
@@ -647,6 +618,8 @@ func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentif
 			sp.ObservationEnabled = &(o.ObservationEnabled)
 		case "observedTrafficAction":
 			sp.ObservedTrafficAction = &(o.ObservedTrafficAction)
+		case "ports":
+			sp.Ports = &(o.Ports)
 		case "propagate":
 			sp.Propagate = &(o.Propagate)
 		case "protected":
@@ -657,10 +630,6 @@ func (o *NetworkAccessPolicy) ToSparse(fields ...string) elemental.SparseIdentif
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
-		case "zHash":
-			sp.ZHash = &(o.ZHash)
-		case "zone":
-			sp.Zone = &(o.Zone)
 		}
 	}
 
@@ -746,6 +715,9 @@ func (o *NetworkAccessPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if so.ObservedTrafficAction != nil {
 		o.ObservedTrafficAction = *so.ObservedTrafficAction
 	}
+	if so.Ports != nil {
+		o.Ports = *so.Ports
+	}
 	if so.Propagate != nil {
 		o.Propagate = *so.Propagate
 	}
@@ -760,12 +732,6 @@ func (o *NetworkAccessPolicy) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
-	}
-	if so.ZHash != nil {
-		o.ZHash = *so.ZHash
-	}
-	if so.Zone != nil {
-		o.Zone = *so.Zone
 	}
 }
 
@@ -836,6 +802,10 @@ func (o *NetworkAccessPolicy) Validate() error {
 	}
 
 	if err := elemental.ValidateStringInList("observedTrafficAction", string(o.ObservedTrafficAction), []string{"Apply", "Continue"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateProtoPorts("ports", o.Ports); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -925,6 +895,8 @@ func (o *NetworkAccessPolicy) ValueForAttribute(name string) interface{} {
 		return o.ObservationEnabled
 	case "observedTrafficAction":
 		return o.ObservedTrafficAction
+	case "ports":
+		return o.Ports
 	case "propagate":
 		return o.Propagate
 	case "protected":
@@ -935,10 +907,6 @@ func (o *NetworkAccessPolicy) ValueForAttribute(name string) interface{} {
 		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
-	case "zHash":
-		return o.ZHash
-	case "zone":
-		return o.Zone
 	}
 
 	return nil
@@ -1166,7 +1134,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "namespace",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
@@ -1239,6 +1206,16 @@ packets.`,
 		Orderable: true,
 		Type:      "enum",
 	},
+	"Ports": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Ports",
+		Description:    `Represents the ports and protocols this policy applies to.`,
+		Exposed:        true,
+		Name:           "ports",
+		Orderable:      true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"Propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
@@ -1298,32 +1275,6 @@ packets.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
-	},
-	"ZHash": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "ZHash",
-		Description: `geographical hash of the data. This is used for sharding and
-georedundancy.`,
-		Getter:   true,
-		Name:     "zHash",
-		ReadOnly: true,
-		Setter:   true,
-		Stored:   true,
-		Type:     "integer",
-	},
-	"Zone": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Getter:   true,
-		Name:     "zone",
-		ReadOnly: true,
-		Setter:   true,
-		Stored:   true,
-		Type:     "integer",
 	},
 }
 
@@ -1549,7 +1500,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "namespace",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
@@ -1622,6 +1572,16 @@ packets.`,
 		Orderable: true,
 		Type:      "enum",
 	},
+	"ports": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Ports",
+		Description:    `Represents the ports and protocols this policy applies to.`,
+		Exposed:        true,
+		Name:           "ports",
+		Orderable:      true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"propagate": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Propagate",
@@ -1681,32 +1641,6 @@ packets.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
-	},
-	"zhash": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "ZHash",
-		Description: `geographical hash of the data. This is used for sharding and
-georedundancy.`,
-		Getter:   true,
-		Name:     "zHash",
-		ReadOnly: true,
-		Setter:   true,
-		Stored:   true,
-		Type:     "integer",
-	},
-	"zone": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Getter:   true,
-		Name:     "zone",
-		ReadOnly: true,
-		Setter:   true,
-		Stored:   true,
-		Type:     "integer",
 	},
 }
 
@@ -1856,6 +1790,9 @@ type SparseNetworkAccessPolicy struct {
 	// packets.
 	ObservedTrafficAction *NetworkAccessPolicyObservedTrafficActionValue `json:"observedTrafficAction,omitempty" msgpack:"observedTrafficAction,omitempty" bson:"-" mapstructure:"observedTrafficAction,omitempty"`
 
+	// Represents the ports and protocols this policy applies to.
+	Ports *[]string `json:"ports,omitempty" msgpack:"ports,omitempty" bson:"-" mapstructure:"ports,omitempty"`
+
 	// Propagate will propagate the policy to all of its children.
 	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
 
@@ -1870,14 +1807,6 @@ type SparseNetworkAccessPolicy struct {
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
-
-	// geographical hash of the data. This is used for sharding and
-	// georedundancy.
-	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
-
-	// geographical zone. This is used for sharding and
-	// georedundancy.
-	Zone *int `json:"-" msgpack:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -1990,6 +1919,9 @@ func (o *SparseNetworkAccessPolicy) ToPlain() elemental.PlainIdentifiable {
 	if o.ObservedTrafficAction != nil {
 		out.ObservedTrafficAction = *o.ObservedTrafficAction
 	}
+	if o.Ports != nil {
+		out.Ports = *o.Ports
+	}
 	if o.Propagate != nil {
 		out.Propagate = *o.Propagate
 	}
@@ -2004,12 +1936,6 @@ func (o *SparseNetworkAccessPolicy) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
-	}
-	if o.ZHash != nil {
-		out.ZHash = *o.ZHash
-	}
-	if o.Zone != nil {
-		out.Zone = *o.Zone
 	}
 
 	return out
@@ -2253,30 +2179,6 @@ func (o *SparseNetworkAccessPolicy) GetUpdateTime() time.Time {
 func (o *SparseNetworkAccessPolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
-}
-
-// GetZHash returns the ZHash of the receiver.
-func (o *SparseNetworkAccessPolicy) GetZHash() int {
-
-	return *o.ZHash
-}
-
-// SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparseNetworkAccessPolicy) SetZHash(zHash int) {
-
-	o.ZHash = &zHash
-}
-
-// GetZone returns the Zone of the receiver.
-func (o *SparseNetworkAccessPolicy) GetZone() int {
-
-	return *o.Zone
-}
-
-// SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparseNetworkAccessPolicy) SetZone(zone int) {
-
-	o.Zone = &zone
 }
 
 // DeepCopy returns a deep copy if the SparseNetworkAccessPolicy.

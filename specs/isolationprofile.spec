@@ -17,12 +17,13 @@ model:
   delete:
     description: Deletes the object with the given ID.
   extends:
+  - '@zoned'
   - '@base'
+  - '@namespaced'
   - '@described'
   - '@identifiable-stored'
   - '@metadatable'
   - '@named'
-  - '@zonable'
   - '@propagated'
   - '@timeable'
 

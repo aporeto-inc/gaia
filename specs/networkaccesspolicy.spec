@@ -24,6 +24,7 @@ model:
     - $filtering
   extends:
   - '@base'
+  - '@namespaced'
   - '@described'
   - '@disabled'
   - '@identifiable-not-stored'
@@ -34,7 +35,6 @@ model:
   - '@schedulable'
   - '@negatable-object'
   - '@negatable-subject'
-  - '@zonable'
   - '@timeable'
 
 # Indexes
@@ -115,6 +115,15 @@ attributes:
     - Continue
     default_value: Continue
     orderable: true
+
+  - name: ports
+    description: Represents the ports and protocols this policy applies to.
+    type: list
+    exposed: true
+    subtype: string
+    orderable: true
+    validations:
+    - $protoports
 
   - name: subject
     description: Subject of the policy.
