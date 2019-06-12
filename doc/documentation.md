@@ -8850,6 +8850,10 @@ unit that is not yetactivated.
 
 Retrieve a policy graph.
 
+Parameters:
+
+- `view` (`string`): Set the view query for grouping the dependency map.
+
 #### Attributes
 
 ##### `PUIdentity` `[]string`
