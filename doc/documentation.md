@@ -7271,6 +7271,10 @@ Default value:
 "Continue"
 ```
 
+##### `ports` `[]string`
+
+Represents the ports and protocols this policy applies to.
+
 ##### `propagate` `boolean`
 
 Propagate will propagate the policy to all of its children.
