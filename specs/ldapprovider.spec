@@ -17,19 +17,19 @@ model:
     global_parameters:
     - $filtering
   extends:
+  - '@zoned'
   - '@base'
+  - '@namespaced'
   - '@described'
   - '@identifiable-stored'
   - '@timeable'
   - '@named'
-  - '@zonable'
 
 # Attributes
 attributes:
   v1:
   - name: address
-    description: Address holds the account authentication account's private LDAP
-      server.
+    description: Address holds the account authentication account's private LDAP server.
     type: string
     exposed: true
     stored: true
@@ -49,8 +49,7 @@ attributes:
     orderable: true
 
   - name: bindDN
-    description: BindDN holds the account's internal LDAP bind DN for querying
-      auth.
+    description: BindDN holds the account's internal LDAP bind DN for querying auth.
     type: string
     exposed: true
     stored: true

@@ -21,18 +21,13 @@ model:
     global_parameters:
     - $filtering
   extends:
+  - '@zoned'
   - '@base'
+  - '@namespaced'
   - '@described'
   - '@identifiable-stored'
   - '@metadatable'
   - '@timeable'
-
-# Indexes
-indexes:
-- - :shard
-  - $hashed:name
-- - :unique
-  - name
 
 # Attributes
 attributes:
@@ -68,6 +63,16 @@ attributes:
     stored: true
     read_only: true
 
+  - name: customZoning
+    description: |-
+      Defines if the namespace should inherit its parent zone. If this property is set
+      to false, the `zoning` property will be ignored and the namespace will have the
+      same zone as its parent.
+    type: boolean
+    exposed: true
+    stored: true
+    creation_only: true
+
   - name: localCA
     description: LocalCA holds the eventual certificate authority used by this namespace.
     type: string
@@ -100,7 +105,6 @@ attributes:
     getter: true
     setter: true
     orderable: true
-    primary_key: true
 
   - name: networkAccessPolicyTags
     description: |-
@@ -124,3 +128,12 @@ attributes:
     default_value: 1h
     validations:
     - $timeDuration
+
+  - name: zoning
+    description: Defines what zone the namespace should live in.
+    type: integer
+    exposed: true
+    stored: true
+    creation_only: true
+    getter: true
+    setter: true

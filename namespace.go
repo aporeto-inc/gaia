@@ -111,6 +111,11 @@ type Namespace struct {
 	// Creation date of the object.
 	CreateTime time.Time `json:"createTime" msgpack:"createTime" bson:"createtime" mapstructure:"createTime,omitempty"`
 
+	// Defines if the namespace should inherit its parent zone. If this property is set
+	// to false, the `+"`"+`zoning`+"`"+` property will be ignored and the namespace will have the
+	// same zone as its parent.
+	CustomZoning bool `json:"customZoning" msgpack:"customZoning" bson:"customzoning" mapstructure:"customZoning,omitempty"`
+
 	// Description is the description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
@@ -151,6 +156,17 @@ type Namespace struct {
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
+
+	// geographical zone. This is used for sharding and
+	// georedundancy.
+	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
+
+	// Defines what zone the namespace should live in.
+	Zoning int `json:"zoning" msgpack:"zoning" bson:"zoning" mapstructure:"zoning,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -161,9 +177,9 @@ func NewNamespace() *Namespace {
 		ModelVersion:               1,
 		AssociatedTags:             []string{},
 		Annotations:                map[string][]string{},
+		NormalizedTags:             []string{},
 		Metadata:                   []string{},
 		NetworkAccessPolicyTags:    []string{},
-		NormalizedTags:             []string{},
 		ServiceCertificateValidity: "1h",
 	}
 }
@@ -359,6 +375,42 @@ func (o *Namespace) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
+// GetZHash returns the ZHash of the receiver.
+func (o *Namespace) GetZHash() int {
+
+	return o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the given value.
+func (o *Namespace) SetZHash(zHash int) {
+
+	o.ZHash = zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *Namespace) GetZone() int {
+
+	return o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the given value.
+func (o *Namespace) SetZone(zone int) {
+
+	o.Zone = zone
+}
+
+// GetZoning returns the Zoning of the receiver.
+func (o *Namespace) GetZoning() int {
+
+	return o.Zoning
+}
+
+// SetZoning sets the property Zoning of the receiver using the given value.
+func (o *Namespace) SetZoning(zoning int) {
+
+	o.Zoning = zoning
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -375,6 +427,7 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			AssociatedTags:             &o.AssociatedTags,
 			CreateIdempotencyKey:       &o.CreateIdempotencyKey,
 			CreateTime:                 &o.CreateTime,
+			CustomZoning:               &o.CustomZoning,
 			Description:                &o.Description,
 			LocalCA:                    &o.LocalCA,
 			LocalCAEnabled:             &o.LocalCAEnabled,
@@ -387,6 +440,9 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			ServiceCertificateValidity: &o.ServiceCertificateValidity,
 			UpdateIdempotencyKey:       &o.UpdateIdempotencyKey,
 			UpdateTime:                 &o.UpdateTime,
+			ZHash:                      &o.ZHash,
+			Zone:                       &o.Zone,
+			Zoning:                     &o.Zoning,
 		}
 	}
 
@@ -411,6 +467,8 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.CreateIdempotencyKey = &(o.CreateIdempotencyKey)
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
+		case "customZoning":
+			sp.CustomZoning = &(o.CustomZoning)
 		case "description":
 			sp.Description = &(o.Description)
 		case "localCA":
@@ -435,6 +493,12 @@ func (o *Namespace) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
+		case "zHash":
+			sp.ZHash = &(o.ZHash)
+		case "zone":
+			sp.Zone = &(o.Zone)
+		case "zoning":
+			sp.Zoning = &(o.Zoning)
 		}
 	}
 
@@ -475,6 +539,9 @@ func (o *Namespace) Patch(sparse elemental.SparseIdentifiable) {
 	if so.CreateTime != nil {
 		o.CreateTime = *so.CreateTime
 	}
+	if so.CustomZoning != nil {
+		o.CustomZoning = *so.CustomZoning
+	}
 	if so.Description != nil {
 		o.Description = *so.Description
 	}
@@ -510,6 +577,15 @@ func (o *Namespace) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
+	}
+	if so.ZHash != nil {
+		o.ZHash = *so.ZHash
+	}
+	if so.Zone != nil {
+		o.Zone = *so.Zone
+	}
+	if so.Zoning != nil {
+		o.Zoning = *so.Zoning
 	}
 }
 
@@ -623,6 +699,8 @@ func (o *Namespace) ValueForAttribute(name string) interface{} {
 		return o.CreateIdempotencyKey
 	case "createTime":
 		return o.CreateTime
+	case "customZoning":
+		return o.CustomZoning
 	case "description":
 		return o.Description
 	case "localCA":
@@ -647,6 +725,12 @@ func (o *Namespace) ValueForAttribute(name string) interface{} {
 		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
+	case "zHash":
+		return o.ZHash
+	case "zone":
+		return o.Zone
+	case "zoning":
+		return o.Zoning
 	}
 
 	return nil
@@ -759,6 +843,18 @@ deployed in SSH server to validate SSH certificates issued by the platform.`,
 		Stored:         true,
 		Type:           "time",
 	},
+	"CustomZoning": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CustomZoning",
+		CreationOnly:   true,
+		Description: `Defines if the namespace should inherit its parent zone. If this property is set
+to false, the ` + "`" + `zoning` + "`" + ` property will be ignored and the namespace will have the
+same zone as its parent.`,
+		Exposed: true,
+		Name:    "customZoning",
+		Stored:  true,
+		Type:    "boolean",
+	},
 	"Description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -821,7 +917,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "name",
 		Orderable:      true,
-		PrimaryKey:     true,
 		Required:       true,
 		Setter:         true,
 		Stored:         true,
@@ -838,7 +933,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "namespace",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
@@ -919,6 +1013,46 @@ value is 1 hour.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"ZHash": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"Zone": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Zone",
+		Description: `geographical zone. This is used for sharding and
+georedundancy.`,
+		Exposed:   true,
+		Getter:    true,
+		Name:      "zone",
+		ReadOnly:  true,
+		Setter:    true,
+		Stored:    true,
+		Transient: true,
+		Type:      "integer",
+	},
+	"Zoning": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Zoning",
+		CreationOnly:   true,
+		Description:    `Defines what zone the namespace should live in.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zoning",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
 	},
 }
 
@@ -1029,6 +1163,18 @@ deployed in SSH server to validate SSH certificates issued by the platform.`,
 		Stored:         true,
 		Type:           "time",
 	},
+	"customzoning": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "CustomZoning",
+		CreationOnly:   true,
+		Description: `Defines if the namespace should inherit its parent zone. If this property is set
+to false, the ` + "`" + `zoning` + "`" + ` property will be ignored and the namespace will have the
+same zone as its parent.`,
+		Exposed: true,
+		Name:    "customZoning",
+		Stored:  true,
+		Type:    "boolean",
+	},
 	"description": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Description",
@@ -1091,7 +1237,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "name",
 		Orderable:      true,
-		PrimaryKey:     true,
 		Required:       true,
 		Setter:         true,
 		Stored:         true,
@@ -1108,7 +1253,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "namespace",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
@@ -1189,6 +1333,46 @@ value is 1 hour.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"zhash": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"zone": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Zone",
+		Description: `geographical zone. This is used for sharding and
+georedundancy.`,
+		Exposed:   true,
+		Getter:    true,
+		Name:      "zone",
+		ReadOnly:  true,
+		Setter:    true,
+		Stored:    true,
+		Transient: true,
+		Type:      "integer",
+	},
+	"zoning": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Zoning",
+		CreationOnly:   true,
+		Description:    `Defines what zone the namespace should live in.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "zoning",
+		Setter:         true,
+		Stored:         true,
+		Type:           "integer",
 	},
 }
 
@@ -1286,6 +1470,11 @@ type SparseNamespace struct {
 	// Creation date of the object.
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
+	// Defines if the namespace should inherit its parent zone. If this property is set
+	// to false, the `+"`"+`zoning`+"`"+` property will be ignored and the namespace will have the
+	// same zone as its parent.
+	CustomZoning *bool `json:"customZoning,omitempty" msgpack:"customZoning,omitempty" bson:"customzoning,omitempty" mapstructure:"customZoning,omitempty"`
+
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
@@ -1325,6 +1514,17 @@ type SparseNamespace struct {
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+
+	// geographical zone. This is used for sharding and
+	// georedundancy.
+	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
+
+	// Defines what zone the namespace should live in.
+	Zoning *int `json:"zoning,omitempty" msgpack:"zoning,omitempty" bson:"zoning,omitempty" mapstructure:"zoning,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -1392,6 +1592,9 @@ func (o *SparseNamespace) ToPlain() elemental.PlainIdentifiable {
 	if o.CreateTime != nil {
 		out.CreateTime = *o.CreateTime
 	}
+	if o.CustomZoning != nil {
+		out.CustomZoning = *o.CustomZoning
+	}
 	if o.Description != nil {
 		out.Description = *o.Description
 	}
@@ -1427,6 +1630,15 @@ func (o *SparseNamespace) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
+	}
+	if o.ZHash != nil {
+		out.ZHash = *o.ZHash
+	}
+	if o.Zone != nil {
+		out.Zone = *o.Zone
+	}
+	if o.Zoning != nil {
+		out.Zoning = *o.Zoning
 	}
 
 	return out
@@ -1574,6 +1786,42 @@ func (o *SparseNamespace) GetUpdateTime() time.Time {
 func (o *SparseNamespace) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
+}
+
+// GetZHash returns the ZHash of the receiver.
+func (o *SparseNamespace) GetZHash() int {
+
+	return *o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the address of the given value.
+func (o *SparseNamespace) SetZHash(zHash int) {
+
+	o.ZHash = &zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *SparseNamespace) GetZone() int {
+
+	return *o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the address of the given value.
+func (o *SparseNamespace) SetZone(zone int) {
+
+	o.Zone = &zone
+}
+
+// GetZoning returns the Zoning of the receiver.
+func (o *SparseNamespace) GetZoning() int {
+
+	return *o.Zoning
+}
+
+// SetZoning sets the property Zoning of the receiver using the address of the given value.
+func (o *SparseNamespace) SetZoning(zoning int) {
+
+	o.Zoning = &zoning
 }
 
 // DeepCopy returns a deep copy if the SparseNamespace.

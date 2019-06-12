@@ -19,11 +19,12 @@ model:
     - $filtering
   extends:
   - '@base'
+  - '@zoned'
+  - '@namespaced'
   - '@described'
   - '@disabled'
   - '@identifiable-stored'
   - '@named'
-  - '@zonable'
   - '@timeable'
 
 # Attributes

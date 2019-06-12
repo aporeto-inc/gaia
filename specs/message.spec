@@ -21,11 +21,12 @@ model:
     global_parameters:
     - $filtering
   extends:
+  - '@zoned'
   - '@base'
+  - '@namespaced'
   - '@described'
   - '@identifiable-stored'
   - '@named'
-  - '@zonable'
   - '@propagated'
   - '@timeable'
 

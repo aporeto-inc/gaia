@@ -318,7 +318,7 @@ type Service struct {
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone int `json:"-" msgpack:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -1507,7 +1507,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "namespace",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
@@ -1657,12 +1656,14 @@ georedundancy.`,
 		ConvertedName:  "Zone",
 		Description: `geographical zone. This is used for sharding and
 georedundancy.`,
-		Getter:   true,
-		Name:     "zone",
-		ReadOnly: true,
-		Setter:   true,
-		Stored:   true,
-		Type:     "integer",
+		Exposed:   true,
+		Getter:    true,
+		Name:      "zone",
+		ReadOnly:  true,
+		Setter:    true,
+		Stored:    true,
+		Transient: true,
+		Type:      "integer",
 	},
 }
 
@@ -2053,7 +2054,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "namespace",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
@@ -2203,12 +2203,14 @@ georedundancy.`,
 		ConvertedName:  "Zone",
 		Description: `geographical zone. This is used for sharding and
 georedundancy.`,
-		Getter:   true,
-		Name:     "zone",
-		ReadOnly: true,
-		Setter:   true,
-		Stored:   true,
-		Type:     "integer",
+		Exposed:   true,
+		Getter:    true,
+		Name:      "zone",
+		ReadOnly:  true,
+		Setter:    true,
+		Stored:    true,
+		Transient: true,
+		Type:      "integer",
 	},
 }
 
@@ -2462,7 +2464,7 @@ type SparseService struct {
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" msgpack:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
+	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
