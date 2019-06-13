@@ -8835,7 +8835,6 @@ unit that is not yetactivated.
 
 ```json
 {
-  "recursive": false,
   "selectors": [
     [
       "$identity=processingunit"
@@ -8866,11 +8865,6 @@ user wants to evaluate policies and understand its connectivity options.
 The dependencyMap contains the output of the policy evalation, and it is the
 same
 type of dependency map as created by other APIs.
-
-##### `recursive` `boolean`
-
-Recursive will implement a recursive search through the namespaces for matching
-PUs.
 
 ##### `selectors` `[][]string`
 

@@ -36,13 +36,6 @@ attributes:
     extensions:
       refMode: pointer
 
-  - name: recursive
-    description: |-
-      Recursive will implement a recursive search through the namespaces for matching
-      PUs.
-    type: boolean
-    exposed: true
-
   - name: selectors
     description: |-
       Selectors contains the tag expression that an a processing unit
