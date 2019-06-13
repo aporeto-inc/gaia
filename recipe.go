@@ -141,6 +141,9 @@ type Recipe struct {
 	// successfullMessage is presented if present and success.
 	SuccessfullMessage string `json:"successfullMessage" msgpack:"successfullMessage" bson:"successfullmessage" mapstructure:"successfullMessage,omitempty"`
 
+	// TargetIdentities contains the list of identities the recipes will try to create.
+	TargetIdentities []string `json:"targetIdentities" msgpack:"targetIdentities" bson:"targetidentities" mapstructure:"targetIdentities,omitempty"`
+
 	// Template of the recipe to import.
 	Template string `json:"template" msgpack:"template" bson:"template" mapstructure:"template,omitempty"`
 
@@ -168,14 +171,15 @@ type Recipe struct {
 func NewRecipe() *Recipe {
 
 	return &Recipe{
-		ModelVersion:   1,
-		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
-		Steps:          []*UIStep{},
-		NormalizedTags: []string{},
-		Options:        NewRecipeOptions(),
-		Label:          "magicpanda",
-		Metadata:       []string{},
+		ModelVersion:     1,
+		Annotations:      map[string][]string{},
+		AssociatedTags:   []string{},
+		NormalizedTags:   []string{},
+		Steps:            []*UIStep{},
+		Label:            "magicpanda",
+		Metadata:         []string{},
+		TargetIdentities: []string{},
+		Options:          NewRecipeOptions(),
 	}
 }
 
@@ -429,6 +433,7 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			Protected:            &o.Protected,
 			Steps:                &o.Steps,
 			SuccessfullMessage:   &o.SuccessfullMessage,
+			TargetIdentities:     &o.TargetIdentities,
 			Template:             &o.Template,
 			TemplateHash:         &o.TemplateHash,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
@@ -479,6 +484,8 @@ func (o *Recipe) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.Steps = &(o.Steps)
 		case "successfullMessage":
 			sp.SuccessfullMessage = &(o.SuccessfullMessage)
+		case "targetIdentities":
+			sp.TargetIdentities = &(o.TargetIdentities)
 		case "template":
 			sp.Template = &(o.Template)
 		case "templateHash":
@@ -560,6 +567,9 @@ func (o *Recipe) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.SuccessfullMessage != nil {
 		o.SuccessfullMessage = *so.SuccessfullMessage
+	}
+	if so.TargetIdentities != nil {
+		o.TargetIdentities = *so.TargetIdentities
 	}
 	if so.Template != nil {
 		o.Template = *so.Template
@@ -650,6 +660,10 @@ func (o *Recipe) Validate() error {
 		}
 	}
 
+	if err := elemental.ValidateRequiredExternal("targetIdentities", o.TargetIdentities); err != nil {
+		requiredErrors = requiredErrors.Append(err)
+	}
+
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -722,6 +736,8 @@ func (o *Recipe) ValueForAttribute(name string) interface{} {
 		return o.Steps
 	case "successfullMessage":
 		return o.SuccessfullMessage
+	case "targetIdentities":
+		return o.TargetIdentities
 	case "template":
 		return o.Template
 	case "templateHash":
@@ -972,6 +988,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Name:           "successfullMessage",
 		Stored:         true,
 		Type:           "string",
+	},
+	"TargetIdentities": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TargetIdentities",
+		Description:    `TargetIdentities contains the list of identities the recipes will try to create.`,
+		Exposed:        true,
+		Name:           "targetIdentities",
+		Required:       true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
 	},
 	"Template": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1282,6 +1309,17 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
+	"targetidentities": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "TargetIdentities",
+		Description:    `TargetIdentities contains the list of identities the recipes will try to create.`,
+		Exposed:        true,
+		Name:           "targetIdentities",
+		Required:       true,
+		Stored:         true,
+		SubType:        "string",
+		Type:           "list",
+	},
 	"template": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "Template",
@@ -1481,6 +1519,9 @@ type SparseRecipe struct {
 	// successfullMessage is presented if present and success.
 	SuccessfullMessage *string `json:"successfullMessage,omitempty" msgpack:"successfullMessage,omitempty" bson:"successfullmessage,omitempty" mapstructure:"successfullMessage,omitempty"`
 
+	// TargetIdentities contains the list of identities the recipes will try to create.
+	TargetIdentities *[]string `json:"targetIdentities,omitempty" msgpack:"targetIdentities,omitempty" bson:"targetidentities,omitempty" mapstructure:"targetIdentities,omitempty"`
+
 	// Template of the recipe to import.
 	Template *string `json:"template,omitempty" msgpack:"template,omitempty" bson:"template,omitempty" mapstructure:"template,omitempty"`
 
@@ -1596,6 +1637,9 @@ func (o *SparseRecipe) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.SuccessfullMessage != nil {
 		out.SuccessfullMessage = *o.SuccessfullMessage
+	}
+	if o.TargetIdentities != nil {
+		out.TargetIdentities = *o.TargetIdentities
 	}
 	if o.Template != nil {
 		out.Template = *o.Template

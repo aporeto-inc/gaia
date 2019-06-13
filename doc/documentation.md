@@ -3645,7 +3645,11 @@ A Recipe defines a list of steps to define a workflow.
   "label": "magicpanda",
   "name": "the name",
   "propagate": false,
-  "protected": false
+  "protected": false,
+  "targetIdentities": [
+    "processingunit",
+    "enforcer"
+  ]
 }
 ```
 
@@ -3764,6 +3768,10 @@ Steps contains all the steps with parameters to follow for the recipe.
 ##### `successfullMessage` `string`
 
 successfullMessage is presented if present and success.
+
+##### `targetIdentities` `[]string` [`required`]
+
+TargetIdentities contains the list of identities the recipes will try to create.
 
 ##### `template` `string`
 
