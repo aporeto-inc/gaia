@@ -8,43 +8,65 @@ import (
 	"go.aporeto.io/elemental"
 )
 
-// HTTPResourceSpecIdentity represents the Identity of the object.
-var HTTPResourceSpecIdentity = elemental.Identity{
-	Name:     "httpresourcespec",
-	Category: "httpresourcespecs",
+// InfrastructurePolicyActionValue represents the possible values for attribute "action".
+type InfrastructurePolicyActionValue string
+
+const (
+	// InfrastructurePolicyActionAllow represents the value Allow.
+	InfrastructurePolicyActionAllow InfrastructurePolicyActionValue = "Allow"
+
+	// InfrastructurePolicyActionReject represents the value Reject.
+	InfrastructurePolicyActionReject InfrastructurePolicyActionValue = "Reject"
+)
+
+// InfrastructurePolicyApplyPolicyModeValue represents the possible values for attribute "applyPolicyMode".
+type InfrastructurePolicyApplyPolicyModeValue string
+
+const (
+	// InfrastructurePolicyApplyPolicyModeIncomingTraffic represents the value IncomingTraffic.
+	InfrastructurePolicyApplyPolicyModeIncomingTraffic InfrastructurePolicyApplyPolicyModeValue = "IncomingTraffic"
+
+	// InfrastructurePolicyApplyPolicyModeOutgoingTraffic represents the value OutgoingTraffic.
+	InfrastructurePolicyApplyPolicyModeOutgoingTraffic InfrastructurePolicyApplyPolicyModeValue = "OutgoingTraffic"
+)
+
+// InfrastructurePolicyIdentity represents the Identity of the object.
+var InfrastructurePolicyIdentity = elemental.Identity{
+	Name:     "infrastructurepolicy",
+	Category: "infrastructurepolicies",
 	Package:  "squall",
 	Private:  false,
 }
 
-// HTTPResourceSpecsList represents a list of HTTPResourceSpecs
-type HTTPResourceSpecsList []*HTTPResourceSpec
+// InfrastructurePoliciesList represents a list of InfrastructurePolicies
+type InfrastructurePoliciesList []*InfrastructurePolicy
 
 // Identity returns the identity of the objects in the list.
-func (o HTTPResourceSpecsList) Identity() elemental.Identity {
+func (o InfrastructurePoliciesList) Identity() elemental.Identity {
 
-	return HTTPResourceSpecIdentity
+	return InfrastructurePolicyIdentity
 }
 
-// Copy returns a pointer to a copy the HTTPResourceSpecsList.
-func (o HTTPResourceSpecsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the InfrastructurePoliciesList.
+func (o InfrastructurePoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(HTTPResourceSpecsList{}, o...)
+	copy := append(InfrastructurePoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the HTTPResourceSpecsList.
-func (o HTTPResourceSpecsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the InfrastructurePoliciesList.
+func (o InfrastructurePoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(HTTPResourceSpecsList{}, o...)
+	out := append(InfrastructurePoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*HTTPResourceSpec))
+		out = append(out, obj.(*InfrastructurePolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o HTTPResourceSpecsList) List() elemental.IdentifiablesList {
+func (o InfrastructurePoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -55,7 +77,7 @@ func (o HTTPResourceSpecsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o HTTPResourceSpecsList) DefaultOrder() []string {
+func (o InfrastructurePoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
@@ -63,34 +85,47 @@ func (o HTTPResourceSpecsList) DefaultOrder() []string {
 	}
 }
 
-// ToSparse returns the HTTPResourceSpecsList converted to SparseHTTPResourceSpecsList.
+// ToSparse returns the InfrastructurePoliciesList converted to SparseInfrastructurePoliciesList.
 // Objects in the list will only contain the given fields. No field means entire field set.
-func (o HTTPResourceSpecsList) ToSparse(fields ...string) elemental.Identifiables {
+func (o InfrastructurePoliciesList) ToSparse(fields ...string) elemental.Identifiables {
 
-	out := make(SparseHTTPResourceSpecsList, len(o))
+	out := make(SparseInfrastructurePoliciesList, len(o))
 	for i := 0; i < len(o); i++ {
-		out[i] = o[i].ToSparse(fields...).(*SparseHTTPResourceSpec)
+		out[i] = o[i].ToSparse(fields...).(*SparseInfrastructurePolicy)
 	}
 
 	return out
 }
 
 // Version returns the version of the content.
-func (o HTTPResourceSpecsList) Version() int {
+func (o InfrastructurePoliciesList) Version() int {
 
 	return 1
 }
 
-// HTTPResourceSpec represents the model of a httpresourcespec
-type HTTPResourceSpec struct {
+// InfrastructurePolicy represents the model of a infrastructurepolicy
+type InfrastructurePolicy struct {
 	// ID is the identifier of the object.
-	ID string `json:"ID" msgpack:"ID" bson:"_id" mapstructure:"ID,omitempty"`
+	ID string `json:"ID" msgpack:"ID" bson:"-" mapstructure:"ID,omitempty"`
+
+	// Action defines the action to apply to a flow.
+	Action InfrastructurePolicyActionValue `json:"action" msgpack:"action" bson:"-" mapstructure:"action,omitempty"`
+
+	// ActiveDuration defines for how long the policy will be active according to the
+	// activeSchedule.
+	ActiveDuration string `json:"activeDuration" msgpack:"activeDuration" bson:"activeduration" mapstructure:"activeDuration,omitempty"`
+
+	// ActiveSchedule defines when the policy should be active using the cron notation.
+	// The policy will be active for the given activeDuration.
+	ActiveSchedule string `json:"activeSchedule" msgpack:"activeSchedule" bson:"activeschedule" mapstructure:"activeSchedule,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations map[string][]string `json:"annotations" msgpack:"annotations" bson:"annotations" mapstructure:"annotations,omitempty"`
 
-	// Archived defines if the object is archived.
-	Archived bool `json:"-" msgpack:"-" bson:"archived" mapstructure:"-,omitempty"`
+	// applyPolicyMode determines if the policy has to be applied to the
+	// outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
+	// Default is both directions.
+	ApplyPolicyMode InfrastructurePolicyApplyPolicyModeValue `json:"applyPolicyMode" msgpack:"applyPolicyMode" bson:"-" mapstructure:"applyPolicyMode,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags []string `json:"associatedTags" msgpack:"associatedTags" bson:"associatedtags" mapstructure:"associatedTags,omitempty"`
@@ -104,8 +139,11 @@ type HTTPResourceSpec struct {
 	// Description is the description of the object.
 	Description string `json:"description" msgpack:"description" bson:"description" mapstructure:"description,omitempty"`
 
-	// EndPoints is a list of API endpoints that are exposed for the service.
-	Endpoints []*Endpoint `json:"endpoints" msgpack:"endpoints" bson:"endpoints" mapstructure:"endpoints,omitempty"`
+	// Disabled defines if the propert is disabled.
+	Disabled bool `json:"disabled" msgpack:"disabled" bson:"disabled" mapstructure:"disabled,omitempty"`
+
+	// If set the policy will be auto deleted after the given time.
+	ExpirationTime time.Time `json:"expirationTime" msgpack:"expirationTime" bson:"expirationtime" mapstructure:"expirationTime,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -120,11 +158,14 @@ type HTTPResourceSpec struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags []string `json:"normalizedTags" msgpack:"normalizedTags" bson:"normalizedtags" mapstructure:"normalizedTags,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
-	Propagate bool `json:"propagate" msgpack:"propagate" bson:"propagate" mapstructure:"propagate,omitempty"`
+	// Object of the policy.
+	Object [][]string `json:"object" msgpack:"object" bson:"-" mapstructure:"object,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected bool `json:"protected" msgpack:"protected" bson:"protected" mapstructure:"protected,omitempty"`
+
+	// Subject of the policy.
+	Subject [][]string `json:"subject" msgpack:"subject" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey string `json:"-" msgpack:"-" bson:"updateidempotencykey" mapstructure:"-,omitempty"`
@@ -132,56 +173,51 @@ type HTTPResourceSpec struct {
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
-	// geographical hash of the data. This is used for sharding and
-	// georedundancy.
-	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
-
-	// geographical zone. This is used for sharding and
-	// georedundancy.
-	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
-
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewHTTPResourceSpec returns a new *HTTPResourceSpec
-func NewHTTPResourceSpec() *HTTPResourceSpec {
+// NewInfrastructurePolicy returns a new *InfrastructurePolicy
+func NewInfrastructurePolicy() *InfrastructurePolicy {
 
-	return &HTTPResourceSpec{
-		ModelVersion:   1,
-		Annotations:    map[string][]string{},
-		AssociatedTags: []string{},
-		Endpoints:      []*Endpoint{},
-		Metadata:       []string{},
-		NormalizedTags: []string{},
+	return &InfrastructurePolicy{
+		ModelVersion:    1,
+		Action:          InfrastructurePolicyActionAllow,
+		AssociatedTags:  []string{},
+		Annotations:     map[string][]string{},
+		ApplyPolicyMode: InfrastructurePolicyApplyPolicyModeOutgoingTraffic,
+		Metadata:        []string{},
+		NormalizedTags:  []string{},
+		Object:          [][]string{},
+		Subject:         [][]string{},
 	}
 }
 
 // Identity returns the Identity of the object.
-func (o *HTTPResourceSpec) Identity() elemental.Identity {
+func (o *InfrastructurePolicy) Identity() elemental.Identity {
 
-	return HTTPResourceSpecIdentity
+	return InfrastructurePolicyIdentity
 }
 
 // Identifier returns the value of the object's unique identifier.
-func (o *HTTPResourceSpec) Identifier() string {
+func (o *InfrastructurePolicy) Identifier() string {
 
 	return o.ID
 }
 
 // SetIdentifier sets the value of the object's unique identifier.
-func (o *HTTPResourceSpec) SetIdentifier(id string) {
+func (o *InfrastructurePolicy) SetIdentifier(id string) {
 
 	o.ID = id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *HTTPResourceSpec) Version() int {
+func (o *InfrastructurePolicy) Version() int {
 
 	return 1
 }
 
 // DefaultOrder returns the list of default ordering fields.
-func (o *HTTPResourceSpec) DefaultOrder() []string {
+func (o *InfrastructurePolicy) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
@@ -190,246 +226,258 @@ func (o *HTTPResourceSpec) DefaultOrder() []string {
 }
 
 // Doc returns the documentation for the object
-func (o *HTTPResourceSpec) Doc() string {
+func (o *InfrastructurePolicy) Doc() string {
 
-	return `HTTPResourceSpec descibes an HTTP resource exposed by a service. These APIs
-can be associated with one or more services.`
+	return `Infrastructure policies capture the network access rules of the underlying
+infrastructure and can be used to model cloud security groups, firewalls or
+other ACL based mechanisms. They are not used in the identity-based network
+authorization of Aporeto, but they can affect traffic flows in the underlying
+infrastructure.`
 }
 
-func (o *HTTPResourceSpec) String() string {
+func (o *InfrastructurePolicy) String() string {
 
 	return fmt.Sprintf("<%s:%s>", o.Identity().Name, o.Identifier())
 }
 
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *InfrastructurePolicy) GetActiveDuration() string {
+
+	return o.ActiveDuration
+}
+
+// SetActiveDuration sets the property ActiveDuration of the receiver using the given value.
+func (o *InfrastructurePolicy) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *InfrastructurePolicy) GetActiveSchedule() string {
+
+	return o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the given value.
+func (o *InfrastructurePolicy) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = activeSchedule
+}
+
 // GetAnnotations returns the Annotations of the receiver.
-func (o *HTTPResourceSpec) GetAnnotations() map[string][]string {
+func (o *InfrastructurePolicy) GetAnnotations() map[string][]string {
 
 	return o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the given value.
-func (o *HTTPResourceSpec) SetAnnotations(annotations map[string][]string) {
+func (o *InfrastructurePolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = annotations
 }
 
-// GetArchived returns the Archived of the receiver.
-func (o *HTTPResourceSpec) GetArchived() bool {
-
-	return o.Archived
-}
-
-// SetArchived sets the property Archived of the receiver using the given value.
-func (o *HTTPResourceSpec) SetArchived(archived bool) {
-
-	o.Archived = archived
-}
-
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *HTTPResourceSpec) GetAssociatedTags() []string {
+func (o *InfrastructurePolicy) GetAssociatedTags() []string {
 
 	return o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the given value.
-func (o *HTTPResourceSpec) SetAssociatedTags(associatedTags []string) {
+func (o *InfrastructurePolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *HTTPResourceSpec) GetCreateIdempotencyKey() string {
+func (o *InfrastructurePolicy) GetCreateIdempotencyKey() string {
 
 	return o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the given value.
-func (o *HTTPResourceSpec) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *InfrastructurePolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *HTTPResourceSpec) GetCreateTime() time.Time {
+func (o *InfrastructurePolicy) GetCreateTime() time.Time {
 
 	return o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the given value.
-func (o *HTTPResourceSpec) SetCreateTime(createTime time.Time) {
+func (o *InfrastructurePolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *HTTPResourceSpec) GetDescription() string {
+func (o *InfrastructurePolicy) GetDescription() string {
 
 	return o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the given value.
-func (o *HTTPResourceSpec) SetDescription(description string) {
+func (o *InfrastructurePolicy) SetDescription(description string) {
 
 	o.Description = description
 }
 
+// GetDisabled returns the Disabled of the receiver.
+func (o *InfrastructurePolicy) GetDisabled() bool {
+
+	return o.Disabled
+}
+
+// SetDisabled sets the property Disabled of the receiver using the given value.
+func (o *InfrastructurePolicy) SetDisabled(disabled bool) {
+
+	o.Disabled = disabled
+}
+
+// GetExpirationTime returns the ExpirationTime of the receiver.
+func (o *InfrastructurePolicy) GetExpirationTime() time.Time {
+
+	return o.ExpirationTime
+}
+
+// SetExpirationTime sets the property ExpirationTime of the receiver using the given value.
+func (o *InfrastructurePolicy) SetExpirationTime(expirationTime time.Time) {
+
+	o.ExpirationTime = expirationTime
+}
+
 // GetMetadata returns the Metadata of the receiver.
-func (o *HTTPResourceSpec) GetMetadata() []string {
+func (o *InfrastructurePolicy) GetMetadata() []string {
 
 	return o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the given value.
-func (o *HTTPResourceSpec) SetMetadata(metadata []string) {
+func (o *InfrastructurePolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *HTTPResourceSpec) GetName() string {
+func (o *InfrastructurePolicy) GetName() string {
 
 	return o.Name
 }
 
 // SetName sets the property Name of the receiver using the given value.
-func (o *HTTPResourceSpec) SetName(name string) {
+func (o *InfrastructurePolicy) SetName(name string) {
 
 	o.Name = name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *HTTPResourceSpec) GetNamespace() string {
+func (o *InfrastructurePolicy) GetNamespace() string {
 
 	return o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *HTTPResourceSpec) SetNamespace(namespace string) {
+func (o *InfrastructurePolicy) SetNamespace(namespace string) {
 
 	o.Namespace = namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *HTTPResourceSpec) GetNormalizedTags() []string {
+func (o *InfrastructurePolicy) GetNormalizedTags() []string {
 
 	return o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the given value.
-func (o *HTTPResourceSpec) SetNormalizedTags(normalizedTags []string) {
+func (o *InfrastructurePolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = normalizedTags
 }
 
-// GetPropagate returns the Propagate of the receiver.
-func (o *HTTPResourceSpec) GetPropagate() bool {
-
-	return o.Propagate
-}
-
-// SetPropagate sets the property Propagate of the receiver using the given value.
-func (o *HTTPResourceSpec) SetPropagate(propagate bool) {
-
-	o.Propagate = propagate
-}
-
 // GetProtected returns the Protected of the receiver.
-func (o *HTTPResourceSpec) GetProtected() bool {
+func (o *InfrastructurePolicy) GetProtected() bool {
 
 	return o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the given value.
-func (o *HTTPResourceSpec) SetProtected(protected bool) {
+func (o *InfrastructurePolicy) SetProtected(protected bool) {
 
 	o.Protected = protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *HTTPResourceSpec) GetUpdateIdempotencyKey() string {
+func (o *InfrastructurePolicy) GetUpdateIdempotencyKey() string {
 
 	return o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the given value.
-func (o *HTTPResourceSpec) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *InfrastructurePolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *HTTPResourceSpec) GetUpdateTime() time.Time {
+func (o *InfrastructurePolicy) GetUpdateTime() time.Time {
 
 	return o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the given value.
-func (o *HTTPResourceSpec) SetUpdateTime(updateTime time.Time) {
+func (o *InfrastructurePolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = updateTime
 }
 
-// GetZHash returns the ZHash of the receiver.
-func (o *HTTPResourceSpec) GetZHash() int {
-
-	return o.ZHash
-}
-
-// SetZHash sets the property ZHash of the receiver using the given value.
-func (o *HTTPResourceSpec) SetZHash(zHash int) {
-
-	o.ZHash = zHash
-}
-
-// GetZone returns the Zone of the receiver.
-func (o *HTTPResourceSpec) GetZone() int {
-
-	return o.Zone
-}
-
-// SetZone sets the property Zone of the receiver using the given value.
-func (o *HTTPResourceSpec) SetZone(zone int) {
-
-	o.Zone = zone
-}
-
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
-func (o *HTTPResourceSpec) ToSparse(fields ...string) elemental.SparseIdentifiable {
+func (o *InfrastructurePolicy) ToSparse(fields ...string) elemental.SparseIdentifiable {
 
 	if len(fields) == 0 {
 		// nolint: goimports
-		return &SparseHTTPResourceSpec{
+		return &SparseInfrastructurePolicy{
 			ID:                   &o.ID,
+			Action:               &o.Action,
+			ActiveDuration:       &o.ActiveDuration,
+			ActiveSchedule:       &o.ActiveSchedule,
 			Annotations:          &o.Annotations,
-			Archived:             &o.Archived,
+			ApplyPolicyMode:      &o.ApplyPolicyMode,
 			AssociatedTags:       &o.AssociatedTags,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
 			Description:          &o.Description,
-			Endpoints:            &o.Endpoints,
+			Disabled:             &o.Disabled,
+			ExpirationTime:       &o.ExpirationTime,
 			Metadata:             &o.Metadata,
 			Name:                 &o.Name,
 			Namespace:            &o.Namespace,
 			NormalizedTags:       &o.NormalizedTags,
-			Propagate:            &o.Propagate,
+			Object:               &o.Object,
 			Protected:            &o.Protected,
+			Subject:              &o.Subject,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
-			ZHash:                &o.ZHash,
-			Zone:                 &o.Zone,
 		}
 	}
 
-	sp := &SparseHTTPResourceSpec{}
+	sp := &SparseInfrastructurePolicy{}
 	for _, f := range fields {
 		switch f {
 		case "ID":
 			sp.ID = &(o.ID)
+		case "action":
+			sp.Action = &(o.Action)
+		case "activeDuration":
+			sp.ActiveDuration = &(o.ActiveDuration)
+		case "activeSchedule":
+			sp.ActiveSchedule = &(o.ActiveSchedule)
 		case "annotations":
 			sp.Annotations = &(o.Annotations)
-		case "archived":
-			sp.Archived = &(o.Archived)
+		case "applyPolicyMode":
+			sp.ApplyPolicyMode = &(o.ApplyPolicyMode)
 		case "associatedTags":
 			sp.AssociatedTags = &(o.AssociatedTags)
 		case "createIdempotencyKey":
@@ -438,8 +486,10 @@ func (o *HTTPResourceSpec) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.CreateTime = &(o.CreateTime)
 		case "description":
 			sp.Description = &(o.Description)
-		case "endpoints":
-			sp.Endpoints = &(o.Endpoints)
+		case "disabled":
+			sp.Disabled = &(o.Disabled)
+		case "expirationTime":
+			sp.ExpirationTime = &(o.ExpirationTime)
 		case "metadata":
 			sp.Metadata = &(o.Metadata)
 		case "name":
@@ -448,39 +498,46 @@ func (o *HTTPResourceSpec) ToSparse(fields ...string) elemental.SparseIdentifiab
 			sp.Namespace = &(o.Namespace)
 		case "normalizedTags":
 			sp.NormalizedTags = &(o.NormalizedTags)
-		case "propagate":
-			sp.Propagate = &(o.Propagate)
+		case "object":
+			sp.Object = &(o.Object)
 		case "protected":
 			sp.Protected = &(o.Protected)
+		case "subject":
+			sp.Subject = &(o.Subject)
 		case "updateIdempotencyKey":
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
-		case "zHash":
-			sp.ZHash = &(o.ZHash)
-		case "zone":
-			sp.Zone = &(o.Zone)
 		}
 	}
 
 	return sp
 }
 
-// Patch apply the non nil value of a *SparseHTTPResourceSpec to the object.
-func (o *HTTPResourceSpec) Patch(sparse elemental.SparseIdentifiable) {
+// Patch apply the non nil value of a *SparseInfrastructurePolicy to the object.
+func (o *InfrastructurePolicy) Patch(sparse elemental.SparseIdentifiable) {
 	if !sparse.Identity().IsEqual(o.Identity()) {
 		panic("cannot patch from a parse with different identity")
 	}
 
-	so := sparse.(*SparseHTTPResourceSpec)
+	so := sparse.(*SparseInfrastructurePolicy)
 	if so.ID != nil {
 		o.ID = *so.ID
+	}
+	if so.Action != nil {
+		o.Action = *so.Action
+	}
+	if so.ActiveDuration != nil {
+		o.ActiveDuration = *so.ActiveDuration
+	}
+	if so.ActiveSchedule != nil {
+		o.ActiveSchedule = *so.ActiveSchedule
 	}
 	if so.Annotations != nil {
 		o.Annotations = *so.Annotations
 	}
-	if so.Archived != nil {
-		o.Archived = *so.Archived
+	if so.ApplyPolicyMode != nil {
+		o.ApplyPolicyMode = *so.ApplyPolicyMode
 	}
 	if so.AssociatedTags != nil {
 		o.AssociatedTags = *so.AssociatedTags
@@ -494,8 +551,11 @@ func (o *HTTPResourceSpec) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Description != nil {
 		o.Description = *so.Description
 	}
-	if so.Endpoints != nil {
-		o.Endpoints = *so.Endpoints
+	if so.Disabled != nil {
+		o.Disabled = *so.Disabled
+	}
+	if so.ExpirationTime != nil {
+		o.ExpirationTime = *so.ExpirationTime
 	}
 	if so.Metadata != nil {
 		o.Metadata = *so.Metadata
@@ -509,11 +569,14 @@ func (o *HTTPResourceSpec) Patch(sparse elemental.SparseIdentifiable) {
 	if so.NormalizedTags != nil {
 		o.NormalizedTags = *so.NormalizedTags
 	}
-	if so.Propagate != nil {
-		o.Propagate = *so.Propagate
+	if so.Object != nil {
+		o.Object = *so.Object
 	}
 	if so.Protected != nil {
 		o.Protected = *so.Protected
+	}
+	if so.Subject != nil {
+		o.Subject = *so.Subject
 	}
 	if so.UpdateIdempotencyKey != nil {
 		o.UpdateIdempotencyKey = *so.UpdateIdempotencyKey
@@ -521,43 +584,49 @@ func (o *HTTPResourceSpec) Patch(sparse elemental.SparseIdentifiable) {
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
 	}
-	if so.ZHash != nil {
-		o.ZHash = *so.ZHash
-	}
-	if so.Zone != nil {
-		o.Zone = *so.Zone
-	}
 }
 
-// DeepCopy returns a deep copy if the HTTPResourceSpec.
-func (o *HTTPResourceSpec) DeepCopy() *HTTPResourceSpec {
+// DeepCopy returns a deep copy if the InfrastructurePolicy.
+func (o *InfrastructurePolicy) DeepCopy() *InfrastructurePolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &HTTPResourceSpec{}
+	out := &InfrastructurePolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *HTTPResourceSpec.
-func (o *HTTPResourceSpec) DeepCopyInto(out *HTTPResourceSpec) {
+// DeepCopyInto copies the receiver into the given *InfrastructurePolicy.
+func (o *InfrastructurePolicy) DeepCopyInto(out *InfrastructurePolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy HTTPResourceSpec: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy InfrastructurePolicy: %s", err))
 	}
 
-	*out = *target.(*HTTPResourceSpec)
+	*out = *target.(*InfrastructurePolicy)
 }
 
 // Validate valides the current information stored into the structure.
-func (o *HTTPResourceSpec) Validate() error {
+func (o *InfrastructurePolicy) Validate() error {
 
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
+
+	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Allow", "Reject"}, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidatePattern("activeDuration", o.ActiveDuration, `^[0-9]+[smh]$`, `must be a valid duration like <n>s or <n>s or <n>h`, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := elemental.ValidateStringInList("applyPolicyMode", string(o.ApplyPolicyMode), []string{"OutgoingTraffic", "IncomingTraffic"}, false); err != nil {
+		errors = errors.Append(err)
+	}
 
 	if err := ValidateTagsWithoutReservedPrefixes("associatedTags", o.AssociatedTags); err != nil {
 		errors = errors.Append(err)
@@ -565,15 +634,6 @@ func (o *HTTPResourceSpec) Validate() error {
 
 	if err := elemental.ValidateMaximumLength("description", o.Description, 1024, false); err != nil {
 		errors = errors.Append(err)
-	}
-
-	for _, sub := range o.Endpoints {
-		if sub == nil {
-			continue
-		}
-		if err := sub.Validate(); err != nil {
-			errors = errors.Append(err)
-		}
 	}
 
 	if err := ValidateMetadata("metadata", o.Metadata); err != nil {
@@ -585,6 +645,14 @@ func (o *HTTPResourceSpec) Validate() error {
 	}
 
 	if err := elemental.ValidateMaximumLength("name", o.Name, 256, false); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateTagsExpression("object", o.Object); err != nil {
+		errors = errors.Append(err)
+	}
+
+	if err := ValidateTagsExpression("subject", o.Subject); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -600,34 +668,40 @@ func (o *HTTPResourceSpec) Validate() error {
 }
 
 // SpecificationForAttribute returns the AttributeSpecification for the given attribute name key.
-func (*HTTPResourceSpec) SpecificationForAttribute(name string) elemental.AttributeSpecification {
+func (*InfrastructurePolicy) SpecificationForAttribute(name string) elemental.AttributeSpecification {
 
-	if v, ok := HTTPResourceSpecAttributesMap[name]; ok {
+	if v, ok := InfrastructurePolicyAttributesMap[name]; ok {
 		return v
 	}
 
 	// We could not find it, so let's check on the lower case indexed spec map
-	return HTTPResourceSpecLowerCaseAttributesMap[name]
+	return InfrastructurePolicyLowerCaseAttributesMap[name]
 }
 
 // AttributeSpecifications returns the full attribute specifications map.
-func (*HTTPResourceSpec) AttributeSpecifications() map[string]elemental.AttributeSpecification {
+func (*InfrastructurePolicy) AttributeSpecifications() map[string]elemental.AttributeSpecification {
 
-	return HTTPResourceSpecAttributesMap
+	return InfrastructurePolicyAttributesMap
 }
 
 // ValueForAttribute returns the value for the given attribute.
 // This is a very advanced function that you should not need but in some
 // very specific use cases.
-func (o *HTTPResourceSpec) ValueForAttribute(name string) interface{} {
+func (o *InfrastructurePolicy) ValueForAttribute(name string) interface{} {
 
 	switch name {
 	case "ID":
 		return o.ID
+	case "action":
+		return o.Action
+	case "activeDuration":
+		return o.ActiveDuration
+	case "activeSchedule":
+		return o.ActiveSchedule
 	case "annotations":
 		return o.Annotations
-	case "archived":
-		return o.Archived
+	case "applyPolicyMode":
+		return o.ApplyPolicyMode
 	case "associatedTags":
 		return o.AssociatedTags
 	case "createIdempotencyKey":
@@ -636,8 +710,10 @@ func (o *HTTPResourceSpec) ValueForAttribute(name string) interface{} {
 		return o.CreateTime
 	case "description":
 		return o.Description
-	case "endpoints":
-		return o.Endpoints
+	case "disabled":
+		return o.Disabled
+	case "expirationTime":
+		return o.ExpirationTime
 	case "metadata":
 		return o.Metadata
 	case "name":
@@ -646,25 +722,23 @@ func (o *HTTPResourceSpec) ValueForAttribute(name string) interface{} {
 		return o.Namespace
 	case "normalizedTags":
 		return o.NormalizedTags
-	case "propagate":
-		return o.Propagate
+	case "object":
+		return o.Object
 	case "protected":
 		return o.Protected
+	case "subject":
+		return o.Subject
 	case "updateIdempotencyKey":
 		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
-	case "zHash":
-		return o.ZHash
-	case "zone":
-		return o.Zone
 	}
 
 	return nil
 }
 
-// HTTPResourceSpecAttributesMap represents the map of attribute for HTTPResourceSpec.
-var HTTPResourceSpecAttributesMap = map[string]elemental.AttributeSpecification{
+// InfrastructurePolicyAttributesMap represents the map of attribute for InfrastructurePolicy.
+var InfrastructurePolicyAttributesMap = map[string]elemental.AttributeSpecification{
 	"ID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -676,8 +750,42 @@ var HTTPResourceSpecAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "ID",
 		Orderable:      true,
 		ReadOnly:       true,
-		Stored:         true,
 		Type:           "string",
+	},
+	"Action": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Allow", "Reject"},
+		ConvertedName:  "Action",
+		DefaultValue:   InfrastructurePolicyActionAllow,
+		Description:    `Action defines the action to apply to a flow.`,
+		Exposed:        true,
+		Name:           "action",
+		Orderable:      true,
+		Type:           "enum",
+	},
+	"ActiveDuration": elemental.AttributeSpecification{
+		AllowedChars:   `^[0-9]+[smh]$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveDuration",
+		Description: `ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeDuration",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
+	},
+	"ActiveSchedule": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveSchedule",
+		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeSchedule",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
 	},
 	"Annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -691,15 +799,17 @@ var HTTPResourceSpecAttributesMap = map[string]elemental.AttributeSpecification{
 		SubType:        "map[string][]string",
 		Type:           "external",
 	},
-	"Archived": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Archived",
-		Description:    `Archived defines if the object is archived.`,
-		Getter:         true,
-		Name:           "archived",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
+	"ApplyPolicyMode": elemental.AttributeSpecification{
+		AllowedChoices: []string{"OutgoingTraffic", "IncomingTraffic"},
+		ConvertedName:  "ApplyPolicyMode",
+		DefaultValue:   InfrastructurePolicyApplyPolicyModeOutgoingTraffic,
+		Description: `applyPolicyMode determines if the policy has to be applied to the
+outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
+Default is both directions.`,
+		Exposed:   true,
+		Name:      "applyPolicyMode",
+		Orderable: true,
+		Type:      "enum",
 	},
 	"AssociatedTags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -752,15 +862,28 @@ var HTTPResourceSpecAttributesMap = map[string]elemental.AttributeSpecification{
 		Stored:         true,
 		Type:           "string",
 	},
-	"Endpoints": elemental.AttributeSpecification{
+	"Disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Endpoints",
-		Description:    `EndPoints is a list of API endpoints that are exposed for the service.`,
+		ConvertedName:  "Disabled",
+		Description:    `Disabled defines if the propert is disabled.`,
 		Exposed:        true,
-		Name:           "endpoints",
+		Getter:         true,
+		Name:           "disabled",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
-		SubType:        "endpoint",
-		Type:           "refList",
+		Type:           "boolean",
+	},
+	"ExpirationTime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExpirationTime",
+		Description:    `If set the policy will be auto deleted after the given time.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "expirationTime",
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"Metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -824,17 +947,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
-	"Propagate": elemental.AttributeSpecification{
+	"Object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		ConvertedName:  "Object",
+		Description:    `Object of the policy.`,
 		Exposed:        true,
-		Getter:         true,
-		Name:           "propagate",
+		Name:           "object",
 		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
+		SubType:        "[][]string",
+		Type:           "external",
 	},
 	"Protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -847,6 +968,16 @@ with the '@' prefix, and should only be used by external systems.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"Subject": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Subject",
+		Description:    `Subject of the policy.`,
+		Exposed:        true,
+		Name:           "subject",
+		Orderable:      true,
+		SubType:        "[][]string",
+		Type:           "external",
 	},
 	"UpdateIdempotencyKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -874,38 +1005,10 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "time",
 	},
-	"ZHash": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "ZHash",
-		Description: `geographical hash of the data. This is used for sharding and
-georedundancy.`,
-		Getter:   true,
-		Name:     "zHash",
-		ReadOnly: true,
-		Setter:   true,
-		Stored:   true,
-		Type:     "integer",
-	},
-	"Zone": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
-	},
 }
 
-// HTTPResourceSpecLowerCaseAttributesMap represents the map of attribute for HTTPResourceSpec.
-var HTTPResourceSpecLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
+// InfrastructurePolicyLowerCaseAttributesMap represents the map of attribute for InfrastructurePolicy.
+var InfrastructurePolicyLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"id": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		Autogenerated:  true,
@@ -917,8 +1020,42 @@ var HTTPResourceSpecLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Name:           "ID",
 		Orderable:      true,
 		ReadOnly:       true,
-		Stored:         true,
 		Type:           "string",
+	},
+	"action": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Allow", "Reject"},
+		ConvertedName:  "Action",
+		DefaultValue:   InfrastructurePolicyActionAllow,
+		Description:    `Action defines the action to apply to a flow.`,
+		Exposed:        true,
+		Name:           "action",
+		Orderable:      true,
+		Type:           "enum",
+	},
+	"activeduration": elemental.AttributeSpecification{
+		AllowedChars:   `^[0-9]+[smh]$`,
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveDuration",
+		Description: `ActiveDuration defines for how long the policy will be active according to the
+activeSchedule.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeDuration",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
+	},
+	"activeschedule": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ActiveSchedule",
+		Description: `ActiveSchedule defines when the policy should be active using the cron notation.
+The policy will be active for the given activeDuration.`,
+		Exposed: true,
+		Getter:  true,
+		Name:    "activeSchedule",
+		Setter:  true,
+		Stored:  true,
+		Type:    "string",
 	},
 	"annotations": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -932,15 +1069,17 @@ var HTTPResourceSpecLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		SubType:        "map[string][]string",
 		Type:           "external",
 	},
-	"archived": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		ConvertedName:  "Archived",
-		Description:    `Archived defines if the object is archived.`,
-		Getter:         true,
-		Name:           "archived",
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
+	"applypolicymode": elemental.AttributeSpecification{
+		AllowedChoices: []string{"OutgoingTraffic", "IncomingTraffic"},
+		ConvertedName:  "ApplyPolicyMode",
+		DefaultValue:   InfrastructurePolicyApplyPolicyModeOutgoingTraffic,
+		Description: `applyPolicyMode determines if the policy has to be applied to the
+outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
+Default is both directions.`,
+		Exposed:   true,
+		Name:      "applyPolicyMode",
+		Orderable: true,
+		Type:      "enum",
 	},
 	"associatedtags": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -993,15 +1132,28 @@ var HTTPResourceSpecLowerCaseAttributesMap = map[string]elemental.AttributeSpeci
 		Stored:         true,
 		Type:           "string",
 	},
-	"endpoints": elemental.AttributeSpecification{
+	"disabled": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Endpoints",
-		Description:    `EndPoints is a list of API endpoints that are exposed for the service.`,
+		ConvertedName:  "Disabled",
+		Description:    `Disabled defines if the propert is disabled.`,
 		Exposed:        true,
-		Name:           "endpoints",
+		Getter:         true,
+		Name:           "disabled",
+		Orderable:      true,
+		Setter:         true,
 		Stored:         true,
-		SubType:        "endpoint",
-		Type:           "refList",
+		Type:           "boolean",
+	},
+	"expirationtime": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "ExpirationTime",
+		Description:    `If set the policy will be auto deleted after the given time.`,
+		Exposed:        true,
+		Getter:         true,
+		Name:           "expirationTime",
+		Setter:         true,
+		Stored:         true,
+		Type:           "time",
 	},
 	"metadata": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1065,17 +1217,15 @@ with the '@' prefix, and should only be used by external systems.`,
 		Transient:      true,
 		Type:           "list",
 	},
-	"propagate": elemental.AttributeSpecification{
+	"object": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
-		ConvertedName:  "Propagate",
-		Description:    `Propagate will propagate the policy to all of its children.`,
+		ConvertedName:  "Object",
+		Description:    `Object of the policy.`,
 		Exposed:        true,
-		Getter:         true,
-		Name:           "propagate",
+		Name:           "object",
 		Orderable:      true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "boolean",
+		SubType:        "[][]string",
+		Type:           "external",
 	},
 	"protected": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1088,6 +1238,16 @@ with the '@' prefix, and should only be used by external systems.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "boolean",
+	},
+	"subject": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "Subject",
+		Description:    `Subject of the policy.`,
+		Exposed:        true,
+		Name:           "subject",
+		Orderable:      true,
+		SubType:        "[][]string",
+		Type:           "external",
 	},
 	"updateidempotencykey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -1115,65 +1275,37 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "time",
 	},
-	"zhash": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "ZHash",
-		Description: `geographical hash of the data. This is used for sharding and
-georedundancy.`,
-		Getter:   true,
-		Name:     "zHash",
-		ReadOnly: true,
-		Setter:   true,
-		Stored:   true,
-		Type:     "integer",
-	},
-	"zone": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Zone",
-		Description: `geographical zone. This is used for sharding and
-georedundancy.`,
-		Exposed:   true,
-		Getter:    true,
-		Name:      "zone",
-		ReadOnly:  true,
-		Setter:    true,
-		Stored:    true,
-		Transient: true,
-		Type:      "integer",
-	},
 }
 
-// SparseHTTPResourceSpecsList represents a list of SparseHTTPResourceSpecs
-type SparseHTTPResourceSpecsList []*SparseHTTPResourceSpec
+// SparseInfrastructurePoliciesList represents a list of SparseInfrastructurePolicies
+type SparseInfrastructurePoliciesList []*SparseInfrastructurePolicy
 
 // Identity returns the identity of the objects in the list.
-func (o SparseHTTPResourceSpecsList) Identity() elemental.Identity {
+func (o SparseInfrastructurePoliciesList) Identity() elemental.Identity {
 
-	return HTTPResourceSpecIdentity
+	return InfrastructurePolicyIdentity
 }
 
-// Copy returns a pointer to a copy the SparseHTTPResourceSpecsList.
-func (o SparseHTTPResourceSpecsList) Copy() elemental.Identifiables {
+// Copy returns a pointer to a copy the SparseInfrastructurePoliciesList.
+func (o SparseInfrastructurePoliciesList) Copy() elemental.Identifiables {
 
-	copy := append(SparseHTTPResourceSpecsList{}, o...)
+	copy := append(SparseInfrastructurePoliciesList{}, o...)
 	return &copy
 }
 
-// Append appends the objects to the a new copy of the SparseHTTPResourceSpecsList.
-func (o SparseHTTPResourceSpecsList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
+// Append appends the objects to the a new copy of the SparseInfrastructurePoliciesList.
+func (o SparseInfrastructurePoliciesList) Append(objects ...elemental.Identifiable) elemental.Identifiables {
 
-	out := append(SparseHTTPResourceSpecsList{}, o...)
+	out := append(SparseInfrastructurePoliciesList{}, o...)
 	for _, obj := range objects {
-		out = append(out, obj.(*SparseHTTPResourceSpec))
+		out = append(out, obj.(*SparseInfrastructurePolicy))
 	}
 
 	return out
 }
 
 // List converts the object to an elemental.IdentifiablesList.
-func (o SparseHTTPResourceSpecsList) List() elemental.IdentifiablesList {
+func (o SparseInfrastructurePoliciesList) List() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1184,7 +1316,7 @@ func (o SparseHTTPResourceSpecsList) List() elemental.IdentifiablesList {
 }
 
 // DefaultOrder returns the default ordering fields of the content.
-func (o SparseHTTPResourceSpecsList) DefaultOrder() []string {
+func (o SparseInfrastructurePoliciesList) DefaultOrder() []string {
 
 	return []string{
 		"namespace",
@@ -1192,8 +1324,8 @@ func (o SparseHTTPResourceSpecsList) DefaultOrder() []string {
 	}
 }
 
-// ToPlain returns the SparseHTTPResourceSpecsList converted to HTTPResourceSpecsList.
-func (o SparseHTTPResourceSpecsList) ToPlain() elemental.IdentifiablesList {
+// ToPlain returns the SparseInfrastructurePoliciesList converted to InfrastructurePoliciesList.
+func (o SparseInfrastructurePoliciesList) ToPlain() elemental.IdentifiablesList {
 
 	out := make(elemental.IdentifiablesList, len(o))
 	for i := 0; i < len(o); i++ {
@@ -1204,21 +1336,34 @@ func (o SparseHTTPResourceSpecsList) ToPlain() elemental.IdentifiablesList {
 }
 
 // Version returns the version of the content.
-func (o SparseHTTPResourceSpecsList) Version() int {
+func (o SparseInfrastructurePoliciesList) Version() int {
 
 	return 1
 }
 
-// SparseHTTPResourceSpec represents the sparse version of a httpresourcespec.
-type SparseHTTPResourceSpec struct {
+// SparseInfrastructurePolicy represents the sparse version of a infrastructurepolicy.
+type SparseInfrastructurePolicy struct {
 	// ID is the identifier of the object.
-	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"_id" mapstructure:"ID,omitempty"`
+	ID *string `json:"ID,omitempty" msgpack:"ID,omitempty" bson:"-" mapstructure:"ID,omitempty"`
+
+	// Action defines the action to apply to a flow.
+	Action *InfrastructurePolicyActionValue `json:"action,omitempty" msgpack:"action,omitempty" bson:"-" mapstructure:"action,omitempty"`
+
+	// ActiveDuration defines for how long the policy will be active according to the
+	// activeSchedule.
+	ActiveDuration *string `json:"activeDuration,omitempty" msgpack:"activeDuration,omitempty" bson:"activeduration,omitempty" mapstructure:"activeDuration,omitempty"`
+
+	// ActiveSchedule defines when the policy should be active using the cron notation.
+	// The policy will be active for the given activeDuration.
+	ActiveSchedule *string `json:"activeSchedule,omitempty" msgpack:"activeSchedule,omitempty" bson:"activeschedule,omitempty" mapstructure:"activeSchedule,omitempty"`
 
 	// Annotation stores additional information about an entity.
 	Annotations *map[string][]string `json:"annotations,omitempty" msgpack:"annotations,omitempty" bson:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
-	// Archived defines if the object is archived.
-	Archived *bool `json:"-" msgpack:"-" bson:"archived,omitempty" mapstructure:"-,omitempty"`
+	// applyPolicyMode determines if the policy has to be applied to the
+	// outgoing traffic of a PU or the incoming traffic of a PU or in both directions.
+	// Default is both directions.
+	ApplyPolicyMode *InfrastructurePolicyApplyPolicyModeValue `json:"applyPolicyMode,omitempty" msgpack:"applyPolicyMode,omitempty" bson:"-" mapstructure:"applyPolicyMode,omitempty"`
 
 	// AssociatedTags are the list of tags attached to an entity.
 	AssociatedTags *[]string `json:"associatedTags,omitempty" msgpack:"associatedTags,omitempty" bson:"associatedtags,omitempty" mapstructure:"associatedTags,omitempty"`
@@ -1232,8 +1377,11 @@ type SparseHTTPResourceSpec struct {
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
 
-	// EndPoints is a list of API endpoints that are exposed for the service.
-	Endpoints *[]*Endpoint `json:"endpoints,omitempty" msgpack:"endpoints,omitempty" bson:"endpoints,omitempty" mapstructure:"endpoints,omitempty"`
+	// Disabled defines if the propert is disabled.
+	Disabled *bool `json:"disabled,omitempty" msgpack:"disabled,omitempty" bson:"disabled,omitempty" mapstructure:"disabled,omitempty"`
+
+	// If set the policy will be auto deleted after the given time.
+	ExpirationTime *time.Time `json:"expirationTime,omitempty" msgpack:"expirationTime,omitempty" bson:"expirationtime,omitempty" mapstructure:"expirationTime,omitempty"`
 
 	// Metadata contains tags that can only be set during creation. They must all start
 	// with the '@' prefix, and should only be used by external systems.
@@ -1248,11 +1396,14 @@ type SparseHTTPResourceSpec struct {
 	// NormalizedTags contains the list of normalized tags of the entities.
 	NormalizedTags *[]string `json:"normalizedTags,omitempty" msgpack:"normalizedTags,omitempty" bson:"normalizedtags,omitempty" mapstructure:"normalizedTags,omitempty"`
 
-	// Propagate will propagate the policy to all of its children.
-	Propagate *bool `json:"propagate,omitempty" msgpack:"propagate,omitempty" bson:"propagate,omitempty" mapstructure:"propagate,omitempty"`
+	// Object of the policy.
+	Object *[][]string `json:"object,omitempty" msgpack:"object,omitempty" bson:"-" mapstructure:"object,omitempty"`
 
 	// Protected defines if the object is protected.
 	Protected *bool `json:"protected,omitempty" msgpack:"protected,omitempty" bson:"protected,omitempty" mapstructure:"protected,omitempty"`
+
+	// Subject of the policy.
+	Subject *[][]string `json:"subject,omitempty" msgpack:"subject,omitempty" bson:"-" mapstructure:"subject,omitempty"`
 
 	// internal idempotency key for a update operation.
 	UpdateIdempotencyKey *string `json:"-" msgpack:"-" bson:"updateidempotencykey,omitempty" mapstructure:"-,omitempty"`
@@ -1260,30 +1411,22 @@ type SparseHTTPResourceSpec struct {
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
 
-	// geographical hash of the data. This is used for sharding and
-	// georedundancy.
-	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
-
-	// geographical zone. This is used for sharding and
-	// georedundancy.
-	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
-
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
-// NewSparseHTTPResourceSpec returns a new  SparseHTTPResourceSpec.
-func NewSparseHTTPResourceSpec() *SparseHTTPResourceSpec {
-	return &SparseHTTPResourceSpec{}
+// NewSparseInfrastructurePolicy returns a new  SparseInfrastructurePolicy.
+func NewSparseInfrastructurePolicy() *SparseInfrastructurePolicy {
+	return &SparseInfrastructurePolicy{}
 }
 
 // Identity returns the Identity of the sparse object.
-func (o *SparseHTTPResourceSpec) Identity() elemental.Identity {
+func (o *SparseInfrastructurePolicy) Identity() elemental.Identity {
 
-	return HTTPResourceSpecIdentity
+	return InfrastructurePolicyIdentity
 }
 
 // Identifier returns the value of the sparse object's unique identifier.
-func (o *SparseHTTPResourceSpec) Identifier() string {
+func (o *SparseInfrastructurePolicy) Identifier() string {
 
 	if o.ID == nil {
 		return ""
@@ -1292,29 +1435,38 @@ func (o *SparseHTTPResourceSpec) Identifier() string {
 }
 
 // SetIdentifier sets the value of the sparse object's unique identifier.
-func (o *SparseHTTPResourceSpec) SetIdentifier(id string) {
+func (o *SparseInfrastructurePolicy) SetIdentifier(id string) {
 
 	o.ID = &id
 }
 
 // Version returns the hardcoded version of the model.
-func (o *SparseHTTPResourceSpec) Version() int {
+func (o *SparseInfrastructurePolicy) Version() int {
 
 	return 1
 }
 
 // ToPlain returns the plain version of the sparse model.
-func (o *SparseHTTPResourceSpec) ToPlain() elemental.PlainIdentifiable {
+func (o *SparseInfrastructurePolicy) ToPlain() elemental.PlainIdentifiable {
 
-	out := NewHTTPResourceSpec()
+	out := NewInfrastructurePolicy()
 	if o.ID != nil {
 		out.ID = *o.ID
+	}
+	if o.Action != nil {
+		out.Action = *o.Action
+	}
+	if o.ActiveDuration != nil {
+		out.ActiveDuration = *o.ActiveDuration
+	}
+	if o.ActiveSchedule != nil {
+		out.ActiveSchedule = *o.ActiveSchedule
 	}
 	if o.Annotations != nil {
 		out.Annotations = *o.Annotations
 	}
-	if o.Archived != nil {
-		out.Archived = *o.Archived
+	if o.ApplyPolicyMode != nil {
+		out.ApplyPolicyMode = *o.ApplyPolicyMode
 	}
 	if o.AssociatedTags != nil {
 		out.AssociatedTags = *o.AssociatedTags
@@ -1328,8 +1480,11 @@ func (o *SparseHTTPResourceSpec) ToPlain() elemental.PlainIdentifiable {
 	if o.Description != nil {
 		out.Description = *o.Description
 	}
-	if o.Endpoints != nil {
-		out.Endpoints = *o.Endpoints
+	if o.Disabled != nil {
+		out.Disabled = *o.Disabled
+	}
+	if o.ExpirationTime != nil {
+		out.ExpirationTime = *o.ExpirationTime
 	}
 	if o.Metadata != nil {
 		out.Metadata = *o.Metadata
@@ -1343,11 +1498,14 @@ func (o *SparseHTTPResourceSpec) ToPlain() elemental.PlainIdentifiable {
 	if o.NormalizedTags != nil {
 		out.NormalizedTags = *o.NormalizedTags
 	}
-	if o.Propagate != nil {
-		out.Propagate = *o.Propagate
+	if o.Object != nil {
+		out.Object = *o.Object
 	}
 	if o.Protected != nil {
 		out.Protected = *o.Protected
+	}
+	if o.Subject != nil {
+		out.Subject = *o.Subject
 	}
 	if o.UpdateIdempotencyKey != nil {
 		out.UpdateIdempotencyKey = *o.UpdateIdempotencyKey
@@ -1355,228 +1513,222 @@ func (o *SparseHTTPResourceSpec) ToPlain() elemental.PlainIdentifiable {
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
 	}
-	if o.ZHash != nil {
-		out.ZHash = *o.ZHash
-	}
-	if o.Zone != nil {
-		out.Zone = *o.Zone
-	}
 
 	return out
 }
 
+// GetActiveDuration returns the ActiveDuration of the receiver.
+func (o *SparseInfrastructurePolicy) GetActiveDuration() string {
+
+	return *o.ActiveDuration
+}
+
+// SetActiveDuration sets the property ActiveDuration of the receiver using the address of the given value.
+func (o *SparseInfrastructurePolicy) SetActiveDuration(activeDuration string) {
+
+	o.ActiveDuration = &activeDuration
+}
+
+// GetActiveSchedule returns the ActiveSchedule of the receiver.
+func (o *SparseInfrastructurePolicy) GetActiveSchedule() string {
+
+	return *o.ActiveSchedule
+}
+
+// SetActiveSchedule sets the property ActiveSchedule of the receiver using the address of the given value.
+func (o *SparseInfrastructurePolicy) SetActiveSchedule(activeSchedule string) {
+
+	o.ActiveSchedule = &activeSchedule
+}
+
 // GetAnnotations returns the Annotations of the receiver.
-func (o *SparseHTTPResourceSpec) GetAnnotations() map[string][]string {
+func (o *SparseInfrastructurePolicy) GetAnnotations() map[string][]string {
 
 	return *o.Annotations
 }
 
 // SetAnnotations sets the property Annotations of the receiver using the address of the given value.
-func (o *SparseHTTPResourceSpec) SetAnnotations(annotations map[string][]string) {
+func (o *SparseInfrastructurePolicy) SetAnnotations(annotations map[string][]string) {
 
 	o.Annotations = &annotations
 }
 
-// GetArchived returns the Archived of the receiver.
-func (o *SparseHTTPResourceSpec) GetArchived() bool {
-
-	return *o.Archived
-}
-
-// SetArchived sets the property Archived of the receiver using the address of the given value.
-func (o *SparseHTTPResourceSpec) SetArchived(archived bool) {
-
-	o.Archived = &archived
-}
-
 // GetAssociatedTags returns the AssociatedTags of the receiver.
-func (o *SparseHTTPResourceSpec) GetAssociatedTags() []string {
+func (o *SparseInfrastructurePolicy) GetAssociatedTags() []string {
 
 	return *o.AssociatedTags
 }
 
 // SetAssociatedTags sets the property AssociatedTags of the receiver using the address of the given value.
-func (o *SparseHTTPResourceSpec) SetAssociatedTags(associatedTags []string) {
+func (o *SparseInfrastructurePolicy) SetAssociatedTags(associatedTags []string) {
 
 	o.AssociatedTags = &associatedTags
 }
 
 // GetCreateIdempotencyKey returns the CreateIdempotencyKey of the receiver.
-func (o *SparseHTTPResourceSpec) GetCreateIdempotencyKey() string {
+func (o *SparseInfrastructurePolicy) GetCreateIdempotencyKey() string {
 
 	return *o.CreateIdempotencyKey
 }
 
 // SetCreateIdempotencyKey sets the property CreateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseHTTPResourceSpec) SetCreateIdempotencyKey(createIdempotencyKey string) {
+func (o *SparseInfrastructurePolicy) SetCreateIdempotencyKey(createIdempotencyKey string) {
 
 	o.CreateIdempotencyKey = &createIdempotencyKey
 }
 
 // GetCreateTime returns the CreateTime of the receiver.
-func (o *SparseHTTPResourceSpec) GetCreateTime() time.Time {
+func (o *SparseInfrastructurePolicy) GetCreateTime() time.Time {
 
 	return *o.CreateTime
 }
 
 // SetCreateTime sets the property CreateTime of the receiver using the address of the given value.
-func (o *SparseHTTPResourceSpec) SetCreateTime(createTime time.Time) {
+func (o *SparseInfrastructurePolicy) SetCreateTime(createTime time.Time) {
 
 	o.CreateTime = &createTime
 }
 
 // GetDescription returns the Description of the receiver.
-func (o *SparseHTTPResourceSpec) GetDescription() string {
+func (o *SparseInfrastructurePolicy) GetDescription() string {
 
 	return *o.Description
 }
 
 // SetDescription sets the property Description of the receiver using the address of the given value.
-func (o *SparseHTTPResourceSpec) SetDescription(description string) {
+func (o *SparseInfrastructurePolicy) SetDescription(description string) {
 
 	o.Description = &description
 }
 
+// GetDisabled returns the Disabled of the receiver.
+func (o *SparseInfrastructurePolicy) GetDisabled() bool {
+
+	return *o.Disabled
+}
+
+// SetDisabled sets the property Disabled of the receiver using the address of the given value.
+func (o *SparseInfrastructurePolicy) SetDisabled(disabled bool) {
+
+	o.Disabled = &disabled
+}
+
+// GetExpirationTime returns the ExpirationTime of the receiver.
+func (o *SparseInfrastructurePolicy) GetExpirationTime() time.Time {
+
+	return *o.ExpirationTime
+}
+
+// SetExpirationTime sets the property ExpirationTime of the receiver using the address of the given value.
+func (o *SparseInfrastructurePolicy) SetExpirationTime(expirationTime time.Time) {
+
+	o.ExpirationTime = &expirationTime
+}
+
 // GetMetadata returns the Metadata of the receiver.
-func (o *SparseHTTPResourceSpec) GetMetadata() []string {
+func (o *SparseInfrastructurePolicy) GetMetadata() []string {
 
 	return *o.Metadata
 }
 
 // SetMetadata sets the property Metadata of the receiver using the address of the given value.
-func (o *SparseHTTPResourceSpec) SetMetadata(metadata []string) {
+func (o *SparseInfrastructurePolicy) SetMetadata(metadata []string) {
 
 	o.Metadata = &metadata
 }
 
 // GetName returns the Name of the receiver.
-func (o *SparseHTTPResourceSpec) GetName() string {
+func (o *SparseInfrastructurePolicy) GetName() string {
 
 	return *o.Name
 }
 
 // SetName sets the property Name of the receiver using the address of the given value.
-func (o *SparseHTTPResourceSpec) SetName(name string) {
+func (o *SparseInfrastructurePolicy) SetName(name string) {
 
 	o.Name = &name
 }
 
 // GetNamespace returns the Namespace of the receiver.
-func (o *SparseHTTPResourceSpec) GetNamespace() string {
+func (o *SparseInfrastructurePolicy) GetNamespace() string {
 
 	return *o.Namespace
 }
 
 // SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseHTTPResourceSpec) SetNamespace(namespace string) {
+func (o *SparseInfrastructurePolicy) SetNamespace(namespace string) {
 
 	o.Namespace = &namespace
 }
 
 // GetNormalizedTags returns the NormalizedTags of the receiver.
-func (o *SparseHTTPResourceSpec) GetNormalizedTags() []string {
+func (o *SparseInfrastructurePolicy) GetNormalizedTags() []string {
 
 	return *o.NormalizedTags
 }
 
 // SetNormalizedTags sets the property NormalizedTags of the receiver using the address of the given value.
-func (o *SparseHTTPResourceSpec) SetNormalizedTags(normalizedTags []string) {
+func (o *SparseInfrastructurePolicy) SetNormalizedTags(normalizedTags []string) {
 
 	o.NormalizedTags = &normalizedTags
 }
 
-// GetPropagate returns the Propagate of the receiver.
-func (o *SparseHTTPResourceSpec) GetPropagate() bool {
-
-	return *o.Propagate
-}
-
-// SetPropagate sets the property Propagate of the receiver using the address of the given value.
-func (o *SparseHTTPResourceSpec) SetPropagate(propagate bool) {
-
-	o.Propagate = &propagate
-}
-
 // GetProtected returns the Protected of the receiver.
-func (o *SparseHTTPResourceSpec) GetProtected() bool {
+func (o *SparseInfrastructurePolicy) GetProtected() bool {
 
 	return *o.Protected
 }
 
 // SetProtected sets the property Protected of the receiver using the address of the given value.
-func (o *SparseHTTPResourceSpec) SetProtected(protected bool) {
+func (o *SparseInfrastructurePolicy) SetProtected(protected bool) {
 
 	o.Protected = &protected
 }
 
 // GetUpdateIdempotencyKey returns the UpdateIdempotencyKey of the receiver.
-func (o *SparseHTTPResourceSpec) GetUpdateIdempotencyKey() string {
+func (o *SparseInfrastructurePolicy) GetUpdateIdempotencyKey() string {
 
 	return *o.UpdateIdempotencyKey
 }
 
 // SetUpdateIdempotencyKey sets the property UpdateIdempotencyKey of the receiver using the address of the given value.
-func (o *SparseHTTPResourceSpec) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
+func (o *SparseInfrastructurePolicy) SetUpdateIdempotencyKey(updateIdempotencyKey string) {
 
 	o.UpdateIdempotencyKey = &updateIdempotencyKey
 }
 
 // GetUpdateTime returns the UpdateTime of the receiver.
-func (o *SparseHTTPResourceSpec) GetUpdateTime() time.Time {
+func (o *SparseInfrastructurePolicy) GetUpdateTime() time.Time {
 
 	return *o.UpdateTime
 }
 
 // SetUpdateTime sets the property UpdateTime of the receiver using the address of the given value.
-func (o *SparseHTTPResourceSpec) SetUpdateTime(updateTime time.Time) {
+func (o *SparseInfrastructurePolicy) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
 }
 
-// GetZHash returns the ZHash of the receiver.
-func (o *SparseHTTPResourceSpec) GetZHash() int {
-
-	return *o.ZHash
-}
-
-// SetZHash sets the property ZHash of the receiver using the address of the given value.
-func (o *SparseHTTPResourceSpec) SetZHash(zHash int) {
-
-	o.ZHash = &zHash
-}
-
-// GetZone returns the Zone of the receiver.
-func (o *SparseHTTPResourceSpec) GetZone() int {
-
-	return *o.Zone
-}
-
-// SetZone sets the property Zone of the receiver using the address of the given value.
-func (o *SparseHTTPResourceSpec) SetZone(zone int) {
-
-	o.Zone = &zone
-}
-
-// DeepCopy returns a deep copy if the SparseHTTPResourceSpec.
-func (o *SparseHTTPResourceSpec) DeepCopy() *SparseHTTPResourceSpec {
+// DeepCopy returns a deep copy if the SparseInfrastructurePolicy.
+func (o *SparseInfrastructurePolicy) DeepCopy() *SparseInfrastructurePolicy {
 
 	if o == nil {
 		return nil
 	}
 
-	out := &SparseHTTPResourceSpec{}
+	out := &SparseInfrastructurePolicy{}
 	o.DeepCopyInto(out)
 
 	return out
 }
 
-// DeepCopyInto copies the receiver into the given *SparseHTTPResourceSpec.
-func (o *SparseHTTPResourceSpec) DeepCopyInto(out *SparseHTTPResourceSpec) {
+// DeepCopyInto copies the receiver into the given *SparseInfrastructurePolicy.
+func (o *SparseInfrastructurePolicy) DeepCopyInto(out *SparseInfrastructurePolicy) {
 
 	target, err := copystructure.Copy(o)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to deepcopy SparseHTTPResourceSpec: %s", err))
+		panic(fmt.Sprintf("Unable to deepcopy SparseInfrastructurePolicy: %s", err))
 	}
 
-	*out = *target.(*SparseHTTPResourceSpec)
+	*out = *target.(*SparseInfrastructurePolicy)
 }

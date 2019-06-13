@@ -13,7 +13,9 @@ model:
     global_parameters:
     - $filtering
   extends:
+  - '@zoned'
   - '@base'
+  - '@namespaced'
   - '@described'
   - '@disabled'
   - '@identifiable-stored'
@@ -23,7 +25,6 @@ model:
   - '@hidden'
   - '@fallback'
   - '@schedulable'
-  - '@zonable'
   - '@timeable'
 
 # Indexes
@@ -133,6 +134,7 @@ attributes:
     - File
     - Hook
     - HostServiceMapping
+    - Infrastructure
     - NamespaceMapping
     - Network
     - ProcessingUnit

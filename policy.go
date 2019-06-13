@@ -30,6 +30,9 @@ const (
 	// PolicyTypeHostServiceMapping represents the value HostServiceMapping.
 	PolicyTypeHostServiceMapping PolicyTypeValue = "HostServiceMapping"
 
+	// PolicyTypeInfrastructure represents the value Infrastructure.
+	PolicyTypeInfrastructure PolicyTypeValue = "Infrastructure"
+
 	// PolicyTypeNamespaceMapping represents the value NamespaceMapping.
 	PolicyTypeNamespaceMapping PolicyTypeValue = "NamespaceMapping"
 
@@ -230,7 +233,7 @@ type Policy struct {
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone int `json:"-" msgpack:"-" bson:"zone" mapstructure:"-,omitempty"`
+	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -836,7 +839,7 @@ func (o *Policy) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope", "SSHAuthorization"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "Infrastructure", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope", "SSHAuthorization"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -1148,7 +1151,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "namespace",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
@@ -1245,7 +1247,7 @@ includes AND/OR.`,
 		Type:    "external",
 	},
 	"Type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope", "SSHAuthorization"},
+		AllowedChoices: []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "Infrastructure", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope", "SSHAuthorization"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the policy.`,
@@ -1299,12 +1301,14 @@ georedundancy.`,
 		ConvertedName:  "Zone",
 		Description: `geographical zone. This is used for sharding and
 georedundancy.`,
-		Getter:   true,
-		Name:     "zone",
-		ReadOnly: true,
-		Setter:   true,
-		Stored:   true,
-		Type:     "integer",
+		Exposed:   true,
+		Getter:    true,
+		Name:      "zone",
+		ReadOnly:  true,
+		Setter:    true,
+		Stored:    true,
+		Transient: true,
+		Type:      "integer",
 	},
 }
 
@@ -1519,7 +1523,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Getter:         true,
 		Name:           "namespace",
 		Orderable:      true,
-		PrimaryKey:     true,
 		ReadOnly:       true,
 		Setter:         true,
 		Stored:         true,
@@ -1616,7 +1619,7 @@ includes AND/OR.`,
 		Type:    "external",
 	},
 	"type": elemental.AttributeSpecification{
-		AllowedChoices: []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope", "SSHAuthorization"},
+		AllowedChoices: []string{"APIAuthorization", "AuditProfileMapping", "EnforcerProfile", "File", "Hook", "HostServiceMapping", "Infrastructure", "NamespaceMapping", "Network", "ProcessingUnit", "Quota", "Service", "ServiceDependency", "Syscall", "TokenScope", "SSHAuthorization"},
 		ConvertedName:  "Type",
 		CreationOnly:   true,
 		Description:    `Type of the policy.`,
@@ -1670,12 +1673,14 @@ georedundancy.`,
 		ConvertedName:  "Zone",
 		Description: `geographical zone. This is used for sharding and
 georedundancy.`,
-		Getter:   true,
-		Name:     "zone",
-		ReadOnly: true,
-		Setter:   true,
-		Stored:   true,
-		Type:     "integer",
+		Exposed:   true,
+		Getter:    true,
+		Name:      "zone",
+		ReadOnly:  true,
+		Setter:    true,
+		Stored:    true,
+		Transient: true,
+		Type:      "integer",
 	},
 }
 
@@ -1842,7 +1847,7 @@ type SparsePolicy struct {
 
 	// geographical zone. This is used for sharding and
 	// georedundancy.
-	Zone *int `json:"-" msgpack:"-" bson:"zone,omitempty" mapstructure:"-,omitempty"`
+	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }

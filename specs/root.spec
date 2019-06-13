@@ -184,10 +184,6 @@ relations:
   create:
     description: Creates a new Certificate for datapath.
 
-- rest_name: dbversion
-  get:
-    description: Retrieves the list of db versions.
-
 - rest_name: dependencymap
   get:
     description: Retrieves the dependencymap of a namespace.
@@ -358,6 +354,14 @@ relations:
     - $filtering
   create:
     description: Creates a new import request.
+
+- rest_name: infrastructurepolicy
+  get:
+    description: Retrieves the list of infrastructure policies.
+    global_parameters:
+    - $filtering
+  create:
+    description: Creates a new infrastructure policy.
 
 - rest_name: installedapp
   get:

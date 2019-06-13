@@ -16,6 +16,7 @@ model:
     - $filtering
   extends:
   - '@base'
+  - '@zoned'
   - '@described'
   - '@identifiable-stored'
   - '@metadatable'

@@ -58,7 +58,6 @@ func (o AWSAPIGatewaysList) List() elemental.IdentifiablesList {
 func (o AWSAPIGatewaysList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -120,9 +119,6 @@ type AWSAPIGateway struct {
 	// Name is the name of the entity.
 	Name string `json:"name" msgpack:"name" bson:"name" mapstructure:"name,omitempty"`
 
-	// Namespace tag attached to an entity.
-	Namespace string `json:"namespace" msgpack:"namespace" bson:"namespace" mapstructure:"namespace,omitempty"`
-
 	// Link to the cluster namespace where the AWS API gateway is defined.
 	NamespaceID string `json:"namespaceID" msgpack:"namespaceID" bson:"-" mapstructure:"namespaceID,omitempty"`
 
@@ -150,6 +146,14 @@ type AWSAPIGateway struct {
 	// Last update date of the object.
 	UpdateTime time.Time `json:"updateTime" msgpack:"updateTime" bson:"updatetime" mapstructure:"updateTime,omitempty"`
 
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash int `json:"-" msgpack:"-" bson:"zhash" mapstructure:"-,omitempty"`
+
+	// geographical zone. This is used for sharding and
+	// georedundancy.
+	Zone int `json:"zone" msgpack:"zone" bson:"zone" mapstructure:"zone,omitempty"`
+
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
 
@@ -160,8 +164,8 @@ func NewAWSAPIGateway() *AWSAPIGateway {
 		ModelVersion:   1,
 		Annotations:    map[string][]string{},
 		AssociatedTags: []string{},
-		NormalizedTags: []string{},
 		Metadata:       []string{},
+		NormalizedTags: []string{},
 	}
 }
 
@@ -193,7 +197,6 @@ func (o *AWSAPIGateway) Version() int {
 func (o *AWSAPIGateway) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -293,18 +296,6 @@ func (o *AWSAPIGateway) SetName(name string) {
 	o.Name = name
 }
 
-// GetNamespace returns the Namespace of the receiver.
-func (o *AWSAPIGateway) GetNamespace() string {
-
-	return o.Namespace
-}
-
-// SetNamespace sets the property Namespace of the receiver using the given value.
-func (o *AWSAPIGateway) SetNamespace(namespace string) {
-
-	o.Namespace = namespace
-}
-
 // GetNormalizedTags returns the NormalizedTags of the receiver.
 func (o *AWSAPIGateway) GetNormalizedTags() []string {
 
@@ -353,6 +344,30 @@ func (o *AWSAPIGateway) SetUpdateTime(updateTime time.Time) {
 	o.UpdateTime = updateTime
 }
 
+// GetZHash returns the ZHash of the receiver.
+func (o *AWSAPIGateway) GetZHash() int {
+
+	return o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the given value.
+func (o *AWSAPIGateway) SetZHash(zHash int) {
+
+	o.ZHash = zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *AWSAPIGateway) GetZone() int {
+
+	return o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the given value.
+func (o *AWSAPIGateway) SetZone(zone int) {
+
+	o.Zone = zone
+}
+
 // ToSparse returns the sparse version of the model.
 // The returned object will only contain the given fields. No field means entire field set.
 func (o *AWSAPIGateway) ToSparse(fields ...string) elemental.SparseIdentifiable {
@@ -372,7 +387,6 @@ func (o *AWSAPIGateway) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			Metadata:             &o.Metadata,
 			Method:               &o.Method,
 			Name:                 &o.Name,
-			Namespace:            &o.Namespace,
 			NamespaceID:          &o.NamespaceID,
 			NormalizedTags:       &o.NormalizedTags,
 			Protected:            &o.Protected,
@@ -382,6 +396,8 @@ func (o *AWSAPIGateway) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			Token:                &o.Token,
 			UpdateIdempotencyKey: &o.UpdateIdempotencyKey,
 			UpdateTime:           &o.UpdateTime,
+			ZHash:                &o.ZHash,
+			Zone:                 &o.Zone,
 		}
 	}
 
@@ -412,8 +428,6 @@ func (o *AWSAPIGateway) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.Method = &(o.Method)
 		case "name":
 			sp.Name = &(o.Name)
-		case "namespace":
-			sp.Namespace = &(o.Namespace)
 		case "namespaceID":
 			sp.NamespaceID = &(o.NamespaceID)
 		case "normalizedTags":
@@ -432,6 +446,10 @@ func (o *AWSAPIGateway) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			sp.UpdateIdempotencyKey = &(o.UpdateIdempotencyKey)
 		case "updateTime":
 			sp.UpdateTime = &(o.UpdateTime)
+		case "zHash":
+			sp.ZHash = &(o.ZHash)
+		case "zone":
+			sp.Zone = &(o.Zone)
 		}
 	}
 
@@ -481,9 +499,6 @@ func (o *AWSAPIGateway) Patch(sparse elemental.SparseIdentifiable) {
 	if so.Name != nil {
 		o.Name = *so.Name
 	}
-	if so.Namespace != nil {
-		o.Namespace = *so.Namespace
-	}
 	if so.NamespaceID != nil {
 		o.NamespaceID = *so.NamespaceID
 	}
@@ -510,6 +525,12 @@ func (o *AWSAPIGateway) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.UpdateTime != nil {
 		o.UpdateTime = *so.UpdateTime
+	}
+	if so.ZHash != nil {
+		o.ZHash = *so.ZHash
+	}
+	if so.Zone != nil {
+		o.Zone = *so.Zone
 	}
 }
 
@@ -621,8 +642,6 @@ func (o *AWSAPIGateway) ValueForAttribute(name string) interface{} {
 		return o.Method
 	case "name":
 		return o.Name
-	case "namespace":
-		return o.Namespace
 	case "namespaceID":
 		return o.NamespaceID
 	case "normalizedTags":
@@ -641,6 +660,10 @@ func (o *AWSAPIGateway) ValueForAttribute(name string) interface{} {
 		return o.UpdateIdempotencyKey
 	case "updateTime":
 		return o.UpdateTime
+	case "zHash":
+		return o.ZHash
+	case "zone":
+		return o.Zone
 	}
 
 	return nil
@@ -790,23 +813,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"Namespace": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Namespace",
-		DefaultOrder:   true,
-		Description:    `Namespace tag attached to an entity.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "namespace",
-		Orderable:      true,
-		PrimaryKey:     true,
-		ReadOnly:       true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"NamespaceID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NamespaceID",
@@ -899,6 +905,34 @@ with the '@' prefix, and should only be used by external systems.`,
 		Setter:         true,
 		Stored:         true,
 		Type:           "time",
+	},
+	"ZHash": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"Zone": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Zone",
+		Description: `geographical zone. This is used for sharding and
+georedundancy.`,
+		Exposed:   true,
+		Getter:    true,
+		Name:      "zone",
+		ReadOnly:  true,
+		Setter:    true,
+		Stored:    true,
+		Transient: true,
+		Type:      "integer",
 	},
 }
 
@@ -1046,23 +1080,6 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "string",
 	},
-	"namespace": elemental.AttributeSpecification{
-		AllowedChoices: []string{},
-		Autogenerated:  true,
-		ConvertedName:  "Namespace",
-		DefaultOrder:   true,
-		Description:    `Namespace tag attached to an entity.`,
-		Exposed:        true,
-		Filterable:     true,
-		Getter:         true,
-		Name:           "namespace",
-		Orderable:      true,
-		PrimaryKey:     true,
-		ReadOnly:       true,
-		Setter:         true,
-		Stored:         true,
-		Type:           "string",
-	},
 	"namespaceid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "NamespaceID",
@@ -1156,6 +1173,34 @@ with the '@' prefix, and should only be used by external systems.`,
 		Stored:         true,
 		Type:           "time",
 	},
+	"zhash": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "ZHash",
+		Description: `geographical hash of the data. This is used for sharding and
+georedundancy.`,
+		Getter:   true,
+		Name:     "zHash",
+		ReadOnly: true,
+		Setter:   true,
+		Stored:   true,
+		Type:     "integer",
+	},
+	"zone": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		Autogenerated:  true,
+		ConvertedName:  "Zone",
+		Description: `geographical zone. This is used for sharding and
+georedundancy.`,
+		Exposed:   true,
+		Getter:    true,
+		Name:      "zone",
+		ReadOnly:  true,
+		Setter:    true,
+		Stored:    true,
+		Transient: true,
+		Type:      "integer",
+	},
 }
 
 // SparseAWSAPIGatewaysList represents a list of SparseAWSAPIGateways
@@ -1200,7 +1245,6 @@ func (o SparseAWSAPIGatewaysList) List() elemental.IdentifiablesList {
 func (o SparseAWSAPIGatewaysList) DefaultOrder() []string {
 
 	return []string{
-		"namespace",
 		"name",
 	}
 }
@@ -1261,9 +1305,6 @@ type SparseAWSAPIGateway struct {
 	// Name is the name of the entity.
 	Name *string `json:"name,omitempty" msgpack:"name,omitempty" bson:"name,omitempty" mapstructure:"name,omitempty"`
 
-	// Namespace tag attached to an entity.
-	Namespace *string `json:"namespace,omitempty" msgpack:"namespace,omitempty" bson:"namespace,omitempty" mapstructure:"namespace,omitempty"`
-
 	// Link to the cluster namespace where the AWS API gateway is defined.
 	NamespaceID *string `json:"namespaceID,omitempty" msgpack:"namespaceID,omitempty" bson:"-" mapstructure:"namespaceID,omitempty"`
 
@@ -1290,6 +1331,14 @@ type SparseAWSAPIGateway struct {
 
 	// Last update date of the object.
 	UpdateTime *time.Time `json:"updateTime,omitempty" msgpack:"updateTime,omitempty" bson:"updatetime,omitempty" mapstructure:"updateTime,omitempty"`
+
+	// geographical hash of the data. This is used for sharding and
+	// georedundancy.
+	ZHash *int `json:"-" msgpack:"-" bson:"zhash,omitempty" mapstructure:"-,omitempty"`
+
+	// geographical zone. This is used for sharding and
+	// georedundancy.
+	Zone *int `json:"zone,omitempty" msgpack:"zone,omitempty" bson:"zone,omitempty" mapstructure:"zone,omitempty"`
 
 	ModelVersion int `json:"-" msgpack:"-" bson:"_modelversion"`
 }
@@ -1366,9 +1415,6 @@ func (o *SparseAWSAPIGateway) ToPlain() elemental.PlainIdentifiable {
 	if o.Name != nil {
 		out.Name = *o.Name
 	}
-	if o.Namespace != nil {
-		out.Namespace = *o.Namespace
-	}
 	if o.NamespaceID != nil {
 		out.NamespaceID = *o.NamespaceID
 	}
@@ -1395,6 +1441,12 @@ func (o *SparseAWSAPIGateway) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.UpdateTime != nil {
 		out.UpdateTime = *o.UpdateTime
+	}
+	if o.ZHash != nil {
+		out.ZHash = *o.ZHash
+	}
+	if o.Zone != nil {
+		out.Zone = *o.Zone
 	}
 
 	return out
@@ -1484,18 +1536,6 @@ func (o *SparseAWSAPIGateway) SetName(name string) {
 	o.Name = &name
 }
 
-// GetNamespace returns the Namespace of the receiver.
-func (o *SparseAWSAPIGateway) GetNamespace() string {
-
-	return *o.Namespace
-}
-
-// SetNamespace sets the property Namespace of the receiver using the address of the given value.
-func (o *SparseAWSAPIGateway) SetNamespace(namespace string) {
-
-	o.Namespace = &namespace
-}
-
 // GetNormalizedTags returns the NormalizedTags of the receiver.
 func (o *SparseAWSAPIGateway) GetNormalizedTags() []string {
 
@@ -1542,6 +1582,30 @@ func (o *SparseAWSAPIGateway) GetUpdateTime() time.Time {
 func (o *SparseAWSAPIGateway) SetUpdateTime(updateTime time.Time) {
 
 	o.UpdateTime = &updateTime
+}
+
+// GetZHash returns the ZHash of the receiver.
+func (o *SparseAWSAPIGateway) GetZHash() int {
+
+	return *o.ZHash
+}
+
+// SetZHash sets the property ZHash of the receiver using the address of the given value.
+func (o *SparseAWSAPIGateway) SetZHash(zHash int) {
+
+	o.ZHash = &zHash
+}
+
+// GetZone returns the Zone of the receiver.
+func (o *SparseAWSAPIGateway) GetZone() int {
+
+	return *o.Zone
+}
+
+// SetZone sets the property Zone of the receiver using the address of the given value.
+func (o *SparseAWSAPIGateway) SetZone(zone int) {
+
+	o.Zone = &zone
 }
 
 // DeepCopy returns a deep copy if the SparseAWSAPIGateway.

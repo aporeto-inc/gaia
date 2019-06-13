@@ -1,21 +1,21 @@
 # Model
 model:
-  rest_name: networkaccesspolicy
-  resource_name: networkaccesspolicies
-  entity_name: NetworkAccessPolicy
+  rest_name: infrastructurepolicy
+  resource_name: infrastructurepolicies
+  entity_name: InfrastructurePolicy
   package: squall
   group: policy/networking
   description: |-
-    Allows to define networking policies to allow or prevent processing units
-    identitied by their tags to talk to other processing units or external services
-    (also identified by their tags).
+    Infrastructure policies capture the network access rules of the underlying
+    infrastructure and can be used to model cloud security groups, firewalls or
+    other ACL based mechanisms. They are not used in the identity-based network
+    authorization of Aporeto, but they can affect traffic flows in the underlying
+    infrastructure.
   aliases:
-  - netpol
-  - netpols
+  - infrapol
+  - infrapols
   get:
     description: Retrieves the object with the given ID.
-    global_parameters:
-    - $propagatable
   update:
     description: Updates the object with the given ID.
   delete:
@@ -30,11 +30,7 @@ model:
   - '@identifiable-not-stored'
   - '@metadatable'
   - '@named'
-  - '@propagated'
-  - '@fallback'
   - '@schedulable'
-  - '@negatable-object'
-  - '@negatable-subject'
   - '@timeable'
 
 # Indexes
@@ -51,7 +47,6 @@ attributes:
     allowed_choices:
     - Allow
     - Reject
-    - Continue
     default_value: Allow
     orderable: true
 
@@ -65,14 +60,7 @@ attributes:
     allowed_choices:
     - OutgoingTraffic
     - IncomingTraffic
-    - Bidirectional
-    default_value: Bidirectional
-    orderable: true
-
-  - name: encryptionEnabled
-    description: EncryptionEnabled defines if the flow has to be encrypted.
-    type: boolean
-    exposed: true
+    default_value: OutgoingTraffic
     orderable: true
 
   - name: expirationTime
@@ -83,12 +71,6 @@ attributes:
     getter: true
     setter: true
 
-  - name: logsEnabled
-    description: LogsEnabled defines if the flow has to be logged.
-    type: boolean
-    exposed: true
-    orderable: true
-
   - name: object
     description: Object of the policy.
     type: external
@@ -97,33 +79,6 @@ attributes:
     orderable: true
     validations:
     - $tagsExpression
-
-  - name: observationEnabled
-    description: If set to true, the flow will be in observation mode.
-    type: boolean
-    exposed: true
-    orderable: true
-
-  - name: observedTrafficAction
-    description: |-
-      If observationEnabled is set to true, this will be the final action taken on the
-      packets.
-    type: enum
-    exposed: true
-    allowed_choices:
-    - Apply
-    - Continue
-    default_value: Continue
-    orderable: true
-
-  - name: ports
-    description: Represents the ports and protocols this policy applies to.
-    type: list
-    exposed: true
-    subtype: string
-    orderable: true
-    validations:
-    - $protoports
 
   - name: subject
     description: Subject of the policy.
@@ -138,7 +93,7 @@ attributes:
 relations:
 - rest_name: externalnetwork
   get:
-    description: Returns the list of external networks affected by a network access
+    description: Returns the list of external networks affected by an infrastructure
       policy.
     parameters:
       entries:
@@ -152,7 +107,7 @@ relations:
 
 - rest_name: processingunit
   get:
-    description: Returns the list of Processing Units affected by a network access
+    description: Returns the list of Processing Units affected by an infrastructure
       policy.
     parameters:
       entries:
@@ -166,7 +121,7 @@ relations:
 
 - rest_name: service
   get:
-    description: Returns the list of services affected by a network access policy.
+    description: Returns the list of services affected by an infrastructure policy.
     parameters:
       entries:
       - name: mode

@@ -23,14 +23,15 @@ model:
     global_parameters:
     - $filtering
   extends:
-  - '@archivable'
+  - '@zoned'
   - '@base'
+  - '@namespaced'
+  - '@archivable'
   - '@described'
   - '@identifiable-stored'
   - '@named'
   - '@metadatable'
   - '@disabled'
-  - '@zonable'
   - '@timeable'
   validations:
   - $serviceEntity

@@ -18,7 +18,9 @@ model:
     global_parameters:
     - $filtering
   extends:
+  - '@zoned'
   - '@base'
+  - '@namespaced'
   - '@identifiable-stored'
   - '@named'
   - '@timeable'
