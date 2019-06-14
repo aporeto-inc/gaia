@@ -3938,6 +3938,15 @@ func init() {
 		},
 	}
 
+	relationshipsRegistry[TrustedCAIdentity] = &elemental.Relationship{
+		RetrieveMany: map[string]*elemental.RelationshipInfo{
+			"enforcer": &elemental.RelationshipInfo{},
+		},
+		Info: map[string]*elemental.RelationshipInfo{
+			"enforcer": &elemental.RelationshipInfo{},
+		},
+	}
+
 	relationshipsRegistry[ValidateUIParameterIdentity] = &elemental.Relationship{
 		Create: map[string]*elemental.RelationshipInfo{
 			"root": &elemental.RelationshipInfo{},

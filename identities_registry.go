@@ -113,7 +113,8 @@ var (
 		"token":            TokenIdentity,
 		"tokenscopepolicy": TokenScopePolicyIdentity,
 
-		"trigger": TriggerIdentity,
+		"trigger":   TriggerIdentity,
+		"trustedca": TrustedCAIdentity,
 
 		"validateuiparameter":  ValidateUIParameterIdentity,
 		"vulnerability":        VulnerabilityIdentity,
@@ -231,7 +232,8 @@ var (
 		"tokens":             TokenIdentity,
 		"tokenscopepolicies": TokenScopePolicyIdentity,
 
-		"triggers": TriggerIdentity,
+		"triggers":   TriggerIdentity,
+		"trustedcas": TrustedCAIdentity,
 
 		"validateuiparameters":  ValidateUIParameterIdentity,
 		"vulnerabilities":       VulnerabilityIdentity,
@@ -699,6 +701,7 @@ var (
 		"token":               nil,
 		"tokenscopepolicy":    nil,
 		"trigger":             nil,
+		"trustedca":           nil,
 		"validateuiparameter": nil,
 		"vulnerability": [][]string{
 			[]string{":shard", ":unique", "zone", "zHash"},
@@ -957,6 +960,8 @@ func (f modelManager) Identifiable(identity elemental.Identity) elemental.Identi
 		return NewTokenScopePolicy()
 	case TriggerIdentity:
 		return NewTrigger()
+	case TrustedCAIdentity:
+		return NewTrustedCA()
 	case ValidateUIParameterIdentity:
 		return NewValidateUIParameter()
 	case VulnerabilityIdentity:
@@ -1174,6 +1179,8 @@ func (f modelManager) SparseIdentifiable(identity elemental.Identity) elemental.
 		return NewSparseTokenScopePolicy()
 	case TriggerIdentity:
 		return NewSparseTrigger()
+	case TrustedCAIdentity:
+		return NewSparseTrustedCA()
 	case ValidateUIParameterIdentity:
 		return NewSparseValidateUIParameter()
 	case VulnerabilityIdentity:
@@ -1401,6 +1408,8 @@ func (f modelManager) Identifiables(identity elemental.Identity) elemental.Ident
 		return &TokenScopePoliciesList{}
 	case TriggerIdentity:
 		return &TriggersList{}
+	case TrustedCAIdentity:
+		return &TrustedCAsList{}
 	case ValidateUIParameterIdentity:
 		return &ValidateUIParametersList{}
 	case VulnerabilityIdentity:
@@ -1618,6 +1627,8 @@ func (f modelManager) SparseIdentifiables(identity elemental.Identity) elemental
 		return &SparseTokenScopePoliciesList{}
 	case TriggerIdentity:
 		return &SparseTriggersList{}
+	case TrustedCAIdentity:
+		return &SparseTrustedCAsList{}
 	case ValidateUIParameterIdentity:
 		return &SparseValidateUIParametersList{}
 	case VulnerabilityIdentity:
@@ -1751,6 +1762,7 @@ func AllIdentities() []elemental.Identity {
 		TokenIdentity,
 		TokenScopePolicyIdentity,
 		TriggerIdentity,
+		TrustedCAIdentity,
 		ValidateUIParameterIdentity,
 		VulnerabilityIdentity,
 		X509CertificateIdentity,
@@ -2093,6 +2105,8 @@ func AliasesForIdentity(identity elemental.Identity) []string {
 			"tsp",
 		}
 	case TriggerIdentity:
+		return []string{}
+	case TrustedCAIdentity:
 		return []string{}
 	case ValidateUIParameterIdentity:
 		return []string{
