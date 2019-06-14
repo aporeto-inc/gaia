@@ -1593,6 +1593,10 @@ Parameters:
 
 Returns the list of CAs that should be trusted by this enforcer.
 
+Parameters:
+
+- `type` (`enum`): Type of certificate to get.
+
 #### Attributes
 
 ##### `FQDN` `string` [`required`,`creation_only`]
@@ -5685,6 +5689,10 @@ Represents a trusted Certificate Authority.
 ##### `GET /enforcers/:id/trustedcas`
 
 Returns the list of CAs that should be trusted by this enforcer.
+
+Parameters:
+
+- `type` (`enum`): Type of certificate to get.
 
 #### Attributes
 
