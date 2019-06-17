@@ -7,6 +7,20 @@ import (
 	"go.aporeto.io/elemental"
 )
 
+// PolicyGraphPolicyTypeValue represents the possible values for attribute "policyType".
+type PolicyGraphPolicyTypeValue string
+
+const (
+	// PolicyGraphPolicyTypeAuthorization represents the value Authorization.
+	PolicyGraphPolicyTypeAuthorization PolicyGraphPolicyTypeValue = "Authorization"
+
+	// PolicyGraphPolicyTypeCombined represents the value Combined.
+	PolicyGraphPolicyTypeCombined PolicyGraphPolicyTypeValue = "Combined"
+
+	// PolicyGraphPolicyTypeInfrastructure represents the value Infrastructure.
+	PolicyGraphPolicyTypeInfrastructure PolicyGraphPolicyTypeValue = "Infrastructure"
+)
+
 // PolicyGraphIdentity represents the Identity of the object.
 var PolicyGraphIdentity = elemental.Identity{
 	Name:     "policygraph",
@@ -88,6 +102,10 @@ type PolicyGraph struct {
 	// type of dependency map as created by other APIs.
 	DependencyMap *DependencyMap `json:"dependencyMap" msgpack:"dependencyMap" bson:"-" mapstructure:"dependencyMap,omitempty"`
 
+	// Defines the type of policy that should be analyzed (Network Authorzation
+	// Policies, Infrastructure Policies or Combined).
+	PolicyType PolicyGraphPolicyTypeValue `json:"policyType" msgpack:"policyType" bson:"-" mapstructure:"policyType,omitempty"`
+
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to evaluate policy for it.
 	Selectors [][]string `json:"selectors" msgpack:"selectors" bson:"-" mapstructure:"selectors,omitempty"`
@@ -102,6 +120,7 @@ func NewPolicyGraph() *PolicyGraph {
 		ModelVersion:  1,
 		DependencyMap: NewDependencyMap(),
 		PUIdentity:    []string{},
+		PolicyType:    PolicyGraphPolicyTypeAuthorization,
 		Selectors:     [][]string{},
 	}
 }
@@ -159,6 +178,7 @@ func (o *PolicyGraph) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		return &SparsePolicyGraph{
 			PUIdentity:    &o.PUIdentity,
 			DependencyMap: &o.DependencyMap,
+			PolicyType:    &o.PolicyType,
 			Selectors:     &o.Selectors,
 		}
 	}
@@ -170,6 +190,8 @@ func (o *PolicyGraph) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.PUIdentity = &(o.PUIdentity)
 		case "dependencyMap":
 			sp.DependencyMap = &(o.DependencyMap)
+		case "policyType":
+			sp.PolicyType = &(o.PolicyType)
 		case "selectors":
 			sp.Selectors = &(o.Selectors)
 		}
@@ -190,6 +212,9 @@ func (o *PolicyGraph) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.DependencyMap != nil {
 		o.DependencyMap = *so.DependencyMap
+	}
+	if so.PolicyType != nil {
+		o.PolicyType = *so.PolicyType
 	}
 	if so.Selectors != nil {
 		o.Selectors = *so.Selectors
@@ -230,6 +255,10 @@ func (o *PolicyGraph) Validate() error {
 		if err := o.DependencyMap.Validate(); err != nil {
 			errors = errors.Append(err)
 		}
+	}
+
+	if err := elemental.ValidateStringInList("policyType", string(o.PolicyType), []string{"Authorization", "Infrastructure", "Combined"}, false); err != nil {
+		errors = errors.Append(err)
 	}
 
 	if err := ValidateTagsExpression("selectors", o.Selectors); err != nil {
@@ -274,6 +303,8 @@ func (o *PolicyGraph) ValueForAttribute(name string) interface{} {
 		return o.PUIdentity
 	case "dependencyMap":
 		return o.DependencyMap
+	case "policyType":
+		return o.PolicyType
 	case "selectors":
 		return o.Selectors
 	}
@@ -303,6 +334,16 @@ type of dependency map as created by other APIs.`,
 		Name:    "dependencyMap",
 		SubType: "dependencymap",
 		Type:    "ref",
+	},
+	"PolicyType": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Authorization", "Infrastructure", "Combined"},
+		ConvertedName:  "PolicyType",
+		DefaultValue:   PolicyGraphPolicyTypeAuthorization,
+		Description: `Defines the type of policy that should be analyzed (Network Authorzation
+Policies, Infrastructure Policies or Combined).`,
+		Exposed: true,
+		Name:    "policyType",
+		Type:    "enum",
 	},
 	"Selectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -338,6 +379,16 @@ type of dependency map as created by other APIs.`,
 		Name:    "dependencyMap",
 		SubType: "dependencymap",
 		Type:    "ref",
+	},
+	"policytype": elemental.AttributeSpecification{
+		AllowedChoices: []string{"Authorization", "Infrastructure", "Combined"},
+		ConvertedName:  "PolicyType",
+		DefaultValue:   PolicyGraphPolicyTypeAuthorization,
+		Description: `Defines the type of policy that should be analyzed (Network Authorzation
+Policies, Infrastructure Policies or Combined).`,
+		Exposed: true,
+		Name:    "policyType",
+		Type:    "enum",
 	},
 	"selectors": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
@@ -423,6 +474,10 @@ type SparsePolicyGraph struct {
 	// type of dependency map as created by other APIs.
 	DependencyMap **DependencyMap `json:"dependencyMap,omitempty" msgpack:"dependencyMap,omitempty" bson:"-" mapstructure:"dependencyMap,omitempty"`
 
+	// Defines the type of policy that should be analyzed (Network Authorzation
+	// Policies, Infrastructure Policies or Combined).
+	PolicyType *PolicyGraphPolicyTypeValue `json:"policyType,omitempty" msgpack:"policyType,omitempty" bson:"-" mapstructure:"policyType,omitempty"`
+
 	// Selectors contains the tag expression that an a processing unit
 	// must match in order to evaluate policy for it.
 	Selectors *[][]string `json:"selectors,omitempty" msgpack:"selectors,omitempty" bson:"-" mapstructure:"selectors,omitempty"`
@@ -467,6 +522,9 @@ func (o *SparsePolicyGraph) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.DependencyMap != nil {
 		out.DependencyMap = *o.DependencyMap
+	}
+	if o.PolicyType != nil {
+		out.PolicyType = *o.PolicyType
 	}
 	if o.Selectors != nil {
 		out.Selectors = *o.Selectors

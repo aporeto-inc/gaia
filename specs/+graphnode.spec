@@ -66,6 +66,7 @@ attributes:
     - ExternalNetwork
     - Volume
     - Claim
+    - Node
 
   - name: unreachable
     description: If true the node is marked as unreachable.

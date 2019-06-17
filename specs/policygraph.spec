@@ -36,6 +36,18 @@ attributes:
     extensions:
       refMode: pointer
 
+  - name: policyType
+    description: |-
+      Defines the type of policy that should be analyzed (Network Authorzation
+      Policies, Infrastructure Policies or Combined).
+    type: enum
+    exposed: true
+    allowed_choices:
+    - Authorization
+    - Infrastructure
+    - Combined
+    default_value: Authorization
+
   - name: selectors
     description: |-
       Selectors contains the tag expression that an a processing unit

@@ -21,6 +21,9 @@ const (
 	// GraphNodeTypeExternalNetwork represents the value ExternalNetwork.
 	GraphNodeTypeExternalNetwork GraphNodeTypeValue = "ExternalNetwork"
 
+	// GraphNodeTypeNode represents the value Node.
+	GraphNodeTypeNode GraphNodeTypeValue = "Node"
+
 	// GraphNodeTypeVolume represents the value Volume.
 	GraphNodeTypeVolume GraphNodeTypeValue = "Volume"
 )
@@ -106,7 +109,7 @@ func (o *GraphNode) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Docker", "ExternalNetwork", "Volume", "Claim"}, false); err != nil {
+	if err := elemental.ValidateStringInList("type", string(o.Type), []string{"Docker", "ExternalNetwork", "Volume", "Claim", "Node"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
