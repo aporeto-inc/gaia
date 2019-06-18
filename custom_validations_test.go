@@ -1,7 +1,11 @@
 package gaia
 
 import (
+	"net/http"
+	"reflect"
 	"testing"
+
+	"go.aporeto.io/elemental"
 )
 
 func TestValidatePortString(t *testing.T) {
@@ -904,6 +908,96 @@ func TestValidateOptionalNetworkList(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := ValidateOptionalNetworkList(tt.args.attribute, tt.args.networks); (err != nil) != tt.wantErr {
 				t.Errorf("ValidateOptionalNetworkList() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateHookPolicy(t *testing.T) {
+	testCases := []struct {
+		scenario      string
+		model         *HookPolicy
+		expectedError bool
+	}{
+		{
+			scenario: "should NOT return an error if both clientCertificateKey and clientCertificate are absent",
+			model: &HookPolicy{
+				ClientCertificate:    "",
+				ClientCertificateKey: "",
+			},
+			expectedError: false,
+		},
+		{
+			scenario: "should NOT return an error if both clientCertificateKey and clientCertificate are provided",
+			model: &HookPolicy{
+				ClientCertificate: `-----BEGIN CERTIFICATE-----
+MIIBczCCARigAwIBAgIRALD3Vz81Pq10g7n4eAkOsCYwCgYIKoZIzj0EAwIwJjEN
+MAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNzA2
+NTM1MloXDTI3MTEyNjA2NTM1MlowGDEWMBQGA1UEAxMNY2xhaXJlLWNsaWVudDBZ
+MBMGByqGSM49AgEGCCqGSM49AwEHA0IABOmzPJj+t25T148eQH5gVrZ7nHwckF5O
+evJQ3CjSEMesjZ/u7cW8IBfXlxZKHxl91IEbbB3svci4c8pycUNZ2kujNTAzMA4G
+A1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggrBgEFBQcDAjAMBgNVHRMBAf8EAjAA
+MAoGCCqGSM49BAMCA0kAMEYCIQCjAAmkQpTua0HR4q6jnePaFBp/JMXwTXTxzbV6
+peGbBQIhAP+1OR8GFnn2PlacwHqWXHwkvy6CLPVikvgtwEdB6jH8
+-----END CERTIFICATE-----`,
+				ClientCertificateKey: `-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIGOXJI/123456789oamOu4tQAIKFdbyvkIJg9GME0mHzoAoGCCqGSM49
+AwEHoUQDQgAE6bM8mP123456789AfmBWtnucfByQXk568lDcKNIQx6yNn+7txbwg
+F9eXFkofGX3UgRtsHe123456789xQ1naSw==
+-----END EC PRIVATE KEY-----`,
+			},
+			expectedError: false,
+		},
+		{
+			scenario: "should return an error if clientCertificate is provided, but clientCertificateKey is absent",
+			model: &HookPolicy{
+				ClientCertificate: `-----BEGIN CERTIFICATE-----
+MIIBczCCARigAwIBAgIRALD3Vz81Pq10g7n4eAkOsCYwCgYIKoZIzj0EAwIwJjEN
+MAsGA1UEChMEQWNtZTEVMBMGA1UEAxMMQWNtZSBSb290IENBMB4XDTE4MDExNzA2
+NTM1MloXDTI3MTEyNjA2NTM1MlowGDEWMBQGA1UEAxMNY2xhaXJlLWNsaWVudDBZ
+MBMGByqGSM49AgEGCCqGSM49AwEHA0IABOmzPJj+t25T148eQH5gVrZ7nHwckF5O
+evJQ3CjSEMesjZ/u7cW8IBfXlxZKHxl91IEbbB3svci4c8pycUNZ2kujNTAzMA4G
+A1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggrBgEFBQcDAjAMBgNVHRMBAf8EAjAA
+MAoGCCqGSM49BAMCA0kAMEYCIQCjAAmkQpTua0HR4q6jnePaFBp/JMXwTXTxzbV6
+peGbBQIhAP+1OR8GFnn2PlacwHqWXHwkvy6CLPVikvgtwEdB6jH8
+-----END CERTIFICATE-----`,
+				ClientCertificateKey: "",
+			},
+			expectedError: true,
+		},
+		{
+			scenario: "should return an error if clientCertificateKey is provided, but clientCertificate is absent",
+			model: &HookPolicy{
+				ClientCertificate: "",
+				ClientCertificateKey: `-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIGOXJI/123456789oamOu4tQAIKFdbyvkIJg9GME0mHzoAoGCCqGSM49
+AwEHoUQDQgAE6bM8mP123456789AfmBWtnucfByQXk568lDcKNIQx6yNn+7txbwg
+F9eXFkofGX3UgRtsHe123456789xQ1naSw==
+-----END EC PRIVATE KEY-----`,
+			},
+			expectedError: true,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.scenario, func(t *testing.T) {
+			err := ValidateHookPolicy(tc.model)
+			if (err != nil) != tc.expectedError {
+				t.Fatalf("expected to get an error: %t - received error: %+v", tc.expectedError, err)
+			}
+
+			if elemErr, ok := err.(elemental.Error); tc.expectedError {
+				if !ok {
+					t.Fatalf("expected an elemental error to be returned, but got an error of type: %s", reflect.TypeOf(err))
+				}
+
+				if elemErr.Code != http.StatusUnprocessableEntity {
+					t.Errorf("expected elemental error code to be 422, but got %d", elemErr.Code)
+				}
+
+				if elemErr.Title != "Validation Error" {
+					t.Errorf("expected elemental error code to be 'Validation Error', but got %s", elemErr.Title)
+				}
 			}
 		})
 	}

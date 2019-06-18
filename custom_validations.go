@@ -419,6 +419,64 @@ func ValidateHTTPMethods(attribute string, methods []string) error {
 	return nil
 }
 
+type attrInfo struct {
+	name  string
+	value string
+}
+
+// validateAllOrNoneAttrGrouping is a helper used to validate that the provided attributes must either all be provided or not at all
+//
+// for example suppose you have 2 related attributes that are individually optional, but if any of them are
+// provided, then all of them should be provided:
+//
+// 		err := validateAllOrNoneAttrGrouping(attrInfo{
+//				name:  "Attr1",
+//				value: "some value",
+//		}, attrInfo{
+//				name:  "Attr2",
+//				value: "",
+//		})
+//
+// which will return an error because Attr2 was empty and Attr1 was set.
+func validateAllOrNoneAttrGrouping(attrs ...attrInfo) error {
+
+	var missing, provided []string
+
+	for _, attr := range attrs {
+		if attr.value == "" {
+			provided = append(provided, attr.name)
+		} else {
+			missing = append(missing, attr.name)
+		}
+	}
+
+	if len(missing) > 0 && len(provided) > 0 {
+		return elemental.NewError(
+			"Validation Error",
+			fmt.Sprintf("Attribute(s) [%s] are required because attribute(s) [%s] were provided", strings.Join(missing, ", "), strings.Join(provided, ", ")),
+			"elemental",
+			http.StatusUnprocessableEntity)
+	}
+
+	return nil
+}
+
+// ValidateHookPolicy validates the hookpolicy model by checking:
+//
+// • the optional 'clientCertificate' & 'clientCertificateKey'. The validator ensures that if either one of these
+// attributes are provided, then BOTH should be provided even though the attributes are individually optional.
+func ValidateHookPolicy(hp *HookPolicy) error {
+	return validateAllOrNoneAttrGrouping(
+		attrInfo{
+			name:  "clientCertificate",
+			value: hp.ClientCertificate},
+
+		attrInfo{
+			name:  "clientCertificateKey",
+			value: hp.ClientCertificateKey,
+		})
+}
+
 // ValidateHostServices validates a host service. Applies to the new API only.
 func ValidateHostServices(hs *HostService) error {
 
