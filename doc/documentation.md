@@ -9005,7 +9005,7 @@ Number of accepted flows in the edge.
 
 ID of the destination GraphNode of the edge.
 
-##### `destinationType` `emum(ProcessingUnit | ExternalNetwork)`
+##### `destinationType` `emum(ProcessingUnit | ExternalNetwork | Node)`
 
 Type of the destination GraphNode of the edge.
 
@@ -9047,7 +9047,7 @@ Number of rejected flows in the edge.
 
 ID of the source GraphNode of the edge.
 
-##### `sourceType` `emum(ProcessingUnit | ExternalNetwork)`
+##### `sourceType` `emum(ProcessingUnit | ExternalNetwork | Node)`
 
 Type of the source GraphNode of the edge.
 

@@ -33,6 +33,7 @@ attributes:
     allowed_choices:
     - ProcessingUnit
     - ExternalNetwork
+    - Node
 
   - name: encrypted
     description: Tells the number of encrypted flows in the edge.
@@ -97,3 +98,4 @@ attributes:
     allowed_choices:
     - ProcessingUnit
     - ExternalNetwork
+    - Node

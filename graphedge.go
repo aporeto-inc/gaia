@@ -14,6 +14,9 @@ const (
 	// GraphEdgeDestinationTypeExternalNetwork represents the value ExternalNetwork.
 	GraphEdgeDestinationTypeExternalNetwork GraphEdgeDestinationTypeValue = "ExternalNetwork"
 
+	// GraphEdgeDestinationTypeNode represents the value Node.
+	GraphEdgeDestinationTypeNode GraphEdgeDestinationTypeValue = "Node"
+
 	// GraphEdgeDestinationTypeProcessingUnit represents the value ProcessingUnit.
 	GraphEdgeDestinationTypeProcessingUnit GraphEdgeDestinationTypeValue = "ProcessingUnit"
 )
@@ -24,6 +27,9 @@ type GraphEdgeSourceTypeValue string
 const (
 	// GraphEdgeSourceTypeExternalNetwork represents the value ExternalNetwork.
 	GraphEdgeSourceTypeExternalNetwork GraphEdgeSourceTypeValue = "ExternalNetwork"
+
+	// GraphEdgeSourceTypeNode represents the value Node.
+	GraphEdgeSourceTypeNode GraphEdgeSourceTypeValue = "Node"
 
 	// GraphEdgeSourceTypeProcessingUnit represents the value ProcessingUnit.
 	GraphEdgeSourceTypeProcessingUnit GraphEdgeSourceTypeValue = "ProcessingUnit"
@@ -119,7 +125,7 @@ func (o *GraphEdge) Validate() error {
 	errors := elemental.Errors{}
 	requiredErrors := elemental.Errors{}
 
-	if err := elemental.ValidateStringInList("destinationType", string(o.DestinationType), []string{"ProcessingUnit", "ExternalNetwork"}, false); err != nil {
+	if err := elemental.ValidateStringInList("destinationType", string(o.DestinationType), []string{"ProcessingUnit", "ExternalNetwork", "Node"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -141,7 +147,7 @@ func (o *GraphEdge) Validate() error {
 		}
 	}
 
-	if err := elemental.ValidateStringInList("sourceType", string(o.SourceType), []string{"ProcessingUnit", "ExternalNetwork"}, false); err != nil {
+	if err := elemental.ValidateStringInList("sourceType", string(o.SourceType), []string{"ProcessingUnit", "ExternalNetwork", "Node"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
