@@ -28,6 +28,8 @@ model:
   - '@identifiable-stored'
   - '@named'
   - '@timeable'
+  validations:
+  - $automations
 
 # Attributes
 attributes:
@@ -137,6 +139,7 @@ attributes:
     allowed_choices:
     - Event
     - RemoteCall
+    - Webhook
     - Time
     default_value: Time
     orderable: true

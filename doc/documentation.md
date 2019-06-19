@@ -4344,7 +4344,7 @@ authentication. It will be visible only after creation.
 
 If set to `true` a new token will be issued and the previous one invalidated.
 
-##### `trigger` `emum(Event | RemoteCall | Time)`
+##### `trigger` `emum(Event | RemoteCall | Webhook | Time)`
 
 Controls when the automation should be triggered.
 
