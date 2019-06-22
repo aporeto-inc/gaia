@@ -426,9 +426,9 @@ func ValidateAutomation(auto *Automation) error {
 		switch len(auto.Actions) {
 		case 1:
 		case 0:
-			return makeValidationError("trigger", "Exactly one action must be defined if trigger type is set to \"Webhook\".")
+			return makeValidationError("trigger", fmt.Sprintf("Exactly one action must be defined if trigger type is set to \"%s\".", AutomationTriggerWebhook))
 		default:
-			return makeValidationError("trigger", "Only one action can be defined if trigger type is set to \"Webhook\".")
+			return makeValidationError("trigger", fmt.Sprintf("Only one action can be defined if trigger type is set to \"%s\".", AutomationTriggerWebhook))
 		}
 	}
 
