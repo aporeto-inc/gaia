@@ -423,13 +423,13 @@ func ValidateHTTPMethods(attribute string, methods []string) error {
 func ValidateAutomation(auto *Automation) error {
 	switch auto.Trigger {
 	case AutomationTriggerWebhook:
-			switch len(auto.Actions) {
-			case 1:
-			case 0:
-				return makeValidationError("trigger", "Exactly one action must be defined if trigger type is set to \"Webhook\".")
-			default:
-				return makeValidationError("trigger", "Only one action can be defined if trigger type is set to \"Webhook\".")
-			}
+		switch len(auto.Actions) {
+		case 1:
+		case 0:
+			return makeValidationError("trigger", "Exactly one action must be defined if trigger type is set to \"Webhook\".")
+		default:
+			return makeValidationError("trigger", "Only one action can be defined if trigger type is set to \"Webhook\".")
+		}
 	}
 
 	return nil

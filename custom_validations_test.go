@@ -953,8 +953,8 @@ func TestValidateAutomation(t *testing.T) {
 		{
 			scenario: "should return an error if trigger type is set to webhook and no actions have been defined",
 			automation: &Automation{
-				Trigger:     AutomationTriggerWebhook,
-				Actions:     nil,
+				Trigger: AutomationTriggerWebhook,
+				Actions: nil,
 			},
 			shouldError: true,
 		},
