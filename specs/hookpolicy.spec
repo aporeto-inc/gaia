@@ -34,8 +34,6 @@ model:
   - '@hidden'
   - '@fallback'
   - '@timeable'
-  validations:
-  - $hookpolicies
 
 # Indexes
 indexes:

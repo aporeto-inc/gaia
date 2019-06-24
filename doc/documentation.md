@@ -6443,12 +6443,14 @@ the remote endpoint.
 ##### `clientCertificate` `string`
 
 ClientCertificate contains the client certificate that will be used to connect
-to the remote endpoint. If provided, the private key associated with this certificate must
+to the remote endpoint. If provided, the private key associated with this
+certificate must
 also be configured.
 
 ##### `clientCertificateKey` `string`
 
-ClientCertificateKey contains the key associated to the clientCertificate. Must be provided only when
+ClientCertificateKey contains the key associated to the clientCertificate. Must
+be provided only when
 ClientCertificate has been configured.
 
 ##### `continueOnError` `boolean`

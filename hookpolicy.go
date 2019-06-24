@@ -111,11 +111,13 @@ type HookPolicy struct {
 	CertificateAuthority string `json:"certificateAuthority" msgpack:"certificateAuthority" bson:"certificateauthority" mapstructure:"certificateAuthority,omitempty"`
 
 	// ClientCertificate contains the client certificate that will be used to connect
-	// to the remote endpoint. If provided, the private key associated with this certificate must
+	// to the remote endpoint. If provided, the private key associated with this
+	// certificate must
 	// also be configured.
 	ClientCertificate string `json:"clientCertificate" msgpack:"clientCertificate" bson:"clientcertificate" mapstructure:"clientCertificate,omitempty"`
 
-	// ClientCertificateKey contains the key associated to the clientCertificate. Must be provided only when
+	// ClientCertificateKey contains the key associated to the clientCertificate. Must
+	// be provided only when
 	// ClientCertificate has been configured.
 	ClientCertificateKey string `json:"clientCertificateKey" msgpack:"clientCertificateKey" bson:"clientcertificatekey" mapstructure:"clientCertificateKey,omitempty"`
 
@@ -703,11 +705,6 @@ func (o *HookPolicy) Validate() error {
 		errors = errors.Append(err)
 	}
 
-	// Custom object validation.
-	if err := ValidateHookPolicy(o); err != nil {
-		errors = errors.Append(err)
-	}
-
 	if len(requiredErrors) > 0 {
 		return requiredErrors
 	}
@@ -851,7 +848,8 @@ the remote endpoint.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificate",
 		Description: `ClientCertificate contains the client certificate that will be used to connect
-to the remote endpoint. If provided, the private key associated with this certificate must
+to the remote endpoint. If provided, the private key associated with this
+certificate must
 also be configured.`,
 		Exposed:   true,
 		Name:      "clientCertificate",
@@ -862,7 +860,8 @@ also be configured.`,
 	"ClientCertificateKey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificateKey",
-		Description: `ClientCertificateKey contains the key associated to the clientCertificate. Must be provided only when
+		Description: `ClientCertificateKey contains the key associated to the clientCertificate. Must
+be provided only when
 ClientCertificate has been configured.`,
 		Exposed:   true,
 		Name:      "clientCertificateKey",
@@ -1172,7 +1171,8 @@ the remote endpoint.`,
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificate",
 		Description: `ClientCertificate contains the client certificate that will be used to connect
-to the remote endpoint. If provided, the private key associated with this certificate must
+to the remote endpoint. If provided, the private key associated with this
+certificate must
 also be configured.`,
 		Exposed:   true,
 		Name:      "clientCertificate",
@@ -1183,7 +1183,8 @@ also be configured.`,
 	"clientcertificatekey": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "ClientCertificateKey",
-		Description: `ClientCertificateKey contains the key associated to the clientCertificate. Must be provided only when
+		Description: `ClientCertificateKey contains the key associated to the clientCertificate. Must
+be provided only when
 ClientCertificate has been configured.`,
 		Exposed:   true,
 		Name:      "clientCertificateKey",
@@ -1519,11 +1520,13 @@ type SparseHookPolicy struct {
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" msgpack:"certificateAuthority,omitempty" bson:"certificateauthority,omitempty" mapstructure:"certificateAuthority,omitempty"`
 
 	// ClientCertificate contains the client certificate that will be used to connect
-	// to the remote endpoint. If provided, the private key associated with this certificate must
+	// to the remote endpoint. If provided, the private key associated with this
+	// certificate must
 	// also be configured.
 	ClientCertificate *string `json:"clientCertificate,omitempty" msgpack:"clientCertificate,omitempty" bson:"clientcertificate,omitempty" mapstructure:"clientCertificate,omitempty"`
 
-	// ClientCertificateKey contains the key associated to the clientCertificate. Must be provided only when
+	// ClientCertificateKey contains the key associated to the clientCertificate. Must
+	// be provided only when
 	// ClientCertificate has been configured.
 	ClientCertificateKey *string `json:"clientCertificateKey,omitempty" msgpack:"clientCertificateKey,omitempty" bson:"clientcertificatekey,omitempty" mapstructure:"clientCertificateKey,omitempty"`
 
