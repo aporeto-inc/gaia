@@ -429,7 +429,7 @@ func (o *AppCredential) ToSparse(fields ...string) elemental.SparseIdentifiable 
 			CertificateSN:        &o.CertificateSN,
 			CreateIdempotencyKey: &o.CreateIdempotencyKey,
 			CreateTime:           &o.CreateTime,
-			Credentials:          &o.Credentials,
+			Credentials:          o.Credentials,
 			Description:          &o.Description,
 			Disabled:             &o.Disabled,
 			Email:                &o.Email,
@@ -469,7 +469,7 @@ func (o *AppCredential) ToSparse(fields ...string) elemental.SparseIdentifiable 
 		case "createTime":
 			sp.CreateTime = &(o.CreateTime)
 		case "credentials":
-			sp.Credentials = &(o.Credentials)
+			sp.Credentials = o.Credentials
 		case "description":
 			sp.Description = &(o.Description)
 		case "disabled":
@@ -539,7 +539,7 @@ func (o *AppCredential) Patch(sparse elemental.SparseIdentifiable) {
 		o.CreateTime = *so.CreateTime
 	}
 	if so.Credentials != nil {
-		o.Credentials = *so.Credentials
+		o.Credentials = so.Credentials
 	}
 	if so.Description != nil {
 		o.Description = *so.Description
@@ -1451,7 +1451,7 @@ type SparseAppCredential struct {
 	CreateTime *time.Time `json:"createTime,omitempty" msgpack:"createTime,omitempty" bson:"createtime,omitempty" mapstructure:"createTime,omitempty"`
 
 	// The credential data.
-	Credentials **Credential `json:"credentials,omitempty" msgpack:"credentials,omitempty" bson:"-" mapstructure:"credentials,omitempty"`
+	Credentials *Credential `json:"credentials,omitempty" msgpack:"credentials,omitempty" bson:"-" mapstructure:"credentials,omitempty"`
 
 	// Description is the description of the object.
 	Description *string `json:"description,omitempty" msgpack:"description,omitempty" bson:"description,omitempty" mapstructure:"description,omitempty"`
@@ -1565,7 +1565,7 @@ func (o *SparseAppCredential) ToPlain() elemental.PlainIdentifiable {
 		out.CreateTime = *o.CreateTime
 	}
 	if o.Credentials != nil {
-		out.Credentials = *o.Credentials
+		out.Credentials = o.Credentials
 	}
 	if o.Description != nil {
 		out.Description = *o.Description

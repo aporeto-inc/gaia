@@ -183,7 +183,7 @@ func (o *PolicyGraph) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		// nolint: goimports
 		return &SparsePolicyGraph{
 			PUIdentity:    &o.PUIdentity,
-			DependencyMap: &o.DependencyMap,
+			DependencyMap: o.DependencyMap,
 			PolicyType:    &o.PolicyType,
 			Selectors:     &o.Selectors,
 		}
@@ -195,7 +195,7 @@ func (o *PolicyGraph) ToSparse(fields ...string) elemental.SparseIdentifiable {
 		case "PUIdentity":
 			sp.PUIdentity = &(o.PUIdentity)
 		case "dependencyMap":
-			sp.DependencyMap = &(o.DependencyMap)
+			sp.DependencyMap = o.DependencyMap
 		case "policyType":
 			sp.PolicyType = &(o.PolicyType)
 		case "selectors":
@@ -217,7 +217,7 @@ func (o *PolicyGraph) Patch(sparse elemental.SparseIdentifiable) {
 		o.PUIdentity = *so.PUIdentity
 	}
 	if so.DependencyMap != nil {
-		o.DependencyMap = *so.DependencyMap
+		o.DependencyMap = so.DependencyMap
 	}
 	if so.PolicyType != nil {
 		o.PolicyType = *so.PolicyType
@@ -478,7 +478,7 @@ type SparsePolicyGraph struct {
 	// The dependencyMap contains the output of the policy evalation, and it is the
 	// same
 	// type of dependency map as created by other APIs.
-	DependencyMap **DependencyMap `json:"dependencyMap,omitempty" msgpack:"dependencyMap,omitempty" bson:"-" mapstructure:"dependencyMap,omitempty"`
+	DependencyMap *DependencyMap `json:"dependencyMap,omitempty" msgpack:"dependencyMap,omitempty" bson:"-" mapstructure:"dependencyMap,omitempty"`
 
 	// Defines the type of policy that should be analyzed (Network Authorzation
 	// Policies, Infrastructure Policies or Combined).
@@ -527,7 +527,7 @@ func (o *SparsePolicyGraph) ToPlain() elemental.PlainIdentifiable {
 		out.PUIdentity = *o.PUIdentity
 	}
 	if o.DependencyMap != nil {
-		out.DependencyMap = *o.DependencyMap
+		out.DependencyMap = o.DependencyMap
 	}
 	if o.PolicyType != nil {
 		out.PolicyType = *o.PolicyType
