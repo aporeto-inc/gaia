@@ -18,6 +18,7 @@ attributes:
     allowed_choices:
     - Accept
     - Reject
+    - Limit
     example_value: Accepted
 
   - name: host

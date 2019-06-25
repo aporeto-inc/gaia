@@ -15,6 +15,9 @@ const (
 	// FileAccessReportActionAccept represents the value Accept.
 	FileAccessReportActionAccept FileAccessReportActionValue = "Accept"
 
+	// FileAccessReportActionLimit represents the value Limit.
+	FileAccessReportActionLimit FileAccessReportActionValue = "Limit"
+
 	// FileAccessReportActionReject represents the value Reject.
 	FileAccessReportActionReject FileAccessReportActionValue = "Reject"
 )
@@ -276,7 +279,7 @@ func (o *FileAccessReport) Validate() error {
 		requiredErrors = requiredErrors.Append(err)
 	}
 
-	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Accept", "Reject"}, false); err != nil {
+	if err := elemental.ValidateStringInList("action", string(o.Action), []string{"Accept", "Reject", "Limit"}, false); err != nil {
 		errors = errors.Append(err)
 	}
 
@@ -360,7 +363,7 @@ func (o *FileAccessReport) ValueForAttribute(name string) interface{} {
 // FileAccessReportAttributesMap represents the map of attribute for FileAccessReport.
 var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"Action": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Accept", "Reject"},
+		AllowedChoices: []string{"Accept", "Reject", "Limit"},
 		ConvertedName:  "Action",
 		Description:    `Action taken.`,
 		Exposed:        true,
@@ -430,7 +433,7 @@ var FileAccessReportAttributesMap = map[string]elemental.AttributeSpecification{
 // FileAccessReportLowerCaseAttributesMap represents the map of attribute for FileAccessReport.
 var FileAccessReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecification{
 	"action": elemental.AttributeSpecification{
-		AllowedChoices: []string{"Accept", "Reject"},
+		AllowedChoices: []string{"Accept", "Reject", "Limit"},
 		ConvertedName:  "Action",
 		Description:    `Action taken.`,
 		Exposed:        true,

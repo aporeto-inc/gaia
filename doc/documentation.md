@@ -5950,7 +5950,7 @@ Create a file access statistics report.
 
 #### Attributes
 
-##### `action` `emum(Accept | Reject)` [`required`]
+##### `action` `emum(Accept | Reject | Limit)` [`required`]
 
 Action taken.
 
