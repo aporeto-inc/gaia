@@ -48,13 +48,18 @@ attributes:
     type: integer
     exposed: true
 
+  - name: FilePath
+    description: Full path of the file that was passed to the system call.
+    type: string
+    exposed: true
+
   - name: GID
     description: Group ID of the user who started the analyzed process.
     type: integer
     exposed: true
 
   - name: PER
-    description: Needs documentation.
+    description: File or directory permissions.
     type: integer
     exposed: true
 

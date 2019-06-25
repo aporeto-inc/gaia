@@ -4854,13 +4854,17 @@ File system group ID of the user who started the analyzed process.
 
 File system user ID of the user who started the analyzed process.
 
+##### `FilePath` `string`
+
+Full path of the file that was passed to the system call.
+
 ##### `GID` `integer`
 
 Group ID of the user who started the analyzed process.
 
 ##### `PER` `integer`
 
-Needs documentation.
+File or directory permissions.
 
 ##### `PID` `integer`
 

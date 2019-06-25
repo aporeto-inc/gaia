@@ -101,10 +101,13 @@ type AuditReport struct {
 	// File system user ID of the user who started the analyzed process.
 	FSUID int `json:"FSUID" msgpack:"FSUID" bson:"-" mapstructure:"FSUID,omitempty"`
 
+	// Full path of the file that was passed to the system call.
+	FilePath string `json:"FilePath" msgpack:"FilePath" bson:"-" mapstructure:"FilePath,omitempty"`
+
 	// Group ID of the user who started the analyzed process.
 	GID int `json:"GID" msgpack:"GID" bson:"-" mapstructure:"GID,omitempty"`
 
-	// Needs documentation.
+	// File or directory permissions.
 	PER int `json:"PER" msgpack:"PER" bson:"-" mapstructure:"PER,omitempty"`
 
 	// PID of the executable.
@@ -247,6 +250,7 @@ func (o *AuditReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			EXE:                     &o.EXE,
 			FSGID:                   &o.FSGID,
 			FSUID:                   &o.FSUID,
+			FilePath:                &o.FilePath,
 			GID:                     &o.GID,
 			PER:                     &o.PER,
 			PID:                     &o.PID,
@@ -292,6 +296,8 @@ func (o *AuditReport) ToSparse(fields ...string) elemental.SparseIdentifiable {
 			sp.FSGID = &(o.FSGID)
 		case "FSUID":
 			sp.FSUID = &(o.FSUID)
+		case "FilePath":
+			sp.FilePath = &(o.FilePath)
 		case "GID":
 			sp.GID = &(o.GID)
 		case "PER":
@@ -375,6 +381,9 @@ func (o *AuditReport) Patch(sparse elemental.SparseIdentifiable) {
 	}
 	if so.FSUID != nil {
 		o.FSUID = *so.FSUID
+	}
+	if so.FilePath != nil {
+		o.FilePath = *so.FilePath
 	}
 	if so.GID != nil {
 		o.GID = *so.GID
@@ -563,6 +572,8 @@ func (o *AuditReport) ValueForAttribute(name string) interface{} {
 		return o.FSGID
 	case "FSUID":
 		return o.FSUID
+	case "FilePath":
+		return o.FilePath
 	case "GID":
 		return o.GID
 	case "PER":
@@ -676,6 +687,14 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 		Name:           "FSUID",
 		Type:           "integer",
 	},
+	"FilePath": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "FilePath",
+		Description:    `Full path of the file that was passed to the system call.`,
+		Exposed:        true,
+		Name:           "FilePath",
+		Type:           "string",
+	},
 	"GID": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "GID",
@@ -687,7 +706,7 @@ var AuditReportAttributesMap = map[string]elemental.AttributeSpecification{
 	"PER": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PER",
-		Description:    `Needs documentation.`,
+		Description:    `File or directory permissions.`,
 		Exposed:        true,
 		Name:           "PER",
 		Type:           "integer",
@@ -944,6 +963,14 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 		Name:           "FSUID",
 		Type:           "integer",
 	},
+	"filepath": elemental.AttributeSpecification{
+		AllowedChoices: []string{},
+		ConvertedName:  "FilePath",
+		Description:    `Full path of the file that was passed to the system call.`,
+		Exposed:        true,
+		Name:           "FilePath",
+		Type:           "string",
+	},
 	"gid": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "GID",
@@ -955,7 +982,7 @@ var AuditReportLowerCaseAttributesMap = map[string]elemental.AttributeSpecificat
 	"per": elemental.AttributeSpecification{
 		AllowedChoices: []string{},
 		ConvertedName:  "PER",
-		Description:    `Needs documentation.`,
+		Description:    `File or directory permissions.`,
 		Exposed:        true,
 		Name:           "PER",
 		Type:           "integer",
@@ -1238,10 +1265,13 @@ type SparseAuditReport struct {
 	// File system user ID of the user who started the analyzed process.
 	FSUID *int `json:"FSUID,omitempty" msgpack:"FSUID,omitempty" bson:"-" mapstructure:"FSUID,omitempty"`
 
+	// Full path of the file that was passed to the system call.
+	FilePath *string `json:"FilePath,omitempty" msgpack:"FilePath,omitempty" bson:"-" mapstructure:"FilePath,omitempty"`
+
 	// Group ID of the user who started the analyzed process.
 	GID *int `json:"GID,omitempty" msgpack:"GID,omitempty" bson:"-" mapstructure:"GID,omitempty"`
 
-	// Needs documentation.
+	// File or directory permissions.
 	PER *int `json:"PER,omitempty" msgpack:"PER,omitempty" bson:"-" mapstructure:"PER,omitempty"`
 
 	// PID of the executable.
@@ -1368,6 +1398,9 @@ func (o *SparseAuditReport) ToPlain() elemental.PlainIdentifiable {
 	}
 	if o.FSUID != nil {
 		out.FSUID = *o.FSUID
+	}
+	if o.FilePath != nil {
+		out.FilePath = *o.FilePath
 	}
 	if o.GID != nil {
 		out.GID = *o.GID
